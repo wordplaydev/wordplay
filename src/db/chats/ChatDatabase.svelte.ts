@@ -1,4 +1,8 @@
 /** This file encapsulates all Firebase chat functionality and relies on Svelte state to cache chat documents. */
+import { Projects, type Database } from '@db/Database';
+import { firestore } from '@db/firebase';
+import type Gallery from '@db/galleries/Gallery';
+import type Project from '@db/projects/Project';
 import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe, User } from 'firebase/auth';
 import {
@@ -14,12 +18,8 @@ import {
     where,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
-import { z } from 'zod';
-import { Projects, type Database } from './Database';
-import { firestore } from './firebase';
-import type Project from '@db/projects/Project';
 import { v4 as uuidv4 } from 'uuid';
-import type Gallery from '@db/galleries/Gallery';
+import { z } from 'zod';
 
 ////////////////////////////////
 // SCHEMAS
@@ -96,10 +96,7 @@ export default class Chat {
                 if (message === undefined) break;
                 newSize -= message.text?.length ?? 0;
             }
-            this.data = {
-                ...data,
-                messages: messages,
-            };
+            this.data = { ...data, messages: messages };
         }
     }
 
@@ -154,10 +151,7 @@ export default class Chat {
             (a, b) => a.time - b.time,
         );
 
-        return new Chat({
-            ...this.data,
-            messages: mergedMessages,
-        });
+        return new Chat({ ...this.data, messages: mergedMessages });
     }
 
     /** Keep the message, but replace it's text with nothing. */

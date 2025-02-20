@@ -1,39 +1,46 @@
 <script lang="ts">
-    import {
-        getDragged,
-        getConceptIndex,
-        getConceptPath,
-    } from '../project/Contexts';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Expression from '@nodes/Expression';
-    import Button from '../widgets/Button.svelte';
-    import Source from '@nodes/Source';
-    import ConceptsView from './ConceptsView.svelte';
-    import StructureConceptView from './StructureConceptView.svelte';
-    import { onDestroy } from 'svelte';
-    import StructureConcept from '@concepts/StructureConcept';
-    import FunctionConcept from '@concepts/FunctionConcept';
+    import Spinning from '@components/app/Spinning.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
-    import FunctionConceptView from './FunctionConceptView.svelte';
-    import StreamConcept from '@concepts/StreamConcept';
-    import CodeView from './CodeView.svelte';
     import ConversionConcept from '@concepts/ConversionConcept';
-    import ConceptView from './ConceptView.svelte';
-    import StreamConceptView from './StreamConceptView.svelte';
+    import FunctionConcept from '@concepts/FunctionConcept';
+    import HowConcept from '@concepts/HowConcept';
+    import type HowTo from '@concepts/HowTo';
+    import { HowToCategories, type HowToCategory } from '@concepts/HowTo';
     import NodeConcept from '@concepts/NodeConcept';
-    import type Node from '@nodes/Node';
-    import NodeConceptView from './NodeConceptView.svelte';
     import Purpose from '@concepts/Purpose';
-    import { tick } from 'svelte';
-    import TextField from '../widgets/TextField.svelte';
+    import StreamConcept from '@concepts/StreamConcept';
+    import StructureConcept from '@concepts/StructureConcept';
+    import Expression from '@nodes/Expression';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import type Node from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import { onDestroy, tick } from 'svelte';
+    import { Locales, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
-    import { Projects, locales } from '../../db/Database';
-    import getScrollParent from '../util/getScrollParent';
-    import Note from '../widgets/Note.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import ConceptLink from '../../nodes/ConceptLink';
+    import TutorialHighlight from '../app/TutorialHighlight.svelte';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getDragged,
+        type ConceptPath,
+    } from '../project/Contexts';
+    import getScrollParent from '../util/getScrollParent';
+    import Button from '../widgets/Button.svelte';
+    import Note from '../widgets/Note.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import CodeView from './CodeView.svelte';
+    import ConceptLinkUI from './ConceptLinkUI.svelte';
+    import ConceptsView from './ConceptsView.svelte';
+    import ConceptView from './ConceptView.svelte';
+    import FunctionConceptView from './FunctionConceptView.svelte';
+    import HowConceptView from './HowConceptView.svelte';
+    import NodeConceptView from './NodeConceptView.svelte';
+    import StreamConceptView from './StreamConceptView.svelte';
+    import StructureConceptView from './StructureConceptView.svelte';
 
     interface Props {
         project: Project;
@@ -57,7 +64,11 @@
 
     let dragged = getDragged();
 
+    /** The current search string */
     let query = $state('');
+
+    /** The browsing mode (programming language or how to) */
+    let mode = $state<'language' | 'how'>('how');
 
     /** The current concept is always the one at the end of the list. */
     let currentConcept = $derived($path[$path.length - 1]);
@@ -72,6 +83,15 @@
         }
     }
 
+    // Keep a cache of the how tos for the current language.
+    let howTos = $state<HowTo[] | undefined>(undefined);
+    $effect(() => {
+        if (howTos === undefined)
+            Locales.loadHowTos($locales.getLocaleString()).then((loaded) => {
+                howTos = loaded;
+            });
+    });
+
     // When the path changes, reset the query
     const queryResetUnsub = path.subscribe(() => {
         query = '';
@@ -79,7 +99,7 @@
     onDestroy(() => queryResetUnsub());
 
     /** Remember the previous path we visited */
-    let previousPath: Concept[] = $state([]);
+    let previousPath: ConceptPath = $state([]);
 
     /** When the path changes to a different concept, scroll to top. */
     $effect(() => {
@@ -184,22 +204,35 @@
 
 <div class="header">
     <TextField
+        id="concept-search"
         placeholder={'🔍'}
         description={$locales.get((l) => l.ui.docs.field.search)}
         bind:text={query}
         fill
     />
+    <Mode
+        descriptions={$locales.get((l) => l.ui.docs.modes)}
+        choice={mode === 'how' ? 0 : 1}
+        select={(choice) => (mode = choice === 0 ? 'how' : 'language')}
+        modes={[
+            $locales.get((l) => l.ui.docs.modes.modes[0]),
+            $locales.get((l) => l.ui.docs.modes.modes[1]),
+        ]}
+    />
+
     {#if currentConcept}
         <span class="path">
             {#if $path.length > 1}
                 <Button
                     tip={$locales.get((l) => l.ui.docs.button.home)}
-                    action={home}>⇤</Button
-                >{/if}
+                    icon="⇤"
+                    action={home}
+                ></Button>{/if}
             <Button
                 tip={$locales.get((l) => l.ui.docs.button.back)}
-                action={back}>←</Button
-            >
+                icon="←"
+                action={back}
+            ></Button>
             {#each $path as concept, index}{#if index > 0}
                     ·
                 {/if}{#if index === $path.length - 1}<ConceptLinkUI
@@ -245,102 +278,158 @@
             {:else}
                 <div class="empty">😞</div>
             {/each}
+        {:else}
             <!-- A selected concept is prioritized over the home page -->
-        {:else if currentConcept}
-            {#if currentConcept instanceof StructureConcept}
-                <StructureConceptView concept={currentConcept} />
-            {:else if currentConcept instanceof FunctionConcept}
-                <FunctionConceptView concept={currentConcept} />
-                <!-- If it's a bind, don't show a bind view, show the concept that owns the bind, and ask it to scroll to it -->
-            {:else if currentConcept instanceof BindConcept}
-                {@const owner = index?.getConceptOwner(currentConcept)}
-                {#if owner instanceof FunctionConcept}
-                    <FunctionConceptView
-                        concept={owner}
-                        subconcept={currentConcept}
-                    />
-                {:else if owner instanceof StructureConcept}
-                    <StructureConceptView
-                        concept={owner}
-                        subconcept={currentConcept}
-                    />
-                {:else if owner instanceof StreamConcept}
-                    <StreamConceptView
-                        concept={owner}
-                        subconcept={currentConcept}
+            {#if currentConcept}
+                {#if currentConcept instanceof StructureConcept}
+                    <StructureConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof FunctionConcept}
+                    <FunctionConceptView concept={currentConcept} />
+                    <!-- If it's a bind, don't show a bind view, show the concept that owns the bind, and ask it to scroll to it -->
+                {:else if currentConcept instanceof BindConcept}
+                    {@const owner = index?.getConceptOwner(currentConcept)}
+                    {#if owner instanceof FunctionConcept}
+                        <FunctionConceptView
+                            concept={owner}
+                            subconcept={currentConcept}
+                        />
+                    {:else if owner instanceof StructureConcept}
+                        <StructureConceptView
+                            concept={owner}
+                            subconcept={currentConcept}
+                        />
+                    {:else if owner instanceof StreamConcept}
+                        <StreamConceptView
+                            concept={owner}
+                            subconcept={currentConcept}
+                        />
+                    {/if}
+                {:else if currentConcept instanceof ConversionConcept}
+                    <ConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof StreamConcept}
+                    <StreamConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof NodeConcept}
+                    <NodeConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof HowConcept}
+                    <HowConceptView concept={currentConcept} />
+                {:else}
+                    <CodeView
+                        node={currentConcept.getRepresentation()}
+                        concept={currentConcept}
                     />
                 {/if}
-            {:else if currentConcept instanceof ConversionConcept}
-                <ConceptView concept={currentConcept} />
-            {:else if currentConcept instanceof StreamConcept}
-                <StreamConceptView concept={currentConcept} />
-            {:else if currentConcept instanceof NodeConcept}
-                <NodeConceptView concept={currentConcept} />
+                <!-- Home page is default. -->
+            {:else if index}
+                {#if mode === 'how'}
+                    {#if howTos === undefined}
+                        <Spinning></Spinning>
+                    {:else}
+                        {@const how = index.concepts.filter(
+                            (c) => c instanceof HowConcept,
+                        )}
+                        {#each Object.keys(HowToCategories) as category}
+                            {@const categoryHowTos = how.filter(
+                                (howTo) => howTo.how.category === category,
+                            )}
+                            {#if categoryHowTos.length > 0}
+                                <Subheader
+                                    >{$locales.get(
+                                        (l) =>
+                                            l.ui.docs.how.category[
+                                                category as HowToCategory
+                                            ],
+                                    )}</Subheader
+                                >
+                                <div class="howtos">
+                                    {#each categoryHowTos as how}
+                                        <CodeView
+                                            node={how.getRepresentation()}
+                                            concept={how}
+                                            elide
+                                            flip
+                                        />
+                                    {/each}
+                                </div>
+                            {/if}
+                        {/each}
+                    {/if}
+                {:else}
+                    {@const projectConcepts =
+                        index.getPrimaryConceptsWithPurpose(Purpose.Project)}
+                    {#if projectConcepts.length > 0}
+                        <ConceptsView
+                            category={$locales.get((l) => l.term.project)}
+                            concepts={projectConcepts}
+                            {collapse}
+                        />
+                    {/if}
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.value)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Value,
+                        )}
+                        {collapse}
+                    />
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.evaluate)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Evaluate,
+                        )}
+                        {collapse}
+                    />
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.bind)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Bind,
+                        )}
+                        {collapse}
+                    />
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.decide)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Decide,
+                        )}
+                        {collapse}
+                    />
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.input)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Input,
+                        )}
+                        {collapse}
+                    />
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.output)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Output,
+                        )}
+                        {collapse}
+                    />
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.type)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Type,
+                        )}
+                        {collapse}
+                    />
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.document)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Document,
+                        )}
+                        {collapse}
+                    />
+                    <ConceptsView
+                        category={$locales.get((l) => l.term.source)}
+                        concepts={index.getPrimaryConceptsWithPurpose(
+                            Purpose.Source,
+                        )}
+                        {collapse}
+                    />
+                {/if}
             {:else}
-                <CodeView
-                    node={currentConcept.getRepresentation()}
-                    concept={currentConcept}
-                />
+                No index.
             {/if}
-            <!-- Home page is default. -->
-        {:else if index}
-            {@const projectConcepts = index.getPrimaryConceptsWithPurpose(
-                Purpose.Project,
-            )}
-            {#if projectConcepts.length > 0}
-                <ConceptsView
-                    category={$locales.get((l) => l.term.project)}
-                    concepts={projectConcepts}
-                    {collapse}
-                />
-            {/if}
-            <ConceptsView
-                category={$locales.get((l) => l.term.value)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Value)}
-                {collapse}
-            />
-            <ConceptsView
-                category={$locales.get((l) => l.term.evaluate)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Evaluate)}
-                {collapse}
-            />
-            <ConceptsView
-                category={$locales.get((l) => l.term.bind)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Bind)}
-                {collapse}
-            />
-            <ConceptsView
-                category={$locales.get((l) => l.term.decide)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
-                {collapse}
-            />
-            <ConceptsView
-                category={$locales.get((l) => l.term.input)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Input)}
-                {collapse}
-            />
-            <ConceptsView
-                category={$locales.get((l) => l.term.output)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Output)}
-                {collapse}
-            />
-            <ConceptsView
-                category={$locales.get((l) => l.term.type)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Type)}
-                {collapse}
-            />
-            <ConceptsView
-                category={$locales.get((l) => l.term.document)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Document)}
-                {collapse}
-            />
-            <ConceptsView
-                category={$locales.get((l) => l.term.source)}
-                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Source)}
-                {collapse}
-            />
-        {:else}
-            No index.
         {/if}
     </div>
     {#key highlights}
@@ -417,5 +506,11 @@
     .empty {
         font-size: calc(2 * var(--wordplay-font-size));
         text-align: center;
+    }
+
+    .howtos {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 </style>

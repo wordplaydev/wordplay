@@ -1,7 +1,7 @@
-import { writable } from 'svelte/store';
 import { OR_SYMBOL } from '@parser/Symbols';
-import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
+import { writable } from 'svelte/store';
 import type LocaleText from '../locale/LocaleText';
+import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -150,12 +150,7 @@ const Faces: Record<string, Face> = {
         scripts: ['Latn'],
         format: 'woff2',
     },
-    Borel: {
-        weights: [400],
-        italic: false,
-        scripts: Latin,
-        format: 'woff2',
-    },
+    Borel: { weights: [400], italic: false, scripts: Latin, format: 'woff2' },
     Roboto: {
         weights: [100, 300, 400, 500, 700, 900],
         italic: true,
@@ -252,12 +247,7 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
-    Monoton: {
-        weights: [400],
-        italic: false,
-        scripts: Latin,
-        format: 'woff2',
-    },
+    Monoton: { weights: [400], italic: false, scripts: Latin, format: 'woff2' },
     Aclonica: {
         weights: [400],
         italic: false,
@@ -301,12 +291,7 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
-    Megrim: {
-        weights: [400],
-        italic: false,
-        scripts: Latin,
-        format: 'woff2',
-    },
+    Megrim: { weights: [400], italic: false, scripts: Latin, format: 'woff2' },
     Modak: {
         weights: [400],
         italic: false,

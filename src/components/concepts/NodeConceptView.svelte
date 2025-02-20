@@ -1,6 +1,6 @@
 <script lang="ts">
-    import ConceptView from './ConceptView.svelte';
     import type NodeConcept from '@concepts/NodeConcept';
+    import ConceptView from './ConceptView.svelte';
 
     interface Props {
         concept: NodeConcept;

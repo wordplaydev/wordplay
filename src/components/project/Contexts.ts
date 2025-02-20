@@ -1,28 +1,28 @@
-import { setContext, getContext } from 'svelte';
-import { type Readable, type Writable } from 'svelte/store';
 import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
-import type { InsertionPoint } from '../../edit/Drag';
-import type Caret from '../../edit/Caret';
-import type Project from '@db/projects/Project';
-import type Node from '@nodes/Node';
-import type { Highlights } from '../editor/util/Highlights';
-import type Step from '@runtime/Step';
-import type { StreamChange } from '@runtime/Evaluator';
 import type Conflict from '@conflicts/Conflict';
-import type { User } from 'firebase/auth';
-import type Evaluator from '@runtime/Evaluator';
+import type Project from '@db/projects/Project';
+import type Locale from '@locale/Locale';
+import type Node from '@nodes/Node';
 import type Root from '@nodes/Root';
+import type Color from '@output/Color';
+import type Spaces from '@parser/Spaces';
+import type Evaluator from '@runtime/Evaluator';
+import type { StreamChange } from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import type { User } from 'firebase/auth';
+import { getContext, setContext } from 'svelte';
+import { type Readable, type Writable } from 'svelte/store';
+import type Caret from '../../edit/Caret';
+import type { CaretPosition } from '../../edit/Caret';
+import type { InsertionPoint } from '../../edit/Drag';
+import type LanguageCode from '../../locale/LanguageCode';
 import type {
     CommandContext,
     Edit,
     ProjectRevision,
 } from '../editor/util/Commands';
-import type { CaretPosition } from '../../edit/Caret';
-import type LanguageCode from '../../locale/LanguageCode';
-import type Spaces from '@parser/Spaces';
-import type Color from '@output/Color';
-import type Locale from '@locale/Locale';
+import type { Highlights } from '../editor/util/Highlights';
 import type SelectedOutput from './SelectedOutput.svelte';
 
 // Authentication related contexts
@@ -234,8 +234,9 @@ export function getLocalize() {
     return getContext<LocalizeContext>(LocalizeSymbol);
 }
 
-const ConceptPathSymbol = Symbol('palette-path');
-type ConceptPathContext = Writable<Concept[]>;
+const ConceptPathSymbol = Symbol('concept-path');
+export type ConceptPath = Concept[];
+type ConceptPathContext = Writable<ConceptPath>;
 export function setConceptPath(context: ConceptPathContext) {
     setContext(ConceptPathSymbol, context);
 }
@@ -243,7 +244,7 @@ export function getConceptPath() {
     return getContext<ConceptPathContext>(ConceptPathSymbol);
 }
 
-const ConceptIndexSymbol = Symbol('palette-index');
+const ConceptIndexSymbol = Symbol('concept-index');
 export type ConceptIndexContext = { index: ConceptIndex | undefined };
 export function setConceptIndex(context: ConceptIndexContext) {
     setContext(ConceptIndexSymbol, context);
@@ -304,15 +305,17 @@ export function getSelectedOutput(): SelectedOutput | undefined {
 // This minimizes the number of live regions on the page, increasing the likelihood
 // that they're read.
 const AnnouncerSymbol = Symbol('announcer');
-export type AnnouncerContext = (
-    id: string,
-    language: LanguageCode | undefined,
-    message: string,
-) => void;
-export function setAnnouncer(context: Writable<AnnouncerContext | undefined>) {
+export type AnnouncerContext =
+    | ((
+          id: string,
+          language: LanguageCode | undefined,
+          message: string,
+      ) => void)
+    | undefined;
+export function setAnnouncer(context: Writable<AnnouncerContext>) {
     setContext(AnnouncerSymbol, context);
 }
-export function getAnnounce(): Writable<AnnouncerContext | undefined> {
+export function getAnnounce(): Writable<AnnouncerContext> {
     return getContext(AnnouncerSymbol);
 }
 

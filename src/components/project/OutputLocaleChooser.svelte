@@ -1,8 +1,8 @@
 <script lang="ts">
     import Options from '@components/widgets/Options.svelte';
     import { locales } from '@db/Database';
-    import { localeToString, stringToLocale } from '@locale/Locale';
     import type Locale from '@locale/Locale';
+    import { localeToString, stringToLocale } from '@locale/Locale';
     import { getLocaleLanguageName } from '@locale/LocaleText';
     import { LOCALE_SYMBOL } from '@parser/Symbols';
     import { withMonoEmoji } from '../../unicode/emoji';

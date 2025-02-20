@@ -19,7 +19,7 @@
             command,
             $modifiers.control,
             $modifiers.shift,
-            $modifiers.alt
+            $modifiers.alt,
         )}</div
     >{/if}
 

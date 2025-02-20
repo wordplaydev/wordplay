@@ -12,10 +12,15 @@
 
 <style>
     h2 {
-        font-size: min(6vw, 20pt);
+        font-size: min(6vw, 16pt);
         margin-block-start: 1.5em;
         margin-block-end: var(--wordplay-spacing);
     }
+
+    h2:first-child {
+        margin-block-start: 0;
+    }
+
     .compact {
         font-size: min(4vw, 16pt);
         margin: 0;

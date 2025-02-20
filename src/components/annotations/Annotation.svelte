@@ -1,13 +1,15 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition';
-    import type { AnnotationInfo } from './Annotations.svelte';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
-    import { Projects, animationDuration, locales } from '../../db/Database';
     import Button from '@components/widgets/Button.svelte';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import type { Resolution } from '@conflicts/Conflict';
     import type Context from '@nodes/Context';
+    import { fade } from 'svelte/transition';
+    import { Projects, animationDuration, locales } from '../../db/Database';
+    import {
+        default as MarkupHTMLView,
+        default as MarkupHtmlView,
+    } from '../concepts/MarkupHTMLView.svelte';
+    import Speech from '../lore/Speech.svelte';
+    import type { AnnotationInfo } from './Annotations.svelte';
 
     interface Props {
         id: number;
@@ -34,7 +36,7 @@
             }}
         >
             <Speech
-                glyph={annotation.node.getGlyphs($locales)}
+                character={annotation.node.getCharacter($locales)}
                 flip={annotation.kind === 'secondary'}
                 below
             >

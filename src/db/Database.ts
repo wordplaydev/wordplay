@@ -1,7 +1,7 @@
-import { writable, type Writable } from 'svelte/store';
+import { auth, firestore } from '@db/firebase';
 import concretize from '@locale/concretize';
-import { deleteDoc, doc, setDoc } from 'firebase/firestore';
-import { firestore, auth } from '@db/firebase';
+import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
+import { type SupportedLocale } from '@locale/SupportedLocales';
 import {
     deleteUser,
     onAuthStateChanged,
@@ -9,16 +9,18 @@ import {
     type Unsubscribe,
     type User,
 } from 'firebase/auth';
-import type LocaleText from '../locale/LocaleText';
-import { getBestSupportedLocales, type Template } from '../locale/LocaleText';
-import { type SupportedLocale } from '@locale/SupportedLocales';
-import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
-import LocalesDatabase from './LocalesDatabase';
-import SettingsDatabase from './settings/SettingsDatabase';
-import GalleryDatabase from './galleries/GalleryDatabase.svelte';
-import { ChatDatabase } from './ChatDatabase.svelte';
-import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { writable, type Writable } from 'svelte/store';
 import DefaultLocale from '../locale/DefaultLocale';
+import type LocaleText from '../locale/LocaleText';
+import { type Template } from '../locale/LocaleText';
+import { CharactersDatabase } from './characters/CharacterDatabase.svelte';
+import { ChatDatabase } from './chats/ChatDatabase.svelte';
+import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
+import GalleryDatabase from './galleries/GalleryDatabase.svelte';
+import LocalesDatabase from './locales/LocalesDatabase';
+import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
+import SettingsDatabase from './settings/SettingsDatabase';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -45,14 +47,14 @@ export class Database {
     /** A collection of chats loaded from the database */
     readonly Chats: ChatDatabase;
 
+    /** A collection of characters loaded from the database */
+    readonly Characters: CharactersDatabase;
+
     /** The status of persisting the projects. */
     readonly Status: Writable<{
         status: SaveStatus;
         message: undefined | ((locale: LocaleText) => Template);
-    }> = writable({
-        status: SaveStatus.Saved,
-        message: undefined,
-    });
+    }> = writable({ status: SaveStatus.Saved, message: undefined });
 
     /** The current Firestore user ID */
     private user: User | null = null;
@@ -75,6 +77,7 @@ export class Database {
         this.Galleries = new GalleryDatabase(this);
         this.Creators = new CreatorDatabase(this);
         this.Chats = new ChatDatabase(this);
+        this.Characters = new CharactersDatabase(this);
     }
 
     getUser() {
@@ -165,6 +168,9 @@ export class Database {
 
         // Tell the chat cache.
         this.Chats.syncUser();
+
+        // Tell the characters database.
+        this.Characters.syncUser();
     }
 
     /** Clean up listeners */
@@ -232,6 +238,7 @@ export const Locales = DB.Locales;
 export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
 export const Chats = DB.Chats;
+export const CharactersDB = DB.Characters;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;

@@ -5,5 +5,5 @@ export const MicSetting = new Setting<string | null>(
     true,
     null,
     (value) => (typeof value === 'string' ? value : null),
-    (current, value) => current == value
+    (current, value) => current == value,
 );

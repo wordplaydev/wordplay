@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { withMonoEmoji } from '../../unicode/emoji';
     import type { Template } from '../../locale/LocaleText';
     import type Locales from '../../locale/Locales';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
@@ -19,12 +18,12 @@
 </script>
 
 <div class="offer">
-    <Speech glyph={{ symbols }}>
+    <Speech character={{ symbols }}>
         {#snippet content()}
             <MarkupHtmlView markup={locales.concretize(message)} />
         {/snippet}
     </Speech>
-    <Button large {tip} {action}>{withMonoEmoji(command)}</Button>
+    <Button large {tip} {action} icon={command}></Button>
 </div>
 
 <style>

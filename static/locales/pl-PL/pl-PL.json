@@ -42,7 +42,8 @@
         "set": "$~ustawić",
         "key": "$~klawisz",
         "help": "$~Pomoc",
-        "feedback": "$~informacja zwrotna"
+        "feedback": "$~informacja zwrotna",
+        "how": "$~jak"
     },
     "token": {
         "EvalOpen": "$~ocena otwarta",
@@ -227,7 +228,7 @@
                 "InvalidRow": "$~Wiersze muszą zawierać albo same wartości, albo wszystkie wartości @Bind.",
                 "MissingCell": {
                     "primary": "$~Brakuje mi kolumny $1",
-                    "secondary": "$~Jestem wymagany, ale 1$ tego nie zapewnił"
+                    "secondary": "$~Jestem wymagany, ale $1 tego nie zapewnił"
                 },
                 "ExtraCell": {
                     "primary": "$~Czy powinienem tu być?",
@@ -402,8 +403,8 @@
                 "$~Możemy to jednak zmienić i dodać @Is, a teraz @FunctionDefinition będzie wiedziało, że są to liczby:",
                 "$~\\ƒ suma(a•# b•#) a + b\\"
             ],
-            "start": "$~Zobaczmy, jaką wartość daje 1$!",
-            "finish": "$~O, fajnie, dostałem 1$! Nazwijmy to 2$",
+            "start": "$~Zobaczmy, jaką wartość daje $1!",
+            "finish": "$~O, fajnie, dostałem $1! Nazwijmy to $2",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
@@ -467,10 +468,10 @@
         },
         "Borrow": {
             "name": "$~pożyczyć",
-            "description": "$~pożycz 1$[1$|brak nazwy]",
+            "description": "$~pożycz $1[$1|brak nazwy]",
             "emotion": "excited",
             "doc": "$~Jeśli tworzysz występ z wieloma @Source, możesz użyć mnie do pożyczenia @Bind, które są współdzielone w tych innych @Source. Po prostu użyj ich nazwy, a ja wprowadzę ich nazwę i wartość.",
-            "start": "$~Pożyczanie 2$ z 1$",
+            "start": "$~Pożyczanie $2 z $1",
             "source": "$~źródło",
             "bind": "$~nazwa",
             "version": "$~wersja",
@@ -506,7 +507,7 @@
                 "$~Czy nie wydaje się, że decyzje powinny być bardziej niuansowane niż tylko tak lub nie? Czy decydowanie między \\⊤\\ i \\⊥\\ to wszystko, co jest?",
                 "$~Czy nie obawiasz się, że jeśli będziemy podejmować wyłącznie takie decyzje, umyka nam pewien istotny kontekst dotyczący świata?"
             ],
-            "start": "$~Sprawdźmy, czy 1$ jest prawdą",
+            "start": "$~Sprawdźmy, czy $1 jest prawdą",
             "else": "$~$1[przeskakiwanie kodu | nie przeskakiwanie kodu]",
             "afterthen": "$~skoro już mowa o „tak”, to pomińmy „nie”?",
             "finish": "$~Chyba 1 dolar?",
@@ -515,7 +516,7 @@
             "no": "$~NIE",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$~Jak mogę wybrać tak i nie za 1$? Nie, naprawdę, jak?",
+                    "primary": "$~Jak mogę wybrać tak i nie za $1? Nie, naprawdę, jak?",
                     "secondary": "$~Myślę, że @Conditional chciał, abym był @Conditional, ale jestem $1."
                 }
             }
@@ -547,15 +548,15 @@
                 "$~\\\"cześć\" → [] → {}\\",
                 "$~Wartości mają zestaw @ConversionDefinition, które są wstępnie zdefiniowane, ale jeśli utworzysz @StructureDefinition dla nowego typu wartości, możesz zdefiniować swój własny za pomocą @ConversionDefinition."
             ],
-            "start": "$~Skorzystaj z tej wartości już od 1$!",
-            "finish": "$~Super, zarobiłem 1$",
+            "start": "$~Skorzystaj z tej wartości już od $1!",
+            "finish": "$~Super, zarobiłem $1",
             "conflict": {
-                "UnknownConversion": "$~Szkoda, nie ma możliwości, żeby 1 dolar zamienić w 2 dolary"
+                "UnknownConversion": "$~Szkoda, nie ma możliwości, żeby $1 zamienić w $2"
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~niemożliwa konwersja",
-                    "explanation": "$~Nie wiem jak przeliczyć 1$ na 2$"
+                    "explanation": "$~Nie wiem jak przeliczyć $1 na $1"
                 }
             }
         },
@@ -741,15 +742,15 @@
                 "$~Dostajemy \\⊤\\!",
                 "$~Mogę być naprawdę pomocny, gdy trzeba się dowiedzieć, czy @Name ma wartość określonego typu."
             ],
-            "start": "$~Najpierw obliczmy wartość 1$",
+            "start": "$~Najpierw obliczmy wartość $1",
             "finish": "$~$1[wartość wynosi $2|wartość nie wynosi $2]",
             "conflict": {
-                "ImpossibleType": "$~to nigdy nie może być 1$"
+                "ImpossibleType": "$~to nigdy nie może być $1"
             },
             "exception": {
                 "TypeException": {
                     "description": "$~niezgodne wartości",
-                    "explanation": "$~Spodziewałem się 1$, a dostałem 2$"
+                    "explanation": "$~Spodziewałem się $1, a dostałem $2"
                 }
             }
         },
@@ -773,7 +774,7 @@
                 "$~\\list: ['ptak' 'kaczka' 'ryba' 'wąż']\nlist[2]\\"
             ],
             "start": "$~Najpierw zdobądźmy listę $1",
-            "finish": "$~Przedmiot w indeksie kosztuje 1$!"
+            "finish": "$~Przedmiot w indeksie kosztuje $1!"
         },
         "ListLiteral": {
             "name": "$~listadosłowna",
@@ -798,7 +799,7 @@
             "emotion": "kind",
             "doc": "$~Jestem konkretną @Map między kluczami i wartościami. Zobacz @Map, aby dowiedzieć się więcej o tym, jak jestem pomocny.",
             "start": "$~Najpierw oceńmy klucze i wartości",
-            "finish": "$~Połączyłem wszystkich, 1$",
+            "finish": "$~Połączyłem wszystkich, $1",
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "$~jeden z moich kluczy nie ma wartości",
@@ -825,7 +826,7 @@
         },
         "NumberLiteral": {
             "name": "$~liczbadosłowna",
-            "description": "$~1 $2[2$|]",
+            "description": "$~1 $2[$2|]",
             "emotion": "excited",
             "doc": "$~Jestem konkretnym @Number. Możesz do mnie pisać dowolnymi cyframi z dowolnego języka. Zobacz @Number, aby dowiedzieć się wszystkiego, co potrafię.",
             "start": "$~1 dolar!",
@@ -870,7 +871,7 @@
                 "$~Widzisz, że to już pięć razy, a nie tylko raz?",
                 "$~Mogę pomóc, gdy chcesz stworzyć występy nawiązujące do przeszłości."
             ],
-            "start": "$~Pierwszy zgarniasz 1$",
+            "start": "$~Pierwszy zgarniasz $1",
             "finish": "$~Oceniono na wartość strumienia $1"
         },
         "Program": {
@@ -888,7 +889,7 @@
             "unevaluated": "$~wybrany przez Ciebie węzeł nie został oceniony",
             "start": "$~$1[Strumień $1 zmienił się na $2!|To moja pierwsza ocena]",
             "halt": "$~napotkano wyjątek, zatrzymanie",
-            "finish": "$~Wszystko gotowe, wyceniłem na 1$",
+            "finish": "$~Wszystko gotowe, wyceniłem na $1",
             "done": "$~nie ma nic oceniającego",
             "exception": {
                 "BlankException": {
@@ -923,7 +924,7 @@
             "finish": "$~Skopiowałem strukturę, ale z $1 jako $2",
             "conflict": {
                 "InvalidProperty": {
-                    "primary": "$~Nie jestem wejściem za 1$, więc nie można mnie udoskonalić.",
+                    "primary": "$~Nie jestem wejściem za $1, więc nie można mnie udoskonalić.",
                     "secondary": "$~Nie mam wejścia o nazwie $1"
                 }
             }
@@ -970,7 +971,7 @@
                 "$~Jeśli nie znajdę nazwy, to nie wiem, co zrobić.",
                 "$~\\parrot: 'polly'\nperry\\"
             ],
-            "start": "$~Jaką wartość ma 1$?",
+            "start": "$~Jaką wartość ma $1?",
             "conflict": {
                 "UnknownName": {
                     "conflict": "$~$1[Nie znam nikogo o imieniu $1 w $2[$2|tym @Block]|Czy możesz podać mi imię?]",
@@ -1007,7 +1008,7 @@
             "emotion": "eager",
             "doc": "$~Jestem konkretnym @Set konkretnych wartości. Zobacz @Set, aby dowiedzieć się więcej o tym, jak ze mną współpracować.",
             "start": "$~Najpierw oceńmy wartości!",
-            "finish": "$~Zrobiłem zestaw za 1$!"
+            "finish": "$~Zrobiłem zestaw za $1!"
         },
         "SetOrMapAccess": {
             "name": "$~ustaw/mapujdostęp",
@@ -1020,7 +1021,7 @@
                 "$~\\faves: {'makaron z serem': 5 gwiazdek 'płatki zbożowe': 2 gwiazdki 'kleik': 1 gwiazdka}\nfaves{'kleik'}\\"
             ],
             "start": "$~Jaki to zestaw lub mapa?",
-            "finish": "$~Wartość wynosi 1$",
+            "finish": "$~Wartość wynosi $1",
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "$~Spodziewałem się klucza za 1 dolara",
@@ -1160,7 +1161,7 @@
                 "$~Istnieje tylko jedna zasada: nie możesz wstawiać żadnej spacji między nazwą a wartością. W przeciwnym razie możesz utworzyć @Reference lub @BinaryEvaluate."
             ],
             "start": "$~Jaka jest wartość?",
-            "finish": "$~Zrobiłem to za 1$"
+            "finish": "$~Zrobiłem to za $1"
         },
         "UnparsableExpression": {
             "name": "$~niemożliwydoprzeanalizowania",
@@ -1404,7 +1405,7 @@
         },
         "NotAType": {
             "name": "$~nieoczekiwany",
-            "description": "$~nie 1$",
+            "description": "$~nie $1",
             "emotion": "curious",
             "doc": "$~Czasami wiemy, jaką wartość coś powinno mieć. Na przykład @ListAccess potrzebuje @Number. Jeśli jej nie otrzymamy, oznacza to, że coś jest innego typu niż oczekiwaliśmy."
         },
@@ -3472,7 +3473,7 @@
         "Stack": {
             "doc": "$~Jestem @Stack, pionowym @Arrangement @Output, z opcjonalnym wypełnieniem pomiędzy. Czy poznałeś mojego bliźniaka, @Row?",
             "names": ["$~⬇", "$~Stos"],
-            "description": "$~stos fraz i grup za 1$",
+            "description": "$~stos fraz i grup za $1",
             "alignment": {
                 "doc": "$~Czy tekst ma być wyrównany na początku, na środku czy na końcu każdego wiersza.",
                 "names": "$~wyrównanie"
@@ -4097,7 +4098,10 @@
                     "label": "$~udział"
                 },
                 "removeCollaborator": "$~usuń współpracownika",
-                "copy": "$~skopiuj projekt do schowka jako tekst",
+                "copy": {
+                    "tip": "$~skopiuj projekt do schowka jako tekst",
+                    "label": "$~skopiuj jako tekst"
+                },
                 "addSource": "$~utwórz nowy $source",
                 "duplicate": "$~skopiuj ten projekt",
                 "revert": "$~powrót do oryginalnego kodu",
@@ -4114,7 +4118,7 @@
                 "primary": "$~ustaw jako podstawową lokalizację tego projektu",
                 "history": {
                     "on": "$~pokaż ostatni kod projektu",
-                    "redo": "$~pokaż aktualny kod projektu"
+                    "off": "$~pokaż aktualny kod projektu"
                 }
             },
             "field": {
@@ -4233,9 +4237,9 @@
                     "on": "$~edytuj jako tekst",
                     "off": "$~edytuj jako bloki"
                 },
-                "glyphs": {
-                    "on": "$~zwiń pasujące glify",
-                    "off": "$~rozwiń pasujące glify"
+                "characters": {
+                    "on": "$~zwiń pasujące znaki",
+                    "off": "$~rozwiń pasujące znaki"
                 }
             },
             "button": {
@@ -4307,9 +4311,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~preferowany język dla źródła",
+                    "all": "$~Wszystko"
                 }
+            },
+            "error": {
+                "invalidName": "$~Musi to być prawidłowa nazwa Wordplay.",
+                "invalidWords": "$~Słowa nie mogą być puste ani zawierać zarezerwowanych symboli."
             }
         },
         "annotations": {
@@ -4388,6 +4396,24 @@
                 "properties": "$~Właściwości",
                 "functions": "$~Funkcje",
                 "conversions": "$~Konwersje"
+            },
+            "modes": {
+                "label": "$~przeglądać",
+                "modes": ["$~jak", "$~koncepcje"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~tworzenie i kontrolowanie postaci",
+                    "styling": "$~styl znaków i tekstu",
+                    "animation": "$~animuj postacie i tekst",
+                    "layout": "$~ułóż znaki i tekst",
+                    "randomization": "$~użyj losowo",
+                    "remembering": "$~śledź zmiany i wybory",
+                    "stories": "$~opowiadać bajkę",
+                    "motion": "$~użyj fizyki",
+                    "video": "$~użyj aparatu"
+                },
+                "related": "$~Nie znalazłeś tego, czego szukasz?"
             }
         },
         "dialog": {
@@ -4406,6 +4432,10 @@
                     "pii": {
                         "header": "$~Informacje osobiste",
                         "explanation": "$~Udostępnianie publicznie danych osobowych (PII) może narazić twórców na ryzyko, dlatego wykrywamy możliwe PII i ostrzegamy twórców, aby usunęli poufne dane lub oznaczyli je jako niewrażliwe.\n\nPoniżej znajduje się lista możliwych PII w tym projekcie, które oznaczyłeś jako niewrażliwe. Możesz kliknąć przycisk obok niego, aby ponownie oznaczyć go jako poufny, ale spowoduje to, że Twój projekt nie zostanie już zapisany online."
+                    },
+                    "copy": {
+                        "header": "$~Kopiuj i wklej",
+                        "explanation": "$~Skopiuj ten projekt do schowka jako tekst i udostępnij go gdzie indziej."
                     }
                 },
                 "field": {
@@ -4422,7 +4452,8 @@
                 },
                 "error": {
                     "unknown": "$~Nie znamy twórcy, który posiada ten adres e-mail.",
-                    "anonymous": "$~Aby udostępnić, musisz się zalogować."
+                    "anonymous": "$~Aby udostępnić, musisz się zalogować.",
+                    "self": "$~Nie możesz dodać siebie."
                 },
                 "button": {
                     "submit": "$~Udostępnij projekt za pomocą tego adresu e-mail",
@@ -4617,6 +4648,12 @@
                 "field": {
                     "percent": "$~edytuj procent"
                 }
+            },
+            "error": {
+                "nan": "$~To nie jest liczba.",
+                "percent": "$~Musi to być wartość procentowa z przedziału od 0 do 100.",
+                "lessThanNext": "$~Ta wartość musi być mniejsza niż wartość w kolejnym wpisie.",
+                "moreThanPrevious": "$~To musi być coś więcej niż poprzedni wpis."
             }
         },
         "save": {
@@ -4661,7 +4698,8 @@
                     "contribute": {
                         "label": "$~Brać w czymś udział",
                         "subtitle": "$~Pomóż nam tworzyć Wordplay."
-                    }
+                    },
+                    "characters": "$~Twórz własne emotikony i symbole"
                 }
             },
             "learn": {
@@ -4786,7 +4824,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~Nie znaleźliśmy tych zajęć lub nie masz uprawnień do ich przeglądania."
+                    "notfound": "$~Nie znaleźliśmy tych zajęć lub nie masz uprawnień do ich przeglądania.",
+                    "gallery": "$~Nie udało się utworzyć galerii dla tej klasy."
                 }
             },
             "guide": {
@@ -4832,7 +4871,13 @@
             "galleries": {
                 "header": "$~Galerie",
                 "prompt": "$~To są występy, które wykonali inni. Przeżyj je, przestudiuj lub dostosuj do własnego oświadczenia.",
-                "examples": "$~Przykłady"
+                "examples": "$~Przykłady",
+                "button": {
+                    "more": {
+                        "label": "$~więcej...",
+                        "tip": "$~Załaduj więcej galerii"
+                    }
+                }
             },
             "about": {
                 "header": "$~O",
@@ -4880,7 +4925,10 @@
                     "unchanged": "$~Nie udało nam się zmienić Twojego adresu e-mail, ale nie wiemy dlaczego.",
                     "delete": "$~Nie mogliśmy usunąć Twojego konta, ale nie wiemy dlaczego.",
                     "wrongPassword": "$~Nieprawidłowa nazwa użytkownika i hasło. Albo twoje hasło jest nieprawidłowe, albo ktoś inny ma tę nazwę użytkownika.",
-                    "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie."
+                    "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie.",
+                    "invalidUsername": "$~Nazwa użytkownika musi być adresem e-mail lub większą liczbą liter, bez spacji.",
+                    "invalidPassword": "$~Hasło musi mieć co najmniej 10 znaków.",
+                    "mismatched": "$~Hasła nie są takie same."
                 },
                 "feedback": {
                     "changing": "$~Wysyłanie nowego e-maila...",
@@ -4983,6 +5031,180 @@
                     "$~Gdyby 2400 osób przekazało nam 25 USD rocznie, pokryłoby to nasze obecne koszty, a ewentualną nadwyżkę przeznaczylibyśmy na wynagrodzenia dla większej liczby uczniów i nauczycieli.",
                     "$~Czy możesz być jedną z tych 2400 osób? Jeśli tak, oto nasz link do University of Washington:"
                 ]
+            },
+            "characters": {
+                "header": "$~Pismo",
+                "prompt": "$~Twórz własne emotikony i symbole, których możesz używać w swoich projektach i udostępniać je innym.",
+                "button": {
+                    "new": "$~Utwórz nową postać"
+                },
+                "error": {
+                    "offline": "$~Nie udało nam się uzyskać dostępu do Twoich postaci przechowywanych online.",
+                    "noauth": "$~Musisz się zalogować, aby zobaczyć swoje postacie i stworzyć nowe.",
+                    "create": "$~Nie można utworzyć nowej postaci."
+                }
+            },
+            "character": {
+                "header": "$~Charakter",
+                "prompt": "$~Utwórz emoji lub symbol przy użyciu kształtów i pikseli.",
+                "instructions": {
+                    "empty": "$~Wybierz tryb rysowania na palecie, aby utworzyć kształty.",
+                    "unselected": "$~Wybierz tryb rysowania lub zaznacz i edytuj kształty.",
+                    "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *Shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *Delete*, aby usunąć zaznaczenie. Użyj poniższych elementów sterujących, aby zmienić zaznaczone kształty.",
+                    "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel.",
+                    "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
+                    "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
+                    "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt."
+                },
+                "shape": {
+                    "shape": "$~kształt",
+                    "pixel": "$~piksel",
+                    "rect": "$~prostokąt",
+                    "ellipse": "$~elipsa",
+                    "path": "$~ścieżka"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~imię postaci",
+                        "placeholder": "$~nazwa"
+                    },
+                    "description": {
+                        "description": "$~Opis postaci",
+                        "placeholder": "$~opis"
+                    },
+                    "mode": {
+                        "label": "$~tryb",
+                        "modes": [
+                            "$~wybierać",
+                            "$~piksel",
+                            "$~prostokąt",
+                            "$~elipsa",
+                            "$~ścieżka"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~wypełnić",
+                        "modes": ["$~nic", "$~nieaktywny", "$~wybierać"]
+                    },
+                    "stroke": {
+                        "label": "$~udar",
+                        "modes": ["$~nic", "$~nieaktywny", "$~wybierać"]
+                    },
+                    "none": "$~nic",
+                    "inherit": "$~kolor tekstu",
+                    "strokeWidth": {
+                        "label": "$~szerokość pociągnięcia",
+                        "tip": "$~jaka szerokość jest renderowana"
+                    },
+                    "radius": {
+                        "label": "$~promień narożnika",
+                        "tip": "$~jak okrągłe są rogi prostokąta"
+                    },
+                    "angle": {
+                        "label": "$~kąt",
+                        "tip": "$~o ile obrócić kształt wokół jego środka"
+                    },
+                    "width": {
+                        "label": "$~szerokość",
+                        "tip": "$~jaka szerokość ma kształt"
+                    },
+                    "height": {
+                        "label": "$~wysokość",
+                        "tip": "$~jaka wysokość ma ten kształt"
+                    },
+                    "closed": "$~połączony"
+                },
+                "button": {
+                    "back": {
+                        "label": "$~z powrotem",
+                        "tip": "$~Przenieś zaznaczone kształty do tyłu."
+                    },
+                    "toBack": {
+                        "label": "$~z powrotem",
+                        "tip": "$~Przenieś zaznaczone kształty na spód."
+                    },
+                    "forward": {
+                        "label": "$~do przodu",
+                        "tip": "$~Przesuń zaznaczone kształty do przodu."
+                    },
+                    "toFront": {
+                        "label": "$~do przodu",
+                        "tip": "$~Przenieś zaznaczone kształty na przód."
+                    },
+                    "copy": {
+                        "label": "$~kopia",
+                        "tip": "$~Kopiuj wybrane kształty do schowka."
+                    },
+                    "paste": {
+                        "label": "$~pasta",
+                        "tip": "$~Wklej skopiowane kształty ze schowka."
+                    },
+                    "clear": {
+                        "label": "$~Wszystko",
+                        "tip": "$~Usuń wszystkie kształty."
+                    },
+                    "clearPixels": {
+                        "label": "$~piksele",
+                        "tip": "$~Usuń wszystkie piksele."
+                    },
+                    "undo": {
+                        "label": "$~anulować",
+                        "tip": "$~Cofnij do poprzedniego projektu"
+                    },
+                    "redo": {
+                        "label": "$~przerobić",
+                        "tip": "$~Powtórz następny projekt"
+                    },
+                    "all": {
+                        "label": "$~zaznacz wszystko",
+                        "tip": "$~Zaznacz wszystkie kształty i piksele"
+                    },
+                    "end": {
+                        "label": "$~zakończ kształt",
+                        "tip": "$~Zakończ bieżącą ścieżkę"
+                    },
+                    "horizontal": {
+                        "label": "$~odwróć poziomo",
+                        "tip": "$~odwróć punkty poziomo wokół środka"
+                    },
+                    "vertical": {
+                        "label": "$~odwróć w pionie",
+                        "tip": "$~odwróć punkty pionowo wokół środka"
+                    }
+                },
+                "feedback": {
+                    "name": "$~PostaciemusząmiećprawidłowąnazwęWordplayodługościconajmniej1znaku.Niemożetobyć„UI”,liczbadziesiętnalubszesnastkowaaninazwawbudowanejfunkcjijęzykowej.",
+                    "description": "$~Postacie potrzebują opisu, aby osoby niewidome wiedziały, co one symbolizują.",
+                    "end": "$~lub naciśnij Escape.",
+                    "loadfail": "$~Wystąpił problem podczas ładowania tej postaci.",
+                    "notfound": "$~Ta postać nie istnieje.",
+                    "unauthenticated": "$~Musisz być zalogowany, aby edytować postać.",
+                    "taken": "$~Masz już postać o tej nazwie, nie zapisujesz.",
+                    "unsaved": "$~Podaj opis tej postaci i prawidłową, unikalną nazwę, aby ją zapisać."
+                },
+                "announce": {
+                    "position": "$~za $1$2",
+                    "selection": "$~$1[wybrano $1|nic nie wybrano]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Udział",
+                        "explanation": "$~Dodaj współpracowników, aby ograniczyć liczbę osób, które mogą wyświetlać tę postać."
+                    },
+                    "button": {
+                        "label": "$~udział",
+                        "tip": "$~udostępnij tę postać"
+                    },
+                    "delete": {
+                        "label": "$~usuwać",
+                        "tip": "$~usuń tę postać"
+                    },
+                    "public": {
+                        "label": "$~widoczność",
+                        "modes": ["$~publiczny", "$~prywatny"]
+                    },
+                    "collaborators": "$~współpracownicy"
+                }
             }
         },
         "edit": {

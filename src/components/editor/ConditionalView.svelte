@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { getIsBlocks } from '@components/project/Contexts';
     import type Conditional from '@nodes/Conditional';
     import NodeView from './NodeView.svelte';
-    import { getIsBlocks } from '@components/project/Contexts';
 
     interface Props {
         node: Conditional;

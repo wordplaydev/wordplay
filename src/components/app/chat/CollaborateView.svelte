@@ -2,13 +2,17 @@
  This chat component enables communication between project collaborators and owners of the gallery that a project is in. 
  -->
 <script lang="ts">
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
+    import CreatorList from '@components/project/CreatorList.svelte';
     import TileMessage from '@components/project/TileMessage.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
     import Note from '@components/widgets/Note.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { type SerializedMessage } from '@db/ChatDatabase.svelte';
-    import type Chat from '@db/ChatDatabase.svelte';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
+    import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import {
         Chats,
@@ -17,17 +21,13 @@
         locales,
         Projects,
     } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import CreatorView from '../CreatorView.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { tick, untrack } from 'svelte';
-    import Loading from '../Loading.svelte';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Link from '../Link.svelte';
-    import CreatorList from '@components/project/CreatorList.svelte';
     import type Gallery from '@db/galleries/Gallery';
-    import Labeled from '@components/widgets/Labeled.svelte';
+    import type Project from '@db/projects/Project';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { tick, untrack } from 'svelte';
+    import CreatorView from '../CreatorView.svelte';
+    import Link from '../Link.svelte';
+    import Loading from '../Loading.svelte';
 
     const {
         project,
@@ -143,9 +143,8 @@
                 <Button
                     tip={$locales.get((l) => l.ui.collaborate.button.delete)}
                     action={() => deleteMessage(chat, msg)}
-                >
-                    {CANCEL_SYMBOL}</Button
-                >
+                    icon={CANCEL_SYMBOL}
+                ></Button>
             {/if}
         </div>
         <div class="what"
@@ -265,6 +264,7 @@
             <form class="new" data-sveltekit-keepfocus>
                 <div class="controls">
                     <TextField
+                        id="new-message"
                         fill
                         placeholder={$locales.get(
                             (l) => l.ui.collaborate.field.message.placeholder,
@@ -282,7 +282,10 @@
                         tip={$locales.get(
                             (l) => l.ui.collaborate.button.submit.tip,
                         )}
-                        action={submitMessage}>Send</Button
+                        action={submitMessage}
+                        >{$locales.get(
+                            (l) => l.ui.collaborate.button.submit.label,
+                        )}</Button
                     >
                 </div>
                 <div class="formats"

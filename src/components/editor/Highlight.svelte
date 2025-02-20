@@ -131,10 +131,10 @@
     }
 
     :global(
-            .node-view.evaluating .token-view,
-            .node-view.animating .token-view,
-            .node-view.dragging .token-view
-        ) {
+        .node-view.evaluating .token-view,
+        .node-view.animating .token-view,
+        .node-view.dragging .token-view
+    ) {
         color: var(--wordplay-background) !important;
     }
 

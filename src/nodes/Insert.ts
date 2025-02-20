@@ -1,40 +1,41 @@
-import type Node from './Node';
-import Expression, { type GuardContext } from './Expression';
-import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
-import TableType from './TableType';
+import type EditContext from '@edit/EditContext';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
-import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import TableValue from '@values/TableValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
+import Halt from '@runtime/Halt';
 import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import ExceptionValue from '@values/ExceptionValue';
+import TableValue from '@values/TableValue';
+import TypeException from '@values/TypeException';
+import UnimplementedException from '@values/UnimplementedException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import InvalidRow from '../conflicts/InvalidRow';
+import MissingCell from '../conflicts/MissingCell';
+import UnknownColumn from '../conflicts/UnknownColumn';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
+import StructureValue from '../values/StructureValue';
 import type Context from './Context';
 import type Definition from './Definition';
-import type TypeSet from './TypeSet';
-import Halt from '@runtime/Halt';
-import ExceptionValue from '@values/ExceptionValue';
-import TypeException from '@values/TypeException';
-import { node, type Grammar, type Replacement } from './Node';
-import UnimplementedException from '@values/UnimplementedException';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import Purpose from '../concepts/Purpose';
-import StructureValue from '../values/StructureValue';
-import MissingCell from '../conflicts/MissingCell';
-import IncompatibleCellType from '../conflicts/IncompatibleCellType';
-import UnknownColumn from '../conflicts/UnknownColumn';
-import InvalidRow from '../conflicts/InvalidRow';
-import Token from './Token';
-import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
-import Sym from './Sym';
+import Expression, { type GuardContext } from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
 import Input from './Input';
-import type EditContext from '@edit/EditContext';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
+import Row, { getRowFromValues } from './Row';
+import Sym from './Sym';
+import TableType from './TableType';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -60,7 +61,7 @@ export default class Insert extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Insert';
     }
 
@@ -337,7 +338,7 @@ export default class Insert extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Insert;
+    getCharacter() {
+        return Characters.Insert;
     }
 }

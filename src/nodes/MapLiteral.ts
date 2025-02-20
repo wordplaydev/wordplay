@@ -1,34 +1,35 @@
-import Expression, { type GuardContext } from './Expression';
-import KeyValue from '@nodes/KeyValue';
-import type Token from './Token';
-import type Type from './Type';
 import type Conflict from '@conflicts/Conflict';
+import { NotAKeyValue } from '@conflicts/NotAKeyValue';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import KeyValue from '@nodes/KeyValue';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import MapValue from '@values/MapValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import { NotAKeyValue } from '@conflicts/NotAKeyValue';
-import MapType from './MapType';
+import type Step from '@runtime/Step';
+import MapValue from '@values/MapValue';
+import type Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import ValueException from '../values/ValueException';
 import AnyType from './AnyType';
 import BindToken from './BindToken';
-import SetOpenToken from './SetOpenToken';
-import SetCloseToken from './SetCloseToken';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import { node, type Grammar, type Replacement, optional, list } from './Node';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import ValueException from '../values/ValueException';
-import Sym from './Sym';
-import type Locales from '../locale/Locales';
-import { MAX_LINE_LENGTH } from '@parser/Spaces';
-import type EditContext from '@edit/EditContext';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import MapType from './MapType';
+import { list, node, optional, type Grammar, type Replacement } from './Node';
+import SetCloseToken from './SetCloseToken';
+import SetOpenToken from './SetOpenToken';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -82,7 +83,7 @@ export default class MapLiteral extends Expression {
         return [MapLiteral.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'MapLiteral';
     }
 
@@ -263,7 +264,7 @@ export default class MapLiteral extends Expression {
         return [this.values.length];
     }
 
-    getGlyphs() {
-        return Glyphs.Set;
+    getCharacter() {
+        return Characters.Set;
     }
 }

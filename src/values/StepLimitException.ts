@@ -1,7 +1,7 @@
-import ExceptionValue from '@values/ExceptionValue';
 import type Evaluator from '@runtime/Evaluator';
-import type Program from '../nodes/Program';
+import ExceptionValue from '@values/ExceptionValue';
 import type Locales from '../locale/Locales';
+import type Program from '../nodes/Program';
 
 export default class StepLimitException extends ExceptionValue {
     readonly program: Program;

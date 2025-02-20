@@ -1,22 +1,23 @@
-import type ConversionDefinition from './ConversionDefinition';
-import type FunctionDefinition from './FunctionDefinition';
-import type Context from './Context';
-import Token from './Token';
-import type Node from './Node';
-import Sym from './Sym';
-import Type from './Type';
+import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { OR_SYMBOL } from '@parser/Symbols';
-import type TypeSet from './TypeSet';
-import NeverType from './NeverType';
 import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import type ConversionDefinition from './ConversionDefinition';
+import type Definition from './Definition';
+import type FunctionDefinition from './FunctionDefinition';
+import NeverType from './NeverType';
+import type Node from './Node';
 import { node, type Grammar, type Replacement } from './Node';
 import NoneType from './NoneType';
-import Glyphs from '../lore/Glyphs';
-import NodeRef from '../locale/NodeRef';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
-import type Definition from './Definition';
-import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
+import type TypeSet from './TypeSet';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -51,7 +52,7 @@ export default class UnionType extends Type {
         return this.make(left, NoneType.make());
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnionType';
     }
 
@@ -229,8 +230,8 @@ export default class UnionType extends Type {
         return union;
     }
 
-    getGlyphs() {
-        return Glyphs.Union;
+    getCharacter() {
+        return Characters.Union;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

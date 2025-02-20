@@ -1,34 +1,3 @@
-import Pose from './Pose';
-import type Value from '@values/Value';
-import type Color from './Color';
-import Fonts, {
-    SupportedFontsFamiliesType,
-    type FontWeight,
-    type SupportedFace,
-} from '../basis/Fonts';
-import TextValue from '@values/TextValue';
-import Output, { DefaultStyle } from './Output';
-import type RenderContext from './RenderContext';
-import type Place from './Place';
-import ListValue from '@values/ListValue';
-import TextLang from './TextLang';
-import toStructure from '../basis/toStructure';
-import getTextMetrics from './getTextMetrics';
-import type Sequence from './Sequence';
-import { PX_PER_METER, sizeToPx } from './outputToCSS';
-import { getBind } from '@locale/getBind';
-import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
-import type Project from '../db/projects/Project';
-import type { DefinitePose } from './Pose';
-import StructureValue from '../values/StructureValue';
-import { getOutputInput } from './Valued';
-import { getTypeStyle } from './toOutput';
-import MarkupValue from '@values/MarkupValue';
-import Markup from '../nodes/Markup';
-import segmentWraps from './segmentWraps';
-import type Matter from './Matter';
-import { toMatter } from './Matter';
-import type Locales from '../locale/Locales';
 import {
     HorizontalLayout,
     VerticalLeftRightLayout,
@@ -36,9 +5,40 @@ import {
     layoutToCSS,
     type WritingLayoutSymbol,
 } from '@locale/Scripts';
-import { toAura } from './Aura';
+import { getBind } from '@locale/getBind';
+import { LINK_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+import ListValue from '@values/ListValue';
+import MarkupValue from '@values/MarkupValue';
+import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
+import Fonts, {
+    SupportedFontsFamiliesType,
+    type FontWeight,
+    type SupportedFace,
+} from '../basis/Fonts';
+import toStructure from '../basis/toStructure';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import Markup from '../nodes/Markup';
+import StructureValue from '../values/StructureValue';
 import type Aura from './Aura';
-import { TYPE_SYMBOL } from '@parser/Symbols';
+import { toAura } from './Aura';
+import type Color from './Color';
+import type Matter from './Matter';
+import { toMatter } from './Matter';
+import Output, { DefaultStyle } from './Output';
+import type Place from './Place';
+import type { DefinitePose } from './Pose';
+import Pose from './Pose';
+import type RenderContext from './RenderContext';
+import type Sequence from './Sequence';
+import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
+import TextLang from './TextLang';
+import { getOutputInput } from './Valued';
+import getTextMetrics from './getTextMetrics';
+import { PX_PER_METER, sizeToPx } from './outputToCSS';
+import segmentWraps from './segmentWraps';
+import { getTypeStyle } from './toOutput';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
@@ -230,8 +230,12 @@ export default class Phrase extends Output {
 
         // Go through each formatted text,
         for (const formatted of formats) {
+            // If the text is a character name, it will be the width of an m in the current font.
+            const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
+            // If it is a custom character, treat it like the letter 'e' for measurement purposes.
+            const textToMeasure = isCharacter ? '@' : formatted.text;
             // Split the text by spaces and measure each space separated chunk.
-            for (const segment of segmentWraps(formatted.text)) {
+            for (const segment of segmentWraps(textToMeasure)) {
                 const metrics = getTextMetrics(
                     // Choose the description with the preferred language.
                     segment,
@@ -247,11 +251,13 @@ export default class Phrase extends Output {
                 if (metrics) {
                     ascent = metrics.fontBoundingBoxAscent;
                     descent = metrics.fontBoundingBoxDescent;
-                    height = Math.max(
-                        metrics.actualBoundingBoxAscent +
-                            metrics.actualBoundingBoxDescent,
-                        height,
-                    );
+                    height = isCharacter
+                        ? ascent
+                        : Math.max(
+                              metrics.actualBoundingBoxAscent +
+                                  metrics.actualBoundingBoxDescent,
+                              height,
+                          );
                     // If we're not wrapping, just accumulate the width.
                     if (maxWidth === undefined) {
                         width += metrics.width;
@@ -286,12 +292,7 @@ export default class Phrase extends Output {
             height = temp;
         }
 
-        const dimensions = {
-            width,
-            height,
-            ascent,
-            descent,
-        };
+        const dimensions = { width, height, ascent, descent };
         // If the font is loaded, these metrics can be trusted, so we cache them.
         if (height !== undefined && ascent !== undefined && faceLoaded) {
             this._metrics = dimensions;

@@ -1,12 +1,13 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Node, { list, type Grammar, type Replacement, node } from './Node';
-import Type from './Type';
-import Glyphs from '../lore/Glyphs';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
+import Node, { list, node, type Grammar, type Replacement } from './Node';
 import type Token from './Token';
+import Type from './Type';
 
 export default class UnparsableType extends Type {
     readonly unparsables: Token[];
@@ -17,7 +18,7 @@ export default class UnparsableType extends Type {
         this.unparsables = nodes;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnparsableType';
     }
 
@@ -47,7 +48,7 @@ export default class UnparsableType extends Type {
         return locales.get((l) => l.node.UnparsableType);
     }
 
-    getGlyphs() {
-        return Glyphs.Unparsable;
+    getCharacter() {
+        return Characters.Unparsable;
     }
 }

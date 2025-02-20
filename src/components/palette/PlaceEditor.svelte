@@ -1,19 +1,19 @@
 <script lang="ts">
-    import TextField from '../widgets/TextField.svelte';
-    import Evaluate from '../../nodes/Evaluate';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Project from '@db/projects/Project';
-    import NumberValue from '@values/NumberValue';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
-    import Note from '../widgets/Note.svelte';
-    import { getNumber } from './editOutput';
-    import Expression from '../../nodes/Expression';
-    import { Projects, locales } from '../../db/Database';
+    import NumberValue from '@values/NumberValue';
     import { tick } from 'svelte';
-    import Button from '../widgets/Button.svelte';
+    import { Projects, locales } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
+    import Evaluate from '../../nodes/Evaluate';
+    import Expression from '../../nodes/Expression';
     import NumberType from '../../nodes/NumberType';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '../widgets/Button.svelte';
+    import Note from '../widgets/Note.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import { getNumber } from './editOutput';
 
     interface Props {
         project: Project;
@@ -35,7 +35,7 @@
 
     function valid(val: string) {
         const [num] = NumberValue.fromUnknown(val);
-        return !num.isNaN();
+        return num.isNaN() ? $locales.get((l) => l.ui.palette.error.nan) : true;
     }
 
     async function handleChange(dimension: Bind, value: string) {
@@ -96,6 +96,7 @@
         <div class="dimension">
             {#if value !== undefined || given == undefined}
                 <TextField
+                    id="place-editor-{index}"
                     text={`${value ?? 0}`}
                     validator={valid}
                     {editable}
@@ -152,7 +153,8 @@
                     ),
                 ],
             ]);
-        }}>→{project.shares.input.Motion.getNames()[0]}</Button
+        }}
+        icon="→">{project.shares.input.Motion.getNames()[0]}</Button
     >
     <Button
         tip={$locales.get((l) => l.ui.palette.button.addPlacement)}
@@ -167,7 +169,8 @@
                     ),
                 ],
             ]);
-        }}>→{project.shares.input.Placement.getNames()[0]}</Button
+        }}
+        icon="→">{project.shares.input.Placement.getNames()[0]}</Button
     >
 {/if}
 

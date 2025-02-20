@@ -1,33 +1,34 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { type GuardContext } from './Expression';
-import type Type from './Type';
+import MissingInput from '@conflicts/MissingInput';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
+import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
-import type TypeSet from './TypeSet';
-import FunctionException from '@values/FunctionException';
-import FunctionDefinition from './FunctionDefinition';
-import Evaluation from '@runtime/Evaluation';
-import getConcreteExpectedType from './Generics';
-import type Value from '@values/Value';
-import UnknownNameType from './UnknownNameType';
-import { node, type Grammar, type Replacement } from './Node';
 import StartEvaluation from '@runtime/StartEvaluation';
-import NodeRef from '@locale/NodeRef';
+import type Step from '@runtime/Step';
+import FunctionException from '@values/FunctionException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../values/FunctionValue';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
 import AnyType from './AnyType';
-import FunctionType from './FunctionType';
-import Reference from './Reference';
-import type Node from './Node';
-import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
-import MissingInput from '@conflicts/MissingInput';
+import type Context from './Context';
 import type Definition from './Definition';
+import Expression, { type GuardContext } from './Expression';
+import FunctionDefinition from './FunctionDefinition';
+import FunctionType from './FunctionType';
+import getConcreteExpectedType from './Generics';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
+import Reference from './Reference';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnknownNameType from './UnknownNameType';
 
 export default class UnaryEvaluate extends Expression {
     readonly fun: Reference;
@@ -51,7 +52,7 @@ export default class UnaryEvaluate extends Expression {
         return [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnaryEvaluate';
     }
 
@@ -238,10 +239,7 @@ export default class UnaryEvaluate extends Expression {
         );
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.getOperator(),
-            emotion: Emotion.kind,
-        };
+    getCharacter() {
+        return { symbols: this.getOperator(), emotion: Emotion.kind };
     }
 }

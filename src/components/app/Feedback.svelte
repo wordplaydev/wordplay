@@ -32,7 +32,6 @@
     }
 
     p {
-        font-size: medium;
         text-align: center;
     }
 </style>

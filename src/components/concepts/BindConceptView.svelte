@@ -1,9 +1,9 @@
 <script lang="ts">
     import type BindConcept from '@concepts/BindConcept';
-    import Speech from '../lore/Speech.svelte';
     import { blocks, locales } from '@db/Database';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import Speech from '../lore/Speech.svelte';
     import RootView from '../project/RootView.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
 
     interface Props {
         concept: BindConcept;
@@ -12,7 +12,7 @@
     let { concept }: Props = $props();
 </script>
 
-<Speech glyph={concept.getGlyphs($locales)} below={true}>
+<Speech character={concept.getCharacter($locales)} below={true}>
     {#snippet content()}
         {@const markup = concept.getDocs($locales)}
         {#if markup}

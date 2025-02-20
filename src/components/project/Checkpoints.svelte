@@ -3,36 +3,18 @@
     const Hour = 60 * Minute;
     const Day = 24 * Hour;
     const Week = 7 * Day;
-
-    export type CheckpointsText = {
-        label: {
-            now: string;
-            history: string;
-            restore: string;
-            ago: Template;
-        };
-        button: {
-            clear: string;
-            select: string;
-            checkpoint: string;
-            back: string;
-            forward: string;
-            restore: string;
-            now: string;
-        };
-    };
 </script>
 
 <script lang="ts">
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import { onMount } from 'svelte';
+    import { docToMarkup } from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import Emoji from '@components/app/Emoji.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import { docToMarkup, type Template } from '@locale/LocaleText';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { onMount } from 'svelte';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
     let {
         project,
@@ -76,15 +58,16 @@
 </script>
 
 <section class="checkpoints">
-    🕐
+    {withMonoEmoji('🕐')}
     {$locales.get((l) => l.ui.checkpoints.label.history)}
     <Button
         tip={$locales.get((l) => l.ui.checkpoints.button.checkpoint)}
         action={() => {
             Projects.reviseProject(project.withCheckpoint());
             return;
-        }}><Emoji>📸</Emoji></Button
-    >
+        }}
+        icon="📸"
+    ></Button>
     {#if project.getCheckpoints().length === 0}
         &mdash;
     {:else}
@@ -103,24 +86,27 @@
             action={() => {
                 checkpoint++;
                 return;
-            }}><Emoji>⏴</Emoji></Button
-        >
+            }}
+            icon="⏴"
+        ></Button>
         <Button
             tip={$locales.get((l) => l.ui.checkpoints.button.back)}
             active={checkpoint > -1}
             action={() => {
                 checkpoint--;
                 return;
-            }}><Emoji>⏵</Emoji></Button
-        >
+            }}
+            icon="⏵"
+        ></Button>
         <Button
             tip={$locales.get((l) => l.ui.checkpoints.button.now)}
             active={checkpoint > -1}
             action={() => {
                 checkpoint = -1;
                 return;
-            }}><Emoji>⏵⏵</Emoji></Button
-        >
+            }}
+            icon="⏵⏵"
+        ></Button>
         <span class="checkpoint">
             {#if checkpoint === -1}
                 {$locales.get((l) => l.ui.checkpoints.label.now)}

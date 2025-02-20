@@ -11,7 +11,8 @@
 </script>
 
 <form class="login-form" onsubmit={submit}
-    >{@render children?.()}{#if feedback}<Feedback>{feedback}</Feedback>{/if}</form
+    >{@render children?.()}{#if feedback}<Feedback>{feedback}</Feedback
+        >{/if}</form
 >
 
 <style>

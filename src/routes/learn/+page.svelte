@@ -1,44 +1,24 @@
-<script module lang="ts">
-    export type LearnPageText = {
-        /** The header for the tutorial page */
-        header: string;
-        /** When the tutorial could not be found */
-        error: string;
-        button: {
-            /** Advance to the next pause in the dialog */
-            next: string;
-            /** Navigate back to the previous pause in the dialog */
-            previous: string;
-        };
-        /** Labels for drop down menus */
-        options: {
-            /** The label for the lesson drop down */
-            lesson: string;
-        };
-    };
-</script>
-
 <script lang="ts">
-    import TutorialView from '@components/app/TutorialView.svelte';
-    import Progress from '../../tutorial/Progress';
+    import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
+    import Loading from '@components/app/Loading.svelte';
+    import Page from '@components/app/Page.svelte';
+    import TutorialView from '@components/app/TutorialView.svelte';
+    import { untrack } from 'svelte';
+    import Header from '../../components/app/Header.svelte';
+    import Link from '../../components/app/Link.svelte';
+    import Writing from '../../components/app/Writing.svelte';
+    import Speech from '../../components/lore/Speech.svelte';
     import {
         Locales,
         Settings,
         locales,
         tutorialProgress,
     } from '../../db/Database';
-    import Loading from '@components/app/Loading.svelte';
-    import Page from '@components/app/Page.svelte';
-    import Speech from '../../components/lore/Speech.svelte';
-    import Link from '../../components/app/Link.svelte';
-    import Glyphs from '../../lore/Glyphs';
-    import Writing from '../../components/app/Writing.svelte';
-    import Header from '../../components/app/Header.svelte';
+    import Characters from '../../lore/BasisCharacters';
+    import Progress from '../../tutorial/Progress';
     import type Tutorial from '../../tutorial/Tutorial';
-    import { browser } from '$app/environment';
-    import { untrack } from 'svelte';
 
     let tutorial: Tutorial | undefined | null = $state(undefined);
 
@@ -91,7 +71,7 @@
 {:else if tutorial === null}
     <Writing>
         <Header>:(</Header>
-        <Speech glyph={Glyphs.FunctionDefinition}
+        <Speech character={Characters.FunctionDefinition}
             >{#snippet content()}
                 <p>
                     {$locales.get((l) => l.ui.page.learn.error)}

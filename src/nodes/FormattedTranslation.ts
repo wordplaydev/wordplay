@@ -1,20 +1,21 @@
-import Language from './Language';
-import { node, optional } from './Node';
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import { FORMATTED_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import type Paragraph from './Paragraph';
-import Words from './Words';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Markup from './Markup';
-import { LanguageTagged } from './LanguageTagged';
-import Example from './Example';
-import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { FORMATTED_SYMBOL } from '@parser/Symbols';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
+import Example from './Example';
+import Language from './Language';
+import { LanguageTagged } from './LanguageTagged';
+import Markup from './Markup';
+import type { Grammar, Replacement } from './Node';
+import { node, optional } from './Node';
+import type Paragraph from './Paragraph';
+import Sym from './Sym';
+import Token from './Token';
+import Words from './Words';
 
 export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;
@@ -59,7 +60,7 @@ export default class FormattedTranslation extends LanguageTagged {
         return this.getPossibleReplacements();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FormattedTranslation';
     }
 
@@ -123,7 +124,7 @@ export default class FormattedTranslation extends LanguageTagged {
         return locales.get((l) => l.node.FormattedTranslation);
     }
 
-    getGlyphs() {
-        return Glyphs.Formatted;
+    getCharacter() {
+        return Characters.Formatted;
     }
 }

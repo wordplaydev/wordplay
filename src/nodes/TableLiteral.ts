@@ -1,42 +1,43 @@
-import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
-import Expression, { type GuardContext } from './Expression';
-import TableType from './TableType';
-import Bind from './Bind';
-import type Node from './Node';
+import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import TableValue from '@values/TableValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import type Step from '@runtime/Step';
+import TableValue from '@values/TableValue';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
-import StructureValue from '../values/StructureValue';
-import MissingCell from '../conflicts/MissingCell';
-import IncompatibleCellType from '../conflicts/IncompatibleCellType';
 import ExtraCell from '../conflicts/ExtraCell';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import MissingCell from '../conflicts/MissingCell';
 import UnexpectedColumnBind from '../conflicts/UnexpectedColumnBind';
-import type Type from './Type';
 import type Locales from '../locale/Locales';
-import Names from './Names';
+import Characters from '../lore/BasisCharacters';
 import { tokenize } from '../parser/Tokenizer';
-import Sym from './Sym';
-import NumberLiteral from './NumberLiteral';
-import TextLiteral from './TextLiteral';
+import StructureValue from '../values/StructureValue';
+import Bind from './Bind';
 import BooleanLiteral from './BooleanLiteral';
-import UnionType from './UnionType';
-import NumberType from './NumberType';
-import TextType from './TextType';
 import BooleanType from './BooleanType';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import Input from './Input';
+import Names from './Names';
+import type Node from './Node';
+import { list, node, type Grammar, type Replacement } from './Node';
 import NoneLiteral from './NoneLiteral';
 import NoneType from './NoneType';
-import type EditContext from '@edit/EditContext';
-import Input from './Input';
-import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
+import NumberLiteral from './NumberLiteral';
+import NumberType from './NumberType';
+import Row, { getRowFromValues } from './Row';
+import Sym from './Sym';
+import TableType from './TableType';
+import TextLiteral from './TextLiteral';
+import TextType from './TextType';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -187,7 +188,7 @@ export default class TableLiteral extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TableLiteral';
     }
 
@@ -354,8 +355,8 @@ export default class TableLiteral extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 
     getDescriptionInputs() {

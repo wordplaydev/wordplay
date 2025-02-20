@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { withColorEmoji } from '../../unicode/emoji';
     import { getEmoji } from '../../unicode/Unicode';
     import Button from './Button.svelte';
 
@@ -18,7 +19,8 @@
             ><Button
                 tip={code.name}
                 action={() => pick(String.fromCodePoint(code.hex))}
-                ><span class="emoji">{String.fromCodePoint(code.hex)}</span
+                ><span class="emoji"
+                    >{withColorEmoji(String.fromCodePoint(code.hex))}</span
                 ></Button
             ></div
         >
@@ -38,7 +40,7 @@
     }
 
     .emoji {
-        font-family: 'Noto Color Emoji';
+        font-family: 'Noto Color Emoji', 'Noto Emoji';
     }
 
     .selected {

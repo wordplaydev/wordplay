@@ -101,18 +101,18 @@
 </script>
 
 <script lang="ts">
-    import { tick, untrack } from 'svelte';
     import Node from '@nodes/Node';
+    import Token from '@nodes/Token';
+    import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import { tick, untrack } from 'svelte';
     import {
         animationDuration,
         locales,
         spaceIndicator,
     } from '../../db/Database';
     import Caret from '../../edit/Caret';
-    import { getEditor, getEvaluation } from '../project/Contexts';
-    import Token from '@nodes/Token';
     import UnicodeString from '../../unicode/UnicodeString';
-    import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import { getEditor, getEvaluation } from '../project/Contexts';
     import MenuTrigger from './MenuTrigger.svelte';
 
     interface Props {
@@ -180,7 +180,7 @@
                         textIndex !== undefined &&
                         // Only show the caret if it's pointing to a number
                         typeof caret.position === 'number' &&
-                        // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
+                        // The position can be anywhere after after the first character of the token, up to and including after the token's last character,
                         // or the end token of the program.
                         (caret.isEnd() ||
                             // It must be after the start OR at the start and not whitespace
@@ -383,7 +383,7 @@
                     // Found it, so we stop looping through lines.
                     break;
                 } else {
-                    // Increment the glyph count by the number of glyphs in this line, plus one for the newline.
+                    // Increment the character count by the number of characters in this line, plus one for the newline.
                     currentIndex += lineText.getLength() + 1;
                 }
             }
@@ -396,7 +396,7 @@
                 beforeSpaceHeight: 0,
             };
 
-        // If we found the line, find the glyphs before the caret index.
+        // If we found the line, find the characters before the caret index.
         const beforeSpace = containingLine.substring(0, caretIndex);
 
         // Temporarily assign the inner HTML of the space component to the text before the caret on the line.

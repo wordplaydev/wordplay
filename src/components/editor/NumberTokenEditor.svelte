@@ -1,6 +1,7 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
+    import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
     import { toTokens } from '@parser/toTokens';
     import TokenTextEditor from './TokenEditor.svelte';
@@ -22,7 +23,9 @@
     {placeholder}
     validator={(newNumber) => {
         const tokens = toTokens(newNumber);
-        return tokens.remaining() === 2 && tokens.nextIs(Sym.Number);
+        return tokens.remaining() === 2 && tokens.nextIs(Sym.Number)
+            ? true
+            : $locales.get((l) => l.ui.palette.error.nan);
     }}
     creator={(text) => new Token(text, Sym.Number)}
 />

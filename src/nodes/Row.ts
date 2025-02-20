@@ -1,20 +1,21 @@
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import Expression from './Expression';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Node, { any, list, node } from './Node';
-import Sym from './Sym';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
-import type TableType from './TableType';
 import ExceptionValue from '@values/ExceptionValue';
-import ValueException from '../values/ValueException';
-import StructureValue from '../values/StructureValue';
-import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
+import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
+import StructureValue from '../values/StructureValue';
+import type Value from '../values/Value';
+import ValueException from '../values/ValueException';
+import Expression from './Expression';
 import Input from './Input';
+import type { Grammar, Replacement } from './Node';
+import Node, { any, list, node } from './Node';
+import Sym from './Sym';
+import type TableType from './TableType';
+import Token from './Token';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -43,7 +44,7 @@ export default class Row extends Node {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Row';
     }
 
@@ -96,8 +97,8 @@ export default class Row extends Node {
         return locales.get((l) => l.node.Row);
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 }
 

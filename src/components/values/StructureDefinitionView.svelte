@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type StructureDefinitionValue from '@values/StructureDefinitionValue';
-    import SymbolView from './SymbolView.svelte';
-    import { TYPE_SYMBOL } from '@parser/Symbols';
     import Sym from '@nodes/Sym';
+    import { TYPE_SYMBOL } from '@parser/Symbols';
+    import type StructureDefinitionValue from '@values/StructureDefinitionValue';
     import { locales } from '../../db/Database';
+    import SymbolView from './SymbolView.svelte';
 
     interface Props {
         value: StructureDefinitionValue;

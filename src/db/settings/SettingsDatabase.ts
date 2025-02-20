@@ -1,31 +1,31 @@
-import { LayoutsSetting } from './LayoutsSetting';
-import { ArrangementSetting } from './ArrangementSetting';
+import type { SupportedLocale } from '@locale/SupportedLocales';
+import { doc, getDoc } from 'firebase/firestore';
+import { derived } from 'svelte/store';
+import type { SerializedLayout } from '../../components/project/Layout';
+import Layout from '../../components/project/Layout';
+import type { WritingLayout } from '../../locale/Scripts';
+import type Progress from '../../tutorial/Progress';
+import { CreatorCollection } from '../creators/CreatorDatabase';
+import type { Database } from '../Database';
+import { firestore } from '../firebase';
 import { AnimationFactorSetting } from './AnimationFactorSetting';
+import { AnnotationsSetting } from './AnnotationsSetting';
+import type Arrangement from './Arrangement';
+import { ArrangementSetting } from './ArrangementSetting';
+import { BlocksSetting } from './BlocksSetting';
+import { CameraSetting } from './CameraSetting';
+import { DarkSetting } from './DarkSetting';
+import { FaceSetting } from './FaceSetting';
+import { LayoutsSetting } from './LayoutsSetting';
+import { LineSetting } from './LinesSetting';
 import { LocalesSetting } from './LocalesSetting';
-import { WritingLayoutSetting } from './WritingLayoutSetting';
+import { MicSetting } from './MicSetting';
+import { SpaceSetting } from './SpaceSetting';
 import {
     TutorialProgressSetting,
     type TutorialProgress,
 } from './TutorialProgressSetting';
-import { CameraSetting } from './CameraSetting';
-import { MicSetting } from './MicSetting';
-import { derived } from 'svelte/store';
-import type { SupportedLocale } from '@locale/SupportedLocales';
-import type { Database } from '../Database';
-import type { SerializedLayout } from '../../components/project/Layout';
-import type Arrangement from './Arrangement';
-import type { WritingLayout } from '../../locale/Scripts';
-import type Progress from '../../tutorial/Progress';
-import Layout from '../../components/project/Layout';
-import { BlocksSetting } from './BlocksSetting';
-import { DarkSetting } from './DarkSetting';
-import { doc, getDoc } from 'firebase/firestore';
-import { firestore } from '../firebase';
-import { CreatorCollection } from '../creators/CreatorDatabase';
-import { SpaceSetting } from './SpaceSetting';
-import { LineSetting } from './LinesSetting';
-import { AnnotationsSetting } from './AnnotationsSetting';
-import { FaceSetting } from './FaceSetting';
+import { WritingLayoutSetting } from './WritingLayoutSetting';
 
 /** The schema of the record written to the creators collection. */
 export type SettingsSchemaV1 = {

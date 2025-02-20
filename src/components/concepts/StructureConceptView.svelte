@@ -1,11 +1,11 @@
 <script lang="ts">
-    import CodeView from './CodeView.svelte';
-    import type StructureConcept from '@concepts/StructureConcept';
-    import BindConceptView from './BindConceptView.svelte';
-    import ConceptView from './ConceptView.svelte';
     import type BindConcept from '@concepts/BindConcept';
-    import { onMount } from 'svelte';
+    import type StructureConcept from '@concepts/StructureConcept';
     import { locales } from '@db/Database';
+    import { onMount } from 'svelte';
+    import BindConceptView from './BindConceptView.svelte';
+    import CodeView from './CodeView.svelte';
+    import ConceptView from './ConceptView.svelte';
 
     interface Props {
         concept: StructureConcept;

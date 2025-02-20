@@ -1,54 +1,55 @@
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import type Context from './Context';
-import Token from './Token';
-import Type from './Type';
 import type Conflict from '@conflicts/Conflict';
-import UnusedBind from '@conflicts/UnusedBind';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import UnexpectedEtc from '@conflicts/UnexpectedEtc';
-import StructureDefinition from './StructureDefinition';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import Start from '@runtime/Start';
-import Halt from '@runtime/Halt';
-import Finish from '@runtime/Finish';
-import Block from './Block';
-import ListType from './ListType';
-import ValueException from '@values/ValueException';
-import ExceptionValue from '@values/ExceptionValue';
-import type Definition from './Definition';
-import AnyType from './AnyType';
-import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
-import FunctionDefinition from './FunctionDefinition';
-import BindToken from './BindToken';
-import TypeToken from './TypeToken';
-import Docs from './Docs';
-import Names from './Names';
-import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
-import { MisplacedShare } from '@conflicts/MisplacedShare';
-import { DuplicateShare } from '@conflicts/DuplicateShare';
-import type TypeSet from './TypeSet';
-import type Value from '@values/Value';
-import Sym from './Sym';
-import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
-import { node, none, type Grammar, type Replacement, any } from './Node';
+import { DuplicateShare } from '@conflicts/DuplicateShare';
+import IncompatibleType from '@conflicts/IncompatibleType';
+import { MisplacedShare } from '@conflicts/MisplacedShare';
+import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
+import UnexpectedEtc from '@conflicts/UnexpectedEtc';
+import UnusedBind from '@conflicts/UnusedBind';
+import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import type { StreamCreator } from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Halt from '@runtime/Halt';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import ExceptionValue from '@values/ExceptionValue';
+import type Value from '@values/Value';
+import ValueException from '@values/ValueException';
 import Purpose from '../concepts/Purpose';
-import Reaction from './Reaction';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
+import BindToken from './BindToken';
+import Block from './Block';
+import type Context from './Context';
+import type Definition from './Definition';
+import Docs from './Docs';
+import DocumentedExpression from './DocumentedExpression';
 import Evaluate from './Evaluate';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionDefinition from './FunctionDefinition';
 import FunctionType from './FunctionType';
 import getConcreteExpectedType from './Generics';
-import type Node from './Node';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import UnknownType from './UnknownType';
-import type Locales from '../locale/Locales';
-import DocumentedExpression from './DocumentedExpression';
+import ListType from './ListType';
+import type Name from './Name';
+import Names from './Names';
 import NameType from './NameType';
-import type EditContext from '@edit/EditContext';
+import type Node from './Node';
+import { any, node, none, type Grammar, type Replacement } from './Node';
+import StructureDefinition from './StructureDefinition';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
+import type TypeSet from './TypeSet';
+import TypeToken from './TypeToken';
+import UnknownType from './UnknownType';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -88,7 +89,7 @@ export default class Bind extends Expression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Bind';
     }
 
@@ -133,19 +134,13 @@ export default class Bind extends Expression {
 
     getGrammar(): Grammar {
         return [
-            {
-                name: 'docs',
-                kind: any(node(Docs), none()),
-            },
+            { name: 'docs', kind: any(node(Docs), none()) },
             {
                 name: 'share',
                 kind: any(node(Sym.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
             },
-            {
-                name: 'names',
-                kind: node(Names),
-            },
+            { name: 'names', kind: node(Names) },
             {
                 name: 'etc',
                 kind: any(node(Sym.Etc), none()),
@@ -601,11 +596,16 @@ export default class Bind extends Expression {
                       // If it's a reaction or evaluate, bind the names to the previous value.
                       // This allows for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
+                      // Note, we can't use instanceof here to type guard because of circular dependencies.
                       if (
-                          value instanceof Evaluate ||
-                          value instanceof Reaction
+                          value !== undefined &&
+                          (value.getDescriptor() === 'Evaluate' ||
+                              value.getDescriptor() === 'Reaction')
                       ) {
-                          const stream = evaluator.getStreamFor(value, true);
+                          const stream = evaluator.getStreamFor(
+                              value as StreamCreator,
+                              true,
+                          );
                           const latest = stream?.latest();
                           if (latest) evaluator.bind(this.names, latest);
                       }
@@ -683,15 +683,11 @@ export default class Bind extends Expression {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs(locales: Locales) {
+    getCharacter(locales: Locales) {
         const preferredName =
             this.names.getPreferredName(locales.getLocales())?.getName() ??
             this.names.getNames()[0];
-        return preferredName
-            ? {
-                  symbols: preferredName,
-              }
-            : Glyphs.Bind;
+        return preferredName ? { symbols: preferredName } : Characters.Bind;
     }
 
     getKind() {

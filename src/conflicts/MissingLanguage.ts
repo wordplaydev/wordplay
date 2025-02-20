@@ -1,7 +1,7 @@
 import type Language from '@nodes/Language';
 import type Token from '@nodes/Token';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class MissingLanguage extends Conflict {
     readonly language: Language;

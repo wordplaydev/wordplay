@@ -1,12 +1,12 @@
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Glyph from '../lore/Glyph';
+import type Locales from '../locale/Locales';
+import type BasisCharacter from '../lore/BasisCharacter';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
-import type { Character } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
+import type { CharacterName } from '../tutorial/Tutorial';
+import type Purpose from './Purpose';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -21,7 +21,7 @@ export default abstract class Concept {
     constructor(
         purpose: Purpose,
         affiliation: StructureDefinition | undefined,
-        context: Context
+        context: Context,
     ) {
         this.context = context;
 
@@ -38,11 +38,13 @@ export default abstract class Concept {
     }
 
     /**
-     * Returns the glyph that represents the concept.
+     * Returns the character that represents the concept.
      */
-    abstract getGlyphs(locales: Locales): Glyph;
+    abstract getCharacter(locales: Locales): BasisCharacter;
 
-    /** Returns the emotions for the glyphs */
+    abstract getCharacterName(locales: Locales): CharacterName | undefined;
+
+    /** Returns the emotions for the characters */
     abstract getEmotion(locales: Locales): Emotion;
 
     /**
@@ -91,7 +93,7 @@ export default abstract class Concept {
      */
     getTextMatching(
         locales: Locales,
-        query: string
+        query: string,
     ): [string, number, number] | undefined {
         const name = this.getName(locales, false);
         const lowerDescription = name.toLocaleLowerCase(locales.getLanguages());
@@ -118,7 +120,7 @@ export default abstract class Concept {
      */
     getNode(id: number): Node | undefined {
         const match = Array.from(this.getNodes()).find(
-            (node) => node.id === id
+            (node) => node.id === id,
         );
         if (match) return match;
         for (const concept of this.getSubConcepts()) {
@@ -135,8 +137,6 @@ export default abstract class Concept {
             concepts = concepts.concat(concept.getAllSubConcepts());
         return concepts;
     }
-
-    abstract getCharacter(locales: Locales): Character | undefined;
 
     abstract isEqualTo(concept: Concept): boolean;
 }

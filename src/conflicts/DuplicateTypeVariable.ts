@@ -1,8 +1,8 @@
-import Conflict from './Conflict';
-import type TypeVariable from '@nodes/TypeVariable';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
+import type TypeVariable from '@nodes/TypeVariable';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class DuplicateTypeVariable extends Conflict {
     readonly typeVar: TypeVariable;

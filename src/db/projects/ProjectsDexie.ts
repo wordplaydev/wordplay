@@ -1,9 +1,9 @@
 import {
-    type SerializedProject,
     ProjectSchemaLatestVersion,
+    type SerializedProject,
     type SerializedProjectUnknownVersion,
 } from '@db/projects/ProjectSchemas';
-import Dexie, { type Table, type Observable, liveQuery } from 'dexie';
+import Dexie, { type Observable, type Table, liveQuery } from 'dexie';
 
 /** The schema of the IndexedDB cache of projects. */
 

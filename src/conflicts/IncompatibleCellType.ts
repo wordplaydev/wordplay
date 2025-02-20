@@ -1,11 +1,11 @@
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
+import type Input from '@nodes/Input';
 import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
-import type Input from '@nodes/Input';
+import Conflict from './Conflict';
 
 export default class IncompatibleCellType extends Conflict {
     readonly type: TableType;

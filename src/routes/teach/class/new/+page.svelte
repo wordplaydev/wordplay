@@ -1,82 +1,4 @@
 <script module lang="ts">
-    import type { ButtonText, FieldText } from '@locale/UITexts';
-
-    /** The localization strings for the page. */
-    export type NewClassPageText = {
-        /** The header for the create class page */
-        header: string;
-        subheader: {
-            /** The subheader for the create class page */
-            class: string;
-            /** The subheader for the create class page */
-            students: string;
-            /** The subheader for the preview */
-            credentials: string;
-            /** The subheader for submitting*/
-            submit: string;
-        };
-        prompt: {
-            /** Explain the purpose of the form */
-            start: string;
-            /** Prompt review of the genrated students.*/
-            review: string;
-            /** What to say before there are any generated credentials. */
-            ready: string;
-            /** When generating usernames and passwords */
-            pending: string;
-            /** Whether to edit the generated accounts */
-            edit: string;
-            /** Ready to submit instructions */
-            submit: string;
-            /** Submitting instructions */
-            submitting: string;
-            /** Download instructions */
-            download: string;
-        };
-        field: {
-            /** The class name */
-            name: FieldText;
-            /** The class description */
-            description: FieldText;
-            existing: {
-                /** Explanation of existing users. */
-                prompt: string;
-                /** Label for existing users. */
-                label: string;
-            };
-            /** The student data field */
-            metadata: FieldText & { prompt: string };
-            /** The password words field */
-            words: FieldText & { prompt: string };
-            /** The generate credentials button */
-            generate: ButtonText;
-            /** The submit button */
-            submit: ButtonText;
-            /** The edit button */
-            edit: ButtonText;
-            /** The done editing button */
-            done: ButtonText;
-        };
-        error: {
-            /** Inconsistent columns */
-            columns: string;
-            /** Duplicate columns */
-            duplicates: string;
-            /** A problem generating usernames */
-            generate: string;
-            /** A user name is taken */
-            taken: string;
-            /** Too many users */
-            limit: string;
-            /** Not enough words */
-            words: string;
-            /** Couldn't create one or more accounts */
-            account: string;
-            /** Generic error for developers to inspect */
-            generic: string;
-        };
-    };
-
     /** The maximum number of students in a class. */
     export const MaxClassSize = 50;
     /** The fixed width of the fields. */
@@ -84,37 +6,37 @@
 </script>
 
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import { locales } from '@db/Database';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
+    import { goto } from '$app/navigation';
     import Centered from '@components/app/Centered.svelte';
-    import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
-    import {
-        createCredentials,
-        type StudentWithCredentials,
-    } from '../credentials';
+    import Feedback from '@components/app/Feedback.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import CreatorList from '@components/project/CreatorList.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
+    import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { UsernameLength } from '@db/creators/isValidUsername';
-    import { PasswordLength } from '../../../login/IsValidPassword';
     import { usernameAccountExists } from '@db/creators/accountExists';
-    import { httpsCallable } from 'firebase/functions';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import { UsernameLength } from '@db/creators/isValidUsername';
+    import { locales } from '@db/Database';
     import { functions } from '@db/firebase';
     import type {
         CreateClassError,
         CreateClassInputs,
         CreateClassOutput,
     } from '@db/functions';
-    import { getUser } from '@components/project/Contexts';
-    import Link from '@components/app/Link.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';
-    import { goto } from '$app/navigation';
+    import { httpsCallable } from 'firebase/functions';
+    import { PasswordLength } from '../../../login/IsValidPassword';
     import TeachersOnly from '../../TeachersOnly.svelte';
+    import {
+        createCredentials,
+        type StudentWithCredentials,
+    } from '../credentials';
 
     /** The state to store the name of the class. */
     let name = $state('');
@@ -296,12 +218,14 @@
             )}</Subheader
         >
         <LabeledTextbox
+            id="class-name"
             fixed={FieldLabelWidth}
             texts={(l) => l.ui.page.newclass.field.name}
             editable={!download}
             bind:text={name}
         ></LabeledTextbox>
         <LabeledTextbox
+            id="class-description"
             box
             fixed={FieldLabelWidth}
             texts={(l) => l.ui.page.newclass.field.description}
@@ -346,6 +270,7 @@
         ></MarkupHtmlView>
 
         <LabeledTextbox
+            id="metadata"
             box
             fixed={FieldLabelWidth}
             editable={!editing}
@@ -367,6 +292,7 @@
                 )}
             ></MarkupHtmlView>
             <LabeledTextbox
+                id="secret-words"
                 box
                 fixed={FieldLabelWidth}
                 texts={(l) => l.ui.page.newclass.field.words}
@@ -482,6 +408,7 @@
                                         <td
                                             >{#if editing}
                                                 <TextField
+                                                    id="new-student-{studentIndex}-data-{columnIndex}"
                                                     description=""
                                                     placeholder=""
                                                     text={editedStudents !==
@@ -508,15 +435,24 @@
                                     <td
                                         >{#if editing}
                                             <TextField
+                                                id="new-student-{studentIndex}"
                                                 description=""
                                                 placeholder=""
                                                 text={finalStudents[
                                                     studentIndex
                                                 ].username}
                                                 validator={(text) =>
-                                                    !usernamesTaken.includes(
+                                                    usernamesTaken.includes(
                                                         text,
-                                                    )}
+                                                    )
+                                                        ? $locales.get(
+                                                              (l) =>
+                                                                  l.ui.page
+                                                                      .newclass
+                                                                      .error
+                                                                      .taken,
+                                                          )
+                                                        : true}
                                                 changed={(text) => {
                                                     // Update the username after it's changed.
                                                     editedStudents
@@ -546,6 +482,7 @@
                                     <td
                                         >{#if editing}
                                             <TextField
+                                                id="new-student-{studentIndex}-final"
                                                 description=""
                                                 placeholder=""
                                                 text={finalStudents[

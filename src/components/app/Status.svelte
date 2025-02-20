@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import { SaveStatus, locales } from '../../db/Database';
-    import { status } from '../../db/Database';
-    import { getUser } from '../project/Contexts';
     import Button from '@components/widgets/Button.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { SaveStatus, locales, status } from '../../db/Database';
+    import { withMonoEmoji } from '../../unicode/emoji';
+    import { getUser } from '../project/Contexts';
 
     const user = getUser();
     let device = $derived($user === null);
@@ -23,7 +23,7 @@
                   device
                       ? $locales.get((l) => l.ui.save.local)
                       : $locales.get((l) => l.ui.save.saved)
-              } ✔`
+              } ${withMonoEmoji(device ? '🖥️' : '🌐')}`
             : $status.status === SaveStatus.Saving
               ? `${$locales.get((l) => l.ui.save.saving)} …`
               : `${$locales.get((l) => l.ui.save.unsaved)} ${CANCEL_SYMBOL}`}

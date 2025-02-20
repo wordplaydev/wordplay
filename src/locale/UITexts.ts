@@ -1,24 +1,27 @@
-import type { ProjectText } from '@components/project/ProjectView.svelte';
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
-import type { UnknownPageText } from '../routes/+error.svelte';
-import type { LandingPageText } from '../routes/+page.svelte';
-import type { AboutPageText } from '../routes/about/+page.svelte';
-import type { DonatePageText } from '../routes/donate/+page.svelte';
-import type { GalleriesPageText } from '../routes/galleries/+page.svelte';
-import type { GalleryPageText } from '../routes/gallery/[galleryid]/+page.svelte';
-import type { GuidePageText } from '../routes/guide/Guide.svelte';
-import type { JoinPageText } from '../routes/join/Join.svelte';
-import type { LearnPageText } from '../routes/learn/+page.svelte';
-import type { LoginPageText } from '../routes/login/Login.svelte';
-import type { ProjectsPageText } from '../routes/projects/+page.svelte';
-import type { RightsPageText } from '../routes/rights/+page.svelte';
-import type { TeachPageText } from '../routes/teach/+page.svelte';
-import type { ClassPageText } from '../routes/teach/class/[classid]/+page.svelte';
-import type { NewClassPageText } from '../routes/teach/class/new/+page.svelte';
-import type EditTexts from './EditTexts';
 import type { DocText, Template } from './LocaleText';
-import type { CheckpointsText } from '@components/project/Checkpoints.svelte';
+
+import type CheckpointsText from '@components/project/CheckpointsText';
+import { HowToCategories } from '@concepts/HowTo';
+import type ErrorText from '../routes/ErrorText';
+import type LandingPageText from '../routes/PageText';
+import type AboutPageText from '../routes/about/PageText';
+import type CharacterPageText from '../routes/character/[id]/PageText';
+import type CharactersPageText from '../routes/characters/PageText';
+import type DonatePageText from '../routes/donate/PageText';
+import type GalleriesPageText from '../routes/galleries/PageText';
+import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
+import type GuidePageText from '../routes/guide/PageText';
+import type JoinPageText from '../routes/join/PageText';
+import type LearnPageText from '../routes/learn/PageText';
+import type LoginPageText from '../routes/login/PageText';
+import type ProjectsPageText from '../routes/projects/PageText';
+import type RightsPageText from '../routes/rights/PageText';
+import type TeachPageText from '../routes/teach/PageText';
+import type ClassPageText from '../routes/teach/class/[classid]/PageText';
+import type NewClassPageText from '../routes/teach/class/new/PageText';
+import type EditTexts from './EditTexts';
 
 export type ButtonText = {
     /** The buttons label */
@@ -64,9 +67,9 @@ export type FieldText = {
 
 type UITexts = {
     font: {
-        /** The application font to use throughout the application. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
+        /** The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         app: SupportedFace;
-        /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
+        /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         code: SupportedFace;
     };
     phrases: {
@@ -118,7 +121,85 @@ type UITexts = {
         };
     };
     /** Project settings and controls */
-    project: ProjectText;
+    project: {
+        /** The error shown when a project ID is unknown. */
+        error: {
+            unknown: string;
+            /** The error to show if translation wasn't possible */
+            translate: string;
+            /** The message for an error in a tile */
+            tile: string;
+            /** The button label for an error reset */
+            reset: string;
+        };
+        button: {
+            /** Shows the sharing dialog */
+            share: ButtonText;
+            /** Remove a collaborator that has been shared with */
+            removeCollaborator: string;
+            /** Copy the project as text to the clipboard */
+            copy: ButtonText;
+            /** Add a source file */
+            addSource: string;
+            /** Duplicate the project */
+            duplicate: string;
+            /** Revert project to original code */
+            revert: string;
+            /** Keyboard shortcut to focus output tile */
+            focusOutput: string;
+            /** Keyboard shortcut to focus source tiles */
+            focusSource: string;
+            /** Keyboard shortcut to focus documentation tile */
+            focusDocs: string;
+            /** Keyboard shortcut to focus palette tiles */
+            focusPalette: string;
+            /** Keyboard shortcut to cycle between tiles */
+            focusCycle: string;
+            /** Show save error button */
+            unsaved: string;
+            /** Show translation button */
+            translate: ButtonText;
+            /** The tooltip for the primary locale setting button */
+            primary: string;
+            /** The history switch */
+            history: { off: string; on: string };
+        };
+        field: {
+            /** The project name text field */
+            name: FieldText;
+        };
+        /** The keyboard shortcut to show the shortcut menu */
+        help: string;
+        /** The text to show when all of the tiles are collapsed. */
+        collapsed: string;
+        /** The messages shown for save status */
+        save: {
+            /** When projects fail to save locally */
+            projectsNotSavedLocally: Template;
+            /** When projects can't save locally */
+            projectsCannotNotSaveLocally: Template;
+            /** When a project wasn't saved because it contained PII */
+            projectContainedPII: Template;
+            /** Projects failed to load */
+            projectsNotLoadingOnline: Template;
+            /** When a project couldn't be saved to the database */
+            projectNotSavedOnline: Template;
+            /** When settings are being saved */
+            settingsUnsaved: Template;
+        };
+        dialog: {
+            /** The header for the save error */
+            unsaved: Template;
+            /** The content for the translation dialog */
+            translate: DialogText;
+        };
+        subheader: {
+            /** The header for the source language */
+            source: Template;
+            /** The header for the destination language */
+            destination: Template;
+        };
+    };
     /** Checkpoints text */
     checkpoints: CheckpointsText;
     /** Gallery page labels */
@@ -138,8 +219,8 @@ type UITexts = {
         toggle: {
             /** The blocks/text toggle */
             blocks: ToggleText;
-            /** The glyph chooser expand/collapse toggle */
-            glyphs: ToggleText;
+            /** The character chooser expand/collapse toggle */
+            characters: ToggleText;
         };
         button: {
             /** Output preview button for selecting output for display in output tile */
@@ -161,10 +242,7 @@ type UITexts = {
         };
         options: {
             /** The locale chooser for a source */
-            locale: {
-                tip: string;
-                all: string;
-            };
+            locale: { tip: string; all: string };
         };
         cursor: {
             /** Move caret to the line before */
@@ -261,12 +339,18 @@ type UITexts = {
             undo: string;
             /** Redo undone edit */
             redo: string;
-            /** Search for glyph */
+            /** Search for character */
             search: string;
             /** Tidy spacing */
             tidy: string;
             /** Toggle elision */
             elide: string;
+        };
+        error: {
+            /** An invalid source name */
+            invalidName: string;
+            /** Invalid words in a words token editor */
+            invalidWords: string;
         };
     };
     /** The conflicts area in the margin of the editor. */
@@ -332,6 +416,8 @@ type UITexts = {
             /** The search text field */
             search: string;
         };
+        /** Labels for different sections of the guide */
+        modes: ModeText<[string, string]>;
         header: {
             /** Documentation header in structure and functions before inputs */
             inputs: string;
@@ -343,6 +429,13 @@ type UITexts = {
             functions: string;
             /** Documentation header in structure before conversions */
             conversions: string;
+        };
+        /** Everything related to how to content */
+        how: {
+            /** The category names */
+            category: Record<keyof typeof HowToCategories, string>;
+            /** The subheader for related how to's */
+            related: string;
         };
     };
     /** The project chat */
@@ -493,6 +586,17 @@ type UITexts = {
                 percent: string;
             };
         };
+        /** Errors for the palette */
+        error: {
+            /** The value entered isn't a number */
+            nan: string;
+            /** 0-100 range */
+            percent: string;
+            /** Sequence percent must be greater than the last */
+            moreThanPrevious: string;
+            /** Sequence precent must be less than the next */
+            lessThanNext: string;
+        };
     };
     /** The timeline view below the output */
     timeline: {
@@ -538,6 +642,8 @@ type UITexts = {
                 public: DialogText;
                 /** The personal information subheader and explanation */
                 pii: DialogText;
+                /** The copy and paste dialog text */
+                copy: DialogText;
             };
             /** Text fields in the share dialog */
             field: {
@@ -562,6 +668,8 @@ type UITexts = {
                 unknown: string;
                 /** When someone wants to add a collaborator but isn't authenticated */
                 anonymous: string;
+                /** Can't add self */
+                self: string;
             };
             options: {
                 /** The label for the gallery chooser */
@@ -642,7 +750,7 @@ type UITexts = {
     };
     page: {
         /** The unknown route page */
-        unknown: UnknownPageText;
+        unknown: ErrorText;
         /** Landing page text */
         landing: LandingPageText;
         /** Tutorial page text */
@@ -657,6 +765,10 @@ type UITexts = {
         guide: GuidePageText;
         /** The project creation and browsing page */
         projects: ProjectsPageText;
+        /** The character creation and browsing page */
+        characters: CharactersPageText;
+        /** The character editor page */
+        character: CharacterPageText;
         /** Gallery browsing page text */
         galleries: GalleriesPageText;
         /** About page text */

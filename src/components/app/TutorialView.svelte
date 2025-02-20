@@ -1,46 +1,45 @@
 <script lang="ts">
-    import ProjectView from '@components/project/ProjectView.svelte';
-    import Project from '@db/projects/Project';
-    import Speech from '@components/lore/Speech.svelte';
-    import Progress from '../../tutorial/Progress';
-    import Note from '../../components/widgets/Note.svelte';
-    import {
-        getUser,
-        getConceptPath,
-        type ConceptIndexContext,
-        setConceptIndex,
-        setDragged,
-        setProject,
-        setConceptPath,
-    } from '../../components/project/Contexts';
-    import PlayView from './PlayView.svelte';
-    import Button from '../widgets/Button.svelte';
-    import Source from '../../nodes/Source';
-    import { locales, Projects } from '@db/Database';
-    import type Spaces from '../../parser/Spaces';
-    import { toMarkup } from '../../parser/toMarkup';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount, untrack } from 'svelte';
-    import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable } from 'svelte/store';
-    import { tick } from 'svelte';
     import { goto } from '$app/navigation';
-    import ConceptLink from '../../nodes/ConceptLink';
-    import TutorialHighlight from './TutorialHighlight.svelte';
-    import Emotion from '../../lore/Emotion';
-    import { Performances } from '../../tutorial/Performances';
-    import type { Dialog, Performance } from '../../tutorial/Tutorial';
-    import type Markup from '../../nodes/Markup';
-    import Header from './Header.svelte';
-    import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import { moderatedFlags } from '../../db/projects/Moderation';
+    import Speech from '@components/lore/Speech.svelte';
+    import ProjectView from '@components/project/ProjectView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Options from '@components/widgets/Options.svelte';
+    import { locales, Projects } from '@db/Database';
+    import Project from '@db/projects/Project';
+    import { withoutAnnotations } from '@locale/withoutAnnotations';
     import type Node from '@nodes/Node';
     import { DRAFT_SYMBOL } from '@parser/Symbols';
-    import Glyphs from '../../lore/Glyphs';
+    import { onMount, tick, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
+    import {
+        getConceptPath,
+        getUser,
+        setConceptIndex,
+        setConceptPath,
+        setDragged,
+        setProject,
+        type ConceptIndexContext,
+    } from '../../components/project/Contexts';
+    import Note from '../../components/widgets/Note.svelte';
+    import type ConceptIndex from '../../concepts/ConceptIndex';
+    import { moderatedFlags } from '../../db/projects/Moderation';
+    import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
+    import Glyphs from '../../lore/BasisCharacters';
+    import Emotion from '../../lore/Emotion';
+    import ConceptLink from '../../nodes/ConceptLink';
+    import type Markup from '../../nodes/Markup';
+    import Source from '../../nodes/Source';
+    import type Spaces from '../../parser/Spaces';
+    import { toMarkup } from '../../parser/toMarkup';
+    import { Performances } from '../../tutorial/Performances';
+    import Progress from '../../tutorial/Progress';
+    import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import { withColorEmoji } from '../../unicode/emoji';
-    import { withoutAnnotations } from '@locale/LocaleText';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import Button from '../widgets/Button.svelte';
+    import Header from './Header.svelte';
+    import PlayView from './PlayView.svelte';
+    import TutorialHighlight from './TutorialHighlight.svelte';
 
     interface Props {
         progress: Progress;
@@ -396,8 +395,9 @@
                         action={() =>
                             navigate(progress.previousPause() ?? progress)}
                         active={progress.previousPause() !== undefined}
-                        bind:view={previousButton}>←</Button
-                    >
+                        icon="←"
+                        bind:view={previousButton}
+                    ></Button>
                     {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
                             >{withoutAnnotations(scene.subtitle ?? scene.title)}
                             {#if act !== undefined && scene !== undefined && progress.pause > 0}
@@ -415,8 +415,9 @@
                         action={() =>
                             navigate(progress.nextPause() ?? progress)}
                         active={progress.nextPause() !== undefined}
-                        bind:view={nextButton}>→</Button
-                    >
+                        icon="→"
+                        bind:view={nextButton}
+                    ></Button>
                 </div>
                 {#if act === undefined}
                     <div class="title play"
@@ -444,9 +445,9 @@
                             {@const character = turn.dialog[0]}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
-                                glyph={projectContext
+                                character={projectContext
                                     ?.getConceptByName(character)
-                                    ?.getGlyphs($locales) ??
+                                    ?.getCharacter($locales) ??
                                     Glyphs[
                                         character as keyof typeof Glyphs
                                     ] ?? {

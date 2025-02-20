@@ -1,5 +1,6 @@
 <script lang="ts">
     import Centered from '@components/app/Centered.svelte';
+    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -23,8 +24,13 @@
         {#if !claim}
             <Header>{$locales.get((l) => l.ui.page.teach.header)}</Header>
             <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.teach.error.teacher)}
+                markup={$locales.get((l) => l.ui.page.teach.prompt.none)}
             />
+            <Feedback>
+                <MarkupHtmlView
+                    markup={$locales.get((l) => l.ui.page.teach.error.teacher)}
+                />
+            </Feedback>
             <Centered>
                 <Link to="https://forms.gle/6x1sbyC4SZHoPXYq5"
                     >{$locales.get((l) => l.ui.page.teach.link.request)}</Link

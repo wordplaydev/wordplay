@@ -1,36 +1,37 @@
 import type Conflict from '@conflicts/Conflict';
-import type Expression from './Expression';
-import type Token from './Token';
-import Type from './Type';
-import type Node from './Node';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
 import Placeholder from '@conflicts/Placeholder';
-import Halt from '@runtime/Halt';
-import Bind from './Bind';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import type Evaluator from '@runtime/Evaluator';
-import UnimplementedException from '@values/UnimplementedException';
-import PlaceholderToken from './PlaceholderToken';
-import UnimplementedType from './UnimplementedType';
-import TypeToken from './TypeToken';
-import { node, type Grammar, type Replacement, none, any } from './Node';
-import SimpleExpression from './SimpleExpression';
+import type EditContext from '@edit/EditContext';
 import type { Template } from '@locale/LocaleText';
-import Glyphs from '../lore/Glyphs';
-import type Root from './Root';
-import NodeRef from '../locale/NodeRef';
-import Evaluate from './Evaluate';
-import getConcreteExpectedType from './Generics';
-import BinaryEvaluate from './BinaryEvaluate';
-import FunctionDefinition from './FunctionDefinition';
-import Sym from './Sym';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Evaluator from '@runtime/Evaluator';
+import Halt from '@runtime/Halt';
+import type Step from '@runtime/Step';
+import UnimplementedException from '@values/UnimplementedException';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
+import BinaryEvaluate from './BinaryEvaluate';
+import Bind from './Bind';
+import type Context from './Context';
+import Evaluate from './Evaluate';
+import type Expression from './Expression';
+import FunctionDefinition from './FunctionDefinition';
+import getConcreteExpectedType from './Generics';
 import Input from './Input';
-import type EditContext from '@edit/EditContext';
+import type Node from './Node';
+import { any, node, none, type Grammar, type Replacement } from './Node';
+import PlaceholderToken from './PlaceholderToken';
+import type Root from './Root';
+import SimpleExpression from './SimpleExpression';
+import Sym from './Sym';
+import type Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
+import type TypeSet from './TypeSet';
+import TypeToken from './TypeToken';
+import UnimplementedType from './UnimplementedType';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -68,7 +69,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return [ExpressionPlaceholder.make(type)];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ExpressionPlaceholder';
     }
 
@@ -223,7 +224,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return locales.concretize((l) => l.node.ExpressionPlaceholder.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Placeholder;
+    getCharacter() {
+        return Characters.Placeholder;
     }
 }

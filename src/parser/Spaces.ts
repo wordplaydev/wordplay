@@ -1,6 +1,6 @@
-import Token from '@nodes/Token';
 import type Node from '@nodes/Node';
 import type Source from '@nodes/Source';
+import Token from '@nodes/Token';
 import TokenList from './TokenList';
 
 export const TAB_SYMBOL = '⇥';
@@ -71,7 +71,7 @@ export default class Spaces {
 
     getSpace(node: Node): string {
         const token = node.isLeaf() ? node : node.getFirstLeaf();
-        return token ? this.#spaces.get(token) ?? '' : '';
+        return token ? (this.#spaces.get(token) ?? '') : '';
     }
 
     getSpaces() {

@@ -1,17 +1,21 @@
-import { list, node, type Grammar, type Replacement } from './Node';
-import type Spaces from '../parser/Spaces';
-import type Node from './Node';
-import type { FormattedText } from '../output/Phrase';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { FontWeight } from '../basis/Fonts';
+import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
-import Paragraph from './Paragraph';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Content from './Content';
+import Characters from '../lore/BasisCharacters';
+import type { FormattedText } from '../output/Phrase';
+import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/toMarkup';
-import Token from './Token';
+import { getCodepointFromString } from '../unicode/getCodepoint';
+import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
+import Content from './Content';
+import Example from './Example';
+import type Node from './Node';
+import { list, node, type Grammar, type Replacement } from './Node';
+import Paragraph from './Paragraph';
 import Sym from './Sym';
+import Token from './Token';
 import Words from './Words';
 
 /**
@@ -46,7 +50,7 @@ export default class Markup extends Content {
         return [new Markup([new Paragraph([])])];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Markup';
     }
 
@@ -80,12 +84,18 @@ export default class Markup extends Content {
         return locales.get((l) => l.node.Markup);
     }
 
-    getGlyphs() {
-        return Glyphs.Markup;
+    getCharacter() {
+        return Characters.Markup;
     }
 
     getDescriptionInputs() {
         return [this.paragraphs.length];
+    }
+
+    getExamples(): Example[] {
+        return this.paragraphs
+            .map((p) => p.segments.filter((e) => e instanceof Example))
+            .flat();
     }
 
     concretize(locales: Locales, inputs: TemplateInput[]): Markup | undefined {
@@ -142,22 +152,32 @@ export default class Markup extends Content {
         const formats: FormattedText[] = [];
         const words: Words[] = [];
         for (const node of this.traverseTopDownWithEnterAndExit()) {
+            const italic = words.some((word) => word.getFormat() === 'italic');
+            const weight =
+                words
+                    .map((word) => word.getWeight())
+                    .filter((word): word is FontWeight => word !== undefined)
+                    .at(-1) ?? 400;
             if (node instanceof Words) {
                 if (words[0] === node) words.shift();
                 else words.unshift(node);
-            } else if (node instanceof Token && node.isSymbol(Sym.Words)) {
-                formats.push({
-                    text: node.getText(),
-                    italic: words.some((word) => word.getFormat() === 'italic'),
-                    weight:
-                        words
-                            .map((word) => word.getWeight())
-                            .filter(
-                                (word): word is FontWeight =>
-                                    word !== undefined,
-                            )
-                            .at(-1) ?? 400,
-                });
+            } else if (node instanceof Token) {
+                if (node.isSymbol(Sym.Words)) {
+                    formats.push({ text: node.getText(), italic, weight });
+                } else if (node.isSymbol(Sym.Concept)) {
+                    const match = ConceptLink.parse(node.getText().slice(1));
+                    if (match instanceof CodepointName)
+                        formats.push({
+                            text:
+                                getCodepointFromString(
+                                    node.getText().slice(1),
+                                ) ?? node.getText(),
+                            italic,
+                            weight,
+                        });
+                    else if (match instanceof CharacterName)
+                        formats.push({ text: node.getText(), italic, weight });
+                }
             }
         }
         return formats;

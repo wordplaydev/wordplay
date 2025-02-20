@@ -1,13 +1,13 @@
-import { onRequest, onCall } from 'firebase-functions/v2/https';
-import { onSchedule } from 'firebase-functions/v2/scheduler';
+import Translate from '@google-cloud/translate';
+import { PromisePool } from '@supercharge/promise-pool';
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
-import * as https from 'https';
-import * as http from 'http';
 import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
-import { PromisePool } from '@supercharge/promise-pool';
-import Translate from '@google-cloud/translate';
+import { onCall, onRequest } from 'firebase-functions/v2/https';
+import { onSchedule } from 'firebase-functions/v2/scheduler';
+import * as http from 'http';
+import * as https from 'https';
 import {
     CreateClassInputs,
     CreateClassOutput,
@@ -340,8 +340,5 @@ export const createClass = onCall<
         galleries: [],
     });
 
-    return {
-        classid: classRef.id,
-        error: undefined,
-    };
+    return { classid: classRef.id, error: undefined };
 });

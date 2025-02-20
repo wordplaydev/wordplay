@@ -3,14 +3,67 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 0.14.3 2024-01-25
+## 0.16.0 2025-02-25
+
+### Added
+
+- How to guide! This feature adds a new section to the guide, which provides short tutorials about common behaviors.
+
+## 0.15.2 2025-02-15
+
+### Added
+
+- Allow ∂ in addition to ∆ for change, for consistency, and because of error in code examples in CHI 2025 paper.
+
+### Maintenance
+
+- Updated minor versions of Svelte, SvelteKit, ESLint, Firebase, Prettier, Zod.
+- Enforce organized imports on save; removed import cycles.
+
+## 0.15.1 2024-02-08
+
+### Added
+
+- New character button in glyph chooser.
+- Check for global name collisions between locales.
+- Added mechanism to mark a string revised, so that others can be checked for revision.
+
+### Fixed
+
+- Localized unlocalized buttons.
+- Don't allow users to add themselves to a creator list.
+- Better claim checking for teacher page, to explain what teacher accounts are for.
+- Fixed dark mode loading.
+- Fixed #673, more visible links in paragraphs.
+- Fixed #672, more visible links in feedback with background color.
+- Serialize locale verification.
+- Fixed French translation errors.
+- Fixed Gujarati translation errors.
+- Fixed Hindi translation errors.
+- Fixed Marathi translation errors.
+- Fixed Punjabi translation errors.
+- Fixed Tamil translation errors.
+- Account for full width punctuation in reserved symbols.
+- Disable background animation for speed.
+
+### Maintenance
+
+- Updated firebase and firebase-functions.
+
+## 0.15.0 2024-01-26
 
 ### Added
 
 - Added a slightly more organized glyph chooser, exposing emojis and improving layout.
+- Custom emojis and symbols! There's a brand new editor for them and we reuse the concept link syntax `@myemoji`.
 
 ### Fixed
 
+- More consistent button icons.
+- Resolved name conflict in German.
+- Fixed infinite loop on self-referential structures.
+- Improved colors of character emojis.
+- Improved color emoji handling on Safari.
 - Handled missing `compositionend` event on Windows emoji picker.
 - Handled inconsistent cross-platform firing of `compositionend` events
 - Accurately calculate caret position for multi-codepoint emojis.
@@ -18,6 +71,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed selected output functionality in tutorial.
 - #657: Fixed focus on tutorial buttons.
 - Always localize delimiters
+
+### Maintenance
+
+- Updated minor versions of all dependencies.
 
 ## 0.14.2 2024-01-18
 
@@ -61,7 +118,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Fixed #519, adding the ability for teachers to create classes, student accounts, and galleries associated with classes.
 - Added ability to refer to initial bound reaction values by name.
-- Prioritize emojis in glyph chooser.
+- Prioritize emojis in character chooser.
 
 ### Fixed
 
@@ -466,7 +523,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Empty list values should have an undefined item type, not a never type.
 - Fixed types of Webpage stream, should have been number, not none.
 - Don't show project footer in tutorial when in non-editable mode.
-- [#410](https://github.com/wordplaydev/wordplay/issues/410): Fixed alignment of project preview glyphs.
+- [#410](https://github.com/wordplaydev/wordplay/issues/410): Fixed alignment of project preview characters.
 - [#420](https://github.com/wordplaydev/wordplay/issues/420): Avoid setting tutorial project name.
 
 ### Maintenance

@@ -1,9 +1,10 @@
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type { Grammar } from './Node';
 import Type from './Type';
 import type TypeVariable from './TypeVariable';
-import Glyphs from '../lore/Glyphs';
-import type { Grammar } from './Node';
-import type Locales from '../locale/Locales';
 
 export default class VariableType extends Type {
     readonly definition: TypeVariable;
@@ -14,7 +15,7 @@ export default class VariableType extends Type {
         this.definition = definition;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'VariableType';
     }
 
@@ -62,7 +63,7 @@ export default class VariableType extends Type {
         return locales.get((l) => l.node.VariableType);
     }
 
-    getGlyphs() {
-        return Glyphs.VariableType;
+    getCharacter() {
+        return Characters.VariableType;
     }
 }

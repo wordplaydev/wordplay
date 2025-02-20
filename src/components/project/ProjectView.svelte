@@ -1,216 +1,131 @@
 <script module lang="ts">
-    import { type Template } from '@locale/LocaleText';
-    import {
-        type FieldText,
-        type DialogText,
-        type ButtonText,
-    } from '@locale/UITexts';
-
     /** How long to wait until considering typing idle. */
     export const KeyboardIdleWaitTime = 500;
-
-    export type ProjectText = {
-        /** The error shown when a project ID is unknown. */
-        error: {
-            unknown: string;
-            /** The error to show if translation wasn't possible */
-            translate: string;
-            /** The message for an error in a tile */
-            tile: string;
-            /** The button label for an error reset */
-            reset: string;
-        };
-        button: {
-            /** Shows the sharing dialog */
-            share: ButtonText;
-            /** Remove a collaborator that has been shared with */
-            removeCollaborator: string;
-            /** Copy the project as text to the clipboard */
-            copy: string;
-            /** Add a source file */
-            addSource: string;
-            /** Duplicate the project */
-            duplicate: string;
-            /** Revert project to original code */
-            revert: string;
-            /** Keyboard shortcut to focus output tile */
-            focusOutput: string;
-            /** Keyboard shortcut to focus source tiles */
-            focusSource: string;
-            /** Keyboard shortcut to focus documentation tile */
-            focusDocs: string;
-            /** Keyboard shortcut to focus palette tiles */
-            focusPalette: string;
-            /** Keyboard shortcut to cycle between tiles */
-            focusCycle: string;
-            /** Show save error button */
-            unsaved: string;
-            /** Show translation button */
-            translate: ButtonText;
-            /** The tooltip for the primary locale setting button */
-            primary: string;
-            /** The history switch */
-            history: { off: string; on: string };
-        };
-        field: {
-            /** The project name text field */
-            name: FieldText;
-        };
-        /** The keyboard shortcut to show the shortcut menu */
-        help: string;
-        /** The text to show when all of the tiles are collapsed. */
-        collapsed: string;
-        /** The messages shown for save status */
-        save: {
-            /** When projects fail to save locally */
-            projectsNotSavedLocally: Template;
-            /** When projects can't save locally */
-            projectsCannotNotSaveLocally: Template;
-            /** When a project wasn't saved because it contained PII */
-            projectContainedPII: Template;
-            /** Projects failed to load */
-            projectsNotLoadingOnline: Template;
-            /** When a project couldn't be saved to the database */
-            projectNotSavedOnline: Template;
-            /** When settings are being saved */
-            settingsUnsaved: Template;
-        };
-        dialog: {
-            /** The header for the save error */
-            unsaved: Template;
-            /** The content for the translation dialog */
-            translate: DialogText;
-        };
-        subheader: {
-            /** The header for the source language */
-            source: Template;
-            /** The header for the destination language */
-            destination: Template;
-        };
-    };
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import { page } from '$app/state';
+    import CollaborateView from '@components/app/chat/CollaborateView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Documentation from '@components/concepts/Documentation.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
+    import {
+        getConceptFromURL,
+        setConceptInURL,
+    } from '@concepts/ConceptParams';
+    import type Conflict from '@conflicts/Conflict';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
+    import type Project from '@db/projects/Project';
+    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import type Locale from '@locale/Locale';
+    import Node from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import { CANCEL_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
+    import { isName } from '@parser/Tokenizer';
+    import Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import {
-        getConceptPath,
-        IdleKind,
-        type EditorState,
-        type KeyModifierState,
-        setConceptIndex,
-        setDragged,
-        setProjectCommandContext,
-        setKeyboardEditIdle,
-        setKeyboardModifiers,
-        setEvaluation,
-        setAnimatingNodes,
-        setEditors,
-        setConflicts,
-        setSelectedOutput,
-        setAnnouncer,
-        type AnnouncerContext,
-        getFullscreen,
-        getUser,
-    } from './Contexts';
-    import type Project from '@db/projects/Project';
-    import Documentation from '@components/concepts/Documentation.svelte';
-    import Annotations from '../annotations/Annotations.svelte';
-    import type Conflict from '@conflicts/Conflict';
-    import RootView from './RootView.svelte';
-    import Highlight from '../editor/Highlight.svelte';
-    import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
-    import type { HighlightSpec } from '../editor/util/Highlights';
-    import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Tile, { TileKind, TileMode } from './Tile';
-    import OutputView from '../output/OutputView.svelte';
-    import Editor from '../editor/Editor.svelte';
-    import Layout from './Layout';
-    import NonSourceTileToggle from './NonSourceTileToggle.svelte';
-    import Button from '../widgets/Button.svelte';
-    import Palette from '../palette/Palette.svelte';
-    import type Bounds from './Bounds';
-    import Source from '@nodes/Source';
-    import SourceTileToggle from './SourceTileToggle.svelte';
-    import type MenuInfo from '../editor/util/Menu';
-    import Menu from '../editor/Menu.svelte';
-    import Node from '@nodes/Node';
-    import ConceptIndex from '../../concepts/ConceptIndex';
     import type Concept from '../../concepts/Concept';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { isName } from '@parser/Tokenizer';
-    import { goto } from '$app/navigation';
-    import TextField from '../widgets/TextField.svelte';
-    import Evaluator from '@runtime/Evaluator';
-    import { page } from '$app/state';
-    import type Caret from '../../edit/Caret';
-    import GlyphChooser from '../editor/GlyphChooser.svelte';
-    import Timeline from '../evaluator/Timeline.svelte';
-    import type PaintingConfiguration from '../output/PaintingConfiguration';
+    import ConceptIndex from '../../concepts/ConceptIndex';
     import {
-        DB,
-        locales,
-        arrangement,
-        camera,
-        mic,
-        Settings,
-        Projects,
-        blocks,
-        Creators,
         animationFactor,
+        arrangement,
+        blocks,
+        camera,
         Chats,
+        Creators,
+        DB,
+        Locales,
+        locales,
+        mic,
+        Projects,
+        Settings,
     } from '../../db/Database';
+    import { isFlagged } from '../../db/projects/Moderation';
     import Arrangement from '../../db/settings/Arrangement';
+    import type Caret from '../../edit/Caret';
+    import Characters from '../../lore/BasisCharacters';
+    import type Color from '../../output/Color';
+    import {
+        PROJECT_PARAM_EDIT,
+        PROJECT_PARAM_PLAY,
+    } from '../../routes/project/constants';
+    import { withMonoEmoji } from '../../unicode/emoji';
     import type Value from '../../values/Value';
+    import Annotations from '../annotations/Annotations.svelte';
+    import CreatorView from '../app/CreatorView.svelte';
+    import Emoji from '../app/Emoji.svelte';
+    import Spinning from '../app/Spinning.svelte';
+    import Editor from '../editor/Editor.svelte';
+    import CharacterChooser from '../editor/GlyphChooser.svelte';
+    import Highlight from '../editor/Highlight.svelte';
+    import Menu from '../editor/Menu.svelte';
     import {
         EnterFullscreen,
         ExitFullscreen,
+        handleKeyCommand,
         Restart,
         ShowKeyboardHelp,
         VisibleModifyCommands,
         VisibleNavigateCommands,
-        handleKeyCommand,
         type CommandContext,
     } from '../editor/util/Commands';
+    import type { HighlightSpec } from '../editor/util/Highlights';
+    import type MenuInfo from '../editor/util/Menu';
+    import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
+    import Timeline from '../evaluator/Timeline.svelte';
+    import OutputView from '../output/OutputView.svelte';
+    import type PaintingConfiguration from '../output/PaintingConfiguration';
+    import Palette from '../palette/Palette.svelte';
+    import Button from '../widgets/Button.svelte';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import Shortcuts from './Shortcuts.svelte';
-    import type Color from '../../output/Color';
-    import Sharing from './Sharing.svelte';
-    import Toggle from '../widgets/Toggle.svelte';
-    import Announcer from './Announcer.svelte';
-    import { toClipboard } from '../editor/util/Clipboard';
-    import Spinning from '../app/Spinning.svelte';
-    import CreatorView from '../app/CreatorView.svelte';
-    import Moderation from './Moderation.svelte';
-    import { isFlagged } from '../../db/projects/Moderation';
+    import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import Dialog from '../widgets/Dialog.svelte';
-    import Separator from './Separator.svelte';
-    import Emoji from '../app/Emoji.svelte';
-    import {
-        PROJECT_PARAM_CONCEPT,
-        PROJECT_PARAM_EDIT,
-        PROJECT_PARAM_PLAY,
-    } from '../../routes/project/constants';
-    import Switch from '@components/widgets/Switch.svelte';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import FullscreenIcon from './FullscreenIcon.svelte';
-    import Glyphs from '../../lore/Glyphs';
-    import Speech from '@components/lore/Speech.svelte';
-    import Translate from './Translate.svelte';
-    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
-    import { CANCEL_SYMBOL, COPY_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
-    import CopyButton from './CopyButton.svelte';
-    import type Locale from '@locale/Locale';
-    import Mode from '@components/widgets/Mode.svelte';
-    import OutputLocaleChooser from './OutputLocaleChooser.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import type Chat from '@db/ChatDatabase.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import Toggle from '../widgets/Toggle.svelte';
+    import type Bounds from './Bounds';
     import Checkpoints from './Checkpoints.svelte';
-    import Link from '@components/app/Link.svelte';
+    import {
+        getAnnounce,
+        getConceptPath,
+        getFullscreen,
+        getUser,
+        IdleKind,
+        setAnimatingNodes,
+        setConceptIndex,
+        setConflicts,
+        setDragged,
+        setEditors,
+        setEvaluation,
+        setKeyboardEditIdle,
+        setKeyboardModifiers,
+        setProjectCommandContext,
+        setSelectedOutput,
+        type ConceptPath,
+        type EditorState,
+        type KeyModifierState,
+    } from './Contexts';
+    import CopyButton from './CopyButton.svelte';
     import EditorLocaleChooser from './EditorLocaleChooser.svelte';
+    import FullscreenIcon from './FullscreenIcon.svelte';
+    import Layout from './Layout';
+    import Moderation from './Moderation.svelte';
+    import NonSourceTileToggle from './NonSourceTileToggle.svelte';
+    import OutputLocaleChooser from './OutputLocaleChooser.svelte';
+    import RootView from './RootView.svelte';
     import SelectedOutput from './SelectedOutput.svelte';
+    import Separator from './Separator.svelte';
+    import Sharing from './Sharing.svelte';
+    import Shortcuts from './Shortcuts.svelte';
+    import SourceTileToggle from './SourceTileToggle.svelte';
+    import Tile, { TileKind, TileMode } from './Tile';
+    import TileView, { type ResizeDirection } from './TileView.svelte';
+    import Translate from './Translate.svelte';
 
     interface Props {
         project: Project;
@@ -321,6 +236,9 @@
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
+
+    /** The live region announcer */
+    const announce = getAnnounce();
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
@@ -459,17 +377,6 @@
         evaluator.set(newEvaluator);
     }
 
-    /** This stores the instance of the announcer component */
-    let announcer = $state<ReturnType<typeof Announcer>>();
-    let announcerStore: Writable<AnnouncerContext | undefined> =
-        writable(undefined);
-
-    // Update the function context when the announcer changes.
-    $effect(() => announcerStore.set(announcer?.announce));
-
-    // Set the announcer store in context.
-    setAnnouncer(announcerStore);
-
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation = writable(getEvaluationContext());
     setEvaluation(evaluation);
@@ -604,7 +511,10 @@
                 new Tile(
                     TileKind.Documentation,
                     TileKind.Documentation,
-                    TileMode.Collapsed,
+                    project.getMain().expression.expression.statements.length >
+                    0
+                        ? TileMode.Collapsed
+                        : TileMode.Expanded,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
@@ -672,18 +582,13 @@
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
-        if ($path && $path.length > 0) {
-            const concept = $path[$path.length - 1];
-            const name = concept.getName($locales, false);
-            const ownerName = index
-                ?.getConceptOwner(concept)
-                ?.getName($locales, false);
-
-            searchParams.set(
-                PROJECT_PARAM_CONCEPT,
-                `${ownerName ? `${ownerName}/` : ''}${name}`,
+        if (index)
+            setConceptInURL(
+                $locales,
+                $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
+                index,
+                searchParams,
             );
-        } else searchParams.delete(PROJECT_PARAM_CONCEPT);
 
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
@@ -730,9 +635,17 @@
         font: $locales.get((l) => l.ui.font.app),
     });
 
-    /** Update the concept index whenever the project or locales change. */
+    /** Get the store of how tos stored in the locales database. */
+    let howToStore = Locales.howTos;
+    let howTos = $derived($howToStore[$locales.getLocaleString()]);
+
+    /** Update the concept index whenever the project, locales, or how tos change. */
     $effect(() => {
-        index = ConceptIndex.make(project, $locales);
+        index = ConceptIndex.make(
+            project,
+            $locales,
+            howTos instanceof Promise ? [] : howTos,
+        );
     });
 
     /* Keep the index context up to date when it changes.*/
@@ -748,25 +661,12 @@
     let path = getConceptPath();
 
     // Restore the concept in the URL after mounting.
-    onMount(() => restoreConcept());
-
-    function resolveConcept(conceptPath: string): Concept | undefined {
-        if (conceptPath && index) {
-            const [ownerName, name] = conceptPath.split('/');
-            const concept =
-                ownerName && name
-                    ? index.getSubConcept(ownerName, name)
-                    : index.getConceptByName(ownerName);
-            return concept;
+    onMount(() => {
+        if (index) {
+            const concept = getConceptFromURL(index, page.url.searchParams);
+            if (concept && path) path.set([concept]);
         }
-        return undefined;
-    }
-
-    function restoreConcept() {
-        const id = page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
-        const concept = id ? resolveConcept(id) : undefined;
-        if (concept && path) path.set([concept]);
-    }
+    });
 
     let latestProject: Project | undefined;
 
@@ -778,9 +678,11 @@
             // Make a new concept index with the new project and translations, but the old examples.
             const newIndex =
                 project && index
-                    ? ConceptIndex.make(project, $locales).withExamples(
-                          index.examples,
-                      )
+                    ? ConceptIndex.make(
+                          project,
+                          $locales,
+                          howTos instanceof Promise ? [] : howTos,
+                      ).withExamples(index.examples)
                     : undefined;
 
             // Set the index
@@ -805,7 +707,7 @@
     });
 
     // When the path changes, show the docs and mirror the concept in the URL.
-    let latestPath = $state<Concept[]>($path ?? []);
+    let latestPath = $state<ConceptPath>($path ?? []);
 
     // When the path changes, show the docs, and leave fullscreen.
     $effect(() => {
@@ -1057,8 +959,8 @@
     $effect(() => {
         if (overwritten)
             untrack(() => {
-                if (announcer?.announce) {
-                    announcer.announce(
+                if ($announce) {
+                    $announce(
                         project.getID(),
                         $locales.getLanguages()[0],
                         $locales.get((l) => l.ui.source.overwritten),
@@ -1498,8 +1400,6 @@
 {#if warn}
     <Moderation {project} />
 {/if}
-<!-- Render a live region with announcements as soon as possible -->
-<Announcer bind:this={announcer} />
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
     <div
@@ -1528,7 +1428,7 @@
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">
-                    <Speech glyph={Glyphs.FunctionDefinition}>
+                    <Speech character={Characters.FunctionDefinition}>
                         {#snippet content()}
                             {$locales.get((l) => l.ui.project.collapsed)} ⬇
                         {/snippet}
@@ -1619,9 +1519,8 @@
                                                         .viewcode,
                                             )}
                                             action={() => stopPlaying()}
-                                            ><Emoji>{withMonoEmoji('👁️')}</Emoji
-                                            ></Button
-                                        >{/if}
+                                            icon="👁️"
+                                        ></Button>{/if}
                                     <CommandButton
                                         background
                                         command={Restart}
@@ -1773,7 +1672,7 @@
                             {/snippet}
                             {#snippet footer()}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    {#if editableAndCurrent}<GlyphChooser
+                                    {#if editableAndCurrent}<CharacterChooser
                                             sourceID={tile.id}
                                         />{/if}
                                     {#if checkpoint > -1}
@@ -1809,12 +1708,12 @@
                                         </div>
                                     {/if}
                                     {#if $blocks}
-                                        <div class="editor-warning"
+                                        <p class="editor-warning feedback"
                                             >This editing mode is experimental. <Link
                                                 to="https://discord.gg/Jh2Qq9husy"
                                                 >Discuss</Link
                                             > improvements.
-                                        </div>
+                                        </p>
                                     {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
@@ -1846,13 +1745,9 @@
                         uiid="revertProject"
                         tip={$locales.get((l) => l.ui.project.button.revert)}
                         active={!project.equals(original)}
-                        action={() => revert()}>↺</Button
-                    >{/if}
-                <Button
-                    tip={$locales.get((l) => l.ui.project.button.copy)}
-                    action={() => toClipboard(project.toWordplay())}
-                    ><Emoji>{COPY_SYMBOL}</Emoji></Button
-                >
+                        action={() => revert()}
+                        icon="↺"
+                    ></Button>{/if}
                 {#if owner}
                     {#await Creators.getCreator(owner)}
                         <Spinning label="" />
@@ -1862,6 +1757,7 @@
                 {/if}
                 {#if editable}
                     <TextField
+                        id="project-name"
                         text={project.getName()}
                         description={$locales.get(
                             (l) => l.ui.project.field.name.description,
@@ -1896,8 +1792,8 @@
                         uiid="addSource"
                         tip={$locales.get((l) => l.ui.project.button.addSource)}
                         action={addSource}
-                        >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
-                    >{/if}
+                        icon="+{Characters.Program.symbols}"
+                    ></Button>{/if}
                 {#each layout.getNonSources() as tile}
                     <!-- No need to show the tile if not visible when not editable. -->
                     {#if tile.isVisibleCollapsed(editable)}

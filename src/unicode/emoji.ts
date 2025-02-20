@@ -10,6 +10,11 @@ const EmoijRegex =
 function withVariationSelector(text: string, color = false) {
     // Strip the presentation selectors from the string.
     const withoutPresentation = text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
+
+    // Don't put selectors on color emojis. We let the fallback font handle that by putting Noto Color Emoji first in fallbacks.
+    // That works better for Safari.
+    if (color) return text;
+
     // Choose the appropriate presentation selector (FE0F is color, FE0E is mono).
     const selector = color ? '\uFE0F' : '\uFE0E';
     // Replace all sequences of emoji, emoji modifier bases, emoji modifiers, and zero width joiners.

@@ -1,15 +1,16 @@
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Type from './Type';
-import Glyphs from '../lore/Glyphs';
-import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
+import Type from './Type';
 
 export default class AnyType extends Type {
     constructor() {
         super();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'AnyType';
     }
 
@@ -41,7 +42,7 @@ export default class AnyType extends Type {
         return this;
     }
 
-    getGlyphs() {
-        return Glyphs.Placeholder;
+    getCharacter() {
+        return Characters.Placeholder;
     }
 }

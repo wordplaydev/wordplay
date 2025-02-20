@@ -42,7 +42,8 @@
         "set": "Set",
         "key": "Schlüssel",
         "help": "Hilfe",
-        "feedback": "Bewertung"
+        "feedback": "Bewertung",
+        "how": "$~Wie man"
     },
     "token": {
         "EvalOpen": "Auswertung öffnen",
@@ -146,7 +147,7 @@
                 "$~Sie können mich auch ganz an den Anfang von @Program stellen, um zu sagen, worum es in der gesamten Aufführung geht",
                 "$~\\¶Dieses Programm sagt Hallo¶\n\n'Hallo!'\\",
                 "$~Sie können mir eine @Language geben, damit andere wissen, in welcher Sprache ich geschrieben bin:",
-                "$~\\¶Ich bin ein englischer Arzt¶/en\nDauer: 5 s\\",
+                "$~\\¶Ich bin ein englischer Arzt¶/en\nDauer: 5s\\",
                 "$~Wussten Sie, dass Sie eine Liste von mir erstellen können? Sprechen Sie mit @Docs."
             ]
         },
@@ -227,7 +228,7 @@
                 "InvalidRow": "$~Die Zeilen müssen entweder alle Werte oder alle @Bind sein.",
                 "MissingCell": {
                     "primary": "$~Mir fehlt die Spalte $1",
-                    "secondary": "$~Ich bin erforderlich, aber 1 $ hat es nicht bereitgestellt"
+                    "secondary": "$~Ich bin erforderlich, aber $1 hat es nicht bereitgestellt"
                 },
                 "UnknownColumn": "$~Ich kenne keine Kolumne mit diesem Namen",
                 "ExtraCell": {
@@ -242,7 +243,7 @@
         },
         "Token": {
             "name": "$~Zeichen",
-            "description": "$~$1 $2",
+            "description": "$~$$12",
             "emotion": "$?",
             "doc": [
                 "$~Wie hast du mich gefunden?",
@@ -366,8 +367,8 @@
                 "$~In der Mathematik käme zuerst die Multiplikation und dann die Addition, das Ergebnis wäre also \\11\\. Da ich aber in Lesereihenfolge auswerte, ist das Ergebnis \\13\\."
             ],
             "right": "$~Eingang",
-            "start": "$~Lassen Sie uns zuerst 1 $ bewerten",
-            "finish": "$~schau, ich habe 1 $ verdient!",
+            "start": "$~Lassen Sie uns zuerst $1 bewerten",
+            "finish": "$~schau, ich habe $1 verdient!",
             "conflict": {
                 "OrderOfOperations": "$~Ich bewerte in Lesereihenfolge, nicht in der mathematischen Reihenfolge der Operationen. Möchten Sie @Block verwenden, um die Reihenfolge anzugeben, in der ich auswerten soll?"
             }
@@ -402,13 +403,13 @@
                 "$~Aber wir können dies ändern, um die @Is hinzuzufügen, und jetzt weiß @FunctionDefinition, dass es sich um Zahlen handelt:",
                 "$~\\ƒ Summe(a•# b•#) a + b\\"
             ],
-            "start": "$~Mal sehen, welchen Wert wir für 1 $ bekommen!",
-            "finish": "$~oh schön, ich habe 1 $ bekommen! Nennen wir es 2 $",
+            "start": "$~Mal sehen, welchen Wert wir für 1$ bekommen!",
+            "finish": "$~oh schön, ich habe $1 bekommen! Nennen wir es $1",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "primary": "$~jemand hat den Namen $1, also kann ich diesen Namen nicht haben.",
-                        "secondary": "$~hey, 1 $ ist mein Name, den kriegst du nicht!"
+                        "secondary": "$~hey, $1 ist mein Name, den kriegst du nicht!"
                     },
                     "resolution": "$~Es gibt doppelte Namen. Möchten Sie einen entfernen?"
                 },
@@ -418,7 +419,7 @@
                 },
                 "IncompatibleType": {
                     "primary": "$~Ich sollte eine 2-Dollar-Währung sein, aber ich bin eine 1-Dollar-Währung",
-                    "secondary": "$~Oh ... entschuldigen Sie, wirklich 1 $?"
+                    "secondary": "$~Oh ... entschuldigen Sie, wirklich $1?"
                 },
                 "MisplacedShare": "$~Ich kann Dinge nur auf der @Program-Ebene teilen, nicht innerhalb von irgendetwas!",
                 "MissingShareLanguages": "$~Wenn Sie dies teilen möchten, müssen Sie angeben, in welcher Sprache es ist, damit andere wissen, ob sie es lesen können!",
@@ -448,7 +449,7 @@
             ],
             "statement": "$~Stellungnahme",
             "start": "$~erster Ausdruck",
-            "finish": "$~erledigt, ich habe 1 $ bekommen",
+            "finish": "$~erledigt, ich habe $1 bekommen",
             "conflict": {
                 "ExpectedEndingExpression": "$~Ich brauche einen Ausdruck.",
                 "IgnoredExpression": {
@@ -470,7 +471,7 @@
             "description": "$~$1 ausleihen[$1|fehlender Name]",
             "emotion": "$?",
             "doc": "$~Wenn Sie eine Performance mit mehreren @Source erstellen, können Sie mich verwenden, um @Bind auszuleihen, die in diesen anderen @Source gemeinsam genutzt werden. Verwenden Sie einfach ihren Namen und ich werde ihren Namen und Wert einfügen.",
-            "start": "$~2 $ von 1 $ leihen",
+            "start": "$~$1 von $1 leihen",
             "source": "$source",
             "bind": "$~Name",
             "version": "$~Ausführung",
@@ -481,7 +482,7 @@
             "exception": {
                 "CycleException": {
                     "description": "$~Ausleihzyklus",
-                    "explanation": "$~1 $ hängt von sich selbst ab"
+                    "explanation": "$~$1 hängt von sich selbst ab"
                 }
             }
         },
@@ -494,7 +495,7 @@
                 "$~Ich bin wirklich hilfreich, wenn Sie nur dann etwas ändern möchten, wenn sich ein Stream geändert hat.",
                 "$~Das ist es."
             ],
-            "start": "$~mal sehen, ob sich 1 $ geändert hat …"
+            "start": "$~mal sehen, ob sich $1 geändert hat …"
         },
         "Conditional": {
             "name": "$~bedingt",
@@ -509,7 +510,7 @@
             "start": "$~mal sehen, ob $1 wahr ist",
             "afterthen": "$~fertig mit „Ja“, überspringen wir „Nein“?",
             "else": "$~$1[Code überspringen | Code nicht überspringen]",
-            "finish": "$~Ich schätze, es ist 1 $?",
+            "finish": "$~Ich schätze, es ist $1?",
             "condition": "$~Zustand",
             "yes": "$~Ja",
             "no": "$~NEIN",
@@ -547,15 +548,15 @@
                 "$~\\\"hallo\" → [] → {}\\",
                 "$~Werte haben einen Satz vordefinierter @ConversionDefinition. Wenn Sie jedoch eine @StructureDefinition für einen neuen Wertetyp erstellen, können Sie mit @ConversionDefinition Ihre eigene definieren."
             ],
-            "start": "$~Holen Sie sich diesen Wert ab 1 $!",
-            "finish": "$~Super, ich habe 1 $ verdient",
+            "start": "$~Holen Sie sich diesen Wert ab 1",
+            "finish": "$~Super, ich habe $1 verdient",
             "conflict": {
-                "UnknownConversion": "$~Schade, aus 1 $ werden keine 2 $"
+                "UnknownConversion": "$~Schade, aus $1 werden keine $1"
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~unmögliche Konvertierung",
-                    "explanation": "$~Ich weiß nicht, wie ich von 1 $ in 2 $ umrechnen kann."
+                    "explanation": "$~Ich weiß nicht, wie ich von $1 in $1 umrechnen kann."
                 }
             }
         },
@@ -599,7 +600,7 @@
             ],
             "start": "$~Lassen Sie uns zuerst die Eingaben auswerten",
             "evaluate": "$~Lassen Sie uns jetzt die Funktion auswerten",
-            "finish": "$~Ich habe es auf 1 $ geschätzt",
+            "finish": "$~Ich habe es auf $1 geschätzt",
             "function": "$~Funktion",
             "input": "$~Eingang",
             "conflict": {
@@ -612,7 +613,7 @@
                     "secondary": "$~oh, sollte ich nicht hier sein?"
                 },
                 "MissingInput": {
-                    "primary": "$~Mir fehlt 1 $. Können Sie ihn hinzufügen?",
+                    "primary": "$~Mir fehlt 1$. Können Sie ihn hinzufügen?",
                     "secondary": "$~Diese Eingabe ist erforderlich, wurde aber von $1 nicht bereitgestellt."
                 },
                 "NotInstantiable": "$~Ich kann diese @StructureDefinition nicht erstellen, sie hat nicht implementierte Funktionen.",
@@ -692,7 +693,7 @@
             "initialize": "$~Vorbereiten der Schritte durch Elemente",
             "next": "$~Weiter zum nächsten Element",
             "check": "$~entscheiden, ob fortgefahren wird",
-            "finish": "$~Ich habe es auf 1 $ geschätzt"
+            "finish": "$~Ich habe es auf $1 geschätzt"
         },
         "Initial": {
             "name": "$~Start",
@@ -729,15 +730,15 @@
                 "$~Wir erhalten \\⊤\\!",
                 "$~Ich bin wirklich hilfreich, wenn Sie wissen müssen, ob ein @Name einen Wert einer bestimmten Art hat."
             ],
-            "start": "$~Lassen Sie uns zuerst den Wert von 1 $ ermitteln",
+            "start": "$~Lassen Sie uns zuerst den Wert von $1 ermitteln",
             "finish": "$~$1[Wert ist $2|Wert ist nicht $2]",
             "conflict": {
-                "ImpossibleType": "$~das kann nie 1 $ sein"
+                "ImpossibleType": "$~das kann nie $1 sein"
             },
             "exception": {
                 "TypeException": {
                     "description": "$~inkompatible Werte",
-                    "explanation": "$~Ich habe 1 $ erwartet, aber 2 $ erhalten"
+                    "explanation": "$~Ich habe $1 erwartet, aber $1 erhalten"
                 }
             }
         },
@@ -751,7 +752,7 @@
                 "$~\\🌍/es-MX\\",
                 "$~Dies ist hilfreich, wenn Sie Ihre Leistung basierend auf der gewählten Sprache ändern möchten."
             ],
-            "start": "$~ist die Sprache 1 $?"
+            "start": "$~ist die Sprache $1?"
         },
         "ListAccess": {
             "name": "$~Listenzugriff",
@@ -761,7 +762,7 @@
                 "$~\\Liste: ['Vogel' 'Ente' 'Fisch' 'Schlange']\nListe[2]\\"
             ],
             "start": "$~Lassen Sie uns zuerst die Liste $1 holen",
-            "finish": "$~Der Artikel kostet 2 $!"
+            "finish": "$~Der Artikel kostet $1!"
         },
         "ListLiteral": {
             "name": "$~Listenliteral",
@@ -769,7 +770,7 @@
             "emotion": "$?",
             "doc": "$~Ich bin eine bestimmte @List von Werten! Siehe @List, um mehr darüber zu erfahren, was Sie mit mir tun können.",
             "start": "$~Lassen Sie uns zunächst die Artikel bewerten",
-            "finish": "$~Ich habe ein Ich gemacht! 1 $",
+            "finish": "$~Ich habe ein Ich gemacht! $1",
             "item": "$~Artikel"
         },
         "Spread": {
@@ -782,11 +783,11 @@
         },
         "MapLiteral": {
             "name": "$~Kartenliteral",
-            "description": "$~1 $ Paarungskarte",
+            "description": "$~$1 Paarungskarte",
             "emotion": "$?",
             "doc": "$~Ich bin eine spezielle @Map zwischen Schlüsseln und Werten. Weitere Informationen dazu, wie ich Ihnen behilflich sein kann, finden Sie unter @Map.",
             "start": "$~Lassen Sie uns zuerst die Schlüssel und Werte auswerten",
-            "finish": "$~Ich habe alle verbunden, 1 $",
+            "finish": "$~Ich habe alle verbunden, $1",
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "$~einem meiner Schlüssel fehlt ein Wert",
@@ -805,7 +806,7 @@
                 "$~Ich bin wirklich hilfreich, wenn es darum geht, eine der vielen möglichen @Number-, @Text- oder komplexeren Werte in etwas anderes umzuwandeln.",
                 "$~Sie können es für @Boolean oder @None verwenden, aber es können nicht wirklich viele Dinge sein, daher bin ich für diese einfachen Werte nicht so nützlich."
             ],
-            "start": "$~Mal sehen, was 1 $ ist …",
+            "start": "$~Mal sehen, was 1$ ist …",
             "case": "$~Lassen Sie uns diesen Zustand überprüfen",
             "finish": "$~Okay, wir haben einen endgültigen Wert!",
             "value": "$~Wert",
@@ -813,7 +814,7 @@
         },
         "NumberLiteral": {
             "name": "$~Zahlenliteral",
-            "description": "$~$1 $2[$2|]",
+            "description": "$~$$12[$2|]",
             "emotion": "$?",
             "doc": "$~Ich bin eine bestimmte @Number. Sie können mir mit allen möglichen Ziffern aus allen möglichen Sprachen schreiben. Alles, was ich kann, finden Sie unter @Number.",
             "start": "$~$1!",
@@ -858,8 +859,8 @@
                 "$~Sehen Sie, dass es die fünf vorherigen Male sind und nicht nur ein Mal?",
                 "$~Ich bin hilfreich, wenn Sie Aufführungen schaffen möchten, die auf der Vergangenheit basieren."
             ],
-            "start": "$~erhalte zuerst 1 $",
-            "finish": "$~ausgewertet auf Streamwert 1 $"
+            "start": "$~erhalte zuerst $1",
+            "finish": "$~ausgewertet auf Streamwert $1"
         },
         "Program": {
             "name": "$~Programm",
@@ -876,7 +877,7 @@
             "unevaluated": "$~Der von Ihnen gewählte Knoten hat nicht ausgewertet",
             "start": "$~$1[$1 Stream geändert in $2!|das ist meine erste Bewertung]",
             "halt": "$~Ausnahme aufgetreten, Stoppen",
-            "finish": "$~alles erledigt, ich habe es auf 1 $ geschätzt",
+            "finish": "$~alles erledigt, ich habe es auf $1 geschätzt",
             "done": "$~es gibt nichts Bewertendes",
             "exception": {
                 "BlankException": {
@@ -940,7 +941,7 @@
                 "$~Ich bin also auch wie ein Stream, aber einer, der auf anderen Streams basiert. Geil, oder?"
             ],
             "start": "$~mal sehen, ob wir den Stream aktualisieren sollten",
-            "finish": "$~Der neue Streamwert beträgt 1 $",
+            "finish": "$~Der neue Streamwert beträgt $1",
             "initial": "$~anfänglich",
             "condition": "$~Zustand",
             "next": "$~nächste",
@@ -958,13 +959,13 @@
                 "$~Wenn ich den Namen nicht finde, weiß ich nicht, was ich tun soll.",
                 "$~\\Papagei: 'Polly'\nPerry\\"
             ],
-            "start": "$~welchen Wert hat 1 $?",
+            "start": "$~welchen Wert hat $1?",
             "conflict": {
                 "UnknownName": {
                     "conflict": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]|Kannst du mir einen Namen geben?]",
-                    "resolution": "$!"
+                    "resolution": "$~Meinten Sie *$1?*"
                 },
-                "ReferenceCycle": "$~ähm, der Wert von 1 $ hängt von ihm selbst ab. Woher weiß ich also, welchen Wert ich ihm zuweisen soll?",
+                "ReferenceCycle": "$~ähm, der Wert von $1 hängt von ihm selbst ab. Woher weiß ich also, welchen Wert ich ihm zuweisen soll?",
                 "UnexpectedTypeVariable": "$~Ich weiß nicht, was ich mit diesen Eingabetypen machen soll"
             },
             "exception": {
@@ -976,7 +977,7 @@
         },
         "Select": {
             "name": "$~wählen",
-            "emotion": "$?",
+            "emotion": "excited",
             "doc": [
                 "$~Manchmal haben Sie einen Tisch und möchten nur einen Teil davon. Ich kann ihn für Sie besorgen!",
                 "$~Wie wäre es beispielsweise, wenn Sie an einem Tisch mit Spielern in einem Spiel wären und diejenigen mit 10 oder mehr Punkten ermitteln möchten, um zu sehen, wer gewonnen hat:",
@@ -995,7 +996,7 @@
             "emotion": "$?",
             "doc": "$~Ich bin ein spezifisches @Set spezifischer Werte. Weitere Informationen zur Zusammenarbeit mit mir finden Sie unter @Set.",
             "start": "$~Lasst uns zuerst die Werte auswerten!",
-            "finish": "$~Ich habe ein Set für 1 $ gemacht!"
+            "finish": "$~Ich habe ein Set für $1 gemacht!"
         },
         "SetOrMapAccess": {
             "name": "$~Zugrifffestlegen/zuordnen",
@@ -1008,7 +1009,7 @@
                 "$~\\faves: {'Mac and Cheese': 5 Sterne 'Müsli': 2 Sterne 'Grusel': 1 Stern}\nfaves{'Grusel'}\\"
             ],
             "start": "$~was ist das Set oder die Karte?",
-            "finish": "$~der Wert beträgt 1 $",
+            "finish": "$~der Wert beträgt $1",
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "$~Ich habe einen 1-Dollar-Schlüssel erwartet",
@@ -1140,7 +1141,7 @@
                 "$~Es gibt nur eine Regel: Sie dürfen kein Leerzeichen zwischen dem Namen und dem Wert einfügen. Andernfalls erstellen Sie möglicherweise eine @Reference oder @BinaryEvaluate."
             ],
             "start": "$~was ist der Wert?",
-            "finish": "$~Ich habe es zu 1 $ gemacht"
+            "finish": "$~Ich habe es zu $1 gemacht"
         },
         "UnparsableExpression": {
             "name": "$~nichtanalysierbar",
@@ -1159,9 +1160,9 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": "$~@FunctionDefinition hier, @UnparsableExpression weiß nicht, um welche Art von $1[Ausdruck | Typ] es sich handelt.",
-                    "resolution": "$~Meinten Sie 1 $ oder 2 $?"
+                    "resolution": "$~Meinten Sie $1 oder $1?"
                 },
-                "UnclosedDelimiter": "$~Ich habe 2 $ irgendwann nach 1 $ erwartet"
+                "UnclosedDelimiter": "$~Ich habe $1 irgendwann nach $1 erwartet"
             },
             "exception": {
                 "UnparsableException": {
@@ -1185,7 +1186,7 @@
                 "ExpectedColumnBind": "$~Ich brauche einen Wert für jede Spalte",
                 "IncompatibleCellType": {
                     "primary": "$~Ich brauchte 1 Dollar, bekam aber 2 Dollar",
-                    "secondary": "$~Ich habe 2 $"
+                    "secondary": "$~Ich habe $1"
                 }
             }
         },
@@ -3232,8 +3233,10 @@
                 "$~\\Stage([Phrase('stufffffff')] Hintergrund: Farbe(75% 50 100°) Rahmen: Rechteck(-1m -1m 1m 1m))\\"
             ],
             "description": {
-                "names": "$!",
-                "doc": "$!"
+                "names": "$~Beschreibung",
+                "doc": [
+                    "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
+                ]
             },
             "content": {
                 "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Output.",
@@ -3336,8 +3339,10 @@
                 "$~Wie ich die Dinge genau arrangiere, hängt von dem @Arrangement ab, das Sie mir geben."
             ],
             "description": {
-                "names": "$!",
-                "doc": "$!"
+                "names": "$~Beschreibung",
+                "doc": [
+                    "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
+                ]
             },
             "content": {
                 "doc": "$~Die Liste der anzuordnenden @Output.",
@@ -3433,8 +3438,10 @@
             "names": ["💬", "Satzglied"],
             "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
             "description": {
-                "names": "$!",
-                "doc": "$!"
+                "names": "$~Beschreibung",
+                "doc": [
+                    "$~Eine benutzerdefinierte Beschreibung für Zuschauer, die die visuelle Ausgabe nicht sehen können."
+                ]
             },
             "text": {
                 "doc": "$~Die auf @Stage anzuzeigenden Charaktere.",
@@ -3608,7 +3615,7 @@
             "description": "$~Freiform-Ausgaben für 1 USD"
         },
         "Shape": {
-            "names": ["$~⬟", "$~Form"],
+            "names": ["$~⬟", "$~Gestalt"],
             "doc": "$~Ich bin eine Inspiration für alle Formen. Ich bin nützlich, um @Stage zu sagen, welche Form es haben soll.",
             "form": {
                 "doc": "$~Ich bin die Art von Form, die angezeigt werden soll. Jede Form erfordert andere Informationen, um ihre Anordnung zu definieren.",
@@ -3907,7 +3914,7 @@
                 "names": "$~Reibung"
             },
             "roundedness": {
-                "doc": "$~Wie stark die Ecken der Ausgabe gerundet werden sollen; 0 bedeutet keine und 1 bedeutet 100 % der Größe, wodurch die Größen kreisförmig werden.",
+                "doc": "$~Wie stark die Ecken der Ausgabe gerundet werden sollen; 0 bedeutet keine und 1 bedeutet 100% der Größe, wodurch die Größen kreisförmig werden.",
                 "names": "$~Rundung"
             },
             "text": {
@@ -4079,7 +4086,10 @@
             },
             "button": {
                 "removeCollaborator": "$~Mitarbeiter entfernen",
-                "copy": "$~Projekt als Text in die Zwischenablage kopieren",
+                "copy": {
+                    "tip": "$~Projekt als Text in die Zwischenablage kopieren",
+                    "label": "$~als Text kopieren"
+                },
                 "addSource": "$~erstelle eine neue $source",
                 "duplicate": "$~Dieses Projekt kopieren",
                 "revert": "$~zum Originalcode zurückkehren",
@@ -4089,7 +4099,10 @@
                 "focusPalette": "$~Konzentrieren Sie sich auf die Palette",
                 "focusCycle": "$~Konzentriere dich auf die nächste Kachel",
                 "unsaved": "$~Speicherfehler anzeigen",
-                "translate": "$~Bearbeiten Sie die Sprachen dieses Projekts und übersetzen Sie es in andere Sprachen.",
+                "translate": {
+                    "tip": "$~Bearbeiten Sie die Sprachen dieses Projekts und übersetzen Sie es in andere Sprachen.",
+                    "label": "$~übersetzen"
+                },
                 "primary": "$~als primäre Lokalität für dieses Projekt festlegen",
                 "share": {
                     "tip": "$~Optionen zur Projektfreigabe anzeigen",
@@ -4097,7 +4110,7 @@
                 },
                 "history": {
                     "on": "$~Aktuellen Projektcode anzeigen",
-                    "redo": "$~aktuellen Projektcode anzeigen"
+                    "off": "$~aktuellen Projektcode anzeigen"
                 }
             },
             "field": {
@@ -4199,9 +4212,9 @@
                     "on": "$~Blockhintergründe ausblenden",
                     "off": "$~Blockhintergründe anzeigen"
                 },
-                "glyphs": {
-                    "on": "$~die passenden Glyphen ausblenden",
-                    "off": "$~Erweitern Sie die passenden Glyphen"
+                "characters": {
+                    "on": "$~die übereinstimmenden Zeichen ausblenden",
+                    "off": "$~Erweitern Sie die passenden Zeichen"
                 }
             },
             "button": {
@@ -4273,9 +4286,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~bevorzugte Sprache für die Quelle",
+                    "all": "$~alle"
                 }
+            },
+            "error": {
+                "invalidName": "$~Dies muss ein gültiger Wortspielname sein.",
+                "invalidWords": "$~Wörter dürfen nicht leer sein oder reservierte Symbole enthalten."
             }
         },
         "annotations": {
@@ -4354,6 +4371,24 @@
                 "properties": "$~Eigenschaften",
                 "functions": "$~Funktionen",
                 "conversions": "$~Konvertierungen"
+            },
+            "modes": {
+                "label": "$~Durchsuchen",
+                "modes": ["$~Wie man", "$~Konzepte"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~Charaktere erstellen und steuern",
+                    "styling": "$~Zeichen und Text formatieren",
+                    "animation": "$~Charaktere und Text animieren",
+                    "layout": "$~Zeichen und Text anordnen",
+                    "randomization": "$~zufällig verwenden",
+                    "remembering": "$~Änderungen und Auswahlmöglichkeiten verfolgen",
+                    "stories": "$~eine Geschichte erzählen",
+                    "motion": "$~Physik anwenden",
+                    "video": "$~eine Kamera benutzen"
+                },
+                "related": "$~Nicht das, wonach Sie suchen?"
             }
         },
         "dialog": {
@@ -4372,6 +4407,10 @@
                     "pii": {
                         "header": "$~Persönliche Angaben",
                         "explanation": "$~Das öffentliche Teilen personenbezogener Daten (PII) kann die Urheber gefährden. Daher erkennen wir mögliche PII und warnen die Urheber, die sensiblen Daten entweder zu entfernen oder als nicht sensibel zu kennzeichnen.\n\nNachfolgend finden Sie eine Liste möglicher PII in diesem Projekt, das Sie als nicht sensibel gekennzeichnet haben. Sie können auf die Schaltfläche daneben klicken, um es wieder als sensibel zu kennzeichnen. Dies bedeutet jedoch, dass Ihr Projekt nicht mehr online gespeichert wird."
+                    },
+                    "copy": {
+                        "header": "$~Kopieren und Einfügen",
+                        "explanation": "$~Kopieren Sie dieses Projekt als Text in Ihre Zwischenablage und geben Sie es woanders weiter."
                     }
                 },
                 "field": {
@@ -4388,7 +4427,8 @@
                 },
                 "error": {
                     "unknown": "$~Wir kennen keinen Ersteller mit dieser E-Mail.",
-                    "anonymous": "$~Zum Teilen müssen Sie angemeldet sein."
+                    "anonymous": "$~Zum Teilen müssen Sie angemeldet sein.",
+                    "self": "$~Sie können sich nicht selbst hinzufügen."
                 },
                 "button": {
                     "submit": "$~Teilen Sie das Projekt mit dieser E-Mail-Adresse",
@@ -4546,6 +4586,12 @@
                 "field": {
                     "percent": "$~Prozent bearbeiten"
                 }
+            },
+            "error": {
+                "nan": "$~Dies ist keine Zahl.",
+                "percent": "$~Muss ein Prozentsatz zwischen 0 und 100 sein.",
+                "lessThanNext": "$~Dieser muss kleiner sein als der nächste Eintrag.",
+                "moreThanPrevious": "$~Dies muss mehr sein als der vorherige Eintrag."
             }
         },
         "save": {
@@ -4590,7 +4636,8 @@
                         "label": "Beitragen",
                         "subtitle": "Helfen Sie uns, Wordplay zu erstellen."
                     },
-                    "teach": "$~Verwalten Sie Schülerklassen und ihre Projekte"
+                    "teach": "$~Verwalten Sie Schülerklassen und ihre Projekte",
+                    "characters": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole"
                 }
             },
             "learn": {
@@ -4643,7 +4690,13 @@
             "galleries": {
                 "header": "Galerien",
                 "prompt": "$~Dies sind Leistungen, die andere erbracht haben. Erleben Sie sie, studieren Sie sie oder adaptieren Sie sie für Ihre eigene Aussage.",
-                "examples": "Beispiele"
+                "examples": "Beispiele",
+                "button": {
+                    "more": {
+                        "label": "$~mehr...",
+                        "tip": "$~Weitere Galerien laden"
+                    }
+                }
             },
             "about": {
                 "header": "Über uns",
@@ -4690,7 +4743,10 @@
                     "unchanged": "$~Wir konnten Ihre E-Mail-Adresse nicht ändern, wissen aber nicht, warum.",
                     "delete": "$~Wir konnten Ihr Konto nicht löschen, wissen aber nicht, warum.",
                     "wrongPassword": "$~Kein gültiger Benutzername und Passwort. Entweder ist Ihr Passwort falsch oder jemand anderes hat diesen Benutzernamen.",
-                    "tooMany": "$~Sie haben zu oft erfolglos versucht, sich anzumelden. Sie müssen warten, bevor Sie es erneut versuchen können."
+                    "tooMany": "$~Sie haben zu oft erfolglos versucht, sich anzumelden. Sie müssen warten, bevor Sie es erneut versuchen können.",
+                    "invalidUsername": "$~Benutzernamen müssen E-Mail-Adressen oder >5 Buchstaben ohne Leerzeichen sein.",
+                    "invalidPassword": "$~Passwörter müssen mindestens 10 Zeichen lang sein.",
+                    "mismatched": "$~Die Passwörter stimmen nicht überein."
                 },
                 "feedback": {
                     "changing": "$~Neue E-Mail wird gesendet …",
@@ -4910,7 +4966,182 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~Wir konnten diesen Kurs nicht finden oder Sie haben keine Berechtigung, ihn anzuzeigen."
+                    "notfound": "$~Wir konnten diesen Kurs nicht finden oder Sie haben keine Berechtigung, ihn anzuzeigen.",
+                    "gallery": "$~Wir konnten für diese Klasse keine Galerie erstellen."
+                }
+            },
+            "characters": {
+                "header": "$~Charaktere",
+                "prompt": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole, die Sie in Ihren Projekten verwenden und mit anderen teilen können.",
+                "button": {
+                    "new": "$~Einen neuen Charakter erstellen"
+                },
+                "error": {
+                    "offline": "$~Wir konnten nicht auf Ihre online gespeicherten Charaktere zugreifen.",
+                    "noauth": "$~Sie müssen angemeldet sein, um Ihre Charaktere zu sehen und neue zu erstellen.",
+                    "create": "$~Es kann kein neuer Charakter erstellt werden."
+                }
+            },
+            "character": {
+                "header": "$~Charakter",
+                "prompt": "$~Erstellen Sie ein Emoji oder Symbol mit Formen und Pixeln.",
+                "instructions": {
+                    "empty": "$~Wählen Sie einen Zeichenmodus in der Palette, um Formen zu erstellen.",
+                    "unselected": "$~Wählen Sie einen Zeichenmodus oder wählen und bearbeiten Sie Formen.",
+                    "selected": "$~Verwenden Sie die *Pfeiltasten*, um Formen zu verschieben. Halten Sie die *Umschalttaste* gedrückt, um einer Auswahl weitere Formen hinzuzufügen. Verwenden Sie *Entf*, um die Auswahl aufzuheben. Verwenden Sie die unten stehenden Steuerelemente, um die ausgewählten Formen zu ändern.",
+                    "pixel": "$~Um Pixel zu zeichnen, wählen Sie eine Farbe. Klicken Sie dann auf die Leinwand oder verwenden Sie die *Pfeile*, um den Cursor zu bewegen, und die *Leertaste*, um ein Pixel zu erstellen.",
+                    "rect": "$~Um Rechtecke zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
+                    "ellipse": "$~Um Ellipsen und Kreise zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
+                    "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt."
+                },
+                "shape": {
+                    "shape": "$~Form",
+                    "pixel": "$~Pixel",
+                    "rect": "$~Rechteck",
+                    "ellipse": "$~Ellipse",
+                    "path": "$~Weg"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~Name des Charakters",
+                        "placeholder": "$~Name"
+                    },
+                    "description": {
+                        "description": "$~Beschreibung des Charakters",
+                        "placeholder": "$~Beschreibung"
+                    },
+                    "mode": {
+                        "label": "$~Modus",
+                        "modes": [
+                            "$~wählen",
+                            "$~Pixel",
+                            "$~Rechteck",
+                            "$~Ellipse",
+                            "$~Weg"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~füllen",
+                        "modes": ["$~keiner", "$~inerit", "$~wählen"]
+                    },
+                    "stroke": {
+                        "label": "$~Schlaganfall",
+                        "modes": ["$~keiner", "$~inerit", "$~wählen"]
+                    },
+                    "none": "$~keiner",
+                    "inherit": "$~Textfarbe",
+                    "strokeWidth": {
+                        "label": "$~Strichbreite",
+                        "tip": "$~wie breit der Strich dargestellt wird"
+                    },
+                    "radius": {
+                        "label": "$~Eckradius",
+                        "tip": "$~wie rund Rechteck-Ecken sind"
+                    },
+                    "angle": {
+                        "label": "$~Winkel",
+                        "tip": "$~Wie weit soll die Form um ihren Mittelpunkt gedreht werden?"
+                    },
+                    "width": {
+                        "label": "$~Breite",
+                        "tip": "$~wie breit die Form ist"
+                    },
+                    "height": {
+                        "label": "$~Höhe",
+                        "tip": "$~wie hoch die Form ist"
+                    },
+                    "closed": "$~verbunden"
+                },
+                "button": {
+                    "back": {
+                        "label": "$~zurück",
+                        "tip": "$~Ausgewählte Formen nach hinten verschieben."
+                    },
+                    "toBack": {
+                        "label": "$~zurück",
+                        "tip": "$~Ausgewählte Formen nach hinten verschieben."
+                    },
+                    "forward": {
+                        "label": "$~nach vorne",
+                        "tip": "$~Ausgewählte Formen nach vorne verschieben."
+                    },
+                    "toFront": {
+                        "label": "$~nach vorne",
+                        "tip": "$~Verschiebt ausgewählte Formen nach vorne."
+                    },
+                    "copy": {
+                        "label": "$~Kopie",
+                        "tip": "$~Kopiert ausgewählte Formen in die Zwischenablage."
+                    },
+                    "paste": {
+                        "label": "$~Paste",
+                        "tip": "$~Fügt kopierte Formen aus der Zwischenablage ein."
+                    },
+                    "clear": {
+                        "label": "$~alle",
+                        "tip": "$~Entfernen Sie alle Formen."
+                    },
+                    "clearPixels": {
+                        "label": "$~Pixel",
+                        "tip": "$~Entfernen Sie alle Pixel."
+                    },
+                    "undo": {
+                        "label": "$~rückgängig machen",
+                        "tip": "$~Zum vorherigen Design zurückkehren"
+                    },
+                    "redo": {
+                        "label": "$~wiederholen",
+                        "tip": "$~Zum nächsten Entwurf zurückkehren"
+                    },
+                    "all": {
+                        "label": "$~Alle auswählen",
+                        "tip": "$~Alle Formen und Pixel auswählen"
+                    },
+                    "end": {
+                        "label": "$~Form beenden",
+                        "tip": "$~Beenden des aktuellen Pfads"
+                    },
+                    "horizontal": {
+                        "label": "$~horizontal spiegeln",
+                        "tip": "$~Drehen Sie die Punkte horizontal um die Mitte"
+                    },
+                    "vertical": {
+                        "label": "$~vertikal spiegeln",
+                        "tip": "$~Drehen Sie die Punkte vertikal um die Mitte"
+                    }
+                },
+                "feedback": {
+                    "name": "$~CharakterebenötigeneinengültigenWordplay-Namenmitmindestens1ZeichenLänge.Esdarfnicht„UI“,eineDezimal-oderHexadezimalzahloderderNameeinerintegriertenSprachfunktionsein.",
+                    "description": "$~Charaktere benötigen eine Beschreibung, damit diejenigen, die nicht sehen können, wissen, was sie darstellen.",
+                    "end": "$~oder drücken Sie die Escape-Taste.",
+                    "loadfail": "$~Beim Laden dieses Zeichens ist ein Problem aufgetreten.",
+                    "notfound": "$~Dieses Zeichen existiert nicht.",
+                    "unauthenticated": "$~Sie müssen angemeldet sein, um einen Charakter bearbeiten zu können.",
+                    "taken": "$~Sie haben bereits einen Charakter mit diesem Namen; wird nicht gespeichert.",
+                    "unsaved": "$~Geben Sie diesem Charakter eine Beschreibung und einen gültigen, eindeutigen Namen zum Speichern."
+                },
+                "announce": {
+                    "position": "$~bei $1 $2",
+                    "selection": "$~$1[ausgewählt $1|nichts ausgewählt]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Aktie",
+                        "explanation": "$~Fügen Sie Mitarbeiter hinzu, um einzuschränken, wer diesen Charakter sehen kann."
+                    },
+                    "button": {
+                        "label": "$~Aktie",
+                        "tip": "$~Teile diesen Charakter"
+                    },
+                    "delete": {
+                        "label": "$~löschen",
+                        "tip": "$~lösche dieses Zeichen"
+                    },
+                    "public": {
+                        "label": "$~Sichtweite",
+                        "modes": ["$~öffentlich", "$~Privat"]
+                    },
+                    "collaborators": "$~Mitarbeiter"
                 }
             }
         },

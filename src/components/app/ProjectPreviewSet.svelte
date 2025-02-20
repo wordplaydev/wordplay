@@ -1,11 +1,10 @@
 <script lang="ts">
-    import type Project from '../../db/projects/Project';
-    import ProjectPreview from './ProjectPreview.svelte';
+    import { type Snippet } from 'svelte';
     import { locales } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { type Snippet } from 'svelte';
-    import { withMonoEmoji } from '../../unicode/emoji';
+    import ProjectPreview from './ProjectPreview.svelte';
 
     interface Props {
         set: Project[];
@@ -33,10 +32,18 @@
             | false;
         children?: Snippet;
         anonymize?: boolean;
-        showCollaborators?:boolean;
+        showCollaborators?: boolean;
     }
 
-    let { set, edit, remove, copy, children,anonymize = true,showCollaborators=false }: Props = $props();
+    let {
+        set,
+        edit,
+        remove,
+        copy,
+        children,
+        anonymize = true,
+        showCollaborators = false,
+    }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
         return [...projects].sort((a, b) =>
@@ -50,23 +57,27 @@
 <div class="projects">
     {#each listed as project (project.getID())}
         {@const removeMeta = remove(project)}
-        <ProjectPreview {project} link={project.getLink(true)} anonymize={anonymize} showCollaborators={showCollaborators}
+        <ProjectPreview
+            {project}
+            link={project.getLink(true)}
+            {anonymize}
+            {showCollaborators}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}
                         action={() => (edit ? edit.action(project) : undefined)}
-                        >{withMonoEmoji(edit.label)}</Button
-                    >{/if}{#if copy}<Button
+                        icon={edit.label}
+                    ></Button>{/if}{#if copy}<Button
                         tip={copy.description}
                         action={() => copy.action(project)}
-                        >{withMonoEmoji(copy.label)}</Button
-                    >{/if}{#if removeMeta}<ConfirmButton
+                        icon={copy.label}
+                    ></Button>{/if}{#if removeMeta}<ConfirmButton
                         prompt={removeMeta.prompt}
                         tip={removeMeta.description}
                         action={() =>
                             removeMeta ? removeMeta.action() : undefined}
-                        >{withMonoEmoji(removeMeta.label)}</ConfirmButton
-                    >{/if}</div
+                        icon={removeMeta.label}
+                    ></ConfirmButton>{/if}</div
             >{@render children?.()}</ProjectPreview
         >
     {/each}

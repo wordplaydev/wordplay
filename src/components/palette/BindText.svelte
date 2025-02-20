@@ -1,37 +1,31 @@
 <script lang="ts">
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
-    import TextLiteral from '@nodes/TextLiteral';
-    import TextField from '../widgets/TextField.svelte';
-    import type OutputProperty from '@edit/OutputProperty';
-    import { getProject } from '../project/Contexts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales, Projects } from '@db/Database';
-    import { tick } from 'svelte';
-    import Language from '@nodes/Language';
-    import { parseFormattedLiteral } from '@parser/parseExpression';
-    import { toTokens } from '@parser/toTokens';
-    import MarkupValue from '@values/MarkupValue';
-    import { FORMATTED_SYMBOL } from '@parser/Symbols';
+    import type OutputProperty from '@edit/OutputProperty';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import {
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
     } from '@locale/LanguageCode';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Language from '@nodes/Language';
+    import TextLiteral from '@nodes/TextLiteral';
+    import { parseFormattedLiteral } from '@parser/parseExpression';
+    import { FORMATTED_SYMBOL } from '@parser/Symbols';
+    import { toTokens } from '@parser/toTokens';
+    import MarkupValue from '@values/MarkupValue';
+    import { tick } from 'svelte';
+    import { getProject } from '../project/Contexts';
+    import TextField from '../widgets/TextField.svelte';
 
     interface Props {
         property: OutputProperty;
         values: OutputPropertyValues;
-        validator: (text: string) => boolean;
+        validator: (text: string) => string | true;
         editable: boolean;
-        id?: string | undefined;
+        id: string;
     }
 
-    let {
-        property,
-        values,
-        validator,
-        editable,
-        id = undefined,
-    }: Props = $props();
+    let { property, values, validator, editable, id }: Props = $props();
 
     let project = getProject();
     let view: HTMLInputElement | undefined = $state(undefined);

@@ -1,38 +1,38 @@
 <script lang="ts">
-    import OutputPropertyRange from '@edit/OutputPropertyRange';
-    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import Button from '../widgets/Button.svelte';
-    import BindCheckbox from './BindCheckbox.svelte';
-    import BindColor from './BindColor.svelte';
-    import BindOptions from './BindOptions.svelte';
-    import BindSlider from './BindSlider.svelte';
-    import BindText from './BindText.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Project from '@db/projects/Project';
-    import OutputPropertyOptions from '@edit/OutputPropertyOptions';
-    import OutputPropertyText from '@edit/OutputPropertyText';
     import type OutputProperty from '@edit/OutputProperty';
-    import Note from '../widgets/Note.svelte';
-    import NodeView from '../editor/NodeView.svelte';
+    import OutputPropertyOptions from '@edit/OutputPropertyOptions';
+    import OutputPropertyRange from '@edit/OutputPropertyRange';
+    import OutputPropertyText from '@edit/OutputPropertyText';
+    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
-    import PoseEditor from './PoseEditor.svelte';
-    import SequenceEditor from './SequenceEditor.svelte';
-    import SequencePosesEditor from './SequencePosesEditor.svelte';
-    import ContentEditor from './ContentEditor.svelte';
-    import PlaceEditor from './PlaceEditor.svelte';
-    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import { getConceptIndex } from '../project/Contexts';
-    import { DB, locales } from '../../db/Database';
     import { tick } from 'svelte';
+    import { DB, locales } from '../../db/Database';
     import {
         CANCEL_SYMBOL,
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
-    import MotionEditor from './MotionEditor.svelte';
-    import PlacementEditor from './PlacementEditor.svelte';
-    import NamedControl from './NamedControl.svelte';
+    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
+    import NodeView from '../editor/NodeView.svelte';
+    import { getConceptIndex } from '../project/Contexts';
+    import Button from '../widgets/Button.svelte';
+    import Note from '../widgets/Note.svelte';
     import AuraEditor from './AuraEditor.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import BindCheckbox from './BindCheckbox.svelte';
+    import BindColor from './BindColor.svelte';
+    import BindOptions from './BindOptions.svelte';
+    import BindSlider from './BindSlider.svelte';
+    import BindText from './BindText.svelte';
+    import ContentEditor from './ContentEditor.svelte';
+    import MotionEditor from './MotionEditor.svelte';
+    import NamedControl from './NamedControl.svelte';
+    import PlaceEditor from './PlaceEditor.svelte';
+    import PlacementEditor from './PlacementEditor.svelte';
+    import PoseEditor from './PoseEditor.svelte';
+    import SequenceEditor from './SequenceEditor.svelte';
+    import SequencePosesEditor from './SequencePosesEditor.svelte';
 
     interface Props {
         project: Project;
@@ -81,8 +81,8 @@
                     : $locales.get((l) => l.ui.palette.button.set)}
                 bind:view={toggleView}
                 action={() => toggleValues(!valuesAreSet)}
-                >{valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}</Button
-            >{/if}
+                icon={valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}
+            ></Button>{/if}
     {/snippet}
     {#snippet control()}
         {#if values.areMixed()}

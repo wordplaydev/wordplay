@@ -1,8 +1,8 @@
+import { PossiblePII } from '@conflicts/PossiblePII';
+import type Gallery from '@db/galleries/Gallery';
+import { COPY_SYMBOL } from '@parser/Symbols';
 import { type Observable } from 'dexie';
-import { PersistenceType, ProjectHistory } from './ProjectHistory.svelte';
-import Project from './Project';
-import type LocaleText from '../../locale/LocaleText';
-import { Galleries, Locales, SaveStatus, type Database } from '../Database';
+import { FirebaseError } from 'firebase/app';
 import {
     collection,
     deleteDoc,
@@ -16,23 +16,23 @@ import {
     writeBatch,
     type Unsubscribe,
 } from 'firebase/firestore';
-import { FirebaseError } from 'firebase/app';
-import { firestore } from '../firebase';
+import { SvelteMap } from 'svelte/reactivity';
+import { ExamplePrefix, getExample } from '../../examples/examples';
+import type LocaleText from '../../locale/LocaleText';
 import type Node from '../../nodes/Node';
 import Source from '../../nodes/Source';
-import { ExamplePrefix, getExample } from '../../examples/examples';
+import { Galleries, Locales, SaveStatus, type Database } from '../Database';
+import { firestore } from '../firebase';
+import { EditFailure } from './EditFailure';
 import { unknownFlags } from './Moderation';
+import Project from './Project';
+import { PersistenceType, ProjectHistory } from './ProjectHistory.svelte';
 import {
+    ProjectSchema,
     upgradeProject,
     type SerializedProject,
     type SerializedProjectUnknownVersion,
-    ProjectSchema,
 } from './ProjectSchemas';
-import { PossiblePII } from '@conflicts/PossiblePII';
-import { EditFailure } from './EditFailure';
-import { COPY_SYMBOL } from '@parser/Symbols';
-import type Gallery from '@db/galleries/Gallery';
-import { SvelteMap } from 'svelte/reactivity';
 import { ProjectsDexie } from './ProjectsDexie';
 
 /** The name of the projects collection in Firebase */

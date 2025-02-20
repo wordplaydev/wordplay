@@ -2,13 +2,13 @@ import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
-import Concept from './Concept';
-import type Purpose from './Purpose';
+import { COMMA_SYMBOL } from '@parser/Symbols';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
-import type { Character } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
-import { COMMA_SYMBOL } from '@parser/Symbols';
+import type { CharacterName } from '../tutorial/Tutorial';
+import Concept from './Concept';
+import type Purpose from './Purpose';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -32,7 +32,7 @@ export default class BindConcept extends Concept {
         );
     }
 
-    getGlyphs(locales: Locales) {
+    getCharacter(locales: Locales) {
         return {
             symbols: this.bind.names.getLocaleNames(locales).join(COMMA_SYMBOL),
         };
@@ -75,7 +75,7 @@ export default class BindConcept extends Concept {
         return new Set();
     }
 
-    getCharacter(): Character | undefined {
+    getCharacterName(): CharacterName | undefined {
         return undefined;
     }
 

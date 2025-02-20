@@ -1,9 +1,9 @@
 import type { User } from 'firebase/auth';
-import type { Template } from '../../locale/LocaleText';
-import type LocaleText from '../../locale/LocaleText';
-import type Project from './Project';
 import type Locales from '../../locale/Locales';
+import type LocaleText from '../../locale/LocaleText';
+import type { Template } from '../../locale/LocaleText';
 import getClaim from '../creators/getClaim';
+import type Project from './Project';
 
 /** Ways the platform can respond to a content moderation flag */
 export enum Remedy {
@@ -32,17 +32,13 @@ export const Flags = {
 export type Flag = keyof typeof Flags;
 
 /** An object literal type that contains a template for each of the moderation flags */
-export type FlagDescriptions = {
-    [key in Flag]: Template;
-};
+export type FlagDescriptions = { [key in Flag]: Template };
 
 /** Represents a moderation state. null = unknown, true = violates flag, false = doesn't */
 export type FlagState = boolean | null;
 
 /** An object literal type that contains states for all moderation flags. */
-export type Moderation = {
-    [key in Flag]: FlagState;
-};
+export type Moderation = { [key in Flag]: FlagState };
 
 export function withFlag(
     flags: Moderation,

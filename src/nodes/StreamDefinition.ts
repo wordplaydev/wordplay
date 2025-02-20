@@ -1,44 +1,45 @@
-import type Node from './Node';
-import Bind from './Bind';
-import type Expression from './Expression';
-import Token from './Token';
-import Sym from './Sym';
-import Type from './Type';
 import type Conflict from '@conflicts/Conflict';
-import { getEvaluationInputConflicts } from './util';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { STREAM_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
+import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
+import Bind from './Bind';
 import type Context from './Context';
 import type Definition from './Definition';
-import { STREAM_SYMBOL } from '@parser/Symbols';
+import DefinitionExpression from './DefinitionExpression';
+import Docs from './Docs';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
-import Docs from './Docs';
+import Evaluate from './Evaluate';
+import type Expression from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Names from './Names';
-import type Value from '@values/Value';
-import StartFinish from '@runtime/StartFinish';
-import TypeToken from './TypeToken';
+import type Node from './Node';
 import {
+    any,
+    list,
     node,
+    none,
+    optional,
     type Grammar,
     type Replacement,
-    optional,
-    list,
-    any,
-    none,
 } from './Node';
-import type LocaleText from '@locale/LocaleText';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import type TypeSet from './TypeSet';
-import StreamDefinitionType from './StreamDefinitionType';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Evaluate from './Evaluate';
 import Reference from './Reference';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import DefinitionExpression from './DefinitionExpression';
-import type Locales from '../locale/Locales';
+import StreamDefinitionType from './StreamDefinitionType';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
+import type TypeSet from './TypeSet';
+import TypeToken from './TypeToken';
+import { getEvaluationInputConflicts } from './util';
 
 export default class StreamDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -103,7 +104,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return this.expression.compile(evaluator, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamDefinition';
     }
 
@@ -281,7 +282,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return locales.concretize((l) => l.node.StreamDefinition.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

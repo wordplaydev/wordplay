@@ -1,13 +1,13 @@
 import type { TutorialProgress } from '../db/settings/TutorialProgressSetting';
+import type Tutorial from './Tutorial';
 import {
     PerformanceMode,
     type Act,
-    type Scene,
+    type Dialog,
     type PeformanceModeType,
     type Performance,
-    type Dialog,
+    type Scene,
 } from './Tutorial';
-import type Tutorial from './Tutorial';
 
 export default class Progress {
     readonly tutorial: Tutorial;

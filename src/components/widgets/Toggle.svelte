@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { type Snippet } from 'svelte';
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
     import CommandHint from './CommandHint.svelte';
-    import { type Snippet } from 'svelte';
 
     interface Props {
         tips: ToggleText;

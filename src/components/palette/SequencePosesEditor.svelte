@@ -1,19 +1,19 @@
 <script lang="ts">
-    import KeyValue from '@nodes/KeyValue';
-    import TextField from '../widgets/TextField.svelte';
-    import PoseEditor from './PoseEditor.svelte';
+    import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import OutputExpression from '@edit/OutputExpression';
+    import Evaluate from '@nodes/Evaluate';
+    import type Expression from '@nodes/Expression';
+    import KeyValue from '@nodes/KeyValue';
     import MapLiteral from '@nodes/MapLiteral';
     import NumberLiteral from '@nodes/NumberLiteral';
-    import { createPoseLiteral } from '@output/Pose';
-    import Evaluate from '@nodes/Evaluate';
-    import OutputExpression from '@edit/OutputExpression';
     import Unit from '@nodes/Unit';
-    import type Expression from '@nodes/Expression';
+    import { createPoseLiteral } from '@output/Pose';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { Projects, locales } from '@db/Database';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import TextField from '../widgets/TextField.svelte';
+    import PoseEditor from './PoseEditor.svelte';
 
     interface Props {
         project: Project;
@@ -99,6 +99,7 @@
                 <div class="pair">
                     <div class="percent"
                         ><TextField
+                            id="percent-editor-{id}-{index}"
                             text={pair.key.toWordplay()}
                             description={$locales.get(
                                 (l) => l.ui.palette.sequence.field,
@@ -106,8 +107,14 @@
                             placeholder="%"
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
-                                if (isNaN(number)) return false;
-                                if (number < 0 || number > 100) return false;
+                                if (isNaN(number))
+                                    return $locales.get(
+                                        (l) => l.ui.palette.error.nan,
+                                    );
+                                if (number < 0 || number > 100)
+                                    return $locales.get(
+                                        (l) => l.ui.palette.error.percent,
+                                    );
                                 const previous = map?.values[index - 1];
                                 const next = map?.values[index + 1];
                                 if (
@@ -117,7 +124,10 @@
                                     number / 100 <
                                         previous.key.getValue().num.toNumber()
                                 )
-                                    return false;
+                                    return $locales.get(
+                                        (l) =>
+                                            l.ui.palette.error.moreThanPrevious,
+                                    );
                                 if (
                                     next &&
                                     next instanceof KeyValue &&
@@ -125,7 +135,9 @@
                                     number / 100 >
                                         next.key.getValue().num.toNumber()
                                 )
-                                    return false;
+                                    return $locales.get(
+                                        (l) => l.ui.palette.error.lessThanNext,
+                                    );
 
                                 return true;
                             }}
@@ -137,8 +149,9 @@
                                 (l) => l.ui.palette.sequence.button.add,
                             )}
                             active={editable}
-                            action={() => addPose(index)}>+</Button
-                        >
+                            action={() => addPose(index)}
+                            icon="+"
+                        ></Button>
                         <Button
                             tip={$locales.get(
                                 (l) => l.ui.palette.sequence.button.remove,
@@ -146,23 +159,25 @@
                             action={() => removePose(index)}
                             active={editable &&
                                 map !== undefined &&
-                                map.values.length > 1}>{CANCEL_SYMBOL}</Button
-                        >
+                                map.values.length > 1}
+                            icon={CANCEL_SYMBOL}
+                        ></Button>
                         <Button
                             tip={$locales.get(
                                 (l) => l.ui.palette.sequence.button.up,
                             )}
                             action={() => movePose(index, -1)}
-                            active={editable && index > 0}>↑</Button
-                        >
+                            active={editable && index > 0}
+                            icon="↑"
+                        ></Button>
                         <Button
                             tip={$locales.get(
                                 (l) => l.ui.palette.sequence.button.down,
                             )}
                             action={() => movePose(index, 1)}
                             active={editable && index < map.values.length - 1}
-                            >↓</Button
-                        >
+                            icon="↓"
+                        ></Button>
                     </div>
                     <div class="pose"
                         ><PoseEditor

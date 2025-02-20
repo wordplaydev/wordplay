@@ -1,44 +1,3 @@
-<script module lang="ts">
-    import type { ButtonText, FieldText } from '@locale/UITexts';
-
-    export type ClassPageText = {
-        /** Header for the class page*/
-        header: string;
-        subheader: {
-            /** The teachers header */
-            teachers: string;
-            /** The student header */
-            students: string;
-            /** The galleries header */
-            galleries: string;
-        };
-        prompt: {
-            /** Encourage galleries */
-            gallery: string;
-            /** Explain deletion */
-            delete: string;
-        };
-        field: {
-            /** The name of the class */
-            name: FieldText;
-            /** The description of the class */
-            description: FieldText;
-            /** Add a teacher */
-            newteacher: FieldText;
-            /** Add a teacher button */
-            addteacher: string;
-            /** Delete class */
-            delete: ButtonText;
-        };
-        error: {
-            /** Couldn't find the requested class */
-            notfound: string;
-            /** Couldn't create a gallery*/
-            gallery: string;
-        };
-    };
-</script>
-
 <script lang="ts">
     import { goto } from '$app/navigation';
 
@@ -48,11 +7,15 @@
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
 
     import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
     import { Galleries, locales } from '@db/Database';
     import {
         addStudent,
@@ -62,13 +25,9 @@
         removeTeacher,
         setClass,
         type Class,
-    } from '@db/TeacherDatabase.svelte';
-    import { getTeachData } from '../../+layout.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import Link from '@components/app/Link.svelte';
+    } from '@db/teachers/TeacherDatabase.svelte';
     import { CANCEL_SYMBOL, PREVIOUS_SYMBOL } from '@parser/Symbols';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import { getTeachData } from '../../+layout.svelte';
 
     let teach = getTeachData();
     let classData = $derived(teach.getClass(page.params.classid));
@@ -114,6 +73,7 @@
 {:else}
     <Header
         >{#if editable}<TextBox
+                id="class-name"
                 text={classData.name}
                 description={$locales.get(
                     (l) => l.ui.page.class.field.name.description,
@@ -128,6 +88,7 @@
     <p
         >{#if editable}
             <TextBox
+                id="class-description"
                 text={classData.description}
                 description={$locales.get(
                     (l) => l.ui.page.class.field.description.description,
@@ -227,8 +188,9 @@
         <Button
             tip={$locales.get((l) => l.ui.page.projects.button.newgallery)}
             action={() => createGallery(classData)}
-            ><span style:font-size="xxx-large">+</span>
-        </Button>
+            large
+            icon="+"
+        ></Button>
     </Centered>
 
     {#if newGalleryError}

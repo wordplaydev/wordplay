@@ -1,18 +1,19 @@
 <script lang="ts">
+    import { getCaret, getEditor } from '@components/project/Contexts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import TextField from '@components/widgets/TextField.svelte';
+    import { Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Token from '@nodes/Token';
-    import { getCaret, getEditor } from '@components/project/Contexts';
-    import { Projects } from '@db/Database';
     import { tick } from 'svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
         token: Token;
         project: Project;
         text: string;
         placeholder: string;
-        validator: ((text: string) => boolean) | undefined;
+        /** An optional function that returns true or a message to display if not valid. */
+        validator: ((text: string) => string | true) | undefined;
         creator: (text: string) => Token | [Token, Project] | undefined;
     }
 
@@ -113,6 +114,7 @@
 </script>
 
 <TextField
+    id="token-editor-{token.id}"
     bind:text
     data={token.id}
     bind:view
@@ -122,7 +124,7 @@
     {validator}
     done={(newText) => {
         // Not valid but losing focus? Restore the old text.
-        if (validator !== undefined && validator(newText) === false) {
+        if (validator !== undefined && validator(newText) !== true) {
             text = token.getText();
         }
     }}

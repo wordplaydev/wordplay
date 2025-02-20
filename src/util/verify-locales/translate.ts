@@ -1,7 +1,6 @@
 import Translate from '@google-cloud/translate';
+import { ConceptRegExPattern, MentionRegEx } from '@parser/Tokenizer';
 import type Log from './Log';
-import ConceptRegEx from '@parser/ConceptRegEx';
-import { MentionRegEx } from '@parser/Tokenizer';
 
 export default async function translate(
     log: Log,
@@ -52,7 +51,7 @@ export default async function translate(
     return translations;
 }
 
-export const ConceptPattern = new RegExp(ConceptRegEx, 'ug');
+export const ConceptPattern = new RegExp(ConceptRegExPattern, 'ug');
 export const MentionPattern = new RegExp(MentionRegEx, 'ug');
 
 /**

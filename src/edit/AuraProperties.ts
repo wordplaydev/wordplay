@@ -1,8 +1,8 @@
+import type Project from '../db/projects/Project';
+import type LocaleText from '../locale/LocaleText';
 import Evaluate from '../nodes/Evaluate';
 import { createColorLiteral } from '../output/Color';
-import type LocaleText from '../locale/LocaleText';
 import OutputProperty from './OutputProperty';
-import type Project from '../db/projects/Project';
 
 export default function getAuraProperties(
     project: Project,

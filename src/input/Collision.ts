@@ -1,32 +1,29 @@
-import StreamValue from '@values/StreamValue';
-import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import Bind from '@nodes/Bind';
-import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
+import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
+import UnionType from '@nodes/UnionType';
+import type Evaluation from '@runtime/Evaluation';
+import StreamValue from '@values/StreamValue';
+import type Locales from '../locale/Locales';
 import NoneLiteral from '../nodes/NoneLiteral';
-import type StructureValue from '../values/StructureValue';
-import TextType from '../nodes/TextType';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import TextType from '../nodes/TextType';
 import type Type from '../nodes/Type';
-import NoneValue from '../values/NoneValue';
-import TextValue from '../values/TextValue';
 import { createReboundStructure } from '../output/Rebound';
 import { PX_PER_METER } from '../output/outputToCSS';
-import type Locales from '../locale/Locales';
-import type Evaluation from '@runtime/Evaluation';
+import NoneValue from '../values/NoneValue';
+import type StructureValue from '../values/StructureValue';
+import TextValue from '../values/TextValue';
+import createStreamEvaluator from './createStreamEvaluator';
 
 export type ReboundEvent =
     | {
           subject: string;
           object: string;
-          direction: {
-              x: number;
-              y: number;
-          };
+          direction: { x: number; y: number };
           /** True if the collision is start, false if it just ended. */
           starting: boolean;
       }

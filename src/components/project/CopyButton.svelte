@@ -2,11 +2,10 @@
     import { goto } from '$app/navigation';
     import Button from '@components/widgets/Button.svelte';
     import { locales, Projects } from '@db/Database';
-    import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
     import type Project from '@db/projects/Project';
+    import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import { getUser } from './Contexts';
-    import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         project: Project;
@@ -24,9 +23,11 @@
     }
 </script>
 
-<Button tip={$locales.get((l) => l.ui.project.button.duplicate)} action={copy}
-    ><span class="copy"
-        >{withMonoEmoji(COPY_SYMBOL)}
+<Button
+    tip={$locales.get((l) => l.ui.project.button.duplicate)}
+    action={copy}
+    icon={COPY_SYMBOL}
+    ><span class="copy">
         {$locales.get((l) => l.ui.project.button.duplicate)}</span
     ></Button
 >

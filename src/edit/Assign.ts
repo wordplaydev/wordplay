@@ -1,11 +1,11 @@
-import type { Edit } from '../components/editor/util/Commands';
-import Revision from './Revision';
-import Node from '@nodes/Node';
-import Refer from './Refer';
-import Caret from './Caret';
 import type Context from '@nodes/Context';
-import type Locales from '../locale/Locales';
+import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type { Edit } from '../components/editor/util/Commands';
+import type Locales from '../locale/Locales';
+import Caret from './Caret';
+import Refer from './Refer';
+import Revision from './Revision';
 
 /** Set a field on a child */
 export default class Assign<NodeType extends Node> extends Revision {
@@ -97,9 +97,9 @@ export default class Assign<NodeType extends Node> extends Revision {
         // Place the caret at first placeholder or the end of the node in the source.
         const newCaretPosition =
             newNode === undefined
-                ? originalPosition ?? this.position
-                : newParent.getFirstPlaceholder() ??
-                  newSource.getNodeLastPosition(newNode);
+                ? (originalPosition ?? this.position)
+                : (newParent.getFirstPlaceholder() ??
+                  newSource.getNodeLastPosition(newNode));
 
         // If we didn't find a caret position, bail. Otherwise, return the edit.
         return newCaretPosition === undefined

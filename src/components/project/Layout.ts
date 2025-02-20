@@ -1,7 +1,6 @@
 import Arrangement from '../../db/settings/Arrangement';
 import type Bounds from './Bounds';
-import { TileKind, TileMode } from './Tile';
-import Tile from './Tile';
+import Tile, { TileKind, TileMode } from './Tile';
 import TileKinds from './TileKinds';
 
 export type SerializedTile = {

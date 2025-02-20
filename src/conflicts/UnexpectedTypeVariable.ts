@@ -1,6 +1,6 @@
 import type Reference from '@nodes/Reference';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class UnexpectedTypeVariable extends Conflict {
     readonly name: Reference;

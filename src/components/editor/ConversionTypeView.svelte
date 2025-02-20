@@ -1,6 +1,6 @@
 <script lang="ts">
-    import NodeView from './NodeView.svelte';
     import type ConversionType from '../../nodes/ConversionType';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: ConversionType;

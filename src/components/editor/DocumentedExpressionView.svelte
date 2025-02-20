@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { getIsBlocks } from '@components/project/Contexts';
     import type DocumentedExpression from '@nodes/DocumentedExpression';
     import NodeView from './NodeView.svelte';
-    import { getIsBlocks } from '@components/project/Contexts';
 
     interface Props {
         node: DocumentedExpression;

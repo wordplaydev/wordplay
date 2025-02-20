@@ -1,34 +1,34 @@
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import NumberType from '@nodes/NumberType';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
+import NumberType from '@nodes/NumberType';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
+import type Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
+import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import TypeException from '@values/TypeException';
 import type Value from '@values/Value';
+import type Locales from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
+import type Expression from '../nodes/Expression';
+import ListType from '../nodes/ListType';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
 } from './Basis';
 import InternalExpression from './InternalExpression';
-import type Evaluation from '@runtime/Evaluation';
-import ListValue from '@values/ListValue';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Expression from '../nodes/Expression';
-import type LocaleText from '../locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
-import ListType from '../nodes/ListType';
-import type Locales from '../locale/Locales';
 
 export default function bootstrapNumber(locales: Locales) {
     function createBinaryOp(

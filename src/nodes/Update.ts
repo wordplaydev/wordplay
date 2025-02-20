@@ -1,45 +1,46 @@
-import type Node from './Node';
-import Expression, { type GuardContext } from './Expression';
-import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
-import UnknownColumn from '@conflicts/UnknownColumn';
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
-import type Type from './Type';
+import IncompatibleCellType from '@conflicts/IncompatibleCellType';
+import UnknownColumn from '@conflicts/UnknownColumn';
+import type EditContext from '@edit/EditContext';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
-import TableType from './TableType';
-import BooleanType from './BooleanType';
-import type Step from '@runtime/Step';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import type Definition from './Definition';
-import type TypeSet from './TypeSet';
-import type Evaluator from '@runtime/Evaluator';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import Purpose from '../concepts/Purpose';
-import FunctionDefinition from './FunctionDefinition';
-import Names from './Names';
-import { getIteration, getIterationResult } from '../basis/Iteration';
-import TableValue from '../values/TableValue';
-import Evaluation from '@runtime/Evaluation';
-import StructureValue from '../values/StructureValue';
-import InternalExpression from '../basis/InternalExpression';
-import AnyType from './AnyType';
+import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
 import ExceptionValue from '@values/ExceptionValue';
-import ValueException from '../values/ValueException';
-import type Value from '../values/Value';
-import Token from './Token';
-import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
-import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
+import InternalExpression from '../basis/InternalExpression';
+import { getIteration, getIterationResult } from '../basis/Iteration';
+import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
+import StructureValue from '../values/StructureValue';
+import TableValue from '../values/TableValue';
+import type Value from '../values/Value';
+import ValueException from '../values/ValueException';
+import AnyType from './AnyType';
+import BooleanType from './BooleanType';
+import type Context from './Context';
+import type Definition from './Definition';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionDefinition from './FunctionDefinition';
 import Input from './Input';
-import type EditContext from '@edit/EditContext';
+import Names from './Names';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
+import Row from './Row';
+import Sym from './Sym';
+import TableType from './TableType';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };
 
@@ -70,7 +71,7 @@ export default class Update extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Update';
     }
 
@@ -396,7 +397,7 @@ export default class Update extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Update;
+    getCharacter() {
+        return Characters.Update;
     }
 }

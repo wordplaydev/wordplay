@@ -1,9 +1,9 @@
-import type Source from './Source';
 import type Bind from '@nodes/Bind';
 import type FunctionDefinition from './FunctionDefinition';
+import type Source from './Source';
+import type StreamDefinition from './StreamDefinition';
 import type StructureDefinition from './StructureDefinition';
 import type TypeVariable from './TypeVariable';
-import type StreamDefinition from './StreamDefinition';
 
 type Definition =
     | Bind

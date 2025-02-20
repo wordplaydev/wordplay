@@ -1,10 +1,10 @@
 <script lang="ts">
+    import { getShowLines } from '@components/project/Contexts';
     import type Token from '@nodes/Token';
-    import InsertionPointView from './InsertionPointView.svelte';
+    import { spaceIndicator } from '../../db/Database';
     import type { InsertionPoint } from '../../edit/Drag';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '../../parser/Spaces';
-    import { spaceIndicator } from '../../db/Database';
-    import { getShowLines } from '@components/project/Contexts';
+    import InsertionPointView from './InsertionPointView.svelte';
 
     interface Props {
         token: Token;

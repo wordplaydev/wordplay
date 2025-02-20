@@ -1,41 +1,42 @@
 import type Conflict from '@conflicts/Conflict';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
-import Expression, { type GuardContext } from './Expression';
-import type Token from './Token';
-import Type from './Type';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type EditContext from '@edit/EditContext';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import SetValue from '@values/SetValue';
-import MapValue from '@values/MapValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import MapType from './MapType';
-import SetType from './SetType';
-import BooleanType from './BooleanType';
-import type TypeSet from './TypeSet';
+import type Step from '@runtime/Step';
+import MapValue from '@values/MapValue';
+import SetValue from '@values/SetValue';
 import TypeException from '@values/TypeException';
-import UnionType from './UnionType';
-import SetOpenToken from './SetOpenToken';
-import SetCloseToken from './SetCloseToken';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { NotAType } from './NotAType';
-import Sym from './Sym';
 import type Locales from '../locale/Locales';
-import NoneType from './NoneType';
-import getGuards from './getGuards';
-import Reference from './Reference';
-import PropertyReference from './PropertyReference';
+import Characters from '../lore/BasisCharacters';
 import Bind from './Bind';
-import type EditContext from '@edit/EditContext';
+import BooleanType from './BooleanType';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import getGuards from './getGuards';
+import MapType from './MapType';
+import { node, type Grammar, type Replacement } from './Node';
+import NoneType from './NoneType';
+import { NotAType } from './NotAType';
+import PropertyReference from './PropertyReference';
+import Reference from './Reference';
+import SetCloseToken from './SetCloseToken';
+import SetOpenToken from './SetOpenToken';
+import SetType from './SetType';
+import Sym from './Sym';
+import type Token from './Token';
+import Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -87,7 +88,7 @@ export default class SetOrMapAccess extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'SetOrMapAccess';
     }
 
@@ -311,7 +312,7 @@ export default class SetOrMapAccess extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.SetOrMapAccess;
+    getCharacter() {
+        return Characters.SetOrMapAccess;
     }
 }

@@ -1,15 +1,17 @@
 <script lang="ts">
+    import Feedback from '@components/app/Feedback.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
+    import { DB, locales } from '@db/Database';
+    import { auth } from '@db/firebase';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
     import TextField from '../../components/widgets/TextField.svelte';
-    import validEmail from '../../db/creators/isValidEmail';
-    import { DB, locales } from '@db/Database';
-    import Feedback from '@components/app/Feedback.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import { auth } from '@db/firebase';
-    import isValidEmail from '../../db/creators/isValidEmail';
+    import {
+        default as isValidEmail,
+        default as validEmail,
+    } from '../../db/creators/isValidEmail';
     import isValidPassword from './IsValidPassword';
 
     interface Props {
@@ -81,6 +83,7 @@
                     : undefined}
         >
             <TextField
+                id="delete-account-username"
                 description={$locales.get((l) =>
                     creator.isUsername()
                         ? l.ui.page.login.field.username.description
@@ -97,6 +100,7 @@
             />
             <TextField
                 kind="password"
+                id="delete-account-password"
                 description={$locales.get(
                     (l) => l.ui.page.login.field.password.description,
                 )}
@@ -105,7 +109,12 @@
                 )}
                 bind:text={password}
                 editable={!deleteSubmitted}
-                validator={(pass) => isValidPassword(pass)}
+                validator={(pass) =>
+                    isValidPassword(pass)
+                        ? true
+                        : $locales.get(
+                              (l) => l.ui.page.login.error.invalidPassword,
+                          )}
             />
             <Button
                 background

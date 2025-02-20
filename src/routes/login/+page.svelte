@@ -1,12 +1,12 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
+    import { goto } from '$app/navigation';
     import { getUser } from '@components/project/Contexts';
     import { auth } from '@db/firebase';
-    import { locales } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
     import Writing from '../../components/app/Writing.svelte';
+    import { locales } from '../../db/Database';
     import Login from './Login.svelte';
-    import { goto } from '$app/navigation';
-    import { browser } from '$app/environment';
 
     let user = getUser();
 

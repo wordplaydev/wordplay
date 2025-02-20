@@ -1,18 +1,18 @@
 import type Context from '@nodes/Context';
 import MapType from '@nodes/MapType';
 import UnionType from '@nodes/UnionType';
-import NumberValue from '@values/NumberValue';
-import NoneValue from '@values/NoneValue';
-import SimpleValue from './SimpleValue';
-import type Value from '@values/Value';
 import {
     BIND_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
 } from '@parser/Symbols';
+import NoneValue from '@values/NoneValue';
+import NumberValue from '@values/NumberValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import SimpleValue from './SimpleValue';
 
 export default class MapValue extends SimpleValue {
     readonly values: [Value, Value][];

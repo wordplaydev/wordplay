@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
-    import Checkbox from '../widgets/Checkbox.svelte';
-    import BooleanLiteral from '@nodes/BooleanLiteral';
     import type OutputProperty from '@edit/OutputProperty';
-    import { getProject } from '../project/Contexts';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import BooleanLiteral from '@nodes/BooleanLiteral';
     import { Projects } from '../../db/Database';
+    import { getProject } from '../project/Contexts';
+    import Checkbox from '../widgets/Checkbox.svelte';
 
     interface Props {
         property: OutputProperty;

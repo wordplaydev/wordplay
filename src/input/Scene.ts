@@ -1,25 +1,25 @@
+import BooleanType from '@nodes/BooleanType';
+import ListType from '@nodes/ListType';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import StructureType from '@nodes/StructureType';
+import UnionType from '@nodes/UnionType';
+import type { OutputName } from '@output/Animator';
+import OutputAnimation, { AnimationState } from '@output/OutputAnimation';
+import { NameGenerator } from '@output/Stage';
+import { toOutput } from '@output/toOutput';
+import type Evaluation from '@runtime/Evaluation';
+import BoolValue from '@values/BoolValue';
+import ListValue from '@values/ListValue';
+import NoneValue from '@values/NoneValue';
+import StreamValue from '@values/StreamValue';
+import StructureValue from '@values/StructureValue';
+import { getDocLocales } from '../locale/getDocLocales';
+import { getNameLocales } from '../locale/getNameLocales';
+import type Locales from '../locale/Locales';
 import Bind from '../nodes/Bind';
 import StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locales from '../locale/Locales';
-import StructureType from '@nodes/StructureType';
-import ListType from '@nodes/ListType';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import ListValue from '@values/ListValue';
-import StructureValue from '@values/StructureValue';
-import NoneValue from '@values/NoneValue';
-import StreamValue from '@values/StreamValue';
-import { NameGenerator } from '@output/Stage';
-import { toOutput } from '@output/toOutput';
-import OutputAnimation, { AnimationState } from '@output/OutputAnimation';
-import UnionType from '@nodes/UnionType';
-import type { OutputName } from '@output/Animator';
-import BooleanType from '@nodes/BooleanType';
-import BoolValue from '@values/BoolValue';
-import type Evaluation from '@runtime/Evaluation';
 
 export default class Scene extends StreamValue<
     StructureValue | NoneValue,

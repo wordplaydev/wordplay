@@ -1,37 +1,21 @@
-<script module lang="ts">
-    export type JoinPageText = {
-        /** The account creation header */
-        header: string;
-        /** Requests for information on the account creation page */
-        prompt: {
-            /** Prompt to create an account */
-            create: string;
-            /** Username rules */
-            username: string;
-            /** Password rules and warnings */
-            password: string;
-        };
-    };
-</script>
-
 <script lang="ts">
-    import TextField from '@components/widgets/TextField.svelte';
-    import LoginForm from '../login/LoginForm.svelte';
-    import { locales } from '@db/Database';
-    import isValidPassword from '../login/IsValidPassword';
-    import { createUserWithEmailAndPassword } from 'firebase/auth';
-    import { auth, functions } from '@db/firebase';
-    import getAuthErrorDescription from '../login/getAuthErrorDescription';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import isValidUsername from '@db/creators/isValidUsername';
     import { goto } from '$app/navigation';
     import Feedback from '@components/app/Feedback.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
     import Header from '@components/app/Header.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import isValidUsername from '@db/creators/isValidUsername';
+    import { locales } from '@db/Database';
+    import { auth, functions } from '@db/firebase';
+    import { createUserWithEmailAndPassword } from 'firebase/auth';
     import { usernameAccountExists } from '../../db/creators/accountExists';
+    import getAuthErrorDescription from '../login/getAuthErrorDescription';
+    import isValidPassword from '../login/IsValidPassword';
+    import LoginForm from '../login/LoginForm.svelte';
 
     let username = $state('');
     let password = $state('');
@@ -97,6 +81,7 @@
 
     <p class="center">
         <TextField
+            id="username-field"
             description={$locales.get(
                 (l) => l.ui.page.login.field.username.description,
             )}
@@ -105,7 +90,10 @@
             )}
             bind:text={username}
             editable={!loading}
-            validator={(text) => isValidUsername(text)}
+            validator={(text) =>
+                !isValidUsername(text)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidUsername)
+                    : true}
             changed={() => {
                 if (available === false) available = undefined;
             }}
@@ -127,6 +115,7 @@
     />
     <p class="center">
         <TextField
+            id="password-field"
             kind={reveal ? undefined : 'password'}
             description={$locales.get(
                 (l) => l.ui.page.login.field.password.description,
@@ -136,9 +125,13 @@
             )}
             bind:text={password}
             editable={!loading}
-            validator={(pass) => isValidPassword(pass)}
+            validator={(pass) =>
+                !isValidPassword(pass)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    : true}
         />
         <TextField
+            id="password-repeat-field"
             kind={reveal ? undefined : 'password'}
             description={$locales.get(
                 (l) => l.ui.page.login.field.password.description,
@@ -148,7 +141,12 @@
             )}
             bind:text={password2}
             editable={!loading}
-            validator={(pass) => pass === password && isValidPassword(pass)}
+            validator={(pass) =>
+                !isValidPassword(pass)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    : pass !== password
+                      ? $locales.get((l) => l.ui.page.login.error.mismatched)
+                      : true}
         />
         <Toggle
             tips={$locales.get((l) => l.ui.page.login.toggle.reveal)}

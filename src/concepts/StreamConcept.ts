@@ -1,19 +1,19 @@
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
-import Concept from './Concept';
-import type ConceptIndex from './ConceptIndex';
-import Purpose from './Purpose';
-import type StreamDefinition from '../nodes/StreamDefinition';
+import { COMMA_SYMBOL } from '@parser/Symbols';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
-import BindConcept from './BindConcept';
-import StructureConcept from './StructureConcept';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Markup from '../nodes/Markup';
-import type { Character } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
-import { COMMA_SYMBOL } from '@parser/Symbols';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import type { CharacterName } from '../tutorial/Tutorial';
+import BindConcept from './BindConcept';
+import Concept from './Concept';
+import type ConceptIndex from './ConceptIndex';
+import Purpose from './Purpose';
+import StructureConcept from './StructureConcept';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -41,7 +41,7 @@ export default class StreamConcept extends Concept {
         );
     }
 
-    getGlyphs(locales: Locales) {
+    getCharacter(locales: Locales) {
         return {
             symbols:
                 this.definition.names.getSymbolicName() ??
@@ -89,7 +89,7 @@ export default class StreamConcept extends Concept {
         return new Set(this.inputs);
     }
 
-    getCharacter(locales: Locales): Character | undefined {
+    getCharacterName(locales: Locales): CharacterName | undefined {
         for (const locale of locales.getLocales()) {
             const name = this.definition.names.getNonSymbolicName();
             if (name === undefined) return undefined;
@@ -99,7 +99,7 @@ export default class StreamConcept extends Concept {
                     ((typeof text.names === 'string' && text.names === name) ||
                         text.names.includes(name))
                 )
-                    return key as Character;
+                    return key as CharacterName;
         }
         return undefined;
     }

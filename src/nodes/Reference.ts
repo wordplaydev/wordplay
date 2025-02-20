@@ -1,39 +1,40 @@
 import type Conflict from '@conflicts/Conflict';
+import ReferenceCycle from '@conflicts/ReferenceCycle';
 import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '@conflicts/UnknownName';
-import Expression, { type GuardContext } from './Expression';
-import type Token from './Token';
-import Type from './Type';
-import TypeVariable from './TypeVariable';
+import type EditContext from '@edit/EditContext';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
+import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
+import NameException from '@values/NameException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import Refer from '../edit/Refer';
+import type Locales from '../locale/Locales';
+import { type TemplateInput } from '../locale/Locales';
+import Bind from './Bind';
 import type Context from './Context';
 import type Definition from './Definition';
-import Bind from './Bind';
-import ReferenceCycle from '@conflicts/ReferenceCycle';
-import Reaction from './Reaction';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import NameToken from './NameToken';
-import StartFinish from '@runtime/StartFinish';
-import UnknownNameType from './UnknownNameType';
-import { node, type Grammar, type Replacement, ListOf } from './Node';
-import SimpleExpression from './SimpleExpression';
-import NameException from '@values/NameException';
-import NodeRef from '@locale/NodeRef';
-import Sym from './Sym';
-import { type TemplateInput } from '../locale/Locales';
-import type Node from './Node';
-import Refer from '../edit/Refer';
-import Purpose from '../concepts/Purpose';
-import StructureDefinition from './StructureDefinition';
+import Expression, { type GuardContext } from './Expression';
 import FunctionDefinition from './FunctionDefinition';
-import StreamDefinition from './StreamDefinition';
 import FunctionType from './FunctionType';
-import type Locales from '../locale/Locales';
 import getGuards from './getGuards';
-import type EditContext from '@edit/EditContext';
+import NameToken from './NameToken';
+import type Node from './Node';
+import { ListOf, node, type Grammar, type Replacement } from './Node';
+import Reaction from './Reaction';
+import SimpleExpression from './SimpleExpression';
+import StreamDefinition from './StreamDefinition';
+import StructureDefinition from './StructureDefinition';
+import Sym from './Sym';
+import type Token from './Token';
+import Type from './Type';
+import type TypeSet from './TypeSet';
+import TypeVariable from './TypeVariable';
+import UnionType from './UnionType';
+import UnknownNameType from './UnknownNameType';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -182,7 +183,7 @@ export default class Reference extends SimpleExpression {
         return this.getPossibleReferences(type, node, true, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Reference';
     }
 
@@ -407,7 +408,7 @@ export default class Reference extends SimpleExpression {
         return [this.getName()];
     }
 
-    getGlyphs() {
+    getCharacter() {
         return { symbols: this.name.getText() };
     }
 }

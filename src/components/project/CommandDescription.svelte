@@ -1,7 +1,7 @@
 <script lang="ts">
+    import Emoji from '@components/app/Emoji.svelte';
     import { locales } from '@db/Database';
     import { toShortcut, type Command } from '../editor/util/Commands';
-    import Emoji from '@components/app/Emoji.svelte';
 
     interface Props {
         command: Command;

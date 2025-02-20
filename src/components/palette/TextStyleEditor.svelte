@@ -1,8 +1,20 @@
 <script lang="ts">
-    import type Project from '@db/projects/Project';
-    import Options from '@components/widgets/Options.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import { getConceptIndex } from '@components/project/Contexts';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import { Projects, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import { getLanguageQuoteClose } from '@locale/LanguageCode';
+    import Example from '@nodes/Example';
+    import type Expression from '@nodes/Expression';
+    import FormattedLiteral from '@nodes/FormattedLiteral';
+    import Sym from '@nodes/Sym';
+    import TextLiteral from '@nodes/TextLiteral';
+    import Token from '@nodes/Token';
+    import Translation from '@nodes/Translation';
+    import { parseFormattedTranslation } from '@parser/parseExpression';
     import {
         CODE_SYMBOL,
         DOCUMENTATION_SYMBOL,
@@ -10,21 +22,9 @@
         ITALIC_SYMBOL,
         UNDERSCORE_SYMBOL,
     } from '@parser/Symbols';
-    import { getConceptIndex } from '@components/project/Contexts';
-    import NamedControl from './NamedControl.svelte';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import MarkupValue from '@values/MarkupValue';
-    import { Projects, locales } from '@db/Database';
-    import TextLiteral from '@nodes/TextLiteral';
-    import FormattedLiteral from '@nodes/FormattedLiteral';
-    import type Expression from '@nodes/Expression';
-    import Example from '@nodes/Example';
-    import Translation from '@nodes/Translation';
-    import Token from '@nodes/Token';
-    import Sym from '@nodes/Sym';
     import { toTokens } from '@parser/toTokens';
-    import { getLanguageQuoteClose } from '@locale/LanguageCode';
-    import { parseFormattedTranslation } from '@parser/parseExpression';
+    import MarkupValue from '@values/MarkupValue';
+    import NamedControl from './NamedControl.svelte';
 
     interface Props {
         project: Project;

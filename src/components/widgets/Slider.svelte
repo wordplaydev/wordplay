@@ -11,9 +11,10 @@
         increment: number;
         label?: string | undefined;
         tip: string;
-        change: (value: Decimal) => void;
+        change?: (value: Decimal) => void;
+        release?: (value: number | undefined) => void;
         precision?: number;
-        editable: boolean;
+        editable?: boolean;
         id?: string | undefined;
     }
 
@@ -25,16 +26,17 @@
         increment,
         label = undefined,
         tip,
-        change,
+        change = undefined,
+        release = undefined,
         precision = 0,
-        editable,
+        editable = true,
         id = undefined,
     }: Props = $props();
 
     let view: HTMLInputElement | undefined = $state(undefined);
 
     async function handleChange() {
-        if (value !== undefined)
+        if (value !== undefined && change !== undefined)
             change(
                 new Decimal(value)
                     // Add two digits of precision to percent units
@@ -68,6 +70,7 @@
         bind:value
         bind:this={view}
         oninput={handleChange}
+        onpointerup={() => release?.(value)}
         disabled={!editable}
     />
     <div class="text">
@@ -89,7 +92,7 @@
         gap: var(--wordplay-spacing);
         align-items: center;
         height: 1em;
-        width: 100%;
+        flex: 1;
     }
 
     .slider {
@@ -98,6 +101,7 @@
 
     label {
         font-style: italic;
+        font-size: var(--wordplay-small-font-size);
     }
 
     .text {
@@ -113,11 +117,11 @@
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
         margin: 0 0;
-        /* width: 5em; */
         background: none;
         appearance: none;
         -webkit-appearance: none;
         /* Allow for it to be tiny */
+        width: auto;
         min-width: 2em;
     }
 

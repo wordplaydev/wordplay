@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.14.2",
+    "version": "0.16.0",
     "scripts": {
         "postinstall": "run-script-os",
         "postinstall:default": "svelte-kit sync && cp .env.template .env",
@@ -78,7 +78,7 @@
         "typescript": "^5",
         "vite": "^6",
         "vite-plugin-eslint": "^1",
-        "vitest": "^2"
+        "vitest": "^3"
     },
     "type": "module",
     "dependencies": {

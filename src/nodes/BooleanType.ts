@@ -1,13 +1,14 @@
-import Token from './Token';
-import Sym from './Sym';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
-import BasisType from './BasisType';
-import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import { node, type Grammar, type Replacement } from './Node';
-import Glyphs from '../lore/Glyphs';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BasisType from './BasisType';
 import BooleanLiteral from './BooleanLiteral';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import type TypeSet from './TypeSet';
 
 export default class BooleanType extends BasisType {
     readonly type: Token;
@@ -32,7 +33,7 @@ export default class BooleanType extends BasisType {
         return [BooleanType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'BooleanType';
     }
 
@@ -62,8 +63,8 @@ export default class BooleanType extends BasisType {
         return locales.get((l) => l.node.BooleanType);
     }
 
-    getGlyphs() {
-        return Glyphs.BooleanType;
+    getCharacter() {
+        return Characters.BooleanType;
     }
 
     getDefaultExpression() {

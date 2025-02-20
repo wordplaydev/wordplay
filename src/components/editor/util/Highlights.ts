@@ -1,26 +1,25 @@
-import Node from '@nodes/Node';
-import type Source from '@nodes/Source';
-import type Evaluator from '@runtime/Evaluator';
 import type Evaluate from '@nodes/Evaluate';
 import Expression, { ExpressionKind } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Node from '@nodes/Node';
+import type Source from '@nodes/Source';
+import StructureDefinition from '@nodes/StructureDefinition';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
+import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import { isValidDropTarget, type InsertionPoint } from '../../../edit/Drag';
 import type Caret from '../../../edit/Caret';
-import { getUnderlineOf, type Outline } from './outline';
-import getOutlineOf from './outline';
-import Reference from '../../../nodes/Reference';
-import Program from '../../../nodes/Program';
-import Block from '../../../nodes/Block';
-import NameType from '../../../nodes/NameType';
-import Name from '../../../nodes/Name';
-import DefinitionExpression from '../../../nodes/DefinitionExpression';
+import { isValidDropTarget, type InsertionPoint } from '../../../edit/Drag';
 import Bind from '../../../nodes/Bind';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
+import Block from '../../../nodes/Block';
+import DefinitionExpression from '../../../nodes/DefinitionExpression';
+import Name from '../../../nodes/Name';
+import NameType from '../../../nodes/NameType';
+import Program from '../../../nodes/Program';
+import Reference from '../../../nodes/Reference';
+import getOutlineOf, { getUnderlineOf, type Outline } from './outline';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {

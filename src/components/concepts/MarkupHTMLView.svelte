@@ -3,9 +3,9 @@
 </script>
 
 <script lang="ts">
-    import { animationDuration, animationFactor } from '../../db/Database';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
+    import { animationDuration, animationFactor } from '../../db/Database';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
     interface Props {
@@ -50,11 +50,10 @@
         {#each parsed.asLine().paragraphs[0].segments as segment}
             <SegmentHTMLView {segment} {spaces} alone={false} />
         {/each}
-    {:else}<div class="markup"
+    {:else}<div class="markup" class:note
             >{#each paragraphsAndLists as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}
                     <p
                         class="paragraph"
-                        class:note
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
                         >{#each paragraphOrList.segments as segment}<SegmentHTMLView
@@ -122,7 +121,7 @@
     p,
     ul {
         margin-block-start: 0em;
-        margin-block-end: 1em;
+        margin-block-end: 0em;
     }
 
     p:last-child {

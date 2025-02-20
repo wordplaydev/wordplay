@@ -1,9 +1,9 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from '@runtime/Evaluation';
 import Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
 
 // We could have just called this Function, but Javascript claims that globally.

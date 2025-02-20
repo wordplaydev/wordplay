@@ -1,22 +1,22 @@
-import TextLiteral from '@nodes/TextLiteral';
-import OutputProperty from './OutputProperty';
-import OutputPropertyText from './OutputPropertyText';
-import Language from '../nodes/Language';
-import OutputPropertyRange from './OutputPropertyRange';
-import NumberLiteral from '../nodes/NumberLiteral';
-import Unit from '../nodes/Unit';
-import OutputPropertyOptions from './OutputPropertyOptions';
-import { getTypeOutputProperties } from './OutputProperties';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
 import {
     HorizontalLayout,
     VerticalLeftRightLayout,
     VerticalRightLeftLayout,
 } from '@locale/Scripts';
-import FormattedLiteral from '@nodes/FormattedLiteral';
 import Evaluate from '@nodes/Evaluate';
+import FormattedLiteral from '@nodes/FormattedLiteral';
 import Reference from '@nodes/Reference';
+import TextLiteral from '@nodes/TextLiteral';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import Language from '../nodes/Language';
+import NumberLiteral from '../nodes/NumberLiteral';
+import Unit from '../nodes/Unit';
+import { getTypeOutputProperties } from './OutputProperties';
+import OutputProperty from './OutputProperty';
+import OutputPropertyOptions from './OutputPropertyOptions';
+import OutputPropertyRange from './OutputPropertyRange';
+import OutputPropertyText from './OutputPropertyText';
 
 export default function getPhraseProperties(
     project: Project,

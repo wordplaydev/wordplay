@@ -1,7 +1,7 @@
 <script lang="ts">
     import { locales } from '@db/Database';
-    import Button, { type Action } from './Button.svelte';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import Button, { type Action } from './Button.svelte';
 
     interface Props {
         tip: string;
@@ -9,6 +9,7 @@
         enabled?: boolean;
         prompt: string;
         background?: boolean;
+        icon?: string;
         children?: import('svelte').Snippet;
     }
 
@@ -18,6 +19,7 @@
         enabled = true,
         prompt,
         background = false,
+        icon,
         children,
     }: Props = $props();
 
@@ -27,6 +29,7 @@
 <div class="prompt" class:confirming class:background>
     <Button
         {background}
+        {icon}
         tip={confirming ? $locales.get((l) => l.ui.widget.confirm.cancel) : tip}
         action={() => (confirming = !confirming)}
         active={enabled}

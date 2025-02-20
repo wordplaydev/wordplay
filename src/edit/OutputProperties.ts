@@ -4,18 +4,18 @@ import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
-import { createPoseLiteral } from '@output/Pose';
 import { DefaultStyle } from '@output/Output';
+import { createPoseLiteral } from '@output/Pose';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import type { NameAndDoc, NameText } from '../locale/LocaleText';
+import BooleanLiteral from '../nodes/BooleanLiteral';
+import Reference from '../nodes/Reference';
 import OutputProperty from './OutputProperty';
-import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
-import Reference from '../nodes/Reference';
-import type Project from '../db/projects/Project';
-import type { NameAndDoc, NameText } from '../locale/LocaleText';
+import OutputPropertyText from './OutputPropertyText';
 import getPoseProperties from './PoseProperties';
-import BooleanLiteral from '../nodes/BooleanLiteral';
-import type Locales from '../locale/Locales';
 
 function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
     return new OutputProperty(

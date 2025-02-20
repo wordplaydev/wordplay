@@ -189,7 +189,7 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Par exemple, essayez de taper « bonjour » dans l’éditeur là-bas.",
+                            "$~Par exemple, essayez de taper «bonjour» dans l’éditeur là-bas.",
                             "$~(Ne vous inquiétez pas de faire des erreurs, vous pouvez toujours revenir à l'original avec *revert* @UI/revertProject).",
                             "$~Tu as tapé quelque chose ? C'est mon ami @Text. Tu les as déjà rencontrés ? Ils évaluent en \\'hello'\\ ou tout autre texte que tu tapes, puis ce texte est placé sur scène. Essaie de changer ton texte en quelque chose d'autre. Je vais plutôt te montrer ça. J'évaluerai donc immédiatement ce que tu tapes et montrerai le résultat."
                         ],
@@ -450,7 +450,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Merci, @UnparsableExpression !",
+                            "$~Merci, @UnparsableExpression!",
                             "$~Comme on dit, quand vous dites quelque chose que nous ne comprenons pas, unparsable est là pour dire « Nous ne comprenons pas ». Quand cela arrive, j'aimerais que nous puissions être plus utiles, mais nous sommes souvent assez bornés, donc nous ne sommes pas très doués pour deviner ce que vous voulez dire."
                         ],
                         null,
@@ -623,7 +623,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Chaque évaluation ressemble à ceci @UI/Evaluate : une fonction, suivie d'une parenthèse gauche et droite, avec un nombre quelconque d'entrées entre elles. Ici, j'ai juste @ExpressionPlaceholder comme fonction et trois autres comme entrées d'espace réservé."
+                            "$~Chaque évaluation ressemble à ceci @UI/Evaluate: une fonction, suivie d'une parenthèse gauche et droite, avec un nombre quelconque d'entrées entre elles. Ici, j'ai juste @ExpressionPlaceholder comme fonction et trois autres comme entrées d'espace réservé."
                         ],
                         ["conflict", "_(_ _ _)"],
                         null,
@@ -631,14 +631,14 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Voici l'une de mes fonctions préférées : @Phrase. Elles sont remplies de boutons, de molettes et de curseurs amusants. C'est une façon d'afficher du texte sur scène mais avec style, notamment en utilisant différentes polices, tailles, couleurs et animations.",
+                            "$~Voici l'une de mes fonctions préférées: @Phrase. Elles sont remplies de boutons, de molettes et de curseurs amusants. C'est une façon d'afficher du texte sur scène mais avec style, notamment en utilisant différentes polices, tailles, couleurs et animations.",
                             "$~Voici une évaluation simple de @Phrase @UI/Evaluate."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "$~Voilà à quoi je ressemble dans @Program : une fonction, suivie de parenthèses, avec une liste d'expressions entre elles qui représentent les entrées. La fonction dans ce cas est @Phrase, et l'entrée unique est \\'hello'\\. Lorsque j'évalue cela, je crée une valeur @Phrase, que @Program affiche ensuite sur scène."
+                            "$~Voilà à quoi je ressemble dans @Program: une fonction, suivie de parenthèses, avec une liste d'expressions entre elles qui représentent les entrées. La fonction dans ce cas est @Phrase, et l'entrée unique est \\'hello'\\. Lorsque j'évalue cela, je crée une valeur @Phrase, que @Program affiche ensuite sur scène."
                         ],
                         null,
                         [
@@ -819,7 +819,7 @@
                             "Text",
                             "serious",
                             "$~Pourquoi n'essayez-vous pas de créer un texte dans ce @Program vide ?",
-                            "$~Vous pouvez utiliser les guillemets que vous voulez — simples \\''\\, doubles \\\"\"\\, angles \\«»\\, crochets \\「」\\ — dans la langue de votre choix. La seule règle est que si vous commencez un texte avec un symbole de guillemet ouvrant, vous devez le terminer avec un symbole de guillemet fermant. Tout ce qui se trouve à l'intérieur est la valeur de texte que je vais créer !"
+                            "$~Vous pouvez utiliser les guillemets que vous voulez — simples \\''\\, doubles \\\"\"\\, angles \\«»\\, crochets \\「」\\ — dans la langue de votre choix. La seule règle est que si vous commencez un texte avec un symbole de guillemet ouvrant, vous devez le terminer avec un symbole de guillemet fermant. Tout ce qui se trouve à l'intérieur est la valeur de texte que je vais créer!"
                         ],
                         ["edit", "''"],
                         null,
@@ -901,7 +901,7 @@
                             "curious",
                             "$~Et donc vous vous demandez peut-être : /Que faire si je veux utiliser @Text dans un texte ?/",
                             "$~Bon, peut-être que vous ne vous posiez pas cette question, mais je vais quand même vous le dire !",
-                            "$~Dans n'importe quel @Text, donnez-m'en simplement deux à la suite ! J'interpréterai cela comme un seul @Text au lieu d'une expression vide, qui n'aurait de toute façon aucun sens.",
+                            "$~Dans n'importe quel @Text, donnez-m'en simplement deux à la suite! J'interpréterai cela comme un seul @Text au lieu d'une expression vide, qui n'aurait de toute façon aucun sens.",
                             "$~Essayez de supprimer le \\\\ et vous verrez que la barre oblique retrouve son sens."
                         ],
                         [
@@ -913,7 +913,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~C'est tellement gracieux, n'est-ce pas ! @Text, j'aime à quel point tu apprécies la beauté de l'expression. Cela m'inspire tellement d'être gracieuse moi-même !"
+                            "$~C'est tellement gracieux, n'est-ce pas! @Text, j'aime à quel point tu apprécies la beauté de l'expression. Cela m'inspire tellement d'être gracieuse moi-même!"
                         ],
                         null,
                         [
@@ -933,7 +933,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition a créé pour moi bien d'autres fonctions intéressantes, mais je vous épargnerai les détails. Vous pouvez toujours me trouver dans la *référence* @UI/docsExpand. C'est là que nous conservons toutes les informations sur tout le monde dans le Verse, y compris comment travailler avec nous et quelles fonctions nous avons. Je suis heureux de partager d'autres façons d'inspecter et de créer du texte !"
+                            "$~@FunctionDefinition a créé pour moi bien d'autres fonctions intéressantes, mais je vous épargnerai les détails. Vous pouvez toujours me trouver dans la *référence* @UI/docsExpand. C'est là que nous conservons toutes les informations sur tout le monde dans le Verse, y compris comment travailler avec nous et quelles fonctions nous avons. Je suis heureux de partager d'autres façons d'inspecter et de créer du texte!"
                         ],
                         null,
                         [
@@ -985,7 +985,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Cela me rappelle une autre fonction de @Text ! Elle est utile pour créer une valeur de texte à partir de plusieurs valeurs de texte. Elle s'appelle \\combine\\, mais aussi \\+\\, et vous pouvez l'utiliser pour additionner des mots. Vous voyez comment j'ai pris une valeur de texte, puis évalué \\combine\\ dessus avec \\'verse'\\ ? Cela a donné \\'hello verse'\\."
+                            "$~Cela me rappelle une autre fonction de @Text! Elle est utile pour créer une valeur de texte à partir de plusieurs valeurs de texte. Elle s'appelle \\combine\\, mais aussi \\+\\, et vous pouvez l'utiliser pour additionner des mots. Vous voyez comment j'ai pris une valeur de texte, puis évalué \\combine\\ dessus avec \\'verse'\\? Cela a donné \\'hello verse'\\."
                         ],
                         ["edit", "'hello '.combine('verse')"],
                         null,
@@ -1517,7 +1517,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Vous vous souvenez de @Phrase ? @Phrase fonctionne en fait beaucoup avec @None. La plupart des entrées mentionnées par @Evaluate sont \\ø\\ par défaut, ce qui signifie pour @Phrase qu'aucune taille, police, couleur, etc. n'est spécifiée."
+                            "$~Vous vous souvenez de @Phrase? @Phrase fonctionne en fait beaucoup avec @None. La plupart des entrées mentionnées par @Evaluate sont \\ø\\ par défaut, ce qui signifie pour @Phrase qu'aucune taille, police, couleur, etc. n'est spécifiée."
                         ],
                         null,
                         [
@@ -1704,7 +1704,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Et celui-ci est amusant : @List/sans supprime simplement toutes les valeurs égales à la valeur donnée. Vous voyez qu'il ne reste plus de zéros dans la liste résultante ?"
+                            "$~Et celui-ci est amusant: @List/sans supprime simplement toutes les valeurs égales à la valeur donnée. Vous voyez qu'il ne reste plus de zéros dans la liste résultante?"
                         ],
                         ["edit", "[ 1 0 1 0 1 ].sans(0)"],
                         null,
@@ -1812,7 +1812,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Set, y a-t-il d’autres choses que vous pouvez faire avec des valeurs définies ?"
+                            "$~@Set, y a-t-il d’autres choses que vous pouvez faire avec des valeurs définies?"
                         ],
                         [
                             "Set",
@@ -1842,7 +1842,7 @@
                         [
                             "Set",
                             "neutral",
-                            "$~Je peux faire bien plus grâce à @FunctionDefinition ici. Venez me retrouver quand vous voulez en savoir plus !"
+                            "$~Je peux faire bien plus grâce à @FunctionDefinition ici. Venez me retrouver quand vous voulez en savoir plus!"
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
@@ -1967,7 +1967,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~@Map, que faire si vous souhaitez une cartographie vide ? En quoi est-ce différent d'un ensemble vide, \\{}\\ ?"
+                            "$~@Map, que faire si vous souhaitez une cartographie vide? En quoi est-ce différent d'un ensemble vide, \\{}\\?"
                         ],
                         [
                             "Map",
@@ -2458,7 +2458,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Il y a une autre chose que vous avez peut-être remarquée : il y a une zone sous la sortie qui est une chronologie. Elle est mise à jour à chaque fois que le programme réévalue, c'est-à-dire à chaque fois qu'un flux change. Elle s'affiche à chaque fois que @Time est activé."
+                            "$~Il y a une autre chose que vous avez peut-être remarquée: il y a une zone sous la sortie qui est une chronologie. Elle est mise à jour à chaque fois que le programme réévalue, c'est-à-dire à chaque fois qu'un flux change. Elle s'affiche à chaque fois que @Time est activé."
                         ],
                         ["Time", "neutral", "$~tic… tic… tic… tic… tic…"],
                         null,
@@ -2520,7 +2520,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Les flux @Key sont vraiment utiles lorsque vous souhaitez qu'une performance réagisse aux touches sur lesquelles le public appuie. Par exemple, vous pouvez vérifier si une touche contient le mot « Flèche » pour déterminer si une touche fléchée a été enfoncée. Appuyez sur une touche fléchée et vous verrez « déplacer » ; appuyez sur autre chose et vous verrez « rester »"
+                            "$~Les flux @Key sont vraiment utiles lorsque vous souhaitez qu'une performance réagisse aux touches sur lesquelles le public appuie. Par exemple, vous pouvez vérifier si une touche contient le mot «Flèche» pour déterminer si une touche fléchée a été enfoncée. Appuyez sur une touche fléchée et vous verrez «déplacer»; appuyez sur autre chose et vous verrez «rester»"
                         ],
                         ["Key", "neutral", "$~« Flèche » cliquable…"],
                         ["edit", "Key().has('Arrow') ? 'move' 'stay'"]
@@ -2635,7 +2635,7 @@
                             "$~Il y a une autre source d'entrée que je veux vous montrer. Vous vous souvenez de \\[].random()\\ de tout à l'heure, à partir de @List ?",
                             "$~À l'intérieur, il utilise une @FunctionDefinition appelée @Random, qui fournit une séquence infinie de nombres aléatoires. C'est une sorte de flux car il génère des entrées de votre monde, pas du nôtre. Mais il est un peu différent des autres flux dans le sens où il ne provoque pas la réévaluation d'un @Program.",
                             "$~Au lieu de cela, chaque fois qu’il est évalué, il donne un nombre aléatoire différent.",
-                            "$~Vous voyez ce petit bouton ↻ @UI/resetEvaluator près de la chronologie ? Appuyez dessus pour réévaluer le programme manuellement et vous verrez un nouveau numéro entre \\0\\ et \\1\\ à chaque fois."
+                            "$~Vous voyez ce petit bouton ↻ @UI/resetEvaluator près de la chronologie? Appuyez dessus pour réévaluer le programme manuellement et vous verrez un nouveau numéro entre \\0\\ et \\1\\ à chaque fois."
                         ],
                         ["Random", "neutral", "$~0,223423… 0,823423… 0,123459"],
                         ["edit", "Random()"],
@@ -2643,7 +2643,7 @@
                         [
                             "FunctionDefinition",
                             "surprised",
-                            "$~Nous pouvons indiquer à @Random la plage de nombres que nous souhaitons en lui donnant un nombre minimum et maximum. Cet exemple donne des nombres compris entre \\1\\ et \\10\\ :"
+                            "$~Nous pouvons indiquer à @Random la plage de nombres que nous souhaitons en lui donnant un nombre minimum et maximum. Cet exemple donne des nombres compris entre \\1\\ et \\10\\:"
                         ],
                         ["Random", "neutral", "$~1… 7… 3… 9… 10… 2…"],
                         ["edit", "Random(1 10)"],
@@ -2651,7 +2651,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Le hasard peut être très amusant ! Nous pouvons l'utiliser avec des flux pour créer un chaos amusant. Par exemple, ici, nous choisissons un mot au hasard dans une liste de mots. C'est la même chose que \\['kitty' 'cat' 'meowy'].random()\\. Continuez à appuyer sur ↻ pour obtenir un synonyme de chat différent ! Essayez d'ajouter votre propre mot à la liste et voyez si vous pouvez faire apparaître le mot."
+                            "$~Le hasard peut être très amusant! Nous pouvons l'utiliser avec des flux pour créer un chaos amusant. Par exemple, ici, nous choisissons un mot au hasard dans une liste de mots. C'est la même chose que \\['kitty' 'cat' 'meowy'].random()\\. Continuez à appuyer sur ↻ pour obtenir un synonyme de chat différent! Essayez d'ajouter votre propre mot à la liste et voyez si vous pouvez faire apparaître le mot."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]
@@ -2674,7 +2674,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Parfois, c'est agréable d'engager le public à notre place sur @Stage.",
-                            "$~@Placement est un excellent moyen d'y parvenir ! Il s'agit d'un flux de @Place qui répond aux touches fléchées du clavier, aux clics et aux appuis.",
+                            "$~@Placement est un excellent moyen d'y parvenir! Il s'agit d'un flux de @Place qui répond aux touches fléchées du clavier, aux clics et aux appuis.",
                             "$~Essayez de les utiliser pour déplacer le hot-dog."
                         ],
                         null,
@@ -2686,7 +2686,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Il existe de nombreuses façons de le personnaliser. Par exemple, si vous souhaitez modifier la façon dont il se déplace, vous pouvez lui attribuer une distance.",
-                            "$~Vous voyez comment nous lui avons donné \\0,5\\ pour la première entrée ? Maintenant, il bouge un peu moins. Essayez de le changer pour un autre nombre !"
+                            "$~Vous voyez comment nous lui avons donné \\0,5\\ pour la première entrée ? Maintenant, il bouge un peu moins. Essayez de le changer pour un autre nombre!"
                         ],
                         null,
                         [
@@ -2786,7 +2786,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Vous pouvez même modifier @Stage/gravity pour qu'il soit vraiment extrême.",
-                            "$~Essayez de le changer pour qu’il ressemble à la lune, où la gravité est vraiment faible !",
+                            "$~Essayez de le changer pour qu’il ressemble à la lune, où la gravité est vraiment faible!",
                             "$~Ou essayez de modifier @Matter/mass ou @Matter/bounciness, ce qui affecte la façon dont @Phrase rebondit."
                         ],
                         ["Motion", "excited", "$~Wh…"],
@@ -2810,7 +2810,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Il est même possible de savoir quand une @Output entre en collision avec une autre sortie avec un flux associé appelé @Collision.",
-                            "$~Il nous suffit de donner des noms à nos deux @Output. Que diriez-vous de « ball » et « ground » ?",
+                            "$~Il nous suffit de donner des noms à nos deux @Output. Que diriez-vous de «ball» et «ground»?",
                             "$~Ensuite, @Collision nous donnera un @Rebound lorsqu'ils touchent et @None lorsqu'ils ne le font pas.",
                             "$~Faisons en sorte que la balle augmente à chaque fois qu'elle touche le sol pour plus d'emphase !"
                         ],
@@ -2822,7 +2822,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Il y a tellement plus de choses que vous pouvez faire avec @Motion, @Collision et @Shape !",
+                            "$~Il y a tellement plus de choses que vous pouvez faire avec @Motion, @Collision et @Shape!",
                             "$~J'espère que vous essayerez beaucoup de choses rebondissantes."
                         ]
                     ]
@@ -2885,7 +2885,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Vous pouvez également filtrer les mots avec ce que vous appelez, je crois, une requête « CSS » ? Comme nous l'avons entendu, « h3 » signifie « en-tête de niveau 3 », voici donc toutes les phrases dans les en-têtes de la page."
+                            "$~Vous pouvez également filtrer les mots avec ce que vous appelez, je crois, une requête «CSS»? Comme nous l'avons entendu, «h3» signifie «en-tête de niveau 3», voici donc toutes les phrases dans les en-têtes de la page."
                         ],
                         null,
                         [
@@ -2950,7 +2950,7 @@
                             "Reaction",
                             "serious",
                             "$~Ok, donc j’ai besoin de trois choses de votre part : une condition de changement, une valeur initiale et une valeur suivante.",
-                            "$~La valeur *initiale* est la valeur que je dois définir avant qu'un changement ne se produise. Il s'agit simplement d'une expression normale de toute sorte !",
+                            "$~La valeur *initiale* est la valeur que je dois définir avant qu'un changement ne se produise. Il s'agit simplement d'une expression normale de toute sorte!",
                             "$~Ensuite, vous mettez \\…\\ après la valeur initiale pour me dire que la valeur peut changer.",
                             "$~Après \\…\\, donnez-moi une *condition* qui s'évalue à \\⊤\\ ou \\⊥\\. Elle doit généralement vérifier un ou plusieurs flux. Sinon, rien ne change, puisque la seule source de changement dans une performance est les flux.",
                             "$~Ensuite, mettez un autre \\…\\ après la condition pour me dire que la valeur peut changer.",
@@ -3170,7 +3170,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Mais je peux faire plus que simplement styliser du texte. Par exemple, je peux prendre une @Phrase/size mesurée en mètres \\m\\. Essayez de changer la taille à la taille que vous souhaitez !"
+                            "$~Mais je peux faire plus que simplement styliser du texte. Par exemple, je peux prendre une @Phrase/size mesurée en mètres \\m\\. Essayez de changer la taille à la taille que vous souhaitez!"
                         ],
                         ["edit", "Phrase('hi' 2m)"],
                         null,
@@ -3196,7 +3196,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Vous avez besoin que je sois ailleurs sur scène ? Des endroits, s'il vous plaît ! Un @Place est simplement une position \\x\\, \\y\\ et facultativement \\z\\ en mètres \\m\\. Essayez de changer l'endroit en modifiant les numéros ou en faisant glisser la @Phrase sur scène."
+                            "$~Vous avez besoin que je sois ailleurs sur scène? Des endroits, s'il vous plaît! Un @Place est simplement une position \\x\\, \\y\\ et facultativement \\z\\ en mètres \\m\\. Essayez de changer l'endroit en modifiant les numéros ou en faisant glisser la @Phrase sur scène."
                         ],
                         [
                             "fit",
@@ -3655,7 +3655,7 @@
                         [
                             "Group",
                             "serious",
-                            "$~Mais parfois, nous avons tous besoin d'un peu d'espace. Vous pouvez donc donner à @Stack un peu de marge. Essayez de remplacer la marge par un autre @NumberLiteral !"
+                            "$~Mais parfois, nous avons tous besoin d'un peu d'espace. Vous pouvez donc donner à @Stack un peu de marge. Essayez de remplacer la marge par un autre @NumberLiteral!"
                         ],
                         [
                             "edit",
@@ -3705,7 +3705,7 @@
                         [
                             "Group",
                             "curious",
-                            "$~Parfois, il est intéressant d'utiliser deux dimensions au lieu d'une. Si vous me dites combien de lignes et de colonnes vous voulez, je créerai une @Grid de phrases. Assurez-vous simplement de me donner suffisamment de phrases pour remplir la grille ! Vous pouvez également donner un espacement à @Grid et une taille de cellule si vous souhaitez être plus précis. Les grilles sont disposées ligne par ligne, alors placez votre liste @Phrase dans l'ordre des lignes."
+                            "$~Parfois, il est intéressant d'utiliser deux dimensions au lieu d'une. Si vous me dites combien de lignes et de colonnes vous voulez, je créerai une @Grid de phrases. Assurez-vous simplement de me donner suffisamment de phrases pour remplir la grille! Vous pouvez également donner un espacement à @Grid et une taille de cellule si vous souhaitez être plus précis. Les grilles sont disposées ligne par ligne, alors placez votre liste @Phrase dans l'ordre des lignes."
                         ],
                         [
                             "edit",
@@ -3816,7 +3816,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~D'accord, il y a quelqu'un qui est là depuis le début, mais nous n'avons pas vraiment fait de présentation appropriée. Puis-je vous présenter @Stage !"
+                            "$~D'accord, il y a quelqu'un qui est là depuis le début, mais nous n'avons pas vraiment fait de présentation appropriée. Puis-je vous présenter @Stage!"
                         ],
                         [
                             "Stage",
@@ -3867,7 +3867,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Commençons peut-être par un exemple simple. Cela donne simplement à @Stage une liste d'une @Phrase. Vous n'êtes pas obligé de mentionner @Stage ici ; cela montre simplement ce qui se passe dans les coulisses lorsque vous donnez @Phrase à @Program."
+                            "$~Commençons peut-être par un exemple simple. Cela donne simplement à @Stage une liste d'une @Phrase. Vous n'êtes pas obligé de mentionner @Stage ici; cela montre simplement ce qui se passe dans les coulisses lorsque vous donnez @Phrase à @Program."
                         ],
                         ["edit", "Stage([Phrase(“🐈”)])"],
                         null,
@@ -3896,7 +3896,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Vous pouvez également appliquer à @Stage les mêmes propriétés que celles que vous appliqueriez à un @Group ou à une @Phrase. Inclinons toute la scène !"
+                            "$~Vous pouvez également appliquer à @Stage les mêmes propriétés que celles que vous appliqueriez à un @Group ou à une @Phrase. Inclinons toute la scène!"
                         ],
                         ["Stage", "surprised", "$~WHOA, ATTENTION MAINTENANT…"],
                         [
@@ -4210,14 +4210,14 @@
                             "Bind",
                             "serious",
                             "$~Mais bon, vous devez maintenant vous demander : « Pourquoi quelqu'un nommerait-il un numéro ou un texte comme ça ? ». Imaginez que vous écoutiez @Key et que vous vouliez savoir s'il s'agit d'une lettre secrète et afficher une @Phrase avec un grand \\⊤\\ s'il s'agit d'une lettre magique et un petit \\⊥\\ si ce n'est pas le cas. Nous pourrions commencer par quelque chose comme ça. Cela nous donne le \\⊤\\ ou le \\⊥\\.",
-                            "$~C'est génial ; lorsque vous appuyez sur l'une de ces lettres, \\⊤\\, et lorsque vous appuyez sur autre chose, vous obtenez \\⊥\\. Bien."
+                            "$~C'est génial; lorsque vous appuyez sur l'une de ces lettres, \\⊤\\, et lorsque vous appuyez sur autre chose, vous obtenez \\⊥\\. Bien."
                         ],
                         ["edit", "[ 'a' 'e' 'i' 'o' 'u'].has(Key())"],
                         null,
                         [
                             "Bind",
                             "serious",
-                            "$~Maintenant, créons la phrase. Nous mettons cette expression @List/has pour le texte et la convertissons en texte. Maintenant, nous obtenons @Phrase sur scène sous la forme \\⊤\\ ou \\⊥\\. Bien !"
+                            "$~Maintenant, créons la phrase. Nous mettons cette expression @List/has pour le texte et la convertissons en texte. Maintenant, nous obtenons @Phrase sur scène sous la forme \\⊤\\ ou \\⊥\\. Bien!"
                         ],
                         [
                             "edit",
@@ -4552,7 +4552,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Il existe de nombreuses fonctions qui prennent des fonctions en entrée. @List en a, @Set en a, @Map en a. Vous pouvez même créer les vôtres !"
+                            "$~Il existe de nombreuses fonctions qui prennent des fonctions en entrée. @List en a, @Set en a, @Map en a. Vous pouvez même créer les vôtres!"
                         ],
                         [
                             "fit",
@@ -4709,7 +4709,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "$~Ensuite, ils se sont souvenus de @Reaction, qui peut être utilisé pour répondre aux changements de flux. Ils voulaient que le message change toutes les deux sections, ils ont donc créé un flux @Time qui tourne toutes les 2 secondes et ont utilisé @Reaction pour incrémenter l'index suivant à chaque fois. Cette @Reaction indique de commencer à \\1\\, et lorsque l'heure change toutes les \\2000 ms\\, d'évaluer à la valeur précédente de \\index + 1\\. De cette façon, \\index\\ augmente de \\1\\ toutes les deux secondes, changeant le message affiché. Ouais, ça marche !"
+                            "$~Ensuite, ils se sont souvenus de @Reaction, qui peut être utilisé pour répondre aux changements de flux. Ils voulaient que le message change toutes les deux sections, ils ont donc créé un flux @Time qui tourne toutes les 2 secondes et ont utilisé @Reaction pour incrémenter l'index suivant à chaque fois. Cette @Reaction indique de commencer à \\1\\, et lorsque l'heure change toutes les \\2000 ms\\, d'évaluer à la valeur précédente de \\index + 1\\. De cette façon, \\index\\ augmente de \\1\\ toutes les deux secondes, changeant le message affiché. Ouais, ça marche!"
                         ],
                         [
                             "edit",
@@ -5101,7 +5101,7 @@
                             "$~Et une dernière chose.",
                             "$~Même si je cherche avant tout à expliquer les choses, il est parfois utile de les éluder. Vous savez, de retirer temporairement quelque chose d'un projet pour qu'il n'en fasse plus partie.",
                             "$~Vous pouvez le faire en enroulant n’importe quoi entre les étoiles.",
-                            "$~Vous voyez comment « chat » n’est pas inclus dans la liste que nous avons établie ?",
+                            "$~Vous voyez comment «chat» n’est pas inclus dans la liste que nous avons établie?",
                             "$~Vous pouvez supprimer les étoiles en les supprimant avec le clavier ou en plaçant le curseur à l'intérieur et en utilisant la commande elide pour les supprimer pour vous."
                         ],
                         ["edit", "[1 2 3 4 *'cat'* 5 6 7 8]"],
@@ -5413,19 +5413,19 @@
                         [
                             "Evaluate",
                             "surprised",
-                            "$~Oups, nous sommes tous les uns sur les autres ! Nous avons besoin de points de départ. Exploitons @Random ?"
+                            "$~Oups, nous sommes tous les uns sur les autres! Nous avons besoin de points de départ. Exploitons @Random?"
                         ],
                         ["use", "edit", "EvaluateDance8"],
                         null,
                         [
                             "Evaluate",
                             "happy",
-                            "$~Ouais ! Maintenant, il ne nous reste plus qu'à bouger. @Reaction, peux-tu nous donner un rythme, peut-être 0,75 seconde ?"
+                            "$~Ouais! Maintenant, il ne nous reste plus qu'à bouger. @Reaction, peux-tu nous donner un rythme, peut-être 0,75seconde?"
                         ],
                         [
                             "Reaction",
                             "kind",
-                            "$~Je peux le changer ! Nous avons besoin d'un flux @Time, mais nous devons également modifier les caractères. Mais quelle devrait être la valeur suivante ?"
+                            "$~Je peux le changer! Nous avons besoin d'un flux @Time, mais nous devons également modifier les caractères. Mais quelle devrait être la valeur suivante?"
                         ],
                         ["use", "edit", "EvaluateDance9"],
                         null,
@@ -5464,14 +5464,14 @@
                         [
                             "Evaluate",
                             "confused",
-                            "$~Merci, @FunctionDefinition. Ils ne bougent pas… Ah oui, c'est vrai, \\move\\ n'a rien changé ! Prenons la position actuelle et déplaçons-nous dans une direction aléatoire horizontalement et verticalement. Et peut-être une profondeur aléatoire, pour que nous ayons tous une chance devant. Et une rotation aléatoire ?"
+                            "$~Merci, @FunctionDefinition. Ils ne bougent pas… Ah oui, c'est vrai, \\move\\ n'a rien changé! Prenons la position actuelle et déplaçons-nous dans une direction aléatoire horizontalement et verticalement. Et peut-être une profondeur aléatoire, pour que nous ayons tous une chance devant. Et une rotation aléatoire?"
                         ],
                         ["use", "edit", "EvaluateDance11"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "$~Hmm… toujours pas en mouvement. Oh ! Nous n'avons pas évalué \\move\\ dans @Reaction. @List, pouvez-vous traduire chaque \\Character\\ en un \\Character\\ _déplacé_ ?"
+                            "$~Hmm… toujours pas en mouvement. Oh! Nous n'avons pas évalué \\move\\ dans @Reaction. @List, pouvez-vous traduire chaque \\Character\\ en un \\Character\\ _déplacé_?"
                         ],
                         ["List", "excited", "$~Je traduis avec votre aide !"],
                         ["use", "edit", "EvaluateDance12"],

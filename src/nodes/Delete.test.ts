@@ -1,9 +1,9 @@
-import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
-import Delete from './Delete';
+import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import evaluateCode from '../runtime/evaluate';
 import DefaultLocales from '../locale/DefaultLocales';
+import evaluateCode from '../runtime/evaluate';
+import Delete from './Delete';
 
 test.each([
     [

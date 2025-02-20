@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type TableValue from '@values/TableValue';
-    import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
-    import SymbolView from './SymbolView.svelte';
     import Sym from '@nodes/Sym';
+    import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
+    import type TableValue from '@values/TableValue';
     import { locales } from '../../db/Database';
-    import ValueView from './ValueView.svelte';
     import Expandable from './Expandable.svelte';
     import RowView from './RowView.svelte';
+    import SymbolView from './SymbolView.svelte';
+    import ValueView from './ValueView.svelte';
 
     export let value: TableValue;
     export let inline = true;
@@ -28,8 +28,7 @@
         symbol={TABLE_CLOSE_SYMBOL}
         type={Sym.TableClose}
     />{#if value.rows.length > limit}
-        <Expandable
-            >
+        <Expandable>
             {#snippet expanded()}
                 {#each value.rows as item}<RowView
                         type={value.type}

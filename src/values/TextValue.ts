@@ -1,14 +1,14 @@
 import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
+import BoolValue from '@values/BoolValue';
+import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
-import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
-import ListValue from '@values/ListValue';
-import BoolValue from '@values/BoolValue';
-import UnicodeString from '../unicode/UnicodeString';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import UnicodeString from '../unicode/UnicodeString';
+import SimpleValue from './SimpleValue';
 
 export default class TextValue extends SimpleValue {
     readonly text: string;

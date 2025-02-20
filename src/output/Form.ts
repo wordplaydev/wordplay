@@ -1,4 +1,7 @@
+import toStructure from '@basis/toStructure';
 import type Project from '@db/projects/Project';
+import { getBind } from '@locale/getBind';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 import { getFirstName } from '../locale/LocaleText';
 import type Locales from '../locale/Locales';
 import StructureValue from '../values/StructureValue';
@@ -6,9 +9,6 @@ import type Value from '../values/Value';
 import { toNumber } from './Stage';
 import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
 
 /** This is a wrapper class for a Form value, which represents some kind of shape that's used as a collision boundary. */
 export abstract class Form extends Valued {

@@ -4,23 +4,37 @@
 </script>
 
 <script lang="ts">
-    import Spinning from '../app/Spinning.svelte';
     import { locales } from '@db/Database';
+    import { withMonoEmoji } from '../../unicode/emoji';
+    import Spinning from '../app/Spinning.svelte';
 
     interface Props {
+        /** Tooltip and ARIA label for the button */
         tip: string;
+        /** What to do when pressed */
         action: Action;
+        /** Whether the button should be clickable */
         active?: boolean;
         stretch?: boolean;
+        /** If it should be marked a submit button*/
         submit?: boolean;
-        uiid?: string | undefined;
+        /** Classes to add to the button */
         classes?: string | undefined;
         scale?: boolean;
+        /** The DOM element corresponding to the button */
         view?: HTMLButtonElement | undefined;
         large?: boolean;
+        /** Whether it should have a background */
         background?: boolean;
+        /** Whether it should have padding */
         padding?: boolean;
+        /** An ID to add for reference in the tutorial */
+        uiid?: string | undefined;
+        /** A test ID to add */
         testid?: string | undefined;
+        /** An optional icon to place before the children, in monochrome */
+        icon?: string;
+        /** The label */
         children?: import('svelte').Snippet;
     }
 
@@ -38,10 +52,12 @@
         background = false,
         padding = true,
         testid = undefined,
+        icon,
         children,
     }: Props = $props();
 
     let loading = $state(false);
+    let width = $state(0);
 
     async function doAction(event: Event) {
         if (active) {
@@ -51,7 +67,6 @@
                 result.finally(() => (loading = false));
             }
             event.stopPropagation();
-            event.preventDefault();
         }
     }
 </script>
@@ -69,12 +84,14 @@
     data-testid={testid}
     data-uiid={uiid}
     class={classes}
+    bind:clientWidth={width}
+    style:--characters={width / 20}
     type={submit ? 'submit' : 'button'}
     title={$locales.concretize(tip).toText()}
     aria-label={tip}
     aria-disabled={!active}
+    onpointerdown={(event) => event.preventDefault()}
     bind:this={_}
-    onmousedown={(event) => event.preventDefault()}
     ondblclick={(event) => event.stopPropagation()}
     onclick={loading
         ? null
@@ -93,7 +110,8 @@
               !event.metaKey
                   ? doAction(event)
                   : undefined}
-    >{#if loading}<Spinning />{:else}{@render children?.()}{/if}
+    >{#if loading}<Spinning />{:else}{#if icon}{withMonoEmoji(icon)}{/if}
+        {@render children?.()}{/if}
 </button>
 
 <style>
@@ -173,16 +191,13 @@
         border-color: transparent;
     }
 
-    button:hover[aria-disabled='false'] {
-        transform: rotate(-3deg);
+    button:hover[aria-disabled='false'],
+    button:focus {
+        transform: rotate(calc(-15deg / var(--characters)));
     }
 
     button.background:hover[aria-disabled='false'] {
         background: var(--wordplay-chrome);
         border-color: var(--wordplay-alternating-color);
-    }
-
-    button:active[aria-disabled='false'] {
-        transform: scale(0.8);
     }
 </style>

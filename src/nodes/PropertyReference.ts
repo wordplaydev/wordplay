@@ -1,40 +1,41 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { type GuardContext } from './Expression';
-import Token from './Token';
-import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import type Context from './Context';
-import type Node from './Node';
-import StructureType from './StructureType';
-import Bind from './Bind';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import { PROPERTY_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import TypeVariable from './TypeVariable';
-import NameException from '@values/NameException';
-import type Definition from './Definition';
-import type Value from '@values/Value';
-import StreamType from './StreamType';
-import Reference from './Reference';
-import NameType from './NameType';
-import UnknownNameType from './UnknownNameType';
-import { node, type Grammar, type Replacement } from './Node';
+import type EditContext from '@edit/EditContext';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import UnimplementedException from '../values/UnimplementedException';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { PROPERTY_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import NameException from '@values/NameException';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Refer from '../edit/Refer';
-import FunctionDefinition from './FunctionDefinition';
-import BasisType from './BasisType';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import UnimplementedException from '../values/UnimplementedException';
+import BasisType from './BasisType';
+import Bind from './Bind';
+import type Context from './Context';
+import type Definition from './Definition';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionDefinition from './FunctionDefinition';
 import getGuards from './getGuards';
-import type EditContext from '@edit/EditContext';
+import NameType from './NameType';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
+import Reference from './Reference';
+import StreamType from './StreamType';
+import StructureType from './StructureType';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import TypeVariable from './TypeVariable';
+import UnionType from './UnionType';
+import UnknownNameType from './UnknownNameType';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -140,7 +141,7 @@ export default class PropertyReference extends Expression {
         return this.getPossibleReferences(type, node, false, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'PropertyReference';
     }
 
@@ -395,8 +396,8 @@ export default class PropertyReference extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Reference;
+    getCharacter() {
+        return Characters.Reference;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

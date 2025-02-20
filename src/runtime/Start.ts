@@ -1,8 +1,8 @@
-import Step from './Step';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
+import type Evaluator from '@runtime/Evaluator';
 import type Locales from '../locale/Locales';
+import type Value from '../values/Value';
+import Step from './Step';
 
 type Action = (evalutor: Evaluator) => Value | undefined;
 

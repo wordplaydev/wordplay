@@ -1,20 +1,21 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import Halt from '@runtime/Halt';
-import UnparsableException from '@values/UnparsableException';
 import type Step from '@runtime/Step';
+import UnparsableException from '@values/UnparsableException';
 import type Value from '@values/Value';
-import type Expression from './Expression';
-import Node, { node, type Grammar, type Replacement, list } from './Node';
-import type TypeSet from './TypeSet';
-import UnparsableType from './UnparsableType';
-import SimpleExpression from './SimpleExpression';
-import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
+import type Expression from './Expression';
+import Node, { list, node, type Grammar, type Replacement } from './Node';
+import SimpleExpression from './SimpleExpression';
 import type Token from './Token';
+import type TypeSet from './TypeSet';
+import UnparsableType from './UnparsableType';
 
 export default class UnparsableExpression extends SimpleExpression {
     readonly unparsables: Token[];
@@ -25,7 +26,7 @@ export default class UnparsableExpression extends SimpleExpression {
         this.unparsables = nodes;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnparsableExpression';
     }
 
@@ -89,8 +90,8 @@ export default class UnparsableExpression extends SimpleExpression {
         return locales.concretize((l) => l.node.UnparsableExpression.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Unparsable;
+    getCharacter() {
+        return Characters.Unparsable;
     }
 
     isEmpty() {

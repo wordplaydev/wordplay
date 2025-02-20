@@ -37,6 +37,18 @@
         text-decoration: none;
     }
 
+    /* Links in paragraphs should have underlines for visibility. */
+    :global(p) > a {
+        text-decoration: calc(var(--wordplay-focus-width) / 2) underline
+            var(--wordplay-highlight-color);
+    }
+
+    :global(.feedback) > a {
+        color: var(--wordplay-background);
+        text-decoration: var(--wordplay-focus-width) underline
+            var(--wordplay-background);
+    }
+
     .nowrap {
         white-space: nowrap;
     }
@@ -50,6 +62,7 @@
     }
 
     .external {
+        font-family: 'Noto Emoji';
         font-size: calc(var(--wordplay-font-size) - 6pt);
         display: inline-block;
         margin-inline-start: 0.25em;

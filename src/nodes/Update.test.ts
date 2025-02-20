@@ -1,12 +1,12 @@
-import { test, expect } from 'vitest';
+import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
+import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnknownColumn from '@conflicts/UnknownColumn';
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
-import Update from './Update';
+import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import evaluateCode from '../runtime/evaluate';
 import DefaultLocales from '../locale/DefaultLocales';
+import evaluateCode from '../runtime/evaluate';
+import Update from './Update';
 
 test.each([
     [

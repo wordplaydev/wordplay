@@ -1,20 +1,21 @@
-import Expression from './Expression';
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
+import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Node, { node, optional } from './Node';
-import Sym from './Sym';
+import Purpose from '../concepts/Purpose';
+import type Conflict from '../conflicts/Conflict';
+import IncompatibleType from '../conflicts/IncompatibleType';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import { BIND_SYMBOL } from '../parser/Symbols';
 import AnyType from './AnyType';
-import ListType from './ListType';
-import type Locales from '../locale/Locales';
 import type Context from './Context';
-import IncompatibleType from '../conflicts/IncompatibleType';
-import type Conflict from '../conflicts/Conflict';
+import Expression from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type EditContext from '@edit/EditContext';
+import ListType from './ListType';
+import type { Grammar, Replacement } from './Node';
+import Node, { node, optional } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 /** Inside a list literal, flattens values of a list value into a new list */
 export default class Spread extends Node {
@@ -45,16 +46,13 @@ export default class Spread extends Node {
         return [Spread.make(ExpressionPlaceholder.make())];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Spread';
     }
 
     getGrammar(): Grammar {
         return [
-            {
-                name: 'dots',
-                kind: node(Sym.Bind),
-            },
+            { name: 'dots', kind: node(Sym.Bind) },
             {
                 name: 'list',
                 kind: optional(node(Expression)),
@@ -100,7 +98,7 @@ export default class Spread extends Node {
         return locales.get((l) => l.node.Spread);
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

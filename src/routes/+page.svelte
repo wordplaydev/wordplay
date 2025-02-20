@@ -1,65 +1,26 @@
-<script module lang="ts">
-    import type { Template } from '@locale/LocaleText';
-
-    export type LandingPageText = {
-        /** The value proposition for the site */
-        value: Template;
-        /** A description of the platform's features */
-        description: Template | Template[];
-        /** The landing page beta warning */
-        beta: Template[];
-        /** The subtitles below links */
-        link: {
-            /** What content is on the about page */
-            about: string;
-            /** What content is on the learn page */
-            learn: string;
-            /** What content is on the teach page */
-            teach: string;
-            /** What content is on the guide page */
-            guide: string;
-            /** What content is on the projects page */
-            projects: string;
-            /** What content is on the galleries page */
-            galleries: string;
-            /** What content is on the rights page */
-            rights: string;
-            /** The community link */
-            community: {
-                label: string;
-                subtitle: string;
-            };
-            /** The contributor link */
-            contribute: {
-                label: string;
-                subtitle: string;
-            };
-        };
-    };
-</script>
-
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import BigLink from '../components/app/BigLink.svelte';
-    import Background from '../components/app/Background.svelte';
-    import { locales } from '../db/Database';
-    import Writing from '../components/app/Writing.svelte';
-    import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
     import Action from '@components/app/Action.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import { getUser } from '@components/project/Contexts';
     import {
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
         LEARN_SYMBOL,
         STAGE_SYMBOL,
+        SYMBOL_SYMBOL,
         TEACH_SYMBOL,
     } from '@parser/Symbols';
-    import Beta from './Beta.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import Glyphs from '../lore/Glyphs';
+    import Background from '../components/app/Background.svelte';
+    import BigLink from '../components/app/BigLink.svelte';
+    import Writing from '../components/app/Writing.svelte';
+    import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
+    import { locales } from '../db/Database';
+    import Characters from '../lore/BasisCharacters';
     import Emotion from '../lore/Emotion';
+    import Beta from './Beta.svelte';
     import Iconified from './Iconified.svelte';
-    import { getUser } from '@components/project/Contexts';
 
     const user = getUser();
 </script>
@@ -77,7 +38,7 @@
     <div class="welcome">
         <div style:margin-inline-start="-2.5em">
             <Speech
-                glyph={Glyphs.FunctionDefinition}
+                character={Characters.FunctionDefinition}
                 emotion={Emotion.happy}
                 big
                 >{#snippet content()}
@@ -120,6 +81,19 @@
                 ><Iconified
                     icon={STAGE_SYMBOL}
                     text={(l) => l.ui.page.galleries.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                smaller
+                to="/characters"
+                subtitle={$locales.get(
+                    (l) => l.ui.page.landing.link.characters,
+                )}
+                ><Iconified
+                    icon={SYMBOL_SYMBOL}
+                    text={(l) => l.ui.page.characters.header}
                 /></BigLink
             >
         </Action>

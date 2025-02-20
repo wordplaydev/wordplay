@@ -1,18 +1,18 @@
 <script lang="ts">
-    import { toShortcut, type Command } from '../editor/util/Commands';
-    import Button from './Button.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { tick } from 'svelte';
     import { locales } from '../../db/Database';
+    import { tokenize } from '../../parser/Tokenizer';
+    import TokenView from '../editor/TokenView.svelte';
+    import { toShortcut, type Command } from '../editor/util/Commands';
     import {
         IdleKind,
         getEditors,
         getProjectCommandContext,
     } from '../project/Contexts';
-    import { tokenize } from '../../parser/Tokenizer';
-    import TokenView from '../editor/TokenView.svelte';
-    import { tick } from 'svelte';
+    import Button from './Button.svelte';
     import CommandHint from './CommandHint.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
         /** If source ID isn't provided, then the one with focus is used. */

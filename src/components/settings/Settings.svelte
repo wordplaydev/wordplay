@@ -1,29 +1,29 @@
 <script lang="ts">
-    import LanguageChooser from './LocaleChooser.svelte';
-    import { getUser } from '../project/Contexts';
+    import { SupportedFaces } from '@basis/Fonts';
+    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import { FaceSetting } from '@db/settings/FaceSetting';
+    import { onMount } from 'svelte';
+    import { Creator } from '../../db/creators/CreatorDatabase';
     import {
         animationFactor,
-        locales,
         arrangement,
         camera,
+        dark,
+        locales,
         mic,
         Settings,
-        dark,
-        spaceIndicator,
         showLines,
+        spaceIndicator,
     } from '../../db/Database';
     import Arrangement from '../../db/settings/Arrangement';
-    import Options from '../widgets/Options.svelte';
-    import { onMount } from 'svelte';
+    import CreatorView from '../app/CreatorView.svelte';
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';
-    import Mode from '../widgets/Mode.svelte';
+    import { getUser } from '../project/Contexts';
     import Dialog from '../widgets/Dialog.svelte';
-    import CreatorView from '../app/CreatorView.svelte';
-    import { Creator } from '../../db/creators/CreatorDatabase';
-    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
-    import { SupportedFaces } from '@basis/Fonts';
-    import { FaceSetting } from '@db/settings/FaceSetting';
+    import Mode from '../widgets/Mode.svelte';
+    import Options from '../widgets/Options.svelte';
+    import LanguageChooser from './LocaleChooser.svelte';
 
     let user = getUser();
 

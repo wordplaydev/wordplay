@@ -12,27 +12,27 @@
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
+    import Emoji from '@components/app/Emoji.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import type { Snippet } from 'svelte';
+    import { onMount } from 'svelte';
+    import { animationDuration, locales } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
+    import Arrangement from '../../db/settings/Arrangement';
+    import Characters from '../../lore/BasisCharacters';
+    import Color from '../../output/Color';
+    import { isName } from '../../parser/Tokenizer';
     import Button from '../widgets/Button.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import Toggle from '../widgets/Toggle.svelte';
+    import type Bounds from './Bounds';
+    import FullscreenIcon from './FullscreenIcon.svelte';
+    import type Layout from './Layout';
     import type Tile from './Tile';
     import { TileMode } from './Tile';
-    import type Layout from './Layout';
-    import TextField from '../widgets/TextField.svelte';
-    import { isName } from '../../parser/Tokenizer';
-    import { animationDuration, locales } from '../../db/Database';
-    import { onMount } from 'svelte';
-    import Arrangement from '../../db/settings/Arrangement';
-    import Glyphs from '../../lore/Glyphs';
-    import Color from '../../output/Color';
-    import Toggle from '../widgets/Toggle.svelte';
-    import type Project from '../../db/projects/Project';
-    import Emoji from '@components/app/Emoji.svelte';
     import TileKinds from './TileKinds';
-    import FullscreenIcon from './FullscreenIcon.svelte';
-    import type Bounds from './Bounds';
-    import Note from '@components/widgets/Note.svelte';
     import TileMessage from './TileMessage.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
         project: Project;
@@ -297,8 +297,9 @@
                         background={background !== null}
                         padding={false}
                         tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                        action={() => mode(TileMode.Collapsed)}>–</Button
-                    >
+                        action={() => mode(TileMode.Collapsed)}
+                        icon="–"
+                    ></Button>
                 {/if}
                 <Toggle
                     tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
@@ -308,30 +309,46 @@
                 >
                     <FullscreenIcon />
                 </Toggle>
-                <Subheader compact>
-                    <div class="name" class:source={tile.isSource()}>
-                        {#if editable && tile.isSource()}
-                            <Emoji>{Glyphs.Program.symbols}</Emoji>
-                            <TextField
-                                text={tile
-                                    .getSource(project)
-                                    ?.getPreferredName($locales.getLocales())}
-                                description={$locales.get(
-                                    (l) => l.ui.source.field.name.description,
-                                )}
-                                placeholder={$locales.get(
-                                    (l) => l.ui.source.field.name.placeholder,
-                                )}
-                                validator={(text) => isName(text)}
-                                changed={handleRename}
-                            />
-                        {:else}
-                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
-                            >{tile.getName(project, $locales)}
-                        {/if}
-                        {@render title()}
-                    </div>
-                </Subheader>
+                <!-- This goes above the toolbar because we need the feedback to be visible. -->
+                <div style="z-index:2">
+                    <Subheader compact>
+                        <div class="name" class:source={tile.isSource()}>
+                            {#if editable && tile.isSource()}
+                                <Emoji>{Characters.Program.symbols}</Emoji>
+                                <TextField
+                                    id="source-name-editor-{tile.id}"
+                                    text={tile
+                                        .getSource(project)
+                                        ?.getPreferredName(
+                                            $locales.getLocales(),
+                                        )}
+                                    description={$locales.get(
+                                        (l) =>
+                                            l.ui.source.field.name.description,
+                                    )}
+                                    placeholder={$locales.get(
+                                        (l) =>
+                                            l.ui.source.field.name.placeholder,
+                                    )}
+                                    validator={(text) =>
+                                        !isName(text)
+                                            ? $locales.get(
+                                                  (l) =>
+                                                      l.ui.source.error
+                                                          .invalidName,
+                                              )
+                                            : true}
+                                    inlineValidation
+                                    changed={handleRename}
+                                />
+                            {:else}
+                                <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                                >{tile.getName(project, $locales)}
+                            {/if}
+                            {@render title()}
+                        </div>
+                    </Subheader>
+                </div>
                 <div class="toolbar">
                     {@render extra?.()}
                 </div>
@@ -501,6 +518,7 @@
         gap: calc(var(--wordplay-spacing) / 2);
         width: 100%;
         overflow-x: auto;
+        overflow-y: visible;
         flex-shrink: 0;
         /** Dim the header a bit so that they don't demand so much attention */
         opacity: 0.8;

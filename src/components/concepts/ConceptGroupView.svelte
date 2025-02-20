@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { slide } from 'svelte/transition';
-    import type Concept from '@concepts/Concept';
-    import CodeView from './CodeView.svelte';
-    import Note from '../widgets/Note.svelte';
     import Expander from '@components/widgets/Expander.svelte';
+    import type Concept from '@concepts/Concept';
+    import { slide } from 'svelte/transition';
     import { animationDuration } from '../../db/Database';
+    import Note from '../widgets/Note.svelte';
+    import CodeView from './CodeView.svelte';
 
     interface Props {
         concepts: Concept[];
@@ -48,7 +48,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: calc(2 * var(--wordplay-spacing));
-        align-items: baseline;
+        align-items: end;
         border-top: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         border-bottom: var(--wordplay-border-color) dotted

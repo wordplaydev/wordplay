@@ -1,9 +1,9 @@
-import Conflict from './Conflict';
-import type Name from '@nodes/Name';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import type Bind from '../nodes/Bind';
+import type Name from '@nodes/Name';
 import type Locales from '../locale/Locales';
+import type Bind from '../nodes/Bind';
+import Conflict from './Conflict';
 
 export default class DuplicateName extends Conflict {
     readonly bind: Bind;

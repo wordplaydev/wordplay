@@ -1,25 +1,27 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
+import type EditContext from '@edit/EditContext';
+import Refer from '@edit/Refer';
 import type Locales from '@locale/Locales';
-import type { NodeText, DescriptiveNodeText } from '@locale/NodeTexts';
-import type Glyph from '../lore/Glyph';
+import type {
+    DescriptiveNodeText,
+    NodeDescriptor,
+    NodeText,
+} from '@locale/NodeTexts';
+import Characters from '../lore/BasisCharacters';
+import type Bind from './Bind';
+import BindToken from './BindToken';
 import type Context from './Context';
-import Expression from './Expression';
+import Evaluate from './Evaluate';
 import type { GuardContext } from './Expression';
-import Node from './Node';
-import { node, type Grammar, type Replacement } from './Node';
+import Expression from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import Node, { node, type Grammar, type Replacement } from './Node';
+import NoExpressionType from './NoExpressionType';
+import Sym from './Sym';
+import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import Token from './Token';
-import Sym from './Sym';
-import BindToken from './BindToken';
-import Glyphs from '../lore/Glyphs';
-import Evaluate from './Evaluate';
-import Refer from '@edit/Refer';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Bind from './Bind';
-import NoExpressionType from './NoExpressionType';
-import type EditContext from '@edit/EditContext';
 
 export default class Input extends Node {
     readonly name: Token;
@@ -33,7 +35,7 @@ export default class Input extends Node {
         this.value = value;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Input';
     }
 
@@ -80,14 +82,8 @@ export default class Input extends Node {
 
     getGrammar(): Grammar {
         return [
-            {
-                name: 'name',
-                kind: node(Sym.Name),
-            },
-            {
-                name: 'bind',
-                kind: node(Sym.Bind),
-            },
+            { name: 'name', kind: node(Sym.Name) },
+            { name: 'bind', kind: node(Sym.Bind) },
             {
                 name: 'value',
                 kind: node(Expression),
@@ -171,8 +167,8 @@ export default class Input extends Node {
         return locales.concretize((l) => l.node.Input.start);
     }
 
-    getGlyphs(): Glyph {
-        return { symbols: this.name.getText() + Glyphs.Bind };
+    getCharacter() {
+        return { symbols: this.name.getText() + Characters.Bind };
     }
 
     getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {

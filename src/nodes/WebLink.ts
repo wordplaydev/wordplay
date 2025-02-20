@@ -1,16 +1,17 @@
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import {
     LINK_SYMBOL,
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
 } from '../parser/Symbols';
-import { node, type Grammar, type Replacement } from './Node';
-import Token from './Token';
-import Sym from './Sym';
 import Content from './Content';
-import type Locales from '../locale/Locales';
-import type { TemplateInput } from '../locale/Locales';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class WebLink extends Content {
     readonly open: Token;
@@ -53,7 +54,7 @@ export default class WebLink extends Content {
         return [WebLink.make('...', 'https://')];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'WebLink';
     }
 
@@ -89,8 +90,8 @@ export default class WebLink extends Content {
         return locales.get((l) => l.node.WebLink);
     }
 
-    getGlyphs() {
-        return Glyphs.Link;
+    getCharacter() {
+        return Characters.Link;
     }
 
     getDescriptionInputs(): TemplateInput[] {

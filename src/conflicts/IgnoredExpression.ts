@@ -1,11 +1,11 @@
-import type Expression from '@nodes/Expression';
-import Conflict, { type Resolution } from './Conflict';
-import type Block from '../nodes/Block';
-import type Locales from '../locale/Locales';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import type Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import type Locales from '../locale/Locales';
+import type Block from '../nodes/Block';
+import Conflict, { type Resolution } from './Conflict';
 
 export class IgnoredExpression extends Conflict {
     readonly block: Block;

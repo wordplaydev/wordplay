@@ -10,5 +10,5 @@ export const ArrangementSetting = new Setting<Arrangement>(
         Object.values<string>(Arrangement).includes(value)
             ? (value as Arrangement)
             : undefined,
-    (current, value) => current == value
+    (current, value) => current == value,
 );

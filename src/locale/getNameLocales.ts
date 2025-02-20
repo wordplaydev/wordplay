@@ -1,10 +1,10 @@
 import Name from '@nodes/Name';
 import Names from '@nodes/Names';
-import { Unwritten, type NameText } from './LocaleText';
-import type LocaleText from './LocaleText';
-import { localeToLanguage } from './localeToLanguage';
 import DefaultLocale from './DefaultLocale';
 import type Locales from './Locales';
+import type LocaleText from './LocaleText';
+import { Unwritten, type NameText } from './LocaleText';
+import { localeToLanguage } from './localeToLanguage';
 
 export function getNameLocales(
     locales: Locales,

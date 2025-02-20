@@ -13,6 +13,7 @@
         "input": "input",
         "output": "output",
         "convert": "convert",
+        "how": "how to",
         "act": "act",
         "scene": "scene",
         "phrase": "phrase",
@@ -69,7 +70,7 @@
         "Light": "light",
         "Bold": "bold",
         "Extra": "extra",
-        "Concept": "concept link",
+        "Concept": "character link",
         "URL": "URL",
         "Mention": "mention",
         "Otherwise": "otherwise",
@@ -300,14 +301,18 @@
             ]
         },
         "ConceptLink": {
-            "name": "concept",
-            "description": "concept $1",
+            "name": "character",
+            "description": "character $1",
             "emotion": "serious",
             "doc": [
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
-                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a concept link!'\\",
-                "When the @Doc you wrote appears here, it'll show a link to the concept."
+                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
+                "Characters also have numbers that correspond to them. For exmple, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
+                "\\`@192 is so nice!`\\",
+                "And if you make your own character, you can refer to them by the name you gave them.",
+                "\\`@coolbeans`\\",
+                "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
             ]
         },
         "Words": {
@@ -1093,7 +1098,7 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
-            "doc": "I represent some text, with a @Language tag. See @Text to learn more!",
+            "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2",
                 "email": "Is *$1* someone's email? Don't share me here if so!\n\n$2",
@@ -1549,10 +1554,12 @@
                 "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
                 "\\'hello'/en'hola'/es-MX\\",
                 "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching langauge.",
-                "If you want to make me with some other values, you can use a symbol to ",
-                "For instance, consider this:",
+                "If you want to make me with some other values, you can do this:",
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
+                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by our number. For example, @FunctionDefinition is 192:",
+                "\\'@192'\\",
+                "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
             "name": ["''", "Text"],
@@ -4093,7 +4100,10 @@
                     "label": "share"
                 },
                 "removeCollaborator": "remove collaborator",
-                "copy": "copy project to clipboard as text",
+                "copy": {
+                    "tip": "copy project to clipboard as text",
+                    "label": "copy as text"
+                },
                 "addSource": "create a new $source",
                 "duplicate": "copy this project",
                 "revert": "revert to original code",
@@ -4110,7 +4120,7 @@
                 "primary": "set as this project's primary locale",
                 "history": {
                     "on": "show recent project code",
-                    "redo": "show current project code"
+                    "off": "show current project code"
                 }
             },
             "field": {
@@ -4229,9 +4239,9 @@
                     "on": "edit as text",
                     "off": "edit as blocks"
                 },
-                "glyphs": {
-                    "on": "collapse the matching glyphs",
-                    "off": "expand the matching glyphs"
+                "characters": {
+                    "on": "collapse the matching characters",
+                    "off": "expand the matching characters"
                 }
             },
             "options": {
@@ -4306,6 +4316,10 @@
                 "search": "search for special characters to insert",
                 "tidy": "tidy spacing",
                 "elide": "toggle elision"
+            },
+            "error": {
+                "invalidName": "This must be a valid Wordplay name.",
+                "invalidWords": "Words can't be empty or contain reserved symbols."
             }
         },
         "annotations": {
@@ -4368,7 +4382,7 @@
         },
         "docs": {
             "label": "docuemntation browser",
-            "link": "show concept $1 in documentation",
+            "link": "show character $1 in documentation",
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",
             "button": {
@@ -4376,7 +4390,7 @@
                 "back": "return to previous"
             },
             "field": {
-                "search": "search for concepts with words"
+                "search": "keywords"
             },
             "header": {
                 "inputs": "Inputs",
@@ -4384,6 +4398,24 @@
                 "properties": "Properties",
                 "functions": "Functions",
                 "conversions": "Conversions"
+            },
+            "modes": {
+                "label": "browse",
+                "modes": ["how to", "concepts"]
+            },
+            "how": {
+                "category": {
+                    "characters": "create and control characters",
+                    "styling": "style characters and text",
+                    "animation": "animate characters and text",
+                    "layout": "arrange characters and text",
+                    "randomization": "randomize things",
+                    "remembering": "track changes and choices",
+                    "stories": "tell a story",
+                    "motion": "use physics",
+                    "video": "use a camera"
+                },
+                "related": "Not what you're looking for?"
             }
         },
         "dialog": {
@@ -4391,6 +4423,10 @@
                 "header": "Sharing",
                 "explanation": "Share this project with galleries or the world.",
                 "subheader": {
+                    "copy": {
+                        "header": "Copy and Paste",
+                        "explanation": "Copy this project to your clipboard as text and share it somewhere else."
+                    },
                     "gallery": {
                         "header": "Gallery",
                         "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."
@@ -4418,7 +4454,8 @@
                 },
                 "error": {
                     "unknown": "We don't know a creator with this email.",
-                    "anonymous": "You must be logged in to share."
+                    "anonymous": "You must be logged in to share.",
+                    "self": "You can't add yourself."
                 },
                 "button": {
                     "submit": "Share the project with this email address",
@@ -4530,11 +4567,11 @@
             },
             "button": {
                 "submit": {
-                    "label": "Send",
+                    "label": "send",
                     "tip": "Send a message to your collaborators"
                 },
                 "start": {
-                    "label": "Start a chat",
+                    "label": "start a chat",
                     "tip": "Begin a discussion with yourself or others."
                 },
                 "delete": "delete this message"
@@ -4608,12 +4645,18 @@
                 "field": {
                     "percent": "edit percent"
                 }
+            },
+            "error": {
+                "nan": "This is not a number.",
+                "percent": "Must be a percent between 0 and 100.",
+                "lessThanNext": "This must be less than the next entry.",
+                "moreThanPrevious": "This must be more than the previous entry."
             }
         },
         "save": {
             "saving": "saving",
-            "saved": "saved online",
-            "local": "saved in browser",
+            "saved": "saved",
+            "local": "saved",
             "unsaved": "unsaved"
         },
         "page": {
@@ -4643,6 +4686,7 @@
                     "guide": "Search and browse the language reference",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
+                    "characters": "Create custom emojis and symbols",
                     "rights": "Responsibilities, ours and yours",
                     "about": "Why does this place exist?",
                     "community": {
@@ -4778,12 +4822,13 @@
                     }
                 },
                 "error": {
-                    "notfound": "We couldn't find this class or you don't have permission to view it."
+                    "notfound": "We couldn't find this class or you don't have permission to view it.",
+                    "gallery": "We couldn't create a gallery for this class."
                 }
             },
             "guide": {
                 "header": "Guide",
-                "description": "This is a reference for every part of the Wordplay programming language. Search for a concept or browse the list to learn more."
+                "description": "This is a reference for every part of the Wordplay programming language. Search for a character or browse the list to learn more."
             },
             "projects": {
                 "header": "Projects",
@@ -4824,7 +4869,187 @@
             "galleries": {
                 "header": "Galleries",
                 "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
-                "examples": "Examples"
+                "examples": "Examples",
+                "button": {
+                    "more": {
+                        "label": "more...",
+                        "tip": "Load more galleries"
+                    }
+                }
+            },
+            "characters": {
+                "header": "Characters",
+                "prompt": "Create custom emojis and symbols to use in your projects and share with others.",
+                "button": {
+                    "new": "Create a new character"
+                },
+                "error": {
+                    "offline": "We couldn't access your characters stored online.",
+                    "noauth": "You must be logged in to see your characters and create new ones.",
+                    "create": "Unable to create a new character."
+                }
+            },
+            "character": {
+                "header": "Character",
+                "prompt": "Create an emoji or symbol with shapes and pixels.",
+                "instructions": {
+                    "empty": "Choose a drawing mode in the palette to create shapes.",
+                    "unselected": "Choose a drawing mode or select and edit shapes.",
+                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use the controls below to change the selected shapes.",
+                    "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel.",
+                    "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
+                    "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
+                    "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point."
+                },
+                "shape": {
+                    "shape": "shape",
+                    "pixel": "pixel",
+                    "rect": "rectangle",
+                    "ellipse": "ellipse",
+                    "path": "path"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "Share",
+                        "explanation": "Add collaborators to restrict who can view this character."
+                    },
+                    "button": {
+                        "label": "share",
+                        "tip": "share this character"
+                    },
+                    "delete": {
+                        "label": "delete",
+                        "tip": "delete this character"
+                    },
+                    "public": {
+                        "label": "visibility",
+                        "modes": ["public", "private"]
+                    },
+                    "collaborators": "collaborators"
+                },
+                "field": {
+                    "name": {
+                        "description": "name of the character",
+                        "placeholder": "name"
+                    },
+                    "description": {
+                        "description": "description of the character",
+                        "placeholder": "description"
+                    },
+                    "mode": {
+                        "label": "mode",
+                        "modes": [
+                            "select",
+                            "pixel",
+                            "rectangle",
+                            "ellipse",
+                            "path"
+                        ]
+                    },
+                    "fill": {
+                        "label": "fill",
+                        "modes": ["none", "inerit", "choose"]
+                    },
+                    "stroke": {
+                        "label": "stroke",
+                        "modes": ["none", "inerit", "choose"]
+                    },
+                    "none": "none",
+                    "inherit": "text color",
+                    "strokeWidth": {
+                        "label": "stroke width",
+                        "tip": "how wide the stroke is rendered"
+                    },
+                    "radius": {
+                        "label": "corner radius",
+                        "tip": "how round rectangle corners are"
+                    },
+                    "angle": {
+                        "label": "angle",
+                        "tip": "how much to rotate the shape around its center"
+                    },
+                    "width": {
+                        "label": "width",
+                        "tip": "how wide the shape is"
+                    },
+                    "height": {
+                        "label": "height",
+                        "tip": "how tall the shape is"
+                    },
+                    "closed": "connected"
+                },
+                "button": {
+                    "back": {
+                        "label": "back",
+                        "tip": "Move selected shapes behind."
+                    },
+                    "toBack": {
+                        "label": "to back",
+                        "tip": "Move selected shapes to the back."
+                    },
+                    "forward": {
+                        "label": "forward",
+                        "tip": "Move selected shapes in front."
+                    },
+                    "toFront": {
+                        "label": "to front",
+                        "tip": "Move selected shapes to the front."
+                    },
+                    "copy": {
+                        "label": "copy",
+                        "tip": "Copy selected shapes to clipboard."
+                    },
+                    "paste": {
+                        "label": "paste",
+                        "tip": "Paste copied shapes from clipboard."
+                    },
+                    "clear": {
+                        "label": "all",
+                        "tip": "Remove all shapes."
+                    },
+                    "clearPixels": {
+                        "label": "pixels",
+                        "tip": "Remove all pixels."
+                    },
+                    "undo": {
+                        "label": "undo",
+                        "tip": "Undo to the previous design"
+                    },
+                    "redo": {
+                        "label": "redo",
+                        "tip": "Redo to the next design"
+                    },
+                    "all": {
+                        "label": "select all",
+                        "tip": "Select all shapes and pixels"
+                    },
+                    "end": {
+                        "label": "finish shape",
+                        "tip": "End the current path"
+                    },
+                    "horizontal": {
+                        "label": "flip horizontal",
+                        "tip": "flip the points horizontally around the center "
+                    },
+                    "vertical": {
+                        "label": "flip vertical",
+                        "tip": "flip the points vertically around the center "
+                    }
+                },
+                "feedback": {
+                    "name": "Characters need a valid Wordplay name of at least 1 character long. It can't be 'UI', a decimal or hexadecimal number, or the name of a built-in language feature.",
+                    "description": "Characters need a description so those who can't see know what they represent.",
+                    "end": "or press escape.",
+                    "loadfail": "There was a problem loading this character.",
+                    "notfound": "This character doesn't exist.",
+                    "unauthenticated": "You must be logged in to edit a character.",
+                    "taken": "You already have a character with this name; not saving.",
+                    "unsaved": "Give this character a description and a valid, unique name to save."
+                },
+                "announce": {
+                    "position": "at $1 $2",
+                    "selection": "$1[selected $1|nothing selected]"
+                }
             },
             "about": {
                 "header": "About",
@@ -4866,12 +5091,15 @@
                 "error": {
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
-                    "email": "This email wasn't valid.",
+                    "email": "Not a valid email.",
+                    "invalidUsername": "Usernames must be emails or at least 5 letters with no spaces.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
+                    "invalidPassword": "Passwords must be at least 10 characters long.",
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
+                    "mismatched": "The passwords don't match.",
                     "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
                 },
                 "feedback": {

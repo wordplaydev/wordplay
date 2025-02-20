@@ -1,17 +1,18 @@
-import type { Grammar, Replacement } from './Node';
 import type LanguageCode from '@locale/LanguageCode';
-import Name from './Name';
-import Token from './Token';
-import { COMMA_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import NameToken from './NameToken';
-import Language from './Language';
 import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { COMMA_SYMBOL } from '@parser/Symbols';
 import Purpose from '../concepts/Purpose';
-import Emotion from '../lore/Emotion';
-import Node, { list, node } from './Node';
-import { getPreferred as getPreferredName } from './LanguageTagged';
 import type Locales from '../locale/Locales';
+import Emotion from '../lore/Emotion';
+import Language from './Language';
+import { getPreferred as getPreferredName } from './LanguageTagged';
+import Name from './Name';
+import NameToken from './NameToken';
+import type { Grammar, Replacement } from './Node';
+import Node, { list, node } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -47,7 +48,7 @@ export default class Names extends Node {
         return new Names(list);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Names';
     }
 
@@ -189,11 +190,10 @@ export default class Names extends Node {
 
     getLowerCaseNames() {
         return this.names
-            .map(
-                (a) =>
-                    a
-                        .getName()
-                        ?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2)),
+            .map((a) =>
+                a
+                    .getName()
+                    ?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2)),
             )
             .filter((n): n is string => n !== undefined);
     }
@@ -227,10 +227,7 @@ export default class Names extends Node {
         );
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.getNames()[0],
-            emotion: Emotion.kind,
-        };
+    getCharacter() {
+        return { symbols: this.getNames()[0], emotion: Emotion.kind };
     }
 }

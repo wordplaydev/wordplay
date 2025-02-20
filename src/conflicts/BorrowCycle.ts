@@ -1,10 +1,10 @@
-import type Source from '@nodes/Source';
-import type Borrow from '@nodes/Borrow';
-import type Program from '@nodes/Program';
-import Conflict from './Conflict';
-import type Context from '@nodes/Context';
 import NodeRef from '@locale/NodeRef';
+import type Borrow from '@nodes/Borrow';
+import type Context from '@nodes/Context';
+import type Program from '@nodes/Program';
+import type Source from '@nodes/Source';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class BorrowCycle extends Conflict {
     readonly program: Program;

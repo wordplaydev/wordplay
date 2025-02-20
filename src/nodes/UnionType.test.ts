@@ -1,9 +1,9 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 import Project from '../db/projects/Project';
-import Source from './Source';
-import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/parseType';
 import DefaultLocale from '../locale/DefaultLocale';
+import parseType from '../parser/parseType';
+import { toTokens } from '../parser/toTokens';
+import Source from './Source';
 
 test.each([
     ["'hi'|'hello'", "''"],

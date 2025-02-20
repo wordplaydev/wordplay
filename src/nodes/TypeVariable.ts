@@ -1,16 +1,17 @@
-import type { Grammar, Replacement } from './Node';
-import Names from './Names';
 import type LocaleText from '@locale/LocaleText';
-import NameType from './NameType';
-import Glyphs from '../lore/Glyphs';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import Node, { any, node, none } from './Node';
-import Type from './Type';
-import Sym from './Sym';
-import Token from './Token';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type Definition from './Definition';
-import type Locales from '../locale/Locales';
+import Names from './Names';
+import NameType from './NameType';
+import type { Grammar, Replacement } from './Node';
+import Node, { any, node, none } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
 import TypeToken from './TypeToken';
 
@@ -41,7 +42,7 @@ export default class TypeVariable extends Node {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TypeVariable';
     }
 
@@ -107,7 +108,7 @@ export default class TypeVariable extends Node {
         return locales.get((l) => l.node.TypeVariable);
     }
 
-    getGlyphs() {
-        return Glyphs.Name;
+    getCharacter() {
+        return Characters.Name;
     }
 }

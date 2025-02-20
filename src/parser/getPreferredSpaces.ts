@@ -1,10 +1,10 @@
 /** Functions and helper functions for formatting the preceding space of tokens (aka "pretty printing"). */
 import Node from '@nodes/Node';
 import Root from '@nodes/Root';
+import Source from '@nodes/Source';
 import type Token from '@nodes/Token';
 import Spaces from './Spaces';
 import TokenList from './TokenList';
-import Source from '@nodes/Source';
 
 /**
  * Given a node, and optional root for the node, and optional current spacing for the node and its children,

@@ -33,7 +33,7 @@
         width = '10em',
         id = undefined,
         editable = true,
-        code = false
+        code = false,
     }: Props = $props();
 
     let view: HTMLSelectElement | undefined = $state(undefined);

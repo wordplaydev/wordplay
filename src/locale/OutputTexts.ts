@@ -1,8 +1,8 @@
-import type { NameAndDoc, Template, NameText } from './LocaleText';
+import type { NameAndDoc, NameText, Template } from './LocaleText';
 import type { ExceptionText } from './NodeTexts';
 
 export type TypeTexts = {
-    /** How tall glyphs in a phrase, group, or stage should be */
+    /** How tall characters in a phrase, group, or stage should be */
     size: NameAndDoc;
     /** The font face used in a phrase, group, or stage */
     face: NameAndDoc;
@@ -14,7 +14,7 @@ export type TypeTexts = {
     description: NameAndDoc;
     /** Whether a phrase, group, or stage is selectable by Choice */
     selectable: NameAndDoc;
-    /** The color of glyphs in a phrase, group, or stage */
+    /** The color of characters in a phrase, group, or stage */
     color: NameAndDoc;
     /** The background color behind a phrase, group, or stage */
     background: NameAndDoc;
@@ -69,11 +69,11 @@ type OutputTexts = {
         /** The blurriness of the shadow */
         blur: NameAndDoc;
     };
-    /** A sequence of glyphs */
+    /** A sequence of characters */
     Phrase: NameAndDoc & {
-        /** The glyphs to render */
+        /** The characters to render */
         text: NameAndDoc;
-        /** The boundary at which to wrap glyphs to another line */
+        /** The boundary at which to wrap characters to another line */
         wrap: NameAndDoc;
         /** The alignment to use when wrapped */
         alignment: NameAndDoc;
@@ -108,7 +108,7 @@ type OutputTexts = {
         description: NameAndDoc;
         /** Whether a phrase, group, or stage is selectable by Choice */
         selectable: NameAndDoc;
-        /** The color of glyphs in a phrase, group, or stage */
+        /** The color of characters in a phrase, group, or stage */
         color: NameAndDoc;
         /** The background color behind a phrase, group, or stage */
         background: NameAndDoc;

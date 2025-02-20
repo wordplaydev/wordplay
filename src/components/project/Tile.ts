@@ -1,5 +1,5 @@
-import type Locales from '../../locale/Locales';
 import type Project from '../../db/projects/Project';
+import type Locales from '../../locale/Locales';
 import type Bounds from './Bounds';
 import Layout from './Layout';
 import TileKinds from './TileKinds';

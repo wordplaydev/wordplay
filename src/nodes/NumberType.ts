@@ -1,21 +1,22 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
-import type Context from './Context';
-import Token from './Token';
-import Sym from './Sym';
-import Unit from './Unit';
-import BinaryEvaluate from './BinaryEvaluate';
-import BasisType from './BasisType';
-import UnaryEvaluate from './UnaryEvaluate';
-import NumberLiteral from './NumberLiteral';
 import NumberValue from '@values/NumberValue';
-import Evaluate from './Evaluate';
-import PropertyReference from './PropertyReference';
-import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement } from './Node';
-import Glyphs from '../lore/Glyphs';
-import NodeRef from '../locale/NodeRef';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
+import BasisType from './BasisType';
+import BinaryEvaluate from './BinaryEvaluate';
+import type Context from './Context';
+import Evaluate from './Evaluate';
+import { node, type Grammar, type Replacement } from './Node';
+import NumberLiteral from './NumberLiteral';
+import PropertyReference from './PropertyReference';
+import Sym from './Sym';
+import Token from './Token';
+import type TypeSet from './TypeSet';
+import UnaryEvaluate from './UnaryEvaluate';
+import Unit from './Unit';
 
 type UnitDeriver = (
     left: Unit,
@@ -62,7 +63,7 @@ export default class NumberType extends BasisType {
         return [NumberType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NumberType';
     }
 
@@ -219,8 +220,8 @@ export default class NumberType extends BasisType {
         return locales.get((l) => l.node.NumberType);
     }
 
-    getGlyphs() {
-        return Glyphs.Number;
+    getCharacter() {
+        return Characters.Number;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

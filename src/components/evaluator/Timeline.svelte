@@ -1,15 +1,15 @@
 <script lang="ts">
     import type Evaluator from '@runtime/Evaluator';
-    import Key from '../../input/Key';
     import BoolValue from '@values/BoolValue';
-    import Button from '../../input/Button';
-    import { slide } from 'svelte/transition';
-    import { tick, untrack } from 'svelte';
     import ExceptionValue from '@values/ExceptionValue';
+    import StructureValue from '@values/StructureValue';
+    import { tick, untrack } from 'svelte';
+    import { slide } from 'svelte/transition';
+    import { animationDuration, locales } from '../../db/Database';
+    import Button from '../../input/Button';
+    import Key from '../../input/Key';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
-    import { animationDuration, locales } from '../../db/Database';
-    import StructureValue from '@values/StructureValue';
 
     interface Props {
         /** The evaluator running the program */

@@ -1,6 +1,7 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
+    import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
     import { WordsRegEx } from '@parser/Tokenizer';
     import TokenTextEditor from './TokenEditor.svelte';
@@ -20,6 +21,9 @@
     {project}
     {text}
     {placeholder}
-    validator={(newWords) => newWords === '' || WordsRegEx.test(newWords)}
+    validator={(newWords) =>
+        newWords.length === 0 || !WordsRegEx.test(newWords)
+            ? $locales.get((l) => l.ui.source.error.invalidWords)
+            : true}
     creator={(text) => (text === '' ? undefined : new Token(text, Sym.Words))}
 />

@@ -1,10 +1,10 @@
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
-import type Node from '../nodes/Node';
 import type Locales from '../locale/Locales';
+import type Node from '../nodes/Node';
+import Conflict from './Conflict';
 
 export default class IncompatibleType extends Conflict {
     readonly receiver: Node;

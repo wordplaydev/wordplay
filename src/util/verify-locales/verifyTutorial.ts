@@ -1,14 +1,19 @@
+import Project from '@db/projects/Project';
 import type LocaleText from '@locale/LocaleText';
-import type Log from './Log';
-import type Tutorial from '../../tutorial/Tutorial';
-import type StringPath from './StringPath';
 import {
     isAutomated,
     isUnwritten,
     MachineTranslated,
     Unwritten,
 } from '@locale/LocaleText';
-import { getKeyTemplatePairs } from './StringPath';
+import ConceptLink from '@nodes/ConceptLink';
+import type Node from '@nodes/Node';
+import Source from '@nodes/Source';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import parseDoc from '@parser/parseDoc';
+import { toTokens } from '@parser/toTokens';
+import { Performances } from '../../tutorial/Performances';
+import type Tutorial from '../../tutorial/Tutorial';
 import {
     PerformanceMode,
     type Dialog,
@@ -16,16 +21,11 @@ import {
     type PeformanceModeType,
     type Performance,
 } from '../../tutorial/Tutorial';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import ConceptLink from '@nodes/ConceptLink';
-import parseDoc from '@parser/parseDoc';
-import { toTokens } from '@parser/toTokens';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import { Performances } from '../../tutorial/Performances';
-import type Node from '@nodes/Node';
-import Validator from './Validator';
+import type LocalePath from './LocalePath';
+import { getKeyTemplatePairs } from './LocalePath';
+import type Log from './Log';
 import TutorialSchema, { DefaultTutorial } from './TutorialSchema';
+import Validator from './Validator';
 import translate from './translate';
 
 /** Load, validate, and check the tutorial, and optionally translate. */
@@ -46,7 +46,7 @@ export async function verifyTutorial(
             if (error.message)
                 log.bad(3, `${error.instancePath}: ${error.message}`);
         }
-    } else log.good(2, 'Found valid tutorial.');
+    }
 
     // Verify and repair the tutorial.
     tutorial = await checkTutorial(log, locale, tutorial as Tutorial);
@@ -226,7 +226,7 @@ async function checkTutorial(
     );
 
     if (automated.length > 0)
-        log.bad(
+        log.warning(
             2,
             `Tutorial has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
         );
@@ -252,7 +252,7 @@ export function createUnwrittenTutorial(): Tutorial {
 /** Given a source tutorial and a current target tutorial, translate untranslated tutorial text. */
 async function translateTutorial(log: Log, tutorial: Tutorial) {
     // Get the key/value pairs to translate.
-    let pairs: StringPath[] = getTranslatableTutorialPairs(tutorial);
+    let pairs: LocalePath[] = getTranslatableTutorialPairs(tutorial);
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
@@ -331,7 +331,7 @@ async function translateTutorial(log: Log, tutorial: Tutorial) {
 }
 
 /** Given a tutorial, find all string paths that can be translated. */
-export function getTranslatableTutorialPairs(tutorial: Tutorial): StringPath[] {
+export function getTranslatableTutorialPairs(tutorial: Tutorial): LocalePath[] {
     // Get the pairs and filter them according to the structure of the tutorial.
     return getKeyTemplatePairs(tutorial).filter((path) => {
         // Title or subtitle? We should translate these.

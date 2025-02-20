@@ -1,10 +1,10 @@
-import type Type from './Type';
-import UnknownType from './UnknownType';
-import type Expression from './Expression';
-import type Context from './Context';
-import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import type Context from './Context';
+import type Expression from './Expression';
+import type Type from './Type';
+import UnknownType from './UnknownType';
 
 export class NotAType extends UnknownType<Expression> {
     readonly given: Type;

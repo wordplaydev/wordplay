@@ -3,13 +3,13 @@
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import { locales } from '@db/Database';
+    import { GLOBE1_SYMBOL } from '@parser/Symbols';
     import {
         getBlocks,
         getWarnings,
         type Moderation,
     } from '../../db/projects/Moderation';
     import Warning from '../widgets/Warning.svelte';
-    import { GLOBE1_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         isPublic: boolean;
@@ -64,20 +64,13 @@
         {/each}
     </ul>
 {/if}
-<p>
-    <Mode
-        descriptions={$locales.get((l) => l.ui.dialog.share.mode.public)}
-        choice={isPublic ? 1 : 0}
-        select={set}
-        modes={[
-            '🤫 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[0]),
-            `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.dialog.share.mode.public.modes[1])}`,
-        ]}
-    /></p
->
 
-<style>
-    p {
-        margin-top: var(--wordplay-spacing);
-    }
-</style>
+<Mode
+    descriptions={$locales.get((l) => l.ui.dialog.share.mode.public)}
+    choice={isPublic ? 1 : 0}
+    select={set}
+    modes={[
+        '🤫 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[0]),
+        `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.dialog.share.mode.public.modes[1])}`,
+    ]}
+/>

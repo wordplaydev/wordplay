@@ -7,10 +7,7 @@ type SelectedOutputPaths = {
     path: Path | undefined;
 }[];
 
-type SelectedPhrase = {
-    name: string;
-    index: number | null;
-} | null;
+type SelectedPhrase = { name: string; index: number | null } | null;
 
 /**
  * A composite state that stores the current selected value (and if not in an editing mode, nothing).

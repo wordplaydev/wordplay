@@ -1,42 +1,43 @@
-import Expression, { type GuardContext } from './Expression';
-import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
-import UnknownColumn from '@conflicts/UnknownColumn';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
-import type Type from './Type';
-import Reference from './Reference';
-import TableType from './TableType';
-import BooleanType from './BooleanType';
+import UnknownColumn from '@conflicts/UnknownColumn';
+import type EditContext from '@edit/EditContext';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
-import type Node from './Node';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import BoolValue from '@values/BoolValue';
+import type Value from '@values/Value';
+import { getIteration, getIterationResult } from '../basis/Iteration';
+import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
+import type StructureValue from '../values/StructureValue';
+import TableValue from '../values/TableValue';
+import BooleanType from './BooleanType';
 import type Context from './Context';
 import type Definition from './Definition';
-import type TypeSet from './TypeSet';
-import type Evaluator from '@runtime/Evaluator';
-import UnknownNameType from './UnknownNameType';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { NotAType } from './NotAType';
-import Purpose from '../concepts/Purpose';
-import type StructureValue from '../values/StructureValue';
-import { getIteration, getIterationResult } from '../basis/Iteration';
-import TableValue from '../values/TableValue';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
-import Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
+import { NotAType } from './NotAType';
+import Reference from './Reference';
+import Row from './Row';
 import Sym from './Sym';
+import TableType from './TableType';
 import Token from './Token';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnknownNameType from './UnknownNameType';
 
 type SelectState = {
     table: TableValue;
@@ -71,7 +72,7 @@ export default class Select extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Select';
     }
 
@@ -352,7 +353,7 @@ export default class Select extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Select;
+    getCharacter() {
+        return Characters.Select;
     }
 }

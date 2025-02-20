@@ -1,28 +1,30 @@
 <svelte:options />
 
 <script lang="ts">
-    import Button from '../widgets/Button.svelte';
-    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import { DB, locales } from '@db/Database';
-    import {
-        getLocaleLanguage,
-        getLocaleLanguageName,
-        isLocaleDraft,
-    } from '../../locale/LocaleText';
-    import { type SupportedLocale } from '@locale/SupportedLocales';
-    import { SupportedLocales } from '@locale/SupportedLocales';
-    import Link from '../app/Link.svelte';
-    import Dialog from '../widgets/Dialog.svelte';
-    import { localeToString } from '../../locale/Locale';
     import type LanguageCode from '@locale/LanguageCode';
-    import LocaleName from './LocaleName.svelte';
-    import { Settings } from '../../db/Database';
+    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
+    import {
+        SupportedLocales,
+        type SupportedLocale,
+    } from '@locale/SupportedLocales';
     import {
         CANCEL_SYMBOL,
         DRAFT_SYMBOL,
         EMOJI_SYMBOL,
         LOCALE_SYMBOL,
     } from '@parser/Symbols';
+    import { Settings } from '../../db/Database';
+    import { localeToString } from '../../locale/Locale';
+    import {
+        getLocaleLanguage,
+        getLocaleLanguageName,
+        isLocaleDraft,
+    } from '../../locale/LocaleText';
+    import Link from '../app/Link.svelte';
+    import Button from '../widgets/Button.svelte';
+    import Dialog from '../widgets/Dialog.svelte';
+    import LocaleName from './LocaleName.svelte';
 
     let selectedLocales = $state<string[]>([]);
     $effect(() => {
@@ -83,9 +85,8 @@
                 action={() => select(selected, 'remove')}
                 tip={$locales.get((l) => l.ui.dialog.locale.button.remove)}
                 active={selectedLocales.length > 1}
-                >{#if selectedLocales.length > 1}
-                    {CANCEL_SYMBOL}
-                {/if}
+                icon={selectedLocales.length > 1 ? CANCEL_SYMBOL : undefined}
+            >
                 <LocaleName locale={selected} supported /></Button
             >
         {/each}
@@ -106,8 +107,8 @@
                 <Button
                     action={() => select(supported, 'add')}
                     tip={$locales.get((l) => l.ui.dialog.locale.button.add)}
-                    >+</Button
-                >
+                    icon="+"
+                ></Button>
             </div>
         {:else}&mdash;
         {/each}

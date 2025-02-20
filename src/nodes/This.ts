@@ -1,31 +1,32 @@
 import type Conflict from '@conflicts/Conflict';
-import type Type from './Type';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import type Value from '@values/Value';
+import type Context from './Context';
 import type Expression from './Expression';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
-import Token from './Token';
-import StructureDefinition from './StructureDefinition';
 import { MisplacedThis } from '@conflicts/MisplacedThis';
-import StructureType from './StructureType';
-import NameException from '@values/NameException';
-import ConversionDefinition from './ConversionDefinition';
-import NumberType from './NumberType';
+import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import StartFinish from '@runtime/StartFinish';
-import Reaction from './Reaction';
+import NameException from '@values/NameException';
 import ValueException from '@values/ValueException';
-import { node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './SimpleExpression';
-import { UnenclosedType } from './UnenclosedType';
-import Glyphs from '../lore/Glyphs';
-import { PROPERTY_SYMBOL } from '../parser/Symbols';
-import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
+import Characters from '../lore/BasisCharacters';
+import { PROPERTY_SYMBOL } from '../parser/Symbols';
+import ConversionDefinition from './ConversionDefinition';
+import { node, type Grammar, type Replacement } from './Node';
+import NumberType from './NumberType';
+import Reaction from './Reaction';
+import SimpleExpression from './SimpleExpression';
+import StructureDefinition from './StructureDefinition';
+import StructureType from './StructureType';
+import Sym from './Sym';
+import Token from './Token';
+import { UnenclosedType } from './UnenclosedType';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -61,7 +62,7 @@ export default class This extends SimpleExpression {
         return this.getPossibleReplacements(context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'This';
     }
 
@@ -176,7 +177,7 @@ export default class This extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.This;
+    getCharacter() {
+        return Characters.This;
     }
 }

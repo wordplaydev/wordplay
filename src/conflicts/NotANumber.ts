@@ -1,6 +1,6 @@
 import type NumberLiteral from '@nodes/NumberLiteral';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class NotANumber extends Conflict {
     readonly measurement: NumberLiteral;

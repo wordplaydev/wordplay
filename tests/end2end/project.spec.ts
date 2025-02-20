@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('create project and visit its tiles ', async ({ page }) => {
     await page.goto('/projects');
@@ -6,14 +6,8 @@ test('create project and visit its tiles ', async ({ page }) => {
     // Create a new blank project
     await page.getByTestId('addproject').click();
 
-    // Click the first preview link
-    await page.getByTestId('preview').nth(0).click();
-
     // Wait for the URL redirect to the project.
     await page.waitForURL(/\/project\/.+/);
-
-    // Click to open the guide
-    await page.getByTestId('docs-toggle').click();
 
     // Click to open the palette
     await page.getByTestId('palette-toggle').click();

@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 import UnicodeString from './UnicodeString';
 
 expect(new UnicodeString('🌷🎁💩😜👍🏳️‍🌈').getLength()).toBe(6);

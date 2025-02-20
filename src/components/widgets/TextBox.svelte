@@ -6,8 +6,11 @@
         description: string;
         placeholder: string;
         active?: boolean;
+        inline?: boolean;
         done?: (text: string) => void;
         dwelled?: undefined | ((text: string) => void);
+        validator?: undefined | ((text: string) => string | true);
+        id: string;
     }
 
     let {
@@ -15,11 +18,24 @@
         description,
         placeholder,
         done = undefined,
+        validator = undefined,
         active = true,
+        inline = false,
         dwelled = undefined,
+        id,
     }: Props = $props();
 
     let view: HTMLTextAreaElement | undefined = $state();
+    let focused = $state(false);
+
+    /** The message to display if invalid */
+    let message = $derived.by(() => {
+        if (validator) {
+            const message = validator(text);
+            if (message === true) return undefined;
+            else return message;
+        } else return undefined;
+    });
 
     function handleInput() {
         if (dwelled)
@@ -40,20 +56,35 @@
     onMount(() => resize());
 </script>
 
-<textarea
-    title={description}
-    aria-label={description}
-    {placeholder}
-    bind:value={text}
-    bind:this={view}
-    aria-disabled={!active}
-    rows={1}
-    disabled={!active}
-    onblur={() => (done ? done(text) : undefined)}
-    oninput={handleInput}
-></textarea>
+<div class="box" {id} class:focused>
+    <textarea
+        title={description}
+        aria-label={description}
+        aria-invalid={message !== undefined}
+        aria-describedby="{id}-error"
+        {placeholder}
+        class={{ inline, error: message !== undefined }}
+        bind:value={text}
+        bind:this={view}
+        aria-disabled={!active}
+        rows={1}
+        disabled={!active}
+        onblur={() => {
+            if (done) done(text);
+            focused = false;
+        }}
+        onfocus={() => (focused = true)}
+        oninput={handleInput}
+    ></textarea>
+    {#if message !== undefined}
+        <div class="message" id="id-{id}">{message}</div>
+    {/if}
+</div>
 
 <style>
+    .box {
+        position: relative;
+    }
     textarea {
         font-family: inherit;
         font-size: inherit;
@@ -69,9 +100,8 @@
         color: var(--wordplay-foreground);
     }
 
-    textarea:focus {
-        outline: none;
-        border-left-color: var(--wordplay-focus-color);
+    .inline {
+        width: auto;
     }
 
     textarea::placeholder {
@@ -82,5 +112,33 @@
 
     textarea[aria-disabled='true'] {
         background: var(--wordplay-inactive-color);
+    }
+
+    .error {
+        color: var(--wordplay-error);
+        border-color: var(--wordplay-error);
+    }
+
+    /* Needs to be last to override the error color */
+    textarea:focus {
+        outline: none;
+        border-left-color: var(--wordplay-focus-color);
+    }
+
+    .message {
+        display: none;
+    }
+
+    .focused .message {
+        display: block;
+        position: absolute;
+        top: 100%;
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-small-font-size));
+        border-bottom-left-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
+        z-index: 2;
     }
 </style>

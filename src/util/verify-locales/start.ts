@@ -1,19 +1,28 @@
+import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import fs from 'fs';
 import path from 'path';
 import * as prettier from 'prettier';
 import type LocaleText from '../../locale/LocaleText';
-import Log from './Log';
-import { createUnwrittenLocale, verifyLocale } from './verifyLocale';
-import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';
+import {
+    getLocaleLanguage,
+    getLocaleRegion,
+    isRevised,
+    toLocale,
+} from '../../locale/LocaleText';
+import type LocalePath from './LocalePath';
+import { getKeyTemplatePairs } from './LocalePath';
 import {
     DefaultLocale,
     getLocaleJSON,
     getLocalePath,
     LocaleValidator,
 } from './LocaleSchema';
+import Log from './Log';
 import { getTutorialJSON, getTutorialPath } from './TutorialSchema';
-import { getLocaleLanguage, getLocaleRegion } from '../../locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
+import { createUnwrittenLocale, verifyLocale } from './verifyLocale';
+import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';
 
 // Make a logger so we can pretty print feedback.
 const log = new Log();
@@ -61,37 +70,17 @@ const localeFolders = Array.from(
     fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }),
 );
 
-async function handleLocale(locale: string) {
-    log.say(1, `Checking ${locale}...`);
+// Find prettier configuration options so we can format the locale.
+const prettierOptions = await prettier.resolveConfig('');
 
-    // Find prettier configuration options so we can format the locale.
-    const localePath = getLocalePath(locale);
-    const prettierOptions = await prettier.resolveConfig(localePath);
-
-    // Remember whether we created a new one
-    let localeIsNew = false;
-
-    // Get the currrent locale file in this directory.
-    let localeText = getLocaleJSON(log, locale) as LocaleText;
-    if (localeText === undefined) {
-        // Not verifying a specific locale? Warn.
-        if (FocalLocale === null) {
-            log.bad(
-                2,
-                "Couldn't find locale file. Can't validate it, or it's tutorial.",
-            );
-            return;
-        }
-        // If there is a specific locale we're looking for, and we can't find it, create a new one.
-        else if (FocalLanguage && FocalRegion) {
-            log.good(2, 'No locale found, creating one based on English.');
-            localeText = createUnwrittenLocale();
-            localeText.language = FocalLanguage;
-            localeText.region = FocalRegion;
-            localeText['$schema'] = '../../schemas/LocaleText.json';
-            localeIsNew = true;
-        }
-    }
+// Verify, repair, and translate a locale */
+async function handleLocale(
+    localeText: LocaleText,
+    revisedStrings: RevisedString[],
+    localeIsNew: boolean,
+    globals: Map<string, { locale: string; path: LocalePath }[]>,
+) {
+    const locale = toLocale(localeText);
 
     // Validate, repair, and translate the locale file.
     const [revisedLocale, localeChanged] = await verifyLocale(
@@ -99,6 +88,8 @@ async function handleLocale(locale: string) {
         locale,
         localeText as LocaleText,
         TranslationRequested,
+        revisedStrings,
+        globals,
     );
 
     // If the locale was revised, write the results.
@@ -113,73 +104,151 @@ async function handleLocale(locale: string) {
         fs.writeFileSync(getLocalePath(locale), prettyLocale);
     }
 
-    // If there's a locale, let's see if there's a tutorial.
-    let currentTutorial = getTutorialJSON(log, locale);
+    if (locale !== 'example') {
+        // If there's a locale, let's see if there's a tutorial.
+        let currentTutorial = getTutorialJSON(log, locale);
 
-    // Remember whether we created one so we can write it below.
-    let tutorialIsNew = false;
+        // Remember whether we created one so we can write it below.
+        let tutorialIsNew = false;
 
-    // Validate, repair, and optionally translate the tutorial file.
-    if (currentTutorial === undefined) {
-        // No translation requested? Just warn.
-        if (!TranslationRequested)
-            log.bad(1, "This locale doesn't have a tutorial file.");
-        // If a translation was requested and it was a valid langauge and region,
-        // copy the default tutorial, mark all of its text unwritten, and then translate it.
-        else if (FocalLanguage && FocalRegion) {
-            log.say(
-                1,
-                'Creating a new tutorial for this locale based on en-US...',
-            );
-            currentTutorial = createUnwrittenTutorial();
-            currentTutorial.region = FocalRegion;
-            currentTutorial.language = FocalLanguage;
-            tutorialIsNew = true;
+        // Validate, repair, and optionally translate the tutorial file.
+        if (currentTutorial === undefined) {
+            // No translation requested? Just warn.
+            if (!TranslationRequested)
+                log.bad(1, "This locale doesn't have a tutorial file.");
+            // If a translation was requested and it was a valid langauge and region,
+            // copy the default tutorial, mark all of its text unwritten, and then translate it.
+            else if (FocalLanguage && FocalRegion) {
+                log.say(
+                    1,
+                    'Creating a new tutorial for this locale based on en-US...',
+                );
+                currentTutorial = createUnwrittenTutorial();
+                currentTutorial.region = FocalRegion;
+                currentTutorial.language = FocalLanguage;
+                tutorialIsNew = true;
+            }
         }
-    }
 
-    // If there is a tutorial file, verify it, and optionally translate it.
-    if (currentTutorial) {
-        const revisedTutorial = await verifyTutorial(
-            log,
-            revisedLocale,
-            currentTutorial,
-            TranslationRequested,
-        );
-
-        // If the tutorial was revised, write the results.
-        if (
-            tutorialIsNew ||
-            (revisedTutorial &&
-                JSON.stringify(currentTutorial) !==
-                    JSON.stringify(revisedTutorial))
-        ) {
-            // Write a formatted version of the revised tutorial file.
-            const prettyTutorial = await prettier.format(
-                JSON.stringify(revisedTutorial, null, 4),
-                { ...prettierOptions, parser: 'json' },
+        // If there is a tutorial file, verify it, and optionally translate it.
+        if (currentTutorial) {
+            const revisedTutorial = await verifyTutorial(
+                log,
+                revisedLocale,
+                currentTutorial,
+                TranslationRequested,
             );
 
-            if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
-                log.good(1, 'Writing revised ' + locale + ' tutorial');
-                fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
+            // If the tutorial was revised, write the results.
+            if (
+                tutorialIsNew ||
+                (revisedTutorial &&
+                    JSON.stringify(currentTutorial) !==
+                        JSON.stringify(revisedTutorial))
+            ) {
+                // Write a formatted version of the revised tutorial file.
+                const prettyTutorial = await prettier.format(
+                    JSON.stringify(revisedTutorial, null, 4),
+                    { ...prettierOptions, parser: 'json' },
+                );
+
+                if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
+                    log.good(1, 'Writing revised ' + locale + ' tutorial');
+                    fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
+                }
             }
         }
     }
 }
 
-// Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
+// Build a database of all locales
+const textByLocale: Record<string, LocaleText> = {};
 for (const file of localeFolders) {
     if (
         file.isDirectory() &&
         (FocalLocale === null || file.name === FocalLocale)
-    )
-        handleLocale(file.name);
+    ) {
+        const locale = file.name;
+
+        // Get the currrent locale file in this directory.
+        let localeText = getLocaleJSON(log, locale) as LocaleText;
+        if (localeText === undefined) {
+            // Not verifying a specific locale? Warn.
+            if (FocalLocale === null) {
+                log.bad(
+                    1,
+                    `Couldn't find locale ${locale}. Can't validate it, or it's tutorial.`,
+                );
+                process.exit(0);
+            }
+        } else {
+            textByLocale[locale] = localeText;
+        }
+    }
+}
+
+const allLocaleText = Object.values(textByLocale);
+
+log.good(
+    1,
+    `Found ${allLocaleText.length} locales: ${Object.keys(textByLocale).join(', ')}.`,
+);
+
+// Compute globals across all locales
+const globals = new Map<string, { locale: string; path: LocalePath }[]>();
+export type RevisedString = { path: LocalePath; locale: string; text: string };
+let revisedStrings: RevisedString[] = [];
+
+for (const localeText of allLocaleText) {
+    for (const path of getKeyTemplatePairs(localeText)) {
+        if (path.isGlobalName()) {
+            const key = path.resolve(localeText);
+            const names = (key ? (Array.isArray(key) ? key : [key]) : []).map(
+                (name) => withoutAnnotations(name),
+            );
+            for (const name of names) {
+                if (!globals.has(name)) globals.set(name, []);
+                globals.get(name)!.push({ locale: toLocale(localeText), path });
+            }
+        }
+
+        const value = path.resolve(localeText);
+        const revised = (
+            value === undefined
+                ? []
+                : typeof value === 'string'
+                  ? [value]
+                  : value
+        ).find((v) => isRevised(v));
+        if (revised)
+            revisedStrings.push({
+                path,
+                locale: toLocale(localeText),
+                text: revised,
+            });
+    }
+}
+
+// Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
+for (const localeText of allLocaleText) {
+    log.say(1, `Checking ${toLocale(localeText)}`);
+    await handleLocale(localeText, revisedStrings, false, globals);
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.
-if (FocalLocale && !localeFolders.find((f) => f.name === FocalLocale)) {
+if (
+    FocalLocale &&
+    FocalRegion &&
+    !localeFolders.find((f) => f.name === FocalLocale)
+) {
     log.say(0, 'Creating a new locale folder for ' + FocalLocale);
     fs.mkdirSync(path.join('static', 'locales', FocalLocale));
-    handleLocale(FocalLocale);
+
+    log.good(2, 'No locale found, creating one based on English.');
+    let localeText = createUnwrittenLocale();
+    localeText.language = FocalLanguage as LanguageCode;
+    localeText.region = FocalRegion as RegionCode;
+    localeText['$schema'] = '../../schemas/LocaleText.json';
+
+    handleLocale(localeText, revisedStrings, true, globals);
 }

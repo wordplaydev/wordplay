@@ -1,22 +1,22 @@
-import type Project from '../db/projects/Project';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import BoolValue from '@values/BoolValue';
+import MarkupValue from '@values/MarkupValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import OutputExpression from './OutputExpression';
-import type { OutputPropertyValue } from './OutputExpression';
-import type OutputProperty from './OutputProperty';
-import MapLiteral from '../nodes/MapLiteral';
-import ListLiteral from '../nodes/ListLiteral';
-import type Bind from '../nodes/Bind';
 import type { Database } from '../db/Database';
-import MarkupValue from '@values/MarkupValue';
-import type LocaleText from '../locale/LocaleText';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type StreamDefinition from '../nodes/StreamDefinition';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
+import type Bind from '../nodes/Bind';
+import ListLiteral from '../nodes/ListLiteral';
+import MapLiteral from '../nodes/MapLiteral';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import type StructureDefinition from '../nodes/StructureDefinition';
+import type { OutputPropertyValue } from './OutputExpression';
+import OutputExpression from './OutputExpression';
+import type OutputProperty from './OutputProperty';
 
 /**
  * Represents one or more equivalent inputs to an output expression.

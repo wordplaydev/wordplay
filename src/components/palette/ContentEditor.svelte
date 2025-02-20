@@ -1,14 +1,14 @@
 <script lang="ts">
+    import { blocks, DB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Evaluate from '@nodes/Evaluate';
+    import type ListLiteral from '../../nodes/ListLiteral';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
+    import { getSelectedOutput } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import RootView from '../project/RootView.svelte';
-    import { getSelectedOutput } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
-    import type ListLiteral from '../../nodes/ListLiteral';
-    import { blocks, DB, locales } from '@db/Database';
-    import { CANCEL_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
 
     interface Props {
         project: Project;
@@ -62,16 +62,17 @@
                             ? removeContent(DB, project, list, index)
                             : undefined}
                     active={editable && list.values.length > 0}
-                    >{CANCEL_SYMBOL}</Button
-                >
+                    icon={CANCEL_SYMBOL}
+                ></Button>
                 <Button
                     tip={$locales.get((l) => l.ui.palette.button.up)}
                     action={() =>
                         list
                             ? moveContent(DB, project, list, index, -1)
                             : undefined}
-                    active={editable && index > 0}>↑</Button
-                >
+                    active={editable && index > 0}
+                    icon="↑"
+                ></Button>
                 <Button
                     tip={$locales.get((l) => l.ui.palette.button.down)}
                     action={() =>
@@ -79,13 +80,14 @@
                             ? moveContent(DB, project, list, index, 1)
                             : undefined}
                     active={editable && index < list.values.length - 1}
-                    >↓</Button
-                >
+                    icon="↓"
+                ></Button>
                 <Button
                     tip={$locales.get((l) => l.ui.palette.button.edit)}
                     active={editable}
-                    action={() => editContent(index)}>{EDIT_SYMBOL}</Button
-                >
+                    action={() => editContent(index)}
+                    icon={EDIT_SYMBOL}
+                ></Button>
                 <RootView node={content} locale="symbolic" blocks={$blocks} />
             </div>
         {/each}

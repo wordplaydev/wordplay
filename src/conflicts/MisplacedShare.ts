@@ -1,7 +1,7 @@
 import type Bind from '@nodes/Bind';
 import type Token from '@nodes/Token';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class MisplacedShare extends Conflict {
     readonly bind: Bind;

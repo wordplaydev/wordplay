@@ -5,5 +5,5 @@ export const SpaceSetting = new Setting<boolean>(
     false,
     true,
     (value) => typeof value === 'boolean',
-    (current, value) => current === value
+    (current, value) => current === value,
 );

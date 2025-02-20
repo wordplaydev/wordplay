@@ -1,28 +1,29 @@
-import type Conflict from '@conflicts/Conflict';
-import Expression from './Expression';
-import Token from './Token';
-import type Type from './Type';
-import type Step from '@runtime/Step';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import { MATCH_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import { node, type Grammar, type Replacement, list } from './Node';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
-import KeyValue from './KeyValue';
-import Glyphs from '../lore/Glyphs';
 import Purpose from '@concepts/Purpose';
-import UnionType from './UnionType';
-import NodeRef from '@locale/NodeRef';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import JumpIfUnequal from '@runtime/JumpIfEqual';
-import Jump from '@runtime/Jump';
+import type Conflict from '@conflicts/Conflict';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import type EditContext from '@edit/EditContext';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { MATCH_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Jump from '@runtime/Jump';
+import JumpIfUnequal from '@runtime/JumpIfEqual';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import type Value from '@values/Value';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import Expression from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import KeyValue from './KeyValue';
+import { list, node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 /**
  * A condition for any value, like a switch statement in other languages. For example:
@@ -79,7 +80,7 @@ export default class Match extends Expression {
         return [Match.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Match';
     }
 
@@ -91,11 +92,7 @@ export default class Match extends Expression {
                 label: (locales: Locales) =>
                     locales.get((l) => l.node.Match.value),
             },
-            {
-                name: 'question',
-                kind: node(Sym.Match),
-                space: true,
-            },
+            { name: 'question', kind: node(Sym.Match), space: true },
             {
                 name: 'cases',
                 kind: list(true, node(KeyValue)),
@@ -261,7 +258,7 @@ export default class Match extends Expression {
         return locales.concretize((l) => l.node.Match.finish);
     }
 
-    getGlyphs() {
-        return Glyphs.Match;
+    getCharacter() {
+        return Characters.Match;
     }
 }

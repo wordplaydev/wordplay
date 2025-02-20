@@ -1,12 +1,3 @@
-<script module lang="ts">
-    export type AboutPageText = {
-        /** Header for the about page */
-        header: string;
-        /** Text for the about page */
-        content: string[];
-    };
-</script>
-
 <script lang="ts">
     import Header from '../../components/app/Header.svelte';
     import Writing from '../../components/app/Writing.svelte';

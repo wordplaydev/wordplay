@@ -1,16 +1,17 @@
-import Token from './Token';
-import NoneType from './NoneType';
-import type Type from './Type';
-import NoneValue from '@values/NoneValue';
-import type TypeSet from './TypeSet';
+import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement } from './Node';
-import Literal from './Literal';
-import Glyphs from '../lore/Glyphs';
+import NoneValue from '@values/NoneValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
+import Characters from '../lore/BasisCharacters';
+import Literal from './Literal';
+import { node, type Grammar, type Replacement } from './Node';
+import NoneType from './NoneType';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;
@@ -23,7 +24,7 @@ export default class NoneLiteral extends Literal {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NoneLiteral';
     }
 
@@ -92,7 +93,7 @@ export default class NoneLiteral extends Literal {
         return locales.concretize((l) => l.node.NoneLiteral.start);
     }
 
-    getGlyphs() {
-        return Glyphs.None;
+    getCharacter() {
+        return Characters.None;
     }
 }

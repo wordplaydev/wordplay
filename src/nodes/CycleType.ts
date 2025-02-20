@@ -1,7 +1,7 @@
+import type Locales from '../locale/Locales';
+import type Expression from './Expression';
 import type Node from './Node';
 import UnknownType from './UnknownType';
-import type Expression from './Expression';
-import type Locales from '../locale/Locales';
 
 export default class CycleType extends UnknownType<Expression> {
     readonly cycle: Node[];

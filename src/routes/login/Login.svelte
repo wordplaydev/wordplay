@@ -1,140 +1,29 @@
-<script module lang="ts">
-    import type { FieldText, ButtonText, ToggleText } from '@locale/UITexts';
-
-    export type LoginPageText = {
-        /** Header for the login page when not logged in */
-        header: string;
-        /** Subtitle for the header link on the landing page */
-        subtitle: string;
-        prompt: {
-            /** Prompts creator to login to save their work */
-            login: string;
-            /** Prompt to join on the login page */
-            join: string;
-            /** Forgot password regrets */
-            forgot: string;
-            /** Email login explanation */
-            email: string;
-            /** Prompt to check email for a login link. */
-            sent: string;
-            /** Tells the creator that they can change their email address. */
-            changeEmail: string;
-            /** Tells the creator that they can cahnge their password */
-            changePassword: string;
-            /** Asks the creator to enter their email if they opened the email link in a different browser. */
-            enter: string;
-            /** Encouragement to go create after logging in. */
-            play: string;
-            /** Description of password rules */
-            passwordrule: string;
-            /** Reminder to write down password */
-            passwordreminder: string;
-            /** Too young feedback */
-            tooyoung: string;
-            /** Offers to log out the creator. */
-            logout: string;
-            /** Shown briefly before page redirects to projects */
-            success: string;
-            /** Prompts creator to check their original email to confirm the email change */
-            confirm: string;
-            /** Offers to delete account */
-            delete: string;
-            /** Offers to really delete account forever */
-            reallyDelete: string;
-            /** Pick an emoji as a name */
-            name: string;
-        };
-        /** Shown in the footer a creator is not logged in. */
-        anonymous: string;
-        field: {
-            /** The login email */
-            email: FieldText;
-            /** The login username */
-            username: FieldText;
-            /** The login password */
-            password: FieldText;
-            /** The old password */
-            currentPassword: FieldText;
-            /** The new password */
-            newPassword: FieldText;
-        };
-        feedback: {
-            /** Change email pending */
-            changing: string;
-            /** Account deleting pending */
-            deleting: string;
-            /** Password successfully updated */
-            updatedPassword: string;
-            /** Email or username must match to delete account */
-            match: string;
-        };
-        error: {
-            /** Shown when the login link expired */
-            expired: string;
-            /** Shown when the login link isn't valid */
-            invalid: string;
-            /** Shown when the email address isn't valid */
-            email: string;
-            /** Unknown failure to login */
-            failure: string;
-            /** When there's no connection to Firebase */
-            offline: string;
-            /** When the email address couldn't be changed for unknown reasons. */
-            unchanged: string;
-            /** When account deletion failed */
-            delete: string;
-            /** When a password is wrong */
-            wrongPassword: string;
-            /** When there are too mant failed attempts */
-            tooMany: string;
-        };
-        button: {
-            /** Log out of the account */
-            logout: ButtonText;
-            /** Login button description */
-            login: string;
-            /** Update email button description  */
-            updateEmail: string;
-            /** Delete account button */
-            delete: ButtonText;
-            /** Confirm deletion */
-            reallyDelete: ButtonText;
-            /** Update password */
-            updatePassword: string;
-        };
-        toggle: {
-            /** Reveal password toggle */
-            reveal: ToggleText;
-        };
-    };
-</script>
-
 <script lang="ts">
-    import isValidUsername from '@db/creators/isValidUsername';
-    import Header from '../../components/app/Header.svelte';
-    import { locales } from '../../db/Database';
-    import LoginForm from './LoginForm.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import isValidEmail from '@db/creators/isValidEmail';
+    import { goto } from '$app/navigation';
+    import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import isValidEmail from '@db/creators/isValidEmail';
+    import isValidUsername from '@db/creators/isValidUsername';
     import { analytics, auth, functions } from '@db/firebase';
+    import { logEvent } from 'firebase/analytics';
+    import { FirebaseError } from 'firebase/app';
     import {
         isSignInWithEmailLink,
         sendSignInLinkToEmail,
         signInWithEmailAndPassword,
         signInWithEmailLink,
     } from 'firebase/auth';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import { FirebaseError } from 'firebase/app';
-    import getAuthErrorDescription from './getAuthErrorDescription';
-    import Spinning from '@components/app/Spinning.svelte';
-    import isValidPassword from './IsValidPassword';
-    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-    import { logEvent } from 'firebase/analytics';
-    import Note from '@components/widgets/Note.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import Header from '../../components/app/Header.svelte';
     import { emailAccountExists } from '../../db/creators/accountExists';
+    import { locales } from '../../db/Database';
+    import getAuthErrorDescription from './getAuthErrorDescription';
+    import isValidPassword from './IsValidPassword';
+    import LoginForm from './LoginForm.svelte';
 
     /** The username typed into the text field */
     let username = $state('');
@@ -272,6 +161,7 @@
 <LoginForm submit={usernameSignin} feedback={usernameFeedback}>
     <div class="form">
         <TextField
+            id="login-username-field"
             description={$locales.get(
                 (l) => l.ui.page.login.field.username.description,
             )}
@@ -280,9 +170,13 @@
             )}
             bind:text={username}
             editable={!loading}
-            validator={(text) => isValidUsername(text) || isValidEmail(text)}
+            validator={(text) =>
+                !(isValidUsername(text) || isValidEmail(text))
+                    ? $locales.get((l) => l.ui.page.login.error.invalidUsername)
+                    : true}
         />
         <TextField
+            id="login-password-field"
             kind="password"
             description={$locales.get(
                 (l) => l.ui.page.login.field.password.description,
@@ -292,7 +186,10 @@
             )}
             bind:text={password}
             editable={!loading}
-            validator={(pass) => isValidPassword(pass)}
+            validator={(pass) =>
+                !isValidPassword(pass)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    : true}
         />
         {#if loading}
             <Spinning></Spinning>
@@ -328,6 +225,7 @@
     >
     <div class="form">
         <TextField
+            id="login-email-field"
             kind={'email'}
             description={$locales.get(
                 (l) => l.ui.page.login.field.email.description,
@@ -337,7 +235,10 @@
             )}
             bind:text={email}
             editable={!loading}
-            validator={(text) => isValidEmail(text)}
+            validator={(text) =>
+                !isValidEmail(text)
+                    ? $locales.get((l) => l.ui.page.login.error.email)
+                    : true}
         />
         {#if loading}
             <Spinning></Spinning>

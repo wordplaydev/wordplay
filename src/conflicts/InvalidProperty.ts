@@ -1,9 +1,9 @@
-import Conflict from './Conflict';
-import type Locales from '../locale/Locales';
-import type PropertyBind from '@nodes/PropertyBind';
-import type StructureDefinition from '@nodes/StructureDefinition';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
+import type PropertyBind from '@nodes/PropertyBind';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class InvalidProperty extends Conflict {
     readonly definition: StructureDefinition;

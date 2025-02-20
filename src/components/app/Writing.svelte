@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Page from './Page.svelte';
     import { type Snippet } from 'svelte';
+    import Page from './Page.svelte';
 
     interface Props {
         children: Snippet;

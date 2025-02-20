@@ -42,7 +42,8 @@
         "set": "set",
         "key": "clave",
         "help": "ayuda",
-        "feedback": "feedback"
+        "feedback": "feedback",
+        "how": "$~Cómo"
     },
     "token": {
         "EvalOpen": "evaluación abierta",
@@ -403,7 +404,7 @@
                 "MissingShareLanguages": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
                 "RequiredAfterOptional": "No puedo estar aquí, hay un @Bind opcional antes que yo",
                 "UnexpectedEtc": "Solo puedo tener una longitud variable en un @FunctionDefinition",
-                "UnusedBind": "$! oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
+                "UnusedBind": "Oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
             }
         },
         "Block": {
@@ -4054,7 +4055,10 @@
             },
             "button": {
                 "removeCollaborator": "quitar colaboradora",
-                "copy": "copiar proyecto como texto",
+                "copy": {
+                    "tip": "$~Copiar el proyecto al portapapeles como texto",
+                    "label": "$~copiar como texto"
+                },
                 "addSource": "crear una nueva $source",
                 "duplicate": "copia este proyecto",
                 "revert": "volver al código original ",
@@ -4064,7 +4068,10 @@
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja ",
                 "unsaved": "mostrar error de guardado",
-                "translate": "$~editar los idiomas de este proyecto y traducirlo a otros idiomas.",
+                "translate": {
+                    "tip": "$~Editar los idiomas de este proyecto y traducirlo a otros idiomas.",
+                    "label": "$~traducir"
+                },
                 "primary": "$~establecido como la ubicación principal de este proyecto",
                 "share": {
                     "tip": "$~Mostrar opciones para compartir proyectos",
@@ -4072,7 +4079,7 @@
                 },
                 "history": {
                     "on": "$~mostrar código de proyecto reciente",
-                    "redo": "$~mostrar el código del proyecto actual"
+                    "off": "$~mostrar el código del proyecto actual"
                 }
             },
             "field": {
@@ -4174,7 +4181,7 @@
                     "on": "esconder los fondos de los bloques",
                     "off": "mostrar los fondos de los bloques"
                 },
-                "glyphs": {
+                "characters": {
                     "on": "colapsar los glifos coincidentes",
                     "off": "expandir los glifos coincidentes"
                 }
@@ -4248,9 +4255,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~idioma preferido para la fuente",
+                    "all": "$~todo"
                 }
+            },
+            "error": {
+                "invalidName": "$~Este debe ser un nombre de Wordplay válido.",
+                "invalidWords": "$~Las palabras no pueden estar vacías ni contener símbolos reservados."
             }
         },
         "annotations": {
@@ -4329,6 +4340,24 @@
                 "properties": "Propiedades",
                 "functions": "Funciones",
                 "conversions": "Conversiones"
+            },
+            "modes": {
+                "label": "$~navegar",
+                "modes": ["$~Cómo", "$~conceptos"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~crear y controlar personajes",
+                    "styling": "$~Estilo de caracteres y texto",
+                    "animation": "$~animar personajes y texto",
+                    "layout": "$~organizar caracteres y texto",
+                    "randomization": "$~utilizar al azar",
+                    "remembering": "$~Seguimiento de cambios y elecciones",
+                    "stories": "$~contar una historia",
+                    "motion": "$~utilizar la física",
+                    "video": "$~usa una cámara"
+                },
+                "related": "$~¿No es lo que estás buscando?"
             }
         },
         "dialog": {
@@ -4347,6 +4376,10 @@
                     "pii": {
                         "header": "$~Informacion personal",
                         "explanation": "$~Compartir información de identificación personal (PII) públicamente puede poner en riesgo a los creadores, por lo que detectamos posibles PII y advertimos a los creadores que eliminen los datos confidenciales o los marquen como no confidenciales.\n\nA continuación se muestra una lista de posibles PII en este proyecto que ha marcado como no confidencial. Puedes hacer clic en el botón al lado para volver a marcarlo como confidencial, pero hacerlo significa que tu proyecto ya no se guardará en línea."
+                    },
+                    "copy": {
+                        "header": "$~Copiar y pegar",
+                        "explanation": "$~Copia este proyecto a tu portapapeles como texto y compártelo en otro lugar."
                     }
                 },
                 "field": {
@@ -4363,7 +4396,8 @@
                 },
                 "error": {
                     "unknown": "No conocemos a una creadora con este correo electrónico.",
-                    "anonymous": "Debes iniciar sesión para compartir."
+                    "anonymous": "Debes iniciar sesión para compartir.",
+                    "self": "$~No puedes agregarte a ti mismo."
                 },
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico",
@@ -4411,8 +4445,8 @@
                         ]
                     },
                     "space": {
-                        "label": "$! indicador de espacio",
-                        "modes": ["$! abierto", "$! cerrado"]
+                        "label": "indicador de espacio",
+                        "modes": ["abierto", "cerrado"]
                     },
                     "writing": {
                         "label": "diseño de escritura",
@@ -4518,6 +4552,12 @@
                 "field": {
                     "percent": "editar porcentaje"
                 }
+            },
+            "error": {
+                "nan": "$~Esto no es un número.",
+                "percent": "$~Debe ser un porcentaje entre 0 y 100.",
+                "lessThanNext": "$~Esto debe ser menor que la siguiente entrada.",
+                "moreThanPrevious": "$~Esto debe ser más que la entrada anterior."
             }
         },
         "save": {
@@ -4562,7 +4602,8 @@
                         "label": "Contribuir",
                         "subtitle": "Ayúdanos a hacer Wordplay."
                     },
-                    "teach": "$~Gestionar clases de estudiantes y sus proyectos"
+                    "teach": "$~Gestionar clases de estudiantes y sus proyectos",
+                    "characters": "$~Crea emojis y símbolos personalizados"
                 }
             },
             "learn": {
@@ -4619,7 +4660,13 @@
             "galleries": {
                 "header": "Galerías",
                 "prompt": "Estas son actuaciones que otros han creado. Exprímentalas, estúdialas o adáptalas para hacer tu propia declaración.",
-                "examples": "Ejemplos"
+                "examples": "Ejemplos",
+                "button": {
+                    "more": {
+                        "label": "$~más...",
+                        "tip": "$~Cargar más galerías"
+                    }
+                }
             },
             "about": {
                 "header": "Acerca de",
@@ -4646,8 +4693,8 @@
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
-                    "email": "$! ¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
-                    "sent": "$! Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
+                    "email": "¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
+                    "sent": "Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
@@ -4666,7 +4713,10 @@
                     "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
                     "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué.",
                     "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
-                    "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo."
+                    "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo.",
+                    "invalidUsername": "$~Los nombres de usuario deben ser correos electrónicos o más de 5 letras sin espacios.",
+                    "invalidPassword": "$~Las contraseñas deben tener al menos 10 caracteres.",
+                    "mismatched": "$~Las contraseñas no coinciden."
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
@@ -4882,7 +4932,182 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla."
+                    "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla.",
+                    "gallery": "$~No pudimos crear una galería para esta clase."
+                }
+            },
+            "characters": {
+                "header": "$~Personajes",
+                "prompt": "$~Crea emojis y símbolos personalizados para usar en tus proyectos y compartirlos con otros.",
+                "button": {
+                    "new": "$~Crea un nuevo personaje"
+                },
+                "error": {
+                    "offline": "$~No pudimos acceder a tus personajes almacenados en línea.",
+                    "noauth": "$~Debes iniciar sesión para ver tus personajes y crear otros nuevos.",
+                    "create": "$~No se puede crear un nuevo personaje."
+                }
+            },
+            "character": {
+                "header": "$~Personaje",
+                "prompt": "$~Crea un emoji o símbolo con formas y píxeles.",
+                "instructions": {
+                    "empty": "$~Elija un modo de dibujo en la paleta para crear formas.",
+                    "unselected": "$~Elija un modo de dibujo o seleccione y edite formas.",
+                    "selected": "$~Utilice las teclas de flecha para mover las formas. Mantenga presionada la tecla Shift para agregar más formas a una selección. Utilice la tecla Delete para eliminar la selección. Utilice los controles que se encuentran a continuación para cambiar las formas seleccionadas.",
+                    "pixel": "$~Para dibujar píxeles, elija un color. Luego, haga clic en el lienzo o utilice las *flechas* para mover el cursor y la *barra espaciadora* para crear un píxel.",
+                    "rect": "$~Para dibujar rectángulos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
+                    "ellipse": "$~Para dibujar elipses y círculos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
+                    "path": "$~Las rutas pueden ser segmentos de línea, polígonos y curvas. Haga clic para comenzar a agregar puntos o use las teclas de *flecha* y *espacio*. Presione *escape* para finalizar la ruta. *delete* eliminará el último punto."
+                },
+                "shape": {
+                    "shape": "$~forma",
+                    "pixel": "$~píxel",
+                    "rect": "$~rectángulo",
+                    "ellipse": "$~elipse",
+                    "path": "$~camino"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nombre del personaje",
+                        "placeholder": "$~nombre"
+                    },
+                    "description": {
+                        "description": "$~Descripción del personaje",
+                        "placeholder": "$~descripción"
+                    },
+                    "mode": {
+                        "label": "$~modo",
+                        "modes": [
+                            "$~seleccionar",
+                            "$~píxel",
+                            "$~rectángulo",
+                            "$~elipse",
+                            "$~camino"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~llenar",
+                        "modes": ["$~ninguno", "$~inerte", "$~elegir"]
+                    },
+                    "stroke": {
+                        "label": "$~ataque",
+                        "modes": ["$~ninguno", "$~inerte", "$~elegir"]
+                    },
+                    "none": "$~ninguno",
+                    "inherit": "$~color del texto",
+                    "strokeWidth": {
+                        "label": "$~Ancho del trazo",
+                        "tip": "$~Qué tan ancho se representa el trazo"
+                    },
+                    "radius": {
+                        "label": "$~radio de esquina",
+                        "tip": "$~¿Qué tan redondas son las esquinas de un rectángulo?"
+                    },
+                    "angle": {
+                        "label": "$~ángulo",
+                        "tip": "$~¿Cuánto hay que girar la figura alrededor de su centro?"
+                    },
+                    "width": {
+                        "label": "$~ancho",
+                        "tip": "$~¿Qué tan ancha es la forma?"
+                    },
+                    "height": {
+                        "label": "$~altura",
+                        "tip": "$~¿Qué altura tiene la forma?"
+                    },
+                    "closed": "$~conectado"
+                },
+                "button": {
+                    "back": {
+                        "label": "$~atrás",
+                        "tip": "$~Mueva las formas seleccionadas hacia atrás."
+                    },
+                    "toBack": {
+                        "label": "$~Para atrás",
+                        "tip": "$~Mover las formas seleccionadas hacia atrás."
+                    },
+                    "forward": {
+                        "label": "$~adelante",
+                        "tip": "$~Mueva las formas seleccionadas al frente."
+                    },
+                    "toFront": {
+                        "label": "$~Al frente",
+                        "tip": "$~Mover las formas seleccionadas al frente."
+                    },
+                    "copy": {
+                        "label": "$~Copiar",
+                        "tip": "$~Copiar formas seleccionadas al portapapeles."
+                    },
+                    "paste": {
+                        "label": "$~pasta",
+                        "tip": "$~Pegar formas copiadas del portapapeles."
+                    },
+                    "clear": {
+                        "label": "$~todo",
+                        "tip": "$~Eliminar todas las formas."
+                    },
+                    "clearPixels": {
+                        "label": "$~píxeles",
+                        "tip": "$~Eliminar todos los píxeles."
+                    },
+                    "undo": {
+                        "label": "$~deshacer",
+                        "tip": "$~Deshacer el diseño anterior"
+                    },
+                    "redo": {
+                        "label": "$~rehacer",
+                        "tip": "$~Rehacer al siguiente diseño"
+                    },
+                    "all": {
+                        "label": "$~seleccionar todo",
+                        "tip": "$~Seleccionar todas las formas y píxeles"
+                    },
+                    "end": {
+                        "label": "$~forma final",
+                        "tip": "$~Finalizar la ruta actual"
+                    },
+                    "horizontal": {
+                        "label": "$~voltear horizontalmente",
+                        "tip": "$~Gira los puntos horizontalmente alrededor del centro."
+                    },
+                    "vertical": {
+                        "label": "$~voltear verticalmente",
+                        "tip": "$~Gira los puntos verticalmente alrededor del centro"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Lospersonajesdebentenerunnombredejuegodepalabrasválidodealmenosuncarácter.Nopuedeser\"UI\",unnúmerodecimalohexadecimal,nielnombredeunafuncióndelenguajeincorporada.",
+                    "description": "$~Los personajes necesitan una descripción para que aquellos que no pueden ver sepan qué representan.",
+                    "end": "$~o presione escape.",
+                    "loadfail": "$~Hubo un problema al cargar este personaje.",
+                    "notfound": "$~Este personaje no existe.",
+                    "unauthenticated": "$~Debes iniciar sesión para editar un personaje.",
+                    "taken": "$~Ya tienes un personaje con este nombre; no se guarda.",
+                    "unsaved": "$~Dale a este personaje una descripción y un nombre válido y único para guardarlo."
+                },
+                "announce": {
+                    "position": "$~a $1 $2",
+                    "selection": "$~$1[seleccionado $1|nada seleccionado]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Compartir",
+                        "explanation": "$~Agrega colaboradores para restringir quién puede ver este personaje."
+                    },
+                    "button": {
+                        "label": "$~compartir",
+                        "tip": "$~comparte este personaje"
+                    },
+                    "delete": {
+                        "label": "$~borrar",
+                        "tip": "$~eliminar este personaje"
+                    },
+                    "public": {
+                        "label": "$~visibilidad",
+                        "modes": ["$~público", "$~privado"]
+                    },
+                    "collaborators": "$~colaboradores"
                 }
             }
         },

@@ -1,36 +1,37 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import type Token from './Token';
-import type Type from './Type';
+import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Check from '@runtime/Check';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import ExceptionValue from '@values/ExceptionValue';
-import { node, type Grammar, type Replacement } from './Node';
-import BooleanType from './BooleanType';
-import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
-import Check from '@runtime/Check';
+import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
-import ValueException from '../values/ValueException';
-import TypeException from '../values/TypeException';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
+import ExceptionValue from '@values/ExceptionValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import StreamToken from './StreamToken';
+import Purpose from '../concepts/Purpose';
+import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import UnknownType from './UnknownType';
 import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
-import StreamType from './StreamType';
-import Changed from './Changed';
+import Characters from '../lore/BasisCharacters';
+import TypeException from '../values/TypeException';
+import ValueException from '../values/ValueException';
 import Bind from './Bind';
+import BooleanType from './BooleanType';
+import Changed from './Changed';
+import type Context from './Context';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import StreamToken from './StreamToken';
+import StreamType from './StreamType';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
+import UnknownType from './UnknownType';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -89,7 +90,7 @@ export default class Reaction extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Reaction';
     }
 
@@ -363,8 +364,8 @@ export default class Reaction extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 
     getKind() {

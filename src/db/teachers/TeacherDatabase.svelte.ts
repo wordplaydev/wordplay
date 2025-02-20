@@ -2,6 +2,8 @@
 // By design, we get all data on demand here, rather than caching, using a
 // more transactional model.
 
+import { Galleries } from '@db/Database';
+import { firestore as db } from '@db/firebase';
 import {
     collection,
     deleteDoc,
@@ -12,9 +14,7 @@ import {
     setDoc,
     where,
 } from 'firebase/firestore';
-import { firestore as db } from './firebase';
 import z from 'zod';
-import { Galleries } from './Database';
 
 /** Represents a learner record that the teacher has created. */
 export const LearnerSchema = z.object({
@@ -98,10 +98,7 @@ export async function setClass(group: Class) {
 
 /** Add the teacher to the class and all associated galleries. */
 export async function addTeacher(classy: Class, uid: string) {
-    setClass({
-        ...classy,
-        teachers: [...classy.teachers, uid],
-    });
+    setClass({ ...classy, teachers: [...classy.teachers, uid] });
 
     // Add the student to all galleries associated with the class.
     for (const gallery of classy.galleries) {

@@ -1,70 +1,34 @@
-<script module lang="ts">
-    import type { DialogText } from '@locale/UITexts';
-    import type { ConfirmText } from '@locale/UITexts';
-    import type { FieldText } from '@locale/UITexts';
-
-    export type GalleryPageText = {
-        /** What to call a gallery by default, before it's given a name */
-        untitled: string;
-        /** What to say if the description is empty */
-        undescribed: string;
-        /** Headers on the page */
-        subheader: {
-            /** Associtaed classes header */
-            classes: DialogText;
-            /** The list of curators */
-            curators: DialogText;
-            /** The list of curators */
-            creators: DialogText;
-            /** Delete header */
-            delete: DialogText;
-        };
-        /** Confirm buttons on the gallery page */
-        confirm: {
-            /** The confirm button that deletes a source file */
-            delete: ConfirmText;
-            /** The confirm button that removes a project from a gallery */
-            remove: ConfirmText;
-        };
-        error: {
-            /** When the gallery is not known or is not public */
-            unknown: string;
-        };
-        field: {
-            name: FieldText;
-            description: FieldText;
-        };
-    };
-</script>
-
 <script lang="ts">
-    import { page } from '$app/stores';
-    import Feedback from '@components/app/Feedback.svelte';
-    import Loading from '@components/app/Loading.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import { Galleries, Projects, locales } from '@db/Database';
-    import Header from '@components/app/Header.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
+    import AddProject from '@components/app/AddProject.svelte';
+    import Feedback from '@components/app/Feedback.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Loading from '@components/app/Loading.svelte';
+    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import type Gallery from '@db/galleries/Gallery';
     import Public from '@components/project/Public.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { Galleries, Projects, locales } from '@db/Database';
+    import type Gallery from '@db/galleries/Gallery';
+    import {
+        getClasses,
+        type Class,
+    } from '@db/teachers/TeacherDatabase.svelte';
     import type Project from '../../../db/projects/Project';
-    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import AddProject from '@components/app/AddProject.svelte';
     import {
         CANCEL_SYMBOL,
         COPY_SYMBOL,
         EDIT_SYMBOL,
     } from '../../../parser/Symbols';
-    import Spinning from '@components/app/Spinning.svelte';
-    import { getClasses, type Class } from '@db/TeacherDatabase.svelte';
-    import Link from '@components/app/Link.svelte';
 
     const user = getUser();
 
@@ -157,6 +121,7 @@
         {:else}
             <Header
                 >{#if editable}<TextField
+                        id="gallery-name"
                         text={name ?? ''}
                         description={$locales.get(
                             (l) => l.ui.gallery.field.name.description,
@@ -188,6 +153,7 @@
                               )}
                     />{:else}
                     <TextBox
+                        id="gallery-description"
                         text={description ?? ''}
                         description={$locales.get(
                             (l) => l.ui.gallery.field.description.description,

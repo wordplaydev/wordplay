@@ -1,10 +1,10 @@
 <script lang="ts">
+    import Emoji from '@components/app/Emoji.svelte';
+    import { locales } from '@db/Database';
     import { createEventDispatcher } from 'svelte';
+    import type Project from '../../db/projects/Project';
     import Toggle from '../widgets/Toggle.svelte';
     import type Tile from './Tile';
-    import { locales } from '@db/Database';
-    import type Project from '../../db/projects/Project';
-    import Emoji from '@components/app/Emoji.svelte';
     import TileKinds from './TileKinds';
 
     interface Props {

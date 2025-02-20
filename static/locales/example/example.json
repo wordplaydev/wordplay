@@ -3092,7 +3092,10 @@
             },
             "button": {
                 "removeCollaborator": "$?",
-                "copy": "$?",
+                "copy": {
+                    "tip": "$?",
+                    "label": ""
+                },
                 "addSource": "$?",
                 "duplicate": "$?",
                 "revert": "$?",
@@ -3102,7 +3105,10 @@
                 "focusPalette": "$?",
                 "focusCycle": "$?",
                 "unsaved": "$?",
-                "translate": "$?",
+                "translate": {
+                    "tip": "$?",
+                    "label": ""
+                },
                 "primary": "$?",
                 "share": {
                     "tip": "$?",
@@ -3110,7 +3116,7 @@
                 },
                 "history": {
                     "on": "$?",
-                    "redo": "$?"
+                    "off": "$?"
                 }
             },
             "field": {
@@ -3201,7 +3207,7 @@
                     "on": "$?",
                     "off": "$?"
                 },
-                "glyphs": {
+                "characters": {
                     "on": "$?",
                     "off": "$?"
                 }
@@ -3278,6 +3284,10 @@
                     "tip": "$?",
                     "all": "$?"
                 }
+            },
+            "error": {
+                "invalidName": "$?",
+                "invalidWords": "$?"
             }
         },
         "annotations": {
@@ -3374,6 +3384,10 @@
                     "pii": {
                         "header": "$?",
                         "explanation": "$?"
+                    },
+                    "copy": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -3390,7 +3404,8 @@
                 },
                 "error": {
                     "unknown": "$?",
-                    "anonymous": "$?"
+                    "anonymous": "$?",
+                    "self": "$?"
                 },
                 "button": {
                     "submit": "$?",
@@ -3523,6 +3538,12 @@
                 "field": {
                     "percent": "$?"
                 }
+            },
+            "error": {
+                "nan": "$?",
+                "percent": "$?",
+                "lessThanNext": "$?",
+                "moreThanPrevious": "$?"
             }
         },
         "save": {
@@ -3555,7 +3576,8 @@
                         "label": "$?",
                         "subtitle": "$?"
                     },
-                    "teach": "$?"
+                    "teach": "$?",
+                    "characters": "$?"
                 }
             },
             "learn": {
@@ -3612,7 +3634,13 @@
             "galleries": {
                 "header": "$?",
                 "prompt": "$?",
-                "examples": "ejemplos"
+                "examples": "ejemplos",
+                "button": {
+                    "more": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                }
             },
             "about": {
                 "header": "$?",
@@ -3651,7 +3679,10 @@
                     "unchanged": "$?",
                     "delete": "$?",
                     "wrongPassword": "$?",
-                    "tooMany": "$?"
+                    "tooMany": "$?",
+                    "invalidUsername": "$?",
+                    "invalidPassword": "$?",
+                    "mismatched": "$?"
                 },
                 "feedback": {
                     "changing": "$?",
@@ -3834,7 +3865,176 @@
                     }
                 },
                 "error": {
-                    "notfound": "$?"
+                    "notfound": "$?",
+                    "gallery": "$?"
+                }
+            },
+            "characters": {
+                "header": "$?",
+                "prompt": "$?",
+                "button": {
+                    "new": "$?"
+                },
+                "error": {
+                    "offline": "$?",
+                    "noauth": "$?",
+                    "create": "$?"
+                }
+            },
+            "character": {
+                "header": "$?",
+                "prompt": "$?",
+                "instructions": {
+                    "empty": "$?",
+                    "unselected": "$?",
+                    "selected": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "shape": {
+                    "shape": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "field": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "description": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "mode": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "fill": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "stroke": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "none": "$?",
+                    "inherit": "$?",
+                    "strokeWidth": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "radius": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "angle": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "width": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "height": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "closed": "$?"
+                },
+                "button": {
+                    "back": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toBack": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "forward": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toFront": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "copy": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "paste": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clear": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clearPixels": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "undo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "redo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "all": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "end": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "horizontal": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "vertical": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "feedback": {
+                    "name": "$?",
+                    "description": "$?",
+                    "end": "$?",
+                    "loadfail": "$?",
+                    "notfound": "$?",
+                    "unauthenticated": "$?",
+                    "taken": "$?",
+                    "unsaved": "$?"
+                },
+                "announce": {
+                    "position": "$?",
+                    "selection": "$?"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": "$?"
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "delete": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "public": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "collaborators": "$?"
                 }
             }
         },
