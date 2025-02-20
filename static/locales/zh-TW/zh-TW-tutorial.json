@@ -660,7 +660,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Oh, yes, that's a good idea. Lots can go wrong. For example, you could give me something that isn't a function. See how I'm given the number \\“hi”\\ here as a function, and given me two inputs, \\1\\ and \\2\\ ? Well, I only know how to evaluate functions, and \\“hi”\\ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens."
+                            "喔，對！這是個好主意！ Lots can go wrong. For example, you could give me something that isn't a function. See how I'm given the number \\“hi”\\ here as a function, and given me two inputs, \\1\\ and \\2\\ ? Well, I only know how to evaluate functions, and \\“hi”\\ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens."
                         ],
                         null,
                         ["conflict", "Phrase()"],
