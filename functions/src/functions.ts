@@ -1,6 +1,3 @@
-// WARNING: We haven't set up a shared library for these types, so these must be synchronized between
-// /src/functions/functions.ts and /src/db/functions.ts any time you modify them.
-
 // FUNCTION emailExists
 export type EmailExistsInputs = string[];
 export type EmailExistsOutput = Record<string, boolean> | undefined;
