@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.1 2025-02-25
+
+### Maintenance
+
+- Updated types, eslint, prettier, svelte, tsx, uuid, vite, vitest, and firebase functions.
+
 ## 0.16.0 2025-02-25
 
 ### Added
