@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Better inactive color contrast in dark mode.
+- Fixed #691: Reset path when changing guide mode.
 
 ### Maintenance
 

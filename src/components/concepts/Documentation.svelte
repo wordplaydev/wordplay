@@ -213,7 +213,13 @@
     <Mode
         descriptions={$locales.get((l) => l.ui.docs.modes)}
         choice={mode === 'how' ? 0 : 1}
-        select={(choice) => (mode = choice === 0 ? 'how' : 'language')}
+        select={(choice) => {
+            const newMode = choice === 0 ? 'how' : 'language';
+            if (mode !== newMode) {
+                mode = newMode;
+                path.set([]);
+            }
+        }}
         modes={[
             $locales.get((l) => l.ui.docs.modes.modes[0]),
             $locales.get((l) => l.ui.docs.modes.modes[1]),
