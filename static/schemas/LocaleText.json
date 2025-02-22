@@ -11958,6 +11958,10 @@
                       "description": "Insert • symbol",
                       "type": "string"
                     },
+                    "largeDelete": {
+                      "description": "Large deletion notification text",
+                      "type": "string"
+                    },
                     "lineEnd": {
                       "description": "Move cursor to line end",
                       "type": "string"
@@ -12085,7 +12089,8 @@
                     "redo",
                     "search",
                     "tidy",
-                    "elide"
+                    "elide",
+                    "largeDelete"
                   ],
                   "type": "object"
                 },

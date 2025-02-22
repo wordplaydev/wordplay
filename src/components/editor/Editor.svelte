@@ -20,6 +20,7 @@
     import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
     import TypePlaceholder from '@nodes/TypePlaceholder';
+    import { UNDO_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import { onMount, tick, untrack } from 'svelte';
@@ -82,6 +83,9 @@
     } from './util/Highlights';
     import Menu, { RevisionSet } from './util/Menu';
     import { OutlinePadding } from './util/outline';
+
+    // Local deletion notification state (instead of a global store)
+    let largeDeletionNotification: string | null = $state(null);
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -394,7 +398,7 @@
 
     function handlePointerDown(event: PointerEvent) {
         // Clear any existing large deletion notification when user clicks to clear selection
-        largeDeletionNotification.set(null);
+        largeDeletionNotification = null;
         event.preventDefault();
         event.stopPropagation();
 
@@ -953,7 +957,7 @@
         if (edit === undefined) return;
 
         // Clear any existing large deletion notification since a new edit has started
-        largeDeletionNotification.set(null);
+        largeDeletionNotification = null;
         const previousSource = source;
 
         const navigation = edit instanceof Caret;
@@ -1025,8 +1029,8 @@
                 newSource.getCode().getLength() >=
                 40
         ) {
-            largeDeletionNotification.set(
-                'Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.',
+            largeDeletionNotification = $locales.get(
+                (l) => l.ui.source.cursor.largeDelete,
             );
         }
 
@@ -1150,38 +1154,17 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-        if (
-            (event.ctrlKey || event.metaKey) &&
-            event.key.toLowerCase() === 'z'
-        ) {
-            // Clear the large deletion notification if user performs undo
-            largeDeletionNotification.set(null);
-        }
-        // If we receive a keyboard event that says
         if (composing && !event.isComposing) handleCompositionEnd();
-
-        // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
             composingJustEnded = false;
             return;
         }
-        // If we're in the middle of composing, ignore the key events.
         if (composing || event.isComposing) return;
         if (evaluator === undefined) return;
         if (editor === null) return;
 
-        // Assume we'll handle it.
         setIgnored(false);
-
-        // If it was a dead key, don't handle it as a command, just remember that it was
-        // a dead key, then let the input event above insert it.
         keyWasDead = event.key === 'Dead';
-        if (keyWasDead) {
-            return;
-        }
-
-        // Are we to replace the prior symbol with the next? Don't handle it as a command,
-        // just let the character with diacritic remark be typed, and handle it in the input handler above.
         if (replacePreviousWithNext) return;
 
         const [command, result] = handleKeyCommand(event, {
@@ -1197,26 +1180,23 @@
             getTokenViews,
         });
 
-        // Don't insert symbols if composing.
-        insertedSymbol = command === InsertSymbol;
+        // If the command processed is the Undo command, clear the deletion notification
+        if (command && command.symbol === UNDO_SYMBOL) {
+            largeDeletionNotification = null;
+        }
 
-        // If it produced a new caret and optionally a new project, update the stores.
+        insertedSymbol = command === InsertSymbol;
         const idle =
             command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
-
         if (result !== false) {
             if (result instanceof Promise) {
                 result.then((edit) => handleEdit(edit, idle, true));
             } else if (result !== undefined && result !== true) {
                 handleEdit(result, idle, true);
             }
-
-            // Prevent default keyboard commands from being otherwise handled, since they were handled here.
             event.preventDefault();
             event.stopPropagation();
-        }
-        // Give feedback that we didn't execute a command.
-        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
+        } else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
             setIgnored(true);
     }
 
@@ -1729,6 +1709,13 @@
     {/if}
 </div>
 
+<!-- Updated markup for deletion notification -->
+{#if largeDeletionNotification}
+    <div class="editor-warning">
+        {largeDeletionNotification}
+    </div>
+{/if}
+
 <style>
     .editor {
         white-space: nowrap;
@@ -1845,14 +1832,26 @@
         justify-content: center;
     }
 
-    /** A single cycle color animation to indicate the code was revised. */
-    @keyframes overwritten {
-        0% {
-            background-color: var(--wordplay-highlight-color);
-        }
+    /* Merged editor-warning styling (used for deletion notification) */
+    .editor-warning {
+        width: 100%;
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        animation: popUp calc(250ms * var(--animation-factor)) ease-out;
+    }
 
+    @keyframes popUp {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.05);
+            opacity: 1;
+        }
         100% {
-            background-color: var(--wordplay-background);
+            transform: scale(1);
         }
     }
 
