@@ -74,13 +74,7 @@
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
                     : undefined}
-            ><RootView
-                {node}
-                inline={inline || $blocks}
-                {spaces}
-                blocks={$blocks}
-                {elide}
-            /></div
+            ><RootView {node} {inline} {spaces} blocks={false} {elide} /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}
