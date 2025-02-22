@@ -1,4 +1,4 @@
-name: Enhancement
+name: Improvement
 description: Share an idea for improving Wordplay.
 labels: ['needs triage', 'needs design']
 type: 'improvement'
@@ -12,7 +12,7 @@ body:
       id: problem
       attributes:
           label: What are you trying to do that you can't?
-          description: In as much detail as possible, describe the task or problem you want to solve that Adminima doesn't currently support.
+          description: In as much detail as possible, describe the task or problem you want to solve that Wordplay doesn't currently support.
           placeholder: Problem
       validations:
           required: true
