@@ -28,6 +28,8 @@ const config = {
             '@basis': path.resolve('./src/basis'),
             '@edit': path.resolve('./src/edit'),
             '@db': path.resolve('./src/db'),
+            '@shared': path.resolve('./src/shared'),
+            "@functions/*": path.resolve('../functions/src/*'),
         },
         csp: {
             directives: {

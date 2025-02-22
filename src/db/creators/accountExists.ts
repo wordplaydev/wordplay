@@ -1,6 +1,6 @@
 import { Creator } from '@db/creators/CreatorDatabase';
 import { functions } from '@db/firebase';
-import { type EmailExistsInputs, type EmailExistsOutput } from '@db/functions';
+import { type EmailExistsInputs, type EmailExistsOutput } from '@functions/functions';
 import { httpsCallable } from 'firebase/functions';
 
 export async function usernameAccountExists(name: string) {
