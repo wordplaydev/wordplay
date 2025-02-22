@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Maintenance
 
 - Updated types, eslint, prettier, svelte, tsx, uuid, vite, vitest, and firebase functions.
+- Deploy to prod on merge to main.
 
 ## 0.16.0 2025-02-25
 
