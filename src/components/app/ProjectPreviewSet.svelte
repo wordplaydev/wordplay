@@ -87,12 +87,10 @@
     .projects {
         width: 100%;
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
+        flex-direction: column;
+        align-items: start;
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
-        justify-content: space-between;
     }
 
     .controls {
