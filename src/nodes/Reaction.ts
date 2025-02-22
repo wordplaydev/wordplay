@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Check from '@runtime/Check';
 import type Evaluator from '@runtime/Evaluator';
@@ -345,8 +346,9 @@ export default class Reaction extends Expression {
         return this.dots;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Reaction);
+    static readonly LocalePath = (l: LocaleText) => l.node.Reaction;
+    getLocalePath() {
+        return Reaction.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

@@ -1,9 +1,9 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 import StructureValue from '../values/StructureValue';
@@ -93,8 +93,9 @@ export default class Row extends Node {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Row);
+    static readonly LocalePath = (l: LocaleText) => l.node.Row;
+    getLocalePath() {
+        return Row.LocalePath;
     }
 
     getCharacter() {

@@ -1,6 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COALESCE_SYMBOL } from '@parser/Symbols';
 import Check from '@runtime/Check';
@@ -160,8 +161,9 @@ export default class Otherwise extends SimpleExpression {
         return this.question;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Otherwise);
+    static readonly LocalePath = (l: LocaleText) => l.node.Otherwise;
+    getLocalePath() {
+        return Otherwise.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

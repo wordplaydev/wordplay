@@ -3,7 +3,7 @@ import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import OrderOfOperations from '@conflicts/OrderOfOperations';
 import UnexpectedInputs from '@conflicts/UnexpectedInput';
-import type { Template } from '@locale/LocaleText';
+import type { LocaleText, Template } from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import {
@@ -448,8 +448,9 @@ export default class BinaryEvaluate extends Expression {
         return true;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.BinaryEvaluate);
+    static readonly LocalePath = (l: LocaleText) => l.node.BinaryEvaluate;
+    getLocalePath() {
+        return BinaryEvaluate.LocalePath;
     }
 
     getStart() {

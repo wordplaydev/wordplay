@@ -1,4 +1,5 @@
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import {
     EXPONENT_SYMBOL,
@@ -371,8 +372,9 @@ export default class Unit extends Type {
         return Unit.get(newExponents);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Unit);
+    static readonly LocalePath = (l: LocaleText) => l.node.Unit;
+    getLocalePath() {
+        return Unit.LocalePath;
     }
 
     getCharacter() {

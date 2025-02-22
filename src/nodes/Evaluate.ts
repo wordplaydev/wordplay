@@ -8,6 +8,7 @@ import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import UnknownInput from '@conflicts/UnknownInput';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
 import Evaluation from '@runtime/Evaluation';
@@ -993,8 +994,9 @@ export default class Evaluate extends Expression {
         return this.close ?? this.fun;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Evaluate);
+    static readonly LocalePath = (l: LocaleText) => l.node.Evaluate;
+    getLocalePath() {
+        return Evaluate.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

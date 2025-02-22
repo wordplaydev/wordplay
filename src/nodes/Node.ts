@@ -613,14 +613,14 @@ export default abstract class Node {
      * Given a locale, get the node's static label
      * */
     getLabel(locales: Locales): string {
-        return this.getNodeLocale(locales).name;
+        return locales.get(this.getLocalePath()).name;
     }
 
     /**
      * Given a locale and a context, generate a description of the node.
      * */
     getDescription(locales: Locales, context: Context): Markup {
-        const text = this.getNodeLocale(locales);
+        const text = locales.get(this.getLocalePath());
         return locales.concretize(
             // Is there a description? Use that. Otherwise just use the name.
             'description' in text
@@ -638,7 +638,7 @@ export default abstract class Node {
     }
 
     getDoc(locales: Locales): DocText {
-        return this.getNodeLocale(locales).doc;
+        return locales.get(this.getLocalePath()).doc;
     }
 
     /**
@@ -650,7 +650,9 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText;
+    abstract getLocalePath(): (
+        locale: LocaleText,
+    ) => NodeText | DescriptiveNodeText;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(

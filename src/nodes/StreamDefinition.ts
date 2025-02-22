@@ -274,8 +274,9 @@ export default class StreamDefinition extends DefinitionExpression {
         return definition === this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StreamDefinition);
+    static readonly LocalePath = (l: LocaleText) => l.node.StreamDefinition;
+    getLocalePath() {
+        return StreamDefinition.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

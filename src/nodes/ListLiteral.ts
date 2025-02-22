@@ -1,6 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
@@ -233,8 +234,9 @@ export default class ListLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ListLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.ListLiteral;
+    getLocalePath() {
+        return ListLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

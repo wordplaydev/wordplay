@@ -1,4 +1,5 @@
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
@@ -94,8 +95,9 @@ export default class Spread extends Node {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Spread);
+    static readonly LocalePath = (l: LocaleText) => l.node.Spread;
+    getLocalePath() {
+        return Spread.LocalePath;
     }
 
     getCharacter() {

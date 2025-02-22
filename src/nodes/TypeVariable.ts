@@ -1,7 +1,6 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type Definition from './Definition';
@@ -104,8 +103,9 @@ export default class TypeVariable extends Node {
         return definition === this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TypeVariable);
+    static readonly LocalePath = (l: LocaleText) => l.node.TypeVariable;
+    getLocalePath() {
+        return TypeVariable.LocalePath;
     }
 
     getCharacter() {

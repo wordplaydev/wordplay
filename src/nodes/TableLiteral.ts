@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
@@ -336,8 +337,9 @@ export default class TableLiteral extends Expression {
         return this.rows[this.rows.length - 1] ?? this.type;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TableLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.TableLiteral;
+    getLocalePath() {
+        return TableLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

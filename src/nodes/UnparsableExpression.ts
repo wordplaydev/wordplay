@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import Halt from '@runtime/Halt';
@@ -82,8 +83,9 @@ export default class UnparsableExpression extends SimpleExpression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnparsableExpression);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnparsableExpression;
+    getLocalePath() {
+        return UnparsableExpression.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

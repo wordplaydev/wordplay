@@ -61,8 +61,9 @@ export default class Token extends Node {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Token);
+    static readonly LocalePath = (l: LocaleText) => l.node.Token;
+    getLocalePath() {
+        return Token.LocalePath;
     }
 
     getPurpose() {

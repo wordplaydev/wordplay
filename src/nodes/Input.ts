@@ -3,11 +3,8 @@ import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
 import Refer from '@edit/Refer';
 import type Locales from '@locale/Locales';
-import type {
-    DescriptiveNodeText,
-    NodeDescriptor,
-    NodeText,
-} from '@locale/NodeTexts';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Characters from '../lore/BasisCharacters';
 import type Bind from './Bind';
 import BindToken from './BindToken';
@@ -171,7 +168,8 @@ export default class Input extends Node {
         return { symbols: this.name.getText() + Characters.Bind };
     }
 
-    getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {
-        return locales.get((l) => l.node.Input);
+    static readonly LocalePath = (l: LocaleText) => l.node.Input;
+    getLocalePath() {
+        return Input.LocalePath;
     }
 }

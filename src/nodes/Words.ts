@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { FontWeight } from '../basis/Fonts';
 import Purpose from '../concepts/Purpose';
@@ -115,8 +116,9 @@ export default class Words extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Words);
+    static readonly LocalePath = (l: LocaleText) => l.node.Words;
+    getLocalePath() {
+        return Words.LocalePath;
     }
 
     getFormat(): Format | undefined {

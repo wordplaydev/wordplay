@@ -1,6 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
@@ -145,8 +146,9 @@ export default class Is extends Expression {
         return this.type;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Is);
+    static readonly LocalePath = (l: LocaleText) => l.node.Is;
+    getLocalePath() {
+        return Is.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

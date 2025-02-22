@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
@@ -81,8 +82,9 @@ export default abstract class UnknownType<
         return locales.concretize(segments.join('\n\n'));
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnknownType);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnknownType;
+    getLocalePath() {
+        return UnknownType.LocalePath;
     }
 
     abstract getReason(locales: Locales, context: Context): Markup;

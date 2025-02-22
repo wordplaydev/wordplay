@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { MisplacedConversion } from '@conflicts/MisplacedConversion';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
@@ -197,8 +198,9 @@ export default class ConversionDefinition extends DefinitionExpression {
         return this.arrow;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ConversionDefinition);
+    static readonly LocalePath = (l: LocaleText) => l.node.ConversionDefinition;
+    getLocalePath() {
+        return ConversionDefinition.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

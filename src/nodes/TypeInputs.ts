@@ -1,6 +1,6 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import type { Grammar, Replacement } from './Node';
@@ -68,8 +68,9 @@ export default class TypeInputs extends Node {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TypeInputs);
+    static readonly LocalePath = (l: LocaleText) => l.node.TypeInputs;
+    getLocalePath() {
+        return TypeInputs.LocalePath;
     }
 
     getCharacter() {

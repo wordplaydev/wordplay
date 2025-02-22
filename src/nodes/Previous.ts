@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { PREVIOUS_SYMBOL } from '@parser/Symbols';
@@ -213,8 +214,9 @@ export default class Previous extends Expression {
         return this.previous;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Previous);
+    static readonly LocalePath = (l: LocaleText) => l.node.Previous;
+    getLocalePath() {
+        return Previous.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

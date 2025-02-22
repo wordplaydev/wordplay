@@ -15,7 +15,6 @@ import type Step from '@runtime/Step';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Tokens from '../parser/Tokens';
 import UnicodeString from '../unicode/UnicodeString';
@@ -918,8 +917,9 @@ export default class Source extends Expression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Source);
+    static readonly LocalePath = (l: LocaleText) => l.node.Source;
+    getLocalePath() {
+        return Source.LocalePath;
     }
 
     getStartExplanations() {

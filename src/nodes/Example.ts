@@ -1,8 +1,8 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
@@ -68,8 +68,9 @@ export default class Example extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Example);
+    static readonly LocalePath = (l: LocaleText) => l.node.Example;
+    getLocalePath() {
+        return Example.LocalePath;
     }
 
     getCharacter() {

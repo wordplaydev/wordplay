@@ -1,7 +1,7 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { TEXT_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import BasisType from './BasisType';
 import type Context from './Context';
@@ -119,8 +119,9 @@ export default class TextType extends BasisType {
         return 'text';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TextType);
+    static readonly LocalePath = (l: LocaleText) => l.node.TextType;
+    getLocalePath() {
+        return TextType.LocalePath;
     }
 
     getCharacter() {

@@ -57,8 +57,10 @@ export default class StructureDefinitionType extends Type {
             : this.type.definition.names.getFirst();
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StructureDefinitionType);
+    static readonly LocalePath = (l: LocaleText) =>
+        l.node.StructureDefinitionType;
+    getLocalePath() {
+        return StructureDefinitionType.LocalePath;
     }
 
     getCharacter() {

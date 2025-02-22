@@ -2,6 +2,7 @@ import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MATCH_SYMBOL } from '@parser/Symbols';
@@ -243,8 +244,9 @@ export default class Match extends Expression {
         return this.question;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Match);
+    static readonly LocalePath = (l: LocaleText) => l.node.Match;
+    getLocalePath() {
+        return Match.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

@@ -1,4 +1,5 @@
 import type LanguageCode from '@locale/LanguageCode';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
@@ -76,8 +77,9 @@ export default class Docs extends Node {
         return getPreferred(locales, this.docs);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Docs);
+    static readonly LocalePath = (l: LocaleText) => l.node.Docs;
+    getLocalePath() {
+        return Docs.LocalePath;
     }
 
     getCharacter() {

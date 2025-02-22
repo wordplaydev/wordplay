@@ -1,8 +1,8 @@
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import { TextCloseByTextOpen, TextDelimiters } from '../parser/Tokenizer';
 import type Context from './Context';
@@ -96,8 +96,9 @@ export default class Translation extends LanguageTagged {
             .join('');
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Translation);
+    static readonly LocalePath = (l: LocaleText) => l.node.Translation;
+    getLocalePath() {
+        return Translation.LocalePath;
     }
 
     getExpressions(): Expression[] {

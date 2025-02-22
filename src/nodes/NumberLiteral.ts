@@ -1,6 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import { NotANumber } from '@conflicts/NotANumber';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import NumberValue from '@values/NumberValue';
@@ -148,8 +149,9 @@ export default class NumberLiteral extends Literal {
         return this.number;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NumberLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.NumberLiteral;
+    getLocalePath() {
+        return NumberLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

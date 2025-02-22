@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { LOCALE_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
@@ -110,8 +111,9 @@ export default class IsLocale extends SimpleExpression {
         return this.locale ?? this.globe;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.IsLocale);
+    static readonly LocalePath = (l: LocaleText) => l.node.IsLocale;
+    getLocalePath() {
+        return IsLocale.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

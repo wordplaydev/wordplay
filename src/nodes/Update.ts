@@ -3,6 +3,7 @@ import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
@@ -375,8 +376,9 @@ export default class Update extends Expression {
         return this.row.close ?? this.row.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Update);
+    static readonly LocalePath = (l: LocaleText) => l.node.Update;
+    getLocalePath() {
+        return Update.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

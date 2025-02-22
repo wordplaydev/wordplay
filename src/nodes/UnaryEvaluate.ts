@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import MissingInput from '@conflicts/MissingInput';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
@@ -217,8 +218,9 @@ export default class UnaryEvaluate extends Expression {
         return this.fun;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnaryEvaluate);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnaryEvaluate;
+    getLocalePath() {
+        return UnaryEvaluate.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

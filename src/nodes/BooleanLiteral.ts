@@ -1,4 +1,5 @@
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
@@ -94,8 +95,9 @@ export default class BooleanLiteral extends Literal {
         return this.value;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.BooleanLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.BooleanLiteral;
+    getLocalePath() {
+        return BooleanLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

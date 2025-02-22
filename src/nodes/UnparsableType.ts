@@ -1,8 +1,8 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
 import Node, { list, node, type Grammar, type Replacement } from './Node';
@@ -44,8 +44,9 @@ export default class UnparsableType extends Type {
         ) as this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnparsableType);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnparsableType;
+    getLocalePath() {
+        return UnparsableType.LocalePath;
     }
 
     getCharacter() {

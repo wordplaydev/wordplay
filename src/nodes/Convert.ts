@@ -1,6 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownConversion } from '@conflicts/UnknownConversion';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
@@ -264,8 +265,9 @@ export default class Convert extends Expression {
         return this.convert;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Convert);
+    static readonly LocalePath = (l: LocaleText) => l.node.Convert;
+    getLocalePath() {
+        return Convert.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

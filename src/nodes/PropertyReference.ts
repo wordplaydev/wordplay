@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { PROPERTY_SYMBOL } from '@parser/Symbols';
@@ -370,12 +371,14 @@ export default class PropertyReference extends Expression {
     getStart() {
         return this.dot;
     }
+
     getFinish() {
         return this.name ?? this.dot;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.PropertyReference);
+    static readonly LocalePath = (l: LocaleText) => l.node.PropertyReference;
+    getLocalePath() {
+        return PropertyReference.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

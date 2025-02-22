@@ -1,7 +1,7 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
@@ -61,8 +61,9 @@ export default class NoneType extends BasisType {
         return 'none';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NoneType);
+    static readonly LocalePath = (l: LocaleText) => l.node.NoneType;
+    getLocalePath() {
+        return NoneType.LocalePath;
     }
 
     getCharacter() {

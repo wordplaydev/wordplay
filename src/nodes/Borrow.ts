@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownBorrow } from '@conflicts/UnknownBorrow';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { BORROW_SYMBOL } from '@parser/Symbols';
@@ -272,8 +273,9 @@ export default class Borrow extends SimpleExpression {
         return this.source ?? this.borrow;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Borrow);
+    static readonly LocalePath = (l: LocaleText) => l.node.Borrow;
+    getLocalePath() {
+        return Borrow.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

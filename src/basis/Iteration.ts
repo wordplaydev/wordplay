@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Check from '@runtime/Check';
 import Evaluation from '@runtime/Evaluation';
@@ -217,8 +218,9 @@ export class Iteration<State = any> extends Expression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Iteration);
+    static readonly LocalePath = (l: LocaleText) => l.node.Iteration;
+    getLocalePath() {
+        return Iteration.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

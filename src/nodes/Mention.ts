@@ -1,4 +1,5 @@
 import ConceptRef from '@locale/ConceptRef';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
@@ -61,8 +62,10 @@ export default class Mention extends Content {
     getPurpose() {
         return Purpose.Document;
     }
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Mention);
+
+    static readonly LocalePath = (l: LocaleText) => l.node.Mention;
+    getLocalePath() {
+        return Mention.LocalePath;
     }
 
     getCharacter() {

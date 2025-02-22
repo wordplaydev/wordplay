@@ -2,6 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { NotAKeyValue } from '@conflicts/NotAKeyValue';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import KeyValue from '@nodes/KeyValue';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
@@ -241,8 +242,9 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.MapLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.MapLiteral;
+    getLocalePath() {
+        return MapLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

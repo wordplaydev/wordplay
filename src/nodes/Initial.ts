@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
@@ -108,8 +109,9 @@ export default class Initial extends SimpleExpression {
         return this.diamond;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Initial);
+    static readonly LocalePath = (l: LocaleText) => l.node.Initial;
+    getLocalePath() {
+        return Initial.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

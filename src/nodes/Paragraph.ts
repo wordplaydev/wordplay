@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Node, { list, node } from '@nodes/Node';
 import Purpose from '../concepts/Purpose';
@@ -88,8 +89,9 @@ export default class Paragraph extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Paragraph);
+    static readonly LocalePath = (l: LocaleText) => l.node.Paragraph;
+    getLocalePath() {
+        return Paragraph.LocalePath;
     }
 
     getCharacter() {

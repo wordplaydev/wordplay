@@ -1,6 +1,7 @@
 import type EditContext from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { ConceptRegExPattern } from '@parser/Tokenizer';
 import type Evaluator from '@runtime/Evaluator';
@@ -223,8 +224,9 @@ export default class TextLiteral extends Literal {
         return this.texts[0];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TextLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.TextLiteral;
+    getLocalePath() {
+        return TextLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

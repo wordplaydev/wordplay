@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -80,8 +81,9 @@ export default class DocumentedExpression extends SimpleExpression {
         return this.expression;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.DocumentedExpression);
+    static readonly LocalePath = (l: LocaleText) => l.node.DocumentedExpression;
+    getLocalePath() {
+        return DocumentedExpression.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
