@@ -482,6 +482,7 @@
                             showOutput={!editable}
                             {fit}
                             autofocus={false}
+                            guide={false}
                             warn={false}
                             shareable={false}
                             persistLayout={false}

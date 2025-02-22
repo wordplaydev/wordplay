@@ -141,6 +141,8 @@
         autofocus?: boolean;
         /** True if the project was overwritten by another instance of Wordplay */
         overwritten?: boolean;
+        /** Show the guide if the project is empty */
+        guide?: boolean;
         /** True if the moderation warnings should show */
         warn?: boolean;
         /** True if public dialog should show */
@@ -161,6 +163,7 @@
         fit = true,
         autofocus = true,
         overwritten = false,
+        guide = true,
         warn = true,
         shareable = true,
         dragged = $bindable(undefined),
@@ -511,8 +514,10 @@
                 new Tile(
                     TileKind.Documentation,
                     TileKind.Documentation,
+                    // If we're not supposed to show the guide, or there's code, don't show the guide by default.
+                    !guide ||
                     project.getMain().expression.expression.statements.length >
-                    0
+                        0
                         ? TileMode.Collapsed
                         : TileMode.Expanded,
                     undefined,

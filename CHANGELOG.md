@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #691: Reset path when changing guide mode.
 - Don't use blocks mode for code examples.
 - Fixed #690: Adding labels to token fields in blocks mode.
+- Don't show how to guide by default in tutorial.
 
 ### Maintenance
 
