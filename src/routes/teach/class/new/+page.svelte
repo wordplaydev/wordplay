@@ -28,7 +28,7 @@
         CreateClassError,
         CreateClassInputs,
         CreateClassOutput,
-    } from '@db/functions';
+    } from '@functions/functions';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';
     import { httpsCallable } from 'firebase/functions';
     import { PasswordLength } from '../../../login/IsValidPassword';
