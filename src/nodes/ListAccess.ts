@@ -106,7 +106,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'list',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.list),
+                label: () => (l) => l.term.list,
                 // Must be a list
                 getType: () => ListType.make(),
             },
@@ -114,7 +114,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'index',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.index),
+                label: () => (l) => l.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),
             },

@@ -5,7 +5,6 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import type Conflict from '../conflicts/Conflict';
 import IncompatibleType from '../conflicts/IncompatibleType';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { BIND_SYMBOL } from '../parser/Symbols';
 import AnyType from './AnyType';
@@ -58,7 +57,7 @@ export default class Spread extends Node {
                 name: 'list',
                 kind: optional(node(Expression)),
                 getType: () => ListType.make(new AnyType()),
-                label: (locales: Locales) => locales.get((l) => l.term.list),
+                label: () => (l) => l.term.list,
             },
         ];
     }

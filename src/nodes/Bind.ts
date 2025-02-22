@@ -178,8 +178,8 @@ export default class Bind extends Expression {
                     if (child === this.value) {
                         const bind =
                             this.getCorrespondingBindDefinition(context);
-                        return bind ? locales.getName(bind.names) : '_';
-                    } else return '_';
+                        return () => (bind ? locales.getName(bind.names) : '_');
+                    } else return () => '_';
                 },
             },
         ];

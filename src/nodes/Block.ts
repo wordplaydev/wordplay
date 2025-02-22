@@ -110,8 +110,7 @@ export default class Block extends Expression {
             {
                 name: 'statements',
                 kind: list(true, node(Expression), node(Bind)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Block.statement),
+                label: () => (l) => l.node.Block.statement,
                 indent: !this.isRoot(),
                 newline:
                     this.isRoot() ||

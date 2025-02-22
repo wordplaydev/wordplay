@@ -1,6 +1,9 @@
 <script lang="ts">
+    import Text from '@components/widgets/Text.svelte';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+
     interface Props {
-        placeholder: string | undefined;
+        placeholder: LocaleTextAccessor | undefined;
         text: string;
         rendered: string;
     }
@@ -8,7 +11,8 @@
     let { placeholder, text, rendered }: Props = $props();
 </script>
 
-{#if placeholder !== undefined}<span class="placeholder">{placeholder}</span
+{#if placeholder !== undefined}<span class="placeholder"
+        ><Text path={placeholder}></Text></span
     >{:else if text.length === 0}&ZeroWidthSpace;{:else}{rendered}{/if}
 
 <style>

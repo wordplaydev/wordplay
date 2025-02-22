@@ -2,7 +2,6 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import BindToken from './BindToken';
 import Expression from './Expression';
@@ -53,7 +52,7 @@ export default class KeyValue extends Node {
             {
                 name: 'key',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.key),
+                label: () => (l) => l.term.key,
                 space: true,
             },
             { name: 'bind', kind: node(Sym.Bind) },
@@ -61,7 +60,7 @@ export default class KeyValue extends Node {
                 name: 'value',
                 kind: node(Expression),
                 space: true,
-                label: (locales: Locales) => locales.get((l) => l.term.value),
+                label: () => (l) => l.term.value,
             },
         ];
     }

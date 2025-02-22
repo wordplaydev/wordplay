@@ -79,8 +79,7 @@ export default class ListLiteral extends Expression {
             {
                 name: 'values',
                 kind: list(true, node(Expression), node(Spread)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.ListLiteral.item),
+                label: () => (l) => l.node.ListLiteral.item,
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
                     this.getItemType(context)?.generalize(context) ??

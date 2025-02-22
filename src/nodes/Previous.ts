@@ -95,7 +95,7 @@ export default class Previous extends Expression {
             {
                 name: 'number',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.index),
+                label: () => (l) => l.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),
                 space: true,
@@ -103,7 +103,7 @@ export default class Previous extends Expression {
             {
                 name: 'stream',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.stream),
+                label: () => (l) => l.term.stream,
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
                 space: true,

@@ -87,21 +87,18 @@ export default class Borrow extends SimpleExpression {
                 name: 'source',
                 kind: any(node(Reference), none()),
                 space: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.source),
+                label: () => (l) => l.node.Borrow.source,
             },
             { name: 'dot', kind: optional(node(Sym.Access)) },
             {
                 name: 'name',
                 kind: optional(node(Reference)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.name),
+                label: () => (l) => l.node.Borrow.name,
             },
             {
                 name: 'version',
                 kind: optional(node(Sym.Number)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.version),
+                label: () => (l) => l.node.Borrow.version,
             },
         ];
     }

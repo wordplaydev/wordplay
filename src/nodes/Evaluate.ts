@@ -221,8 +221,7 @@ export default class Evaluate extends Expression {
                         ),
                         new AnyType(),
                     ),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Evaluate.function),
+                label: () => (l) => l.node.Evaluate.function,
             },
             { name: 'types', kind: any(node(TypeInputs), none()) },
             { name: 'open', kind: node(Sym.EvalOpen) },
@@ -234,7 +233,7 @@ export default class Evaluate extends Expression {
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return locales.get((l) => l.node.Evaluate.input);
+                        return (l) => l.node.Evaluate.input;
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(context);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -246,8 +245,8 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child))),
                     );
                     return bind === undefined
-                        ? locales.get((l) => l.node.Evaluate.input)
-                        : locales.getName(bind.expected.names);
+                        ? (l) => l.node.Evaluate.input
+                        : () => locales.getName(bind.expected.names);
                 },
                 space: true,
                 indent: true,

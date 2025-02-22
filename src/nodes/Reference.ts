@@ -194,8 +194,7 @@ export default class Reference extends SimpleExpression {
                 name: 'name',
                 kind: node(Sym.Name),
                 uncompletable: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reference.name),
+                label: () => (l) => l.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
                     this.getDefinitionsInScope(context).filter(

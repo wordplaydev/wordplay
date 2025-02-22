@@ -98,7 +98,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'setOrMap',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.set),
+                label: () => (l) => l.term.set,
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
@@ -106,7 +106,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'key',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.key),
+                label: () => (l) => l.term.key,
             },
             { name: 'close', kind: node(Sym.SetClose) },
         ];

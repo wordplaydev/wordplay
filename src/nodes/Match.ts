@@ -90,8 +90,7 @@ export default class Match extends Expression {
             {
                 name: 'value',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Match.value),
+                label: () => (l) => l.node.Match.value,
             },
             { name: 'question', kind: node(Sym.Match), space: true },
             {
@@ -105,8 +104,7 @@ export default class Match extends Expression {
             {
                 name: 'other',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Match.other),
+                label: () => (l) => l.node.Match.other,
                 space: true,
                 indent: true,
                 newline: true,

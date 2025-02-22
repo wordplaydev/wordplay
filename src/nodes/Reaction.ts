@@ -100,16 +100,14 @@ export default class Reaction extends Expression {
             {
                 name: 'initial',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.initial),
+                label: () => (l) => l.node.Reaction.initial,
             },
             { name: 'dots', kind: node(Sym.Stream), space: true },
             {
                 name: 'condition',
                 kind: node(Expression),
                 space: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.condition),
+                label: () => (l) => l.node.Reaction.condition,
                 getType: () => BooleanType.make(),
             },
             {
@@ -121,8 +119,7 @@ export default class Reaction extends Expression {
             {
                 name: 'next',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.next),
+                label: () => (l) => l.node.Reaction.next,
                 space: true,
                 indent: true,
             },
