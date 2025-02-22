@@ -1,11 +1,13 @@
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
     import { type Snippet } from 'svelte';
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
     import CommandHint from './CommandHint.svelte';
 
     interface Props {
-        tips: ToggleText;
+        tips: (locale: LocaleText) => ToggleText;
         on: boolean;
         toggle: () => void;
         active?: boolean;
@@ -37,8 +39,10 @@
         }
     }
 
+    let text = $derived($locales.get(tips));
+
     let title = $derived(
-        `${on ? tips.on : tips.off}${
+        `${on ? text.on : text.off}${
             command ? ' (' + toShortcut(command) + ')' : ''
         }`,
     );

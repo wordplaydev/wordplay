@@ -1539,17 +1539,13 @@
                                         />{/if} -->
                                     <Toggle
                                         background
-                                        tips={$locales.get(
-                                            (l) => l.ui.output.toggle.grid,
-                                        )}
+                                        tips={(l) => l.ui.output.toggle.grid}
                                         on={grid}
                                         toggle={() => (grid = !grid)}
                                         ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
                                         background
-                                        tips={$locales.get(
-                                            (l) => l.ui.output.toggle.fit,
-                                        )}
+                                        tips={(l) => l.ui.output.toggle.fit}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
                                         ><Emoji
@@ -1811,7 +1807,7 @@
                         }}><Shortcuts /></Dialog
                     >
                     <Toggle
-                        tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                        tips={(l) => l.ui.tile.toggle.fullscreen}
                         on={browserFullscreen}
                         command={browserFullscreen
                             ? ExitFullscreen

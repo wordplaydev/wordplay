@@ -305,7 +305,7 @@
                     ></Button>
                 {/if}
                 <Toggle
-                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                    tips={(l) => l.ui.tile.toggle.fullscreen}
                     on={fullscreen}
                     background={background !== null}
                     toggle={() => setFullscreen(!fullscreen)}

@@ -101,7 +101,7 @@
                   : true}
     />
     <Toggle
-        tips={$locales.get((l) => l.ui.page.login.toggle.reveal)}
+        tips={(l) => l.ui.page.login.toggle.reveal}
         on={reveal}
         toggle={() => (reveal = !reveal)}>🔎</Toggle
     >
