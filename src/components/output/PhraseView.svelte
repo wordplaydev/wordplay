@@ -25,7 +25,7 @@
     import { DB, Projects, locales } from '../../db/Database';
     import Markup from '../../nodes/Markup';
     import TextLang from '../../output/TextLang';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import moveOutput from '../palette/editOutput';
     import { getProject, getSelectedOutput } from '../project/Contexts';
 
@@ -285,7 +285,7 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHtmlView
+        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHTMLView
                 markup={text.asLine()}
                 inline
             />{/if}

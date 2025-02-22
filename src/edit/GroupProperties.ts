@@ -14,7 +14,7 @@ export default function getGroupProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Group.layout),
+            (l) => l.output.Group.layout.names,
             new OutputPropertyOptions(
                 Object.values(project.shares.output)
                     .filter((type) =>
@@ -44,7 +44,7 @@ export default function getGroupProperties(
                 ),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Group.content),
+            (l) => l.output.Group.content.names,
             'content',
             true,
             false,

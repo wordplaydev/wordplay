@@ -4,7 +4,7 @@
     import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         setConceptIndex,
         setConceptPath,
@@ -128,9 +128,7 @@
         <Header block={false}
             >{$locales.get((l) => l.ui.page.guide.header)}</Header
         >
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.guide.description)}
-        />
+        <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>
 
     <Documentation {project} collapse={false}></Documentation>

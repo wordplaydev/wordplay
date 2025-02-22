@@ -1,7 +1,7 @@
 <script lang="ts">
     import Feedback from '@components/app/Feedback.svelte';
     import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { DB, locales } from '@db/Database';
@@ -65,7 +65,7 @@
     <p
         ><Button
             background
-            tip={$locales.get((l) => l.ui.page.login.button.delete.tip)}
+            tip={(l) => l.ui.page.login.button.delete.tip}
             action={() => (deleteRequested = !deleteRequested)}
             active={!deleteRequested}
             >{$locales.get((l) => l.ui.page.login.button.delete.label)}</Button
@@ -84,16 +84,12 @@
         >
             <TextField
                 id="delete-account-username"
-                description={$locales.get((l) =>
-                    creator.isUsername()
-                        ? l.ui.page.login.field.username.description
-                        : l.ui.page.login.field.email.description,
-                )}
-                placeholder={$locales.get((l) =>
-                    creator.isUsername()
-                        ? l.ui.page.login.field.username.placeholder
-                        : l.ui.page.login.field.email.placeholder,
-                )}
+                description={creator.isUsername()
+                    ? (l) => l.ui.page.login.field.username.description
+                    : (l) => l.ui.page.login.field.email.description}
+                placeholder={creator.isUsername()
+                    ? (l) => l.ui.page.login.field.username.placeholder
+                    : (l) => l.ui.page.login.field.email.placeholder}
                 kind={creator.isUsername() ? undefined : 'email'}
                 bind:text={confirmEmail}
                 editable={!deleteSubmitted}
@@ -101,27 +97,19 @@
             <TextField
                 kind="password"
                 id="delete-account-password"
-                description={$locales.get(
-                    (l) => l.ui.page.login.field.password.description,
-                )}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.login.field.password.placeholder,
-                )}
+                description={(l) => l.ui.page.login.field.password.description}
+                placeholder={(l) => l.ui.page.login.field.password.placeholder}
                 bind:text={password}
                 editable={!deleteSubmitted}
                 validator={(pass) =>
                     isValidPassword(pass)
                         ? true
-                        : $locales.get(
-                              (l) => l.ui.page.login.error.invalidPassword,
-                          )}
+                        : (l) => l.ui.page.login.error.invalidPassword}
             />
             <Button
                 background
                 submit
-                tip={$locales.get(
-                    (l) => l.ui.page.login.button.reallyDelete.tip,
-                )}
+                tip={(l) => l.ui.page.login.button.reallyDelete.tip}
                 active={readyToDeleteAccount(confirmEmail, password)}
                 action={deleteAccount}
                 >{$locales.get(
@@ -130,11 +118,9 @@
             >
             {#if confirmEmail?.length >= 5 && !readyToDeleteAccount(confirmEmail, password)}
                 <Feedback inline
-                    ><MarkupHtmlView
+                    ><MarkupHTMLView
                         inline
-                        markup={$locales.get(
-                            (l) => l.ui.page.login.feedback.match,
-                        )}
+                        markup={(l) => l.ui.page.login.feedback.match}
                     /></Feedback
                 >
             {/if}

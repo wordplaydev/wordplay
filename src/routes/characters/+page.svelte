@@ -3,7 +3,7 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import { CharactersDB, locales } from '@db/Database';
     import { firestore } from '@db/firebase';
@@ -56,7 +56,7 @@
 
 <Writing>
     <Header>{$locales.get((l) => l.ui.page.characters.header)}</Header>
-    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.characters.prompt)} />
+    <MarkupHTMLView markup={(l) => l.ui.page.characters.prompt} />
 
     {#if firestore === undefined}
         <Feedback

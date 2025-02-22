@@ -109,7 +109,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName(),
+                outputs.property.getName($locales),
                 new FormattedLiteral([
                     parseFormattedTranslation(
                         toTokens(
@@ -138,7 +138,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName(),
+                outputs.property.getName($locales),
                 new FormattedLiteral([
                     parseFormattedTranslation(
                         toTokens(FORMATTED_SYMBOL + markup + FORMATTED_SYMBOL),
@@ -235,7 +235,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName(),
+                outputs.property.getName($locales),
                 newExpression,
             ),
         );
@@ -273,7 +273,7 @@
             >
             <Options
                 value={weight}
-                label="Font weight"
+                label={(l) => l.ui.palette.labels.weight}
                 id="weight-chooser"
                 width="auto"
                 options={[

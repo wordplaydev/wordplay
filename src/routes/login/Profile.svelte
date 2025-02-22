@@ -4,7 +4,7 @@
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
     import Link from '../../components/app/Link.svelte';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
     import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
     import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
     import { Creator } from '../../db/creators/CreatorDatabase';
@@ -73,18 +73,14 @@
         />
     </Action>
     <Action>
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.login.prompt.logout)}
-        />
+        <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.logout} />
         <p
             ><ConfirmButton
                 background
-                tip={$locales.get((l) => l.ui.page.login.button.logout.tip)}
+                tip={(l) => l.ui.page.login.button.logout.tip}
                 action={logout}
                 enabled={$status.status === SaveStatus.Saved}
-                prompt={`🗑️ ${$locales.get(
-                    (l) => l.ui.page.login.button.logout.label,
-                )}`}
+                prompt={(l) => l.ui.page.login.button.logout.label}
                 >{$locales.get(
                     (l) => l.ui.page.login.button.logout.label,
                 )}…</ConfirmButton

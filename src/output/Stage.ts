@@ -9,7 +9,7 @@ import Decimal from 'decimal.js';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import toStructure from '../basis/toStructure';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/LocaleText';
+import { getFirstText } from '../locale/LocaleText';
 import type Evaluator from '../runtime/Evaluator';
 import Color from './Color';
 import { Form, toForm } from './Form';
@@ -209,7 +209,7 @@ export default class Stage extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : locales.get((l) => getFirstName(l.output.Group.names));
+            : locales.get((l) => getFirstText(l.output.Group.names));
     }
 
     getDescription(locales: Locales) {

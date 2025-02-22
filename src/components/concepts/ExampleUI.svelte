@@ -132,7 +132,7 @@
     </div>
     <div class="tools">
         <Button
-            tip={$locales.get((l) => l.ui.project.button.copy.tip)}
+            tip={(l) => l.ui.project.button.copy.tip}
             action={() => {
                 copied = true;
                 toClipboard(
@@ -149,7 +149,7 @@
         >
 
         <Button
-            tip={$locales.get((l) => l.ui.timeline.button.reset)}
+            tip={(l) => l.ui.timeline.button.reset}
             icon="↻"
             action={() => reset(true)}
         ></Button>

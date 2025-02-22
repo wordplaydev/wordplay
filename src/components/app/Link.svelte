@@ -1,9 +1,11 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
         to: string;
-        tip?: string | undefined;
+        tip?: LocaleTextAccessor | undefined;
         nowrap?: boolean;
         external?: boolean;
         children?: import('svelte').Snippet;
@@ -22,7 +24,7 @@
     {@render children?.()}
 {:else}<a
         data-sveltekit-preload-data="tap"
-        title={tip}
+        title={tip ? $locales.get(tip) : undefined}
         href={to}
         target={external ? '_blank' : null}
         class:nowrap

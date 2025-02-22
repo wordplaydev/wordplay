@@ -360,7 +360,7 @@
                 >{/if}
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
             <Options
-                label={$locales.get((l) => l.ui.page.learn.options.lesson)}
+                label={(l) => l.ui.page.learn.options.lesson}
                 value={withoutAnnotations(
                     JSON.stringify(progress.withLine(0).serialize()),
                 )}
@@ -389,9 +389,7 @@
                 <div class="controls">
                     <Button
                         large
-                        tip={$locales.get(
-                            (l) => l.ui.page.learn.button.previous,
-                        )}
+                        tip={(l) => l.ui.page.learn.button.previous}
                         action={() =>
                             navigate(progress.previousPause() ?? progress)}
                         active={progress.previousPause() !== undefined}
@@ -411,7 +409,7 @@
                         >{/if}
                     <Button
                         large
-                        tip={$locales.get((l) => l.ui.page.learn.button.next)}
+                        tip={(l) => l.ui.page.learn.button.next}
                         action={() =>
                             navigate(progress.nextPause() ?? progress)}
                         active={progress.nextPause() !== undefined}

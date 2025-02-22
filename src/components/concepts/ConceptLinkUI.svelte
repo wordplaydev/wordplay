@@ -157,7 +157,8 @@
     <Button
         padding={false}
         action={navigate}
-        tip={$locales.concretize((l) => l.ui.docs.link, longName).toText()}
+        tip={() =>
+            $locales.concretize((l) => l.ui.docs.link, longName).toText()}
         ><span class="conceptlink interactive"
             >{#if label}{withMonoEmoji(label)}{:else}<span class="long"
                     >{longName}</span

@@ -7,6 +7,7 @@
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
     } from '@locale/LanguageCode';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import Language from '@nodes/Language';
     import TextLiteral from '@nodes/TextLiteral';
     import { parseFormattedLiteral } from '@parser/parseExpression';
@@ -20,7 +21,7 @@
     interface Props {
         property: OutputProperty;
         values: OutputPropertyValues;
-        validator: (text: string) => string | true;
+        validator: (text: string) => LocaleTextAccessor | true;
         editable: boolean;
         id: string;
     }
@@ -39,7 +40,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 isMarkup
                     ? parseFormattedLiteral(
                           toTokens(
@@ -68,7 +69,7 @@
         : getLanguageQuoteOpen($locales.getLocale().language)}
     <TextField
         text={values.getText()}
-        description={$locales.get((l) => l.ui.palette.field.text)}
+        description={(l) => l.ui.palette.field.text}
         placeholder={values.isEmpty()
             ? ''
             : $locales.getName(values.values[0].bind.names)}

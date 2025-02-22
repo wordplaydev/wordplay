@@ -1022,7 +1022,7 @@
                 {#if chats}
                     <ButtonUI
                         background={background !== null}
-                        tip={$locales.get((l) => l.ui.output.button.submit)}
+                        tip={(l) => l.ui.output.button.submit}
                         action={submitChat}>↑</ButtonUI
                     >
                 {/if}

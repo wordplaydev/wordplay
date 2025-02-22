@@ -19,7 +19,7 @@
 <Options
     id="code-locale"
     value={locale ? localeToString(locale) : undefined}
-    label={$locales.get((l) => l.ui.source.options.locale.tip)}
+    label={(l) => l.ui.source.options.locale.tip}
     width="auto"
     options={[
         {

@@ -65,51 +65,39 @@
     <TextField
         id="currentpassword"
         kind={reveal ? undefined : 'password'}
-        description={$locales.get(
-            (l) => l.ui.page.login.field.currentPassword.description,
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.currentPassword.placeholder,
-        )}
+        description={(l) => l.ui.page.login.field.currentPassword.description}
+        placeholder={(l) => l.ui.page.login.field.currentPassword.placeholder}
         bind:text={currentpassword}
         editable={!submitted}
         validator={(pass) =>
             !isValidPassword(pass)
-                ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                ? (l) => l.ui.page.login.error.invalidPassword
                 : true}
     />
     <TextField
         id="repeatpassword"
         kind={reveal ? undefined : 'password'}
-        description={$locales.get(
-            (l) => l.ui.page.login.field.newPassword.description,
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.newPassword.placeholder,
-        )}
+        description={(l) => l.ui.page.login.field.newPassword.description}
+        placeholder={(l) => l.ui.page.login.field.newPassword.placeholder}
         bind:text={password1}
         editable={!submitted}
         validator={(pass) =>
             !isValidPassword(pass)
-                ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                ? (l) => l.ui.page.login.error.invalidPassword
                 : true}
     />
     <TextField
         id="newpassword"
         kind={reveal ? undefined : 'password'}
-        description={$locales.get(
-            (l) => l.ui.page.login.field.newPassword.description,
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.newPassword.placeholder,
-        )}
+        description={(l) => l.ui.page.login.field.newPassword.description}
+        placeholder={(l) => l.ui.page.login.field.newPassword.placeholder}
         bind:text={password2}
         editable={!submitted}
         validator={(pass) =>
             !isValidPassword(pass)
-                ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                ? (l) => l.ui.page.login.error.invalidPassword
                 : pass !== password1
-                  ? $locales.get((l) => l.ui.page.login.error.mismatched)
+                  ? (l) => l.ui.page.login.error.mismatched
                   : true}
     />
     <Toggle
@@ -120,7 +108,7 @@
     <Button
         submit
         background
-        tip={$locales.get((l) => l.ui.page.login.button.updatePassword)}
+        tip={(l) => l.ui.page.login.button.updatePassword}
         active={!submitted && isValidPassword(password2)}
         action={() => undefined}>&gt;</Button
     >

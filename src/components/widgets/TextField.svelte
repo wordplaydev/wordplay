@@ -1,13 +1,15 @@
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { onMount, tick } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         text?: string;
-        placeholder: string;
-        description: string;
-        validator?: undefined | ((text: string) => string | true);
+        placeholder: LocaleTextAccessor | string;
+        description: LocaleTextAccessor;
+        validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         changed?: undefined | ((text: string) => void);
         // Called if someone typed and paused for more than a second.
         dwelled?: undefined | ((text: string) => void);
@@ -53,6 +55,12 @@
 
     let width = $state(0);
     let focused = $state(false);
+    let title = $derived($locales.get(description));
+    let placeholderText = $derived(
+        typeof placeholder === 'string'
+            ? placeholder
+            : $locales.get(placeholder),
+    );
 
     let timeout: NodeJS.Timeout | undefined = undefined;
 
@@ -61,7 +69,7 @@
         if (validator) {
             const message = validator(text);
             if (message === true) return undefined;
-            else return message;
+            else return $locales.get(message);
         } else return undefined;
     });
 
@@ -145,11 +153,11 @@
         data-id={id}
         data-defaultfocus={defaultFocus ? '' : null}
         class:error={message !== undefined}
-        aria-label={description}
-        aria-placeholder={placeholder}
+        aria-label={title}
+        aria-placeholder={placeholderText}
+        placeholder={withMonoEmoji(placeholderText)}
         aria-invalid={message !== undefined}
         aria-describedby="{id}-error"
-        placeholder={withMonoEmoji(placeholder)}
         style:width={fill ? null : `${width + 5}px`}
         style:max-width={max}
         disabled={!editable}

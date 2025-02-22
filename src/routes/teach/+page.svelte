@@ -5,7 +5,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import { locales } from '@db/Database';
     import { type Class } from '@db/teachers/TeacherDatabase.svelte';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
     import { getTeachData } from './+layout.svelte';
     import TeachersOnly from './TeachersOnly.svelte';
 
@@ -31,18 +31,12 @@
     {#if classes === undefined}
         <Spinning></Spinning>
     {:else if classes === null}
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.teach.error.offline)}
-        />
+        <MarkupHTMLView markup={(l) => l.ui.page.teach.error.offline} />
     {:else}
         {#if classes.length === 0}
-            <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.teach.prompt.none)}
-            />
+            <MarkupHTMLView markup={(l) => l.ui.page.teach.prompt.none} />
         {:else}
-            <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.teach.prompt.some)}
-            />
+            <MarkupHTMLView markup={(l) => l.ui.page.teach.prompt.some} />
         {/if}
         <Centered>
             <Link to="/teach/class/new">

@@ -8,7 +8,8 @@ import { DefaultStyle } from '@output/Output';
 import { createPoseLiteral } from '@output/Pose';
 import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
-import type { NameAndDoc, NameText } from '../locale/LocaleText';
+import type { LocaleTextsAccessor } from '../locale/Locales';
+import type { NameText } from '../locale/LocaleText';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import Reference from '../nodes/Reference';
 import OutputProperty from './OutputProperty';
@@ -17,7 +18,10 @@ import OutputPropertyRange from './OutputPropertyRange';
 import OutputPropertyText from './OutputPropertyText';
 import getPoseProperties from './PoseProperties';
 
-function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
+function getPoseProperty(
+    project: Project,
+    name: LocaleTextsAccessor,
+): OutputProperty {
     return new OutputProperty(
         name,
         'pose',
@@ -33,7 +37,7 @@ function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
 
 export function getDurationProperty(locales: Locales): OutputProperty {
     return new OutputProperty(
-        locales.get((l) => l.output.Phrase.duration),
+        (l) => l.output.Phrase.duration.names,
         new OutputPropertyRange(0, 2, 0.25, 's', 2),
         false,
         false,
@@ -44,7 +48,7 @@ export function getDurationProperty(locales: Locales): OutputProperty {
 
 export function getStyleProperty(locales: Locales): OutputProperty {
     return new OutputProperty(
-        locales.get((l) => l.output.Phrase.style),
+        (l) => l.output.Phrase.style.names,
         new OutputPropertyOptions(
             Object.values(locales.get((l) => l.output.Easing)).reduce(
                 (all: string[], next: NameText) => [
@@ -74,7 +78,7 @@ export function getTypeOutputProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.size),
+            (l) => l.output.Phrase.size.names,
             new OutputPropertyRange(0.25, 32, 0.25, 'm', 2),
             false,
             true,
@@ -82,7 +86,7 @@ export function getTypeOutputProperties(
             () => NumberLiteral.make(1, Unit.meters()),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.face),
+            (l) => l.output.Phrase.face.names,
             new OutputPropertyOptions(
                 [...SupportedFaces],
                 true,
@@ -98,7 +102,7 @@ export function getTypeOutputProperties(
             () => TextLiteral.make(locales.get((l) => l.ui.font.app)),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.place),
+            (l) => l.output.Phrase.place.names,
             'place',
             false,
             false,
@@ -132,7 +136,7 @@ export function getOutputProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.name),
+            (l) => l.output.Phrase.name.names,
             new OutputPropertyText(() => true),
             false,
             false,
@@ -140,7 +144,7 @@ export function getOutputProperties(
             () => TextLiteral.make(''),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.selectable),
+            (l) => l.output.Phrase.selectable.names,
             'bool',
             false,
             false,
@@ -148,22 +152,10 @@ export function getOutputProperties(
             () => BooleanLiteral.make(false),
         ),
         ...getPoseProperties(project, locales, true),
-        getPoseProperty(
-            project,
-            locales.get((l) => l.output.Phrase.entering),
-        ),
-        getPoseProperty(
-            project,
-            locales.get((l) => l.output.Phrase.resting),
-        ),
-        getPoseProperty(
-            project,
-            locales.get((l) => l.output.Phrase.moving),
-        ),
-        getPoseProperty(
-            project,
-            locales.get((l) => l.output.Phrase.exiting),
-        ),
+        getPoseProperty(project, (l) => l.output.Phrase.entering.names),
+        getPoseProperty(project, (l) => l.output.Phrase.resting.names),
+        getPoseProperty(project, (l) => l.output.Phrase.moving.names),
+        getPoseProperty(project, (l) => l.output.Phrase.exiting.names),
         getDurationProperty(locales),
         getStyleProperty(locales),
     ];

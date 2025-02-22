@@ -10,7 +10,7 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Public from '@components/project/Public.svelte';
@@ -123,12 +123,8 @@
                 >{#if editable}<TextField
                         id="gallery-name"
                         text={name ?? ''}
-                        description={$locales.get(
-                            (l) => l.ui.gallery.field.name.description,
-                        )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.gallery.field.name.placeholder,
-                        )}
+                        description={(l) => l.ui.gallery.field.name.description}
+                        placeholder={(l) => l.ui.gallery.field.name.placeholder}
                         done={(text) =>
                             gallery
                                 ? Galleries.edit(
@@ -143,24 +139,18 @@
                     )}{/if}</Header
             >
             <div class="collection">
-                {#if !editable}<MarkupHtmlView
+                {#if !editable}<MarkupHTMLView
                         markup={description
                             ? description.split('\n').join('\n\n')
-                            : $locales.get(
-                                  (l) =>
-                                      l.ui.gallery.field.description
-                                          .placeholder,
-                              )}
+                            : (l) => l.ui.gallery.field.description.placeholder}
                     />{:else}
                     <TextBox
                         id="gallery-description"
                         text={description ?? ''}
-                        description={$locales.get(
-                            (l) => l.ui.gallery.field.description.description,
-                        )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.gallery.field.description.placeholder,
-                        )}
+                        description={(l) =>
+                            l.ui.gallery.field.description.description}
+                        placeholder={(l) =>
+                            l.ui.gallery.field.description.placeholder}
                         done={(text) =>
                             gallery
                                 ? Galleries.edit(
@@ -198,19 +188,15 @@
                         showCollaborators={projectsEditable}
                         edit={projectsEditable
                             ? {
-                                  description: $locales.get(
-                                      (l) =>
-                                          l.ui.page.projects.button.editproject,
-                                  ),
+                                  description: (l) =>
+                                      l.ui.page.projects.button.editproject,
                                   action: (project) =>
                                       goto(project.getLink(false)),
                                   label: EDIT_SYMBOL,
                               }
                             : false}
                         copy={{
-                            description: $locales.get(
-                                (l) => l.ui.project.button.duplicate,
-                            ),
+                            description: (l) => l.ui.project.button.duplicate,
                             action: (project) =>
                                 goto(
                                     Projects.duplicate(project).getLink(false),
@@ -220,16 +206,12 @@
                         remove={(project) => {
                             return editable
                                 ? {
-                                      prompt: $locales.get(
-                                          (l) =>
-                                              l.ui.gallery.confirm.remove
-                                                  .prompt,
-                                      ),
-                                      description: $locales.get(
-                                          (l) =>
-                                              l.ui.gallery.confirm.remove
-                                                  .description,
-                                      ),
+                                      prompt: (l) =>
+                                          l.ui.gallery.confirm.remove.prompt,
+                                      description: (l) =>
+                                          l.ui.gallery.confirm.remove
+                                              .description,
+
                                       action: () =>
                                           gallery
                                               ? Galleries.removeProject(
@@ -253,10 +235,8 @@
                         (l) => l.ui.gallery.subheader.curators.header,
                     )}</Subheader
                 >
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.gallery.subheader.curators.explanation,
-                    )}
+                <MarkupHTMLView
+                    markup={(l) => l.ui.gallery.subheader.curators.explanation}
                 />
                 <CreatorList
                     uids={gallery.getCurators()}
@@ -285,7 +265,7 @@
                         (l) => l.ui.gallery.subheader.creators.header,
                     )}</Subheader
                 >
-                <MarkupHtmlView
+                <MarkupHTMLView
                     markup={$locales.get(
                         (l) => l.ui.gallery.subheader.creators.explanation,
                     )}
@@ -312,10 +292,8 @@
                         (l) => l.ui.gallery.subheader.classes.header,
                     )}</Subheader
                 >
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.gallery.subheader.classes.explanation,
-                    )}
+                <MarkupHTMLView
+                    markup={(l) => l.ui.gallery.subheader.classes.explanation}
                 />
 
                 <ul>
@@ -343,21 +321,15 @@
                         (l) => l.ui.gallery.subheader.delete.header,
                     )}</Subheader
                 >
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.gallery.subheader.delete.explanation,
-                    )}
+                <MarkupHTMLView
+                    markup={(l) => l.ui.gallery.subheader.delete.explanation}
                 />
 
                 <p>
                     <ConfirmButton
                         background
-                        tip={$locales.get(
-                            (l) => l.ui.gallery.confirm.delete.description,
-                        )}
-                        prompt={$locales.get(
-                            (l) => l.ui.gallery.confirm.delete.prompt,
-                        )}
+                        tip={(l) => l.ui.gallery.confirm.delete.description}
+                        prompt={(l) => l.ui.gallery.confirm.delete.prompt}
                         action={async () => {
                             if (gallery) {
                                 await Galleries.delete(gallery);

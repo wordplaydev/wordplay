@@ -1478,17 +1478,14 @@
                                     <!-- Can't delete main. -->
                                     {#if editable && source !== project.getMain()}
                                         <ConfirmButton
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.source.confirm.delete
-                                                        .description,
-                                            )}
+                                            tip={(l) =>
+                                                l.ui.source.confirm.delete
+                                                    .description}
                                             action={() => removeSource(source)}
-                                            prompt={$locales.get(
-                                                (l) =>
-                                                    l.ui.source.confirm.delete
-                                                        .prompt,
-                                            )}>{CANCEL_SYMBOL}</ConfirmButton
+                                            prompt={(l) =>
+                                                l.ui.source.confirm.delete
+                                                    .prompt}
+                                            >{CANCEL_SYMBOL}</ConfirmButton
                                         >
                                     {/if}
                                 {:else if tile.kind === TileKind.Output}
@@ -1518,11 +1515,9 @@
                                             uiid="editProject"
                                             background
                                             padding={false}
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.page.projects.button
-                                                        .viewcode,
-                                            )}
+                                            tip={(l) =>
+                                                l.ui.page.projects.button
+                                                    .viewcode}
                                             action={() => stopPlaying()}
                                             icon="👁️"
                                         ></Button>{/if}
@@ -1689,11 +1684,9 @@
                                             )}
                                             <Button
                                                 background
-                                                tip={$locales.get(
-                                                    (l) =>
-                                                        l.ui.checkpoints.button
-                                                            .restore,
-                                                )}
+                                                tip={(l) =>
+                                                    l.ui.checkpoints.button
+                                                        .restore}
                                                 active={checkpoint > -1}
                                                 action={() => {
                                                     // Save a version of the project with the current source in the history and the new source the old source.
@@ -1748,7 +1741,7 @@
             <div class="footer-row">
                 {#if original}<Button
                         uiid="revertProject"
-                        tip={$locales.get((l) => l.ui.project.button.revert)}
+                        tip={(l) => l.ui.project.button.revert}
                         active={!project.equals(original)}
                         action={() => revert()}
                         icon="↺"
@@ -1764,12 +1757,8 @@
                     <TextField
                         id="project-name"
                         text={project.getName()}
-                        description={$locales.get(
-                            (l) => l.ui.project.field.name.description,
-                        )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.project.field.name.placeholder,
-                        )}
+                        description={(l) => l.ui.project.field.name.description}
+                        placeholder={(l) => l.ui.project.field.name.placeholder}
                         changed={(name) =>
                             Projects.reviseProject(project.withName(name))}
                         max="10em"
@@ -1795,7 +1784,7 @@
                 {#if editable}
                     <Button
                         uiid="addSource"
-                        tip={$locales.get((l) => l.ui.project.button.addSource)}
+                        tip={(l) => l.ui.project.button.addSource}
                         action={addSource}
                         icon="+{Characters.Program.symbols}"
                     ></Button>{/if}
@@ -1817,9 +1806,8 @@
                     <Dialog
                         description={$locales.get((l) => l.ui.dialog.help)}
                         button={{
-                            tip: $locales.get(ShowKeyboardHelp.description),
+                            tip: ShowKeyboardHelp.description,
                             icon: ShowKeyboardHelp.symbol,
-                            label: '',
                         }}><Shortcuts /></Dialog
                     >
                     <Toggle
@@ -1840,17 +1828,13 @@
                         <Dialog
                             description={$locales.get((l) => l.ui.dialog.share)}
                             button={{
-                                tip: $locales.get(
-                                    (l) => l.ui.project.button.share.tip,
-                                ),
+                                tip: (l) => l.ui.project.button.share.tip,
                                 icon:
                                     project.isPublic() &&
                                     isFlagged(project.getFlags())
                                         ? '‼️'
                                         : '↗',
-                                label: $locales.get(
-                                    (l) => l.ui.project.button.share.label,
-                                ),
+                                label: (l) => l.ui.project.button.share.label,
                             }}
                         >
                             <Sharing {project} />

@@ -13,7 +13,7 @@ export default function getStageProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Stage.content),
+            (l) => l.output.Stage.content.names,
             'content',
             true,
             false,
@@ -21,7 +21,7 @@ export default function getStageProperties(
             () => ListLiteral.make([]),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Stage.gravity),
+            (l) => l.output.Stage.gravity.names,
             new OutputPropertyRange(0, 20, 0.2, 'm/s^2', 1),
             true,
             false,

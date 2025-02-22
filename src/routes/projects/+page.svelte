@@ -8,7 +8,7 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import { Galleries, Projects, locales } from '@db/Database';
@@ -42,9 +42,7 @@
 
 <Writing>
     <Header>{$locales.get((l) => l.ui.page.projects.header)}</Header>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.projects.projectprompt)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.projects.projectprompt} />
     <AddProject
         add={(template) => {
             const newProjectID = Projects.copy(
@@ -59,26 +57,21 @@
     <ProjectPreviewSet
         set={Projects.allEditableProjects}
         edit={{
-            description: $locales.get(
-                (l) => l.ui.page.projects.button.editproject,
-            ),
+            description: (l) => l.ui.page.projects.button.editproject,
             action: (project) => goto(project.getLink(false)),
             label: EDIT_SYMBOL,
         }}
         copy={{
-            description: $locales.get((l) => l.ui.project.button.duplicate),
+            description: (l) => l.ui.project.button.duplicate,
             action: (project) =>
                 goto(Projects.duplicate(project).getLink(false)),
             label: COPY_SYMBOL,
         }}
         remove={(project) => {
             return {
-                prompt: $locales.get(
-                    (l) => l.ui.page.projects.confirm.archive.prompt,
-                ),
-                description: $locales.get(
-                    (l) => l.ui.page.projects.confirm.archive.description,
-                ),
+                prompt: (l) => l.ui.page.projects.confirm.archive.prompt,
+                description: (l) =>
+                    l.ui.page.projects.confirm.archive.description,
                 action: () => Projects.archiveProject(project.getID(), true),
                 label: '🗑️',
             };
@@ -91,9 +84,7 @@
         <Subheader
             >{$locales.get((l) => l.ui.page.projects.archiveheader)}</Subheader
         >
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.projects.archiveprompt)}
-        />
+        <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
         {#if $user === null}<Feedback
                 >{$locales.get(
                     (l) => l.ui.page.projects.error.nodeletes,
@@ -109,9 +100,7 @@
         <ProjectPreviewSet
             set={Projects.allArchivedProjects}
             edit={{
-                description: $locales.get(
-                    (l) => l.ui.page.projects.button.unarchive,
-                ),
+                description: (l) => l.ui.page.projects.button.unarchive,
                 action: (project) =>
                     Projects.archiveProject(project.getID(), false),
                 label: '↑🗑️',
@@ -122,12 +111,10 @@
             remove={(project) =>
                 $user && project.getOwner() === $user.uid
                     ? {
-                          prompt: $locales.get(
-                              (l) => l.ui.page.projects.confirm.delete,
-                          ).prompt,
-                          description: $locales.get(
-                              (l) => l.ui.page.projects.confirm.delete,
-                          ).description,
+                          prompt: (l) =>
+                              l.ui.page.projects.confirm.delete.prompt,
+                          description: (l) =>
+                              l.ui.page.projects.confirm.delete.description,
                           action: () => {
                               deleteError = false;
                               try {
@@ -144,13 +131,11 @@
     {/if}
 
     <Header>{$locales.get((l) => l.ui.page.projects.galleriesheader)}</Header>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.projects.galleryprompt)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.projects.galleryprompt} />
     {#if $user}
         <p class="add">
             <Button
-                tip={$locales.get((l) => l.ui.page.projects.button.newgallery)}
+                tip={(l) => l.ui.page.projects.button.newgallery}
                 action={newGallery}
                 icon="+"
                 large

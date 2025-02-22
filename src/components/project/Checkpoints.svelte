@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { locales, Projects } from '@db/Database';
@@ -61,7 +61,7 @@
     {withMonoEmoji('🕐')}
     {$locales.get((l) => l.ui.checkpoints.label.history)}
     <Button
-        tip={$locales.get((l) => l.ui.checkpoints.button.checkpoint)}
+        tip={(l) => l.ui.checkpoints.button.checkpoint}
         action={() => {
             Projects.reviseProject(project.withCheckpoint());
             return;
@@ -72,8 +72,8 @@
         &mdash;
     {:else}
         <ConfirmButton
-            tip={$locales.get((l) => l.ui.checkpoints.button.clear)}
-            prompt={$locales.get((l) => l.ui.checkpoints.button.clear)}
+            tip={(l) => l.ui.checkpoints.button.clear}
+            prompt={(l) => l.ui.checkpoints.button.clear}
             action={() => {
                 Projects.reviseProject(project.withoutHistory());
                 checkpoint = -1;
@@ -81,7 +81,7 @@
             }}>{CANCEL_SYMBOL}</ConfirmButton
         >
         <Button
-            tip={$locales.get((l) => l.ui.checkpoints.button.forward)}
+            tip={(l) => l.ui.checkpoints.button.forward}
             active={checkpoint < history.length - 1}
             action={() => {
                 checkpoint++;
@@ -90,7 +90,7 @@
             icon="⏴"
         ></Button>
         <Button
-            tip={$locales.get((l) => l.ui.checkpoints.button.back)}
+            tip={(l) => l.ui.checkpoints.button.back}
             active={checkpoint > -1}
             action={() => {
                 checkpoint--;
@@ -99,7 +99,7 @@
             icon="⏵"
         ></Button>
         <Button
-            tip={$locales.get((l) => l.ui.checkpoints.button.now)}
+            tip={(l) => l.ui.checkpoints.button.now}
             active={checkpoint > -1}
             action={() => {
                 checkpoint = -1;
@@ -115,7 +115,7 @@
                 {@const duration = getDelta(history[checkpoint].time)}
                 {checkpoint + 1}/{history.length}
                 <span class="time"
-                    ><MarkupHtmlView
+                    ><MarkupHTMLView
                         inline
                         markup={docToMarkup(
                             $locales.get((l) => l.ui.checkpoints.label.ago),

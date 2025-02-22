@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Note from '@components/widgets/Note.svelte';
     import TextField from '@components/widgets/TextField.svelte';
@@ -156,39 +156,31 @@
 <!-- Provide some reasons to log in -->
 <Header>{$locales.get((l) => l.ui.page.login.header)}</Header>
 
-<MarkupHtmlView markup={$locales.get((l) => l.ui.page.login.prompt.login)} />
+<MarkupHTMLView markup={(l) => l.ui.page.login.prompt.login} />
 
 <LoginForm submit={usernameSignin} feedback={usernameFeedback}>
     <div class="form">
         <TextField
             id="login-username-field"
-            description={$locales.get(
-                (l) => l.ui.page.login.field.username.description,
-            )}
-            placeholder={$locales.get(
-                (l) => l.ui.page.login.field.username.placeholder,
-            )}
+            description={(l) => l.ui.page.login.field.username.description}
+            placeholder={(l) => l.ui.page.login.field.username.placeholder}
             bind:text={username}
             editable={!loading}
             validator={(text) =>
                 !(isValidUsername(text) || isValidEmail(text))
-                    ? $locales.get((l) => l.ui.page.login.error.invalidUsername)
+                    ? (l) => l.ui.page.login.error.invalidUsername
                     : true}
         />
         <TextField
             id="login-password-field"
             kind="password"
-            description={$locales.get(
-                (l) => l.ui.page.login.field.password.description,
-            )}
-            placeholder={$locales.get(
-                (l) => l.ui.page.login.field.password.placeholder,
-            )}
+            description={(l) => l.ui.page.login.field.password.description}
+            placeholder={(l) => l.ui.page.login.field.password.placeholder}
             bind:text={password}
             editable={!loading}
             validator={(pass) =>
                 !isValidPassword(pass)
-                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    ? (l) => l.ui.page.login.error.invalidPassword
                     : true}
         />
         {#if loading}
@@ -197,7 +189,7 @@
             <Button
                 background
                 submit
-                tip={$locales.get((l) => l.ui.page.login.button.login)}
+                tip={(l) => l.ui.page.login.button.login}
                 active={isValidPassword(password) &&
                     (isValidUsername(username) || isValidEmail(username))}
                 action={() => undefined}>&gt;</Button
@@ -206,39 +198,26 @@
     </div>
 </LoginForm>
 
-<MarkupHtmlView markup={$locales.get((l) => l.ui.page.login.prompt.join)} />
+<MarkupHTMLView markup={(l) => l.ui.page.login.prompt.join} />
 
 <hr />
 
-<MarkupHtmlView
-    note
-    markup={$locales.get((l) => l.ui.page.login.prompt.forgot)}
-/>
+<MarkupHTMLView note markup={(l) => l.ui.page.login.prompt.forgot} />
 
 <hr />
 
 <LoginForm submit={emailSignin} feedback={emailFeedback}>
-    <Note
-        ><MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.login.prompt.email)}
-        /></Note
-    >
+    <Note><MarkupHTMLView markup={(l) => l.ui.page.login.prompt.email} /></Note>
     <div class="form">
         <TextField
             id="login-email-field"
             kind={'email'}
-            description={$locales.get(
-                (l) => l.ui.page.login.field.email.description,
-            )}
-            placeholder={$locales.get(
-                (l) => l.ui.page.login.field.email.placeholder,
-            )}
+            description={(l) => l.ui.page.login.field.email.description}
+            placeholder={(l) => l.ui.page.login.field.email.placeholder}
             bind:text={email}
             editable={!loading}
             validator={(text) =>
-                !isValidEmail(text)
-                    ? $locales.get((l) => l.ui.page.login.error.email)
-                    : true}
+                !isValidEmail(text) ? (l) => l.ui.page.login.error.email : true}
         />
         {#if loading}
             <Spinning></Spinning>
@@ -246,7 +225,7 @@
             <Button
                 background
                 submit
-                tip={$locales.get((l) => l.ui.page.login.button.login)}
+                tip={(l) => l.ui.page.login.button.login}
                 active={isValidEmail(email)}
                 action={() => undefined}>&gt;</Button
             >

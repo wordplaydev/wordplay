@@ -1,15 +1,17 @@
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { onMount } from 'svelte';
 
     interface Props {
         text: string;
-        description: string;
-        placeholder: string;
+        description: LocaleTextAccessor;
+        placeholder: LocaleTextAccessor;
         active?: boolean;
         inline?: boolean;
         done?: (text: string) => void;
         dwelled?: undefined | ((text: string) => void);
-        validator?: undefined | ((text: string) => string | true);
+        validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         id: string;
     }
 
@@ -27,6 +29,7 @@
 
     let view: HTMLTextAreaElement | undefined = $state();
     let focused = $state(false);
+    let title = $derived($locales.get(description));
 
     /** The message to display if invalid */
     let message = $derived.by(() => {
@@ -56,11 +59,11 @@
 
 <div class="box" {id} class:focused>
     <textarea
-        title={description}
-        aria-label={description}
+        {title}
+        aria-label={title}
         aria-invalid={message !== undefined}
         aria-describedby="{id}-error"
-        {placeholder}
+        placeholder={$locales.get(placeholder)}
         class={{ inline, error: message !== undefined }}
         bind:value={text}
         bind:this={view}

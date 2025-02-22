@@ -101,20 +101,16 @@
                         ><TextField
                             id="percent-editor-{id}-{index}"
                             text={pair.key.toWordplay()}
-                            description={$locales.get(
-                                (l) => l.ui.palette.sequence.field,
-                            ).percent}
-                            placeholder="%"
+                            description={(l) =>
+                                l.ui.palette.sequence.field.percent}
+                            placeholder={(l) =>
+                                l.ui.palette.sequence.field.percent}
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
                                 if (isNaN(number))
-                                    return $locales.get(
-                                        (l) => l.ui.palette.error.nan,
-                                    );
+                                    return (l) => l.ui.palette.error.nan;
                                 if (number < 0 || number > 100)
-                                    return $locales.get(
-                                        (l) => l.ui.palette.error.percent,
-                                    );
+                                    return (l) => l.ui.palette.error.percent;
                                 const previous = map?.values[index - 1];
                                 const next = map?.values[index + 1];
                                 if (
@@ -124,10 +120,8 @@
                                     number / 100 <
                                         previous.key.getValue().num.toNumber()
                                 )
-                                    return $locales.get(
-                                        (l) =>
-                                            l.ui.palette.error.moreThanPrevious,
-                                    );
+                                    return (l) =>
+                                        l.ui.palette.error.moreThanPrevious;
                                 if (
                                     next &&
                                     next instanceof KeyValue &&
@@ -135,9 +129,8 @@
                                     number / 100 >
                                         next.key.getValue().num.toNumber()
                                 )
-                                    return $locales.get(
-                                        (l) => l.ui.palette.error.lessThanNext,
-                                    );
+                                    return (l) =>
+                                        l.ui.palette.error.lessThanNext;
 
                                 return true;
                             }}
@@ -145,17 +138,13 @@
                             {editable}
                         />
                         <Button
-                            tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.add,
-                            )}
+                            tip={(l) => l.ui.palette.sequence.button.add}
                             active={editable}
                             action={() => addPose(index)}
                             icon="+"
                         ></Button>
                         <Button
-                            tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.remove,
-                            )}
+                            tip={(l) => l.ui.palette.sequence.button.remove}
                             action={() => removePose(index)}
                             active={editable &&
                                 map !== undefined &&
@@ -163,17 +152,13 @@
                             icon={CANCEL_SYMBOL}
                         ></Button>
                         <Button
-                            tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.up,
-                            )}
+                            tip={(l) => l.ui.palette.sequence.button.up}
                             action={() => movePose(index, -1)}
                             active={editable && index > 0}
                             icon="↑"
                         ></Button>
                         <Button
-                            tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.down,
-                            )}
+                            tip={(l) => l.ui.palette.sequence.button.down}
                             action={() => movePose(index, 1)}
                             active={editable && index < map.values.length - 1}
                             icon="↓"

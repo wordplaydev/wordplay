@@ -68,9 +68,8 @@
     <LanguageChooser />
     <Dialog
         button={{
-            tip: $locales.get((l) => l.ui.dialog.settings.button.show),
+            tip: (l) => l.ui.dialog.settings.button.show,
             icon: '⚙',
-            label: '',
         }}
         description={$locales.get((l) => l.ui.dialog.settings)}
     >
@@ -80,9 +79,7 @@
                 {$locales.get((l) => l.ui.dialog.settings.options.face)}
                 <Options
                     value={FaceSetting.get() ?? 'Noto Sans'}
-                    label={$locales.get(
-                        (l) => l.ui.dialog.settings.options.face,
-                    )}
+                    label={(l) => l.ui.dialog.settings.options.face}
                     id="ui-face"
                     options={[
                         { value: undefined, label: '—' },
@@ -133,9 +130,7 @@
                     🎥
                     <Options
                         value={cameraDevice?.label}
-                        label={$locales.get(
-                            (l) => l.ui.dialog.settings.options.camera,
-                        )}
+                        label={(l) => l.ui.dialog.settings.options.camera}
                         id="camera-setting"
                         options={[
                             { value: undefined, label: '—' },
@@ -159,9 +154,7 @@
                     🎤
                     <Options
                         value={micDevice?.label}
-                        label={$locales.get(
-                            (l) => l.ui.dialog.settings.options.mic,
-                        )}
+                        label={(l) => l.ui.dialog.settings.options.mic}
                         id="mic-setting"
                         options={[
                             { value: undefined, label: '—' },

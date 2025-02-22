@@ -28,7 +28,7 @@
 
 <p class="add">
     <Button
-        tip={$locales.get((l) => l.ui.page.projects.button.newproject)}
+        tip={(l) => l.ui.page.projects.button.newproject}
         action={newProject}
         testid="addproject"
         large

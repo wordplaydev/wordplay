@@ -10,7 +10,7 @@
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -75,12 +75,8 @@
         >{#if editable}<TextBox
                 id="class-name"
                 text={classData.name}
-                description={$locales.get(
-                    (l) => l.ui.page.class.field.name.description,
-                )}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.class.field.name.placeholder,
-                )}
+                description={(l) => l.ui.page.class.field.name.description}
+                placeholder={(l) => l.ui.page.class.field.name.placeholder}
                 dwelled={updateName}
                 done={updateName}
             />{:else}{classData.name}{/if}</Header
@@ -90,12 +86,10 @@
             <TextBox
                 id="class-description"
                 text={classData.description}
-                description={$locales.get(
-                    (l) => l.ui.page.class.field.description.description,
-                )}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.class.field.description.placeholder,
-                )}
+                description={(l) =>
+                    l.ui.page.class.field.description.description}
+                placeholder={(l) =>
+                    l.ui.page.class.field.description.placeholder}
                 dwelled={updateDescription}
                 done={updateDescription}
             />
@@ -180,13 +174,11 @@
         >{$locales.get((l) => l.ui.page.class.subheader.galleries)}</Subheader
     >
 
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.class.prompt.gallery)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.class.prompt.gallery} />
 
     <Centered>
         <Button
-            tip={$locales.get((l) => l.ui.page.projects.button.newgallery)}
+            tip={(l) => l.ui.page.projects.button.newgallery}
             action={() => createGallery(classData)}
             large
             icon="+"
@@ -208,15 +200,13 @@
         {/await}
     {/each}
 
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.class.prompt.delete)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.class.prompt.delete} />
 
     <p>
         <ConfirmButton
             background
-            tip={$locales.get((l) => l.ui.page.class.field.delete.tip)}
-            prompt={$locales.get((l) => l.ui.page.class.field.delete.label)}
+            tip={(l) => l.ui.page.class.field.delete.tip}
+            prompt={(l) => l.ui.page.class.field.delete.label}
             action={async () => {
                 if (classData) {
                     await deleteClass(classData);

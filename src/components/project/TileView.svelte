@@ -276,7 +276,10 @@
                 <TileMessage error>
                     <h2>{$locales.get((l) => l.ui.project.error.tile)}</h2>
                     <p
-                        ><Button tip="Reset" action={reset} background
+                        ><Button
+                            tip={(l) => l.ui.project.error.reset}
+                            action={reset}
+                            background
                             >{$locales.get(
                                 (l) => l.ui.project.error.reset,
                             )}</Button
@@ -296,7 +299,7 @@
                     <Button
                         background={background !== null}
                         padding={false}
-                        tip={$locales.get((l) => l.ui.tile.button.collapse)}
+                        tip={(l) => l.ui.tile.button.collapse}
                         action={() => mode(TileMode.Collapsed)}
                         icon="–"
                     ></Button>
@@ -322,21 +325,14 @@
                                         ?.getPreferredName(
                                             $locales.getLocales(),
                                         )}
-                                    description={$locales.get(
-                                        (l) =>
-                                            l.ui.source.field.name.description,
-                                    )}
-                                    placeholder={$locales.get(
-                                        (l) =>
-                                            l.ui.source.field.name.placeholder,
-                                    )}
+                                    description={(l) =>
+                                        l.ui.source.field.name.description}
+                                    placeholder={(l) =>
+                                        l.ui.source.field.name.placeholder}
                                     validator={(text) =>
                                         !isName(text)
-                                            ? $locales.get(
-                                                  (l) =>
-                                                      l.ui.source.error
-                                                          .invalidName,
-                                              )
+                                            ? (l) =>
+                                                  l.ui.source.error.invalidName
                                             : true}
                                     inlineValidation
                                     changed={handleRename}

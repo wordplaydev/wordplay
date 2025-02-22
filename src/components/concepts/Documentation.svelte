@@ -206,7 +206,7 @@
     <TextField
         id="concept-search"
         placeholder={'🔍'}
-        description={$locales.get((l) => l.ui.docs.field.search)}
+        description={(l) => l.ui.docs.field.search}
         bind:text={query}
         fill
     />
@@ -230,14 +230,11 @@
         <span class="path">
             {#if $path.length > 1}
                 <Button
-                    tip={$locales.get((l) => l.ui.docs.button.home)}
+                    tip={(l) => l.ui.docs.button.home}
                     icon="⇤"
                     action={home}
                 ></Button>{/if}
-            <Button
-                tip={$locales.get((l) => l.ui.docs.button.back)}
-                icon="←"
-                action={back}
+            <Button tip={(l) => l.ui.docs.button.back} icon="←" action={back}
             ></Button>
             {#each $path as concept, index}{#if index > 0}
                     ·

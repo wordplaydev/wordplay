@@ -2,7 +2,7 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import type Type from '../../nodes/Type';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { getProject, getRoot } from '../project/Contexts';
 
     interface Props {
@@ -24,7 +24,7 @@
 </script>
 
 <span class="TypeView"
-    >{#if context}<MarkupHtmlView
+    >{#if context}<MarkupHTMLView
             markup={node.getDescription($locales, context)}
         />{:else}{node.toWordplay()}{/if}</span
 >

@@ -27,7 +27,7 @@
 {:else}
     <Button
         background={inline}
-        tip={$locales.get((l) => l.ui.page.characters.button.new)}
+        tip={(l) => l.ui.page.characters.button.new}
         action={addCharacter}
         active={!creating}
         large={!inline}

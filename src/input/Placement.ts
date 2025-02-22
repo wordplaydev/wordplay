@@ -6,7 +6,7 @@ import StreamValue from '@values/StreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/LocaleText';
+import { getFirstText } from '../locale/LocaleText';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import BooleanType from '../nodes/BooleanType';
 import type Context from '../nodes/Context';
@@ -116,7 +116,7 @@ export function createPlacementDefinition(
     locales: Locales,
     placeType: StructureDefinition,
 ) {
-    const PlaceName = locales.get((l) => getFirstName(l.output.Place.names));
+    const PlaceName = locales.get((l) => getFirstText(l.output.Place.names));
     const inputs = createInputs(locales, (l) => l.input.Placement.inputs, [
         [
             NameType.make(PlaceName),

@@ -77,14 +77,10 @@
                     id={`velocity-${index}`}
                     text={`${value}`}
                     validator={(text) =>
-                        !valid(text)
-                            ? $locales.get((l) => l.ui.palette.error.nan)
-                            : true}
+                        !valid(text) ? (l) => l.ui.palette.error.nan : true}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
-                    description={$locales.get(
-                        (l) => l.ui.palette.field.coordinate,
-                    )}
+                    description={(l) => l.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, index, value)}
                     bind:view={views[index]}
                 />

@@ -64,7 +64,7 @@
     <footer class:fullscreen={$fullscreen.on}>
         <nav>
             {#if footer}
-                <Link nowrap tip={$locales.get((l) => l.ui.widget.home)} to="/"
+                <Link nowrap tip={(l) => l.ui.widget.home} to="/"
                     ><Emoji>💬</Emoji></Link
                 >
                 <Link nowrap to="/projects"

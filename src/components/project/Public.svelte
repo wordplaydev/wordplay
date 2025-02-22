@@ -1,6 +1,6 @@
 <script lang="ts">
     import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import { locales } from '@db/Database';
     import { GLOBE1_SYMBOL } from '@parser/Symbols';
@@ -23,44 +23,42 @@
 <Subheader
     >{$locales.get((l) => l.ui.dialog.share.subheader.public.header)}</Subheader
 >
-<MarkupHtmlView
-    markup={$locales.get((l) => l.ui.dialog.share.subheader.public.explanation)}
+<MarkupHTMLView
+    markup={(l) => l.ui.dialog.share.subheader.public.explanation}
 />
 
-<MarkupHtmlView
+<MarkupHTMLView
     markup={Object.values($locales.get((l) => l.moderation.flags))
         .map((promise) => `• ${promise}`)
         .join('\n\n')}
 />
 {#if flags === undefined || Object.values(flags).every((state) => state === null)}
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.rights.consequences)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.rights.consequences} />
 {:else if flags !== undefined}
     {@const blocked = getBlocks(flags, $locales.getLocale())}
     {@const warnings = getWarnings(flags, $locales.getLocale())}
     {#if blocked.length > 0}
         <Warning
-            ><MarkupHtmlView
-                markup={$locales.get((l) => l.moderation.blocked.explanation)}
+            ><MarkupHTMLView
+                markup={(l) => l.moderation.blocked.explanation}
             /></Warning
         >
     {/if}
     <ul>
         {#each blocked as block}
-            <li><MarkupHtmlView inline markup={block} /></li>
+            <li><MarkupHTMLView inline markup={block} /></li>
         {/each}
     </ul>
     {#if warnings.length > 0}
         <Warning
-            ><MarkupHtmlView
-                markup={$locales.get((l) => l.moderation.warning.explanation)}
+            ><MarkupHTMLView
+                markup={(l) => l.moderation.warning.explanation}
             /></Warning
         >
     {/if}
     <ul>
         {#each warnings as warn}
-            <li><MarkupHtmlView inline markup={warn} /></li>
+            <li><MarkupHTMLView inline markup={warn} /></li>
         {/each}
     </ul>
 {/if}

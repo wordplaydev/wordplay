@@ -122,8 +122,8 @@
                     words={node}
                     {text}
                     project={$project}
-                    placeholder={placeholder ??
-                        $locales.get((l) => l.token.Words)}
+                    description={(l) => l.token.Words}
+                    placeholder={placeholder ?? ((l) => l.token.Words)}
                 />
             {:else if node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
                     {node}
@@ -133,8 +133,8 @@
                     number={node}
                     {text}
                     project={$project}
-                    placeholder={placeholder ??
-                        $locales.get((l) => l.token.Number)}
+                    description={(l) => l.token.Number}
+                    placeholder={placeholder ?? ((l) => l.token.Number)}
                 />{:else}
                 {@const parent = root.getParent(node)}
                 <!-- Names can be any text that parses as a name -->
@@ -143,8 +143,8 @@
                         {text}
                         project={$project}
                         name={parent.name}
-                        placeholder={placeholder ??
-                            $locales.get((l) => l.token.Name)}
+                        description={(l) => l.token.Name}
+                        placeholder={placeholder ?? ((l) => l.token.Name)}
                     />
                 {:else if parent instanceof Reference}
                     {@const grandparent = root.getParent(parent)}

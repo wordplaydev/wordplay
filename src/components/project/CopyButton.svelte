@@ -24,7 +24,7 @@
 </script>
 
 <Button
-    tip={$locales.get((l) => l.ui.project.button.duplicate)}
+    tip={(l) => l.ui.project.button.duplicate}
     action={copy}
     icon={COPY_SYMBOL}
     ><span class="copy">

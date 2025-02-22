@@ -6,7 +6,7 @@
     import { Galleries, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import Subheader from '../app/Subheader.svelte';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Options from '../widgets/Options.svelte';
     import { getUser } from './Contexts';
     import PII from './PII.svelte';
@@ -31,15 +31,13 @@
         {$locales.get((l) => l.ui.dialog.share.subheader.copy.header)}
     </Subheader>
 
-    <MarkupHtmlView
-        markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.copy.explanation,
-        )}
+    <MarkupHTMLView
+        markup={(l) => l.ui.dialog.share.subheader.copy.explanation}
     />
 
     <Button
         background
-        tip={$locales.get((l) => l.ui.project.button.copy.tip)}
+        tip={(l) => l.ui.project.button.copy.tip}
         action={() => {
             copied = false;
             toClipboard(project.toWordplay());
@@ -57,15 +55,13 @@
             (l) => l.ui.dialog.share.subheader.gallery.header,
         )}</Subheader
     >
-    <MarkupHtmlView
-        markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.gallery.explanation,
-        )}
+    <MarkupHTMLView
+        markup={(l) => l.ui.dialog.share.subheader.gallery.explanation}
     />
 
     <Options
         id="gallerychooser"
-        label={$locales.get((l) => l.ui.dialog.share.options.gallery)}
+        label={(l) => l.ui.dialog.share.options.gallery}
         value={project.getGallery() ?? undefined}
         options={[
             { value: undefined, label: '—' },

@@ -40,18 +40,14 @@
 <form onsubmit={update}>
     <TextField
         id="new-email"
-        description={$locales.get(
-            (l) => l.ui.page.login.field.email.description,
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.email.placeholder,
-        )}
+        description={(l) => l.ui.page.login.field.email.description}
+        placeholder={(l) => l.ui.page.login.field.email.placeholder}
         bind:text={newEmail}
         editable={!changeSubmitted}
     /><Button
         submit
         background
-        tip={$locales.get((l) => l.ui.page.login.button.updateEmail)}
+        tip={(l) => l.ui.page.login.button.updateEmail}
         active={validEmail(newEmail)}
         action={() => undefined}>&gt;</Button
     >

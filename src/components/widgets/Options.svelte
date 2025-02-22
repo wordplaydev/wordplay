@@ -11,12 +11,18 @@
 
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { locales } from '@db/Database';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { getFirstText } from '@locale/LocaleText';
 
     import { tick } from 'svelte';
 
     interface Props {
         value: string | undefined;
-        label: string;
+        label: LocaleTextAccessor | LocaleTextsAccessor;
         options: Group[] | Option[];
         change: (value: string | undefined) => void;
         width?: string;
@@ -36,6 +42,8 @@
         code = false,
     }: Props = $props();
 
+    let title = $derived(getFirstText($locales.get(label)));
+
     let view: HTMLSelectElement | undefined = $state(undefined);
 
     async function commitChange(newValue: string | undefined) {
@@ -46,9 +54,10 @@
     }
 </script>
 
+getFirstText
 <select
-    aria-label={label}
-    title={label}
+    aria-label={title}
+    {title}
     bind:value
     {id}
     onchange={() => commitChange(value)}

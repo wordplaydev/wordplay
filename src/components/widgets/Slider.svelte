@@ -1,5 +1,11 @@
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { locales } from '@db/Database';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { getFirstText } from '@locale/LocaleText';
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
 
@@ -9,8 +15,8 @@
         max: number;
         unit: string;
         increment: number;
-        label?: string | undefined;
-        tip: string;
+        label?: LocaleTextAccessor | undefined;
+        tip: LocaleTextAccessor | LocaleTextsAccessor;
         change?: (value: Decimal) => void;
         release?: (value: number | undefined) => void;
         precision?: number;
@@ -34,6 +40,7 @@
     }: Props = $props();
 
     let view: HTMLInputElement | undefined = $state(undefined);
+    let tooltip = $derived(getFirstText($locales.get(tip)));
 
     async function handleChange() {
         if (value !== undefined && change !== undefined)
@@ -56,14 +63,14 @@
     -->
     &#8203;
     {#if label}
-        <label for={id ?? 'label'}>{label}</label>
+        <label for={id ?? 'label'}>{$locales.get(label)}</label>
     {/if}
     <input
         class="slider"
         type="range"
-        aria-label={tip}
-        title={tip}
-        id={id ?? label}
+        aria-label={tooltip}
+        title={tooltip}
+        id={id ?? 'label'}
         {min}
         {max}
         step={increment}

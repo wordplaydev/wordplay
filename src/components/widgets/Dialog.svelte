@@ -1,18 +1,25 @@
 <script lang="ts">
     import { clickOutside } from '@components/app/clickOutside';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { tick } from 'svelte';
-    import { locales } from '../../db/Database';
     import type { DialogText } from '../../locale/UITexts';
     import Header from '../app/Header.svelte';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Button from './Button.svelte';
 
     interface Props {
         show?: boolean;
         description: DialogText;
         closeable?: boolean;
-        button?: { tip: string; icon?: string; label: string } | undefined;
+        button?:
+            | {
+                  tip: LocaleTextAccessor;
+                  icon?: string;
+                  label?: string | LocaleTextAccessor;
+              }
+            | undefined;
         children?: import('svelte').Snippet;
     }
 
@@ -45,8 +52,9 @@
 
 {#if button}
     <Button tip={button.tip} action={() => (show = true)} icon={button.icon}>
-        {#if button.label.length > 0}
-            {button.label}{/if}</Button
+        {#if button.label}{typeof button.label === 'string'
+                ? button.label
+                : $locales.get(button.label)}{/if}</Button
     >
 {/if}
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -62,7 +70,7 @@
         {#if closeable}
             <div class="close">
                 <Button
-                    tip={$locales.get((l) => l.ui.widget.dialog.close)}
+                    tip={(l) => l.ui.widget.dialog.close}
                     action={() => (show = false)}
                     icon="❌"
                 ></Button>
@@ -71,7 +79,7 @@
 
         <div class="content">
             <Header>{description.header}</Header>
-            <MarkupHtmlView markup={description.explanation} />
+            <MarkupHTMLView markup={description.explanation} />
             {@render children?.()}
         </div>
     </div>

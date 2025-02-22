@@ -65,7 +65,7 @@
 <Dialog
     description={$locales.get((l) => l.ui.dialog.locale)}
     button={{
-        tip: $locales.get((l) => l.ui.dialog.locale.button.show),
+        tip: (l) => l.ui.dialog.locale.button.show,
         icon: selectedLocales.some((locale) => isLocaleDraft(locale))
             ? DRAFT_SYMBOL
             : LOCALE_SYMBOL,
@@ -83,7 +83,7 @@
         {#each selectedLocales as selected}
             <Button
                 action={() => select(selected, 'remove')}
-                tip={$locales.get((l) => l.ui.dialog.locale.button.remove)}
+                tip={(l) => l.ui.dialog.locale.button.remove}
                 active={selectedLocales.length > 1}
                 icon={selectedLocales.length > 1 ? CANCEL_SYMBOL : undefined}
             >
@@ -101,12 +101,12 @@
             <div class="option">
                 <Button
                     action={() => select(supported, 'replace')}
-                    tip={$locales.get((l) => l.ui.dialog.locale.button.replace)}
+                    tip={(l) => l.ui.dialog.locale.button.replace}
                     ><LocaleName locale={supported} supported /></Button
                 >
                 <Button
                     action={() => select(supported, 'add')}
-                    tip={$locales.get((l) => l.ui.dialog.locale.button.add)}
+                    tip={(l) => l.ui.dialog.locale.button.add}
                     icon="+"
                 ></Button>
             </div>

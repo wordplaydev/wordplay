@@ -1,7 +1,8 @@
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
-import { getFirstName, type NameAndDoc } from '../locale/LocaleText';
+import { getFirstText } from '../locale/LocaleText';
 import type Locales from '../locale/Locales';
+import type { LocaleTextsAccessor } from '../locale/Locales';
 import type OutputPropertyOptions from './OutputPropertyOptions';
 import type OutputPropertyRange from './OutputPropertyRange';
 import type OutputPropertyText from './OutputPropertyText';
@@ -21,8 +22,8 @@ type OutputPropertyType =
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
 class OutputProperty {
-    /** The internal name of the property, corresponding to bind input names of TypeOutput. */
-    readonly name: NameAndDoc;
+    /** The accessor for getting the name or names of the property from a locale. */
+    readonly name: LocaleTextsAccessor;
     /** The type of input, roughly corresponding to widgets. */
     readonly type: OutputPropertyType;
     /** True if the property is required */
@@ -35,7 +36,7 @@ class OutputProperty {
     readonly create: (locales: Locales) => Expression;
 
     constructor(
-        name: NameAndDoc,
+        name: LocaleTextsAccessor,
         type: OutputPropertyType,
         required: boolean,
         inherited: boolean,
@@ -50,8 +51,14 @@ class OutputProperty {
         this.create = create;
     }
 
-    getName() {
-        return getFirstName(this.name.names);
+    getName(locales: Locales) {
+        return getFirstText(locales.get(this.name));
+    }
+
+    isName(locales: Locales, accessor: LocaleTextsAccessor) {
+        const thisNames = [locales.get(this.name)].flat();
+        const thoseNames = [locales.get(accessor)].flat();
+        return thisNames.filter((name) => thoseNames.includes(name)).length > 0;
     }
 }
 

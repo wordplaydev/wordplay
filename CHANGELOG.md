@@ -18,6 +18,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Updated types, eslint, prettier, svelte, tsx, uuid, vite, vitest, and firebase functions.
 - Fixed #528: Deploy to prod on push or merge to main.
+- Refactored widgets to use locale accessor functions instead of strings, for provenance.
 
 ## 0.16.0 2025-02-25
 

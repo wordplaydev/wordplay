@@ -8,7 +8,7 @@
         isAudience,
     } from '../../db/projects/Moderation';
     import type Project from '../../db/projects/Project';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { getUser } from './Contexts';
 
     interface Props {
@@ -43,7 +43,7 @@
     >
         <ul>
             {#each blocks.length > 0 ? blocks : warnings.length > 0 ? warnings : unmoderated as description}
-                <li><MarkupHtmlView inline markup={description} /></li>
+                <li><MarkupHTMLView inline markup={description} /></li>
             {/each}
         </ul>
     </Dialog>

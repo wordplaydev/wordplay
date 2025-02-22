@@ -5,7 +5,7 @@
     import type Project from '@db/projects/Project';
     import { onMount } from 'svelte';
     import type Gallery from '../../db/galleries/Gallery';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Link from './Link.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import Spinning from './Spinning.svelte';
@@ -79,7 +79,7 @@
                 ></sub
             ></Subheader
         >
-        <MarkupHtmlView
+        <MarkupHTMLView
             markup={description.length > 0
                 ? description
                 : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}

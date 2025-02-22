@@ -6,7 +6,7 @@
     import Header from '@components/app/Header.svelte';
     import Page from '@components/app/Page.svelte';
     import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getAnnounce, getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import RootView from '@components/project/RootView.svelte';
@@ -331,13 +331,13 @@
             toTokens(name).nextAre(Sym.Name, Sym.End) &&
             ConceptLink.parse(name) instanceof CharacterName
             ? true
-            : $locales.get((l) => l.ui.page.character.feedback.name);
+            : (l: LocaleText) => l.ui.page.character.feedback.name;
     }
 
     function isValidDescription(description: string) {
         return description.length > 0
             ? true
-            : $locales.get((l) => l.ui.page.character.feedback.description);
+            : (l: LocaleText) => l.ui.page.character.feedback.description;
     }
 
     /** Centralized shape list updating to support undo/redo. */
@@ -1028,11 +1028,11 @@
 {#snippet sizeSlider(width: boolean)}
     <Slider
         label={width
-            ? $locales.get((l) => l.ui.page.character.field.width.label)
-            : $locales.get((l) => l.ui.page.character.field.height.label)}
+            ? (l) => l.ui.page.character.field.width.label
+            : (l) => l.ui.page.character.field.height.label}
         tip={width
-            ? $locales.get((l) => l.ui.page.character.field.width.tip)
-            : $locales.get((l) => l.ui.page.character.field.height.tip)}
+            ? (l) => l.ui.page.character.field.width.tip
+            : (l) => l.ui.page.character.field.height.tip}
         min={1}
         max={CharacterSize}
         increment={1}
@@ -1097,37 +1097,25 @@
             {/if}
         </h2>
 
-        <MarkupHtmlView
+        <MarkupHTMLView
             markup={mode === DrawingMode.Select && shapes.length === 0
-                ? $locales.get((l) => l.ui.page.character.instructions.empty)
+                ? (l) => l.ui.page.character.instructions.empty
                 : mode === DrawingMode.Select &&
                     shapes.length > 0 &&
                     selection.length === 0
-                  ? $locales.get(
-                        (l) => l.ui.page.character.instructions.unselected,
-                    )
+                  ? (l) => l.ui.page.character.instructions.unselected
                   : mode === DrawingMode.Select &&
                       shapes.length > 0 &&
                       selection.length > 0
-                    ? $locales.get(
-                          (l) => l.ui.page.character.instructions.selected,
-                      )
+                    ? (l) => l.ui.page.character.instructions.selected
                     : mode === DrawingMode.Pixel
-                      ? $locales.get(
-                            (l) => l.ui.page.character.instructions.pixel,
-                        )
+                      ? (l) => l.ui.page.character.instructions.pixel
                       : mode === DrawingMode.Rect
-                        ? $locales.get(
-                              (l) => l.ui.page.character.instructions.rect,
-                          )
+                        ? (l) => l.ui.page.character.instructions.rect
                         : mode === DrawingMode.Ellipse
-                          ? $locales.get(
-                                (l) => l.ui.page.character.instructions.ellipse,
-                            )
-                          : $locales.get(
-                                (l) => l.ui.page.character.instructions.path,
-                            )}
-        ></MarkupHtmlView>
+                          ? (l) => l.ui.page.character.instructions.ellipse
+                          : (l) => l.ui.page.character.instructions.path}
+        ></MarkupHTMLView>
 
         {#if mode !== DrawingMode.Select || selection.length > 0}
             {@const selectedFillStates = Array.from(
@@ -1225,12 +1213,8 @@
                 )}
                 <!-- If there's a selection and they have the same stroke width, show that, otherwise show the current stroke value. -->
                 <Slider
-                    label={$locales.get(
-                        (l) => l.ui.page.character.field.strokeWidth.label,
-                    )}
-                    tip={$locales.get(
-                        (l) => l.ui.page.character.field.strokeWidth.tip,
-                    )}
+                    label={(l) => l.ui.page.character.field.strokeWidth.label}
+                    tip={(l) => l.ui.page.character.field.strokeWidth.tip}
                     min={0.5}
                     max={3}
                     increment={0.25}
@@ -1273,12 +1257,8 @@
             <!-- Only rectangles have a radius -->
             {#if mode === DrawingMode.Rect || selection.some((s) => s.type === 'rect')}
                 <Slider
-                    label={$locales.get(
-                        (l) => l.ui.page.character.field.radius.label,
-                    )}
-                    tip={$locales.get(
-                        (l) => l.ui.page.character.field.radius.tip,
-                    )}
+                    label={(l) => l.ui.page.character.field.radius.label}
+                    tip={(l) => l.ui.page.character.field.radius.tip}
                     min={0}
                     max={5}
                     increment={0.1}
@@ -1311,12 +1291,8 @@
             <!-- All shapes but pixels have rotation -->
             {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
                 <Slider
-                    label={$locales.get(
-                        (l) => l.ui.page.character.field.angle.label,
-                    )}
-                    tip={$locales.get(
-                        (l) => l.ui.page.character.field.angle.tip,
-                    )}
+                    label={(l) => l.ui.page.character.field.angle.label}
+                    tip={(l) => l.ui.page.character.field.angle.tip}
                     min={0}
                     max={359}
                     increment={1}
@@ -1349,9 +1325,7 @@
             {/if}
             {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
                 <Button
-                    tip={$locales.get(
-                        (l) => l.ui.page.character.button.horizontal.tip,
-                    )}
+                    tip={(l) => l.ui.page.character.button.horizontal.tip}
                     action={() => flip('horizontal')}
                     active={selection.some((s) => s.type === 'path')}
                     icon="↔"
@@ -1361,9 +1335,7 @@
                     )}
                 </Button>
                 <Button
-                    tip={$locales.get(
-                        (l) => l.ui.page.character.button.vertical.tip,
-                    )}
+                    tip={(l) => l.ui.page.character.button.vertical.tip}
                     action={() => flip('vertical')}
                     active={selection.some((s) => s.type === 'path')}
                     icon="↕"
@@ -1436,7 +1408,7 @@
 {#snippet toolbar()}
     <div class="toolbar">
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.undo.tip)}
+            tip={(l) => l.ui.page.character.button.undo.tip}
             action={() => undo()}
             active={historyIndex > 0}
             icon={UNDO_SYMBOL}
@@ -1444,7 +1416,7 @@
             {$locales.get((l) => l.ui.page.character.button.undo.label)}
         </Button>
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.redo.tip)}
+            tip={(l) => l.ui.page.character.button.redo.tip}
             action={() => redo()}
             active={historyIndex < history.length - 1}
             icon={REDO_SYMBOL}
@@ -1452,7 +1424,7 @@
             {$locales.get((l) => l.ui.page.character.button.redo.label)}
         </Button>
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.all.tip)}
+            tip={(l) => l.ui.page.character.button.all.tip}
             action={() => selectAll()}
             active={shapes.length > 0}
             icon={ALL_SYMBOL}
@@ -1460,7 +1432,7 @@
             {$locales.get((l) => l.ui.page.character.button.all.label)}
         </Button>
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.toBack.tip)}
+            tip={(l) => l.ui.page.character.button.toBack.tip}
             action={() => arrange('toBack')}
             active={selection.length > 0 && shapes.length > 1}
             icon="⇡"
@@ -1470,7 +1442,7 @@
             )}</Button
         >
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.back.tip)}
+            tip={(l) => l.ui.page.character.button.back.tip}
             action={() => arrange('back')}
             active={selection.length > 0 && shapes.length > 1}
             icon={SHARE_SYMBOL}
@@ -1478,7 +1450,7 @@
             {$locales.get((l) => l.ui.page.character.button.back.label)}</Button
         >
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.forward.tip)}
+            tip={(l) => l.ui.page.character.button.forward.tip}
             action={() => arrange('forward')}
             active={selection.length > 0 && shapes.length > 1}
             icon={BORROW_SYMBOL}
@@ -1488,7 +1460,7 @@
             )}</Button
         >
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.toFront.tip)}
+            tip={(l) => l.ui.page.character.button.toFront.tip}
             action={() => arrange('toFront')}
             active={selection.length > 0 && shapes.length > 1}
             icon="⇡"
@@ -1498,7 +1470,7 @@
             )}</Button
         >
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.copy.tip)}
+            tip={(l) => l.ui.page.character.button.copy.tip}
             action={copyShapes}
             active={selection.length > 0}
             icon={COPY_SYMBOL}
@@ -1506,7 +1478,7 @@
             {$locales.get((l) => l.ui.page.character.button.copy.label)}</Button
         >
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.paste.tip)}
+            tip={(l) => l.ui.page.character.button.paste.tip}
             action={pasteShapes}
             active={copy !== undefined}
             icon={PASTE_SYMBOL}
@@ -1516,9 +1488,7 @@
             )}</Button
         >
         <Button
-            tip={$locales.get(
-                (l) => l.ui.page.character.button.clearPixels.tip,
-            )}
+            tip={(l) => l.ui.page.character.button.clearPixels.tip}
             action={() => {
                 setShapes(shapes.filter((s) => s.type !== 'pixel'));
             }}
@@ -1530,7 +1500,7 @@
             )}</Button
         >
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.clear.tip)}
+            tip={(l) => l.ui.page.character.button.clear.tip}
             action={() => {
                 setShapes([]);
             }}
@@ -1593,12 +1563,10 @@
                     <TextField
                         id="character-name"
                         bind:text={name}
-                        placeholder={$locales.get(
-                            (l) => l.ui.page.character.field.name.placeholder,
-                        )}
-                        description={$locales.get(
-                            (l) => l.ui.page.character.field.name.description,
-                        )}
+                        placeholder={(l) =>
+                            l.ui.page.character.field.name.placeholder}
+                        description={(l) =>
+                            l.ui.page.character.field.name.description}
                         validator={isValidName}
                     ></TextField>
                 </h1>
@@ -1613,19 +1581,11 @@
                         (l) => l.ui.page.character.share.dialog,
                     )}
                     button={{
-                        tip: $locales.get(
-                            (l) => l.ui.page.character.share.button.tip,
-                        ),
+                        tip: (l) => l.ui.page.character.share.button.tip,
                         icon: isPublic ? GLOBE1_SYMBOL : '🤫',
                         label: isPublic
-                            ? $locales.get(
-                                  (l) =>
-                                      l.ui.page.character.share.public.modes[0],
-                              )
-                            : $locales.get(
-                                  (l) =>
-                                      l.ui.page.character.share.public.modes[1],
-                              ),
+                            ? (l) => l.ui.page.character.share.public.modes[0]
+                            : (l) => l.ui.page.character.share.public.modes[1],
                     }}
                 >
                     <Mode
@@ -1670,9 +1630,7 @@
                 </Dialog>
                 {#if $user !== null && editedCharacter !== null && $user.uid === editedCharacter.owner}
                     <ConfirmButton
-                        tip={$locales.get(
-                            (l) => l.ui.page.character.share.delete.tip,
-                        )}
+                        tip={(l) => l.ui.page.character.share.delete.tip}
                         action={() => {
                             if (editedCharacter) {
                                 CharactersDB.deleteCharacter(
@@ -1681,9 +1639,7 @@
                                 goto('/characters');
                             }
                         }}
-                        prompt={$locales.get(
-                            (l) => l.ui.page.character.share.delete.tip,
-                        )}
+                        prompt={(l) => l.ui.page.character.share.delete.tip}
                         enabled={editedCharacter !== null}
                         >{CANCEL_SYMBOL}
                         {$locales.get(
@@ -1694,14 +1650,10 @@
                 <TextBox
                     id="character-description"
                     bind:text={description}
-                    placeholder={$locales.get(
-                        (l) =>
-                            l.ui.page.character.field.description.placeholder,
-                    )}
-                    description={$locales.get(
-                        (l) =>
-                            l.ui.page.character.field.description.description,
-                    )}
+                    placeholder={(l) =>
+                        l.ui.page.character.field.description.placeholder}
+                    description={(l) =>
+                        l.ui.page.character.field.description.description}
                     validator={isValidDescription}
                 ></TextBox>
             </div>
@@ -1766,10 +1718,8 @@
                             <Feedback>
                                 <Button
                                     background
-                                    tip={$locales.get(
-                                        (l) =>
-                                            l.ui.page.character.button.end.tip,
-                                    )}
+                                    tip={(l) =>
+                                        l.ui.page.character.button.end.tip}
                                     action={endPath}
                                     active={pendingPath !== undefined}
                                     icon="🛑"

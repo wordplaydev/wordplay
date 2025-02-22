@@ -4,10 +4,7 @@
     import type Context from '@nodes/Context';
     import { fade } from 'svelte/transition';
     import { Projects, animationDuration, locales } from '../../db/Database';
-    import {
-        default as MarkupHTMLView,
-        default as MarkupHtmlView,
-    } from '../concepts/MarkupHTMLView.svelte';
+    import { default as MarkupHTMLView } from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import type { AnnotationInfo } from './Annotations.svelte';
 
@@ -49,18 +46,16 @@
                                     <div class="resolution">
                                         <Button
                                             background
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.annotations.button
-                                                        .resolution,
-                                            )}
+                                            tip={(l) =>
+                                                l.ui.annotations.button
+                                                    .resolution}
                                             action={() =>
                                                 resolveAnnotation(
                                                     resolution,
                                                     annotation.context,
                                                 )}>✓</Button
                                         ><div class="description"
-                                            ><MarkupHtmlView
+                                            ><MarkupHTMLView
                                                 inline
                                                 markup={resolution.description(
                                                     $locales,

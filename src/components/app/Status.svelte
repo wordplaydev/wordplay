@@ -13,7 +13,7 @@
 </script>
 
 <Button
-    tip={$locales.get((l) => l.ui.project.button.unsaved)}
+    tip={(l) => l.ui.project.button.unsaved}
     action={() => (showError = true)}
     active={$status.message !== undefined}
 >

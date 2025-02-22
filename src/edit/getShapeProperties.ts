@@ -10,7 +10,7 @@ export default function getShapeProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Shape.form),
+            (l) => l.output.Shape.form.names,
             'form',
             true,
             false,

@@ -141,7 +141,7 @@
             >
             {#if $user?.uid === msg.creator && msg.text !== null}
                 <Button
-                    tip={$locales.get((l) => l.ui.collaborate.button.delete)}
+                    tip={(l) => l.ui.collaborate.button.delete}
                     action={() => deleteMessage(chat, msg)}
                     icon={CANCEL_SYMBOL}
                 ></Button>
@@ -167,11 +167,11 @@
         <MarkupHTMLView
             markup={editable
                 ? project.getCollaborators().length === 0
-                    ? $locales.get((l) => l.ui.collaborate.prompt.solo)
-                    : $locales.get((l) => l.ui.collaborate.prompt.owner)
+                    ? (l) => l.ui.collaborate.prompt.solo
+                    : (l) => l.ui.collaborate.prompt.owner
                 : collaborator
-                  ? $locales.get((l) => l.ui.collaborate.prompt.collaborator)
-                  : $locales.get((l) => l.ui.collaborate.prompt.curator)}
+                  ? (l) => l.ui.collaborate.prompt.collaborator
+                  : (l) => l.ui.collaborate.prompt.curator}
         ></MarkupHTMLView>
 
         <div class="everyone">
@@ -236,9 +236,7 @@
             <TileMessage>
                 <p
                     ><Button
-                        tip={$locales.get(
-                            (l) => l.ui.collaborate.button.start.tip,
-                        )}
+                        tip={(l) => l.ui.collaborate.button.start.tip}
                         action={startChat}
                         background
                         >{$locales.get(
@@ -266,12 +264,10 @@
                     <TextField
                         id="new-message"
                         fill
-                        placeholder={$locales.get(
-                            (l) => l.ui.collaborate.field.message.placeholder,
-                        )}
-                        description={$locales.get(
-                            (l) => l.ui.collaborate.field.message.description,
-                        )}
+                        placeholder={(l) =>
+                            l.ui.collaborate.field.message.placeholder}
+                        description={(l) =>
+                            l.ui.collaborate.field.message.description}
                         bind:view={newMessageView}
                         bind:text={newMessage}
                     />
@@ -279,9 +275,7 @@
                         submit
                         padding={false}
                         active={chat !== undefined && newMessage.trim() !== ''}
-                        tip={$locales.get(
-                            (l) => l.ui.collaborate.button.submit.tip,
-                        )}
+                        tip={(l) => l.ui.collaborate.button.submit.tip}
                         action={submitMessage}
                         >{$locales.get(
                             (l) => l.ui.collaborate.button.submit.label,

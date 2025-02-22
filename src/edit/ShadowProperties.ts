@@ -16,7 +16,7 @@ export default function getShadowProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locale.output.Aura.offsetX,
+            (l) => l.output.Aura.offsetX.names,
             new OutputPropertyRange(0, 1, 0.01, 'px', 0),
             false,
             false,
@@ -24,7 +24,7 @@ export default function getShadowProperties(
             () => NumberLiteral.make(12),
         ),
         new OutputProperty(
-            locale.output.Aura.color,
+            (l) => l.output.Aura.color.names,
             'color',
             false,
             true,
@@ -34,7 +34,7 @@ export default function getShadowProperties(
             (locales) => createColorLiteral(project, locales, 0.5, 100, 180),
         ),
         new OutputProperty(
-            locale.output.Aura.offsetY,
+            (l) => l.output.Aura.offsetY.names,
             new OutputPropertyRange(0, 1, 0.01, 'px', 0),
             false,
             false,
@@ -42,7 +42,7 @@ export default function getShadowProperties(
             () => NumberLiteral.make(12),
         ),
         new OutputProperty(
-            locale.output.Aura.blur,
+            (l) => l.output.Aura.blur.names,
             new OutputPropertyRange(0, 1, 0.01, '', 0),
             false,
             false,

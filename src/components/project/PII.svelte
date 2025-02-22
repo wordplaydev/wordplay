@@ -1,6 +1,6 @@
 <script lang="ts">
     import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import { locales } from '@db/Database';
 
@@ -16,16 +16,14 @@
     {$locales.get((l) => l.ui.dialog.share.subheader.pii.header)}
 </Subheader>
 
-<MarkupHtmlView
-    markup={$locales.get((l) => l.ui.dialog.share.subheader.pii.explanation)}
-/>
+<MarkupHTMLView markup={(l) => l.ui.dialog.share.subheader.pii.explanation} />
 
 {#each nonPII as piiText}
     <div class="piiText">
         <span class="piiLabel">{piiText}</span>
         <Button
             background
-            tip={$locales.get((l) => l.ui.dialog.share.button.sensitive.tip)}
+            tip={(l) => l.ui.dialog.share.button.sensitive.tip}
             action={() => unmark(piiText)}
             >{$locales.get(
                 (l) => l.ui.dialog.share.button.sensitive.label,

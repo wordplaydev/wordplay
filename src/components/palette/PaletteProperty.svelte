@@ -49,7 +49,7 @@
     let bind = $derived(values.getBind());
     let bindConcept = $derived(bind ? index?.getBindConcept(bind) : undefined);
     let valuesAreSet = $derived(values.areSet());
-    let propertyID = $derived(`property-${property.getName()}`);
+    let propertyID = $derived(`property-${property.getName($locales)}`);
 
     let toggleView: HTMLButtonElement | undefined = $state();
 
@@ -77,8 +77,8 @@
         {#if editable}
             <Button
                 tip={valuesAreSet
-                    ? $locales.get((l) => l.ui.palette.button.revert)
-                    : $locales.get((l) => l.ui.palette.button.set)}
+                    ? (l) => l.ui.palette.button.revert
+                    : (l) => l.ui.palette.button.set}
                 bind:view={toggleView}
                 action={() => toggleValues(!valuesAreSet)}
                 icon={valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}

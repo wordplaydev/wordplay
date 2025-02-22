@@ -1672,7 +1672,7 @@
     {#if project.getSupplements().length > 0}
         <div class="output-preview-container">
             <Button
-                tip={$locales.get((l) => l.ui.source.button.selectOutput)}
+                tip={(l) => l.ui.source.button.selectOutput}
                 active={!selected}
                 action={setOutputPreview}
                 scale={false}

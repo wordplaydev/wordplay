@@ -15,7 +15,7 @@
     import Background from '../components/app/Background.svelte';
     import BigLink from '../components/app/BigLink.svelte';
     import Writing from '../components/app/Writing.svelte';
-    import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../components/concepts/MarkupHTMLView.svelte';
     import { locales } from '../db/Database';
     import Characters from '../lore/BasisCharacters';
     import Emotion from '../lore/Emotion';
@@ -42,16 +42,12 @@
                 emotion={Emotion.happy}
                 big
                 >{#snippet content()}
-                    <MarkupHtmlView
-                        markup={$locales.get((l) => l.ui.page.landing.value)}
-                    />
+                    <MarkupHTMLView markup={(l) => l.ui.page.landing.value} />
                 {/snippet}</Speech
             >
         </div>
     </div>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.landing.description)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.landing.description} />
     {#if $user === null}
         <br />
         <BigLink

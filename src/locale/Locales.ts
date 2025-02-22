@@ -21,6 +21,13 @@ export type TemplateInput =
     | ValueRef
     | ConceptRef;
 
+/**
+ * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path
+ * as we use the source code of these to extract the path for inline localization contributions from creators.
+ */
+export type LocaleTextAccessor = (locale: LocaleText) => string;
+export type LocaleTextsAccessor = (locale: LocaleText) => string | string[];
+
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
     /** The function that concretizes. We take this to avoid circular imports, since this class is deeply nested in the Node hierarchy. */

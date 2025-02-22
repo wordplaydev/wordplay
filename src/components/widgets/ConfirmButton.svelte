@@ -1,13 +1,14 @@
 <script lang="ts">
     import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Button, { type Action } from './Button.svelte';
 
     interface Props {
-        tip: string;
+        tip: LocaleTextAccessor;
         action: Action;
         enabled?: boolean;
-        prompt: string;
+        prompt: LocaleTextAccessor;
         background?: boolean;
         icon?: string;
         children?: import('svelte').Snippet;
@@ -30,14 +31,14 @@
     <Button
         {background}
         {icon}
-        tip={confirming ? $locales.get((l) => l.ui.widget.confirm.cancel) : tip}
+        tip={confirming ? (l) => l.ui.widget.confirm.cancel : tip}
         action={() => (confirming = !confirming)}
         active={enabled}
         >{#if confirming}{CANCEL_SYMBOL}{:else}{@render children?.()}{/if}</Button
     >
     {#if confirming}
         <Button {background} stretch {tip} action={() => action()}
-            >{prompt}</Button
+            >{$locales.get(prompt)}</Button
         >
     {/if}
 </div>

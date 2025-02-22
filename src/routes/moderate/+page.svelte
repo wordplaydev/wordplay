@@ -1,7 +1,7 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Page from '@components/app/Page.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import Markup from '@nodes/Markup';
@@ -145,7 +145,7 @@
                 <Spinning label="" />
             {:else}
                 <div class="progress-counter">
-                    <MarkupHtmlView
+                    <MarkupHTMLView
                         markup={Markup.words(
                             $locales.get((l) => l.moderation.progress),
                         ).concretize($locales, [
@@ -154,10 +154,8 @@
                         ]) ?? '?'}
                     />
                 </div>
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.moderation.moderate.explanation,
-                    )}
+                <MarkupHTMLView
+                    markup={(l) => l.moderation.moderate.explanation}
                 />
                 {#each Object.entries(project.getFlags()) as [flag, state]}
                     <div class="flag">
@@ -173,7 +171,7 @@
                                 ))}
                         />
                         <label for={flag}>
-                            <MarkupHtmlView
+                            <MarkupHTMLView
                                 markup={getFlagDescription(flag, $locales) ??
                                     ''}
                             /></label
@@ -183,9 +181,7 @@
                 <div class="controls">
                     <Button
                         background
-                        tip={$locales.get(
-                            (l) => l.moderation.button.submit.tip,
-                        )}
+                        tip={(l) => l.moderation.button.submit.tip}
                         action={save}
                         >{$locales.get(
                             (l) => l.moderation.button.submit.label,
@@ -193,7 +189,7 @@
                     >
                     <Button
                         background
-                        tip={$locales.get((l) => l.moderation.button.skip.tip)}
+                        tip={(l) => l.moderation.button.skip.tip}
                         action={skip}
                         >{$locales.get(
                             (l) => l.moderation.button.skip.label,

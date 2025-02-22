@@ -75,9 +75,9 @@
         ),
     }}
     button={{
-        tip: $locales.get((l) => l.ui.project.button.translate.tip),
+        tip: (l) => l.ui.project.button.translate.tip,
         icon: LOCALE_SYMBOL,
-        label: $locales.get((l) => l.ui.project.button.translate.label),
+        label: (l) => l.ui.project.button.translate.label,
     }}
 >
     <Subheader>{$locales.get((l) => l.ui.project.subheader.source)}</Subheader>
@@ -88,7 +88,7 @@
                 <Button
                     action={() => updatePrimaryLocale(index)}
                     active={projectLocale !== primaryLocale}
-                    tip={$locales.get((l) => l.ui.project.button.primary)}
+                    tip={(l) => l.ui.project.button.primary}
                     ><LocaleName locale={projectLocale} supported /></Button
                 >
             </div>
@@ -103,7 +103,7 @@
             <div class="option">
                 <Button
                     action={() => translate(language)}
-                    tip={$locales.get((l) => l.ui.dialog.locale.button.replace)}
+                    tip={(l) => l.ui.dialog.locale.button.replace}
                     ><LocaleName locale={language} supported /></Button
                 >
             </div>

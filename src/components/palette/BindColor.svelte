@@ -5,7 +5,7 @@
     import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import { Projects } from '../../db/Database';
+    import { locales, Projects } from '../../db/Database';
     import type OutputProperty from '../../edit/OutputProperty';
     import type Bind from '../../nodes/Bind';
     import { getProject, getSelectedOutput } from '../project/Contexts';
@@ -55,7 +55,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 replacement,
             ),
         );

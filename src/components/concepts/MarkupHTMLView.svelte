@@ -3,26 +3,34 @@
 </script>
 
 <script lang="ts">
+    import type { LocaleTextsAccessor } from '@locale/Locales';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
-    import { animationDuration, animationFactor } from '../../db/Database';
+    import {
+        animationDuration,
+        animationFactor,
+        locales,
+    } from '../../db/Database';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
     interface Props {
-        markup: Markup | string[] | string;
+        markup: Markup | string[] | string | LocaleTextsAccessor;
         inline?: boolean;
         note?: boolean;
     }
 
     let { markup, inline = false, note = false }: Props = $props();
 
-    let parsed = $derived(
-        markup instanceof Markup
-            ? markup
-            : Markup.words(
-                  Array.isArray(markup) ? markup.join('\n\n') : markup,
-              ),
-    );
+    let parsed = $derived.by(() => {
+        if (markup instanceof Markup) return markup;
+        if (markup instanceof Function) {
+            const text = $locales.get(markup);
+            return Markup.words(Array.isArray(text) ? text.join('\n\n') : text);
+        }
+        return Markup.words(
+            Array.isArray(markup) ? markup.join('\n\n') : markup,
+        );
+    });
 
     let spaces = $derived(parsed.spaces);
 

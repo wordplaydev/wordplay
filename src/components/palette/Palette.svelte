@@ -90,12 +90,16 @@
         const newPropertyValues = new Map();
         // Map the properties to a set of values.
         for (const property of properties) {
-            const values = new OutputPropertyValueSet(property, outputs);
+            const values = new OutputPropertyValueSet(
+                property,
+                outputs,
+                $locales,
+            );
             // Exclue any properties that happen to have no values.
             if (!values.isEmpty() && values.onAll())
                 newPropertyValues.set(property, values);
             // Remember the phrase text property
-            if (property.name === $locales.get((l) => l.output.Phrase.text))
+            if (property.isName($locales, (l) => l.output.Phrase.text.names))
                 phraseTextValues = values;
         }
 
@@ -122,11 +126,7 @@
             }}
         >
             {#snippet content()}
-                <MarkupHtmlView
-                    markup={$locales.concretize(
-                        (l) => l.ui.palette.prompt.editing,
-                    )}
-                />
+                <MarkupHtmlView markup={(l) => l.ui.palette.prompt.editing} />
             {/snippet}
         </Speech>
 
@@ -134,7 +134,7 @@
         {#each Array.from(propertyValues.entries()) as [property, values]}
             <PaletteProperty {project} {property} {values} {editable} />
             <!-- Add the text style editor just below the face chooser. -->
-            {#if property.name === $locales.get((l) => l.output.Phrase.face) && phraseTextValues}
+            {#if property.isName($locales, (l) => l.output.Phrase.face.names) && phraseTextValues}
                 <TextStyleEditor {project} outputs={phraseTextValues}
                 ></TextStyleEditor>
             {/if}
@@ -145,7 +145,7 @@
                 symbols={PALETTE_SYMBOL}
                 locales={$locales}
                 message={$locales.get((l) => l.ui.palette.prompt.pauseToEdit)}
-                tip={$locales.get((l) => l.ui.timeline.button.pause)}
+                tip={(l) => l.ui.timeline.button.pause}
                 action={() => $evaluation.evaluator.pause()}
                 command="⏸️"
             />
@@ -158,7 +158,7 @@
                     message={$locales.get(
                         (l) => l.ui.palette.prompt.offerPhrase,
                     )}
-                    tip={$locales.get((l) => l.ui.palette.button.createPhrase)}
+                    tip={(l) => l.ui.palette.button.createPhrase}
                     action={() => addSoloPhrase(DB, project)}
                     command={`+${PHRASE_SYMBOL}`}
                 />
@@ -170,7 +170,7 @@
                     message={$locales.get(
                         (l) => l.ui.palette.prompt.offerGroup,
                     )}
-                    tip={$locales.get((l) => l.ui.palette.button.createGroup)}
+                    tip={(l) => l.ui.palette.button.createGroup}
                     action={() => addGroup(DB, project)}
                     command={`+${GROUP_SYMBOL}`}
                 />
@@ -182,7 +182,7 @@
                     message={$locales.get(
                         (l) => l.ui.palette.prompt.offerStage,
                     )}
-                    tip={$locales.get((l) => l.ui.palette.button.createStage)}
+                    tip={(l) => l.ui.palette.button.createStage}
                     action={() => addStage(DB, project, group ?? phrase)}
                     command={`+${STAGE_SYMBOL}`}
                 />
