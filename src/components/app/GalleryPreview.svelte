@@ -52,10 +52,7 @@
             {#if gallery.getProjects().length === 0}
                 &mdash;
             {:else if project === null}
-                <Spinning
-                    large
-                    label={$locales.get((l) => l.ui.widget.loading.message)}
-                />
+                <Spinning large label={(l) => l.ui.widget.loading.message} />
             {:else}
                 <ProjectPreview
                     {project}

@@ -132,7 +132,7 @@
         <div class="flags">
             <Header>{$locales.get((l) => l.moderation.moderate.header)}</Header>
             {#if lastBatch === null}
-                <Spinning label="" />
+                <Spinning />
             {:else if moderator === false}
                 <p
                     >It looks like you're not a moderator. If you were recently
@@ -142,7 +142,7 @@
             {:else if lastBatch === undefined}
                 <p>Nothing else to moderate!</p>
             {:else if project === undefined}
-                <Spinning label="" />
+                <Spinning />
             {:else}
                 <div class="progress-counter">
                     <MarkupHTMLView
@@ -200,7 +200,7 @@
         </div>
         {#if lastBatch === undefined}<div class="big">✔</div
             >{:else if project === undefined}
-            <Spinning label="" />
+            <Spinning />
         {:else}
             <ProjectView
                 {project}

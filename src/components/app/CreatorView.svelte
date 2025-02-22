@@ -1,6 +1,6 @@
 <script lang="ts">
+    import Text from '@components/widgets/Text.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { locales } from '@db/Database';
     import { withColorEmoji } from '../../unicode/emoji';
     import Feedback from './Feedback.svelte';
 
@@ -35,9 +35,9 @@
         >{/if}{#if creator}
         {username.length < 10
             ? username
-            : `${username.substring(0, 10)}…`}{:else if prompt}{$locales.get(
-            (l) => l.ui.page.login.anonymous,
-        )}{:else}
+            : `${username.substring(0, 10)}…`}{:else if prompt}<Text
+            path={(l) => l.ui.page.login.anonymous}
+        ></Text>{:else}
         <Feedback inline>—</Feedback>{/if}</div
 >
 

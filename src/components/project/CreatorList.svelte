@@ -106,7 +106,7 @@
                 active={validCollaborator(emailOrUsername) === true}
                 action={() => undefined}>&gt;</Button
             >
-            {#if adding}<Spinning label="" />{/if}
+            {#if adding}<Spinning />{/if}
         </form>
     {/if}
 {/snippet}

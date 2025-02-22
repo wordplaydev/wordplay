@@ -52,7 +52,7 @@
         action={() => undefined}>&gt;</Button
     >
     {#if changeSubmitted}<Spinning
-            label={$locales.get((l) => l.ui.page.login.feedback.changing)}
+            label={(l) => l.ui.page.login.feedback.changing}
         />
     {:else if changeFeedback}<Feedback inline>{changeFeedback}</Feedback>{/if}
 </form>

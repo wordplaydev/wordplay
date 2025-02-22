@@ -128,10 +128,7 @@
     {/if}
 {:else if successfullyDeleted === undefined}
     <p>{$locales.get((l) => l.ui.page.login.feedback.deleting)}</p>
-    <p
-        ><Spinning
-            label={$locales.get((l) => l.ui.page.login.feedback.deleting)}
-        /></p
+    <p><Spinning label={(l) => l.ui.page.login.feedback.deleting} /></p
     >{:else if successfullyDeleted === false}
     <p aria-live="assertive"
         >{$locales.get((l) => l.ui.page.login.error.delete)}</p

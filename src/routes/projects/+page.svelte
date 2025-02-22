@@ -149,10 +149,7 @@
             >
         {/if}
         {#if Galleries.getStatus() === 'loading'}
-            <Spinning
-                label={$locales.get((l) => l.ui.widget.loading.message)}
-                large
-            />
+            <Spinning label={(l) => l.ui.widget.loading.message} large />
         {:else if Galleries.getStatus() === 'noaccess'}
             <Feedback
                 >{$locales.get(

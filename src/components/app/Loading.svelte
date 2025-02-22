@@ -4,7 +4,7 @@
 </script>
 
 <div class="container">
-    <Spinning label={$locales.get((l) => l.ui.widget.loading.message)} large />
+    <Spinning label={(l) => l.ui.widget.loading.message} large />
     <p>{$locales.get((l) => l.ui.widget.loading.message)}</p>
 </div>
 

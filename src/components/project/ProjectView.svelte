@@ -1744,7 +1744,7 @@
                     ></Button>{/if}
                 {#if owner}
                     {#await Creators.getCreator(owner)}
-                        <Spinning label="" />
+                        <Spinning />
                     {:then creator}
                         <CreatorView {creator} />
                     {/await}
