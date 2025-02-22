@@ -119,8 +119,8 @@
     data={token.id}
     bind:view
     classes={['token-editor']}
-    placeholder={placeholder ?? ''}
-    description={placeholder ?? ''}
+    {placeholder}
+    description={placeholder}
     {validator}
     done={(newText) => {
         // Not valid but losing focus? Restore the old text.
