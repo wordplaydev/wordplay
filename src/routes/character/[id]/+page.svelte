@@ -19,6 +19,7 @@
     import Labeled from '@components/widgets/Labeled.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Slider from '@components/widgets/Slider.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { CharactersDB, locales } from '@db/Database';
@@ -1607,19 +1608,6 @@
                     )}
                     blocks={false}
                 />
-                <TextField
-                    id="character-description"
-                    bind:text={description}
-                    placeholder={$locales.get(
-                        (l) =>
-                            l.ui.page.character.field.description.placeholder,
-                    )}
-                    description={$locales.get(
-                        (l) =>
-                            l.ui.page.character.field.description.description,
-                    )}
-                    validator={isValidDescription}
-                ></TextField>
                 <Dialog
                     description={$locales.get(
                         (l) => l.ui.page.character.share.dialog,
@@ -1703,6 +1691,19 @@
                         )}</ConfirmButton
                     >
                 {/if}
+                <TextBox
+                    id="character-description"
+                    bind:text={description}
+                    placeholder={$locales.get(
+                        (l) =>
+                            l.ui.page.character.field.description.placeholder,
+                    )}
+                    description={$locales.get(
+                        (l) =>
+                            l.ui.page.character.field.description.description,
+                    )}
+                    validator={isValidDescription}
+                ></TextBox>
             </div>
             {#if !nameAvailable}
                 <Feedback

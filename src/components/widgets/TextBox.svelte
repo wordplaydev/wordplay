@@ -42,8 +42,6 @@
             setTimeout(() => {
                 if (dwelled) dwelled(text);
             }, 1000);
-
-        resize();
     }
 
     function resize() {
@@ -84,6 +82,7 @@
 <style>
     .box {
         position: relative;
+        width: 100%;
     }
     textarea {
         font-family: inherit;
