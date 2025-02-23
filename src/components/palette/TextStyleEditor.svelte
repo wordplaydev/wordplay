@@ -259,7 +259,7 @@
     {/snippet}
     {#snippet control()}
         <Checkbox
-            label={$locales.get((l) => l.ui.palette.labels.format)}
+            label={(l) => l.ui.palette.labels.format}
             on={formatted}
             changed={(on) => setFormatted(on ?? false)}
             id="formatted"
@@ -307,10 +307,10 @@
                 /></label
             >
             <Checkbox
-                label={$locales.get((l) => l.ui.palette.labels.italic)}
+                label={(l) => l.ui.palette.labels.italic}
                 on={italic}
                 changed={() => applyStyle('italic')}
-                id={'font-italic'}
+                id="font-italic"
             ></Checkbox>
         </div>
         <div class="aspect">
@@ -320,10 +320,10 @@
                 /></label
             >
             <Checkbox
-                label={$locales.get((l) => l.ui.palette.labels.underline)}
+                label={(l) => l.ui.palette.labels.underline}
                 on={underlined}
                 changed={() => applyStyle('underline')}
-                id={'text-underlined'}
+                id="text-underlined"
             ></Checkbox>
         </div>
     </div>

@@ -34,7 +34,7 @@
 </script>
 
 <Checkbox
-    label={property.getName($locales)}
+    label={property.name}
     on={values.getBool()}
     changed={handleChange}
     {editable}

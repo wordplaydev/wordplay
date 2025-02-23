@@ -1383,9 +1383,7 @@
                                 setShapes([...shapes]);
                             } else currentClosed = on;
                         }}
-                        label={$locales.get(
-                            (l) => l.ui.page.character.field.closed,
-                        )}
+                        label={(l) => l.ui.page.character.field.closed}
                     ></Checkbox><LocalizedText
                         path={(l) => l.ui.page.character.field.closed}
                     />

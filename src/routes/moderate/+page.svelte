@@ -160,7 +160,8 @@
                 {#each Object.entries(project.getFlags()) as [flag, state]}
                     <div class="flag">
                         <Checkbox
-                            label="Whether the project has this property"
+                            label={() =>
+                                'Whether the project has this property'}
                             on={state === null ? undefined : state}
                             id={flag}
                             changed={(value) =>

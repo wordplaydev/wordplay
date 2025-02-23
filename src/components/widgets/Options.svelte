@@ -54,7 +54,6 @@
     }
 </script>
 
-getFirstText
 <select
     aria-label={title}
     {title}
