@@ -239,7 +239,7 @@
         <Labeled
             fixed={FieldLabelWidth}
             column
-            label={$locales.get((l) => l.ui.page.newclass.field.existing.label)}
+            label={(l) => l.ui.page.newclass.field.existing.label}
         >
             <CreatorList
                 uids={existingStudents}

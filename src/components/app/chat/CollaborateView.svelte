@@ -180,9 +180,7 @@
         <div class="everyone">
             <!-- If not the owner, show it -->
             {#if $user !== null && owner !== $user.uid}
-                <Labeled
-                    label={$locales.get((l) => l.ui.collaborate.role.owner)}
-                >
+                <Labeled label={(l) => l.ui.collaborate.role.owner}>
                     <CreatorView
                         chrome
                         anonymize={false}
@@ -193,11 +191,7 @@
 
             <!-- Show all of the collaborators -->
             {#if owner == $user?.uid || project.getCollaborators().length > 0}
-                <Labeled
-                    label={$locales.get(
-                        (l) => l.ui.collaborate.role.collaborators,
-                    )}
-                >
+                <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
                     <CreatorList
                         anonymize={false}
                         uids={project.getCollaborators()}
@@ -217,9 +211,7 @@
 
             <!-- Show the curators, if in a gallery -->
             {#if gallery}
-                <Labeled
-                    label={$locales.get((l) => l.ui.collaborate.role.curators)}
-                >
+                <Labeled label={(l) => l.ui.collaborate.role.curators}>
                     <CreatorList
                         anonymize={false}
                         editable={false}

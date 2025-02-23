@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { type Snippet } from 'svelte';
 
     const {
@@ -8,7 +9,7 @@
         /** A CSS width to apply to the label */
         fixed = '',
     }: {
-        label: string;
+        label: LocaleTextAccessor;
         column?: boolean;
         children: Snippet;
         fixed?: string;

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Labeled from './Labeled.svelte';
     import TextBox from './TextBox.svelte';
@@ -24,7 +23,7 @@
     } = $props();
 </script>
 
-<Labeled {fixed} label={$locales.get(description)}
+<Labeled {fixed} label={description}
     >{#if box}<TextBox
             {id}
             bind:text

@@ -1581,9 +1581,8 @@
                     />
                     {#if !isPublic}
                         <Labeled
-                            label={$locales.get(
-                                (l) => l.ui.page.character.share.collaborators,
-                            )}
+                            label={(l) =>
+                                l.ui.page.character.share.collaborators}
                         >
                             <CreatorList
                                 uids={collaborators}
