@@ -361,69 +361,69 @@
                         index.getPrimaryConceptsWithPurpose(Purpose.Project)}
                     {#if projectConcepts.length > 0}
                         <ConceptsView
-                            category={$locales.get((l) => l.term.project)}
+                            category={(l) => l.term.project}
                             concepts={projectConcepts}
                             {collapse}
                         />
                     {/if}
                     <ConceptsView
-                        category={$locales.get((l) => l.term.value)}
+                        category={(l) => l.term.value}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Value,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.evaluate)}
+                        category={(l) => l.term.evaluate}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Evaluate,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.bind)}
+                        category={(l) => l.term.bind}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Bind,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.decide)}
+                        category={(l) => l.term.decide}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Decide,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.input)}
+                        category={(l) => l.term.input}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Input,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.output)}
+                        category={(l) => l.term.output}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Output,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.type)}
+                        category={(l) => l.term.type}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Type,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.document)}
+                        category={(l) => l.term.document}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Document,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.source)}
+                        category={(l) => l.term.source}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Source,
                         )}

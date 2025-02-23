@@ -9,6 +9,7 @@
     import isValidEmail from '@db/creators/isValidEmail';
     import isValidUsername from '@db/creators/isValidUsername';
     import { analytics, auth, functions } from '@db/firebase';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { logEvent } from 'firebase/analytics';
     import { FirebaseError } from 'firebase/app';
     import {
@@ -20,7 +21,6 @@
     import { onMount } from 'svelte';
     import Header from '../../components/app/Header.svelte';
     import { emailAccountExists } from '../../db/creators/accountExists';
-    import { locales } from '../../db/Database';
     import getAuthErrorDescription from './getAuthErrorDescription';
     import isValidPassword from './IsValidPassword';
     import LoginForm from './LoginForm.svelte';
@@ -34,8 +34,8 @@
     let loading = $state(false);
 
     /** Feedback to show in the login form */
-    let usernameFeedback: string | undefined = $state(undefined);
-    let emailFeedback: string | undefined = $state(undefined);
+    let usernameFeedback: LocaleTextAccessor | undefined = $state(undefined);
+    let emailFeedback: LocaleTextAccessor | undefined = $state(undefined);
 
     /** When the page is mounted, see if the link is an email sign in link, and if so, attempt to finish logging in. */
     onMount(() => {
@@ -59,7 +59,7 @@
             goto('/profile');
         } catch (error) {
             if (error instanceof FirebaseError)
-                usernameFeedback = getAuthErrorDescription($locales, error);
+                usernameFeedback = getAuthErrorDescription(error);
         } finally {
             loading = false;
         }
@@ -94,17 +94,13 @@
                         // Remember the email in local storage so we don't have to ask for it again
                         // after returning to the link above.
                         window.localStorage.setItem('email', email);
-                        emailFeedback = $locales.get(
-                            (l) => l.ui.page.login.prompt.sent,
-                        );
+                        emailFeedback = (l) => l.ui.page.login.prompt.sent;
                     }
                 } else {
-                    emailFeedback = $locales.get(
-                        (l) => l.ui.page.login.prompt.sent,
-                    );
+                    emailFeedback = (l) => l.ui.page.login.prompt.sent;
                 }
             } catch (err) {
-                emailFeedback = getAuthErrorDescription($locales, err);
+                emailFeedback = getAuthErrorDescription(err);
             } finally {
                 loading = false;
             }
@@ -119,9 +115,7 @@
 
                 // If there's no email, prompt for one.
                 if (storedEmail === null && email === '') {
-                    emailFeedback = $locales.get(
-                        (l) => l.ui.page.login.prompt.enter,
-                    );
+                    emailFeedback = (l) => l.ui.page.login.prompt.enter;
                 }
                 // Sign in.
                 else {
@@ -134,9 +128,7 @@
                         window.localStorage.removeItem('email');
 
                         // Provide success feedback (which likely won't be visible, since we're navigating immediately)
-                        emailFeedback = $locales.get(
-                            (l) => l.ui.page.login.prompt.success,
-                        );
+                        emailFeedback = (l) => l.ui.page.login.prompt.success;
 
                         // Log login event in analytics
                         if (analytics) logEvent(analytics, 'login');
@@ -146,7 +138,7 @@
                     });
                 }
             } catch (err) {
-                emailFeedback = getAuthErrorDescription($locales, err);
+                emailFeedback = getAuthErrorDescription(err);
             }
         }
         return undefined;
@@ -154,7 +146,7 @@
 </script>
 
 <!-- Provide some reasons to log in -->
-<Header>{$locales.get((l) => l.ui.page.login.header)}</Header>
+<Header text={(l) => l.ui.page.login.header} />
 
 <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.login} />
 

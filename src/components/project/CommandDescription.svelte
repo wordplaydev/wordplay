@@ -1,6 +1,6 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
-    import { locales } from '@db/Database';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { toShortcut, type Command } from '../editor/util/Commands';
 
     interface Props {
@@ -13,7 +13,7 @@
 <tr class="command">
     <td class="symbol"><Emoji>{command.symbol}</Emoji></td>
     <td class="shortcut"><em>{toShortcut(command)}</em></td>
-    <td class="description">{$locales.get(command.description)}</td>
+    <td class="description"><LocalizedText path={command.description} /></td>
 </tr>
 
 <style>

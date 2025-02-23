@@ -5,7 +5,6 @@
     import { auth } from '@db/firebase';
     import Feedback from '../../components/app/Feedback.svelte';
     import Writing from '../../components/app/Writing.svelte';
-    import { locales } from '../../db/Database';
     import Login from './Login.svelte';
 
     let user = getUser();
@@ -24,9 +23,7 @@
             <Login />
         {:else}
             <!-- No connection? Give some feedback. -->
-            <Feedback
-                >{$locales.get((l) => l.ui.page.login.error.offline)}</Feedback
-            >
+            <Feedback text={(l) => l.ui.page.login.error.offline} />
         {/if}
     {/if}
 </Writing>

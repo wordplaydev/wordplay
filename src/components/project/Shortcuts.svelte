@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { locales } from '../../db/Database';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Commands, { Category } from '../editor/util/Commands';
     import CommandDescription from './CommandDescription.svelte';
 </script>
@@ -9,9 +9,9 @@
         <tr>
             <td colspan="3"
                 ><h1
-                    >{$locales.get(
-                        (l) => l.ui.dialog.help.subheader.moveCursor,
-                    )}</h1
+                    ><LocalizedText
+                        path={(l) => l.ui.dialog.help.subheader.moveCursor}
+                    /></h1
                 ></td
             >
         </tr>
@@ -21,9 +21,9 @@
         <tr>
             <td colspan="3"
                 ><h1
-                    >{$locales.get(
-                        (l) => l.ui.dialog.help.subheader.editCode,
-                    )}</h1
+                    ><LocalizedText
+                        path={(l) => l.ui.dialog.help.subheader.editCode}
+                    /></h1
                 ></td
             >
         </tr>
@@ -33,9 +33,9 @@
         <tr>
             <td colspan="3"
                 ><h1
-                    >{$locales.get(
-                        (l) => l.ui.dialog.help.subheader.insertCode,
-                    )}</h1
+                    ><LocalizedText
+                        path={(l) => l.ui.dialog.help.subheader.insertCode}
+                    /></h1
                 ></td
             >
         </tr>
@@ -44,7 +44,10 @@
         {/each}
         <tr>
             <td colspan="3"
-                ><h1>{$locales.get((l) => l.ui.dialog.help.subheader.debug)}</h1
+                ><h1
+                    ><LocalizedText
+                        path={(l) => l.ui.dialog.help.subheader.debug}
+                    /></h1
                 ></td
             >
         </tr>

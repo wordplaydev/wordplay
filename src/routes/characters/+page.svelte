@@ -55,17 +55,13 @@
 {/snippet}
 
 <Writing>
-    <Header>{$locales.get((l) => l.ui.page.characters.header)}</Header>
+    <Header text={(l) => l.ui.page.characters.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.characters.prompt} />
 
     {#if firestore === undefined}
-        <Feedback
-            >{$locales.get((l) => l.ui.page.characters.error.offline)}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.characters.error.offline} />
     {:else if $user === null}
-        <Feedback
-            >{$locales.get((l) => l.ui.page.characters.error.noauth)}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.characters.error.noauth} />
     {:else}
         <NewCharacterButton></NewCharacterButton>
 

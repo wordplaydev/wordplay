@@ -15,6 +15,7 @@
     import CreatorList from '@components/project/CreatorList.svelte';
     import Public from '@components/project/Public.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { Galleries, Projects, locales } from '@db/Database';
@@ -115,9 +116,7 @@
 {:else}
     <Writing>
         {#if gallery === undefined}
-            <Feedback
-                >{$locales.get((l) => l.ui.gallery.error.unknown)}</Feedback
-            >
+            <Feedback text={(l) => l.ui.gallery.error.unknown} />
         {:else}
             <Header
                 >{#if editable}<TextField
@@ -134,9 +133,9 @@
                                       ),
                                   )
                                 : undefined}
-                    />{:else if name}{name}{:else}{$locales.get(
-                        (l) => l.ui.gallery.field.name.placeholder,
-                    )}{/if}</Header
+                    />{:else if name}{name}{:else}<LocalizedText
+                        path={(l) => l.ui.gallery.field.name.placeholder}
+                    />{/if}</Header
             >
             <div class="collection">
                 {#if !editable}<MarkupHTMLView
@@ -231,10 +230,8 @@
 
             {#if editable || gallery.getCurators().length > 0}
                 <Subheader
-                    >{$locales.get(
-                        (l) => l.ui.gallery.subheader.curators.header,
-                    )}</Subheader
-                >
+                    text={(l) => l.ui.gallery.subheader.curators.header}
+                />
                 <MarkupHTMLView
                     markup={(l) => l.ui.gallery.subheader.curators.explanation}
                 />
@@ -261,14 +258,10 @@
 
             {#if editable || gallery.getCreators().length > 0}
                 <Subheader
-                    >{$locales.get(
-                        (l) => l.ui.gallery.subheader.creators.header,
-                    )}</Subheader
-                >
+                    text={(l) => l.ui.gallery.subheader.creators.header}
+                />
                 <MarkupHTMLView
-                    markup={$locales.get(
-                        (l) => l.ui.gallery.subheader.creators.explanation,
-                    )}
+                    markup={(l) => l.ui.gallery.subheader.creators.explanation}
                 />
                 <CreatorList
                     anonymize={!editable}
@@ -288,10 +281,8 @@
 
             {#if classes}
                 <Subheader
-                    >{$locales.get(
-                        (l) => l.ui.gallery.subheader.classes.header,
-                    )}</Subheader
-                >
+                    text={(l) => l.ui.gallery.subheader.classes.header}
+                />
                 <MarkupHTMLView
                     markup={(l) => l.ui.gallery.subheader.classes.explanation}
                 />
@@ -316,11 +307,7 @@
                             : undefined;
                     }}
                 />
-                <Subheader
-                    >{$locales.get(
-                        (l) => l.ui.gallery.subheader.delete.header,
-                    )}</Subheader
-                >
+                <Subheader text={(l) => l.ui.gallery.subheader.delete.header} />
                 <MarkupHTMLView
                     markup={(l) => l.ui.gallery.subheader.delete.explanation}
                 />
@@ -336,10 +323,8 @@
                                 goto('/projects');
                             }
                         }}
-                        >{$locales.get(
-                            (l) => l.ui.gallery.confirm.delete.prompt,
-                        )}</ConfirmButton
-                    >
+                        label={(l) => l.ui.gallery.confirm.delete.prompt}
+                    />
                 </p>
             {/if}
         {/if}

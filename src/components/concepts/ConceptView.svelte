@@ -1,4 +1,5 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Concept from '@concepts/Concept';
     import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
     import { slide } from 'svelte/transition';
@@ -75,7 +76,7 @@
         <CodeView {concept} {type} {node} describe={false} />
         {#if tutorialURL}
             <Link external to={tutorialURL}
-                >{$locales.get((l) => l.ui.docs.learn)}</Link
+                ><LocalizedText path={(l) => l.ui.docs.learn} /></Link
             >
         {/if}
     {/if}

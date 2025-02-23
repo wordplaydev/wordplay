@@ -144,7 +144,7 @@
             <EditOffer
                 symbols={PALETTE_SYMBOL}
                 locales={$locales}
-                message={$locales.get((l) => l.ui.palette.prompt.pauseToEdit)}
+                message={(l) => l.ui.palette.prompt.pauseToEdit}
                 tip={(l) => l.ui.timeline.button.pause}
                 action={() => $evaluation.evaluator.pause()}
                 command="⏸️"
@@ -155,9 +155,7 @@
                 <EditOffer
                     symbols={PHRASE_SYMBOL}
                     locales={$locales}
-                    message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerPhrase,
-                    )}
+                    message={(l) => l.ui.palette.prompt.offerPhrase}
                     tip={(l) => l.ui.palette.button.createPhrase}
                     action={() => addSoloPhrase(DB, project)}
                     command={`+${PHRASE_SYMBOL}`}
@@ -167,9 +165,7 @@
                 <EditOffer
                     symbols={GROUP_SYMBOL}
                     locales={$locales}
-                    message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerGroup,
-                    )}
+                    message={(l) => l.ui.palette.prompt.offerGroup}
                     tip={(l) => l.ui.palette.button.createGroup}
                     action={() => addGroup(DB, project)}
                     command={`+${GROUP_SYMBOL}`}
@@ -179,9 +175,7 @@
                 <EditOffer
                     symbols={STAGE_SYMBOL}
                     locales={$locales}
-                    message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerStage,
-                    )}
+                    message={(l) => l.ui.palette.prompt.offerStage}
                     tip={(l) => l.ui.palette.button.createStage}
                     action={() => addStage(DB, project, group ?? phrase)}
                     command={`+${STAGE_SYMBOL}`}

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Button, { type Action } from './Button.svelte';
@@ -11,6 +10,7 @@
         prompt: LocaleTextAccessor;
         background?: boolean;
         icon?: string;
+        label?: LocaleTextAccessor;
         children?: import('svelte').Snippet;
     }
 
@@ -21,6 +21,7 @@
         prompt,
         background = false,
         icon,
+        label,
         children,
     }: Props = $props();
 
@@ -34,12 +35,17 @@
         tip={confirming ? (l) => l.ui.widget.confirm.cancel : tip}
         action={() => (confirming = !confirming)}
         active={enabled}
+        {label}
         >{#if confirming}{CANCEL_SYMBOL}{:else}{@render children?.()}{/if}</Button
     >
     {#if confirming}
-        <Button {background} stretch {tip} action={() => action()}
-            >{$locales.get(prompt)}</Button
-        >
+        <Button
+            {background}
+            stretch
+            {tip}
+            action={() => action()}
+            label={prompt}
+        />
     {/if}
 </div>
 

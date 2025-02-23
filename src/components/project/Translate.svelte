@@ -80,7 +80,7 @@
         label: (l) => l.ui.project.button.translate.label,
     }}
 >
-    <Subheader>{$locales.get((l) => l.ui.project.subheader.source)}</Subheader>
+    <Subheader text={(l) => l.ui.project.subheader.source} />
     <div class="options">
         {#each allLocales as projectLocale, index}
             <div class="option">
@@ -94,9 +94,7 @@
             </div>
         {/each}
     </div>
-    <Subheader
-        >{$locales.get((l) => l.ui.project.subheader.destination)}</Subheader
-    >
+    <Subheader text={(l) => l.ui.project.subheader.destination} />
     <div class="options">
         <!-- Allow all of the languages that Google Translate supports. -->
         {#each TranslatableLanguages as language}
@@ -114,7 +112,7 @@
         <Spinning />
     {/if}
     {#if error}
-        <Feedback>{$locales.get((l) => l.ui.project.error.translate)}</Feedback>
+        <Feedback text={(l) => l.ui.project.error.translate} />
     {/if}
 </Dialog>
 

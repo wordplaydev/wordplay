@@ -41,7 +41,7 @@
 </svelte:head>
 
 <Writing>
-    <Header>{$locales.get((l) => l.ui.page.projects.header)}</Header>
+    <Header text={(l) => l.ui.page.projects.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.projects.projectprompt} />
     <AddProject
         add={(template) => {
@@ -81,21 +81,13 @@
     />
     <!-- If there are any archived projects, make an archived section. -->
     {#if Projects.allArchivedProjects.length > 0}
-        <Subheader
-            >{$locales.get((l) => l.ui.page.projects.archiveheader)}</Subheader
-        >
+        <Subheader text={(l) => l.ui.page.projects.archiveheader} />
         <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
         {#if $user === null}<Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.nodeletes,
-                )}</Feedback
-            >{/if}
+                text={(l) => l.ui.page.projects.error.nodeletes}
+            />{/if}
         {#if deleteError}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.delete,
-                )}</Feedback
-            >
+            <Feedback text={(l) => l.ui.page.projects.error.delete} />
         {/if}
         <ProjectPreviewSet
             set={Projects.allArchivedProjects}
@@ -130,7 +122,7 @@
         />
     {/if}
 
-    <Header>{$locales.get((l) => l.ui.page.projects.galleriesheader)}</Header>
+    <Header text={(l) => l.ui.page.projects.galleriesheader} />
     <MarkupHTMLView markup={(l) => l.ui.page.projects.galleryprompt} />
     {#if $user}
         <p class="add">
@@ -142,37 +134,21 @@
             ></Button></p
         >
         {#if newGalleryError}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.newgallery,
-                )}</Feedback
-            >
+            <Feedback text={(l) => l.ui.page.projects.error.newgallery} />
         {/if}
         {#if Galleries.getStatus() === 'loading'}
             <Spinning label={(l) => l.ui.widget.loading.message} large />
         {:else if Galleries.getStatus() === 'noaccess'}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.noaccess,
-                )}</Feedback
-            >
+            <Feedback text={(l) => l.ui.page.projects.error.noaccess} />
         {:else if Galleries.getStatus() === 'loggedout'}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.nogalleryedits,
-                )}</Feedback
-            >
+            <Feedback text={(l) => l.ui.page.projects.error.nogalleryedits} />
         {:else}
             {#each Galleries.accessibleGalleries.values() as gallery, index}
                 <GalleryPreview {gallery} delay={index * 1000} />
             {/each}
         {/if}
     {:else}
-        <Feedback
-            >{$locales.get(
-                (l) => l.ui.page.projects.error.nogalleryedits,
-            )}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.projects.error.nogalleryedits} />
     {/if}
 </Writing>
 

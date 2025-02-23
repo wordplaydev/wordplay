@@ -21,6 +21,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Refactored widgets to use locale accessor functions instead of strings, for provenance.
 - Refactored nodes to return locale accessor function instead of specific locale, for provenance.
 - Refactored node labels to return locale accessor function, for provenance.
+- Wrapped most localized text, for provenance.
 
 ## 0.16.0 2025-02-25
 

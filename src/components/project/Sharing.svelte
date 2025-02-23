@@ -2,6 +2,7 @@
     import Feedback from '@components/app/Feedback.svelte';
     import { toClipboard } from '@components/editor/util/Clipboard';
     import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import { Galleries, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
@@ -24,12 +25,9 @@
 </script>
 
 {#if $user === null}
-    <Feedback>{$locales.get((l) => l.ui.dialog.share.error.anonymous)}</Feedback
-    >
+    <Feedback text={(l) => l.ui.dialog.share.error.anonymous} />
 {:else}
-    <Subheader>
-        {$locales.get((l) => l.ui.dialog.share.subheader.copy.header)}
-    </Subheader>
+    <Subheader text={(l) => l.ui.dialog.share.subheader.copy.header} />
 
     <MarkupHTMLView
         markup={(l) => l.ui.dialog.share.subheader.copy.explanation}
@@ -46,15 +44,12 @@
         }}
         icon={COPY_SYMBOL}
     >
-        {$locales.get((l) => l.ui.project.button.copy.label)}
+        <LocalizedText path={(l) => l.ui.project.button.copy.label} />
         {#if copied}✓{/if}</Button
     >
 
-    <Subheader
-        >{$locales.get(
-            (l) => l.ui.dialog.share.subheader.gallery.header,
-        )}</Subheader
-    >
+    <Subheader text={(l) => l.ui.dialog.share.subheader.gallery.header} />
+
     <MarkupHTMLView
         markup={(l) => l.ui.dialog.share.subheader.gallery.explanation}
     />

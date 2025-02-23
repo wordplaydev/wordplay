@@ -2,7 +2,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import { locales } from '@db/Database';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         nonPII: string[];
@@ -12,9 +12,7 @@
     let { nonPII, unmark }: Props = $props();
 </script>
 
-<Subheader>
-    {$locales.get((l) => l.ui.dialog.share.subheader.pii.header)}
-</Subheader>
+<Subheader text={(l) => l.ui.dialog.share.subheader.pii.header} />
 
 <MarkupHTMLView markup={(l) => l.ui.dialog.share.subheader.pii.explanation} />
 
@@ -25,9 +23,9 @@
             background
             tip={(l) => l.ui.dialog.share.button.sensitive.tip}
             action={() => unmark(piiText)}
-            >{$locales.get(
-                (l) => l.ui.dialog.share.button.sensitive.label,
-            )}</Button
+            ><LocalizedText
+                path={(l) => l.ui.dialog.share.button.sensitive.label}
+            /></Button
         >
     </div>
 {/each}

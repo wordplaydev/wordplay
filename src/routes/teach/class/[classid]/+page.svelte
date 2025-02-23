@@ -15,6 +15,7 @@
     import CreatorList from '@components/project/CreatorList.svelte';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import { Galleries, locales } from '@db/Database';
     import {
@@ -63,11 +64,12 @@
 </script>
 
 <Link to="/teach"
-    >{PREVIOUS_SYMBOL} {$locales.get((l) => l.ui.page.teach.header)}</Link
+    >{PREVIOUS_SYMBOL}
+    <LocalizedText path={(l) => l.ui.page.teach.header} /></Link
 >
 {#if classData === null}
-    <Header>{$locales.get((l) => l.ui.page.class.header)}</Header>
-    <Feedback>{$locales.get((l) => l.ui.page.class.error.notfound)}</Feedback>
+    <Header text={(l) => l.ui.page.class.header} />
+    <Feedback text={(l) => l.ui.page.class.error.notfound} />
 {:else if classData === undefined}
     <Spinning></Spinning>
 {:else}
@@ -98,9 +100,7 @@
         {/if}</p
     >
 
-    <Subheader
-        >{$locales.get((l) => l.ui.page.class.subheader.teachers)}</Subheader
-    >
+    <Subheader text={(l) => l.ui.page.class.subheader.teachers} />
 
     <!-- Show all the teachers and allow them to be added and removed. -->
     <CreatorList
@@ -115,9 +115,7 @@
         anonymize={false}
     ></CreatorList>
 
-    <Subheader
-        >{$locales.get((l) => l.ui.page.class.subheader.students)}</Subheader
-    >
+    <Subheader text={(l) => l.ui.page.class.subheader.students} />
 
     <CreatorList
         uids={classData.learners}
@@ -170,9 +168,7 @@
         }}
     ></CreatorList>
 
-    <Subheader
-        >{$locales.get((l) => l.ui.page.class.subheader.galleries)}</Subheader
-    >
+    <Subheader text={(l) => l.ui.page.class.subheader.galleries} />
 
     <MarkupHTMLView markup={(l) => l.ui.page.class.prompt.gallery} />
 
@@ -186,8 +182,7 @@
     </Centered>
 
     {#if newGalleryError}
-        <Feedback>{$locales.get((l) => l.ui.page.class.error.gallery)}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.class.error.gallery} />
     {/if}
 
     {#each classData.galleries as gallery, index}
@@ -214,9 +209,9 @@
                 }
             }}
             >{CANCEL_SYMBOL}
-            {$locales.get(
-                (l) => l.ui.page.class.field.delete.label,
-            )}</ConfirmButton
+            <LocalizedText
+                path={(l) => l.ui.page.class.field.delete.label}
+            /></ConfirmButton
         >
     </p>
 {/if}

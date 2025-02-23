@@ -5,7 +5,7 @@
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { Creator } from '../../db/creators/CreatorDatabase';
     import validEmail from '../../db/creators/isValidEmail';
-    import { DB, locales } from '../../db/Database';
+    import { DB } from '../../db/Database';
     import CreatorView from '../app/CreatorView.svelte';
     import Feedback from '../app/Feedback.svelte';
     import Spinning from '../app/Spinning.svelte';
@@ -216,8 +216,8 @@
     </div>
 {/if}
 {#if unknown}
-    <Feedback>{$locales.get((l) => l.ui.dialog.share.error.unknown)}</Feedback
-    >{/if}
+    <Feedback text={(l) => l.ui.dialog.share.error.unknown} />
+{/if}
 
 <style>
     .people {

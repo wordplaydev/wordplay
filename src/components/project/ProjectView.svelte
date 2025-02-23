@@ -12,6 +12,7 @@
     import Documentation from '@components/concepts/Documentation.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import {
@@ -1435,7 +1436,9 @@
                 <div class="empty">
                     <Speech character={Characters.FunctionDefinition}>
                         {#snippet content()}
-                            {$locales.get((l) => l.ui.project.collapsed)} ⬇
+                            <LocalizedText
+                                path={(l) => l.ui.project.collapsed}
+                            /> ⬇
                         {/snippet}
                     </Speech>
                 </div>
@@ -1673,11 +1676,11 @@
                                         />{/if}
                                     {#if checkpoint > -1}
                                         <div class="editor-warning"
-                                            >{$locales.get(
-                                                (l) =>
+                                            ><LocalizedText
+                                                path={(l) =>
                                                     l.ui.checkpoints.label
-                                                        .restore,
-                                            )}
+                                                        .restore}
+                                            />
                                             <Button
                                                 background
                                                 tip={(l) =>

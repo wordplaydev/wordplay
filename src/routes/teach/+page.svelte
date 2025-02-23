@@ -39,9 +39,10 @@
             <MarkupHTMLView markup={(l) => l.ui.page.teach.prompt.some} />
         {/if}
         <Centered>
-            <Link to="/teach/class/new">
-                {$locales.get((l) => l.ui.page.teach.link.new)}
-            </Link>
+            <Link
+                to="/teach/class/new"
+                label={(l) => l.ui.page.teach.link.new}
+            />
         </Centered>
         {#each classes as group}
             {@render classDetails(group)}

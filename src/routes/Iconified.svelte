@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type LocaleText from '@locale/LocaleText';
     import { withMonoEmoji } from '../unicode/emoji';
 
@@ -12,4 +12,4 @@
 </script>
 
 {withMonoEmoji(icon)}
-{$locales.get(text)}
+<LocalizedText path={text} />

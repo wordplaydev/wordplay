@@ -14,6 +14,7 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
     import type { Snippet } from 'svelte';
     import { onMount } from 'svelte';
@@ -274,15 +275,19 @@
         <svelte:boundary>
             {#snippet failed(error, reset)}
                 <TileMessage error>
-                    <h2>{$locales.get((l) => l.ui.project.error.tile)}</h2>
+                    <h2
+                        ><LocalizedText
+                            path={(l) => l.ui.project.error.tile}
+                        /></h2
+                    >
                     <p
                         ><Button
                             tip={(l) => l.ui.project.error.reset}
                             action={reset}
                             background
-                            >{$locales.get(
-                                (l) => l.ui.project.error.reset,
-                            )}</Button
+                            ><LocalizedText
+                                path={(l) => l.ui.project.error.reset}
+                            /></Button
                         ></p
                     >
                     <Note>{'' + error}</Note>

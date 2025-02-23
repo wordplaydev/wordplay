@@ -2,6 +2,7 @@
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import { getConceptIndex } from '@components/project/Contexts';
     import Checkbox from '@components/widgets/Checkbox.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
@@ -253,7 +254,7 @@
             >
         {/if}
         <label for="formatted"
-            >{$locales.get((l) => l.ui.palette.labels.format)}</label
+            ><LocalizedText path={(l) => l.ui.palette.labels.format} /></label
         >
     {/snippet}
     {#snippet control()}
@@ -269,7 +270,9 @@
     <div class="aspects">
         <div class="aspect">
             <label for="font-weight"
-                >{$locales.get((l) => l.ui.palette.labels.weight)}</label
+                ><LocalizedText
+                    path={(l) => l.ui.palette.labels.weight}
+                /></label
             >
             <Options
                 value={weight}
@@ -299,7 +302,9 @@
         </div>
         <div class="aspect">
             <label for="font-italic"
-                >{$locales.get((l) => l.ui.palette.labels.italic)}</label
+                ><LocalizedText
+                    path={(l) => l.ui.palette.labels.italic}
+                /></label
             >
             <Checkbox
                 label={$locales.get((l) => l.ui.palette.labels.italic)}
@@ -310,7 +315,9 @@
         </div>
         <div class="aspect">
             <label for="text-underlined"
-                >{$locales.get((l) => l.ui.palette.labels.underline)}</label
+                ><LocalizedText
+                    path={(l) => l.ui.palette.labels.underline}
+                /></label
             >
             <Checkbox
                 label={$locales.get((l) => l.ui.palette.labels.underline)}

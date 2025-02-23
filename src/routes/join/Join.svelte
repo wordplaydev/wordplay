@@ -9,8 +9,8 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import isValidUsername from '@db/creators/isValidUsername';
-    import { locales } from '@db/Database';
     import { auth, functions } from '@db/firebase';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { createUserWithEmailAndPassword } from 'firebase/auth';
     import { usernameAccountExists } from '../../db/creators/accountExists';
     import getAuthErrorDescription from '../login/getAuthErrorDescription';
@@ -30,7 +30,7 @@
     let checkingUsername = $state(false);
 
     /** Feedback to show in the login form */
-    let feedback: string | undefined = $state(undefined);
+    let feedback: LocaleTextAccessor | undefined = $state(undefined);
 
     function createAccountFormComplete() {
         return (
@@ -59,7 +59,7 @@
                 // If successful, navigate to the login page to show the profile.
                 goto('/profile');
             } catch (error) {
-                feedback = getAuthErrorDescription($locales, error);
+                feedback = getAuthErrorDescription(error);
             } finally {
                 loading = false;
             }
@@ -67,7 +67,7 @@
     }
 </script>
 
-<Header>{$locales.get((l) => l.ui.page.join.header)}</Header>
+<Header text={(l) => l.ui.page.join.header} />
 
 <LoginForm submit={createAccount} {feedback}>
     <MarkupHTMLView markup={(l) => l.ui.page.join.prompt.create} />
@@ -147,8 +147,8 @@
                     isValidPassword(password) &&
                     password === password2}
                 action={() => undefined}
-                >{$locales.get((l) => l.ui.page.join.header)}</Button
-            >
+                label={(l) => l.ui.page.join.header}
+            />
         {/if}
     </p>
 </LoginForm>

@@ -130,7 +130,7 @@
 <Page>
     <div class="moderate">
         <div class="flags">
-            <Header>{$locales.get((l) => l.moderation.moderate.header)}</Header>
+            <Header text={(l) => l.moderation.moderate.header} />
             {#if lastBatch === null}
                 <Spinning />
             {:else if moderator === false}
@@ -183,18 +183,14 @@
                         background
                         tip={(l) => l.moderation.button.submit.tip}
                         action={save}
-                        >{$locales.get(
-                            (l) => l.moderation.button.submit.label,
-                        )}</Button
-                    >
+                        label={(l) => l.moderation.button.submit.label}
+                    />
                     <Button
                         background
                         tip={(l) => l.moderation.button.skip.tip}
                         action={skip}
-                        >{$locales.get(
-                            (l) => l.moderation.button.skip.label,
-                        )}</Button
-                    >
+                        label={(l) => l.moderation.button.skip.label}
+                    />
                 </div>
             {/if}
         </div>

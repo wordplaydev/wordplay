@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Text from '@components/widgets/Text.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
@@ -12,7 +12,7 @@
 </script>
 
 {#if placeholder !== undefined}<span class="placeholder"
-        ><Text path={placeholder}></Text></span
+        ><LocalizedText path={placeholder} /></span
     >{:else if text.length === 0}&ZeroWidthSpace;{:else}{rendered}{/if}
 
 <style>

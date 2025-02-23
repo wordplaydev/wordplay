@@ -6,7 +6,7 @@
 </script>
 
 <Writing>
-    <Header>{$locales.get((l) => l.ui.page.rights.header)}</Header>
+    <Header text={(l) => l.ui.page.rights.header} />
 
     <MarkupHTMLView markup={(l) => l.ui.page.rights.content} />
     <MarkupHTMLView

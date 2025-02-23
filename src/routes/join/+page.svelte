@@ -4,7 +4,6 @@
     import Feedback from '@components/app/Feedback.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
-    import { locales } from '@db/Database';
     import { auth } from '@db/firebase';
     import Join from './Join.svelte';
 
@@ -22,7 +21,6 @@
         <Join></Join>
     {:else}
         <!-- No connection? Give some feedback. -->
-        <Feedback>{$locales.get((l) => l.ui.page.login.error.offline)}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.login.error.offline} />
     {/if}
 </Writing>

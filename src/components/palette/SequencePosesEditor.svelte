@@ -1,4 +1,5 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import OutputExpression from '@edit/OutputExpression';
@@ -182,7 +183,11 @@
             {/if}
         {/each}
     {:else}
-        <Note>{$locales.get((l) => l.ui.palette.labels.notSequence)}</Note>
+        <Note
+            ><LocalizedText
+                path={(l) => l.ui.palette.labels.notSequence}
+            /></Note
+        >
     {/if}
 </div>
 

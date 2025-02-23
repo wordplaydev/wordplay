@@ -9,6 +9,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
@@ -149,7 +150,9 @@
         </div>
         <div class="what"
             >{#if msg.text === null}<em
-                    >{$locales.get((l) => l.ui.collaborate.error.deleted)}</em
+                    ><LocalizedText
+                        path={(l) => l.ui.collaborate.error.deleted}
+                    /></em
                 >{:else}<MarkupHTMLView markup={msg.text} />{/if}</div
         >
     </div>
@@ -157,7 +160,7 @@
 
 {#if owner === null}
     <TileMessage error>
-        <p>{$locales.get((l) => l.ui.collaborate.error.unowned)}</p>
+        <p><LocalizedText path={(l) => l.ui.collaborate.error.unowned} /></p>
     </TileMessage>
 {:else}
     <section
@@ -230,7 +233,11 @@
             <Loading></Loading>
         {:else if chat === false}
             <TileMessage error>
-                <p>{$locales.get((l) => l.ui.collaborate.error.offline)}</p>
+                <p
+                    ><LocalizedText
+                        path={(l) => l.ui.collaborate.error.offline}
+                    /></p
+                >
             </TileMessage>
         {:else if chat == undefined}
             <TileMessage>
@@ -239,9 +246,9 @@
                         tip={(l) => l.ui.collaborate.button.start.tip}
                         action={startChat}
                         background
-                        >{$locales.get(
-                            (l) => l.ui.collaborate.button.start.label,
-                        )}</Button
+                        ><LocalizedText
+                            path={(l) => l.ui.collaborate.button.start.label}
+                        /></Button
                     ></p
                 >
             </TileMessage>
@@ -252,9 +259,9 @@
                         {@render message(chat, msg)}
                     {:else}
                         <Note
-                            >{$locales.get(
-                                (l) => l.ui.collaborate.error.empty,
-                            )}</Note
+                            ><LocalizedText
+                                path={(l) => l.ui.collaborate.error.empty}
+                            /></Note
                         >
                     {/each}
                 </div>
@@ -277,20 +284,22 @@
                         active={chat !== undefined && newMessage.trim() !== ''}
                         tip={(l) => l.ui.collaborate.button.submit.tip}
                         action={submitMessage}
-                        >{$locales.get(
-                            (l) => l.ui.collaborate.button.submit.label,
-                        )}</Button
+                        ><LocalizedText
+                            path={(l) => l.ui.collaborate.button.submit.label}
+                        /></Button
                     >
                 </div>
                 <div class="formats"
-                    >/<em>{$locales.get((l) => l.token.Italic)}</em>/ *<strong
-                        >{$locales.get((l) => l.token.Bold)}</strong
+                    >/<em><LocalizedText path={(l) => l.token.Italic} /></em>/ *<strong
+                        ><LocalizedText path={(l) => l.token.Bold} /></strong
                     >* ^<span style="font-weight: bolder"
-                        >{$locales.get((l) => l.token.Extra)}</span
-                    >^ _&nbsp;<u>{$locales.get((l) => l.token.Underline)}</u
-                    >&nbsp;_ \<code>{$locales.get((l) => l.token.Code)}</code>\
-                    &lt;{$locales.get((l) => l.token.Link)}@<Link to="."
-                        >https://...</Link
+                        ><LocalizedText path={(l) => l.token.Extra} /></span
+                    >^ _&nbsp;<u
+                        ><LocalizedText path={(l) => l.token.Underline} /></u
+                    >&nbsp;_ \<code
+                        ><LocalizedText path={(l) => l.token.Code} /></code
+                    >\ &lt;<LocalizedText path={(l) => l.token.Link} />@<Link
+                        to=".">https://...</Link
                     >&gt;</div
                 >
             </form>

@@ -17,6 +17,7 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Slider from '@components/widgets/Slider.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
@@ -1085,15 +1086,19 @@
                     )
                     .join(', ')}
             {:else if mode === DrawingMode.Pixel}
-                {$locales.get((l) => l.ui.page.character.shape.pixel)}
+                <LocalizedText path={(l) => l.ui.page.character.shape.pixel} />
             {:else if mode === DrawingMode.Rect}
-                {$locales.get((l) => l.ui.page.character.shape.rect)}
+                <LocalizedText path={(l) => l.ui.page.character.shape.rect} />
             {:else if mode === DrawingMode.Ellipse}
-                {$locales.get((l) => l.ui.page.character.shape.ellipse)}
+                <LocalizedText
+                    path={(l) => l.ui.page.character.shape.ellipse}
+                />
             {:else if mode === DrawingMode.Path}
-                {$locales.get((l) => l.ui.page.character.shape.path)}
+                <LocalizedText path={(l) => l.ui.page.character.shape.path} />
             {:else}
-                {$locales.get((l) => l.ui.page.character.field.mode.modes[0])}…
+                <LocalizedText
+                    path={(l) => l.ui.page.character.field.mode.modes[0]}
+                />…
             {/if}
         </h2>
 
@@ -1247,7 +1252,11 @@
                 ></Slider>
             {/if}
             {#if mode !== DrawingMode.Pixel}
-                <h3>{$locales.get((l) => l.ui.page.character.shape.shape)}</h3>
+                <h3
+                    ><LocalizedText
+                        path={(l) => l.ui.page.character.shape.shape}
+                    /></h3
+                >
             {/if}
             <!-- Only rects and radii have a width and height -->
             {#if selection.every((s) => s.type === 'rect' || s.type === 'ellipse')}
@@ -1330,9 +1339,10 @@
                     active={selection.some((s) => s.type === 'path')}
                     icon="↔"
                 >
-                    {$locales.get(
-                        (l) => l.ui.page.character.button.horizontal.label,
-                    )}
+                    <LocalizedText
+                        path={(l) =>
+                            l.ui.page.character.button.horizontal.label}
+                    />
                 </Button>
                 <Button
                     tip={(l) => l.ui.page.character.button.vertical.tip}
@@ -1340,9 +1350,9 @@
                     active={selection.some((s) => s.type === 'path')}
                     icon="↕"
                 >
-                    {$locales.get(
-                        (l) => l.ui.page.character.button.vertical.label,
-                    )}
+                    <LocalizedText
+                        path={(l) => l.ui.page.character.button.vertical.label}
+                    />
                 </Button>
                 <label>
                     <Checkbox
@@ -1376,9 +1386,9 @@
                         label={$locales.get(
                             (l) => l.ui.page.character.field.closed,
                         )}
-                    ></Checkbox>{$locales.get(
-                        (l) => l.ui.page.character.field.closed,
-                    )}
+                    ></Checkbox><LocalizedText
+                        path={(l) => l.ui.page.character.field.closed}
+                    />
                 </label>
             {/if}
         {/if}
@@ -1412,81 +1422,64 @@
             action={() => undo()}
             active={historyIndex > 0}
             icon={UNDO_SYMBOL}
-        >
-            {$locales.get((l) => l.ui.page.character.button.undo.label)}
-        </Button>
+            label={(l) => l.ui.page.character.button.undo.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.redo.tip}
             action={() => redo()}
             active={historyIndex < history.length - 1}
             icon={REDO_SYMBOL}
-        >
-            {$locales.get((l) => l.ui.page.character.button.redo.label)}
-        </Button>
+            label={(l) => l.ui.page.character.button.redo.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.all.tip}
             action={() => selectAll()}
             active={shapes.length > 0}
             icon={ALL_SYMBOL}
-        >
-            {$locales.get((l) => l.ui.page.character.button.all.label)}
-        </Button>
+            label={(l) => l.ui.page.character.button.all.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.toBack.tip}
             action={() => arrange('toBack')}
             active={selection.length > 0 && shapes.length > 1}
             icon="⇡"
-        >
-            {$locales.get(
-                (l) => l.ui.page.character.button.toBack.label,
-            )}</Button
-        >
+            label={(l) => l.ui.page.character.button.toBack.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.back.tip}
             action={() => arrange('back')}
             active={selection.length > 0 && shapes.length > 1}
             icon={SHARE_SYMBOL}
-        >
-            {$locales.get((l) => l.ui.page.character.button.back.label)}</Button
-        >
+            label={(l) => l.ui.page.character.button.back.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.forward.tip}
             action={() => arrange('forward')}
             active={selection.length > 0 && shapes.length > 1}
             icon={BORROW_SYMBOL}
-        >
-            {$locales.get(
-                (l) => l.ui.page.character.button.forward.label,
-            )}</Button
-        >
+            label={(l) => l.ui.page.character.button.forward.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.toFront.tip}
             action={() => arrange('toFront')}
             active={selection.length > 0 && shapes.length > 1}
             icon="⇡"
-        >
-            {$locales.get(
-                (l) => l.ui.page.character.button.toFront.label,
-            )}</Button
-        >
+            label={(l) => l.ui.page.character.button.toFront.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.copy.tip}
             action={copyShapes}
             active={selection.length > 0}
             icon={COPY_SYMBOL}
-        >
-            {$locales.get((l) => l.ui.page.character.button.copy.label)}</Button
-        >
+            label={(l) => l.ui.page.character.button.copy.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.paste.tip}
             action={pasteShapes}
             active={copy !== undefined}
             icon={PASTE_SYMBOL}
-        >
-            {$locales.get(
-                (l) => l.ui.page.character.button.paste.label,
-            )}</Button
-        >
+            label={(l) => l.ui.page.character.button.paste.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.clearPixels.tip}
             action={() => {
@@ -1494,11 +1487,8 @@
             }}
             active={shapes.some((s) => s.type === 'pixel')}
             icon={ERASE_SYMBOL}
-        >
-            {$locales.get(
-                (l) => l.ui.page.character.button.clearPixels.label,
-            )}</Button
-        >
+            label={(l) => l.ui.page.character.button.clearPixels.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.clear.tip}
             action={() => {
@@ -1506,11 +1496,8 @@
             }}
             active={shapes.length > 0}
             icon={ERASE_SYMBOL}
-        >
-            {$locales.get(
-                (l) => l.ui.page.character.button.clear.label,
-            )}</Button
-        >
+            label={(l) => l.ui.page.character.button.clear.label}
+        />
     </div>
 
     <style>
@@ -1527,31 +1514,19 @@
 <Page>
     <section>
         <div class="header">
-            <Header block={false}
-                >{$locales.get((l) => l.ui.page.character.header)}</Header
-            >
-            <p>{$locales.get((l) => l.ui.page.character.prompt)}</p>
+            <Header block={false} text={(l) => l.ui.page.character.header} />
+            <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
         </div>
         {#if $user === null}
             <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.character.feedback.unauthenticated,
-                )}</Feedback
-            >
+                text={(l) => l.ui.page.character.feedback.unauthenticated}
+            />
         {:else if persisted === 'loading'}
             <Spinning></Spinning>
         {:else if persisted === 'failed'}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.character.feedback.loadfail,
-                )}</Feedback
-            >
+            <Feedback text={(l) => l.ui.page.character.feedback.loadfail} />
         {:else if persisted === 'unknown'}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.character.feedback.notfound,
-                )}</Feedback
-            >
+            <Feedback text={(l) => l.ui.page.character.feedback.notfound} />
         {:else}
             <div class="meta">
                 <div class="preview">
@@ -1642,9 +1617,9 @@
                         prompt={(l) => l.ui.page.character.share.delete.tip}
                         enabled={editedCharacter !== null}
                         >{CANCEL_SYMBOL}
-                        {$locales.get(
-                            (l) => l.ui.page.character.share.delete.label,
-                        )}</ConfirmButton
+                        <LocalizedText
+                            path={(l) => l.ui.page.character.share.delete.label}
+                        /></ConfirmButton
                     >
                 {/if}
                 <TextBox
@@ -1658,17 +1633,9 @@
                 ></TextBox>
             </div>
             {#if !nameAvailable}
-                <Feedback
-                    >{$locales.get(
-                        (l) => l.ui.page.character.feedback.taken,
-                    )}</Feedback
-                >
+                <Feedback text={(l) => l.ui.page.character.feedback.taken} />
             {:else if !savable}
-                <Feedback
-                    >{$locales.get(
-                        (l) => l.ui.page.character.feedback.unsaved,
-                    )}</Feedback
-                >
+                <Feedback text={(l) => l.ui.page.character.feedback.unsaved} />
             {/if}
 
             <div class="editor">
@@ -1723,16 +1690,13 @@
                                     action={endPath}
                                     active={pendingPath !== undefined}
                                     icon="🛑"
-                                >
-                                    {$locales.get(
-                                        (l) =>
-                                            l.ui.page.character.button.end
-                                                .label,
-                                    )}</Button
-                                >
-                                {$locales.get(
-                                    (l) => l.ui.page.character.feedback.end,
-                                )}</Feedback
+                                    label={(l) =>
+                                        l.ui.page.character.button.end.label}
+                                />
+                                <LocalizedText
+                                    path={(l) =>
+                                        l.ui.page.character.feedback.end}
+                                /></Feedback
                             >
                         </div>
                     {/if}

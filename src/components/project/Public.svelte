@@ -20,9 +20,7 @@
     let { isPublic, set, flags = undefined }: Props = $props();
 </script>
 
-<Subheader
-    >{$locales.get((l) => l.ui.dialog.share.subheader.public.header)}</Subheader
->
+<Subheader text={(l) => l.ui.dialog.share.subheader.public.header} />
 <MarkupHTMLView
     markup={(l) => l.ui.dialog.share.subheader.public.explanation}
 />

@@ -8,10 +8,13 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { withMonoEmoji } from '../../unicode/emoji';
     import Spinning from '../app/Spinning.svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
         tip: LocaleTextAccessor | (() => string);
+        /** Optional label; if children provided, they override */
+        label?: LocaleTextAccessor;
         /** What to do when pressed */
         action: Action;
         /** Whether the button should be clickable */
@@ -43,6 +46,7 @@
 
     let {
         tip,
+        label,
         action,
         active = true,
         stretch = false,
@@ -124,7 +128,9 @@
                   ? doAction(event)
                   : undefined}
     >{#if loading}<Spinning />{:else}{#if icon}{withMonoEmoji(icon)}{/if}
-        {@render children?.()}{/if}
+        {#if children}{@render children()}{:else if label}<LocalizedText
+                path={label}
+            />{/if}{/if}
 </button>
 
 <style>

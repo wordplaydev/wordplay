@@ -174,7 +174,7 @@
     />
     <span class="measurer" bind:clientWidth={width}
         >{text.length === 0
-            ? placeholder
+            ? placeholderText
             : kind === 'password'
               ? '•'.repeat(text.length)
               : text.replaceAll(' ', '\xa0')}</span

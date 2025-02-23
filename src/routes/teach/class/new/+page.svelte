@@ -18,6 +18,7 @@
     import Button from '@components/widgets/Button.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { usernameAccountExists } from '@db/creators/accountExists';
     import { Creator } from '@db/creators/CreatorDatabase';
@@ -206,15 +207,11 @@
     <Link to="/teach"
         >{PREVIOUS_SYMBOL} {$locales.get((l) => l.ui.page.teach.header)}</Link
     >
-    <Header>{$locales.get((l) => l.ui.page.newclass.header)}</Header>
+    <Header text={(l) => l.ui.page.newclass.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.newclass.prompt.start} />
 
     <div class="page">
-        <Subheader
-            >{$locales.get(
-                (l) => l.ui.page.newclass.subheader.class,
-            )}</Subheader
-        >
+        <Subheader text={(l) => l.ui.page.newclass.subheader.class} />
         <LabeledTextbox
             id="class-name"
             fixed={FieldLabelWidth}
@@ -235,12 +232,7 @@
             bind:text={description}
         ></LabeledTextbox>
 
-        <Subheader
-            >{$locales.get(
-                (l) => l.ui.page.newclass.subheader.students,
-            )}</Subheader
-        >
-
+        <Subheader text={(l) => l.ui.page.newclass.subheader.students} />
         <MarkupHTMLView markup={(l) => l.ui.page.newclass.field.existing.prompt}
         ></MarkupHTMLView>
 
@@ -276,9 +268,7 @@
         ></LabeledTextbox>
 
         {#if metadataProblem !== undefined}
-            <Feedback>
-                {$locales.get((l) => l.ui.page.newclass.error[metadataProblem])}
-            </Feedback>
+            <Feedback text={(l) => l.ui.page.newclass.error[metadataProblem]} />
         {/if}
 
         <!-- Only need secret words if there are students to add -->
@@ -297,16 +287,10 @@
             ></LabeledTextbox>
 
             {#if wordsProblem}
-                <Feedback>
-                    {$locales.get((l) => l.ui.page.newclass.error.words)}
-                </Feedback>
+                <Feedback text={(l) => l.ui.page.newclass.error.words} />
             {/if}
 
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.newclass.subheader.credentials,
-                )}</Subheader
-            >
+            <Subheader text={(l) => l.ui.page.newclass.subheader.credentials} />
             {#if generatedStudents === undefined}
                 <MarkupHTMLView
                     markup={(l) => l.ui.page.newclass.prompt.ready}
@@ -318,17 +302,12 @@
                         tip={(l) => l.ui.page.newclass.field.generate.tip}
                         action={generateCredentials}
                         active={metadataProblem === undefined && !wordsProblem}
-                    >
-                        {$locales.get(
-                            (l) => l.ui.page.newclass.field.generate.label,
-                        )}</Button
-                    >
+                        label={(l) => l.ui.page.newclass.field.generate.label}
+                    />
                 </Centered>
 
                 {#if generateProblem}
-                    <Feedback>
-                        {$locales.get((l) => l.ui.page.newclass.error.generate)}
-                    </Feedback>
+                    <Feedback text={(l) => l.ui.page.newclass.error.generate} />
                 {/if}
             {:else}
                 <MarkupHTMLView
@@ -349,11 +328,8 @@
                         active={generatedStudents !== undefined &&
                             generatedStudents.length > 0 &&
                             !editing}
-                    >
-                        {$locales.get(
-                            (l) => l.ui.page.newclass.field.edit.label,
-                        )}</Button
-                    >
+                        label={(l) => l.ui.page.newclass.field.edit.label}
+                    />
                 </Centered>
 
                 {@const taken = finalStudents
@@ -361,7 +337,9 @@
                     .map((s) => s.username)}
                 {#if taken !== undefined && taken.length > 0}
                     <Feedback
-                        >{$locales.get((l) => l.ui.page.newclass.error.taken)}:
+                        ><LocalizedText
+                            path={(l) => l.ui.page.newclass.error.taken}
+                        />:
                         <em>{taken.join(', ')}</em></Feedback
                     >
                 {/if}
@@ -374,18 +352,18 @@
                                     <td></td>
                                 {/each}
                                 <th
-                                    >{$locales.get(
-                                        (l) =>
+                                    ><LocalizedText
+                                        path={(l) =>
                                             l.ui.page.login.field.username
-                                                .placeholder,
-                                    )}</th
+                                                .placeholder}
+                                    /></th
                                 >
                                 <th
-                                    >{$locales.get(
-                                        (l) =>
+                                    ><LocalizedText
+                                        path={(l) =>
                                             l.ui.page.login.field.password
-                                                .placeholder,
-                                    )}</th
+                                                .placeholder}
+                                    /></th
                                 >
                             </tr>
                         </thead>
@@ -507,12 +485,7 @@
             {/if}
         {/if}
 
-        <Subheader
-            >{$locales.get(
-                (l) => l.ui.page.newclass.subheader.submit,
-            )}</Subheader
-        >
-
+        <Subheader text={(l) => l.ui.page.newclass.subheader.submit} />
         <MarkupHTMLView markup={(l) => l.ui.page.newclass.prompt.submit} />
 
         <Centered>
@@ -532,18 +505,15 @@
                             !usernamesTaken.includes(s.username) &&
                             s.password.length >= PasswordLength,
                     )}
-            >
-                {$locales.get(
-                    (l) => l.ui.page.newclass.field.submit.label,
-                )}</Button
-            >
+                label={(l) => l.ui.page.newclass.field.submit.label}
+            />
         </Centered>
 
         {#if createError}
             <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.newclass.error[createError!.kind],
-                )}: {createError.info}</Feedback
+                ><LocalizedText
+                    path={(l) => l.ui.page.newclass.error[createError!.kind]}
+                />: {createError.info}</Feedback
             >
         {/if}
         {#if download === true}

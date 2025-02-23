@@ -1,4 +1,5 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import type OutputExpression from '@edit/OutputExpression';
@@ -83,7 +84,7 @@
     {#if !sequence && editable}
         <Button tip={(l) => l.ui.palette.button.sequence} action={convert}
             >{project.shares.output.Sequence.getNames()[0]}
-            {$locales.get((l) => l.ui.palette.button.sequence)}</Button
+            <LocalizedText path={(l) => l.ui.palette.button.sequence} /></Button
         >
     {/if}
 </div>

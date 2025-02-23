@@ -1,10 +1,11 @@
 <script lang="ts">
     import Feedback from '@components/app/Feedback.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
-    import { locales } from '@db/Database';
     import { auth } from '@db/firebase';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { FirebaseError } from 'firebase/app';
     import {
         signInWithEmailAndPassword,
@@ -24,7 +25,7 @@
     let password1 = $state('');
     let password2 = $state('');
     let submitted = $state(false);
-    let feedback: string | undefined = $state(undefined);
+    let feedback: LocaleTextAccessor | undefined = $state(undefined);
     let reveal = $state(false);
 
     async function update() {
@@ -41,25 +42,23 @@
                     await updatePassword(user, password2);
                 } catch (error) {
                     if (error instanceof FirebaseError) {
-                        feedback = getLoginErrorDescription($locales, error);
+                        feedback = getLoginErrorDescription(error);
                     }
                 } finally {
                     submitted = false;
-                    feedback = $locales.get(
-                        (l) => l.ui.page.login.feedback.updatedPassword,
-                    );
+                    feedback = (l) => l.ui.page.login.feedback.updatedPassword;
                     currentpassword = '';
                     password1 = '';
                     password2 = '';
                 }
             }
         } catch (error) {
-            feedback = $locales.get((l) => l.ui.page.login.error.wrongPassword);
+            feedback = (l) => l.ui.page.login.error.wrongPassword;
         }
     }
 </script>
 
-<p>{$locales.get((l) => l.ui.page.login.prompt.changePassword)}</p>
+<p><LocalizedText path={(l) => l.ui.page.login.prompt.changePassword} /></p>
 
 <form onsubmit={update}>
     <TextField
@@ -113,13 +112,9 @@
         action={() => undefined}>&gt;</Button
     >
     {#if password2.length > 0 && !isValidPassword(password2)}
-        <Feedback
-            >{$locales.get(
-                (l) => l.ui.page.login.prompt.passwordrule,
-            )}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.login.prompt.passwordrule} />
     {:else if feedback}
-        <Feedback>{feedback}</Feedback>
+        <Feedback text={feedback} />
     {/if}
 </form>
 

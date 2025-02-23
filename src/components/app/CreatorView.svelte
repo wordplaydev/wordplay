@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Text from '@components/widgets/Text.svelte';
+    import Text from '@components/widgets/LocalizedText.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { withColorEmoji } from '../../unicode/emoji';
     import Feedback from './Feedback.svelte';

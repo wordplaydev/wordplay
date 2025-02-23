@@ -125,9 +125,7 @@
 
 <section class="guide">
     <div class="header">
-        <Header block={false}
-            >{$locales.get((l) => l.ui.page.guide.header)}</Header
-        >
+        <Header block={false} text={(l) => l.ui.page.guide.header} />
         <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>
 

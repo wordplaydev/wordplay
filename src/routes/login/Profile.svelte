@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import Action from '@components/app/Action.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
     import Link from '../../components/app/Link.svelte';
@@ -8,7 +9,7 @@
     import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
     import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
     import { Creator } from '../../db/creators/CreatorDatabase';
-    import { locales, SaveStatus, status } from '../../db/Database';
+    import { SaveStatus, status } from '../../db/Database';
     import { auth } from '../../db/firebase';
     import { isModerator } from '../../db/projects/Moderation';
     import ChangeEmail from './ChangeEmail.svelte';
@@ -53,20 +54,12 @@
 
 <div class="actions">
     <Action>
-        <p>{$locales.get((l) => l.ui.page.login.prompt.play)}</p>
-        <p
-            ><Link to="/projects"
-                >{$locales.get((l) => l.ui.page.projects.header)}</Link
-            ></p
-        >
-        <p
-            ><Link to="/teach"
-                >{$locales.get((l) => l.ui.page.teach.header)}</Link
-            ></p
-        >
+        <p><LocalizedText path={(l) => l.ui.page.login.prompt.play} /></p>
+        <p><Link to="/projects" label={(l) => l.ui.page.projects.header} /></p>
+        <p><Link to="/teach" label={(l) => l.ui.page.teach.header} /></p>
     </Action>
     <Action>
-        <p>{$locales.get((l) => l.ui.page.login.prompt.name)}</p>
+        <p><LocalizedText path={(l) => l.ui.page.login.prompt.name} /></p>
         <EmojiChooser
             pick={(name) => rename(name)}
             emoji={user.displayName ?? ''}
@@ -81,11 +74,9 @@
                 action={logout}
                 enabled={$status.status === SaveStatus.Saved}
                 prompt={(l) => l.ui.page.login.button.logout.label}
-                >{$locales.get(
-                    (l) => l.ui.page.login.button.logout.label,
-                )}…</ConfirmButton
-            ></p
-        >
+                label={(l) => l.ui.page.login.button.logout.label}
+            />
+        </p>
     </Action>
     {#if !creator.isUsername()}
         <Action>

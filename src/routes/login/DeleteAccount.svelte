@@ -3,9 +3,11 @@
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { DB, locales } from '@db/Database';
+    import { DB } from '@db/Database';
     import { auth } from '@db/firebase';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
     import TextField from '../../components/widgets/TextField.svelte';
     import {
@@ -27,7 +29,7 @@
     let password = $state('');
     let deleteSubmitted = $state(false);
     let successfullyDeleted: boolean | undefined = $state(undefined);
-    let deleteFeedback: string | undefined = $state(undefined);
+    let deleteFeedback: LocaleTextAccessor | undefined = $state(undefined);
 
     async function deleteAccount() {
         if (auth === undefined) return;
@@ -41,9 +43,7 @@
             await signInWithEmailAndPassword(auth, email, password);
             successfullyDeleted = await DB.deleteAccount();
         } catch (error) {
-            deleteFeedback = $locales.get(
-                (l) => l.ui.page.login.error.wrongPassword,
-            );
+            deleteFeedback = (l) => l.ui.page.login.error.wrongPassword;
         }
         deleteSubmitted = false;
     }
@@ -61,19 +61,19 @@
 </script>
 
 {#if !deleteSubmitted}
-    <p>{$locales.get((l) => l.ui.page.login.prompt.delete)}</p>
+    <p><LocalizedText path={(l) => l.ui.page.login.prompt.delete} /></p>
     <p
         ><Button
             background
             tip={(l) => l.ui.page.login.button.delete.tip}
             action={() => (deleteRequested = !deleteRequested)}
             active={!deleteRequested}
-            >{$locales.get((l) => l.ui.page.login.button.delete.label)}</Button
-        >
+            label={(l) => l.ui.page.login.button.delete.label}
+        />
     </p>
     {#if deleteRequested}
         <p aria-live="assertive">
-            {$locales.get((l) => l.ui.page.login.prompt.reallyDelete)}
+            <LocalizedText path={(l) => l.ui.page.login.prompt.reallyDelete} />
         </p>
 
         <form
@@ -112,10 +112,8 @@
                 tip={(l) => l.ui.page.login.button.reallyDelete.tip}
                 active={readyToDeleteAccount(confirmEmail, password)}
                 action={deleteAccount}
-                >{$locales.get(
-                    (l) => l.ui.page.login.button.reallyDelete.label,
-                )}</Button
-            >
+                label={(l) => l.ui.page.login.button.reallyDelete.label}
+            />
             {#if confirmEmail?.length >= 5 && !readyToDeleteAccount(confirmEmail, password)}
                 <Feedback inline
                     ><MarkupHTMLView
@@ -127,16 +125,16 @@
         </form>
     {/if}
 {:else if successfullyDeleted === undefined}
-    <p>{$locales.get((l) => l.ui.page.login.feedback.deleting)}</p>
+    <p><LocalizedText path={(l) => l.ui.page.login.feedback.deleting} /></p>
     <p><Spinning label={(l) => l.ui.page.login.feedback.deleting} /></p
     >{:else if successfullyDeleted === false}
     <p aria-live="assertive"
-        >{$locales.get((l) => l.ui.page.login.error.delete)}</p
+        ><LocalizedText path={(l) => l.ui.page.login.error.delete} /></p
     >
 {/if}
 
 {#if deleteFeedback}
-    <Feedback>{deleteFeedback}</Feedback>
+    <Feedback text={deleteFeedback} />
 {/if}
 
 <style>

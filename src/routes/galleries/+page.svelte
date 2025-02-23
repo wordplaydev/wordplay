@@ -80,7 +80,7 @@
 </svelte:head>
 
 <Writing>
-    <Header>{$locales.get((l) => l.ui.page.galleries.header)}</Header>
+    <Header text={(l) => l.ui.page.galleries.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.galleries.prompt} />
 
     {#if galleries === undefined}
@@ -100,10 +100,8 @@
             background
             tip={(l) => l.ui.page.galleries.button.more.tip}
             action={nextBatch}
-            >{$locales.get(
-                (l) => l.ui.page.galleries.button.more.label,
-            )}</Button
-        >
+            label={(l) => l.ui.page.galleries.button.more.label}
+        />
     {/if}
 </Writing>
 

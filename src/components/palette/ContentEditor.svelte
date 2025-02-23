@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { blocks, DB, locales } from '@db/Database';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { blocks, DB } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Evaluate from '@nodes/Evaluate';
     import type ListLiteral from '../../nodes/ListLiteral';
@@ -139,7 +140,8 @@
             ></div
         >
     {:else}
-        <Note>{$locales.get((l) => l.ui.palette.labels.computed)}</Note>
+        <Note><LocalizedText path={(l) => l.ui.palette.labels.computed} /></Note
+        >
     {/if}
 </div>
 

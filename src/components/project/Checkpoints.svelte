@@ -9,6 +9,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { docToMarkup } from '@locale/LocaleText';
@@ -59,7 +60,7 @@
 
 <section class="checkpoints">
     {withMonoEmoji('🕐')}
-    {$locales.get((l) => l.ui.checkpoints.label.history)}
+    <LocalizedText path={(l) => l.ui.checkpoints.label.history} />
     <Button
         tip={(l) => l.ui.checkpoints.button.checkpoint}
         action={() => {
@@ -109,7 +110,7 @@
         ></Button>
         <span class="checkpoint">
             {#if checkpoint === -1}
-                {$locales.get((l) => l.ui.checkpoints.label.now)}
+                <LocalizedText path={(l) => l.ui.checkpoints.label.now} />
                 <span class="time"> / {history.length}</span>
             {:else}
                 {@const duration = getDelta(history[checkpoint].time)}
