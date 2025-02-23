@@ -1,9 +1,9 @@
+import type LocaleText from '@locale/LocaleText';
 import BooleanType from '@nodes/BooleanType';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { FALSE_SYMBOL, NOT_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import type Expression from '../nodes/Expression';
 import type Value from '../values/Value';
 import FunctionException from './FunctionException';
@@ -58,8 +58,8 @@ export default class BoolValue extends SimpleValue {
         return val instanceof BoolValue && this.bool === val.bool;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.boolean);
+    getDescription() {
+        return (l: LocaleText) => l.term.boolean;
     }
 
     getRepresentativeText() {

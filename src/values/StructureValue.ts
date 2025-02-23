@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Names from '@nodes/Names';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
@@ -169,8 +170,8 @@ export default class StructureValue extends Value {
         }${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.structure);
+    getDescription() {
+        return (l: LocaleText) => l.term.structure;
     }
 
     /**

@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NumberType from '@nodes/NumberType';
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
@@ -6,7 +7,6 @@ import BoolValue from '@values/BoolValue';
 import NoneValue from '@values/NoneValue';
 import Decimal from 'decimal.js';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import type Expression from '../nodes/Expression';
 import type Value from '../values/Value';
 import SimpleValue from './SimpleValue';
@@ -264,8 +264,8 @@ export default class NumberValue extends SimpleValue {
         }${this.unit.toString()}`;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.number);
+    getDescription() {
+        return (l: LocaleText) => l.term.number;
     }
 
     getRepresentativeText() {

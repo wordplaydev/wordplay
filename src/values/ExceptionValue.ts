@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import ExceptionType from '@nodes/ExceptionType';
 import type Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
@@ -34,8 +35,8 @@ export default abstract class ExceptionValue extends SimpleValue {
 
     abstract getExceptionText(locales: Locales): ExceptionText;
 
-    getDescription(locales: Locales) {
-        return locales.concretize(this.getExceptionText(locales).description);
+    getDescription() {
+        return (l: LocaleText) => l.term.exception;
     }
 
     abstract getExplanation(locales: Locales): Markup;

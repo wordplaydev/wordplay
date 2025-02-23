@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import { STREAM_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -39,8 +40,8 @@ export default class StreamDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.function);
+    getDescription() {
+        return (l: LocaleText) => l.node.StructureDefinition.name;
     }
 
     getRepresentativeText(locales: Locales) {

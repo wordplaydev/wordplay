@@ -1,7 +1,7 @@
+import type LocaleText from '@locale/LocaleText';
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import type FormattedLiteral from '../nodes/FormattedLiteral';
 import FormattedType from '../nodes/FormattedType';
 import type Markup from '../nodes/Markup';
@@ -31,8 +31,8 @@ export default class MarkupValue extends SimpleValue {
         );
     }
 
-    getDescription(locales: Locales): Markup {
-        return locales.concretize((l) => l.node.Markup.name);
+    getDescription() {
+        return (l: LocaleText) => l.node.Markup.name;
     }
 
     getRepresentativeText() {

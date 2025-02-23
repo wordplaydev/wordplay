@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type LocaleText from '@locale/LocaleText';
 import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import type { StepNumber } from '@runtime/Evaluator';
@@ -48,12 +49,8 @@ export default abstract class StreamValue<
         this.add(initalValue, initialRaw);
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize(
-            this.definition.docs
-                ?.getPreferredLocale(locales)
-                ?.getFirstParagraph() ?? locales.get((l) => l.term.stream),
-        );
+    getDescription() {
+        return (l: LocaleText) => l.term.stream;
     }
 
     isEqualTo(value: Value): boolean {

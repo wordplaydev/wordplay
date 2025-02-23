@@ -10,4 +10,4 @@
     let { path }: Props = $props();
 </script>
 
-<span>{$locales.get(path)}</span>
+<span class="localized">{$locales.get(path)}</span>

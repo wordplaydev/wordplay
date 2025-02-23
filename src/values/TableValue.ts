@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type ExceptionValue from '@values/ExceptionValue';
@@ -56,8 +57,8 @@ export default class TableValue extends SimpleValue {
         return text.trim();
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.table);
+    getDescription() {
+        return (l: LocaleText) => l.term.table;
     }
 
     getRepresentativeText() {

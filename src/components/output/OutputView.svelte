@@ -1,7 +1,9 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
+    import concretize from '@locale/concretize';
     import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
@@ -158,7 +160,10 @@
                     $locales.getLanguages()[0],
                     exception
                         ? exception.getExplanation($locales).toText()
-                        : value.getDescription($locales).toText(),
+                        : concretize(
+                              $locales,
+                              $locales.get(value.getDescription()),
+                          ).toText(),
                 ),
             );
         }
@@ -970,10 +975,7 @@
                 {#if mini}
                     <ValueView {value} interactive={false} />
                 {:else}
-                    {@const description = value
-                        .getDescription($locales)
-                        .toText()}
-                    <h2>{description}</h2>
+                    <h2><LocalizedText path={value.getDescription()} /></h2>
                     <ValueView {value} inline={false} />
                 {/if}
             </div>
