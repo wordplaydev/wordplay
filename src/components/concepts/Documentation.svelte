@@ -211,7 +211,7 @@
         fill
     />
     <Mode
-        descriptions={$locales.get((l) => l.ui.docs.modes)}
+        descriptions={(l) => l.ui.docs.modes}
         choice={mode === 'how' ? 0 : 1}
         select={(choice) => {
             const newMode = choice === 0 ? 'how' : 'language';

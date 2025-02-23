@@ -95,9 +95,7 @@
                 ></Options>
             </label>
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.layout,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.layout}
                 choice={$arrangement === Arrangement.Responsive
                     ? 0
                     : $arrangement === Arrangement.Horizontal
@@ -118,9 +116,7 @@
                 modes={['📐', '↔️', '↕', '⏹️']}
             />
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.animate,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.animate}
                 choice={$animationFactor}
                 select={(choice) => Settings.setAnimationFactor(choice)}
                 modes={AnimationFactorIcons}
@@ -147,7 +143,6 @@
                                     (camera) => camera.label === choice,
                                 )?.deviceId ?? null,
                             )}
-                        width="4em"
                     />
                 </label>
                 <label for="mic-setting">
@@ -170,14 +165,11 @@
                                 mics.find((mic) => mic.label === choice)
                                     ?.deviceId ?? null,
                             )}
-                        width="4em"
                     />
                 </label>
             {/if}
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.dark,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.dark}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
                     Settings.setDark(
@@ -187,18 +179,14 @@
             />
 
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.space,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.space}
                 choice={$spaceIndicator ? 1 : 0}
                 select={(choice) =>
                     Settings.setSpace(choice === 1 ? true : false)}
                 modes={['✗', '✓']}
             />
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.lines,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.lines}
                 choice={$showLines ? 1 : 0}
                 select={(choice) =>
                     Settings.setLines(choice === 1 ? true : false)}
@@ -227,5 +215,8 @@
     label {
         white-space: nowrap;
         font-style: italic;
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
     }
 </style>

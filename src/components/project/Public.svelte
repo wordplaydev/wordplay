@@ -62,7 +62,7 @@
 {/if}
 
 <Mode
-    descriptions={$locales.get((l) => l.ui.dialog.share.mode.public)}
+    descriptions={(l) => l.ui.dialog.share.mode.public}
     choice={isPublic ? 1 : 0}
     select={set}
     modes={[

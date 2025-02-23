@@ -1556,11 +1556,8 @@
                                         ></Toggle
                                     >
                                     <Mode
-                                        descriptions={$locales.get(
-                                            (l) =>
-                                                l.ui.dialog.settings.mode
-                                                    .animate,
-                                        )}
+                                        descriptions={(l) =>
+                                            l.ui.dialog.settings.mode.animate}
                                         choice={$animationFactor}
                                         select={(choice) =>
                                             Settings.setAnimationFactor(choice)}

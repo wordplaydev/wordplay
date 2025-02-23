@@ -27,6 +27,7 @@
     import { CharactersDB, locales } from '@db/Database';
     import Locales from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
+    import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
     import Sym from '@nodes/Sym';
     import { toProgram } from '@parser/parseProgram';
@@ -954,13 +955,13 @@
     color: LCH,
     /** Whether no fill is allowed */
     none: boolean,
-    accessor: (locale: LocaleText) => any,
+    accessor: (locale: LocaleText) => ModeText<string[]>,
     setState: (state: ColorSetting) => void,
     setColor: (color: LCH) => void,
 )}
     <h3>{locales.get(accessor).label}</h3>
     <Mode
-        descriptions={locales.get(accessor)}
+        descriptions={accessor}
         modes={[
             '🎨',
             locales.get((l) => l.ui.page.character.field.inherit),
@@ -1067,7 +1068,7 @@
     <div class="palette">
         <h2>{$locales.get((l) => l.ui.page.character.field.mode).label}</h2>
         <Mode
-            descriptions={$locales.get((l) => l.ui.page.character.field.mode)}
+            descriptions={(l) => l.ui.page.character.field.mode}
             modes={['👆', '■', '🔲', '⚪️', '╱']}
             choice={mode}
             select={(choice: number) => {
@@ -1563,9 +1564,7 @@
                     }}
                 >
                     <Mode
-                        descriptions={$locales.get(
-                            (l) => l.ui.page.character.share.public,
-                        )}
+                        descriptions={(l) => l.ui.page.character.share.public}
                         choice={isPublic ? 0 : 1}
                         select={(mode) => (isPublic = mode === 0)}
                         modes={[

@@ -36,7 +36,7 @@
         label,
         options,
         change,
-        width = '10em',
+        width = 'auto',
         id = undefined,
         editable = true,
         code = false,
