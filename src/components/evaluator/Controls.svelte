@@ -1,6 +1,5 @@
 <script lang="ts">
     import type Evaluator from '@runtime/Evaluator';
-    import { locales } from '../../db/Database';
     import {
         Pause,
         Play,
@@ -32,8 +31,8 @@
 <Switch
     on={$evaluation?.playing === true}
     toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
-    offTip={$locales.get(Pause.description)}
-    onTip={$locales.get(Play.description)}
+    offTip={Pause.description}
+    onTip={Play.description}
     offLabel={Pause.symbol}
     onLabel={Play.symbol}
     uiid="playToggle"

@@ -1572,14 +1572,11 @@
                                         ></CopyButton>{/if}
                                     <Switch
                                         onLabel={withMonoEmoji('🖱️')}
-                                        onTip={$locales.get(
-                                            (l) =>
-                                                l.ui.source.toggle.blocks.off,
-                                        )}
+                                        onTip={(l) =>
+                                            l.ui.source.toggle.blocks.off}
                                         offLabel={withMonoEmoji('⌨️')}
-                                        offTip={$locales.get(
-                                            (l) => l.ui.source.toggle.blocks.on,
-                                        )}
+                                        offTip={(l) =>
+                                            l.ui.source.toggle.blocks.on}
                                         toggle={toggleBlocks}
                                         on={$blocks}
                                     />
