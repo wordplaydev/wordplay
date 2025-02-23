@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { type Snippet } from 'svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
     const {
         label,
@@ -21,7 +22,7 @@
         class="label"
         class:column
         class:fixed={fixed !== ''}
-        style:min-width={fixed}>{label}</span
+        style:min-width={fixed}><LocalizedText path={label} /></span
     >
     {@render children()}
 </label>
