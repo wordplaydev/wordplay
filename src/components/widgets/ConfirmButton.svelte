@@ -2,6 +2,7 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Button, { type Action } from './Button.svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         tip: LocaleTextAccessor;
@@ -36,7 +37,9 @@
         action={() => (confirming = !confirming)}
         active={enabled}
         {label}
-        >{#if confirming}{CANCEL_SYMBOL}{:else}{@render children?.()}{/if}</Button
+        >{#if confirming}{CANCEL_SYMBOL}{:else if children}{@render children()}{:else if label}<LocalizedText
+                path={label}
+            />{/if}</Button
     >
     {#if confirming}
         <Button
