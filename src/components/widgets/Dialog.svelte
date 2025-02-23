@@ -2,16 +2,19 @@
     import { clickOutside } from '@components/app/clickOutside';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
     import { tick } from 'svelte';
-    import type { DialogText } from '../../locale/UITexts';
     import Header from '../app/Header.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Button from './Button.svelte';
 
     interface Props {
         show?: boolean;
-        description: DialogText;
+        header: LocaleTextAccessor;
+        explanation: LocaleTextsAccessor;
         closeable?: boolean;
         button?:
             | {
@@ -25,7 +28,8 @@
 
     let {
         show = $bindable(false),
-        description,
+        header,
+        explanation,
         closeable = true,
         button = undefined,
         children,
@@ -78,8 +82,8 @@
         {/if}
 
         <div class="content">
-            <Header>{description.header}</Header>
-            <MarkupHTMLView markup={description.explanation} />
+            <Header text={header} />
+            <MarkupHTMLView markup={explanation} />
             {@render children?.()}
         </div>
     </div>

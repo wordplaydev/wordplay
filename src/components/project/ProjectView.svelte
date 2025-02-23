@@ -1797,7 +1797,8 @@
                 {/each}
                 <span class="right-align">
                     <Dialog
-                        description={$locales.get((l) => l.ui.dialog.help)}
+                        header={(l) => l.ui.dialog.help.header}
+                        explanation={(l) => l.ui.dialog.help.explanation}
                         button={{
                             tip: ShowKeyboardHelp.description,
                             icon: ShowKeyboardHelp.symbol,
@@ -1819,7 +1820,8 @@
                 <div class="footer-row">
                     {#if shareable}
                         <Dialog
-                            description={$locales.get((l) => l.ui.dialog.share)}
+                            header={(l) => l.ui.dialog.share.header}
+                            explanation={(l) => l.ui.dialog.share.explanation}
                             button={{
                                 tip: (l) => l.ui.project.button.share.tip,
                                 icon:

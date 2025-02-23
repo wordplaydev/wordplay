@@ -71,7 +71,8 @@
             tip: (l) => l.ui.dialog.settings.button.show,
             icon: '⚙',
         }}
-        description={$locales.get((l) => l.ui.dialog.settings)}
+        header={(l) => l.ui.dialog.settings.header}
+        explanation={(l) => l.ui.dialog.settings.explanation}
     >
         <hr />
         <div class="controls">

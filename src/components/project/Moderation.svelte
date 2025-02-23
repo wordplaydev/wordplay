@@ -34,11 +34,16 @@
 {#if audience && warnings.length + blocks.length + unmoderated.length > 0}
     <Dialog
         show
-        description={blocks.length > 0
-            ? $locales.getLocale().moderation.blocked
+        header={blocks.length > 0
+            ? (l) => l.moderation.blocked.header
             : warnings.length > 0
-              ? $locales.getLocale().moderation.warning
-              : $locales.getLocale().moderation.unmoderated}
+              ? (l) => l.moderation.warning.header
+              : (l) => l.moderation.unmoderated.header}
+        explanation={blocks.length > 0
+            ? (l) => l.moderation.blocked.explanation
+            : warnings.length > 0
+              ? (l) => l.moderation.warning.explanation
+              : (l) => l.moderation.unmoderated.explanation}
         closeable={blocks.length === 0}
     >
         <ul>

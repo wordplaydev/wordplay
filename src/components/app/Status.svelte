@@ -4,7 +4,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type LocaleText from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { SaveStatus, locales, status } from '../../db/Database';
+    import { SaveStatus, status } from '../../db/Database';
     import { withMonoEmoji } from '../../unicode/emoji';
     import { getUser } from '../project/Contexts';
 
@@ -44,10 +44,8 @@
 {#if $status.message}
     <Dialog
         bind:show={showError}
-        description={{
-            header: $locales.get((l) => l.ui.project.dialog.unsaved),
-            explanation: $status.message($locales.getLocale()),
-        }}
+        header={(l) => l.ui.project.dialog.unsaved}
+        explanation={$status.message}
         closeable={true}
     ></Dialog>
 {/if}

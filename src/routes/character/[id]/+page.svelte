@@ -1552,9 +1552,9 @@
                     blocks={false}
                 />
                 <Dialog
-                    description={$locales.get(
-                        (l) => l.ui.page.character.share.dialog,
-                    )}
+                    header={(l) => l.ui.page.character.share.dialog.header}
+                    explanation={(l) =>
+                        l.ui.page.character.share.dialog.explanation}
                     button={{
                         tip: (l) => l.ui.page.character.share.button.tip,
                         icon: isPublic ? GLOBE1_SYMBOL : '🤫',

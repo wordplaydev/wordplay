@@ -63,7 +63,8 @@
 </script>
 
 <Dialog
-    description={$locales.get((l) => l.ui.dialog.locale)}
+    header={(l) => l.ui.dialog.locale.header}
+    explanation={(l) => l.ui.dialog.locale.explanation}
     button={{
         tip: (l) => l.ui.dialog.locale.button.show,
         icon: selectedLocales.some((locale) => isLocaleDraft(locale))

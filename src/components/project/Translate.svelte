@@ -5,7 +5,7 @@
     import LocaleName from '@components/settings/LocaleName.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import { Projects, locales } from '@db/Database';
+    import { Projects } from '@db/Database';
     import { functions } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
@@ -68,12 +68,8 @@
 
 <Dialog
     bind:show
-    description={{
-        header: $locales.get((l) => l.ui.project.dialog.translate.header),
-        explanation: $locales.get(
-            (l) => l.ui.project.dialog.translate.explanation,
-        ),
-    }}
+    header={(l) => l.ui.project.dialog.translate.header}
+    explanation={(l) => l.ui.project.dialog.translate.explanation}
     button={{
         tip: (l) => l.ui.project.button.translate.tip,
         icon: LOCALE_SYMBOL,
