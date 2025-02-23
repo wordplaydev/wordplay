@@ -1,7 +1,7 @@
 import { Creator } from '@db/creators/CreatorDatabase';
 import { functions } from '@db/firebase';
-import { type EmailExistsInputs, type EmailExistsOutput } from '@db/functions';
 import { httpsCallable } from 'firebase/functions';
+import { type EmailExistsInputs, type EmailExistsOutput } from 'shared-types';
 
 export async function usernameAccountExists(name: string) {
     const wordplayEmail = Creator.usernameEmail(name);

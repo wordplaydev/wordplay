@@ -15,7 +15,7 @@
         "env": "run-script-os",
         "env:default": "cp .env.${GCLOUD_PROJECT:-template} .env",
         "env:windows": "copy .env.template .env",
-        "build": "npm run env && vite build",
+        "build": "npm upgrade shared-types && npm run env && vite build",
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy",
         "release": "firebase use prod && firebase deploy && firebase use dev",
@@ -95,10 +95,14 @@
         "pitchy": "^4.1.0",
         "recoverable-random": "^1.0.5",
         "uuid": "^11",
-        "zod": "^3.23.8"
+        "zod": "^3.23.8",
+        "shared-types": "file:./functions/src/shared"
     },
     "browserslist": [
         "defaults",
         "not op_mini all"
+    ],
+    "bundledDependencies": [
+        "shared-types"
     ]
 }
