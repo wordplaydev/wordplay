@@ -1066,7 +1066,11 @@
 <!-- The palette -->
 {#snippet palette()}
     <div class="palette">
-        <h2>{$locales.get((l) => l.ui.page.character.field.mode).label}</h2>
+        <h2
+            ><LocalizedText
+                path={(l) => l.ui.page.character.field.mode.label}
+            /></h2
+        >
         <Mode
             descriptions={(l) => l.ui.page.character.field.mode}
             modes={['👆', '■', '🔲', '⚪️', '╱']}

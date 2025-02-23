@@ -1,7 +1,6 @@
 <script lang="ts">
     import { clickOutside } from '@components/app/clickOutside';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { locales } from '@db/Database';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
@@ -10,6 +9,7 @@
     import Header from '../app/Header.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Button from './Button.svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         show?: boolean;
@@ -56,9 +56,9 @@
 
 {#if button}
     <Button tip={button.tip} action={() => (show = true)} icon={button.icon}>
-        {#if button.label}{typeof button.label === 'string'
-                ? button.label
-                : $locales.get(button.label)}{/if}</Button
+        {#if button.label}{#if typeof button.label === 'string'}{button.label}{:else}<LocalizedText
+                    path={button.label}
+                />{/if}{/if}</Button
     >
 {/if}
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->

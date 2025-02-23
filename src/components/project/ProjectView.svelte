@@ -1690,12 +1690,10 @@
                                                     );
                                                     checkpoint = -1;
                                                 }}
-                                                >{$locales.get(
-                                                    (l) =>
-                                                        l.ui.checkpoints.button
-                                                            .restore,
-                                                )}</Button
-                                            >
+                                                label={(l) =>
+                                                    l.ui.checkpoints.button
+                                                        .restore}
+                                            />
                                         </div>
                                     {/if}
                                     {#if $blocks}

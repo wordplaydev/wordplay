@@ -1,5 +1,6 @@
 <script lang="ts">
     import { SupportedFaces } from '@basis/Fonts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { onMount } from 'svelte';
@@ -9,7 +10,6 @@
         arrangement,
         camera,
         dark,
-        locales,
         mic,
         Settings,
         showLines,
@@ -77,7 +77,9 @@
         <hr />
         <div class="controls">
             <label for="ui-face">
-                {$locales.get((l) => l.ui.dialog.settings.options.face)}
+                <LocalizedText
+                    path={(l) => l.ui.dialog.settings.options.face}
+                />
                 <Options
                     value={FaceSetting.get() ?? 'Noto Sans'}
                     label={(l) => l.ui.dialog.settings.options.face}

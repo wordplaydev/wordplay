@@ -8,6 +8,7 @@
     import { getFirstText } from '@locale/LocaleText';
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         value: number | undefined;
@@ -63,7 +64,7 @@
     -->
     &#8203;
     {#if label}
-        <label for={id ?? 'label'}>{$locales.get(label)}</label>
+        <label for={id ?? 'label'}><LocalizedText path={label} /></label>
     {/if}
     <input
         class="slider"

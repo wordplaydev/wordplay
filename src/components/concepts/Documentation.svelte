@@ -336,13 +336,11 @@
                             )}
                             {#if categoryHowTos.length > 0}
                                 <Subheader
-                                    >{$locales.get(
-                                        (l) =>
-                                            l.ui.docs.how.category[
-                                                category as HowToCategory
-                                            ],
-                                    )}</Subheader
-                                >
+                                    text={(l) =>
+                                        l.ui.docs.how.category[
+                                            category as HowToCategory
+                                        ]}
+                                />
                                 <div class="howtos">
                                     {#each categoryHowTos as how}
                                         <CodeView

@@ -23,7 +23,6 @@
     import { usernameAccountExists } from '@db/creators/accountExists';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { UsernameLength } from '@db/creators/isValidUsername';
-    import { locales } from '@db/Database';
     import { functions } from '@db/firebase';
     import type {
         CreateClassError,
@@ -205,7 +204,8 @@
 
 <TeachersOnly>
     <Link to="/teach"
-        >{PREVIOUS_SYMBOL} {$locales.get((l) => l.ui.page.teach.header)}</Link
+        >{PREVIOUS_SYMBOL}
+        <LocalizedText path={(l) => l.ui.page.teach.header} /></Link
     >
     <Header text={(l) => l.ui.page.newclass.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.newclass.prompt.start} />
