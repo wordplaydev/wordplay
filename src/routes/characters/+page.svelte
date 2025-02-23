@@ -5,7 +5,8 @@
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
-    import { CharactersDB, locales } from '@db/Database';
+    import Title from '@components/widgets/Title.svelte';
+    import { CharactersDB } from '@db/Database';
     import { firestore } from '@db/firebase';
     import {
         characterToSVG,
@@ -19,7 +20,7 @@
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.characters.header)}</title>
+    <Title text={(l) => l.ui.page.characters.header} />
 </svelte:head>
 
 {#snippet preview(character: Character)}

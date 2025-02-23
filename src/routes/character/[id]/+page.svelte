@@ -22,6 +22,7 @@
     import Slider from '@components/widgets/Slider.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { CharactersDB, locales } from '@db/Database';
     import Locales from '@locale/Locales';
@@ -943,7 +944,7 @@
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.character.header)} — {name}</title>
+    <Title text={(l) => l.ui.page.character.header} subtitle={name} />
 </svelte:head>
 
 <!-- Fill and stroke choosers -->

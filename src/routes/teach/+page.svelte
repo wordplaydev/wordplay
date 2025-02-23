@@ -3,7 +3,7 @@
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
-    import { locales } from '@db/Database';
+    import Title from '@components/widgets/Title.svelte';
     import { type Class } from '@db/teachers/TeacherDatabase.svelte';
     import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
     import { getTeachData } from './+layout.svelte';
@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.teach.header)}</title>
+    <Title text={(l) => l.ui.page.teach.header} />
 </svelte:head>
 
 {#snippet classDetails(group: Class)}

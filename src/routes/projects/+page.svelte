@@ -11,6 +11,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import { Galleries, Projects, locales } from '@db/Database';
     import {
         CANCEL_SYMBOL,
@@ -37,7 +38,7 @@
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.projects.header)}</title>
+    <Title text={(l) => l.ui.page.projects.header} />
 </svelte:head>
 
 <Writing>

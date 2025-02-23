@@ -1,7 +1,8 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import { Galleries, locales } from '@db/Database';
+    import Title from '@components/widgets/Title.svelte';
+    import { Galleries } from '@db/Database';
     import {
         collection,
         getDocs,
@@ -76,7 +77,7 @@
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.galleries.header)}</title>
+    <Title text={(l) => l.ui.page.galleries.header} />
 </svelte:head>
 
 <Writing>
