@@ -1,9 +1,5 @@
 <script module lang="ts">
     const SHOW_OUTPUT_IN_PALETTE = false;
-
-    // Add the large deletion notification store inline
-    import { writable } from 'svelte/store';
-    export const largeDeletionNotification = writable<string | null>(null);
 </script>
 
 <script lang="ts">
@@ -20,10 +16,10 @@
     import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
     import TypePlaceholder from '@nodes/TypePlaceholder';
-    import { UNDO_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
-    import { onMount, tick, untrack } from 'svelte';
+    import { createEventDispatcher, onMount, tick, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
     import {
         DB,
         Projects,
@@ -73,6 +69,7 @@
         type Edit,
         type ProjectRevision,
         InsertSymbol,
+        Undo,
         handleKeyCommand,
     } from './util/Commands';
     import {
@@ -84,8 +81,9 @@
     import Menu, { RevisionSet } from './util/Menu';
     import { OutlinePadding } from './util/outline';
 
-    // Local deletion notification state (instead of a global store)
-    let largeDeletionNotification: string | null = $state(null);
+    const dispatch = createEventDispatcher<{
+        largeDeletion: string | null;
+    }>();
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -114,6 +112,8 @@
         updateConflicts: (source: Source, conflicts: Conflict[]) => void;
         /** Whether the code was revised by another creator */
         overwritten?: boolean;
+        /** The large deletion notification state, bindable by parent components */
+        largeDeletionNotification?: string | null;
     }
 
     let {
@@ -130,6 +130,7 @@
         setOutputPreview,
         updateConflicts,
         overwritten = false,
+        largeDeletionNotification = $bindable(null),
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -399,6 +400,7 @@
     function handlePointerDown(event: PointerEvent) {
         // Clear any existing large deletion notification when user clicks to clear selection
         largeDeletionNotification = null;
+        dispatch('largeDeletion', null);
         event.preventDefault();
         event.stopPropagation();
 
@@ -958,6 +960,7 @@
 
         // Clear any existing large deletion notification since a new edit has started
         largeDeletionNotification = null;
+        dispatch('largeDeletion', null);
         const previousSource = source;
 
         const navigation = edit instanceof Caret;
@@ -1032,6 +1035,7 @@
             largeDeletionNotification = $locales.get(
                 (l) => l.ui.source.cursor.largeDelete,
             );
+            dispatch('largeDeletion', largeDeletionNotification);
         }
 
         // After everything is updated, if we were asked to focus the editor, focus it.
@@ -1180,12 +1184,15 @@
             getTokenViews,
         });
 
+        // Don't insert symbols if composing.
+        insertedSymbol = command === InsertSymbol;
+
         // If the command processed is the Undo command, clear the deletion notification
-        if (command && command.symbol === UNDO_SYMBOL) {
+        if (command && command === Undo) {
             largeDeletionNotification = null;
+            dispatch('largeDeletion', null);
         }
 
-        insertedSymbol = command === InsertSymbol;
         const idle =
             command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
         if (result !== false) {
@@ -1709,13 +1716,6 @@
     {/if}
 </div>
 
-<!-- Updated markup for deletion notification -->
-{#if largeDeletionNotification}
-    <div class="editor-warning">
-        {largeDeletionNotification}
-    </div>
-{/if}
-
 <style>
     .editor {
         white-space: nowrap;
@@ -1736,7 +1736,8 @@
     .editor.readonly {
         --size: 10px;
 
-        background-image: linear-gradient(
+        background-image:
+            linear-gradient(
                 45deg,
                 var(--wordplay-alternating-color) 25%,
                 transparent 25%
@@ -1832,27 +1833,12 @@
         justify-content: center;
     }
 
-    /* Merged editor-warning styling (used for deletion notification) */
+    /* Merged editor-warning styling */
     .editor-warning {
         width: 100%;
         padding: var(--wordplay-spacing);
         background: var(--wordplay-error);
         color: var(--wordplay-background);
-        animation: popUp calc(250ms * var(--animation-factor)) ease-out;
-    }
-
-    @keyframes popUp {
-        0% {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-        50% {
-            transform: scale(1.05);
-            opacity: 1;
-        }
-        100% {
-            transform: scale(1);
-        }
     }
 
     .overwritten {

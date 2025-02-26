@@ -60,7 +60,7 @@
     import CreatorView from '../app/CreatorView.svelte';
     import Emoji from '../app/Emoji.svelte';
     import Spinning from '../app/Spinning.svelte';
-    import Editor, { largeDeletionNotification } from '../editor/Editor.svelte';
+    import Editor from '../editor/Editor.svelte';
     import CharacterChooser from '../editor/GlyphChooser.svelte';
     import Highlight from '../editor/Highlight.svelte';
     import Menu from '../editor/Menu.svelte';
@@ -70,6 +70,7 @@
         handleKeyCommand,
         Restart,
         ShowKeyboardHelp,
+        Undo,
         VisibleModifyCommands,
         VisibleNavigateCommands,
         type CommandContext,
@@ -283,6 +284,9 @@
 
     /** Keep a reactive map from source to EditorLocale chosen for the source */
     let editorLocales = $state<Record<string, Locale | null>>({});
+
+    /** Keep a map of large deletion notifications for each editor by ID */
+    let largeDeletionNotifications = $state<Record<string, string | null>>({});
 
     // When keyboard isn't idle, set a timeout to set it to idle later.
     // to reset it to false after a delay.
@@ -1635,6 +1639,12 @@
                                                 getSourceByTileID(tile.id) ===
                                                     project.getMain()}
                                             bind:menu
+                                            on:largeDeletion={(e) => {
+                                                largeDeletionNotifications = {
+                                                    ...largeDeletionNotifications,
+                                                    [tile.id]: e.detail,
+                                                };
+                                            }}
                                             updateConflicts={(
                                                 source,
                                                 conflicts,
@@ -1692,11 +1702,17 @@
                                             >
                                         </div>
                                     {/if}
-                                    {#if $largeDeletionNotification}
-                                        <div
-                                            class="large-deletion-notification"
-                                        >
-                                            {$largeDeletionNotification}
+                                    {#if largeDeletionNotifications[tile.id] !== null && largeDeletionNotifications[tile.id] !== undefined}
+                                        <div class="editor-warning">
+                                            {largeDeletionNotifications[
+                                                tile.id
+                                            ]}
+                                            <CommandButton
+                                                command={Undo}
+                                                sourceID={tile.id}
+                                                background={true}
+                                                padding={true}
+                                            />
                                         </div>
                                     {/if}
                                     {#if $blocks}
@@ -2015,17 +2031,13 @@
     .editor-warning {
         width: 100%;
         padding: var(--wordplay-spacing);
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
-    }
-
-    .large-deletion-notification {
-        width: 100%;
-        padding: var(--wordplay-spacing);
         background: black;
         color: white;
         border: 1px solid black;
-        animation: popUp 0.6s ease-out;
+        animation: popUp calc(250ms * var(--animation-factor)) ease-out;
+        display: flex;
+        align-items: center;
+        gap: var(--wordplay-spacing);
     }
 
     @keyframes popUp {
@@ -2033,12 +2045,9 @@
             transform: scale(0.8);
             opacity: 0;
         }
-        50% {
-            transform: scale(1.05);
-            opacity: 1;
-        }
         100% {
             transform: scale(1);
+            opacity: 1;
         }
     }
 </style>

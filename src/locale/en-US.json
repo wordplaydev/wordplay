@@ -4315,7 +4315,7 @@
                 "search": "search for special characters to insert",
                 "tidy": "tidy spacing",
                 "elide": "toggle elision",
-                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind."
+                "largeDelete": "That was a big deletion. You can undo if it was an accident."
             },
             "error": {
                 "invalidName": "This must be a valid Wordplay name.",
