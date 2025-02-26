@@ -660,28 +660,28 @@
                         [
                             "Evaluate",
                             "serious",
-                            "喔，對！這是個好主意！很多事情可能會出錯。例如，你可能會給我一些不是函式（Function）的東西。看，當我輸入一個 \\“hi”\\ 作為函式（Function），並給了我兩個數字 \\1\\ and \\2\\ ？不過呢 I only know how to evaluate functions, and \\“hi”\\ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens."
+                            "喔，對！這是個好主意！很多事情可能會出錯。例如，你可能會給我一些不是函式（Function）的東西。看，當我輸入一個 \\“hi”\\ 作為函式（Function），並給了我兩個數字 \\1\\ and \\2\\ ，不過呢，我只知道如何評估函式，而 \\“hi”\\ 不是函式，它是文本。所以我會不知道該怎麼辦，如果發生這種情況，我基本上會停止表演。"
                         ],
                         null,
                         ["conflict", "Phrase()"],
                         [
                             "Evaluate",
                             "eager",
-                            "Here's another one. @Phrase requires some text at the very least, so if you don't give me text, I won't be able to evaluate @Phrase, because I'm missing required inputs."
+                            "還有一件事！ @Phrase 片語（Phrase）至少需要一些文本，所以如果你不給我文本，我就不能去評估 @Phrase 片語（Phrase），因為我缺少必要的輸入。"
                         ],
                         null,
                         ["conflict", "Phrase(1)"],
                         [
                             "Evaluate",
                             "excited",
-                            "Or if you give me an input, but it's not the kind I expect, that would be a problem. Here @Phrase is given the number \\1\\ instead of a text value."
+                            "或者，如果你給我一個輸入，但它不是我期望的那種，那就會出問題了。就像現在， @Phrase 片語（Phrase）被輸入了數字 \\1\\ 而不是文本。"
                         ],
                         null,
                         ["fit", "Stage([] background: 🌈(90% 100 0°))"],
                         [
                             "Evaluate",
                             "curious",
-                            "So basically, I get confused any time you give me something other than a function, or an input that isn't something a function expects. So functions are really important. @FunctionDefinition, do you want to say more about how to define functions?"
+                            "所以基本上，每當你給我一個函式（Function）以外的東西，或者一個函式（Function）不期望的輸入時，我就會感到困惑、不知道該做什麼。所以函式（Function）真的很重要。 @FunctionDefinition 函式（Function），你想多說一些關於如何定義函數的內容嗎？"
                         ],
                         [
                             "FunctionDefinition",
