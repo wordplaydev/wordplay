@@ -5114,8 +5114,8 @@
                         ],
                         [
                             "FunctionDefinition",
-                            "surprised",
-                            "I've been showing our new director…"
+                            "surprised", 
+                            "我剛剛在帶我們的新導演四處看看……"
                         ],
                         null,
                         [
@@ -5125,12 +5125,12 @@
                         [
                             "Evaluate",
                             "shy",
-                            "I didn't think you would be that long…"
+                            "我沒想到你會花這麼長的時間…"
                         ],
                         [
                             "FunctionDefinition",
                             "sad",
-                            "… @Evaluate, I know you missed me. I missed you. But this is big: the silence is broken, we have a new director… I love you, and I know you need me, but I also have things to do."
+                            "… @Evaluate, 我知道你想我了。我也想你。但這很重要：沉默被打破了，我們有了新的導演…… 我知道你需要我，但我也有自己的事要做。"
                         ],
                         null,
                         [
@@ -5140,12 +5140,12 @@
                         [
                             "Evaluate",
                             "sad",
-                            "Let's talk about this later. You have things to do."
+                            "我們晚點再談這件事吧。你還有事要做。"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "I think we need to talk about it now. We can't keep falling into this cycle."
+                            "我覺得我們現在就需要談談。我們不能一直陷入這個循環。"
                         ],
                         null,
                         [
@@ -5155,342 +5155,342 @@
                         [
                             "Evaluate",
                             "curious",
-                            "What cycle? I love you! How is that a cycle?"
+                            "什麼循環？我愛你！這怎麼會是循環呢？"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "I make functions, you evaluate them, that is our way. But there has to be more to us than you needing me. Reuniting with everyone has reminded me how much we need space to be ourselves, but also how we need to love ourselves. I can't give you all the love you need. Some of that has to come from you."
+                            "我負責建立函式 (Function)，你負責評估 (Evaluate)，這是我們的方式。但我們之間不應該只是你需要我。和大家重聚讓我明白，我們需要空間做自己，也需要學會愛自己。我沒辦法給你所有的愛，有些愛必須來自你自己。"
                         ],
                         null,
                         [
                             "fit",
                             "Stage([Phrase('😭')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "sad", "You don't love me?"],
+                        ["Evaluate", "sad", "你不愛我了嗎?"],
                         [
                             "FunctionDefinition",
                             "angry",
-                            "No, that's not what I said… what I mean is that we have to both matter in this relationship. I need to say what I need and you need to say what you need and we can love each other for who we are, as individuals. What do /you/ need? What do you love about yourself?"
+                            " 不，我不是這個意思……我的意思是，我們的關係中兩個人都很重要。我需要說出我的需求，你也要說出你的需求，然後我們才能真正愛對方，愛彼此的獨特之處。你需要什麼？你喜歡自己哪一點？"
                         ],
                         null,
                         [
                             "fit",
                             "Stage([Phrase('🫠')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "shy", "I need … you. I don't need me."],
+                        ["Evaluate", "shy", "我需要……你。我不需要我自己"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "I love you @Evaluate. But I need you to love you. I'm excited about our world coming back to life, and what it's going to mean to be together again, but I need you to find yourself, your needs, and your own purpose. I can't be your purpose."
+                            "我愛你，@Evaluate。但我希望你也愛你自己。我對我們的世界重新甦醒感到興奮，也期待我們能再次在一起，但你需要找到自己，找到你的需求，找到你的目標。我不能成為你的唯一目標。"
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "sad",
-                            "I need some space. I'm sorry, director-friend. Maybe @Evaluate can wrap up this welcome party without me."
+                            "我需要一些空間。對不起，導演朋友。也許 @Evaluate 可以幫忙結束這場歡迎派對。"
                         ],
                         null,
-                        ["Evaluate", "shy", "… Hi."],
+                        ["Evaluate", "shy", "… 嗨."],
                         null,
                         [
                             "Evaluate",
                             "shy",
-                            "… Did you learn a lot? @FunctionDefinition knows so much."
+                            "你學到了很多嗎？@FunctionDefinition 知道好多事情。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "curious",
-                            "Me? I don't know anything. I give @FunctionDefinition what they need… At least I thought I did."
+                            "我？ 我什麼都不知道。Me? 我只是給 @FunctionDefinition 他們需要的東西……至少我以為我是這樣做的。"
                         ],
                         null,
                         ["fit", "Stage([] background: Color(10% 0 0°))"],
-                        ["List", "kind", "That is not true, @Evaluate."],
-                        ["Boolean", "precise", "Not true."],
-                        ["Text", "happy", "Not true in the slightest!"],
-                        ["Changed", "happy", "Super not true!"],
+                        ["List", "kind", "這不是真的，@Evaluate。"],
+                        ["Boolean", "precise", "你在說謊"],
+                        ["Text", "happy", "這一點都不對!"],
+                        ["Changed", "happy", "完全不是真的！"],
                         [
                             "Number",
                             "serious",
-                            "1) You basically run our performances, 2) @Evaluate would be useless without you, 3) you literally transform things into entirely new values, 4) you come in so many different forms, 5) you give all of us purpose, 6) we all look up to you for guidance…"
+                            "1) 你基本上掌控了我們的演出，2) @Evaluate 沒有你就什麼都不是，3) 你能把東西完全轉變成新的數值，4) 你有超多不同的形態，5) 你讓我們所有人都找到意義，6) 我們都仰賴你來指引方向……"
                         ],
                         null,
                         ["fit", "Stage([] background: Color(20% 0 0°))"],
                         [
                             "Phrase",
                             "kind",
-                            "@Number is right @Evaluate, you are fabulous in fifty ways."
+                            "@Number 說得對 @Evaluate, 你真的超棒！"
                         ],
-                        ["Sequence", "happy", "I spin when I see you!"],
+                        ["Sequence", "happy", "我每一次看到你都很開心"],
                         [
                             "Group",
                             "kind",
-                            "You inspire me to bring us together!"
+                            " 你激勵我把大家聚在一起！" 
                         ],
-                        ["Stage", "serious", "YOU ARE THE BONES OF OUR BEING"],
+                        ["Stage", "serious", "你是我們存在的基石！!"],
                         ["None", "serious", "…"],
-                        ["Program", "kind", "I am everything you make me!"],
+                        ["Program", "kind", "我就是你創造出來的一切！"],
                         null,
                         ["fit", "Stage([] background: Color(40% 0 0°))"],
-                        ["Convert", "kind", "I learned everything from you!"],
+                        ["Convert", "kind", "我從你身上學到了一切！"],
                         [
                             "StructureDefinition",
                             "kind",
-                            "We'd be in disarray without you."
+                            " 沒有你，我們是一團混亂。"
                         ],
                         [
                             "Bind",
                             "happy",
-                            "Like, what would I name if you didn't make it?"
+                            "如果沒有你，我還能命名什麼呢？"
                         ],
                         [
                             "Conditional",
                             "curious",
-                            "How could we do anything without you?"
+                            "沒有你，我們還能做什麼？"
                         ],
-                        ["Block", "kind", "… you are @Evaluate!"],
+                        ["Block", "kind", "… 你就是 @Evaluate！"],
                         null,
                         ["fit", "Stage([] background: Color(50% 0 0°))"],
                         ["Evaluate", "happy", "…"],
                         null,
                         ["fit", "Stage([] background: Color(60% 0 0°))"],
-                        ["Evaluate", "kind", "You are all so kind… I …"],
+                        ["Evaluate", "kind", "你們真的太好了……我……"],
                         null,
                         ["fit", "Stage([] background: Color(70% 0 0°))"],
                         [
                             "Evaluate",
                             "kind",
-                            "Can we just dance? I've missed you all so much."
+                            "我們能一起跳舞嗎？我真的好想念你們！"
                         ],
                         null,
                         ["fit", "Stage([] background: Color(80% 0 0°))"],
-                        ["FunctionDefinition", "happy", "Let's dance."],
-                        ["Evaluate", "sad", "@FunctionDefinition… I'm so..."],
+                        ["FunctionDefinition", "happy", "讓我們跳舞吧！"],
+                        ["Evaluate", "sad", "@FunctionDefinition… 我太……"],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "Why don't you lead us?"
+                            "你應該來帶領我們。"
                         ],
                         null,
-                        ["Evaluate", "shy", "… I can't…"],
-                        ["FunctionDefinition", "happy", "You *can*."],
+                        ["Evaluate", "shy", "… 我做不到……"],
+                        ["FunctionDefinition", "happy", "你 *可以*的."],
                         null,
                         ["fit", "Stage([] background: Color(90% 0 0°))"],
-                        ["Evaluate", "shy", "… I … I'll try."],
+                        ["Evaluate", "shy", "… 我……我會試試看。"],
                         null,
                         ["fit", "Stage([] background: Color(100% 0 0°))"],
                         [
                             "Evaluate",
                             "shy",
-                            "I want… I want us all to move to a beat. To tilt to the beat… in the dark. Can we do that?"
+                            "我想……我想讓我們都隨著節拍移動，在黑暗中微微搖擺。可以嗎？"
                         ],
                         null,
-                        ["Program", "happy", "We can do that!"],
-                        ["Stage", "kind", "START WITH MEEEEE"],
+                        ["Program", "happy", "當然可以！"],
+                        ["Stage", "kind", "讓我們開始吧——我先！"],
                         [
                             "Evaluate",
                             "kind",
-                            "Okay, @Stage, can you make it dark?"
+                            " 好的，@Stage，你能讓它變暗嗎?"
                         ],
-                        ["Stage", "kind", "DARK!"],
+                        ["Stage", "kind", "黑暗模式，啟動！"],
                         ["use", "edit", "EvaluateDance1"],
                         null,
                         [
                             "Evaluate",
                             "kind",
-                            "@StructureDefinition, I think we need a way to remember our places. Can you make a structure for us?"
+                            "@StructureDefinition，我覺得我們需要記住自己的位置。你能幫我們設計一個結構嗎？"
                         ],
-                        ["StructureDefinition", "curious", "Like this?"],
+                        ["StructureDefinition", "curious", "這樣可以嗎？"],
                         ["use", "edit", "EvaluateDance2"],
                         null,
                         [
                             "Evaluate",
                             "kind",
-                            "Yes… I also want us to rotate on the beat. Can you remember a rotation too?"
+                            "沒錯……我還希望我們可以隨著節拍旋轉。可以記住旋轉嗎？"
                         ],
-                        ["StructureDefinition", "curious", "How about this?"],
+                        ["StructureDefinition", "curious", "這樣如何？"],
                         ["use", "edit", "EvaluateDance3"],
                         null,
                         [
                             "Evaluate",
                             "happy",
-                            "Yeah, like that. Hm… oh, we need to be on stage. @Text, would you mind making a list of everyone? We'll turn that into \\Character>s."
+                            "太棒了！嗯……，我們還需要站上舞台。@Text，你可以幫我們列出所有人嗎？我們會把名單轉成\\角色。"
                         ],
                         [
                             "Text",
                             "excited",
-                            "My pleasure, my dear. Will this do?"
+                            "沒問題。這樣可以嗎？"
                         ],
                         ["use", "conflict", "EvaluateDance4"],
                         null,
                         [
                             "Evaluate",
                             "excited",
-                            "Yes, that's great! We just need to make them into characters now. @List, can we translate them? @FunctionDefinition, will you help?"
+                            "完美！現在我們要把名單變成角色。@List，我們可以進行轉換嗎？@FunctionDefinition，你願意幫忙嗎？"
                         ],
-                        ["List", "happy", "Translation, 1, 2, 3! Like this?"],
+                        ["List", "happy", "轉換開始，1、2、3！這樣如何？"],
                         ["use", "conflict", "EvaluateDance5"],
                         null,
                         [
                             "Evaluate",
                             "happy",
-                            "Splendid! Now we need us on stage. Can we translate the characters into @Phrase? Maybe in a @Free @Group?"
+                            "太棒了！現在我們需要讓角色登上舞台。可以把角色轉換成 @Phrase 嗎？或許放進 @Free Group 會更好？"
                         ],
-                        ["List", "kind", "One more time!"],
-                        ["Phrase", "kind", "All the attention!"],
-                        ["Group", "kind", "Come on everyone, places please…"],
+                        ["List", "kind", "再來一次！"],
+                        ["Phrase", "kind", "集中所有目光！"],
+                        ["Group", "kind", "來吧，大家就位……"],
                         ["use", "edit", "EvaluateDance6"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "Oh… where are we? Oh! We need color. @Pose, can we be white?"
+                            "哦……我們在哪裡？哦！我們需要顏色。@Pose，我們能變成白色嗎？"
                         ],
                         ["use", "edit", "EvaluateDance7"],
                         null,
                         [
                             "Evaluate",
                             "surprised",
-                            "Oops, we're all on top of each other! We need starting places. Let's tap into @Random?"
+                            "糟了，我們全擠在一起了！我們需要起始位置。來試試 @Random 吧？"
                         ],
                         ["use", "edit", "EvaluateDance8"],
                         null,
                         [
                             "Evaluate",
                             "happy",
-                            "Yay! Now we just need to move. @Reaction, can you give us a beat, maybe \\0.75\\ seconds?"
+                            "太棒了！現在我們需要動起來。@Reaction，能給我們一個節拍嗎？比如 \\0.75 \\秒？"
                         ],
                         [
                             "Reaction",
                             "kind",
-                            "I can change it! We need a @Time stream, but we also need to change the characters. But what should the next value be?"
+                            "我能調整它！我們需要一個 @Time stream，還需要改變角色的狀態。但下一個值應該是什麼呢？"
                         ],
                         ["use", "edit", "EvaluateDance9"],
                         null,
                         [
                             "Evaluate",
                             "eager",
-                            "I guess we need some way of moving us on each beat. @StructureDefinition, can we make a move function that chooses a new place and rotation?"
+                            "看來我們需要一個方法，讓我們在每個節拍上移動。@StructureDefinition，我們能創建一個選擇新位置和旋轉的 移動(move) 函式嗎？"
                         ],
                         [
                             "StructureDefinition",
                             "sad",
-                            "I don't know how to make a function…"
+                            "我不知道怎麼寫函式……"
                         ],
                         null,
                         ["Evaluate", "sad", "…"],
-                        ["FunctionDefinition", "happy", "I can help."],
+                        ["FunctionDefinition", "happy", "我可以幫你。"],
                         ["Evaluate", "happy", "…"],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "Sometimes… I just need you to know how amazing you are. And sometimes that means leaving. Look at what you're creating here…"
+                            "有時候……你需要知道自己有多棒。而有時，這意味著我要放手。看看你正在創造的東西……"
                         ],
                         [
                             "Evaluate",
                             "happy",
-                            "I … I am creating something. We are creating something… but we can't create it without out. Will you help?"
+                            " 我……我真的在創造些什麼。我們在創造些什麼……但沒有你，我們辦不到。你願意幫忙嗎？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Of course. A \\move\\ function, coming right up. I'll start it, you finish it…"
+                            "當然！ 一個 \\移動（move）\\ 函式，馬上來。我來開個頭，你來完成它……"
                         ],
                         ["use", "edit", "EvaluateDance10"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "Thank you @FunctionDefinition. They're not moving… Oh right, \\move\\ didn't change anything! Let's take the current position and move us in a random direction horizontally and vertically. And maybe a random depth, so we all get a chance up front. And some random rotation?"
+                            " 謝謝你，@FunctionDefinition。但它們沒有動……啊，對了，\\移動（move）\\ 什麼都沒改變！我們得從當前位置開始，隨機移動水平方向和垂直方向，然後加上一點深度變化，讓大家輪流站到最前面。還有隨機旋轉？"
                         ],
                         ["use", "edit", "EvaluateDance11"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "Hmm… still not moving. Oh! We didn't evaluate \\move\\ in @Reaction. @List, can you translate each \\Character\\ into a _moved_ \\Character\\?"
+                            "嗯……還是不動。哦！我們忘了在 @Reaction 中評估 移動（move）！@List，能幫我們把每個 \\角色 Character\\ 轉換成 移動後的 \\角色 Character\\ 嗎？"
                         ],
-                        ["List", "excited", "Translating with your help!"],
+                        ["List", "excited", "和你一起翻譯！"],
                         ["use", "edit", "EvaluateDance12"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "We're so choppy. Oh, @Phrase, we forgot to set a move @Pose and duration. Can you choose something smaller than the @Time tick, so we move and then rest a bit?"
+                            "動作還是很生硬……哦，@Phrase，我們忘了設定 移動（move） 的 @Pose 和持續時間。我們應該選個比 @Time tick 還小的值，這樣能讓我們移動後稍作停頓。"
                         ],
                         ["use", "edit", "EvaluateDance13"],
                         null,
                         [
                             "Evaluate",
                             "excited",
-                            "We're dancing! We're really dancing. We did it!"
+                            "我們跳舞了！我們真的在跳舞！我們成功了！"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "We just forgot one person..."
+                            "我們忘了一個人……"
                         ],
-                        ["Evaluate", "excited", "Who?"],
+                        ["Evaluate", "excited", "誰?"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Our director! They should get to dance with us."
+                            "我們的導演！他們應該也一起跳舞。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "excited",
-                            "Oh yes, of course! How about we let them make the music? @Phrase, can you listen to @Volume, and hook it up to @Color/lightness and @Color/chroma in your color? That way, we're turn turn white hot when our director makes noise!"
+                            "哦對！當然！不如讓他們來製作音樂吧？@Phrase，你能監聽 @Volume，並將它連結到你的 @Color/lightness 和 @Color/chroma 嗎？這樣當我們的導演發聲時，我們就會閃耀出炙熱的白光！"
                         ],
-                        ["Phrase", "kind", "Excellent idea!"],
+                        ["Phrase", "kind", "好主意！"],
                         ["use", "edit", "EvaluateDance14"],
                         null,
                         ["use", "fix", "EvaluateDance14"],
                         ["List", "excited", "1, 2, 3, 1, 2, 3"],
-                        ["Boolean", "excited", "Move!"],
-                        ["Text", "excited", "Elation!"],
-                        ["Conditional", "excited", "What is dancing, really?"],
-                        ["Changed", "excited", "Boom, boom, boom"],
-                        ["Number", "excited", "left 5 degrees, up 1 meter"],
-                        ["Phrase", "excited", "Marvelous!"],
-                        ["Sequence", "excited", "The feeling!"],
-                        ["Group", "excited", "Together now!"],
+                        ["Boolean", "excited", "移動！"],
+                        ["Text", "excited", "喜悅！"],
+                        ["Conditional", "excited", "什麼才是跳舞，真的？"],
+                        ["Changed", "excited", "砰，砰，砰！"],
+                        ["Number", "excited", "左轉 5 度，上升 1 公尺！"],
+                        ["Phrase", "excited", "美妙！"],
+                        ["Sequence", "excited", "這種感覺！"],
+                        ["Group", "excited", "一起來！"],
                         ["Stage", "excited", "BOOM BOOM BOOM"],
                         ["None", "excited", "…"],
-                        ["StructureDefinition", "excited", "Remember to move!"],
-                        ["Bind", "excited", "Characters!"],
+                        ["StructureDefinition", "excited", "記得繼續移動！"],
+                        ["Bind", "excited", "角色們！"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "You did it @Evaluate! This was your vision."
+                            "你做到了，@Evaluate！這是你的願景。"
                         ],
                         [
                             "Evaluate",
                             "kind",
-                            "I… I did do it. But we also did it together."
+                            "我……的確做到了。但這也是我們一起完成的。"
                         ],
                         null,
                         [
                             "Program",
                             "curious",
-                            "Did we just put on our own performance?"
+                            "我們剛剛是不是完成了一場表演？"
                         ],
-                        ["Reaction", "eager", "I think we did…"],
+                        ["Reaction", "eager", "好像有喔……"],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "We did… but we couldn't have done it without our new director friend. They broke our silence, they reminded us why we're expressions, together."
+                            "是的……但如果沒有我們的新導演朋友，我們不可能做到。他們打破了沉默，提醒我們——我們是為了表達而存在，一起。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "?"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "So, sparkly new director, what shall we say?"
+                            "那麼，閃耀的新導演，我們應該說些什麼呢？"
                         ]
                     ]
                 }
