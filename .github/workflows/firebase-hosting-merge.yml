@@ -12,7 +12,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - run: npm ci
-            - run: echo ${{ secrets.ENV_PROD }} > .env.wordplay-prod
+            - run: echo "${{ secrets.ENV_PROD }}" > .env.wordplay-prod
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: ${{ secrets.GITHUB_TOKEN }}
