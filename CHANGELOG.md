@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.2 2025-03-02
+
+### Fixed
+
+- Added more detail to text literal locales in LANGUAGE.md.
+
 ## 0.16.1 2025-02-25
 
 ### Fixed
