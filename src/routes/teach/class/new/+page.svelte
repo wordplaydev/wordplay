@@ -31,7 +31,6 @@
     } from '@db/functions';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';
     import { httpsCallable } from 'firebase/functions';
-    import { PasswordLength } from '../../../login/IsValidPassword';
     import TeachersOnly from '../../TeachersOnly.svelte';
     import {
         createCredentials,
@@ -503,7 +502,7 @@
                         (s) =>
                             s.username.length >= UsernameLength &&
                             !usernamesTaken.includes(s.username) &&
-                            s.password.length >= PasswordLength,
+                            s.password.length >= 6,
                     )}
                 label={(l) => l.ui.page.newclass.field.submit.label}
             />
