@@ -4745,7 +4745,7 @@
                     "wrongPassword": "$~Kein gültiger Benutzername und Passwort. Entweder ist Ihr Passwort falsch oder jemand anderes hat diesen Benutzernamen.",
                     "tooMany": "$~Sie haben zu oft erfolglos versucht, sich anzumelden. Sie müssen warten, bevor Sie es erneut versuchen können.",
                     "invalidUsername": "$~Benutzernamen müssen E-Mail-Adressen oder >5 Buchstaben ohne Leerzeichen sein.",
-                    "invalidPassword": "$~Passwörter müssen mindestens 10 Zeichen lang sein.",
+                    "invalidPassword": "$~Passwörter müssen mindestens 6 Zeichen lang sein.",
                     "mismatched": "$~Die Passwörter stimmen nicht überein."
                 },
                 "feedback": {

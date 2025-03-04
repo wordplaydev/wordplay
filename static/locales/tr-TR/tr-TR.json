@@ -4917,7 +4917,7 @@
                     "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
                     "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",
                     "invalidUsername": "$~Kullanıcı adları e-posta veya 5 harften fazla olmamalı ve boşluk içermemelidir.",
-                    "invalidPassword": "$~Şifreler en az 10 karakter uzunluğunda olmalıdır.",
+                    "invalidPassword": "$~Şifreler en az 6 karakter uzunluğunda olmalıdır.",
                     "mismatched": "$~Şifreler uyuşmuyor."
                 },
                 "feedback": {

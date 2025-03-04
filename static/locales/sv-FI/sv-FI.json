@@ -4922,7 +4922,7 @@
                     "wrongPassword": "$~Inte ett giltigt användarnamn och lösenord. Antingen är ditt lösenord fel eller så har någon annan det här användarnamnet.",
                     "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",
                     "invalidUsername": "$~Användarnamn måste vara e-postmeddelanden eller >5 bokstäver utan mellanslag.",
-                    "invalidPassword": "$~Lösenord måste vara minst 10 tecken långa.",
+                    "invalidPassword": "$~Lösenord måste vara minst 6 tecken långa.",
                     "mismatched": "$~Lösenorden stämmer inte överens."
                 },
                 "feedback": {

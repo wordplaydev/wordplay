@@ -4692,7 +4692,7 @@
                     "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
                     "tooMany": "你尝试登录失败的次数过多。你必须等待一段时间才能重试。",
                     "invalidUsername": "$~用户名必须是电子邮件或超过 5 个字母且无空格。",
-                    "invalidPassword": "$~密码长度必须至少为 10 个字符。",
+                    "invalidPassword": "$~密码长度必须至少为 6 个字符。",
                     "mismatched": "$~密码不匹配。"
                 },
                 "feedback": {
