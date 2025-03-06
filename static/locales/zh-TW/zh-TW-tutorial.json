@@ -686,28 +686,28 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "不會, let's do that later. I think it'd be a lot more fun to talk to everyone else first, and put on some mini shows with our new director here. We can talk more about me when it's helpful."
+                            "不會，我們晚點再做吧。我覺得我們可以先和大家聊聊天，然後和我們的新導演一起來場迷你表演會更有趣。等到合適的時候再聊我的事吧。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "kind",
-                            "I really missed you @FunctionDefinition."
+                            "我真的很想你 @FunctionDefinition."
                         ],
                         [
                             "FunctionDefinition",
                             "curious",
-                            "I missed you too. Can we talk later?"
+                            "我也想你了，我們晚一點再一起聊天吧？"
                         ],
                         [
                             "Evaluate",
                             "kind",
-                            "… Yes. Don't be long. I can't live without you. I need you."
+                            "...好吧。早點來找我喔，我真的很想你。"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "… I know @Evaluate, I will be back soon. Off we go, to meet the rest of the troupe!"
+                            "我知道 @Evaluation 評估（Evaluate）我很快就回來。導演我們走吧！去見其他劇團成員！"
                         ]
                     ]
                 }
