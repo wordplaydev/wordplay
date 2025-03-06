@@ -5372,7 +5372,7 @@
                         [
                             "Evaluate",
                             "eager",
-                            "看來我們需要一個方法，讓我們在每個節拍上移動。@StructureDefinition，我們能創建一個選擇新位置和旋轉的 移動(move) 函式嗎？"
+                            "看來我們需要一個方法，讓我們在每個節拍上移動。@StructureDefinition，我們能創建一個選擇新位置和旋轉的 移動函式嗎？"
                         ],
                         [
                             "StructureDefinition",
@@ -5397,21 +5397,21 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "當然！ 一個 \\移動（move）\\ 函式，馬上來。我來開個頭，你來完成它……"
+                            "當然！ 一個 \\移動\\ 函式，馬上來。我來開個頭，你來完成它……"
                         ],
                         ["use", "edit", "EvaluateDance10"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            " 謝謝你，@FunctionDefinition。但它們沒有動……啊，對了，\\移動（move）\\ 什麼都沒改變！我們得從當前位置開始，隨機移動水平方向和垂直方向，然後加上一點深度變化，讓大家輪流站到最前面。還有隨機旋轉？"
+                            " 謝謝你，@FunctionDefinition。但它們沒有動……啊，對了，\\移動\\ 什麼都沒改變！我們得從當前位置開始，隨機移動水平方向和垂直方向，然後加上一點深度變化，讓大家輪流站到最前面。還有隨機旋轉？"
                         ],
                         ["use", "edit", "EvaluateDance11"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "嗯……還是不動。哦！我們忘了在 @Reaction 中評估 移動（move）！@List，能幫我們把每個 \\角色 Character\\ 轉換成 移動後的 \\角色 Character\\ 嗎？"
+                            "嗯……還是不動。哦！我們忘了在 @Reaction 中評估 移動（move）！@List，能幫我們把每個 \\角色\\ 轉換成 移動後的 \\角色\\ 嗎？"
                         ],
                         ["List", "excited", "和你一起翻譯！"],
                         ["use", "edit", "EvaluateDance12"],
