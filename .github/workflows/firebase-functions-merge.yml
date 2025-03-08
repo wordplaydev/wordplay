@@ -1,4 +1,4 @@
-name: Deploy Firebase functions to staging
+name: Deploy Firebase functions to production
 on:
     push:
         branches:
