@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import Action from '@components/app/Action.svelte';
+    import CreatorCharacterView from '@components/app/CreatorCharacterView.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
@@ -48,8 +49,10 @@
 </script>
 
 <Header wrap
-    ><span class="emoji">{user.displayName ?? '😃'}</span>
-    {creator.getUsername(false)}</Header
+    ><span class="emoji"
+        ><CreatorCharacterView character={user.displayName}
+        ></CreatorCharacterView></span
+    >{creator.getUsername(false)}</Header
 >
 
 <div class="actions">

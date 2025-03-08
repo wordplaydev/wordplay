@@ -7,7 +7,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Added
 
-- By student demand, added Comic Neue as a supported font! Long live Comic Sans.
+- By student request, allow custom characters in profile and creator views.
+- By student request, added Comic Neue as a supported font! Long live Comic Sans.
 
 ### Maintenance
 
