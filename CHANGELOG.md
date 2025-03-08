@@ -10,6 +10,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - By student request, allow custom characters in profile and creator views.
 - By student request, added Comic Neue as a supported font! Long live Comic Sans.
 
+### Fixed
+
+- Improved spacing of profile page.
+
 ### Maintenance
 
 - Updated Google Translate, Svelte, SvelteKit, Firebase, Prettier, TypeScript, Vite, Vitest.
