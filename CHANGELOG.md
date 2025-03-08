@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.3 2025-03-08
 
+### Added
+
+- By student demand, added Comic Neue as a supported font! Long live Comic Sans.
+
 ### Maintenance
 
 - Updated Google Translate, Svelte, SvelteKit, Firebase, Prettier, TypeScript, Vite, Vitest.

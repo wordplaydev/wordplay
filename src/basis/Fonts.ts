@@ -340,6 +340,12 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
+    'Comic Neue': {
+        weights: [300, 400, 700],
+        italic: true,
+        scripts: Latin,
+        format: 'ttf',
+    },
 };
 
 /** The font face names supported. To add one, carefully add metadata to Faces and files to /static/fonts/. */
