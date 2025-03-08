@@ -1,7 +1,6 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import { onMount } from 'svelte';
 
     interface Props {
         text: string;
@@ -54,7 +53,9 @@
         }
     }
 
-    onMount(() => resize());
+    $effect(() => {
+        if (text) resize();
+    });
 </script>
 
 <div class="box" {id} class:focused>
@@ -68,7 +69,7 @@
         bind:value={text}
         bind:this={view}
         aria-disabled={!active}
-        rows={1}
+        rows={text.split('\n').length}
         disabled={!active}
         onblur={() => {
             if (done) done(text);
