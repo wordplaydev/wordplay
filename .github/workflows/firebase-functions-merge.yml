@@ -15,4 +15,4 @@ jobs:
             - uses: 'google-github-actions/auth@v2'
               with:
                   credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORDPLAY_PROD }}'
-            - run: firebase deploy --only functions --debug
+            - run: firebase deploy --only functions
