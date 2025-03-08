@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Improved spacing of profile page.
+- Prevent accidental overwriting of English locale when verifying locales.
 
 ### Maintenance
 
