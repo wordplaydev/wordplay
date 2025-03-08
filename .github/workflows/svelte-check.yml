@@ -1,8 +1,6 @@
 name: Svelte check (types and a11y)
 
 on:
-    push:
-        branches: ['main']
     pull_request:
         branches: ['main']
 

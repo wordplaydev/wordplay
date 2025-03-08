@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Improved spacing of profile page.
 - Prevent accidental overwriting of English locale when verifying locales.
 - Deploy to staging on main PR, prod on main merge.
+- Only run tests and checks on PR, not merge.
 
 ### Maintenance
 
