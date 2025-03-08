@@ -1,0 +1,18 @@
+name: Deploy Firebase functions to staging
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build_and_deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+            - run: npm install -g firebase-tools
+            - uses: 'google-github-actions/auth@v2'
+              with:
+                  credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORDPLAY_PROD }}'
+            - run: firebase deploy --only functions --debug
