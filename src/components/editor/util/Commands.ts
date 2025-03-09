@@ -836,7 +836,7 @@ const Commands: Command[] = [
                     return caret
                         .withEntry(undefined)
                         .withPosition(
-                            parent?.getChildren()[0] === token ? parent : token,
+                            parent?.getChildren().length === 1 ? parent : token,
                         );
                 }
             }
