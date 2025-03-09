@@ -4302,7 +4302,11 @@
                 "redo": "$~gör om ångrad redigering",
                 "search": "$~sök efter specialtecken att infoga",
                 "tidy": "$~snyggt mellanrum",
-                "elide": "$~växla elision"
+                "elide": "$~växla elision",
+                "expandBeforeInline": "$~utöka urvalet innan",
+                "expandAfterInline": "$~utöka urvalet efter",
+                "expandPriorLine": "$~utöka urvalet till föregående rad",
+                "expandNextLine": "$~utöka urvalet till nästa rad"
             },
             "options": {
                 "locale": {
@@ -5215,7 +5219,8 @@
             "replace": "$~/Vill kliva in.../",
             "wrap": "$~parentes",
             "unwrap": "$~packa upp",
-            "bind": "$~namnge detta uttryck"
+            "bind": "$~namnge detta uttryck",
+            "range": "$~urval från $1 till $2"
         },
         "template": {
             "unwritten": "$~TBD",

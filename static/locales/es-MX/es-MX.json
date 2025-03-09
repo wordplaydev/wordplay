@@ -4251,7 +4251,11 @@
                 "search": "buscar caracteres especiales para insertar",
                 "tidy": "espaciado ordenado",
                 "elide": "$~alternar elisión",
-                "insertDocs": "$~Insertar símbolo de explicación"
+                "insertDocs": "$~Insertar símbolo de explicación",
+                "expandBeforeInline": "$~ampliar la selección antes",
+                "expandAfterInline": "$~ampliar la selección después",
+                "expandPriorLine": "$~ampliar la selección a la línea anterior",
+                "expandNextLine": "$~ampliar la selección a la siguiente línea"
             },
             "options": {
                 "locale": {
@@ -5124,7 +5128,8 @@
             "replace": "/Quiere intervenir…/",
             "wrap": "poner paréntesis",
             "unwrap": "desenvolver",
-            "bind": "nombrar esta expresión"
+            "bind": "nombrar esta expresión",
+            "range": "$~Selección desde $1 a $2"
         },
         "template": {
             "unwritten": "Por determinar",

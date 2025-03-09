@@ -4302,7 +4302,11 @@
                 "redo": "$~やり直す 元に戻す 編集",
                 "search": "$~挿入する特殊文字を検索する",
                 "tidy": "$~整然とした間隔",
-                "elide": "$~省略を切り替える"
+                "elide": "$~省略を切り替える",
+                "expandBeforeInline": "$~選択範囲を拡張する",
+                "expandAfterInline": "$~選択範囲を拡大",
+                "expandPriorLine": "$~選択範囲を前の行まで拡張",
+                "expandNextLine": "$~選択範囲を次の行に拡張する"
             },
             "options": {
                 "locale": {
@@ -5210,7 +5214,8 @@
             "replace": "$~/介入したい…/",
             "wrap": "$~括弧で囲む",
             "unwrap": "$~開封する",
-            "bind": "$~この表現に名前を付ける"
+            "bind": "$~この表現に名前を付ける",
+            "range": "$~$1ドルから$2ドルまでの選択"
         },
         "template": {
             "unwritten": "$~未定",

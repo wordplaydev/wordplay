@@ -4285,7 +4285,11 @@
                 "search": "$~삽입할 특수문자를 검색하세요",
                 "tidy": "$~깔끔한 간격",
                 "elide": "$~제거 토글",
-                "insertDocs": "$~설명 기호 삽입"
+                "insertDocs": "$~설명 기호 삽입",
+                "expandBeforeInline": "$~선택 항목을 확장하기 전에",
+                "expandAfterInline": "$~선택 확장 후",
+                "expandPriorLine": "$~선택 항목을 이전 줄로 확장",
+                "expandNextLine": "$~선택 항목을 다음 줄로 확장"
             },
             "options": {
                 "locale": {
@@ -5161,7 +5165,8 @@
             "replace": "$~/참여하고 싶다…/",
             "wrap": "$~괄호 안에 넣다",
             "unwrap": "$~풀다",
-            "bind": "$~이 표현의 이름을 지정하세요"
+            "bind": "$~이 표현의 이름을 지정하세요",
+            "range": "$~$1에서 $2까지 선택 가능"
         },
         "template": {
             "unwritten": "$~미정",

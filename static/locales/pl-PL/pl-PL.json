@@ -4307,7 +4307,11 @@
                 "redo": "$~ponów cofniętą edycję",
                 "search": "$~wyszukaj znaki specjalne do wstawienia",
                 "tidy": "$~schludne odstępy",
-                "elide": "$~przełącz elizję"
+                "elide": "$~przełącz elizję",
+                "expandBeforeInline": "$~rozszerz wybór przed",
+                "expandAfterInline": "$~rozwiń wybór po",
+                "expandPriorLine": "$~rozszerz zaznaczenie do poprzedniego wiersza",
+                "expandNextLine": "$~rozszerz zaznaczenie do następnego wiersza"
             },
             "options": {
                 "locale": {
@@ -5220,7 +5224,8 @@
             "replace": "$~/Chce wkroczyć…/",
             "wrap": "$~w nawiasach",
             "unwrap": "$~odwijać się",
-            "bind": "$~nazwij to wyrażenie"
+            "bind": "$~nazwij to wyrażenie",
+            "range": "$~wybór od $1 do $2 dolarów"
         },
         "template": {
             "unwritten": "$~Do ustalenia",

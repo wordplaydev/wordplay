@@ -4282,7 +4282,11 @@
                 "search": "$~Suche nach einzufügenden Sonderzeichen",
                 "tidy": "$~ordentlicher Abstand",
                 "elide": "$~Elision umschalten",
-                "insertDocs": "$~Erklärungssymbol einfügen"
+                "insertDocs": "$~Erklärungssymbol einfügen",
+                "expandBeforeInline": "$~Auswahl erweitern vor",
+                "expandAfterInline": "$~Auswahl erweitern nach",
+                "expandPriorLine": "$~Auswahl bis zur vorherigen Zeile erweitern",
+                "expandNextLine": "$~Auswahl bis zur nächsten Zeile erweitern"
             },
             "options": {
                 "locale": {
@@ -5149,7 +5153,7 @@
             "node": "$~$1$2[, Typ $2|]",
             "before": "$~vor $1[$1|Ende]",
             "inside": "$~in $1, zwischen $2[$2|Start] und $3[$3|Ende]",
-            "between": "$~zwischen 1 und 2 US-Dollar",
+            "between": "$~zwischen $1 und $2",
             "line": "$~leere Zeile zwischen $1[$1|Start] und $2[$2|Ende]",
             "conflicts": "$~$1 Konflikte",
             "assign": "$~/$2[Möchte gern mitmachen|Erwägt, auszusteigen]…/",
@@ -5158,7 +5162,8 @@
             "replace": "$~/Will eingreifen…/",
             "wrap": "$~Elternheizung",
             "unwrap": "$~auspacken",
-            "bind": "$~Nennen Sie diesen Ausdruck"
+            "bind": "$~Nennen Sie diesen Ausdruck",
+            "range": "$~Auswahl von $1 bis $2"
         },
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",

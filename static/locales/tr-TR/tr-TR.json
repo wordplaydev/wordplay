@@ -4302,7 +4302,11 @@
                 "redo": "$~yapılmamış düzenlemeyi yeniden yap",
                 "search": "$~eklenecek özel karakterleri arayın",
                 "tidy": "$~düzenli aralık",
-                "elide": "$~geçişi değiştir"
+                "elide": "$~geçişi değiştir",
+                "expandBeforeInline": "$~seçimi genişletmeden önce",
+                "expandAfterInline": "$~seçimi genişlet",
+                "expandPriorLine": "$~seçimi önceki satıra genişlet",
+                "expandNextLine": "$~seçimi bir sonraki satıra genişlet"
             },
             "options": {
                 "locale": {
@@ -5210,7 +5214,8 @@
             "replace": "$~/İçeri girmek istiyor…/",
             "wrap": "$~parantez içine almak",
             "unwrap": "$~açmak",
-            "bind": "$~bu ifadeyi adlandırın"
+            "bind": "$~bu ifadeyi adlandırın",
+            "range": "$~1$'dan $2'a kadar seçim"
         },
         "template": {
             "unwritten": "$~Belirsiz",

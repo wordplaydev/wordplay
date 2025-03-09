@@ -4237,7 +4237,11 @@
                 "search": "查找要插入的特殊字符",
                 "tidy": "整理间距",
                 "elide": "切换省略",
-                "insertDocs": "$~插入解释符号"
+                "insertDocs": "$~插入解释符号",
+                "expandBeforeInline": "$~展开选择之前",
+                "expandAfterInline": "$~扩大选择范围后",
+                "expandPriorLine": "$~扩大选择范围至上一行",
+                "expandNextLine": "$~扩展选择到下一行"
             },
             "options": {
                 "locale": {
@@ -5101,7 +5105,8 @@
             "replace": "/想要介入……/",
             "wrap": "加括号",
             "unwrap": "揭开",
-            "bind": "给这个表达命名"
+            "bind": "给这个表达命名",
+            "range": "$~选择从 $1 美元到 $2 美元"
         },
         "template": {
             "unwritten": "待定",
