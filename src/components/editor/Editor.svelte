@@ -75,10 +75,11 @@
         type HighlightSpec,
         type Highlights,
         getHighlights,
+        getRangeOutline,
         updateOutlines,
     } from './util/Highlights';
     import Menu, { RevisionSet } from './util/Menu';
-    import { OutlinePadding } from './util/outline';
+    import { type Outline, OutlinePadding } from './util/outline';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -422,7 +423,7 @@
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
         dragPoint = undefined;
-        if (editable && nonTokenNodeUnderPointer) {
+        if (editable && nonTokenNodeUnderPointer && event.shiftKey) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
@@ -808,6 +809,19 @@
 
         // Handle an edit
         handleEditHover(event);
+
+        if (event.buttons === 1) {
+            // What's under the pointer?
+            const position = getCaretPositionAt(event);
+            if (position !== undefined) {
+                if ($caret.isPosition() && $caret.position !== position)
+                    caret.set($caret.withPosition([$caret.position, position]));
+                else if ($caret.isRange() && $caret.position[0] !== position)
+                    caret.set(
+                        $caret.withPosition([$caret.position[0], position]),
+                    );
+            }
+        }
 
         // Hover debug stuff when paused.
         if (!evaluator.isPlaying()) handleDebugHover(event);
@@ -1336,7 +1350,7 @@
 
                 // If not, what is the "nearest" conflicted node at the caret position?
                 if (conflictSelection === undefined) {
-                    if (typeof $caret.position === 'number') {
+                    if ($caret.isPosition()) {
                         // Try:
                         // 1) the token just before
                         // 2) the token before if we're at it's end.
@@ -1378,7 +1392,7 @@
                             conflictSelection = conflictsAtPosition[0];
                     }
                     // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
-                    else {
+                    else if ($caret.isNode()) {
                         const conflictedAncestor = [
                             $caret.position,
                             ...source.root.getAncestors($caret.position),
@@ -1487,6 +1501,20 @@
             });
     });
 
+    // When the caret changes, and it's a range, compute a range highlight.
+    let rangeHighlight: Outline | undefined = $derived(
+        $caret.isRange()
+            ? getRangeOutline(
+                  $caret.source,
+                  $caret.position[0],
+                  $caret.position[1],
+                  getNodeView,
+                  true,
+                  $locales.getDirection() === 'rtl',
+              )
+            : undefined,
+    );
+
     // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
     $effect(() => {
         if ($blocks && $caret && focused) {
@@ -1543,7 +1571,7 @@
     onkeydown={handleKeyDown}
     ondblclick={(event) => {
         event.stopPropagation();
-        let node = getNodeAt(event, false);
+        let node = getNodeAt(event, true);
         if (node) caret.set($caret.withPosition(node));
     }}
     onfocusin={() => {
@@ -1566,6 +1594,15 @@
         }
     }}
 >
+    {#if rangeHighlight}
+        <Highlight
+            outline={rangeHighlight}
+            underline={rangeHighlight}
+            types={['hovered']}
+            above={false}
+        />
+    {/if}
+
     <!-- Render highlights below the code -->
     {#each outlines as outline}
         <Highlight
@@ -1624,6 +1661,16 @@
             ignored={shakeCaret}
         />
     {/each}
+    <!-- If a range outline, rander it -->
+    {#if rangeHighlight}
+        <Highlight
+            outline={rangeHighlight}
+            underline={rangeHighlight}
+            types={['selected']}
+            above={true}
+            ignored={shakeCaret}
+        />
+    {/if}
 
     <!-- Render the caret on top of the program -->
     <CaretView

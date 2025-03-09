@@ -45,7 +45,7 @@ import type Project from '../../../db/projects/Project';
 import Sym from '../../../nodes/Sym';
 import { TileKind } from '../../project/Tile';
 import { moveVisualVertical } from '../CaretView.svelte';
-import { copyNode } from './Clipboard';
+import { copyNode, toClipboard } from './Clipboard';
 import interpret from './interpret';
 
 export type Command = {
@@ -670,6 +670,19 @@ const Commands: Command[] = [
                 : false,
     },
     {
+        symbol: '↑☐',
+        description: (l) => l.ui.source.cursor.expandPriorLine,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowUp',
+        keySymbol: '↑',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandVertically(-1)) : false,
+    },
+    {
         symbol: '↓',
         description: (l) => l.ui.source.cursor.nextLine,
         visible: Visibility.Touch,
@@ -688,6 +701,19 @@ const Commands: Command[] = [
                         : false
                     : (caret.moveVertical(1) ?? false)
                 : false,
+    },
+    {
+        symbol: '↓☐',
+        description: (l) => l.ui.source.cursor.expandNextLine,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowDown',
+        keySymbol: '↓',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandVertically(1)) : false,
     },
     {
         symbol: '←',
@@ -712,6 +738,19 @@ const Commands: Command[] = [
                 : false,
     },
     {
+        symbol: '←☐',
+        description: (l) => l.ui.source.cursor.expandBeforeInline,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowLeft',
+        keySymbol: '←',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandInline(-1)) : false,
+    },
+    {
         symbol: '→',
         description: (l) => l.ui.source.cursor.nextInline,
         visible: Visibility.Touch,
@@ -732,6 +771,19 @@ const Commands: Command[] = [
                               : -1,
                       )
                 : false,
+    },
+    {
+        symbol: '☐→',
+        description: (l) => l.ui.source.cursor.expandAfterInline,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowRight',
+        keySymbol: '→',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandInline(1)) : false,
     },
     {
         symbol: '⇤',
@@ -1252,18 +1304,24 @@ const Commands: Command[] = [
         keySymbol: 'X',
         active: ({ caret }) =>
             caret !== undefined &&
-            caret.isNode() &&
+            (caret.isNode() || caret.isRange()) &&
             typeof ClipboardItem !== 'undefined',
-        execute: (context) => {
-            if (!(context.caret?.position instanceof Node)) return false;
-            copyNode(
-                context.caret.position,
-                getPreferredSpaces(context.caret.source),
-            );
-            return (
-                context.caret.delete(context.project, false, context.blocks) ??
-                true
-            );
+        execute: ({ caret, project, blocks }) => {
+            if (caret === undefined) return false;
+            if (caret.isNode()) {
+                copyNode(caret.position, getPreferredSpaces(caret.source));
+                return caret.delete(project, false, blocks) ?? true;
+            } else if (caret.isRange()) {
+                toClipboard(
+                    caret.source
+                        .getGraphemesBetween(
+                            caret.position[0],
+                            caret.position[1],
+                        )
+                        .toString(),
+                );
+                return caret.delete(project, false, blocks) ?? true;
+            } else return false;
         },
     },
     {
@@ -1276,15 +1334,28 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyC',
         keySymbol: 'C',
-        active: ({ caret }) => caret !== undefined && caret.isNode(),
-        execute: (context) => {
-            if (!(context.caret?.position instanceof Node)) return false;
-            return (
-                copyNode(
-                    context.caret.position,
-                    getPreferredSpaces(context.caret.source),
-                ) ?? false
-            );
+        active: ({ caret }) =>
+            caret !== undefined && (caret.isNode() || caret.isRange()),
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            if (caret.isNode())
+                return (
+                    copyNode(
+                        caret.position,
+                        getPreferredSpaces(caret.source),
+                    ) ?? false
+                );
+            else if (caret.isRange()) {
+                toClipboard(
+                    caret.source
+                        .getGraphemesBetween(
+                            caret.position[0],
+                            caret.position[1],
+                        )
+                        .toString(),
+                );
+                return true;
+            } else return false;
         },
     },
     {

@@ -253,6 +253,14 @@ type UITexts = {
             priorInline: string;
             /** Move cursor inline one position after */
             nextInline: string;
+            /** Expand selection before inline */
+            expandBeforeInline: string;
+            /** Expand selection after inline */
+            expandAfterInline: string;
+            /** Expand selection to prior line */
+            expandPriorLine: string;
+            /** Expand selection to next line */
+            expandNextLine: string;
             /** Move cursor to line start */
             lineStart: string;
             /** Move cursor to line end */
