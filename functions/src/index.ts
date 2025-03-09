@@ -13,7 +13,7 @@ import {
     CreateClassOutput,
     type EmailExistsInputs,
     type EmailExistsOutput,
-} from './functions';
+} from 'shared-types';
 
 initializeApp();
 const db = getFirestore();
@@ -113,8 +113,8 @@ export const getWebpage = onRequest(
             url === undefined
                 ? undefined
                 : url.startsWith('https://')
-                  ? https
-                  : http;
+                    ? https
+                    : http;
 
         // Cache the response for 10 minutes to minimize requests.
         response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
