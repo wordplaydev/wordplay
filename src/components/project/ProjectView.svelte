@@ -86,6 +86,7 @@
     import Button from '../widgets/Button.svelte';
     import CommandButton from '../widgets/CommandButton.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import ControlsAccordion from '../widgets/ControlsAccordion.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import TextField from '../widgets/TextField.svelte';
     import Toggle from '../widgets/Toggle.svelte';
@@ -1595,10 +1596,10 @@
                                         />{/each}
                                     <!-- Make a Button for every modify command if editable -->
                                     {#if editable}
-                                        {#each VisibleModifyCommands as command}<CommandButton
-                                                {command}
-                                                sourceID={tile.id}
-                                            />{/each}
+                                        <ControlsAccordion
+                                            sourceID={tile.id}
+                                            commands={VisibleModifyCommands}
+                                        />
                                     {/if}
                                 {/if}
                             {/snippet}

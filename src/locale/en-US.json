@@ -1547,20 +1547,11 @@
         },
         "Text": {
             "doc": [
-                "I can be any text you like, from any language, and using any of these symbols opening and closing symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
+                "I can be any text you like, from any language, and using a variety of quotation symbols.",
                 "To illustrate, consider these beautiful phrases",
-                "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
-                "\\『一日三秋』\\",
-                "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
-                "\\'hello'/en'hola'/es-MX\\",
-                "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching langauge.",
-                "If you want to make me with some other values, you can do this:",
-                "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
-                "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
-                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by our number. For example, @FunctionDefinition is 192:",
-                "\\'@192'\\",
-                "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
-                "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
+                "\"There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.\"",
+                "『一日三秋』",
+                "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words."
             ],
             "name": ["''", "Text"],
             "function": {
@@ -4252,7 +4243,9 @@
             },
             "button": {
                 "selectOutput": "show this output on stage",
-                "expandSequence": "expand this collapsed code"
+                "expandSequence": "expand this collapsed code",
+                "expandControls": "show additional editing options",
+                "collapseControls": "hide additional editing options"
             },
             "field": {
                 "name": {
