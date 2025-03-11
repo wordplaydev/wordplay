@@ -173,7 +173,7 @@ export const Languages = {
     nl: { name: 'Nederlands', en: 'Dutch', scripts: ['Latn'] },
     no: { name: 'norsk', en: 'Norwegian', scripts: ['Latn'] },
     oc: { name: 'Occitan', en: 'Occitan', scripts: ['Latn'] },
-    pa: { name: 'ਪੰਜਾਬੀ', en: 'Punjabi', scripts: ['Arab'] },
+    pa: { name: 'ਪੰਜਾਬੀ', en: 'Punjabi', scripts: ['Guru'] },
     pl: {
         name: 'polski',
         en: 'Polish',
