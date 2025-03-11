@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Increased compatibility of Firebase connection for complex school networks.
 - Deactivated confusing blocks mode for now; everyone was perplexed by the "experimental" label.
+- Less intense typing jump animation.
 
 ## 0.16.3 2025-03-08
 
