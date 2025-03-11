@@ -14,7 +14,6 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
-    import Switch from '@components/widgets/Switch.svelte';
     import {
         getConceptFromURL,
         setConceptInURL,
@@ -56,7 +55,6 @@
         PROJECT_PARAM_EDIT,
         PROJECT_PARAM_PLAY,
     } from '../../routes/project/constants';
-    import { withMonoEmoji } from '../../unicode/emoji';
     import type Value from '../../values/Value';
     import Annotations from '../annotations/Annotations.svelte';
     import CreatorView from '../app/CreatorView.svelte';
@@ -1567,7 +1565,8 @@
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    <Switch
+                                    <!-- Dactivating for now. It's too unstable. -->
+                                    <!-- <Switch
                                         onLabel={withMonoEmoji('🖱️')}
                                         onTip={(l) =>
                                             l.ui.source.toggle.blocks.off}
@@ -1576,7 +1575,7 @@
                                             l.ui.source.toggle.blocks.on}
                                         toggle={toggleBlocks}
                                         on={$blocks}
-                                    />
+                                    /> -->
                                     {#if localesUsed.length > 1}
                                         {LOCALE_SYMBOL}
                                         <EditorLocaleChooser
