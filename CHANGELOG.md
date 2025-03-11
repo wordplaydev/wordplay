@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Deactivated confusing blocks mode for now; everyone was perplexed by the "experimental" label.
 - Less intense typing jump animation.
 - Fixed Punjabi reading order.
+- Resolved several evaluator memory leaks.
 
 ## 0.16.3 2025-03-08
 

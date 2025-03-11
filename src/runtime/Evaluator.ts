@@ -70,6 +70,8 @@ One memory unit is probably an average of about 128 bytes, given how much proven
 */
 export const MAX_SOURCE_VALUE_SIZE = 52428;
 
+export const MAX_VALUE_HISTORY = 250;
+
 export enum Mode {
     Play,
     Step,
@@ -714,7 +716,11 @@ export default class Evaluator {
                         this.#currentStreamDependencies.has(expression))
                 )
                     this.values.delete(expression);
-        } else this.values.clear();
+        }
+        // Not keeping constants? Reset the value history.
+        else {
+            this.values.clear();
+        }
 
         // Reset the evluation stack.
         this.evaluations.length = 0;
@@ -728,6 +734,10 @@ export default class Evaluator {
 
         // Reset the stream evaluation count
         this.streamCreatorCount.clear();
+
+        // Reset the source values
+        this.sourceValues.clear();
+        this.sourceValueSize = 0;
 
         // Notify listeners.
         if (broadcast) this.broadcast();
@@ -831,6 +841,11 @@ export default class Evaluator {
         this.#stopped = true;
         this.observers.length = 0;
         this.stopStreams();
+
+        // Erase big memory stores.
+        this.values.clear();
+        this.sourceValues.clear();
+        this.#inputs.length = 0;
     }
 
     stopStreams() {
@@ -1730,6 +1745,13 @@ export default class Evaluator {
         // If we haven't stored any values yet, or the most recent value is before the current index, remember it.
         if (list.length === 0 || list[list.length - 1].stepNumber < index) {
             list.push({ value: value, stepNumber: index });
+
+            // Trim the history of values to avoid crashing the tab from memory overload.
+            list = list.slice(
+                Math.max(0, list.length - MAX_VALUE_HISTORY),
+                list.length,
+            );
+
             this.values.set(expression, list);
         }
     }
