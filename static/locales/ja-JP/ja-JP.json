@@ -605,8 +605,8 @@
             "input": "$~入力",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "$~私は1ドルのはずが2ドルです",
-                    "secondary": "$~えっと、1ドルではなく2ドルをもらいました"
+                    "primary": "$~私は$1ドルのはずが$2ドルです",
+                    "secondary": "$~えっと、$1ドルではなく$2ドルをもらいました"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "$~このような入力は予想していませんでした",
