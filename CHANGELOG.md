@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.5
+
+### Fixed
+
+- Prevent scroll bars on window.
+
 ## 0.16.4 2025-03-10
 
 ### Fixed
