@@ -3,6 +3,7 @@ import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
@@ -109,8 +110,7 @@ export default class Block extends Expression {
             {
                 name: 'statements',
                 kind: list(true, node(Expression), node(Bind)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Block.statement),
+                label: () => (l) => l.node.Block.statement,
                 indent: !this.isRoot(),
                 newline:
                     this.isRoot() ||
@@ -334,8 +334,9 @@ export default class Block extends Expression {
             : current;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Block);
+    static readonly LocalePath = (l: LocaleText) => l.node.Block;
+    getLocalePath() {
+        return Block.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import ListType from '@nodes/ListType';
 import UnionType from '@nodes/UnionType';
@@ -166,8 +167,8 @@ export default class ListValue extends SimpleValue {
             .join(' ')}${LIST_CLOSE_SYMBOL}`;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.list);
+    getDescription() {
+        return (l: LocaleText) => l.term.list;
     }
 
     getRepresentativeText() {

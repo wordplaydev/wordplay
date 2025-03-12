@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
@@ -63,13 +64,13 @@ export default class Delete extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.table),
+                label: () => (l) => l.term.table,
             },
             { name: 'del', kind: node(Sym.Delete), space: true },
             {
                 name: 'query',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.query),
+                label: () => (l) => l.term.query,
                 // Must be a boolean
                 getType: () => BooleanType.make(),
                 space: true,
@@ -246,8 +247,9 @@ export default class Delete extends Expression {
         return this.del;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Delete);
+    static readonly LocalePath = (l: LocaleText) => l.node.Delete;
+    getLocalePath() {
+        return Delete.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

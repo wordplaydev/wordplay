@@ -15,7 +15,7 @@ export default function getSequenceProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Sequence.poses),
+            (l) => l.output.Sequence.poses.names,
             'poses',
             true,
             false,
@@ -35,7 +35,7 @@ export default function getSequenceProperties(
         getDurationProperty(locales),
         getStyleProperty(locales),
         new OutputProperty(
-            locales.get((l) => l.output.Sequence.count),
+            (l) => l.output.Sequence.count.names,
             new OutputPropertyRange(1, 5, 1, 'x', 0),
             false,
             false,

@@ -3,6 +3,7 @@ import ReferenceCycle from '@conflicts/ReferenceCycle';
 import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '@conflicts/UnknownName';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
@@ -193,8 +194,7 @@ export default class Reference extends SimpleExpression {
                 name: 'name',
                 kind: node(Sym.Name),
                 uncompletable: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reference.name),
+                label: () => (l) => l.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
                     this.getDefinitionsInScope(context).filter(
@@ -393,8 +393,9 @@ export default class Reference extends SimpleExpression {
         return this.name;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Reference);
+    static readonly LocalePath = (l: LocaleText) => l.node.Reference;
+    getLocalePath() {
+        return Reference.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

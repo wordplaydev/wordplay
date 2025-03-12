@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
 import BoolValue from '@values/BoolValue';
@@ -5,7 +6,6 @@ import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
 import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import type Expression from '../nodes/Expression';
 import UnicodeString from '../unicode/UnicodeString';
 import SimpleValue from './SimpleValue';
@@ -99,8 +99,8 @@ export default class TextValue extends SimpleValue {
         return new NumberValue(requestor, sum);
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.text);
+    getDescription() {
+        return (l: LocaleText) => l.term.text;
     }
 
     getRepresentativeText() {

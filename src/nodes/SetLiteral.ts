@@ -1,4 +1,5 @@
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
@@ -183,8 +184,9 @@ export default class SetLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.SetLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.SetLiteral;
+    getLocalePath() {
+        return SetLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
@@ -53,8 +54,8 @@ export default class FunctionValue extends Value {
         );
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.function);
+    getDescription() {
+        return (l: LocaleText) => l.term.function;
     }
 
     getRepresentativeText() {

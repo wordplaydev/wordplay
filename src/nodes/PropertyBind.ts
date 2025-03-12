@@ -1,6 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import InvalidProperty from '@conflicts/InvalidProperty';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
@@ -213,8 +214,9 @@ export default class PropertyBind extends Expression {
         return this.bind;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.PropertyBind);
+    static readonly LocalePath = (l: LocaleText) => l.node.PropertyBind;
+    getLocalePath() {
+        return PropertyBind.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

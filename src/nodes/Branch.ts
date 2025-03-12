@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
@@ -77,8 +78,10 @@ export default class Branch extends Content {
     getPurpose() {
         return Purpose.Document;
     }
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Branch);
+
+    static readonly LocalePath = (l: LocaleText) => l.node.Branch;
+    getLocalePath() {
+        return Branch.LocalePath;
     }
 
     getCharacter() {

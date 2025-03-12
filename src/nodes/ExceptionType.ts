@@ -1,7 +1,7 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type ExceptionValue from '@values/ExceptionValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { EXCEPTION_SYMBOL } from '../parser/Symbols';
 import Type from './Type';
@@ -54,8 +54,9 @@ export default class ExceptionType extends Type {
         return new ExceptionType(this.exception) as this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ExceptionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.ExceptionType;
+    getLocalePath() {
+        return ExceptionType.LocalePath;
     }
 
     getCharacter() {

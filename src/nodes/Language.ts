@@ -4,10 +4,10 @@ import UnknownLanguage from '@conflicts/UnknownLanguage';
 import type LanguageCode from '@locale/LanguageCode';
 import { Languages } from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { RegionCode } from '@locale/Regions';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import LanguageToken from './LanguageToken';
 import NameToken from './NameToken';
@@ -152,8 +152,9 @@ export default class Language extends Node {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Language);
+    static readonly LocalePath = (l: LocaleText) => l.node.Language;
+    getLocalePath() {
+        return Language.LocalePath;
     }
 
     getDescriptionInputs() {

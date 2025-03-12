@@ -3,7 +3,7 @@
     import Feedback from '@components/app/Feedback.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import { CharactersDB, locales } from '@db/Database';
+    import { CharactersDB } from '@db/Database';
 
     let { inline }: { inline?: boolean } = $props();
 
@@ -22,12 +22,11 @@
 {#if creating}
     <Spinning></Spinning>
 {:else if creating === undefined}
-    <Feedback>{$locales.get((l) => l.ui.page.characters.error.create)}</Feedback
-    >
+    <Feedback text={(l) => l.ui.page.characters.error.create} />
 {:else}
     <Button
         background={inline}
-        tip={$locales.get((l) => l.ui.page.characters.button.new)}
+        tip={(l) => l.ui.page.characters.button.new}
         action={addCharacter}
         active={!creating}
         large={!inline}

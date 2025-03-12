@@ -5,9 +5,9 @@
         setFullscreen,
         type FullscreenContext,
     } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
-    import { locales } from '../../db/Database';
     import Color from '../../output/Color';
     import Settings from '../settings/Settings.svelte';
     import Emoji from './Emoji.svelte';
@@ -64,29 +64,41 @@
     <footer class:fullscreen={$fullscreen.on}>
         <nav>
             {#if footer}
-                <Link nowrap tip={$locales.get((l) => l.ui.widget.home)} to="/"
+                <Link nowrap tip={(l) => l.ui.widget.home} to="/"
                     ><Emoji>💬</Emoji></Link
                 >
                 <Link nowrap to="/projects"
-                    >{$locales.get((l) => l.ui.page.projects.header)}</Link
+                    ><LocalizedText
+                        path={(l) => l.ui.page.projects.header}
+                    /></Link
                 >
                 <Link nowrap to="/galleries"
-                    >{$locales.get((l) => l.ui.page.galleries.header)}</Link
+                    ><LocalizedText
+                        path={(l) => l.ui.page.galleries.header}
+                    /></Link
                 >
                 <Link nowrap to="/characters"
-                    >{$locales.get((l) => l.ui.page.characters.header)}</Link
+                    ><LocalizedText
+                        path={(l) => l.ui.page.characters.header}
+                    /></Link
                 >
                 <Link nowrap to="/learn"
-                    >{$locales.get((l) => l.ui.page.learn.header)}</Link
+                    ><LocalizedText
+                        path={(l) => l.ui.page.learn.header}
+                    /></Link
                 >
                 <Link nowrap to="/guide"
-                    >{$locales.get((l) => l.ui.page.guide.header)}</Link
+                    ><LocalizedText
+                        path={(l) => l.ui.page.guide.header}
+                    /></Link
                 >
                 <Link nowrap to="/teach"
-                    >{$locales.get((l) => l.ui.page.teach.header)}</Link
+                    ><LocalizedText
+                        path={(l) => l.ui.page.teach.header}
+                    /></Link
                 >
                 <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
-                    >{$locales.get((l) => l.term.help)}</Link
+                    ><LocalizedText path={(l) => l.term.help} /></Link
                 >
             {/if}
             <Settings />
@@ -97,7 +109,9 @@
 <style>
     .page {
         width: 100vw;
-        height: 100vh;
+        height: calc(100vh - 1px);
+        max-width: 100%;
+        max-height: 100%;
         display: flex;
         flex-direction: column;
     }

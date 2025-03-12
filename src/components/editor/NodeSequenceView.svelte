@@ -4,7 +4,6 @@
 
 <script lang="ts">
     import Node from '@nodes/Node';
-    import { locales } from '../../db/Database';
     import { getCaret, getIsBlocks } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
     import NodeView from './NodeView.svelte';
@@ -93,13 +92,13 @@
 {:else}
     {#if hiddenBefore > 0}
         <Button
-            tip={$locales.get((l) => l.ui.source.button.expandSequence)}
+            tip={(l) => l.ui.source.button.expandSequence}
             action={() => (elide = false)}
             ><span class="count">… {hiddenBefore}</span></Button
         >{/if}{#each visible as node}<NodeView
             {node}
         />{/each}{#if hiddenAfter > 0}<Button
-            tip={$locales.get((l) => l.ui.source.button.expandSequence)}
+            tip={(l) => l.ui.source.button.expandSequence}
             action={() => (elide = false)}
             ><span class="count">… {hiddenAfter}</span></Button
         >{/if}

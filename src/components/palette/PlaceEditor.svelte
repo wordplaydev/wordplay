@@ -1,6 +1,8 @@
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
+    import type LocaleText from '@locale/LocaleText';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
     import NumberValue from '@values/NumberValue';
@@ -35,7 +37,7 @@
 
     function valid(val: string) {
         const [num] = NumberValue.fromUnknown(val);
-        return num.isNaN() ? $locales.get((l) => l.ui.palette.error.nan) : true;
+        return num.isNaN() ? (l: LocaleText) => l.ui.palette.error.nan : true;
     }
 
     async function handleChange(dimension: Bind, value: string) {
@@ -101,18 +103,16 @@
                     validator={valid}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
-                    description={$locales.get(
-                        (l) => l.ui.palette.field.coordinate,
-                    )}
+                    description={(l) => l.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
                 />
                 <Note>{getUnit(dimension)?.toWordplay() ?? ''}</Note>
             {:else}
                 <Note
-                    >{$locales.get(
-                        (locale) => locale.ui.palette.labels.computed,
-                    )}</Note
+                    ><LocalizedText
+                        path={(locale) => locale.ui.palette.labels.computed}
+                    /></Note
                 >
             {/if}
         </div>
@@ -120,7 +120,7 @@
 </div>
 {#if convertable}
     <Button
-        tip={$locales.get((l) => l.ui.palette.button.addMotion)}
+        tip={(l) => l.ui.palette.button.addMotion}
         active={editable}
         action={() => {
             Projects.revise(project, [
@@ -157,7 +157,7 @@
         icon="→">{project.shares.input.Motion.getNames()[0]}</Button
     >
     <Button
-        tip={$locales.get((l) => l.ui.palette.button.addPlacement)}
+        tip={(l) => l.ui.palette.button.addPlacement}
         active={editable}
         action={() => {
             Projects.revise(project, [

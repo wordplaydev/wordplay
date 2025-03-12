@@ -1,26 +1,26 @@
 <script lang="ts">
-    import type { Template } from '../../locale/LocaleText';
     import type Locales from '../../locale/Locales';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import type { LocaleTextAccessor } from '../../locale/Locales';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import Button from '../widgets/Button.svelte';
 
     interface Props {
         symbols: string;
         locales: Locales;
-        message: Template;
-        tip: string;
+        message: LocaleTextAccessor;
+        tip: LocaleTextAccessor;
         action: () => void;
         command: string;
     }
 
-    let { symbols, locales, message, tip, action, command }: Props = $props();
+    let { symbols, message, tip, action, command }: Props = $props();
 </script>
 
 <div class="offer">
     <Speech character={{ symbols }}>
         {#snippet content()}
-            <MarkupHtmlView markup={locales.concretize(message)} />
+            <MarkupHTMLView markup={message} />
         {/snippet}
     </Speech>
     <Button large {tip} {action} icon={command}></Button>

@@ -1,6 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
@@ -87,8 +88,7 @@ export default class Conditional extends Expression {
             {
                 name: 'condition',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Conditional.condition),
+                label: () => (l) => l.node.Conditional.condition,
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
@@ -96,16 +96,14 @@ export default class Conditional extends Expression {
             {
                 name: 'yes',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Conditional.yes),
+                label: () => (l) => l.node.Conditional.yes,
                 space: true,
                 indent: true,
             },
             {
                 name: 'no',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Conditional.no),
+                label: () => (l) => l.node.Conditional.no,
                 space: true,
                 indent: true,
             },
@@ -210,8 +208,9 @@ export default class Conditional extends Expression {
         return this.question;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Conditional);
+    static readonly LocalePath = (l: LocaleText) => l.node.Conditional;
+    getLocalePath() {
+        return Conditional.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

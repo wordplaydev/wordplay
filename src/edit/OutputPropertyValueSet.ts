@@ -28,12 +28,16 @@ export default class OutputPropertyValueSet {
     readonly values: OutputPropertyValue[];
 
     /** Constructs a set of values given a set of expressions and a name on them. */
-    constructor(property: OutputProperty, outputs: OutputExpression[]) {
+    constructor(
+        property: OutputProperty,
+        outputs: OutputExpression[],
+        locales: Locales,
+    ) {
         this.property = property;
         this.outputs = outputs;
         this.values = [];
         for (const out of outputs) {
-            const value = out.getPropertyValue(property.getName());
+            const value = out.getPropertyValue(property.getName(locales));
             if (value) this.values.push(value);
         }
     }
@@ -176,7 +180,7 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => value.given)
                     .map((value) => value.evaluate),
-                this.property.getName(),
+                this.property.getName(locales),
                 this.property.required
                     ? this.property.create(locales)
                     : undefined,
@@ -192,7 +196,7 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => !value.given)
                     .map((value) => value.evaluate),
-                this.property.getName(),
+                this.property.getName(locales),
                 this.property.create(locales),
             ),
         );

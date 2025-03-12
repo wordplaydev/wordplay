@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import { TYPE_SYMBOL } from '@parser/Symbols';
@@ -45,8 +46,8 @@ export default class StructureDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.function);
+    getDescription() {
+        return (l: LocaleText) => l.term.structure;
     }
 
     getRepresentativeText(locales: Locales) {

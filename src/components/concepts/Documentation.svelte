@@ -206,14 +206,20 @@
     <TextField
         id="concept-search"
         placeholder={'🔍'}
-        description={$locales.get((l) => l.ui.docs.field.search)}
+        description={(l) => l.ui.docs.field.search}
         bind:text={query}
         fill
     />
     <Mode
-        descriptions={$locales.get((l) => l.ui.docs.modes)}
+        descriptions={(l) => l.ui.docs.modes}
         choice={mode === 'how' ? 0 : 1}
-        select={(choice) => (mode = choice === 0 ? 'how' : 'language')}
+        select={(choice) => {
+            const newMode = choice === 0 ? 'how' : 'language';
+            if (mode !== newMode) {
+                mode = newMode;
+                path.set([]);
+            }
+        }}
         modes={[
             $locales.get((l) => l.ui.docs.modes.modes[0]),
             $locales.get((l) => l.ui.docs.modes.modes[1]),
@@ -224,14 +230,11 @@
         <span class="path">
             {#if $path.length > 1}
                 <Button
-                    tip={$locales.get((l) => l.ui.docs.button.home)}
+                    tip={(l) => l.ui.docs.button.home}
                     icon="⇤"
                     action={home}
                 ></Button>{/if}
-            <Button
-                tip={$locales.get((l) => l.ui.docs.button.back)}
-                icon="←"
-                action={back}
+            <Button tip={(l) => l.ui.docs.button.back} icon="←" action={back}
             ></Button>
             {#each $path as concept, index}{#if index > 0}
                     ·
@@ -333,13 +336,11 @@
                             )}
                             {#if categoryHowTos.length > 0}
                                 <Subheader
-                                    >{$locales.get(
-                                        (l) =>
-                                            l.ui.docs.how.category[
-                                                category as HowToCategory
-                                            ],
-                                    )}</Subheader
-                                >
+                                    text={(l) =>
+                                        l.ui.docs.how.category[
+                                            category as HowToCategory
+                                        ]}
+                                />
                                 <div class="howtos">
                                     {#each categoryHowTos as how}
                                         <CodeView
@@ -358,69 +359,69 @@
                         index.getPrimaryConceptsWithPurpose(Purpose.Project)}
                     {#if projectConcepts.length > 0}
                         <ConceptsView
-                            category={$locales.get((l) => l.term.project)}
+                            category={(l) => l.term.project}
                             concepts={projectConcepts}
                             {collapse}
                         />
                     {/if}
                     <ConceptsView
-                        category={$locales.get((l) => l.term.value)}
+                        category={(l) => l.term.value}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Value,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.evaluate)}
+                        category={(l) => l.term.evaluate}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Evaluate,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.bind)}
+                        category={(l) => l.term.bind}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Bind,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.decide)}
+                        category={(l) => l.term.decide}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Decide,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.input)}
+                        category={(l) => l.term.input}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Input,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.output)}
+                        category={(l) => l.term.output}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Output,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.type)}
+                        category={(l) => l.term.type}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Type,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.document)}
+                        category={(l) => l.term.document}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Document,
                         )}
                         {collapse}
                     />
                     <ConceptsView
-                        category={$locales.get((l) => l.term.source)}
+                        category={(l) => l.term.source}
                         concepts={index.getPrimaryConceptsWithPurpose(
                             Purpose.Source,
                         )}

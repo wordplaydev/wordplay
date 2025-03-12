@@ -29,7 +29,7 @@ export default class NodeConcept extends Concept {
 
     /** Returns the emotions for the characters */
     getEmotion(locales: Locales) {
-        return this.template.getNodeLocale(locales).emotion as Emotion;
+        return locales.get(this.template.getLocalePath()).emotion as Emotion;
     }
 
     /** Nodes can be matched by two names: the locale-specific one or the key in the locale
@@ -80,7 +80,7 @@ export default class NodeConcept extends Concept {
     }
 
     getCharacterName(locales: Locales): CharacterName | undefined {
-        const text = this.template.getNodeLocale(locales);
+        const text = locales.get(this.template.getLocalePath());
         const match = locales
             .getLocales()
             .map((l) => Object.entries(l.node).find(([, t]) => t === text))

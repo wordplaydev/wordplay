@@ -104,7 +104,12 @@
 
 <div class="container">
     <div class="example">
-        <div class="code" class:evaluated class:inline>
+        <div
+            class="code"
+            class:evaluated
+            class:inline
+            class:hasStage={stage !== undefined}
+        >
             <CodeView
                 node={example.program}
                 {inline}
@@ -132,7 +137,7 @@
     </div>
     <div class="tools">
         <Button
-            tip={$locales.get((l) => l.ui.project.button.copy.tip)}
+            tip={(l) => l.ui.project.button.copy.tip}
             action={() => {
                 copied = true;
                 toClipboard(
@@ -149,7 +154,7 @@
         >
 
         <Button
-            tip={$locales.get((l) => l.ui.timeline.button.reset)}
+            tip={(l) => l.ui.timeline.button.reset}
             icon="↻"
             action={() => reset(true)}
         ></Button>
@@ -190,12 +195,15 @@
     .code.evaluated {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-bottom: none;
         overflow-x: auto;
         white-space: nowrap;
+    }
+
+    .code.hasStage {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: none;
     }
 
     .tools {

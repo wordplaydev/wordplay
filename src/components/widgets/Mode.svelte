@@ -1,9 +1,11 @@
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '../../locale/UITexts';
     import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
-        descriptions: ModeText<string[]>;
+        descriptions: (locale: LocaleText) => ModeText<string[]>;
         modes: string[];
         choice: number;
         select: (choice: number) => void;
@@ -19,13 +21,21 @@
         active = true,
         labeled = true,
     }: Props = $props();
+
+    let descriptionText = $derived($locales.get(descriptions));
 </script>
 
 <div class="mode">
     {#if labeled}
-        <span class="label" id={descriptions.label}>{descriptions.label}</span>
+        <span class="label" id={descriptionText.label}
+            >{descriptionText.label}</span
+        >
     {/if}
-    <div class="group" role="radiogroup" aria-labelledby={descriptions.label}>
+    <div
+        class="group"
+        role="radiogroup"
+        aria-labelledby={descriptionText.label}
+    >
         {#each modes as mode, index}
             <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
             <button
@@ -33,8 +43,8 @@
                 role="radio"
                 aria-checked={index === choice}
                 class:selected={index === choice}
-                aria-label={descriptions.modes[index]}
-                title={descriptions.modes[index]}
+                aria-label={descriptionText.modes[index]}
+                title={descriptionText.modes[index]}
                 aria-disabled={!active || index === choice}
                 ondblclick={(event) => event.stopPropagation()}
                 onmousedown={(event) => event.preventDefault()}

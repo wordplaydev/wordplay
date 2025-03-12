@@ -15,7 +15,6 @@ import type Step from '@runtime/Step';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Tokens from '../parser/Tokens';
 import UnicodeString from '../unicode/UnicodeString';
@@ -46,7 +45,7 @@ export default class Source extends Expression {
     /** The program this source can evaluate. */
     readonly expression: Program;
 
-    /** The tokens of this program */
+    /** The tokens of this program, in order */
     readonly tokens: Token[];
 
     /** The spaces preceding each token in the program. */
@@ -287,6 +286,10 @@ export default class Source extends Expression {
 
     getGraphemeAt(index: number) {
         return this.code.at(index);
+    }
+
+    getGraphemesBetween(start: number, end: number) {
+        return this.code.substring(start, end);
     }
 
     /**
@@ -918,8 +921,9 @@ export default class Source extends Expression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Source);
+    static readonly LocalePath = (l: LocaleText) => l.node.Source;
+    getLocalePath() {
+        return Source.LocalePath;
     }
 
     getStartExplanations() {

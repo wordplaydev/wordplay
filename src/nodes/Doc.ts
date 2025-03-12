@@ -1,10 +1,10 @@
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type LanguageCode from '@locale/LanguageCode';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
 import Language from './Language';
@@ -114,8 +114,9 @@ export default class Doc extends LanguageTagged {
         return PossiblePII.analyze(this, context);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Doc);
+    static readonly LocalePath = (l: LocaleText) => l.node.Doc;
+    getLocalePath() {
+        return Doc.LocalePath;
     }
 
     getCharacter() {

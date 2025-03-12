@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import SetType from '@nodes/SetType';
 import UnionType from '@nodes/UnionType';
@@ -106,8 +107,8 @@ export default class SetValue extends SimpleValue {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.set);
+    getDescription() {
+        return (l: LocaleText) => l.term.set;
     }
 
     getRepresentativeText() {

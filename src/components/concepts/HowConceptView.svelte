@@ -27,7 +27,7 @@
 </Speech>
 
 {#if concept.how.related.length > 0}
-    <Subheader>{$locales.get((l) => l.ui.docs.how.related)}</Subheader>
+    <Subheader text={(l) => l.ui.docs.how.related} />
     <ul>
         {#each concept.how.related as related}
             <li><ConceptLinkUI link="how/{related}" /></li>

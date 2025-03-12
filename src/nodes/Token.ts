@@ -5,9 +5,8 @@ import {
     getLanguageSecondaryQuote,
 } from '../locale/LanguageCode';
 import type Locales from '../locale/Locales';
-import type { TemplateInput } from '../locale/Locales';
+import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
 import type LocaleText from '../locale/LocaleText';
-import type { Template } from '../locale/LocaleText';
 import Emotion from '../lore/Emotion';
 import type Spaces from '../parser/Spaces';
 import { TextCloseByTextOpen } from '../parser/Tokenizer';
@@ -61,8 +60,9 @@ export default class Token extends Node {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Token);
+    static readonly LocalePath = (l: LocaleText) => l.node.Token;
+    getLocalePath() {
+        return Token.LocalePath;
     }
 
     getPurpose() {
@@ -142,7 +142,7 @@ export default class Token extends Node {
         root: Root,
         context: Context,
         locales: Locales,
-    ): Template | undefined {
+    ): LocaleTextAccessor | undefined {
         if (!this.isSymbol(Sym.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined

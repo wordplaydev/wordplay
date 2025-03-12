@@ -1,7 +1,7 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
 import BooleanLiteral from './BooleanLiteral';
@@ -59,8 +59,9 @@ export default class BooleanType extends BasisType {
         return 'boolean';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.BooleanType);
+    static readonly LocalePath = (l: LocaleText) => l.node.BooleanType;
+    getLocalePath() {
+        return BooleanType.LocalePath;
     }
 
     getCharacter() {

@@ -4307,7 +4307,11 @@
                 "redo": "$~ponów cofniętą edycję",
                 "search": "$~wyszukaj znaki specjalne do wstawienia",
                 "tidy": "$~schludne odstępy",
-                "elide": "$~przełącz elizję"
+                "elide": "$~przełącz elizję",
+                "expandBeforeInline": "$~rozszerz wybór przed",
+                "expandAfterInline": "$~rozwiń wybór po",
+                "expandPriorLine": "$~rozszerz zaznaczenie do poprzedniego wiersza",
+                "expandNextLine": "$~rozszerz zaznaczenie do następnego wiersza"
             },
             "options": {
                 "locale": {
@@ -4927,7 +4931,7 @@
                     "wrongPassword": "$~Nieprawidłowa nazwa użytkownika i hasło. Albo twoje hasło jest nieprawidłowe, albo ktoś inny ma tę nazwę użytkownika.",
                     "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie.",
                     "invalidUsername": "$~Nazwa użytkownika musi być adresem e-mail lub większą liczbą liter, bez spacji.",
-                    "invalidPassword": "$~Hasło musi mieć co najmniej 10 znaków.",
+                    "invalidPassword": "$~Hasło musi mieć co najmniej 6 znaków.",
                     "mismatched": "$~Hasła nie są takie same."
                 },
                 "feedback": {
@@ -5220,7 +5224,8 @@
             "replace": "$~/Chce wkroczyć…/",
             "wrap": "$~w nawiasach",
             "unwrap": "$~odwijać się",
-            "bind": "$~nazwij to wyrażenie"
+            "bind": "$~nazwij to wyrażenie",
+            "range": "$~wybór od $1 do $2 dolarów"
         },
         "template": {
             "unwritten": "$~Do ustalenia",

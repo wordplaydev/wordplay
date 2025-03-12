@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
@@ -216,8 +217,9 @@ export default class NumberType extends BasisType {
         return 'measurement';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NumberType);
+    static readonly LocalePath = (l: LocaleText) => l.node.NumberType;
+    getLocalePath() {
+        return NumberType.LocalePath;
     }
 
     getCharacter() {

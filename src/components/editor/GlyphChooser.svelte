@@ -83,9 +83,10 @@
 
 {#snippet option(glyph: string, token = true)}
     <Button
-        tip={$locales
-            .concretize((l) => l.ui.source.cursor.insertSymbol, glyph)
-            .toText()}
+        tip={() =>
+            $locales
+                .concretize((l) => l.ui.source.cursor.insertSymbol, glyph)
+                .toText()}
         action={() => insert(glyph)}
         >{#if token}<TokenView
                 node={tokenize(glyph).getTokens()[0]}
@@ -95,12 +96,13 @@
 
 {#snippet character(character: Character)}
     <Button
-        tip={$locales
-            .concretize(
-                (l) => l.ui.source.cursor.insertSymbol,
-                character.description,
-            )
-            .toText()}
+        tip={() =>
+            $locales
+                .concretize(
+                    (l) => l.ui.source.cursor.insertSymbol,
+                    character.description,
+                )
+                .toText()}
         action={() => insert(character)}
         >{@html characterToSVG(character, '1em')}</Button
     >
@@ -110,7 +112,7 @@
     <TextField
         id="character-search"
         placeholder="🔍"
-        description={$locales.get((l) => l.ui.source.cursor.search)}
+        description={(l) => l.ui.source.cursor.search}
         bind:text={query}
     />
     <div class="matches">
@@ -135,14 +137,15 @@
             <!-- Show search results. -->
         {:else}
             {#each results as glyph}<Button
-                    tip={$locales
-                        .concretize(
-                            (l) => l.ui.source.cursor.insertSymbol,
-                            typeof glyph === 'string'
-                                ? glyph
-                                : glyph.description,
-                        )
-                        .toText()}
+                    tip={() =>
+                        $locales
+                            .concretize(
+                                (l) => l.ui.source.cursor.insertSymbol,
+                                typeof glyph === 'string'
+                                    ? glyph
+                                    : glyph.description,
+                            )
+                            .toText()}
                     action={() => insert(glyph)}
                     >{#if typeof glyph === 'string'}
                         <TokenView node={tokenize(glyph).getTokens()[0]} />
@@ -154,7 +157,7 @@
     </div>
     {#if query.length === 0}
         <Toggle
-            tips={$locales.get((l) => l.ui.source.toggle.characters)}
+            tips={(l) => l.ui.source.toggle.characters}
             on={emoji}
             toggle={() => (emoji = !emoji)}
             >{withColorEmoji(emoji ? '😴' : '😊')}</Toggle

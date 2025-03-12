@@ -9,6 +9,7 @@ import type TypeSet from './TypeSet';
 
 import { MisplacedThis } from '@conflicts/MisplacedThis';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import StartFinish from '@runtime/StartFinish';
 import NameException from '@values/NameException';
@@ -162,8 +163,9 @@ export default class This extends SimpleExpression {
         return this.dis;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.This);
+    static readonly LocalePath = (l: LocaleText) => l.node.This;
+    getLocalePath() {
+        return This.LocalePath;
     }
 
     getStartExplanations(

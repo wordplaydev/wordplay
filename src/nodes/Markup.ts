@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { FontWeight } from '../basis/Fonts';
 import Purpose from '../concepts/Purpose';
@@ -80,8 +81,9 @@ export default class Markup extends Content {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Markup);
+    static readonly LocalePath = (l: LocaleText) => l.node.Markup;
+    getLocalePath() {
+        return Markup.LocalePath;
     }
 
     getCharacter() {

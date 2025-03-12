@@ -834,7 +834,9 @@ export default class Project {
         return position !== undefined
             ? typeof position === 'number'
                 ? position
-                : source.root.resolvePath(position)
+                : position.every((n) => typeof n === 'number')
+                  ? [position[0], position[1]]
+                  : source.root.resolvePath(position)
             : undefined;
     }
 

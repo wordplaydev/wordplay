@@ -1,10 +1,10 @@
 import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import AnyType from './AnyType';
 import BasisType from './BasisType';
@@ -146,8 +146,9 @@ export default class TableType extends BasisType {
         return 'table';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TableType);
+    static readonly LocalePath = (l: LocaleText) => l.node.TableType;
+    getLocalePath() {
+        return TableType.LocalePath;
     }
 
     getCharacter() {

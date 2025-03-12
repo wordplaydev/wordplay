@@ -1,6 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
@@ -105,7 +106,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'list',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.list),
+                label: () => (l) => l.term.list,
                 // Must be a list
                 getType: () => ListType.make(),
             },
@@ -113,7 +114,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'index',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.index),
+                label: () => (l) => l.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),
             },
@@ -293,8 +294,9 @@ export default class ListAccess extends Expression {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ListAccess);
+    static readonly LocalePath = (l: LocaleText) => l.node.ListAccess;
+    getLocalePath() {
+        return ListAccess.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

@@ -1,11 +1,12 @@
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
     import NumberValue from '@values/NumberValue';
     import { tick } from 'svelte';
-    import { Projects, locales } from '../../db/Database';
+    import { Projects } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
     import type Evaluate from '../../nodes/Evaluate';
     import Expression from '../../nodes/Expression';
@@ -77,14 +78,10 @@
                     id={`velocity-${index}`}
                     text={`${value}`}
                     validator={(text) =>
-                        !valid(text)
-                            ? $locales.get((l) => l.ui.palette.error.nan)
-                            : true}
+                        !valid(text) ? (l) => l.ui.palette.error.nan : true}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
-                    description={$locales.get(
-                        (l) => l.ui.palette.field.coordinate,
-                    )}
+                    description={(l) => l.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, index, value)}
                     bind:view={views[index]}
                 />
@@ -93,9 +90,9 @@
                 >
             {:else}
                 <Note
-                    >{$locales.get(
-                        (locale) => locale.ui.palette.labels.computed,
-                    )}</Note
+                    ><LocalizedText
+                        path={(locale) => locale.ui.palette.labels.computed}
+                    /></Note
                 >
             {/if}
         </div>

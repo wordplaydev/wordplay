@@ -2,7 +2,7 @@
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyOptions from '@edit/OutputPropertyOptions';
     import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
-    import { Projects } from '../../db/Database';
+    import { locales, Projects } from '../../db/Database';
     import { getProject } from '../project/Contexts';
     import Options from '../widgets/Options.svelte';
 
@@ -31,7 +31,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 newValue ? options.fromText(newValue) : undefined,
             ),
         );
@@ -40,7 +40,7 @@
 
 <Options
     {id}
-    label={property.getName()}
+    label={property.name}
     value={options.toText(values.getExpression())}
     width="7em"
     options={[

@@ -1,4 +1,5 @@
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -113,8 +114,9 @@ export default class ListType extends BasisType {
             : undefined;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ListType);
+    static readonly LocalePath = (l: LocaleText) => l.node.ListType;
+    getLocalePath() {
+        return ListType.LocalePath;
     }
 
     getCharacter() {

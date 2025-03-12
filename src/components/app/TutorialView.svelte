@@ -3,6 +3,7 @@
     import Speech from '@components/lore/Speech.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { locales, Projects } from '@db/Database';
     import Project from '@db/projects/Project';
@@ -346,7 +347,7 @@
     <div class="header">
         <Header block={false}
             >{#if fallback}{withColorEmoji(DRAFT_SYMBOL)}{/if}
-            {$locales.get((l) => l.ui.page.learn.header)}</Header
+            <LocalizedText path={(l) => l.ui.page.learn.header} /></Header
         >
         <nav>
             {#if act !== undefined}
@@ -360,7 +361,7 @@
                 >{/if}
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
             <Options
-                label={$locales.get((l) => l.ui.page.learn.options.lesson)}
+                label={(l) => l.ui.page.learn.options.lesson}
                 value={withoutAnnotations(
                     JSON.stringify(progress.withLine(0).serialize()),
                 )}
@@ -389,9 +390,7 @@
                 <div class="controls">
                     <Button
                         large
-                        tip={$locales.get(
-                            (l) => l.ui.page.learn.button.previous,
-                        )}
+                        tip={(l) => l.ui.page.learn.button.previous}
                         action={() =>
                             navigate(progress.previousPause() ?? progress)}
                         active={progress.previousPause() !== undefined}
@@ -411,7 +410,7 @@
                         >{/if}
                     <Button
                         large
-                        tip={$locales.get((l) => l.ui.page.learn.button.next)}
+                        tip={(l) => l.ui.page.learn.button.next}
                         action={() =>
                             navigate(progress.nextPause() ?? progress)}
                         active={progress.nextPause() !== undefined}
@@ -421,18 +420,18 @@
                 </div>
                 {#if act === undefined}
                     <div class="title play"
-                        >{$locales.get((l) => l.wordplay)}</div
+                        ><LocalizedText path={(l) => l.wordplay} /></div
                     >
                 {:else if scene === undefined}
                     <div class="title act"
-                        >{$locales.get((l) => l.term.act)}
+                        ><LocalizedText path={(l) => l.term.act} />
                         {progress.act}<p
                             ><em>{withoutAnnotations(act.title)}</em></p
                         ></div
                     >
                 {:else if dialog === undefined}
                     <div class="title scene"
-                        >{$locales.get((l) => l.term.scene)}
+                        ><LocalizedText path={(l) => l.term.scene} />
                         {progress.scene}<p
                             ><em>{withoutAnnotations(scene.title)}</em></p
                         >{#if scene.subtitle}<em
@@ -482,6 +481,7 @@
                             showOutput={!editable}
                             {fit}
                             autofocus={false}
+                            guide={false}
                             warn={false}
                             shareable={false}
                             persistLayout={false}

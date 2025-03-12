@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Check from '@runtime/Check';
 import type Evaluator from '@runtime/Evaluator';
@@ -99,16 +100,14 @@ export default class Reaction extends Expression {
             {
                 name: 'initial',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.initial),
+                label: () => (l) => l.node.Reaction.initial,
             },
             { name: 'dots', kind: node(Sym.Stream), space: true },
             {
                 name: 'condition',
                 kind: node(Expression),
                 space: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.condition),
+                label: () => (l) => l.node.Reaction.condition,
                 getType: () => BooleanType.make(),
             },
             {
@@ -120,8 +119,7 @@ export default class Reaction extends Expression {
             {
                 name: 'next',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.next),
+                label: () => (l) => l.node.Reaction.next,
                 space: true,
                 indent: true,
             },
@@ -345,8 +343,9 @@ export default class Reaction extends Expression {
         return this.dots;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Reaction);
+    static readonly LocalePath = (l: LocaleText) => l.node.Reaction;
+    getLocalePath() {
+        return Reaction.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

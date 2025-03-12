@@ -4270,6 +4270,10 @@
                 "nextLine": "move cursor to line after",
                 "priorInline": "move cursor to position before",
                 "nextInline": "move cursor to position after",
+                "expandBeforeInline": "expand selection before",
+                "expandAfterInline": "expand selection after",
+                "expandPriorLine": "expand selection to prior line",
+                "expandNextLine": "expand selection to next line",
                 "lineStart": "move cursor to start of line",
                 "lineEnd": "move cursor to end of line",
                 "sourceStart": "move cursor to start of source",
@@ -4735,7 +4739,7 @@
                     "submit": "Submit"
                 },
                 "prompt": {
-                    "start": "Creating a class with generte accounts for all of the students in your class and let you create galleries that all of your students can add projects to. If students have existing accounts, you can add them later.",
+                    "start": "This form allows you to 1) generate accounts for all of the students in your class and 2) create a gallery that all of your students can add projects to. If students have existing accounts, you can add them to the gallery later.",
                     "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
                     "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
                     "pending": "Generating usernames and passwords...",
@@ -5086,7 +5090,7 @@
                     "confirm": "Check your old email address to confirm you new address.",
                     "delete": "Want us to forget everything you've made here? This can't be undone.",
                     "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email or username to confirm that this is what you want.",
-                    "name": "Pick an emoji to represent yourself to others."
+                    "name": "Pick an emoji or custom character to represent yourself to others."
                 },
                 "error": {
                     "expired": "This link expired.",
@@ -5097,7 +5101,7 @@
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
-                    "invalidPassword": "Passwords must be at least 10 characters long.",
+                    "invalidPassword": "Passwords must be at least 6 characters long.",
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
                     "mismatched": "The passwords don't match.",
                     "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
@@ -5209,6 +5213,7 @@
             "node": "$1$2[, type $2|]",
             "before": "before $1[$1|end]",
             "inside": "in $1, between $2[$2|start] and $3[$3|end]",
+            "range": "selection from $1 to $2",
             "between": "between $1 and $2",
             "line": "empty line between $1[$1|start] and $2[$2|end]",
             "conflicts": "$1 conflicts",

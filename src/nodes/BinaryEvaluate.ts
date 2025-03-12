@@ -3,7 +3,7 @@ import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import OrderOfOperations from '@conflicts/OrderOfOperations';
 import UnexpectedInputs from '@conflicts/UnexpectedInput';
-import type { Template } from '@locale/LocaleText';
+import type { LocaleText } from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import {
@@ -85,11 +85,8 @@ export default class BinaryEvaluate extends Expression {
                 name: 'left',
                 kind: node(Expression),
                 // The label comes from the type of left, or the default label from the translation.
-                label: (
-                    locales: Locales,
-                    _: Node,
-                    context: Context,
-                ): Template => this.left.getType(context).getLabel(locales),
+                label: (locales: Locales, _: Node, context: Context) => () =>
+                    this.left.getType(context).getLabel(locales),
                 getType: (context) => this.left.getType(context),
             },
             {
@@ -105,15 +102,11 @@ export default class BinaryEvaluate extends Expression {
                 name: 'right',
                 kind: node(Expression),
                 // The name of the input from the function, or the translation default
-                label: (
-                    locales: Locales,
-                    _: Node,
-                    context: Context,
-                ): Template => {
+                label: (locales: Locales, _: Node, context: Context) => {
                     const fun = this.getFunction(context);
                     return fun
-                        ? locales.getName(fun.inputs[0].names)
-                        : locales.get((l) => l.node.BinaryEvaluate.right);
+                        ? (_) => locales.getName(fun.inputs[0].names)
+                        : (l: LocaleText) => l.node.BinaryEvaluate.right;
                 },
                 space: true,
                 indent: true,
@@ -448,8 +441,9 @@ export default class BinaryEvaluate extends Expression {
         return true;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.BinaryEvaluate);
+    static readonly LocalePath = (l: LocaleText) => l.node.BinaryEvaluate;
+    getLocalePath() {
+        return BinaryEvaluate.LocalePath;
     }
 
     getStart() {

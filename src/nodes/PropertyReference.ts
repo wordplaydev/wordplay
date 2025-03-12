@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { PROPERTY_SYMBOL } from '@parser/Symbols';
@@ -153,8 +154,7 @@ export default class PropertyReference extends Expression {
                 name: 'name',
                 kind: node(Reference),
                 // The label is
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.PropertyReference.property),
+                label: () => (l) => l.node.PropertyReference.property,
                 // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
                 getDefinitions: (context: Context) => {
                     let defs = this.getDefinitions(this, context);
@@ -370,12 +370,14 @@ export default class PropertyReference extends Expression {
     getStart() {
         return this.dot;
     }
+
     getFinish() {
         return this.name ?? this.dot;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.PropertyReference);
+    static readonly LocalePath = (l: LocaleText) => l.node.PropertyReference;
+    getLocalePath() {
+        return PropertyReference.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

@@ -17,7 +17,7 @@
     import CodeView from './CodeView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
     import ExampleUI from './ExampleUI.svelte';
-    import MarkupHtmlView from './MarkupHTMLView.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
     import WebLinkHTMLView from './WebLinkHTMLView.svelte';
     import WordsHTMLView from './WordsHTMLView.svelte';
 
@@ -50,7 +50,7 @@
     />
 {:else if segment instanceof Words}<WordsHTMLView words={segment} {spaces} />
 {:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}
-        <MarkupHtmlView
+        <MarkupHTMLView
             markup={segment.node.getDescription(
                 segment.locales,
                 segment.context,

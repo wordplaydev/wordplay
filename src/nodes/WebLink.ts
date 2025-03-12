@@ -1,6 +1,6 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import {
@@ -86,8 +86,9 @@ export default class WebLink extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.WebLink);
+    static readonly LocalePath = (l: LocaleText) => l.node.WebLink;
+    getLocalePath() {
+        return WebLink.LocalePath;
     }
 
     getCharacter() {

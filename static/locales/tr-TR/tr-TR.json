@@ -4302,7 +4302,11 @@
                 "redo": "$~yapılmamış düzenlemeyi yeniden yap",
                 "search": "$~eklenecek özel karakterleri arayın",
                 "tidy": "$~düzenli aralık",
-                "elide": "$~geçişi değiştir"
+                "elide": "$~geçişi değiştir",
+                "expandBeforeInline": "$~seçimi genişletmeden önce",
+                "expandAfterInline": "$~seçimi genişlet",
+                "expandPriorLine": "$~seçimi önceki satıra genişlet",
+                "expandNextLine": "$~seçimi bir sonraki satıra genişlet"
             },
             "options": {
                 "locale": {
@@ -4917,7 +4921,7 @@
                     "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
                     "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",
                     "invalidUsername": "$~Kullanıcı adları e-posta veya 5 harften fazla olmamalı ve boşluk içermemelidir.",
-                    "invalidPassword": "$~Şifreler en az 10 karakter uzunluğunda olmalıdır.",
+                    "invalidPassword": "$~Şifreler en az 6 karakter uzunluğunda olmalıdır.",
                     "mismatched": "$~Şifreler uyuşmuyor."
                 },
                 "feedback": {
@@ -5210,7 +5214,8 @@
             "replace": "$~/İçeri girmek istiyor…/",
             "wrap": "$~parantez içine almak",
             "unwrap": "$~açmak",
-            "bind": "$~bu ifadeyi adlandırın"
+            "bind": "$~bu ifadeyi adlandırın",
+            "range": "$~1$'dan $2'a kadar seçim"
         },
         "template": {
             "unwritten": "$~Belirsiz",

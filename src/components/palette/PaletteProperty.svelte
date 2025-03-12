@@ -1,5 +1,6 @@
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
     import type OutputProperty from '@edit/OutputProperty';
     import OutputPropertyOptions from '@edit/OutputPropertyOptions';
@@ -49,7 +50,7 @@
     let bind = $derived(values.getBind());
     let bindConcept = $derived(bind ? index?.getBindConcept(bind) : undefined);
     let valuesAreSet = $derived(values.areSet());
-    let propertyID = $derived(`property-${property.getName()}`);
+    let propertyID = $derived(`property-${property.getName($locales)}`);
 
     let toggleView: HTMLButtonElement | undefined = $state();
 
@@ -77,8 +78,8 @@
         {#if editable}
             <Button
                 tip={valuesAreSet
-                    ? $locales.get((l) => l.ui.palette.button.revert)
-                    : $locales.get((l) => l.ui.palette.button.set)}
+                    ? (l) => l.ui.palette.button.revert
+                    : (l) => l.ui.palette.button.set}
                 bind:view={toggleView}
                 action={() => toggleValues(!valuesAreSet)}
                 icon={valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}
@@ -87,24 +88,26 @@
     {#snippet control()}
         {#if values.areMixed()}
             <Note id={propertyID}
-                >{$locales.get((l) => l.ui.palette.labels.mixed)}</Note
+                ><LocalizedText path={(l) => l.ui.palette.labels.mixed} /></Note
             >
         {:else if !values.areSet()}
             {@const expression = values.getExpression()}
             <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
             <Note id={propertyID}
-                >{#if property.inherited}{$locales.get(
-                        (l) => l.ui.palette.labels.inherited,
-                    )}{:else if values.areDefault() && expression !== undefined}<NodeView
+                >{#if property.inherited}<LocalizedText
+                        path={(l) => l.ui.palette.labels.inherited}
+                    />{:else if values.areDefault() && expression !== undefined}<NodeView
                         node={expression}
                     />
-                    {$locales.get(
-                        (l) => l.ui.palette.labels.default,
-                    )}{:else}&mdash;{/if}</Note
+                    <LocalizedText
+                        path={(l) => l.ui.palette.labels.default}
+                    />{:else}&mdash;{/if}</Note
             >
         {:else if !values.areEditable(project)}
             <Note id={propertyID}
-                >{$locales.get((l) => l.ui.palette.labels.computed)}</Note
+                ><LocalizedText
+                    path={(l) => l.ui.palette.labels.computed}
+                /></Note
             >
         {:else if property.type instanceof OutputPropertyRange}
             <BindSlider

@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
@@ -70,12 +71,12 @@ export default class Insert extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.table),
+                label: () => (l) => l.term.table,
             },
             {
                 name: 'row',
                 kind: node(Row),
-                label: (locales: Locales) => locales.get((l) => l.term.row),
+                label: () => (l) => l.term.row,
                 space: true,
             },
         ];
@@ -316,8 +317,9 @@ export default class Insert extends Expression {
         return this.row.close ?? this.row.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Insert);
+    static readonly LocalePath = (l: LocaleText) => l.node.Insert;
+    getLocalePath() {
+        return Insert.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

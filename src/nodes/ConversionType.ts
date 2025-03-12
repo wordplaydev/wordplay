@@ -1,7 +1,7 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
 import { node, type Grammar, type Replacement } from './Node';
@@ -81,8 +81,9 @@ export default class ConversionType extends Type {
         return 'conversion';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ConversionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.ConversionType;
+    getLocalePath() {
+        return ConversionType.LocalePath;
     }
 
     getCharacter() {

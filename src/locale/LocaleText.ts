@@ -111,7 +111,7 @@ export function docToMarkup(doc: DocText): Markup {
     return parseLocaleDoc(toDocString(doc)).markup;
 }
 
-export function getFirstName(name: NameText) {
+export function getFirstText(name: string | string[]) {
     return typeof name === 'string' ? name : name[0];
 }
 

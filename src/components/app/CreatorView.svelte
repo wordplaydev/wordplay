@@ -1,7 +1,7 @@
 <script lang="ts">
+    import Text from '@components/widgets/LocalizedText.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { locales } from '@db/Database';
-    import { withColorEmoji } from '../../unicode/emoji';
+    import CreatorSymbolView from './CreatorCharacterView.svelte';
     import Feedback from './Feedback.svelte';
 
     interface Props {
@@ -24,20 +24,13 @@
 </script>
 
 <div class="creator" class:chrome class:fade
-    >{#if creator}<span
-            class="name"
-            style:animation-delay={`${Math.random() * 1000}ms`}
-            >{withColorEmoji(
-                creator.getName() === null || creator.getName() === ''
-                    ? '😃'
-                    : (creator.getName() ?? '😃'),
-            )}</span
-        >{/if}{#if creator}
+    >{#if creator}<CreatorSymbolView character={creator.getName() ?? ''}
+        ></CreatorSymbolView>
         {username.length < 10
             ? username
-            : `${username.substring(0, 10)}…`}{:else if prompt}{$locales.get(
-            (l) => l.ui.page.login.anonymous,
-        )}{:else}
+            : `${username.substring(0, 10)}…`}{:else if prompt}<Text
+            path={(l) => l.ui.page.login.anonymous}
+        ></Text>{:else}
         <Feedback inline>—</Feedback>{/if}</div
 >
 
@@ -81,11 +74,5 @@
         100% {
             transform: rotate(0deg);
         }
-    }
-
-    .name {
-        display: inline-block;
-        font-family: 'Noto Color Emoji', 'Noto Emoji', 'Noto Sans';
-        animation: rotate infinite ease-in 5s;
     }
 </style>

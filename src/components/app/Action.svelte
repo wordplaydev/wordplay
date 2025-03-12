@@ -20,7 +20,10 @@
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-background);
+        display: flex;
+        flex-direction: column;
         flex: 1 0 auto;
+        gap: var(--wordplay-spacing);
     }
 
     .meta {

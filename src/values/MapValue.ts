@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import MapType from '@nodes/MapType';
 import UnionType from '@nodes/UnionType';
@@ -127,8 +128,8 @@ export default class MapValue extends SimpleValue {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.map);
+    getDescription() {
+        return (l: LocaleText) => l.term.map;
     }
 
     getRepresentativeText() {

@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
 import type EditContext from '@edit/EditContext';
-import type { Template } from '@locale/LocaleText';
+import type { LocaleText } from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import Halt from '@runtime/Halt';
@@ -83,7 +83,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                     _: Node,
                     context: Context,
                     root: Root,
-                ): Template => {
+                ) => {
                     const parent: Node | undefined = root.getParent(this);
                     // See if the parent has a label.
                     return (
@@ -93,9 +93,8 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                             context,
                             root,
                         ) ??
-                        locales.get(
-                            (l) => l.node.ExpressionPlaceholder.placeholder,
-                        )
+                        ((l: LocaleText) =>
+                            l.node.ExpressionPlaceholder.placeholder)
                     );
                 },
             },
@@ -210,8 +209,10 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return this.placeholder ?? this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ExpressionPlaceholder);
+    static readonly LocalePath = (l: LocaleText) =>
+        l.node.ExpressionPlaceholder;
+    getLocalePath() {
+        return ExpressionPlaceholder.LocalePath;
     }
 
     getDescriptionInput(locales: Locales, context: Context) {

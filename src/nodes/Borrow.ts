@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownBorrow } from '@conflicts/UnknownBorrow';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { BORROW_SYMBOL } from '@parser/Symbols';
@@ -86,21 +87,18 @@ export default class Borrow extends SimpleExpression {
                 name: 'source',
                 kind: any(node(Reference), none()),
                 space: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.source),
+                label: () => (l) => l.node.Borrow.source,
             },
             { name: 'dot', kind: optional(node(Sym.Access)) },
             {
                 name: 'name',
                 kind: optional(node(Reference)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.name),
+                label: () => (l) => l.node.Borrow.name,
             },
             {
                 name: 'version',
                 kind: optional(node(Sym.Number)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.version),
+                label: () => (l) => l.node.Borrow.version,
             },
         ];
     }
@@ -272,8 +270,9 @@ export default class Borrow extends SimpleExpression {
         return this.source ?? this.borrow;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Borrow);
+    static readonly LocalePath = (l: LocaleText) => l.node.Borrow;
+    getLocalePath() {
+        return Borrow.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

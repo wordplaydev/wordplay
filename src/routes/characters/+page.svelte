@@ -3,9 +3,10 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
-    import { CharactersDB, locales } from '@db/Database';
+    import Title from '@components/widgets/Title.svelte';
+    import { CharactersDB } from '@db/Database';
     import { firestore } from '@db/firebase';
     import {
         characterToSVG,
@@ -19,7 +20,7 @@
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.characters.header)}</title>
+    <Title text={(l) => l.ui.page.characters.header} />
 </svelte:head>
 
 {#snippet preview(character: Character)}
@@ -55,17 +56,13 @@
 {/snippet}
 
 <Writing>
-    <Header>{$locales.get((l) => l.ui.page.characters.header)}</Header>
-    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.characters.prompt)} />
+    <Header text={(l) => l.ui.page.characters.header} />
+    <MarkupHTMLView markup={(l) => l.ui.page.characters.prompt} />
 
     {#if firestore === undefined}
-        <Feedback
-            >{$locales.get((l) => l.ui.page.characters.error.offline)}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.characters.error.offline} />
     {:else if $user === null}
-        <Feedback
-            >{$locales.get((l) => l.ui.page.characters.error.noauth)}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.characters.error.noauth} />
     {:else}
         <NewCharacterButton></NewCharacterButton>
 

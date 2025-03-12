@@ -278,9 +278,7 @@
                         {#if stepping}
                             <MarkupHTMLView
                                 inline
-                                markup={$locales.get(
-                                    (l) => l.ui.annotations.evaluating,
-                                )}
+                                markup={(l) => l.ui.annotations.evaluating}
                             />
                         {:else if caretNode}
                             <div class="who">
@@ -309,9 +307,8 @@
                                     <div class="concept">
                                         <MarkupHTMLView
                                             inline
-                                            markup={$locales.get(
-                                                (l) => l.ui.annotations.learn,
-                                            )}
+                                            markup={(l) =>
+                                                l.ui.annotations.learn}
                                         />
                                         <ConceptLinkUI
                                             link={relevantConcept}
@@ -366,10 +363,8 @@
                                         <div class="concept">
                                             <MarkupHTMLView
                                                 inline
-                                                markup={$locales.get(
-                                                    (l) =>
-                                                        l.ui.annotations.learn,
-                                                )}
+                                                markup={(l) =>
+                                                    l.ui.annotations.learn}
                                             />
                                             <ConceptLinkUI
                                                 link={relevantParentConcept}
@@ -382,9 +377,7 @@
                         {:else}
                             <MarkupHTMLView
                                 inline
-                                markup={$locales.get(
-                                    (l) => l.ui.annotations.space,
-                                )}
+                                markup={(l) => l.ui.annotations.space}
                             />
                         {/if}
                     {/snippet}

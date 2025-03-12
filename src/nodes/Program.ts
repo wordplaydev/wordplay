@@ -1,6 +1,7 @@
 import { BorrowCycle } from '@conflicts/BorrowCycle';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Block, { BlockKind } from '@nodes/Block';
 import type Evaluator from '@runtime/Evaluator';
@@ -202,8 +203,9 @@ export default class Program extends Expression {
         return this.end ?? this.expression;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Program);
+    static readonly LocalePath = (l: LocaleText) => l.node.Program;
+    getLocalePath() {
+        return Program.LocalePath;
     }
 
     getStartExplanations(

@@ -1,6 +1,7 @@
 name: Defect
 description: Report something not working as intended.
 labels: ['defect', 'needs triage']
+type: 'defect'
 projects: ['wordplaydev/7']
 body:
     - type: markdown

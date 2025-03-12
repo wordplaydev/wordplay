@@ -19,7 +19,13 @@ import Name from '../../../nodes/Name';
 import NameType from '../../../nodes/NameType';
 import Program from '../../../nodes/Program';
 import Reference from '../../../nodes/Reference';
-import getOutlineOf, { getUnderlineOf, type Outline } from './outline';
+import getOutlineOf, {
+    getOutlineOfRows,
+    getTokenRects,
+    getUnderlineOf,
+    rectsToRows,
+    type Outline,
+} from './outline';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -91,7 +97,7 @@ export function getHighlights(
     )
         addHighlight(source, newHighlights, latestValue.step.node, 'exception');
 
-    // Is the caret selecting a node? Highlight it.
+    // Is the caret selecting a non-placeholder node? Highlight it.
     if (caret.position instanceof Node && !caret.isPlaceholderNode()) {
         const tokensSelected =
             !blocks ||
@@ -225,7 +231,7 @@ export function getHighlights(
     let caretParent: Node | undefined;
     if (caret.position instanceof Node)
         caretParent = source.root.getParent(caret.position);
-    else if (caret.insideToken()) {
+    else if (caret.isPosition() && caret.insideToken()) {
         const token = source.getTokenAt(caret.position);
         if (token) caretParent = source.root.getParent(token);
     }
@@ -314,7 +320,7 @@ export function updateOutlines(
     horizontal: boolean,
     rtl: boolean,
     getNodeView: (node: Node) => HTMLElement | undefined,
-) {
+): HighlightSpec[] {
     const outlines = [];
     const nodeViews = new Map<HighlightSpec, HTMLElement>();
     // Convert all of the highlighted views into outlines of the nodes.
@@ -389,4 +395,51 @@ export function updateOutlines(
     }
 
     return outlines;
+}
+
+/** Given a source and a range in its text, determine a path around the selected text */
+export function getRangeOutline(
+    source: Source,
+    start: number,
+    end: number,
+    getNodeView: (node: Node) => HTMLElement | undefined,
+    horzontal: boolean,
+    rtl: boolean,
+): Outline | undefined {
+    if (start > end) {
+        const temp = start;
+        start = end;
+        end = temp;
+    }
+    // Find all tokens in the range, and remember details about it.
+    const tokens = source.tokens
+        .map((token) => {
+            const tokenStart = source.getTokenTextPosition(token);
+            if (tokenStart === undefined) return undefined;
+            const tokenEnd = tokenStart + token.getTextLength();
+            if (start <= tokenEnd && end >= tokenStart) {
+                return {
+                    token,
+                    start: tokenStart,
+                    end: tokenEnd,
+                };
+            } else return undefined;
+        })
+        .filter((t) => t !== undefined);
+
+    // Find views of all the tokens
+    const nodeViews = tokens
+        .map((t) => getNodeView(t.token))
+        .filter((v) => v !== undefined);
+
+    if (nodeViews.length === 0) return undefined;
+
+    // Convert the tokens into rectangles
+    const tokenRects = getTokenRects(nodeViews, {
+        start: start - tokens[0].start,
+        end: end - tokens[tokens.length - 1].start,
+    });
+
+    // Convert the rects into an outline of rows
+    return getOutlineOfRows(rectsToRows(tokenRects, horzontal, rtl));
 }

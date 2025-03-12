@@ -4251,7 +4251,11 @@
                 "search": "buscar caracteres especiales para insertar",
                 "tidy": "espaciado ordenado",
                 "elide": "$~alternar elisión",
-                "insertDocs": "$~Insertar símbolo de explicación"
+                "insertDocs": "$~Insertar símbolo de explicación",
+                "expandBeforeInline": "$~ampliar la selección antes",
+                "expandAfterInline": "$~ampliar la selección después",
+                "expandPriorLine": "$~ampliar la selección a la línea anterior",
+                "expandNextLine": "$~ampliar la selección a la siguiente línea"
             },
             "options": {
                 "locale": {
@@ -4715,7 +4719,7 @@
                     "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
                     "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo.",
                     "invalidUsername": "$~Los nombres de usuario deben ser correos electrónicos o más de 5 letras sin espacios.",
-                    "invalidPassword": "$~Las contraseñas deben tener al menos 10 caracteres.",
+                    "invalidPassword": "$~Las contraseñas deben tener al menos 6 caracteres.",
                     "mismatched": "$~Las contraseñas no coinciden."
                 },
                 "feedback": {
@@ -5124,7 +5128,8 @@
             "replace": "/Quiere intervenir…/",
             "wrap": "poner paréntesis",
             "unwrap": "desenvolver",
-            "bind": "nombrar esta expresión"
+            "bind": "nombrar esta expresión",
+            "range": "$~Selección desde $1 a $2"
         },
         "template": {
             "unwritten": "Por determinar",

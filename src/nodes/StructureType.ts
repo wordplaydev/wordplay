@@ -156,8 +156,9 @@ export default class StructureType extends BasisType {
         return this.definition.getPreferredName(locale ? [locale] : []);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StructureType);
+    static readonly LocalePath = (l: LocaleText) => l.node.StructureType;
+    getLocalePath() {
+        return StructureType.LocalePath;
     }
 
     getCharacter() {

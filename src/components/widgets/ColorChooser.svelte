@@ -55,8 +55,7 @@
 </script>
 
 <script lang="ts">
-    import { locales } from '../../db/Database';
-    import { getFirstName } from '../../locale/LocaleText';
+    import { getFirstText } from '../../locale/LocaleText';
     import Button from './Button.svelte';
 
     interface Props {
@@ -135,7 +134,7 @@
     </div>
     <div class="primary">
         {#each [...palette, ...Primary] as primary}<Button
-                tip="color"
+                tip={() => primary.join(',')}
                 padding={false}
                 action={() => {
                     lightness = primary[0] / 100;
@@ -155,16 +154,12 @@
 
     <div class="slider">
         <Slider
-            label={$locales.get((l) =>
-                getFirstName(l.output.Color.lightness.names),
-            )}
+            label={(l) => getFirstText(l.output.Color.lightness.names)}
             value={lightness}
             min={0}
             max={1}
             increment={0.01}
-            tip={$locales.get((l) =>
-                getFirstName(l.output.Color.lightness.names),
-            )}
+            tip={(l) => l.output.Color.lightness.names}
             unit={'%'}
             precision={0}
             change={(value) => {
@@ -174,15 +169,13 @@
             {editable}
         />
         <Slider
-            label={$locales.get((l) =>
-                getFirstName(l.output.Color.chroma.names),
-            )}
+            label={(l) => getFirstText(l.output.Color.chroma.names)}
             value={chroma}
             min={0}
             max={150}
             increment={1}
             unit=""
-            tip={$locales.get((l) => getFirstName(l.output.Color.chroma.names))}
+            tip={(l) => l.output.Color.chroma.names}
             change={(value) => {
                 chroma = value.round().toNumber();
                 broadcast();
@@ -190,13 +183,13 @@
             {editable}
         />
         <Slider
-            label={$locales.get((l) => getFirstName(l.output.Color.hue.names))}
+            label={(l) => getFirstText(l.output.Color.hue.names)}
             value={hue}
             min={0}
             max={360}
             increment={1}
             unit={'°'}
-            tip={$locales.get((l) => getFirstName(l.output.Color.hue.names))}
+            tip={(l) => l.output.Color.hue.names}
             change={(value) => {
                 hue = value.round().toNumber();
                 broadcast();

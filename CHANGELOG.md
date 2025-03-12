@@ -3,6 +3,71 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.5
+
+### Fixed
+
+- Prevent scroll bars on window.
+- Improved contrast of inactive color in dark mode.
+- Fixed Serbian typo.
+
+## 0.16.4 2025-03-10
+
+### Fixed
+
+- Increased compatibility of Firebase connection for complex school networks.
+- Deactivated confusing blocks mode for now; everyone was perplexed by the "experimental" label.
+- Less intense typing jump animation.
+- Fixed Punjabi reading order.
+- Resolved several evaluator memory leaks.
+
+## 0.16.3 2025-03-08
+
+### Added
+
+- By student request, allow custom characters in profile and creator views.
+- By student request, added Comic Neue as a supported font! Long live Comic Sans.
+- Fixed #264, adding text selection to code editor.
+
+### Fixed
+
+- Grow text boxes
+- Improved spacing of profile page.
+- Prevent accidental overwriting of English locale when verifying locales.
+- Deploy to staging on main PR, prod on main merge.
+- Only run tests and checks on PR, not merge.
+- Allow selection of names with escape key, rather than selecting parent.
+
+### Maintenance
+
+- Updated Google Translate, Svelte, SvelteKit, Firebase, Prettier, TypeScript, Vite, Vitest.
+
+## 0.16.2 2025-03-02
+
+### Fixed
+
+- Added more detail to text literal locales in LANGUAGE.md.
+
+## 0.16.1 2025-02-25
+
+### Fixed
+
+- Better inactive color contrast in dark mode.
+- Fixed #691: Reset path when changing guide mode.
+- Don't use blocks mode for code examples.
+- Fixed #690: Adding labels to token fields in blocks mode.
+- Don't show how to guide by default in tutorial.
+- Vertical layout of project sets.
+
+### Maintenance
+
+- Updated types, eslint, prettier, svelte, tsx, uuid, vite, vitest, and firebase functions.
+- Fixed #528: Deploy to prod on push or merge to main.
+- Refactored widgets to use locale accessor functions instead of strings, for provenance.
+- Refactored nodes to return locale accessor function instead of specific locale, for provenance.
+- Refactored node labels to return locale accessor function, for provenance.
+- Wrapped most localized text, for provenance.
+
 ## 0.16.0 2025-02-25
 
 ### Added

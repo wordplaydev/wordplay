@@ -1,9 +1,9 @@
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FORMATTED_SYMBOL } from '@parser/Symbols';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
 import Example from './Example';
@@ -120,8 +120,9 @@ export default class FormattedTranslation extends LanguageTagged {
         return PossiblePII.analyze(this, context);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FormattedTranslation);
+    static readonly LocalePath = (l: LocaleText) => l.node.FormattedTranslation;
+    getLocalePath() {
+        return FormattedTranslation.LocalePath;
     }
 
     getCharacter() {

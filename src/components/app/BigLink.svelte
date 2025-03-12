@@ -1,9 +1,11 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import Link from './Link.svelte';
 
     interface Props {
         to: string;
-        subtitle?: string | undefined;
+        subtitle?: LocaleTextAccessor | undefined;
         external?: boolean;
         smaller?: boolean;
         children?: import('svelte').Snippet;
@@ -22,7 +24,8 @@
     <div class="link"
         ><Link nowrap {to} {external}>{@render children?.()}</Link></div
     >
-    {#if subtitle}<div class="subtitle">{subtitle}</div>{/if}</div
+    {#if subtitle}<div class="subtitle"><LocalizedText path={subtitle} /></div
+        >{/if}</div
 >
 
 <style>

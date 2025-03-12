@@ -1,4 +1,5 @@
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import NoneValue from '@values/NoneValue';
@@ -85,8 +86,9 @@ export default class NoneLiteral extends Literal {
         return current;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NoneLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.NoneLiteral;
+    getLocalePath() {
+        return NoneLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

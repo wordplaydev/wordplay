@@ -3,7 +3,7 @@ import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import toStructure from '../basis/toStructure';
 import { getBind } from '../locale/getBind';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/LocaleText';
+import { getFirstText } from '../locale/LocaleText';
 import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../values/Value';
@@ -151,7 +151,7 @@ export default class Group extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : locales.get((l) => getFirstName(l.output.Group.names));
+            : locales.get((l) => getFirstText(l.output.Group.names));
     }
 
     getDescription(locales: Locales) {

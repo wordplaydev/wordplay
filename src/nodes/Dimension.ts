@@ -1,4 +1,5 @@
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from '@parser/Symbols';
 import Purpose from '../concepts/Purpose';
@@ -143,8 +144,9 @@ export default class Dimension extends Node {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Dimension);
+    static readonly LocalePath = (l: LocaleText) => l.node.Dimension;
+    getLocalePath() {
+        return Dimension.LocalePath;
     }
 
     getDescription(locales: Locales) {

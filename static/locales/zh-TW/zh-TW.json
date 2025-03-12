@@ -4233,7 +4233,11 @@
                 "search": "找出要插入的特殊字元",
                 "tidy": "整理間距",
                 "elide": "$~切换省略",
-                "insertDocs": "$~插入解释符号"
+                "insertDocs": "$~插入解释符号",
+                "expandBeforeInline": "$~展开选择之前",
+                "expandAfterInline": "$~扩大选择范围后",
+                "expandPriorLine": "$~扩大选择范围至上一行",
+                "expandNextLine": "$~扩展选择到下一行"
             },
             "options": {
                 "locale": {
@@ -4688,7 +4692,7 @@
                     "wrongPassword": "無效的使用者名稱和密碼。可能是密碼錯誤，或者其他人已經使用了這個使用者名稱。",
                     "tooMany": "$~您尝试登录失败的次数过多。您必须等待一段时间才能重试。",
                     "invalidUsername": "$~用户名必须是电子邮件或超过 5 个字母且无空格。",
-                    "invalidPassword": "$~密码长度必须至少为 10 个字符。",
+                    "invalidPassword": "$~密码长度必须至少为 6 个字符。",
                     "mismatched": "$~密码不匹配。"
                 },
                 "feedback": {
@@ -5097,7 +5101,8 @@
             "replace": "/想要介入…/",
             "wrap": "加括號",
             "unwrap": "揭開",
-            "bind": "為這個表達命名"
+            "bind": "為這個表達命名",
+            "range": "$~选择从 $1 美元到 $2 美元"
         },
         "template": {
             "unwritten": "待定",

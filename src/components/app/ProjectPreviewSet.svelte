@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { type Snippet } from 'svelte';
     import { locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
@@ -10,22 +11,22 @@
         set: Project[];
         edit:
             | {
-                  description: string;
+                  description: LocaleTextAccessor;
                   label: string;
                   action: (project: Project) => void;
               }
             | false;
         remove: (project: Project) =>
             | {
-                  description: string;
-                  prompt: string;
+                  description: LocaleTextAccessor;
+                  prompt: LocaleTextAccessor;
                   label: string;
                   action: () => void;
               }
             | false;
         copy:
             | {
-                  description: string;
+                  description: LocaleTextAccessor;
                   label: string;
                   action: (project: Project) => void;
               }
@@ -87,12 +88,10 @@
     .projects {
         width: 100%;
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
+        flex-direction: column;
+        align-items: start;
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
-        justify-content: space-between;
     }
 
     .controls {

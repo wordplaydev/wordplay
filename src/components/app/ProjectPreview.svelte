@@ -162,13 +162,13 @@
             {#if editable && owner !== null && showCollaborators && collaborators.length > 0}
                 <div class="creators">
                     {#await Creators.getCreator(owner)}
-                        <Spinning label="" />
+                        <Spinning />
                     {:then creator}
                         <CreatorView {anonymize} {creator} />
                     {/await}
                     {#each collaborators.slice(0, 2) as collaborator}
                         {#await Creators.getCreator(collaborator)}
-                            <Spinning label="" />
+                            <Spinning />
                         {:then collaboratorCreator}
                             <CreatorView
                                 {anonymize}

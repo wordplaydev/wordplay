@@ -1,6 +1,6 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Spaces from '../parser/Spaces';
 import { STREAM_SYMBOL } from '../parser/Symbols';
@@ -56,8 +56,9 @@ export default class StreamDefinitionType extends Type {
         return `${STREAM_SYMBOL}${this.definition.output.toWordplay(_)}`;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StreamDefinitionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.StreamDefinitionType;
+    getLocalePath() {
+        return StreamDefinitionType.LocalePath;
     }
 
     getCharacter() {

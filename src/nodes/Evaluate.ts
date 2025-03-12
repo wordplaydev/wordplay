@@ -8,6 +8,7 @@ import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import UnknownInput from '@conflicts/UnknownInput';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
 import Evaluation from '@runtime/Evaluation';
@@ -220,8 +221,7 @@ export default class Evaluate extends Expression {
                         ),
                         new AnyType(),
                     ),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Evaluate.function),
+                label: () => (l) => l.node.Evaluate.function,
             },
             { name: 'types', kind: any(node(TypeInputs), none()) },
             { name: 'open', kind: node(Sym.EvalOpen) },
@@ -233,7 +233,7 @@ export default class Evaluate extends Expression {
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return locales.get((l) => l.node.Evaluate.input);
+                        return (l) => l.node.Evaluate.input;
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(context);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -245,8 +245,8 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child))),
                     );
                     return bind === undefined
-                        ? locales.get((l) => l.node.Evaluate.input)
-                        : locales.getName(bind.expected.names);
+                        ? (l) => l.node.Evaluate.input
+                        : () => locales.getName(bind.expected.names);
                 },
                 space: true,
                 indent: true,
@@ -993,8 +993,9 @@ export default class Evaluate extends Expression {
         return this.close ?? this.fun;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Evaluate);
+    static readonly LocalePath = (l: LocaleText) => l.node.Evaluate;
+    getLocalePath() {
+        return Evaluate.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

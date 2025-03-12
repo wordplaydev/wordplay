@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Expression from '@nodes/Expression';
 import SimpleExpression from '@nodes/SimpleExpression';
@@ -104,8 +105,9 @@ export default class InternalExpression extends SimpleExpression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.InternalExpression);
+    static readonly LocalePath = (l: LocaleText) => l.node.InternalExpression;
+    getLocalePath() {
+        return InternalExpression.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

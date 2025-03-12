@@ -1,6 +1,7 @@
 import type EditContext from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
@@ -145,8 +146,9 @@ export default class FormattedLiteral extends Literal {
         return getPreferred(locales, this.texts);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FormattedLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.FormattedLiteral;
+    getLocalePath() {
+        return FormattedLiteral.LocalePath;
     }
 
     getCharacter() {

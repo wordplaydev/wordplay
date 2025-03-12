@@ -10,7 +10,7 @@ export default function getShapeProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Stage.content),
+            (l) => l.output.Stage.content.names,
             'content',
             true,
             false,

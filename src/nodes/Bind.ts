@@ -178,8 +178,8 @@ export default class Bind extends Expression {
                     if (child === this.value) {
                         const bind =
                             this.getCorrespondingBindDefinition(context);
-                        return bind ? locales.getName(bind.names) : '_';
-                    } else return '_';
+                        return () => (bind ? locales.getName(bind.names) : '_');
+                    } else return () => '_';
                 },
             },
         ];
@@ -649,8 +649,9 @@ export default class Bind extends Expression {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Bind);
+    static readonly LocalePath = (l: LocaleText) => l.node.Bind;
+    getLocalePath() {
+        return Bind.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

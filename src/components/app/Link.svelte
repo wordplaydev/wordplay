@@ -1,11 +1,15 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
         to: string;
-        tip?: string | undefined;
+        tip?: LocaleTextAccessor | undefined;
         nowrap?: boolean;
         external?: boolean;
+        label?: LocaleTextAccessor;
         children?: import('svelte').Snippet;
     }
 
@@ -14,19 +18,27 @@
         tip = undefined,
         nowrap = false,
         external = false,
+        label,
         children,
     }: Props = $props();
 </script>
 
+{#snippet labelOrChildren()}
+    {#if children}{@render children()}{:else if label}<LocalizedText
+            path={label}
+        />{/if}
+{/snippet}
+
 {#if to === '/' ? page.route.id === '/' : page.route.id?.endsWith(to)}
-    {@render children?.()}
+    {@render labelOrChildren()}
 {:else}<a
         data-sveltekit-preload-data="tap"
-        title={tip}
+        title={tip ? $locales.get(tip) : undefined}
         href={to}
         target={external ? '_blank' : null}
         class:nowrap
-        >{@render children?.()}{#if external}<span class="external">↗</span
+        >{@render labelOrChildren()}{#if external}<span class="external"
+                >↗</span
             >{/if}</a
     >
 {/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import type OutputExpression from '@edit/OutputExpression';
@@ -41,7 +42,11 @@
 
         // Map the properties to a set of values.
         for (const property of PoseProperties) {
-            const valueSet = new OutputPropertyValueSet(property, outputs);
+            const valueSet = new OutputPropertyValueSet(
+                property,
+                outputs,
+                $locales,
+            );
             // Exclue any properties that happen to have no values.
             if (!valueSet.isEmpty() && valueSet.onAll())
                 propertyValues.set(property, valueSet);
@@ -77,11 +82,9 @@
         <PaletteProperty {project} {property} {values} {editable} />
     {/each}
     {#if !sequence && editable}
-        <Button
-            tip={$locales.get((l) => l.ui.palette.button.sequence)}
-            action={convert}
+        <Button tip={(l) => l.ui.palette.button.sequence} action={convert}
             >{project.shares.output.Sequence.getNames()[0]}
-            {$locales.get((l) => l.ui.palette.button.sequence)}</Button
+            <LocalizedText path={(l) => l.ui.palette.button.sequence} /></Button
         >
     {/if}
 </div>

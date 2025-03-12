@@ -1,6 +1,5 @@
 <script lang="ts">
     import Options from '@components/widgets/Options.svelte';
-    import { locales } from '@db/Database';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
     import { getLocaleLanguageName } from '@locale/LocaleText';
@@ -22,7 +21,7 @@
     <Options
         id="output-locale"
         value={locale === undefined ? undefined : localeToString(locale)}
-        label={$locales.get((l) => l.ui.output.options.locale)}
+        label={(l) => l.ui.output.options.locale}
         width="auto"
         options={[
             {

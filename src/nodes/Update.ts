@@ -3,6 +3,7 @@ import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
@@ -80,18 +81,18 @@ export default class Update extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.table),
+                label: () => (l) => l.term.table,
             },
             {
                 name: 'row',
                 kind: node(Row),
-                label: (locales: Locales) => locales.get((l) => l.term.row),
+                label: () => (l) => l.term.row,
                 space: true,
             },
             {
                 name: 'query',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.query),
+                label: () => (l) => l.term.query,
                 space: true,
             },
         ];
@@ -375,8 +376,9 @@ export default class Update extends Expression {
         return this.row.close ?? this.row.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Update);
+    static readonly LocalePath = (l: LocaleText) => l.node.Update;
+    getLocalePath() {
+        return Update.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

@@ -2,6 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
@@ -97,7 +98,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'setOrMap',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.set),
+                label: () => (l) => l.term.set,
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
@@ -105,7 +106,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'key',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.key),
+                label: () => (l) => l.term.key,
             },
             { name: 'close', kind: node(Sym.SetClose) },
         ];
@@ -290,8 +291,9 @@ export default class SetOrMapAccess extends Expression {
         return this.close ?? this.key;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.SetOrMapAccess);
+    static readonly LocalePath = (l: LocaleText) => l.node.SetOrMapAccess;
+    getLocalePath() {
+        return SetOrMapAccess.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

@@ -1,52 +1,40 @@
+import type LocaleText from '@locale/LocaleText';
 import { FirebaseError } from 'firebase/app';
-import type Locales from '../../locale/Locales';
+import type { LocaleTextAccessor } from '../../locale/Locales';
 
 function getFirebaseErrorCodeDescription(
     code: string,
-    locales: Locales,
-): string | undefined {
+): LocaleTextAccessor | undefined {
     return (
         {
-            'auth/user-not-found': locales.get(
-                (l) => l.ui.page.login.error.wrongPassword,
-            ),
-            'auth/id-token-expired': locales.get(
-                (l) => l.ui.page.login.error.expired,
-            ),
-            'auth/id-token-revoked': locales.get(
-                (l) => l.ui.page.login.error.invalid,
-            ),
-            'auth/invalid-argument': locales.get(
-                (l) => l.ui.page.login.error.invalid,
-            ),
-            'auth/invalid-email': locales.get(
-                (l) => l.ui.page.login.error.email,
-            ),
-            'auth/email-already-in-use': locales.get(
-                (l) => l.ui.page.login.error.wrongPassword,
-            ),
-            'auth/wrong-password': locales.get(
-                (l) => l.ui.page.login.error.wrongPassword,
-            ),
-            'auth/network-request-failed': locales.get(
-                (l) => l.ui.page.login.error.offline,
-            ),
-            'auth/too-many-requests': locales.get(
-                (l) => l.ui.page.login.error.tooMany,
-            ),
-        }[code] ?? locales.get((l) => l.ui.page.login.error.failure)
+            'auth/user-not-found': (l: LocaleText) =>
+                l.ui.page.login.error.wrongPassword,
+            'auth/id-token-expired': (l: LocaleText) =>
+                l.ui.page.login.error.expired,
+            'auth/id-token-revoked': (l: LocaleText) =>
+                l.ui.page.login.error.invalid,
+            'auth/invalid-argument': (l: LocaleText) =>
+                l.ui.page.login.error.invalid,
+            'auth/invalid-email': (l: LocaleText) =>
+                l.ui.page.login.error.email,
+            'auth/email-already-in-use': (l: LocaleText) =>
+                l.ui.page.login.error.wrongPassword,
+            'auth/wrong-password': (l: LocaleText) =>
+                l.ui.page.login.error.wrongPassword,
+            'auth/network-request-failed': (l: LocaleText) =>
+                l.ui.page.login.error.offline,
+            'auth/too-many-requests': (l: LocaleText) =>
+                l.ui.page.login.error.tooMany,
+        }[code] ?? ((l) => l.ui.page.login.error.failure)
     );
 }
 
-export default function getAuthErrorDescription(
-    locales: Locales,
-    err: unknown,
-) {
+export default function getAuthErrorDescription(err: unknown) {
     // Log the error in case we need to troubleshoot with someone.
     console.error(err);
     if (err instanceof FirebaseError) {
-        return getFirebaseErrorCodeDescription(err.code, locales);
+        return getFirebaseErrorCodeDescription(err.code);
     } else {
-        return locales.get((l) => l.ui.page.login.error.failure);
+        return (l: LocaleText) => l.ui.page.login.error.failure;
     }
 }

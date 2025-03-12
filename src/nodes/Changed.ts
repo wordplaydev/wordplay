@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CHANGE_SYMBOL } from '@parser/Symbols';
@@ -156,8 +157,9 @@ export default class Changed extends SimpleExpression {
         return this.change;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Changed);
+    static readonly LocalePath = (l: LocaleText) => l.node.Changed;
+    getLocalePath() {
+        return Changed.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

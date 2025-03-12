@@ -10,7 +10,7 @@
         setProject,
     } from '@components/project/Contexts';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import { Galleries, Projects, locales } from '@db/Database';
+    import { Galleries, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { untrack } from 'svelte';
     import { writable } from 'svelte/store';
@@ -116,8 +116,5 @@
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Writing
-        ><Feedback>{$locales.get((l) => l.ui.project.error.unknown)}</Feedback
-        ></Writing
-    >
+    <Writing><Feedback text={(l) => l.ui.project.error.unknown} /></Writing>
 {/if}

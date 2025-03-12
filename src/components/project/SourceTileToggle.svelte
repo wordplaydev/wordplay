@@ -50,11 +50,7 @@
     });
 </script>
 
-<Toggle
-    tips={$locales.get((l) => l.ui.tile.toggle.show)}
-    on={expanded}
-    {toggle}
->
+<Toggle tips={(l) => l.ui.tile.toggle.show} on={expanded} {toggle}>
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
         >{/if}

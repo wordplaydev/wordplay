@@ -1,7 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import Button from '@components/widgets/Button.svelte';
-    import { locales, Projects } from '@db/Database';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
     import { COPY_SYMBOL } from '@parser/Symbols';
@@ -24,11 +25,11 @@
 </script>
 
 <Button
-    tip={$locales.get((l) => l.ui.project.button.duplicate)}
+    tip={(l) => l.ui.project.button.duplicate}
     action={copy}
     icon={COPY_SYMBOL}
     ><span class="copy">
-        {$locales.get((l) => l.ui.project.button.duplicate)}</span
+        <LocalizedText path={(l) => l.ui.project.button.duplicate} /></span
     ></Button
 >
 

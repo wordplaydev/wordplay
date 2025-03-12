@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -199,8 +200,9 @@ export default class FunctionType extends Type {
         return [this.inputs.length, new NodeRef(this.output, locales, context)];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FunctionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.FunctionType;
+    getLocalePath() {
+        return FunctionType.LocalePath;
     }
 
     getCharacter() {

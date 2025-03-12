@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getCaret } from '@components/project/Contexts';
-    import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import Name from '@nodes/Name';
     import NameToken from '@nodes/NameToken';
     import Sym from '@nodes/Sym';
@@ -13,10 +13,11 @@
         name: Token;
         project: Project;
         text: string;
-        placeholder: string;
+        description: LocaleTextAccessor;
+        placeholder: LocaleTextAccessor | string;
     }
 
-    let { name, project, text, placeholder }: Props = $props();
+    let { name, project, text, description, placeholder }: Props = $props();
 
     const caret = getCaret();
 </script>
@@ -25,13 +26,14 @@
     token={name}
     {project}
     {text}
+    {description}
     {placeholder}
     validator={(newName) => {
         const tokens = toTokens(newName);
         return tokens.remaining() === 2 &&
             tokens.nextIsOneOf(Sym.Name, Sym.Placeholder)
             ? true
-            : $locales.get((l) => l.ui.source.error.invalidName);
+            : (l) => l.ui.source.error.invalidName;
     }}
     creator={(text) => {
         if (caret && $caret) {

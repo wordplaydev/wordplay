@@ -1,3 +1,4 @@
+import { getFirstText } from '@locale/LocaleText';
 import {
     HorizontalLayout,
     VerticalLeftRightLayout,
@@ -24,7 +25,7 @@ export default function getPhraseProperties(
 ): OutputProperty[] {
     let phraseProperties = [
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.text),
+            (l) => l.output.Phrase.text.names,
             new OutputPropertyText(() => true),
             true,
             false,
@@ -34,7 +35,7 @@ export default function getPhraseProperties(
                 TextLiteral.make('', Language.make(locales.getLanguages()[0])),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.wrap),
+            (l) => l.output.Phrase.wrap.names,
             new OutputPropertyRange(1, 30, 1, 'm'),
             false,
             false,
@@ -42,7 +43,7 @@ export default function getPhraseProperties(
             () => NumberLiteral.make('10', Unit.meters()),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.alignment),
+            (l) => l.output.Phrase.alignment.names,
             new OutputPropertyOptions(
                 ['<', '|', '>'],
                 true,
@@ -57,7 +58,7 @@ export default function getPhraseProperties(
             () => TextLiteral.make('|'),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.direction),
+            (l) => l.output.Phrase.direction.names,
             new OutputPropertyOptions(
                 [
                     HorizontalLayout,
@@ -76,7 +77,7 @@ export default function getPhraseProperties(
             () => TextLiteral.make(HorizontalLayout),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.aura),
+            (l) => l.output.Phrase.aura.names,
             'aura',
             false,
             false,
@@ -98,7 +99,9 @@ export default function getPhraseProperties(
 
     // The font face makes more sense right next to the text, so we reorder it here.
     const faceIndex = typeProperties.findIndex(
-        (prop) => prop.name === locales.get((l) => l.output.Phrase.face),
+        (prop) =>
+            prop.getName(locales) ===
+            getFirstText(locales.get((l) => l.output.Phrase.face.names)),
     );
     if (faceIndex >= 0) {
         const faceProperty = typeProperties[faceIndex];

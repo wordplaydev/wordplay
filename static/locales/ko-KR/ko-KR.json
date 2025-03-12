@@ -4285,7 +4285,11 @@
                 "search": "$~삽입할 특수문자를 검색하세요",
                 "tidy": "$~깔끔한 간격",
                 "elide": "$~제거 토글",
-                "insertDocs": "$~설명 기호 삽입"
+                "insertDocs": "$~설명 기호 삽입",
+                "expandBeforeInline": "$~선택 항목을 확장하기 전에",
+                "expandAfterInline": "$~선택 확장 후",
+                "expandPriorLine": "$~선택 항목을 이전 줄로 확장",
+                "expandNextLine": "$~선택 항목을 다음 줄로 확장"
             },
             "options": {
                 "locale": {
@@ -4752,7 +4756,7 @@
                     "wrongPassword": "$~유효한 사용자 이름과 비밀번호가 아닙니다. 귀하의 비밀번호가 잘못되었거나 다른 사람이 이 사용자 이름을 사용하고 있습니다.",
                     "tooMany": "$~로그인을 너무 많이 시도했지만 실패했습니다. 다시 시도하려면 기다려야 합니다.",
                     "invalidUsername": "$~사용자 이름은 공백 없이 이메일 주소나 5자 이상이어야 합니다.",
-                    "invalidPassword": "$~비밀번호는 최소 10자 이상이어야 합니다.",
+                    "invalidPassword": "$~비밀번호는 최소 6자 이상이어야 합니다.",
                     "mismatched": "$~비밀번호가 일치하지 않습니다."
                 },
                 "feedback": {
@@ -5161,7 +5165,8 @@
             "replace": "$~/참여하고 싶다…/",
             "wrap": "$~괄호 안에 넣다",
             "unwrap": "$~풀다",
-            "bind": "$~이 표현의 이름을 지정하세요"
+            "bind": "$~이 표현의 이름을 지정하세요",
+            "range": "$~$1에서 $2까지 선택 가능"
         },
         "template": {
             "unwritten": "$~미정",

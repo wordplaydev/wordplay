@@ -1,10 +1,6 @@
+import type LocaleText from '@locale/LocaleText';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type {
-    DescriptiveNodeText,
-    NodeDescriptor,
-    NodeText,
-} from '../locale/NodeTexts';
+import type { NodeDescriptor } from '../locale/NodeTexts';
 import Characters from '../lore/BasisCharacters';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import BasisType from './BasisType';
@@ -58,8 +54,9 @@ export default class FormattedType extends BasisType {
         return Characters.Formatted;
     }
 
-    getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {
-        return locales.get((l) => l.node.FormattedType);
+    static readonly LocalePath = (l: LocaleText) => l.node.FormattedType;
+    getLocalePath() {
+        return FormattedType.LocalePath;
     }
 
     getDefaultExpression() {

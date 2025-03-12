@@ -4285,7 +4285,11 @@
                 "search": "$~rechercher des caractères spéciaux à insérer",
                 "tidy": "$~espacement ordonné",
                 "elide": "$~basculer l'élision",
-                "insertDocs": "$~insérer le symbole d'explication"
+                "insertDocs": "$~insérer le symbole d'explication",
+                "expandBeforeInline": "$~élargir la sélection avant",
+                "expandAfterInline": "$~développer la sélection après",
+                "expandPriorLine": "$~étendre la sélection à la ligne précédente",
+                "expandNextLine": "$~étendre la sélection à la ligne suivante"
             },
             "options": {
                 "locale": {
@@ -4752,7 +4756,7 @@
                     "wrongPassword": "$~Nom d'utilisateur et mot de passe non valides. Soit votre mot de passe est erroné, soit quelqu'un d'autre possède ce nom d'utilisateur.",
                     "tooMany": "$~Vous avez essayé de vous connecter à plusieurs reprises sans succès. Vous devrez attendre avant de réessayer.",
                     "invalidUsername": "$~Les noms d'utilisateur doivent être des e-mails ou >5 lettres sans espaces.",
-                    "invalidPassword": "$~Les mots de passe doivent comporter au moins 10 caractères.",
+                    "invalidPassword": "$~Les mots de passe doivent comporter au moins 6 caractères.",
                     "mismatched": "$~Les mots de passe ne correspondent pas."
                 },
                 "feedback": {
@@ -5161,7 +5165,8 @@
             "replace": "$~/Veut intervenir…/",
             "wrap": "$~mettre entre parenthèses",
             "unwrap": "$~déballer",
-            "bind": "$~nomme cette expression"
+            "bind": "$~nomme cette expression",
+            "range": "$~sélection de $1 à $2"
         },
         "template": {
             "unwritten": "$~À déterminer",

@@ -1,10 +1,10 @@
 import type Conflict from '@conflicts/Conflict';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import ReservedSymbols from '../parser/ReservedSymbols';
 import type Context from './Context';
@@ -156,8 +156,9 @@ export default class Name extends LanguageTagged {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Name);
+    static readonly LocalePath = (l: LocaleText) => l.node.Name;
+    getLocalePath() {
+        return Name.LocalePath;
     }
 
     getDescriptionInputs() {

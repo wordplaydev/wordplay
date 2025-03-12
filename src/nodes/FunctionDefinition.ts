@@ -472,8 +472,9 @@ export default class FunctionDefinition extends DefinitionExpression {
         return current;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FunctionDefinition);
+    static readonly LocalePath = (l: LocaleText) => l.node.FunctionDefinition;
+    getLocalePath() {
+        return FunctionDefinition.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

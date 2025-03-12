@@ -1,4 +1,5 @@
 import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { OR_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -191,8 +192,9 @@ export default class UnionType extends Type {
               );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnionType;
+    getLocalePath() {
+        return UnionType.LocalePath;
     }
 
     /**

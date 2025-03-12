@@ -57,6 +57,7 @@ export const Scripts = {
     Khmr: { direction: 'ltr', layout: 'horizontal-tb' },
     Geor: { direction: 'ltr', layout: 'horizontal-tb' },
     Gujr: { direction: 'ltr', layout: 'horizontal-tb' },
+    Guru: { direction: 'ltr', layout: 'horizontal-tb' },
 } satisfies Record<string, ScriptMetadata>;
 
 export type Script = keyof typeof Scripts;

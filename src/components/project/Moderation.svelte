@@ -8,7 +8,7 @@
         isAudience,
     } from '../../db/projects/Moderation';
     import type Project from '../../db/projects/Project';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { getUser } from './Contexts';
 
     interface Props {
@@ -34,16 +34,21 @@
 {#if audience && warnings.length + blocks.length + unmoderated.length > 0}
     <Dialog
         show
-        description={blocks.length > 0
-            ? $locales.getLocale().moderation.blocked
+        header={blocks.length > 0
+            ? (l) => l.moderation.blocked.header
             : warnings.length > 0
-              ? $locales.getLocale().moderation.warning
-              : $locales.getLocale().moderation.unmoderated}
+              ? (l) => l.moderation.warning.header
+              : (l) => l.moderation.unmoderated.header}
+        explanation={blocks.length > 0
+            ? (l) => l.moderation.blocked.explanation
+            : warnings.length > 0
+              ? (l) => l.moderation.warning.explanation
+              : (l) => l.moderation.unmoderated.explanation}
         closeable={blocks.length === 0}
     >
         <ul>
             {#each blocks.length > 0 ? blocks : warnings.length > 0 ? warnings : unmoderated as description}
-                <li><MarkupHtmlView inline markup={description} /></li>
+                <li><MarkupHTMLView inline markup={description} /></li>
             {/each}
         </ul>
     </Dialog>
