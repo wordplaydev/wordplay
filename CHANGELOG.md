@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Prevent scroll bars on window.
+- Improved contrast of inactive color in dark mode.
 
 ## 0.16.4 2025-03-10
 
