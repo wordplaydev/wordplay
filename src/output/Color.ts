@@ -1,18 +1,17 @@
+import { getBind } from '@locale/getBind';
+import { TYPE_SYMBOL } from '@parser/Symbols';
+import type Value from '@values/Value';
 import Decimal from 'decimal.js';
 import toStructure from '../basis/toStructure';
-import type Value from '@values/Value';
-import Valued, { getOutputInputs } from './Valued';
-import { toDecimal } from './Stage';
-import ColorJS from 'colorjs.io';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import { getBind } from '@locale/getBind';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
 import Evaluate from '../nodes/Evaluate';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
-import type Project from '../models/Project';
 import StructureValue from '../values/StructureValue';
-import type Locales from '../locale/Locales';
+import { toDecimal } from './Stage';
+import Valued, { getOutputInputs } from './Valued';
 
 export function createColorType(locales: Locales) {
     return toStructure(`
@@ -25,8 +24,11 @@ export function createColorType(locales: Locales) {
 }
 
 export default class Color extends Valued {
+    /** 0-1 */
     readonly lightness: Decimal;
+    /** 0-∞ */
     readonly chroma: Decimal;
+    /** 0-360 */
     readonly hue: Decimal;
 
     constructor(value: Value, l: Decimal, c: Decimal, h: Decimal) {
@@ -41,7 +43,7 @@ export default class Color extends Valued {
         return new Color(
             this.value,
             new Decimal(this.lightness.greaterThan(0.5) ? 0 : 1),
-            new Decimal(100),
+            new Decimal(this.chroma),
             new Decimal(0),
         );
     }
@@ -51,18 +53,13 @@ export default class Color extends Valued {
     }
 
     toCSS() {
-        const color = new ColorJS(
-            ColorJS.spaces.lch,
-            [
-                this.lightness.toNumber() * 100,
-                this.chroma.toNumber(),
-                this.hue.toNumber(),
-            ],
-            1,
-        );
-        return color.to('srgb').toString();
         // We should be able to return a direct LCH value, but Safari doesn't handle CSS opacity on LCH colors of symbols well.
         // return opaque === true ? color.to('srgb').toString() : color.display();
+        return LCHtoRGB(
+            this.lightness.toNumber(),
+            this.chroma.toNumber(),
+            this.hue.toNumber(),
+        );
     }
 
     equals(color: Color) {
@@ -101,4 +98,12 @@ export function toColor(value: Value | undefined) {
     const h = toDecimal(hVal);
 
     return l && c && h ? new Color(value, l, c, h) : undefined;
+}
+
+/** l: 0-1, c: 0-infinity, h=0-360 */
+export function LCHtoRGB(l: number, c: number, h: number) {
+    return `lch(${l * 100}% ${c} ${h}deg)`;
+    // The previous way we converted to rgb prior to LCH support.
+    // const color = new ColorJS(ColorJS.spaces.lch, [l * 100, c, h], 1);
+    // return color.to('srgb').toString();
 }

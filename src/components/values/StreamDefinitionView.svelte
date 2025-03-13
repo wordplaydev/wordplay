@@ -1,14 +1,16 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
-    import SymbolView from './SymbolView.svelte';
     import Sym from '@nodes/Sym';
-    import type StreamDefinitionValue from '../../values/StreamDefinitionValue';
-    import { STREAM_SYMBOL } from '../../parser/Symbols';
     import { locales } from '../../db/Database';
+    import { STREAM_SYMBOL } from '../../parser/Symbols';
+    import type StreamDefinitionValue from '../../values/StreamDefinitionValue';
+    import SymbolView from './SymbolView.svelte';
 
-    export let value: StreamDefinitionValue;
-    export let inline = true;
+    interface Props {
+        value: StreamDefinitionValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 </script>
 
 {#if inline || !inline}<SymbolView

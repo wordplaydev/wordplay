@@ -1,16 +1,16 @@
-import { test, expect } from 'vitest';
-import Project from '../models/Project';
-import Source from './Source';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import type Value from '@values/Value';
-import Time from '../input/Time';
-import type Expression from './Expression';
 import Evaluator from '@runtime/Evaluator';
-import { testConflict } from '../conflicts/TestUtilities';
-import Reaction from './Reaction';
+import type Value from '@values/Value';
+import { expect, test } from 'vitest';
 import ExpectedStream from '../conflicts/ExpectedStream';
+import { testConflict } from '../conflicts/TestUtilities';
 import { DB } from '../db/Database';
+import Project from '../db/projects/Project';
+import Time from '../input/Time';
 import DefaultLocale from '../locale/DefaultLocale';
+import type Expression from './Expression';
+import Reaction from './Reaction';
+import Source from './Source';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
@@ -80,12 +80,18 @@ test.each([
             const actualInitial = evaluator.getLatestSourceValue(source);
             expect(actualInitial?.toString()).toBe(expectedValue);
 
-            // Add the given value to the stream
-            const stream = Array.from(
-                evaluator.streamsByCreator.values(),
-            )[0][0];
-            expect(stream).not.toBeUndefined();
-            stream?.add(value(source), null);
+            // Find the non-reaction stream created and add the requested value to it.
+            const streams = Array.from(evaluator.streamsByCreator.keys()).find(
+                (s) => !(s instanceof Reaction),
+            );
+            if (streams) {
+                const values = evaluator.streamsByCreator.get(streams);
+                if (values) {
+                    const stream = values[0];
+                    stream.add(value(source), null);
+                }
+                expect(values).not.toBeUndefined();
+            } else expect(streams).not.toBeUndefined();
 
             // Manually flush reactions, since time is pooled.
             evaluator.flush();

@@ -1,85 +1,85 @@
-import Node, { ListOf, type Field, type NodeKind, Empty } from '@nodes/Node';
-import type Caret from './Caret';
-import type Project from '../models/Project';
-import type Revision from '@edit/Revision';
-import type Context from '@nodes/Context';
-import Replace from '@edit/Replace';
-import Refer from '@edit/Refer';
 import Append from '@edit/Append';
 import Assign from '@edit/Assign';
+import Refer from '@edit/Refer';
+import Replace from '@edit/Replace';
+import type Revision from '@edit/Revision';
 import BooleanLiteral from '@nodes/BooleanLiteral';
-import NumberLiteral from '../nodes/NumberLiteral';
-import Token from '../nodes/Token';
-import type Type from '../nodes/Type';
-import Expression from '../nodes/Expression';
-import NoneLiteral from '../nodes/NoneLiteral';
-import ListLiteral from '../nodes/ListLiteral';
-import MapLiteral from '../nodes/MapLiteral';
-import SetLiteral from '../nodes/SetLiteral';
-import FunctionDefinition from '../nodes/FunctionDefinition';
+import type Context from '@nodes/Context';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import Input from '@nodes/Input';
+import Match from '@nodes/Match';
+import Node, { Empty, ListOf, type Field, type NodeKind } from '@nodes/Node';
+import Otherwise from '@nodes/Otherwise';
+import SetOrMapAccess from '@nodes/SetOrMapAccess';
+import Spread from '@nodes/Spread';
+import TableType from '@nodes/TableType';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import BinaryEvaluate from '../nodes/BinaryEvaluate';
 import Bind from '../nodes/Bind';
 import Block from '../nodes/Block';
+import BooleanType from '../nodes/BooleanType';
+import Changed from '../nodes/Changed';
 import Conditional from '../nodes/Conditional';
+import ConversionDefinition from '../nodes/ConversionDefinition';
 import Convert from '../nodes/Convert';
-import BinaryEvaluate from '../nodes/BinaryEvaluate';
-import UnaryEvaluate from '../nodes/UnaryEvaluate';
+import Delete from '../nodes/Delete';
+import Dimension from '../nodes/Dimension';
+import Doc from '../nodes/Doc';
+import Docs from '../nodes/Docs';
 import Evaluate from '../nodes/Evaluate';
+import Example from '../nodes/Example';
+import Expression from '../nodes/Expression';
+import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
+import FunctionDefinition from '../nodes/FunctionDefinition';
+import FunctionType from '../nodes/FunctionType';
+import Initial from '../nodes/Initial';
+import Insert from '../nodes/Insert';
 import Is from '../nodes/Is';
+import IsLocale from '../nodes/IsLocale';
+import KeyValue from '../nodes/KeyValue';
+import Language from '../nodes/Language';
 import ListAccess from '../nodes/ListAccess';
+import ListLiteral from '../nodes/ListLiteral';
+import ListType from '../nodes/ListType';
+import MapLiteral from '../nodes/MapLiteral';
+import MapType from '../nodes/MapType';
+import Markup from '../nodes/Markup';
+import Mention from '../nodes/Mention';
+import NoneLiteral from '../nodes/NoneLiteral';
+import NoneType from '../nodes/NoneType';
+import NumberLiteral from '../nodes/NumberLiteral';
+import NumberType from '../nodes/NumberType';
+import Paragraph from '../nodes/Paragraph';
 import Previous from '../nodes/Previous';
+import Program from '../nodes/Program';
 import PropertyBind from '../nodes/PropertyBind';
 import PropertyReference from '../nodes/PropertyReference';
 import Reaction from '../nodes/Reaction';
-import TextLiteral from '../nodes/TextLiteral';
-import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import StructureDefinition from '../nodes/StructureDefinition';
-import ConversionDefinition from '../nodes/ConversionDefinition';
-import Initial from '../nodes/Initial';
 import Reference from '../nodes/Reference';
+import Select from '../nodes/Select';
+import SetLiteral from '../nodes/SetLiteral';
+import SetType from '../nodes/SetType';
+import StructureDefinition from '../nodes/StructureDefinition';
+import { WildcardSymbols } from '../nodes/Sym';
+import TableLiteral from '../nodes/TableLiteral';
+import TextLiteral from '../nodes/TextLiteral';
+import TextType from '../nodes/TextType';
 import This from '../nodes/This';
-import Docs from '../nodes/Docs';
-import KeyValue from '../nodes/KeyValue';
-import Language from '../nodes/Language';
-import Doc from '../nodes/Doc';
+import Token from '../nodes/Token';
+import type Type from '../nodes/Type';
 import TypeInputs from '../nodes/TypeInputs';
-import TypeVariables from '../nodes/TypeVariables';
-import FunctionType from '../nodes/FunctionType';
 import TypePlaceholder from '../nodes/TypePlaceholder';
+import TypeVariables from '../nodes/TypeVariables';
+import UnaryEvaluate from '../nodes/UnaryEvaluate';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
-import MapType from '../nodes/MapType';
-import NoneType from '../nodes/NoneType';
-import NumberType from '../nodes/NumberType';
-import SetType from '../nodes/SetType';
-import TextType from '../nodes/TextType';
-import ListType from '../nodes/ListType';
-import BooleanType from '../nodes/BooleanType';
-import Example from '../nodes/Example';
-import Markup from '../nodes/Markup';
-import Mention from '../nodes/Mention';
-import Paragraph from '../nodes/Paragraph';
-import WebLink from '../nodes/WebLink';
-import Remove from './Remove';
 import UnknownType from '../nodes/UnknownType';
-import Program from '../nodes/Program';
-import Dimension from '../nodes/Dimension';
 import UnparsableExpression from '../nodes/UnparsableExpression';
-import { WildcardSymbols } from '../nodes/Sym';
-import IsLocale from '../nodes/IsLocale';
-import TableLiteral from '../nodes/TableLiteral';
-import Insert from '../nodes/Insert';
-import Select from '../nodes/Select';
-import Delete from '../nodes/Delete';
 import Update from '../nodes/Update';
-import Changed from '../nodes/Changed';
-import type Locales from '../locale/Locales';
-import Otherwise from '@nodes/Otherwise';
-import Match from '@nodes/Match';
-import Input from '@nodes/Input';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import TableType from '@nodes/TableType';
-import Spread from '@nodes/Spread';
-import SetOrMapAccess from '@nodes/SetOrMapAccess';
+import WebLink from '../nodes/WebLink';
+import type Caret from './Caret';
+import Remove from './Remove';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
 const LOG = false;
@@ -110,7 +110,7 @@ export function getEditsAt(
         edits = getNodeEdits(caret.position, context);
     }
     // If the token is a position rather than a node, find edits for the nodes between.
-    else {
+    else if (caret.isNode()) {
         note(`Caret is position, finding nodes before and after.`, 0);
 
         // If there are no nodes between (because the caret is in the middle of a token)
@@ -680,11 +680,7 @@ function getPossibleNodes(
             : [newToken];
     }
 
-    const menuContext = {
-        node: anchor,
-        context,
-        type: expectedType,
-    };
+    const menuContext = { node: anchor, context, type: expectedType };
 
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.

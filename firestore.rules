@@ -10,7 +10,7 @@ service cloud.firestore {
 
       function isCuratorOfProjectInGallery(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && (uid in gallery.curators || uid in gallery.creators);
+        return gallery != null && (uid in gallery.curators);
       }
 
       allow create: if request.auth != null;
@@ -19,8 +19,8 @@ service cloud.firestore {
       // 2) The requestor is the owner or a collaborator
       // 3) The requestor is a curator or creator of the gallery that the project is in, so all gallery projects are readable.
       allow read: if 
-        ('public' in resource.data && resource.data.public) || 
-        (request.auth != null && 
+        (resource.data != null && 'public' in resource.data && resource.data.public) || 
+        (resource.data != null && request.auth != null && 
           ( 
             ("mod" in request.auth.token && request.auth.token.mod) ||
             ('owner' in resource.data && resource.data.owner == request.auth.uid) || 
@@ -43,7 +43,7 @@ service cloud.firestore {
     }
     match /galleries/{gallery} {
       allow create: if request.auth != null;
-      allow read: if ("public" in resource.data && resource.data.public) || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators));
+      allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators));
       
       allow update: 
         if request.auth != null && 
@@ -59,6 +59,45 @@ service cloud.firestore {
             )
           );
       allow delete: if request.auth != null && request.auth.uid in resource.data.curators;
+    }
+    match /chats/{chat} {
+      // Anyone logged in can create chats
+      allow create: if request.auth != null;
+      // Participants can read, update, and delete chats
+      allow read, update, delete: if request.auth != null && (resource == null || (resource.data != null && request.auth.uid in resource.data.participants));
+    }
+    match /classes/{class} {
+      function isTeacher() { 
+        return "teacher" in request.auth.token && request.auth.token.teacher; 
+      }
+
+      // Only teachers can create classes
+      allow create: if request.auth != null && isTeacher();
+      // Students and teachers can read classes
+      allow get: if request.auth != null && resource.data != null && (
+        ("learners" in resource.data && request.auth.uid in resource.data.learners) || 
+        ("teachers" in resource.data && request.auth.uid in resource.data.teachers)
+      );
+      allow list: if request.auth != null;
+      // Only teachers of a class can update and delete classes
+      allow update, delete: if request.auth != null && isTeacher() && (resource.data != null && request.auth.uid in resource.data.teachers);
+    }
+    match /characters/{character} {
+      // Anyone logged in can create characters
+      allow create: if request.auth != null;
+      // Allowed if it doesn't exist or this is the owner asking, Owners or ownerless characters can be read
+      allow read: 
+        if resource == null ||
+          ("public" in resource.data && resource.data.public) || 
+          (request.auth != null && 
+            (
+              ("owner" in resource.data && request.auth.uid == resource.data.owner) ||
+              ("collaborators" in resource.data && request.auth.uid in resource.data.collaborators)
+            )
+          );
+      // Only owners can update or delete.
+      allow update: if request.auth.uid == resource.data.owner || ("collaborators" in resource.data && request.auth.uid in resource.data.collaborators);
+      allow delete: if request.auth.uid == resource.data.owner;
     }
   }
 }

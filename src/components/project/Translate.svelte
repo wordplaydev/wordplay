@@ -5,25 +5,29 @@
     import LocaleName from '@components/settings/LocaleName.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import { Projects, Settings, locales } from '@db/Database';
+    import { Projects } from '@db/Database';
     import { functions } from '@db/firebase';
-    import { getLanguageName } from '@locale/LanguageCode';
-    import { SupportedLocales } from '@locale/LocaleText';
-    import type Project from '@models/Project';
-    import translateProject from '@models/translate';
+    import type Project from '@db/projects/Project';
+    import translateProject from '@db/projects/translate';
+    import { TranslatableLanguages } from '@locale/LanguageCode';
+    import { toLocale } from '@locale/LocaleText';
+    import { LOCALE_SYMBOL } from '@parser/Symbols';
 
-    export let project: Project;
+    interface Props {
+        project: Project;
+        /** A callback to show all of the languages, so we can make them visible if editors are hiding them. */
+        showAll: () => void;
+    }
 
-    let translating: boolean = false;
-    let error: boolean = false;
-    let show: boolean;
+    let { project, showAll }: Props = $props();
 
-    $: projectLocales = project.getLocales().getLocales();
-    $: localeCount = projectLocales.length - 1;
-    $: primaryLocale = `${projectLocales[0].language}-${projectLocales[0].region}`;
-    $: allLocales = projectLocales
-        .map((l) => `${l.language}-${l.region}`)
-        .sort();
+    let translating: boolean = $state(false);
+    let error: boolean = $state(false);
+    let show: boolean = $state(false);
+
+    let projectLocales = $derived(project.getLocales().getLocales());
+    let primaryLocale = $derived(toLocale(projectLocales[0]));
+    let allLocales = $derived(projectLocales.map((l) => toLocale(l)).sort());
 
     /** Translate the project into another language */
     async function translate(targetLocaleCode: string) {
@@ -41,7 +45,7 @@
                 // Revise the project
                 Projects.reviseProject(revisedProject);
                 // Show the new translations.
-                Settings.setLocalized('actual');
+                showAll();
                 // Hide the dialog.
                 show = false;
             } else {
@@ -64,20 +68,15 @@
 
 <Dialog
     bind:show
-    description={{
-        header: $locales.get((l) => l.ui.project.dialog.translate.header),
-        explanation: $locales.get(
-            (l) => l.ui.project.dialog.translate.explanation,
-        ),
-    }}
+    header={(l) => l.ui.project.dialog.translate.header}
+    explanation={(l) => l.ui.project.dialog.translate.explanation}
     button={{
-        tip: $locales.get((l) => l.ui.project.button.translate),
-        label: `${getLanguageName(project.getPrimaryLanguage())}${
-            localeCount < 2 ? '' : `+${localeCount - 1}`
-        }…`,
+        tip: (l) => l.ui.project.button.translate.tip,
+        icon: LOCALE_SYMBOL,
+        label: (l) => l.ui.project.button.translate.label,
     }}
 >
-    <Subheader>{$locales.get((l) => l.ui.project.subheader.source)}</Subheader>
+    <Subheader text={(l) => l.ui.project.subheader.source} />
     <div class="options">
         {#each allLocales as projectLocale, index}
             <div class="option">
@@ -85,22 +84,21 @@
                 <Button
                     action={() => updatePrimaryLocale(index)}
                     active={projectLocale !== primaryLocale}
-                    tip={$locales.get((l) => l.ui.project.button.primary)}
+                    tip={(l) => l.ui.project.button.primary}
                     ><LocaleName locale={projectLocale} supported /></Button
                 >
             </div>
         {/each}
     </div>
-    <Subheader
-        >{$locales.get((l) => l.ui.project.subheader.destination)}</Subheader
-    >
+    <Subheader text={(l) => l.ui.project.subheader.destination} />
     <div class="options">
-        {#each SupportedLocales as supported}
+        <!-- Allow all of the languages that Google Translate supports. -->
+        {#each TranslatableLanguages as language}
             <div class="option">
                 <Button
-                    action={() => translate(supported)}
-                    tip={$locales.get((l) => l.ui.dialog.locale.button.replace)}
-                    ><LocaleName locale={supported} supported /></Button
+                    action={() => translate(language)}
+                    tip={(l) => l.ui.dialog.locale.button.replace}
+                    ><LocaleName locale={language} supported /></Button
                 >
             </div>
         {:else}&mdash;
@@ -110,7 +108,7 @@
         <Spinning />
     {/if}
     {#if error}
-        <Feedback>{$locales.get((l) => l.ui.project.error.translate)}</Feedback>
+        <Feedback text={(l) => l.ui.project.error.translate} />
     {/if}
 </Dialog>
 

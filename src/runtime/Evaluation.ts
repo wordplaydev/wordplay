@@ -1,43 +1,43 @@
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Block, { BlockKind } from '@nodes/Block';
+import type Borrow from '@nodes/Borrow';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type Convert from '@nodes/Convert';
+import type Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
+import Names from '@nodes/Names';
+import type Node from '@nodes/Node';
+import type Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
+import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type Evaluator from '@runtime/Evaluator';
+import type { StepNumber } from '@runtime/Evaluator';
+import BlankException from '@values/BlankException';
+import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 import ExceptionValue from '@values/ExceptionValue';
-import type Step from './Step';
+import NoneValue from '@values/NoneValue';
+import NumberValue from '@values/NumberValue';
+import type { Iteration } from '../basis/Iteration';
+import type Context from '../nodes/Context';
+import type Delete from '../nodes/Delete';
+import type Insert from '../nodes/Insert';
+import type PropertyBind from '../nodes/PropertyBind';
+import StreamDefinition from '../nodes/StreamDefinition';
+import type TableLiteral from '../nodes/TableLiteral';
+import FunctionValue from '../values/FunctionValue';
+import SimpleValue from '../values/SimpleValue';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import StreamValue from '../values/StreamValue';
+import StructureDefinitionValue from '../values/StructureDefinitionValue';
+import StructureValue from '../values/StructureValue';
+import TypeException from '../values/TypeException';
 import Value from '../values/Value';
 import ValueException from '../values/ValueException';
-import TypeException from '../values/TypeException';
-import StructureValue from '../values/StructureValue';
-import SimpleValue from '../values/SimpleValue';
-import NumberValue from '@values/NumberValue';
-import type Node from '@nodes/Node';
-import Names from '@nodes/Names';
-import type Expression from '@nodes/Expression';
 import Finish from './Finish';
-import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Evaluate from '@nodes/Evaluate';
-import type Source from '@nodes/Source';
-import type Convert from '@nodes/Convert';
-import type Borrow from '@nodes/Borrow';
-import StructureDefinitionValue from '../values/StructureDefinitionValue';
-import type { StepNumber } from '@runtime/Evaluator';
-import FunctionValue from '../values/FunctionValue';
-import StreamDefinition from '../nodes/StreamDefinition';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import type PropertyBind from '../nodes/PropertyBind';
-import type Context from '../nodes/Context';
 import StartFinish from './StartFinish';
-import type TableLiteral from '../nodes/TableLiteral';
-import type Insert from '../nodes/Insert';
-import type Delete from '../nodes/Delete';
-import type { Iteration } from '../basis/Iteration';
-import Block, { BlockKind } from '@nodes/Block';
-import BlankException from '@values/BlankException';
-import NoneValue from '@values/NoneValue';
+import type Step from './Step';
 
 export type EvaluationNode =
     | UnaryEvaluate
@@ -134,6 +134,10 @@ export default class Evaluation {
 
     getSource() {
         return this.#source;
+    }
+
+    getStepThat(predicate: (step: Step) => boolean) {
+        return this.#steps.find(predicate);
     }
 
     getCreator() {

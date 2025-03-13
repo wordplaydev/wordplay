@@ -1,18 +1,18 @@
-import StreamDefinition from '../nodes/StreamDefinition';
+import type Evaluation from '@runtime/Evaluation';
+import NumberValue from '@values/NumberValue';
+import { PitchDetector } from 'pitchy';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import NumberType from '../nodes/NumberType';
+import type Locales from '../locale/Locales';
 import Bind from '../nodes/Bind';
-import UnionType from '../nodes/UnionType';
-import Unit from '../nodes/Unit';
 import NoneType from '../nodes/NoneType';
 import NumberLiteral from '../nodes/NumberLiteral';
-import NumberValue from '@values/NumberValue';
-import createStreamEvaluator from './createStreamEvaluator';
+import NumberType from '../nodes/NumberType';
+import StreamDefinition from '../nodes/StreamDefinition';
+import UnionType from '../nodes/UnionType';
+import Unit from '../nodes/Unit';
 import AudioStream from './AudioStream';
-import { PitchDetector } from 'pitchy';
-import type Locales from '../locale/Locales';
-import type Evaluation from '@runtime/Evaluation';
+import createStreamEvaluator from './createStreamEvaluator';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 const FFT_SIZE = 1024;

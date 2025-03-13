@@ -1,12 +1,12 @@
+import type Locale from '@locale/Locale';
 import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import SimpleExpression from './SimpleExpression';
-import type Expression from './Expression';
 import Purpose from '../concepts/Purpose';
 import type Context from './Context';
-import type Locale from '@locale/Locale';
+import type Expression from './Expression';
+import SimpleExpression from './SimpleExpression';
 
 export default abstract class Literal extends SimpleExpression {
     constructor() {

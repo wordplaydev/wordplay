@@ -1,31 +1,43 @@
 <script lang="ts">
-    import type Project from '@models/Project';
-    import { Projects, locales } from '../../db/Database';
-    import Slider from '@components/widgets/Slider.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
-    import { getFirstName } from '@locale/LocaleText';
-    import Evaluate from '@nodes/Evaluate';
-    import Reference from '@nodes/Reference';
-    import { createColorLiteral } from '@output/Color';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import Unit from '@nodes/Unit';
+    import Slider from '@components/widgets/Slider.svelte';
+    import type Project from '@db/projects/Project';
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import { getFirstText } from '@locale/LocaleText';
     import type Bind from '@nodes/Bind';
+    import Evaluate from '@nodes/Evaluate';
+    import NumberLiteral from '@nodes/NumberLiteral';
+    import Reference from '@nodes/Reference';
+    import Unit from '@nodes/Unit';
+    import { createColorLiteral } from '@output/Color';
+    import { locales, Projects } from '../../db/Database';
 
-    export let project: Project;
-    export let property: OutputProperty;
-    export let values: OutputPropertyValueSet;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        property: OutputProperty;
+        values: OutputPropertyValueSet;
+        editable: boolean;
+        id?: string | undefined;
+    }
 
-    // Internal state for all aura values
-    $: [lightness, chroma, hue] = getColor(values);
-    let blur =
-        getNumberBind(project.shares.output.Aura.inputs[1], values) ?? 0.05;
-    let offsetX =
-        getNumberBind(project.shares.output.Aura.inputs[2], values) ?? 0;
-    let offsetY =
-        getNumberBind(project.shares.output.Aura.inputs[3], values) ?? 0;
+    let {
+        project,
+        property,
+        values,
+        editable,
+        id = undefined,
+    }: Props = $props();
+
+    let blur = $state(
+        getNumberBind(project.shares.output.Aura.inputs[1], values) ?? 0.05,
+    );
+    let offsetX = $state(
+        getNumberBind(project.shares.output.Aura.inputs[2], values) ?? 0,
+    );
+    let offsetY = $state(
+        getNumberBind(project.shares.output.Aura.inputs[3], values) ?? 0,
+    );
 
     function update() {
         // Make an Aura using the new value
@@ -52,7 +64,7 @@
             project,
             project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 replacement,
             ),
         );
@@ -136,10 +148,17 @@
         // If they're all equal, return the value.
         return new Set(facets).size === 1 ? facets[0] : undefined;
     }
+    // Internal state for all aura values
+    let hue = $state(0);
+    let chroma = $state(0);
+    let lightness = $state(0);
+    $effect(() => {
+        [lightness, chroma, hue] = getColor(values);
+    });
 </script>
 
 {project.shares.output.Aura.names.getSymbolicName()}
-<div class="aura">
+<div class="aura" {id}>
     <ColorChooser
         {lightness}
         {chroma}
@@ -157,8 +176,8 @@
         min={0}
         max={0.5}
         increment={0.01}
-        tip={$locales.get((l) => getFirstName(l.output.Aura.blur.names))}
-        label={$locales.get((l) => getFirstName(l.output.Aura.blur.names))}
+        tip={(l) => l.output.Aura.blur.names}
+        label={(l) => getFirstText(l.output.Aura.blur.names)}
         unit={'m'}
         precision={2}
         change={(value) => {
@@ -172,8 +191,8 @@
         min={-0.5}
         max={0.5}
         increment={0.01}
-        tip={$locales.get((l) => getFirstName(l.output.Aura.offsetX.names))}
-        label={$locales.get((l) => getFirstName(l.output.Aura.offsetX.names))}
+        tip={(l) => l.output.Aura.offsetX.names}
+        label={(l) => getFirstText(l.output.Aura.offsetX.names)}
         unit={'m'}
         precision={2}
         change={(value) => {
@@ -187,8 +206,8 @@
         min={-0.5}
         max={0.5}
         increment={0.01}
-        tip={$locales.get((l) => getFirstName(l.output.Aura.offsetY.names))}
-        label={$locales.get((l) => getFirstName(l.output.Aura.offsetY.names))}
+        tip={(l) => l.output.Aura.offsetY.names}
+        label={(l) => getFirstText(l.output.Aura.offsetY.names)}
         unit={'m'}
         precision={2}
         change={(value) => {

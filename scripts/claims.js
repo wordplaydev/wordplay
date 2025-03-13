@@ -6,7 +6,7 @@ import admin from 'firebase-admin';
 import { getAuth } from 'firebase-admin/auth';
 import { readFileSync } from 'fs';
 
-const flags = ['admin', 'mod', 'banned'];
+const flags = ['admin', 'mod', 'banned', 'teacher'];
 
 // If there aren't any arguments, bail.
 if (process.argv.length <= 2) {
@@ -62,9 +62,7 @@ if (serviceAccount === undefined) {
 console.log('Connecting to Firebase with key...');
 
 // Initialize the SDK with the service account.
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-});
+admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
 // Add the publisher claim to the email address.
 getAuth()

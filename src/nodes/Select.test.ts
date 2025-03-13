@@ -1,11 +1,11 @@
-import { test, expect } from 'vitest';
+import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnknownColumn from '@conflicts/UnknownColumn';
-import ExpectedSelectName from '@conflicts/ExpectedSelectName';
-import Select from './Select';
+import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import evaluateCode from '../runtime/evaluate';
 import DefaultLocales from '../locale/DefaultLocales';
+import evaluateCode from '../runtime/evaluate';
+import Select from './Select';
 
 test.each([
     [

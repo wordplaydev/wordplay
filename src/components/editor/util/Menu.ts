@@ -1,10 +1,11 @@
-import Revision from '../../../edit/Revision';
-import type Caret from '../../../edit/Caret';
-import type { Edit } from './Commands';
-import type Purpose from '@concepts/Purpose';
 import type ConceptIndex from '@concepts/ConceptIndex';
+import type Purpose from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
+import type Caret from '../../../edit/Caret';
+import Revision from '../../../edit/Revision';
+import type { Edit } from './Commands';
 
+/** The first number is the selected revision or revision set, the second number is the optional revision in a selected revision set. */
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
 
@@ -13,6 +14,7 @@ export type MenuOrganization = (Revision | RevisionSet)[];
 const PurposeRelevance: Record<Purpose, number> = {
     project: 0,
     value: 1,
+    how: 1,
     input: 2,
     bind: 3,
     evaluate: 4,
@@ -182,7 +184,21 @@ export default class Menu {
     /** Get a unique identifier for the selection, for use by a UI */
     getSelectionID() {
         const [index, subindex] = this.selection;
-        return subindex ?? index;
+        return index + (subindex === undefined ? '' : `-${subindex}`);
+    }
+
+    getSelectionFor(revision: Revision): MenuSelection | undefined {
+        const org = this.organization;
+        const index = org.indexOf(revision);
+        if (index >= 0) return [index, undefined];
+
+        const set = org.find(
+            (item): item is RevisionSet =>
+                item instanceof RevisionSet &&
+                item.revisions.includes(revision),
+        );
+        if (set === undefined) return undefined;
+        return [org.indexOf(set), set.revisions.indexOf(revision)];
     }
 
     /** The number of revisions in the menu. */

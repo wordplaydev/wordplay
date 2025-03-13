@@ -1,8 +1,8 @@
-import type Bind from '@nodes/Bind';
-import Conflict from './Conflict';
-import type Locales from '../locale/Locales';
 import NodeRef from '@locale/NodeRef';
+import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
+import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class UnusedBind extends Conflict {
     readonly bind: Bind;

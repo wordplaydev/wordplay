@@ -1,25 +1,25 @@
+import StructureValue from '@values/StructureValue';
+import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import toStructure from '../basis/toStructure';
-import type Value from '../values/Value';
 import { getBind } from '../locale/getBind';
+import type Locales from '../locale/Locales';
+import { getFirstText } from '../locale/LocaleText';
+import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../values/Value';
 import type Arrangement from './Arrangement';
 import type Color from './Color';
+import Matter, { toMatter } from './Matter';
+import Output, { DefaultStyle } from './Output';
 import type Place from './Place';
 import type Pose from './Pose';
+import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
-import TextLang from './TextLang';
-import Output, { DefaultStyle } from './Output';
-import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
-import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
-import type { DefinitePose } from './Pose';
-import StructureValue from '@values/StructureValue';
+import TextLang from './TextLang';
+import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
 import { getOutputInput } from './Valued';
-import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import Matter, { toMatter } from './Matter';
-import type Evaluator from '../runtime/Evaluator';
-import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/LocaleText';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`
@@ -151,7 +151,7 @@ export default class Group extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : locales.get((l) => getFirstName(l.output.Group.names));
+            : locales.get((l) => getFirstText(l.output.Group.names));
     }
 
     getDescription(locales: Locales) {
@@ -191,6 +191,15 @@ export default class Group extends Output {
                 return [...list, ...(out ? out.getEntryAnimated() : [])];
             }, []),
         ];
+    }
+
+    gatherFaces(set: Set<SupportedFace>): Set<SupportedFace> {
+        for (const output of this.content) {
+            if (output !== null) {
+                output.gatherFaces(set);
+            }
+        }
+        return set;
     }
 }
 

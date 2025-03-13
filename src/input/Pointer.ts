@@ -1,20 +1,20 @@
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import type Names from '@nodes/Names';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import StructureType from '@nodes/StructureType';
 import Unit from '@nodes/Unit';
+import type Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
 import StreamValue from '@values/StreamValue';
 import StructureValue, { createStructure } from '@values/StructureValue';
 import type Value from '@values/Value';
-import type Evaluator from '@runtime/Evaluator';
-import StreamDefinition from '@nodes/StreamDefinition';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import StructureType from '@nodes/StructureType';
-import StreamType from '@nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
-import type Type from '../nodes/Type';
-import type StructureDefinition from '../nodes/StructureDefinition';
 import type Locales from '../locale/Locales';
-import type Evaluation from '@runtime/Evaluation';
+import type StructureDefinition from '../nodes/StructureDefinition';
+import type Type from '../nodes/Type';
+import createStreamEvaluator from './createStreamEvaluator';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const PlaceType = evaluator.project.shares.output.Place;

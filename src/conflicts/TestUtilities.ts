@@ -1,13 +1,13 @@
-import { expect } from 'vitest';
 import Block from '@nodes/Block';
-import Expression from '@nodes/Expression';
 import Context from '@nodes/Context';
+import Expression from '@nodes/Expression';
 import Source from '@nodes/Source';
-import Project from '../models/Project';
-import type Node from '../nodes/Node';
-import type Conflict from './Conflict';
-import type Type from '../nodes/Type';
+import { expect } from 'vitest';
+import Project from '../db/projects/Project';
 import DefaultLocale from '../locale/DefaultLocale';
+import type Node from '../nodes/Node';
+import type Type from '../nodes/Type';
+import type Conflict from './Conflict';
 
 export function testConflict(
     goodCode: string,

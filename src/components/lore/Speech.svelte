@@ -1,45 +1,72 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export const Limit = 10;
 </script>
 
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import { type Snippet } from 'svelte';
     import Concept from '../../concepts/Concept';
-    import type Glyph from '../../lore/Glyph';
+    import type BasisCharacter from '../../lore/BasisCharacter';
+    import Emotion from '../../lore/Emotion';
+    import { withColorEmoji } from '../../unicode/emoji';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
-    import { locales } from '@db/Database';
-    import Emotion from '../../lore/Emotion';
-    import { withVariationSelector } from '../../unicode/emoji';
 
-    export let glyph: Glyph | Concept;
-    /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
-    export let below = false;
-    /** If true and speech is not below, reading order is flipped. */
-    export let flip = false;
-    /** If true and speech is not below, baseline aligns the glyph and speech */
-    export let baseline = false;
-    /** If true, uses foreground color for background, and background for foreground. */
-    export let invert = false;
-    /** If true, sets height of speech to 100% and scrolls it */
-    export let scroll = true;
-    /** Optional emotion */
-    export let emotion: Emotion | undefined = undefined;
-    /** Optionally turn off animation */
-    export let emote = true;
-    /** Optionally double size of text */
-    export let big = false;
+    interface Props {
+        character: BasisCharacter | Concept;
+        /** If true, speech is placed below character. If false, speech is placed to the right or left of character. */
+        below?: boolean;
+        /** If true and speech is not below, reading order is flipped. */
+        flip?: boolean;
+        /** If true and speech is not below, baseline aligns the character and speech */
+        baseline?: boolean;
+        /** If true, uses foreground color for background, and background for foreground. */
+        invert?: boolean;
+        /** If true, sets height of speech to 100% and scrolls it */
+        scroll?: boolean;
+        /** Optional emotion */
+        emotion?: Emotion | undefined;
+        /** Optionally turn off animation */
+        emote?: boolean;
+        /** Optionally double size of text */
+        big?: boolean;
+        aside?: Snippet;
+        content: Snippet;
+    }
 
-    $: renderedEmotion =
+    let {
+        character,
+        below = false,
+        flip = false,
+        baseline = false,
+        invert = false,
+        scroll = true,
+        emotion = undefined,
+        emote = true,
+        big = false,
+        aside,
+        content,
+    }: Props = $props();
+
+    let renderedEmotion = $derived(
         emotion ??
-        (glyph instanceof Concept ? glyph?.getEmotion($locales) : undefined);
+            (character instanceof Concept
+                ? character?.getEmotion($locales)
+                : undefined),
+    );
 
-    $: glyphs =
-        glyph instanceof Concept
-            ? glyph.getGlyphs($locales).symbols
-            : glyph.symbols;
+    let characters = $derived(
+        character instanceof Concept
+            ? character.getCharacter($locales).symbols
+            : character.symbols,
+    );
 
-    $: symbols = withVariationSelector(
-        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs,
+    let symbols = $derived(
+        withColorEmoji(
+            characters.length > Limit
+                ? `${characters.substring(0, Limit)}…`
+                : characters,
+        ),
     );
 </script>
 
@@ -56,19 +83,19 @@
 >
     <div class="speaker">
         <div
-            class="glyphs {symbols.length >= 3
+            class="characters {symbols.length >= 3
                 ? 'small'
                 : ''} {renderedEmotion && emote
                 ? `emotion-${renderedEmotion}`
                 : ''}"
         >
-            {#if glyph instanceof Concept}
-                <ConceptLinkUI link={glyph} label={symbols} />
+            {#if character instanceof Concept}
+                <ConceptLinkUI link={character} label={symbols} />
             {:else}
                 {symbols}
             {/if}
             <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
-        </div><slot name="aside" />
+        </div>{@render aside?.()}
     </div>
     <div
         class="message {below
@@ -82,9 +109,9 @@
             : 'ltr'}"
     >
         {#if scroll}
-            <div class="scroller"><slot name="content" /></div>
+            <div class="scroller">{@render content()}</div>
         {:else}
-            <slot name="content" />
+            {@render content()}
         {/if}
     </div>
 </div>
@@ -134,7 +161,7 @@
         align-items: baseline;
     }
 
-    .glyphs {
+    .characters {
         display: inline-block;
         line-height: 100%;
         font-family: var(--wordplay-code-font);
@@ -143,11 +170,11 @@
         font-size: 2em;
     }
 
-    .glyphs.small {
+    .characters.small {
         font-size: 1em;
     }
 
-    .row .glyphs {
+    .row .characters {
         max-width: 4em;
         flex-shrink: 0;
         text-align: center;

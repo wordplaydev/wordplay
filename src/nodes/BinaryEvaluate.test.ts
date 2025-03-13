@@ -1,10 +1,9 @@
-import { test, expect } from 'vitest';
-import { testConflict } from '@conflicts/TestUtilities';
-import BinaryEvaluate from './BinaryEvaluate';
-import { FALSE_SYMBOL } from '@parser/Symbols';
-import { OR_SYMBOL } from '@parser/Symbols';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
+import { testConflict } from '@conflicts/TestUtilities';
+import { FALSE_SYMBOL, OR_SYMBOL } from '@parser/Symbols';
+import { expect, test } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
+import BinaryEvaluate from './BinaryEvaluate';
 
 test.each([
     ['1 · 5', '1 · ""', BinaryEvaluate, IncompatibleInput],
@@ -27,7 +26,7 @@ test.each([
     'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict, number?) => {
         testConflict(good, bad, node, conflict, number);
-    }
+    },
 );
 
 test.each([

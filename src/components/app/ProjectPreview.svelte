@@ -1,39 +1,62 @@
+<!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
-    import type Project from '@models/Project';
-    import Evaluator from '@runtime/Evaluator';
-    import { DB, locales } from '../../db/Database';
-    import { isAudience, isFlagged } from '../../models/Moderation';
-    import { getUser } from '../project/Contexts';
-    import Link from './Link.svelte';
-    import { navigating } from '$app/stores';
-    import Spinning from './Spinning.svelte';
-    import { toStage } from '@output/Stage';
-    import { EXCEPTION_SYMBOL } from '@parser/Symbols';
+    import { navigating } from '$app/state';
     import Fonts from '@basis/Fonts';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
+    import type Project from '@db/projects/Project';
     import { getFaceCSS } from '@output/outputToCSS';
-    import UnicodeString from '@models/UnicodeString';
+    import { toStage } from '@output/Stage';
+    import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
+    import Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
+    import { Chats, Creators, DB, locales } from '../../db/Database';
+    import { isAudience, isFlagged } from '../../db/projects/Moderation';
+    import UnicodeString from '../../unicode/UnicodeString';
+    import { getUser } from '../project/Contexts';
+    import CreatorView from './CreatorView.svelte';
+    import Link from './Link.svelte';
+    import Spinning from './Spinning.svelte';
 
-    export let project: Project;
-    export let action: (() => void) | undefined = undefined;
-    /** Whether to show the project's name. */
-    export let name = true;
-    /** How many rems the preview square should be. */
-    export let size = 6;
-    /** The link to go to when clicked. If none is provided, goes to the project. */
-    export let link: string | undefined = undefined;
+    interface Props {
+        project: Project;
+        action?: (() => void) | undefined;
+        /** Whether to show the project's name. */
+        name?: boolean;
+        /** How many rems the preview square should be. */
+        size?: number;
+        /** The link to go to when clicked. If none is provided, goes to the project. */
+        link?: string | undefined;
+        children?: import('svelte').Snippet;
+        anonymize?: boolean;
+        showCollaborators?: boolean;
+    }
+
+    let {
+        project,
+        action = undefined,
+        name = true,
+        size = 6,
+        link = undefined,
+        children,
+        anonymize = true,
+        showCollaborators = false,
+    }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let representativeForeground: string | null;
-    let representativeBackground: string | null;
-    let representativeFace: string | null;
-    let representativeText: string;
+    type Preview = {
+        representativeForeground: string | null;
+        representativeBackground: string | null;
+        representativeFace: string | null;
+        representativeText: string;
+    };
 
-    $: if (project) updatePreview();
-
-    $: path = link ?? project.getLink(true);
-
-    function updatePreview() {
+    /** Derive the preview contents from the project by getting it's first value */
+    let {
+        representativeForeground,
+        representativeBackground,
+        representativeFace,
+        representativeText,
+    }: Preview = $derived.by(() => {
         const evaluator = new Evaluator(
             project,
             DB,
@@ -45,35 +68,50 @@
         const stage = value ? toStage(evaluator, value) : undefined;
         if (stage && stage.face) Fonts.loadFace(stage.face);
 
-        [
-            representativeFace,
-            representativeForeground,
-            representativeBackground,
-            representativeText,
-        ] = [
-            stage ? getFaceCSS(stage.face) : null,
-            stage
-                ? stage.pose.color?.toCSS() ?? null
+        return {
+            representativeFace: stage ? getFaceCSS(stage.face) : null,
+            representativeForeground: stage
+                ? (stage.pose.color?.toCSS() ?? null)
                 : 'var(--wordplay-evaluation-color)',
-            stage
+            representativeBackground: stage
                 ? stage.back.toCSS()
                 : value instanceof ExceptionValue || value === undefined
                   ? 'var(--wordplay-error)'
                   : null,
-            stage
+            representativeText: stage
                 ? new UnicodeString(stage.getRepresentativeText($locales))
                       .substring(0, 1)
                       .toString()
                 : value
                   ? value.getRepresentativeText($locales)
                   : EXCEPTION_SYMBOL,
-        ];
-    }
+        };
+    });
 
     const user = getUser();
 
+    let path = $derived(link ?? project.getLink(true));
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
-    $: audience = isAudience($user, project);
+    let audience = $derived(isAudience($user, project));
+
+    const owner = $derived(project.getOwner());
+    const collaborators = $derived(project.getCollaborators());
+    const editable = $derived(
+        $user !== null &&
+            ($user.uid === owner || collaborators.includes($user.uid)),
+    );
+
+    let chat = $state<Chat | undefined>(undefined);
+    $effect(() => {
+        // When the project changes, get the chat, and mark read if it was unread.
+        Chats.getChat(project).then((retrievedChat) => {
+            if (retrievedChat) chat = retrievedChat;
+        });
+    });
+
+    let unread = $derived(
+        chat !== undefined && $user !== null && chat.hasUnread($user.uid),
+    );
 </script>
 
 <div class="project" class:named={name}>
@@ -84,9 +122,9 @@
         style:width={`${size}rem`}
         style:height={`${size}rem`}
         href={action ? undefined : path}
-        on:click={(event) =>
+        onclick={(event) =>
             action && event.button === 0 ? action() : undefined}
-        on:keydown={(event) =>
+        onkeydown={(event) =>
             action && (event.key === '' || event.key === 'Enter')
                 ? action()
                 : undefined}
@@ -104,15 +142,50 @@
         </div>
     </a>
     {#if name}
-        <div class="name"
-            >{#if action}{project.getName()}{:else}<Link to={path}
-                    >{#if project.getName().length === 0}<em class="untitled"
+        <div class="name">
+            {#if action}
+                {project.getName()}
+            {:else}
+                <Link to={path}>
+                    {#if project.getName().length === 0}<em class="untitled"
                             >&mdash;</em
-                        >{:else}
+                        >
+                    {:else}
                         {project.getName()}{/if}</Link
-                >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
-                    <Spinning />{:else}<slot />{/if}{/if}</div
-        >{/if}
+                >
+                {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
+                    <Spinning />{:else}{@render children?.()}
+                {/if}
+            {/if}
+
+            <!-- If editable and there's an owner, possibly show collaborators. -->
+            {#if editable && owner !== null && showCollaborators && collaborators.length > 0}
+                <div class="creators">
+                    {#await Creators.getCreator(owner)}
+                        <Spinning />
+                    {:then creator}
+                        <CreatorView {anonymize} {creator} />
+                    {/await}
+                    {#each collaborators.slice(0, 2) as collaborator}
+                        {#await Creators.getCreator(collaborator)}
+                            <Spinning />
+                        {:then collaboratorCreator}
+                            <CreatorView
+                                {anonymize}
+                                creator={collaboratorCreator}
+                            />
+                        {/await}
+                    {/each}
+                    {#if collaborators.length > 2}
+                        <span>...</span>
+                    {/if}
+                </div>
+            {/if}
+            {#if unread}
+                <div class="notification">{PHRASE_SYMBOL}</div>
+            {/if}
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -131,7 +204,7 @@
 
     .output {
         display: flex;
-        /** For some reason this is necessary for keeping the glyph centered. */
+        /** For some reason this is necessary for keeping the character centered. */
         align-items: center;
         justify-content: center;
         width: 100%;
@@ -179,5 +252,26 @@
 
     .blurred {
         filter: blur(10px);
+    }
+
+    .notification {
+        display: inline-block;
+        background: var(--wordplay-highlight-color);
+        color: var(--wordplay-background);
+        align-self: flex-start;
+        border-radius: var(--wordplay-border-radius);
+        animation: bounce;
+        animation-duration: calc(var(--animation-factor) * 1000ms);
+        animation-delay: 0;
+        animation-iteration-count: infinite;
+    }
+
+    .creators {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-block-start: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
     }
 </style>

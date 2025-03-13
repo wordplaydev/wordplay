@@ -1,17 +1,17 @@
 import toStructure from '@basis/toStructure';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import type Color from './Color';
-import Valued, { getOutputInputs } from './Valued';
-import type Place from './Place';
-import { toPlace } from './Place';
-import { toBoolean, toNumber } from './Stage';
-import { toColor } from './Color';
 import { getBind } from '@locale/getBind';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
-import type Project from '../models/Project';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
+import type Color from './Color';
+import { toColor } from './Color';
+import type Place from './Place';
+import { toPlace } from './Place';
+import { toBoolean, toNumber } from './Stage';
+import Valued, { getOutputInputs } from './Valued';
 
 export function createPoseType(locales: Locales) {
     return toStructure(`

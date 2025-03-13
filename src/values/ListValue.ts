@@ -1,16 +1,17 @@
-import ListType from '@nodes/ListType';
-import BoolValue from '@values/BoolValue';
-import TextValue from '../values/TextValue';
-import NumberValue from '@values/NumberValue';
-import NoneValue from '@values/NoneValue';
-import SimpleValue from './SimpleValue';
-import type Value from '../values/Value';
-import UnionType from '@nodes/UnionType';
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
+import ListType from '@nodes/ListType';
+import UnionType from '@nodes/UnionType';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
+import BoolValue from '@values/BoolValue';
+import NoneValue from '@values/NoneValue';
+import NumberValue from '@values/NumberValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import TextValue from '../values/TextValue';
+import type Value from '../values/Value';
+import SimpleValue from './SimpleValue';
 
 export default class ListValue extends SimpleValue {
     readonly values: Value[] = [];
@@ -166,8 +167,8 @@ export default class ListValue extends SimpleValue {
             .join(' ')}${LIST_CLOSE_SYMBOL}`;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.list);
+    getDescription() {
+        return (l: LocaleText) => l.term.list;
     }
 
     getRepresentativeText() {

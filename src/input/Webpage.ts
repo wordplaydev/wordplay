@@ -1,26 +1,26 @@
+import type Evaluation from '@runtime/Evaluation';
 import StreamValue from '@values/StreamValue';
-import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import Bind from '../nodes/Bind';
-import TextType from '../nodes/TextType';
-import TextValue from '../values/TextValue';
-import StreamType from '../nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
-import type LocaleText from '../locale/LocaleText';
-import ListValue from '../values/ListValue';
-import ListType from '../nodes/ListType';
-import TextLiteral from '../nodes/TextLiteral';
-import NumberType from '../nodes/NumberType';
-import Unit from '../nodes/Unit';
-import NumberLiteral from '../nodes/NumberLiteral';
-import NumberValue from '../values/NumberValue';
-import UnionType from '../nodes/UnionType';
-import NoneType from '../nodes/NoneType';
-import MessageException from '../values/MessageException';
-import type ExceptionValue from '../values/ExceptionValue';
 import type Locales from '../locale/Locales';
-import type Evaluation from '@runtime/Evaluation';
+import type LocaleText from '../locale/LocaleText';
+import Bind from '../nodes/Bind';
+import ListType from '../nodes/ListType';
+import NoneType from '../nodes/NoneType';
+import NumberLiteral from '../nodes/NumberLiteral';
+import NumberType from '../nodes/NumberType';
+import StreamDefinition from '../nodes/StreamDefinition';
+import StreamType from '../nodes/StreamType';
+import TextLiteral from '../nodes/TextLiteral';
+import TextType from '../nodes/TextType';
+import UnionType from '../nodes/UnionType';
+import Unit from '../nodes/Unit';
+import type ExceptionValue from '../values/ExceptionValue';
+import ListValue from '../values/ListValue';
+import MessageException from '../values/MessageException';
+import NumberValue from '../values/NumberValue';
+import TextValue from '../values/TextValue';
+import createStreamEvaluator from './createStreamEvaluator';
 
 /**
  * Webpage stream values can be one of three things:

@@ -1,18 +1,18 @@
-import type Evaluate from '@nodes/Evaluate';
-import Conflict from './Conflict';
-import type Bind from '@nodes/Bind';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Expression from '@nodes/Expression';
-import type Token from '@nodes/Token';
-import type Context from '@nodes/Context';
-import NodeRef from '@locale/NodeRef';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import type Locales from '../locale/Locales';
 import ConceptRef from '@locale/ConceptRef';
-import type UnaryEvaluate from '@nodes/UnaryEvaluate';
+import NodeRef from '@locale/NodeRef';
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Input from '@nodes/Input';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Token from '@nodes/Token';
+import type UnaryEvaluate from '@nodes/UnaryEvaluate';
+import type Locales from '../locale/Locales';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import Conflict from './Conflict';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

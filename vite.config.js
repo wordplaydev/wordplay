@@ -11,10 +11,7 @@ function LocaleHotReload() {
         handleHotUpdate({ file, server }) {
             if (file.includes('locales') && file.endsWith('.json')) {
                 console.log(`${file} changed, sending update event.`);
-                server.ws.send({
-                    type: 'custom',
-                    event: 'locales-update',
-                });
+                server.ws.send({ type: 'custom', event: 'locales-update' });
             }
         },
     };
@@ -23,6 +20,7 @@ function LocaleHotReload() {
 /** @type {import('vite').UserConfig} */
 const config = {
     plugins: [sveltekit(), LocaleHotReload()],
+    build: { chunkSizeWarningLimit: 1600 },
 };
 
 export default config;

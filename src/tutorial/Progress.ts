@@ -1,13 +1,13 @@
-import type { TutorialProgress } from '../db/TutorialProgressSetting';
+import type { TutorialProgress } from '../db/settings/TutorialProgressSetting';
+import type Tutorial from './Tutorial';
 import {
     PerformanceMode,
     type Act,
-    type Scene,
+    type Dialog,
     type PeformanceModeType,
     type Performance,
-    type Dialog,
+    type Scene,
 } from './Tutorial';
-import type Tutorial from './Tutorial';
 
 export default class Progress {
     readonly tutorial: Tutorial;
@@ -78,7 +78,7 @@ export default class Progress {
         const code =
             scene && line !== undefined
                 ? scene.lines[line]
-                : scene?.performance ?? act?.performance ?? undefined;
+                : (scene?.performance ?? act?.performance ?? undefined);
         return Array.isArray(code) &&
             PerformanceMode.includes(code[0] as PeformanceModeType)
             ? (code as Performance)

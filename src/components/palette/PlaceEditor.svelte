@@ -1,30 +1,43 @@
 <script lang="ts">
-    import TextField from '../widgets/TextField.svelte';
-    import Evaluate from '../../nodes/Evaluate';
-    import type Project from '@models/Project';
-    import NumberValue from '@values/NumberValue';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type Project from '@db/projects/Project';
+    import type LocaleText from '@locale/LocaleText';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
-    import Note from '../widgets/Note.svelte';
-    import { getNumber } from './editOutput';
-    import Expression from '../../nodes/Expression';
-    import { Projects, locales } from '../../db/Database';
+    import NumberValue from '@values/NumberValue';
     import { tick } from 'svelte';
-    import Button from '../widgets/Button.svelte';
+    import { Projects, locales } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
+    import Evaluate from '../../nodes/Evaluate';
+    import Expression from '../../nodes/Expression';
     import NumberType from '../../nodes/NumberType';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '../widgets/Button.svelte';
+    import Note from '../widgets/Note.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import { getNumber } from './editOutput';
 
-    export let project: Project;
-    export let place: Evaluate;
-    export let editable: boolean;
-    export let convertable: boolean;
+    interface Props {
+        project: Project;
+        place: Evaluate;
+        editable: boolean;
+        convertable: boolean;
+        id?: string | undefined;
+    }
 
-    let views: HTMLInputElement[] = [];
+    let {
+        project,
+        place,
+        editable,
+        convertable,
+        id = undefined,
+    }: Props = $props();
+
+    let views: HTMLInputElement[] = $state([]);
 
     function valid(val: string) {
         const [num] = NumberValue.fromUnknown(val);
-        return !num.isNaN();
+        return num.isNaN() ? (l: LocaleText) => l.ui.palette.error.nan : true;
     }
 
     async function handleChange(dimension: Bind, value: string) {
@@ -73,7 +86,7 @@
 </script>
 
 {project.shares.output.Place.names.getSymbolicName()}
-<div class="place">
+<div class="place" {id}>
     {#each project.shares.output.Place.inputs as dimension, index}
         {@const given = place?.getInput(
             dimension,
@@ -85,22 +98,21 @@
         <div class="dimension">
             {#if value !== undefined || given == undefined}
                 <TextField
+                    id="place-editor-{index}"
                     text={`${value ?? 0}`}
                     validator={valid}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
-                    description={$locales.get(
-                        (l) => l.ui.palette.field.coordinate,
-                    )}
+                    description={(l) => l.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
                 />
                 <Note>{getUnit(dimension)?.toWordplay() ?? ''}</Note>
             {:else}
                 <Note
-                    >{$locales.get(
-                        (locale) => locale.ui.palette.labels.computed,
-                    )}</Note
+                    ><LocalizedText
+                        path={(locale) => locale.ui.palette.labels.computed}
+                    /></Note
                 >
             {/if}
         </div>
@@ -108,7 +120,7 @@
 </div>
 {#if convertable}
     <Button
-        tip={$locales.get((l) => l.ui.palette.button.addMotion)}
+        tip={(l) => l.ui.palette.button.addMotion}
         active={editable}
         action={() => {
             Projects.revise(project, [
@@ -141,10 +153,11 @@
                     ),
                 ],
             ]);
-        }}>→{project.shares.input.Motion.getNames()[0]}</Button
+        }}
+        icon="→">{project.shares.input.Motion.getNames()[0]}</Button
     >
     <Button
-        tip={$locales.get((l) => l.ui.palette.button.addPlacement)}
+        tip={(l) => l.ui.palette.button.addPlacement}
         active={editable}
         action={() => {
             Projects.revise(project, [
@@ -156,7 +169,8 @@
                     ),
                 ],
             ]);
-        }}>→{project.shares.input.Placement.getNames()[0]}</Button
+        }}
+        icon="→">{project.shares.input.Placement.getNames()[0]}</Button
     >
 {/if}
 

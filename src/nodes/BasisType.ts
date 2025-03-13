@@ -1,7 +1,7 @@
 import type Context from './Context';
-import Type from './Type';
-import type Node from './Node';
 import type Definition from './Definition';
+import type Node from './Node';
+import Type from './Type';
 
 export default abstract class BasisType extends Type {
     constructor() {
@@ -33,7 +33,7 @@ export default abstract class BasisType extends Type {
             // Include the basis scope functions
             ...(this.getAdditionalBasisScope(context)?.getDefinitions(
                 _,
-                context
+                context,
             ) ?? []),
         ];
     }

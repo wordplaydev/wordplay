@@ -1,5 +1,17 @@
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Check from '@runtime/Check';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Initialize from '@runtime/Initialize';
+import Internal from '@runtime/Internal';
+import Next from '@runtime/Next';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import AnyType from '../nodes/AnyType';
 import type Context from '../nodes/Context';
 import Expression from '../nodes/Expression';
@@ -9,18 +21,8 @@ import type Names from '../nodes/Names';
 import type { Grammar } from '../nodes/Node';
 import type Type from '../nodes/Type';
 import type TypeSet from '../nodes/TypeSet';
-import Check from '@runtime/Check';
-import Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
 import FunctionValue from '../values/FunctionValue';
-import Initialize from '@runtime/Initialize';
-import Internal from '@runtime/Internal';
-import Next from '@runtime/Next';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
 import Value from '../values/Value';
-import type Locales from '../locale/Locales';
 
 const IterationState = 'state';
 
@@ -76,7 +78,7 @@ export class Iteration<State = any> extends Expression {
         return true;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Iteration';
     }
 
@@ -216,8 +218,9 @@ export class Iteration<State = any> extends Expression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Iteration);
+    static readonly LocalePath = (l: LocaleText) => l.node.Iteration;
+    getLocalePath() {
+        return Iteration.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
@@ -235,8 +238,8 @@ export class Iteration<State = any> extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Function;
+    getCharacter() {
+        return Characters.FunctionDefinition;
     }
 }
 

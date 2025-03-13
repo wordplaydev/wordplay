@@ -1,15 +1,15 @@
-import { test, expect } from 'vitest';
-import Project from '@models/Project';
-import Source from '@nodes/Source';
-import { dropNodeOnSource, InsertionPoint } from './Drag';
-import type Node from '@nodes/Node';
+import Project from '@db/projects/Project';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import NumberLiteral from '@nodes/NumberLiteral';
 import ListLiteral from '@nodes/ListLiteral';
+import type Node from '@nodes/Node';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Source from '@nodes/Source';
 import Token from '@nodes/Token';
-import { toTokens } from '../parser/toTokens';
-import parseExpression from '../parser/parseExpression';
+import { expect, test } from 'vitest';
 import DefaultLocale from '../locale/DefaultLocale';
+import parseExpression from '../parser/parseExpression';
+import { toTokens } from '../parser/toTokens';
+import { dropNodeOnSource, InsertionPoint } from './Drag';
 
 test.each([
     // Replace placeholder with rootless expression

@@ -1,25 +1,25 @@
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
+import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
+import type Expression from '@nodes/Expression';
 import NumberType from '@nodes/NumberType';
+import StructureDefinition from '@nodes/StructureDefinition';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import type BoolValue from '@values/BoolValue';
+import NumberValue from '@values/NumberValue';
+import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
+import type Locales from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
+import ListType from '../nodes/ListType';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
 } from './Basis';
-import TextValue from '@values/TextValue';
-import StructureDefinition from '@nodes/StructureDefinition';
-import NumberValue from '@values/NumberValue';
-import Block, { BlockKind } from '@nodes/Block';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Expression from '@nodes/Expression';
-import type LocaleText from '../locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
-import ListType from '../nodes/ListType';
-import type Locales from '../locale/Locales';
 
 const MAX_TEXT_LENGTH = 65536;
 

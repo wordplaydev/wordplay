@@ -1,26 +1,31 @@
-import Node from '@nodes/Node';
-import type Source from '@nodes/Source';
-import type Evaluator from '@runtime/Evaluator';
 import type Evaluate from '@nodes/Evaluate';
 import Expression, { ExpressionKind } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Node from '@nodes/Node';
+import type Source from '@nodes/Source';
+import StructureDefinition from '@nodes/StructureDefinition';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
+import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import { isValidDropTarget, type InsertionPoint } from '../../../edit/Drag';
 import type Caret from '../../../edit/Caret';
-import { getUnderlineOf, type Outline } from './outline';
-import getOutlineOf from './outline';
-import Reference from '../../../nodes/Reference';
-import Program from '../../../nodes/Program';
-import Block from '../../../nodes/Block';
-import NameType from '../../../nodes/NameType';
-import Name from '../../../nodes/Name';
-import DefinitionExpression from '../../../nodes/DefinitionExpression';
+import { isValidDropTarget, type InsertionPoint } from '../../../edit/Drag';
 import Bind from '../../../nodes/Bind';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
+import Block from '../../../nodes/Block';
+import DefinitionExpression from '../../../nodes/DefinitionExpression';
+import Name from '../../../nodes/Name';
+import NameType from '../../../nodes/NameType';
+import Program from '../../../nodes/Program';
+import Reference from '../../../nodes/Reference';
+import getOutlineOf, {
+    getOutlineOfRows,
+    getTokenRects,
+    getUnderlineOf,
+    rectsToRows,
+    type Outline,
+} from './outline';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -80,7 +85,9 @@ export function getHighlights(
 
     // Is there a step we're actively evaluating? Highlight it!
     const stepNode = evaluator.getStepNode();
-    if (stepNode) addHighlight(source, newHighlights, stepNode, 'evaluating');
+    if (stepNode) {
+        addHighlight(source, newHighlights, stepNode, 'evaluating');
+    }
 
     // Is there an exception on the last step? Highlight the node that created it!
     if (
@@ -90,7 +97,7 @@ export function getHighlights(
     )
         addHighlight(source, newHighlights, latestValue.step.node, 'exception');
 
-    // Is the caret selecting a node? Highlight it.
+    // Is the caret selecting a non-placeholder node? Highlight it.
     if (caret.position instanceof Node && !caret.isPlaceholderNode()) {
         const tokensSelected =
             !blocks ||
@@ -224,7 +231,7 @@ export function getHighlights(
     let caretParent: Node | undefined;
     if (caret.position instanceof Node)
         caretParent = source.root.getParent(caret.position);
-    else if (caret.insideToken()) {
+    else if (caret.isPosition() && caret.insideToken()) {
         const token = source.getTokenAt(caret.position);
         if (token) caretParent = source.root.getParent(token);
     }
@@ -313,7 +320,7 @@ export function updateOutlines(
     horizontal: boolean,
     rtl: boolean,
     getNodeView: (node: Node) => HTMLElement | undefined,
-) {
+): HighlightSpec[] {
     const outlines = [];
     const nodeViews = new Map<HighlightSpec, HTMLElement>();
     // Convert all of the highlighted views into outlines of the nodes.
@@ -388,4 +395,51 @@ export function updateOutlines(
     }
 
     return outlines;
+}
+
+/** Given a source and a range in its text, determine a path around the selected text */
+export function getRangeOutline(
+    source: Source,
+    start: number,
+    end: number,
+    getNodeView: (node: Node) => HTMLElement | undefined,
+    horzontal: boolean,
+    rtl: boolean,
+): Outline | undefined {
+    if (start > end) {
+        const temp = start;
+        start = end;
+        end = temp;
+    }
+    // Find all tokens in the range, and remember details about it.
+    const tokens = source.tokens
+        .map((token) => {
+            const tokenStart = source.getTokenTextPosition(token);
+            if (tokenStart === undefined) return undefined;
+            const tokenEnd = tokenStart + token.getTextLength();
+            if (start <= tokenEnd && end >= tokenStart) {
+                return {
+                    token,
+                    start: tokenStart,
+                    end: tokenEnd,
+                };
+            } else return undefined;
+        })
+        .filter((t) => t !== undefined);
+
+    // Find views of all the tokens
+    const nodeViews = tokens
+        .map((t) => getNodeView(t.token))
+        .filter((v) => v !== undefined);
+
+    if (nodeViews.length === 0) return undefined;
+
+    // Convert the tokens into rectangles
+    const tokenRects = getTokenRects(nodeViews, {
+        start: start - tokens[0].start,
+        end: end - tokens[tokens.length - 1].start,
+    });
+
+    // Convert the rects into an outline of rows
+    return getOutlineOfRows(rectsToRows(tokenRects, horzontal, rtl));
 }

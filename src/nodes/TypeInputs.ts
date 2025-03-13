@@ -1,12 +1,13 @@
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import Sym from './Sym';
-import Type from './Type';
 import Node, { list, node, optional } from './Node';
-import type Locales from '../locale/Locales';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 
 export default class TypeInputs extends Node {
     readonly open: Token;
@@ -39,7 +40,7 @@ export default class TypeInputs extends Node {
         return [TypeInputs.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TypeInputs';
     }
 
@@ -67,11 +68,12 @@ export default class TypeInputs extends Node {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TypeInputs);
+    static readonly LocalePath = (l: LocaleText) => l.node.TypeInputs;
+    getLocalePath() {
+        return TypeInputs.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 }

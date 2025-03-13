@@ -123,26 +123,26 @@ Stage(
   } duration: 2.5s)
 )`,
     EvaluateDance1: () => `Stage([] background:Color(0% 0 0°))`,
-    EvaluateDance2: () => `•Character(glyph•"" place•Place)
+    EvaluateDance2: () => `•Character(character•"" place•Place)
 Stage([] background: Color(0% 0 0°))`,
-    EvaluateDance3: () => `•Character(glyph•"" place•Place rotation•#°)
+    EvaluateDance3: () => `•Character(character•"" place•Place rotation•#°)
 Stage([]  background:Color(0% 0 0°))`,
-    EvaluateDance4: () => `•Character(glyph•"" place•Place rotation•#°)
+    EvaluateDance4: () => `•Character(character•"" place•Place rotation•#°)
 symbols: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"]
 Stage([] background:Color(0% 0 0°))
 `,
-    EvaluateDance5: () => `•Character(glyph•"" place•Place rotation•#°)
-initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(glyph•"") Character(glyph Place() 0°))
+    EvaluateDance5: () => `•Character(character•"" place•Place rotation•#°)
+initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(character•"") Character(character Place() 0°))
 Stage([]  background:Color(0% 0 0°))`,
-    EvaluateDance6: () => `•Character(glyph•"" place•Place rotation•#°)
-initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(glyph•"") Character(glyph Place() 0°))
+    EvaluateDance6: () => `•Character(character•"" place•Place rotation•#°)
+initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(character•"") Character(character Place() 0°))
 Stage(
   [
       Group(
           Free()
           initial.translate(ƒ(char•Character)
               Phrase(
-                  char.glyph
+                  char.character
                   rotation: char.rotation
                   place: char.place
               )
@@ -150,15 +150,15 @@ Stage(
       )
   ]
   background: Color(0% 0 0°))`,
-    EvaluateDance7: () => `•Character(glyph•"" place•Place rotation•#°)
-initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(glyph•"") Character(glyph Place() 0°))
+    EvaluateDance7: () => `•Character(character•"" place•Place rotation•#°)
+initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(character•"") Character(character Place() 0°))
 Stage(
   [
       Group(
           Free()
           initial.translate(ƒ(char•Character)
               Phrase(
-                  char.glyph
+                  char.character
                   rotation: char.rotation
                   place: char.place
                   color:Color(100% 100 0°)
@@ -167,12 +167,12 @@ Stage(
       )
   ]
   background: Color(0% 0 0°))`,
-    EvaluateDance8: () => `•Character(glyph•"" place•Place rotation•#°)
+    EvaluateDance8: () => `•Character(character•"" place•Place rotation•#°)
 initial•[Character]: 
 [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
-  translate(ƒ(glyph•"") 
+  translate(ƒ(character•"") 
     Character(
-      glyph 
+      character 
       Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
@@ -181,7 +181,7 @@ Group(
   Free()
   initial.translate(ƒ(char•Character)
     Phrase(
-      char.glyph
+      char.character
       size: 2m
       rotation: char.rotation
       place: char.place
@@ -191,13 +191,13 @@ Group(
 )]
 background:Color(0% 0 0°))`,
 
-    EvaluateDance9: () => `•Character(glyph•"" place•Place rotation•#°)
+    EvaluateDance9: () => `•Character(character•"" place•Place rotation•#°)
 
 initial•[Character]: 
   [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
-      translate(ƒ(glyph•"") 
+      translate(ƒ(character•"") 
       Character(
-          glyph 
+          character 
           Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
           0°)
       )
@@ -209,7 +209,7 @@ Group(
   Free()
   characters.translate(ƒ(char•Character)
     Phrase(
-      char.glyph
+      char.character
       size: 2m
       rotation: char.rotation
       place: char.place
@@ -219,19 +219,19 @@ Group(
 )]
 background:Color(0% 0 0°))`,
 
-    EvaluateDance10: () => `•Character(glyph•"" place•Place rotation•#°) (
+    EvaluateDance10: () => `•Character(character•"" place•Place rotation•#°) (
 ƒ move()
   Character(
-   glyph
+   character
    place
    rotation)
 )
 
 initial•[Character]: 
 [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
-  translate(ƒ(glyph•"") 
+  translate(ƒ(character•"") 
     Character(
-      glyph 
+      character 
       Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
@@ -243,7 +243,7 @@ Group(
   Free()
   characters.translate(ƒ(char•Character)
     Phrase(
-      char.glyph
+      char.character
       size: 2m
       rotation: char.rotation
       place: char.place
@@ -253,10 +253,10 @@ Group(
 )]
 background:Color(0% 0 0°))`,
 
-    EvaluateDance11: () => `•Character(glyph•"" place•Place rotation•#°) (
+    EvaluateDance11: () => `•Character(character•"" place•Place rotation•#°) (
 ƒ move()
   Character(
-   glyph
+   character
    Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
    Random(-45 45) · 1°
   )
@@ -264,9 +264,9 @@ background:Color(0% 0 0°))`,
 
 initial•[Character]: 
 [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
-  translate(ƒ(glyph•"") 
+  translate(ƒ(character•"") 
     Character(
-      glyph 
+      character 
       Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
@@ -278,7 +278,7 @@ Group(
   Free()
   characters.translate(ƒ(char•Character)
     Phrase(
-      char.glyph
+      char.character
       size: 2m
       rotation: char.rotation
       place: char.place
@@ -288,10 +288,10 @@ Group(
 )]
 background:Color(0% 0 0°))`,
 
-    EvaluateDance12: () => `•Character(glyph•"" place•Place rotation•#°) (
+    EvaluateDance12: () => `•Character(character•"" place•Place rotation•#°) (
 ƒ move()
   Character(
-   glyph
+   character
    Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
    Random(-45 45) · 1°
   )
@@ -299,9 +299,9 @@ background:Color(0% 0 0°))`,
 
 initial•[Character]: 
 [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
-  translate(ƒ(glyph•"") 
+  translate(ƒ(character•"") 
     Character(
-      glyph 
+      character 
       Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
@@ -313,7 +313,7 @@ Group(
   Free()
   characters.translate(ƒ(char•Character)
     Phrase(
-      char.glyph
+      char.character
       size: 2m
       rotation: char.rotation
       place: char.place
@@ -323,10 +323,10 @@ Group(
 )]
 background:Color(0% 0 0°))`,
 
-    EvaluateDance13: () => `•Character(glyph•"" place•Place rotation•#°) (
+    EvaluateDance13: () => `•Character(character•"" place•Place rotation•#°) (
 ƒ move()
   Character(
-   glyph
+   character
    Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
    Random(-45 45) · 1°
   )
@@ -334,9 +334,9 @@ background:Color(0% 0 0°))`,
 
 initial•[Character]: 
 [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
-  translate(ƒ(glyph•"") 
+  translate(ƒ(character•"") 
     Character(
-      glyph 
+      character 
       Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
@@ -348,7 +348,7 @@ Group(
   Free()
   characters.translate(ƒ(char•Character)
     Phrase(
-      char.glyph
+      char.character
       size: 2m
       rotation: char.rotation
       place: char.place
@@ -361,10 +361,10 @@ Group(
 background:Color(0% 0 0°)
 )`,
 
-    EvaluateDance14: () => `•Character(glyph•"" place•Place rotation•#°) (
+    EvaluateDance14: () => `•Character(character•"" place•Place rotation•#°) (
 ƒ move()
   Character(
-   glyph
+   character
    Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
    Random(-45 45) · 1°
   )
@@ -372,9 +372,9 @@ background:Color(0% 0 0°)
 
 initial•[Character]: 
 [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
-  translate(ƒ(glyph•"") 
+  translate(ƒ(character•"") 
     Character(
-      glyph 
+      character 
       Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
@@ -386,7 +386,7 @@ Group(
   Free()
   characters.translate(ƒ(char•Character)
     Phrase(
-      char.glyph
+      char.character
       size: 3m
       rotation: char.rotation
       place: char.place

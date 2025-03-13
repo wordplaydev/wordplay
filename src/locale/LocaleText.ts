@@ -1,48 +1,27 @@
+import type { FlagDescriptions } from '../db/projects/Moderation';
+import type Markup from '../nodes/Markup';
+import type Sym from '../nodes/Sym';
+import parseDoc from '../parser/parseDoc';
+import { DOCS_SYMBOL } from '../parser/Symbols';
+import { toTokens } from '../parser/toTokens';
+import type BasisTexts from './BasisTexts';
+import type { GalleryTexts } from './GalleryTexts';
+import type InputTexts from './InputTexts';
 import type LanguageCode from './LanguageCode';
 import { Languages } from './LanguageCode';
-import type Sym from '../nodes/Sym';
-import type BasisTexts from './BasisTexts';
+import type Locale from './Locale';
 import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';
-import type UITexts from './UITexts';
-import type InputTexts from './InputTexts';
-import type TermTexts from './TermTexts';
-import type Markup from '../nodes/Markup';
 import { Regions, type RegionCode } from './Regions';
-import type Type from '../nodes/Type';
-import { getDocLocales } from './getDocLocales';
-import { getNameLocales } from './getNameLocales';
-import Bind from '../nodes/Bind';
-import type TypeVariables from '../nodes/TypeVariables';
-import type Expression from '../nodes/Expression';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import parseDoc from '../parser/parseDoc';
-import { toTokens } from '../parser/toTokens';
-import { DOCS_SYMBOL } from '../parser/Symbols';
-import type { FlagDescriptions } from '../models/Moderation';
+import { DraftLocales } from './SupportedLocales';
+import type TermTexts from './TermTexts';
+import type UITexts from './UITexts';
 import type { ButtonText, DialogText } from './UITexts';
-import type Locales from './Locales';
-import type { GalleryTexts } from './GalleryTexts';
-
-/** A list of locales that are in progress but not supported yet. Only added when developing locally. */
-export const EventuallySupportedLocales = ['zh-TW', 'ko-KR'];
-
-/** A list of locales officially supported by Wordplay. */
-export const SupportedLocales = Array.from(
-    new Set([
-        'en-US',
-        'es-MX',
-        'zh-CN',
-        ...(import.meta.hot ? EventuallySupportedLocales : []),
-    ]),
-);
-
-/** One of the supported locales above */
-export type SupportedLocale = (typeof SupportedLocales)[number];
+import { withoutAnnotations } from './withoutAnnotations';
 
 /** Placeholders in the locale template language */
 export const Unwritten = '$?';
-export const Outdated = '$!';
+export const Revised = '$!';
 export const MachineTranslated = '$~';
 
 /**
@@ -90,10 +69,7 @@ export type LocaleText = {
         /** Progress message */
         progress: Template;
         /** Buttons on the moderation page */
-        button: {
-            submit: ButtonText;
-            skip: ButtonText;
-        };
+        button: { submit: ButtonText; skip: ButtonText };
     };
 };
 
@@ -108,7 +84,7 @@ export type NameAndDoc = {
     doc: DocText;
 };
 
-export type FunctionText<Inputs extends NameAndDoc[]> = NameAndDoc & {
+export type FunctionText<Inputs extends readonly NameAndDoc[]> = NameAndDoc & {
     /** Bind definitions for the inputs this function takes */
     inputs: Inputs;
 };
@@ -118,6 +94,10 @@ export type NameText = string | string[];
 
 /** Wordplay markup, a single paragraph or a list of paragraphs. */
 export type DocText = string | string[];
+
+export function toLocale(locale: LocaleText) {
+    return `${locale.language}-${locale.region}`;
+}
 
 export function toDocString(doc: DocText) {
     return withoutAnnotations(Array.isArray(doc) ? doc.join('\n\n') : doc);
@@ -131,24 +111,16 @@ export function docToMarkup(doc: DocText): Markup {
     return parseLocaleDoc(toDocString(doc)).markup;
 }
 
-export function getFirstName(name: NameText) {
+export function getFirstText(name: string | string[]) {
     return typeof name === 'string' ? name : name[0];
-}
-
-export function withoutAnnotations(name: string) {
-    return name
-        .replaceAll(Unwritten, '')
-        .replaceAll(Outdated, '')
-        .replaceAll(MachineTranslated, '')
-        .trim();
 }
 
 export function isUnwritten(text: string) {
     return text.startsWith(Unwritten);
 }
 
-export function isOutdated(text: string) {
-    return text.startsWith(Outdated);
+export function isRevised(text: string) {
+    return text.startsWith(Revised);
 }
 
 export function isAutomated(text: string) {
@@ -161,14 +133,21 @@ export function getLocaleLanguage(locale: string): LanguageCode | undefined {
     return code in Languages ? (code as LanguageCode) : undefined;
 }
 
-export function getLocaleLanguageName(locale: string): string | undefined {
-    const language = getLocaleLanguage(locale);
-    return language ? Languages[language].name : undefined;
+export function getLocaleLanguageName(
+    locale: string | Locale,
+): string | undefined {
+    if (typeof locale === 'string') {
+        const language = getLocaleLanguage(locale);
+        return language ? Languages[language]?.name : undefined;
+    } else {
+        return Languages[locale.language]?.name;
+    }
 }
 
-export function getLocaleRegion(locale: string): string | undefined {
+export function getLocaleRegion(locale: string): RegionCode | undefined {
     const [, region] = locale.split('-');
-    return region;
+    if (region !== undefined && region in Regions) return region as RegionCode;
+    else return undefined;
 }
 
 export function getLocaleRegionName(locale: string): string | undefined {
@@ -176,76 +155,6 @@ export function getLocaleRegionName(locale: string): string | undefined {
     return region ? Regions[region as RegionCode].en : undefined;
 }
 
-/** Find the best supported locales from the requested raw language codes */
-export function getBestSupportedLocales(locales: string[]) {
-    // Map each locale into the best match.
-    const matches = locales
-        .map((preferredLocale) => {
-            // Is there an exact match?
-            const exact = SupportedLocales.find(
-                (locale) => preferredLocale === locale,
-            );
-            if (exact) return exact;
-            // Does a language match, even if locale doesn't match?
-            const languageExact = SupportedLocales.find(
-                (locale) =>
-                    getLocaleLanguage(preferredLocale) ===
-                    getLocaleLanguage(locale),
-            );
-            if (languageExact) return languageExact;
-            // No match
-            return undefined;
-        })
-        .filter((locale): locale is SupportedLocale => locale !== undefined);
-
-    return matches.length > 0
-        ? Array.from(new Set(matches))
-        : [SupportedLocales[0]];
-}
-
-export function createBind(
-    locales: Locales,
-    nameAndDoc: (locale: LocaleText) => NameAndDoc,
-    type?: Type,
-    value?: Expression,
-) {
-    return Bind.make(
-        getDocLocales(locales, (l) => nameAndDoc(l).doc),
-        getNameLocales(locales, (l) => nameAndDoc(l).names),
-        type,
-        value,
-    );
-}
-
-export function createInputs(
-    locales: Locales,
-    fun: (locale: LocaleText) => NameAndDoc[],
-    types: (Type | [Type, Expression])[],
-) {
-    return types.map((type, index) =>
-        createBind(
-            locales,
-            (l) => fun(l)[index],
-            Array.isArray(type) ? type[0] : type,
-            Array.isArray(type) ? type[1] : undefined,
-        ),
-    );
-}
-
-export function createFunction(
-    locales: Locales,
-    nameAndDoc: (locale: LocaleText) => NameAndDoc,
-    typeVars: TypeVariables | undefined,
-    inputs: Bind[],
-    output: Type,
-    expression: Expression,
-) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (l) => nameAndDoc(l).doc),
-        getNameLocales(locales, (l) => nameAndDoc(l).names),
-        typeVars,
-        inputs,
-        expression,
-        output,
-    );
+export function isLocaleDraft(locale: string): boolean {
+    return DraftLocales.includes(locale);
 }

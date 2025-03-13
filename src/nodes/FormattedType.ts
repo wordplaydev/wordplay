@@ -1,16 +1,15 @@
-import type { NodeText, DescriptiveNodeText } from '../locale/NodeTexts';
-import type Glyph from '../lore/Glyph';
+import type LocaleText from '@locale/LocaleText';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import BasisType from './BasisType';
-import { node, type Grammar, type Replacement } from './Node';
-import type TypeSet from './TypeSet';
-import Sym from './Sym';
-import Token from './Token';
-import Glyphs from '../lore/Glyphs';
+import type { NodeDescriptor } from '../locale/NodeTexts';
+import Characters from '../lore/BasisCharacters';
 import { DOCS_SYMBOL } from '../parser/Symbols';
-import type Locales from '../locale/Locales';
+import BasisType from './BasisType';
 import FormattedLiteral from './FormattedLiteral';
 import FormattedTranslation from './FormattedTranslation';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import type TypeSet from './TypeSet';
 
 export default class FormattedType extends BasisType {
     readonly tick: Token;
@@ -25,7 +24,7 @@ export default class FormattedType extends BasisType {
         return new FormattedType(new Token(DOCS_SYMBOL, Sym.Doc));
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FormattedType';
     }
 
@@ -51,12 +50,13 @@ export default class FormattedType extends BasisType {
         ) as this;
     }
 
-    getGlyphs(): Glyph {
-        return Glyphs.Formatted;
+    getCharacter() {
+        return Characters.Formatted;
     }
 
-    getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {
-        return locales.get((l) => l.node.FormattedType);
+    static readonly LocalePath = (l: LocaleText) => l.node.FormattedType;
+    getLocalePath() {
+        return FormattedType.LocalePath;
     }
 
     getDefaultExpression() {

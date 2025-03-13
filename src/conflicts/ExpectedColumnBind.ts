@@ -1,9 +1,9 @@
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
-import type Update from '../nodes/Update';
 import type Locales from '../locale/Locales';
+import type Update from '../nodes/Update';
+import Conflict from './Conflict';
 
 export default class ExpectedColumnBind extends Conflict {
     readonly update: Update;

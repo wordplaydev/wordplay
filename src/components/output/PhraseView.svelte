@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export const CSSAlignments: Record<string, string> = {
         '<': 'left',
         '|': 'center',
@@ -7,98 +7,111 @@
 </script>
 
 <script lang="ts">
-    import type Phrase from '@output/Phrase';
-    import type Place from '@output/Place';
-    import {
-        getColorCSS,
-        getFaceCSS as getFaceCSS,
-        getSizeCSS as getSizeCSS,
-        getOpacityCSS,
-        toOutputTransform,
-    } from '@output/outputToCSS';
-    import type RenderContext from '@output/RenderContext';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
-    import { getContext, onMount, tick } from 'svelte';
-    import type { Writable } from 'svelte/store';
-    import moveOutput from '../palette/editOutput';
     import {
-        getProject,
-        getSelectedOutput,
-        getSelectedPhrase,
-    } from '../project/Contexts';
+        getColorCSS,
+        getFaceCSS,
+        getOpacityCSS,
+        getSizeCSS,
+        toOutputTransform,
+    } from '@output/outputToCSS';
+    import type Phrase from '@output/Phrase';
+    import type Place from '@output/Place';
+    import type RenderContext from '@output/RenderContext';
+    import { tick, untrack } from 'svelte';
     import { DB, Projects, locales } from '../../db/Database';
-    import TextLang from '../../output/TextLang';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
-    import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
-    import { withVariationSelector } from '../../unicode/emoji';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import TextLang from '../../output/TextLang';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import moveOutput from '../palette/editOutput';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
 
-    export let phrase: Phrase;
-    export let place: Place;
-    export let focus: Place;
-    export let interactive: boolean;
-    export let parentAscent: number;
-    export let context: RenderContext;
-    export let editing: boolean;
-    export let frame: number;
+    interface Props {
+        phrase: Phrase;
+        place: Place;
+        focus: Place;
+        interactive: boolean;
+        parentAscent: number;
+        context: RenderContext;
+        editable: boolean;
+        editing: boolean;
+        frame: number;
+    }
 
-    const selectedOutput = getSelectedOutput();
-    const selectedPhrase = getSelectedPhrase();
+    let {
+        phrase,
+        place,
+        focus,
+        interactive,
+        parentAscent,
+        context,
+        editable,
+        editing,
+        frame,
+    }: Props = $props();
+
+    const selection = getSelectedOutput();
     const project = getProject();
 
     // Compute a local context based on size and font.
-    $: context = phrase.getRenderContext(context);
+    let localContext = $derived(phrase.getRenderContext(context));
 
     // Visible if z is ahead of focus and font size is greater than 0.
-    $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
+    let visible = $derived(
+        place.z > focus.z && (phrase.size ?? localContext.size > 0),
+    );
 
     // Get the phrase's text in the preferred language
-    $: text = phrase.getLocalizedTextOrDoc($locales);
-    $: empty = phrase.isEmpty();
-    $: selectable = phrase.selectable && !empty;
+    let text = $derived(phrase.getLocalizedTextOrDoc($locales));
+    let empty = $derived(phrase.isEmpty());
+    let selectable = $derived(phrase.selectable && !empty);
 
     // The text field, if being edited.
-    let input: HTMLInputElement | undefined;
+    let input: HTMLInputElement | undefined = $state();
 
     // Selected if this phrase's value creator is selected
-    $: selected =
+    let selected = $derived(
         phrase.value.creator instanceof Evaluate &&
-        $selectedOutput?.includes(phrase.value.creator);
+            $project !== undefined &&
+            selection?.includes(phrase.value.creator, $project),
+    );
 
-    let editable = getContext<Writable<boolean>>('editable');
-    $: entered =
+    let view = $state<HTMLDivElement | undefined>(undefined);
+
+    let entered = $derived(
         selected &&
-        $editable &&
-        $selectedPhrase &&
-        $selectedPhrase.index !== null;
+            editable &&
+            selection &&
+            selection.getPhrase()?.index !== null,
+    );
 
-    $: metrics = phrase.getMetrics(context);
+    let metrics = $derived(phrase.getMetrics(localContext));
 
-    let description: string | null = null;
-    let lastFrame = 0;
-    $: {
+    let description: string | null = $state(null);
+    let lastFrame = $state(0);
+
+    $effect(() => {
         if (phrase.description) description = phrase.description.text;
-        else if (frame > lastFrame)
+        else if (frame > untrack(() => lastFrame))
             description = phrase.getDescription($locales);
         lastFrame = frame;
-    }
+    });
 
-    onMount(restore);
+    /** If selected, the view of this phrase should be focused. */
+    $effect(() => {
+        if (selected && view)
+            setKeyboardFocus(view, 'focused on selected phrase');
+    });
 
-    function restore() {
-        if ($editable) {
+    $effect(() => {
+        if (editable) {
             if (entered) {
-                if (
-                    input &&
-                    $selectedPhrase &&
-                    $selectedPhrase.index !== null
-                ) {
-                    input.setSelectionRange(
-                        $selectedPhrase.index,
-                        $selectedPhrase.index,
-                    );
+                const phrase = selection?.getPhrase() ?? undefined;
+                if (input && phrase !== undefined && phrase.index !== null) {
+                    input.setSelectionRange(phrase.index, phrase.index);
                     setKeyboardFocus(
                         input,
                         'Restoring phrase text editor focus.',
@@ -106,7 +119,7 @@
                 }
             }
         }
-    }
+    });
 
     async function enter(event: MouseEvent) {
         select(input?.selectionStart ?? 0);
@@ -117,8 +130,8 @@
     }
 
     function select(index: number | null) {
-        if (selectedPhrase === undefined) return;
-        selectedPhrase.set({
+        if (selection === undefined) return;
+        selection.setPhrase({
             name: phrase.getName(),
             index,
         });
@@ -127,7 +140,7 @@
     function move(event: KeyboardEvent) {
         if (
             $project === undefined ||
-            selectedOutput === undefined ||
+            selection?.isEmpty() ||
             entered ||
             !event.key.startsWith('Arrow') ||
             !(phrase.value.creator instanceof Evaluate)
@@ -179,7 +192,7 @@
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
-        if ($project === undefined || selectedOutput === undefined) return;
+        if ($project === undefined || selection?.isEmpty()) return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.getText();
@@ -205,6 +218,7 @@
 
 {#if visible}
     <div
+        bind:this={view}
         role={selectable ? 'button' : null}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
@@ -219,10 +233,10 @@
         data-node-id={phrase.value.creator.id}
         data-name={phrase.getName()}
         data-selectable={selectable}
-        on:dblclick={$editable && interactive ? enter : null}
-        on:keydown={$editable && interactive && !entered ? move : null}
-        style:font-family={getFaceCSS(context.face)}
-        style:font-size={getSizeCSS(context.size)}
+        ondblclick={editable && interactive ? enter : null}
+        onkeydown={editable && interactive && !entered ? move : null}
+        style:font-family={getFaceCSS(localContext.face)}
+        style:font-size={getSizeCSS(localContext.size)}
         style:background={phrase.background?.toCSS() ?? null}
         style:color={getColorCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
@@ -261,20 +275,17 @@
                 type="text"
                 value={text}
                 bind:this={input}
-                on:input={handleInput}
-                on:keydown|stopPropagation
-                on:pointerdown|stopPropagation
+                oninput={handleInput}
+                onkeydown={(event) => event.stopPropagation()}
+                onpointerdown={(event) => event.stopPropagation()}
                 style:width="{Math.max(
                     10,
-                    phrase.getMetrics(context, false).width,
+                    phrase.getMetrics(localContext, false).width,
                 )}px"
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if text instanceof TextLang}{withVariationSelector(
-                text.text,
-                true,
-            )}{:else if text instanceof Markup}<MarkupHtmlView
+        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHTMLView
                 markup={text.asLine()}
                 inline
             />{/if}
@@ -293,15 +304,19 @@
 
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
+
+        pointer-events: none;
     }
 
     :global(.editing) .phrase {
         min-width: 8px;
         min-height: 8px;
+        pointer-events: all;
     }
 
     .phrase[data-selectable='true'] {
         cursor: pointer;
+        pointer-events: all;
     }
 
     .phrase > :global(.light) {
@@ -317,7 +332,7 @@
             var(--wordplay-highlight-color);
     }
 
-    :global(.stage.editing.interactive) :not(.selected) {
+    :global(.stage.editing.interactive) :not(:global(.selected)) {
         outline: var(--wordplay-focus-width) dotted
             var(--wordplay-inactive-color);
     }

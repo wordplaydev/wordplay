@@ -1,24 +1,26 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import BigLink from '../components/app/BigLink.svelte';
-    import Background from '../components/app/Background.svelte';
-    import { locales } from '../db/Database';
-    import Writing from '../components/app/Writing.svelte';
-    import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
-    import Lead from '@components/app/Lead.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
     import Action from '@components/app/Action.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
+        LEARN_SYMBOL,
         STAGE_SYMBOL,
+        SYMBOL_SYMBOL,
+        TEACH_SYMBOL,
     } from '@parser/Symbols';
-    import Beta from './Beta.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import Glyphs from '../lore/Glyphs';
+    import Background from '../components/app/Background.svelte';
+    import BigLink from '../components/app/BigLink.svelte';
+    import Writing from '../components/app/Writing.svelte';
+    import MarkupHTMLView from '../components/concepts/MarkupHTMLView.svelte';
+    import Characters from '../lore/BasisCharacters';
     import Emotion from '../lore/Emotion';
+    import Beta from './Beta.svelte';
     import Iconified from './Iconified.svelte';
-    import { getUser } from '@components/project/Contexts';
 
     const user = getUser();
 </script>
@@ -30,30 +32,26 @@
 </svelte:head>
 
 <Background />
-<Writing home>
+<Writing footer={false}>
     <Beta />
-    <Header><Emoji>💬</Emoji>{$locales.get((l) => l.wordplay)}</Header>
-    <Lead></Lead>
+    <Header><Emoji>💬</Emoji><LocalizedText path={(l) => l.wordplay} /></Header>
     <div class="welcome">
         <div style:margin-inline-start="-2.5em">
-            <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
-                ><svelte:fragment slot="content"
-                    ><MarkupHtmlView
-                        markup={$locales.get((l) => l.ui.page.landing.value)}
-                    /></svelte:fragment
-                ></Speech
+            <Speech
+                character={Characters.FunctionDefinition}
+                emotion={Emotion.happy}
+                big
+                >{#snippet content()}
+                    <MarkupHTMLView markup={(l) => l.ui.page.landing.value} />
+                {/snippet}</Speech
             >
         </div>
     </div>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.landing.description)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.landing.description} />
     {#if $user === null}
         <br />
-        <BigLink
-            to="/login"
-            subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
-            >{$locales.get((l) => l.ui.page.login.header)}</BigLink
+        <BigLink to="/login" subtitle={(l) => l.ui.page.login.subtitle}
+            ><LocalizedText path={(l) => l.ui.page.login.header} /></BigLink
         >
     {/if}
     <br />
@@ -62,7 +60,7 @@
             <BigLink
                 to="/projects"
                 smaller
-                subtitle={$locales.get((l) => l.ui.page.landing.link.projects)}
+                subtitle={(l) => l.ui.page.landing.link.projects}
                 ><Iconified
                     icon={EDIT_SYMBOL}
                     text={(l) => l.ui.page.projects.header}
@@ -73,7 +71,7 @@
             <BigLink
                 smaller
                 to="/galleries"
-                subtitle={$locales.get((l) => l.ui.page.landing.link.galleries)}
+                subtitle={(l) => l.ui.page.landing.link.galleries}
                 ><Iconified
                     icon={STAGE_SYMBOL}
                     text={(l) => l.ui.page.galleries.header}
@@ -83,10 +81,21 @@
         <Action>
             <BigLink
                 smaller
-                to="/learn"
-                subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
+                to="/characters"
+                subtitle={(l) => l.ui.page.landing.link.characters}
                 ><Iconified
-                    icon="🙋‍♀️"
+                    icon={SYMBOL_SYMBOL}
+                    text={(l) => l.ui.page.characters.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                smaller
+                to="/learn"
+                subtitle={(l) => l.ui.page.landing.link.learn}
+                ><Iconified
+                    icon={LEARN_SYMBOL}
                     text={(l) => l.ui.page.learn.header}
                 /></BigLink
             >
@@ -95,77 +104,79 @@
             <BigLink
                 to="/guide"
                 smaller
-                subtitle={$locales.get((l) => l.ui.page.landing.link.guide)}
+                subtitle={(l) => l.ui.page.landing.link.guide}
                 ><Iconified
                     icon={DOCUMENTATION_SYMBOL}
                     text={(l) => l.ui.page.guide.header}
                 /></BigLink
             >
         </Action>
-    </div>
-    <div class="details" slot="footer">
-        <div class="links">
-            <div class="column">
-                <BigLink
-                    smaller
-                    to="/about"
-                    subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
-                    ><Iconified
-                        icon="💭"
-                        text={(l) => l.ui.page.about.header}
-                    /></BigLink
-                >
-                <BigLink
-                    smaller
-                    to="/rights"
-                    subtitle={$locales.get(
-                        (l) => l.ui.page.landing.link.rights,
-                    )}
-                    ><Iconified
-                        icon="⚖️"
-                        text={(l) => l.ui.page.rights.header}
-                    /></BigLink
-                >
-            </div>
-            <div class="column">
-                <BigLink
-                    smaller
-                    external
-                    to="https://discord.gg/Jh2Qq9husy"
-                    subtitle={$locales.get(
-                        (l) => l.ui.page.landing.link.community.subtitle,
-                    )}
-                    ><Iconified
-                        icon="🗣️"
-                        text={(l) => l.ui.page.landing.link.community.label}
-                    /></BigLink
-                >
-                <BigLink
-                    smaller
-                    external
-                    to="https://github.com/wordplaydev/wordplay/wiki/contribute"
-                    subtitle={$locales.get(
-                        (l) => l.ui.page.landing.link.contribute.subtitle,
-                    )}
-                    ><Iconified
-                        icon="🛠️"
-                        text={(l) => l.ui.page.landing.link.contribute.label}
-                    />
-                </BigLink>
-            </div>
-            <div class="column">
-                <BigLink
-                    smaller
-                    to="/donate"
-                    subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
-                >
-                    <Iconified
-                        icon="🤑"
-                        text={(l) => l.ui.page.donate.header}
-                    />
-                </BigLink>
-            </div>
-        </div>
+        <Action>
+            <BigLink
+                smaller
+                to="/teach"
+                subtitle={(l) => l.ui.page.landing.link.teach}
+                ><Iconified
+                    icon={TEACH_SYMBOL}
+                    text={(l) => l.ui.page.teach.header}
+                /></BigLink
+            >
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/about"
+                subtitle={(l) => l.ui.page.landing.link.about}
+                ><Iconified
+                    icon="💭"
+                    text={(l) => l.ui.page.about.header}
+                /></BigLink
+            >
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/rights"
+                subtitle={(l) => l.ui.page.landing.link.rights}
+                ><Iconified
+                    icon="⚖️"
+                    text={(l) => l.ui.page.rights.header}
+                /></BigLink
+            ></Action
+        >
+        <Action meta>
+            <BigLink
+                smaller
+                external
+                to="https://discord.gg/Jh2Qq9husy"
+                subtitle={(l) => l.ui.page.landing.link.community.subtitle}
+                ><Iconified
+                    icon="🗣️"
+                    text={(l) => l.ui.page.landing.link.community.label}
+                /></BigLink
+            ></Action
+        >
+        <Action meta>
+            <BigLink
+                smaller
+                external
+                to="https://github.com/wordplaydev/wordplay/wiki/contribute"
+                subtitle={(l) => l.ui.page.landing.link.contribute.subtitle}
+                ><Iconified
+                    icon="🛠️"
+                    text={(l) => l.ui.page.landing.link.contribute.label}
+                />
+            </BigLink>
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/donate"
+                subtitle={(l) => l.ui.page.donate.prompt}
+            >
+                <Iconified icon="🤑" text={(l) => l.ui.page.donate.header} />
+            </BigLink>
+        </Action>
     </div>
 </Writing>
 
@@ -185,29 +196,5 @@
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         align-items: stretch;
-    }
-
-    .details {
-        display: flex;
-        flex-direction: column;
-        gap: calc(var(--wordplay-spacing) * 2);
-        padding: calc(2 * var(--wordplay-spacing));
-        min-height: 20em;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .links {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-    }
-
-    .column {
-        display: flex;
-        flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
-        flex-grow: 1;
-        flex-basis: 0;
     }
 </style>

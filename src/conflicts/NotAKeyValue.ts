@@ -1,9 +1,9 @@
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type MapLiteral from '@nodes/MapLiteral';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class NotAKeyValue extends Conflict {
     readonly map: MapLiteral;

@@ -1,37 +1,39 @@
-import Node, { node, type Grammar, type Replacement } from './Node';
-import Token from './Token';
-import Program from './Program';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { parseNames } from '@parser/parseBind';
 import parseProgram from '@parser/parseProgram';
+import type Spaces from '@parser/Spaces';
 import {
     DelimiterCloseByOpen,
     DelimiterOpenByClose,
     tokenize,
 } from '@parser/Tokenizer';
-import UnicodeString from '../models/UnicodeString';
+import { toTokens } from '@parser/toTokens';
+import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
-import type Context from './Context';
-import Names from './Names';
-import type Borrow from './Borrow';
-import Expression from './Expression';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
+import Tokens from '../parser/Tokens';
+import UnicodeString from '../unicode/UnicodeString';
 import Bind from './Bind';
+import type Borrow from './Borrow';
+import type { SharedDefinition } from './Borrow';
+import type Context from './Context';
+import type Definition from './Definition';
+import Expression from './Expression';
+import FunctionDefinition from './FunctionDefinition';
+import Markup from './Markup';
+import Names from './Names';
+import Node, { node, type Grammar, type Replacement } from './Node';
+import Program from './Program';
+import Root from './Root';
+import StructureDefinition from './StructureDefinition';
+import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Step from '@runtime/Step';
-import type { SharedDefinition } from './Borrow';
-import FunctionDefinition from './FunctionDefinition';
-import StructureDefinition from './StructureDefinition';
-import type Spaces from '@parser/Spaces';
-import NoneValue from '@values/NoneValue';
-import type LocaleText from '@locale/LocaleText';
-import Glyphs from '../lore/Glyphs';
-import Root from './Root';
-import Markup from './Markup';
-import Purpose from '../concepts/Purpose';
-import Tokens from '../parser/Tokens';
-import type Definition from './Definition';
-import type Locales from '../locale/Locales';
-import type Evaluator from '@runtime/Evaluator';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -43,7 +45,7 @@ export default class Source extends Expression {
     /** The program this source can evaluate. */
     readonly expression: Program;
 
-    /** The tokens of this program */
+    /** The tokens of this program, in order */
     readonly tokens: Token[];
 
     /** The spaces preceding each token in the program. */
@@ -64,7 +66,8 @@ export default class Source extends Expression {
     ) {
         super();
 
-        this.names = names instanceof Names ? names : Names.make([names]);
+        this.names =
+            names instanceof Names ? names : parseNames(toTokens(names));
 
         if (typeof code === 'string' || code instanceof UnicodeString) {
             // Generate the AST from the provided code.
@@ -112,7 +115,7 @@ export default class Source extends Expression {
         return this.expression.compile(evaluator, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Source';
     }
 
@@ -283,6 +286,10 @@ export default class Source extends Expression {
 
     getGraphemeAt(index: number) {
         return this.code.at(index);
+    }
+
+    getGraphemesBetween(start: number, end: number) {
+        return this.code.substring(start, end);
     }
 
     /**
@@ -914,8 +921,9 @@ export default class Source extends Expression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Source);
+    static readonly LocalePath = (l: LocaleText) => l.node.Source;
+    getLocalePath() {
+        return Source.LocalePath;
     }
 
     getStartExplanations() {
@@ -926,8 +934,8 @@ export default class Source extends Expression {
         return new Markup([]);
     }
 
-    getGlyphs() {
-        return Glyphs.Source;
+    getCharacter() {
+        return Characters.Source;
     }
 
     getPurpose() {

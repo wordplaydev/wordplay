@@ -1,36 +1,38 @@
-import type Node from './Node';
-import Bind from './Bind';
 import type Conflict from '@conflicts/Conflict';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import type Token from './Token';
-import type Type from './Type';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
+import NoneValue from '@values/NoneValue';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import Bind from './Bind';
 import type Context from './Context';
 import type Definition from './Definition';
-import StructureDefinition from './StructureDefinition';
-import FunctionDefinition from './FunctionDefinition';
-import type TypeSet from './TypeSet';
-import NoneValue from '@values/NoneValue';
+import DefinitionExpression from './DefinitionExpression';
 import Docs from './Docs';
-import type Value from '@values/Value';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import NoExpressionType from './NoExpressionType';
-import { none, type Grammar, type Replacement, node, list, any } from './Node';
-import Glyphs from '../lore/Glyphs';
-import Sym from './Sym';
-import Purpose from '../concepts/Purpose';
-import DefinitionExpression from './DefinitionExpression';
-import type Locales from '../locale/Locales';
-import Evaluation from '@runtime/Evaluation';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type EditContext from '@edit/EditContext';
+import FunctionDefinition from './FunctionDefinition';
+import NoExpressionType from './NoExpressionType';
+import type Node from './Node';
+import { any, list, node, none, type Grammar, type Replacement } from './Node';
+import StructureDefinition from './StructureDefinition';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export enum BlockKind {
     Root = 'root',
@@ -93,7 +95,7 @@ export default class Block extends Expression {
         return this;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Block';
     }
 
@@ -108,8 +110,7 @@ export default class Block extends Expression {
             {
                 name: 'statements',
                 kind: list(true, node(Expression), node(Bind)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Block.statement),
+                label: () => (l) => l.node.Block.statement,
                 indent: !this.isRoot(),
                 newline:
                     this.isRoot() ||
@@ -333,8 +334,9 @@ export default class Block extends Expression {
             : current;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Block);
+    static readonly LocalePath = (l: LocaleText) => l.node.Block;
+    getLocalePath() {
+        return Block.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
@@ -364,8 +366,8 @@ export default class Block extends Expression {
         return this.close ?? this.getLast() ?? this;
     }
 
-    getGlyphs() {
-        return Glyphs.Block;
+    getCharacter() {
+        return Characters.Block;
     }
 
     getKind() {

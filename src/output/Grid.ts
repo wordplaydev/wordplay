@@ -1,16 +1,16 @@
-import toStructure from '../basis/toStructure';
+import { getBind } from '@locale/getBind';
+import NoneValue from '@values/NoneValue';
+import NumberValue from '@values/NumberValue';
 import type Value from '@values/Value';
+import toStructure from '../basis/toStructure';
+import type Locales from '../locale/Locales';
+import StructureValue from '../values/StructureValue';
+import Arrangement from './Arrangement';
 import type Color from './Color';
 import type Output from './Output';
-import type RenderContext from './RenderContext';
-import { getBind } from '@locale/getBind';
-import Arrangement from './Arrangement';
-import NumberValue from '@values/NumberValue';
 import Place from './Place';
-import NoneValue from '@values/NoneValue';
+import type RenderContext from './RenderContext';
 import { getOutputInputs } from './Valued';
-import StructureValue from '../values/StructureValue';
-import type Locales from '../locale/Locales';
 
 export function createGridType(locales: Locales) {
     return toStructure(`

@@ -1,7 +1,27 @@
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
-import type EditTexts from './EditTexts';
 import type { DocText, Template } from './LocaleText';
+
+import type CheckpointsText from '@components/project/CheckpointsText';
+import { HowToCategories } from '@concepts/HowTo';
+import type ErrorText from '../routes/ErrorText';
+import type LandingPageText from '../routes/PageText';
+import type AboutPageText from '../routes/about/PageText';
+import type CharacterPageText from '../routes/character/[id]/PageText';
+import type CharactersPageText from '../routes/characters/PageText';
+import type DonatePageText from '../routes/donate/PageText';
+import type GalleriesPageText from '../routes/galleries/PageText';
+import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
+import type GuidePageText from '../routes/guide/PageText';
+import type JoinPageText from '../routes/join/PageText';
+import type LearnPageText from '../routes/learn/PageText';
+import type LoginPageText from '../routes/login/PageText';
+import type ProjectsPageText from '../routes/projects/PageText';
+import type RightsPageText from '../routes/rights/PageText';
+import type TeachPageText from '../routes/teach/PageText';
+import type ClassPageText from '../routes/teach/class/[classid]/PageText';
+import type NewClassPageText from '../routes/teach/class/new/PageText';
+import type EditTexts from './EditTexts';
 
 export type ButtonText = {
     /** The buttons label */
@@ -17,7 +37,7 @@ export type ToggleText = {
     off: string;
 };
 
-export type ModeText<Modes extends string[]> = {
+export type ModeText<Modes extends readonly string[]> = {
     /** The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
     /** The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance */
@@ -47,9 +67,9 @@ export type FieldText = {
 
 type UITexts = {
     font: {
-        /** The application font to use throughout the application. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
+        /** The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         app: SupportedFace;
-        /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
+        /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         code: SupportedFace;
     };
     phrases: {
@@ -75,6 +95,15 @@ type UITexts = {
         };
         /** The go home button description */
         home: string;
+        /** An editable table */
+        table: {
+            /** The field to edit a cell */
+            cell: FieldText;
+            /** The button to remove a row from the table */
+            addcolumn: string;
+            /** The button to remove a row from the table */
+            removecolumn: string;
+        };
     };
     /** Controls for the tiled windows in the project */
     tile: {
@@ -98,14 +127,18 @@ type UITexts = {
             unknown: string;
             /** The error to show if translation wasn't possible */
             translate: string;
+            /** The message for an error in a tile */
+            tile: string;
+            /** The button label for an error reset */
+            reset: string;
         };
         button: {
             /** Shows the sharing dialog */
-            showCollaborators: string;
+            share: ButtonText;
             /** Remove a collaborator that has been shared with */
             removeCollaborator: string;
             /** Copy the project as text to the clipboard */
-            copy: string;
+            copy: ButtonText;
             /** Add a source file */
             addSource: string;
             /** Duplicate the project */
@@ -125,9 +158,11 @@ type UITexts = {
             /** Show save error button */
             unsaved: string;
             /** Show translation button */
-            translate: string;
+            translate: ButtonText;
             /** The tooltip for the primary locale setting button */
             primary: string;
+            /** The history switch */
+            history: { off: string; on: string };
         };
         field: {
             /** The project name text field */
@@ -165,37 +200,10 @@ type UITexts = {
             destination: Template;
         };
     };
+    /** Checkpoints text */
+    checkpoints: CheckpointsText;
     /** Gallery page labels */
-    gallery: {
-        /** What to call a gallery by default, before it's given a name */
-        untitled: string;
-        /** What to say if the description is empty */
-        undescribed: string;
-        /** Headers on the page */
-        subheader: {
-            /** The list of curators */
-            curators: DialogText;
-            /** The list of curators */
-            creators: DialogText;
-            /** Delete header */
-            delete: DialogText;
-        };
-        /** Confirm buttons on the gallery page */
-        confirm: {
-            /** The confirm button that deletes a source file */
-            delete: ConfirmText;
-            /** The confirm button that removes a project from a gallery */
-            remove: ConfirmText;
-        };
-        error: {
-            /** When the gallery is not known or is not public */
-            unknown: string;
-        };
-        field: {
-            name: FieldText;
-            description: FieldText;
-        };
-    };
+    gallery: GalleryPageText;
     /** Source file controls */
     source: {
         /** The ARIA label for the source file section */
@@ -211,8 +219,8 @@ type UITexts = {
         toggle: {
             /** The blocks/text toggle */
             blocks: ToggleText;
-            /** The glyph chooser expand/collapse toggle */
-            glyphs: ToggleText;
+            /** The character chooser expand/collapse toggle */
+            characters: ToggleText;
         };
         button: {
             /** Output preview button for selecting output for display in output tile */
@@ -232,6 +240,10 @@ type UITexts = {
             /** The name of the source file */
             name: FieldText;
         };
+        options: {
+            /** The locale chooser for a source */
+            locale: { tip: string; all: string };
+        };
         cursor: {
             /** Move caret to the line before */
             priorLine: string;
@@ -241,6 +253,14 @@ type UITexts = {
             priorInline: string;
             /** Move cursor inline one position after */
             nextInline: string;
+            /** Expand selection before inline */
+            expandBeforeInline: string;
+            /** Expand selection after inline */
+            expandAfterInline: string;
+            /** Expand selection to prior line */
+            expandPriorLine: string;
+            /** Expand selection to next line */
+            expandNextLine: string;
             /** Move cursor to line start */
             lineStart: string;
             /** Move cursor to line end */
@@ -327,12 +347,18 @@ type UITexts = {
             undo: string;
             /** Redo undone edit */
             redo: string;
-            /** Search for glyph */
+            /** Search for character */
             search: string;
             /** Tidy spacing */
             tidy: string;
             /** Toggle elision */
             elide: string;
+        };
+        error: {
+            /** An invalid source name */
+            invalidName: string;
+            /** Invalid words in a words token editor */
+            invalidWords: string;
         };
     };
     /** The conflicts area in the margin of the editor. */
@@ -398,6 +424,8 @@ type UITexts = {
             /** The search text field */
             search: string;
         };
+        /** Labels for different sections of the guide */
+        modes: ModeText<[string, string]>;
         header: {
             /** Documentation header in structure and functions before inputs */
             inputs: string;
@@ -409,6 +437,58 @@ type UITexts = {
             functions: string;
             /** Documentation header in structure before conversions */
             conversions: string;
+        };
+        /** Everything related to how to content */
+        how: {
+            /** The category names */
+            category: Record<keyof typeof HowToCategories, string>;
+            /** The subheader for related how to's */
+            related: string;
+        };
+    };
+    /** The project chat */
+    collaborate: {
+        /** The ARIA label for the chat section */
+        label: string;
+        /** The chat message input field */
+        field: {
+            /** The chat message input field */
+            message: FieldText;
+        };
+        role: {
+            /** What to call the owner of a project */
+            owner: string;
+            /** What to call collaborators */
+            collaborators: string;
+            /** What to call curators */
+            curators: string;
+        };
+        /** Buttons in the chat tile */
+        button: {
+            /** The chat send button */
+            submit: ButtonText;
+            /** The start a chat button */
+            start: ButtonText;
+            /** The message delete button */
+            delete: string;
+        };
+        /** Errors that can happen in the chat tile */
+        error: {
+            /** The project isn't owned by a person */
+            unowned: string;
+            /** Offline, or couldn't load the chat */
+            offline: string;
+            /** No messages in the chat */
+            empty: string;
+            /** A message was deleted */
+            deleted: string;
+        };
+        /** Messages to explain the purpose */
+        prompt: {
+            solo: string;
+            owner: string;
+            collaborator: string;
+            curator: string;
         };
     };
     /** The palette editor */
@@ -514,6 +594,17 @@ type UITexts = {
                 percent: string;
             };
         };
+        /** Errors for the palette */
+        error: {
+            /** The value entered isn't a number */
+            nan: string;
+            /** 0-100 range */
+            percent: string;
+            /** Sequence percent must be greater than the last */
+            moreThanPrevious: string;
+            /** Sequence precent must be less than the next */
+            lessThanNext: string;
+        };
     };
     /** The timeline view below the output */
     timeline: {
@@ -553,14 +644,14 @@ type UITexts = {
         share: DialogText & {
             /** The subheaders of the dialog */
             subheader: {
-                /** The collaborators subheader and explanation */
-                collaborators: DialogText;
                 /** The gallery subheader and explanation */
                 gallery: DialogText;
                 /** The public/private toggle subheader and explanation */
                 public: DialogText;
                 /** The personal information subheader and explanation */
                 pii: DialogText;
+                /** The copy and paste dialog text */
+                copy: DialogText;
             };
             /** Text fields in the share dialog */
             field: {
@@ -585,6 +676,8 @@ type UITexts = {
                 unknown: string;
                 /** When someone wants to add a collaborator but isn't authenticated */
                 anonymous: string;
+                /** Can't add self */
+                self: string;
             };
             options: {
                 /** The label for the gallery chooser */
@@ -610,10 +703,10 @@ type UITexts = {
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */
                 lines: ModeText<[string, string]>;
-                /** The localized none/localized/symbolic mode */
-                localized: ModeText<[string, string, string]>;
             };
             options: {
+                /** The label for the font face chooser */
+                face: string;
                 /** The label for the microphone drop down */
                 mic: string;
                 /** The label for the camera drop down */
@@ -628,8 +721,6 @@ type UITexts = {
                 selected: string;
                 /** How to label the supported locales that have not been selected */
                 supported: string;
-                /** How to label locales that are coming soon */
-                coming: string;
                 /** How to request help with localization */
                 help: string;
             };
@@ -667,264 +758,37 @@ type UITexts = {
     };
     page: {
         /** The unknown route page */
-        unknown: {
-            /** The header for the unknown route */
-            header: string;
-            /** The message for the unknown route */
-            message: string;
-        };
-        landing: {
-            /** The value proposition for the site */
-            value: Template;
-            /** A description of the platform's features */
-            description: Template | Template[];
-            /** The landing page beta warning */
-            beta: Template[];
-            /** The subtitles below links */
-            link: {
-                /** What content is on the about page */
-                about: string;
-                /** What content is on the learn page */
-                learn: string;
-                /** What content is on the guide page */
-                guide: string;
-                /** What content is on the projects page */
-                projects: string;
-                /** What content is on the galleries page */
-                galleries: string;
-                /** What content is on the rights page */
-                rights: string;
-                /** The community link */
-                community: {
-                    label: string;
-                    subtitle: string;
-                };
-                /** The contributor link */
-                contribute: {
-                    label: string;
-                    subtitle: string;
-                };
-            };
-        };
-        learn: {
-            /** The header for the tutorial page */
-            header: string;
-            /** When the tutorial could not be found */
-            error: string;
-            button: {
-                /** Advance to the next pause in the dialog */
-                next: string;
-                /** Navigate back to the previous pause in the dialog */
-                previous: string;
-            };
-            /** Labels for drop down menus */
-            options: {
-                /** The label for the lesson drop down */
-                lesson: string;
-            };
-        };
-        guide: {
-            /** The header for the guide page */
-            header: string;
-            /** A description of the guide */
-            description: string;
-        };
+        unknown: ErrorText;
+        /** Landing page text */
+        landing: LandingPageText;
+        /** Tutorial page text */
+        learn: LearnPageText;
+        /** Teacher landing page text */
+        teach: TeachPageText;
+        /** New class page text */
+        newclass: NewClassPageText;
+        /** Class page text */
+        class: ClassPageText;
+        /** Docuemntation guide page text */
+        guide: GuidePageText;
         /** The project creation and browsing page */
-        projects: {
-            /** Header for the projects page */
-            header: string;
-            /** Explanation for the project page */
-            projectprompt: string;
-            /** The header for the archived subsection */
-            archiveheader: string;
-            /** Explanation for the archive subsection */
-            archiveprompt: string;
-            /** Header for the galleries page */
-            galleriesheader: string;
-            /** A prompt to create galleries */
-            galleryprompt: string;
-            /** Dialog text for the project addition dialog */
-            add: DialogText;
-            /** Buttons on the project page */
-            button: {
-                /** Create a new project */
-                newproject: string;
-                /** Edit a project */
-                editproject: string;
-                /** View a project's code */
-                viewcode: string;
-                /** Create a new gallery */
-                newgallery: string;
-                /** The project unarchive button description */
-                unarchive: string;
-            };
-            confirm: {
-                /** The project archive button */
-                archive: ConfirmText;
-                /** The project delete button */
-                delete: ConfirmText;
-            };
-            error: {
-                /** When there's no access to the database. */
-                noaccess: string;
-                /** When the creator is not logged in. */
-                nogalleryedits: string;
-                /** Unable to create a gallery */
-                newgallery: string;
-                /** Feedback that we are unable to delete when logged out */
-                nodeletes: string;
-                /** Unable to delete project */
-                delete: string;
-            };
-        };
-        galleries: {
-            /** How to describe galleries of projects */
-            header: string;
-            /** Explanation for the galleries page */
-            prompt: string;
-            /** The subheader for the examples */
-            examples: string;
-        };
-        about: {
-            /** Header for the about page */
-            header: string;
-            /** Text for the about page */
-            content: string[];
-        };
+        projects: ProjectsPageText;
+        /** The character creation and browsing page */
+        characters: CharactersPageText;
+        /** The character editor page */
+        character: CharacterPageText;
+        /** Gallery browsing page text */
+        galleries: GalleriesPageText;
+        /** About page text */
+        about: AboutPageText;
         /** The login and account page */
-        login: {
-            /** Header for the login page when not logged in */
-            header: string;
-            /** Subtitle for the header link on the landing page */
-            subtitle: string;
-            prompt: {
-                /** Prompts creator to login to save their work */
-                login: string;
-                /** Forgot password regrets */
-                forgot: string;
-                /** Email login explanation */
-                email: string;
-                /** Prompt to check email for a login link. */
-                sent: string;
-                /** Tells the creator that they can change their email address. */
-                changeEmail: string;
-                /** Tells the creator that they can cahnge their password */
-                changePassword: string;
-                /** Asks the creator to enter their email if they opened the email link in a different browser. */
-                enter: string;
-                /** Encouragement to go create after logging in. */
-                play: string;
-                /** Description of password rules */
-                passwordrule: string;
-                /** Reminder to write down password */
-                passwordreminder: string;
-                /** Too young feedback */
-                tooyoung: string;
-                /** Offers to log out the creator. */
-                logout: string;
-                /** Shown briefly before page redirects to projects */
-                success: string;
-                /** Prompts creator to check their original email to confirm the email change */
-                confirm: string;
-                /** Offers to delete account */
-                delete: string;
-                /** Offers to really delete account forever */
-                reallyDelete: string;
-                /** Pick an emoji as a name */
-                name: string;
-            };
-            /** Shown in the footer a creator is not logged in. */
-            anonymous: string;
-            field: {
-                /** The login email */
-                email: FieldText;
-                /** The login username */
-                username: FieldText;
-                /** The login password */
-                password: FieldText;
-                /** The old password */
-                currentPassword: FieldText;
-                /** The new password */
-                newPassword: FieldText;
-            };
-            feedback: {
-                /** Change email pending */
-                changing: string;
-                /** Account deleting pending */
-                deleting: string;
-                /** Password successfully updated */
-                updatedPassword: string;
-                /** Email or username must match to delete account */
-                match: string;
-            };
-            error: {
-                /** Shown when the login link expired */
-                expired: string;
-                /** Shown when the login link isn't valid */
-                invalid: string;
-                /** Shown when the email address isn't valid */
-                email: string;
-                /** Unknown failure to login */
-                failure: string;
-                /** When there's no connection to Firebase */
-                offline: string;
-                /** When the email address couldn't be changed for unknown reasons. */
-                unchanged: string;
-                /** When account deletion failed */
-                delete: string;
-                /** When a password is wrong */
-                wrongPassword: string;
-                /** When there are too mant failed attempts */
-                tooMany: string;
-            };
-            button: {
-                /** Log out of the account */
-                logout: ButtonText;
-                /** Login button description */
-                login: string;
-                /** Update email button description  */
-                updateEmail: string;
-                /** Delete account button */
-                delete: ButtonText;
-                /** Confirm deletion */
-                reallyDelete: ButtonText;
-                /** Update password */
-                updatePassword: string;
-            };
-            toggle: {
-                /** Reveal password toggle */
-                reveal: ToggleText;
-            };
-        };
-        join: {
-            /** The account creation header */
-            header: string;
-            /** Requests for information on the account creation page */
-            prompt: {
-                /** Username rules */
-                username: string;
-                /** Password rules and warnings */
-                password: string;
-            };
-        };
+        login: LoginPageText;
+        /** Account creation page text */
+        join: JoinPageText;
         /** The rights/terms of service page */
-        rights: {
-            /** Header for the rights page */
-            header: string;
-            /** Paragraphs for the rights page */
-            content: Template[];
-            /** The consequences of violating a promise. */
-            consequences: Template[];
-        };
+        rights: RightsPageText;
         /** Giving related text */
-        donate: {
-            /** The label for the link and header */
-            header: Template;
-            /** The explanation of the link */
-            prompt: Template;
-            /** The content of the page */
-            content: Template[];
-        };
+        donate: DonatePageText;
     };
     /** Descriptions of cursor positions and code transformations */
     edit: EditTexts;

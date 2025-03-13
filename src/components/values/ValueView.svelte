@@ -1,32 +1,50 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { setInteractive } from '@components/project/Contexts';
     import type Value from '@values/Value';
-    import valueToView from './valueToView';
-    import { setContext } from 'svelte';
     import type Node from '../../nodes/Node';
+    import valueToView from './valueToView';
 
-    export let value: Value;
-    export let node: Node | undefined = undefined;
-    export let interactive = true;
-    export let inline = true;
+    interface Props {
+        value: Value;
+        node?: Node | undefined;
+        interactive?: boolean;
+        inline?: boolean;
+    }
 
-    if (interactive) setContext('interactive', true);
+    let {
+        value,
+        node = undefined,
+        interactive = true,
+        inline = true,
+    }: Props = $props();
+
+    let isInteractive = $state({ interactive });
+    // Keep the interactive state up to date.
+    $effect(() => {
+        isInteractive.interactive = interactive;
+    });
+    setInteractive(isInteractive);
+
+    const SvelteComponent = $derived(valueToView(value.constructor));
 </script>
 
-<span class="value" data-id={value.id} data-node-id={node?.id ?? null}
-    ><svelte:component
-        this={valueToView(value.constructor)}
-        {value}
-        {inline}
-    /></span
+<div
+    class="value"
+    id="value-{value.id}"
+    data-id={value.id}
+    data-node-id={node?.id ?? null}><SvelteComponent {value} {inline} /></div
 >
 
 <style>
     .value {
+        display: inline;
         color: var(--wordplay-evaluation-color);
         max-width: 100%;
 
         word-break: break-all;
+    }
+
+    :global(.value.evaluating) {
+        color: var(--wordplay-background);
     }
 </style>

@@ -11,6 +11,7 @@
     "functions": [
         {
             "source": "functions",
+            "runtime": "nodejs20",
             "codebase": "default",
             "ignore": [
                 "node_modules",
@@ -18,10 +19,14 @@
                 "firebase-debug.log",
                 "firebase-debug.*.log"
             ],
-            "predeploy": ["npm run build"]
+            "predeploy": [
+                "npm ci --prefix \"$RESOURCE_DIR\"",
+                "npm --prefix \"$RESOURCE_DIR\" run build"
+            ]
         }
     ],
     "hosting": {
+        "predeploy": ["npm run build"],
         "public": "build",
         "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
         "rewrites": [

@@ -1,10 +1,10 @@
-import type { Edit } from '../components/editor/util/Commands';
-import Revision from './Revision';
-import type Node from '@nodes/Node';
-import Caret from './Caret';
 import type Context from '@nodes/Context';
-import type Locales from '../locale/Locales';
+import type Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type { Edit } from '../components/editor/util/Commands';
+import type Locales from '../locale/Locales';
+import Caret from './Caret';
+import Revision from './Revision';
 
 /**
  * Remove one or more nodes from sequence of nodes in a parent.

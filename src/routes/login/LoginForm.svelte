@@ -1,12 +1,18 @@
 <script lang="ts">
     import Feedback from '@components/app/Feedback.svelte';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
-    export let submit: () => void;
-    export let feedback: string | undefined;
+    interface Props {
+        submit: () => void;
+        feedback: LocaleTextAccessor | undefined;
+        children?: import('svelte').Snippet;
+    }
+
+    let { submit, feedback, children }: Props = $props();
 </script>
 
-<form class="login-form" on:submit={submit}
-    ><slot />{#if feedback}<Feedback>{feedback}</Feedback>{/if}</form
+<form class="login-form" onsubmit={submit}
+    >{@render children?.()}{#if feedback}<Feedback text={feedback} />{/if}</form
 >
 
 <style>

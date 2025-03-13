@@ -1,23 +1,25 @@
 import type Conflict from '@conflicts/Conflict';
-import type Expression from './Expression';
-import Token from './Token';
-import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import type TypeSet from './TypeSet';
-import Sym from './Sym';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import StartFinish from '@runtime/StartFinish';
+import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
+import type Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BooleanType from './BooleanType';
+import type Expression from './Expression';
+import type Node from './Node';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
-import BooleanType from './BooleanType';
-import StartFinish from '@runtime/StartFinish';
-import type Node from './Node';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class Initial extends SimpleExpression {
     readonly diamond: Token;
@@ -42,7 +44,7 @@ export default class Initial extends SimpleExpression {
         return [Initial.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Initial';
     }
 
@@ -107,15 +109,16 @@ export default class Initial extends SimpleExpression {
         return this.diamond;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Initial);
+    static readonly LocalePath = (l: LocaleText) => l.node.Initial;
+    getLocalePath() {
+        return Initial.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.Initial.name);
     }
 
-    getGlyphs() {
-        return Glyphs.Initial;
+    getCharacter() {
+        return Characters.Initial;
     }
 }

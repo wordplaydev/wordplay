@@ -1,10 +1,11 @@
+import type { HowToID } from '@concepts/HowTo';
 import type InputTexts from '@locale/InputTexts';
-import type OutputTexts from '@locale/OutputTexts';
 import type NodeTexts from '@locale/NodeTexts';
-import type Emotion from '../lore/Emotion';
+import type OutputTexts from '@locale/OutputTexts';
 import type BasisTexts from '../locale/BasisTexts';
-import type { RegionCode } from '../locale/Regions';
 import type LanguageCode from '../locale/LanguageCode';
+import type { RegionCode } from '../locale/Regions';
+import type Emotion from '../lore/Emotion';
 
 export type Tutorial = {
     /** This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed **/
@@ -47,7 +48,7 @@ export type Act<Scenes extends Scene[] = Scene[]> = {
 export type Scene = {
     title: string;
     subtitle: string | null;
-    concept?: Character;
+    concept?: CharacterName;
     performance: Performance;
     lines: Line[];
 };
@@ -56,15 +57,16 @@ export type Line = Dialog | Performance | null;
 
 export type Performance = [PeformanceModeType, ...string[]];
 
-export type Character =
+export type CharacterName =
     | keyof NodeTexts
     | keyof InputTexts
     | keyof OutputTexts
     | keyof BasisTexts
+    | HowToID
     | '⊤'
     | '⊥';
 
-export type Dialog = [Character, `${Emotion}`, ...string[]];
+export type Dialog = [CharacterName, `${Emotion}`, ...string[]];
 
 export const PerformanceMode = [
     'fit',

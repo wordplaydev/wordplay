@@ -1,8 +1,8 @@
 import type Expression from '@nodes/Expression';
-import type TableType from '@nodes/TableType';
-import Conflict from './Conflict';
-import type Locales from '../locale/Locales';
 import type Input from '@nodes/Input';
+import type TableType from '@nodes/TableType';
+import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class UnknownColumn extends Conflict {
     readonly type: TableType;

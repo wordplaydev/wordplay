@@ -1,15 +1,17 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import type LanguageCode from '../../locale/LanguageCode';
     import Announcement from './Announcement';
-    import type { Announce } from './Contexts';
 
+    /** How long to wait before updating the live region. */
     const delay = 200;
 
-    export const announce: Announce = (
+    /** A function we expose to other components to announce things with this component. */
+    export function announce(
         id: string,
         language: LanguageCode | undefined,
         message: string,
-    ) => {
+    ) {
         // Enqueue the announcement
         announcements.push(new Announcement(id, language, message));
 
@@ -17,7 +19,14 @@
         const delta = Date.now() - (current ? current.time : 0);
         // No current message or it's been more than a second? Dequeue.
         if (current === undefined || delta > delay) dequeue();
-    };
+    }
+
+    let { announcer: _ = $bindable(undefined) } = $props();
+
+    /** Set the announcer once mounted. */
+    onMount(() => {
+        _ = announce;
+    });
 
     function dequeue() {
         // Is there a timeout? Wait for it to dequue.
@@ -59,9 +68,9 @@
         }
     }
 
-    let announcements: Announcement[] = [];
+    let announcements = $state<Announcement[]>([]);
     let current: { announcement: Announcement; time: number } | undefined =
-        undefined;
+        $state(undefined);
     let timeout: NodeJS.Timeout | undefined = undefined;
 </script>
 
@@ -69,15 +78,14 @@
 <div
     class="announcements"
     role="alert"
-    aria-live="assertive"
+    aria-live="polite"
     aria-atomic="true"
     aria-relevant="all"
     data-kind={current?.announcement.kind}
 >
     {#if current}<span lang={current.announcement.language}>
             {current.announcement.text}
-        </span>
-    {/if}
+        </span>{/if}
 </div>
 
 <style>

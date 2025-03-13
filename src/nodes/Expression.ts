@@ -1,14 +1,14 @@
-import Node from './Node';
-import type Context from './Context';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Type from './Type';
-import type Step from '@runtime/Step';
-import type Bind from './Bind';
-import type TypeSet from './TypeSet';
 import ValueRef from '@locale/ValueRef';
-import type Markup from './Markup';
+import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import type Value from '@values/Value';
 import type Locales from '../locale/Locales';
+import type Bind from './Bind';
+import type Context from './Context';
+import type Markup from './Markup';
+import Node from './Node';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export enum ExpressionKind {
     Simple = 'simple',
@@ -134,13 +134,14 @@ export default abstract class Expression extends Node {
         evaluator: Evaluator,
     ): Markup;
 
-    /** Utility function for getting an optional result   */
+    /** Utility function for getting an optional result  */
     getValueIfDefined(
         locales: Locales,
         context: Context,
         evaluator: Evaluator,
     ) {
-        const value = evaluator.peekValue();
+        const value =
+            evaluator.peekValue() ?? evaluator.getLatestExpressionValue(this);
         return value ? new ValueRef(value, locales, context) : undefined;
     }
 

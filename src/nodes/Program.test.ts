@@ -1,11 +1,11 @@
-import { expect, test } from 'vitest';
 import Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
-import Source from './Source';
-import Project from '../models/Project';
-import type Value from '../values/Value';
+import { expect, test } from 'vitest';
 import { DB } from '../db/Database';
+import Project from '../db/projects/Project';
 import DefaultLocale from '../locale/DefaultLocale';
+import type Value from '../values/Value';
+import Source from './Source';
 
 test.each([
     // A single source with 1 should evaluate to 1

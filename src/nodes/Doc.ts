@@ -1,20 +1,21 @@
-import Language from './Language';
-import { node, optional } from './Node';
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import type Paragraph from './Paragraph';
-import Words from './Words';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Markup from './Markup';
-import { LanguageTagged } from './LanguageTagged';
-import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
-import type Context from './Context';
 import type LanguageCode from '@locale/LanguageCode';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import Language from './Language';
+import { LanguageTagged } from './LanguageTagged';
+import Markup from './Markup';
+import type { Grammar, Replacement } from './Node';
+import { node, optional } from './Node';
+import type Paragraph from './Paragraph';
+import Sym from './Sym';
+import Token from './Token';
+import Words from './Words';
 
 export default class Doc extends LanguageTagged {
     readonly open: Token;
@@ -59,7 +60,7 @@ export default class Doc extends LanguageTagged {
         return [Doc.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Doc';
     }
 
@@ -113,11 +114,12 @@ export default class Doc extends LanguageTagged {
         return PossiblePII.analyze(this, context);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Doc);
+    static readonly LocalePath = (l: LocaleText) => l.node.Doc;
+    getLocalePath() {
+        return Doc.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Doc;
+    getCharacter() {
+        return Characters.Doc;
     }
 }

@@ -1,8 +1,9 @@
-import type { TemplateInput } from './Locales';
-import type Locales from './Locales';
-import { isUnwritten, withoutAnnotations } from './LocaleText';
-import { toMarkup } from '@parser/toMarkup';
 import Markup from '@nodes/Markup';
+import { toMarkup } from '@parser/toMarkup';
+import type Locales from './Locales';
+import type { TemplateInput } from './Locales';
+import { isUnwritten } from './LocaleText';
+import { withoutAnnotations } from './withoutAnnotations';
 
 /** We maintain cache a mapping from template strings to compiled markup, since they are fixed structures.
  * We just reuse them with different inputs.*/

@@ -1,8 +1,8 @@
-import Step from './Step';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
+import type Evaluator from '@runtime/Evaluator';
 import type Locales from '../locale/Locales';
+import type Value from '../values/Value';
+import Step from './Step';
 
 type Action = (evalutor: Evaluator) => Value | undefined;
 
@@ -46,7 +46,7 @@ export function start(evaluator: Evaluator, expr: Expression) {
 export function shouldSkip(evaluator: Evaluator, expr: Expression) {
     return (
         !expr.isInternal() &&
-        !evaluator.isInPast() &&
+        // !evaluator.isInPast() &&
         (evaluator.project.isConstant(expr) ||
             (evaluator.isReacting() &&
                 !evaluator.isEvaluatingReaction() &&

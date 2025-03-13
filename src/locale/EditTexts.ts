@@ -7,6 +7,8 @@ type EditTexts = {
     before: Template;
     /** A way to say "inside [description], between character [before|start] and [after|end]" */
     inside: Template;
+    /** Description of a selection range */
+    range: Template;
     /** A way to say "between [token1] and [token2]" */
     between: Template;
     /** A way to say "empty line between [node1] and [node2]" */

@@ -1,13 +1,24 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { animationDuration } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { type Snippet } from 'svelte';
     import { slide } from 'svelte/transition';
 
-    export let inline = false;
+    interface Props {
+        inline?: boolean;
+        text?: LocaleTextAccessor;
+        children?: Snippet;
+    }
+
+    let { inline = false, text, children }: Props = $props();
 </script>
 
-{#if inline}<span class="feedback"><slot /></span>{:else}
+{#if inline}<span class="feedback">{@render children?.()}</span>{:else}
     <p class="feedback" transition:slide={{ duration: $animationDuration }}
-        ><slot /></p
+        >{#if children}{@render children()}{:else if text}<LocalizedText
+                path={text}
+            />{/if}</p
     >{/if}
 
 <style>
@@ -17,7 +28,7 @@
         color: var(--wordplay-background);
         background: var(--wordplay-error);
         margin-block-start: var(--wordplay-spacing);
-        padding: var(--wordplay-spacing);
+        padding: calc(var(--wordplay-spacing) / 2);
         border-radius: var(--wordplay-border-radius);
         flex-grow: 0;
     }
@@ -27,7 +38,6 @@
     }
 
     p {
-        font-size: medium;
         text-align: center;
     }
 </style>

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export type AnnotationInfo = {
         node: Node;
         element: Element | null;
@@ -10,87 +10,72 @@
 </script>
 
 <script lang="ts">
-    import type Conflict from '@conflicts/Conflict';
-    import Expression from '@nodes/Expression';
-    import Node from '@nodes/Node';
-    import Annotation from './Annotation.svelte';
-    import { tick } from 'svelte';
-    import type Step from '@runtime/Step';
-    import type Evaluator from '@runtime/Evaluator';
-    import type Project from '../../models/Project';
-    import { getConceptIndex, getEvaluation } from '../project/Contexts';
-    import type Markup from '../../nodes/Markup';
-    import type Source from '../../nodes/Source';
-    import { locales, Settings, showAnnotations } from '../../db/Database';
-    import Speech from '@components/lore/Speech.svelte';
-    import Glyphs from '../../lore/Glyphs';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { docToMarkup } from '@locale/LocaleText';
     import {
         DecrementLiteral,
         IncrementLiteral,
         ShowMenu,
         toShortcut,
     } from '@components/editor/util/Commands';
-    import type Caret from '@edit/Caret';
-    import NodeRef from '@locale/NodeRef';
-    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import type { Resolution } from '@conflicts/Conflict';
-    import Context from '@nodes/Context';
+    import Speech from '@components/lore/Speech.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Expander from '@components/widgets/Expander.svelte';
     import Templates from '@concepts/Templates';
+    import type Conflict from '@conflicts/Conflict';
+    import type { Resolution } from '@conflicts/Conflict';
+    import type Caret from '@edit/Caret';
+    import { docToMarkup } from '@locale/LocaleText';
+    import NodeRef from '@locale/NodeRef';
+    import Context from '@nodes/Context';
+    import Expression from '@nodes/Expression';
+    import Node from '@nodes/Node';
+    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
+    import type Evaluator from '@runtime/Evaluator';
+    import type Step from '@runtime/Step';
+    import { tick } from 'svelte';
+    import { locales, Settings, showAnnotations } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
+    import Characters from '../../lore/BasisCharacters';
+    import type Markup from '../../nodes/Markup';
+    import type Source from '../../nodes/Source';
+    import { getConceptIndex, getEvaluation } from '../project/Contexts';
+    import Annotation from './Annotation.svelte';
 
-    /** The project for which annotations should be shown */
-    export let project: Project;
-    /** The evaluator running the program */
-    export let evaluator: Evaluator;
-    /** The source who's annotations to show.*/
-    export let source: Source;
-    /** The source ID of the source */
-    export let sourceID: string;
-    /** Whether we're stepping */
-    export let stepping: boolean;
-    /** Conflicts to show */
-    export let conflicts: Conflict[];
-    /** The caret of the editor this is annotating */
-    export let caret: Caret | undefined;
+    interface Props {
+        /** The project for which annotations should be shown */
+        project: Project;
+        /** The evaluator running the program */
+        evaluator: Evaluator;
+        /** The source who's annotations to show.*/
+        source: Source;
+        /** The source ID of the source */
+        sourceID: string;
+        /** Whether we're stepping */
+        stepping: boolean;
+        /** Conflicts to show */
+        conflicts: Conflict[];
+        /** The caret of the editor this is annotating */
+        caret: Caret | undefined;
+    }
+
+    let {
+        project,
+        evaluator,
+        source,
+        sourceID,
+        stepping,
+        conflicts,
+        caret,
+    }: Props = $props();
 
     let evaluation = getEvaluation();
-    let concepts = getConceptIndex();
-    let annotations: AnnotationInfo[] = [];
-    let annotationsByNode: Map<Node, AnnotationInfo[]> = new Map();
 
-    $: caretNode = caret
-        ? caret.position instanceof Node
-            ? caret.position
-            : caret.tokenExcludingSpace
-        : undefined;
-    $: context = project.getContext(source);
-    $: relevantConcept =
-        $concepts && caret && caret.position instanceof Node
-            ? $concepts?.getRelevantConcept(caret.position)
-            : undefined;
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
 
-    $: caretNodeParent =
-        caretNode instanceof Node ? caretNode.getParent(context) : undefined;
-    $: relevantParentConcept =
-        $concepts && caretNodeParent
-            ? $concepts?.getRelevantConcept(caretNodeParent)
-            : undefined;
-
-    // See if the caret is adjustable.
-    $: adjustable =
-        caret && caretNode ? caret.getAdjustableLiteral() : undefined;
-
-    // When any of these states change, update annotations.
-    $: {
-        stepping;
-        conflicts;
-        $evaluation;
-        updateAnnotations();
-    }
+    let annotations: AnnotationInfo[] = $state([]);
+    let annotationsByNode: Map<Node, AnnotationInfo[]> = $state(new Map());
 
     async function updateAnnotations() {
         // Wait for DOM updates so that everything is in position before we layout annotations.
@@ -198,28 +183,11 @@
         // If we couldn't find a view for the node, it's probably because it was replaced by a value view.
         // Find the value corresponding to the node that just evaluated.
         if (nodeView === null) {
-            const currentStep = evaluator.getCurrentStep();
-            if (currentStep) {
-                const firstExpression =
-                    currentStep.node instanceof Expression
-                        ? currentStep.node
-                        : evaluator.project
-                              .getRoot(currentStep.node)
-                              ?.getAncestors(currentStep.node)
-                              .find(
-                                  (a): a is Expression =>
-                                      a instanceof Expression,
-                              );
-                if (firstExpression) {
-                    const value =
-                        evaluator.getLatestExpressionValueInEvaluation(
-                            firstExpression,
-                        );
-                    if (value)
-                        nodeView = document.querySelector(
-                            `.value[data-id="${value.id}"]`,
-                        );
-                }
+            const value = evaluator.getCurrentValue();
+            if (value) {
+                nodeView = document.querySelector(
+                    `.value[data-id="${value.id}"]`,
+                );
             }
         }
 
@@ -231,13 +199,47 @@
             `.editor .node-view[data-id="${node.id}"]`,
         );
     }
+    let caretNode = $derived(
+        caret
+            ? caret.position instanceof Node
+                ? caret.position
+                : caret.tokenExcludingSpace
+            : undefined,
+    );
+    let context = $derived(project.getContext(source));
+    let relevantConcept = $derived(
+        index && caret && caret.position instanceof Node
+            ? index?.getRelevantConcept(caret.position)
+            : undefined,
+    );
+    let caretNodeParent = $derived(
+        caretNode instanceof Node ? caretNode.getParent(context) : undefined,
+    );
+    let relevantParentConcept = $derived(
+        index && caretNodeParent
+            ? index?.getRelevantConcept(caretNodeParent)
+            : undefined,
+    );
+    // See if the caret is adjustable.
+    let adjustable = $derived(
+        caret && caretNode ? caret.getAdjustableLiteral() : undefined,
+    );
+
+    // When any of these states change, update annotations.
+    $effect(() => {
+        stepping;
+        conflicts;
+        $evaluation;
+        updateAnnotations();
+    });
 </script>
 
 <!-- Render annotations by node -->
 <section
     aria-label={$locales.get((l) => l.ui.annotations.label)}
     class:expanded={$showAnnotations}
-    on:pointerdown={() => {
+    data-uiid="conflict"
+    onpointerdown={() => {
         if (!$showAnnotations) Settings.setShowAnnotations(true);
     }}
 >
@@ -249,28 +251,34 @@
     {#if $showAnnotations}
         <div class="annotations">
             {#if source.isEmpty()}
-                <Speech glyph={Glyphs.Function} scroll={false} below>
-                    <svelte:fragment slot="content">
+                <Speech
+                    character={Characters.FunctionDefinition}
+                    scroll={false}
+                    below
+                >
+                    {#snippet content()}
                         <MarkupHTMLView
                             markup={docToMarkup(
                                 $locales.get((l) => l.ui.source.empty),
                             ).concretize($locales, [toShortcut(ShowMenu)]) ??
                                 ''}
                         />
-                    </svelte:fragment>
+                    {/snippet}
                 </Speech>
             {:else}
                 {#each Array.from(annotationsByNode.values()) as annotations, index}
                     <Annotation id={index} {annotations} />
                 {/each}
-                <Speech glyph={Glyphs.Function} scroll={false} below>
-                    <svelte:fragment slot="content">
+                <Speech
+                    character={Characters.FunctionDefinition}
+                    scroll={false}
+                    below
+                >
+                    {#snippet content()}
                         {#if stepping}
                             <MarkupHTMLView
                                 inline
-                                markup={$locales.get(
-                                    (l) => l.ui.annotations.evaluating,
-                                )}
+                                markup={(l) => l.ui.annotations.evaluating}
                             />
                         {:else if caretNode}
                             <div class="who">
@@ -299,9 +307,8 @@
                                     <div class="concept">
                                         <MarkupHTMLView
                                             inline
-                                            markup={$locales.get(
-                                                (l) => l.ui.annotations.learn,
-                                            )}
+                                            markup={(l) =>
+                                                l.ui.annotations.learn}
                                         />
                                         <ConceptLinkUI
                                             link={relevantConcept}
@@ -356,10 +363,8 @@
                                         <div class="concept">
                                             <MarkupHTMLView
                                                 inline
-                                                markup={$locales.get(
-                                                    (l) =>
-                                                        l.ui.annotations.learn,
-                                                )}
+                                                markup={(l) =>
+                                                    l.ui.annotations.learn}
                                             />
                                             <ConceptLinkUI
                                                 link={relevantParentConcept}
@@ -372,12 +377,10 @@
                         {:else}
                             <MarkupHTMLView
                                 inline
-                                markup={$locales.get(
-                                    (l) => l.ui.annotations.space,
-                                )}
+                                markup={(l) => l.ui.annotations.space}
                             />
                         {/if}
-                    </svelte:fragment>
+                    {/snippet}
                 </Speech>
             {/if}
         </div>
@@ -407,7 +410,7 @@
         min-width: 15em;
     }
 
-    section:not(.expanded) {
+    section:not(:global(.expanded)) {
         display: flex;
         flex-direction: column;
         align-items: center;

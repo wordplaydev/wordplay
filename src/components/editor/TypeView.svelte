@@ -1,25 +1,30 @@
-<svelte:options immutable={true} />
-
 <!-- A fallback view of types that don't have a more specialized view, generally for type errors. -->
 <script lang="ts">
-    import { getProject, getRoot } from '../project/Contexts';
     import { locales } from '@db/Database';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import type Type from '../../nodes/Type';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import { getProject, getRoot } from '../project/Contexts';
 
-    export let node: Type;
+    interface Props {
+        node: Type;
+    }
+
+    let { node }: Props = $props();
 
     let project = getProject();
-    let root = getRoot();
 
-    $: context =
-        $root === undefined || $project === undefined
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
+
+    let context = $derived(
+        root === undefined || $project === undefined
             ? undefined
-            : $project.getNodeContext($root.root);
+            : $project.getNodeContext(root.root),
+    );
 </script>
 
 <span class="TypeView"
-    >{#if context}<MarkupHtmlView
+    >{#if context}<MarkupHTMLView
             markup={node.getDescription($locales, context)}
         />{:else}{node.toWordplay()}{/if}</span
 >

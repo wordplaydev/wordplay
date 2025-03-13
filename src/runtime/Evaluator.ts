@@ -1,60 +1,58 @@
+import Context from '@nodes/Context';
+import ConversionDefinition from '@nodes/ConversionDefinition';
+import Expression from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import type Names from '@nodes/Names';
 import type Node from '@nodes/Node';
 import Reaction from '@nodes/Reaction';
+import Source from '@nodes/Source';
+import StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import Project from '../db/projects/Project';
+import ExceptionValue from '../values/ExceptionValue';
+import type StreamValue from '../values/StreamValue';
+import Value from '../values/Value';
+import ValueException from '../values/ValueException';
 import Evaluation, {
     type DefinitionNode,
     type EvaluationNode,
 } from './Evaluation';
-import type StreamValue from '../values/StreamValue';
-import Value from '../values/Value';
-import ExceptionValue from '../values/ExceptionValue';
-import ValueException from '../values/ValueException';
-import type Type from '@nodes/Type';
-import Source from '@nodes/Source';
-import type Names from '@nodes/Names';
-import Expression from '@nodes/Expression';
-import Project from '../models/Project';
 import type Step from './Step';
-import StructureDefinition from '@nodes/StructureDefinition';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import Context from '@nodes/Context';
 
 // Import this last, after everything else, to avoid cycles.
-import { MAX_STREAM_LENGTH } from '../values/StreamValue';
-import Start from './Start';
-import Finish from './Finish';
-import EvaluationLimitException from '../values/EvaluationLimitException';
-import StepLimitException from '../values/StepLimitException';
-import TypeException from '../values/TypeException';
-import TemporalStreamValue from '../values/TemporalStreamValue';
-import StartFinish from './StartFinish';
-import type { Basis } from '../basis/Basis';
-import type LocaleText from '../locale/LocaleText';
-import type { Path } from '../nodes/Root';
-import Evaluate from '../nodes/Evaluate';
+import { EditFailure } from '@db/projects/EditFailure';
+import Collision from '@input/Collision';
 import type Locale from '@locale/Locale';
-import NumberGenerator from 'recoverable-random';
-import type { Database } from '../db/Database';
-import ReactionStream from '../values/ReactionStream';
-import type Animator from '../output/Animator';
-import DefaultLocale from '../locale/DefaultLocale';
-import StructureValue from '@values/StructureValue';
-import ListValue from '@values/ListValue';
-import TextValue from '@values/TextValue';
 import DynamicEditLimitException from '@values/DynamicEditLimitException';
-import { EditFailure } from '@db/EditFailure';
-import ReadOnlyEditException from '@values/ReadOnlyEditException';
 import EmptySourceNameException from '@values/EmptySourceNameException';
+import ListValue from '@values/ListValue';
 import ProjectSizeLimitException from '@values/ProjectSizeLimitException';
+import ReadOnlyEditException from '@values/ReadOnlyEditException';
+import StructureValue from '@values/StructureValue';
+import TextValue from '@values/TextValue';
+import NumberGenerator from 'recoverable-random';
+import type { Basis } from '../basis/Basis';
+import type { Database } from '../db/Database';
+import DefaultLocale from '../locale/DefaultLocale';
+import type LocaleText from '../locale/LocaleText';
+import Evaluate from '../nodes/Evaluate';
+import type { Path } from '../nodes/Root';
+import type Animator from '../output/Animator';
+import EvaluationLimitException from '../values/EvaluationLimitException';
+import ReactionStream from '../values/ReactionStream';
+import StepLimitException from '../values/StepLimitException';
+import { MAX_STREAM_LENGTH } from '../values/StreamValue';
+import TemporalStreamValue from '../values/TemporalStreamValue';
+import TypeException from '../values/TypeException';
+import Finish from './Finish';
+import Start from './Start';
+import StartFinish from './StartFinish';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
 export type StepNumber = number;
 export type StreamValueChange = { stream: StreamValue; value: Value };
-export type StreamChange = {
-    changes: StreamValueChange[];
-    stepIndex: number;
-};
+export type StreamChange = { changes: StreamValueChange[]; stepIndex: number };
 export type StreamCreator = Evaluate | Reaction;
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
 
@@ -71,6 +69,8 @@ Don't let source values take more than 256 MB of memory.
 One memory unit is probably an average of about 128 bytes, given how much provenance we store per value.
 */
 export const MAX_SOURCE_VALUE_SIZE = 52428;
+
+export const MAX_VALUE_HISTORY = 250;
 
 export enum Mode {
     Play,
@@ -221,7 +221,9 @@ export default class Evaluator {
 
     /** The relative time, accounting for pauses, accumulated from deltas */
     currentTime = 0;
-    animating = false;
+
+    /** Whether we're ticking due to a temporal stream or physics engine that was started. */
+    ticking = false;
 
     /**
      * A list of temporal streams that have updated, for pooling them into a single reevaluation,
@@ -425,6 +427,29 @@ export default class Evaluator {
         return this.evaluations[0]?.currentStep();
     }
 
+    /** Get the expression corresponding to the current step.
+     * This is usually the node of the step itself, but some steps are not an expression
+     * and so we need to find an ancestor that is.
+     */
+    getCurrentExpression(): Expression | undefined {
+        const currentStep = this.getCurrentStep();
+        if (currentStep === undefined) return undefined;
+        return currentStep.node instanceof Expression
+            ? currentStep.node
+            : this.project
+                  .getRoot(currentStep.node)
+                  ?.getAncestors(currentStep.node)
+                  .find((a): a is Expression => a instanceof Expression);
+    }
+
+    /** Get the current value of the current expression */
+    getCurrentValue() {
+        const currentExpression = this.getCurrentExpression();
+        if (currentExpression)
+            return this.getLatestExpressionValue(currentExpression);
+        return undefined;
+    }
+
     getNextStep() {
         return this.evaluations[0]?.nextStep();
     }
@@ -570,12 +595,15 @@ export default class Evaluator {
         beforeStepNumber?: number,
         afterStepNumber?: number,
     ): Value | undefined {
+        // Find the computed values for this expression.
         const values = this.values.get(expression);
         // No values? Return nothing.
         if (values === undefined || values.length === 0) return undefined;
-        // No step number? Return the latest.
+        // No step number? Return the latest before the current step.
         if (beforeStepNumber === undefined)
-            return values[values.length - 1].value;
+            return values.filter((val) => val.stepNumber <= this.#stepIndex)[
+                values.length - 1
+            ]?.value;
         // Was a step index given that the value should be computed after? Find the first value with a step index after.
         for (let index = values.length - 1; index >= 0; index--) {
             const step = values[index].stepNumber;
@@ -591,6 +619,10 @@ export default class Evaluator {
     /** Finds the evaluation on the stack evaluating the given expression, if there is one. */
     getEvaluationOf(expression: Expression) {
         return this.evaluations.find((e) => e.getDefinition() === expression);
+    }
+
+    getEvaluations() {
+        return this.evaluations;
     }
 
     // PREDICATES
@@ -684,7 +716,11 @@ export default class Evaluator {
                         this.#currentStreamDependencies.has(expression))
                 )
                     this.values.delete(expression);
-        } else this.values.clear();
+        }
+        // Not keeping constants? Reset the value history.
+        else {
+            this.values.clear();
+        }
 
         // Reset the evluation stack.
         this.evaluations.length = 0;
@@ -699,6 +735,10 @@ export default class Evaluator {
         // Reset the stream evaluation count
         this.streamCreatorCount.clear();
 
+        // Reset the source values
+        this.sourceValues.clear();
+        this.sourceValueSize = 0;
+
         // Notify listeners.
         if (broadcast) this.broadcast();
     }
@@ -710,7 +750,7 @@ export default class Evaluator {
         return this.getLatestSourceValue(this.project.getMain());
     }
 
-    /** Evaluate until we're done */
+    /** Prepare for evaluation, and finish if playing. */
     start(changedStreams?: StreamValue[], limit = true): void {
         // If we're not done, finish first, if we were interrupted before.
         if (!this.isDone()) this.finish();
@@ -718,7 +758,7 @@ export default class Evaluator {
         // First, initialize any stream dependencies
         // If there are changed streams, construct a set of affected expressions that need to be reevaluated.
         // We'll reuse previous values for anything not affected.
-        if (changedStreams && !this.isInPast()) {
+        if (changedStreams && changedStreams.length > 0) {
             this.#currentStreamDependencies = new Set();
             for (const stream of changedStreams) {
                 const dependencies = this.#streamDependencies.get(
@@ -801,6 +841,11 @@ export default class Evaluator {
         this.#stopped = true;
         this.observers.length = 0;
         this.stopStreams();
+
+        // Erase big memory stores.
+        this.values.clear();
+        this.sourceValues.clear();
+        this.#inputs.length = 0;
     }
 
     stopStreams() {
@@ -944,7 +989,7 @@ export default class Evaluator {
     }
 
     /** If the value computed is a Data or list that contains Data, persist the data. */
-    editSource(value: Value): void {
+    async editSource(value: Value): Promise<void> {
         const dataDefinition = this.getBasis().shares.output.Data;
         const data =
             value instanceof StructureValue && value.is(dataDefinition)
@@ -986,7 +1031,7 @@ export default class Evaluator {
                     current.code.toString() !== valueText
                 ) {
                     // Revise the project with the new or overwritten source.
-                    const result = this.database.Projects.reviseProject(
+                    const result = await this.database.Projects.reviseProject(
                         current
                             ? this.project.withSource(
                                   current,
@@ -1131,8 +1176,8 @@ export default class Evaluator {
         // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
         this.resetForEvaluation(true, broadcast);
 
-        // Start the evaluation fresh.
-        this.start();
+        // Start the evaluation fresh, using the changed streams if we found any.
+        this.start(change ? change.changes.map((c) => c.stream) : undefined);
 
         // Step until reaching the target step index.
         while (this.#stepIndex < destinationStep) {
@@ -1317,7 +1362,9 @@ export default class Evaluator {
             .filter((stream): stream is Kind => stream instanceof type);
     }
 
-    /** Called by stream definitions to identify previously created streams to which an evaluation should correspond. */
+    /**
+     * Called by stream definitions to identify previously created streams to which an evaluation should correspond.
+     */
     incrementStreamEvaluationCount(evaluate: StreamCreator) {
         // Set or increment the evaluation count.
         const count = this.streamCreatorCount.get(evaluate) ?? 0;
@@ -1353,13 +1400,17 @@ export default class Evaluator {
 
         // If it's a temporal stream and we haven't already started a loop, start one.
         // Ensure we only start one by having an animation flag.
-        if (stream instanceof TemporalStreamValue) {
+        if (stream instanceof TemporalStreamValue)
             this.temporalStreams.push(stream);
-            // If we haven't yet started a loop, start one.
-            if (this.reactive && !this.animating) {
-                this.animating = true;
-                this.later(this.tick.bind(this));
-            }
+
+        // Temporal streams and collision streams need ticking to work.
+        const shouldTick =
+            stream instanceof TemporalStreamValue ||
+            stream instanceof Collision;
+        // If we haven't yet started a loop, start one.
+        if (shouldTick && this.reactive && !this.ticking) {
+            this.ticking = true;
+            this.later(this.tick.bind(this));
         }
     }
 
@@ -1694,6 +1745,13 @@ export default class Evaluator {
         // If we haven't stored any values yet, or the most recent value is before the current index, remember it.
         if (list.length === 0 || list[list.length - 1].stepNumber < index) {
             list.push({ value: value, stepNumber: index });
+
+            // Trim the history of values to avoid crashing the tab from memory overload.
+            list = list.slice(
+                Math.max(0, list.length - MAX_VALUE_HISTORY),
+                list.length,
+            );
+
             this.values.set(expression, list);
         }
     }

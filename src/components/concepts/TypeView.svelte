@@ -1,23 +1,31 @@
 <script lang="ts">
     import type StructureConcept from '@concepts/StructureConcept';
-    import RootView from '../project/RootView.svelte';
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import { OR_SYMBOL } from '@parser/Symbols';
-    import type Type from '@nodes/Type';
-    import type Context from '@nodes/Context';
-    import type FunctionConcept from '../../concepts/FunctionConcept';
     import { blocks } from '@db/Database';
+    import type Context from '@nodes/Context';
+    import type Type from '@nodes/Type';
+    import { OR_SYMBOL } from '@parser/Symbols';
+    import type FunctionConcept from '../../concepts/FunctionConcept';
+    import { getConceptIndex, getConceptPath } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
 
-    export let type: Type;
-    export let context: Context;
+    interface Props {
+        type: Type;
+        context: Context;
+    }
+
+    let { type, context }: Props = $props();
 
     let path = getConceptPath();
-    let index = getConceptIndex();
 
-    $: types = type
-        .getTypeSet(context)
-        .list()
-        .map((type) => [type, $index?.getConceptOfType(type)] as const);
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
+    let types = $derived(
+        type
+            .getTypeSet(context)
+            .list()
+            .map((type) => [type, index?.getConceptOfType(type)] as const),
+    );
 
     function navigate(type: StructureConcept | FunctionConcept) {
         path.set([...$path, type]);
@@ -31,8 +39,8 @@
             role="button"
             class="type"
             tabindex="0"
-            on:click={() => (concept ? navigate(concept) : undefined)}
-            on:keydown={(event) =>
+            onclick={() => (concept ? navigate(concept) : undefined)}
+            onkeydown={(event) =>
                 concept && (event.key === 'Enter' || event.key === ' ')
                     ? navigate(concept)
                     : undefined}
@@ -40,7 +48,7 @@
                 node={type}
                 inert
                 inline
-                localized="symbolic"
+                locale="symbolic"
                 blocks={$blocks}
             /></span
         >{/each}

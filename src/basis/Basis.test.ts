@@ -1,16 +1,16 @@
-import { test, expect } from 'vitest';
-import Source from '@nodes/Source';
+import Templates from '@concepts/Templates';
+import UnusedBind from '@conflicts/UnusedBind';
+import DefaultLocales from '@locale/DefaultLocales';
 import Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import UnusedBind from '@conflicts/UnusedBind';
-import UnparsableType from '@nodes/UnparsableType';
+import Source from '@nodes/Source';
 import UnparsableExpression from '@nodes/UnparsableExpression';
-import Project from '../models/Project';
+import UnparsableType from '@nodes/UnparsableType';
+import { expect, test } from 'vitest';
+import Project from '../db/projects/Project';
+import DefaultLocale from '../locale/DefaultLocale';
 import Example from '../nodes/Example';
 import { Basis } from './Basis';
-import DefaultLocale from '../locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Templates from '@concepts/Templates';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
 

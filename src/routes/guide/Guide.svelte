@@ -1,68 +1,52 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { afterNavigate, goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
-        ConceptIndexSymbol,
-        ConceptPathSymbol,
+        setConceptIndex,
+        setConceptPath,
     } from '@components/project/Contexts';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
-    import { locales } from '@db/Database';
-    import Project from '@models/Project';
+    import {
+        getConceptFromURL,
+        setConceptInURL,
+    } from '@concepts/ConceptParams';
+    import { Locales, locales } from '@db/Database';
+    import Project from '@db/projects/Project';
+    import { toLocale } from '@locale/LocaleText';
     import Source from '@nodes/Source';
-    import { onMount, setContext } from 'svelte';
+    import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-
-    // There's no actual project; the documentation component just relies on one to have contexts.
-    $: project = Project.make(
-        null,
-        'guide',
-        Source.make(''),
-        [],
-        $locales.getLocales(),
-    );
-
-    $: index = ConceptIndex.make(project, $locales);
-    $: indexStore.set(index);
-    let indexStore = writable<ConceptIndex | undefined>(index);
-    setContext(ConceptIndexSymbol, indexStore);
 
     function getLocaleInURL() {
         return (
-            $page.url.searchParams.get('locale') ??
-            `${$locales.getLocales()[0].language}-${
-                $locales.getLocales()[0].region
-            }`
+            page.url.searchParams.get('locale') ??
+            toLocale($locales.getLocales()[0])
         );
     }
 
-    function getConceptFromURL() {
-        return $page.url.searchParams.get('concept');
-    }
-
-    function getConcept(concept: string | null) {
-        return concept ? index.getConceptByName(concept) : undefined;
-    }
-
     // Initialize locale and concept with URL.
-    let locale: string | null = null;
-    let concept: string | null = null;
+    let locale: string | null = $state(null);
+    let concept: Concept | undefined = $state(undefined);
 
     // Create a concept path for children, initialized
     let path = writable<Concept[]>([]);
-    setContext(ConceptPathSymbol, path);
+    setConceptPath(path);
 
-    let mounted = false;
+    let mounted = $state(false);
     onMount(() => {
-        locale = getLocaleInURL();
-        concept = getConceptFromURL();
+        // Before showing, wait for how tos to load.
+        Locales.loadHowTos($locales.getLocaleString()).then(() => {
+            locale = getLocaleInURL();
+            concept = getConceptFromURL(index, page.url.searchParams);
 
-        path.set([getConcept(concept)].filter((c) => c !== undefined));
-        mounted = true;
+            path.set(concept ? [concept] : []);
+            mounted = true;
+        });
     });
 
     // After any navigation, extract the locale and concept from the URL and
@@ -70,48 +54,79 @@
     afterNavigate(() => {
         // Set the current locale.
         locale = getLocaleInURL();
-        concept = getConceptFromURL();
-        const currentConcept = getConcept(concept);
+        concept = getConceptFromURL(index, page.url.searchParams);
         // Only update the path if the concept exists and is not already in the path.
         if (
-            currentConcept &&
+            concept !== undefined &&
             ($path.length === 0 ||
-                currentConcept.getName($locales, false) !==
-                    $path[0].getName($locales, false))
+                concept.getCharacterName($locales) !==
+                    $path.at(-1)?.getCharacterName($locales))
         ) {
-            path.set([currentConcept]);
+            path.set([concept]);
         }
         // Only update if the path isn't already empty.
-        else if (currentConcept === undefined) {
+        else if (concept === null) {
             path.set([]);
         }
     });
 
+    // There's no actual project; the documentation component just relies on one to have contexts.
+    let project = $derived(
+        Project.make(null, 'guide', Source.make(''), [], $locales.getLocales()),
+    );
+
+    let howToStore = Locales.howTos;
+
+    /** Keep the how tos loaded whenever the language changes */
+    $effect(() => {
+        Locales.loadHowTos($locales.getLocaleString());
+    });
+
+    let howTos = $derived($howToStore[$locales.getLocaleString()]);
+
+    let index = $derived(
+        ConceptIndex.make(
+            project,
+            $locales,
+            howTos instanceof Promise ? [] : howTos,
+        ),
+    );
+    // svelte-ignore state_referenced_locally
+    let indexStore = $state({ index });
+    setConceptIndex(indexStore);
+
+    $effect(() => {
+        indexStore.index = index;
+    });
+
+    $effect(() => {
+        concept = $path.at(-1);
+    });
+
     // When the concept path changes, navigate to the corresponding URL.
-    $: if (browser && $path && mounted) {
-        const current = $path.at(-1);
-        if (current) {
-            concept = current.getName($locales, false);
-        } else concept = null;
-        const newParams = new URLSearchParams();
-        if (locale) newParams.set('locale', locale);
-        else newParams.delete('locale');
-        if (concept) newParams.set('concept', concept);
-        else newParams.delete('concept');
-        if (window.location.search !== `?${newParams.toString()}`) {
-            goto(`/guide?${newParams.toString()}`);
+    $effect(() => {
+        if (browser && $path && mounted) {
+            const newParams = new URLSearchParams();
+
+            if (locale) newParams.set('locale', locale);
+            else newParams.delete('locale');
+
+            setConceptInURL($locales, concept ?? undefined, index, newParams);
+
+            if (window.location.search !== `?${newParams.toString()}`) {
+                // If the path was empty, just replace the state, so we can go back.
+                goto(`/guide?${newParams.toString()}`, {
+                    replaceState: window.location.search === '',
+                });
+            }
         }
-    }
+    });
 </script>
 
 <section class="guide">
     <div class="header">
-        <Header block={false}
-            >{$locales.get((l) => l.ui.page.guide.header)}</Header
-        >
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.guide.description)}
-        />
+        <Header block={false} text={(l) => l.ui.page.guide.header} />
+        <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>
 
     <Documentation {project} collapse={false}></Documentation>

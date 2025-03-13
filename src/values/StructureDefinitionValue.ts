@@ -1,11 +1,12 @@
+import type LocaleText from '@locale/LocaleText';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
-import type Evaluation from '@runtime/Evaluation';
-import SimpleValue from './SimpleValue';
-import type Value from '@values/Value';
 import { TYPE_SYMBOL } from '@parser/Symbols';
+import type Evaluation from '@runtime/Evaluation';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import SimpleValue from './SimpleValue';
 
 export default class StructureDefinitionValue extends SimpleValue {
     /** The definition from the AST. */
@@ -45,8 +46,8 @@ export default class StructureDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.function);
+    getDescription() {
+        return (l: LocaleText) => l.term.structure;
     }
 
     getRepresentativeText(locales: Locales) {

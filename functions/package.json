@@ -12,17 +12,17 @@
         "logs": "firebase functions:log"
     },
     "engines": {
-        "node": "18"
+        "node": "20"
     },
     "main": "lib/index.js",
     "dependencies": {
-        "@google-cloud/translate": "^8.3.0",
-        "@supercharge/promise-pool": "^3.1.0",
-        "firebase-admin": "^12.1.1",
-        "firebase-functions": "^5.0.1"
+        "@google-cloud/translate": "^8",
+        "@supercharge/promise-pool": "^3",
+        "firebase-admin": "^13",
+        "firebase-functions": "^6"
     },
     "devDependencies": {
-        "firebase-functions-test": "^3.3.0",
+        "firebase-functions-test": "^3",
         "typescript": "^5"
     },
     "private": true

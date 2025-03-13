@@ -1,27 +1,27 @@
+import { getBind } from '@locale/getBind';
+import { STAGE_SYMBOL } from '@parser/Symbols';
+import BoolValue from '@values/BoolValue';
+import ListValue from '@values/ListValue';
+import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import Output, { DefaultStyle } from './Output';
-import type RenderContext from './RenderContext';
-import Color from './Color';
-import Place from './Place';
-import toStructure from '../basis/toStructure';
-import NumberValue from '@values/NumberValue';
 import Decimal from 'decimal.js';
-import ListValue from '@values/ListValue';
-import { getBind } from '@locale/getBind';
-import BoolValue from '@values/BoolValue';
-import { getTypeStyle, toOutput, toOutputList } from './toOutput';
-import TextLang from './TextLang';
-import Pose, { DefinitePose } from './Pose';
-import type Sequence from './Sequence';
-import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import { Form, toForm } from './Form';
-import Shape from './Shape';
-import type Evaluator from '../runtime/Evaluator';
+import toStructure from '../basis/toStructure';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/LocaleText';
-import { STAGE_SYMBOL } from '@parser/Symbols';
+import { getFirstText } from '../locale/LocaleText';
+import type Evaluator from '../runtime/Evaluator';
+import Color from './Color';
+import { Form, toForm } from './Form';
+import Output, { DefaultStyle } from './Output';
+import Place from './Place';
+import Pose, { DefinitePose } from './Pose';
+import type RenderContext from './RenderContext';
+import type Sequence from './Sequence';
+import Shape from './Shape';
+import TextLang from './TextLang';
+import { getTypeStyle, toOutput, toOutputList } from './toOutput';
+import { getOutputInput } from './Valued';
 
 export const DefaultGravity = 9.8;
 
@@ -209,7 +209,7 @@ export default class Stage extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : locales.get((l) => getFirstName(l.output.Group.names));
+            : locales.get((l) => getFirstText(l.output.Group.names));
     }
 
     getDescription(locales: Locales) {
@@ -250,6 +250,14 @@ export default class Stage extends Output {
                 return [...list, ...(out ? out.getEntryAnimated() : [])];
             }, []),
         ];
+    }
+
+    /** Scan all references to fonts and load them as necessary. */
+    gatherFaces(set: Set<SupportedFace>) {
+        if (this.face) set.add(this.face);
+        for (const content of this.content)
+            if (content) content.gatherFaces(set);
+        return set;
     }
 }
 

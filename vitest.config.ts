@@ -4,8 +4,6 @@ import viteConfig from './vite.config';
 export default mergeConfig(
     viteConfig,
     defineConfig({
-        test: {
-            exclude: [...configDefaults.exclude, 'tests/end2end/*'],
-        },
+        test: { exclude: [...configDefaults.exclude, 'tests/end2end/*'] },
     }),
 );

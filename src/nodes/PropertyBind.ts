@@ -1,35 +1,37 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression from './Expression';
-import type Token from './Token';
-import type Type from './Type';
+import InvalidProperty from '@conflicts/InvalidProperty';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
+import Start from '@runtime/Start';
+import StartEvaluation from '@runtime/StartEvaluation';
+import type Step from '@runtime/Step';
+import ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
-import { node, type Grammar, type Replacement } from './Node';
-import BindToken from './BindToken';
+import Purpose from '../concepts/Purpose';
+import IncompatibleType from '../conflicts/IncompatibleType';
+import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
 import StructureValue from '../values/StructureValue';
 import ValueException from '../values/ValueException';
-import PropertyReference from './PropertyReference';
-import IncompatibleType from '../conflicts/IncompatibleType';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import NodeRef from '../locale/NodeRef';
-import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Reference from './Reference';
-import type Locales from '../locale/Locales';
-import { buildBindings } from './Evaluate';
-import ExceptionValue from '@values/ExceptionValue';
-import Evaluation from '@runtime/Evaluation';
-import StartEvaluation from '@runtime/StartEvaluation';
 import Bind from './Bind';
-import InvalidProperty from '@conflicts/InvalidProperty';
+import BindToken from './BindToken';
+import type Context from './Context';
+import { buildBindings } from './Evaluate';
+import Expression from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import PropertyReference from './PropertyReference';
+import Reference from './Reference';
 import StructureDefinitionType from './StructureDefinitionType';
-import type EditContext from '@edit/EditContext';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -68,7 +70,7 @@ export default class PropertyBind extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'PropertyBind';
     }
 
@@ -212,8 +214,9 @@ export default class PropertyBind extends Expression {
         return this.bind;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.PropertyBind);
+    static readonly LocalePath = (l: LocaleText) => l.node.PropertyBind;
+    getLocalePath() {
+        return PropertyBind.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
@@ -234,8 +237,8 @@ export default class PropertyBind extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Bind;
+    getCharacter() {
+        return Characters.Bind;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

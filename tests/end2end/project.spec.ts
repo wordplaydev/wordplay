@@ -1,35 +1,26 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('create project and visit its tiles ', async ({ page }) => {
-    await page.goto('/');
-
-    // Visit the projects page
-    await page.getByText('Projects').click();
+    await page.goto('/projects');
 
     // Create a new blank project
     await page.getByTestId('addproject').click();
 
-    // Click the first preview link
-    await page.getByTestId('preview').nth(1).click();
-
-    // Expect an output view
-    await expect(page.getByTestId('output')).toHaveCount(1);
-
-    // Expect to have an editor view
-    await expect(page.getByTestId('editor')).toHaveCount(1);
-
-    // Click to open the guide and expect it to be visible.
-    await page.getByText(/.+guide/, {}).click();
-
-    // Expect the guide to be visible.
-    await expect(page.getByTestId('documentation')).toBeVisible();
+    // Wait for the URL redirect to the project.
+    await page.waitForURL(/\/project\/.+/);
 
     // Click to open the palette
-    await page
-        .getByRole('button')
-        .filter({ has: page.getByText(/.+palette/) })
-        .click();
+    await page.getByTestId('palette-toggle').click();
 
-    // Expect the palette to be visible.
-    await expect(page.getByTestId('palette')).toBeVisible();
+    // Click to open the collaboration panel
+    await page.getByTestId('collaborate-toggle').click();
+
+    // Expect all tiles to be visible.
+    await Promise.all([
+        expect(page.getByTestId('tile-output')).toBeVisible(),
+        expect(page.getByTestId('tile-source0')).toBeVisible(),
+        expect(page.getByTestId('tile-docs')).toBeVisible(),
+        expect(page.getByTestId('tile-palette')).toBeVisible(),
+        expect(page.getByTestId('tile-collaborate')).toBeVisible(),
+    ]);
 });

@@ -1,51 +1,50 @@
 <script lang="ts">
+    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import Dimension from '@nodes/Dimension';
     import Evaluate from '@nodes/Evaluate';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import ColorChooser from '../widgets/ColorChooser.svelte';
+    import { locales, Projects } from '../../db/Database';
     import type OutputProperty from '../../edit/OutputProperty';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { Projects } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import ColorChooser from '../widgets/ColorChooser.svelte';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValueSet;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValueSet;
+        editable: boolean;
+        id?: string | undefined;
+    }
+
+    let { property, values, editable, id = undefined }: Props = $props();
 
     let project = getProject();
-    let selectedOutput = getSelectedOutput();
-
-    $: lightness = $project
-        ? getColorValue($project.shares.output.Color.inputs[0], values) ?? 0
-        : 0;
-    $: chroma = $project
-        ? getColorValue($project.shares.output.Color.inputs[1], values) ?? 0
-        : 0;
-    $: hue = $project
-        ? getColorValue($project.shares.output.Color.inputs[2], values) ?? 0
-        : 0;
+    let selection = getSelectedOutput();
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(l: number, c: number, h: number) {
-        if ($project === undefined || selectedOutput === undefined) return;
+        if (
+            $project === undefined ||
+            (selection !== undefined && !selection.hasPaths())
+        )
+            return;
 
         // Make a Color evaluation corresponding to the new value
         const replacement = Evaluate.make(
             Reference.make(
                 $project.shares.output.Color.names.getNames()[0],
-                $project.shares.output.Color
+                $project.shares.output.Color,
             ),
             [
                 NumberLiteral.make(Math.round(l * 100) + '%'),
                 NumberLiteral.make(c),
                 NumberLiteral.make(
                     h,
-                    new Unit(undefined, [Dimension.make(false, '°', 1)])
+                    new Unit(undefined, [Dimension.make(false, '°', 1)]),
                 ),
-            ]
+            ],
         );
 
         lightness = l;
@@ -56,9 +55,9 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
-                replacement
-            )
+                property.getName($locales),
+                replacement,
+            ),
         );
     }
 
@@ -69,7 +68,7 @@
             if ($project && val.expression instanceof Evaluate) {
                 const mapping = val.expression.getMappingFor(
                     bind,
-                    $project.getNodeContext(val.expression)
+                    $project.getNodeContext(val.expression),
                 );
                 const number =
                     mapping && mapping.given instanceof NumberLiteral
@@ -81,6 +80,31 @@
         // If they're all equal, return the value.
         return new Set(facets).size === 1 ? facets[0] : undefined;
     }
+    let lightness = $derived(
+        $project
+            ? (getColorValue($project.shares.output.Color.inputs[0], values) ??
+                  0)
+            : 0,
+    );
+    let chroma = $derived(
+        $project
+            ? (getColorValue($project.shares.output.Color.inputs[1], values) ??
+                  0)
+            : 0,
+    );
+    let hue = $derived(
+        $project
+            ? (getColorValue($project.shares.output.Color.inputs[2], values) ??
+                  0)
+            : 0,
+    );
 </script>
 
-<ColorChooser {lightness} {chroma} {hue} change={handleChange} {editable} />
+<ColorChooser
+    {id}
+    {lightness}
+    {chroma}
+    {hue}
+    change={handleChange}
+    {editable}
+/>

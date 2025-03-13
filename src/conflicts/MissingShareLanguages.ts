@@ -1,6 +1,6 @@
 import type Bind from '@nodes/Bind';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class MissingShareLanguages extends Conflict {
     readonly share: Bind;

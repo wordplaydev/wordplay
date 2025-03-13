@@ -1,17 +1,36 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
+    import { type Snippet } from 'svelte';
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
     import CommandHint from './CommandHint.svelte';
 
-    export let tips: ToggleText;
-    export let on: boolean;
-    export let toggle: () => void;
-    export let active = true;
-    export let uiid: string | undefined = undefined;
-    export let command: Command | undefined = undefined;
-    export let background = false;
+    interface Props {
+        tips: (locale: LocaleText) => ToggleText;
+        on: boolean;
+        toggle: () => void;
+        active?: boolean;
+        uiid?: string | undefined;
+        testid?: string | undefined;
+        command?: Command | undefined;
+        background?: boolean;
+        highlight?: boolean;
+        children: Snippet;
+    }
+
+    let {
+        tips,
+        on,
+        toggle,
+        active = true,
+        uiid = undefined,
+        testid = undefined,
+        command = undefined,
+        background = false,
+        highlight = false,
+        children,
+    }: Props = $props();
 
     async function doToggle(event: Event) {
         if (active) {
@@ -20,9 +39,13 @@
         }
     }
 
-    $: title = `${on ? tips.on : tips.off}${
-        command ? ' (' + toShortcut(command) + ')' : ''
-    }`;
+    let text = $derived($locales.get(tips));
+
+    let title = $derived(
+        `${on ? text.on : text.off}${
+            command ? ' (' + toShortcut(command) + ')' : ''
+        }`,
+    );
 </script>
 
 <!-- 
@@ -32,20 +55,22 @@
 <button
     type="button"
     class:background
+    class:highlight
     data-uiid={uiid}
+    data-testid={testid}
     class:on
     {title}
     aria-label={title}
     aria-disabled={!active}
     aria-pressed={on}
-    on:dblclick|stopPropagation
-    on:mousedown|preventDefault
-    on:click={(event) =>
+    ondblclick={(event) => event.stopPropagation()}
+    onmousedown={(event) => event.preventDefault()}
+    onclick={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
 >
     {#if command}<CommandHint {command} />{/if}
     <div class="icon">
-        <slot />
+        {@render children()}
     </div>
 </button>
 
@@ -85,6 +110,16 @@
         color: var(--wordplay-foreground);
     }
 
+    .highlight {
+        background: var(--wordplay-highlight-color);
+        color: var(--wordplay-background);
+
+        animation: bounce;
+        animation-duration: calc(var(--animation-factor) * 1000ms);
+        animation-delay: 0;
+        animation-iteration-count: infinite;
+    }
+
     button.on {
         color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
@@ -96,7 +131,7 @@
         transform: scale(0.9);
     }
 
-    button:not(.on):hover .icon {
+    button:not(:global(.on)):hover .icon {
         transform: scale(1.1);
     }
 

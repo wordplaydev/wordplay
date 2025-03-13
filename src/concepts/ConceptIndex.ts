@@ -1,29 +1,31 @@
-import type Concept from './Concept';
-import type Node from '@nodes/Node';
-import type Type from '@nodes/Type';
-import StructureConcept from './StructureConcept';
-import Purpose from './Purpose';
-import type Project from '../models/Project';
-import StructureDefinition from '@nodes/StructureDefinition';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import FunctionConcept from './FunctionConcept';
 import Bind from '@nodes/Bind';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import type Node from '@nodes/Node';
+import StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import BinaryEvaluate from '../nodes/BinaryEvaluate';
+import Evaluate from '../nodes/Evaluate';
+import FunctionType from '../nodes/FunctionType';
+import Reference from '../nodes/Reference';
+import StreamDefinition from '../nodes/StreamDefinition';
+import UnaryEvaluate from '../nodes/UnaryEvaluate';
 import BindConcept from './BindConcept';
-import StreamConcept from './StreamConcept';
+import type Concept from './Concept';
 import {
     getBasisConcepts,
     getNodeConcepts,
     getOutputConcepts,
 } from './DefaultConcepts';
-import type TypeSet from '@nodes/TypeSet';
-import StreamDefinition from '../nodes/StreamDefinition';
+import FunctionConcept from './FunctionConcept';
+import HowConcept from './HowConcept';
+import type HowTo from './HowTo';
 import NodeConcept from './NodeConcept';
-import FunctionType from '../nodes/FunctionType';
-import BinaryEvaluate from '../nodes/BinaryEvaluate';
-import UnaryEvaluate from '../nodes/UnaryEvaluate';
-import Evaluate from '../nodes/Evaluate';
-import Reference from '../nodes/Reference';
-import type Locales from '../locale/Locales';
+import Purpose from './Purpose';
+import StreamConcept from './StreamConcept';
+import StructureConcept from './StructureConcept';
 
 export default class ConceptIndex {
     readonly project: Project;
@@ -57,9 +59,14 @@ export default class ConceptIndex {
     }
 
     // Make a concept index with a project and some preferreed languages.
-    static make(project: Project, locales: Locales) {
+    static make(
+        project: Project,
+        locales: Locales,
+        howTos: HowTo[] | undefined,
+    ) {
         const main = project.getMain();
         const sources = project.getSources();
+        const context = project.getContext(main);
 
         const projectStructures = sources
             .map((source) =>
@@ -121,7 +128,7 @@ export default class ConceptIndex {
             .flat();
 
         function makeStreamConcept(stream: StreamDefinition) {
-            return new StreamConcept(stream, locales, project.getContext(main));
+            return new StreamConcept(stream, locales, context);
         }
 
         const streams = Object.values(project.shares.input).map((def) =>
@@ -133,19 +140,17 @@ export default class ConceptIndex {
                       def,
                       undefined,
                       locales,
-                      project.getContext(main),
+                      context,
                   ),
         );
 
-        const constructs = getNodeConcepts(project.getContext(main));
+        const constructs = getNodeConcepts(context);
 
-        const basis = getBasisConcepts(
-            project.basis,
-            locales,
-            project.getContext(main),
-        );
+        const basis = getBasisConcepts(project.basis, locales, context);
 
-        const output = getOutputConcepts(locales, project.getContext(main));
+        const output = getOutputConcepts(locales, context);
+
+        const how = howTos?.map((how) => new HowConcept(how, context)) ?? [];
 
         return new ConceptIndex(
             project,
@@ -158,6 +163,7 @@ export default class ConceptIndex {
                 ...streams,
                 ...constructs,
                 ...output,
+                ...how,
             ],
             locales,
         );
@@ -285,6 +291,12 @@ export default class ConceptIndex {
 
     getConceptByName(name: string): Concept | undefined {
         return this.concepts.find((c) => c.hasName(name, this.locales));
+    }
+
+    getConceptByCharacterName(name: string): Concept | undefined {
+        return this.concepts.find(
+            (c) => c.getCharacterName(this.locales) === name,
+        );
     }
 
     addExample(node: Node) {

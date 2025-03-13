@@ -1,20 +1,35 @@
 <script lang="ts">
-    import TextField from '@components/widgets/TextField.svelte';
-    import type Project from '@models/Project';
-    import Token from '@nodes/Token';
     import { getCaret, getEditor } from '@components/project/Contexts';
-    import { Projects } from '@db/Database';
-    import { tick } from 'svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { Projects } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import Token from '@nodes/Token';
+    import { tick } from 'svelte';
 
-    export let token: Token;
-    export let project: Project;
-    export let text: string;
-    export let placeholder: string;
-    export let validator: ((text: string) => boolean) | undefined;
-    export let creator: (text: string) => Token | [Token, Project] | undefined;
+    interface Props {
+        token: Token;
+        project: Project;
+        text: string;
+        description: LocaleTextAccessor;
+        placeholder: LocaleTextAccessor | string;
+        /** An optional function that returns true or a message to display if not valid. */
+        validator: ((text: string) => LocaleTextAccessor | true) | undefined;
+        creator: (text: string) => Token | [Token, Project] | undefined;
+    }
 
-    let view: HTMLInputElement | undefined = undefined;
+    let {
+        token,
+        project,
+        text = $bindable(),
+        placeholder,
+        description,
+        validator,
+        creator,
+    }: Props = $props();
+
+    let view: HTMLInputElement | undefined = $state(undefined);
     const caret = getCaret();
     const editor = getEditor();
 
@@ -102,16 +117,17 @@
 </script>
 
 <TextField
+    id="token-editor-{token.id}"
     bind:text
-    id={token.id}
+    data={token.id}
     bind:view
     classes={['token-editor']}
-    placeholder={placeholder ?? ''}
-    description={placeholder ?? ''}
+    {placeholder}
+    {description}
     {validator}
     done={(newText) => {
         // Not valid but losing focus? Restore the old text.
-        if (validator !== undefined && validator(newText) === false) {
+        if (validator !== undefined && validator(newText) !== true) {
             text = token.getText();
         }
     }}

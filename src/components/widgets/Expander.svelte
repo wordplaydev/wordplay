@@ -1,7 +1,11 @@
 <script lang="ts">
-    export let expanded: boolean;
-    export let toggle: () => void;
-    export let vertical = true;
+    interface Props {
+        expanded: boolean;
+        toggle: () => void;
+        vertical?: boolean;
+    }
+
+    let { expanded, toggle, vertical = true }: Props = $props();
 </script>
 
 <div
@@ -9,8 +13,11 @@
     class="expander {vertical ? 'vertical' : 'horizontal'}"
     class:expanded
     tabindex="0"
-    on:pointerdown|stopPropagation={toggle}
-    on:keydown={(event) =>
+    onpointerdown={(event) => {
+        event.stopPropagation();
+        toggle();
+    }}
+    onkeydown={(event) =>
         event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
     >{#if expanded}▲{:else}▼{/if}</div
 >

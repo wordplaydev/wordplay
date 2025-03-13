@@ -1,14 +1,16 @@
+import type Markup from '@nodes/Markup';
+import { DRAFT_SYMBOL } from '@parser/Symbols';
 import type Names from '../nodes/Names';
-import type LanguageCode from './LanguageCode';
-import type LocaleText from './LocaleText';
-import type NodeRef from './NodeRef';
-import type ValueRef from './ValueRef';
+import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
 import type ConceptRef from './ConceptRef';
-import { isUnwritten, MachineTranslated } from './LocaleText';
+import type LanguageCode from './LanguageCode';
 import { getLanguageDirection } from './LanguageCode';
 import { localeToString } from './Locale';
+import type LocaleText from './LocaleText';
+import { isUnwritten, MachineTranslated, toLocale } from './LocaleText';
+import type NodeRef from './NodeRef';
+import type ValueRef from './ValueRef';
 import type { Concretizer } from './concretize';
-import type Markup from '@nodes/Markup';
 
 export type TemplateInput =
     | number
@@ -18,6 +20,13 @@ export type TemplateInput =
     | NodeRef
     | ValueRef
     | ConceptRef;
+
+/**
+ * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path
+ * as we use the source code of these to extract the path for inline localization contributions from creators.
+ */
+export type LocaleTextAccessor = (locale: LocaleText) => string;
+export type LocaleTextsAccessor = (locale: LocaleText) => string | string[];
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
@@ -43,6 +52,10 @@ export default class Locales {
     /** Get the first preferred locale */
     getLocale() {
         return this.locales[0] ?? this.fallback;
+    }
+
+    getLocaleString() {
+        return toLocale(this.getLocale());
     }
 
     /** Get all preferred locales, but with the fallback at the end if not included. */
@@ -96,10 +109,13 @@ export default class Locales {
                     !isUnwritten(text[0])
                 )
                     return true;
-                // Object of strings by key? See if any of the values have placeholders
+                // Object of strings by key? See if any of the values have placeholders (other than emotions, which don't count as unwritten).
                 else if (text !== null && typeof text === 'object')
-                    return !Object.values(text).some(
-                        (t) => typeof t === 'string' && isUnwritten(t),
+                    return !Object.entries(text).some(
+                        ([key, t]) =>
+                            typeof t === 'string' &&
+                            isUnwritten(t) &&
+                            key !== 'emotion',
                     );
                 // Otherwise, just choose it
                 else return true;
@@ -111,19 +127,36 @@ export default class Locales {
             match = accessor(this.fallback);
         }
 
+        // If the thing we got is a nested object, clean all the objects.
+        if (typeof match === 'object' && match !== null) {
+            const cleaned = JSON.parse(JSON.stringify(match)) as Record<
+                any,
+                any
+            >;
+            const pairs = getKeyTemplatePairs(cleaned);
+            for (const pair of pairs)
+                if (typeof pair.value === 'string')
+                    pair.repair(cleaned, this.clean(pair.value, fallback));
+            match = cleaned;
+        }
+
         return (
-            typeof match === 'string'
-                ? this.clean(match, fallback)
-                : Array.isArray(match) &&
-                    match.every((s) => typeof s === 'string')
-                  ? match.map((s) => this.clean(s, fallback))
-                  : match
-        ) as Kind;
+            // Is the match a string? Clean it.
+            (
+                typeof match === 'string'
+                    ? this.clean(match, fallback)
+                    : // Is it an array? Clean each one.
+                      Array.isArray(match) &&
+                        match.every((s) => typeof s === 'string')
+                      ? match.map((s) => this.clean(s, fallback))
+                      : match
+            ) as Kind
+        );
     }
 
     /** Annotates the text as unwritten or machine translated while also replacing any terminology */
     clean(text: string, unwritten: boolean) {
-        return `${unwritten ? '🚧' : ''}${text.replace(MachineTranslated, '')}`;
+        return `${unwritten ? DRAFT_SYMBOL : ''}${text.replace(MachineTranslated, '')}`;
     }
 
     /**

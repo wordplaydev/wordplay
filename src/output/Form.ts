@@ -1,14 +1,14 @@
-import type Project from '@models/Project';
-import { getFirstName } from '../locale/LocaleText';
+import toStructure from '@basis/toStructure';
+import type Project from '@db/projects/Project';
+import { getBind } from '@locale/getBind';
+import { TYPE_SYMBOL } from '@parser/Symbols';
+import { getFirstText } from '../locale/LocaleText';
 import type Locales from '../locale/Locales';
 import StructureValue from '../values/StructureValue';
 import type Value from '../values/Value';
 import { toNumber } from './Stage';
 import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
 
 /** This is a wrapper class for a Form value, which represents some kind of shape that's used as a collision boundary. */
 export abstract class Form extends Valued {
@@ -129,7 +129,7 @@ export class Rectangle extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.get((l) => getFirstName(l.output.Rectangle.names));
+        return locales.get((l) => getFirstText(l.output.Rectangle.names));
     }
 }
 
@@ -202,7 +202,7 @@ export class Circle extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.get((l) => getFirstName(l.output.Circle.names));
+        return locales.get((l) => getFirstText(l.output.Circle.names));
     }
 }
 
@@ -294,7 +294,7 @@ export class Polygon extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.get((l) => getFirstName(l.output.Polygon.names));
+        return locales.get((l) => getFirstText(l.output.Polygon.names));
     }
 }
 

@@ -1,20 +1,28 @@
 <script lang="ts">
+    import { DRAFT_SYMBOL } from '@parser/Symbols';
     import {
         getLocaleLanguageName,
         getLocaleRegionName,
+        isLocaleDraft,
     } from '../../locale/LocaleText';
+    import { withColorEmoji } from '../../unicode/emoji';
 
-    export let locale: string;
-    export let supported: boolean;
+    interface Props {
+        locale: string;
+        supported: boolean;
+    }
 
-    $: region = getLocaleRegionName(locale);
+    let { locale, supported }: Props = $props();
+
+    let region = $derived(getLocaleRegionName(locale));
+    let draft = $derived(isLocaleDraft(locale));
 </script>
 
-<span class="language" class:supported
-    ><span class="name">{getLocaleLanguageName(locale)}</span>{#if region}<sub
-            >{region}</sub
-        >{/if}</span
->
+<span class="language" class:supported>
+    {#if draft}{withColorEmoji(DRAFT_SYMBOL)}{/if}
+    <span class="name">{getLocaleLanguageName(locale)}</span>
+    {#if region}<sub>{region}</sub>{/if}
+</span>
 
 <style>
     .language {
@@ -22,7 +30,7 @@
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
-    .language:not(.supported) {
+    .language:not(:global(.supported)) {
         opacity: 0.6;
         cursor: default;
     }

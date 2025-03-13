@@ -18,13 +18,13 @@ import TypePlaceholder from '../nodes/TypePlaceholder';
 import UnionType from '../nodes/UnionType';
 import UnparsableType from '../nodes/UnparsableType';
 import parseBind, { nextIsBind } from './parseBind';
-import type Tokens from './Tokens';
 import {
     parseTypeInputs,
     parseTypeVariables,
     parseUnit,
 } from './parseExpression';
 import parseLanguage from './parseLanguage';
+import type Tokens from './Tokens';
 
 export default function parseType(tokens: Tokens, isExpression = false): Type {
     let left: Type = tokens.nextIs(Sym.Placeholder)

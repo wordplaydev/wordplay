@@ -1,15 +1,14 @@
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Context from './Context';
-import type Node from './Node';
-import Type from './Type';
-import { UNKNOWN_SYMBOL } from '../parser/Symbols';
-import Glyphs from '../lore/Glyphs';
-import Markup from './Markup';
-import type { Grammar } from './Node';
-import Paragraph, { type Segment } from './Paragraph';
-import Token from './Token';
-import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { UNKNOWN_SYMBOL } from '../parser/Symbols';
+import type Context from './Context';
+import type Markup from './Markup';
+import type Node from './Node';
+import type { Grammar } from './Node';
+import Type from './Type';
 
 export default abstract class UnknownType<
     ExpressionType extends Node,
@@ -24,7 +23,7 @@ export default abstract class UnknownType<
         this.why = why;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnknownType';
     }
 
@@ -65,40 +64,32 @@ export default abstract class UnknownType<
         const reasons = this.getReasons().map((reason) =>
             reason.getReason(locales, context),
         );
-        let spaces = undefined;
-        let segments: Segment[] = [
+        let segments: string[] = [
             // Get the unknown type description
-            ...super.getDescription(locales, context).paragraphs[0].segments,
+            ...super.getDescription(locales, context).toWordplay(),
         ];
         // Get all the reasons for the unknown types.
         for (const reason of reasons) {
             segments = [
                 ...segments,
-                new Token(
-                    locales.get((l) => l.node.UnknownType.connector),
-                    Sym.Words,
-                ),
-                ...reason.paragraphs[0].segments,
+                locales.get((l) => l.node.UnknownType.connector),
+
+                ...reason.toWordplay(),
             ];
-            spaces =
-                spaces === undefined
-                    ? reason.spaces
-                    : reason.spaces
-                      ? spaces.withSpaces(reason.spaces)
-                      : spaces;
         }
 
         // Make a bunch of markup for each reason.
-        return new Markup([new Paragraph(segments)], spaces);
+        return locales.concretize(segments.join('\n\n'));
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnknownType);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnknownType;
+    getLocalePath() {
+        return UnknownType.LocalePath;
     }
 
     abstract getReason(locales: Locales, context: Context): Markup;
 
-    getGlyphs() {
-        return Glyphs.Unknown;
+    getCharacter() {
+        return Characters.Unknown;
     }
 }

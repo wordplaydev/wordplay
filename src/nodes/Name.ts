@@ -1,21 +1,22 @@
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
 import type Conflict from '@conflicts/Conflict';
-import Language from './Language';
-import NameToken from './NameToken';
+import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
+import Emotion from '../lore/Emotion';
+import ReservedSymbols from '../parser/ReservedSymbols';
 import type Context from './Context';
 import type Definition from './Definition';
 import Evaluate from './Evaluate';
-import ReservedSymbols from '../parser/ReservedSymbols';
-import Node, { node, optional } from './Node';
+import Language from './Language';
 import { LanguageTagged } from './LanguageTagged';
-import type Locales from '../locale/Locales';
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
+import NameToken from './NameToken';
+import type { Grammar, Replacement } from './Node';
+import Node, { node, optional } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class Name extends LanguageTagged {
     readonly name: Token;
@@ -38,7 +39,7 @@ export default class Name extends LanguageTagged {
         return new Name(new NameToken(name ?? '_'), lang, undefined);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Name';
     }
 
@@ -155,18 +156,16 @@ export default class Name extends LanguageTagged {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Name);
+    static readonly LocalePath = (l: LocaleText) => l.node.Name;
+    getLocalePath() {
+        return Name.LocalePath;
     }
 
     getDescriptionInputs() {
         return [this.name.getText()];
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.name.getText(),
-            emotion: Emotion.kind,
-        };
+    getCharacter() {
+        return { symbols: this.name.getText(), emotion: Emotion.kind };
     }
 }

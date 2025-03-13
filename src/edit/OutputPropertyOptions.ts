@@ -10,7 +10,7 @@ export default class OutputPropertyOptions {
         values: string[],
         allowNone: boolean,
         from: (text: string) => Expression | undefined,
-        to: (expression: Expression | undefined) => string | undefined
+        to: (expression: Expression | undefined) => string | undefined,
     ) {
         this.values = [...values];
         this.allowNone = allowNone;

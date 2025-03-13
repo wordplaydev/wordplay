@@ -1,16 +1,16 @@
-import Source from '@nodes/Source';
-import Node, { ListOf } from '@nodes/Node';
+import type Project from '@db/projects/Project';
+import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import Type from '@nodes/Type';
-import type Project from '@models/Project';
-import Token from '@nodes/Token';
-import Sym from '@nodes/Sym';
+import Node, { ListOf } from '@nodes/Node';
 import Program from '@nodes/Program';
-import Block from '@nodes/Block';
-import Bind from '../nodes/Bind';
+import Source from '@nodes/Source';
+import Sym from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import Bind from '../nodes/Bind';
 
 /**
  * Represents a node, list on the node, and index in the list at which to insert a node.

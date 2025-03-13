@@ -1,21 +1,31 @@
 <script lang="ts">
+    import type Project from '@db/projects/Project';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import Sym from '@nodes/Sym';
-    import type Project from '@models/Project';
     import Token from '@nodes/Token';
     import { WordsRegEx } from '@parser/Tokenizer';
-    import TokenTextEditor from './TokenEditor.svelte';
+    import TokenEditor from './TokenEditor.svelte';
 
-    export let words: Token;
-    export let project: Project;
-    export let text: string;
-    export let placeholder: string;
+    interface Props {
+        words: Token;
+        project: Project;
+        text: string;
+        description: LocaleTextAccessor;
+        placeholder: string | LocaleTextAccessor;
+    }
+
+    let { words, project, text, description, placeholder }: Props = $props();
 </script>
 
-<TokenTextEditor
+<TokenEditor
     token={words}
     {project}
     {text}
+    {description}
     {placeholder}
-    validator={(newWords) => newWords === '' || WordsRegEx.test(newWords)}
+    validator={(newWords) =>
+        newWords.length === 0 || !WordsRegEx.test(newWords)
+            ? (l) => l.ui.source.error.invalidWords
+            : true}
     creator={(text) => (text === '' ? undefined : new Token(text, Sym.Words))}
 />

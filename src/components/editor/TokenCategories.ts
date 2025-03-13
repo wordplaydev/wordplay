@@ -32,6 +32,8 @@ TokenCategories.set(Sym.Share, TokenCategoryShare);
 TokenCategories.set(Sym.Convert, TokenCategoryEvaluation);
 TokenCategories.set(Sym.Doc, TokenCategoryDocs);
 TokenCategories.set(Sym.Words, TokenCategoryLiteral);
+TokenCategories.set(Sym.Link, TokenCategoryType);
+TokenCategories.set(Sym.Concept, TokenCategoryType);
 TokenCategories.set(Sym.None, TokenCategoryLiteral);
 TokenCategories.set(Sym.Type, TokenCategoryRelation);
 TokenCategories.set(Sym.Literal, TokenCategoryRelation);

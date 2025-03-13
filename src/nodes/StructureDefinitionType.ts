@@ -1,11 +1,13 @@
-import Type from './Type';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type TypeSet from './TypeSet';
-import Glyphs from '../lore/Glyphs';
-import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
-import type StructureType from './StructureType';
+import Characters from '../lore/BasisCharacters';
+import type Spaces from '../parser/Spaces';
 import type Context from './Context';
+import type StructureType from './StructureType';
+import Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class StructureDefinitionType extends Type {
     readonly type: StructureType;
@@ -16,7 +18,7 @@ export default class StructureDefinitionType extends Type {
         this.type = definition;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StructureDefinitionType';
     }
 
@@ -49,16 +51,20 @@ export default class StructureDefinitionType extends Type {
         return new StructureDefinitionType(this.type) as this;
     }
 
-    toWordplay(_: Spaces | undefined) {
-        return `•${this.type.definition.names.toWordplay(_)}`;
+    toWordplay(_: Spaces | undefined, locale: LocaleText | undefined) {
+        return locale
+            ? this.type.definition.names.getPreferredNameString([locale])
+            : this.type.definition.names.getFirst();
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StructureDefinitionType);
+    static readonly LocalePath = (l: LocaleText) =>
+        l.node.StructureDefinitionType;
+    getLocalePath() {
+        return StructureDefinitionType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getDefaultExpression(context: Context) {

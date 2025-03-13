@@ -1,99 +1,114 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
-    import Token from '@nodes/Token';
-    import {
-        getProject,
-        getCaret,
-        getRoot,
-        getHidden,
-        getLocalize,
-        isBlocks,
-    } from '../project/Contexts';
-    import TokenCategories from './TokenCategories';
-    import { locales } from '../../db/Database';
-    import { withVariationSelector } from '../../unicode/emoji';
-    import Sym from '@nodes/Sym';
+    import BinaryEvaluate from '@nodes/BinaryEvaluate';
     import Name from '@nodes/Name';
     import Reference from '@nodes/Reference';
+    import Sym from '@nodes/Sym';
+    import Token from '@nodes/Token';
     import UnaryEvaluate from '@nodes/UnaryEvaluate';
-    import BinaryEvaluate from '@nodes/BinaryEvaluate';
-    import OperatorEditor from './OperatorEditor.svelte';
-    import NameTokenEditor from './NameTokenEditor.svelte';
-    import ReferenceTokenEditor from './ReferenceTokenEditor.svelte';
-    import WordsTokenEditor from './WordsTokenEditor.svelte';
-    import NumberTokenEditor from './NumberTokenEditor.svelte';
+    import { locales } from '../../db/Database';
+    import { withColorEmoji } from '../../unicode/emoji';
+    import {
+        getCaret,
+        getHidden,
+        getIsBlocks,
+        getLocalize,
+        getProject,
+        getRoot,
+    } from '../project/Contexts';
     import BooleanTokenEditor from './BooleanTokenEditor.svelte';
+    import NameTokenEditor from './NameTokenEditor.svelte';
+    import NumberTokenEditor from './NumberTokenEditor.svelte';
+    import OperatorEditor from './OperatorEditor.svelte';
+    import ReferenceTokenEditor from './ReferenceTokenEditor.svelte';
     import TextOrPlaceholder from './TextOrPlaceholder.svelte';
+    import TokenCategories from './TokenCategories';
+    import WordsTokenEditor from './WordsTokenEditor.svelte';
 
-    export let node: Token;
+    interface Props {
+        node: Token;
+    }
+
+    let { node }: Props = $props();
 
     let caret = getCaret();
     let project = getProject();
-    let root = getRoot();
+
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
+
     let localize = getLocalize();
     let hidden = getHidden();
-    let blocks = isBlocks();
+    let blocks = getIsBlocks();
 
-    $: hide = node ? $hidden?.has(node) : false;
-    $: editable = $caret !== undefined;
+    let hide = $derived(node ? $hidden?.has(node) : false);
+    let editable = $derived($caret !== undefined);
 
-    $: context =
-        $root === undefined || $project === undefined
+    let context = $derived(
+        root === undefined || $project === undefined
             ? undefined
-            : $project.getNodeContext($root.root);
+            : $project.getNodeContext(root.root),
+    );
 
     // See if this is a placeholder that should be rendered differently.
-    $: placeholder =
-        $project && $root && context
-            ? node.getPlaceholder($root, context, $locales)
-            : undefined;
+    let placeholder = $derived(
+        $project && root && context
+            ? node.getPlaceholder(root, context, $locales)
+            : undefined,
+    );
 
-    $: isInCaret =
-        $caret &&
-        node.getTextLength() > 0 &&
-        ($caret.getTokenExcludingSpace() === node ||
-            ($caret.tokenPrior === node && $caret.atBeginningOfTokenSpace()));
+    let isInCaret = $derived(
+        $caret !== undefined &&
+            node.getTextLength() > 0 &&
+            ($caret.getTokenExcludingSpace() === node ||
+                ($caret.tokenPrior === node &&
+                    $caret.atBeginningOfTokenSpace())),
+    );
 
     // True if the caret is "on" this token.
-    $: active =
+    let active = $derived(
         $caret &&
-        node.getTextLength() > 0 &&
-        ($caret.getTokenExcludingSpace() === node ||
-            ($caret.tokenPrior === node &&
-                $caret.atBeginningOfTokenSpace() &&
-                $caret.tokenIncludingSpace &&
-                $caret.tokenAtHasPrecedingSpace()));
+            node.getTextLength() > 0 &&
+            ($caret.getTokenExcludingSpace() === node ||
+                ($caret.tokenPrior === node &&
+                    $caret.atBeginningOfTokenSpace() &&
+                    $caret.tokenIncludingSpace &&
+                    $caret.tokenAtHasPrecedingSpace())),
+    );
 
     // True if this is the recently added token.
-    $: added = $caret?.addition?.contains(node) ?? false;
+    let added = $derived($caret?.addition?.contains(node) ?? false);
 
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
-    $: text =
-        !isInCaret && context && $root && localize && $localize !== 'actual'
+    let text = $derived(
+        context && root && localize && $localize === null
             ? node.localized(
+                  isInCaret,
                   $localize === 'symbolic',
                   $locales.getLocales(),
-                  $root,
+                  root,
                   context,
               )
-            : node.getText();
+            : node.getText(),
+    );
 
     // Prepare the text for rendering by replacing spaces with non-breaking spaces
     // and adding variation selectors after emoji to guarantee the correct emoji font is chosen.
-    $: renderedText =
+    let renderedText = $derived(
         node.isSymbol(Sym.Name) ||
-        node.isSymbol(Sym.Text) ||
-        node.isSymbol(Sym.Words)
-            ? withVariationSelector(text.replaceAll(' ', '\xa0'))
-            : text.replaceAll(' ', '\xa0');
+            node.isSymbol(Sym.Text) ||
+            node.isSymbol(Sym.Words)
+            ? withColorEmoji(text.replaceAll(' ', '\xa0'))
+            : text.replaceAll(' ', '\xa0'),
+    );
 </script>
 
-{#if $blocks && $root}
+{#if $blocks && root}
     <div
         class="token-view blocks token-category-{TokenCategories.get(
-            Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
+            Array.isArray(node.types)
+                ? (node.types[0] ?? 'default')
+                : node.types,
         )}"
         class:hide
         class:active
@@ -107,7 +122,8 @@
                     words={node}
                     {text}
                     project={$project}
-                    placeholder={placeholder ?? ''}
+                    description={(l) => l.token.Words}
+                    placeholder={placeholder ?? ((l) => l.token.Words)}
                 />
             {:else if node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
                     {node}
@@ -117,19 +133,21 @@
                     number={node}
                     {text}
                     project={$project}
-                    placeholder={placeholder ?? ''}
+                    description={(l) => l.token.Number}
+                    placeholder={placeholder ?? ((l) => l.token.Number)}
                 />{:else}
-                {@const parent = $root.getParent(node)}
+                {@const parent = root.getParent(node)}
                 <!-- Names can be any text that parses as a name -->
                 {#if parent instanceof Name}
                     <NameTokenEditor
                         {text}
                         project={$project}
                         name={parent.name}
-                        placeholder={placeholder ?? ''}
+                        description={(l) => l.token.Name}
+                        placeholder={placeholder ?? ((l) => l.token.Name)}
                     />
                 {:else if parent instanceof Reference}
-                    {@const grandparent = $root.getParent(parent)}
+                    {@const grandparent = root.getParent(parent)}
                     <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
                     {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
                         <OperatorEditor evaluate={grandparent} />
@@ -152,7 +170,9 @@
 {:else}
     <span
         class="token-view text token-category-{TokenCategories.get(
-            Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
+            Array.isArray(node.types)
+                ? (node.types[0] ?? 'default')
+                : node.types,
         )}"
         class:hide
         class:active
@@ -253,6 +273,14 @@
     .token-category-literal,
     :global(.Example) .token-category-literal {
         color: var(--color-blue);
+    }
+
+    .token-category-docs:first-child {
+        margin-inline-end: var(--wordplay-spacing);
+    }
+
+    .token-category-docs:last-child {
+        margin-inline-start: var(--wordplay-spacing);
     }
 
     .token-view.newline {

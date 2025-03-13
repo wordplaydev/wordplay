@@ -1,13 +1,14 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
-import Token from './Token';
+import { node, type Grammar, type Replacement } from './Node';
 import Sym from './Sym';
+import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement } from './Node';
-import Glyphs from '../lore/Glyphs';
-import type Locales from '../locale/Locales';
 
 export default class ConversionType extends Type {
     readonly input: Type;
@@ -32,7 +33,7 @@ export default class ConversionType extends Type {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ConversionType';
     }
 
@@ -80,11 +81,12 @@ export default class ConversionType extends Type {
         return 'conversion';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ConversionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.ConversionType;
+    getLocalePath() {
+        return ConversionType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Conversion;
+    getCharacter() {
+        return Characters.Conversion;
     }
 }

@@ -1,19 +1,19 @@
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Type from '@nodes/Type';
-import type Node from '@nodes/Node';
-import BindConcept from './BindConcept';
-import Concept from './Concept';
-import FunctionConcept from './FunctionConcept';
-import NameType from '@nodes/NameType';
 import type Context from '@nodes/Context';
-import ConversionConcept from './ConversionConcept';
+import NameType from '@nodes/NameType';
+import type Node from '@nodes/Node';
+import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
-import Purpose from './Purpose';
+import type Type from '@nodes/Type';
+import { COMMA_SYMBOL } from '@parser/Symbols';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
-import type { Character } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
-import { COMMA_SYMBOL } from '@parser/Symbols';
+import type { CharacterName } from '../tutorial/Tutorial';
+import BindConcept from './BindConcept';
+import Concept from './Concept';
+import ConversionConcept from './ConversionConcept';
+import FunctionConcept from './FunctionConcept';
+import Purpose from './Purpose';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -105,11 +105,13 @@ export default class StructureConcept extends Concept {
             );
     }
 
-    getGlyphs(locales: Locales) {
+    getCharacter(locales: Locales) {
         return {
-            symbols: this.definition.names
-                .getLocaleNames(locales)
-                .join(COMMA_SYMBOL),
+            symbols:
+                this.definition.names.getSymbolicName() ??
+                this.definition.names
+                    .getLocaleNames(locales)
+                    .join(COMMA_SYMBOL),
         };
     }
 
@@ -158,7 +160,7 @@ export default class StructureConcept extends Concept {
         );
     }
 
-    getCharacter(locales: Locales): Character | undefined {
+    getCharacterName(locales: Locales): CharacterName | undefined {
         for (const locale of locales.getLocales()) {
             const name = this.definition.names.getNonSymbolicName();
             if (name === undefined) return undefined;
@@ -168,14 +170,14 @@ export default class StructureConcept extends Concept {
                     ((typeof text.names === 'string' && text.names === name) ||
                         text.names.includes(name))
                 )
-                    return key as Character;
+                    return key as CharacterName;
             for (const [key, text] of Object.entries(locale.basis))
                 if (
                     'name' in text &&
                     ((typeof text.name === 'string' && text.name === name) ||
                         text.name.includes(name))
                 )
-                    return key as Character;
+                    return key as CharacterName;
         }
         return undefined;
     }

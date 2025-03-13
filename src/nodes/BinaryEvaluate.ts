@@ -1,54 +1,55 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { type GuardContext } from './Expression';
-import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Context from './Context';
-import type Node from './Node';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import MissingInput from '@conflicts/MissingInput';
+import OrderOfOperations from '@conflicts/OrderOfOperations';
+import UnexpectedInputs from '@conflicts/UnexpectedInput';
+import type { LocaleText } from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import {
     AND_SYMBOL,
     EQUALS_SYMBOL,
     NOT_EQUALS_SYMBOL,
     OR_SYMBOL,
 } from '@parser/Symbols';
-import OrderOfOperations from '@conflicts/OrderOfOperations';
-import Bind from './Bind';
-import TypeSet from './TypeSet';
-import FunctionException from '@values/FunctionException';
-import FunctionDefinition from './FunctionDefinition';
-import UnexpectedInputs from '@conflicts/UnexpectedInput';
-import MissingInput from '@conflicts/MissingInput';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
 import Evaluation from '@runtime/Evaluation';
-import getConcreteExpectedType from './Generics';
-import type Value from '@values/Value';
-import UnknownNameType from './UnknownNameType';
-import NeverType from './NeverType';
-import type Definition from './Definition';
-import NumberType from './NumberType';
-import { node, type Grammar, type Replacement } from './Node';
-import type { Template } from '@locale/LocaleText';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import StartEvaluation from '@runtime/StartEvaluation';
-import NodeRef from '@locale/NodeRef';
-import Emotion from '../lore/Emotion';
-import FunctionValue from '../values/FunctionValue';
-import Glyphs from '../lore/Glyphs';
-import FunctionType from './FunctionType';
-import AnyType from './AnyType';
-import Reference from './Reference';
-import ValueException from '../values/ValueException';
+import type Step from '@runtime/Step';
+import FunctionException from '@values/FunctionException';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
-import TextLiteral from './TextLiteral';
-import Token from './Token';
-import TextType from './TextType';
+import Characters from '../lore/BasisCharacters';
+import Emotion from '../lore/Emotion';
+import JumpIfEqual from '../runtime/JumpIf';
+import FunctionValue from '../values/FunctionValue';
+import ValueException from '../values/ValueException';
+import AnyType from './AnyType';
+import Bind from './Bind';
+import BooleanType from './BooleanType';
+import type Context from './Context';
+import type Definition from './Definition';
+import Expression, { type GuardContext } from './Expression';
+import FunctionDefinition from './FunctionDefinition';
+import FunctionType from './FunctionType';
+import getConcreteExpectedType from './Generics';
+import NeverType from './NeverType';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import NoneLiteral from './NoneLiteral';
 import NoneType from './NoneType';
 import NumberLiteral from './NumberLiteral';
-import JumpIfEqual from '../runtime/JumpIf';
-import BooleanType from './BooleanType';
+import NumberType from './NumberType';
+import Reference from './Reference';
+import TextLiteral from './TextLiteral';
+import TextType from './TextType';
+import Token from './Token';
+import type Type from './Type';
+import TypeSet from './TypeSet';
+import UnknownNameType from './UnknownNameType';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -74,7 +75,7 @@ export default class BinaryEvaluate extends Expression {
         return [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'BinaryEvaluate';
     }
 
@@ -84,11 +85,8 @@ export default class BinaryEvaluate extends Expression {
                 name: 'left',
                 kind: node(Expression),
                 // The label comes from the type of left, or the default label from the translation.
-                label: (
-                    locales: Locales,
-                    _: Node,
-                    context: Context,
-                ): Template => this.left.getType(context).getLabel(locales),
+                label: (locales: Locales, _: Node, context: Context) => () =>
+                    this.left.getType(context).getLabel(locales),
                 getType: (context) => this.left.getType(context),
             },
             {
@@ -104,15 +102,11 @@ export default class BinaryEvaluate extends Expression {
                 name: 'right',
                 kind: node(Expression),
                 // The name of the input from the function, or the translation default
-                label: (
-                    locales: Locales,
-                    _: Node,
-                    context: Context,
-                ): Template => {
+                label: (locales: Locales, _: Node, context: Context) => {
                     const fun = this.getFunction(context);
                     return fun
-                        ? locales.getName(fun.inputs[0].names)
-                        : locales.get((l) => l.node.BinaryEvaluate.right);
+                        ? (_) => locales.getName(fun.inputs[0].names)
+                        : (l: LocaleText) => l.node.BinaryEvaluate.right;
                 },
                 space: true,
                 indent: true,
@@ -282,7 +276,11 @@ export default class BinaryEvaluate extends Expression {
         const right = this.right.compile(evaluator, context);
 
         // Logical and is short circuited: if the left is false, we do not evaluate the right.
-        if (this.isLogicalOperator(context)) {
+        // We do not short circuit if we are evaluating a reaction, as we need to capture reaction dependencies.
+        if (
+            this.isLogicalOperator(context) &&
+            !evaluator.isEvaluatingReaction()
+        ) {
             if (this.fun.name.getText() === AND_SYMBOL) {
                 return [
                     new Start(this),
@@ -443,8 +441,9 @@ export default class BinaryEvaluate extends Expression {
         return true;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.BinaryEvaluate);
+    static readonly LocalePath = (l: LocaleText) => l.node.BinaryEvaluate;
+    getLocalePath() {
+        return BinaryEvaluate.LocalePath;
     }
 
     getStart() {
@@ -472,9 +471,9 @@ export default class BinaryEvaluate extends Expression {
         );
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
-            symbols: Glyphs.BinaryEvaluate.symbols,
+            symbols: Characters.BinaryEvaluate.symbols,
             emotion: Emotion.kind,
         };
     }

@@ -1,72 +1,25 @@
-<svelte:options immutable={true} />
+<script module lang="ts">
+    const SHOW_OUTPUT_IN_PALETTE = false;
+</script>
 
 <script lang="ts">
-    import Node from '@nodes/Node';
-    import Caret, { type CaretPosition } from '../../edit/Caret';
-    import { createEventDispatcher, onMount, setContext } from 'svelte';
-    import UnicodeString from '@models/UnicodeString';
-    import {
-        handleKeyCommand,
-        type Edit,
-        type ProjectRevision,
-        InsertSymbol,
-    } from './util/Commands';
-    import type Source from '@nodes/Source';
-    import { writable } from 'svelte/store';
-    import type Program from '@nodes/Program';
-    import Token from '@nodes/Token';
-    import CaretView, { type CaretBounds } from './CaretView.svelte';
-    import {
-        CaretSymbol,
-        HoveredSymbol,
-        HighlightSymbol,
-        InsertionPointsSymbol,
-        getDragged,
-        getSelectedOutput,
-        getAnimatingNodes,
-        getConflicts,
-        setSelectedOutput,
-        getSelectedOutputPaths,
-        getEvaluation,
-        MenuNodeSymbol,
-        getKeyboardEditIdle,
-        IdleKind,
-        EditorSymbol,
-        getConceptIndex,
-        getEditors,
-        getAnnounce,
-        type EditorState,
-    } from '../project/Contexts';
-    import {
-        type Highlights,
-        HighlightTypes,
-        getHighlights,
-        updateOutlines,
-    } from './util/Highlights';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import TypePlaceholder from '@nodes/TypePlaceholder';
-    import Sym from '@nodes/Sym';
-    import RootView from '../project/RootView.svelte';
-    import Project from '@models/Project';
+    import Emoji from '@components/app/Emoji.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Conflict from '@conflicts/Conflict';
-    import { tick } from 'svelte';
-    import { getEditsAt } from '../../edit/Autocomplete';
-    import { OutlinePadding } from './util/outline';
-    import Highlight from './Highlight.svelte';
-    import { afterUpdate } from 'svelte';
-    import {
-        dropNodeOnSource,
-        getInsertionPoint,
-        InsertionPoint,
-        isValidDropTarget,
-    } from '../../edit/Drag';
-    import Menu, { RevisionSet } from './util/Menu';
+    import Project from '@db/projects/Project';
+    import type Locale from '@locale/Locale';
     import Evaluate from '@nodes/Evaluate';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Node from '@nodes/Node';
+    import type Program from '@nodes/Program';
+    import type Source from '@nodes/Source';
+    import Sym from '@nodes/Sym';
+    import Token from '@nodes/Token';
+    import TypePlaceholder from '@nodes/TypePlaceholder';
     import type Evaluator from '@runtime/Evaluator';
-    import { TAB_WIDTH } from '../../parser/Spaces';
-    import PlaceholderView from './MenuTrigger.svelte';
-    import Expression from '../../nodes/Expression';
-    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
+    import ExceptionValue from '@values/ExceptionValue';
+    import { onMount, tick, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
     import {
         DB,
         Projects,
@@ -75,109 +28,226 @@
         locales,
         showLines,
     } from '../../db/Database';
-    import Button from '../widgets/Button.svelte';
-    import OutputView from '../output/OutputView.svelte';
+    import { getEditsAt } from '../../edit/Autocomplete';
+    import Caret, { type CaretPosition } from '../../edit/Caret';
+    import {
+        InsertionPoint,
+        dropNodeOnSource,
+        getInsertionPoint,
+        isValidDropTarget,
+    } from '../../edit/Drag';
+    import Expression from '../../nodes/Expression';
+    import { TAB_WIDTH } from '../../parser/Spaces';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
+    import UnicodeString from '../../unicode/UnicodeString';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import { localized } from '../../db/Database';
-    import ExceptionValue from '@values/ExceptionValue';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import OutputView from '../output/OutputView.svelte';
+    import {
+        IdleKind,
+        getAnimatingNodes,
+        getAnnounce,
+        getConceptIndex,
+        getConflicts,
+        getDragged,
+        getEditors,
+        getEvaluation,
+        getKeyboardEditIdle,
+        getSelectedOutput,
+        setCaret,
+        setEditor,
+        setHighlights,
+        setHovered,
+        setInsertionPoint,
+        setSetMenuNode,
+    } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
+    import Button from '../widgets/Button.svelte';
+    import CaretView, { type CaretBounds } from './CaretView.svelte';
+    import Highlight from './Highlight.svelte';
+    import PlaceholderView from './MenuTrigger.svelte';
+    import {
+        type Edit,
+        type ProjectRevision,
+        InsertSymbol,
+        handleKeyCommand,
+    } from './util/Commands';
+    import {
+        type HighlightSpec,
+        type Highlights,
+        getHighlights,
+        getRangeOutline,
+        updateOutlines,
+    } from './util/Highlights';
+    import Menu, { RevisionSet } from './util/Menu';
+    import { type Outline, OutlinePadding } from './util/outline';
 
-    const SHOW_OUTPUT_IN_PALETTE = false;
-
-    export let evaluator: Evaluator;
-    export let project: Project;
-    export let source: Source;
-    /** The ID corresponding to which source this is in the project */
-    export let sourceID: string;
-    /** True if this editor's output is selected by the container. */
-    export let selected: boolean;
-    export let autofocus = true;
-    export let editable: boolean;
-
-    // A per-editor store that contains the current editor's cursor. We expose it as context to children.
-    const caret = writable<Caret>(
-        new Caret(source, 0, undefined, undefined, undefined),
-    );
-    setContext(CaretSymbol, caret);
-
-    // When source changes, update various nested state from the source.
-    $: caret.set($caret.withSource(source));
-
-    // On mount, start the caret to the project's caret for the source.
-    onMount(() => {
-        caret.set(
-            new Caret(
-                source,
-                project.getCaretPosition(source) ?? 0,
-                undefined,
-                undefined,
-                undefined,
-            ),
-        );
-    });
-
-    let restoredPosition: CaretPosition | undefined = undefined;
-    // When the project changes, reset the restored position
-    $: if (project) restoredPosition = undefined;
-    // When the project is undone or redone, if we haven't restored the position, restore it, then remember the restored position.
-    $: if (
-        Projects.getHistory(project.getID())?.wasRestored() &&
-        restoredPosition === undefined
-    ) {
-        const position = project.getCaretPosition(source);
-        if (position !== undefined && position !== restoredPosition) {
-            restoredPosition = position;
-            caret.set($caret.withPosition(position));
-        }
+    interface Props {
+        /** The evaluator evaluating the source being edited. */
+        evaluator: Evaluator;
+        /** The project that contains the source being edited */
+        project: Project;
+        /** The source being edited */
+        source: Source;
+        /** The ID corresponding to which source this is in the project */
+        sourceID: string;
+        /** True if this editor's output is selected by the container. */
+        selected: boolean;
+        /** Whether to autofocus the editor */
+        autofocus?: boolean;
+        /** Whether the editor is editable */
+        editable: boolean;
+        /** The locale to use for rending code */
+        locale: Locale | null;
+        /** The bindable menu the ProjectView displaying this editor should show. */
+        menu?: Menu | undefined;
+        /** The bindable conflicts to show based caret and mouse position. */
+        conflictsOfInterest?: Conflict[];
+        /** An preview function that shows this editor */
+        setOutputPreview: () => void;
+        /** A function for updating conflicts of interest */
+        updateConflicts: (source: Source, conflicts: Conflict[]) => void;
+        /** Whether the code was revised by another creator */
+        overwritten?: boolean;
     }
 
-    $: caretExpressionType =
-        $caret.position instanceof Expression
-            ? $caret.position.getType(context).simplify(context)
-            : undefined;
+    let {
+        evaluator,
+        project,
+        source,
+        sourceID,
+        selected,
+        autofocus = true,
+        editable,
+        locale,
+        menu = $bindable(undefined),
+        conflictsOfInterest = $bindable([]),
+        setOutputPreview,
+        updateConflicts,
+        overwritten = false,
+    }: Props = $props();
+
+    // A per-editor store that contains the current editor's cursor. We expose it as context to children.
+    // We start at the saved caret position or 0.
+    const caret = writable<Caret>(
+        new Caret(
+            source,
+            project.getCaretPosition(source) ?? 0,
+            undefined,
+            undefined,
+            undefined,
+        ),
+    );
+
+    // Share the caret store with children.
+    setCaret(caret);
+
+    // When source changes, make sure the caret is pointing to the source.
+    $effect(() => {
+        caret.set(untrack(() => $caret).withSource(source));
+    });
+
+    let restoredPosition: CaretPosition | undefined = $state(undefined);
 
     // A menu of potential transformations based on the caret position.
-    // Managed here but displayed by the project to allow it to escape the editor view.
-    export let menu: Menu | undefined = undefined;
-
-    // When the menu changes to undefined, focus back on this source.
-    $: if (menu === undefined)
-        grabFocus('Grabbing focus after menu is hidden.');
-
-    const selectedOutput = getSelectedOutput();
-    const selectedOutputPaths = getSelectedOutputPaths();
+    const selection = getSelectedOutput();
     const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
     const editors = getEditors();
-    const concepts = getConceptIndex();
 
-    const dispatch = createEventDispatcher();
+    /** Get the concept index context */
+    const indexContext = getConceptIndex();
 
-    let input: HTMLTextAreaElement | null = null;
+    /** The DOM node representing the text field for typing. */
+    let input: HTMLTextAreaElement | null = $state(null);
 
-    let editor: HTMLElement | null;
+    /** The DOM node representing the editor */
+    let editor: HTMLElement | null = $state(null);
+
+    /** The width and height of the editor viewport */
+    let editorWidth = $state(0);
+    let editorHeight = $state(0);
+
+    /** A cache of the .token-view HTMLElements */
+    let tokenViews: HTMLElement[] | undefined = $state(undefined);
+
+    /**
+     * An expensive operation to get all the token views for various operations.
+     * We try to do it only once per update.
+     */
+    function getTokenViews() {
+        if (editor === null) tokenViews = [];
+        else if (tokenViews !== undefined) return tokenViews;
+        else
+            tokenViews = Array.from(
+                editor.getElementsByClassName('token-view'),
+            ) as HTMLElement[];
+        return tokenViews;
+    }
+
+    $effect(() => {
+        if (source) tokenViews = undefined;
+    });
 
     /** True if something in the editor is focused. */
-    let focused: boolean;
+    let focused: boolean = $state(false);
+
+    /** True if the editor was focused before the menu was shown, so we can know whether to restore it after hiding menu. */
+    let wasFocusedBeforeMenu = $state(false);
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
     const highlights = writable<Highlights>(new Map());
-    setContext(HighlightSymbol, highlights);
+    setHighlights(highlights);
 
     // A store of what node is hovered over, excluding tokens, used in drag and drop.
     const hovered = writable<Node | undefined>(undefined);
-    setContext(HoveredSymbol, hovered);
+    setHovered(hovered);
 
     // A store of what node is hovered over, including tokens.
     const hoveredAny = writable<Node | undefined>(undefined);
 
     // A store of current insertion points in a drag.
     const insertion = writable<InsertionPoint | undefined>(undefined);
-    setContext(InsertionPointsSymbol, insertion);
+    setInsertionPoint(insertion);
+
+    // A store of the handle edit function
+    const editContext = writable({
+        edit: handleEdit,
+        caret: $caret,
+        blocks: $blocks,
+        project,
+        focused: false,
+        toggleMenu,
+        grabFocus,
+    });
+    setEditor(editContext);
+
+    // True if the last keyboard input was not handled by a command.
+    let lastKeyDownIgnored = $state(false);
+
+    // Caret location comes from the caret
+    let caretLocation: CaretBounds | undefined = $state(undefined);
+
+    // The store the contains the current node being dragged.
+    let dragged = getDragged();
+
+    // The point at which a drag started.
+    let dragPoint: { x: number; y: number } | undefined = $state(undefined);
+
+    // The possible candidate for dragging
+    let dragCandidate: Node | undefined = $state(undefined);
+
+    // Whenever the caret changes, update it's announcements.
+    const announce = getAnnounce();
+
+    // True when the last key was ignored and we're not debugging.
+    let shakeCaret = $derived(
+        $evaluation !== undefined &&
+            $evaluation.playing === true &&
+            lastKeyDownIgnored,
+    );
 
     function setMenuNode(position: CaretPosition | undefined) {
         if (
@@ -192,34 +262,12 @@
     // A store of the currently requested node for which to show a menu.
     const menuNode =
         writable<(position: CaretPosition | undefined) => void>(setMenuNode);
-    setContext(MenuNodeSymbol, menuNode);
+    setSetMenuNode(menuNode);
 
     // Focus the editor on mount, if autofocus is on.
     onMount(() =>
         autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
     );
-
-    // A shorthand for the current program.
-    $: program = source.expression;
-
-    /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
-    $: {
-        $evaluation;
-        evalUpdate();
-    }
-
-    // Whenever the selected output changes, ensure the first selected node is scrolled to.
-    $: {
-        if ($selectedOutput !== undefined) {
-            const node = $selectedOutput[0];
-            if (node) {
-                tick().then(() => {
-                    const view = getNodeView(node);
-                    if (view) ensureElementIsVisible(view, true);
-                });
-            }
-        }
-    }
 
     async function evalUpdate() {
         // No evaluator, or we're playing? No need to update the eval editor info.
@@ -228,11 +276,12 @@
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
         if (stepNode && source.has(stepNode)) {
-            // Wait for everything to render, then find the node to scroll to.
+            // Wait for everything to render...
             await tick();
+            // Then find the node to scroll to. Keep searching for a visible node,
+            // in case the step node is invisible.
             let highlight: Node | undefined = stepNode;
             let element = null;
-            // Keep searching for a visible node, in case the step node is invisible.
             do {
                 element = document.querySelector(`[data-id="${highlight.id}"]`);
                 if (element !== null) break;
@@ -242,278 +291,6 @@
             if (element !== null) ensureElementIsVisible(element);
         }
     }
-
-    // Keep the project-level editors store in sync with this editor's state.
-    $: if (editors) {
-        const state = {
-            caret: $caret,
-            edit: handleEdit,
-            blocks: $blocks,
-            project,
-            focused,
-            toggleMenu,
-            grabFocus,
-        };
-        $editors.set(sourceID, state);
-        editors.set($editors);
-        editContext.set(state);
-    }
-
-    // A store of the handle edit function
-    const editContext = writable<EditorState>({
-        edit: handleEdit,
-        caret: $caret,
-        blocks: $blocks,
-        project,
-        focused: false,
-        toggleMenu,
-        grabFocus,
-    });
-    setContext(EditorSymbol, editContext);
-
-    // True if the last keyboard input was not handled by a command.
-    let lastKeyDownIgnored = false;
-
-    // Caret location comes from the caret
-    let caretLocation: CaretBounds | undefined = undefined;
-
-    // The store the contains the current node being dragged.
-    let dragged = getDragged();
-
-    // The point at which a drag started.
-    let dragPoint: { x: number; y: number } | undefined = undefined;
-
-    // The possible candidate for dragging
-    let dragCandidate: Node | undefined = undefined;
-
-    // True when the last key was ignored and we're not debugging.
-    $: shakeCaret =
-        $evaluation !== undefined &&
-        $evaluation.playing === true &&
-        lastKeyDownIgnored;
-
-    $: context = project.getContext(source);
-
-    // Hide the menu when the caret changes.
-    $: if ($caret) hideMenu();
-
-    // Whenever the caret changes, update it's announcements.
-    const announce = getAnnounce();
-    $: {
-        if ($announce && document.activeElement === input) {
-            $announce(
-                sourceID,
-                $caret.getLanguage(),
-                $caret.getDescription(
-                    caretExpressionType,
-                    conflictsOfInterest,
-                    context,
-                ),
-            );
-        }
-    }
-
-    // When the caret changes, see if it contains output, and if so, select it so the
-    // palette appears.
-    $: {
-        if (
-            SHOW_OUTPUT_IN_PALETTE &&
-            selectedOutputPaths &&
-            $caret.position instanceof Evaluate &&
-            $caret.position.isOneOf(
-                project.getNodeContext($caret.position),
-                project.shares.output.Phrase,
-                project.shares.output.Group,
-                project.shares.output.Stage,
-            )
-        )
-            setSelectedOutput(selectedOutputPaths, project, [$caret.position]);
-    }
-
-    // Determine the conflicts of interest based on caret and mouse position.
-    export let conflictsOfInterest: Conflict[] = [];
-    $: {
-        // The project and source can update at different times, so we only do this if the current source is in the project.
-        if (project.contains(source)) {
-            conflictsOfInterest = [];
-
-            // If dragging, don't show conlicts.
-            if ($dragged !== undefined) break $;
-
-            // If there are any conflicts in the project...
-            if ($nodeConflicts !== undefined && $nodeConflicts.length > 0) {
-                let conflictSelection: Node | undefined = undefined;
-
-                // Is the mouse hovering over one? Get the node at the mouse, including tokens
-                // and see if it, or any of its parents, are involved in node conflicts.
-                const conflictedHover =
-                    $hoveredAny === undefined
-                        ? undefined
-                        : (
-                              project
-                                  .getRoot($hoveredAny)
-                                  ?.getSelfAndAncestors($hoveredAny) ?? []
-                          ).find((node) =>
-                              project.nodeInvolvedInConflicts(node),
-                          );
-                if (conflictedHover) conflictSelection = conflictedHover;
-
-                // If not, is there a node selected?
-                if (
-                    conflictSelection === undefined &&
-                    $caret.position instanceof Node &&
-                    project.nodeInvolvedInConflicts($caret.position)
-                )
-                    conflictSelection = $caret.position;
-
-                // If not, what is the "nearest" conflicted node at the caret position?
-                if (conflictSelection === undefined) {
-                    if (typeof $caret.position === 'number') {
-                        // Try:
-                        // 1) the token just before
-                        // 2) the token before if we're at it's end.
-                        // 3) any nodes whose first position is at the caret.
-                        let conflictsAtPosition = [
-                            ...source
-                                .nodes()
-                                .filter(
-                                    (node) =>
-                                        source.getNodeFirstPosition(node) ===
-                                        $caret.position,
-                                ),
-                            source.getTokenAt($caret.position, false),
-                            $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
-                        ].reduce(
-                            (conflicted: Node[], token: Node | undefined) => {
-                                let nodesAtPosition =
-                                    token === undefined
-                                        ? []
-                                        : project
-                                              .getRoot(token)
-                                              ?.getSelfAndAncestors(token) ??
-                                          [];
-                                let nodesInConflict = nodesAtPosition.find(
-                                    (node) =>
-                                        project.nodeInvolvedInConflicts(node),
-                                );
-                                return [
-                                    ...conflicted,
-                                    ...(nodesInConflict
-                                        ? [nodesInConflict]
-                                        : []),
-                                ];
-                            },
-                            [],
-                        );
-
-                        if (conflictsAtPosition !== undefined)
-                            conflictSelection = conflictsAtPosition[0];
-                    }
-                    // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
-                    else {
-                        const conflictedAncestor = [
-                            $caret.position,
-                            ...source.root.getAncestors($caret.position),
-                        ].find((node) => project.nodeInvolvedInConflicts(node));
-                        if (conflictedAncestor)
-                            conflictSelection = conflictedAncestor;
-                    }
-                }
-
-                // If we found a selection, get its conflicts.
-                if (conflictSelection)
-                    // Get all conflicts involving the selection
-                    conflictsOfInterest = [
-                        ...(project.getPrimaryConflictsInvolvingNode(
-                            conflictSelection,
-                        ) ?? []),
-                        ...(project.getSecondaryConflictsInvolvingNode(
-                            conflictSelection,
-                        ) ?? []),
-                    ]
-                        // Eliminate duplicate conflicts
-                        .filter(
-                            (c1, i1, list) =>
-                                !list.some(
-                                    (c2, i2) =>
-                                        c1 === c2 && i2 > i1 && i1 !== i2,
-                                ),
-                        );
-            }
-            dispatch('conflicts', { source, conflicts: conflictsOfInterest });
-        }
-    }
-
-    // Update the highlights when any of these stores values change
-    $: if ($nodeConflicts && $evaluation && $locales) {
-        tick().then(() =>
-            highlights.set(
-                getHighlights(
-                    source,
-                    evaluator,
-                    $caret,
-                    $dragged,
-                    $hovered,
-                    $insertion,
-                    $animatingNodes,
-                    $selectedOutput,
-                    $blocks,
-                ),
-            ),
-        );
-    }
-
-    // Update the outline positions any time the highlights change;
-    $: outlines = updateOutlines(
-        $highlights,
-        true,
-        $locales.getDirection() === 'rtl',
-        getNodeView,
-    );
-
-    // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
-    $: if ($blocks && $caret && focused) {
-        if ($caret.isNode() && $caret.position instanceof Token) {
-            const token = $caret.position;
-            const widget = editor?.querySelector(
-                `.token-editor[data-id="${token.id}"]`,
-            );
-            if (widget instanceof HTMLElement) {
-                setKeyboardFocus(
-                    widget,
-                    'Focusing token editor after caret or focus change',
-                );
-            }
-        }
-    }
-
-    // After updates, manage highlight classes on nodes
-    afterUpdate(() => {
-        updateOutlines(
-            $highlights,
-            true,
-            $locales.getDirection() === 'rtl',
-            getNodeView,
-        );
-
-        // Optimization: add and remove classes for styling here rather than having them
-        // retrieved in each NodeView.
-        if (editor) {
-            // Remove any existing highlights
-            for (const highlighted of editor.querySelectorAll('.highlighted'))
-                for (const highlightType of Object.keys(HighlightTypes))
-                    highlighted.classList.remove(highlightType);
-
-            // Add any new highlights of highlighted nodes.
-            for (const [node, types] of $highlights.entries()) {
-                const view = getNodeView(node);
-                if (view) {
-                    view.classList.add('highlighted');
-                    for (const type of types) view.classList.add(type);
-                }
-            }
-        }
-    });
 
     function setIgnored(ignored: boolean) {
         if (ignored) {
@@ -526,12 +303,30 @@
         } else lastKeyDownIgnored = false;
     }
 
+    /**
+     * Given a node, find its rendered counterpart. This is expensive, so we do some caching.
+     * resetting the cache whenever the source changes, since we will likely have new nodes.
+     * null represents that the node could not be found when we first checked.
+     */
+    let nodeViewCache = new Map<Node, HTMLElement | null>();
+    $effect(() => {
+        if (source) nodeViewCache = new Map();
+    });
     function getNodeView(node: Node): HTMLElement | undefined {
+        if (editor === null) return undefined;
+        const cache = nodeViewCache.get(node);
+        if (cache !== undefined) return cache ?? undefined;
         // See if there's a node or value view that corresponds to this node.
         const view =
-            editor?.querySelector(`.node-view[data-id="${node.id}"]`) ??
-            editor?.querySelector(`.value[data-node-id="${node.id}"]`);
-        return view instanceof HTMLElement ? view : undefined;
+            document.getElementById(`node-${node.id}`) ??
+            document.getElementById(`value-${evaluator.getCurrentValue()?.id}`);
+        if (view instanceof HTMLElement) {
+            nodeViewCache.set(node, view);
+            return view;
+        } else {
+            nodeViewCache.set(node, null);
+            return undefined;
+        }
     }
 
     function getTokenByView(program: Program, tokenView: Element) {
@@ -545,7 +340,7 @@
         return undefined;
     }
 
-    async function ensureElementIsVisible(element: Element, nearest = false) {
+    function ensureElementIsVisible(element: Element, nearest = false) {
         // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
         element.scrollIntoView({
             block: nearest ? 'nearest' : 'center',
@@ -596,6 +391,9 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+
         placeCaretAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
@@ -625,7 +423,7 @@
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
         dragPoint = undefined;
-        if (editable && nonTokenNodeUnderPointer) {
+        if (editable && nonTokenNodeUnderPointer && event.shiftKey) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
@@ -770,7 +568,7 @@
         // Otherwise, the pointer is over the editor.
         // Find the closest token and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
-        const closestToken = Array.from(editor.querySelectorAll('.token-view'))
+        const closestToken = Array.from(getTokenViews())
             .map((tokenView) => {
                 const textRect = tokenView.getBoundingClientRect();
                 return {
@@ -834,7 +632,7 @@
                 : source.getStartOfTokenLine(token);
         }
 
-        // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
+        // Otherwise, if the pointer wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
         type BreakInfo = {
             token: Token;
             offset: number;
@@ -853,6 +651,9 @@
                     // Check the br container, which gives us a more accurate bounding client rect.
                     const rect = br.getBoundingClientRect();
                     if (tokenView === undefined || token === undefined)
+                        return undefined;
+                    // Skip the line if it doesn't include the pointer's y.
+                    if (event.clientY < rect.top || event.clientY > rect.bottom)
                         return undefined;
                     return {
                         token,
@@ -1009,6 +810,19 @@
         // Handle an edit
         handleEditHover(event);
 
+        if (event.buttons === 1) {
+            // What's under the pointer?
+            const position = getCaretPositionAt(event);
+            if (position !== undefined) {
+                if ($caret.isPosition() && $caret.position !== position)
+                    caret.set($caret.withPosition([$caret.position, position]));
+                else if ($caret.isRange() && $caret.position[0] !== position)
+                    caret.set(
+                        $caret.withPosition([$caret.position[0], position]),
+                    );
+            }
+        }
+
         // Hover debug stuff when paused.
         if (!evaluator.isPlaying()) handleDebugHover(event);
     }
@@ -1072,8 +886,16 @@
         insertion.set(undefined);
     }
 
+    // When the menu changes to undefined, focus back on this source.
+    $effect(() => {
+        if (menu === undefined && wasFocusedBeforeMenu)
+            grabFocus('Restoring editor focus after menu is hidden.');
+    });
+
     async function showMenu(node: CaretPosition | undefined = undefined) {
         if (!editable) return;
+
+        wasFocusedBeforeMenu = focused;
 
         // Wait for everything to be updated so we have a fresh context
         await tick();
@@ -1089,12 +911,12 @@
         );
 
         // Set the menu.
-        if ($concepts)
+        if (concepts)
             menu = new Menu(
                 $caret,
                 revisions,
                 undefined,
-                $concepts,
+                concepts,
                 [0, undefined],
                 handleMenuItem,
             );
@@ -1102,6 +924,7 @@
 
     function hideMenu() {
         menu = undefined;
+        wasFocusedBeforeMenu = false;
     }
 
     function toggleMenu() {
@@ -1163,7 +986,7 @@
                 .map((expr) => {
                     return {
                         expression: expr,
-                        value: $evaluation.evaluator.getLatestExpressionValueInEvaluation(
+                        value: $evaluation.evaluator.getLatestExpressionValue(
                             expr,
                         ),
                     };
@@ -1211,7 +1034,7 @@
     /** True if the last symbol was a dead key*/
     let keyWasDead = false;
     let replacePreviousWithNext = false;
-    let composing = false;
+    let composing = $state(false);
     let composingJustEnded = false;
     /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
     let insertedSymbol = false;
@@ -1219,6 +1042,11 @@
     let pasted = true;
 
     function handleTextInput(event: Event) {
+        // Not all platforms send composition end events, so if we think we're composing,
+        // but receive an event that indicates we are not, end composition.
+        if (composing && event instanceof InputEvent && !event.isComposing)
+            handleCompositionEnd();
+
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
 
@@ -1314,6 +1142,9 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        // If we receive a keyboard event that says
+        if (composing && !event.isComposing) handleCompositionEnd();
+
         // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
             composingJustEnded = false;
@@ -1348,6 +1179,7 @@
             toggleMenu,
             blocks: $blocks,
             view: editor,
+            getTokenViews,
         });
 
         // Don't insert symbols if composing.
@@ -1404,18 +1236,313 @@
     function getInputID() {
         return `${source.getNames()[0]}-input`;
     }
+
+    // When the project changes, reset the restored position
+    $effect(() => {
+        if (project) restoredPosition = undefined;
+    });
+
+    // When the project is undone or redone, if we haven't restored the position, restore it, then remember the restored position.
+    $effect(() => {
+        if (
+            Projects.getHistory(project.getID())?.wasRestored() &&
+            untrack(() => restoredPosition === undefined)
+        ) {
+            const position = project.getCaretPosition(source);
+            if (position !== undefined && position !== restoredPosition) {
+                restoredPosition = position;
+                caret.set($caret.withPosition(position));
+            }
+        }
+    });
+
+    let context = $derived(project.getContext(source));
+    let caretExpressionType = $derived(
+        $caret.position instanceof Expression
+            ? $caret.position.getType(context).simplify(context)
+            : undefined,
+    );
+
+    let concepts = $derived(indexContext?.index);
+    // A shorthand for the current program.
+    let program = $derived(source.expression);
+
+    /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
+    $effect(() => {
+        $evaluation;
+        evalUpdate();
+    });
+
+    // Whenever the selected output changes, ensure the first selected node is scrolled to.
+    $effect(() => {
+        if (selection?.hasPaths()) {
+            const node = selection.getOutput(project)[0];
+            if (node) {
+                tick().then(() => {
+                    const view = getNodeView(node);
+                    if (view) ensureElementIsVisible(view, true);
+                });
+            }
+        }
+    });
+
+    // Keep the project-level editors store in sync with this editor's state.
+    $effect(() => {
+        if (untrack(() => editors)) {
+            const state = {
+                caret: $caret,
+                edit: handleEdit,
+                blocks: $blocks,
+                project,
+                focused,
+                toggleMenu,
+                grabFocus,
+            };
+            untrack(() => {
+                // Update the editor state in the editors store.
+                $editors.set(sourceID, state);
+                // Update the store with the edited map.
+                editors.set($editors);
+                // Update the local editor state.
+                editContext.set(state);
+            });
+        }
+    });
+
+    // Hide the menu when the caret changes.
+    $effect(() => {
+        if ($caret) hideMenu();
+    });
+
+    $effect(() => {
+        // The project and source can update at different times, so we only do this if the current source is in the project.
+        if (project.contains(source)) {
+            let newConflictsOfInterest: Conflict[] = [];
+
+            // If dragging, don't show conlicts.
+            if ($dragged !== undefined) return;
+
+            // If there are any conflicts in the project...
+            if ($nodeConflicts !== undefined && $nodeConflicts.length > 0) {
+                let conflictSelection: Node | undefined = undefined;
+
+                // Is the mouse hovering over one? Get the node at the mouse, including tokens
+                // and see if it, or any of its parents, are involved in node conflicts.
+                const conflictedHover =
+                    $hoveredAny === undefined
+                        ? undefined
+                        : (
+                              project
+                                  .getRoot($hoveredAny)
+                                  ?.getSelfAndAncestors($hoveredAny) ?? []
+                          ).find((node) =>
+                              project.nodeInvolvedInConflicts(node),
+                          );
+                if (conflictedHover) conflictSelection = conflictedHover;
+
+                // If not, is there a node selected?
+                if (
+                    conflictSelection === undefined &&
+                    $caret.position instanceof Node &&
+                    project.nodeInvolvedInConflicts($caret.position)
+                )
+                    conflictSelection = $caret.position;
+
+                // If not, what is the "nearest" conflicted node at the caret position?
+                if (conflictSelection === undefined) {
+                    if ($caret.isPosition()) {
+                        // Try:
+                        // 1) the token just before
+                        // 2) the token before if we're at it's end.
+                        // 3) any nodes whose first position is at the caret.
+                        let conflictsAtPosition = [
+                            ...source
+                                .nodes()
+                                .filter(
+                                    (node) =>
+                                        source.getNodeFirstPosition(node) ===
+                                        $caret.position,
+                                ),
+                            source.getTokenAt($caret.position, false),
+                            $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
+                        ].reduce(
+                            (conflicted: Node[], token: Node | undefined) => {
+                                let nodesAtPosition =
+                                    token === undefined
+                                        ? []
+                                        : (project
+                                              .getRoot(token)
+                                              ?.getSelfAndAncestors(token) ??
+                                          []);
+                                let nodesInConflict = nodesAtPosition.find(
+                                    (node) =>
+                                        project.nodeInvolvedInConflicts(node),
+                                );
+                                return [
+                                    ...conflicted,
+                                    ...(nodesInConflict
+                                        ? [nodesInConflict]
+                                        : []),
+                                ];
+                            },
+                            [],
+                        );
+
+                        if (conflictsAtPosition !== undefined)
+                            conflictSelection = conflictsAtPosition[0];
+                    }
+                    // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
+                    else if ($caret.isNode()) {
+                        const conflictedAncestor = [
+                            $caret.position,
+                            ...source.root.getAncestors($caret.position),
+                        ].find((node) => project.nodeInvolvedInConflicts(node));
+                        if (conflictedAncestor)
+                            conflictSelection = conflictedAncestor;
+                    }
+                }
+
+                // If we found a selection, get its conflicts.
+                if (conflictSelection)
+                    // Get all conflicts involving the selection
+                    newConflictsOfInterest = [
+                        ...(project.getPrimaryConflictsInvolvingNode(
+                            conflictSelection,
+                        ) ?? []),
+                        ...(project.getSecondaryConflictsInvolvingNode(
+                            conflictSelection,
+                        ) ?? []),
+                    ]
+                        // Eliminate duplicate conflicts
+                        .filter(
+                            (c1, i1, list) =>
+                                !list.some(
+                                    (c2, i2) =>
+                                        c1 === c2 && i2 > i1 && i1 !== i2,
+                                ),
+                        );
+            }
+            untrack(() => updateConflicts(source, newConflictsOfInterest));
+
+            // Finally, update the conflicts of interest.
+            conflictsOfInterest = newConflictsOfInterest;
+        }
+    });
+
+    /** Announce caret position when it changes */
+    $effect(() => {
+        if (
+            $announce &&
+            document.activeElement === input &&
+            $caret &&
+            conflictsOfInterest &&
+            caretExpressionType
+        ) {
+            untrack(() =>
+                $announce(
+                    sourceID,
+                    $caret.getLanguage(),
+                    $caret.getDescription(
+                        caretExpressionType,
+                        conflictsOfInterest,
+                        context,
+                    ),
+                ),
+            );
+        }
+    });
+
+    // When the caret changes, see if it contains output, and if so, select it so the
+    // palette appears.
+    $effect(() => {
+        if (
+            SHOW_OUTPUT_IN_PALETTE &&
+            selection !== undefined &&
+            $caret.position instanceof Evaluate &&
+            $caret.position.isOneOf(
+                project.getNodeContext($caret.position),
+                project.shares.output.Phrase,
+                project.shares.output.Group,
+                project.shares.output.Stage,
+            )
+        )
+            selection.setPaths(project, [$caret.position]);
+    });
+
+    // Update the highlights when any of these stores values change
+    $effect(() => {
+        $evaluation;
+        highlights.set(
+            getHighlights(
+                source,
+                evaluator,
+                $caret,
+                $dragged,
+                $hovered,
+                $insertion,
+                $animatingNodes,
+                selection?.getOutput(project),
+                $blocks,
+            ),
+        );
+    });
+
+    // Update the outline positions any time the highlights change;
+    let outlines = $state<HighlightSpec[]>([]);
+    $effect(() => {
+        if ($highlights)
+            tick().then(() => {
+                outlines = updateOutlines(
+                    $highlights,
+                    true,
+                    $locales.getDirection() === 'rtl',
+                    getNodeView,
+                );
+            });
+    });
+
+    // When the caret changes, and it's a range, compute a range highlight.
+    let rangeHighlight: Outline | undefined = $derived(
+        $caret.isRange()
+            ? getRangeOutline(
+                  $caret.source,
+                  $caret.position[0],
+                  $caret.position[1],
+                  getNodeView,
+                  true,
+                  $locales.getDirection() === 'rtl',
+              )
+            : undefined,
+    );
+
+    // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
+    $effect(() => {
+        if ($blocks && $caret && focused) {
+            if ($caret.isNode() && $caret.position instanceof Token) {
+                const token = $caret.position;
+                const widget = editor?.querySelector(
+                    `.token-editor[data-id="${token.id}"]`,
+                );
+                if (widget instanceof HTMLElement) {
+                    setKeyboardFocus(
+                        widget,
+                        'Focusing token editor after caret or focus change',
+                    );
+                }
+            }
+        }
+    });
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
-<svelte:window on:blur={handleRelease} />
+<svelte:window onblur={handleRelease} />
 
 <!-- 
     Has ARIA role text box to allow keyboard keys to go through 
     All NodeViews are set to role="presentation"
     We use the live region above 
 -->
-<!-- svelte-ignore missing-declaration -->
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
     data-testid="editor"
     class="editor {$evaluation !== undefined && $evaluation.playing
@@ -1423,6 +1550,7 @@
         : 'stepping'}"
     class:readonly={!editable}
     class:focused
+    class:overwritten
     class:dragging={dragCandidate !== undefined ||
         $dragged !== undefined ||
         dragPoint !== undefined}
@@ -1434,16 +1562,19 @@
     dir={$locales.getDirection()}
     data-id={source.id}
     bind:this={editor}
-    on:pointerdown|stopPropagation|preventDefault={handlePointerDown}
-    on:pointerup={handleRelease}
-    on:pointermove={handlePointerMove}
-    on:pointerleave={handlePointerLeave}
-    on:keydown={handleKeyDown}
-    on:dblclick|stopPropagation={(event) => {
-        let node = getNodeAt(event, false);
+    bind:clientWidth={editorWidth}
+    bind:clientHeight={editorHeight}
+    onpointerdown={handlePointerDown}
+    onpointerup={handleRelease}
+    onpointermove={handlePointerMove}
+    onpointerleave={handlePointerLeave}
+    onkeydown={handleKeyDown}
+    ondblclick={(event) => {
+        event.stopPropagation();
+        let node = getNodeAt(event, true);
         if (node) caret.set($caret.withPosition(node));
     }}
-    on:focusin={() => {
+    onfocusin={() => {
         // If the active element is a widget for a token in this editor's source,
         // set the caret to that token.
         if (
@@ -1463,6 +1594,15 @@
         }
     }}
 >
+    {#if rangeHighlight}
+        <Highlight
+            outline={rangeHighlight}
+            underline={rangeHighlight}
+            types={['hovered']}
+            above={false}
+        />
+    {/if}
+
     <!-- Render highlights below the code -->
     {#each outlines as outline}
         <Highlight
@@ -1484,27 +1624,29 @@
         data-defaultfocus
         aria-autocomplete="none"
         autocomplete="off"
-        autocorrect="off"
         autocapitalize="none"
+        spellcheck="false"
         class="keyboard-input"
         class:composing
         style:left={caretLocation ? `${caretLocation.left}px` : null}
         style:top={caretLocation ? `${caretLocation.top}px` : null}
         bind:this={input}
-        on:input={handleTextInput}
-        on:compositionstart={handleCompositionStart}
-        on:compositionend={handleCompositionEnd}
-        on:paste={handlePaste}
-        on:focusin={() => (focused = true)}
-        on:focusout={() => {
+        oninput={handleTextInput}
+        oncompositionstart={handleCompositionStart}
+        oncompositionend={handleCompositionEnd}
+        onpaste={handlePaste}
+        onfocusin={() => (focused = true)}
+        onfocusout={() => {
             focused = false;
+            // If we're composing and lose focus, end the composition.
+            if (composing) handleCompositionEnd();
         }}
-    />
+    ></textarea>
     <!-- Render the program -->
     <RootView
         node={program}
         spaces={source.spaces}
-        localized={$localized}
+        {locale}
         caret={$caret}
         blocks={$blocks}
         lines={$showLines}
@@ -1519,14 +1661,30 @@
             ignored={shakeCaret}
         />
     {/each}
+    <!-- If a range outline, rander it -->
+    {#if rangeHighlight}
+        <Highlight
+            outline={rangeHighlight}
+            underline={rangeHighlight}
+            types={['selected']}
+            above={true}
+            ignored={shakeCaret}
+        />
+    {/if}
 
     <!-- Render the caret on top of the program -->
     <CaretView
         caret={$caret}
-        {source}
         blocks={$blocks}
-        blink={$keyboardEditIdle === IdleKind.Idle && focused && editable}
+        blink={$keyboardEditIdle === IdleKind.Idle &&
+            focused &&
+            editable &&
+            restoredPosition === undefined}
         ignored={shakeCaret}
+        {getTokenViews}
+        viewport={editor}
+        viewportWidth={editorWidth}
+        viewportHeight={editorHeight}
         bind:location={caretLocation}
     />
     <!-- 
@@ -1537,13 +1695,13 @@
         <div
             class="caret-description"
             class:node={$caret.isNode()}
-            on:pointerdown|stopPropagation
+            onpointerdown={(event) => event.stopPropagation()}
             style:left={caretLocation
                 ? `calc(${caretLocation.left}px - ${OutlinePadding}px)`
                 : undefined}
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
             >{#if $caret.position instanceof Node}
-                {@const relevantConcept = $concepts?.getRelevantConcept(
+                {@const relevantConcept = concepts?.getRelevantConcept(
                     $caret.position,
                 )}
                 <!-- Make a link to the node's documentation -->
@@ -1561,9 +1719,9 @@
     {#if project.getSupplements().length > 0}
         <div class="output-preview-container">
             <Button
-                tip={$locales.get((l) => l.ui.source.button.selectOutput)}
+                tip={(l) => l.ui.source.button.selectOutput}
                 active={!selected}
-                action={() => dispatch('preview')}
+                action={setOutputPreview}
                 scale={false}
             >
                 <div
@@ -1609,7 +1767,8 @@
     .editor.readonly {
         --size: 10px;
 
-        background-image: linear-gradient(
+        background-image:
+            linear-gradient(
                 45deg,
                 var(--wordplay-alternating-color) 25%,
                 transparent 25%
@@ -1703,5 +1862,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    /** A single cycle color animation to indicate the code was revised. */
+    @keyframes overwritten {
+        0% {
+            background-color: var(--wordplay-highlight-color);
+        }
+
+        100% {
+            background-color: var(--wordplay-background);
+        }
+    }
+
+    .overwritten {
+        animation: overwritten 1s;
+        animation-iteration-count: 1;
     }
 </style>

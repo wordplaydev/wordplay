@@ -1,9 +1,9 @@
-import type Spaces from './Spaces';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Markup from '../nodes/Markup';
+import parseDoc from './parseDoc';
+import type Spaces from './Spaces';
 import { DOCS_SYMBOL } from './Symbols';
 import { toTokens } from './toTokens';
-import parseDoc from './parseDoc';
-import { withoutAnnotations } from '@locale/LocaleText';
 
 export function toMarkup(template: string): [Markup, Spaces] {
     // Replace out of date markers before parsing

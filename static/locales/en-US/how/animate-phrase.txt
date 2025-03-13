@@ -1,0 +1,24 @@
+Make a character animate
+
+Characters can have a resting animation that repeats while they aren't moving.
+
+For example, let's make this cat dance a little bit by making it rotate and shift:
+
+\
+Phrase(
+    '🐈' 
+    resting: Sequence({
+        0%: Pose(rotation: 0°)
+        15%: Pose(rotation: 15°)
+        30%: Pose(rotation: 0°)
+        45%: Pose(offset: Place(-0.25m))
+        60%: Pose(offset: Place(0.25m))
+        75%: Pose(offset: Place(-0.25m))
+        90%: Pose(offset: Place(0m))
+    } 2s)
+)
+\
+
+This example uses a @Sequence of different @Pose.
+
+move-phrase, shake-phrase

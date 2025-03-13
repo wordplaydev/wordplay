@@ -1,9 +1,9 @@
-import type Context from '@nodes/Context';
 import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
+import type Context from '@nodes/Context';
+import type Locales from '../locale/Locales';
 import type Bind from '../nodes/Bind';
 import type TableLiteral from '../nodes/TableLiteral';
-import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class UnexpectedColumnBind extends Conflict {
     readonly expression: TableLiteral;

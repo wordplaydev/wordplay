@@ -1,16 +1,18 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
+    import { goto } from '$app/navigation';
     import { getUser } from '@components/project/Contexts';
     import { auth } from '@db/firebase';
-    import { locales } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import Login from './Login.svelte';
-    import { goto } from '$app/navigation';
-    import { browser } from '$app/environment';
 
     let user = getUser();
 
-    $: if (browser && $user !== null) goto('/profile');
+    /** Go to profile if logged in. */
+    $effect(() => {
+        if (browser && $user !== null) goto('/profile');
+    });
 </script>
 
 <Writing>
@@ -21,9 +23,7 @@
             <Login />
         {:else}
             <!-- No connection? Give some feedback. -->
-            <Feedback
-                >{$locales.get((l) => l.ui.page.login.error.offline)}</Feedback
-            >
+            <Feedback text={(l) => l.ui.page.login.error.offline} />
         {/if}
     {/if}
 </Writing>

@@ -1,25 +1,37 @@
 <svelte:options />
 
 <script lang="ts">
-    import Button from '../widgets/Button.svelte';
-    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import { DB, locales } from '@db/Database';
+    import type LanguageCode from '@locale/LanguageCode';
+    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import {
         SupportedLocales,
-        getLocaleLanguage,
         type SupportedLocale,
-        EventuallySupportedLocales,
+    } from '@locale/SupportedLocales';
+    import {
+        CANCEL_SYMBOL,
+        DRAFT_SYMBOL,
+        EMOJI_SYMBOL,
+        LOCALE_SYMBOL,
+    } from '@parser/Symbols';
+    import { Settings } from '../../db/Database';
+    import { localeToString } from '../../locale/Locale';
+    import {
+        getLocaleLanguage,
+        getLocaleLanguageName,
+        isLocaleDraft,
     } from '../../locale/LocaleText';
     import Link from '../app/Link.svelte';
+    import Button from '../widgets/Button.svelte';
     import Dialog from '../widgets/Dialog.svelte';
-    import { localeToString } from '../../locale/Locale';
-    import type LanguageCode from '@locale/LanguageCode';
     import LocaleName from './LocaleName.svelte';
-    import { Settings } from '../../db/Database';
 
-    $: selectedLocales = $locales
-        .getPreferredLocales()
-        .map((locale) => localeToString(locale)) as SupportedLocale[];
+    let selectedLocales = $state<string[]>([]);
+    $effect(() => {
+        selectedLocales = $locales
+            .getPreferredLocales()
+            .map((locale) => localeToString(locale)) as SupportedLocale[];
+    });
 
     function select(
         locale: SupportedLocale,
@@ -51,10 +63,16 @@
 </script>
 
 <Dialog
-    description={$locales.get((l) => l.ui.dialog.locale)}
+    header={(l) => l.ui.dialog.locale.header}
+    explanation={(l) => l.ui.dialog.locale.explanation}
     button={{
-        tip: $locales.get((l) => l.ui.dialog.locale.button.show),
-        label: selectedLocales.join(' + '),
+        tip: (l) => l.ui.dialog.locale.button.show,
+        icon: selectedLocales.some((locale) => isLocaleDraft(locale))
+            ? DRAFT_SYMBOL
+            : LOCALE_SYMBOL,
+        label: selectedLocales
+            .map((code) => getLocaleLanguageName(code))
+            .join(' + '),
     }}
 >
     <h2
@@ -66,11 +84,11 @@
         {#each selectedLocales as selected}
             <Button
                 action={() => select(selected, 'remove')}
-                tip={$locales.get((l) => l.ui.dialog.locale.button.remove)}
+                tip={(l) => l.ui.dialog.locale.button.remove}
                 active={selectedLocales.length > 1}
-                >{#if selectedLocales.length > 1}
-                    ⨉
-                {/if}<LocaleName locale={selected} supported /></Button
+                icon={selectedLocales.length > 1 ? CANCEL_SYMBOL : undefined}
+            >
+                <LocaleName locale={selected} supported /></Button
             >
         {/each}
     </div>
@@ -84,31 +102,18 @@
             <div class="option">
                 <Button
                     action={() => select(supported, 'replace')}
-                    tip={$locales.get((l) => l.ui.dialog.locale.button.replace)}
+                    tip={(l) => l.ui.dialog.locale.button.replace}
                     ><LocaleName locale={supported} supported /></Button
                 >
                 <Button
                     action={() => select(supported, 'add')}
-                    tip={$locales.get((l) => l.ui.dialog.locale.button.add)}
-                    >+</Button
-                >
+                    tip={(l) => l.ui.dialog.locale.button.add}
+                    icon="+"
+                ></Button>
             </div>
         {:else}&mdash;
         {/each}
     </div>
-    <h2
-        >{$locales
-            .concretize((l) => l.ui.dialog.locale.subheader.coming)
-            .toText()}</h2
-    >
-
-    {#if EventuallySupportedLocales.length > 0}
-        {#each EventuallySupportedLocales as supported}
-            <div class="option">
-                <LocaleName locale={supported} supported={false} />
-            </div>
-        {/each}
-    {/if}
 
     <h2
         ><Link
@@ -120,9 +125,10 @@
         ></h2
     >
     <div class="languages">
-        {#each PossibleLanguages.filter((lang) => lang !== '😀' && !SupportedLocales.some((locale) => getLocaleLanguage(locale) === lang)) as lang}
+        {#each PossibleLanguages.filter((lang) => lang !== EMOJI_SYMBOL && !SupportedLocales.some((locale) => getLocaleLanguage(locale) === lang)) as lang}
             <LocaleName locale={lang} supported={false} />
         {/each}
+        ...
     </div>
 </Dialog>
 

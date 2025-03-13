@@ -1,14 +1,15 @@
-import Expression from './Expression';
-import type { Grammar, Replacement } from './Node';
-import type Token from './Token';
-import BindToken from './BindToken';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
+import BindToken from './BindToken';
+import Expression from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type { Grammar, Replacement } from './Node';
 import Node, { node } from './Node';
 import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
+import type Token from './Token';
 
 export default class KeyValue extends Node {
     readonly key: Expression;
@@ -42,7 +43,7 @@ export default class KeyValue extends Node {
         return this.getPossibleReplacements();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'KeyValue';
     }
 
@@ -51,7 +52,7 @@ export default class KeyValue extends Node {
             {
                 name: 'key',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.key),
+                label: () => (l) => l.term.key,
                 space: true,
             },
             { name: 'bind', kind: node(Sym.Bind) },
@@ -59,7 +60,7 @@ export default class KeyValue extends Node {
                 name: 'value',
                 kind: node(Expression),
                 space: true,
-                label: (locales: Locales) => locales.get((l) => l.term.value),
+                label: () => (l) => l.term.value,
             },
         ];
     }
@@ -84,11 +85,12 @@ export default class KeyValue extends Node {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.KeyValue);
+    static readonly LocalePath = (l: LocaleText) => l.node.KeyValue;
+    getLocalePath() {
+        return KeyValue.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Bind;
+    getCharacter() {
+        return Characters.Bind;
     }
 }

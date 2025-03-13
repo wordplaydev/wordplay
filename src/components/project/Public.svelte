@@ -1,78 +1,72 @@
 <script lang="ts">
     import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import { locales } from '@db/Database';
+    import { GLOBE1_SYMBOL } from '@parser/Symbols';
     import {
         getBlocks,
         getWarnings,
         type Moderation,
-    } from '../../models/Moderation';
+    } from '../../db/projects/Moderation';
     import Warning from '../widgets/Warning.svelte';
 
-    export let isPublic: boolean;
-    export let set: (choice: number) => void;
-    export let flags: Moderation | undefined = undefined;
+    interface Props {
+        isPublic: boolean;
+        set: (choice: number) => void;
+        flags?: Moderation | undefined;
+    }
+
+    let { isPublic, set, flags = undefined }: Props = $props();
 </script>
 
-<Subheader
-    >{$locales.get((l) => l.ui.dialog.share.subheader.public.header)}</Subheader
->
-<MarkupHtmlView
-    markup={$locales.get((l) => l.ui.dialog.share.subheader.public.explanation)}
+<Subheader text={(l) => l.ui.dialog.share.subheader.public.header} />
+<MarkupHTMLView
+    markup={(l) => l.ui.dialog.share.subheader.public.explanation}
 />
 
-<MarkupHtmlView
+<MarkupHTMLView
     markup={Object.values($locales.get((l) => l.moderation.flags))
         .map((promise) => `• ${promise}`)
         .join('\n\n')}
 />
 {#if flags === undefined || Object.values(flags).every((state) => state === null)}
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.rights.consequences)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.rights.consequences} />
 {:else if flags !== undefined}
     {@const blocked = getBlocks(flags, $locales.getLocale())}
     {@const warnings = getWarnings(flags, $locales.getLocale())}
     {#if blocked.length > 0}
         <Warning
-            ><MarkupHtmlView
-                markup={$locales.get((l) => l.moderation.blocked.explanation)}
+            ><MarkupHTMLView
+                markup={(l) => l.moderation.blocked.explanation}
             /></Warning
         >
     {/if}
     <ul>
         {#each blocked as block}
-            <li><MarkupHtmlView inline markup={block} /></li>
+            <li><MarkupHTMLView inline markup={block} /></li>
         {/each}
     </ul>
     {#if warnings.length > 0}
         <Warning
-            ><MarkupHtmlView
-                markup={$locales.get((l) => l.moderation.warning.explanation)}
+            ><MarkupHTMLView
+                markup={(l) => l.moderation.warning.explanation}
             /></Warning
         >
     {/if}
     <ul>
         {#each warnings as warn}
-            <li><MarkupHtmlView inline markup={warn} /></li>
+            <li><MarkupHTMLView inline markup={warn} /></li>
         {/each}
     </ul>
 {/if}
-<p>
-    <Mode
-        descriptions={$locales.get((l) => l.ui.dialog.share.mode.public)}
-        choice={isPublic ? 1 : 0}
-        select={set}
-        modes={[
-            '🤫 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[0]),
-            '🌐 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[1]),
-        ]}
-    /></p
->
 
-<style>
-    p {
-        margin-top: var(--wordplay-spacing);
-    }
-</style>
+<Mode
+    descriptions={(l) => l.ui.dialog.share.mode.public}
+    choice={isPublic ? 1 : 0}
+    select={set}
+    modes={[
+        '🤫 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[0]),
+        `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.dialog.share.mode.public.modes[1])}`,
+    ]}
+/>

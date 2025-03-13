@@ -1,8 +1,13 @@
 <script lang="ts">
     import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
-    export let label: string | undefined = undefined;
-    export let large = false;
+    interface Props {
+        label?: LocaleTextAccessor | undefined;
+        large?: boolean;
+    }
+
+    let { label = undefined, large = false }: Props = $props();
 </script>
 
 <div
@@ -11,8 +16,8 @@
     aria-live="assertive"
     aria-atomic="true"
     aria-relevant="all"
-    aria-label={label ?? $locales.get((l) => l.ui.widget.loading.message)}
-/>
+    aria-label={$locales.get(label ?? ((l) => l.ui.widget.loading.message))}
+></div>
 
 <style>
     .cursor {

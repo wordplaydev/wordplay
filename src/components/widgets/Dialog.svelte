@@ -1,23 +1,44 @@
 <script lang="ts">
-    import { tick } from 'svelte';
-    import { locales } from '../../db/Database';
-    import Button from './Button.svelte';
-    import type { DialogText } from '../../locale/UITexts';
-    import Header from '../app/Header.svelte';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
+    import { clickOutside } from '@components/app/clickOutside';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { tick } from 'svelte';
+    import Header from '../app/Header.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import Button from './Button.svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
-    export let show = false;
-    export let description: DialogText;
-    export let closeable = true;
-    export let button:
-        | { tip: string; icon?: string; label: string }
-        | undefined = undefined;
+    interface Props {
+        show?: boolean;
+        header: LocaleTextAccessor;
+        explanation: LocaleTextsAccessor;
+        closeable?: boolean;
+        button?:
+            | {
+                  tip: LocaleTextAccessor;
+                  icon?: string;
+                  label?: string | LocaleTextAccessor;
+              }
+            | undefined;
+        children?: import('svelte').Snippet;
+    }
 
-    let view: HTMLDialogElement | undefined = undefined;
+    let {
+        show = $bindable(false),
+        header,
+        explanation,
+        closeable = true,
+        button = undefined,
+        children,
+    }: Props = $props();
 
-    $: {
+    let view: HTMLDialogElement | undefined = $state(undefined);
+
+    /** Show and focus dialog when shown, hide when not. */
+    $effect(() => {
         if (view) {
             if (show) {
                 view.showModal();
@@ -30,36 +51,41 @@
                 view.close();
             }
         }
-    }
+    });
 </script>
 
 {#if button}
-    <Button tip={button.tip} action={() => (show = true)}
-        >{#if button.icon}<Emoji>{button.icon}</Emoji>
-        {/if}{button.label}</Button
+    <Button tip={button.tip} action={() => (show = true)} icon={button.icon}>
+        {#if button.label}{#if typeof button.label === 'string'}{button.label}{:else}<LocalizedText
+                    path={button.label}
+                />{/if}{/if}</Button
     >
 {/if}
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
     bind:this={view}
+    use:clickOutside={() => (show = false)}
     tabindex="-1"
-    on:keydown={closeable
+    onkeydown={closeable
         ? (event) => (event.key === 'Escape' ? (show = false) : undefined)
         : undefined}
 >
-    {#if closeable}
-        <div class="close">
-            <Button
-                tip={$locales.get((l) => l.ui.widget.dialog.close)}
-                action={() => (show = false)}>❌</Button
-            >
-        </div>
-    {/if}
+    <div class="container">
+        {#if closeable}
+            <div class="close">
+                <Button
+                    tip={(l) => l.ui.widget.dialog.close}
+                    action={() => (show = false)}
+                    icon="❌"
+                ></Button>
+            </div>
+        {/if}
 
-    <div class="content">
-        <Header>{description.header}</Header>
-        <MarkupHtmlView markup={description.explanation} />
-        <slot />
+        <div class="content">
+            <Header text={header} />
+            <MarkupHTMLView markup={explanation} />
+            {@render children?.()}
+        </div>
     </div>
 </dialog>
 
@@ -67,7 +93,7 @@
     dialog {
         position: relative;
         border-radius: var(--wordplay-border-radius);
-        padding: 1em;
+        padding: 0;
         margin-left: auto;
         margin-right: auto;
         max-width: 95vw;
@@ -82,6 +108,13 @@
         backdrop-filter: blur(2px);
     }
 
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        padding: 1em;
+    }
+
     .close {
         position: sticky;
         top: 0;
@@ -93,5 +126,8 @@
         min-height: 100%;
         padding: 1em;
         padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 </style>

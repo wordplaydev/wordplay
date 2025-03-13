@@ -1,9 +1,9 @@
-import UnknownType from './UnknownType';
-import type Token from './Token';
-import type Node from './Node';
-import type Type from './Type';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import type Node from './Node';
+import type Token from './Token';
+import type Type from './Type';
+import UnknownType from './UnknownType';
 
 export default class UnknownNameType extends UnknownType<Node> {
     readonly name: Token | undefined;

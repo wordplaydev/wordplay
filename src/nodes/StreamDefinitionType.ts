@@ -1,11 +1,12 @@
-import Type from './Type';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type TypeSet from './TypeSet';
-import type StreamDefinition from './StreamDefinition';
-import Glyphs from '../lore/Glyphs';
-import { STREAM_SYMBOL } from '../parser/Symbols';
+import Characters from '../lore/BasisCharacters';
 import type Spaces from '../parser/Spaces';
-import type Locales from '../locale/Locales';
+import { STREAM_SYMBOL } from '../parser/Symbols';
+import type StreamDefinition from './StreamDefinition';
+import Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class StreamDefinitionType extends Type {
     readonly definition: StreamDefinition;
@@ -16,7 +17,7 @@ export default class StreamDefinitionType extends Type {
         this.definition = definition;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamDefinitionType';
     }
 
@@ -55,11 +56,12 @@ export default class StreamDefinitionType extends Type {
         return `${STREAM_SYMBOL}${this.definition.output.toWordplay(_)}`;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StreamDefinitionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.StreamDefinitionType;
+    getLocalePath() {
+        return StreamDefinitionType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

@@ -1,8 +1,8 @@
 import type Locales from '../../locale/Locales';
 import Evaluate from '../../nodes/Evaluate';
 import Reference from '../../nodes/Reference';
-import Phrase from '../../output/Phrase';
 import type { Moved, OutputsByName } from '../../output/Animator';
+import Phrase from '../../output/Phrase';
 import Sequence from '../../output/Sequence';
 
 /** A description of phrases that have entered the scene, computed after still. */
@@ -71,8 +71,8 @@ export function describedChangedOutput(
 
     return changes.size === 0
         ? undefined
-        : Object.entries(changes)
-              .toSorted((a, b) => b[1] - a[1])
+        : [...Object.entries(changes)]
+              .sort((a, b) => b[1] - a[1])
               .map(([desc, count]) => `${count} ${desc}`)
               .join(', ');
 }

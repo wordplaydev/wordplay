@@ -1,9 +1,9 @@
+import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
-import type TableType from '../nodes/TableType';
 import type Locales from '../locale/Locales';
+import type TableType from '../nodes/TableType';
+import Conflict from './Conflict';
 
 export default class ExpectedColumnType extends Conflict {
     readonly table: TableType;

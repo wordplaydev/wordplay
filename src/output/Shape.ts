@@ -1,21 +1,22 @@
+import type { SupportedFace } from '@basis/Fonts';
 import toStructure from '../basis/toStructure';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import { getBind } from '../locale/getBind';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import StructureValue from '../values/StructureValue';
-import { getBind } from '../locale/getBind';
-import type Color from './Color';
-import Output, { DefaultStyle } from './Output';
-import type TextLang from './TextLang';
-import type { DefinitePose } from './Pose';
-import type Pose from './Pose';
-import type Sequence from './Sequence';
-import { Form, toForm } from './Form';
-import type Project from '../models/Project';
 import type Value from '../values/Value';
+import type Color from './Color';
+import { Form, toForm } from './Form';
+import Output, { DefaultStyle } from './Output';
+import Place from './Place';
+import type Pose from './Pose';
+import type { DefinitePose } from './Pose';
+import type Sequence from './Sequence';
 import type { NameGenerator } from './Stage';
+import type TextLang from './TextLang';
 import { getOutputInput } from './Valued';
 import { getStyle } from './toOutput';
-import Place from './Place';
-import type Locales from '../locale/Locales';
 
 export function createShapeType(locales: Locales) {
     return toStructure(`
@@ -149,6 +150,10 @@ export default class Shape extends Output {
 
     getEntryAnimated() {
         return this.entering !== undefined ? [this] : [];
+    }
+
+    gatherFaces(set: Set<SupportedFace>): Set<SupportedFace> {
+        return set;
     }
 }
 

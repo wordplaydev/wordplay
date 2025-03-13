@@ -1,3 +1,4 @@
+import { EMOJI_SYMBOL } from '@parser/Symbols';
 import { TextCloseByTextOpen } from '@parser/Tokenizer';
 import {
     Scripts,
@@ -18,6 +19,17 @@ type LanguageMetadata = {
     /** Specify scripots that the language uses */
     scripts: Script[];
 };
+
+/** Languages not supported by Google Translate */
+export const Untranslatable = [
+    EMOJI_SYMBOL,
+    'bo',
+    'fo',
+    'ii',
+    'iu',
+    'syc',
+    'wo',
+];
 
 /** BCP 47 language tags and other metadata. */
 export const Languages = {
@@ -106,6 +118,7 @@ export const Languages = {
     ga: { name: 'Gaeilge', en: 'Irish', scripts: ['Latn'] },
     gd: { name: 'Gàidhlig', en: 'Scottish Gaelic', scripts: ['Latn'] },
     gl: { name: 'galego', en: 'Galician', scripts: ['Latn'] },
+    gu: { name: 'ગુજરાતી', en: 'Gujarati', scripts: ['Gujr'] },
     ha: { name: 'Hausa', en: 'Hausa', scripts: ['Latn'] },
     he: { name: 'עברית', en: 'Hebrew', scripts: ['Hebr'] },
     hi: { name: 'हिंदी', en: 'Hindi', scripts: ['Deva'] },
@@ -141,12 +154,8 @@ export const Languages = {
     kk: { name: 'Қазақша', en: 'Kazakh', scripts: ['Arab', 'Cyrl'] },
     km: { name: 'ខ្មែរ', en: 'Khmer', scripts: ['Khmr'] },
     kn: { name: 'ಕನ್ನಡ', en: 'Kannada', scripts: ['Knda'] },
-    ko: {
-        name: '한국어/韓國語',
-        en: 'Korean',
-        scripts: ['Kore'],
-    },
-    kok: { name: 'कोंकणी', en: 'Konkani', scripts: ['Deva'] },
+    ko: { name: '한국어', en: 'Korean', scripts: ['Kore'] },
+    gom: { name: 'कोंकणी', en: 'Konkani', scripts: ['Deva'] },
     ky: { name: 'Кыргыз', en: 'Kyrgyz', scripts: ['Cyrl'] },
     lb: { name: 'Lëtzebuergesch', en: 'Luxembourgish', scripts: ['Latn'] },
     lo: { name: 'ລາວ', en: 'Lao', scripts: ['Laoo'] },
@@ -155,11 +164,7 @@ export const Languages = {
     mi: { name: 'Reo Māori', en: 'Maori', scripts: ['Latn'] },
     mk: { name: 'македонски јазик', en: 'Macedonian', scripts: ['Cyrl'] },
     ml: { name: 'മലയാളം', en: 'Malayalam', scripts: ['Mlym', 'Latn'] },
-    mn: {
-        name: 'Монгол хэл/ᠮᠤᠨᠭᠭᠤᠯ ᠬᠡᠯᠡ',
-        en: 'Mongolian',
-        scripts: ['Mong'],
-    },
+    mn: { name: 'Монгол хэл/ᠮᠤᠨᠭᠭᠤᠯ ᠬᠡᠯᠡ', en: 'Mongolian', scripts: ['Mong'] },
     mr: { name: 'मराठी', en: 'Marathi', scripts: ['Deva'] },
     ms: { name: 'Bahasa Malaysia', en: 'Malay', scripts: ['Latn'] },
     mt: { name: 'Malti', en: 'Maltese', scripts: ['Latn'] },
@@ -168,7 +173,7 @@ export const Languages = {
     nl: { name: 'Nederlands', en: 'Dutch', scripts: ['Latn'] },
     no: { name: 'norsk', en: 'Norwegian', scripts: ['Latn'] },
     oc: { name: 'Occitan', en: 'Occitan', scripts: ['Latn'] },
-    pa: { name: 'ਪੰਜਾਬੀ', en: 'Punjabi', scripts: ['Arab'] },
+    pa: { name: 'ਪੰਜਾਬੀ', en: 'Punjabi', scripts: ['Guru'] },
     pl: {
         name: 'polski',
         en: 'Polish',
@@ -202,7 +207,7 @@ export const Languages = {
     sq: { name: 'shqipe', en: 'Albanian', scripts: ['Latn'] },
     sr: { name: 'srpski/српски', en: 'Serbian', scripts: ['Cyrl'] },
     sv: { name: 'svenska', en: 'Swedish', quote: '”', scripts: ['Latn'] },
-    sw: { name: 'Kiswahili', en: 'Kiswahili', scripts: ['Latn'] },
+    sw: { name: 'Kiswahili', en: 'Swahili', scripts: ['Latn'] },
     syc: { name: 'ܣܘܪܝܝܐ', en: 'Syriac', scripts: ['Syrc'] },
     ta: { name: 'தமிழ்', en: 'Tamil', scripts: ['Taml'] },
     te: { name: 'తెలుగు', en: 'Telugu', scripts: ['Telu'] },
@@ -242,6 +247,10 @@ export { type LanguageCode as default };
 export const PossibleLanguages: LanguageCode[] = Object.keys(
     Languages,
 ) as LanguageCode[];
+
+export const TranslatableLanguages = PossibleLanguages.filter(
+    (code) => !Untranslatable.includes(code),
+);
 
 export function getLanguageName(code: LanguageCode): string | undefined {
     return Languages[code]?.name;

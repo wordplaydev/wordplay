@@ -1,12 +1,12 @@
-import { testConflict } from '@conflicts/TestUtilities';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import Conditional from './Conditional';
-import BinaryEvaluate from './BinaryEvaluate';
-import { test, expect } from 'vitest';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import type Node from './Node';
+import { testConflict } from '@conflicts/TestUtilities';
+import { expect, test } from 'vitest';
 import type Conflict from '../conflicts/Conflict';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
+import BinaryEvaluate from './BinaryEvaluate';
+import Conditional from './Conditional';
+import type Node from './Node';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],

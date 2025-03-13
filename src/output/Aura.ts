@@ -1,16 +1,16 @@
 import toStructure from '@basis/toStructure';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import type Color from './Color';
-import Valued, { getOutputInputs } from './Valued';
-import { toNumber } from './Stage';
-import { toColor } from './Color';
 import { getBind } from '@locale/getBind';
+import type Locales from '@locale/Locales';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
+import type Project from '../db/projects/Project';
 import type LocaleText from '../locale/LocaleText';
-import type Project from '../models/Project';
-import type Locales from '@locale/Locales';
+import type Color from './Color';
+import { toColor } from './Color';
+import { toNumber } from './Stage';
+import Valued, { getOutputInputs } from './Valued';
 
 export function createAuraType(locales: Locales) {
     return toStructure(`

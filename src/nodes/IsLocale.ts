@@ -1,21 +1,23 @@
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { LOCALE_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import StartFinish from '@runtime/StartFinish';
+import type Step from '@runtime/Step';
+import BoolValue from '@values/BoolValue';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BooleanType from './BooleanType';
+import type Expression from './Expression';
+import Language from './Language';
+import { node, optional, type Grammar, type Replacement } from './Node';
+import SimpleExpression from './SimpleExpression';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import Sym from './Sym';
-import { GLOBE1_SYMBOL } from '@parser/Symbols';
-import BoolValue from '@values/BoolValue';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import SimpleExpression from './SimpleExpression';
-import BooleanType from './BooleanType';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Language from './Language';
-import StartFinish from '@runtime/StartFinish';
-import type Expression from './Expression';
 import type TypeSet from './TypeSet';
-import type Locales from '../locale/Locales';
 
 export default class IsLocale extends SimpleExpression {
     readonly globe: Token;
@@ -31,7 +33,7 @@ export default class IsLocale extends SimpleExpression {
     }
 
     static make(language?: Language) {
-        return new IsLocale(new Token(GLOBE1_SYMBOL, Sym.Change), language);
+        return new IsLocale(new Token(LOCALE_SYMBOL, Sym.Change), language);
     }
 
     static getPossibleReplacements() {
@@ -42,17 +44,14 @@ export default class IsLocale extends SimpleExpression {
         return [IsLocale.make(Language.make('en'))];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'IsLocale';
     }
 
     getGrammar(): Grammar {
         return [
             { name: 'globe', kind: node(Sym.Locale) },
-            {
-                name: 'locale',
-                kind: optional(node(Language)),
-            },
+            { name: 'locale', kind: optional(node(Language)) },
         ];
     }
 
@@ -112,8 +111,9 @@ export default class IsLocale extends SimpleExpression {
         return this.locale ?? this.globe;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.IsLocale);
+    static readonly LocalePath = (l: LocaleText) => l.node.IsLocale;
+    getLocalePath() {
+        return IsLocale.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
@@ -123,7 +123,7 @@ export default class IsLocale extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Locale;
+    getCharacter() {
+        return Characters.Locale;
     }
 }

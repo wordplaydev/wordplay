@@ -1,9 +1,9 @@
-import type Evaluator from '@runtime/Evaluator';
-import Step from './Step';
-import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
+import type Evaluator from '@runtime/Evaluator';
 import type Locales from '../locale/Locales';
+import type Value from '../values/Value';
 import { shouldSkip } from './Start';
+import Step from './Step';
 
 export default class Finish extends Step {
     constructor(node: Expression) {
@@ -28,6 +28,8 @@ export function finish(evaluator: Evaluator, expr: Expression) {
     if (shouldSkip(evaluator, expr)) {
         const priorValue = evaluator.getLatestExpressionValue(expr);
         if (priorValue !== undefined) {
+            // Ask the evaluator to remember the value we computed.
+            // evaluator.rememberExpressionValue(expr, priorValue);
             // Evaluate any side effects
             return expr.evaluate(evaluator, priorValue);
         }

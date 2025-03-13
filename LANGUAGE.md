@@ -14,45 +14,45 @@ Wordplay started as Amy Ko's sabbatical project in 2022. Her primary goals were 
 
 Throughout this guide, we'll use a few formatting conventions:
 
--   Content in quote blocks are language grammar specifications, and will be formatted with an upper-case non-terminal name, followed by a `→`, and then an expression composed of:
-    -   Non-terminal names,
-    -   `|` for options,
-    -   `()` for groups,
-    -   `?` for optional,
-    -   `*` for zero or more repetitions,
-    -   `+` for one or more repetitions,
-    -   `//` for POSIX regular expresssions, formatted as code
-    -   Any text in code format is a literal text string
-    -   Any text in italics is a comment
--   We'll use the same syntax for the lexical grammar. All lexical non-terminals are in lower case.
--   Code examples are presented in code blocks. All examples are syntactically valid programs, but may not all be conflict free.
+- Content in quote blocks are language grammar specifications, and will be formatted with an upper-case non-terminal name, followed by a `→`, and then an expression composed of:
+    - Non-terminal names,
+    - `|` for options,
+    - `()` for groups,
+    - `?` for optional,
+    - `*` for zero or more repetitions,
+    - `+` for one or more repetitions,
+    - `//` for POSIX regular expresssions, formatted as code
+    - Any text in code format is a literal text string
+    - Any text in italics is a comment
+- We'll use the same syntax for the lexical grammar. All lexical non-terminals are in lower case.
+- Code examples are presented in code blocks. All examples are syntactically valid programs, but may not all be conflict free.
 
 ## Overview
 
 Wordplay's design is inspired by aspects of Smalltalk, Lisp, APL, TypeScript, and Elm. Here are a few key concepts about Wordplay's language design:
 
--   It's **purely functional**, which means there are no side effects and no mutable values. All expressions and all functions evaluate to values that are purely computation on inputs.
--   It's **reactive** in that some values are _streams_ of values that change to external events, which cause data dependent expressions to reevaluate with the stream's new values. This is what allows for interactivity.
--   It's **strongly typed** with optional static typing and type inference, but it's type system is relatively basic, with support for unions and some constant type assertions, but not much more.
--   It's **single-threaded**, in that a program starts and finishes evaluating, and all changes to stream values cause serial reevaluation, though stream value changes can pool causing a single reevaluation.
--   It's **lexically scoped**, of course. I'm not an anarchist.
--   It's **object oriented** in that all values are like objects that contain functions and conversions, and when creator-defined, can also contain named values.
--   It's **localized**. This means that bindings and text values can have an arbitrary number of language-tagged aliases. Text values are selected based on selected locales in the environment.
+- It's **purely functional**, which means there are no side effects and no mutable values. All expressions and all functions evaluate to values that are purely computation on inputs.
+- It's **reactive** in that some values are _streams_ of values that change to external events, which cause data dependent expressions to reevaluate with the stream's new values. This is what allows for interactivity.
+- It's **strongly typed** with optional static typing and type inference, but it's type system is relatively basic, with support for unions and some constant type assertions, but not much more.
+- It's **single-threaded**, in that a program starts and finishes evaluating, and all changes to stream values cause serial reevaluation, though stream value changes can pool causing a single reevaluation.
+- It's **lexically scoped**, of course. I'm not an anarchist.
+- It's **object oriented** in that all values are like objects that contain functions and conversions, and when creator-defined, can also contain named values.
+- It's **localized**. This means that bindings and text values can have an arbitrary number of language-tagged aliases. Text values are selected based on selected locales in the environment.
 
 ## Terminology
 
 There are a few key terms in this guide:
 
--   _Value_ an immutable in memory representation of some data
--   _Expression_ some syntactically valid bit of code that evaluates to a value
--   _Evaluation_ following the rules of each expression to compute a value
--   _Conflict_ a discrepancy between two or more parts of an expression detected statically that prevents evaluation
--   _Exception_ a discrepany detected during evaluation that requires halting; most correspond to a conflict.
--   _Evaluator_ the comopnent that manages evaluation of programs
+- _Value_ an immutable in memory representation of some data
+- _Expression_ some syntactically valid bit of code that evaluates to a value
+- _Evaluation_ following the rules of each expression to compute a value
+- _Conflict_ a discrepancy between two or more parts of an expression detected statically that prevents evaluation
+- _Exception_ a discrepany detected during evaluation that requires halting; most correspond to a conflict.
+- _Evaluator_ the comopnent that manages evaluation of programs
 
 ## Lexical design
 
-Wordplay's lexical grammar contains no keywords, in order to avoid privileging any particular natural language. Instead, it uses a set of single glyph Unicode symbols, each associated with a particular kind of value or expression (and sometimes two, since we support a markup notation within comments and markup values).
+Wordplay's lexical grammar contains no keywords, in order to avoid privileging any particular natural language. Instead, it uses a set of single character Unicode symbols, each associated with a particular kind of value or expression (and sometimes two, since we support a markup notation within comments and markup values).
 
 Some tokens are associated with basic values:
 
@@ -77,7 +77,7 @@ Text literals can be opened and closed with numerous delimiters:
 > textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
 > textclose → `"` | `„` | `”` | `'` | `’` | `›` | `»` | `」` | `』`  
 > markup → `\`  
-> text → _any sequence of characters between open/close delimiters_
+> text → _any sequence of characters between open/close and markup delimiters_
 
 Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `I am \*bold\*\` ¶. Between backticks, these tokens are valid:
 
@@ -159,7 +159,7 @@ Some are associated with importing and exporting values from source:
 > borrow → `↓`  
 > share → `↑`
 
-Every other possible sequence of Unicode glyphs is interpreted as a `name`, separated by space or one of the tokens above.
+Every other possible sequence of Unicode characters is interpreted as a `name`, separated by space or one of the tokens above.
 
 Three kinds of space are meaningful during tokenization: space ` ` (U+0020), `\t` (U+0009), and the line feed character `\n` (U+000A). Spaces segment names, and are preserved and associated as preceding space for each tokens. This preceding space is used during parsing in limited ways to distinguish the role of names. All other forms of Unicode spaces (e.g., zero width spaces, non-breaking spaces, etc.) are interpreted as part of names. (Probably a questionable design choice, and maybe one we'll return to.).
 
@@ -275,14 +275,17 @@ Numbers are only equal to other numbers that have identical decimal values and e
 ### Text
 
 > TEXT → TRANSLATION\*  
-> TRANSLATION → textopen text textclose LANGUAGE  
-> LANGUAGE → language name
+> TRANSLATION → textopen text textclose LOCALE
+> LOCALE → LANGUAGE [- REGION]
+> LANGUAGE [any valid ISO 639 language code]
+> REGION → [any valid ISO 3166 country code]
 
 Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in a few ways:
 
--   They are interpreted as a sequence of graphemes, using a grapheme segmentation algorithm. That means that emojis comprised of multiple Unicode code points are treated as a single symbol when indexing text.
--   They can be language tagged, indicating what language and optional region they are written in
--   They can have multiple translations, allowing for one to be selected at runtime using the environment's list of preferred locales.
+- They are interpreted as a sequence of graphemes, using a grapheme segmentation algorithm. That means that emojis comprised of multiple Unicode code points are treated as a single symbol when indexing text.
+- They can be language tagged, indicating what language and optional region they are written in
+- They can have multiple translations, allowing for one to be selected at runtime using the environment's list of preferred locales.
+- Language tags are a language
 
 For example, these are all valid text values:
 
@@ -452,7 +455,7 @@ Set membership can be checked by following a set with a value as a key. For exam
 
 ### _conflicts_
 
--   A set contains a key/value pair
+- A set contains a key/value pair
 
 #### _evaluation_
 
@@ -483,7 +486,7 @@ Values can be retrieved via keys with the same syntax as sets; this evaluates to
 
 ### _conflicts_
 
--   A map contains a value that is not bound to a key
+- A map contains a value that is not bound to a key
 
 #### _evaluation_
 
@@ -549,8 +552,8 @@ Tables can be converted to lists of data structures, where each row name is a pr
 
 ### _conflicts_
 
--   A table is given rows that do not conform to it's table type
--   A table type is given a bind with no type declaration
+- A table is given rows that do not conform to it's table type
+- A table type is given a bind with no type declaration
 
 #### _evaluation_
 
@@ -586,9 +589,9 @@ Inputs must conform to the types defined in a function's definition. (We'll talk
 
 ### _conflicts_
 
--   The function expression given is not a function type
--   The function type resolved does not match the inputs given (missing required values, extra values, values of the wrong type)
--   The function expression could resolve to many different functions that take different inputs
+- The function expression given is not a function type
+- The function type resolved does not match the inputs given (missing required values, extra values, values of the wrong type)
+- The function expression could resolve to many different functions that take different inputs
 
 #### _evaluation_
 
@@ -626,7 +629,7 @@ While binary evaluations are mostly just syntactic sugar on regular evaluation, 
 
 ### _conflicts_
 
--   Same as evaluate
+- Same as evaluate
 
 #### _evaluation_
 
@@ -657,7 +660,7 @@ This tiny bit of space-sensitive parsing aligns with mathematical syntax, but al
 
 ### _conflicts_
 
--   Same as evaluate
+- Same as evaluate
 
 #### _evaluation_
 
@@ -679,7 +682,7 @@ Note that there's no separator between the true anf false cases in this synatax 
 
 ### _conflicts_
 
--   The condition is not boolean typed
+- The condition is not boolean typed
 
 #### _evaluation_
 
@@ -720,7 +723,7 @@ Conversions can be extended with conversion definitions. Thi defines a global co
 
 ### _conflicts_
 
--   There is no conversion in scope that matches the request
+- There is no conversion in scope that matches the request
 
 #### _evaluation_
 
@@ -766,9 +769,9 @@ Bindings declare all provided names in scope, so they can be referred to by any 
 
 ### _conflicts_
 
--   The type of the value expression is incompatible with the declared type
--   There are duplicate names
--   A name is already defined in scope
+- The type of the value expression is incompatible with the declared type
+- There are duplicate names
+- A name is already defined in scope
 
 #### _evaluation_
 
@@ -795,8 +798,8 @@ Programs are also blocks, but with required open and close parentheses.
 
 #### _conflicts_
 
--   An expression's value will be discard
--   There are no expressions
+- An expression's value will be discard
+- There are no expressions
 
 #### _evaluation_
 
@@ -826,9 +829,9 @@ Here are some example function definitions:
 
 #### _conflicts_
 
--   The type of the expression is not compatible with the declared type
--   Inputs have duplicate names
--   The function names are already defined elsewhere
+- The type of the expression is not compatible with the declared type
+- Inputs have duplicate names
+- The function names are already defined elsewhere
 
 #### _evaluation_
 
@@ -875,8 +878,8 @@ This creates a new `Kitty` value with the new name and the old other properties 
 
 #### _conflicts_
 
--   The inputs have duplicate names
--   One of the structure's names is already defined in scope
+- The inputs have duplicate names
+- One of the structure's names is already defined in scope
 
 #### _evaluation_
 
@@ -965,7 +968,7 @@ Reactions also have precedence, like conditionals.
 
 #### _conflicts_
 
--   The condition does not refer to a stream, and so will always or never be true
+- The condition does not refer to a stream, and so will always or never be true
 
 #### _evaluation_
 
@@ -1025,7 +1028,7 @@ If any sequences of tokens cannot be parsed according to this grammar, all of th
 
 #### _conflicts_
 
--   There are no expressions to evaluate.
+- There are no expressions to evaluate.
 
 #### _evaluation_
 
@@ -1099,17 +1102,17 @@ For example, this expression checks whether `1` is a number, and it is, so it ev
 
 Type compatibility is defined as follows:
 
--   Boolean types are only compatible with other boolean types
--   Number types are compatible if they are a concrete number and the other number type is the same concrete number, or they have equivalent units
--   Text types are compatible if they are concrete text and the other text type is the same text and language, or they are both generic text with the same language
--   List types are only compatible if their element types are compatible
--   Set types are only compatible if their element types are compatible
--   Map types are only compatible if their key types are compatible and their value types are compatible
--   Stream types are only compatible if their element types are compatible
--   Conversions are only compatible if their respective input and output types are compatible
--   Name types are only compatible if they resolve to the same structure definition
--   Function types are only compatible if they have the compatible corresponding inputs and compatible output types
--   Union types are only compatible if all of the possible types given are compatible with at least one of the union's types
+- Boolean types are only compatible with other boolean types
+- Number types are compatible if they are a concrete number and the other number type is the same concrete number, or they have equivalent units
+- Text types are compatible if they are concrete text and the other text type is the same text and language, or they are both generic text with the same language
+- List types are only compatible if their element types are compatible
+- Set types are only compatible if their element types are compatible
+- Map types are only compatible if their key types are compatible and their value types are compatible
+- Stream types are only compatible if their element types are compatible
+- Conversions are only compatible if their respective input and output types are compatible
+- Name types are only compatible if they resolve to the same structure definition
+- Function types are only compatible if they have the compatible corresponding inputs and compatible output types
+- Union types are only compatible if all of the possible types given are compatible with at least one of the union's types
 
 Any violation of the rules above is a type error.
 
@@ -1117,24 +1120,24 @@ Any violation of the rules above is a type error.
 
 While we've generally alluded to how Wordplay programs evaluate through examples, and provided detailed rules for how each kind of expression is evaluated in sections above, here we provide a step by step explanation of how programs are evaluated in response to input and in exceptional circumstancs.
 
--   Each type of expression defines its own evaluation order, as we specified in the sections above.
--   A program is evaluated first by:
-    -   Evaluating any borrowed source and binding the borrowed names, blocking until borrowed source is evaluated using this same procedure, and the borrowed names are imported into the program's scope.
-    -   Evaluating the Program node
-    -   Returning the resulting value to the environment for display
--   Each function creates a new name scope. Closures are supported: scopes are linked to function and structure definitions.
--   Each `Block` defines a new name scope within a function, creating a stack of scopes.
--   When a stream value changes values due to an external event
-    -   If the stream is temporal, it is pooled with other temporal changes, allowing the program to reevaluate once per frame. The frame frequency is determined by the system evaluating the program, but on the web, is run by the [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) callback, which is usually linked to 60hz operating system display refresh rates.
-    -   Otherwise, the program is evaluated immediately.
--   Evaluation can halt with an exception value for any of these reasons:
-    -   The program had no expressions
-    -   A value is expected by an expression but not given
-    -   A value of a particular type is expected, but an incompatible type was given
-    -   A placeholder expression is evaluated
-    -   A requested conversion between types couldn't be found
-    -   A function couldn't be found
-    -   A name couldn't be resolved
-    -   An unparsable sequence of tokens was found
-    -   The evaluator evaluated too many steps within a single function
-    -   The evaluator evaluated too many functions (stack overflow)
+- Each type of expression defines its own evaluation order, as we specified in the sections above.
+- A program is evaluated first by:
+    - Evaluating any borrowed source and binding the borrowed names, blocking until borrowed source is evaluated using this same procedure, and the borrowed names are imported into the program's scope.
+    - Evaluating the Program node
+    - Returning the resulting value to the environment for display
+- Each function creates a new name scope. Closures are supported: scopes are linked to function and structure definitions.
+- Each `Block` defines a new name scope within a function, creating a stack of scopes.
+- When a stream value changes values due to an external event
+    - If the stream is temporal, it is pooled with other temporal changes, allowing the program to reevaluate once per frame. The frame frequency is determined by the system evaluating the program, but on the web, is run by the [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) callback, which is usually linked to 60hz operating system display refresh rates.
+    - Otherwise, the program is evaluated immediately.
+- Evaluation can halt with an exception value for any of these reasons:
+    - The program had no expressions
+    - A value is expected by an expression but not given
+    - A value of a particular type is expected, but an incompatible type was given
+    - A placeholder expression is evaluated
+    - A requested conversion between types couldn't be found
+    - A function couldn't be found
+    - A name couldn't be resolved
+    - An unparsable sequence of tokens was found
+    - The evaluator evaluated too many steps within a single function
+    - The evaluator evaluated too many functions (stack overflow)

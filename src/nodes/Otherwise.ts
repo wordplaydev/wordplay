@@ -1,28 +1,30 @@
+import type Conflict from '@conflicts/Conflict';
+import { ImpossibleType } from '@conflicts/ImpossibleType';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { COALESCE_SYMBOL } from '@parser/Symbols';
+import Check from '@runtime/Check';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import NoneValue from '@values/NoneValue';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import Expression, { ExpressionKind } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import NoneType from './NoneType';
+import SimpleExpression from './SimpleExpression';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './SimpleExpression';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Expression, { ExpressionKind } from './Expression';
 import type TypeSet from './TypeSet';
-import type Locales from '../locale/Locales';
-import { COALESCE_SYMBOL } from '@parser/Symbols';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Context from './Context';
-import NoneType from './NoneType';
 import UnionType from './UnionType';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import Check from '@runtime/Check';
-import NoneValue from '@values/NoneValue';
-import { ImpossibleType } from '@conflicts/ImpossibleType';
-import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
 
 export default class Otherwise extends SimpleExpression {
     readonly left: Expression;
@@ -65,7 +67,7 @@ export default class Otherwise extends SimpleExpression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Otherwise';
     }
 
@@ -159,8 +161,9 @@ export default class Otherwise extends SimpleExpression {
         return this.question;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Otherwise);
+    static readonly LocalePath = (l: LocaleText) => l.node.Otherwise;
+    getLocalePath() {
+        return Otherwise.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
@@ -178,8 +181,8 @@ export default class Otherwise extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.NoneOr;
+    getCharacter() {
+        return Characters.NoneOr;
     }
 
     getKind(): ExpressionKind {

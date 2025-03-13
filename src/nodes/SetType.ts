@@ -1,20 +1,22 @@
+import type Conflict from '@conflicts/Conflict';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Context from './Context';
+import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
+import type Context from './Context';
+import { node, optional, type Grammar, type Replacement } from './Node';
+import SetCloseToken from './SetCloseToken';
+import SetLiteral from './SetLiteral';
+import SetOpenToken from './SetOpenToken';
+import Sym from './Sym';
 import type Token from './Token';
 import Type from './Type';
-import SetOpenToken from './SetOpenToken';
-import SetCloseToken from './SetCloseToken';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import Glyphs from '../lore/Glyphs';
-import NodeRef from '../locale/NodeRef';
-import Sym from './Sym';
-import type Locales from '../locale/Locales';
-import SetLiteral from './SetLiteral';
-import type EditContext from '@edit/EditContext';
 
 export default class SetType extends BasisType {
     readonly open: Token;
@@ -46,7 +48,7 @@ export default class SetType extends BasisType {
         return SetType.make();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'SetType';
     }
 
@@ -109,12 +111,13 @@ export default class SetType extends BasisType {
             : undefined;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.SetType);
+    static readonly LocalePath = (l: LocaleText) => l.node.SetType;
+    getLocalePath() {
+        return SetType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Set;
+    getCharacter() {
+        return Characters.Set;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

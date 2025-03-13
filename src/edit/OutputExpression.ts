@@ -1,19 +1,19 @@
-import type Project from '../models/Project';
-import Evaluate from '../nodes/Evaluate';
-import StructureDefinition from '@nodes/StructureDefinition';
-import Expression from '@nodes/Expression';
-import type Value from '@values/Value';
 import Bind from '@nodes/Bind';
+import Expression from '@nodes/Expression';
+import Input from '@nodes/Input';
 import Literal from '@nodes/Literal';
+import StructureDefinition from '@nodes/StructureDefinition';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
-import type OutputProperty from './OutputProperty';
-import getStageProperties from './StageProperties';
-import getGroupProperties from './GroupProperties';
-import getPhraseProperties from './PhraseProperties';
-import getShapeProperties from './getShapeProperties';
+import type Value from '@values/Value';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
-import Input from '@nodes/Input';
+import Evaluate from '../nodes/Evaluate';
+import getGroupProperties from './GroupProperties';
+import type OutputProperty from './OutputProperty';
+import getPhraseProperties from './PhraseProperties';
+import getStageProperties from './StageProperties';
+import getShapeProperties from './getShapeProperties';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.

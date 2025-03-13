@@ -1,32 +1,39 @@
-import TextType from './TextType';
-import type Type from './Type';
-import TextValue from '@values/TextValue';
-import type Language from './Language';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement, list } from './Node';
-import Literal from './Literal';
-import Emotion from '../lore/Emotion';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import Translation from './Translation';
-import UnionType from './UnionType';
-import { getPreferred } from './LanguageTagged';
-import Token from './Token';
-import Sym from './Sym';
-import type Expression from './Expression';
-import type Step from '@runtime/Step';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
-import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
-import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { ConceptRegExPattern } from '@parser/Tokenizer';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import TextValue from '@values/TextValue';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Emotion from '../lore/Emotion';
+import { getCodepointFromString } from '../unicode/getCodepoint';
+import type Value from '../values/Value';
+import type Context from './Context';
+import type Expression from './Expression';
+import type Language from './Language';
+import { getPreferred } from './LanguageTagged';
+import Literal from './Literal';
+import { list, node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import TextType from './TextType';
+import Token from './Token';
+import Translation from './Translation';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class TextLiteral extends Literal {
     /** The list of translations for the text literal */
     readonly texts: Translation[];
+
+    /** A cache of unescaped tokens by id, as they are static, and we should only compute them once. */
+    readonly unescapedTokenCache: Record<string, string> = {};
 
     constructor(text: Translation[]) {
         super();
@@ -56,7 +63,7 @@ export default class TextLiteral extends Literal {
         return this.getPossibleReplacements(context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TextLiteral';
     }
 
@@ -114,21 +121,21 @@ export default class TextLiteral extends Literal {
         if (prior) return prior;
 
         const translation = this.getLocaleText(evaluator.getLocaleIDs());
-        const expressions = translation.segments;
+        const segments = translation.segments;
 
         // Build the string in reverse, accounting for the reversed stack of values.
         let text = '';
-        for (let i = expressions.length - 1; i >= 0; i--) {
-            const p = expressions[i];
+        for (let i = segments.length - 1; i >= 0; i--) {
+            const segment = segments[i];
             let next: string;
-            if (p instanceof Token) {
-                next = unescaped(p.getText());
+            if (segment instanceof Token) {
+                next = this.getUnescapedToken(segment);
             } else {
                 const value = evaluator.popValue(this);
                 next =
                     value instanceof TextValue
                         ? value.text
-                        : value?.toString() ?? '';
+                        : (value?.toString() ?? '');
             }
             // Assemble in reverse order
             text = next + text;
@@ -140,6 +147,18 @@ export default class TextLiteral extends Literal {
             text,
             translation.language?.getLanguageText(),
         );
+    }
+
+    /** Retrieve or compute and cache the text version of the static token text. */
+    private getUnescapedToken(token: Token) {
+        // If we have a cached value, return it.
+        const cached = this.unescapedTokenCache[token.id];
+        if (cached) return cached;
+
+        // Otherwise, compute the unescaped token and cache it.
+        const text = unescaped(token.getText());
+        this.unescapedTokenCache[token.id] = text;
+        return text;
     }
 
     computeConflicts() {
@@ -205,15 +224,16 @@ export default class TextLiteral extends Literal {
         return this.texts[0];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TextLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.TextLiteral;
+    getLocalePath() {
+        return TextLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.TextLiteral.start);
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.texts[0].getDelimiters(),
             emotion: Emotion.excited,
@@ -226,5 +246,23 @@ export default class TextLiteral extends Literal {
 }
 
 export function unescaped(text: string) {
-    return text.replaceAll('\\\\', '\\');
+    // First, replace any \\ with the actual backslash character.
+    text = text.replaceAll('\\\\', '\\');
+
+    // Then, see if there are any Unicode escapes, and replace them with the actual character.
+    for (const { concept, unicode } of getConcepts(text)) {
+        if (unicode) text = text.replace(concept, unicode);
+    }
+
+    return text;
+}
+
+const ConceptRegEx = new RegExp(ConceptRegExPattern, 'ug');
+
+function getConcepts(text: string) {
+    return Array.from(text.matchAll(ConceptRegEx)).map((match) => ({
+        concept: match[0],
+        index: match.index,
+        unicode: getCodepointFromString(match[0].substring(1)),
+    }));
 }

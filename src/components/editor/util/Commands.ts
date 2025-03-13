@@ -1,46 +1,52 @@
-import type Caret from '../../../edit/Caret';
 import Node from '@nodes/Node';
 import {
+    ALL_SYMBOL,
+    BORROW_SYMBOL,
+    CHANGE_SYMBOL,
     CONVERT_SYMBOL,
+    COPY_SYMBOL,
+    CUT_SYMBOL,
+    DEGREE_SYMBOL,
+    DOCS_SYMBOL,
+    DOCUMENTATION_SYMBOL,
+    EDIT_SYMBOL,
+    ELISION_SYMBOL,
     FALSE_SYMBOL,
     FUNCTION_SYMBOL,
-    STREAM_SYMBOL,
-    TRUE_SYMBOL,
-    TYPE_SYMBOL,
+    NONE_SYMBOL,
+    PALETTE_SYMBOL,
+    PASTE_SYMBOL,
+    PREVIOUS_SYMBOL,
     PRODUCT_SYMBOL,
     QUOTIENT_SYMBOL,
-    NONE_SYMBOL,
-    DEGREE_SYMBOL,
-    DOCUMENTATION_SYMBOL,
+    REDO_SYMBOL,
+    SHARE_SYMBOL,
     SOURCE_SYMBOL,
     STAGE_SYMBOL,
-    PALETTE_SYMBOL,
-    PREVIOUS_SYMBOL,
-    TABLE_OPEN_SYMBOL,
+    STREAM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
-    EDIT_SYMBOL,
-    BORROW_SYMBOL,
-    SHARE_SYMBOL,
-    CHANGE_SYMBOL,
-    ELISION_SYMBOL,
-    DOCS_SYMBOL,
+    TABLE_OPEN_SYMBOL,
+    TRUE_SYMBOL,
+    TYPE_SYMBOL,
+    UNDO_SYMBOL,
 } from '@parser/Symbols';
+import type Caret from '../../../edit/Caret';
 
-import Source from '@nodes/Source';
-import { copyNode } from './Clipboard';
-import type Evaluator from '@runtime/Evaluator';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Names from '@nodes/Names';
 import { Settings, type Database } from '@db/Database';
 import type LocaleText from '@locale/LocaleText';
-import Sym from '../../../nodes/Sym';
-import type Project from '../../../models/Project';
-import interpret from './interpret';
-import { TileKind } from '../../project/Tile';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Names from '@nodes/Names';
+import Source from '@nodes/Source';
 import { TAB_SYMBOL } from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type Evaluator from '@runtime/Evaluator';
+import type Project from '../../../db/projects/Project';
+import Sym from '../../../nodes/Sym';
+import { TileKind } from '../../project/Tile';
 import { moveVisualVertical } from '../CaretView.svelte';
+import { copyNode, toClipboard } from './Clipboard';
+import interpret from './interpret';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -105,6 +111,7 @@ export type CommandContext = {
     focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
     help?: () => void;
+    getTokenViews?: () => HTMLElement[];
 };
 
 export type Edit = Caret | Revision;
@@ -621,7 +628,7 @@ export const InsertSymbol: Command = {
 };
 
 export const Undo: Command = {
-    symbol: '⟲',
+    symbol: UNDO_SYMBOL,
     description: (l) => l.ui.source.cursor.undo,
     visible: Visibility.Visible,
     category: Category.Modify,
@@ -634,8 +641,11 @@ export const Undo: Command = {
         database.Projects.getHistory(
             evaluator.project.getID(),
         )?.isUndoable() === true,
-    execute: ({ database, evaluator }) =>
-        database.Projects.undoRedo(evaluator.project.getID(), -1) !== undefined,
+    execute: ({ database, evaluator }) => {
+        database.Projects.undoRedo(evaluator.project.getID(), -1);
+        // Always swallow the shortcut to avoid the browser or OS from handling it.
+        return true;
+    },
 };
 
 const Commands: Command[] = [
@@ -649,14 +659,28 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: ({ caret, blocks, view }) =>
+        execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
                 ? blocks
-                    ? view
-                        ? moveVisualVertical(-1, view, caret) ?? false
+                    ? view && getTokenViews
+                        ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
+                          false)
                         : false
-                    : caret.moveVertical(-1) ?? false
+                    : (caret.moveVertical(-1) ?? false)
                 : false,
+    },
+    {
+        symbol: '↑☐',
+        description: (l) => l.ui.source.cursor.expandPriorLine,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowUp',
+        keySymbol: '↑',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandVertically(-1)) : false,
     },
     {
         symbol: '↓',
@@ -668,14 +692,28 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: ({ caret, blocks, view }) =>
+        execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
                 ? blocks
-                    ? view
-                        ? moveVisualVertical(1, view, caret) ?? false
+                    ? view && getTokenViews
+                        ? (moveVisualVertical(1, view, caret, getTokenViews) ??
+                          false)
                         : false
-                    : caret.moveVertical(1) ?? false
+                    : (caret.moveVertical(1) ?? false)
                 : false,
+    },
+    {
+        symbol: '↓☐',
+        description: (l) => l.ui.source.cursor.expandNextLine,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowDown',
+        keySymbol: '↓',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandVertically(1)) : false,
     },
     {
         symbol: '←',
@@ -690,7 +728,7 @@ const Commands: Command[] = [
         execute: ({ caret, database, blocks }) =>
             caret
                 ? blocks
-                    ? caret.moveInlineSemantic(-1) ?? false
+                    ? (caret.moveInlineSemantic(-1) ?? false)
                     : caret.moveInline(
                           false,
                           database.Locales.getWritingDirection() === 'ltr'
@@ -698,6 +736,19 @@ const Commands: Command[] = [
                               : 1,
                       )
                 : false,
+    },
+    {
+        symbol: '←☐',
+        description: (l) => l.ui.source.cursor.expandBeforeInline,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowLeft',
+        keySymbol: '←',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandInline(-1)) : false,
     },
     {
         symbol: '→',
@@ -712,7 +763,7 @@ const Commands: Command[] = [
         execute: ({ caret, database, blocks }) =>
             caret
                 ? blocks
-                    ? caret.moveInlineSemantic(1) ?? false
+                    ? (caret.moveInlineSemantic(1) ?? false)
                     : caret.moveInline(
                           false,
                           database.Locales.getWritingDirection() === 'ltr'
@@ -720,6 +771,19 @@ const Commands: Command[] = [
                               : -1,
                       )
                 : false,
+    },
+    {
+        symbol: '☐→',
+        description: (l) => l.ui.source.cursor.expandAfterInline,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowRight',
+        keySymbol: '→',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandInline(1)) : false,
     },
     {
         symbol: '⇤',
@@ -824,7 +888,7 @@ const Commands: Command[] = [
                     return caret
                         .withEntry(undefined)
                         .withPosition(
-                            parent?.getChildren()[0] === token ? parent : token,
+                            parent?.getChildren().length === 1 ? parent : token,
                         );
                 }
             }
@@ -832,7 +896,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '📄',
+        symbol: ALL_SYMBOL,
         description: (l) => l.ui.source.cursor.selectAll,
         visible: Visibility.Visible,
         category: Category.Cursor,
@@ -1159,7 +1223,7 @@ const Commands: Command[] = [
     ShowMenu,
     Undo,
     {
-        symbol: '⟳',
+        symbol: REDO_SYMBOL,
         description: (l) => l.ui.source.cursor.redo,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1172,9 +1236,11 @@ const Commands: Command[] = [
             database.Projects.getHistory(
                 evaluator.project.getID(),
             )?.isRedoable() === true,
-        execute: ({ database, evaluator }) =>
-            database.Projects.undoRedo(evaluator.project.getID(), 1) !==
-            undefined,
+        execute: ({ database, evaluator }) => {
+            database.Projects.undoRedo(evaluator.project.getID(), 1);
+            // Always swallow the shortcut to avoid the browser or OS from handling it.
+            return true;
+        },
     },
     ToggleBlocks,
     {
@@ -1187,12 +1253,12 @@ const Commands: Command[] = [
         control: false,
         key: 'Enter',
         typing: true,
-        execute: ({ caret, blocks, project }) =>
-            caret === undefined
+        execute: ({ caret, blocks, project, editor }) =>
+            !editor || caret === undefined
                 ? false
                 : caret.isNode()
                   ? caret.enter()
-                  : caret.insert('\n', blocks, project) ?? false,
+                  : (caret.insert('\n', blocks, project) ?? false),
     },
     {
         symbol: '⌫',
@@ -1207,7 +1273,7 @@ const Commands: Command[] = [
         typing: true,
         execute: ({ caret, project, editor, blocks }) =>
             editor && caret
-                ? caret.delete(project, false, blocks) ?? false
+                ? (caret.delete(project, false, blocks) ?? false)
                 : false,
     },
     {
@@ -1223,11 +1289,11 @@ const Commands: Command[] = [
         typing: true,
         execute: ({ caret, project, editor, blocks }) =>
             editor && caret
-                ? caret.delete(project, true, blocks) ?? false
+                ? (caret.delete(project, true, blocks) ?? false)
                 : false,
     },
     {
-        symbol: '✄',
+        symbol: CUT_SYMBOL,
         description: (l) => l.ui.source.cursor.cut,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1236,21 +1302,30 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyX',
         keySymbol: 'X',
-        active: () => typeof ClipboardItem !== 'undefined',
-        execute: (context) => {
-            if (!(context.caret?.position instanceof Node)) return false;
-            copyNode(
-                context.caret.position,
-                getPreferredSpaces(context.caret.source),
-            );
-            return (
-                context.caret.delete(context.project, false, context.blocks) ??
-                true
-            );
+        active: ({ caret }) =>
+            caret !== undefined &&
+            (caret.isNode() || caret.isRange()) &&
+            typeof ClipboardItem !== 'undefined',
+        execute: ({ caret, project, blocks }) => {
+            if (caret === undefined) return false;
+            if (caret.isNode()) {
+                copyNode(caret.position, getPreferredSpaces(caret.source));
+                return caret.delete(project, false, blocks) ?? true;
+            } else if (caret.isRange()) {
+                toClipboard(
+                    caret.source
+                        .getGraphemesBetween(
+                            caret.position[0],
+                            caret.position[1],
+                        )
+                        .toString(),
+                );
+                return caret.delete(project, false, blocks) ?? true;
+            } else return false;
         },
     },
     {
-        symbol: '📚',
+        symbol: COPY_SYMBOL,
         description: (l) => l.ui.source.cursor.copy,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1259,18 +1334,32 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyC',
         keySymbol: 'C',
-        execute: (context) => {
-            if (!(context.caret?.position instanceof Node)) return false;
-            return (
-                copyNode(
-                    context.caret.position,
-                    getPreferredSpaces(context.caret.source),
-                ) ?? false
-            );
+        active: ({ caret }) =>
+            caret !== undefined && (caret.isNode() || caret.isRange()),
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            if (caret.isNode())
+                return (
+                    copyNode(
+                        caret.position,
+                        getPreferredSpaces(caret.source),
+                    ) ?? false
+                );
+            else if (caret.isRange()) {
+                toClipboard(
+                    caret.source
+                        .getGraphemesBetween(
+                            caret.position[0],
+                            caret.position[1],
+                        )
+                        .toString(),
+                );
+                return true;
+            } else return false;
         },
     },
     {
-        symbol: '📋',
+        symbol: PASTE_SYMBOL,
         description: (l) => l.ui.source.cursor.paste,
         visible: Visibility.Visible,
         category: Category.Modify,

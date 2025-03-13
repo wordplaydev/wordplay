@@ -1,18 +1,18 @@
-import { test, expect } from 'vitest';
-import Caret from './Caret';
-import Project from '@models/Project';
-import Source from '@nodes/Source';
-import { getEditsAt } from './Autocomplete';
-import type Node from '@nodes/Node';
-import Assign from './Assign';
-import Replace from './Replace';
-import NumberLiteral from '../nodes/NumberLiteral';
-import Append from './Append';
-import Reference from '../nodes/Reference';
-import type Revision from './Revision';
-import DefaultLocale from '../locale/DefaultLocale';
+import Project from '@db/projects/Project';
 import DefaultLocales from '@locale/DefaultLocales';
+import type Node from '@nodes/Node';
+import Source from '@nodes/Source';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { expect, test } from 'vitest';
+import DefaultLocale from '../locale/DefaultLocale';
+import NumberLiteral from '../nodes/NumberLiteral';
+import Reference from '../nodes/Reference';
+import Append from './Append';
+import Assign from './Assign';
+import { getEditsAt } from './Autocomplete';
+import Caret from './Caret';
+import Replace from './Replace';
+import type Revision from './Revision';
 
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],

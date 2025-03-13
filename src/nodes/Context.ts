@@ -1,13 +1,13 @@
-import type Node from './Node';
-import type Project from '../models/Project';
-import type Source from './Source';
-import type Type from './Type';
-import type Expression from './Expression';
+import type Project from '../db/projects/Project';
 import CycleType from './CycleType';
-import type Reference from './Reference';
-import type PropertyReference from './PropertyReference';
 import type Definition from './Definition';
+import type Expression from './Expression';
+import type Node from './Node';
+import type PropertyReference from './PropertyReference';
+import type Reference from './Reference';
+import type Source from './Source';
 import type StreamDefinition from './StreamDefinition';
+import type Type from './Type';
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {

@@ -1,13 +1,16 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import concretize from '@locale/concretize';
     import type ExceptionValue from '@values/ExceptionValue';
     import { locales } from '../../db/Database';
 
-    export let value: ExceptionValue;
-    export let inline = true;
+    interface Props {
+        value: ExceptionValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 </script>
 
 {#if inline || !inline}
-    ! {value.getDescription($locales).toText()}
+    ! {concretize($locales, $locales.get(value.getDescription())).toText()}
 {/if}

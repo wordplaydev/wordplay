@@ -1,9 +1,9 @@
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import type NameType from '@nodes/NameType';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class UnknownTypeName extends Conflict {
     readonly name: NameType;

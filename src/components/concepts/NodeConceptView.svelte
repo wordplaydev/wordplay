@@ -1,8 +1,12 @@
 <script lang="ts">
-    import ConceptView from './ConceptView.svelte';
     import type NodeConcept from '@concepts/NodeConcept';
+    import ConceptView from './ConceptView.svelte';
 
-    export let concept: NodeConcept;
+    interface Props {
+        concept: NodeConcept;
+    }
+
+    let { concept }: Props = $props();
 </script>
 
 <ConceptView {concept} />

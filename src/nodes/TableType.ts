@@ -1,24 +1,25 @@
-import Bind from '@nodes/Bind';
-import type Context from './Context';
-import Token from './Token';
-import Sym from './Sym';
-import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
-import type TypeSet from './TypeSet';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import AnyType from './AnyType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
-import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Bind from '@nodes/Bind';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
 import BasisType from './BasisType';
-import StructureDefinition from './StructureDefinition';
-import Names from './Names';
-import type Reference from './Reference';
+import type Context from './Context';
 import type Definition from './Definition';
-import type Type from './Type';
+import Names from './Names';
+import { list, node, type Grammar, type Replacement } from './Node';
+import type Reference from './Reference';
+import StructureDefinition from './StructureDefinition';
 import StructureType from './StructureType';
-import type Locales from '../locale/Locales';
+import Sym from './Sym';
 import TableLiteral from './TableLiteral';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class TableType extends BasisType {
     readonly open: Token;
@@ -56,7 +57,7 @@ export default class TableType extends BasisType {
         return [TableType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TableType';
     }
 
@@ -145,12 +146,13 @@ export default class TableType extends BasisType {
         return 'table';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TableType);
+    static readonly LocalePath = (l: LocaleText) => l.node.TableType;
+    getLocalePath() {
+        return TableType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 
     getDefaultExpression() {

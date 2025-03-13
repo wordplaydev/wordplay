@@ -1,22 +1,27 @@
-<svelte:options immutable={true} />
-
-<script context="module" lang="ts">
+<script module lang="ts">
     const LIMIT = 25;
 </script>
 
 <script lang="ts">
     import Node from '@nodes/Node';
-    import { getCaret, isBlocks } from '../project/Contexts';
-    import NodeView from './NodeView.svelte';
+    import { getCaret, getIsBlocks } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
-    import { locales } from '../../db/Database';
+    import NodeView from './NodeView.svelte';
 
-    export let nodes: Node[];
-    export let elide = false;
-    export let direction: 'row' | 'column' = 'row';
+    interface Props {
+        nodes: Node[];
+        elide?: boolean;
+        direction?: 'row' | 'column';
+    }
+
+    let {
+        nodes,
+        elide = $bindable(false),
+        direction = 'row',
+    }: Props = $props();
 
     let caret = getCaret();
-    const blocks = isBlocks();
+    const blocks = getIsBlocks();
 
     /**
      * To help scalability of the editor, only show the first few values.
@@ -24,10 +29,12 @@
      * And allow the creator to toggle them all to be shown, if they want to take
      * the performance hit.
      **/
-    let visible: Node[];
-    let hiddenBefore = 0;
-    let hiddenAfter = 0;
-    $: {
+    let visible: Node[] = $state([]);
+    let hiddenBefore = $state(0);
+    let hiddenAfter = $state(0);
+
+    // Update what's hidden and visible based on state.
+    $effect(() => {
         // More than some number? Elide.
         if (elide && nodes.length > LIMIT && $caret) {
             const first = nodes.at(0);
@@ -74,7 +81,7 @@
             hiddenBefore = 0;
             hiddenAfter = 0;
         }
-    }
+    });
 </script>
 
 {#if $blocks}
@@ -85,13 +92,13 @@
 {:else}
     {#if hiddenBefore > 0}
         <Button
-            tip={$locales.get((l) => l.ui.source.button.expandSequence)}
+            tip={(l) => l.ui.source.button.expandSequence}
             action={() => (elide = false)}
             ><span class="count">… {hiddenBefore}</span></Button
         >{/if}{#each visible as node}<NodeView
             {node}
         />{/each}{#if hiddenAfter > 0}<Button
-            tip={$locales.get((l) => l.ui.source.button.expandSequence)}
+            tip={(l) => l.ui.source.button.expandSequence}
             action={() => (elide = false)}
             ><span class="count">… {hiddenAfter}</span></Button
         >{/if}
@@ -106,7 +113,7 @@
     .node-list {
         display: flex;
         /* max-width: 40em; */
-        flex-wrap: wrap;
+        /* flex-wrap: wrap; */
     }
 
     .row {

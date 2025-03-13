@@ -1,28 +1,30 @@
-import type { Grammar, Replacement } from './Node';
+import type EditContext from '@edit/EditContext';
+import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Node, { list, node } from './Node';
-import Literal from './Literal';
-import type Value from '../values/Value';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
 import MarkupValue from '@values/MarkupValue';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import TextValue from '../values/TextValue';
+import type Value from '../values/Value';
+import type Context from './Context';
+import type Expression from './Expression';
+import FormattedTranslation from './FormattedTranslation';
 import FormattedType from './FormattedType';
 import { getPreferred } from './LanguageTagged';
-import FormattedTranslation from './FormattedTranslation';
-import type Expression from './Expression';
-import type Context from './Context';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import type Step from '@runtime/Step';
-import type Evaluator from '@runtime/Evaluator';
-import Token from './Token';
+import Literal from './Literal';
+import type { Grammar, Replacement } from './Node';
+import Node, { list, node } from './Node';
 import Sym from './Sym';
-import TextValue from '../values/TextValue';
-import type Locales from '../locale/Locales';
-import type LanguageCode from '@locale/LanguageCode';
-import type EditContext from '@edit/EditContext';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -45,7 +47,7 @@ export default class FormattedLiteral extends Literal {
         return this.getPossibleReplacements(context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FormattedLiteral';
     }
 
@@ -126,7 +128,7 @@ export default class FormattedLiteral extends Literal {
             const text =
                 value instanceof TextValue
                     ? value.text
-                    : value?.toString() ?? '';
+                    : (value?.toString() ?? '');
             concrete = concrete.replace(example, new Token(text, Sym.Words));
         }
 
@@ -144,12 +146,13 @@ export default class FormattedLiteral extends Literal {
         return getPreferred(locales, this.texts);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FormattedLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.FormattedLiteral;
+    getLocalePath() {
+        return FormattedLiteral.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Formatted;
+    getCharacter() {
+        return Characters.Formatted;
     }
 
     getValue(locales: Locale[]): Value {
@@ -170,7 +173,7 @@ export default class FormattedLiteral extends Literal {
     }
 
     getFinish(): Node {
-        throw this.texts[this.texts.length - 1];
+        return this.texts[this.texts.length - 1];
     }
 
     getStartExplanations(locales: Locales) {

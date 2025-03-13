@@ -1,226 +1,275 @@
-<script context="module" lang="ts">
-    export const TYPING_DELAY = 500;
+<script module lang="ts">
+    /** How long to wait until considering typing idle. */
+    export const KeyboardIdleWaitTime = 500;
 </script>
 
+<!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import { getContext, onDestroy, setContext, tick } from 'svelte';
-    import { derived, writable, type Writable } from 'svelte/store';
-    import {
-        type DraggedContext,
-        DraggedSymbol,
-        ConceptIndexSymbol,
-        type ConceptIndexContext,
-        setSelectedOutput,
-        type AnimatingNodesContext,
-        type ConflictsContext,
-        type SelectedOutputPathsContext,
-        type SelectedPhraseContext,
-        type EvaluatorContext,
-        EvaluatorSymbol,
-        SelectedOutputSymbol,
-        SelectedPhraseSymbol,
-        type SelectedOutputContext,
-        ConflictsSymbol,
-        AnimatingNodesSymbol,
-        SelectedOutputPathsSymbol,
-        type EvaluationContext,
-        EvaluationSymbol,
-        KeyboardEditIdleSymbol,
-        getConceptPath,
-        IdleKind,
-        type EditorsContext,
-        EditorsSymbol,
-        type EditorState,
-        ProjectCommandContextSymbol,
-        AnnouncerSymbol,
-        type Announce,
-        type KeyModifierState,
-        KeyModfifierSymbol,
-    } from './Contexts';
-    import type Project from '@models/Project';
-    import Documentation from '@components/concepts/Documentation.svelte';
-    import Annotations from '../annotations/Annotations.svelte';
-    import type Conflict from '@conflicts/Conflict';
-    import RootView from './RootView.svelte';
-    import Highlight from '../editor/Highlight.svelte';
-    import { afterUpdate } from 'svelte';
-    import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
-    import type { HighlightSpec } from '../editor/util/Highlights';
-    import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Tile, { TileKind, Mode } from './Tile';
-    import OutputView from '../output/OutputView.svelte';
-    import Editor from '../editor/Editor.svelte';
-    import Layout from './Layout';
-    import NonSourceTileToggle from './NonSourceTileToggle.svelte';
-    import Button from '../widgets/Button.svelte';
-    import Palette from '../palette/Palette.svelte';
-    import type Bounds from './Bounds';
-    import type Source from '@nodes/Source';
-    import SourceTileToggle from './SourceTileToggle.svelte';
-    import type MenuInfo from '../editor/util/Menu';
-    import Menu from '../editor/Menu.svelte';
-    import Node from '@nodes/Node';
-    import ConceptIndex from '../../concepts/ConceptIndex';
-    import type Concept from '../../concepts/Concept';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { isName } from '@parser/Tokenizer';
     import { goto } from '$app/navigation';
-    import TextField from '../widgets/TextField.svelte';
-    import Evaluator from '@runtime/Evaluator';
-    import Evaluate from '@nodes/Evaluate';
-    import { page } from '$app/stores';
-    import type Caret from '../../edit/Caret';
-    import GlyphChooser from '../editor/GlyphChooser.svelte';
-    import Timeline from '../evaluator/Timeline.svelte';
-    import type PaintingConfiguration from '../output/PaintingConfiguration';
+    import { page } from '$app/state';
+    import CollaborateView from '@components/app/chat/CollaborateView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Documentation from '@components/concepts/Documentation.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import {
-        DB,
-        locales,
-        arrangement,
-        camera,
-        mic,
-        Settings,
-        Projects,
-        blocks,
-        localized,
-        Creators,
+        getConceptFromURL,
+        setConceptInURL,
+    } from '@concepts/ConceptParams';
+    import type Conflict from '@conflicts/Conflict';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
+    import type Project from '@db/projects/Project';
+    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import type Locale from '@locale/Locale';
+    import Node from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import { CANCEL_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
+    import { isName } from '@parser/Tokenizer';
+    import Evaluator from '@runtime/Evaluator';
+    import { onDestroy, onMount, tick, untrack } from 'svelte';
+    import { writable, type Writable } from 'svelte/store';
+    import type Concept from '../../concepts/Concept';
+    import ConceptIndex from '../../concepts/ConceptIndex';
+    import {
         animationFactor,
+        arrangement,
+        blocks,
+        camera,
+        Chats,
+        Creators,
+        DB,
+        Locales,
+        locales,
+        mic,
+        Projects,
+        Settings,
     } from '../../db/Database';
-    import Arrangement from '../../db/Arrangement';
+    import { isFlagged } from '../../db/projects/Moderation';
+    import Arrangement from '../../db/settings/Arrangement';
+    import type Caret from '../../edit/Caret';
+    import Characters from '../../lore/BasisCharacters';
+    import type Color from '../../output/Color';
+    import {
+        PROJECT_PARAM_EDIT,
+        PROJECT_PARAM_PLAY,
+    } from '../../routes/project/constants';
     import type Value from '../../values/Value';
+    import Annotations from '../annotations/Annotations.svelte';
+    import CreatorView from '../app/CreatorView.svelte';
+    import Emoji from '../app/Emoji.svelte';
+    import Spinning from '../app/Spinning.svelte';
+    import Editor from '../editor/Editor.svelte';
+    import CharacterChooser from '../editor/GlyphChooser.svelte';
+    import Highlight from '../editor/Highlight.svelte';
+    import Menu from '../editor/Menu.svelte';
     import {
         EnterFullscreen,
         ExitFullscreen,
+        handleKeyCommand,
         Restart,
         ShowKeyboardHelp,
         VisibleModifyCommands,
         VisibleNavigateCommands,
-        handleKeyCommand,
+        type CommandContext,
     } from '../editor/util/Commands';
+    import type { HighlightSpec } from '../editor/util/Highlights';
+    import type MenuInfo from '../editor/util/Menu';
+    import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
+    import Timeline from '../evaluator/Timeline.svelte';
+    import OutputView from '../output/OutputView.svelte';
+    import type PaintingConfiguration from '../output/PaintingConfiguration';
+    import Palette from '../palette/Palette.svelte';
+    import Button from '../widgets/Button.svelte';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import Help from './Shortcuts.svelte';
-    import type Color from '../../output/Color';
-    import Collaborators from './Collaborators.svelte';
-    import Toggle from '../widgets/Toggle.svelte';
-    import Announcer from './Announcer.svelte';
-    import { toClipboard } from '../editor/util/Clipboard';
-    import Spinning from '../app/Spinning.svelte';
-    import CreatorView from '../app/CreatorView.svelte';
-    import Moderation from './Moderation.svelte';
-    import { isFlagged } from '../../models/Moderation';
+    import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import Dialog from '../widgets/Dialog.svelte';
-    import Separator from './Separator.svelte';
-    import Emoji from '../app/Emoji.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import Toggle from '../widgets/Toggle.svelte';
+    import type Bounds from './Bounds';
+    import Checkpoints from './Checkpoints.svelte';
     import {
-        PROJECT_PARAM_CONCEPT,
-        PROJECT_PARAM_EDIT,
-        PROJECT_PARAM_PLAY,
-    } from '../../routes/project/constants';
-    import Switch from '@components/widgets/Switch.svelte';
-    import { withVariationSelector } from '../../unicode/emoji';
-    import FullscreenIcon from './FullscreenIcon.svelte';
-    import Glyphs from '../../lore/Glyphs';
-    import Speech from '@components/lore/Speech.svelte';
-    import Translate from './Translate.svelte';
-    import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
-    import { COPY_SYMBOL } from '@parser/Symbols';
+        getAnnounce,
+        getConceptPath,
+        getFullscreen,
+        getUser,
+        IdleKind,
+        setAnimatingNodes,
+        setConceptIndex,
+        setConflicts,
+        setDragged,
+        setEditors,
+        setEvaluation,
+        setKeyboardEditIdle,
+        setKeyboardModifiers,
+        setProjectCommandContext,
+        setSelectedOutput,
+        type ConceptPath,
+        type EditorState,
+        type KeyModifierState,
+    } from './Contexts';
     import CopyButton from './CopyButton.svelte';
-    import { localeToString } from '@locale/Locale';
-    import type Locale from '@locale/Locale';
-    import { default as ModeChooser } from '@components/widgets/Mode.svelte';
+    import EditorLocaleChooser from './EditorLocaleChooser.svelte';
+    import FullscreenIcon from './FullscreenIcon.svelte';
+    import Layout from './Layout';
+    import Moderation from './Moderation.svelte';
+    import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import RootView from './RootView.svelte';
+    import SelectedOutput from './SelectedOutput.svelte';
+    import Separator from './Separator.svelte';
+    import Sharing from './Sharing.svelte';
+    import Shortcuts from './Shortcuts.svelte';
+    import SourceTileToggle from './SourceTileToggle.svelte';
+    import Tile, { TileKind, TileMode } from './Tile';
+    import TileView, { type ResizeDirection } from './TileView.svelte';
+    import Translate from './Translate.svelte';
 
-    export let project: Project;
-    export let original: Project | undefined = undefined;
-    /** If false, then all things editable are deactivated */
-    export let editable = true;
-    /** If true, only the output is shown in the initial layout. */
-    export let showOutput = false;
-    /** True if the output should be fit to content */
-    export let fit = true;
-    /** True if the project should focus the main editor source on mount */
-    export let autofocus = true;
-    /** True if the project was overwritten by another instance of Wordplay */
-    export let overwritten = false;
-    /** True if the moderation warnings should show */
-    export let warn = true;
-    /** True if public dialog should show */
-    export let shareable = true;
+    interface Props {
+        project: Project;
+        /** An optional original project to revert to */
+        original?: Project | undefined;
+        /** If false, then all things editable are deactivated */
+        editable?: boolean;
+        /** If true, only the output is shown in the initial layout. */
+        showOutput?: boolean;
+        /** True if the output should be fit to content */
+        fit?: boolean;
+        /** True if the project should focus the main editor source on mount */
+        autofocus?: boolean;
+        /** True if the project was overwritten by another instance of Wordplay */
+        overwritten?: boolean;
+        /** Show the guide if the project is empty */
+        guide?: boolean;
+        /** True if the moderation warnings should show */
+        warn?: boolean;
+        /** True if public dialog should show */
+        shareable?: boolean;
+        /** The node being dragged */
+        dragged?: Node | undefined;
+        /** The concept index used for this project */
+        index?: ConceptIndex | undefined;
+        /** Whether to persist the layout for layter */
+        persistLayout?: boolean;
+    }
 
-    // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
-    let requestedPlay = $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null;
-    let requestedEdit = $page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null;
+    let {
+        project,
+        original = undefined,
+        editable = true,
+        showOutput = false,
+        fit = true,
+        autofocus = true,
+        overwritten = false,
+        guide = true,
+        warn = true,
+        shareable = true,
+        dragged = $bindable(undefined),
+        index = $bindable(undefined),
+        persistLayout = true,
+    }: Props = $props();
 
     // The HTMLElement that represents this element
-    let view: HTMLElement | undefined = undefined;
+    let view = $state<HTMLElement | undefined>(undefined);
 
     // The conflicts of interest in each editor, used to generate annotations.
-    let conflictsOfInterest: Map<Source, Conflict[]> = new Map();
+    let conflictsOfInterest = $state<Map<Source, Conflict[]>>(new Map());
 
     /** The latest menu generated by an editor */
-    let menu: MenuInfo | undefined;
+    let menu = $state<MenuInfo | undefined>(undefined);
 
     /** The latest mouse position */
-    let pointerX = 0;
-    let pointerY = 0;
+    let pointerX = $state(0);
+    let pointerY = $state(0);
 
     /** The view that contains the dragged node */
-    let dragContainer: HTMLElement | undefined;
+    let dragContainer = $state<HTMLElement | undefined>(undefined);
 
     /** The outline to display under the dragged node */
-    let outline: HighlightSpec | undefined = undefined;
+    let outline = $state<HighlightSpec | undefined>(undefined);
 
     /** The current canvas */
-    let canvas: HTMLElement;
+    let canvas = $state<HTMLDivElement | undefined>();
 
     /** Whether to show the keyboard help dialog */
-    let showHelpDialog = false;
+    let showHelpDialog = $state(false);
 
     /** The current canvas dimensions */
-    let canvasWidth = 1024;
-    let canvasHeight = 768;
+    let canvasWidth = $state(1024);
+    let canvasHeight = $state(768);
 
     /** The background color of the output, so we can make the tile match. */
-    let outputBackground: Color | string | null;
+    let outputBackground = $state<Color | string | null>(null);
 
-    /** True if the layout has been initialized. Used to remember to only initalize once. */
-    let layoutInitialized = false;
+    /** The current checkpoint chosen in the checkpoint chooser */
+    let checkpoint = $state(-1);
+
+    /** Whether the project is editable and viewing an older checkpoint */
+    let editableAndCurrent = $derived(editable && checkpoint === -1);
 
     /** The new source recently added. Used to remember to keep it expanded initially. */
-    let newSource: Source | undefined = undefined;
+    let newSource = $state<Source | undefined>(undefined);
 
     /** Keep a source select, to decide what value is shown on stage */
-    let selectedSourceIndex = 0;
-    $: selectedSource = project.getSources()[selectedSourceIndex];
+    let selectedSourceIndex = $state(0);
+
+    /** The current sources being viewed, either the project's source, or a checkpointed one */
+    const sources = $derived(
+        checkpoint >= 0
+            ? project
+                  .getCheckpoints()
+                  [checkpoint].sources.map((s) => new Source(s.names, s.code))
+            : project.getSources(),
+    );
+
+    /** The selected source is based on the index.*/
+    const selectedSource = $derived(sources[selectedSourceIndex]);
+
+    // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
+    let requestedPlay = $state(
+        page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null,
+    );
+    let requestedEdit = $state(
+        page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
+    );
+
+    const user = getUser();
 
     /** The fullscreen context of the page that this is in. */
-    const pageFullscreen = getContext<
-        Writable<{ on: boolean; background: Color | string | null }> | undefined
-    >('fullscreen');
+    const pageFullscreen = getFullscreen();
+
+    /** The live region announcer */
+    const announce = getAnnounce();
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
-    $: pageFullscreen?.set({
-        // Don't turn on fullscreen if we were requested to show output.
-        on: layout.isFullscreen() && !showOutput,
-        // Only set a background if it's the stage that's in fullscreen
-        background: layout.isStageFullscreen() ? outputBackground : null,
+    $effect(() => {
+        pageFullscreen?.set({
+            // Don't turn on fullscreen if we were requested to show output.
+            on: layout.isFullscreen() && !showOutput,
+            // Only set a background if it's the stage that's in fullscreen
+            background: layout.isStageFullscreen() ? outputBackground : null,
+        });
     });
 
     /** Whether the browser is in fullscreen */
-    let browserFullscreen = false;
+    let browserFullscreen = $state(false);
 
     /** The conflicts present in the current project. **/
-    const conflicts: ConflictsContext = writable([]);
+    const conflicts = writable<Conflict[]>([]);
+    setConflicts(conflicts);
 
     /** Keep the project in a store so we can derive other stores from it. */
     let projectStore = writable<Project>(project);
-    $: if ($projectStore !== project) projectStore.set(project);
+    $effect(() => {
+        if ($projectStore !== project) projectStore.set(project);
+    });
 
     /** Keep a project view global store indicating whether the creator is idle. */
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
-    setContext(KeyboardEditIdleSymbol, keyboardEditIdle);
-    let keyboardIdleTimeout: NodeJS.Timeout | undefined = undefined;
+    setKeyboardEditIdle(keyboardEditIdle);
+
+    let keyboardIdleTimeout = $state<NodeJS.Timeout | undefined>(undefined);
 
     /** Keep a project global store indicating modifier key state, so that controls can highlight themselves */
     const keyModifiers = writable<KeyModifierState>({
@@ -228,104 +277,82 @@
         alt: false,
         shift: false,
     });
-    setContext(KeyModfifierSymbol, keyModifiers);
+    setKeyboardModifiers(keyModifiers);
 
     /** Keep a currently selected output locale to send to the Evaluator for evaluation and rendering */
-    let evaluationLocale: Locale | undefined = undefined;
+    let evaluationLocale = $state<Locale | undefined>(undefined);
 
     /** Keep track of locales used */
-    $: localesUsed = project.getLocalesUsed();
+    const localesUsed = $derived(project.getLocalesUsed());
+
+    /** Keep a reactive map from source to EditorLocale chosen for the source */
+    let editorLocales = $state<Record<string, Locale | null>>({});
 
     // When keyboard isn't idle, set a timeout to set it to idle later.
     // to reset it to false after a delay.
-    $: {
+    $effect(() => {
         if ($keyboardEditIdle !== IdleKind.Idle) {
-            if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
-            keyboardIdleTimeout = setTimeout(
-                () => keyboardEditIdle.set(IdleKind.Idle),
-                TYPING_DELAY,
-            );
+            untrack(() => {
+                if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+                keyboardIdleTimeout = setTimeout(
+                    () => keyboardEditIdle.set(IdleKind.Idle),
+                    KeyboardIdleWaitTime,
+                );
+            });
         }
-    }
-
-    onDestroy(() => {
-        if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+        return () => {
+            if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+        };
     });
 
-    /**
-     * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
-     * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
-     * so they can render selected feedback.
-     */
-    const selectedOutputPaths: SelectedOutputPathsContext = writable([]);
-    const selectedOutput: SelectedOutputContext = derived(
-        [projectStore, selectedOutputPaths],
-        ([proj, paths]) => {
-            return paths
-                .map(({ source, path }) => {
-                    if (
-                        source === undefined ||
-                        path === undefined ||
-                        proj === undefined
-                    )
-                        return undefined;
-                    const name = source.getNames()[0];
-                    if (name === undefined) return undefined;
-                    const newSource = proj.getSourceWithName(name);
-                    if (newSource === undefined) return undefined;
-                    return newSource.root.resolvePath(path);
-                })
-                .filter(
-                    (output): output is Evaluate => output instanceof Evaluate,
-                );
-        },
-    );
-    const selectedPhrase: SelectedPhraseContext = writable(null);
-
-    setContext<SelectedOutputPathsContext>(
-        SelectedOutputPathsSymbol,
-        selectedOutputPaths,
-    );
-    setContext<SelectedOutputContext>(SelectedOutputSymbol, selectedOutput);
-    setContext<SelectedPhraseContext>(SelectedPhraseSymbol, selectedPhrase);
+    /** Make the project global selected output and set it in a context. */
+    let selectedOutput = new SelectedOutput();
+    setSelectedOutput(selectedOutput);
 
     /**
      * Invalidates these inputs, indicating that it shouldn't be used.
      * This is a bit of a hack: we primarily use it as a way for the UI to communicate
      * to itself that when creating a new Evaluator, it shouldn't mirror the prior Evaluator's inputs.
      */
-    let replayInputs = true;
+    let replayInputs = $state(true);
     function resetInputs() {
         replayInputs = false;
         updateEvaluator(project);
     }
 
     /**
-     * Create a store for an evaluator for the project.
-     * Make it available to children.
-     * When the project changes,
+     * Create a state to store the current evaluator.
      */
     const evaluator: Writable<Evaluator> = writable();
-    let latestValue: Value | undefined;
 
-    setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
+    let latestValue = $state<Value | undefined>();
 
     // When the project changes, create a new evaluator, observe it.
-    let evaluatorTimeout: NodeJS.Timeout | undefined = undefined;
+    let evaluatorTimeout = $state<NodeJS.Timeout | undefined>();
     projectStore.subscribe((newProject) => {
         if ($keyboardEditIdle === IdleKind.Typing) {
             if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
             evaluatorTimeout = setTimeout(
                 () => updateEvaluator(newProject),
-                TYPING_DELAY,
+                KeyboardIdleWaitTime,
             );
         } else {
             updateEvaluator(newProject);
         }
     });
 
-    // When the locales change, reset the evaluator to use the new locales.
-    $: if ($locales) resetInputs();
+    // When the locales change or the checkpoint changes, reset the evaluator to use the new locales.
+    $effect(() => {
+        checkpoint;
+        $locales;
+        untrack(() => resetInputs());
+    });
+
+    function getCheckpointProject(proj: Project) {
+        return proj.withSources(
+            proj.getSources().map((s, index) => [s, sources[index]]),
+        );
+    }
 
     function updateEvaluator(newProject: Project) {
         // Stop the old evaluator.
@@ -333,7 +360,8 @@
 
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
-            newProject,
+            // Is the checkpoint not now? Use the old sources instead of the current ones.
+            checkpoint >= 0 ? getCheckpointProject(newProject) : newProject,
             DB,
             // Choose the selected evaluation locale or if not selected, currently selected IDE locale
             evaluationLocale ? [evaluationLocale] : localesUsed,
@@ -351,17 +379,9 @@
         evaluator.set(newEvaluator);
     }
 
-    /** Create a store for announcements for children to add to. */
-    let announce: Announce;
-    let announcer: Writable<Announce | undefined> = writable(undefined);
-    $: announcer.set(announce);
-    setContext<Writable<Announce | undefined>>(AnnouncerSymbol, announcer);
-
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
-    const evaluation: Writable<EvaluationContext> = writable(
-        getEvaluationContext(),
-    );
-    setContext<Writable<EvaluationContext>>(EvaluationSymbol, evaluation);
+    const evaluation = writable(getEvaluationContext());
+    setEvaluation(evaluation);
 
     function updateEvaluatorStores() {
         evaluation.set(getEvaluationContext());
@@ -383,23 +403,19 @@
     });
 
     /** Several store contexts for tracking evaluator state. */
-    const animatingNodes: AnimatingNodesContext = writable<Set<Node>>(
-        new Set(),
-    );
-
-    setContext<AnimatingNodesContext>(AnimatingNodesSymbol, animatingNodes);
-    setContext<ConflictsContext>(ConflictsSymbol, conflicts);
+    const animatingNodes = writable<Set<Node>>(new Set());
+    setAnimatingNodes(animatingNodes);
 
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
-    setContext<EditorsContext>(EditorsSymbol, editors);
+    setEditors(editors);
 
     // Clear the selected output upon playing.
     evaluation.subscribe((val) => {
-        if (val.playing) selectedOutputPaths.set([]);
+        if (val.playing) if (!selectedOutput.isEmpty()) selectedOutput.empty();
     });
 
-    function syncTiles(tiles: Tile[]): Tile[] {
+    function syncTiles(project: Project, tiles: Tile[]): Tile[] {
         const newTiles: Tile[] = [];
 
         // Go through each tile and map it to a source file.
@@ -411,8 +427,8 @@
                     requestedPlay
                         ? tile.withMode(
                               tile.kind === TileKind.Output
-                                  ? Mode.Expanded
-                                  : Mode.Collapsed,
+                                  ? TileMode.Expanded
+                                  : TileMode.Collapsed,
                           )
                         : // Not playing? Whatever it's current mode is.
                           tile,
@@ -425,10 +441,10 @@
                             // If playing, keep the source files collapsed
                             .withMode(
                                 requestedPlay
-                                    ? Mode.Collapsed
+                                    ? TileMode.Collapsed
                                     : requestedEdit &&
                                         source === project.getMain()
-                                      ? Mode.Expanded
+                                      ? TileMode.Expanded
                                       : tile.mode,
                             ),
                     );
@@ -437,7 +453,7 @@
 
         // Go through each source file and find the tile. If we don't find one, create one.
         let index = 0;
-        for (const source of project.getSources()) {
+        for (const source of sources) {
             const tile = tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index),
             );
@@ -457,302 +473,379 @@
         return new Tile(
             Layout.getSourceID(index),
             TileKind.Source,
-            index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
+            index === 0 || expandNewTile
+                ? TileMode.Expanded
+                : TileMode.Collapsed,
             undefined,
             Tile.randomPosition(1024, 768),
         );
     }
 
-    function initializedLayout() {
+    function getPersistedLayout() {
         const persistedLayout = Settings.getProjectLayout(project.getID());
         return persistedLayout === null
             ? null
             : persistedLayout
-                  .withTiles(syncTiles(persistedLayout.tiles))
+                  .withTiles(syncTiles(project, persistedLayout.tiles))
                   .withFullscreen(
                       requestedEdit ? undefined : persistedLayout.fullscreenID,
                   );
     }
 
-    /** Compute a default layout, or a new layout when the languages change. */
-    let layout: Layout;
-    $: {
-        layout =
-            (!layoutInitialized || layout.projectID !== project.getID()
-                ? initializedLayout()
+    function getInitialLayout() {
+        const defaultTiles =
+            // Create a layout in reading order.
+            [
+                new Tile(
+                    TileKind.Palette,
+                    TileKind.Palette,
+                    TileMode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Output,
+                    TileKind.Output,
+                    TileMode.Expanded,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Documentation,
+                    TileKind.Documentation,
+                    // If we're not supposed to show the guide, or there's code, don't show the guide by default.
+                    !guide ||
+                    project.getMain().expression.expression.statements.length >
+                        0
+                        ? TileMode.Collapsed
+                        : TileMode.Expanded,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Collaborate,
+                    TileKind.Collaborate,
+                    TileMode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                ...sources.map((source, index) =>
+                    // If starting with output only, collapse the source initially too.
+                    createSourceTile(source, index).withMode(
+                        showOutput
+                            ? TileMode.Collapsed
+                            : index === 0 || source === newSource
+                              ? TileMode.Expanded
+                              : TileMode.Collapsed,
+                    ),
+                ),
+            ];
+
+        return (
+            (persistLayout
+                ? getPersistedLayout()?.withMissingTiles(defaultTiles)
                 : null) ??
             new Layout(
                 project.getID(),
-                layout
-                    ? syncTiles(layout.tiles)
-                    : // Create a layout in reading order.
-                      [
-                          new Tile(
-                              TileKind.Palette,
-                              TileKind.Palette,
-                              Mode.Collapsed,
-                              undefined,
-                              Tile.randomPosition(1024, 768),
-                          ),
-                          new Tile(
-                              TileKind.Output,
-                              TileKind.Output,
-                              Mode.Expanded,
-                              undefined,
-                              Tile.randomPosition(1024, 768),
-                          ),
-                          new Tile(
-                              TileKind.Documentation,
-                              TileKind.Documentation,
-                              Mode.Collapsed,
-                              undefined,
-                              Tile.randomPosition(1024, 768),
-                          ),
-                          ...project.getSources().map((source, index) =>
-                              // If starting with output only, collapse the source initially too.
-                              createSourceTile(source, index).withMode(
-                                  showOutput
-                                      ? Mode.Collapsed
-                                      : index === 0 || source === newSource
-                                        ? Mode.Expanded
-                                        : Mode.Collapsed,
-                              ),
-                          ),
-                      ],
-                layout
-                    ? layout.fullscreenID
-                    : // If no layout, and showing output was requested, we fullscreen on output
-                      showOutput
-                      ? TileKind.Output
-                      : undefined,
-            );
+                defaultTiles,
+                // If showing output was requested, we fullscreen on output
+                showOutput ? TileKind.Output : undefined,
+            )
+        );
+    }
 
-        // Now that we've handled it, unset it.
-        requestedEdit = false;
+    /** The current layout of the tile windows, starting with a serialized layout or a default. */
+    let layout = $state<Layout>(getInitialLayout());
 
-        if (!layoutInitialized && requestedPlay) {
+    /** If project changes, create a new layout based on the new project */
+    $effect(() => {
+        if (untrack(() => layout.projectID) !== project.getID()) {
+            layout = getInitialLayout();
+        }
+    });
+
+    // If the URL requested play, set to full screen and focus on the stage.
+    onMount(() => {
+        if (requestedPlay) {
             const output = layout.getOutput();
             if (output) {
                 setFullscreen(output);
-                tick().then(() => focusTile(layout.fullscreenID));
+                tick().then(() => focusTile(output.id));
             }
         }
 
-        layoutInitialized = true;
-    }
-
-    /** Persist the layout when it changes */
-    $: Settings.setProjectLayout(project.getID(), layout);
+        // After mounted, disable the requested edit.
+        if (requestedEdit) requestedEdit = false;
+    });
 
     /** When the layout or path changes, add or remove query params based on state */
-    $: {
-        const searchParams = new URLSearchParams($page.url.searchParams);
+    $effect(() => {
+        const searchParams = new URLSearchParams(page.url.searchParams);
 
         if (!requestedPlay) searchParams.delete(PROJECT_PARAM_PLAY);
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
-        if ($path && $path.length > 0) {
-            const concept = $path[$path.length - 1];
-            const name = concept.getName($locales, false);
-            const ownerName = $index
-                ?.getConceptOwner(concept)
-                ?.getName($locales, false);
-
-            searchParams.set(
-                PROJECT_PARAM_CONCEPT,
-                `${ownerName ? `${ownerName}/` : ''}${name}`,
+        if (index)
+            setConceptInURL(
+                $locales,
+                $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
+                index,
+                searchParams,
             );
-        } else searchParams.delete(PROJECT_PARAM_CONCEPT);
 
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
         const currentSearch =
-            $page.url.search.charAt(0) === '?'
-                ? $page.url.search.substring(1)
-                : $page.url.search;
+            page.url.search.charAt(0) === '?'
+                ? page.url.search.substring(1)
+                : page.url.search;
         // If the search params haven't changed, don't navigate.
         if (search !== currentSearch)
             goto(`?${search}`, { replaceState: true });
-    }
+    });
+
+    /** Persist the layout when it changes */
+    $effect(() => {
+        if (persistLayout) Settings.setProjectLayout(project.getID(), layout);
+    });
 
     /** The tile being dragged */
-    let draggedTile:
+    let draggedTile = $state<
         | {
               id: string;
               left: number;
               top: number;
               direction: ResizeDirection | null;
           }
-        | undefined = undefined;
-
-    /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
-    let maxRight = 0;
-    let maxBottom = 0;
+        | undefined
+    >(undefined);
 
     /* A global context for a node being dragged */
-    export let dragged = writable<Node | undefined>(undefined);
-    setContext<DraggedContext>(DraggedSymbol, dragged);
+    let draggedStore = writable<Node | undefined>(dragged);
+    $effect(() => {
+        dragged = $draggedStore;
+    });
+    setDragged(draggedStore);
 
     /** True if the output should show a grid */
-    let grid = false;
+    let grid = $state(false);
 
     /** Undefined or an object defining painting configuration */
-    let painting = false;
-    let paintingConfig: PaintingConfiguration = {
+    let painting = $state(false);
+    let paintingConfig = $state<PaintingConfiguration>({
         characters: 'a',
         size: 1,
         font: $locales.get((l) => l.ui.font.app),
-    };
+    });
 
-    /** Set up project wide concept index and path context */
-    export let index: ConceptIndexContext = writable(
-        ConceptIndex.make(project, $locales),
-    );
-    setContext(ConceptIndexSymbol, index);
+    /** Get the store of how tos stored in the locales database. */
+    let howToStore = Locales.howTos;
+    let howTos = $derived($howToStore[$locales.getLocaleString()]);
+
+    /** Update the concept index whenever the project, locales, or how tos change. */
+    $effect(() => {
+        index = ConceptIndex.make(
+            project,
+            $locales,
+            howTos instanceof Promise ? [] : howTos,
+        );
+    });
+
+    /* Keep the index context up to date when it changes.*/
+    $effect(() => {
+        indexContext.index = index;
+    });
+
+    // Create a reactive index state for the context.
+    let indexContext = $state({ index });
+    setConceptIndex(indexContext);
 
     // After mounting, see if there's a concept in the URL, and set the path to it if so.
     let path = getConceptPath();
 
-    // Restore the concept in the URL.
-    restoreConcept();
-
-    function resolveConcept(conceptPath: string): Concept | undefined {
-        if (conceptPath && $index) {
-            const [ownerName, name] = conceptPath.split('/');
-            const concept =
-                ownerName && name
-                    ? $index?.getSubConcept(ownerName, name)
-                    : $index?.getConceptByName(ownerName);
-            return concept;
+    // Restore the concept in the URL after mounting.
+    onMount(() => {
+        if (index) {
+            const concept = getConceptFromURL(index, page.url.searchParams);
+            if (concept && path) path.set([concept]);
         }
-        return undefined;
-    }
-
-    function restoreConcept() {
-        const id = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
-        const concept = id ? resolveConcept(id) : undefined;
-        if (concept && path) path.set([concept]);
-    }
+    });
 
     let latestProject: Project | undefined;
 
     // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
-    $: if ($keyboardEditIdle && latestProject !== project) {
-        latestProject = project;
+    $effect(() => {
+        if ($keyboardEditIdle && latestProject !== project) {
+            latestProject = project;
 
-        // Make a new concept index with the new project and translations, but the old examples.
-        const newIndex =
-            project && $index
-                ? ConceptIndex.make(project, $locales).withExamples(
-                      $index.examples,
-                  )
-                : undefined;
+            // Make a new concept index with the new project and translations, but the old examples.
+            const newIndex =
+                project && index
+                    ? ConceptIndex.make(
+                          project,
+                          $locales,
+                          howTos instanceof Promise ? [] : howTos,
+                      ).withExamples(index.examples)
+                    : undefined;
 
-        // Set the index
-        index.set(newIndex);
+            // Set the index
+            index = newIndex;
 
-        // Map the old path to the new one using concept equality.
-        if (path)
-            path.set(
-                $index && $path
-                    ? $path
-                          .map((concept) => $index?.getEquivalent(concept))
-                          .filter((c): c is Concept => c !== undefined)
-                    : [],
+            // Map the old path to the new one using concept equality.
+            if (path)
+                path.set(
+                    index && $path
+                        ? $path
+                              .map((concept) => index?.getEquivalent(concept))
+                              .filter((c): c is Concept => c !== undefined)
+                        : [],
+                );
+
+            // Ensure the selected source index is in bounds.
+            selectedSourceIndex = Math.min(
+                selectedSourceIndex,
+                project.getSupplements().length,
             );
-
-        // Ensure the selected source index is in bounds.
-        selectedSourceIndex = Math.min(
-            selectedSourceIndex,
-            project.getSupplements().length,
-        );
-    }
+        }
+    });
 
     // When the path changes, show the docs and mirror the concept in the URL.
-    let latestPath: Concept[] = $path ?? [];
-    $: {
+    let latestPath = $state<ConceptPath>($path ?? []);
+
+    // When the path changes, show the docs, and leave fullscreen.
+    $effect(() => {
+        const docs = untrack(() => layout.getDocs());
         if (
             $path &&
+            $path.length > 0 &&
             ($path.length !== latestPath.length ||
                 !$path.every((concept, index) =>
                     concept.isEqualTo(latestPath[index]),
-                ))
+                ) ||
+                untrack(() => layout.isFullscreen()))
         ) {
-            const docs = layout.getDocs();
-            if (docs) setMode(docs, Mode.Expanded);
-        }
-        // Update the latest path.
-        latestPath = $path ?? [];
-    }
-
-    /** Build a list of visible conflicts of interest based on what tiles are expanded. */
-    $: visibleConflicts = Array.from(conflictsOfInterest.keys())
-        // Get the list of sources that are expanded
-        .filter(
-            (source) =>
-                layout.getSource(project.getIndexOfSource(source))?.mode ===
-                Mode.Expanded,
-        )
-        // Convert them into lists of conflicts
-        .map((source) => conflictsOfInterest.get(source) ?? [])
-        // Flatten the list
-        .flat();
-
-    /**
-     * Reanalyze on a delay any time the project changes.
-     * */
-    let updateTimer: NodeJS.Timeout | undefined = undefined;
-    $: {
-        // Re-evaluate immediately.
-        if (!$evaluator.isStarted()) $evaluator.start();
-
-        if (updateTimer) clearTimeout(updateTimer);
-        updateTimer = setTimeout(() => {
-            project.analyze();
-            conflicts?.set(project.getConflicts());
-        }, TYPING_DELAY);
-    }
-
-    /** When stepping and the current step changes, change the active source. */
-    $: if ($evaluation.playing === false && $evaluation.step) {
-        const source = project.getSourceOf($evaluation.step.node);
-        const tile = source
-            ? layout.getSource(project.getIndexOfSource(source))
-            : undefined;
-        if (tile && tile.mode === Mode.Collapsed) {
-            setMode(tile, Mode.Expanded);
-        }
-    }
-
-    /** When output selection changes, make the palette visible. */
-    $: {
-        const palette = layout.getPalette();
-        if (palette) {
-            if ($selectedOutput && $selectedOutput.length > 0) {
-                if (palette.mode === Mode.Collapsed)
-                    setMode(palette, Mode.Expanded);
+            if (docs) {
+                setFullscreen(undefined);
+                setMode(docs, TileMode.Expanded);
             }
         }
-    }
+    });
+
+    // When the path changes, set the latest path
+    $effect(() => {
+        latestPath = $path ?? [];
+    });
+
+    /** Build a list of visible conflicts of interest based on what tiles are expanded. */
+    let visibleConflicts = $derived(
+        Array.from(conflictsOfInterest.keys())
+            // Get the list of sources that are expanded
+            .filter(
+                (source) =>
+                    layout &&
+                    layout.getSource(project.getIndexOfSource(source))?.mode ===
+                        TileMode.Expanded,
+            )
+            // Convert them into lists of conflicts
+            .map((source) => conflictsOfInterest.get(source) ?? [])
+            // Flatten the list
+            .flat(),
+    );
+
+    /**
+     * Any time the evaluator of the project changes, start it, and analyze it after some delay.
+     * */
+    let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
+    $effect(() => {
+        // Re-evaluate immediately if not started.
+        if (!$evaluator.isStarted()) $evaluator.start();
+
+        untrack(() => {
+            if (updateTimer) clearTimeout(updateTimer);
+        });
+
+        function updateConflicts() {
+            // In the middle of analyzing? Check later.
+            if (project.analyzed === 'analyzing')
+                setTimeout(updateConflicts, KeyboardIdleWaitTime);
+            // Done analyzing, or not analyzed?
+            else {
+                // Analyze if not analyzed  yet.
+                if (project.analyzed === 'unanalyzed') project.analyze();
+                // Get the resulting conflicts.
+                conflicts.set(project.getConflicts());
+            }
+        }
+
+        updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
+    });
+
+    /** When stepping and the current step changes, change the active source. */
+    $effect(() => {
+        if ($evaluation.playing === false && $evaluation.step) {
+            const source = project.getSourceOf($evaluation.step.node);
+            const tile = source
+                ? untrack(() => layout).getSource(
+                      project.getIndexOfSource(source),
+                  )
+                : undefined;
+            if (tile && tile.mode === TileMode.Collapsed) {
+                untrack(() => setMode(tile, TileMode.Expanded));
+            }
+        }
+    });
+
+    /** When output selection changes, make the palette visible. */
+    $effect(() => {
+        const palette = untrack(() => layout).getPalette();
+        if (palette) {
+            if (!selectedOutput.isEmpty()) {
+                if (palette.mode === TileMode.Collapsed)
+                    untrack(() => setMode(palette, TileMode.Expanded));
+            }
+        }
+    });
 
     /** When the canvas size changes, resize the layout */
-    $: if (canvasWidth && canvasHeight) {
-        layout = layout.resized($arrangement, canvasWidth, canvasHeight);
+    $effect(() => {
+        refreshLayout();
+    });
+
+    function refreshLayout() {
+        layout = untrack(() => layout).resized(
+            $arrangement,
+            canvasWidth,
+            canvasHeight,
+        );
     }
 
+    /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
+    let maxRight = $state(0);
+    let maxBottom = $state(0);
+
     /** Recompute the bounds based every time the layout changes. */
-    $: maxRight = Math.max.apply(undefined, [
-        maxRight,
-        ...layout.tiles.map((tile) => tile.position.left + tile.position.width),
-    ]);
-    $: maxBottom = Math.max.apply(undefined, [
-        maxBottom,
-        ...layout.tiles.map((tile) => tile.position.top + tile.position.height),
-    ]);
+    $effect(() => {
+        maxRight = Math.max.apply(undefined, [
+            maxRight,
+            ...(layout
+                ? layout.tiles.map(
+                      (tile) => tile.position.left + tile.position.width,
+                  )
+                : []),
+        ]);
+        maxBottom = Math.max.apply(undefined, [
+            maxBottom,
+            ...(layout
+                ? layout.tiles.map(
+                      (tile) => tile.position.top + tile.position.height,
+                  )
+                : []),
+        ]);
+    });
 
     /** When the program steps or locales change, get the latest value of the program's evaluation. */
-    $: {
+    $effect(() => {
         $evaluation;
         $locales;
 
@@ -761,24 +854,28 @@
         // for typing responsiveness.
         const source = $evaluator.project.getSources()[selectedSourceIndex];
         if (source) latestValue = $evaluator.getLatestSourceValue(source);
-    }
+    });
 
     /**
      * When the layout changes, create an ID to key off of when generating tile views.
      * This is necessary because of a defect in Svelte's keyed each behavior, which
      * doesn't appear to be able to handle swaps in a list.
      */
-    $: tileIDSequence = layout.tiles.map((tile) => tile.id).join(',');
+    const tileIDSequence = $derived(
+        layout ? layout.tiles.map((tile) => tile.id).join(',') : '',
+    );
 
     /** If the source file corresponding to the menu closes, hide the menu. */
-    $: if (menu) {
-        // Find the tile corresponding to the menu's source file.
-        const index = project.getSources().indexOf(menu.getCaret().source);
-        const tile = layout.tiles.find(
-            (tile) => tile.id === Layout.getSourceID(index),
-        );
-        if (tile && tile.isCollapsed()) hideMenu();
-    }
+    $effect(() => {
+        if (menu) {
+            // Find the tile corresponding to the menu's source file.
+            const index = sources.indexOf(menu.getCaret().source);
+            const tile = layout?.tiles.find(
+                (tile) => tile.id === Layout.getSourceID(index),
+            );
+            if (tile && tile.isCollapsed()) hideMenu();
+        }
+    });
 
     /** If the camera or mic changes, restart the evaluator to reflect to the new stream. */
     const cameraUnsubscribe = camera.subscribe(() => resetInputs());
@@ -794,10 +891,17 @@
         menu = undefined;
     }
 
-    /** When the menu changes, compute a menu position. */
-    $: menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
+    let menuPosition = $state<ReturnType<typeof getMenuPosition> | undefined>(
+        undefined,
+    );
 
-    afterUpdate(() => {
+    /** When the menu changes, compute a menu position. */
+    $effect(() => {
+        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
+    });
+
+    // When the locale direction changes, update the output.
+    $effect(() => {
         const direction = $locales.getDirection();
         /** After each update, measure an outline of the node view in the drag container. */
         const nodeView = dragContainer?.querySelector('.node-view');
@@ -809,6 +913,66 @@
             };
     });
 
+    /**
+     * This reactive block creates a ProjectView wide context for commands to do their work,
+     * particularly CommandButtons.
+     */
+    let commandContext: CommandContext = $derived({
+        // Send the active caret, unless a non-source tile is fullscreen
+        caret:
+            layout === undefined || layout.isFullscreenNonSource()
+                ? undefined
+                : (Array.from($editors.values()).find(
+                      (editor) => editor.focused,
+                  )?.caret ?? Array.from($editors.values())[0]?.caret),
+        project,
+        editor: false,
+        /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
+        evaluator: $evaluation.evaluator,
+        dragging: dragged !== undefined,
+        database: DB,
+        setFullscreen: (on: boolean) => setBrowserFullscreen(on),
+        focusOrCycleTile,
+        resetInputs,
+        toggleBlocks,
+        blocks: $blocks,
+        view: undefined,
+        help: () => (showHelpDialog = !showHelpDialog),
+    });
+
+    // Create reactive context to share the above.
+    let commandContextState = $state({ context: commandContext });
+    $effect(() => {
+        commandContextState.context = commandContext;
+    });
+    setProjectCommandContext(commandContextState);
+
+    // Get the chat for the project, if there is one.
+    // undefined: there isn't one
+    // null: we're still loading
+    // false: couldn't load it.
+    let chat = $state<Chat | undefined | null | false>(null);
+    $effect(() => {
+        // When the project or chat change, get the chat.
+        Chats.getChat(project).then((retrievedChat) => {
+            chat = retrievedChat;
+        });
+    });
+
+    // When ovewritten, announce it
+    $effect(() => {
+        if (overwritten)
+            untrack(() => {
+                if ($announce) {
+                    $announce(
+                        project.getID(),
+                        $locales.getLanguages()[0],
+                        $locales.get((l) => l.ui.source.overwritten),
+                    );
+                }
+            });
+    });
+
     function toggleBlocks(on: boolean) {
         Settings.setBlocks(on);
     }
@@ -818,7 +982,7 @@
     }
 
     function focusTile(focusedTileID: string | undefined) {
-        if (view === undefined || view === null) return;
+        if (view === undefined || view === null || layout === undefined) return;
 
         const firstTileID = layout.tiles.find(
             (tile) => !tile.isCollapsed(),
@@ -909,25 +1073,19 @@
         }
     }
 
-    function setMode(tile: Tile, mode: Mode) {
+    function setMode(tile: Tile, mode: TileMode) {
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
 
         // Special case selected output and the palette.
-        if (
-            tile === layout.getPalette() &&
-            $selectedOutput &&
-            selectedOutputPaths
-        ) {
-            if (tile.mode === Mode.Collapsed && $selectedOutput.length === 0) {
+        if (tile === layout.getPalette()) {
+            if (tile.mode === TileMode.Collapsed && selectedOutput.isEmpty()) {
                 const output = project.getOutput();
                 if (output.length > 0) {
-                    setSelectedOutput(selectedOutputPaths, project, [
-                        output[0],
-                    ]);
+                    selectedOutput.setPaths(project, [output[0]]);
                     $evaluator.pause();
                 }
-            } else if (tile.mode === Mode.Expanded) {
-                setSelectedOutput(selectedOutputPaths, project, []);
+            } else if (tile.mode === TileMode.Expanded) {
+                selectedOutput.setPaths(project, []);
             }
         }
 
@@ -936,8 +1094,8 @@
             .resized($arrangement, canvasWidth, canvasHeight);
     }
 
-    async function setFullscreen(tile: Tile | undefined) {
-        if (tile === undefined) stopPlaying();
+    function setFullscreen(tile: Tile | undefined) {
+        if (tile === undefined && requestedPlay) stopPlaying();
 
         if (tile) {
             layout = layout.withFullscreen(tile.id);
@@ -963,6 +1121,9 @@
 
     function handlePointerDown(event: PointerEvent) {
         if (event.buttons !== 1) return;
+
+        event.stopPropagation();
+        event.stopImmediatePropagation();
 
         // Is the arrangement free? Start dragging the tile if so.
         if ($arrangement === Arrangement.Free) {
@@ -999,6 +1160,8 @@
     }
 
     async function handlePointerMove(event: PointerEvent) {
+        if (!canvas) return;
+
         pointerX = event.clientX + canvas.scrollLeft;
         pointerY = event.clientY + canvas.scrollTop;
 
@@ -1047,6 +1210,8 @@
     }
 
     function scrollToTileView(id: string) {
+        if (canvas === undefined) return;
+
         const view = document.querySelector(`.tile[data-id=${id}]`);
         if (view) {
             const canvasRect = canvas.getBoundingClientRect();
@@ -1064,7 +1229,7 @@
     }
 
     function handlePointerUp() {
-        dragged.set(undefined);
+        dragged = undefined;
         draggedTile = undefined;
     }
 
@@ -1083,7 +1248,7 @@
     }
 
     function repositionFloaters() {
-        menu = menu;
+        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
     }
 
     function getSourceIndexByID(id: string) {
@@ -1091,43 +1256,14 @@
     }
 
     function getSourceByTileID(id: string) {
-        return project.getSources()[getSourceIndexByID(id)];
+        return sources[getSourceIndexByID(id)];
     }
-
-    /**
-     * This reactive block creates a ProjectView wide context for commands to do their work,
-     * particularly CommandButtons.
-     */
-    $: commandContext = {
-        // Send the active caret, unless a non-source tile is fullscreen
-        caret: layout.isFullscreenNonSource()
-            ? undefined
-            : Array.from($editors.values()).find((editor) => editor.focused)
-                  ?.caret ?? Array.from($editors.values())[0]?.caret,
-        project,
-        editor: false,
-        /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
-        evaluator: $evaluation.evaluator,
-        dragging: $dragged !== undefined,
-        database: DB,
-        setFullscreen: (on: boolean) => setBrowserFullscreen(on),
-        focusOrCycleTile,
-        resetInputs,
-        toggleBlocks,
-        blocks: $blocks,
-        view: undefined,
-        help: () => (showHelpDialog = !showHelpDialog),
-    };
-
-    const commandContextStore = writable(commandContext);
-    $: commandContextStore.set(commandContext);
-    setContext(ProjectCommandContextSymbol, commandContextStore);
 
     function handleKey(event: KeyboardEvent) {
         syncKeyModifiers(event);
 
-        if ($dragged !== undefined && event.key === 'Escape')
-            dragged.set(undefined);
+        if (dragged !== undefined && event.key === 'Escape')
+            dragged = undefined;
 
         // See if there's a command that matches...
         const [, result] = handleKeyCommand(event, commandContext);
@@ -1165,27 +1301,32 @@
         );
         if (editor === null) return undefined;
 
+        const project = document.querySelector('.project');
+        if (project === null) return undefined;
+
+        const projectBounds = project.getBoundingClientRect();
+
         // Is it a node? Position near it's top left.
         if (caret.position instanceof Node) {
             const view = editor.querySelector(
                 `.node-view[data-id="${caret.position.id}"]`,
             );
             if (view == null) return undefined;
-            const rect = view.getBoundingClientRect();
+            const nodeBounds = view.getBoundingClientRect();
             return {
-                left: rect.left,
-                top: rect.bottom,
+                left: nodeBounds.left - projectBounds.left,
+                top: nodeBounds.bottom - projectBounds.top,
             };
         }
         // Is it a position? Position at the bottom right of the caret.
         else if (caret.isIndex()) {
             // Find the position of the caret in the editor.
-            const view = editor.querySelector('.caret');
-            if (view === null) return undefined;
-            const rect = view.getBoundingClientRect();
+            const caretView = editor.querySelector('.caret');
+            if (caretView === null) return undefined;
+            const caretBounds = caretView.getBoundingClientRect();
             return {
-                left: rect.left,
-                top: rect.bottom,
+                left: caretBounds.left - projectBounds.left,
+                top: caretBounds.bottom - projectBounds.top,
             };
         }
     }
@@ -1193,7 +1334,9 @@
     function toggleTile(tile: Tile) {
         setMode(
             tile,
-            tile.mode === Mode.Expanded ? Mode.Collapsed : Mode.Expanded,
+            tile.mode === TileMode.Expanded
+                ? TileMode.Collapsed
+                : TileMode.Expanded,
         );
     }
 
@@ -1209,10 +1352,17 @@
 
         // This will propogate back to a new project here, updating the UI.
         Projects.reviseProject(newProject);
+
+        // Sync the tiles.
+        layout = layout.withTiles(syncTiles(newProject, layout.tiles));
+        refreshLayout();
     }
 
     function removeSource(source: Source) {
-        Projects.reviseProject(project.withoutSource(source));
+        const newProject = project.withoutSource(source);
+        Projects.reviseProject(newProject);
+        layout = layout.withTiles(syncTiles(newProject, layout.tiles));
+        refreshLayout();
     }
 
     function renameSource(id: string, name: string) {
@@ -1230,7 +1380,7 @@
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
             requestedPlay = false;
-            setMode(main, Mode.Expanded);
+            setMode(main, TileMode.Expanded);
             layout = layout.withoutFullscreen();
         }
     }
@@ -1243,29 +1393,27 @@
 <svelte:head><title>Wordplay - {project.getName()}</title></svelte:head>
 
 <svelte:window
-    on:keydown={handleKey}
-    on:keyup={handleKeyUp}
-    on:pointermove={handlePointerMove}
-    on:pointerup={handlePointerUp}
-    on:focus={resetKeyModifiers}
-    on:blur={resetKeyModifiers}
+    onkeydown={handleKey}
+    onkeyup={handleKeyUp}
+    onpointermove={handlePointerMove}
+    onpointerup={handlePointerUp}
+    onfocus={resetKeyModifiers}
+    onblur={resetKeyModifiers}
 />
 
 {#if warn}
     <Moderation {project} />
 {/if}
-<!-- Render a live region with announcements as soon as possible -->
-<Announcer bind:announce />
 <!-- Render the current project. -->
-<main class="project" class:dragging={$dragged !== undefined} bind:this={view}>
+<main class="project" class:dragging={dragged !== undefined} bind:this={view}>
     <div
         class="canvas"
         class:free={$arrangement === Arrangement.Free}
-        on:pointerdown|stopImmediatePropagation|stopPropagation={handlePointerDown}
-        on:pointerup={handlePointerUp}
-        on:pointermove={handlePointerMove}
-        on:transitionend={repositionFloaters}
-        on:scroll={repositionFloaters}
+        onpointerdown={handlePointerDown}
+        onpointerup={handlePointerUp}
+        onpointermove={handlePointerMove}
+        ontransitionend={repositionFloaters}
+        onscroll={repositionFloaters}
         bind:clientWidth={canvasWidth}
         bind:clientHeight={canvasHeight}
         bind:this={canvas}
@@ -1284,10 +1432,12 @@
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">
-                    <Speech glyph={Glyphs.Function}>
-                        <svelte:fragment slot="content">
-                            {$locales.get((l) => l.ui.project.collapsed)} ⬇
-                        </svelte:fragment>
+                    <Speech character={Characters.FunctionDefinition}>
+                        {#snippet content()}
+                            <LocalizedText
+                                path={(l) => l.ui.project.collapsed}
+                            /> ⬇
+                        {/snippet}
                     </Speech>
                 </div>
             {:else}
@@ -1298,7 +1448,7 @@
                             {project}
                             {tile}
                             {layout}
-                            {editable}
+                            editable={editableAndCurrent}
                             arrangement={$arrangement}
                             background={tile.kind === TileKind.Output
                                 ? outputBackground
@@ -1307,51 +1457,36 @@
                             fullscreenID={layout.fullscreenID}
                             focuscontent={tile.kind === TileKind.Source ||
                                 tile.kind === TileKind.Output}
-                            on:mode={(event) =>
-                                setMode(tile, event.detail.mode)}
-                            on:position={(event) =>
-                                positionTile(tile, event.detail.position)}
-                            on:resize={(event) =>
-                                resizeTile(
-                                    event.detail.id,
-                                    event.detail.direction,
-                                    event.detail.left,
-                                    event.detail.top,
-                                )}
-                            on:scroll={repositionFloaters}
-                            on:rename={(event) =>
-                                renameSource(
-                                    event.detail.id,
-                                    event.detail.name,
-                                )}
-                            on:fullscreen={(event) => {
+                            setMode={(mode) => setMode(tile, mode)}
+                            position={(position: Bounds) =>
+                                positionTile(tile, position)}
+                            resize={(id, direction, left, top) =>
+                                resizeTile(id, direction, left, top)}
+                            scroll={repositionFloaters}
+                            rename={(id, name) => renameSource(id, name)}
+                            setFullscreen={(fullscreen) => {
                                 if (
                                     layout.isFullscreen() &&
                                     tile.kind === TileKind.Output
                                 )
                                     stopPlaying();
-                                setFullscreen(
-                                    event.detail.fullscreen ? tile : undefined,
-                                );
+                                setFullscreen(fullscreen ? tile : undefined);
                             }}
                         >
-                            <svelte:fragment slot="name">
+                            {#snippet title()}
                                 {#if tile.isSource()}
                                     {@const source = getSourceByTileID(tile.id)}
                                     <!-- Can't delete main. -->
                                     {#if editable && source !== project.getMain()}
                                         <ConfirmButton
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.source.confirm.delete
-                                                        .description,
-                                            )}
+                                            tip={(l) =>
+                                                l.ui.source.confirm.delete
+                                                    .description}
                                             action={() => removeSource(source)}
-                                            prompt={$locales.get(
-                                                (l) =>
-                                                    l.ui.source.confirm.delete
-                                                        .prompt,
-                                            )}>⨉</ConfirmButton
+                                            prompt={(l) =>
+                                                l.ui.source.confirm.delete
+                                                    .prompt}
+                                            >{CANCEL_SYMBOL}</ConfirmButton
                                         >
                                     {/if}
                                 {:else if tile.kind === TileKind.Output}
@@ -1361,36 +1496,32 @@
                                                 l.ui.dialog.settings.mode
                                                     .animate,
                                         ).modes[$animationFactor]}
-                                        ><Emoji
-                                            >{AnimationFactorIcons[
-                                                $animationFactor
-                                            ]}</Emoji
-                                        >
+                                    >
+                                        <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
                                         {#if $animationFactor === 0}{$locales.get(
                                                 (l) =>
                                                     l.ui.dialog.settings.mode
                                                         .animate,
-                                            ).modes[0]}{/if}</span
-                                    >
+                                            ).modes[0]}{/if}
+                                    </span>
                                 {/if}
-                            </svelte:fragment>
-                            <svelte:fragment slot="extra">
+                            {/snippet}
+
+                            {#snippet extra()}
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    {#if showOutput || requestedPlay}<Button
+                                    {#if (requestedPlay || showOutput) && layout.isFullscreen()}<Button
                                             uiid="editProject"
                                             background
                                             padding={false}
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.page.projects.button
-                                                        .viewcode,
-                                            )}
+                                            tip={(l) =>
+                                                l.ui.page.projects.button
+                                                    .viewcode}
                                             action={() => stopPlaying()}
-                                            ><Emoji>👁️</Emoji></Button
-                                        >{/if}
+                                            icon="👁️"
+                                        ></Button>{/if}
                                     <CommandButton
                                         background
                                         command={Restart}
@@ -1409,67 +1540,53 @@
                                         />{/if} -->
                                     <Toggle
                                         background
-                                        tips={$locales.get(
-                                            (l) => l.ui.output.toggle.grid,
-                                        )}
+                                        tips={(l) => l.ui.output.toggle.grid}
                                         on={grid}
                                         toggle={() => (grid = !grid)}
                                         ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
                                         background
-                                        tips={$locales.get(
-                                            (l) => l.ui.output.toggle.fit,
-                                        )}
+                                        tips={(l) => l.ui.output.toggle.fit}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
                                         ><Emoji
                                             >{#if fit}🔒{:else}🔓{/if}</Emoji
                                         ></Toggle
                                     >
+                                    <Mode
+                                        descriptions={(l) =>
+                                            l.ui.dialog.settings.mode.animate}
+                                        choice={$animationFactor}
+                                        select={(choice) =>
+                                            Settings.setAnimationFactor(choice)}
+                                        modes={AnimationFactorIcons}
+                                        labeled={false}
+                                    />
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    <Switch
-                                        onLabel={withVariationSelector('🖱️')}
-                                        onTip={$locales.get(
-                                            (l) =>
-                                                l.ui.source.toggle.blocks.off,
-                                        )}
-                                        offLabel={withVariationSelector('⌨️')}
-                                        offTip={$locales.get(
-                                            (l) => l.ui.source.toggle.blocks.on,
-                                        )}
+                                    <!-- Dactivating for now. It's too unstable. -->
+                                    <!-- <Switch
+                                        onLabel={withMonoEmoji('🖱️')}
+                                        onTip={(l) =>
+                                            l.ui.source.toggle.blocks.off}
+                                        offLabel={withMonoEmoji('⌨️')}
+                                        offTip={(l) =>
+                                            l.ui.source.toggle.blocks.on}
                                         toggle={toggleBlocks}
                                         on={$blocks}
-                                    />
-                                    <ModeChooser
-                                        labeled={false}
-                                        descriptions={$locales.get(
-                                            (l) =>
-                                                l.ui.dialog.settings.mode
-                                                    .localized,
-                                        )}
-                                        choice={$localized === 'actual'
-                                            ? 0
-                                            : $localized === 'localized'
-                                              ? 1
-                                              : 2}
-                                        select={(choice) =>
-                                            Settings.setLocalized(
-                                                choice === 0
-                                                    ? 'actual'
-                                                    : choice === 1
-                                                      ? 'localized'
-                                                      : 'symbolic',
-                                            )}
-                                        modes={[
-                                            '...',
-                                            localeToString(
-                                                $locales.getLocale(),
-                                            ),
-                                            '😀',
-                                        ]}
-                                    />
+                                    /> -->
+                                    {#if localesUsed.length > 1}
+                                        {LOCALE_SYMBOL}
+                                        <EditorLocaleChooser
+                                            locale={editorLocales[tile.id] ??
+                                                null}
+                                            options={localesUsed}
+                                            change={(locale) => {
+                                                editorLocales[tile.id] = locale;
+                                            }}
+                                        ></EditorLocaleChooser>
+                                    {/if}
                                     <!-- Make a Button for every navigate command -->
                                     {#each VisibleNavigateCommands as command}<CommandButton
                                             {command}
@@ -1483,12 +1600,15 @@
                                             />{/each}
                                     {/if}
                                 {/if}
-                            </svelte:fragment>
-                            <svelte:fragment slot="content">
+                            {/snippet}
+                            {#snippet content()}
                                 {#if tile.kind === TileKind.Documentation}
                                     <Documentation {project} />
                                 {:else if tile.kind === TileKind.Palette}
-                                    <Palette {project} {editable} />
+                                    <Palette
+                                        {project}
+                                        editable={editableAndCurrent}
+                                    />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView
                                         {project}
@@ -1499,17 +1619,22 @@
                                         bind:painting
                                         {paintingConfig}
                                         bind:background={outputBackground}
-                                        {editable}
+                                        editable={editableAndCurrent}
                                     />
+                                {:else if tile.kind === TileKind.Collaborate}
+                                    <CollaborateView {project} {chat} />
                                     <!-- Show an editor, annotations, and a mini output view -->
-                                {:else}
+                                {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     <div class="annotated-editor">
                                         <Editor
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
-                                            {editable}
+                                            locale={editorLocales[tile.id] ??
+                                                null}
+                                            editable={editableAndCurrent}
+                                            {overwritten}
                                             sourceID={tile.id}
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
@@ -1517,29 +1642,72 @@
                                                 getSourceByTileID(tile.id) ===
                                                     project.getMain()}
                                             bind:menu
-                                            on:conflicts={(event) =>
-                                                (conflictsOfInterest =
+                                            updateConflicts={(
+                                                source,
+                                                conflicts,
+                                            ) => {
+                                                conflictsOfInterest = new Map(
                                                     conflictsOfInterest.set(
-                                                        event.detail.source,
-                                                        event.detail.conflicts,
-                                                    ))}
-                                            on:preview={() =>
+                                                        source,
+                                                        conflicts,
+                                                    ),
+                                                );
+                                            }}
+                                            setOutputPreview={() =>
                                                 (selectedSourceIndex =
                                                     getSourceIndexByID(
                                                         tile.id,
                                                     ))}
                                         />
                                     </div>
-                                {/if}</svelte:fragment
-                            ><svelte:fragment slot="footer"
-                                >{#if tile.kind === TileKind.Source && editable}
-                                    <GlyphChooser sourceID={tile.id} />
+                                {/if}
+                            {/snippet}
+                            {#snippet footer()}
+                                {#if tile.kind === TileKind.Source && editable}
+                                    {#if editableAndCurrent}<CharacterChooser
+                                            sourceID={tile.id}
+                                        />{/if}
+                                    {#if checkpoint > -1}
+                                        <div class="editor-warning"
+                                            ><LocalizedText
+                                                path={(l) =>
+                                                    l.ui.checkpoints.label
+                                                        .restore}
+                                            />
+                                            <Button
+                                                background
+                                                tip={(l) =>
+                                                    l.ui.checkpoints.button
+                                                        .restore}
+                                                active={checkpoint > -1}
+                                                action={() => {
+                                                    // Save a version of the project with the current source in the history and the new source the old source.
+                                                    Projects.reviseProject(
+                                                        getCheckpointProject(
+                                                            project.withCheckpoint(),
+                                                        ),
+                                                    );
+                                                    checkpoint = -1;
+                                                }}
+                                                label={(l) =>
+                                                    l.ui.checkpoints.button
+                                                        .restore}
+                                            />
+                                        </div>
+                                    {/if}
+                                    {#if $blocks}
+                                        <p class="editor-warning feedback"
+                                            >This editing mode is experimental. <Link
+                                                to="https://discord.gg/Jh2Qq9husy"
+                                                >Discuss</Link
+                                            > improvements.
+                                        </p>
+                                    {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
-                                    <Timeline
-                                        evaluator={$evaluator}
-                                    />{/if}</svelte:fragment
-                            ><svelte:fragment slot="margin"
-                                >{#if tile.kind === TileKind.Source && editable}
+                                    <Timeline evaluator={$evaluator} />{/if}
+                            {/snippet}
+                            {#snippet margin()}
+                                {#if tile.kind === TileKind.Source && editable}
                                     <Annotations
                                         {project}
                                         evaluator={$evaluator}
@@ -1548,9 +1716,9 @@
                                         conflicts={visibleConflicts}
                                         stepping={$evaluation.playing === false}
                                         caret={$editors.get(tile.id)?.caret}
-                                    />{/if}</svelte:fragment
-                            ></TileView
-                        >
+                                    />{/if}
+                            {/snippet}
+                        </TileView>
                     {/if}
                 {/each}
             {/if}
@@ -1558,123 +1726,124 @@
     </div>
 
     {#if !layout.isFullscreen() && !requestedPlay}
+        {@const owner = project.getOwner()}
         <nav class="footer">
-            {#if original}<Button
-                    uiid="revertProject"
-                    tip={$locales.get((l) => l.ui.project.button.revert)}
-                    active={!project.equals(original)}
-                    action={() => revert()}>↺</Button
-                >{/if}
-            {#if !editable}
-                {@const owner = project.getOwner()}
+            <div class="footer-row">
+                {#if original}<Button
+                        uiid="revertProject"
+                        tip={(l) => l.ui.project.button.revert}
+                        active={!project.equals(original)}
+                        action={() => revert()}
+                        icon="↺"
+                    ></Button>{/if}
                 {#if owner}
                     {#await Creators.getCreator(owner)}
-                        <Spinning label="" />
+                        <Spinning />
                     {:then creator}
                         <CreatorView {creator} />
                     {/await}
                 {/if}
-            {:else}
-                <Button
-                    tip={$locales.get((l) => l.ui.project.button.copy)}
-                    action={() => toClipboard(project.toWordplay())}
-                    ><Emoji>{COPY_SYMBOL}</Emoji></Button
-                >
-            {/if}
-
-            {#if editable}
-                <TextField
-                    text={project.getName()}
-                    description={$locales.get(
-                        (l) => l.ui.project.field.name.description,
+                {#if editable}
+                    <TextField
+                        id="project-name"
+                        text={project.getName()}
+                        description={(l) => l.ui.project.field.name.description}
+                        placeholder={(l) => l.ui.project.field.name.placeholder}
+                        changed={(name) =>
+                            Projects.reviseProject(project.withName(name))}
+                        max="10em"
+                    />
+                {:else}{project.getName()}{/if}
+                {#each sources as source, index}
+                    {@const tile = layout.getTileWithID(
+                        Layout.getSourceID(index),
                     )}
-                    placeholder={$locales.get(
-                        (l) => l.ui.project.field.name.placeholder,
-                    )}
-                    changed={(name) =>
-                        Projects.reviseProject(project.withName(name))}
-                    max="10em"
-                />
-                {#if shareable}
+                    {#if tile}
+                        <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
+                        <SourceTileToggle
+                            {project}
+                            {source}
+                            expanded={tile.mode === TileMode.Expanded}
+                            toggle={() => toggleTile(tile)}
+                        />
+                    {/if}
+                {/each}
+                {#if editable && layout.hasVisibleCollapsedSource()}
+                    <Separator />
+                {/if}
+                {#if editable}
+                    <Button
+                        uiid="addSource"
+                        tip={(l) => l.ui.project.button.addSource}
+                        action={addSource}
+                        icon="+{Characters.Program.symbols}"
+                    ></Button>{/if}
+                {#each layout.getNonSources() as tile}
+                    <!-- No need to show the tile if not visible when not editable. -->
+                    {#if tile.isVisibleCollapsed(editable)}
+                        <NonSourceTileToggle
+                            {project}
+                            {tile}
+                            on:toggle={() => toggleTile(tile)}
+                            notification={tile.kind === TileKind.Collaborate &&
+                                !!chat &&
+                                $user !== null &&
+                                chat.hasUnread($user.uid)}
+                        />
+                    {/if}
+                {/each}
+                <span class="right-align">
                     <Dialog
-                        description={$locales.get((l) => l.ui.dialog.share)}
+                        header={(l) => l.ui.dialog.help.header}
+                        explanation={(l) => l.ui.dialog.help.explanation}
                         button={{
-                            tip: $locales.get(
-                                (l) => l.ui.project.button.showCollaborators,
-                            ),
-                            icon: project.isPublic()
-                                ? isFlagged(project.getFlags())
-                                    ? '‼️'
-                                    : '🌐'
-                                : '🤫',
-                            label: project.isPublic()
-                                ? $locales.get(
-                                      (l) => l.ui.dialog.share.mode.public,
-                                  ).modes[1]
-                                : $locales.get((l) => l.ui.dialog.share).mode
-                                      .public.modes[0],
-                        }}
+                            tip: ShowKeyboardHelp.description,
+                            icon: ShowKeyboardHelp.symbol,
+                        }}><Shortcuts /></Dialog
                     >
-                        <Collaborators {project} />
-                    </Dialog>
-                {/if}
-                <Translate {project}></Translate>
-            {:else}{project.getName()}{/if}
-            {#if editable && layout.hasVisibleCollapsedSource()}
-                <Separator />
-            {/if}
-            {#each project.getSources() as source, index}
-                {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
-                {#if tile && tile.isCollapsed()}
-                    <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
-                    <SourceTileToggle
-                        {project}
-                        {source}
-                        expanded={tile.mode === Mode.Expanded}
-                        on:toggle={() => toggleTile(tile)}
-                    />
-                {/if}
-            {/each}
+                    <Toggle
+                        tips={(l) => l.ui.tile.toggle.fullscreen}
+                        on={browserFullscreen}
+                        command={browserFullscreen
+                            ? ExitFullscreen
+                            : EnterFullscreen}
+                        toggle={() => setBrowserFullscreen(!browserFullscreen)}
+                    >
+                        <FullscreenIcon />
+                    </Toggle>
+                </span>
+            </div>
             {#if editable}
-                <Button
-                    uiid="addSource"
-                    tip={$locales.get((l) => l.ui.project.button.addSource)}
-                    action={addSource}
-                    >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
-                >{/if}
-            {#if overwritten}
-                <span class="overwritten"
-                    >{$locales.get((l) => l.ui.source.overwritten)}</span
-                >
-            {/if}
-            {#each layout.getNonSources() as tile}
-                <!-- No need to show the palette if not editable. -->
-                {#if tile.isVisibleCollapsed(editable)}
-                    <NonSourceTileToggle
+                <div class="footer-row">
+                    {#if shareable}
+                        <Dialog
+                            header={(l) => l.ui.dialog.share.header}
+                            explanation={(l) => l.ui.dialog.share.explanation}
+                            button={{
+                                tip: (l) => l.ui.project.button.share.tip,
+                                icon:
+                                    project.isPublic() &&
+                                    isFlagged(project.getFlags())
+                                        ? '‼️'
+                                        : '↗',
+                                label: (l) => l.ui.project.button.share.label,
+                            }}
+                        >
+                            <Sharing {project} />
+                        </Dialog>
+                    {/if}
+                    <Separator />
+                    <Translate
                         {project}
-                        {tile}
-                        on:toggle={() => toggleTile(tile)}
-                    />
-                {/if}
-            {/each}
-            <span class="help">
-                <Dialog
-                    description={$locales.get((l) => l.ui.dialog.help)}
-                    button={{
-                        tip: $locales.get(ShowKeyboardHelp.description),
-                        icon: ShowKeyboardHelp.symbol,
-                        label: '',
-                    }}><Help /></Dialog
-                >
-            </span>
-            <Toggle
-                tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
-                on={browserFullscreen}
-                command={browserFullscreen ? ExitFullscreen : EnterFullscreen}
-                toggle={() => setBrowserFullscreen(!browserFullscreen)}
-            >
-                <FullscreenIcon />
-            </Toggle>
+                        showAll={() => {
+                            for (const id of Object.keys(editorLocales))
+                                editorLocales[id] = null;
+                        }}
+                    ></Translate>
+                    <Separator />
+                    <Checkpoints {project} bind:checkpoint></Checkpoints>
+                </div>
+            {/if}
         </nav>
 
         <!-- Render the menu on top of the annotations -->
@@ -1683,7 +1852,7 @@
         {/if}
 
         <!-- Render the dragged node over the whole project -->
-        {#if $dragged !== undefined}
+        {#if dragged !== undefined}
             <!-- Render the highlight underneath the code -->
             <div class="drag-outline">
                 {#if outline && !$blocks}<Highlight
@@ -1697,10 +1866,10 @@
                 bind:this={dragContainer}
             >
                 <RootView
-                    node={$dragged}
+                    node={dragged}
                     inline
-                    spaces={project.getSourceOf($dragged)?.spaces}
-                    localized={$localized}
+                    spaces={project.getSourceOf(dragged)?.spaces}
+                    locale={$locales.getLocale()}
                     blocks={$blocks}
                 />
                 <div class="cursor">🐲</div>
@@ -1723,6 +1892,9 @@
         overflow: hidden;
         width: 100%;
         height: 100%;
+
+        /* So tiles absolute positions are relative to the project view. */
+        position: relative;
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
@@ -1803,7 +1975,7 @@
         height: 100%;
     }
 
-    .help {
+    .right-align {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -1813,18 +1985,26 @@
     }
 
     .footer {
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
         overflow-x: auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        align-items: flex-start;
     }
 
-    .overwritten {
-        display: inline-block;
+    .footer-row {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+    }
+
+    .editor-warning {
+        width: 100%;
+        padding: var(--wordplay-spacing);
         background: var(--wordplay-error);
         color: var(--wordplay-background);
-        padding-inline-start: var(--wordplay-spacing);
-        padding-inline-end: var(--wordplay-spacing);
-        border-radius: var(--wordplay-border-radius);
-        white-space: nowrap;
     }
 </style>

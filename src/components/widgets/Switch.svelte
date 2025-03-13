@@ -1,11 +1,30 @@
 <script lang="ts">
-    export let on: boolean;
-    export let toggle: (on: boolean) => void;
-    export let offLabel: string;
-    export let onLabel: string;
-    export let offTip: string;
-    export let onTip: string;
-    export let uiid: string | undefined = undefined;
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { withMonoEmoji } from '../../unicode/emoji';
+
+    interface Props {
+        on: boolean;
+        toggle: (on: boolean) => void;
+        offLabel: string;
+        onLabel: string;
+        offTip: LocaleTextAccessor;
+        onTip: LocaleTextAccessor;
+        uiid?: string | undefined;
+    }
+
+    let {
+        on,
+        toggle,
+        offLabel,
+        onLabel,
+        offTip,
+        onTip,
+        uiid = undefined,
+    }: Props = $props();
+
+    let onTipText = $derived($locales.get(onTip));
+    let offTipText = $derived($locales.get(offTip));
 </script>
 
 <span class="switch" data-uiid={uiid} class:on>
@@ -13,29 +32,34 @@
         class={`button off ${on ? 'inactive' : 'active'}`}
         role="button"
         aria-disabled={!on}
-        aria-label={offTip}
+        aria-label={offTipText}
         tabindex="0"
-        title={offTip}
-        on:click|stopPropagation={() => toggle(false)}
-        on:keydown={(event) =>
+        title={offTipText}
+        onclick={(event) => {
+            event.stopPropagation();
+            toggle(false);
+        }}
+        onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)
-                : undefined}>{offLabel}</span
+                : undefined}>{withMonoEmoji(offLabel)}</span
     ><span
         class={`button on ${on ? 'active' : 'inactive'}`}
         role="button"
         aria-disabled={on}
-        aria-label={onTip}
+        aria-label={onTipText}
         tabindex="0"
-        title={onTip}
-        on:click|stopPropagation={(event) =>
-            event.button === 0 ? toggle(true) : undefined}
-        on:keydown={(event) =>
+        title={onTipText}
+        onclick={(event) => {
+            event.stopPropagation();
+            event.button === 0 ? toggle(true) : undefined;
+        }}
+        onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(true)
                 : undefined}
     >
-        {onLabel}
+        {withMonoEmoji(onLabel)}
     </span>
 </span>
 

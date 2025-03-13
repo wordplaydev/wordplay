@@ -1,9 +1,9 @@
-import Conflict from './Conflict';
-import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import type Node from '../nodes/Node';
+import type Type from '@nodes/Type';
 import type Locales from '../locale/Locales';
+import type Node from '../nodes/Node';
+import Conflict from './Conflict';
 
 export default class IncompatibleInput extends Conflict {
     readonly givenNode: Node;

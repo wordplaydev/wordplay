@@ -1,46 +1,47 @@
-import type Node from './Node';
-import Bind from './Bind';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import type Conflict from '@conflicts/Conflict';
-import Type from './Type';
-import Block from './Block';
-import FunctionDefinition from './FunctionDefinition';
-import { getEvaluationInputConflicts } from './util';
-import ConversionDefinition from './ConversionDefinition';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import StructureDefinitionValue from '@values/StructureDefinitionValue';
-import type Context from './Context';
-import type Definition from './Definition';
-import Token from './Token';
-import type TypeSet from './TypeSet';
-import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
-import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
 import { DisallowedInputs } from '@conflicts/DisallowedInputs';
-import TypeToken from './TypeToken';
-import EvalOpenToken from './EvalOpenToken';
-import EvalCloseToken from './EvalCloseToken';
-import Docs from './Docs';
-import Names from './Names';
-import type Value from '@values/Value';
-import StartFinish from '@runtime/StartFinish';
-import TypeVariables from './TypeVariables';
-import Reference from './Reference';
+import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
 import NotAnInterface from '@conflicts/NotAnInterface';
-import { optional, type Grammar, type Replacement, node, list } from './Node';
+import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
 import type LocaleText from '@locale/LocaleText';
-import NameType from './NameType';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Evaluator from '@runtime/Evaluator';
+import StartFinish from '@runtime/StartFinish';
+import type Step from '@runtime/Step';
 import InternalException from '@values/InternalException';
-import Glyphs from '../lore/Glyphs';
+import StructureDefinitionValue from '@values/StructureDefinitionValue';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
-import { SHARE_SYMBOL } from '../parser/Symbols';
-import Sym from './Sym';
-import Evaluate from './Evaluate';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { SHARE_SYMBOL } from '../parser/Symbols';
+import Bind from './Bind';
+import Block from './Block';
+import type Context from './Context';
+import ConversionDefinition from './ConversionDefinition';
+import type Definition from './Definition';
+import DefinitionExpression from './DefinitionExpression';
+import Docs from './Docs';
+import EvalCloseToken from './EvalCloseToken';
+import EvalOpenToken from './EvalOpenToken';
+import Evaluate from './Evaluate';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionDefinition from './FunctionDefinition';
+import Names from './Names';
+import NameType from './NameType';
+import type Node from './Node';
+import { list, node, optional, type Grammar, type Replacement } from './Node';
+import Reference from './Reference';
 import StructureDefinitionType from './StructureDefinitionType';
 import StructureType from './StructureType';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
+import type TypeSet from './TypeSet';
+import TypeToken from './TypeToken';
+import TypeVariables from './TypeVariables';
+import { getEvaluationInputConflicts } from './util';
 
 export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
@@ -133,7 +134,7 @@ export default class StructureDefinition extends DefinitionExpression {
         return this.expression?.getEvaluationSteps(evaluator, context) ?? [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StructureDefinition';
     }
 
@@ -152,11 +153,7 @@ export default class StructureDefinition extends DefinitionExpression {
                 kind: list(true, node(Reference)),
                 space: true,
             },
-            {
-                name: 'types',
-                kind: optional(node(TypeVariables)),
-                space: true,
-            },
+            { name: 'types', kind: optional(node(TypeVariables)), space: true },
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
@@ -214,7 +211,10 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getEvaluateTemplate(nameOrLocales: Locales | string, context: Context) {
-        return Evaluate.make(
+        // In case for some reason an input of this refers to this.
+        if (context.visited(this)) return ExpressionPlaceholder.make();
+        context.visit(this);
+        const evaluate = Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
                     ? nameOrLocales
@@ -225,11 +225,14 @@ export default class StructureDefinition extends DefinitionExpression {
                 .filter((input) => !input.hasDefault())
                 .map((input) =>
                     input.type
-                        ? input.type.getDefaultExpression(context) ??
-                          ExpressionPlaceholder.make(input.type)
+                        ? (input.type.getDefaultExpression(context) ??
+                          ExpressionPlaceholder.make(input.type))
                         : ExpressionPlaceholder.make(),
                 ),
         );
+        context.unvisit();
+
+        return evaluate;
     }
 
     isEvaluationRoot() {
@@ -504,8 +507,9 @@ export default class StructureDefinition extends DefinitionExpression {
         return definition === this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StructureDefinition);
+    static readonly LocalePath = (l: LocaleText) => l.node.StructureDefinition;
+    getLocalePath() {
+        return StructureDefinition.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
@@ -516,8 +520,8 @@ export default class StructureDefinition extends DefinitionExpression {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getKind() {

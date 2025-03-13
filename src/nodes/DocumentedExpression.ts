@@ -1,16 +1,18 @@
-import Expression, { type GuardContext } from './Expression';
-import type Type from './Type';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
-import Docs from './Docs';
-import { node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './SimpleExpression';
-import Glyphs from '../lore/Glyphs';
+import type Step from '@runtime/Step';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import Docs from './Docs';
+import Expression, { type GuardContext } from './Expression';
+import { node, type Grammar, type Replacement } from './Node';
+import SimpleExpression from './SimpleExpression';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class DocumentedExpression extends SimpleExpression {
     readonly docs: Docs;
@@ -25,7 +27,7 @@ export default class DocumentedExpression extends SimpleExpression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'DocumentedExpression';
     }
 
@@ -79,15 +81,16 @@ export default class DocumentedExpression extends SimpleExpression {
         return this.expression;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.DocumentedExpression);
+    static readonly LocalePath = (l: LocaleText) => l.node.DocumentedExpression;
+    getLocalePath() {
+        return DocumentedExpression.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.DocumentedExpression.start);
     }
 
-    getGlyphs() {
-        return Glyphs.DocumentedExpression;
+    getCharacter() {
+        return Characters.DocumentedExpression;
     }
 }

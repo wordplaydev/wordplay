@@ -1,20 +1,27 @@
 <script lang="ts">
     import Options from '@components/widgets/Options.svelte';
-    import { locales } from '@db/Database';
-    import { localeToString, stringToLocale } from '@locale/Locale';
     import type Locale from '@locale/Locale';
+    import { localeToString, stringToLocale } from '@locale/Locale';
+    import { getLocaleLanguageName } from '@locale/LocaleText';
+    import { LOCALE_SYMBOL } from '@parser/Symbols';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
-    export let localesUsed: Locale[] = [];
-    export let locale: Locale | undefined = undefined;
-    export let change: (value: Locale | undefined) => void;
+    interface Props {
+        localesUsed?: Locale[];
+        locale?: Locale | undefined;
+        change: (value: Locale | undefined) => void;
+    }
+
+    let { localesUsed = [], locale = undefined, change }: Props = $props();
 </script>
 
-<!-- svelte-ignore a11y-label-has-associated-control -->
+<!-- svelte-ignore a11y_label_has_associated_control -->
 <label class="output-locale"
-    >🌐 <Options
+    >{withMonoEmoji(LOCALE_SYMBOL)}
+    <Options
         id="output-locale"
         value={locale === undefined ? undefined : localeToString(locale)}
-        label={$locales.get((l) => l.ui.output.options.locale)}
+        label={(l) => l.ui.output.options.locale}
         width="auto"
         options={[
             {
@@ -25,7 +32,7 @@
                 const label = localeToString(l);
                 return {
                     value: label,
-                    label,
+                    label: label ? (getLocaleLanguageName(label) ?? '—') : '—',
                 };
             }),
         ]}

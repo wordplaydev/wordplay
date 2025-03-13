@@ -1,43 +1,40 @@
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import InternalExpression from './InternalExpression';
-import type Context from '@nodes/Context';
-import Type from '@nodes/Type';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import Value from '@values/Value';
-import type Evaluation from '@runtime/Evaluation';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import bootstrapNone from './NoneBasis';
-import bootstrapBool from './BoolBasis';
-import bootstrapText from './TextBasis';
-import bootstrapList from './ListBasis';
-import bootstrapNumber from './NumberBasis';
-import bootstrapSet from './SetBasis';
-import bootstrapMap from './MapBasis';
+import { createInputs } from '@locale/createInputs';
 import Block from '@nodes/Block';
-import type { BasisTypeName } from './BasisConstants';
-import type TypeVariables from '@nodes/TypeVariables';
+import type Context from '@nodes/Context';
+import ConversionDefinition from '@nodes/ConversionDefinition';
 import type Docs from '@nodes/Docs';
 import type Expression from '@nodes/Expression';
-import Root from '../nodes/Root';
-import type LocaleText from '../locale/LocaleText';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import Type from '@nodes/Type';
+import type TypeVariables from '@nodes/TypeVariables';
+import type Evaluation from '@runtime/Evaluation';
 import createDefaultShares from '@runtime/createDefaultShares';
+import Value from '@values/Value';
 import type LanguageCode from '../locale/LanguageCode';
-import bootstrapTable from './TableBasis';
-import {
-    createInputs,
-    type FunctionText,
-    type NameAndDoc,
-} from '../locale/LocaleText';
+import type LocaleText from '../locale/LocaleText';
+import { type FunctionText, type NameAndDoc } from '../locale/LocaleText';
+import type Locales from '../locale/Locales';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import bootstrapStructure from './StructureBasis';
-import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/parseType';
-import type Locales from '../locale/Locales';
 import AnyType from '../nodes/AnyType';
 import BooleanType from '../nodes/BooleanType';
-import ValueException from '../values/ValueException';
+import Root from '../nodes/Root';
+import parseType from '../parser/parseType';
+import { toTokens } from '../parser/toTokens';
 import BoolValue from '../values/BoolValue';
+import ValueException from '../values/ValueException';
+import type { BasisTypeName } from './BasisConstants';
+import bootstrapBool from './BoolBasis';
+import InternalExpression from './InternalExpression';
+import bootstrapList from './ListBasis';
+import bootstrapMap from './MapBasis';
+import bootstrapNone from './NoneBasis';
+import bootstrapNumber from './NumberBasis';
+import bootstrapSet from './SetBasis';
+import bootstrapStructure from './StructureBasis';
+import bootstrapTable from './TableBasis';
+import bootstrapText from './TextBasis';
 
 export class Basis {
     readonly locales: Locales;
@@ -165,7 +162,7 @@ export class Basis {
 
 export function createBasisFunction(
     locales: Locales,
-    text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
+    text: (locale: LocaleText) => FunctionText<readonly NameAndDoc[]>,
     typeVars: TypeVariables | undefined,
     types: (Type | [Type, Expression])[],
     output: Type,

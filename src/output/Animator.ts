@@ -1,17 +1,16 @@
-import type Output from './Output';
-import Place from './Place';
-import { createPlace } from './Place';
-import Stage from './Stage';
-import OutputAnimation, { AnimationState } from './OutputAnimation';
-import type Transition from './Transition';
-import type Node from '@nodes/Node';
-import type RenderContext from './RenderContext';
-import type Evaluator from '@runtime/Evaluator';
-import Sequence from './Sequence';
-import Pose from './Pose';
-import type Value from '../values/Value';
-import Physics from './Physics';
 import Scene from '@input/Scene';
+import type Node from '@nodes/Node';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '../values/Value';
+import type Output from './Output';
+import OutputAnimation, { AnimationState } from './OutputAnimation';
+import Physics from './Physics';
+import Place, { createPlace } from './Place';
+import Pose from './Pose';
+import type RenderContext from './RenderContext';
+import Sequence from './Sequence';
+import Stage from './Stage';
+import type Transition from './Transition';
 
 export type OutputName = string;
 
@@ -28,11 +27,7 @@ export type OutputInfo = {
 
 export type Moved = Map<
     OutputName,
-    {
-        output: Output;
-        prior: Orientation;
-        present: Orientation;
-    }
+    { output: Output; prior: Orientation; present: Orientation }
 >;
 
 export type OutputsByName = Map<OutputName, Output>;
@@ -117,6 +112,10 @@ export default class Animator {
         this.priorStagePlace = this.focus;
 
         this.physics = new Physics(evaluator);
+    }
+
+    isStopped() {
+        return this.stopped;
     }
 
     /**
@@ -293,11 +292,7 @@ export default class Animator {
         entered: Map<OutputName, Output>,
         moved: Map<
             OutputName,
-            {
-                output: Output;
-                prior: Orientation;
-                present: Orientation;
-            }
+            { output: Output; prior: Orientation; present: Orientation }
         >,
         exited: Map<OutputName, OutputInfo>,
     ): Set<OutputName> {
@@ -378,10 +373,8 @@ export default class Animator {
         const name = animation.output.getName();
         this.animations.delete(name);
 
-        // Don't clean up if the animation hasn't exited yet. (Scene can force an exit animation);
-        if (this.exitedInfo.has(animation.name)) {
-            this.exit(name);
-        }
+        // Tell the listener that this name has exited, so it can do whatever cleanup it needs to do.
+        this.exit(name);
     }
 
     startingSequence(transitions: Transition[]) {

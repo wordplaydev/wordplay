@@ -1,24 +1,27 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition';
-    import type { AnnotationInfo } from './Annotations.svelte';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
-    import { Projects, animationDuration, locales } from '../../db/Database';
     import Button from '@components/widgets/Button.svelte';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import type { Resolution } from '@conflicts/Conflict';
     import type Context from '@nodes/Context';
+    import { fade } from 'svelte/transition';
+    import { Projects, animationDuration, locales } from '../../db/Database';
+    import { default as MarkupHTMLView } from '../concepts/MarkupHTMLView.svelte';
+    import Speech from '../lore/Speech.svelte';
+    import type { AnnotationInfo } from './Annotations.svelte';
 
-    export let id: number;
-    export let annotations: AnnotationInfo[];
+    interface Props {
+        id: number;
+        annotations: AnnotationInfo[];
+    }
+
+    let { id, annotations }: Props = $props();
 
     function resolveAnnotation(resolution: Resolution, context: Context) {
-        const {newProject} = resolution.mediator(context, $locales);
+        const { newProject } = resolution.mediator(context, $locales);
         Projects.reviseProject(newProject);
     }
 </script>
 
-<div class="annotations" data-uiid="conflict">
+<div class="annotations">
     {#each annotations as annotation}
         <div
             class={`annotation ${annotation.kind} ${
@@ -30,11 +33,11 @@
             }}
         >
             <Speech
-                glyph={annotation.node.getGlyphs($locales)}
+                character={annotation.node.getCharacter($locales)}
                 flip={annotation.kind === 'secondary'}
                 below
             >
-                <svelte:fragment slot="content">
+                {#snippet content()}
                     {#each annotation.messages as markup}
                         <aside aria-label={markup.toText()}>
                             <MarkupHTMLView {markup} />
@@ -43,18 +46,16 @@
                                     <div class="resolution">
                                         <Button
                                             background
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.annotations.button
-                                                        .resolution,
-                                            )}
+                                            tip={(l) =>
+                                                l.ui.annotations.button
+                                                    .resolution}
                                             action={() =>
                                                 resolveAnnotation(
                                                     resolution,
                                                     annotation.context,
                                                 )}>✓</Button
                                         ><div class="description"
-                                            ><MarkupHtmlView
+                                            ><MarkupHTMLView
                                                 inline
                                                 markup={resolution.description(
                                                     $locales,
@@ -67,7 +68,7 @@
                             {/if}
                         </aside>
                     {/each}
-                </svelte:fragment>
+                {/snippet}
             </Speech>
         </div>
     {/each}

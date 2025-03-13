@@ -1,130 +1,176 @@
 <script lang="ts">
-    import { toStage } from '../../output/Stage';
+    import Fonts from '@basis/Fonts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type Project from '@db/projects/Project';
+    import concretize from '@locale/concretize';
+    import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
-    import type Project from '@models/Project';
-    import ValueView from '../values/ValueView.svelte';
-    import StageView from './StageView.svelte';
+    import { untrack } from 'svelte';
+    import { animationFactor, DB, locales, Projects } from '../../db/Database';
+    import Button from '../../input/Button';
+    import Chat from '../../input/Chat';
+    import Choice from '../../input/Choice';
+    import Key from '../../input/Key';
+    import Placement from '../../input/Placement';
+    import Pointer from '../../input/Pointer';
+    import Evaluate from '../../nodes/Evaluate';
+    import type Color from '../../output/Color';
+    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
+    import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
+    import Place, { createPlace } from '../../output/Place';
+    import { toStage } from '../../output/Stage';
+    import { toExpression } from '../../parser/parseExpression';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
+    import moveOutput, { addStageContent } from '../palette/editOutput';
     import {
-        IdleKind,
         getAnnounce,
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
         getSelectedOutput,
-        getSelectedOutputPaths,
-        getSelectedPhrase,
-        setSelectedOutput,
+        IdleKind,
     } from '../project/Contexts';
-    import type Evaluator from '@runtime/Evaluator';
-    import type PaintingConfiguration from './PaintingConfiguration';
-    import { animationFactor, DB, locales, Projects } from '../../db/Database';
-    import type Color from '../../output/Color';
-    import Key from '../../input/Key';
-    import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
-    import { DOMRectCenter, DOMRectDistance } from './utilities';
-    import Choice from '../../input/Choice';
-    import Evaluate from '../../nodes/Evaluate';
-    import Pointer from '../../input/Pointer';
-    import Place from '../../output/Place';
-    import moveOutput, { addStageContent } from '../palette/editOutput';
-    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
-    import { SvelteComponent, afterUpdate, beforeUpdate } from 'svelte';
-    import Placement from '../../input/Placement';
-    import { toExpression } from '../../parser/parseExpression';
-    import Chat from '../../input/Chat';
+    import ValueView from '../values/ValueView.svelte';
     import { default as ButtonUI } from '../widgets/Button.svelte';
-    import Button from '../../input/Button';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type PaintingConfiguration from './PaintingConfiguration';
+    import StageView from './StageView.svelte';
+    import { DOMRectCenter, DOMRectDistance } from './utilities';
 
-    export let project: Project;
-    export let evaluator: Evaluator;
-    export let value: Value | undefined;
-    export let fit = true;
-    export let grid = false;
-    export let painting = false;
-    export let paintingConfig: PaintingConfiguration | undefined = undefined;
-    export let mini = false;
-    export let background: Color | string | null = null;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        evaluator: Evaluator;
+        value: Value | undefined;
+        editable: boolean;
+        fit?: boolean;
+        grid?: boolean;
+        painting?: boolean;
+        paintingConfig?: PaintingConfiguration | undefined;
+        mini?: boolean;
+        background?: Color | string | null;
+        /** Whether to process mouse wheel events without the shift key. Useful to disable for examples embedded in scrollable pages. */
+        wheel?: boolean;
+    }
 
-    $: interactive = !mini;
-    $: editable = interactive && $evaluation?.playing === false;
+    let {
+        project,
+        evaluator,
+        value,
+        editable,
+        fit = $bindable(true),
+        grid = $bindable(false),
+        painting = $bindable(false),
+        paintingConfig = undefined,
+        mini = false,
+        background = $bindable(null),
+        wheel = true,
+    }: Props = $props();
 
-    const index = getConceptIndex();
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
     const evaluation = getEvaluation();
     const keyboardEditIdle = getKeyboardEditIdle();
-    const selectedOutput = getSelectedOutput();
-    const selectedOutputPaths = getSelectedOutputPaths();
-    const selectedPhrase = getSelectedPhrase();
+    const selection = getSelectedOutput();
     const announce = getAnnounce();
 
-    let ignored = false;
-
-    let valueView: HTMLElement | undefined = undefined;
+    let ignored = $state(false);
+    let valueView = $state<HTMLElement | undefined>();
 
     /** The state of dragging the adjusted focus. A location or nothing. */
-    let drag: { startPlace: Place; left: number; top: number } | undefined =
-        undefined;
+    let drag = $state<
+        { startPlace: Place; left: number; top: number } | undefined
+    >();
 
     /** A list of points gathered during a painting drag */
-    let paintingPlaces: { x: number; y: number }[] = [];
-    let strokeNodeID: number | undefined;
+    let paintingPlaces = $state<{ x: number; y: number }[]>([]);
+    let strokeNodeID = $state<number | undefined>();
 
     /* We get these functions from the stage view, if there is one. */
-    let stage: SvelteComponent;
+    let stage = $state<ReturnType<typeof StageView> | undefined>();
 
-    let renderedFocus: Place;
+    // The place the output is focusing on. Bound to the stage's focus, unless set here.
+    let renderedFocus = $state<Place>(createPlace(evaluator, 0, 0, -12));
 
     /** A map from key string IDs to whether they are up or down */
     const keysDown: Map<string, boolean> = new Map();
 
     /** Event cache for touch panning and zooming */
-    let pointersByIndex: PointerEvent[] = [];
-    let startDifference: number | undefined = undefined;
-    let startGesturePlace: Place | undefined = undefined;
+    let pointersByIndex = $state<PointerEvent[]>([]);
+    let startDifference = $state<number | undefined>();
+    let startGesturePlace = $state<Place | undefined>();
 
-    $: exception = value instanceof ExceptionValue ? value : undefined;
+    let keyboardInputView = $state<HTMLInputElement | undefined>();
+    let keyboardInputText = $state('');
+
+    const interactive = $derived(!mini);
+    const exception = $derived(
+        value instanceof ExceptionValue ? value : undefined,
+    );
 
     /** Every time the value changes, try to parse a Stage from it. */
-    $: stageValue = value === undefined ? undefined : toStage(evaluator, value);
+    const stageValue = $derived(
+        value === undefined ? undefined : toStage(evaluator, value),
+    );
+
+    /** Every time the stage value changes, load any new fonts we might need */
+    $effect(() => {
+        if (stageValue) {
+            const faces = stageValue.gatherFaces(new Set());
+            untrack(() => {
+                faces.forEach((face) => {
+                    // Make sure this font is loaded. This is a little late -- we could do some static analysis
+                    // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
+                    if (face) Fonts.loadFace(face);
+                });
+            });
+        }
+    });
 
     /** Keep track of whether the creator is typing, so we can blur output until the next change. */
-    $: typing =
+    const typing = $derived(
         !mini &&
-        $evaluation?.playing === true &&
-        $keyboardEditIdle === IdleKind.Typing;
+            $evaluation?.playing === true &&
+            $keyboardEditIdle === IdleKind.Typing,
+    );
 
-    /** Keep a background color up to date. */
-    $: background =
-        value instanceof ExceptionValue
-            ? 'var(--wordplay-error)'
-            : stageValue?.background ?? null;
+    /** Keep the bindable background color up to date. */
+    $effect(() => {
+        background =
+            value instanceof ExceptionValue
+                ? 'var(--wordplay-error)'
+                : (stageValue?.background ?? null);
+    });
 
     /** Keep track of streams that listen for keyboard input */
-    $: keys = $evaluation?.evaluator.getBasisStreamsOfType(Key).length > 0;
-    $: placements =
-        $evaluation?.evaluator.getBasisStreamsOfType(Placement).length > 0;
-    $: chats = $evaluation?.evaluator.getBasisStreamsOfType(Chat).length > 0;
-
-    let keyboardInputView: HTMLInputElement | undefined = undefined;
-    let keyboardInputText = '';
+    const keys = $derived(evaluator.getBasisStreamsOfType(Key).length > 0);
+    const placements = $derived(
+        evaluator.getBasisStreamsOfType(Placement).length > 0,
+    );
+    const chats = $derived(evaluator.getBasisStreamsOfType(Chat).length > 0);
 
     // Announce changes in values.
-    $: if ($announce && value !== undefined && stageValue === undefined) {
-        $announce(
-            'value',
-            $locales.getLanguages()[0],
-            exception
-                ? exception.getExplanation($locales).toText()
-                : value.getDescription($locales).toText(),
-        );
-    }
+    $effect(() => {
+        if ($announce && value !== undefined) {
+            untrack(() =>
+                $announce(
+                    'value',
+                    $locales.getLanguages()[0],
+                    exception
+                        ? exception.getExplanation($locales).toText()
+                        : concretize(
+                              $locales,
+                              $locales.get(value.getDescription()),
+                          ).toText(),
+                ),
+            );
+        }
+    });
 
     /** When creator's preferred animation factor changes, update evaluator */
-    $: evaluator.updateTimeMultiplier($animationFactor);
+    $effect(() => evaluator.updateTimeMultiplier($animationFactor));
 
     function handleKeyUp(event: KeyboardEvent) {
         keysDown.set(event.key, false);
@@ -231,21 +277,17 @@
             }
         }
 
-        if (
-            !evaluator.isPlaying() &&
-            editable &&
-            selectedOutputPaths !== undefined &&
-            $selectedOutput !== undefined
-        ) {
+        if (!evaluator.isPlaying() && editable && selection?.hasPaths()) {
             const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
             if (evaluate !== undefined) {
                 // Add or remove the focused node from the selection.
                 if (select) {
-                    setSelectedOutput(
-                        selectedOutputPaths,
+                    selection.setPaths(
                         project,
-                        $selectedOutput.includes(evaluate)
-                            ? $selectedOutput.filter((o) => o !== evaluate)
+                        selection.includes(evaluate, project)
+                            ? selection
+                                  .getOutput(project)
+                                  .filter((o) => o !== evaluate)
                             : [evaluate],
                     );
                     event.stopPropagation();
@@ -329,7 +371,7 @@
     }
 
     function handleWheel(event: WheelEvent) {
-        if (stage) {
+        if (stage && (wheel || event.shiftKey)) {
             stage.adjustFocus(0, 0, event.deltaY / PX_PER_METER);
             event.preventDefault();
         }
@@ -362,11 +404,10 @@
             }
         }
 
-        // If we're editing, select output.
-        if (editable) {
+        // If we're editable and not playing, select output.
+        if (editable && !evaluator.isPlaying()) {
             if (painting) {
-                if (selectedOutputPaths)
-                    setSelectedOutput(selectedOutputPaths, project, []);
+                if (selection) selection.setPaths(project, []);
             } else if (!selectPointerOutput(event)) ignore();
         }
 
@@ -376,16 +417,24 @@
             for (const placement of placements) {
                 // First, find the output on stage that this placement is placing,
                 // so we can find the position of the pointer relative to the output.
-                const output = stageValue.find(
-                    (output) => output.place?.value === placement.latest(),
-                );
+                const latest = placement.latest();
+                const output =
+                    stageValue.find(
+                        (output) => output.place?.value === latest,
+                    ) ??
+                    (stageValue.place?.value === latest
+                        ? stageValue
+                        : undefined);
                 // Couldn't find the output? Move to the next one.
                 if (output === undefined) continue;
 
                 // Now find the view of the output.
-                const outputView = document.querySelector(
-                    `[data-id="${output.getHTMLID()}"]`,
-                );
+                const outputView =
+                    output === stageValue
+                        ? valueView
+                        : document.querySelector(
+                              `[data-id="${output.getHTMLID()}"]`,
+                          );
                 // Couldn't find the view? Move on to the next one.
                 if (outputView === null) continue;
 
@@ -401,21 +450,26 @@
                     relativePointerY < 0 ? Math.abs(atan2) : 360 - atan2;
 
                 const threshold = 20;
+
+                const xDirection =
+                    angle < 90 - threshold || angle > 270 + threshold
+                        ? 1
+                        : angle > 90 + threshold && angle < 270 - threshold
+                          ? -1
+                          : 0;
+
+                const yDirection =
+                    angle > threshold && angle < 180 - threshold
+                        ? 1
+                        : angle > 180 + threshold && angle < 360 - threshold
+                          ? -1
+                          : 0;
+
                 // Divide the 360 degrees into 45 degree segments
                 // Send the navigation directions to all all of the placements.
                 placement.react({
-                    x:
-                        angle < 90 - threshold || angle > 270 + threshold
-                            ? 1
-                            : angle > 90 + threshold && angle < 270 - threshold
-                              ? -1
-                              : 0,
-                    y:
-                        angle > threshold && angle < 180 - threshold
-                            ? 1
-                            : angle > 180 + threshold && angle < 360 - threshold
-                              ? -1
-                              : 0,
+                    x: xDirection,
+                    y: yDirection,
                     z: 0,
                 });
             }
@@ -423,6 +477,8 @@
 
         // If there's a focus, start dragging.
         if (valueView && renderedFocus) {
+            const output = selection?.getOutput(project) ?? [];
+
             // Start dragging.
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
@@ -447,14 +503,12 @@
                       focus
                       ? renderedFocus
                       : // If there's selected output, it's the first output selected, and it has a place
-                        $selectedOutput && $selectedOutput.length > 0
+                        output.length > 0
                         ? getOrCreatePlace(
                               project,
                               $locales,
-                              $selectedOutput[0],
-                              evaluator.project.getNodeContext(
-                                  $selectedOutput[0],
-                              ),
+                              output[0],
+                              evaluator.project.getNodeContext(output[0]),
                           )
                         : // Otherwise, there's no place the click started.
                           undefined;
@@ -507,7 +561,7 @@
                           ? -40
                           : newZ;
 
-                if (!isNaN(boundedNewZ))
+                if (!isNaN(boundedNewZ) && stage)
                     stage.setFocus(
                         startGesturePlace.x,
                         startGesturePlace.y,
@@ -597,18 +651,20 @@
                         );
                         event.stopPropagation();
                     } else if (
-                        selectedOutput &&
-                        $selectedOutput &&
-                        $selectedOutput.length > 0 &&
-                        !$selectedOutput[0].is(
-                            project.shares.output.Stage,
-                            project.getNodeContext($selectedOutput[0]),
-                        )
+                        selection?.hasPaths() &&
+                        !selection
+                            .getOutput(project)[0]
+                            .is(
+                                project.shares.output.Stage,
+                                project.getNodeContext(
+                                    selection.getOutput(project)[0],
+                                ),
+                            )
                     ) {
                         moveOutput(
                             DB,
                             project,
-                            $selectedOutput,
+                            selection.getOutput(project),
                             $locales,
                             newX,
                             newY,
@@ -682,40 +738,36 @@
     }
 
     /**
-     * Given a mouse event, finds the nearest output under the mouse and adds it to the project selection
+     * Given a pointer event, finds the nearest output under the mouse and adds it to the project selection
      * if so.
      */
     function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
-        if (
-            selectedOutputPaths === undefined ||
-            $selectedOutput === undefined ||
-            selectedPhrase === undefined
-        )
-            return false;
+        if (selection === undefined) return false;
         // If we found the node in the project, add it to the selection.
         const evaluate = getOutputNodeFromID(getOutputNodeIDUnderMouse(event));
         if (evaluate) {
             // If the shift key is down
             let newSelection: Evaluate[];
             if (event.shiftKey) {
-                const index = $selectedOutput.indexOf(evaluate);
+                const output = selection.getOutput(project);
+                const index = output.indexOf(evaluate);
                 // If it's in the set, remove it.
                 if (index >= 0) {
                     newSelection = [
-                        ...$selectedOutput.slice(0, index),
-                        ...$selectedOutput.slice(index + 1),
+                        ...output.slice(0, index),
+                        ...output.slice(index + 1),
                     ];
                 } else {
-                    newSelection = [...$selectedOutput, evaluate];
+                    newSelection = [...output, evaluate];
                 }
             }
             // Otherise, set the selection to the selection.
             else newSelection = [evaluate];
 
             // Update the selection
-            setSelectedOutput(selectedOutputPaths, project, newSelection);
+            selection.setPaths(project, newSelection);
             // Erase the selected phrase.
-            selectedPhrase.set(null);
+            selection.setPhrase(null);
 
             // Focus it too, for keyboard output.
             const outputView = valueView?.querySelector(
@@ -822,7 +874,9 @@
 
     let priorFocusRect: DOMRect | undefined = undefined;
 
-    beforeUpdate(() => {
+    // Keep track of the focus rect on the currently focused element so we
+    // can track the nearest focused element after an update.
+    $effect.pre(() => {
         const focus = document.activeElement;
         if (
             focus &&
@@ -832,7 +886,8 @@
             priorFocusRect = focus.getBoundingClientRect();
     });
 
-    afterUpdate(() => {
+    // After any update, set focus on the output nearest to the prior focus rect.
+    $effect(() => {
         // Did the body get focus after the update? Focus on the nearest view in output.
         if (
             interactive &&
@@ -868,44 +923,46 @@
 <section
     class="output"
     data-testid="output"
-    data-uuid="stage"
+    data-uiid="stage"
     aria-label={$locales.get((l) => l.ui.output.label)}
     class:mini
     class:editing={$evaluation?.playing === false && !painting}
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
-        $selectedOutput &&
-        $selectedOutput.includes(stageValue.value.creator)}
+        selection !== undefined &&
+        selection.includes(stageValue.value.creator, project)}
 >
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="value"
         class:ignored
         class:typing
         bind:this={valueView}
-        on:keydown={interactive ? handleKeyDown : null}
-        on:keyup={interactive ? handleKeyUp : null}
-        on:wheel={interactive ? handleWheel : null}
-        on:pointerdown|stopPropagation={(event) =>
-            interactive ? handlePointerDown(event) : null}
-        on:pointerup={interactive ? handlePointerUp : null}
-        on:pointermove={interactive ? handlePointerMove : null}
-        on:pointerleave={interactive ? handlePointerLeave : null}
+        onkeydown={interactive ? handleKeyDown : null}
+        onkeyup={interactive ? handleKeyUp : null}
+        onwheel={interactive ? handleWheel : null}
+        onpointerdown={(event) => {
+            event.stopPropagation();
+            if (interactive) handlePointerDown(event);
+        }}
+        onpointerup={interactive ? handlePointerUp : null}
+        onpointermove={interactive ? handlePointerMove : null}
+        onpointerleave={interactive ? handlePointerLeave : null}
     >
         <!-- If there's an exception, show that. -->
         {#if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
-                        glyph={$index?.getNodeConcept(exception.creator) ??
-                            exception.creator.getGlyphs($locales)}
+                        character={index?.getNodeConcept(exception.creator) ??
+                            exception.creator.getCharacter($locales)}
                         invert
                     >
-                        <svelte:fragment slot="content">
+                        {#snippet content()}
                             <MarkupHTMLView
                                 markup={exception.getExplanation($locales)}
                             />
-                        </svelte:fragment></Speech
+                        {/snippet}</Speech
                     >
                 {/if}
             </div>
@@ -918,10 +975,7 @@
                 {#if mini}
                     <ValueView {value} interactive={false} />
                 {:else}
-                    {@const description = value
-                        .getDescription($locales)
-                        .toText()}
-                    <h2>{description}</h2>
+                    <h2><LocalizedText path={value.getDescription()} /></h2>
                     <ValueView {value} inline={false} />
                 {/if}
             </div>
@@ -931,7 +985,7 @@
                 {project}
                 {evaluator}
                 stage={stageValue}
-                background={mini}
+                background
                 bind:fit
                 bind:grid
                 bind:painting
@@ -957,7 +1011,7 @@
                     )}
                     autocomplete={chats ? 'on' : 'off'}
                     autocorrect={chats ? 'on' : 'off'}
-                    on:keydown={(event) =>
+                    onkeydown={(event) =>
                         chats &&
                         event.key === 'Enter' &&
                         event.target &&
@@ -969,8 +1023,8 @@
                 />
                 {#if chats}
                     <ButtonUI
-                        background
-                        tip={$locales.get((l) => l.ui.output.button.submit)}
+                        background={background !== null}
+                        tip={(l) => l.ui.output.button.submit}
                         action={submitChat}>↑</ButtonUI
                     >
                 {/if}
@@ -988,6 +1042,7 @@
         justify-items: stretch;
         align-items: stretch;
         position: relative;
+        height: 100%;
 
         flex-grow: 1;
     }
@@ -1042,7 +1097,6 @@
         align-items: center;
         margin: auto;
         overflow: auto;
-        font-size: 5cqw;
         padding-block-start: 2em;
     }
 

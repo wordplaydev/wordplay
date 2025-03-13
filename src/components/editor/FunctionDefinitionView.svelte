@@ -1,11 +1,13 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type FunctionDefinition from '@nodes/FunctionDefinition';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView from './NodeView.svelte';
 
-    export let node: FunctionDefinition;
+    interface Props {
+        node: FunctionDefinition;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.docs} /><NodeView node={node.share} /><NodeView

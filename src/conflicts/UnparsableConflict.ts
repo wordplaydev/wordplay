@@ -1,15 +1,15 @@
-import Conflict, { type Resolution } from './Conflict';
-import type UnparsableType from '@nodes/UnparsableType';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import type Locales from '../locale/Locales';
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
-import parseExpression from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+import type Node from '@nodes/Node';
 import { Any, IsA } from '@nodes/Node';
 import Token from '@nodes/Token';
-import NodeRef from '@locale/NodeRef';
-import type Node from '@nodes/Node';
+import UnparsableExpression from '@nodes/UnparsableExpression';
+import type UnparsableType from '@nodes/UnparsableType';
+import parseExpression from '@parser/parseExpression';
+import { toTokens } from '@parser/toTokens';
+import type Locales from '../locale/Locales';
+import Conflict, { type Resolution } from './Conflict';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export type Option = {
         value: string | undefined;
         label: string;
@@ -11,19 +11,40 @@
 
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { locales } from '@db/Database';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { getFirstText } from '@locale/LocaleText';
 
     import { tick } from 'svelte';
 
-    export let value: string | undefined;
-    export let label: string;
-    export let options: Group[] | Option[];
-    export let change: (value: string | undefined) => void;
-    export let width: string = '10em';
-    export let id: string | undefined = undefined;
-    export let editable = true;
-    export let code = false;
+    interface Props {
+        value: string | undefined;
+        label: LocaleTextAccessor | LocaleTextsAccessor;
+        options: Group[] | Option[];
+        change: (value: string | undefined) => void;
+        width?: string;
+        id?: string | undefined;
+        editable?: boolean;
+        code?: boolean;
+    }
 
-    let view: HTMLSelectElement | undefined = undefined;
+    let {
+        value = $bindable(),
+        label,
+        options,
+        change,
+        width = 'auto',
+        id = undefined,
+        editable = true,
+        code = false,
+    }: Props = $props();
+
+    let title = $derived(getFirstText($locales.get(label)));
+
+    let view: HTMLSelectElement | undefined = $state(undefined);
 
     async function commitChange(newValue: string | undefined) {
         change(newValue);
@@ -34,11 +55,11 @@
 </script>
 
 <select
-    aria-label={label}
-    title={label}
+    aria-label={title}
+    {title}
     bind:value
     {id}
-    on:change={() => commitChange(value)}
+    onchange={() => commitChange(value)}
     bind:this={view}
     style:width
     disabled={!editable}

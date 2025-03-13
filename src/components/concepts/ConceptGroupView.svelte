@@ -1,15 +1,19 @@
 <script lang="ts">
-    import { slide } from 'svelte/transition';
-    import type Concept from '@concepts/Concept';
-    import CodeView from './CodeView.svelte';
-    import Note from '../widgets/Note.svelte';
     import Expander from '@components/widgets/Expander.svelte';
+    import type Concept from '@concepts/Concept';
+    import { slide } from 'svelte/transition';
     import { animationDuration } from '../../db/Database';
+    import Note from '../widgets/Note.svelte';
+    import CodeView from './CodeView.svelte';
 
-    export let concepts: Concept[];
-    export let collapse: boolean = true;
+    interface Props {
+        concepts: Concept[];
+        collapse?: boolean;
+    }
 
-    let expanded = false;
+    let { concepts, collapse = true }: Props = $props();
+
+    let expanded = $state(false);
 
     function toggle() {
         expanded = !expanded;
@@ -31,8 +35,10 @@
         <Note>&mdash;</Note>
     {/each}
 </div>
-{#if expanded || concepts.length > 3}
-    <Expander {expanded} {toggle}></Expander>
+{#if collapse}
+    {#if expanded || concepts.length > 3}
+        <Expander {expanded} {toggle}></Expander>
+    {/if}
 {/if}
 
 <style>
@@ -42,7 +48,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: calc(2 * var(--wordplay-spacing));
-        align-items: baseline;
+        align-items: end;
         border-top: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         border-bottom: var(--wordplay-border-color) dotted

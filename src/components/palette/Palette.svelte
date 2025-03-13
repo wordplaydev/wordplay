@@ -1,16 +1,23 @@
 <script lang="ts">
-    import type Project from '@models/Project';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import PaletteProperty from './PaletteProperty.svelte';
-    import type OutputProperty from '@edit/OutputProperty';
+    import type Project from '@db/projects/Project';
     import OutputExpression from '@edit/OutputExpression';
+    import type OutputProperty from '@edit/OutputProperty';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import { DB, locales } from '../../db/Database';
+    import {
+        GROUP_SYMBOL,
+        PALETTE_SYMBOL,
+        PHRASE_SYMBOL,
+        STAGE_SYMBOL,
+    } from '../../parser/Symbols';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import {
         getConceptIndex,
         getEvaluation,
         getSelectedOutput,
     } from '../project/Contexts';
-    import { DB, locales } from '../../db/Database';
+    import EditOffer from './EditOffer.svelte';
     import {
         addGroup,
         addSoloPhrase,
@@ -20,48 +27,56 @@
         getStage,
         hasOutput,
     } from './editOutput';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import {
-        GROUP_SYMBOL,
-        PALETTE_SYMBOL,
-        PHRASE_SYMBOL,
-        STAGE_SYMBOL,
-    } from '../../parser/Symbols';
-    import EditOffer from './EditOffer.svelte';
+    import PaletteProperty from './PaletteProperty.svelte';
     import TextStyleEditor from './TextStyleEditor.svelte';
 
-    export let project: Project;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        editable: boolean;
+    }
+
+    let { project, editable }: Props = $props();
 
     let evaluation = getEvaluation();
-    let index = getConceptIndex();
-    let selectedOutput = getSelectedOutput();
+
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
+    let selection = getSelectedOutput();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
-    $: outputs = $selectedOutput
-        ? $selectedOutput
-              .map(
-                  (evaluate) =>
-                      new OutputExpression(project, evaluate, $locales),
-              )
-              .filter((out) => out.isOutput())
-        : [];
-    $: definition = outputs[0]?.node.getFunction(
-        project.getNodeContext(outputs[0].node),
+    let outputs = $derived(
+        selection !== undefined
+            ? selection
+                  .getOutput(project)
+                  .map(
+                      (evaluate) =>
+                          new OutputExpression(project, evaluate, $locales),
+                  )
+                  .filter((out) => out.isOutput())
+            : [],
     );
 
-    $: phrase = getSoloPhrase(project);
-    $: group = getSoloGroup(project);
-    $: stage = getStage(project);
+    let definition = $derived(
+        outputs[0]?.node.getFunction(project.getNodeContext(outputs[0].node)),
+    );
+
+    let phrase = $derived(getSoloPhrase(project));
+    let group = $derived(getSoloGroup(project));
+    let stage = $derived(getStage(project));
 
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
      * multiple output expressions at once. */
-    let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(
+        new Map(),
+    );
     // Keep a reference to the text, since we need to pass that to the text style.
-    let phraseTextValues: OutputPropertyValueSet | undefined = undefined;
+    let phraseTextValues: OutputPropertyValueSet | undefined =
+        $state(undefined);
 
-    $: {
+    // Derive the property values and text values from outputs.
+    $effect(() => {
         // Make a set of all of the properties in the selection set
         const properties = new Set<OutputProperty>(
             outputs.reduce(
@@ -72,18 +87,24 @@
                 [],
             ),
         );
-        propertyValues = new Map();
+        const newPropertyValues = new Map();
         // Map the properties to a set of values.
         for (const property of properties) {
-            const values = new OutputPropertyValueSet(property, outputs);
+            const values = new OutputPropertyValueSet(
+                property,
+                outputs,
+                $locales,
+            );
             // Exclue any properties that happen to have no values.
             if (!values.isEmpty() && values.onAll())
-                propertyValues.set(property, values);
+                newPropertyValues.set(property, values);
             // Remember the phrase text property
-            if (property.name === $locales.get((l) => l.output.Phrase.text))
+            if (property.isName($locales, (l) => l.output.Phrase.text.names))
                 phraseTextValues = values;
         }
-    }
+
+        propertyValues = newPropertyValues;
+    });
 </script>
 
 <section
@@ -93,9 +114,9 @@
 >
     {#if propertyValues.size > 0}
         <Speech
-            glyph={(outputs.length > 1 || definition === undefined
+            character={(outputs.length > 1 || definition === undefined
                 ? undefined
-                : $index?.getStructureConcept(definition)) ?? {
+                : index?.getStructureConcept(definition)) ?? {
                 symbols:
                     outputs.length === 0
                         ? '🎨'
@@ -104,20 +125,16 @@
                               .join(', '),
             }}
         >
-            <svelte:fragment slot="content">
-                <MarkupHtmlView
-                    markup={$locales.concretize(
-                        (l) => l.ui.palette.prompt.editing,
-                    )}
-                />
-            </svelte:fragment>
+            {#snippet content()}
+                <MarkupHtmlView markup={(l) => l.ui.palette.prompt.editing} />
+            {/snippet}
         </Speech>
 
         <!-- Something selected? Show the property values. -->
         {#each Array.from(propertyValues.entries()) as [property, values]}
             <PaletteProperty {project} {property} {values} {editable} />
             <!-- Add the text style editor just below the face chooser. -->
-            {#if property.name === $locales.get((l) => l.output.Phrase.face) && phraseTextValues}
+            {#if property.isName($locales, (l) => l.output.Phrase.face.names) && phraseTextValues}
                 <TextStyleEditor {project} outputs={phraseTextValues}
                 ></TextStyleEditor>
             {/if}
@@ -127,8 +144,8 @@
             <EditOffer
                 symbols={PALETTE_SYMBOL}
                 locales={$locales}
-                message={$locales.get((l) => l.ui.palette.prompt.pauseToEdit)}
-                tip={$locales.get((l) => l.ui.timeline.button.pause)}
+                message={(l) => l.ui.palette.prompt.pauseToEdit}
+                tip={(l) => l.ui.timeline.button.pause}
                 action={() => $evaluation.evaluator.pause()}
                 command="⏸️"
             />
@@ -138,10 +155,8 @@
                 <EditOffer
                     symbols={PHRASE_SYMBOL}
                     locales={$locales}
-                    message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerPhrase,
-                    )}
-                    tip={$locales.get((l) => l.ui.palette.button.createPhrase)}
+                    message={(l) => l.ui.palette.prompt.offerPhrase}
+                    tip={(l) => l.ui.palette.button.createPhrase}
                     action={() => addSoloPhrase(DB, project)}
                     command={`+${PHRASE_SYMBOL}`}
                 />
@@ -150,10 +165,8 @@
                 <EditOffer
                     symbols={GROUP_SYMBOL}
                     locales={$locales}
-                    message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerGroup,
-                    )}
-                    tip={$locales.get((l) => l.ui.palette.button.createGroup)}
+                    message={(l) => l.ui.palette.prompt.offerGroup}
+                    tip={(l) => l.ui.palette.button.createGroup}
                     action={() => addGroup(DB, project)}
                     command={`+${GROUP_SYMBOL}`}
                 />
@@ -162,10 +175,8 @@
                 <EditOffer
                     symbols={STAGE_SYMBOL}
                     locales={$locales}
-                    message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerStage,
-                    )}
-                    tip={$locales.get((l) => l.ui.palette.button.createStage)}
+                    message={(l) => l.ui.palette.prompt.offerStage}
+                    tip={(l) => l.ui.palette.button.createStage}
                     action={() => addStage(DB, project, group ?? phrase)}
                     command={`+${STAGE_SYMBOL}`}
                 />
