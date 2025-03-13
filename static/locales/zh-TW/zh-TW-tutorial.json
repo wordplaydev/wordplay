@@ -714,7 +714,7 @@
             ]
         },
         {
-            "title": "It's the little things",
+            "title": "不起眼的大事",
             "performance": ["use", "fit", "SimpleJiggle"],
             "scenes": [
                 {
@@ -729,8 +729,8 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "I really did miss @Evaluate. I can't imagine the Verse without them.",
-                            "But they can be a bit… needy, sometimes. I wish they would just… I don't know, believe in themselves? They can do so much, but they don't see it. I mean, they transform *values* into other *values*! All I do is provide the recipe. They do the cooking. Sometimes I feel like all I do is give, and all they do is take. It's suffocating."
+                            "我真的很想念 @Evaluation 評估（Evaluate）。我無法想像沒有他們的詩篇。",
+                            "但有時候他們會有點...不夠相信自己？他們能做很多事情，但他們常常不了解自己有多厲害！例如，他們可以把一種 *值（Value）* 轉換、編輯、計算後變成另一種 *值（Value）* ！而我所做的只是提供食譜而已，他們才是真正下廚的人。"
                         ],
                         null,
                         [
@@ -740,15 +740,15 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "… *Values*? Sorry, I know we're supposed to be on this big tour through the *Verse*. I just don't know what to do about @Evaluate. So… *values*. I haven't explained those yet, have I? Hm…, how to explain… You know what 'data' is? Like numbers and text? Values are any of those things. A value could be as small as a number or as big as an entire scene on stage, full of characters dancing and moving. Some values are made of many other values, like big elaborate structures of data values, woven together."
+                            "你問什麼是 *值（Value）* ？ 歐抱歉，我還沒解釋過這個，嗯...，怎麼解釋呢...你知道什麼是資料嗎？像是數字和文字？值（Value）是任何這些東西。值（Value）可以小到一個數字，也可以大到舞台上的整個場景，充滿了跳舞和移動的角色。有些值（Value）甚至可以是由許多其他值（Value）組成的，就像我們會用「點心」代表很多種不同的食物一樣！"
                         ],
                         null,
                         ["fit", "Group(Stack() [Phrase('#') Phrase('\"\"')])"],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Every value has a *type*. For example, \\1\\ is a number type; that's our friend @Number. And \\'hello'\\ is a text type; that's our friend @Text. Types are important because they help us keep track of what kind of value we're creating.",
-                            "That helps us find problems. For example, it doesn't make any sense to add \\'hello' + 1\\, because what would that even mean, to add @Text to @Number?"
+                            "每個值（Value）都有一個 *類型* （Type）。例如，\\1\\是是我們的朋友 @Number ；\\'你好'\\ 是我們的另一個朋友 @Text。類型（Type）對我們設計的舞台十分重要！因為他們可以幫助我們了解我們創造的值（Value）是什麼類型。",
+                            "了解類型（Type）可以幫助我們發現問題，比如說，當我試著將這兩個 \\'hello' + 1\\ 加在一起是沒有意義的，對吧？我們無法理解@Text 要怎麼和 @Number 相加。"
                         ],
                         null,
                         [
