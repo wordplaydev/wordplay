@@ -4,34 +4,30 @@
     "region": "KR",
     "acts": [
         {
-            "title": "$~구절",
+            "title": "절",
             "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
-                    "title": "$~고요",
+                    "title": "적막",
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
-                        ["FunctionDefinition", "bored", "$~… 오, 안녕하세요."],
+                        ["FunctionDefinition", "bored", "… 어? 안녕하새요."],
+                        null,
+                        ["FunctionDefinition", "neutral", "우리... 맞난적이 있어요?"],
                         null,
                         [
                             "FunctionDefinition",
-                            "neutral",
-                            "$~내가 당신을 아는지?"
+                            "curious",
+                            "아, 여기온거가 처음이군요.",
+                            "방가워요! 저는 @FunctionDefinition입니다.",
+                            "…"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~오, 처음 오셨나요?",
-                            "$~만나서 반갑습니다. 제 이름은 @FunctionDefinition.",
-                            "$~…"
-                        ],
-                        null,
-                        [
-                            "FunctionDefinition",
-                            "curious",
-                            "$~도움이 필요하신가요? 오, 방문하셨군요. *Verse*에 오신 것을 환영합니다. …"
+                            "뭐 도와드릴거 없어요? 여기는 *절*이라고 불러요…"
                         ],
                         null,
                         [
@@ -1346,6 +1342,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~음, \\1.01toe\\s? 네, 감사합니다 @Number, 이것들은 … 흥미로운 예입니다. 그리고 숫자로 수학을 할 때 매우 유용하죠, 맞죠?"
+
                         ],
                         null,
                         [
@@ -5103,7 +5100,7 @@
                 "Stage([Phrase('😨')] background: Color(0% 0 0°))"
             ],
             "scenes": [
-                {
+                    {
                     "title": "$~공동 의존성",
                     "subtitle": null,
                     "performance": [
