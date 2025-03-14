@@ -1932,7 +1932,7 @@
                 },
                 "notequal": {
                     "doc": [
-                        "\\⊤\\ if I'm equal to the given @Number:",
+                        "\\⊤\\ if I'm not equal to the given @Number:",
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
