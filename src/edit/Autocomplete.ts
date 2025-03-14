@@ -110,7 +110,7 @@ export function getEditsAt(
         edits = getNodeEdits(caret.position, context);
     }
     // If the token is a position rather than a node, find edits for the nodes between.
-    else if (caret.isNode()) {
+    else if (caret.isPosition()) {
         note(`Caret is position, finding nodes before and after.`, 0);
 
         // If there are no nodes between (because the caret is in the middle of a token)
