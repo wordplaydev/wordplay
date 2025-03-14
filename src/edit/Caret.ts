@@ -1814,7 +1814,10 @@ export default class Caret {
             )
                 return;
 
-            const newSource = this.source.withoutGraphemesBetween(start, end);
+            const newSource = this.source.withoutGraphemesBetween(
+                Math.min(start, end),
+                Math.max(start, end),
+            );
             if (newSource === undefined) return;
             return [
                 newSource,
