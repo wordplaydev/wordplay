@@ -27,7 +27,7 @@
         "value": "값",
         "text": "텍스트",
         "boolean": "불리언",
-        "map": "맵", // update this to 지도?
+        "map": "맵",
         "number": "숫자",
         "function": "함수",
         "exception": "예외",
@@ -41,10 +41,9 @@
         "row": "행",
         "set": "집합",
         "key": "키",
-        "feedback": "의견", 
-        "help": "도움"
+        "feedback": "의견",
+        "help": "도움",
         "how": "$~어떻게"
-
     },
     "token": {
         "EvalOpen": "평가열기",
