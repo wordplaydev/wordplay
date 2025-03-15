@@ -34,24 +34,23 @@
     let PoseProperties = $derived(getPoseProperties(project, $locales, false));
 
     // Create a mapping from pose properties to values
-    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(
-        new Map(),
-    );
-    $effect(() => {
-        propertyValues = new Map();
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> =
+        $derived.by(() => {
+            const newPropertyValues = new Map();
 
-        // Map the properties to a set of values.
-        for (const property of PoseProperties) {
-            const valueSet = new OutputPropertyValueSet(
-                property,
-                outputs,
-                $locales,
-            );
-            // Exclue any properties that happen to have no values.
-            if (!valueSet.isEmpty() && valueSet.onAll())
-                propertyValues.set(property, valueSet);
-        }
-    });
+            // Map the properties to a set of values.
+            for (const property of PoseProperties) {
+                const valueSet = new OutputPropertyValueSet(
+                    property,
+                    outputs,
+                    $locales,
+                );
+                // Exclue any properties that happen to have no values.
+                if (!valueSet.isEmpty() && valueSet.onAll())
+                    newPropertyValues.set(property, valueSet);
+            }
+            return newPropertyValues;
+        });
 
     function convert() {
         Projects.revise(
