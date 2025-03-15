@@ -9,6 +9,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Forward delete selection now deletes selection.
 
+### Maintenance
+
+- Updated minor versions of Svelte, SvelteKit, Vite.
+
 ## 0.16.5
 
 ### Fixed
