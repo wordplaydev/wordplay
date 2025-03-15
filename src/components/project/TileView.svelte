@@ -224,16 +224,12 @@
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
             if (x < AUTO_SCROLL_THRESHOLD) {
-                console.log('left');
                 contentView.scrollLeft -= -AUTO_SCROLL_THRESHOLD;
             } else if (x > tileWidth - AUTO_SCROLL_THRESHOLD) {
-                console.log('right');
                 contentView.scrollLeft += AUTO_SCROLL_THRESHOLD;
             } else if (y < AUTO_SCROLL_THRESHOLD) {
-                console.log('up');
                 contentView.scrollTop -= AUTO_SCROLL_THRESHOLD;
             } else if (y > tileHeight - AUTO_SCROLL_THRESHOLD) {
-                console.log('down');
                 contentView.scrollTop += AUTO_SCROLL_THRESHOLD;
             }
         }
