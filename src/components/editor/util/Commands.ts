@@ -256,8 +256,9 @@ export const StepBack: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    active: (context) =>
-        !context.evaluator.isAtBeginning() ? true : undefined,
+    // If we don't consume this, the browser will go back, which is annoying.
+    // active: (context) =>
+    //     !context.evaluator.isAtBeginning() ? true : undefined,
     execute: (context) => {
         context.evaluator.stepBackWithinProgram();
         return true;
