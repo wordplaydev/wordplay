@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Faces } from '@basis/Fonts';
+    import { Faces, getFaceDescription } from '@basis/Fonts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
@@ -96,10 +96,10 @@
                                         $locales.usesScript(script),
                                     ),
                             )
-                            .map(([face]) => {
+                            .map(([name, face]) => {
                                 return {
-                                    value: face,
-                                    label: face,
+                                    value: name,
+                                    label: getFaceDescription(name, face),
                                 };
                             }),
                     ]}

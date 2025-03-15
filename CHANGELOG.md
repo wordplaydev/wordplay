@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Added Chinese, Korean, and Japanese fonts.
 - Added official Korean locale support.
 - Only show source file names if more than one source, to reduce confusion about project name.
+- Added language script names and include them in font choosers for support clarity.
 
 ### Fixed
 

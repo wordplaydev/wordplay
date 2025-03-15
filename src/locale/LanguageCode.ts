@@ -148,7 +148,7 @@ export const Languages = {
         en: 'Japanese',
         quote: '「',
         secondary: '『',
-        scripts: ['Hira', 'Jpan', 'Kana'],
+        scripts: ['Hira', 'Kana', 'Kana'],
     },
     ka: { name: 'ქართული', en: 'Georgian', scripts: ['Geor'] },
     kk: { name: 'Қазақша', en: 'Kazakh', scripts: ['Arab', 'Cyrl'] },

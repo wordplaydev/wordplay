@@ -1,7 +1,12 @@
 import { OR_SYMBOL } from '@parser/Symbols';
 import { writable } from 'svelte/store';
 import type LocaleText from '../locale/LocaleText';
-import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
+import {
+    Latin,
+    LatinCyrillicGreek,
+    Scripts,
+    type Script,
+} from '../locale/Scripts';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -126,7 +131,7 @@ export const Faces: Record<string, Face> = {
     'Noto Sans Japanese': {
         weights: { min: 100, max: 900 },
         italic: false,
-        scripts: ['Jpan'],
+        scripts: ['Hira', 'Kana', 'Hani'],
         format: 'woff2',
     },
     'Noto Sans Korean': {
@@ -330,7 +335,7 @@ export const Faces: Record<string, Face> = {
     'Rampart One': {
         weights: [400],
         italic: false,
-        scripts: ['Latn', 'Jpan'],
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani'],
         format: 'woff2',
     },
     Codystar: {
@@ -402,25 +407,25 @@ export const Faces: Record<string, Face> = {
     'Dot Gothic 16': {
         weights: [400],
         italic: false,
-        scripts: ['Latn', 'Jpan', 'Cyrl'],
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani', 'Cyrl'],
         format: 'ttf',
     },
     'Hi Melody': {
         weights: [400],
         italic: false,
-        scripts: ['Latn', 'Jpan', 'Cyrl'],
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani', 'Cyrl'],
         format: 'ttf',
     },
     'Potta One': {
         weights: [400],
         italic: false,
-        scripts: ['Jpan', 'Latn'],
+        scripts: ['Hira', 'Kana', 'Hani', 'Latn'],
         format: 'ttf',
     },
     Stick: {
         weights: [400],
         italic: false,
-        scripts: ['Jpan', 'Latn', 'Cyrl'],
+        scripts: ['Hira', 'Kana', 'Hani', 'Latn', 'Cyrl'],
         format: 'ttf',
     },
     'ZCOOL KuaiLe': {
@@ -689,3 +694,7 @@ export default Fonts;
 export const SupportedFontsFamiliesType = SupportedFaces.map(
     (font) => `"${font}"`,
 ).join(OR_SYMBOL);
+
+export function getFaceDescription(name: string, face: Face) {
+    return `${name} [${face.scripts.map((s) => Scripts[s]?.name ?? '?').join(' ')}]`;
+}
