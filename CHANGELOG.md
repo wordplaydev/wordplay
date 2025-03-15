@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Added
 
 - Added Papyrus, Broadway, Dreamin Outload, Modern Love, and Delius (Times equivalent).
+- Added Chinese, Korean, and Japanese fonts.
 
 ### Fixed
 

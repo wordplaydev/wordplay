@@ -41,6 +41,8 @@ export const Scripts = {
     Armn: { direction: 'ltr', layout: 'horizontal-tb' },
     Yiii: { direction: 'ltr', layout: 'horizontal-tb' },
     Cans: { direction: 'ltr', layout: 'horizontal-tb' },
+    Hans: { direction: 'ltr', layout: 'horizontal-tb' },
+    Hang: { direction: 'ltr', layout: 'horizontal-tb' },
     Jpan: { direction: 'ltr', layout: 'horizontal-tb' },
     Hira: { direction: 'ltr', layout: 'horizontal-tb' },
     Kana: { direction: 'ltr', layout: 'horizontal-tb' },
