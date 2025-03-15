@@ -57,6 +57,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Added more detail to text literal locales in LANGUAGE.md.
+- Fixed #698 resolving gallery project write status defect.
 
 ## 0.16.1 2025-02-25
 
