@@ -422,13 +422,12 @@
             caret.set($caret.withPosition(newPosition));
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
-        dragPoint = undefined;
+        dragPoint = { x: event.clientX, y: event.clientY };
         if (editable && nonTokenNodeUnderPointer && event.shiftKey) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
             if (dragCandidate && event.buttons === 1) {
-                dragPoint = { x: event.clientX, y: event.clientY };
                 event.preventDefault();
                 event.stopPropagation();
                 if (editor) editor.style.touchAction = 'none';
@@ -811,7 +810,11 @@
         handleEditHover(event);
 
         // If dragging and there's no drag candidate, update the selection.
-        if (event.buttons === 1 && $dragged === undefined) {
+        if (
+            event.buttons === 1 &&
+            $dragged === undefined &&
+            dragPoint !== undefined
+        ) {
             // Dragging to select. What's under the pointer?
             const position = getCaretPositionAt(event);
             // Update the selection based on the caret position.
