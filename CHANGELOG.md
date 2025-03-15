@@ -31,6 +31,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Better feedback after button press.
 - Store project history state as raw, not deeply reactive, as its immutable.
 - Fixed source value history preservation bug.
+- Fixed missing evaluation dependency in outline updates.
 
 ### Maintenance
 

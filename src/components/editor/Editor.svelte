@@ -305,12 +305,12 @@
 
     /**
      * Given a node, find its rendered counterpart. This is expensive, so we do some caching.
-     * resetting the cache whenever the source changes, since we will likely have new nodes.
+     * resetting the cache whenever the source or evaluation state changes, since we will likely have new nodes.
      * null represents that the node could not be found when we first checked.
      */
     let nodeViewCache = new Map<Node, HTMLElement | null>();
     $effect(() => {
-        if (source) nodeViewCache = new Map();
+        if (source && $evaluation) nodeViewCache = new Map();
     });
     function getNodeView(node: Node): HTMLElement | undefined {
         if (editor === null) return undefined;
@@ -1496,7 +1496,7 @@
         );
     });
 
-    // Update the outline positions any time the highlights change;
+    // Update the outline positions any time the highlights change, but only after we're done rendering.
     let outlines = $state<HighlightSpec[]>([]);
     $effect(() => {
         if ($highlights)
