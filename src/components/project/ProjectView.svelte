@@ -454,7 +454,7 @@
 
         // Go through each source file and find the tile. If we don't find one, create one.
         let index = 0;
-        for (const source of sources) {
+        for (const source of project.getSources()) {
             const tile = tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index),
             );
@@ -1256,7 +1256,7 @@
         return parseInt(id.replace('source', ''));
     }
 
-    function getSourceByTileID(id: string) {
+    function getSourceByTileID(id: string): Source | undefined {
         return sources[getSourceIndexByID(id)];
     }
 
@@ -1356,6 +1356,7 @@
 
         // Sync the tiles.
         layout = layout.withTiles(syncTiles(newProject, layout.tiles));
+
         refreshLayout();
     }
 
@@ -1369,6 +1370,7 @@
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByTileID(id);
+        if (!source) return;
         Projects.reviseProject(
             project.withSource(
                 source,
@@ -1475,22 +1477,7 @@
                             }}
                         >
                             {#snippet title()}
-                                {#if tile.isSource()}
-                                    {@const source = getSourceByTileID(tile.id)}
-                                    <!-- Can't delete main. -->
-                                    {#if editable && source !== project.getMain()}
-                                        <ConfirmButton
-                                            tip={(l) =>
-                                                l.ui.source.confirm.delete
-                                                    .description}
-                                            action={() => removeSource(source)}
-                                            prompt={(l) =>
-                                                l.ui.source.confirm.delete
-                                                    .prompt}
-                                            >{CANCEL_SYMBOL}</ConfirmButton
-                                        >
-                                    {/if}
-                                {:else if tile.kind === TileKind.Output}
+                                {#if tile.kind === TileKind.Output}
                                     <span
                                         title={$locales.get(
                                             (l) =>
@@ -1509,6 +1496,22 @@
                             {/snippet}
 
                             {#snippet extra()}
+                                {#if tile.kind === TileKind.Source}
+                                    {@const source = getSourceByTileID(tile.id)}
+                                    <!-- Can't delete main. -->
+                                    {#if source && editable && source !== project.getMain()}
+                                        <ConfirmButton
+                                            tip={(l) =>
+                                                l.ui.source.confirm.delete
+                                                    .description}
+                                            action={() => removeSource(source)}
+                                            prompt={(l) =>
+                                                l.ui.source.confirm.delete
+                                                    .prompt}
+                                            >{CANCEL_SYMBOL}</ConfirmButton
+                                        >
+                                    {/if}
+                                {/if}
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     {#if !editable}<CopyButton {project}
@@ -1627,40 +1630,46 @@
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
-                                    <div class="annotated-editor">
-                                        <Editor
-                                            {project}
-                                            evaluator={$evaluator}
-                                            {source}
-                                            locale={editorLocales[tile.id] ??
-                                                null}
-                                            editable={editableAndCurrent}
-                                            {overwritten}
-                                            sourceID={tile.id}
-                                            selected={source === selectedSource}
-                                            autofocus={autofocus &&
-                                                tile.isExpanded() &&
-                                                getSourceByTileID(tile.id) ===
-                                                    project.getMain()}
-                                            bind:menu
-                                            updateConflicts={(
-                                                source,
-                                                conflicts,
-                                            ) => {
-                                                conflictsOfInterest = new Map(
-                                                    conflictsOfInterest.set(
-                                                        source,
-                                                        conflicts,
-                                                    ),
-                                                );
-                                            }}
-                                            setOutputPreview={() =>
-                                                (selectedSourceIndex =
-                                                    getSourceIndexByID(
+                                    {#if source}
+                                        <div class="annotated-editor">
+                                            <Editor
+                                                {project}
+                                                evaluator={$evaluator}
+                                                {source}
+                                                locale={editorLocales[
+                                                    tile.id
+                                                ] ?? null}
+                                                editable={editableAndCurrent}
+                                                {overwritten}
+                                                sourceID={tile.id}
+                                                selected={source ===
+                                                    selectedSource}
+                                                autofocus={autofocus &&
+                                                    tile.isExpanded() &&
+                                                    getSourceByTileID(
                                                         tile.id,
-                                                    ))}
-                                        />
-                                    </div>
+                                                    ) === project.getMain()}
+                                                bind:menu
+                                                updateConflicts={(
+                                                    source,
+                                                    conflicts,
+                                                ) => {
+                                                    conflictsOfInterest =
+                                                        new Map(
+                                                            conflictsOfInterest.set(
+                                                                source,
+                                                                conflicts,
+                                                            ),
+                                                        );
+                                                }}
+                                                setOutputPreview={() =>
+                                                    (selectedSourceIndex =
+                                                        getSourceIndexByID(
+                                                            tile.id,
+                                                        ))}
+                                            />
+                                        </div>
+                                    {/if}
                                 {/if}
                             {/snippet}
                             {#snippet footer()}
@@ -1709,15 +1718,19 @@
                             {/snippet}
                             {#snippet margin()}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    <Annotations
-                                        {project}
-                                        evaluator={$evaluator}
-                                        source={getSourceByTileID(tile.id)}
-                                        sourceID={tile.id}
-                                        conflicts={visibleConflicts}
-                                        stepping={$evaluation.playing === false}
-                                        caret={$editors.get(tile.id)?.caret}
-                                    />{/if}
+                                    {@const source = getSourceByTileID(tile.id)}
+                                    {#if source}
+                                        <Annotations
+                                            {project}
+                                            evaluator={$evaluator}
+                                            {source}
+                                            sourceID={tile.id}
+                                            conflicts={visibleConflicts}
+                                            stepping={$evaluation.playing ===
+                                                false}
+                                            caret={$editors.get(tile.id)?.caret}
+                                        />{/if}
+                                {/if}
                             {/snippet}
                         </TileView>
                     {/if}
