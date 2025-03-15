@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { SupportedFaces } from '@basis/Fonts';
+    import { Faces } from '@basis/Fonts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
@@ -10,6 +10,7 @@
         arrangement,
         camera,
         dark,
+        locales,
         mic,
         Settings,
         showLines,
@@ -86,12 +87,21 @@
                     id="ui-face"
                     options={[
                         { value: undefined, label: '—' },
-                        ...SupportedFaces.map((face) => {
-                            return {
-                                value: face,
-                                label: face,
-                            };
-                        }),
+                        // Only show faces supported in the current locale
+                        ...Object.entries(Faces)
+                            .filter(
+                                ([name, face]) =>
+                                    name === FaceSetting.get() ||
+                                    face.scripts.some((script) =>
+                                        $locales.usesScript(script),
+                                    ),
+                            )
+                            .map(([face]) => {
+                                return {
+                                    value: face,
+                                    label: face,
+                                };
+                            }),
                     ]}
                     change={(choice) =>
                         Settings.setFace(choice === undefined ? null : choice)}

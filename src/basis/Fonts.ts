@@ -121,7 +121,7 @@ const NotoSansMono: Face = {
 /**
  * A data structure that represents fonts that creators can use to style phrases.
  */
-const Faces: Record<string, Face> = {
+export const Faces: Record<string, Face> = {
     'Noto Sans': NotoSans,
     'Noto Sans Japanese': {
         weights: { min: 100, max: 900 },

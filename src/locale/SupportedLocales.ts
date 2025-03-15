@@ -1,7 +1,6 @@
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 export const DraftLocales = [
     'zh-TW',
-    'ko-KR',
     'fr-FR',
     'ja-JP',
     'de-DE',
