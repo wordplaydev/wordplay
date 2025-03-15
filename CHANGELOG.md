@@ -30,6 +30,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed timeline dragging.
 - Better feedback after button press.
 - Store project history state as raw, not deeply reactive, as its immutable.
+- Fixed source value history preservation bug.
 
 ### Maintenance
 
