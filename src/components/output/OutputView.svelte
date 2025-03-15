@@ -155,8 +155,6 @@
         $evaluation.evaluator.getBasisStreamsOfType(Chat).length > 0,
     );
 
-    $inspect(keys, placements, chats);
-
     // Announce changes in values.
     $effect(() => {
         if ($announce && value !== undefined) {
