@@ -267,6 +267,12 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
+    Delius: {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
     'Short Stack': {
         weights: [400],
         italic: false,
@@ -291,7 +297,18 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
-    Megrim: { weights: [400], italic: false, scripts: Latin, format: 'woff2' },
+    Megrim: {
+        weights: [400],
+        italic: false,
+        scripts: ['Latn', 'Cyrl'],
+        format: 'woff2',
+    },
+    Merriweather: {
+        weights: { min: 300, max: 700 },
+        italic: true,
+        scripts: Latin,
+        format: 'ttf',
+    },
     Modak: {
         weights: [400],
         italic: false,
@@ -343,6 +360,30 @@ const Faces: Record<string, Face> = {
     'Comic Neue': {
         weights: [300, 400, 700],
         italic: true,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    Papyrus: {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    'Dreaming Outloud': {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'otf',
+    },
+    'Modern Love': {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    Broadway: {
+        weights: [400],
+        italic: false,
         scripts: Latin,
         format: 'ttf',
     },

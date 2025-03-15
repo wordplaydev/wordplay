@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.6
 
+### Added
+
+- Added Papyrus, Broadway, Dreamin Outload, Modern Love, and Delius (Times equivalent).
+
 ### Fixed
 
 - Forward delete selection now deletes selection.
