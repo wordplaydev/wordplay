@@ -27,6 +27,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #708, improving palette editing from code editor.
 - Less sensitive text selection drag initiation.
 - Don't go browser back when at the beginning of the timeline.
+- Fixed timeline dragging.
 
 ### Maintenance
 

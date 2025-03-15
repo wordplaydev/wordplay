@@ -127,13 +127,16 @@
         return 0;
     }
 
-    function stepToMouse(event: PointerEvent) {
+    function stepToPointer(event: PointerEvent) {
         if ($evaluation.streams === undefined) return;
         if (timeline === undefined) return;
 
         // Map the pointer's x position to the closest event.
         const view = document
-            .elementFromPoint(event.clientX, timeline.offsetTop)
+            .elementFromPoint(
+                event.clientX,
+                timeline.offsetTop + timeline.clientHeight / 2,
+            )
             ?.closest('.event');
         if (view instanceof HTMLElement) {
             // Is this a stream input? Get it's index and step to it.
@@ -212,12 +215,12 @@
         aria-orientation="horizontal"
         class:stepping={$evaluation.playing === false}
         onpointerdown={(event) => {
-            stepToMouse(event);
+            stepToPointer(event);
             timeline?.setPointerCapture(event.pointerId);
         }}
         onpointermove={(event) =>
             dragging && (event.buttons & 1) === 1
-                ? stepToMouse(event)
+                ? stepToPointer(event)
                 : undefined}
         onpointerleave={() => (dragging = false)}
         onpointerup={(event) => {
@@ -275,12 +278,12 @@
                 <!-- If there were more than three, indicate the trimming -->
                 {#if reaction.changes.length > 3}…{/if}
                 <!-- Show dots representing the steps after the reevaluation -->
-                <span
+                <div
                     class="event steps"
                     data-startindex={reaction.stepIndex}
                     data-endindex={reaction.stepIndex + stepCount}
                     style:width="{Math.min(2, stepCount / 10)}em"
-                    >&ZeroWidthSpace;</span
+                    >&ZeroWidthSpace;</div
                 >
                 <!-- If the value was an exception, show that it ended that way -->
                 {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof ExceptionValue}<span
@@ -350,8 +353,6 @@
     .steps {
         display: inline-block;
         height: 100%;
-        margin-left: var(--wordplay-spacing);
-        margin-right: var(--wordplay-spacing);
     }
 
     .steps:after {
