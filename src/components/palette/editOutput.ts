@@ -1,8 +1,10 @@
 import type Project from '@db/projects/Project';
 import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
 import Evaluate from '@nodes/Evaluate';
 import Expression from '@nodes/Expression';
 import Input from '@nodes/Input';
+import Node from '@nodes/Node';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
@@ -389,14 +391,15 @@ export function addStage(
 export function hasOutput(project: Project) {
     return project.getSources().some((source) => {
         const context = project.getContext(source);
-        return source
-            .nodes()
-            .some(
-                (n) =>
-                    n instanceof Evaluate &&
-                    (n.is(project.shares.output.Phrase, context) ||
-                        n.is(project.shares.output.Group, context) ||
-                        n.is(project.shares.output.Stage, context)),
-            );
+        return source.nodes().some((n) => isOutput(n, project, context));
     });
+}
+
+export function isOutput(n: Node, project: Project, context: Context) {
+    return (
+        n instanceof Evaluate &&
+        (n.is(project.shares.output.Phrase, context) ||
+            n.is(project.shares.output.Group, context) ||
+            n.is(project.shares.output.Stage, context))
+    );
 }

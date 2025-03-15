@@ -4576,8 +4576,8 @@
                 "offerPhrase": "$~Quelle belle valeur tu as faite ! Dois-je la montrer sur @Stage ?",
                 "offerGroup": "$~Quelle merveilleuse @Phrase tu as créée. Veux-tu les rassembler dans un @Group, pour les organiser ?",
                 "offerStage": "$~TRÈS BIEN @Program. AJOUTEZ-MOI POUR CONTRÔLER L'ÉCLAIRAGE. LES COULEURS. LES CADRES.",
-                "pauseToEdit": "$~Si vous aimez la scène, vous pouvez sélectionner un 💬, 🔳 ou 🎭 à modifier!",
-                "editing": "$~Modifiez-moi !"
+                "editing": "$~Modifiez-moi !",
+                "select": "$~Pour modifier, sélectionnez un 💬, 🔳 ou 🎭 dans le code, ou ⏸️ l'étape et sélectionnez la sortie."
             },
             "field": {
                 "coordinate": "$~modifier les coordonnées",

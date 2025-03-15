@@ -4632,7 +4632,7 @@
                 "offerPhrase": "What a gorgeous value you made! Shall I show it on @Stage?",
                 "offerGroup": "What a wonderful @Phrase you made. Do you want to bring them together into a @Group, to get them arranged?",
                 "offerStage": "VERY GOOD @Program. ADD ME TO CONTROL LIGHTING. COLORS. FRAMES.",
-                "pauseToEdit": "If you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
+                "select": "To edit, select a 💬, 🔳, or 🎭 in code, or ⏸️ the stage and select output.",
                 "editing": "Edit me!"
             },
             "field": {

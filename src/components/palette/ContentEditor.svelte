@@ -48,7 +48,7 @@
 
         const item = list.values[index];
         if (item instanceof Evaluate && selection)
-            selection.setPaths(project, [item]);
+            selection.setPaths(project, [item], 'palette');
     }
 </script>
 

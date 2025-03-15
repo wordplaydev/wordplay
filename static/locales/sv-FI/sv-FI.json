@@ -4630,8 +4630,8 @@
                 "offerPhrase": "$~Vilket fantastiskt värde du gjort! Ska jag visa den på @Stage?",
                 "offerGroup": "$~Vilken underbar @Phrase du gjorde. Vill du sammanföra dem till en @Group, för att få dem ordnade?",
                 "offerStage": "$~MYCKET BRA @Program. LÄGG TILL MIG FÖR ATT STYRA LJUS. FÄRGER. RAMAR.",
-                "pauseToEdit": "$~Om du ⏸️ scenen kan du välja en 💬, 🔳 eller 🎭 för att redigera!",
-                "editing": "$~Redigera mig!"
+                "editing": "$~Redigera mig!",
+                "select": "$~För att redigera, välj en 💬, 🔳 eller 🎭 i kod, eller ⏸️ scenen och välj utgång."
             },
             "field": {
                 "coordinate": "$~redigera koordinat",

@@ -1275,9 +1275,13 @@
         evalUpdate();
     });
 
-    // Whenever the selected output changes, ensure the first selected node is scrolled to.
+    // Whenever the selected output changes from a source other than the editor, ensure the first selected node is scrolled to.
     $effect(() => {
-        if (selection?.hasPaths()) {
+        if (
+            selection !== undefined &&
+            selection.hasPaths() &&
+            selection.origin !== 'editor'
+        ) {
             const node = selection.getOutput(project)[0];
             if (node) {
                 tick().then(() => {
@@ -1468,7 +1472,7 @@
                 project.shares.output.Stage,
             )
         )
-            selection.setPaths(project, [$caret.position]);
+            selection.setPaths(project, [$caret.position], 'editor');
     });
 
     // Update the highlights when any of these stores values change

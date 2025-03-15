@@ -289,6 +289,7 @@
                                   .getOutput(project)
                                   .filter((o) => o !== evaluate)
                             : [evaluate],
+                        'output',
                     );
                     event.stopPropagation();
                     return;
@@ -407,7 +408,7 @@
         // If we're editable and not playing, select output.
         if (editable && !evaluator.isPlaying()) {
             if (painting) {
-                if (selection) selection.setPaths(project, []);
+                if (selection) selection.setPaths(project, [], 'output');
             } else if (!selectPointerOutput(event)) ignore();
         }
 
@@ -765,7 +766,7 @@
             else newSelection = [evaluate];
 
             // Update the selection
-            selection.setPaths(project, newSelection);
+            selection.setPaths(project, newSelection, 'output');
             // Erase the selected phrase.
             selection.setPhrase(null);
 

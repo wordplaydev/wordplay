@@ -11529,16 +11529,16 @@
                       "$ref": "#/definitions/Template",
                       "description": "The text offering to create a stage in the palette without a stage"
                     },
-                    "pauseToEdit": {
+                    "select": {
                       "$ref": "#/definitions/Template",
-                      "description": "The text offering to pause the project to allow palette editing"
+                      "description": "Prompt if no selection"
                     }
                   },
                   "required": [
                     "offerPhrase",
                     "offerGroup",
                     "offerStage",
-                    "pauseToEdit",
+                    "select",
                     "editing"
                   ],
                   "type": "object"

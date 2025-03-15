@@ -411,11 +411,6 @@
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
 
-    // Clear the selected output upon playing.
-    evaluation.subscribe((val) => {
-        if (val.playing) if (!selectedOutput.isEmpty()) selectedOutput.empty();
-    });
-
     function syncTiles(project: Project, tiles: Tile[]): Tile[] {
         const newTiles: Tile[] = [];
 
@@ -1082,11 +1077,11 @@
             if (tile.mode === TileMode.Collapsed && selectedOutput.isEmpty()) {
                 const output = project.getOutput();
                 if (output.length > 0) {
-                    selectedOutput.setPaths(project, [output[0]]);
+                    selectedOutput.setPaths(project, [output[0]], 'editor');
                     $evaluator.pause();
                 }
             } else if (tile.mode === TileMode.Expanded) {
-                selectedOutput.setPaths(project, []);
+                selectedOutput.setPaths(project, [], 'editor');
             }
         }
 
@@ -1612,6 +1607,7 @@
                                     <Palette
                                         {project}
                                         editable={editableAndCurrent}
+                                        editors={Array.from($editors.values())}
                                     />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView

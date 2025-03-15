@@ -4516,8 +4516,8 @@
                 "offerPhrase": "你创造了一个漂亮的值！我应该在 @Stage 上展示吗？",
                 "offerGroup": "你做了一个很棒的 @Phrase。你想将它们组合到 @Group 中，以便进行排列吗？",
                 "offerStage": "非常好的 @Program。将我添加到控制灯光、颜色和帧数的项目中。",
-                "pauseToEdit": "如果你 ⏸️ 舞台，你可以选择 💬、🔳 或 🎭 来编辑！",
-                "editing": "编辑我！"
+                "editing": "编辑我！",
+                "select": "$~要编辑，请在代码中选择💬、🔳或🎭，或⏸️阶段并选择输出。"
             },
             "field": {
                 "coordinate": "编辑坐标",
