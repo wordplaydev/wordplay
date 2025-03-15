@@ -172,9 +172,9 @@ export function handleKeyCommand(
             if (command !== InsertSymbol) matchedShortcut = true;
 
             // Is the command active? If so, execute it.
-            const isActive = command.active
-                ? command.active(context, event.key)
-                : false;
+            const isActive =
+                command.active === undefined ||
+                command.active(context, event.key);
 
             if (isActive) {
                 // If so, execute it.
