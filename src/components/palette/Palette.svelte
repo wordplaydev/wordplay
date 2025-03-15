@@ -207,36 +207,6 @@
                 command={`+${STAGE_SYMBOL}`}
             />
         {/if}
-        {#if stage === undefined && phrase === undefined}
-            <EditOffer
-                symbols={PHRASE_SYMBOL}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerPhrase}
-                tip={(l) => l.ui.palette.button.createPhrase}
-                action={() => addSoloPhrase(DB, project)}
-                command={`+${PHRASE_SYMBOL}`}
-            />
-        {/if}
-        {#if phrase !== undefined && stage === undefined}
-            <EditOffer
-                symbols={GROUP_SYMBOL}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerGroup}
-                tip={(l) => l.ui.palette.button.createGroup}
-                action={() => addGroup(DB, project)}
-                command={`+${GROUP_SYMBOL}`}
-            />
-        {/if}
-        {#if stage === undefined}
-            <EditOffer
-                symbols={STAGE_SYMBOL}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerStage}
-                tip={(l) => l.ui.palette.button.createStage}
-                action={() => addStage(DB, project, group ?? phrase)}
-                command={`+${STAGE_SYMBOL}`}
-            />
-        {/if}
     {/if}
 </section>
 
