@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Forward delete selection now deletes selection.
 - Only show fonts that support the script of the currently selected languages.
+- Prevent extra spaces in first segment of markup paragraph.
 
 ### Maintenance
 
