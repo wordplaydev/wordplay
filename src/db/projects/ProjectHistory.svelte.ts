@@ -40,7 +40,7 @@ export class ProjectHistory {
     readonly id: string;
 
     /** A Svelte state of the current version of the project. The little ! indicates that it can't be undefined. */
-    private current: Project = $state()!;
+    private current: Project = $state.raw()!;
     /**
      * Previous versions of the project.
      * It always contains the current version of the project and is therefore never empty.
