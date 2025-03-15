@@ -14,7 +14,7 @@
 
     let { value, inline = true }: Props = $props();
 
-    const CollapseLimit = 3;
+    const CollapseLimit = 2;
     const MaxItems = 100;
 </script>
 

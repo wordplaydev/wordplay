@@ -18,6 +18,7 @@
     .symbol {
         color: currentColor;
         white-space: pre;
+        font-size: var(--wordplay-small-font-size);
     }
 
     .category-name {

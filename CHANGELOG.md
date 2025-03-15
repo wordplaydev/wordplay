@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Only show source file names if more than one source, to reduce confusion about project name.
 - Added language script names and include them in font choosers for support clarity.
 - Fixed #705, autoscroll tile views.
+- Don't hide code when debugging; just elide values and place them inline.
 
 ### Fixed
 

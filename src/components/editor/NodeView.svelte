@@ -162,9 +162,10 @@
         aria-hidden={hide ? 'true' : null}
         aria-label={description}
         ><!--Render the value if there's a value ot render, or the node view otherwise -->
-        {#if value}<ValueView {value} {node} interactive />{:else}
-            <NodeView {node} />{/if}</div
-    >
+        <NodeView {node} />{#if value}
+            <div class="value"><ValueView {value} {node} interactive /></div
+            >{/if}
+    </div>
 {/if}
 
 <style>
@@ -181,6 +182,11 @@
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
         cursor: grab;
+    }
+
+    .value {
+        display: inline;
+        margin-inline-start: var(--wordplay-spacing);
     }
 
     .blockselected {
