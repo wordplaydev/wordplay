@@ -9,6 +9,7 @@
     import { page } from '$app/state';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Link from '@components/app/Link.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -1743,17 +1744,21 @@
                         <CreatorView {creator} />
                     {/await}
                 {/if}
-                {#if editable}
-                    <TextField
-                        id="project-name"
-                        text={project.getName()}
-                        description={(l) => l.ui.project.field.name.description}
-                        placeholder={(l) => l.ui.project.field.name.placeholder}
-                        changed={(name) =>
-                            Projects.reviseProject(project.withName(name))}
-                        max="10em"
-                    />
-                {:else}{project.getName()}{/if}
+                <Subheader compact>
+                    {#if editable}
+                        <TextField
+                            id="project-name"
+                            text={project.getName()}
+                            description={(l) =>
+                                l.ui.project.field.name.description}
+                            placeholder={(l) =>
+                                l.ui.project.field.name.placeholder}
+                            changed={(name) =>
+                                Projects.reviseProject(project.withName(name))}
+                            max="7em"
+                        />
+                    {:else}{project.getName()}{/if}
+                </Subheader>
                 {#each sources as source, index}
                     {@const tile = layout.getTileWithID(
                         Layout.getSourceID(index),

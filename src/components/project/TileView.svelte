@@ -323,25 +323,29 @@
                         <div class="name" class:source={tile.isSource()}>
                             {#if editable && tile.isSource()}
                                 <Emoji>{Characters.Program.symbols}</Emoji>
-                                <TextField
-                                    id="source-name-editor-{tile.id}"
-                                    text={tile
-                                        .getSource(project)
-                                        ?.getPreferredName(
-                                            $locales.getLocales(),
-                                        )}
-                                    description={(l) =>
-                                        l.ui.source.field.name.description}
-                                    placeholder={(l) =>
-                                        l.ui.source.field.name.placeholder}
-                                    validator={(text) =>
-                                        !isName(text)
-                                            ? (l) =>
-                                                  l.ui.source.error.invalidName
-                                            : true}
-                                    inlineValidation
-                                    changed={handleRename}
-                                />
+                                {#if project.getSources().length > 1}
+                                    <!-- Only show the source name editor if there's more than one source, to simplify. -->
+                                    <TextField
+                                        id="source-name-editor-{tile.id}"
+                                        text={tile
+                                            .getSource(project)
+                                            ?.getPreferredName(
+                                                $locales.getLocales(),
+                                            )}
+                                        description={(l) =>
+                                            l.ui.source.field.name.description}
+                                        placeholder={(l) =>
+                                            l.ui.source.field.name.placeholder}
+                                        validator={(text) =>
+                                            !isName(text)
+                                                ? (l) =>
+                                                      l.ui.source.error
+                                                          .invalidName
+                                                : true}
+                                        inlineValidation
+                                        changed={handleRename}
+                                    />
+                                {/if}
                             {:else}
                                 <Emoji>{TileKinds[tile.kind].symbol}</Emoji
                                 >{tile.getName(project, $locales)}
