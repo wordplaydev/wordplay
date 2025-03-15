@@ -17,7 +17,7 @@ export const DraftLocales = [
 ];
 
 /** Supported locale names. Put a locale in this list when it's no longer a draft. */
-const CompleteLocales = ['en-US', 'es-MX', 'zh-CN'];
+const CompleteLocales = ['en-US', 'es-MX', 'zh-CN', 'ko-KR'];
 
 /** Officially supported locales that have passable text for the UI and tutorial. */
 export const SupportedLocales = Array.from(
