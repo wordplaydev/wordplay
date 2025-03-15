@@ -1072,17 +1072,10 @@
     function setMode(tile: Tile, mode: TileMode) {
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
 
-        // Special case selected output and the palette.
+        // Special case selected output and the palette, removing the selection of collapsing.
         if (tile === layout.getPalette()) {
-            if (tile.mode === TileMode.Collapsed && selectedOutput.isEmpty()) {
-                const output = project.getOutput();
-                if (output.length > 0) {
-                    selectedOutput.setPaths(project, [output[0]], 'editor');
-                    $evaluator.pause();
-                }
-            } else if (tile.mode === TileMode.Expanded) {
+            if (tile.mode === TileMode.Expanded)
                 selectedOutput.setPaths(project, [], 'editor');
-            }
         }
 
         layout = layout
