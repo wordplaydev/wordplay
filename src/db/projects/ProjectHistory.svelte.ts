@@ -47,7 +47,7 @@ export class ProjectHistory {
      * There is one history for the entire project; no per-source history.
      * History is not persisted, it's session-only.
      */
-    private history: SerializedProject[] = $state([]);
+    private history: SerializedProject[] = $state.raw([]);
 
     /**  The index of the current project in the history. */
     private index: number;
