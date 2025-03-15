@@ -8,6 +8,7 @@
         | 'bottom-right'
         | 'right'
         | 'top-right';
+    const AUTO_SCROLL_THRESHOLD = 20;
 </script>
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
@@ -96,6 +97,10 @@
     let foreground = $derived(
         background instanceof Color ? background.contrasting().toCSS() : null,
     );
+
+    let contentView = $state<HTMLElement | null>(null);
+    let tileWidth = $state(0);
+    let tileHeight = $state(0);
 
     function handleKeyDown(event: KeyboardEvent) {
         // Move or resize on command-arrow
@@ -210,6 +215,27 @@
                                 : containsBottom
                                   ? 'bottom'
                                   : null;
+        }
+    }
+
+    function handleContentPointerMove(event: PointerEvent) {
+        if (event.buttons === 1 && contentView) {
+            const rect = contentView.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            if (x < AUTO_SCROLL_THRESHOLD) {
+                console.log('left');
+                contentView.scrollLeft -= -AUTO_SCROLL_THRESHOLD;
+            } else if (x > tileWidth - AUTO_SCROLL_THRESHOLD) {
+                console.log('right');
+                contentView.scrollLeft += AUTO_SCROLL_THRESHOLD;
+            } else if (y < AUTO_SCROLL_THRESHOLD) {
+                console.log('up');
+                contentView.scrollTop -= AUTO_SCROLL_THRESHOLD;
+            } else if (y > tileHeight - AUTO_SCROLL_THRESHOLD) {
+                console.log('down');
+                contentView.scrollTop += AUTO_SCROLL_THRESHOLD;
+            }
         }
     }
 
@@ -360,7 +386,14 @@
             </div>
             <!-- Render the content -->
             <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-                <div class="content" onscroll={() => scroll()}>
+                <div
+                    class="content"
+                    onscroll={() => scroll()}
+                    bind:this={contentView}
+                    bind:clientWidth={tileWidth}
+                    bind:clientHeight={tileHeight}
+                    onpointermove={handleContentPointerMove}
+                >
                     {@render content()}
                 </div>
                 {#if margin}

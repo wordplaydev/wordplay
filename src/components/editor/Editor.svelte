@@ -810,9 +810,11 @@
         // Handle an edit
         handleEditHover(event);
 
-        if (event.buttons === 1) {
-            // What's under the pointer?
+        // If dragging and there's no drag candidate, update the selection.
+        if (event.buttons === 1 && $dragged === undefined) {
+            // Dragging to select. What's under the pointer?
             const position = getCaretPositionAt(event);
+            // Update the selection based on the caret position.
             if (position !== undefined) {
                 if ($caret.isPosition() && $caret.position !== position)
                     caret.set($caret.withPosition([$caret.position, position]));
