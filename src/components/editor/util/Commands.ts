@@ -71,8 +71,8 @@ export type Command = {
     typing?: boolean | undefined;
     /** An UI to place on buttons corresponding to this command for tutorial highlighting */
     uiid?: string;
-    /** A function that should indicate whether the command is active */
-    active?: (context: CommandContext, key: string) => boolean;
+    /** A function that should indicate whether the command is active. If undefined, it's not executed, but the keystroke is consumed. */
+    active?: (context: CommandContext, key: string) => boolean | undefined;
     /** Generates an edit or other editor command */
     execute: (context: CommandContext, key: string) => CommandResult;
 };
@@ -172,14 +172,16 @@ export function handleKeyCommand(
             if (command !== InsertSymbol) matchedShortcut = true;
 
             // Is the command active? If so, execute it.
-            if (
-                command.active === undefined ||
-                command.active(context, event.key)
-            ) {
+            const isActive = command.active
+                ? command.active(context, event.key)
+                : false;
+
+            if (isActive) {
                 // If so, execute it.
                 const result = command.execute(context, event.key);
                 if (result !== false) return [command, result, true];
-            }
+            } else if (matchedShortcut && isActive === null)
+                return [command, true, true];
         }
     }
     // Didn't execute? Return false if we didn't match anything and let the shortcut travel to the browser.
@@ -254,7 +256,8 @@ export const StepBack: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    active: (context) => !context.evaluator.isAtBeginning(),
+    active: (context) =>
+        !context.evaluator.isAtBeginning() ? true : undefined,
     execute: (context) => {
         context.evaluator.stepBackWithinProgram();
         return true;
@@ -274,7 +277,9 @@ export const StepForward: Command = {
     active: (context) =>
         context.evaluator.isInPast() &&
         context.evaluator.getStepIndex() !== undefined &&
-        context.evaluator.getStepIndex() < context.evaluator.getStepCount(),
+        context.evaluator.getStepIndex() < context.evaluator.getStepCount()
+            ? true
+            : undefined,
     execute: (context) => context.evaluator.stepWithinProgram(),
 };
 
