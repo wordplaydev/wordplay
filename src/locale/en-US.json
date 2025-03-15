@@ -4182,11 +4182,11 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Creators who manage this gallery."
+                    "explanation": "Creators can edit the projects and gallery settings, and chat on all projects."
                 },
                 "creators": {
                     "header": "Creators",
-                    "explanation": "Creators who contribute to this gallery."
+                    "explanation": "Creators can view all projects in the gallery and add new projects."
                 },
                 "delete": {
                     "header": "Delete",

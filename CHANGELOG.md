@@ -21,6 +21,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed 'an'/'a' typos in English locale.
 - Fixed pose editing effect crash.
 - Show new source when added.
+- Clarified permissions for curators and creators
+- Hid associated classes for a gallery if empty.
 
 ### Maintenance
 
