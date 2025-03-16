@@ -138,8 +138,7 @@ export default class Project {
         // Initialize roots for all definitions that can be referenced.
         this.roots = [
             ...this.getSources().map((source) => source.root),
-            ...this.basis.roots,
-            ...this.shares.all.map((share) => new Root(share)),
+            ...this.basis.getRoots(),
         ];
     }
 
