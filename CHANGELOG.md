@@ -7,7 +7,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Added
 
-- Added Papyrus, Broadway, Dreamin Outload, Modern Love, and Delius (Times equivalent).
+- Added Papyrus, Broadway, Dreamin Outloud, Modern Love, and Delius (Times equivalent).
 - Added Chinese, Korean, and Japanese fonts.
 - Added official Korean locale support.
 - Only show source file names if more than one source, to reduce confusion about project name.
@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #705, autoscroll tile views.
 - Don't hide code when debugging; just elide values and place them inline.
 - Allow locales to specify multiple regions they apply to (e.g., Tamil in India, Sri Lanka, Singapore).
+- Fixed #708, improving palette editing from code editor.
 
 ### Fixed
 
@@ -26,7 +27,6 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Show new source when added.
 - Clarified permissions for curators and creators
 - Hid associated classes for a gallery if empty.
-- Fixed #708, improving palette editing from code editor.
 - Less sensitive text selection drag initiation.
 - Don't go browser back when at the beginning of the timeline.
 - Fixed timeline dragging.
