@@ -36,6 +36,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed missing evaluation dependency in outline updates.
 - Fixed missing keyboard input dependency on evaluation.
 - Eliminated proactive root walk to reduce edit overhead.
+- Account for undefined evaluation context in tutorial.
 
 ### Maintenance
 

@@ -102,7 +102,7 @@ const EvaluationSymbol = Symbol('evaluation');
 export function setEvaluation(context: EvaluationContext) {
     setContext(EvaluationSymbol, context);
 }
-export function getEvaluation(): EvaluationContext {
+export function getEvaluation(): EvaluationContext | undefined {
     return getContext(EvaluationSymbol);
 }
 

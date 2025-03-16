@@ -146,13 +146,16 @@
 
     /** Keep track of streams that listen for keyboard input */
     const keys = $derived(
-        $evaluation.evaluator.getBasisStreamsOfType(Key).length > 0,
+        $evaluation !== undefined &&
+            $evaluation.evaluator.getBasisStreamsOfType(Key).length > 0,
     );
     const placements = $derived(
-        $evaluation.evaluator.getBasisStreamsOfType(Placement).length > 0,
+        $evaluation !== undefined &&
+            $evaluation.evaluator.getBasisStreamsOfType(Placement).length > 0,
     );
     const chats = $derived(
-        $evaluation.evaluator.getBasisStreamsOfType(Chat).length > 0,
+        $evaluation !== undefined &&
+            $evaluation.evaluator.getBasisStreamsOfType(Chat).length > 0,
     );
 
     // Announce changes in values.
