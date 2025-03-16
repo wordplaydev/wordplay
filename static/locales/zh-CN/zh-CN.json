@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "zh",
-    "region": "CN",
+    "regions": ["CN"],
     "wordplay": "双关语",
     "term": {
         "evaluate": "评价",

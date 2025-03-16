@@ -1,7 +1,7 @@
 {
     "$schema": "../../static/schemas/LocaleText.json",
     "language": "en",
-    "region": "US",
+    "regions": ["US"],
     "wordplay": "Wordplay",
     "term": {
         "bind": "bind",

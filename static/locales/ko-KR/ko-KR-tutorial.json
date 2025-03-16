@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/Tutorial.json",
     "language": "ko",
-    "region": "KR",
+    "regions": ["KR"],
     "acts": [
         {
             "title": "절",
@@ -14,7 +14,11 @@
                     "lines": [
                         ["FunctionDefinition", "bored", "… 어? 안녕하새요."],
                         null,
-                        ["FunctionDefinition", "neutral", "우리... 맞난적이 있어요?"],
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "우리... 맞난적이 있어요?"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1342,7 +1346,6 @@
                             "FunctionDefinition",
                             "kind",
                             "$~음, \\1.01toe\\s? 네, 감사합니다 @Number, 이것들은 … 흥미로운 예입니다. 그리고 숫자로 수학을 할 때 매우 유용하죠, 맞죠?"
-
                         ],
                         null,
                         [
@@ -5100,7 +5103,7 @@
                 "Stage([Phrase('😨')] background: Color(0% 0 0°))"
             ],
             "scenes": [
-                    {
+                {
                     "title": "$~공동 의존성",
                     "subtitle": null,
                     "performance": [

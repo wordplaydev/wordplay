@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "hi",
-    "region": "IN",
+    "regions": ["IN"],
     "wordplay": "$~लिटरएक्स",
     "term": {
         "evaluate": "$~मूल्यांकन करना",

@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "ja",
-    "region": "JP",
+    "regions": ["JP"],
     "wordplay": "$~言葉遊び",
     "term": {
         "bind": "$~バインド",

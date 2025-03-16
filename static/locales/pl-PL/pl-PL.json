@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "pl",
-    "region": "PL",
+    "regions": ["PL"],
     "wordplay": "$~Gra słów",
     "term": {
         "bind": "$~wiązać",

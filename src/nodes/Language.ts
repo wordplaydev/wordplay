@@ -122,7 +122,8 @@ export default class Language extends Node {
 
     isLocaleRegion(locale: Locale) {
         return (
-            this.region !== undefined && this.region.getText() === locale.region
+            this.region !== undefined &&
+            locale.regions.includes(this.region.getText())
         );
     }
 
@@ -132,7 +133,7 @@ export default class Language extends Node {
         return language
             ? {
                   language: language as LanguageCode,
-                  region: region as RegionCode,
+                  regions: [region as RegionCode],
               }
             : undefined;
     }

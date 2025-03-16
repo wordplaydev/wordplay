@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "ko",
-    "region": "KR",
+    "regions": ["KR"],
     "wordplay": "워드플레이",
     "term": {
         "evaluate": "평가",

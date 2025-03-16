@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "sr",
-    "region": "RS",
+    "regions": ["RS"],
     "wordplay": "$~Игра речи",
     "term": {
         "bind": "$~везати",

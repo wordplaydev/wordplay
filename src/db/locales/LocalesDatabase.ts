@@ -273,9 +273,9 @@ export default class LocalesDatabase {
 
     async getTutorial(
         language: LanguageCode,
-        region: RegionCode,
+        regions: RegionCode[],
     ): Promise<Tutorial | undefined> {
-        const localeString = `${language}-${region}`;
+        const localeString = `${language}${regions.map((r) => `-${r}`).join('')}`;
 
         if (localeString in this.tutorialsLoaded)
             return this.tutorialsLoaded[localeString];

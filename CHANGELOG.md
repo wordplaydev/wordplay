@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Added language script names and include them in font choosers for support clarity.
 - Fixed #705, autoscroll tile views.
 - Don't hide code when debugging; just elide values and place them inline.
+- Allow locales to specify multiple regions they apply to (e.g., Tamil in India, Sri Lanka, Singapore).
 
 ### Fixed
 
