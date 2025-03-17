@@ -204,7 +204,8 @@
         // We do this because when stepping, things hide and show and we need to update the caret
         // position when they do. But we don't want to do it when playing, otherwise the editor
         // scrolls to the caret whenever the evaluation steps, which can be a lot when playing!
-        if (untrack(() => !$evaluation.evaluator.isPlaying())) $evaluation;
+        if (untrack(() => $evaluation !== undefined && !$evaluation.playing))
+            $evaluation;
         tick().then(() => {
             location = computeLocation();
             // Because some elements fade out when caret changes, affecting layout, we also need to recompute

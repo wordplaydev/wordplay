@@ -148,13 +148,13 @@ export const Languages = {
         en: 'Japanese',
         quote: '「',
         secondary: '『',
-        scripts: ['Hira', 'Jpan', 'Kana'],
+        scripts: ['Hira', 'Kana', 'Kana'],
     },
     ka: { name: 'ქართული', en: 'Georgian', scripts: ['Geor'] },
     kk: { name: 'Қазақша', en: 'Kazakh', scripts: ['Arab', 'Cyrl'] },
     km: { name: 'ខ្មែរ', en: 'Khmer', scripts: ['Khmr'] },
     kn: { name: 'ಕನ್ನಡ', en: 'Kannada', scripts: ['Knda'] },
-    ko: { name: '한국어', en: 'Korean', scripts: ['Kore'] },
+    ko: { name: '한국어', en: 'Korean', scripts: ['Kore', 'Hang', 'Hani'] },
     gom: { name: 'कोंकणी', en: 'Konkani', scripts: ['Deva'] },
     ky: { name: 'Кыргыз', en: 'Kyrgyz', scripts: ['Cyrl'] },
     lb: { name: 'Lëtzebuergesch', en: 'Luxembourgish', scripts: ['Latn'] },
@@ -277,4 +277,8 @@ export function getLanguageDirection(code: LanguageCode): WritingDirection {
 
 export function getLanguageLayout(code: LanguageCode): WritingLayout {
     return Scripts[Languages[code].scripts[0]]?.layout ?? 'horizontal-tb';
+}
+
+export function getLanguageScripts(code: LanguageCode): Script[] {
+    return Languages[code].scripts;
 }

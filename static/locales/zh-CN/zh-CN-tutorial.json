@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/Tutorial.json",
     "language": "zh",
-    "region": "CN",
+    "regions": ["CN"],
     "acts": [
         {
             "title": "诗篇",
@@ -61,11 +61,7 @@
                             "fit",
                             "Stage([Phrase('☁️')] background: Color(25% 0 0°))"
                         ],
-                        [
-                            "FunctionDefinition",
-                            "curious",
-                            "等等……你是人吗？"
-                        ],
+                        ["FunctionDefinition", "curious", "等等……你是人吗？"],
                         null,
                         [
                             "fit",
@@ -184,7 +180,6 @@
                             "neutral",
                             "当然啦。我算是这个表演节目的组织者。",
                             "你可以在那边看到我和*编辑器* @UI/editor 在*舞台* @UI/stage 上展示我所运算的内容（目前是空的）。*导演*--也就是你--需要帮助大家捋清楚他们各要做什么，编写这场表演中将要发生的程序。然后我会运算程序，并将我们的成果放到舞台上给观众观看。"
-
                         ],
                         null,
                         [
@@ -729,7 +724,7 @@
                             "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
                         ],
                         [
-                            "FunctionDefinition", 
+                            "FunctionDefinition",
                             "happy",
                             "我真的很想念 @Evaluate。我无法想象没有他们的诗篇。",
                             "但有时候它们会有点……依赖。我希望它们能……我也不知道，相信自己吧？它们可以做很多事情，但它们却自己看不到。我的意思是，它们将*价值*转化为其他*价值*！我所做的只是提供配方。它们是做饭的。有时我觉得我所做的只是给予，而它们所做的只是索取。这令人有些窒息。"

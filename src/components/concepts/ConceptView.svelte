@@ -43,7 +43,7 @@
         if (character) {
             const tutorial = await Locales.getTutorial(
                 locale.language,
-                locale.region,
+                locale.regions,
             );
             if (tutorial) {
                 for (const [actIndex, act] of tutorial.acts.entries()) {

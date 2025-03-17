@@ -1,37 +1,37 @@
 {
     "$schema": "../../schemas/Tutorial.json",
     "language": "ko",
-    "region": "KR",
+    "regions": ["KR"],
     "acts": [
         {
-            "title": "$~구절",
+            "title": "절",
             "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
-                    "title": "$~고요",
+                    "title": "적막",
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
-                        ["FunctionDefinition", "bored", "$~… 오, 안녕하세요."],
+                        ["FunctionDefinition", "bored", "… 어? 안녕하새요."],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~내가 당신을 아는지?"
+                            "우리... 맞난적이 있어요?"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~오, 처음 오셨나요?",
-                            "$~만나서 반갑습니다. 제 이름은 @FunctionDefinition.",
-                            "$~…"
+                            "아, 여기온거가 처음이군요.",
+                            "방가워요! 저는 @FunctionDefinition입니다.",
+                            "…"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~도움이 필요하신가요? 오, 방문하셨군요. *Verse*에 오신 것을 환영합니다. …"
+                            "뭐 도와드릴거 없어요? 여기는 *절*이라고 불러요…"
                         ],
                         null,
                         [

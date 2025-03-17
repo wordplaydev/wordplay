@@ -11,7 +11,7 @@ export type Tutorial = {
     /** This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed **/
     $schema: string;
     language: LanguageCode;
-    region: RegionCode;
+    regions: RegionCode[];
     acts: [
         Act<[Scene, Scene, Scene, Scene, Scene]>,
         Act<[Scene, Scene, Scene, Scene, Scene, Scene, Scene]>,

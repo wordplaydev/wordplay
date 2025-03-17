@@ -8,6 +8,7 @@
         | 'bottom-right'
         | 'right'
         | 'top-right';
+    const AUTO_SCROLL_THRESHOLD = 20;
 </script>
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
@@ -96,6 +97,10 @@
     let foreground = $derived(
         background instanceof Color ? background.contrasting().toCSS() : null,
     );
+
+    let contentView = $state<HTMLElement | null>(null);
+    let tileWidth = $state(0);
+    let tileHeight = $state(0);
 
     function handleKeyDown(event: KeyboardEvent) {
         // Move or resize on command-arrow
@@ -213,6 +218,23 @@
         }
     }
 
+    function handleContentPointerMove(event: PointerEvent) {
+        if (event.buttons === 1 && contentView) {
+            const rect = contentView.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            if (x < AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollLeft -= -AUTO_SCROLL_THRESHOLD;
+            } else if (x > tileWidth - AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollLeft += AUTO_SCROLL_THRESHOLD;
+            } else if (y < AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollTop -= AUTO_SCROLL_THRESHOLD;
+            } else if (y > tileHeight - AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollTop += AUTO_SCROLL_THRESHOLD;
+            }
+        }
+    }
+
     function handleRename(name: string) {
         rename(tile.id, name);
     }
@@ -323,25 +345,29 @@
                         <div class="name" class:source={tile.isSource()}>
                             {#if editable && tile.isSource()}
                                 <Emoji>{Characters.Program.symbols}</Emoji>
-                                <TextField
-                                    id="source-name-editor-{tile.id}"
-                                    text={tile
-                                        .getSource(project)
-                                        ?.getPreferredName(
-                                            $locales.getLocales(),
-                                        )}
-                                    description={(l) =>
-                                        l.ui.source.field.name.description}
-                                    placeholder={(l) =>
-                                        l.ui.source.field.name.placeholder}
-                                    validator={(text) =>
-                                        !isName(text)
-                                            ? (l) =>
-                                                  l.ui.source.error.invalidName
-                                            : true}
-                                    inlineValidation
-                                    changed={handleRename}
-                                />
+                                {#if project.getSources().length > 1}
+                                    <!-- Only show the source name editor if there's more than one source, to simplify. -->
+                                    <TextField
+                                        id="source-name-editor-{tile.id}"
+                                        text={tile
+                                            .getSource(project)
+                                            ?.getPreferredName(
+                                                $locales.getLocales(),
+                                            )}
+                                        description={(l) =>
+                                            l.ui.source.field.name.description}
+                                        placeholder={(l) =>
+                                            l.ui.source.field.name.placeholder}
+                                        validator={(text) =>
+                                            !isName(text)
+                                                ? (l) =>
+                                                      l.ui.source.error
+                                                          .invalidName
+                                                : true}
+                                        inlineValidation
+                                        changed={handleRename}
+                                    />
+                                {/if}
                             {:else}
                                 <Emoji>{TileKinds[tile.kind].symbol}</Emoji
                                 >{tile.getName(project, $locales)}
@@ -356,7 +382,14 @@
             </div>
             <!-- Render the content -->
             <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-                <div class="content" onscroll={() => scroll()}>
+                <div
+                    class="content"
+                    onscroll={() => scroll()}
+                    bind:this={contentView}
+                    bind:clientWidth={tileWidth}
+                    bind:clientHeight={tileHeight}
+                    onpointermove={handleContentPointerMove}
+                >
                     {@render content()}
                 </div>
                 {#if margin}

@@ -279,7 +279,7 @@
                 />
             {/if}
 
-            {#if classes}
+            {#if classes && classes.length > 0}
                 <Subheader
                     text={(l) => l.ui.gallery.subheader.classes.header}
                 />

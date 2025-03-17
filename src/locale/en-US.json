@@ -1,7 +1,7 @@
 {
     "$schema": "../../static/schemas/LocaleText.json",
     "language": "en",
-    "region": "US",
+    "regions": ["US"],
     "wordplay": "Wordplay",
     "term": {
         "bind": "bind",
@@ -422,8 +422,8 @@
                     "secondary": "I have has the same name as $1"
                 },
                 "IncompatibleType": {
-                    "primary": "I'm supposed to be a $2, but I'm a $1",
-                    "secondary": "Oh, I'm sorry. Should I change, or maybe you're supposed to be a $1 ?"
+                    "primary": "I'm supposed to be type $2, but I'm type $1",
+                    "secondary": "Oh, I'm sorry. Should I change, or maybe you're supposed to be type $1?"
                 },
                 "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
                 "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
@@ -520,8 +520,8 @@
             "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "How can I choose yes and no with a $1? No really, how?",
-                    "secondary": "I think @Conditional wanted me to be a @Boolean, but I'm a $1."
+                    "primary": "How can I choose yes and no with type $1? No really, how?",
+                    "secondary": "I think @Conditional wanted me to be a @Boolean, but I'm type $1."
                 }
             }
         },
@@ -609,8 +609,8 @@
             "input": "input",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "I'm supposed to be a $1, but I'm a $2",
-                    "secondary": "Umm, I got a $2 instead of a $1"
+                    "primary": "I'm supposed to be type $1, but I'm type $2",
+                    "secondary": "Umm, I got type $2 instead of type $1"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "I wasn't expecting this type input",
@@ -754,7 +754,7 @@
             "exception": {
                 "TypeException": {
                     "description": "incompatible values",
-                    "explanation": "I expected a $1 but received $2"
+                    "explanation": "I expected type $1 but received type $2"
                 }
             }
         },
@@ -1028,8 +1028,8 @@
             "finish": "The value is $1",
             "conflict": {
                 "IncompatibleKey": {
-                    "primary": "I expected a $1 key",
-                    "secondary": "I got a $1 instead of a $2"
+                    "primary": "I expected $1 key",
+                    "secondary": "I got type $1 instead of type $2"
                 }
             }
         },
@@ -1184,7 +1184,7 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is.",
-                    "resolution": "Did you mean a $1, $2?"
+                    "resolution": "Did you mean type $1, $2?"
                 },
                 "UnclosedDelimiter": "I expected $2 sometime after $1"
             },
@@ -1209,7 +1209,7 @@
             "conflict": {
                 "ExpectedColumnBind": "I need a value for every column",
                 "IncompatibleCellType": {
-                    "primary": "I needed a $1, but got a $2",
+                    "primary": "I needed type $1, but got type $2",
                     "secondary": "I got a $2"
                 }
             }
@@ -1295,7 +1295,7 @@
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
             ],
             "conflict": {
-                "UnknownTypeName": "type names can only refer to structures or type variables, but this refers to a $1"
+                "UnknownTypeName": "type names can only refer to structures or type variables, but this refers to type $1"
             }
         },
         "NeverType": {
@@ -1409,7 +1409,7 @@
         },
         "NotAType": {
             "name": "unexpected",
-            "description": "not a $1",
+            "description": "not type $1",
             "emotion": "curious",
             "doc": "Sometimes we know what kind of value something should be. Like @ListAccess needs a @Number. If we don't get it, I represent that something is a type other than what we expected."
         },
@@ -1932,7 +1932,7 @@
                 },
                 "notequal": {
                     "doc": [
-                        "\\⊤\\ if I'm equal to the given @Number:",
+                        "\\⊤\\ if I'm not equal to the given @Number:",
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
@@ -4182,11 +4182,11 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Creators who manage this gallery."
+                    "explanation": "Creators can edit the projects and gallery settings, and chat on all projects."
                 },
                 "creators": {
                     "header": "Creators",
-                    "explanation": "Creators who contribute to this gallery."
+                    "explanation": "Creators can view all projects in the gallery and add new projects."
                 },
                 "delete": {
                     "header": "Delete",
@@ -4328,7 +4328,7 @@
         },
         "annotations": {
             "label": "conflicts and help",
-            "cursor": "This is *$1*$2[ and they are of type $2|].    $3[ They're inside a *$3*.|]",
+            "cursor": "This is *$1*$2[ and they are of type $2|]. $3[ They're inside a *$3*.|]",
             "cursorParent": "They're inside a *$1*$2[ of type $2|].",
             "learn": "/Learn more/",
             "evaluating": "Oh fun, let's evaluate!",
@@ -4632,7 +4632,7 @@
                 "offerPhrase": "What a gorgeous value you made! Shall I show it on @Stage?",
                 "offerGroup": "What a wonderful @Phrase you made. Do you want to bring them together into a @Group, to get them arranged?",
                 "offerStage": "VERY GOOD @Program. ADD ME TO CONTROL LIGHTING. COLORS. FRAMES.",
-                "pauseToEdit": "If you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
+                "select": "To edit, select a 💬, 🔳, or 🎭 in code, or ⏸️ the stage and select output.",
                 "editing": "Edit me!"
             },
             "field": {

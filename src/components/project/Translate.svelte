@@ -59,7 +59,7 @@
         const newLocale = projectLocales.find(
             (l) =>
                 l.language === primary.split('-')[0] &&
-                l.region === primary.split('-')[1],
+                l.regions.includes(primary.split('-')[1]),
         );
         if (newLocale)
             Projects.reviseProject(project.withPrimaryLocale(newLocale));

@@ -3,6 +3,45 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.6
+
+### Added
+
+- Added Papyrus, Broadway, Dreamin Outload, Modern Love, and Delius (Times equivalent).
+- Added Chinese, Korean, and Japanese fonts.
+- Added official Korean locale support.
+- Only show source file names if more than one source, to reduce confusion about project name.
+- Added language script names and include them in font choosers for support clarity.
+- Fixed #705, autoscroll tile views.
+- Don't hide code when debugging; just elide values and place them inline.
+- Allow locales to specify multiple regions they apply to (e.g., Tamil in India, Sri Lanka, Singapore).
+
+### Fixed
+
+- Forward delete selection now deletes selection.
+- Only show fonts that support the script of the currently selected languages.
+- Prevent extra spaces in first segment of markup paragraph.
+- Fixed 'an'/'a' typos in English locale.
+- Fixed pose editing effect crash.
+- Show new source when added.
+- Clarified permissions for curators and creators
+- Hid associated classes for a gallery if empty.
+- Fixed #708, improving palette editing from code editor.
+- Less sensitive text selection drag initiation.
+- Don't go browser back when at the beginning of the timeline.
+- Fixed timeline dragging.
+- Better feedback after button press.
+- Store project history state as raw, not deeply reactive, as its immutable.
+- Fixed source value history preservation bug.
+- Fixed missing evaluation dependency in outline updates.
+- Fixed missing keyboard input dependency on evaluation.
+- Eliminated proactive root walk to reduce edit overhead.
+- Account for undefined evaluation context in tutorial.
+
+### Maintenance
+
+- Updated minor versions of Svelte, SvelteKit, Vite.
+
 ## 0.16.5
 
 ### Fixed
@@ -47,6 +86,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Added more detail to text literal locales in LANGUAGE.md.
+- Fixed #698 resolving gallery project write status defect.
 
 ## 0.16.1 2025-02-25
 

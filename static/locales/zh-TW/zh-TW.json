@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "zh",
-    "region": "TW",
+    "regions": ["TW"],
     "wordplay": "雙關語",
     "term": {
         "evaluate": "評價",
@@ -4512,8 +4512,8 @@
                 "offerPhrase": "你創造了一個漂亮的值！我應該在@Stage 上展示嗎？",
                 "offerGroup": "你做了一個很棒的@Phrase。你想將它們組合到@Group 中，以便進行排列嗎？",
                 "offerStage": "非常好的@Program。將我加到控制燈光、顏色和幀數的項目中。",
-                "pauseToEdit": "如果你⏸️ 舞台，你可以選擇💬、🔳 或🎭 來編輯！",
-                "editing": "編輯我！"
+                "editing": "編輯我！",
+                "select": "$~要编辑，请在代码中选择💬、🔳或🎭，或⏸️阶段并选择输出。"
             },
             "field": {
                 "coordinate": "編輯座標",

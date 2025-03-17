@@ -517,6 +517,7 @@
     .header {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
@@ -589,6 +590,7 @@
         padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: column;
+        flex: 1;
         gap: var(--wordplay-spacing);
         align-items: start;
         justify-content: center;

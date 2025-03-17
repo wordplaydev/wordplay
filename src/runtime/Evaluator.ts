@@ -276,7 +276,7 @@ export default class Evaluator {
         this.#started = false;
 
         // Reset per-evaluation state.
-        this.resetForEvaluation(false);
+        this.resetForEvaluation(false, false, true);
 
         // Reset the latest source values. (We keep them around for display after each reaction).
         this.sourceValues = new Map();
@@ -706,7 +706,11 @@ export default class Evaluator {
     }
 
     /** Reset everything necessary for a new evaluation. */
-    resetForEvaluation(keepConstants: boolean, broadcast = true) {
+    resetForEvaluation(
+        keepConstants: boolean,
+        keepSourceValues: boolean,
+        broadcast = true,
+    ) {
         // Reset the non-constant expression values and any values dependent on reaction.
         if (keepConstants) {
             for (const [expression] of this.values)
@@ -736,8 +740,10 @@ export default class Evaluator {
         this.streamCreatorCount.clear();
 
         // Reset the source values
-        this.sourceValues.clear();
-        this.sourceValueSize = 0;
+        if (!keepSourceValues) {
+            this.sourceValues.clear();
+            this.sourceValueSize = 0;
+        }
 
         // Notify listeners.
         if (broadcast) this.broadcast();
@@ -774,7 +780,7 @@ export default class Evaluator {
         else this.#currentStreamDependencies = null;
 
         // Reset all state.
-        this.resetForEvaluation(true);
+        this.resetForEvaluation(true, true, true);
 
         // Mark as started.
         this.#started = true;
@@ -1173,8 +1179,8 @@ export default class Evaluator {
         // Step to the change's step index.
         this.#stepIndex = change ? change.stepIndex : 0;
 
-        // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
-        this.resetForEvaluation(true, broadcast);
+        // Reset the project to the beginning of time (but preserve stream and value history).
+        this.resetForEvaluation(true, true, broadcast);
 
         // Start the evaluation fresh, using the changed streams if we found any.
         this.start(change ? change.changes.map((c) => c.stream) : undefined);

@@ -145,11 +145,18 @@
     });
 
     /** Keep track of streams that listen for keyboard input */
-    const keys = $derived(evaluator.getBasisStreamsOfType(Key).length > 0);
-    const placements = $derived(
-        evaluator.getBasisStreamsOfType(Placement).length > 0,
+    const keys = $derived(
+        $evaluation !== undefined &&
+            $evaluation.evaluator.getBasisStreamsOfType(Key).length > 0,
     );
-    const chats = $derived(evaluator.getBasisStreamsOfType(Chat).length > 0);
+    const placements = $derived(
+        $evaluation !== undefined &&
+            $evaluation.evaluator.getBasisStreamsOfType(Placement).length > 0,
+    );
+    const chats = $derived(
+        $evaluation !== undefined &&
+            $evaluation.evaluator.getBasisStreamsOfType(Chat).length > 0,
+    );
 
     // Announce changes in values.
     $effect(() => {
@@ -289,6 +296,7 @@
                                   .getOutput(project)
                                   .filter((o) => o !== evaluate)
                             : [evaluate],
+                        'output',
                     );
                     event.stopPropagation();
                     return;
@@ -407,7 +415,7 @@
         // If we're editable and not playing, select output.
         if (editable && !evaluator.isPlaying()) {
             if (painting) {
-                if (selection) selection.setPaths(project, []);
+                if (selection) selection.setPaths(project, [], 'output');
             } else if (!selectPointerOutput(event)) ignore();
         }
 
@@ -765,7 +773,7 @@
             else newSelection = [evaluate];
 
             // Update the selection
-            selection.setPaths(project, newSelection);
+            selection.setPaths(project, newSelection, 'output');
             // Erase the selected phrase.
             selection.setPhrase(null);
 

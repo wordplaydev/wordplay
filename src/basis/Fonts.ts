@@ -1,7 +1,12 @@
 import { OR_SYMBOL } from '@parser/Symbols';
 import { writable } from 'svelte/store';
 import type LocaleText from '../locale/LocaleText';
-import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
+import {
+    Latin,
+    LatinCyrillicGreek,
+    Scripts,
+    type Script,
+} from '../locale/Scripts';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -121,20 +126,26 @@ const NotoSansMono: Face = {
 /**
  * A data structure that represents fonts that creators can use to style phrases.
  */
-const Faces: Record<string, Face> = {
+export const Faces: Record<string, Face> = {
     'Noto Sans': NotoSans,
     'Noto Sans Japanese': {
         weights: { min: 100, max: 900 },
         italic: false,
-        scripts: ['Jpan'],
+        scripts: ['Hira', 'Kana', 'Hani'],
         format: 'woff2',
+    },
+    'Noto Sans Korean': {
+        weights: { min: 100, max: 900 },
+        italic: false,
+        scripts: ['Hang'],
+        format: 'ttf',
     },
     'Noto Emoji': NotoEmoji,
     'Noto Color Emoji': NotoColorEmoji,
     'Noto Sans Simplified Chinese': {
         weights: [100, 300, 400, 500, 700, 900],
         italic: false,
-        scripts: ['Hani'],
+        scripts: ['Hani', 'Hans'],
         format: 'otf',
     },
     'Noto Sans Mono': NotoSansMono,
@@ -267,6 +278,12 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
+    Delius: {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
     'Short Stack': {
         weights: [400],
         italic: false,
@@ -291,7 +308,18 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
-    Megrim: { weights: [400], italic: false, scripts: Latin, format: 'woff2' },
+    Megrim: {
+        weights: [400],
+        italic: false,
+        scripts: ['Latn', 'Cyrl'],
+        format: 'woff2',
+    },
+    Merriweather: {
+        weights: { min: 300, max: 700 },
+        italic: true,
+        scripts: Latin,
+        format: 'ttf',
+    },
     Modak: {
         weights: [400],
         italic: false,
@@ -307,7 +335,7 @@ const Faces: Record<string, Face> = {
     'Rampart One': {
         weights: [400],
         italic: false,
-        scripts: ['Latn', 'Jpan'],
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani'],
         format: 'woff2',
     },
     Codystar: {
@@ -344,6 +372,78 @@ const Faces: Record<string, Face> = {
         weights: [300, 400, 700],
         italic: true,
         scripts: Latin,
+        format: 'ttf',
+    },
+    Papyrus: {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    'Dreaming Outloud': {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'otf',
+    },
+    'Modern Love': {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    Broadway: {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    'Black Han Sans': {
+        weights: [400],
+        italic: false,
+        scripts: ['Latn', 'Hang'],
+        format: 'ttf',
+    },
+    'Dot Gothic 16': {
+        weights: [400],
+        italic: false,
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani', 'Cyrl'],
+        format: 'ttf',
+    },
+    'Hi Melody': {
+        weights: [400],
+        italic: false,
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani', 'Cyrl'],
+        format: 'ttf',
+    },
+    'Potta One': {
+        weights: [400],
+        italic: false,
+        scripts: ['Hira', 'Kana', 'Hani', 'Latn'],
+        format: 'ttf',
+    },
+    Stick: {
+        weights: [400],
+        italic: false,
+        scripts: ['Hira', 'Kana', 'Hani', 'Latn', 'Cyrl'],
+        format: 'ttf',
+    },
+    'ZCOOL KuaiLe': {
+        weights: [400],
+        italic: false,
+        scripts: ['Hani', 'Hans'],
+        format: 'ttf',
+    },
+    'ZCOOL QingKe HuangYou': {
+        weights: [400],
+        italic: false,
+        scripts: ['Hani', 'Hans'],
+        format: 'ttf',
+    },
+    'Zhi Mang Xing': {
+        weights: [400],
+        italic: false,
+        scripts: ['Hani', 'Hans'],
         format: 'ttf',
     },
 };
@@ -594,3 +694,7 @@ export default Fonts;
 export const SupportedFontsFamiliesType = SupportedFaces.map(
     (font) => `"${font}"`,
 ).join(OR_SYMBOL);
+
+export function getFaceDescription(name: string, face: Face) {
+    return `${name} [${face.scripts.map((s) => Scripts[s]?.name ?? '?').join(' ')}]`;
+}

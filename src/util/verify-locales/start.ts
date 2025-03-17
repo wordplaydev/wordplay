@@ -7,7 +7,7 @@ import * as prettier from 'prettier';
 import type LocaleText from '../../locale/LocaleText';
 import {
     getLocaleLanguage,
-    getLocaleRegion,
+    getLocaleRegions,
     isRevised,
     toLocale,
 } from '../../locale/LocaleText';
@@ -52,7 +52,7 @@ const FocalLocale = process.argv[3] ?? null;
 
 const FocalLanguage = FocalLocale ? getLocaleLanguage(FocalLocale) : null;
 const FocalRegion = FocalLocale
-    ? (getLocaleRegion(FocalLocale) as RegionCode)
+    ? (getLocaleRegions(FocalLocale)[0] as RegionCode)
     : null;
 
 if (FocalLanguage === undefined)
@@ -123,7 +123,7 @@ async function handleLocale(
                 'Creating a new tutorial for this locale based on en-US...',
             );
             currentTutorial = createUnwrittenTutorial();
-            currentTutorial.region = FocalRegion;
+            currentTutorial.regions = [FocalRegion];
             currentTutorial.language = FocalLanguage;
             tutorialIsNew = true;
         }
@@ -245,7 +245,7 @@ if (
     log.good(2, 'No locale found, creating one based on English.');
     let localeText = createUnwrittenLocale();
     localeText.language = FocalLanguage as LanguageCode;
-    localeText.region = FocalRegion as RegionCode;
+    localeText.regions = [FocalRegion] as RegionCode[];
     localeText['$schema'] = '../../schemas/LocaleText.json';
 
     handleLocale(localeText, revisedStrings, true, globals);

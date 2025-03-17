@@ -21,7 +21,10 @@ export function getBind(
     // Get the symbolic names from English (US), which we always include.
     const enNames = locales
         .getLocales()
-        .some((locale) => locale.language === 'en' && locale.region === 'US')
+        .some(
+            (locale) =>
+                locale.language === 'en' && locale.regions.includes('US'),
+        )
         ? undefined
         : select(DefaultLocale).names;
     const symbolic = enNames

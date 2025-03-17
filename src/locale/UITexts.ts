@@ -564,8 +564,8 @@ type UITexts = {
             offerGroup: Template;
             /** The text offering to create a stage in the palette without a stage */
             offerStage: Template;
-            /** The text offering to pause the project to allow palette editing */
-            pauseToEdit: Template;
+            /** Prompt if no selection */
+            select: Template;
             /** The text prompting the creator to edit the selected output */
             editing: Template;
         };

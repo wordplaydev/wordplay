@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/Tutorial.json",
     "language": "pa",
-    "region": "IN",
+    "regions": ["IN"],
     "acts": [
         {
             "title": "$~ਆਇਤ",

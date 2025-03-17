@@ -305,12 +305,12 @@
 
     /**
      * Given a node, find its rendered counterpart. This is expensive, so we do some caching.
-     * resetting the cache whenever the source changes, since we will likely have new nodes.
+     * resetting the cache whenever the source or evaluation state changes, since we will likely have new nodes.
      * null represents that the node could not be found when we first checked.
      */
     let nodeViewCache = new Map<Node, HTMLElement | null>();
     $effect(() => {
-        if (source) nodeViewCache = new Map();
+        if (source && $evaluation) nodeViewCache = new Map();
     });
     function getNodeView(node: Node): HTMLElement | undefined {
         if (editor === null) return undefined;
@@ -422,13 +422,12 @@
             caret.set($caret.withPosition(newPosition));
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
-        dragPoint = undefined;
+        dragPoint = { x: event.clientX, y: event.clientY };
         if (editable && nonTokenNodeUnderPointer && event.shiftKey) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
             if (dragCandidate && event.buttons === 1) {
-                dragPoint = { x: event.clientX, y: event.clientY };
                 event.preventDefault();
                 event.stopPropagation();
                 if (editor) editor.style.touchAction = 'none';
@@ -810,9 +809,15 @@
         // Handle an edit
         handleEditHover(event);
 
-        if (event.buttons === 1) {
-            // What's under the pointer?
+        // If dragging and there's no drag candidate, update the selection.
+        if (
+            event.buttons === 1 &&
+            $dragged === undefined &&
+            dragPoint !== undefined
+        ) {
+            // Dragging to select. What's under the pointer?
             const position = getCaretPositionAt(event);
+            // Update the selection based on the caret position.
             if (position !== undefined) {
                 if ($caret.isPosition() && $caret.position !== position)
                     caret.set($caret.withPosition([$caret.position, position]));
@@ -1273,9 +1278,13 @@
         evalUpdate();
     });
 
-    // Whenever the selected output changes, ensure the first selected node is scrolled to.
+    // Whenever the selected output changes from a source other than the editor, ensure the first selected node is scrolled to.
     $effect(() => {
-        if (selection?.hasPaths()) {
+        if (
+            selection !== undefined &&
+            selection.hasPaths() &&
+            selection.origin !== 'editor'
+        ) {
             const node = selection.getOutput(project)[0];
             if (node) {
                 tick().then(() => {
@@ -1466,7 +1475,7 @@
                 project.shares.output.Stage,
             )
         )
-            selection.setPaths(project, [$caret.position]);
+            selection.setPaths(project, [$caret.position], 'editor');
     });
 
     // Update the highlights when any of these stores values change
@@ -1487,7 +1496,7 @@
         );
     });
 
-    // Update the outline positions any time the highlights change;
+    // Update the outline positions any time the highlights change, but only after we're done rendering.
     let outlines = $state<HighlightSpec[]>([]);
     $effect(() => {
         if ($highlights)

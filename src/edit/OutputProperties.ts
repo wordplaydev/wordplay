@@ -1,4 +1,4 @@
-import { SupportedFaces } from '@basis/Fonts';
+import { Faces, getFaceDescription } from '@basis/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -50,13 +50,15 @@ export function getStyleProperty(locales: Locales): OutputProperty {
     return new OutputProperty(
         (l) => l.output.Phrase.style.names,
         new OutputPropertyOptions(
-            Object.values(locales.get((l) => l.output.Easing)).reduce(
-                (all: string[], next: NameText) => [
-                    ...all,
-                    ...(Array.isArray(next) ? next : [next]),
-                ],
-                [],
-            ),
+            Object.values(locales.get((l) => l.output.Easing))
+                .reduce(
+                    (all: string[], next: NameText) => [
+                        ...all,
+                        ...(Array.isArray(next) ? next : [next]),
+                    ],
+                    [],
+                )
+                .map((name) => ({ value: name, label: name })),
             true,
             (text: string) => TextLiteral.make(text),
             (expression: Expression | undefined) =>
@@ -88,7 +90,10 @@ export function getTypeOutputProperties(
         new OutputProperty(
             (l) => l.output.Phrase.face.names,
             new OutputPropertyOptions(
-                [...SupportedFaces],
+                Object.entries(Faces).map(([name, face]) => ({
+                    value: name,
+                    label: getFaceDescription(name, face),
+                })),
                 true,
                 (text: string) => TextLiteral.make(text),
                 (expression: Expression | undefined) =>

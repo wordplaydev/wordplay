@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "de",
-    "region": "DE",
+    "regions": ["DE"],
     "wordplay": "Wordplay",
     "term": {
         "evaluate": "auswerten",
@@ -4573,8 +4573,8 @@
                 "offerPhrase": "$~Was für einen tollen Wert Sie geschaffen haben! Soll ich es auf @Stage zeigen?",
                 "offerGroup": "$~Was für eine wunderbare @Phrase du erstellt hast. Möchtest du sie in einer @Gruppe zusammenführen, um sie zu ordnen?",
                 "offerStage": "$~SEHR GUT @Programm. FÜGEN SIE MICH HINZU, UM BELEUCHTUNG, FARBEN UND RAHMEN ZU STEUERN.",
-                "pauseToEdit": "$~Wenn Sie die Phase ⏸️, können Sie ein 💬, 🔳 oder 🎭 zum Bearbeiten auswählen!",
-                "editing": "$~Bearbeite mich!"
+                "editing": "$~Bearbeite mich!",
+                "select": "$~Wählen Sie zum Bearbeiten ein 💬, 🔳 oder 🎭 im Code aus oder ⏸️ die Phase und wählen Sie „Ausgabe“ aus."
             },
             "field": {
                 "coordinate": "$~Koordinate bearbeiten",

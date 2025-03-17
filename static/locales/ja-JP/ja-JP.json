@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "ja",
-    "region": "JP",
+    "regions": ["JP"],
     "wordplay": "$~言葉遊び",
     "term": {
         "bind": "$~バインド",
@@ -4625,8 +4625,8 @@
                 "offerPhrase": "$~素晴らしい価値ができましたね！@Stage で紹介しましょうか？",
                 "offerGroup": "$~素晴らしい @Phrase を作成しましたね。整理するために、@Group にまとめてみませんか?",
                 "offerStage": "$~非常に優れたプログラムです。照明、色、フレームを制御するために私を追加してください。",
-                "pauseToEdit": "$~ステージを⏸️すると、💬、🔳、🎭 を選択して編集できます。",
-                "editing": "$~編集してください！"
+                "editing": "$~編集してください！",
+                "select": "$~編集するには、コード内で💬、🔳、または🎭を選択するか、ステージを⏸️して出力を選択します。"
             },
             "field": {
                 "coordinate": "$~座標を編集",

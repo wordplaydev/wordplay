@@ -40,14 +40,14 @@ export class ProjectHistory {
     readonly id: string;
 
     /** A Svelte state of the current version of the project. The little ! indicates that it can't be undefined. */
-    private current: Project = $state()!;
+    private current: Project = $state.raw()!;
     /**
      * Previous versions of the project.
      * It always contains the current version of the project and is therefore never empty.
      * There is one history for the entire project; no per-source history.
      * History is not persisted, it's session-only.
      */
-    private history: SerializedProject[] = $state([]);
+    private history: SerializedProject[] = $state.raw([]);
 
     /**  The index of the current project in the history. */
     private index: number;

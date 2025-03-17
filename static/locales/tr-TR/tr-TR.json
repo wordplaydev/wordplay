@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "tr",
-    "region": "TR",
+    "regions": ["TR"],
     "wordplay": "$~Kelime oyunu",
     "term": {
         "bind": "$~bağlamak",
@@ -4625,8 +4625,8 @@
                 "offerPhrase": "$~Ne güzel bir değer yaratmışsınız! @Stage'de göstereyim mi?",
                 "offerGroup": "$~Ne harika bir @Phrase yapmışsın. Bunları bir @Phrase'ta bir araya getirip düzenlemek ister misin?",
                 "offerStage": "$~ÇOK İYİ @Program. AYDINLATMAYI, RENKLERİ, ÇERÇEVELERİ KONTROL ETMEK İÇİN BENİ EKLEYİN.",
-                "pauseToEdit": "$~Sahneyi ⏸️ seçerseniz düzenlemek için 💬, 🔳 veya 🎭 seçebilirsiniz!",
-                "editing": "$~Beni düzenle!"
+                "editing": "$~Beni düzenle!",
+                "select": "$~Düzenlemek için kodda 💬, 🔳 veya 🎭 işaretini seçin ya da sahneyi ⏸️ seçip çıktıyı seçin."
             },
             "field": {
                 "coordinate": "$~Koordinatı düzenle",

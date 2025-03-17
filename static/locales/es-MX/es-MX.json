@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "es",
-    "region": "MX",
+    "regions": ["MX"],
     "wordplay": "Wordplay",
     "term": {
         "evaluate": "evaluar",
@@ -4539,8 +4539,8 @@
                 "offerPhrase": "¡Qué valor tan hermoso has creado! ¿Debería mostrarlo en @Stage?",
                 "offerGroup": "¡Qué maravillosa @Phrase has creado! ¿Quieres juntarlas en un @Group para organizarlas?",
                 "offerStage": "MUY BIEN @Program. AGRÉGAME PARA CONTROLAR ILUMINACIÓN. COLORES. CUADROS.",
-                "pauseToEdit": "Si ⏸️ el escenario, puedes seleccionar una 💬, 🔳 o 🎭 para editar.",
-                "editing": "¡Edítame!"
+                "editing": "¡Edítame!",
+                "select": "$~Para editar, seleccione 💬, 🔳 o 🎭 en el código, o ⏸️ en el escenario y seleccione salida."
             },
             "field": {
                 "coordinate": "editar coordenada",

@@ -45,8 +45,8 @@
     width="7em"
     options={[
         ...(options.allowNone ? [{ value: undefined, label: '—' }] : []),
-        ...options.values.map((value) => {
-            return { value, label: value };
+        ...options.values.map((option) => {
+            return { value: option.value, label: option.label };
         }),
     ]}
     change={handleChange}

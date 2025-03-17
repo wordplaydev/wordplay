@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/Tutorial.json",
     "language": "es",
-    "region": "MX",
+    "regions": ["MX"],
     "acts": [
         {
             "title": "El verso",

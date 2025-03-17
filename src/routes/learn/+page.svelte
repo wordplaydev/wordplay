@@ -27,7 +27,7 @@
         if (browser && $locales) {
             Locales.getTutorial(
                 $locales.get((l) => l.language),
-                $locales.get((l) => l.region),
+                $locales.get((l) => l.regions),
             ).then((t) => (tutorial = t));
         }
     });
@@ -37,7 +37,7 @@
         import.meta.hot.on('locales-update', async () => {
             tutorial = await Locales.getTutorial(
                 $locales.get((l) => l.language),
-                $locales.get((l) => l.region),
+                $locales.get((l) => l.regions),
             );
         });
     }

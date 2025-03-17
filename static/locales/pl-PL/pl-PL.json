@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "pl",
-    "region": "PL",
+    "regions": ["PL"],
     "wordplay": "$~Gra słów",
     "term": {
         "bind": "$~wiązać",
@@ -4635,8 +4635,8 @@
                 "offerPhrase": "$~Jaką wspaniałą wartość stworzyłeś! Czy mam to pokazać na @Stage?",
                 "offerGroup": "$~Jakie cudowne @Phrase stworzyłeś. Czy chcesz zebrać je razem w @Group, żeby je uporządkować?",
                 "offerStage": "$~BARDZO DOBRE @Program. DODAJ MNIE DO KONTROLI OŚWIETLENIA. KOLORÓW. RAMEK.",
-                "pauseToEdit": "$~Jeśli ⏸️ jesteś na etapie, możesz wybrać 💬, 🔳 lub 🎭, aby edytować!",
-                "editing": "$~Edytuj mnie!"
+                "editing": "$~Edytuj mnie!",
+                "select": "$~Aby edytować, zaznacz 💬, 🔳 lub 🎭 w kodzie albo ⏸️ scenę i wybierz wyjście."
             },
             "field": {
                 "coordinate": "$~edytuj współrzędne",

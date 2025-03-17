@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/Tutorial.json",
     "language": "sv",
-    "region": "FI",
+    "regions": ["FI"],
     "acts": [
         {
             "title": "$~Versen",

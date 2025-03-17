@@ -59,7 +59,7 @@
 
     /** When the step index changes, update the time slider position */
     $effect(() => {
-        if ($evaluation.stepIndex !== undefined)
+        if ($evaluation?.stepIndex !== undefined)
             updateTimePosition($evaluation.stepIndex);
     });
 
@@ -127,13 +127,16 @@
         return 0;
     }
 
-    function stepToMouse(event: PointerEvent) {
-        if ($evaluation.streams === undefined) return;
+    function stepToPointer(event: PointerEvent) {
+        if ($evaluation?.streams === undefined) return;
         if (timeline === undefined) return;
 
         // Map the pointer's x position to the closest event.
         const view = document
-            .elementFromPoint(event.clientX, timeline.offsetTop)
+            .elementFromPoint(
+                event.clientX,
+                timeline.offsetTop + timeline.clientHeight / 2,
+            )
             ?.closest('.event');
         if (view instanceof HTMLElement) {
             // Is this a stream input? Get it's index and step to it.
@@ -195,105 +198,109 @@
     aria-label={$locales.get((l) => l.ui.timeline.label)}
     class:stepping={$evaluation?.playing === false}
 >
-    <Controls {evaluator} />
-    <div
-        role="slider"
-        transition:slide|local={{ duration: $animationDuration }}
-        class="timeline"
-        tabindex={0}
-        data-uiid="timeline"
-        aria-label={$locales.get((l) => l.ui.timeline.slider)}
-        aria-valuemin={0}
-        aria-valuemax={$evaluation.evaluator.getStepCount()}
-        aria-valuenow={$evaluation.stepIndex}
-        aria-valuetext={$evaluation.step
-            ? $evaluation.step.getExplanations($locales, evaluator).toText()
-            : $evaluation.stepIndex + ''}
-        aria-orientation="horizontal"
-        class:stepping={$evaluation.playing === false}
-        onpointerdown={(event) => {
-            stepToMouse(event);
-            timeline?.setPointerCapture(event.pointerId);
-        }}
-        onpointermove={(event) =>
-            dragging && (event.buttons & 1) === 1
-                ? stepToMouse(event)
-                : undefined}
-        onpointerleave={() => (dragging = false)}
-        onpointerup={(event) => {
-            dragging = false;
-            timeline?.releasePointerCapture(event.pointerId);
-        }}
-        onkeydown={handleKey}
-        bind:this={timeline}
-    >
-        {#if historyTrimmed}<span class="stream-input">…</span>{/if}
-        {#if $evaluation.streams !== undefined}
-            {#each $evaluation.streams as reaction, index}
-                <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
-                {@const stepCount =
-                    (index < $evaluation.streams.length - 1
-                        ? $evaluation.streams[index + 1].stepIndex
-                        : evaluator.getStepCount()) - reaction.stepIndex}
-                <!-- Show up to three of the streams that changed -->
-                {#each reaction.changes.slice(0, 3) as change}
-                    {@const down =
-                        change.stream instanceof Key &&
-                        change.value instanceof StructureValue
-                            ? change.value.resolve(
-                                  change.value.type.inputs[1].names,
-                              )
-                            : change.stream instanceof Button
-                              ? change.value
-                              : undefined}
-                    <!-- Show an emoji representing the cause of the reevaluation -->
-                    <span
-                        class={`event stream-input ${
-                            currentReaction === reaction ? 'current' : ''
-                        } ${
-                            down instanceof BoolValue && down.bool ? 'down' : ''
-                        }`}
-                        data-inputindex={reaction.stepIndex}
-                    >
-                        {#if change.stream === undefined}
-                            ◆
-                        {:else}
-                            {change.stream.definition.names.getSymbolicName()}
-                        {/if}
-                    </span>
-                {:else}
-                    <!-- Represent the program start when there are no reactions-->
-                    <span
-                        class={`event stream-input ${
-                            currentReaction === reaction ? 'current' : ''
-                        }`}
-                        data-inputindex={reaction.stepIndex}
-                    >
-                        ◆
-                    </span>
-                {/each}
-                <!-- If there were more than three, indicate the trimming -->
-                {#if reaction.changes.length > 3}…{/if}
-                <!-- Show dots representing the steps after the reevaluation -->
-                <span
-                    class="event steps"
-                    data-startindex={reaction.stepIndex}
-                    data-endindex={reaction.stepIndex + stepCount}
-                    style:width="{Math.min(2, stepCount / 10)}em"
-                    >&ZeroWidthSpace;</span
-                >
-                <!-- If the value was an exception, show that it ended that way -->
-                {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof ExceptionValue}<span
-                        data-exceptionindex={reaction.stepIndex + stepCount}
-                        class="event exception">!</span
-                    >{/if}
-            {/each}
-        {/if}
-        <!-- Render the time slider -->
-        <div class="time" style:left="{timePosition}px"
-            ><span class="index">{$evaluation.stepIndex}</span></div
+    {#if $evaluation}
+        <Controls {evaluator} />
+        <div
+            role="slider"
+            transition:slide|local={{ duration: $animationDuration }}
+            class="timeline"
+            tabindex={0}
+            data-uiid="timeline"
+            aria-label={$locales.get((l) => l.ui.timeline.slider)}
+            aria-valuemin={0}
+            aria-valuemax={$evaluation.evaluator.getStepCount()}
+            aria-valuenow={$evaluation.stepIndex}
+            aria-valuetext={$evaluation.step
+                ? $evaluation.step.getExplanations($locales, evaluator).toText()
+                : $evaluation.stepIndex + ''}
+            aria-orientation="horizontal"
+            class:stepping={$evaluation.playing === false}
+            onpointerdown={(event) => {
+                stepToPointer(event);
+                timeline?.setPointerCapture(event.pointerId);
+            }}
+            onpointermove={(event) =>
+                dragging && (event.buttons & 1) === 1
+                    ? stepToPointer(event)
+                    : undefined}
+            onpointerleave={() => (dragging = false)}
+            onpointerup={(event) => {
+                dragging = false;
+                timeline?.releasePointerCapture(event.pointerId);
+            }}
+            onkeydown={handleKey}
+            bind:this={timeline}
         >
-    </div>
+            {#if historyTrimmed}<span class="stream-input">…</span>{/if}
+            {#if $evaluation.streams !== undefined}
+                {#each $evaluation.streams as reaction, index}
+                    <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
+                    {@const stepCount =
+                        (index < $evaluation.streams.length - 1
+                            ? $evaluation.streams[index + 1].stepIndex
+                            : evaluator.getStepCount()) - reaction.stepIndex}
+                    <!-- Show up to three of the streams that changed -->
+                    {#each reaction.changes.slice(0, 3) as change}
+                        {@const down =
+                            change.stream instanceof Key &&
+                            change.value instanceof StructureValue
+                                ? change.value.resolve(
+                                      change.value.type.inputs[1].names,
+                                  )
+                                : change.stream instanceof Button
+                                  ? change.value
+                                  : undefined}
+                        <!-- Show an emoji representing the cause of the reevaluation -->
+                        <span
+                            class={`event stream-input ${
+                                currentReaction === reaction ? 'current' : ''
+                            } ${
+                                down instanceof BoolValue && down.bool
+                                    ? 'down'
+                                    : ''
+                            }`}
+                            data-inputindex={reaction.stepIndex}
+                        >
+                            {#if change.stream === undefined}
+                                ◆
+                            {:else}
+                                {change.stream.definition.names.getSymbolicName()}
+                            {/if}
+                        </span>
+                    {:else}
+                        <!-- Represent the program start when there are no reactions-->
+                        <span
+                            class={`event stream-input ${
+                                currentReaction === reaction ? 'current' : ''
+                            }`}
+                            data-inputindex={reaction.stepIndex}
+                        >
+                            ◆
+                        </span>
+                    {/each}
+                    <!-- If there were more than three, indicate the trimming -->
+                    {#if reaction.changes.length > 3}…{/if}
+                    <!-- Show dots representing the steps after the reevaluation -->
+                    <div
+                        class="event steps"
+                        data-startindex={reaction.stepIndex}
+                        data-endindex={reaction.stepIndex + stepCount}
+                        style:width="{Math.min(2, stepCount / 10)}em"
+                        >&ZeroWidthSpace;</div
+                    >
+                    <!-- If the value was an exception, show that it ended that way -->
+                    {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof ExceptionValue}<span
+                            data-exceptionindex={reaction.stepIndex + stepCount}
+                            class="event exception">!</span
+                        >{/if}
+                {/each}
+            {/if}
+            <!-- Render the time slider -->
+            <div class="time" style:left="{timePosition}px"
+                ><span class="index">{$evaluation.stepIndex}</span></div
+            >
+        </div>
+    {/if}
 </section>
 
 <style>
@@ -350,8 +357,6 @@
     .steps {
         display: inline-block;
         height: 100%;
-        margin-left: var(--wordplay-spacing);
-        margin-right: var(--wordplay-spacing);
     }
 
     .steps:after {
