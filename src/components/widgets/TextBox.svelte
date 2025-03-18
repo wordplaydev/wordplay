@@ -79,7 +79,7 @@
         oninput={handleInput}
     ></textarea>
     {#if message !== undefined}
-        <div class="message" id="id-{id}">{message}</div>
+        <div class="message" id="id-{id}">{$locales.get(message)}</div>
     {/if}
 </div>
 

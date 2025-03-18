@@ -1041,24 +1041,27 @@
         increment={1}
         precision={1}
         unit={''}
-        bind:value={() => {
-            const widths = [
-                ...new Set(
-                    selection
-                        .filter(
-                            (s) => s.type === 'rect' || s.type === 'ellipse',
-                        )
-                        .map((s) => (width ? s.width : s.height)),
-                ),
-            ];
-            return widths[0];
-        },
-        (val) => {
-            for (const shape of selection)
-                if (shape.type === 'rect' || shape.type === 'ellipse')
-                    if (width) shape.width = val;
-                    else shape.height = val;
-        }}
+        bind:value={
+            () => {
+                const widths = [
+                    ...new Set(
+                        selection
+                            .filter(
+                                (s) =>
+                                    s.type === 'rect' || s.type === 'ellipse',
+                            )
+                            .map((s) => (width ? s.width : s.height)),
+                    ),
+                ];
+                return widths[0];
+            },
+            (val) => {
+                for (const shape of selection)
+                    if (shape.type === 'rect' || shape.type === 'ellipse')
+                        if (width) shape.width = val;
+                        else shape.height = val;
+            }
+        }
         release={() => setShapes([...shapes])}
     ></Slider>
 {/snippet}
@@ -1231,29 +1234,31 @@
                     increment={0.25}
                     precision={2}
                     unit={''}
-                    bind:value={() => {
-                        const widths = [
-                            ...new Set(
-                                selection
-                                    .filter((s) => s.type !== 'pixel')
-                                    .map((s) => s.stroke?.width ?? 0),
-                            ),
-                        ];
-                        return (
-                            (widths.length === 1 ? widths[0] : undefined) ??
-                            currentStrokeWidth
-                        );
-                    },
-                    (val) => {
-                        if (selection.length > 0) {
-                            for (const shape of selection)
-                                if (
-                                    'stroke' in shape &&
-                                    shape.stroke !== undefined
-                                )
-                                    shape.stroke.width = val;
-                        } else currentStrokeWidth = val;
-                    }}
+                    bind:value={
+                        () => {
+                            const widths = [
+                                ...new Set(
+                                    selection
+                                        .filter((s) => s.type !== 'pixel')
+                                        .map((s) => s.stroke?.width ?? 0),
+                                ),
+                            ];
+                            return (
+                                (widths.length === 1 ? widths[0] : undefined) ??
+                                currentStrokeWidth
+                            );
+                        },
+                        (val) => {
+                            if (selection.length > 0) {
+                                for (const shape of selection)
+                                    if (
+                                        'stroke' in shape &&
+                                        shape.stroke !== undefined
+                                    )
+                                        shape.stroke.width = val;
+                            } else currentStrokeWidth = val;
+                        }
+                    }
                     release={() => setShapes([...shapes])}
                 ></Slider>
             {/if}
@@ -1279,27 +1284,31 @@
                     increment={0.1}
                     precision={1}
                     unit={''}
-                    bind:value={() => {
-                        // Uniform corner value? Show that.
-                        const corners = [
-                            ...new Set(
-                                selection
-                                    .filter((s) => s.type === 'rect')
-                                    .map((s) => s.corner ?? 0),
-                            ),
-                        ];
-                        return (
-                            (corners.length === 1 ? corners[0] : undefined) ??
-                            currentCorner
-                        );
-                    },
-                    (val) => {
-                        if (selection.length > 0) {
-                            // Update any selected rectangle's rounded corners.
-                            for (const shape of selection)
-                                if (shape.type === 'rect') shape.corner = val;
-                        } else currentCorner = val;
-                    }}
+                    bind:value={
+                        () => {
+                            // Uniform corner value? Show that.
+                            const corners = [
+                                ...new Set(
+                                    selection
+                                        .filter((s) => s.type === 'rect')
+                                        .map((s) => s.corner ?? 0),
+                                ),
+                            ];
+                            return (
+                                (corners.length === 1
+                                    ? corners[0]
+                                    : undefined) ?? currentCorner
+                            );
+                        },
+                        (val) => {
+                            if (selection.length > 0) {
+                                // Update any selected rectangle's rounded corners.
+                                for (const shape of selection)
+                                    if (shape.type === 'rect')
+                                        shape.corner = val;
+                            } else currentCorner = val;
+                        }
+                    }
                     release={() => setShapes([...shapes])}
                 ></Slider>
             {/if}
@@ -1313,28 +1322,31 @@
                     increment={1}
                     precision={0}
                     unit={''}
-                    bind:value={() => {
-                        // Is there a uniform selected angle? Show that.
-                        const angles = [
-                            ...new Set(
-                                selection
-                                    .filter((s) => s.type !== 'pixel')
-                                    .map((s) => s.angle ?? 0)
-                                    .filter((a) => a !== undefined),
-                            ),
-                        ];
-                        return (
-                            (angles.length === 1 ? angles[0] : undefined) ??
-                            currentAngle
-                        );
-                    },
-                    (val) => {
-                        if (selection.length > 0) {
-                            // Update any selected shape's rotation
-                            for (const shape of selection)
-                                if (shape.type !== 'pixel') shape.angle = val;
-                        } else currentAngle = val;
-                    }}
+                    bind:value={
+                        () => {
+                            // Is there a uniform selected angle? Show that.
+                            const angles = [
+                                ...new Set(
+                                    selection
+                                        .filter((s) => s.type !== 'pixel')
+                                        .map((s) => s.angle ?? 0)
+                                        .filter((a) => a !== undefined),
+                                ),
+                            ];
+                            return (
+                                (angles.length === 1 ? angles[0] : undefined) ??
+                                currentAngle
+                            );
+                        },
+                        (val) => {
+                            if (selection.length > 0) {
+                                // Update any selected shape's rotation
+                                for (const shape of selection)
+                                    if (shape.type !== 'pixel')
+                                        shape.angle = val;
+                            } else currentAngle = val;
+                        }
+                    }
                     release={() => setShapes([...shapes])}
                 ></Slider>
             {/if}
@@ -1363,32 +1375,35 @@
                 <label>
                     <Checkbox
                         id="closed-path"
-                        bind:on={() => {
-                            // If the selection has an identical closed state, set the current closed state to it
-                            const closed = [
-                                ...new Set(
-                                    selection
-                                        .filter((s) => s.type === 'path')
-                                        .map((s) => s.closed),
-                                ),
-                            ];
-                            return (
-                                (closed.length === 1 ? closed[0] : undefined) ??
-                                currentClosed
-                            );
-                        },
-                        (on) => {
-                            if (selection.length > 0) {
-                                // Update any selected shape's closed state
-                                for (const shape of selection)
-                                    if (
-                                        shape.type === 'path' &&
-                                        on !== undefined
-                                    )
-                                        shape.closed = on;
-                                setShapes([...shapes]);
-                            } else currentClosed = on;
-                        }}
+                        bind:on={
+                            () => {
+                                // If the selection has an identical closed state, set the current closed state to it
+                                const closed = [
+                                    ...new Set(
+                                        selection
+                                            .filter((s) => s.type === 'path')
+                                            .map((s) => s.closed),
+                                    ),
+                                ];
+                                return (
+                                    (closed.length === 1
+                                        ? closed[0]
+                                        : undefined) ?? currentClosed
+                                );
+                            },
+                            (on) => {
+                                if (selection.length > 0) {
+                                    // Update any selected shape's closed state
+                                    for (const shape of selection)
+                                        if (
+                                            shape.type === 'path' &&
+                                            on !== undefined
+                                        )
+                                            shape.closed = on;
+                                    setShapes([...shapes]);
+                                } else currentClosed = on;
+                            }
+                        }
                         label={(l) => l.ui.page.character.field.closed}
                     ></Checkbox><LocalizedText
                         path={(l) => l.ui.page.character.field.closed}
@@ -1509,7 +1524,6 @@
             display: flex;
             flex-direction: column;
             flex-wrap: wrap;
-            row-gap: var(--wordplay-spacing);
             align-items: end;
         }
     </style>
@@ -1732,11 +1746,10 @@
         flex-direction: row;
         gap: calc(2 * var(--wordplay-spacing));
         align-items: start;
+        justify-content: center;
     }
 
     .content {
-        width: 60vw;
-        min-width: 20em;
         display: flex;
         flex-direction: column;
         position: relative;
@@ -1757,8 +1770,8 @@
 
     .canvas {
         position: relative;
-        width: 100%;
-        height: 100%;
+        width: 50vh;
+        height: 50vh;
         aspect-ratio: 1/1;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         /* Set a current color to make strokes and fills using current color visible */
