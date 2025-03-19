@@ -573,7 +573,7 @@
                 else {
                     if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
                         const index = shapes.indexOf(selection[0]);
-                        if (index >= 0)
+                        if (index >= 0 && index < shapes.length)
                             selection = [
                                 shapes[
                                     index === 0 ? shapes.length - 1 : index - 1
@@ -584,9 +584,12 @@
                         event.key === 'ArrowRight'
                     ) {
                         const index = shapes.indexOf(selection[0]);
-                        selection = [
-                            shapes[index === shapes.length - 1 ? 0 : index + 1],
-                        ];
+                        if (index >= 0 && index < shapes.length)
+                            selection = [
+                                shapes[
+                                    index === shapes.length - 1 ? 0 : index + 1
+                                ],
+                            ];
                     }
                 }
             } else {
@@ -829,13 +832,16 @@
                         const index = Array.from(svg.childNodes).indexOf(
                             candidate,
                         );
-                        if (index >= 0) {
+                        if (index >= 0 && index < shapes.length) {
                             const selected = shapes[index];
                             // Don't change the selection if the selected shape is already selected.
-                            if (!selection.includes(selected)) {
+                            if (
+                                selected !== undefined &&
+                                !selection.includes(selected)
+                            ) {
                                 if (event.shiftKey)
-                                    selection = [...selection, shapes[index]];
-                                else selection = [shapes[index]];
+                                    selection = [...selection, selected];
+                                else selection = [selected];
                             }
                             found = true;
                         }
@@ -877,13 +883,11 @@
                     firstDrag = false;
                 }
 
-                for (const [index, shape] of selection.entries())
-                    moveShape(
-                        shape,
-                        x - dragOffsets[index].x,
-                        y - dragOffsets[index].y,
-                        'move',
-                    );
+                for (const [index, shape] of selection.entries()) {
+                    const offset = dragOffsets[index];
+                    if (offset)
+                        moveShape(shape, x - offset.x, y - offset.y, 'move');
+                }
                 setShapes([...shapes]);
             }
         }
@@ -1053,7 +1057,7 @@
                             .map((s) => (width ? s.width : s.height)),
                     ),
                 ];
-                return widths[0];
+                return widths[0] ?? 1;
             },
             (val) => {
                 for (const shape of selection)
@@ -1165,7 +1169,7 @@
                 (color) => {
                     currentFill = color;
                     for (const shape of selection)
-                        shape.fill = getCurrentFill();
+                        shape.fill = getCurrentFill() ?? null;
                     setShapes([...shapes]);
                 },
             )}
@@ -1220,7 +1224,11 @@
                                             ...currentStroke,
                                         };
                                     // Otherwise, set the whole stroke.
-                                    else shape.stroke = getCurrentStroke();
+                                    else {
+                                        const stroke = getCurrentStroke();
+                                        if (stroke) shape.stroke = stroke;
+                                        else delete shape.stroke;
+                                    }
                             setShapes([...shapes]);
                         }
                     },
@@ -1770,8 +1778,8 @@
 
     .canvas {
         position: relative;
-        width: 50vh;
-        height: 50vh;
+        width: min(50vw, 50vh);
+        height: min(50vw, 50vh);
         aspect-ratio: 1/1;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         /* Set a current color to make strokes and fills using current color visible */

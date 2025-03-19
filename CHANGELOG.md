@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Prevent character editor from scrolling.
+- Ensure no undefined in character fields to prevent saving errors.
 
 ## 0.16.6
 
