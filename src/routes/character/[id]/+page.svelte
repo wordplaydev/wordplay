@@ -344,7 +344,7 @@
     }
 
     /** Centralized shape list updating to support undo/redo. */
-    function setShapes(newShapes: CharacterShape[]) {
+    function setShapes(newShapes: CharacterShape[], remember = true) {
         // Remove the future if we're in the past
         if (historyIndex < history.length - 1)
             history = history.slice(0, historyIndex);
@@ -353,10 +353,11 @@
         selection = selection.filter((s) => shapes.includes(s));
 
         // Clone the current shapes and add them to the history the shapes to the history
-        history = [
-            ...history,
-            structuredClone($state.snapshot(shapes)) as CharacterShape[],
-        ];
+        if (remember)
+            history = [
+                ...history,
+                structuredClone($state.snapshot(shapes)) as CharacterShape[],
+            ];
 
         // Update the shapes.
         shapes = newShapes;
@@ -385,7 +386,7 @@
     }
 
     /** Set the pixel at the current position and fill. */
-    function setPixel() {
+    function setPixel(remember = true) {
         const candidate: CharacterPixel = {
             type: 'pixel',
             point: { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
@@ -397,17 +398,20 @@
         // Already an identical pixel? No need to rerender.
         if (match) return;
 
-        setShapes([
-            ...shapes
-                // Remove pixels at the same position
-                .filter(
-                    (s) =>
-                        s.type !== 'pixel' ||
-                        s.point.x !== drawingCursorPosition.x ||
-                        s.point.y !== drawingCursorPosition.y,
-                ),
-            candidate,
-        ]);
+        setShapes(
+            [
+                ...shapes
+                    // Remove pixels at the same position
+                    .filter(
+                        (s) =>
+                            s.type !== 'pixel' ||
+                            s.point.x !== drawingCursorPosition.x ||
+                            s.point.y !== drawingCursorPosition.y,
+                    ),
+                candidate,
+            ],
+            remember,
+        );
     }
 
     function getCurrentFill() {
@@ -823,7 +827,7 @@
         // In pixel mode? Drop a pixel.
         if (mode === DrawingMode.Pixel) {
             selection = [];
-            setPixel();
+            setPixel(!move);
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
         }

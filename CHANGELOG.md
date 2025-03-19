@@ -20,6 +20,7 @@ Character editing improvements:
 - Ensure no undefined in character fields to prevent saving errors.
 - Properly bound drawing cursor position.
 - Longer undo history.
+- Undo entire strokes, not individual pixels.
 
 ## 0.16.6
 
