@@ -640,6 +640,23 @@
             return;
         }
 
+        // Handle undo
+        if (event.key === 'z' && event.metaKey) {
+            if (event.shiftKey) redo();
+            else undo();
+            event.stopPropagation();
+            event.preventDefault();
+            return;
+        }
+
+        // Handle redo
+        if (event.key === 'y' && event.metaKey) {
+            undo();
+            event.stopPropagation();
+            event.preventDefault();
+            return;
+        }
+
         // Handle select all
         if (event.key === 'a' && event.metaKey) {
             selectAll();
