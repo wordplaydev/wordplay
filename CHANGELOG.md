@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Prevent character editor from scrolling.
 - Ensure no undefined in character fields to prevent saving errors.
+- Added custom character how to.
 
 ## 0.16.6
 
