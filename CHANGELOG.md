@@ -5,12 +5,19 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.7
 
+### Added
+
+Character editing features:
+
+- Added undo/redo keyboard shortcuts.
+- Added custom character how to.
+
 ### Fixed
+
+Character editing improvements:
 
 - Prevent character editor from scrolling.
 - Ensure no undefined in character fields to prevent saving errors.
-- Added custom character how to.
-- Added undo/redo keyboard shortcuts.
 - Properly bound drawing cursor position.
 - Longer undo history.
 
