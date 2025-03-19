@@ -364,8 +364,8 @@
         // Move the index to the present.
         historyIndex = history.length;
 
-        // No more than 100 steps back, just to be conservative about memory.
-        if (history.length > 100) {
+        // No more than 250 steps back, just to be conservative about memory.
+        if (history.length > 250) {
             history.shift();
         }
     }

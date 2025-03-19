@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Added custom character how to.
 - Added undo/redo keyboard shortcuts.
 - Properly bound drawing cursor position.
+- Longer undo history.
 
 ## 0.16.6
 
