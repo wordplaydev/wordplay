@@ -787,11 +787,25 @@
         }
 
         // Get the current canvas position.
-        const x = Math.floor(
-            (event.offsetX / event.currentTarget.clientWidth) * CharacterSize,
+        const x = Math.min(
+            CharacterSize - 1,
+            Math.max(
+                0,
+                Math.floor(
+                    (event.offsetX / event.currentTarget.clientWidth) *
+                        CharacterSize,
+                ),
+            ),
         );
-        const y = Math.floor(
-            (event.offsetY / event.currentTarget.clientHeight) * CharacterSize,
+        const y = Math.min(
+            CharacterSize - 1,
+            Math.max(
+                0,
+                Math.floor(
+                    (event.offsetY / event.currentTarget.clientHeight) *
+                        CharacterSize,
+                ),
+            ),
         );
 
         // Move the position to the pointer

@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Ensure no undefined in character fields to prevent saving errors.
 - Added custom character how to.
 - Added undo/redo keyboard shortcuts.
+- Properly bound drawing cursor position.
 
 ## 0.16.6
 
