@@ -397,10 +397,7 @@
             // Remove pixels at the same position
             .find((s) => s.type === 'pixel' && pixelsAreEqual(s, candidate));
         // Already an identical pixel? Delete.
-        if (match) {
-            erasePixel(remember);
-            return;
-        }
+        if (match) return;
 
         setShapes(
             [

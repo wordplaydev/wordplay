@@ -4962,14 +4962,16 @@
                     "pixel": "$~Para dibujar píxeles, elija un color. Luego, haga clic en el lienzo o utilice las *flechas* para mover el cursor y la *barra espaciadora* para crear un píxel.",
                     "rect": "$~Para dibujar rectángulos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
                     "ellipse": "$~Para dibujar elipses y círculos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
-                    "path": "$~Las rutas pueden ser segmentos de línea, polígonos y curvas. Haga clic para comenzar a agregar puntos o use las teclas de *flecha* y *espacio*. Presione *escape* para finalizar la ruta. *delete* eliminará el último punto."
+                    "path": "$~Las rutas pueden ser segmentos de línea, polígonos y curvas. Haga clic para comenzar a agregar puntos o use las teclas de *flecha* y *espacio*. Presione *escape* para finalizar la ruta. *delete* eliminará el último punto.",
+                    "eraser": "$~Para borrar píxeles, haz clic y arrastra sobre los píxeles que quieras eliminar. Usa las flechas para mover el borrador y la barra espaciadora para borrar."
                 },
                 "shape": {
                     "shape": "$~forma",
                     "pixel": "$~píxel",
                     "rect": "$~rectángulo",
                     "ellipse": "$~elipse",
-                    "path": "$~camino"
+                    "path": "$~camino",
+                    "eraser": "$~borrador"
                 },
                 "field": {
                     "name": {

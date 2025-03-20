@@ -5058,14 +5058,16 @@
                     "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel.",
                     "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
-                    "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt."
+                    "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt.",
+                    "eraser": "$~Aby wymazać piksele, kliknij i przeciągnij nad pikselami, które chcesz usunąć. Użyj klawiszy *strzałek*, aby przesunąć gumkę i *spacji*, aby usunąć."
                 },
                 "shape": {
                     "shape": "$~kształt",
                     "pixel": "$~piksel",
                     "rect": "$~prostokąt",
                     "ellipse": "$~elipsa",
-                    "path": "$~ścieżka"
+                    "path": "$~ścieżka",
+                    "eraser": "$~gumka do ścierania"
                 },
                 "field": {
                     "name": {
