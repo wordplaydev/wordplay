@@ -63,6 +63,7 @@
     // svelte-ignore non_reactive_update
     enum DrawingMode {
         Select,
+        Eraser,
         Pixel,
         Rect,
         Ellipse,
@@ -395,8 +396,11 @@
         const match = shapes
             // Remove pixels at the same position
             .find((s) => s.type === 'pixel' && pixelsAreEqual(s, candidate));
-        // Already an identical pixel? No need to rerender.
-        if (match) return;
+        // Already an identical pixel? Delete.
+        if (match) {
+            erasePixel(remember);
+            return;
+        }
 
         setShapes(
             [
@@ -410,6 +414,18 @@
                     ),
                 candidate,
             ],
+            remember,
+        );
+    }
+
+    function erasePixel(remember = true) {
+        setShapes(
+            shapes.filter(
+                (s) =>
+                    s.type !== 'pixel' ||
+                    s.point.x !== drawingCursorPosition.x ||
+                    s.point.y !== drawingCursorPosition.y,
+            ),
             remember,
         );
     }
@@ -677,6 +693,12 @@
             event.stopPropagation();
             return;
         }
+        // If in eraser mode, delete a pixel, if there is one.
+        else if (mode === DrawingMode.Eraser && action) {
+            erasePixel();
+            event.stopPropagation();
+            return;
+        }
         // If in rect or ellipse mode...
         else if (
             (mode === DrawingMode.Rect || mode === DrawingMode.Ellipse) &&
@@ -828,6 +850,11 @@
         if (mode === DrawingMode.Pixel) {
             selection = [];
             setPixel(!move);
+            if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
+            return;
+        } else if (mode === DrawingMode.Eraser) {
+            selection = [];
+            erasePixel(!move);
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
         }
@@ -1115,7 +1142,7 @@
         >
         <Mode
             descriptions={(l) => l.ui.page.character.field.mode}
-            modes={['👆', '■', '🔲', '⚪️', '╱']}
+            modes={['👆', '⌫', '■', '🔲', '⚪️', '╱']}
             choice={mode}
             select={(choice: number) => {
                 mode = choice as DrawingMode;
@@ -1133,6 +1160,8 @@
                         $locales.get((l) => l.ui.page.character.shape[s]),
                     )
                     .join(', ')}
+            {:else if mode === DrawingMode.Eraser}
+                <LocalizedText path={(l) => l.ui.page.character.shape.eraser} />
             {:else if mode === DrawingMode.Pixel}
                 <LocalizedText path={(l) => l.ui.page.character.shape.pixel} />
             {:else if mode === DrawingMode.Rect}
@@ -1161,13 +1190,15 @@
                       shapes.length > 0 &&
                       selection.length > 0
                     ? (l) => l.ui.page.character.instructions.selected
-                    : mode === DrawingMode.Pixel
-                      ? (l) => l.ui.page.character.instructions.pixel
-                      : mode === DrawingMode.Rect
-                        ? (l) => l.ui.page.character.instructions.rect
-                        : mode === DrawingMode.Ellipse
-                          ? (l) => l.ui.page.character.instructions.ellipse
-                          : (l) => l.ui.page.character.instructions.path}
+                    : mode === DrawingMode.Eraser
+                      ? (l) => l.ui.page.character.instructions.eraser
+                      : mode === DrawingMode.Pixel
+                        ? (l) => l.ui.page.character.instructions.pixel
+                        : mode === DrawingMode.Rect
+                          ? (l) => l.ui.page.character.instructions.rect
+                          : mode === DrawingMode.Ellipse
+                            ? (l) => l.ui.page.character.instructions.ellipse
+                            : (l) => l.ui.page.character.instructions.path}
         ></MarkupHTMLView>
 
         {#if mode !== DrawingMode.Select || selection.length > 0}

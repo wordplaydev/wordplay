@@ -837,6 +837,7 @@
       "enum": [
         "animate-phrase",
         "move-phrase",
+        "custom-characters",
         "animated-scene",
         "interactive-scene",
         "shake-phrase",

@@ -13,6 +13,7 @@ type PageText = {
         empty: string;
         unselected: string;
         selected: string;
+        eraser: string;
         pixel: string;
         rect: string;
         ellipse: string;
@@ -20,6 +21,7 @@ type PageText = {
     };
     shape: {
         shape: string;
+        eraser: string;
         pixel: string;
         rect: string;
         ellipse: string;
@@ -35,7 +37,7 @@ type PageText = {
     field: {
         name: FieldText;
         description: FieldText;
-        mode: ModeText<string[]>;
+        mode: ModeText<[string, string, string, string, string, string]>;
         fill: ModeText<string[]>;
         stroke: ModeText<string[]>;
         /** What to call no color */

@@ -9813,7 +9813,7 @@
                           "type": "string"
                         },
                         "mode": {
-                          "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
                         },
                         "name": {
                           "$ref": "#/definitions/FieldText"
@@ -9906,6 +9906,9 @@
                         "empty": {
                           "type": "string"
                         },
+                        "eraser": {
+                          "type": "string"
+                        },
                         "path": {
                           "type": "string"
                         },
@@ -9926,6 +9929,7 @@
                         "empty",
                         "unselected",
                         "selected",
+                        "eraser",
                         "pixel",
                         "rect",
                         "ellipse",
@@ -9940,6 +9944,9 @@
                       "additionalProperties": false,
                       "properties": {
                         "ellipse": {
+                          "type": "string"
+                        },
+                        "eraser": {
                           "type": "string"
                         },
                         "path": {
@@ -9957,6 +9964,7 @@
                       },
                       "required": [
                         "shape",
+                        "eraser",
                         "pixel",
                         "rect",
                         "ellipse",
@@ -12634,6 +12642,29 @@
         "ui",
         "gallery",
         "moderation"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "modes": {
+          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
       ],
       "type": "object"
     },
