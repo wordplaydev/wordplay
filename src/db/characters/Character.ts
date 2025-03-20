@@ -196,16 +196,8 @@ function ellipseToSVG(
     );
     return tag('ellipse', {
         class: selected ? 'selected' : undefined,
-        cx:
-            (ellipse.width < 0
-                ? ellipse.point.x + ellipse.width / 2
-                : ellipse.point.x) +
-            ellipse.width / 2,
-        cy:
-            (ellipse.height < 0
-                ? ellipse.point.y + ellipse.height / 2
-                : ellipse.point.y) +
-            ellipse.height / 2,
+        cx: ellipse.point.x + ellipse.width / 2,
+        cy: ellipse.point.y + ellipse.height / 2,
         rx: Math.abs(ellipse.width / 2),
         ry: Math.abs(ellipse.height / 2),
         fill: colorToSVG(ellipse.fill),

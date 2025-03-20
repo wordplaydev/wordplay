@@ -12,6 +12,7 @@ Character editing features:
 - Added undo/redo keyboard shortcuts.
 - Added custom character how to.
 - Fixed #712, adding pixel eraser.
+- Fixed #717, correcting redundnant undos.
 
 ### Fixed
 

@@ -89,7 +89,7 @@
     let shapes: CharacterShape[] = $state([]);
 
     /** The history of shapes, to support undo/redo */
-    let history: CharacterShape[][] = $state([]);
+    let history: CharacterShape[][] = $state.raw([]);
 
     /** Where we are in the undo history, to support redo */
     let historyIndex = $state(0);
@@ -274,6 +274,10 @@
                     isPublic = loadedCharacter.public;
                     collaborators = loadedCharacter.collaborators;
 
+                    // Start history with the loaded shapes.
+                    history = [structuredClone(loadedCharacter.shapes)];
+                    historyIndex = 0;
+
                     persisted =
                         loadedCharacter === undefined
                             ? 'failed'
@@ -344,27 +348,33 @@
             : (l: LocaleText) => l.ui.page.character.feedback.description;
     }
 
+    /** Remember the current state */
+    function rememberShapes() {
+        setShapes([...shapes]);
+    }
+
     /** Centralized shape list updating to support undo/redo. */
     function setShapes(newShapes: CharacterShape[], remember = true) {
         // Remove the future if we're in the past
         if (historyIndex < history.length - 1)
-            history = history.slice(0, historyIndex);
+            history = history.slice(0, historyIndex - 1);
 
         // Remove any selection that's no longer in the shapes.
         selection = selection.filter((s) => shapes.includes(s));
 
         // Clone the current shapes and add them to the history the shapes to the history
-        if (remember)
+        if (remember) {
             history = [
                 ...history,
                 structuredClone($state.snapshot(shapes)) as CharacterShape[],
             ];
+        }
 
         // Update the shapes.
         shapes = newShapes;
 
         // Move the index to the present.
-        historyIndex = history.length;
+        historyIndex = history.length - 1;
 
         // No more than 250 steps back, just to be conservative about memory.
         if (history.length > 250) {
@@ -539,11 +549,17 @@
             });
     }
 
-    function addShapes(newShapes: CharacterShape | CharacterShape[]) {
-        setShapes([
-            ...shapes,
-            ...(Array.isArray(newShapes) ? newShapes : [newShapes]),
-        ]);
+    function addShapes(
+        newShapes: CharacterShape | CharacterShape[],
+        remember = true,
+    ) {
+        setShapes(
+            [
+                ...shapes,
+                ...(Array.isArray(newShapes) ? newShapes : [newShapes]),
+            ],
+            remember,
+        );
     }
 
     function handleArrow(dx: -1 | 0 | 1, dy: -1 | 0 | 1) {
@@ -551,7 +567,7 @@
         if (selection.length > 0) {
             for (const shape of selection)
                 moveShape(shape, dx, dy, 'translate');
-            setShapes([...shapes]);
+            rememberShapes();
         }
         // In all other moves, move the drawing cursor.
         else {
@@ -707,7 +723,7 @@
                     mode === DrawingMode.Rect
                         ? getCurrentRect()
                         : getCurrentEllipse();
-                addShapes(pendingRectOrEllipse);
+                addShapes(pendingRectOrEllipse, false);
             }
             // If there is one, finish it
             else {
@@ -722,7 +738,7 @@
             if (action) {
                 if (pendingPath === undefined) {
                     pendingPath = getCurrentPath();
-                    addShapes(pendingPath);
+                    addShapes(pendingPath, false);
                 } else updatePendingPath();
             } else if (event.key === 'Delete' || event.key === 'Backspace') {
                 if (pendingPath && pendingPath.points.length > 1) {
@@ -795,7 +811,7 @@
                 selection = [pendingPath];
                 pendingPath = undefined;
                 // Mark history
-                setShapes([...shapes]);
+                rememberShapes();
                 mode = DrawingMode.Select;
             }
         }
@@ -846,12 +862,12 @@
         // In pixel mode? Drop a pixel.
         if (mode === DrawingMode.Pixel) {
             selection = [];
-            setPixel(!move);
+            setPixel(false);
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
         } else if (mode === DrawingMode.Eraser) {
             selection = [];
-            erasePixel(!move);
+            erasePixel(false);
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
         }
@@ -864,7 +880,7 @@
                     mode === DrawingMode.Rect
                         ? getCurrentRect()
                         : getCurrentEllipse();
-                addShapes(pendingRectOrEllipse);
+                addShapes(pendingRectOrEllipse, false);
             } else {
                 if (pendingRectOrEllipse.type === 'rect') updatePendingRect();
                 else updatePendingEllipse();
@@ -874,7 +890,7 @@
             if (pendingPath === undefined) {
                 selection = [];
                 pendingPath = getCurrentPath();
-                addShapes(pendingPath);
+                addShapes(pendingPath, false);
             } else updatePendingPath();
 
             return;
@@ -938,16 +954,22 @@
             else {
                 if (move && firstDrag) {
                     // Just starting a drag? Remember the current positions in the history so we can undo to before the drag.
-                    setShapes([...shapes]);
+                    rememberShapes();
                     firstDrag = false;
                 }
 
-                for (const [index, shape] of selection.entries()) {
-                    const offset = dragOffsets[index];
-                    if (offset)
-                        moveShape(shape, x - offset.x, y - offset.y, 'move');
+                if (selection.length > 0) {
+                    for (const [index, shape] of selection.entries()) {
+                        const offset = dragOffsets[index];
+                        if (offset)
+                            moveShape(
+                                shape,
+                                x - offset.x,
+                                y - offset.y,
+                                'move',
+                            );
+                    }
                 }
-                setShapes([...shapes]);
             }
         }
     }
@@ -965,8 +987,12 @@
             mode = DrawingMode.Select;
             event.stopPropagation();
             // Snapshot for history.
-            setShapes([...shapes]);
+            rememberShapes();
             return;
+        }
+        // Done drawing or erasing pixels? Remember the current shapes.
+        else if (mode === DrawingMode.Pixel || mode === DrawingMode.Eraser) {
+            rememberShapes();
         }
     }
 
@@ -986,7 +1012,7 @@
                 const newShapes = [...shapes];
                 newShapes.splice(currentIndex, 1);
                 newShapes.splice(newIndex, 0, shape);
-                setShapes([...newShapes]);
+                rememberShapes();
             }
         }
     }
@@ -1125,7 +1151,7 @@
                         else shape.height = val;
             }
         }
-        release={() => setShapes([...shapes])}
+        release={() => rememberShapes()}
     ></Slider>
 {/snippet}
 
@@ -1227,13 +1253,13 @@
                         if (fill) shape.fill = fill;
                         else delete shape.fill;
                     }
-                    setShapes([...shapes]);
+                    rememberShapes();
                 },
                 (color) => {
                     currentFill = color;
                     for (const shape of selection)
                         shape.fill = getCurrentFill() ?? null;
-                    setShapes([...shapes]);
+                    rememberShapes();
                 },
             )}
             <!-- All shapes except pixels have strokes -->
@@ -1273,7 +1299,7 @@
                                     if (newStroke) shape.stroke = newStroke;
                                     else delete shape.stroke;
                                 }
-                            setShapes([...shapes]);
+                            rememberShapes();
                         }
                     },
                     (color) => {
@@ -1292,7 +1318,7 @@
                                         if (stroke) shape.stroke = stroke;
                                         else delete shape.stroke;
                                     }
-                            setShapes([...shapes]);
+                            rememberShapes();
                         }
                     },
                 )}
@@ -1330,7 +1356,7 @@
                             } else currentStrokeWidth = val;
                         }
                     }
-                    release={() => setShapes([...shapes])}
+                    release={() => rememberShapes()}
                 ></Slider>
             {/if}
             {#if mode !== DrawingMode.Pixel}
@@ -1380,7 +1406,7 @@
                             } else currentCorner = val;
                         }
                     }
-                    release={() => setShapes([...shapes])}
+                    release={() => rememberShapes()}
                 ></Slider>
             {/if}
             <!-- All shapes but pixels have rotation -->
@@ -1418,7 +1444,7 @@
                             } else currentAngle = val;
                         }
                     }
-                    release={() => setShapes([...shapes])}
+                    release={() => rememberShapes()}
                 ></Slider>
             {/if}
             {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
@@ -1471,7 +1497,7 @@
                                             on !== undefined
                                         )
                                             shape.closed = on;
-                                    setShapes([...shapes]);
+                                    rememberShapes();
                                 } else currentClosed = on;
                             }
                         }
