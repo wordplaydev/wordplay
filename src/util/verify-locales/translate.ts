@@ -2,15 +2,40 @@ import Translate from '@google-cloud/translate';
 import { ConceptRegExPattern, MentionRegEx } from '@parser/Tokenizer';
 import type Log from './Log';
 
+// Pattern to match code blocks that start and end with backslashes in how-to guides
+export const CodeBlockPattern = /\\([^\\]*)\\(?!\\\\\n)/gs;
+
 export default async function translate(
     log: Log,
     text: string[],
     source: string,
     target: string,
 ): Promise<string[] | undefined> {
+    // We need to preserve code blocks before translation
+    // Create a new array to store the text with code blocks temporarily replaced
+    const processedText: string[] = [];
+    // Store code blocks for later restoration
+    const codeBlocksByText: Map<string, string[]>[] = [];
+
+    // Preprocess each text to extract and replace code blocks
+    for (let i = 0; i < text.length; i++) {
+        const blocks: string[] = [];
+        codeBlocksByText[i] = new Map();
+
+        // Replace code blocks with placeholders
+        const processed = text[i].replace(CodeBlockPattern, (match, codeContent) => {
+            const placeholder = `__CODE_BLOCK_${blocks.length}__`;
+            blocks.push(match);
+            codeBlocksByText[i].set(placeholder, [match]);
+            return placeholder;
+        });
+
+        processedText.push(processed);
+    }
+
     // Split the strings into groups of 100, since Google Translate only allows 128 at a time.
     const sourceStringsBatches: string[][] = [];
-    while (text.length > 0) sourceStringsBatches.push(text.splice(0, 100));
+    while (processedText.length > 0) sourceStringsBatches.push(processedText.splice(0, 100));
 
     // Pass them to Google Translate
     let translations: string[] = [];
@@ -48,7 +73,23 @@ export default async function translate(
             return undefined;
         }
     }
-    return translations;
+
+    // Restore code blocks in translated text
+    const finalTranslations: string[] = [];
+    for (let i = 0; i < translations.length; i++) {
+        const codeBlocks = codeBlocksByText[i];
+        if (codeBlocks && codeBlocks.size > 0) {
+            let restoredText = translations[i];
+            for (const [placeholder, blocks] of codeBlocks.entries()) {
+                restoredText = restoredText.replace(placeholder, blocks[0]);
+            }
+            finalTranslations.push(restoredText);
+        } else {
+            finalTranslations.push(translations[i]);
+        }
+    }
+
+    return finalTranslations;
 }
 
 export const ConceptPattern = new RegExp(ConceptRegExPattern, 'ug');

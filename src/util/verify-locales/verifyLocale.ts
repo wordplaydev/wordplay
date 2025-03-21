@@ -1,3 +1,4 @@
+import { HowToIDs } from '@concepts/HowTo';
 import { concretizeOrUndefined } from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
@@ -16,6 +17,8 @@ import ConceptLink from '@nodes/ConceptLink';
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { tokenize } from '@parser/Tokenizer';
+import fs from 'fs';
+import path from 'path';
 import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import { LocaleValidator } from './LocaleSchema';
 import type Log from './Log';
@@ -61,6 +64,102 @@ export function getTranslatableLocalePairs(locale: LocaleText): LocalePath[] {
 
         return true;
     });
+}
+
+/** Handle verification and translation of how-to guides */
+export async function verifyHowTo(
+    log: Log,
+    locale: string,
+    translate: boolean,
+): Promise<void> {
+    // Skip for default locale or example locale
+    if (locale === 'en-US' || locale === 'example') return;
+
+    // Only proceed with translation if requested
+    if (!translate) return;
+
+    log.say(1, `Checking how-to guides for ${locale}`);
+
+    // Create the directory for how-to guides if it doesn't exist
+    const howToDir = path.join('static', 'locales', locale, 'how');
+    if (!fs.existsSync(howToDir)) {
+        log.say(2, `Creating how-to directory for ${locale}`);
+        fs.mkdirSync(howToDir, { recursive: true });
+    }
+
+    // Process each how-to guide
+    for (const howToID of HowToIDs) {
+        const sourcePath = path.join('static', 'locales', 'en-US', 'how', `${howToID}.txt`);
+        const targetPath = path.join('static', 'locales', locale, 'how', `${howToID}.txt`);
+
+        // Skip if the file already exists in the target locale
+        if (fs.existsSync(targetPath)) {
+            log.good(2, `How-to guide ${howToID} already exists for ${locale}`);
+            continue;
+        }
+
+        // Read the English source file
+        if (!fs.existsSync(sourcePath)) {
+            log.bad(2, `Source how-to guide ${howToID} not found`);
+            continue;
+        }
+
+        const sourceText = fs.readFileSync(sourcePath, 'utf8');
+        const sourceLines = sourceText.trim().split('\n');
+
+        if (sourceLines.length < 3) {
+            log.bad(2, `Source how-to guide ${howToID} has invalid format`);
+            continue;
+        }
+
+        // Extract title, content, and related IDs
+        const sourceTitle = sourceLines[0];
+        const sourceRelated = sourceLines[sourceLines.length - 1];
+        const sourceContent = sourceLines.slice(1, sourceLines.length - 1).join('\n');
+
+        log.say(2, `Translating how-to guide ${howToID} for ${locale}`);
+
+        try {
+            // Add machine translation mark to indicate human review is needed for the title
+            const translatedTitle = MachineTranslated + (await translateText(log, [sourceTitle], 'en-US', locale))?.[0];
+
+            if (!translatedTitle) {
+                log.bad(2, `Failed to translate title for how-to guide ${howToID}`);
+                continue;
+            }
+
+            // Translate the content
+            const translatedContent = await translateText(log, [sourceContent], 'en-US', locale);
+
+            if (!translatedContent) {
+                log.bad(2, `Failed to translate content for how-to guide ${howToID}`);
+                continue;
+            }
+
+            // Combine all parts to create the translated how-to guide
+            const translatedText = [
+                translatedTitle,
+                translatedContent[0],
+                sourceRelated // Keep related IDs as-is
+            ].join('\n');
+
+            // Write the translated file
+            fs.writeFileSync(targetPath, translatedText);
+            log.good(2, `Successfully translated how-to guide ${howToID} for ${locale}`);
+        } catch (error) {
+            log.bad(2, `Error translating how-to guide ${howToID}: ${error}`);
+        }
+    }
+}
+
+/** Helper function to translate text using the existing translate function */
+async function translateText(
+    log: Log,
+    text: string[],
+    source: string,
+    target: string
+): Promise<string[] | undefined> {
+    return await translate(log, text, source, target);
 }
 
 /** Load, validate, and check the locale. */

@@ -21,7 +21,7 @@ import {
 } from './LocaleSchema';
 import Log from './Log';
 import { getTutorialJSON, getTutorialPath } from './TutorialSchema';
-import { createUnwrittenLocale, verifyLocale } from './verifyLocale';
+import { createUnwrittenLocale, verifyHowTo, verifyLocale } from './verifyLocale';
 import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';
 
 // Make a logger so we can pretty print feedback.
@@ -157,6 +157,11 @@ async function handleLocale(
                     fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
                 }
             }
+        }
+
+        // Verify and optionally translate how-to guides when translation is requested
+        if (TranslationRequested) {
+            await verifyHowTo(log, locale, TranslationRequested);
         }
     }
 }
