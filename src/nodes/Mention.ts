@@ -1,16 +1,17 @@
+import ConceptRef from '@locale/ConceptRef';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
 import Content from './Content';
-import { node, type Replacement, type Grammar } from './Node';
-import Token from './Token';
-import Sym from './Sym';
 import type Node from './Node';
-import type Locales from '../locale/Locales';
-import ConceptRef from '@locale/ConceptRef';
-import type { TemplateInput } from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -61,8 +62,10 @@ export default class Mention extends Content {
     getPurpose() {
         return Purpose.Document;
     }
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Mention);
+
+    static readonly LocalePath = (l: LocaleText) => l.node.Mention;
+    getLocalePath() {
+        return Mention.LocalePath;
     }
 
     getCharacter() {

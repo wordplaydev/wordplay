@@ -1,19 +1,19 @@
-import { test, expect } from 'vitest';
-import { testConflict, testTypes } from '@conflicts/TestUtilities';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
-import NotInstantiable from '@conflicts/NotInstantiable';
-import Evaluate from './Evaluate';
 import MissingInput from '@conflicts/MissingInput';
-import NumberType from './NumberType';
-import SetType from './SetType';
-import MapType from './MapType';
-import UnknownInput from '@conflicts/UnknownInput';
+import NotInstantiable from '@conflicts/NotInstantiable';
+import { testConflict, testTypes } from '@conflicts/TestUtilities';
+import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import type Node from './Node';
+import UnknownInput from '@conflicts/UnknownInput';
+import { expect, test } from 'vitest';
 import type Conflict from '../conflicts/Conflict';
 import evaluateCode from '../runtime/evaluate';
 import BinaryEvaluate from './BinaryEvaluate';
-import UnexpectedInput from '@conflicts/UnexpectedInput';
+import Evaluate from './Evaluate';
+import MapType from './MapType';
+import type Node from './Node';
+import NumberType from './NumberType';
+import SetType from './SetType';
 
 test.each([
     [

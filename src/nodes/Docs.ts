@@ -1,12 +1,13 @@
-import type { Grammar, Replacement } from './Node';
-import Doc from './Doc';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
-import Node, { list, node } from './Node';
-import { getPreferred } from './LanguageTagged';
-import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import Doc from './Doc';
+import { getPreferred } from './LanguageTagged';
+import type { Grammar, Replacement } from './Node';
+import Node, { list, node } from './Node';
 
 export default class Docs extends Node {
     readonly docs: Doc[];
@@ -76,8 +77,9 @@ export default class Docs extends Node {
         return getPreferred(locales, this.docs);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Docs);
+    static readonly LocalePath = (l: LocaleText) => l.node.Docs;
+    getLocalePath() {
+        return Docs.LocalePath;
     }
 
     getCharacter() {

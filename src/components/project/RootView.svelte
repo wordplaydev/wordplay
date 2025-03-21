@@ -1,30 +1,30 @@
 <script lang="ts">
-    import { writable } from 'svelte/store';
+    import NodeView from '@components/editor/NodeView.svelte';
+    import type Caret from '@edit/Caret';
+    import type Locale from '@locale/Locale';
     import Docs from '@nodes/Docs';
+    import type { LanguageTagged } from '@nodes/LanguageTagged';
+    import Name from '@nodes/Name';
     import Names from '@nodes/Names';
     import type Node from '@nodes/Node';
+    import Program from '@nodes/Program';
+    import Root from '@nodes/Root';
+    import Source from '@nodes/Source';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
     import Spaces from '@parser/Spaces';
-    import NodeView from '@components/editor/NodeView.svelte';
+    import { EMOJI_SYMBOL } from '@parser/Symbols';
+    import { writable } from 'svelte/store';
+    import FormattedLiteral from '../../nodes/FormattedLiteral';
+    import TextLiteral from '../../nodes/TextLiteral';
     import {
         setCaret,
-        setSpaces,
         setHidden,
+        setIsBlocks,
         setLocalize,
         setRoot,
         setShowLines,
-        setIsBlocks,
+        setSpaces,
     } from './Contexts';
-    import Root from '@nodes/Root';
-    import Source from '@nodes/Source';
-    import Program from '@nodes/Program';
-    import TextLiteral from '../../nodes/TextLiteral';
-    import FormattedLiteral from '../../nodes/FormattedLiteral';
-    import type Caret from '@edit/Caret';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type Locale from '@locale/Locale';
-    import { EMOJI_SYMBOL } from '@parser/Symbols';
-    import type { LanguageTagged } from '@nodes/LanguageTagged';
-    import Name from '@nodes/Name';
 
     interface Props {
         node: Node;
@@ -201,7 +201,7 @@
         }
 
         // If elided, hide all the tokens after the first five that aren't already hidden by parents
-        if (elide)
+        if (elide && inline)
             for (const token of node
                 .leaves()
                 .filter(

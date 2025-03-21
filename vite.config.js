@@ -11,10 +11,7 @@ function LocaleHotReload() {
         handleHotUpdate({ file, server }) {
             if (file.includes('locales') && file.endsWith('.json')) {
                 console.log(`${file} changed, sending update event.`);
-                server.ws.send({
-                    type: 'custom',
-                    event: 'locales-update',
-                });
+                server.ws.send({ type: 'custom', event: 'locales-update' });
             }
         },
     };

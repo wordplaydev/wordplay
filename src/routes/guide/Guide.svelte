@@ -1,10 +1,10 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { afterNavigate, goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         setConceptIndex,
         setConceptPath,
@@ -15,18 +15,17 @@
         getConceptFromURL,
         setConceptInURL,
     } from '@concepts/ConceptParams';
-    import { locales } from '@db/Database';
+    import { Locales, locales } from '@db/Database';
     import Project from '@db/projects/Project';
+    import { toLocale } from '@locale/LocaleText';
     import Source from '@nodes/Source';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
 
     function getLocaleInURL() {
         return (
-            $page.url.searchParams.get('locale') ??
-            `${$locales.getLocales()[0].language}-${
-                $locales.getLocales()[0].region
-            }`
+            page.url.searchParams.get('locale') ??
+            toLocale($locales.getLocales()[0])
         );
     }
 
@@ -40,11 +39,14 @@
 
     let mounted = $state(false);
     onMount(() => {
-        locale = getLocaleInURL();
-        concept = getConceptFromURL(index, $page.url.searchParams);
+        // Before showing, wait for how tos to load.
+        Locales.loadHowTos($locales.getLocaleString()).then(() => {
+            locale = getLocaleInURL();
+            concept = getConceptFromURL(index, page.url.searchParams);
 
-        path.set(concept ? [concept] : []);
-        mounted = true;
+            path.set(concept ? [concept] : []);
+            mounted = true;
+        });
     });
 
     // After any navigation, extract the locale and concept from the URL and
@@ -52,13 +54,13 @@
     afterNavigate(() => {
         // Set the current locale.
         locale = getLocaleInURL();
-        concept = getConceptFromURL(index, $page.url.searchParams);
+        concept = getConceptFromURL(index, page.url.searchParams);
         // Only update the path if the concept exists and is not already in the path.
         if (
             concept !== undefined &&
             ($path.length === 0 ||
-                concept.getName($locales, false) !==
-                    $path[0].getName($locales, false))
+                concept.getCharacterName($locales) !==
+                    $path.at(-1)?.getCharacterName($locales))
         ) {
             path.set([concept]);
         }
@@ -72,7 +74,23 @@
     let project = $derived(
         Project.make(null, 'guide', Source.make(''), [], $locales.getLocales()),
     );
-    let index = $derived(ConceptIndex.make(project, $locales));
+
+    let howToStore = Locales.howTos;
+
+    /** Keep the how tos loaded whenever the language changes */
+    $effect(() => {
+        Locales.loadHowTos($locales.getLocaleString());
+    });
+
+    let howTos = $derived($howToStore[$locales.getLocaleString()]);
+
+    let index = $derived(
+        ConceptIndex.make(
+            project,
+            $locales,
+            howTos instanceof Promise ? [] : howTos,
+        ),
+    );
     // svelte-ignore state_referenced_locally
     let indexStore = $state({ index });
     setConceptIndex(indexStore);
@@ -107,12 +125,8 @@
 
 <section class="guide">
     <div class="header">
-        <Header block={false}
-            >{$locales.get((l) => l.ui.page.guide.header)}</Header
-        >
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.guide.description)}
-        />
+        <Header block={false} text={(l) => l.ui.page.guide.header} />
+        <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>
 
     <Documentation {project} collapse={false}></Documentation>

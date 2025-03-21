@@ -1,41 +1,43 @@
 <script lang="ts">
-    import { toStage } from '../../output/Stage';
+    import Fonts from '@basis/Fonts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type Project from '@db/projects/Project';
+    import concretize from '@locale/concretize';
+    import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
-    import type Project from '@db/projects/Project';
-    import ValueView from '../values/ValueView.svelte';
-    import StageView from './StageView.svelte';
+    import { untrack } from 'svelte';
+    import { animationFactor, DB, locales, Projects } from '../../db/Database';
+    import Button from '../../input/Button';
+    import Chat from '../../input/Chat';
+    import Choice from '../../input/Choice';
+    import Key from '../../input/Key';
+    import Placement from '../../input/Placement';
+    import Pointer from '../../input/Pointer';
+    import Evaluate from '../../nodes/Evaluate';
+    import type Color from '../../output/Color';
+    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
+    import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
+    import Place, { createPlace } from '../../output/Place';
+    import { toStage } from '../../output/Stage';
+    import { toExpression } from '../../parser/parseExpression';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
+    import moveOutput, { addStageContent } from '../palette/editOutput';
     import {
-        IdleKind,
         getAnnounce,
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
         getSelectedOutput,
+        IdleKind,
     } from '../project/Contexts';
-    import type Evaluator from '@runtime/Evaluator';
-    import type PaintingConfiguration from './PaintingConfiguration';
-    import { animationFactor, DB, locales, Projects } from '../../db/Database';
-    import type Color from '../../output/Color';
-    import Key from '../../input/Key';
-    import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
-    import { DOMRectCenter, DOMRectDistance } from './utilities';
-    import Choice from '../../input/Choice';
-    import Evaluate from '../../nodes/Evaluate';
-    import Pointer from '../../input/Pointer';
-    import Place, { createPlace } from '../../output/Place';
-    import moveOutput, { addStageContent } from '../palette/editOutput';
-    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
-    import Placement from '../../input/Placement';
-    import { toExpression } from '../../parser/parseExpression';
-    import Chat from '../../input/Chat';
+    import ValueView from '../values/ValueView.svelte';
     import { default as ButtonUI } from '../widgets/Button.svelte';
-    import Button from '../../input/Button';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { untrack } from 'svelte';
-    import Fonts from '@basis/Fonts';
+    import type PaintingConfiguration from './PaintingConfiguration';
+    import StageView from './StageView.svelte';
+    import { DOMRectCenter, DOMRectDistance } from './utilities';
 
     interface Props {
         project: Project;
@@ -48,6 +50,8 @@
         paintingConfig?: PaintingConfiguration | undefined;
         mini?: boolean;
         background?: Color | string | null;
+        /** Whether to process mouse wheel events without the shift key. Useful to disable for examples embedded in scrollable pages. */
+        wheel?: boolean;
     }
 
     let {
@@ -61,6 +65,7 @@
         paintingConfig = undefined,
         mini = false,
         background = $bindable(null),
+        wheel = true,
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -140,15 +145,11 @@
     });
 
     /** Keep track of streams that listen for keyboard input */
-    const keys = $derived(
-        $evaluation?.evaluator.getBasisStreamsOfType(Key).length > 0,
-    );
+    const keys = $derived(evaluator.getBasisStreamsOfType(Key).length > 0);
     const placements = $derived(
-        $evaluation?.evaluator.getBasisStreamsOfType(Placement).length > 0,
+        evaluator.getBasisStreamsOfType(Placement).length > 0,
     );
-    const chats = $derived(
-        $evaluation?.evaluator.getBasisStreamsOfType(Chat).length > 0,
-    );
+    const chats = $derived(evaluator.getBasisStreamsOfType(Chat).length > 0);
 
     // Announce changes in values.
     $effect(() => {
@@ -159,7 +160,10 @@
                     $locales.getLanguages()[0],
                     exception
                         ? exception.getExplanation($locales).toText()
-                        : value.getDescription($locales).toText(),
+                        : concretize(
+                              $locales,
+                              $locales.get(value.getDescription()),
+                          ).toText(),
                 ),
             );
         }
@@ -367,7 +371,7 @@
     }
 
     function handleWheel(event: WheelEvent) {
-        if (stage) {
+        if (stage && (wheel || event.shiftKey)) {
             stage.adjustFocus(0, 0, event.deltaY / PX_PER_METER);
             event.preventDefault();
         }
@@ -413,16 +417,24 @@
             for (const placement of placements) {
                 // First, find the output on stage that this placement is placing,
                 // so we can find the position of the pointer relative to the output.
-                const output = stageValue.find(
-                    (output) => output.place?.value === placement.latest(),
-                );
+                const latest = placement.latest();
+                const output =
+                    stageValue.find(
+                        (output) => output.place?.value === latest,
+                    ) ??
+                    (stageValue.place?.value === latest
+                        ? stageValue
+                        : undefined);
                 // Couldn't find the output? Move to the next one.
                 if (output === undefined) continue;
 
                 // Now find the view of the output.
-                const outputView = document.querySelector(
-                    `[data-id="${output.getHTMLID()}"]`,
-                );
+                const outputView =
+                    output === stageValue
+                        ? valueView
+                        : document.querySelector(
+                              `[data-id="${output.getHTMLID()}"]`,
+                          );
                 // Couldn't find the view? Move on to the next one.
                 if (outputView === null) continue;
 
@@ -438,21 +450,26 @@
                     relativePointerY < 0 ? Math.abs(atan2) : 360 - atan2;
 
                 const threshold = 20;
+
+                const xDirection =
+                    angle < 90 - threshold || angle > 270 + threshold
+                        ? 1
+                        : angle > 90 + threshold && angle < 270 - threshold
+                          ? -1
+                          : 0;
+
+                const yDirection =
+                    angle > threshold && angle < 180 - threshold
+                        ? 1
+                        : angle > 180 + threshold && angle < 360 - threshold
+                          ? -1
+                          : 0;
+
                 // Divide the 360 degrees into 45 degree segments
                 // Send the navigation directions to all all of the placements.
                 placement.react({
-                    x:
-                        angle < 90 - threshold || angle > 270 + threshold
-                            ? 1
-                            : angle > 90 + threshold && angle < 270 - threshold
-                              ? -1
-                              : 0,
-                    y:
-                        angle > threshold && angle < 180 - threshold
-                            ? 1
-                            : angle > 180 + threshold && angle < 360 - threshold
-                              ? -1
-                              : 0,
+                    x: xDirection,
+                    y: yDirection,
                     z: 0,
                 });
             }
@@ -721,7 +738,7 @@
     }
 
     /**
-     * Given a mouse event, finds the nearest output under the mouse and adds it to the project selection
+     * Given a pointer event, finds the nearest output under the mouse and adds it to the project selection
      * if so.
      */
     function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
@@ -958,10 +975,7 @@
                 {#if mini}
                     <ValueView {value} interactive={false} />
                 {:else}
-                    {@const description = value
-                        .getDescription($locales)
-                        .toText()}
-                    <h2>{description}</h2>
+                    <h2><LocalizedText path={value.getDescription()} /></h2>
                     <ValueView {value} inline={false} />
                 {/if}
             </div>
@@ -971,7 +985,7 @@
                 {project}
                 {evaluator}
                 stage={stageValue}
-                background={mini}
+                background
                 bind:fit
                 bind:grid
                 bind:painting
@@ -1010,7 +1024,7 @@
                 {#if chats}
                     <ButtonUI
                         background={background !== null}
-                        tip={$locales.get((l) => l.ui.output.button.submit)}
+                        tip={(l) => l.ui.output.button.submit}
                         action={submitChat}>↑</ButtonUI
                     >
                 {/if}

@@ -1,11 +1,11 @@
 <script lang="ts">
     import { CharactersDB } from '@db/Database';
+    import { CharacterName } from '@nodes/ConceptLink';
     import {
         characterToSVG,
         unknownCharacterSVG,
         type Character,
     } from '../../db/characters/Character';
-    import { CharacterName } from '@nodes/ConceptLink';
 
     let { name }: { name: CharacterName } = $props();
 

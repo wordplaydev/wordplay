@@ -1,16 +1,16 @@
+import { HowToIDs, type HowToID } from '@concepts/HowTo';
 import type Conflict from '@conflicts/Conflict';
+import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
-import { node, type Field, type Replacement } from './Node';
-import Token from './Token';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Purpose from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { LINK_SYMBOL } from '../parser/Symbols';
-import Symbol from './Sym';
-import Purpose from '../concepts/Purpose';
-import Content from './Content';
-import type Locales from '../locale/Locales';
 import { getCodepointFromString } from '../unicode/getCodepoint';
-import DefaultLocale from '@locale/DefaultLocale';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Content from './Content';
+import { node, type Field, type Replacement } from './Node';
+import Symbol from './Sym';
+import Token from './Token';
 
 export const HexRegEx = /^[0-9a-fA-F]+$/;
 
@@ -53,6 +53,14 @@ export class UIName {
     }
 }
 
+export class HowToName {
+    readonly name: string;
+
+    constructor(id: string) {
+        this.name = id;
+    }
+}
+
 export class CharacterName {
     readonly username: string;
     readonly name: string;
@@ -92,9 +100,7 @@ export default class ConceptLink extends Content {
         return undefined;
     }
 
-    static parse(
-        name: string,
-    ): ConceptName | CodepointName | UIName | undefined {
+    static parse(name: string) {
         if (name.match(HexRegEx)) {
             const codepoint = getCodepointFromString(name);
             return codepoint === undefined
@@ -102,7 +108,8 @@ export default class ConceptLink extends Content {
                 : new CodepointName(codepoint);
         }
         const [concept, property] = name.split('/');
-        if (concept === 'UI') return new UIName(concept);
+        if (concept.toLowerCase() === 'ui') return new UIName(property);
+        if (concept.toLowerCase() === 'how') return new HowToName(property);
         else if (ReservedConceptIDs.has(concept))
             return new ConceptName(concept, property);
         else return new CharacterName(concept, property);
@@ -114,8 +121,14 @@ export default class ConceptLink extends Content {
         // Couldn't parse? Not valid.
         if (concept === undefined) return false;
         // Found a UI or codepoint? Valid.
-        if (concept instanceof UIName || concept instanceof CodepointName)
+        if (
+            concept instanceof UIName ||
+            concept instanceof CodepointName ||
+            concept instanceof CharacterName
+        )
             return true;
+        if (concept instanceof HowToName)
+            return HowToIDs.includes(concept.name as HowToID);
 
         // See which section of the locale has the concept name, if any.
         const section = [
@@ -158,8 +171,9 @@ export default class ConceptLink extends Content {
         return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ConceptLink);
+    static readonly LocalePath = (l: LocaleText) => l.node.ConceptLink;
+    getLocalePath() {
+        return ConceptLink.LocalePath;
     }
 
     getCharacter() {

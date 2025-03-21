@@ -1,29 +1,30 @@
-import BoolValue from '@values/BoolValue';
+import type Conflict from '@conflicts/Conflict';
+import { ImpossibleType } from '@conflicts/ImpossibleType';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
+import BoolValue from '@values/BoolValue';
 import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { TYPE_SYMBOL } from '../parser/Symbols';
 import BooleanType from './BooleanType';
-import Expression, { type GuardContext } from './Expression';
 import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
 import Token from './Token';
 import Type from './Type';
-import { ImpossibleType } from '@conflicts/ImpossibleType';
-import UnionType from './UnionType';
-import TypeSet from './TypeSet';
-import Start from '@runtime/Start';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Characters from '../lore/BasisCharacters';
-import Sym from './Sym';
-import { TYPE_SYMBOL } from '../parser/Symbols';
-import Purpose from '../concepts/Purpose';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
-import type Locales from '../locale/Locales';
-import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -145,8 +146,9 @@ export default class Is extends Expression {
         return this.type;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Is);
+    static readonly LocalePath = (l: LocaleText) => l.node.Is;
+    getLocalePath() {
+        return Is.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

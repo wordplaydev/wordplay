@@ -1,10 +1,10 @@
-import type { Edit } from '../components/editor/util/Commands';
-import type Node from '@nodes/Node';
 import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
-import type Markup from '../nodes/Markup';
+import type { Edit } from '../components/editor/util/Commands';
 import type Locales from '../locale/Locales';
+import type Markup from '../nodes/Markup';
 
 export default abstract class Revision {
     readonly context: Context;

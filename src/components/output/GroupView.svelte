@@ -1,28 +1,28 @@
 <script lang="ts">
     import GroupView from './GroupView.svelte';
 
-    import type Place from '@output/Place';
+    import Evaluate from '@nodes/Evaluate';
+    import Group from '@output/Group';
     import {
         PX_PER_METER,
         getColorCSS,
         getFaceCSS,
-        getSizeCSS,
         getOpacityCSS,
+        getSizeCSS,
         sizeToPx,
         toOutputTransform,
     } from '@output/outputToCSS';
-    import type RenderContext from '@output/RenderContext';
     import Phrase from '@output/Phrase';
-    import PhraseView from './PhraseView.svelte';
-    import Group from '@output/Group';
-    import Evaluate from '@nodes/Evaluate';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import Stage from '../../output/Stage';
+    import type Place from '@output/Place';
+    import type RenderContext from '@output/RenderContext';
+    import { untrack } from 'svelte';
     import { locales } from '../../db/Database';
     import type { Form } from '../../output/Form';
     import Shape from '../../output/Shape';
+    import Stage from '../../output/Stage';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import PhraseView from './PhraseView.svelte';
     import ShapeView from './ShapeView.svelte';
-    import { untrack } from 'svelte';
 
     interface Props {
         group: Group | Stage;

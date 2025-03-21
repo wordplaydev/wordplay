@@ -1,28 +1,30 @@
 <svelte:options />
 
 <script lang="ts">
-    import Button from '../widgets/Button.svelte';
-    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import { DB, locales } from '@db/Database';
-    import {
-        getLocaleLanguage,
-        getLocaleLanguageName,
-        isLocaleDraft,
-    } from '../../locale/LocaleText';
-    import { type SupportedLocale } from '@locale/SupportedLocales';
-    import { SupportedLocales } from '@locale/SupportedLocales';
-    import Link from '../app/Link.svelte';
-    import Dialog from '../widgets/Dialog.svelte';
-    import { localeToString } from '../../locale/Locale';
     import type LanguageCode from '@locale/LanguageCode';
-    import LocaleName from './LocaleName.svelte';
-    import { Settings } from '../../db/Database';
+    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
+    import {
+        SupportedLocales,
+        type SupportedLocale,
+    } from '@locale/SupportedLocales';
     import {
         CANCEL_SYMBOL,
         DRAFT_SYMBOL,
         EMOJI_SYMBOL,
         LOCALE_SYMBOL,
     } from '@parser/Symbols';
+    import { Settings } from '../../db/Database';
+    import { localeToString } from '../../locale/Locale';
+    import {
+        getLocaleLanguage,
+        getLocaleLanguageName,
+        isLocaleDraft,
+    } from '../../locale/LocaleText';
+    import Link from '../app/Link.svelte';
+    import Button from '../widgets/Button.svelte';
+    import Dialog from '../widgets/Dialog.svelte';
+    import LocaleName from './LocaleName.svelte';
 
     let selectedLocales = $state<string[]>([]);
     $effect(() => {
@@ -61,9 +63,10 @@
 </script>
 
 <Dialog
-    description={$locales.get((l) => l.ui.dialog.locale)}
+    header={(l) => l.ui.dialog.locale.header}
+    explanation={(l) => l.ui.dialog.locale.explanation}
     button={{
-        tip: $locales.get((l) => l.ui.dialog.locale.button.show),
+        tip: (l) => l.ui.dialog.locale.button.show,
         icon: selectedLocales.some((locale) => isLocaleDraft(locale))
             ? DRAFT_SYMBOL
             : LOCALE_SYMBOL,
@@ -81,7 +84,7 @@
         {#each selectedLocales as selected}
             <Button
                 action={() => select(selected, 'remove')}
-                tip={$locales.get((l) => l.ui.dialog.locale.button.remove)}
+                tip={(l) => l.ui.dialog.locale.button.remove}
                 active={selectedLocales.length > 1}
                 icon={selectedLocales.length > 1 ? CANCEL_SYMBOL : undefined}
             >
@@ -99,12 +102,12 @@
             <div class="option">
                 <Button
                     action={() => select(supported, 'replace')}
-                    tip={$locales.get((l) => l.ui.dialog.locale.button.replace)}
+                    tip={(l) => l.ui.dialog.locale.button.replace}
                     ><LocaleName locale={supported} supported /></Button
                 >
                 <Button
                     action={() => select(supported, 'add')}
-                    tip={$locales.get((l) => l.ui.dialog.locale.button.add)}
+                    tip={(l) => l.ui.dialog.locale.button.add}
                     icon="+"
                 ></Button>
             </div>

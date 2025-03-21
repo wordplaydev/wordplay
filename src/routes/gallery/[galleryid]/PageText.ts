@@ -1,6 +1,4 @@
-import type { DialogText } from '@locale/UITexts';
-import type { ConfirmText } from '@locale/UITexts';
-import type { FieldText } from '@locale/UITexts';
+import type { ConfirmText, DialogText, FieldText } from '@locale/UITexts';
 
 type PageText = {
     /** What to call a gallery by default, before it's given a name */
@@ -29,10 +27,7 @@ type PageText = {
         /** When the gallery is not known or is not public */
         unknown: string;
     };
-    field: {
-        name: FieldText;
-        description: FieldText;
-    };
+    field: { name: FieldText; description: FieldText };
 };
 
 export type { PageText as default };

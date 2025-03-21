@@ -3,14 +3,14 @@
 </script>
 
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import { type Snippet } from 'svelte';
     import Concept from '../../concepts/Concept';
     import type BasisCharacter from '../../lore/BasisCharacter';
-    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import Eyes from './Eyes.svelte';
-    import { locales } from '@db/Database';
     import Emotion from '../../lore/Emotion';
     import { withColorEmoji } from '../../unicode/emoji';
-    import { type Snippet } from 'svelte';
+    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
+    import Eyes from './Eyes.svelte';
 
     interface Props {
         character: BasisCharacter | Concept;

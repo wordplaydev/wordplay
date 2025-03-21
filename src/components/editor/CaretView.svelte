@@ -101,18 +101,18 @@
 </script>
 
 <script lang="ts">
-    import { tick, untrack } from 'svelte';
     import Node from '@nodes/Node';
+    import Token from '@nodes/Token';
+    import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import { tick, untrack } from 'svelte';
     import {
         animationDuration,
         locales,
         spaceIndicator,
     } from '../../db/Database';
     import Caret from '../../edit/Caret';
-    import { getEditor, getEvaluation } from '../project/Contexts';
-    import Token from '@nodes/Token';
     import UnicodeString from '../../unicode/UnicodeString';
-    import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import { getEditor, getEvaluation } from '../project/Contexts';
     import MenuTrigger from './MenuTrigger.svelte';
 
     interface Props {

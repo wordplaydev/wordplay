@@ -1,28 +1,28 @@
-import Evaluate from '@nodes/Evaluate';
 import type Project from '@db/projects/Project';
 import Bind from '@nodes/Bind';
+import Evaluate from '@nodes/Evaluate';
 import Expression from '@nodes/Expression';
+import Input from '@nodes/Input';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
-import type { Database } from '../../db/Database';
-import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 import Decimal from 'decimal.js';
-import TextLiteral from '../../nodes/TextLiteral';
-import ListLiteral from '../../nodes/ListLiteral';
-import FormattedLiteral from '../../nodes/FormattedLiteral';
+import type { Database } from '../../db/Database';
+import type Locales from '../../locale/Locales';
 import Convert from '../../nodes/Convert';
+import FormattedLiteral from '../../nodes/FormattedLiteral';
+import ListLiteral from '../../nodes/ListLiteral';
+import type Spread from '../../nodes/Spread';
+import TextLiteral from '../../nodes/TextLiteral';
 import TextType from '../../nodes/TextType';
+import UnaryEvaluate from '../../nodes/UnaryEvaluate';
+import { getPlaceExpression } from '../../output/getOrCreatePlace';
 import {
     GROUP_SYMBOL,
     PHRASE_SYMBOL,
     STAGE_SYMBOL,
 } from '../../parser/Symbols';
 import { toExpression } from '../../parser/parseExpression';
-import { getPlaceExpression } from '../../output/getOrCreatePlace';
-import type Spread from '../../nodes/Spread';
-import type Locales from '../../locale/Locales';
-import Input from '@nodes/Input';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =

@@ -10,37 +10,37 @@
 </script>
 
 <script lang="ts">
-    import type Conflict from '@conflicts/Conflict';
-    import Expression from '@nodes/Expression';
-    import Node from '@nodes/Node';
-    import Annotation from './Annotation.svelte';
-    import { tick } from 'svelte';
-    import type Step from '@runtime/Step';
-    import type Evaluator from '@runtime/Evaluator';
-    import type Project from '../../db/projects/Project';
-    import { getConceptIndex, getEvaluation } from '../project/Contexts';
-    import type Markup from '../../nodes/Markup';
-    import type Source from '../../nodes/Source';
-    import { locales, Settings, showAnnotations } from '../../db/Database';
-    import Speech from '@components/lore/Speech.svelte';
-    import Characters from '../../lore/BasisCharacters';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { docToMarkup } from '@locale/LocaleText';
     import {
         DecrementLiteral,
         IncrementLiteral,
         ShowMenu,
         toShortcut,
     } from '@components/editor/util/Commands';
-    import type Caret from '@edit/Caret';
-    import NodeRef from '@locale/NodeRef';
-    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import type { Resolution } from '@conflicts/Conflict';
-    import Context from '@nodes/Context';
+    import Speech from '@components/lore/Speech.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Expander from '@components/widgets/Expander.svelte';
     import Templates from '@concepts/Templates';
+    import type Conflict from '@conflicts/Conflict';
+    import type { Resolution } from '@conflicts/Conflict';
+    import type Caret from '@edit/Caret';
+    import { docToMarkup } from '@locale/LocaleText';
+    import NodeRef from '@locale/NodeRef';
+    import Context from '@nodes/Context';
+    import Expression from '@nodes/Expression';
+    import Node from '@nodes/Node';
+    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
+    import type Evaluator from '@runtime/Evaluator';
+    import type Step from '@runtime/Step';
+    import { tick } from 'svelte';
+    import { locales, Settings, showAnnotations } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
+    import Characters from '../../lore/BasisCharacters';
+    import type Markup from '../../nodes/Markup';
+    import type Source from '../../nodes/Source';
+    import { getConceptIndex, getEvaluation } from '../project/Contexts';
+    import Annotation from './Annotation.svelte';
 
     interface Props {
         /** The project for which annotations should be shown */
@@ -278,9 +278,7 @@
                         {#if stepping}
                             <MarkupHTMLView
                                 inline
-                                markup={$locales.get(
-                                    (l) => l.ui.annotations.evaluating,
-                                )}
+                                markup={(l) => l.ui.annotations.evaluating}
                             />
                         {:else if caretNode}
                             <div class="who">
@@ -309,9 +307,8 @@
                                     <div class="concept">
                                         <MarkupHTMLView
                                             inline
-                                            markup={$locales.get(
-                                                (l) => l.ui.annotations.learn,
-                                            )}
+                                            markup={(l) =>
+                                                l.ui.annotations.learn}
                                         />
                                         <ConceptLinkUI
                                             link={relevantConcept}
@@ -366,10 +363,8 @@
                                         <div class="concept">
                                             <MarkupHTMLView
                                                 inline
-                                                markup={$locales.get(
-                                                    (l) =>
-                                                        l.ui.annotations.learn,
-                                                )}
+                                                markup={(l) =>
+                                                    l.ui.annotations.learn}
                                             />
                                             <ConceptLinkUI
                                                 link={relevantParentConcept}
@@ -382,9 +377,7 @@
                         {:else}
                             <MarkupHTMLView
                                 inline
-                                markup={$locales.get(
-                                    (l) => l.ui.annotations.space,
-                                )}
+                                markup={(l) => l.ui.annotations.space}
                             />
                         {/if}
                     {/snippet}

@@ -1,9 +1,5 @@
 <script lang="ts">
-    import Switch from '../widgets/Switch.svelte';
-    import { getEvaluation } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
-    import { locales } from '../../db/Database';
-    import CommandButton from '../widgets/CommandButton.svelte';
     import {
         Pause,
         Play,
@@ -18,6 +14,9 @@
         StepToPresent,
         StepToStart,
     } from '../editor/util/Commands';
+    import { getEvaluation } from '../project/Contexts';
+    import CommandButton from '../widgets/CommandButton.svelte';
+    import Switch from '../widgets/Switch.svelte';
 
     interface Props {
         evaluator: Evaluator;
@@ -32,8 +31,8 @@
 <Switch
     on={$evaluation?.playing === true}
     toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
-    offTip={$locales.get(Pause.description)}
-    onTip={$locales.get(Play.description)}
+    offTip={Pause.description}
+    onTip={Play.description}
     offLabel={Pause.symbol}
     onLabel={Play.symbol}
     uiid="playToggle"

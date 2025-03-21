@@ -1,14 +1,15 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { blocks, DB } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Evaluate from '@nodes/Evaluate';
+    import type ListLiteral from '../../nodes/ListLiteral';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
+    import { getSelectedOutput } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import RootView from '../project/RootView.svelte';
-    import { getSelectedOutput } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
-    import type ListLiteral from '../../nodes/ListLiteral';
-    import { blocks, DB, locales } from '@db/Database';
-    import { CANCEL_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
 
     interface Props {
         project: Project;
@@ -56,7 +57,7 @@
         {#each list.values as content, index}
             <div class="content">
                 <Button
-                    tip={$locales.get((l) => l.ui.palette.button.remove)}
+                    tip={(l) => l.ui.palette.button.remove}
                     action={() =>
                         list
                             ? removeContent(DB, project, list, index)
@@ -65,7 +66,7 @@
                     icon={CANCEL_SYMBOL}
                 ></Button>
                 <Button
-                    tip={$locales.get((l) => l.ui.palette.button.up)}
+                    tip={(l) => l.ui.palette.button.up}
                     action={() =>
                         list
                             ? moveContent(DB, project, list, index, -1)
@@ -74,7 +75,7 @@
                     icon="↑"
                 ></Button>
                 <Button
-                    tip={$locales.get((l) => l.ui.palette.button.down)}
+                    tip={(l) => l.ui.palette.button.down}
                     action={() =>
                         list
                             ? moveContent(DB, project, list, index, 1)
@@ -83,7 +84,7 @@
                     icon="↓"
                 ></Button>
                 <Button
-                    tip={$locales.get((l) => l.ui.palette.button.edit)}
+                    tip={(l) => l.ui.palette.button.edit}
                     active={editable}
                     action={() => editContent(index)}
                     icon={EDIT_SYMBOL}
@@ -93,7 +94,7 @@
         {/each}
         <div class="add">
             <Button
-                tip={$locales.get((l) => l.ui.palette.button.addPhrase)}
+                tip={(l) => l.ui.palette.button.addPhrase}
                 active={editable}
                 action={() =>
                     list
@@ -108,7 +109,7 @@
                 >+{project.shares.output.Phrase.getNames()[0]}</Button
             >
             <Button
-                tip={$locales.get((l) => l.ui.palette.button.addGroup)}
+                tip={(l) => l.ui.palette.button.addGroup}
                 active={editable}
                 action={() =>
                     list
@@ -123,7 +124,7 @@
                 >+{project.shares.output.Group.getNames()[0]}</Button
             >
             <Button
-                tip={$locales.get((l) => l.ui.palette.button.addShape)}
+                tip={(l) => l.ui.palette.button.addShape}
                 active={editable}
                 action={() =>
                     list
@@ -139,7 +140,8 @@
             ></div
         >
     {:else}
-        <Note>{$locales.get((l) => l.ui.palette.labels.computed)}</Note>
+        <Note><LocalizedText path={(l) => l.ui.palette.labels.computed} /></Note
+        >
     {/if}
 </div>
 

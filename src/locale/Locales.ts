@@ -1,16 +1,16 @@
+import type Markup from '@nodes/Markup';
+import { DRAFT_SYMBOL } from '@parser/Symbols';
 import type Names from '../nodes/Names';
-import type LanguageCode from './LanguageCode';
-import type LocaleText from './LocaleText';
-import type NodeRef from './NodeRef';
-import type ValueRef from './ValueRef';
+import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
 import type ConceptRef from './ConceptRef';
-import { isUnwritten, MachineTranslated } from './LocaleText';
+import type LanguageCode from './LanguageCode';
 import { getLanguageDirection } from './LanguageCode';
 import { localeToString } from './Locale';
+import type LocaleText from './LocaleText';
+import { isUnwritten, MachineTranslated, toLocale } from './LocaleText';
+import type NodeRef from './NodeRef';
+import type ValueRef from './ValueRef';
 import type { Concretizer } from './concretize';
-import type Markup from '@nodes/Markup';
-import { getKeyTemplatePairs } from '../util/verify-locales/StringPath';
-import { DRAFT_SYMBOL } from '@parser/Symbols';
 
 export type TemplateInput =
     | number
@@ -20,6 +20,13 @@ export type TemplateInput =
     | NodeRef
     | ValueRef
     | ConceptRef;
+
+/**
+ * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path
+ * as we use the source code of these to extract the path for inline localization contributions from creators.
+ */
+export type LocaleTextAccessor = (locale: LocaleText) => string;
+export type LocaleTextsAccessor = (locale: LocaleText) => string | string[];
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
@@ -45,6 +52,10 @@ export default class Locales {
     /** Get the first preferred locale */
     getLocale() {
         return this.locales[0] ?? this.fallback;
+    }
+
+    getLocaleString() {
+        return toLocale(this.getLocale());
     }
 
     /** Get all preferred locales, but with the fallback at the end if not included. */

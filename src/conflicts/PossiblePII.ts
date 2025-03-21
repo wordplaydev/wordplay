@@ -1,11 +1,11 @@
-import Conflict from './Conflict';
+import type Context from '@nodes/Context';
+import type { LanguageTagged } from '@nodes/LanguageTagged';
+import Sym from '@nodes/Sym';
+import Token from '@nodes/Token';
 import type Locales from '../locale/Locales';
 import type { PII } from '../pii/getPII';
-import type { LanguageTagged } from '@nodes/LanguageTagged';
-import Token from '@nodes/Token';
 import getPII from '../pii/getPII';
-import Sym from '@nodes/Sym';
-import type Context from '@nodes/Context';
+import Conflict from './Conflict';
 
 export class PossiblePII extends Conflict {
     /** The node containing text */

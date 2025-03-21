@@ -13,6 +13,7 @@
         "input": "input",
         "output": "output",
         "convert": "convert",
+        "how": "how to",
         "act": "act",
         "scene": "scene",
         "phrase": "phrase",
@@ -4398,6 +4399,24 @@
                 "properties": "Properties",
                 "functions": "Functions",
                 "conversions": "Conversions"
+            },
+            "modes": {
+                "label": "browse",
+                "modes": ["how to", "concepts"]
+            },
+            "how": {
+                "category": {
+                    "characters": "create and control characters",
+                    "styling": "style characters and text",
+                    "animation": "animate characters and text",
+                    "layout": "arrange characters and text",
+                    "randomization": "randomize things",
+                    "remembering": "track changes and choices",
+                    "stories": "tell a story",
+                    "motion": "use physics",
+                    "video": "use a camera"
+                },
+                "related": "Not what you're looking for?"
             }
         },
         "dialog": {
@@ -4549,11 +4568,11 @@
             },
             "button": {
                 "submit": {
-                    "label": "Send",
+                    "label": "send",
                     "tip": "Send a message to your collaborators"
                 },
                 "start": {
-                    "label": "Start a chat",
+                    "label": "start a chat",
                     "tip": "Begin a discussion with yourself or others."
                 },
                 "delete": "delete this message"
@@ -4851,7 +4870,13 @@
             "galleries": {
                 "header": "Galleries",
                 "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
-                "examples": "Examples"
+                "examples": "Examples",
+                "button": {
+                    "more": {
+                        "label": "more...",
+                        "tip": "Load more galleries"
+                    }
+                }
             },
             "characters": {
                 "header": "Characters",
@@ -5068,7 +5093,7 @@
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
                     "email": "Not a valid email.",
-                    "invalidUsername": "Usernames must be emails or >5 letters with no spaces.",
+                    "invalidUsername": "Usernames must be emails or at least 5 letters with no spaces.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",

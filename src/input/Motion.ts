@@ -1,24 +1,24 @@
-import Place, { createPlaceStructure, toPlace } from '@output/Place';
-import TemporalStreamValue from '@values/TemporalStreamValue';
-import Bind from '@nodes/Bind';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StructureValue from '@values/StructureValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import createStreamEvaluator from './createStreamEvaluator';
-import UnionType from '../nodes/UnionType';
+import Bind from '@nodes/Bind';
+import StreamDefinition from '@nodes/StreamDefinition';
+import Place, { createPlaceStructure, toPlace } from '@output/Place';
+import type Evaluation from '@runtime/Evaluation';
+import StructureValue from '@values/StructureValue';
+import TemporalStreamValue from '@values/TemporalStreamValue';
+import Matter from 'matter-js';
+import type Locales from '../locale/Locales';
+import type Context from '../nodes/Context';
 import NoneLiteral from '../nodes/NoneLiteral';
 import type StructureDefinition from '../nodes/StructureDefinition';
-import type Value from '../values/Value';
-import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
-import Matter from 'matter-js';
+import UnionType from '../nodes/UnionType';
 import type { OutputBody } from '../output/Physics';
 import type Velocity from '../output/Velocity';
 import { toVelocity } from '../output/Velocity';
 import NoneValue from '../values/NoneValue';
-import type Locales from '../locale/Locales';
-import type Evaluation from '@runtime/Evaluation';
+import type Value from '../values/Value';
+import createStreamEvaluator from './createStreamEvaluator';
 
 export default class Motion extends TemporalStreamValue<Value, number> {
     private initialPlace: Place | undefined;
@@ -117,7 +117,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         if (this.evaluator.scene)
             // Ask the scene for the output corresponding to the latest value this stream generated.
             return latest
-                ? this.evaluator.scene.getOutputByPlace(latest) ?? []
+                ? (this.evaluator.scene.getOutputByPlace(latest) ?? [])
                 : [];
         else return [];
     }

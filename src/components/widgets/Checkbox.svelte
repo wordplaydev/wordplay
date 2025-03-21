@@ -1,7 +1,14 @@
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { getFirstText } from '@locale/LocaleText';
+
     interface Props {
         on: boolean | undefined;
-        label: string;
+        label: LocaleTextAccessor | LocaleTextsAccessor;
         changed?: undefined | ((value: boolean | undefined) => void);
         editable?: boolean;
         /** Mandatory id for label */
@@ -16,6 +23,8 @@
         id,
     }: Props = $props();
 
+    let labelText = $derived(getFirstText($locales.get(label)));
+
     function handleInput() {
         if (changed) changed(on);
     }
@@ -23,8 +32,8 @@
 
 <input
     type="checkbox"
-    aria-label={label}
-    title={label}
+    aria-label={labelText}
+    title={labelText}
     {id}
     disabled={!editable}
     bind:checked={on}

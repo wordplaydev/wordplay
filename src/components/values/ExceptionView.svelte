@@ -1,4 +1,5 @@
 <script lang="ts">
+    import concretize from '@locale/concretize';
     import type ExceptionValue from '@values/ExceptionValue';
     import { locales } from '../../db/Database';
 
@@ -11,5 +12,5 @@
 </script>
 
 {#if inline || !inline}
-    ! {value.getDescription($locales).toText()}
+    ! {concretize($locales, $locales.get(value.getDescription())).toText()}
 {/if}

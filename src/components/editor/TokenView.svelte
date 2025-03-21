@@ -1,28 +1,28 @@
 <script lang="ts">
-    import Token from '@nodes/Token';
-    import {
-        getProject,
-        getCaret,
-        getRoot,
-        getHidden,
-        getLocalize,
-        getIsBlocks,
-    } from '../project/Contexts';
-    import TokenCategories from './TokenCategories';
-    import { locales } from '../../db/Database';
-    import { withColorEmoji } from '../../unicode/emoji';
-    import Sym from '@nodes/Sym';
+    import BinaryEvaluate from '@nodes/BinaryEvaluate';
     import Name from '@nodes/Name';
     import Reference from '@nodes/Reference';
+    import Sym from '@nodes/Sym';
+    import Token from '@nodes/Token';
     import UnaryEvaluate from '@nodes/UnaryEvaluate';
-    import BinaryEvaluate from '@nodes/BinaryEvaluate';
-    import OperatorEditor from './OperatorEditor.svelte';
-    import NameTokenEditor from './NameTokenEditor.svelte';
-    import ReferenceTokenEditor from './ReferenceTokenEditor.svelte';
-    import WordsTokenEditor from './WordsTokenEditor.svelte';
-    import NumberTokenEditor from './NumberTokenEditor.svelte';
+    import { locales } from '../../db/Database';
+    import { withColorEmoji } from '../../unicode/emoji';
+    import {
+        getCaret,
+        getHidden,
+        getIsBlocks,
+        getLocalize,
+        getProject,
+        getRoot,
+    } from '../project/Contexts';
     import BooleanTokenEditor from './BooleanTokenEditor.svelte';
+    import NameTokenEditor from './NameTokenEditor.svelte';
+    import NumberTokenEditor from './NumberTokenEditor.svelte';
+    import OperatorEditor from './OperatorEditor.svelte';
+    import ReferenceTokenEditor from './ReferenceTokenEditor.svelte';
     import TextOrPlaceholder from './TextOrPlaceholder.svelte';
+    import TokenCategories from './TokenCategories';
+    import WordsTokenEditor from './WordsTokenEditor.svelte';
 
     interface Props {
         node: Token;
@@ -122,7 +122,8 @@
                     words={node}
                     {text}
                     project={$project}
-                    placeholder={placeholder ?? ''}
+                    description={(l) => l.token.Words}
+                    placeholder={placeholder ?? ((l) => l.token.Words)}
                 />
             {:else if node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
                     {node}
@@ -132,7 +133,8 @@
                     number={node}
                     {text}
                     project={$project}
-                    placeholder={placeholder ?? ''}
+                    description={(l) => l.token.Number}
+                    placeholder={placeholder ?? ((l) => l.token.Number)}
                 />{:else}
                 {@const parent = root.getParent(node)}
                 <!-- Names can be any text that parses as a name -->
@@ -141,7 +143,8 @@
                         {text}
                         project={$project}
                         name={parent.name}
-                        placeholder={placeholder ?? ''}
+                        description={(l) => l.token.Name}
+                        placeholder={placeholder ?? ((l) => l.token.Name)}
                     />
                 {:else if parent instanceof Reference}
                     {@const grandparent = root.getParent(parent)}

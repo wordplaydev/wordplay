@@ -1,6 +1,6 @@
-import UnknownType from './UnknownType';
-import type This from './This';
 import type Locales from '../locale/Locales';
+import type This from './This';
+import UnknownType from './UnknownType';
 
 export class UnenclosedType extends UnknownType<This> {
     constructor(dis: This) {

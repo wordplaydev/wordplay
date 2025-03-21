@@ -1,6 +1,6 @@
 import { Unwritten } from '@locale/LocaleText';
 
-export default class StringPath {
+export default class LocalePath {
     // The key or number indexing into the object literal.
     readonly path: (string | number)[];
     readonly key: string | number;
@@ -28,6 +28,14 @@ export default class StringPath {
         }
 
         return record;
+    }
+
+    isGlobalName() {
+        const grandparent = this.parent().parent();
+        return (
+            (grandparent.key === 'input' || grandparent.key === 'output') &&
+            this.key === 'names'
+        );
     }
 
     resolve(locale: Record<string, unknown>): string | string[] | undefined {
@@ -69,7 +77,7 @@ export default class StringPath {
 
     // Return a string path representing the parent of this path.
     parent() {
-        return new StringPath(
+        return new LocalePath(
             this.path.slice(0, this.path.length - 1),
             this.path[this.path.length - 1],
             this.value,
@@ -77,7 +85,11 @@ export default class StringPath {
     }
 
     toString(): string {
-        return `${this.path.join(' -> ')}: ${this.key}`;
+        return `${this.path.join('.')}.${this.key}`;
+    }
+
+    equals(path: LocalePath): boolean {
+        return this.toString() === path.toString();
     }
 }
 
@@ -86,9 +98,9 @@ export default class StringPath {
 export function getKeyTemplatePairs(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     record: Record<any, any>,
-    pairs: StringPath[] = [],
+    pairs: LocalePath[] = [],
     path: (string | number)[] = [],
-): StringPath[] {
+): LocalePath[] {
     for (const unparsedKey of Object.keys(record)) {
         // See if the key is a number, and convert it to one if so.
         const parsedKey = parseInt(unparsedKey);
@@ -99,14 +111,14 @@ export function getKeyTemplatePairs(
             typeof value === 'string' ||
             (Array.isArray(value) && value.every((s) => typeof s === 'string'))
         )
-            pairs.push(new StringPath(path, key, value));
+            pairs.push(new LocalePath(path, key, value));
         // Many docs are lists of strings that are intended to be joined together.
         // Account for these when finding strings for verification.
         else if (
             Array.isArray(value) &&
             value.every((v) => typeof v === 'string')
         )
-            pairs.push(new StringPath(path, key, value));
+            pairs.push(new LocalePath(path, key, value));
         else if (
             typeof value === 'object' &&
             value !== undefined &&

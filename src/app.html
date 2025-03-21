@@ -78,10 +78,11 @@
                 --wordplay-type-color: var(--color-orange);
 
                 /* Fonts */
-                --wordplay-app-font: 'Noto Sans', 'Noto Color Emoji',
-                    'Noto Emoji', sans-serif;
-                --wordplay-code-font: 'Noto Sans Mono', 'Noto Sans',
-                    'Noto Emoji', 'Noto Color Emoji', monospace;
+                --wordplay-app-font:
+                    'Noto Sans', 'Noto Color Emoji', 'Noto Emoji', sans-serif;
+                --wordplay-code-font:
+                    'Noto Sans Mono', 'Noto Sans', 'Noto Emoji',
+                    'Noto Color Emoji', monospace;
 
                 /* Spacing */
                 --wordplay-editor-indent: 3em;
@@ -110,11 +111,11 @@
                 --color-purple-transparent: #261862;
                 --color-pink: #921a54;
                 --color-light-pink: rgb(77, 15, 45);
-                --color-orange: #722c00;
-                --color-yellow: #cb8b00;
+                --color-orange: #ff640a;
+                --color-yellow: #d69600;
                 --color-white: #ffffff;
                 --color-black: #000000;
-                --color-light-grey: #484848;
+                --color-light-grey: #565656;
                 --color-very-light-grey: #373636;
                 --color-dark-grey: #eaeaea;
                 --color-shadow: rgb(32, 32, 32, 0.2);
@@ -124,8 +125,19 @@
                 --wordplay-header: var(--color-dark-grey);
                 --wordplay-chrome: var(--color-dark-grey);
                 --wordplay-border-color: var(--color-dark-grey);
+                --wordplay-evaluation-color: var(--color-pink);
+                --wordplay-highlight-color: var(--color-yellow);
+                --wordplay-focus-color: var(--color-blue);
                 --wordplay-hover: #463000;
+                --wordplay-error: var(--color-orange);
+                --wordplay-warning: var(--color-yellow);
+                --wordplay-inactive-color: var(--color-light-grey);
                 --wordplay-alternating-color: var(--color-very-light-grey);
+                --wordplay-doc-color: var(--color-purple);
+                --wordplay-doc-color-light: var(--color-purple-transparent);
+                --wordplay-relation-color: var(--color-orange);
+                --wordplay-operator-color: var(--color-orange);
+                --wordplay-type-color: var(--color-orange);
             }
 
             @keyframes wobble {
@@ -318,6 +330,10 @@
             p {
                 margin-block-start: 0;
                 margin-block-end: 1.5em;
+            }
+
+            p:last-of-type {
+                margin-block-end: 0;
             }
 
             p,

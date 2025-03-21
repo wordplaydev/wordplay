@@ -1,19 +1,20 @@
-import BooleanType from './BooleanType';
-import Token from './Token';
-import type Type from './Type';
-import BoolValue from '@values/BoolValue';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement } from './Node';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
-import Literal from './Literal';
-import Characters from '../lore/BasisCharacters';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
+import BoolValue from '@values/BoolValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Characters from '../lore/BasisCharacters';
+import BooleanType from './BooleanType';
+import type Context from './Context';
+import Literal from './Literal';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;
@@ -94,8 +95,9 @@ export default class BooleanLiteral extends Literal {
         return this.value;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.BooleanLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.BooleanLiteral;
+    getLocalePath() {
+        return BooleanLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

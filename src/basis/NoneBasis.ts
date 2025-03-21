@@ -1,19 +1,19 @@
-import StructureDefinition from '@nodes/StructureDefinition';
-import TextValue from '@values/TextValue';
-import BoolValue from '@values/BoolValue';
-import NoneValue from '@values/NoneValue';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import NoneType from '@nodes/NoneType';
+import StructureDefinition from '@nodes/StructureDefinition';
+import BoolValue from '@values/BoolValue';
+import NoneValue from '@values/NoneValue';
+import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import { createBasisConversion, createBasisFunction } from './Basis';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Expression from '../nodes/Expression';
+import type Locales from '../locale/Locales';
 import type LocaleText from '../locale/LocaleText';
 import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
+import type Expression from '../nodes/Expression';
 import TextType from '../nodes/TextType';
-import type Locales from '../locale/Locales';
+import { createBasisConversion, createBasisFunction } from './Basis';
 
 export default function bootstrapNone(locales: Locales) {
     function createNoneFunction(

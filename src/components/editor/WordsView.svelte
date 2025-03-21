@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Words from '@nodes/Words';
-    import NodeView from './NodeView.svelte';
-    import NodeSequenceView from './NodeSequenceView.svelte';
     import { getIsBlocks } from '@components/project/Contexts';
+    import type Words from '@nodes/Words';
+    import NodeSequenceView from './NodeSequenceView.svelte';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: Words;

@@ -2,25 +2,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type Conflict from '@conflicts/Conflict';
-import type Definition from './Definition';
-import type Context from './Context';
-import type Spaces from '@parser/Spaces';
-import type Type from './Type';
-import type Token from './Token';
-import type { Template, DocText, LocaleText } from '@locale/LocaleText';
+import type { DocText, LocaleText } from '@locale/LocaleText';
 import type {
     DescriptiveNodeText,
     NodeDescriptor,
     NodeText,
 } from '@locale/NodeTexts';
-import type BasisCharacter from '../lore/BasisCharacter';
-import type Purpose from '../concepts/Purpose';
+import type Spaces from '@parser/Spaces';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Root from './Root';
-import type { TemplateInput } from '../locale/Locales';
-import type Markup from './Markup';
-import type Sym from './Sym';
+import type Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
+import type BasisCharacter from '../lore/BasisCharacter';
+import type Context from './Context';
+import type Definition from './Definition';
+import type Markup from './Markup';
+import type Root from './Root';
+import type Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -613,14 +613,14 @@ export default abstract class Node {
      * Given a locale, get the node's static label
      * */
     getLabel(locales: Locales): string {
-        return this.getNodeLocale(locales).name;
+        return locales.get(this.getLocalePath()).name;
     }
 
     /**
      * Given a locale and a context, generate a description of the node.
      * */
     getDescription(locales: Locales, context: Context): Markup {
-        const text = this.getNodeLocale(locales);
+        const text = locales.get(this.getLocalePath());
         return locales.concretize(
             // Is there a description? Use that. Otherwise just use the name.
             'description' in text
@@ -638,7 +638,7 @@ export default abstract class Node {
     }
 
     getDoc(locales: Locales): DocText {
-        return this.getNodeLocale(locales).doc;
+        return locales.get(this.getLocalePath()).doc;
     }
 
     /**
@@ -650,7 +650,9 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText;
+    abstract getLocalePath(): (
+        locale: LocaleText,
+    ) => NodeText | DescriptiveNodeText;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(
@@ -658,7 +660,7 @@ export default abstract class Node {
         locales: Locales,
         context: Context,
         root: Root,
-    ): Template | undefined {
+    ): LocaleTextAccessor | undefined {
         const label = this.getFieldOfChild(child)?.label;
         return label ? label(locales, child, context, root) : undefined;
     }
@@ -690,7 +692,7 @@ export type Field = {
         child: Node,
         context: Context,
         root: Root,
-    ) => Template;
+    ) => LocaleTextAccessor;
     /** True if a preceding space is preferred the node */
     space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */

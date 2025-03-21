@@ -1,21 +1,22 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import Halt from '@runtime/Halt';
-import UnparsableException from '@values/UnparsableException';
 import type Step from '@runtime/Step';
+import UnparsableException from '@values/UnparsableException';
 import type Value from '@values/Value';
-import type Expression from './Expression';
-import Node, { node, type Grammar, type Replacement, list } from './Node';
-import type TypeSet from './TypeSet';
-import UnparsableType from './UnparsableType';
-import SimpleExpression from './SimpleExpression';
-import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
+import type Expression from './Expression';
+import Node, { list, node, type Grammar, type Replacement } from './Node';
+import SimpleExpression from './SimpleExpression';
 import type Token from './Token';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type TypeSet from './TypeSet';
+import UnparsableType from './UnparsableType';
 
 export default class UnparsableExpression extends SimpleExpression {
     readonly unparsables: Token[];
@@ -82,8 +83,9 @@ export default class UnparsableExpression extends SimpleExpression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnparsableExpression);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnparsableExpression;
+    getLocalePath() {
+        return UnparsableExpression.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

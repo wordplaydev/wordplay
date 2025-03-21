@@ -1,12 +1,12 @@
 <script lang="ts">
     import Evaluate from '@nodes/Evaluate';
-    import NodeView from './NodeView.svelte';
+    import Input from '@nodes/Input';
     import type Bind from '../../nodes/Bind';
-    import { getCaret, getProject, getIsBlocks } from '../project/Contexts';
+    import Token from '../../nodes/Token';
+    import { getCaret, getIsBlocks, getProject } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import PlaceholderView from './MenuTrigger.svelte';
-    import Token from '../../nodes/Token';
-    import Input from '@nodes/Input';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: Evaluate;

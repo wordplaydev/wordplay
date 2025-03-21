@@ -1,15 +1,16 @@
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Content from './Content';
 import Mention from './Mention';
-import { node, type Replacement, type Grammar, list, optional } from './Node';
-import Token from './Token';
-import Sym from './Sym';
-import Words from './Words';
 import type Node from './Node';
-import type Locales from '../locale/Locales';
-import type { TemplateInput } from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import { type Grammar, list, node, optional, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import Words from './Words';
 
 /**
  * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,
@@ -77,8 +78,10 @@ export default class Branch extends Content {
     getPurpose() {
         return Purpose.Document;
     }
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Branch);
+
+    static readonly LocalePath = (l: LocaleText) => l.node.Branch;
+    getLocalePath() {
+        return Branch.LocalePath;
     }
 
     getCharacter() {

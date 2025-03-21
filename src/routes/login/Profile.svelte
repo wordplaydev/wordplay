@@ -1,20 +1,20 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import Action from '@components/app/Action.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
-    import { locales, SaveStatus } from '../../db/Database';
     import Link from '../../components/app/Link.svelte';
+    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
+    import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
     import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
+    import { Creator } from '../../db/creators/CreatorDatabase';
+    import { SaveStatus, status } from '../../db/Database';
     import { auth } from '../../db/firebase';
     import { isModerator } from '../../db/projects/Moderation';
-    import { Creator } from '../../db/creators/CreatorDatabase';
-    import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { status } from '../../db/Database';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
-    import { goto } from '$app/navigation';
-    import Action from '@components/app/Action.svelte';
 
     interface Props {
         user: User;
@@ -54,43 +54,29 @@
 
 <div class="actions">
     <Action>
-        <p>{$locales.get((l) => l.ui.page.login.prompt.play)}</p>
-        <p
-            ><Link to="/projects"
-                >{$locales.get((l) => l.ui.page.projects.header)}</Link
-            ></p
-        >
-        <p
-            ><Link to="/teach"
-                >{$locales.get((l) => l.ui.page.teach.header)}</Link
-            ></p
-        >
+        <p><LocalizedText path={(l) => l.ui.page.login.prompt.play} /></p>
+        <p><Link to="/projects" label={(l) => l.ui.page.projects.header} /></p>
+        <p><Link to="/teach" label={(l) => l.ui.page.teach.header} /></p>
     </Action>
     <Action>
-        <p>{$locales.get((l) => l.ui.page.login.prompt.name)}</p>
+        <p><LocalizedText path={(l) => l.ui.page.login.prompt.name} /></p>
         <EmojiChooser
             pick={(name) => rename(name)}
             emoji={user.displayName ?? ''}
         />
     </Action>
     <Action>
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.login.prompt.logout)}
-        />
+        <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.logout} />
         <p
             ><ConfirmButton
                 background
-                tip={$locales.get((l) => l.ui.page.login.button.logout.tip)}
+                tip={(l) => l.ui.page.login.button.logout.tip}
                 action={logout}
                 enabled={$status.status === SaveStatus.Saved}
-                prompt={`🗑️ ${$locales.get(
-                    (l) => l.ui.page.login.button.logout.label,
-                )}`}
-                >{$locales.get(
-                    (l) => l.ui.page.login.button.logout.label,
-                )}…</ConfirmButton
-            ></p
-        >
+                prompt={(l) => l.ui.page.login.button.logout.label}
+                label={(l) => l.ui.page.login.button.logout.label}
+            />
+        </p>
     </Action>
     {#if !creator.isUsername()}
         <Action>

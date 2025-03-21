@@ -1,20 +1,20 @@
-import type {
-    Edit,
-    ProjectRevision,
-    Revision,
-} from '../components/editor/util/Commands';
+import { UnknownName } from '@conflicts/UnknownName';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
+import Evaluate from '@nodes/Evaluate';
+import Expression from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionType from '@nodes/FunctionType';
+import ListLiteral from '@nodes/ListLiteral';
 import Node, { Empty, ListOf, type Field } from '@nodes/Node';
-import Token from '@nodes/Token';
+import Program from '@nodes/Program';
+import PropertyReference from '@nodes/PropertyReference';
+import Source from '@nodes/Source';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
 import Sym from '@nodes/Sym';
-import {
-    DelimiterCloseByOpen,
-    FormattingSymbols,
-    DelimiterOpenByClose,
-    TextOpenByTextClose,
-    isName,
-    OperatorRegEx,
-} from '@parser/Tokenizer';
+import Token from '@nodes/Token';
+import Spaces from '@parser/Spaces';
 import {
     CONVERT_SYMBOL,
     ELISION_SYMBOL,
@@ -24,41 +24,41 @@ import {
     SET_OPEN_SYMBOL,
     STREAM_SYMBOL,
 } from '@parser/Symbols';
-import Source from '@nodes/Source';
-import Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Program from '@nodes/Program';
-import UnicodeString from '../unicode/UnicodeString';
-import ListLiteral from '@nodes/ListLiteral';
-import SetLiteral from '../nodes/SetLiteral';
-import MapLiteral from '../nodes/MapLiteral';
-import NumberLiteral from '../nodes/NumberLiteral';
-import BooleanLiteral from '../nodes/BooleanLiteral';
-import Literal from '../nodes/Literal';
-import Context from '../nodes/Context';
-import Type from '../nodes/Type';
+import {
+    DelimiterCloseByOpen,
+    DelimiterOpenByClose,
+    FormattingSymbols,
+    isName,
+    OperatorRegEx,
+    TextOpenByTextClose,
+} from '@parser/Tokenizer';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type {
+    Edit,
+    ProjectRevision,
+    Revision,
+} from '../components/editor/util/Commands';
+import type Conflict from '../conflicts/Conflict';
+import type Project from '../db/projects/Project';
 import type LanguageCode from '../locale/LanguageCode';
 import NodeRef from '../locale/NodeRef';
-import type Conflict from '../conflicts/Conflict';
-import Translation from '../nodes/Translation';
-import { LanguageTagged } from '../nodes/LanguageTagged';
-import Reference from '../nodes/Reference';
-import Name from '../nodes/Name';
-import type Project from '../db/projects/Project';
+import Bind from '../nodes/Bind';
+import BooleanLiteral from '../nodes/BooleanLiteral';
+import Context from '../nodes/Context';
 import type Definition from '../nodes/Definition';
 import DefinitionExpression from '../nodes/DefinitionExpression';
+import { LanguageTagged } from '../nodes/LanguageTagged';
+import Literal from '../nodes/Literal';
+import MapLiteral from '../nodes/MapLiteral';
+import Name from '../nodes/Name';
 import NameType from '../nodes/NameType';
+import NumberLiteral from '../nodes/NumberLiteral';
+import Reference from '../nodes/Reference';
+import SetLiteral from '../nodes/SetLiteral';
+import Translation from '../nodes/Translation';
+import Type from '../nodes/Type';
 import TypeVariable from '../nodes/TypeVariable';
-import Bind from '../nodes/Bind';
-import Spaces from '@parser/Spaces';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { UnknownName } from '@conflicts/UnknownName';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Evaluate from '@nodes/Evaluate';
-import StructureType from '@nodes/StructureType';
-import FunctionType from '@nodes/FunctionType';
-import PropertyReference from '@nodes/PropertyReference';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import UnicodeString from '../unicode/UnicodeString';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -334,10 +334,7 @@ export default class Caret {
                 : tokens[tokens.indexOf(tokenAfter) - 1];
 
         // Make a list of parent/child nodes that are adjacent to the caret.
-        const pairs: InsertionContext = {
-            before: [],
-            after: [],
-        };
+        const pairs: InsertionContext = { before: [], after: [] };
 
         // Start with the token after and find all nodes that contain this token's space.
         let node: Node | undefined | null = tokenAfter;

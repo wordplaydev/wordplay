@@ -1,42 +1,40 @@
+import { createFunction } from '@locale/createFunction';
+import { createInputs } from '@locale/createInputs';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
+import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
-import NumberType from '@nodes/NumberType';
 import NoneType from '@nodes/NoneType';
-import TextType from '@nodes/TextType';
-import UnionType from '@nodes/UnionType';
-import Value from '@values/Value';
-import BoolValue from '@values/BoolValue';
-import ListValue from '@values/ListValue';
-import TextValue from '@values/TextValue';
-import { createBasisConversion, createBasisFunction } from './Basis';
-import SetValue from '@values/SetValue';
+import NumberType from '@nodes/NumberType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Block, { BlockKind } from '@nodes/Block';
-import NumberValue from '@values/NumberValue';
-import type Evaluation from '@runtime/Evaluation';
-import TypeVariables from '@nodes/TypeVariables';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
+import TextType from '@nodes/TextType';
 import TypeVariable from '@nodes/TypeVariable';
-import type Expression from '../nodes/Expression';
-import NoneLiteral from '../nodes/NoneLiteral';
-import NoneValue from '@values/NoneValue';
-import { Iteration } from './Iteration';
-import {
-    createFunction,
-    createInputs as createInputs,
-} from '../locale/LocaleText';
-import ValueException from '../values/ValueException';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import Names from '../nodes/Names';
-import Bind from '../nodes/Bind';
-import AnyType from '../nodes/AnyType';
-import InternalExpression from './InternalExpression';
+import TypeVariables from '@nodes/TypeVariables';
+import UnionType from '@nodes/UnionType';
+import type Evaluation from '@runtime/Evaluation';
+import BoolValue from '@values/BoolValue';
 import ConversionException from '@values/ConversionException';
 import ExceptionValue from '@values/ExceptionValue';
-import SetType from '../nodes/SetType';
+import ListValue from '@values/ListValue';
+import NoneValue from '@values/NoneValue';
+import NumberValue from '@values/NumberValue';
+import SetValue from '@values/SetValue';
+import TextValue from '@values/TextValue';
+import Value from '@values/Value';
 import type Locales from '../locale/Locales';
+import AnyType from '../nodes/AnyType';
+import Bind from '../nodes/Bind';
+import type Expression from '../nodes/Expression';
+import FunctionDefinition from '../nodes/FunctionDefinition';
+import Names from '../nodes/Names';
+import NoneLiteral from '../nodes/NoneLiteral';
+import SetType from '../nodes/SetType';
+import ValueException from '../values/ValueException';
+import { createBasisConversion, createBasisFunction } from './Basis';
+import InternalExpression from './InternalExpression';
+import { Iteration } from './Iteration';
 
 export default function bootstrapList(locales: Locales) {
     const ListTypeVarNames = getNameLocales(
@@ -749,10 +747,7 @@ export default function bootstrapList(locales: Locales) {
                         ],
                     ),
                     ListType.make(ListTypeVariable.getReference()),
-                    new Iteration<{
-                        index: number;
-                        list: ListValue;
-                    }>(
+                    new Iteration<{ index: number; list: ListValue }>(
                         ListType.make(ListTypeVariable.getReference()),
                         // Start with an index of one and the list we're truncating.
                         (evaluator) => {
@@ -824,10 +819,7 @@ export default function bootstrapList(locales: Locales) {
                         ListTypeVariable.getReference(),
                         NoneType.None,
                     ),
-                    new Iteration<{
-                        index: number;
-                        list: ListValue;
-                    }>(
+                    new Iteration<{ index: number; list: ListValue }>(
                         ListTypeVariable.getReference(),
                         // Start with an index of one and the list we're searching.
                         (evaluator) => {

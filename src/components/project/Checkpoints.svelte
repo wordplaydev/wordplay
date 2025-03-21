@@ -6,14 +6,15 @@
 </script>
 
 <script lang="ts">
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import { onMount } from 'svelte';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { docToMarkup } from '@locale/LocaleText';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { onMount } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
 
     let {
@@ -59,9 +60,9 @@
 
 <section class="checkpoints">
     {withMonoEmoji('🕐')}
-    {$locales.get((l) => l.ui.checkpoints.label.history)}
+    <LocalizedText path={(l) => l.ui.checkpoints.label.history} />
     <Button
-        tip={$locales.get((l) => l.ui.checkpoints.button.checkpoint)}
+        tip={(l) => l.ui.checkpoints.button.checkpoint}
         action={() => {
             Projects.reviseProject(project.withCheckpoint());
             return;
@@ -72,8 +73,8 @@
         &mdash;
     {:else}
         <ConfirmButton
-            tip={$locales.get((l) => l.ui.checkpoints.button.clear)}
-            prompt={$locales.get((l) => l.ui.checkpoints.button.clear)}
+            tip={(l) => l.ui.checkpoints.button.clear}
+            prompt={(l) => l.ui.checkpoints.button.clear}
             action={() => {
                 Projects.reviseProject(project.withoutHistory());
                 checkpoint = -1;
@@ -81,7 +82,7 @@
             }}>{CANCEL_SYMBOL}</ConfirmButton
         >
         <Button
-            tip={$locales.get((l) => l.ui.checkpoints.button.forward)}
+            tip={(l) => l.ui.checkpoints.button.forward}
             active={checkpoint < history.length - 1}
             action={() => {
                 checkpoint++;
@@ -90,7 +91,7 @@
             icon="⏴"
         ></Button>
         <Button
-            tip={$locales.get((l) => l.ui.checkpoints.button.back)}
+            tip={(l) => l.ui.checkpoints.button.back}
             active={checkpoint > -1}
             action={() => {
                 checkpoint--;
@@ -99,7 +100,7 @@
             icon="⏵"
         ></Button>
         <Button
-            tip={$locales.get((l) => l.ui.checkpoints.button.now)}
+            tip={(l) => l.ui.checkpoints.button.now}
             active={checkpoint > -1}
             action={() => {
                 checkpoint = -1;
@@ -109,13 +110,13 @@
         ></Button>
         <span class="checkpoint">
             {#if checkpoint === -1}
-                {$locales.get((l) => l.ui.checkpoints.label.now)}
+                <LocalizedText path={(l) => l.ui.checkpoints.label.now} />
                 <span class="time"> / {history.length}</span>
             {:else}
                 {@const duration = getDelta(history[checkpoint].time)}
                 {checkpoint + 1}/{history.length}
                 <span class="time"
-                    ><MarkupHtmlView
+                    ><MarkupHTMLView
                         inline
                         markup={docToMarkup(
                             $locales.get((l) => l.ui.checkpoints.label.ago),

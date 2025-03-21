@@ -1,17 +1,18 @@
-import Token from './Token';
-import NoneType from './NoneType';
-import type Type from './Type';
-import NoneValue from '@values/NoneValue';
-import type TypeSet from './TypeSet';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement } from './Node';
-import Literal from './Literal';
-import Characters from '../lore/BasisCharacters';
+import NoneValue from '@values/NoneValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Characters from '../lore/BasisCharacters';
+import Literal from './Literal';
+import { node, type Grammar, type Replacement } from './Node';
+import NoneType from './NoneType';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;
@@ -85,8 +86,9 @@ export default class NoneLiteral extends Literal {
         return current;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NoneLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.NoneLiteral;
+    getLocalePath() {
+        return NoneLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

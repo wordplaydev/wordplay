@@ -1,25 +1,25 @@
+import { concretizeOrUndefined } from '@locale/concretize';
+import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
 import type LocaleText from '@locale/LocaleText';
-import type Log from './Log';
-import StringPath, { getKeyTemplatePairs } from './StringPath';
 import {
     isAutomated,
-    isOutdated,
     isUnwritten,
     MachineTranslated,
-    Outdated,
     parseLocaleDoc,
     toDocString,
+    toLocale,
     Unwritten,
-    withoutAnnotations,
 } from '@locale/LocaleText';
-import { concretizeOrUndefined } from '@locale/concretize';
-import { tokenize } from '@parser/Tokenizer';
-import Sym from '@nodes/Sym';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink from '@nodes/ConceptLink';
+import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
-import DefaultLocales from '@locale/DefaultLocales';
-import DefaultLocale from '@locale/DefaultLocale';
+import { tokenize } from '@parser/Tokenizer';
+import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import { LocaleValidator } from './LocaleSchema';
+import type Log from './Log';
+import type { RevisedString } from './start';
 import translate from './translate';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
@@ -44,7 +44,7 @@ export function createUnwrittenLocale(): LocaleText {
 }
 
 /** Get translatable keys for locale text */
-export function getTranslatableLocalePairs(locale: LocaleText): StringPath[] {
+export function getTranslatableLocalePairs(locale: LocaleText): LocalePath[] {
     // Find the translatable pairs
     return getKeyTemplatePairs(locale).filter((pair) => {
         // Emotion? Skip it.
@@ -70,6 +70,10 @@ export async function verifyLocale(
     text: LocaleText,
     /** Whether to translate unwritten strings in the locale */
     translate: boolean,
+    /** Strings that have been revised in one or more locales */
+    revisedStrings: RevisedString[],
+    /** Global names used by other locales */
+    globalNames: Map<string, { locale: string; path: LocalePath }[]>,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -84,7 +88,7 @@ export async function verifyLocale(
         }
 
         revisedText = repairLocale(log, DefaultLocale, text);
-    } else log.good(2, 'Found valid locale');
+    }
 
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
@@ -92,7 +96,9 @@ export async function verifyLocale(
         revisedText,
         DefaultLocale,
         locale !== 'example',
-        translate,
+        translate && locale !== 'en-US',
+        revisedStrings,
+        globalNames,
     );
 
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
@@ -105,12 +111,14 @@ async function checkLocale(
     DefaultLocale: LocaleText,
     warnUnwritten: boolean,
     translate: boolean,
+    revisedStrings: RevisedString[],
+    globalNames: Map<string, { locale: string; path: LocalePath }[]>,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
 
     // Get the key/value pairs
-    let pairs: StringPath[] = getKeyTemplatePairs(revised);
+    let pairs: LocalePath[] = getKeyTemplatePairs(revised);
 
     // Find all of the unwritten strings.
     const unwritten = pairs
@@ -207,8 +215,7 @@ async function checkLocale(
                             nameWithoutPlaceholder,
                         ).getTokens();
 
-                        // We expect oone name and one end token.
-
+                        // We expect one name and one end token.
                         const token = tokens[0];
                         if (!(token.isName() || token.isSymbol(Sym.Operator)))
                             log.bad(
@@ -225,6 +232,22 @@ async function checkLocale(
                                     tokens.length - 1,
                                 )}": ${path.toString()}`,
                             );
+                        }
+                        // If the name is valid, make sure no other locales use this name for a different global
+                        else if (path.isGlobalName()) {
+                            const existing =
+                                globalNames
+                                    .get(nameWithoutPlaceholder)
+                                    ?.filter(
+                                        (p) =>
+                                            p.locale !== toLocale(original) &&
+                                            !p.path.equals(path),
+                                    ) ?? [];
+                            if (existing.length > 1)
+                                log.bad(
+                                    2,
+                                    `Name "${nameWithoutPlaceholder}" is already used by ${existing.map((l) => `${l.locale}: ${l.path.toString()}`).join(', ')}.`,
+                                );
                         }
                     }
                 }
@@ -256,17 +279,14 @@ async function checkLocale(
         }
     }
 
-    const outofdate = pairs.filter(({ value }) =>
-        typeof value === 'string'
-            ? isOutdated(value)
-            : value.some((s) => isOutdated(s)),
-    );
-
-    if (outofdate.length > 0)
-        log.bad(
-            2,
-            `Locale has ${outofdate.length} potentially out of date strings ("${Outdated}"). Compare them against the English translation and decide whether to keep or translate.`,
-        );
+    for (const revisedString of revisedStrings) {
+        const match = pairs.find((path) => path.equals(revisedString.path));
+        if (match)
+            log.warning(
+                2,
+                `Potentially out of date string at ${revisedString.path.toString()}: "${revisedString.path.resolve(original)}". Revision in ${revisedString.locale}: "${revisedString.text}"`,
+            );
+    }
 
     const automated = pairs.filter(({ value }) =>
         typeof value === 'string'
@@ -275,7 +295,7 @@ async function checkLocale(
     );
 
     if (automated.length > 0)
-        log.bad(
+        log.warning(
             2,
             `Locale has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
         );
@@ -304,7 +324,7 @@ async function translateLocale(
     log: Log,
     source: LocaleText,
     target: LocaleText,
-    unwritten: StringPath[],
+    unwritten: LocalePath[],
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 

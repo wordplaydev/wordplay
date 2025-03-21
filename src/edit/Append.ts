@@ -1,12 +1,12 @@
-import Node from '@nodes/Node';
-import Revision from './Revision';
-import type { Edit } from '../components/editor/util/Commands';
-import Refer from './Refer';
-import Caret from './Caret';
 import type Context from '@nodes/Context';
-import Bind from '../nodes/Bind';
-import type Locales from '../locale/Locales';
+import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type { Edit } from '../components/editor/util/Commands';
+import type Locales from '../locale/Locales';
+import Bind from '../nodes/Bind';
+import Caret from './Caret';
+import Refer from './Refer';
+import Revision from './Revision';
 
 export default class Append<NodeType extends Node> extends Revision {
     readonly parent: Node;

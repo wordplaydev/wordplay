@@ -1,20 +1,20 @@
-import toStructure from '../basis/toStructure';
-import type Value from '@values/Value';
-import type Color from './Color';
-import type Output from './Output';
-import type RenderContext from './RenderContext';
-import Place from './Place';
 import { getBind } from '@locale/getBind';
-import Arrangement from './Arrangement';
 import NumberValue from '@values/NumberValue';
-import Phrase from './Phrase';
-import Group from './Group';
-import { getOutputInput } from './Valued';
-import StructureValue from '../values/StructureValue';
-import Decimal from 'decimal.js';
-import type Locales from '../locale/Locales';
-import type Alignment from './Alignment';
 import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
+import Decimal from 'decimal.js';
+import toStructure from '../basis/toStructure';
+import type Locales from '../locale/Locales';
+import StructureValue from '../values/StructureValue';
+import type Alignment from './Alignment';
+import Arrangement from './Arrangement';
+import type Color from './Color';
+import Group from './Group';
+import type Output from './Output';
+import Phrase from './Phrase';
+import Place from './Place';
+import type RenderContext from './RenderContext';
+import { getOutputInput } from './Valued';
 
 export function createStackType(locales: Locales) {
     return toStructure(`

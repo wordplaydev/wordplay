@@ -1,38 +1,26 @@
 <script lang="ts">
-    import Writing from '@components/app/Writing.svelte';
-    import Header from '@components/app/Header.svelte';
-    import { CharactersDB, locales } from '@db/Database';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import { firestore } from '@db/firebase';
     import Feedback from '@components/app/Feedback.svelte';
-    import { goto } from '$app/navigation';
-    import Spinning from '@components/app/Spinning.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import Title from '@components/widgets/Title.svelte';
+    import { CharactersDB } from '@db/Database';
+    import { firestore } from '@db/firebase';
     import {
         characterToSVG,
         type Character,
     } from '../../db/characters/Character';
-    import Link from '@components/app/Link.svelte';
+    import NewCharacterButton from './NewCharacterButton.svelte';
 
     const user = getUser();
-
-    let creating: boolean | undefined = $state(false);
-
-    async function addCharacter() {
-        creating = true;
-        const id = await CharactersDB.createCharacter();
-        if (id) {
-            creating = false;
-            goto(`/character/${id}`);
-        } else creating = undefined;
-    }
 
     let characters = $derived(CharactersDB.getEditableCharacters());
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.characters.header)}</title>
+    <Title text={(l) => l.ui.page.characters.header} />
 </svelte:head>
 
 {#snippet preview(character: Character)}
@@ -68,35 +56,15 @@
 {/snippet}
 
 <Writing>
-    <Header>{$locales.get((l) => l.ui.page.characters.header)}</Header>
-    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.characters.prompt)} />
+    <Header text={(l) => l.ui.page.characters.header} />
+    <MarkupHTMLView markup={(l) => l.ui.page.characters.prompt} />
 
     {#if firestore === undefined}
-        <Feedback
-            >{$locales.get((l) => l.ui.page.characters.error.offline)}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.characters.error.offline} />
     {:else if $user === null}
-        <Feedback
-            >{$locales.get((l) => l.ui.page.characters.error.noauth)}</Feedback
-        >
+        <Feedback text={(l) => l.ui.page.characters.error.noauth} />
     {:else}
-        {#if creating}
-            <Spinning></Spinning>
-        {:else if creating === undefined}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.characters.error.create,
-                )}</Feedback
-            >
-        {:else}
-            <Button
-                tip={$locales.get((l) => l.ui.page.characters.button.new)}
-                action={addCharacter}
-                active={!creating}
-                large
-                icon="+"
-            ></Button>
-        {/if}
+        <NewCharacterButton></NewCharacterButton>
 
         <div class="characters">
             {#each characters.values() as character}

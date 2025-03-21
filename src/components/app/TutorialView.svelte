@@ -1,46 +1,46 @@
 <script lang="ts">
-    import ProjectView from '@components/project/ProjectView.svelte';
-    import Project from '@db/projects/Project';
-    import Speech from '@components/lore/Speech.svelte';
-    import Progress from '../../tutorial/Progress';
-    import Note from '../../components/widgets/Note.svelte';
-    import {
-        getUser,
-        getConceptPath,
-        type ConceptIndexContext,
-        setConceptIndex,
-        setDragged,
-        setProject,
-        setConceptPath,
-    } from '../../components/project/Contexts';
-    import PlayView from './PlayView.svelte';
-    import Button from '../widgets/Button.svelte';
-    import Source from '../../nodes/Source';
-    import { locales, Projects } from '@db/Database';
-    import type Spaces from '../../parser/Spaces';
-    import { toMarkup } from '../../parser/toMarkup';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount, untrack } from 'svelte';
-    import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable } from 'svelte/store';
-    import { tick } from 'svelte';
     import { goto } from '$app/navigation';
-    import ConceptLink from '../../nodes/ConceptLink';
-    import TutorialHighlight from './TutorialHighlight.svelte';
-    import Emotion from '../../lore/Emotion';
-    import { Performances } from '../../tutorial/Performances';
-    import type { Dialog, Performance } from '../../tutorial/Tutorial';
-    import type Markup from '../../nodes/Markup';
-    import Header from './Header.svelte';
-    import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import { moderatedFlags } from '../../db/projects/Moderation';
+    import Speech from '@components/lore/Speech.svelte';
+    import ProjectView from '@components/project/ProjectView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import { locales, Projects } from '@db/Database';
+    import Project from '@db/projects/Project';
+    import { withoutAnnotations } from '@locale/withoutAnnotations';
     import type Node from '@nodes/Node';
     import { DRAFT_SYMBOL } from '@parser/Symbols';
+    import { onMount, tick, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
+    import {
+        getConceptPath,
+        getUser,
+        setConceptIndex,
+        setConceptPath,
+        setDragged,
+        setProject,
+        type ConceptIndexContext,
+    } from '../../components/project/Contexts';
+    import Note from '../../components/widgets/Note.svelte';
+    import type ConceptIndex from '../../concepts/ConceptIndex';
+    import { moderatedFlags } from '../../db/projects/Moderation';
+    import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
     import Glyphs from '../../lore/BasisCharacters';
+    import Emotion from '../../lore/Emotion';
+    import ConceptLink from '../../nodes/ConceptLink';
+    import type Markup from '../../nodes/Markup';
+    import Source from '../../nodes/Source';
+    import type Spaces from '../../parser/Spaces';
+    import { toMarkup } from '../../parser/toMarkup';
+    import { Performances } from '../../tutorial/Performances';
+    import Progress from '../../tutorial/Progress';
+    import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import { withColorEmoji } from '../../unicode/emoji';
-    import { withoutAnnotations } from '@locale/LocaleText';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import Button from '../widgets/Button.svelte';
+    import Header from './Header.svelte';
+    import PlayView from './PlayView.svelte';
+    import TutorialHighlight from './TutorialHighlight.svelte';
 
     interface Props {
         progress: Progress;
@@ -347,7 +347,7 @@
     <div class="header">
         <Header block={false}
             >{#if fallback}{withColorEmoji(DRAFT_SYMBOL)}{/if}
-            {$locales.get((l) => l.ui.page.learn.header)}</Header
+            <LocalizedText path={(l) => l.ui.page.learn.header} /></Header
         >
         <nav>
             {#if act !== undefined}
@@ -361,7 +361,7 @@
                 >{/if}
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
             <Options
-                label={$locales.get((l) => l.ui.page.learn.options.lesson)}
+                label={(l) => l.ui.page.learn.options.lesson}
                 value={withoutAnnotations(
                     JSON.stringify(progress.withLine(0).serialize()),
                 )}
@@ -390,9 +390,7 @@
                 <div class="controls">
                     <Button
                         large
-                        tip={$locales.get(
-                            (l) => l.ui.page.learn.button.previous,
-                        )}
+                        tip={(l) => l.ui.page.learn.button.previous}
                         action={() =>
                             navigate(progress.previousPause() ?? progress)}
                         active={progress.previousPause() !== undefined}
@@ -412,7 +410,7 @@
                         >{/if}
                     <Button
                         large
-                        tip={$locales.get((l) => l.ui.page.learn.button.next)}
+                        tip={(l) => l.ui.page.learn.button.next}
                         action={() =>
                             navigate(progress.nextPause() ?? progress)}
                         active={progress.nextPause() !== undefined}
@@ -422,18 +420,18 @@
                 </div>
                 {#if act === undefined}
                     <div class="title play"
-                        >{$locales.get((l) => l.wordplay)}</div
+                        ><LocalizedText path={(l) => l.wordplay} /></div
                     >
                 {:else if scene === undefined}
                     <div class="title act"
-                        >{$locales.get((l) => l.term.act)}
+                        ><LocalizedText path={(l) => l.term.act} />
                         {progress.act}<p
                             ><em>{withoutAnnotations(act.title)}</em></p
                         ></div
                     >
                 {:else if dialog === undefined}
                     <div class="title scene"
-                        >{$locales.get((l) => l.term.scene)}
+                        ><LocalizedText path={(l) => l.term.scene} />
                         {progress.scene}<p
                             ><em>{withoutAnnotations(scene.title)}</em></p
                         >{#if scene.subtitle}<em
@@ -483,6 +481,7 @@
                             showOutput={!editable}
                             {fit}
                             autofocus={false}
+                            guide={false}
                             warn={false}
                             shareable={false}
                             persistLayout={false}

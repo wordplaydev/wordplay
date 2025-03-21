@@ -1,20 +1,20 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
+    import { page } from '$app/stores';
+    import Feedback from '@components/app/Feedback.svelte';
+    import Loading from '@components/app/Loading.svelte';
+    import Page from '@components/app/Page.svelte';
     import {
         getUser,
         setConceptPath,
         setProject,
     } from '@components/project/Contexts';
-    import { writable } from 'svelte/store';
-    import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
+    import { Galleries, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import Feedback from '@components/app/Feedback.svelte';
-    import Loading from '@components/app/Loading.svelte';
-    import { browser } from '$app/environment';
-    import { Galleries, Projects, locales } from '@db/Database';
-    import Page from '@components/app/Page.svelte';
-    import Writing from '../../../components/app/Writing.svelte';
     import { untrack } from 'svelte';
+    import { writable } from 'svelte/store';
+    import Writing from '../../../components/app/Writing.svelte';
 
     let user = getUser();
 
@@ -116,8 +116,5 @@
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Writing
-        ><Feedback>{$locales.get((l) => l.ui.project.error.unknown)}</Feedback
-        ></Writing
-    >
+    <Writing><Feedback text={(l) => l.ui.project.error.unknown} /></Writing>
 {/if}

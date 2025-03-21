@@ -1,24 +1,35 @@
 <script lang="ts">
-    import { tick } from 'svelte';
-    import { locales } from '../../db/Database';
-    import Button from './Button.svelte';
-    import type { DialogText } from '../../locale/UITexts';
-    import Header from '../app/Header.svelte';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { clickOutside } from '@components/app/clickOutside';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { tick } from 'svelte';
+    import Header from '../app/Header.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import Button from './Button.svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         show?: boolean;
-        description: DialogText;
+        header: LocaleTextAccessor;
+        explanation: LocaleTextsAccessor;
         closeable?: boolean;
-        button?: { tip: string; icon?: string; label: string } | undefined;
+        button?:
+            | {
+                  tip: LocaleTextAccessor;
+                  icon?: string;
+                  label?: string | LocaleTextAccessor;
+              }
+            | undefined;
         children?: import('svelte').Snippet;
     }
 
     let {
         show = $bindable(false),
-        description,
+        header,
+        explanation,
         closeable = true,
         button = undefined,
         children,
@@ -45,8 +56,9 @@
 
 {#if button}
     <Button tip={button.tip} action={() => (show = true)} icon={button.icon}>
-        {#if button.label.length > 0}
-            {button.label}{/if}</Button
+        {#if button.label}{#if typeof button.label === 'string'}{button.label}{:else}<LocalizedText
+                    path={button.label}
+                />{/if}{/if}</Button
     >
 {/if}
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -62,7 +74,7 @@
         {#if closeable}
             <div class="close">
                 <Button
-                    tip={$locales.get((l) => l.ui.widget.dialog.close)}
+                    tip={(l) => l.ui.widget.dialog.close}
                     action={() => (show = false)}
                     icon="❌"
                 ></Button>
@@ -70,8 +82,8 @@
         {/if}
 
         <div class="content">
-            <Header>{description.header}</Header>
-            <MarkupHtmlView markup={description.explanation} />
+            <Header text={header} />
+            <MarkupHTMLView markup={explanation} />
             {@render children?.()}
         </div>
     </div>

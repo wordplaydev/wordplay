@@ -1,19 +1,18 @@
-import type { Grammar, Replacement } from './Node';
-import Names from './Names';
 import type LocaleText from '@locale/LocaleText';
-import NameType from './NameType';
-import Characters from '../lore/BasisCharacters';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import Node, { any, node, none } from './Node';
-import Type from './Type';
-import Sym from './Sym';
-import Token from './Token';
+import Characters from '../lore/BasisCharacters';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type Definition from './Definition';
-import type Locales from '../locale/Locales';
+import Names from './Names';
+import NameType from './NameType';
+import type { Grammar, Replacement } from './Node';
+import Node, { any, node, none } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
 import TypeToken from './TypeToken';
-import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TypeVariable extends Node {
     readonly names: Names;
@@ -104,8 +103,9 @@ export default class TypeVariable extends Node {
         return definition === this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TypeVariable);
+    static readonly LocalePath = (l: LocaleText) => l.node.TypeVariable;
+    getLocalePath() {
+        return TypeVariable.LocalePath;
     }
 
     getCharacter() {

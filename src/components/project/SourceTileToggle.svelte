@@ -1,13 +1,13 @@
 <script lang="ts">
-    import type Source from '@nodes/Source';
-    import { getConflicts } from './Contexts';
-    import Characters from '../../lore/BasisCharacters';
-    import Toggle from '../widgets/Toggle.svelte';
-    import { locales } from '../../db/Database';
     import Emoji from '@components/app/Emoji.svelte';
     import Templates from '@concepts/Templates';
     import type Project from '@db/projects/Project';
     import Context from '@nodes/Context';
+    import type Source from '@nodes/Source';
+    import { locales } from '../../db/Database';
+    import Characters from '../../lore/BasisCharacters';
+    import Toggle from '../widgets/Toggle.svelte';
+    import { getConflicts } from './Contexts';
 
     interface Props {
         project: Project;
@@ -50,11 +50,7 @@
     });
 </script>
 
-<Toggle
-    tips={$locales.get((l) => l.ui.tile.toggle.show)}
-    on={expanded}
-    {toggle}
->
+<Toggle tips={(l) => l.ui.tile.toggle.show} on={expanded} {toggle}>
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
         >{/if}

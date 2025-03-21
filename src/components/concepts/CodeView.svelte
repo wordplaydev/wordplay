@@ -1,16 +1,16 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
-    import RootView from '../project/RootView.svelte';
-    import { getDragged } from '../project/Contexts';
+    import { blocks } from '@db/Database';
+    import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
-    import TypeView from './TypeView.svelte';
-    import { copyNode } from '../editor/util/Clipboard';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Type from '../../nodes/Type';
     import Spaces from '../../parser/Spaces';
+    import { copyNode } from '../editor/util/Clipboard';
+    import { getDragged } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import Expression, { ExpressionKind } from '@nodes/Expression';
-    import { blocks } from '@db/Database';
+    import TypeView from './TypeView.svelte';
 
     interface Props {
         node: Node;
@@ -20,6 +20,8 @@
         describe?: boolean;
         inline?: boolean;
         outline?: boolean;
+        elide?: boolean;
+        flip?: boolean;
     }
 
     let {
@@ -30,6 +32,8 @@
         describe = true,
         inline = false,
         outline = true,
+        elide = false,
+        flip = false,
     }: Props = $props();
 
     let dragged = getDragged();
@@ -50,15 +54,16 @@
     }
 </script>
 
-<div class="view">
+{#snippet code()}
     <div class="code">
         <div
             role="textbox"
             aria-readonly="true"
             class:blocks={$blocks}
-            class:node
+            class="node"
             class:draggable={dragged !== undefined}
             class:outline
+            class:elide
             class:evaluate={node instanceof Expression &&
                 node.getKind() === ExpressionKind.Evaluate}
             class:definition={node instanceof Expression &&
@@ -69,29 +74,39 @@
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
                     : undefined}
-            ><RootView
-                {node}
-                inline={inline || $blocks}
-                {spaces}
-                blocks={$blocks}
-            /></div
+            ><RootView {node} {inline} {spaces} blocks={false} {elide} /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}
             />
         {/if}
     </div>
+{/snippet}
+
+{#snippet link()}
     {#if describe && concept}
         <div class="link">
             <ConceptLinkUI link={concept} symbolic={false} />
         </div>
     {/if}
+{/snippet}
+
+<div class="view">
+    {#if flip}
+        {@render link()}
+        {@render code()}
+    {:else}
+        {@render code()}
+        {@render link()}
+    {/if}
 </div>
 
 <style>
     .view {
-        display: inline-block;
+        display: inline-flex;
+        flex-direction: column;
         touch-action: none;
+        gap: var(--wordplay-spacing);
     }
 
     .node {
@@ -115,6 +130,11 @@
             calc(3 * var(--wordplay-border-radius)) 1px;
     }
 
+    .node.elide {
+        max-height: 5em;
+        overflow: hidden;
+    }
+
     .code {
         display: flex;
         flex-direction: row;
@@ -129,10 +149,5 @@
 
     .node:not(:global(.outline)) {
         border-radius: var(--wordplay-border-radius);
-    }
-
-    .link {
-        margin-left: var(--wordplay-spacing);
-        margin-top: calc(var(--wordplay-spacing) / 2);
     }
 </style>

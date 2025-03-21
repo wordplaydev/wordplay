@@ -1,12 +1,13 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
 import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type ExceptionValue from '@values/ExceptionValue';
-import type Value from '@values/Value';
-import SimpleValue from './SimpleValue';
 import type StructureValue from '@values/StructureValue';
-import type Expression from '../nodes/Expression';
+import type Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import SimpleValue from './SimpleValue';
 
 export default class TableValue extends SimpleValue {
     readonly type: TableType;
@@ -56,8 +57,8 @@ export default class TableValue extends SimpleValue {
         return text.trim();
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.table);
+    getDescription() {
+        return (l: LocaleText) => l.term.table;
     }
 
     getRepresentativeText() {

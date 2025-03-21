@@ -1,8 +1,8 @@
 <script lang="ts">
-    import NodeView from './NodeView.svelte';
+    import { getIsBlocks } from '@components/project/Contexts';
     import type Translation from '../../nodes/Translation';
     import NodeSequenceView from './NodeSequenceView.svelte';
-    import { getIsBlocks } from '@components/project/Contexts';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: Translation;

@@ -2,8 +2,8 @@
 // CACHE
 ////////////////////////////////
 
-import { CharacterSchema, type Character } from './Character';
-import { SaveStatus, type Database } from '../Database';
+import { FirebaseError } from 'firebase/app';
+import type { User } from 'firebase/auth';
 import {
     and,
     collection,
@@ -19,11 +19,11 @@ import {
     type Firestore,
     type Unsubscribe,
 } from 'firebase/firestore';
-import { firestore } from '../firebase';
-import type { User } from 'firebase/auth';
-import { FirebaseError } from 'firebase/app';
-import { v4 as uuidv4 } from 'uuid';
 import { SvelteMap } from 'svelte/reactivity';
+import { v4 as uuidv4 } from 'uuid';
+import { SaveStatus, type Database } from '../Database';
+import { firestore } from '../firebase';
+import { CharacterSchema, type Character } from './Character';
 
 const CharactersCollection = 'characters';
 

@@ -42,7 +42,8 @@
         "set": "set",
         "key": "clave",
         "help": "ayuda",
-        "feedback": "feedback"
+        "feedback": "feedback",
+        "how": "$~Cómo"
     },
     "token": {
         "EvalOpen": "evaluación abierta",
@@ -403,7 +404,7 @@
                 "MissingShareLanguages": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
                 "RequiredAfterOptional": "No puedo estar aquí, hay un @Bind opcional antes que yo",
                 "UnexpectedEtc": "Solo puedo tener una longitud variable en un @FunctionDefinition",
-                "UnusedBind": "$! oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
+                "UnusedBind": "Oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
             }
         },
         "Block": {
@@ -4339,6 +4340,24 @@
                 "properties": "Propiedades",
                 "functions": "Funciones",
                 "conversions": "Conversiones"
+            },
+            "modes": {
+                "label": "$~navegar",
+                "modes": ["$~Cómo", "$~conceptos"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~crear y controlar personajes",
+                    "styling": "$~Estilo de caracteres y texto",
+                    "animation": "$~animar personajes y texto",
+                    "layout": "$~organizar caracteres y texto",
+                    "randomization": "$~utilizar al azar",
+                    "remembering": "$~Seguimiento de cambios y elecciones",
+                    "stories": "$~contar una historia",
+                    "motion": "$~utilizar la física",
+                    "video": "$~usa una cámara"
+                },
+                "related": "$~¿No es lo que estás buscando?"
             }
         },
         "dialog": {
@@ -4426,8 +4445,8 @@
                         ]
                     },
                     "space": {
-                        "label": "$! indicador de espacio",
-                        "modes": ["$! abierto", "$! cerrado"]
+                        "label": "indicador de espacio",
+                        "modes": ["abierto", "cerrado"]
                     },
                     "writing": {
                         "label": "diseño de escritura",
@@ -4641,7 +4660,13 @@
             "galleries": {
                 "header": "Galerías",
                 "prompt": "Estas son actuaciones que otros han creado. Exprímentalas, estúdialas o adáptalas para hacer tu propia declaración.",
-                "examples": "Ejemplos"
+                "examples": "Ejemplos",
+                "button": {
+                    "more": {
+                        "label": "$~más...",
+                        "tip": "$~Cargar más galerías"
+                    }
+                }
             },
             "about": {
                 "header": "Acerca de",
@@ -4668,8 +4693,8 @@
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
-                    "email": "$! ¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
-                    "sent": "$! Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
+                    "email": "¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
+                    "sent": "Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",

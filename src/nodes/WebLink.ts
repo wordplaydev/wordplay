@@ -1,17 +1,17 @@
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
+import type { TemplateInput } from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import {
     LINK_SYMBOL,
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
 } from '../parser/Symbols';
-import { node, type Grammar, type Replacement } from './Node';
-import Token from './Token';
-import Sym from './Sym';
 import Content from './Content';
-import type Locales from '../locale/Locales';
-import type { TemplateInput } from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class WebLink extends Content {
     readonly open: Token;
@@ -86,8 +86,9 @@ export default class WebLink extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.WebLink);
+    static readonly LocalePath = (l: LocaleText) => l.node.WebLink;
+    getLocalePath() {
+        return WebLink.LocalePath;
     }
 
     getCharacter() {

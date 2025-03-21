@@ -1,17 +1,17 @@
 <script lang="ts">
-    import type Project from '@db/projects/Project';
-    import { Projects, locales } from '../../db/Database';
-    import Slider from '@components/widgets/Slider.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
-    import { getFirstName } from '@locale/LocaleText';
-    import Evaluate from '@nodes/Evaluate';
-    import Reference from '@nodes/Reference';
-    import { createColorLiteral } from '@output/Color';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import Unit from '@nodes/Unit';
+    import Slider from '@components/widgets/Slider.svelte';
+    import type Project from '@db/projects/Project';
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import { getFirstText } from '@locale/LocaleText';
     import type Bind from '@nodes/Bind';
+    import Evaluate from '@nodes/Evaluate';
+    import NumberLiteral from '@nodes/NumberLiteral';
+    import Reference from '@nodes/Reference';
+    import Unit from '@nodes/Unit';
+    import { createColorLiteral } from '@output/Color';
+    import { locales, Projects } from '../../db/Database';
 
     interface Props {
         project: Project;
@@ -64,7 +64,7 @@
             project,
             project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 replacement,
             ),
         );
@@ -176,8 +176,8 @@
         min={0}
         max={0.5}
         increment={0.01}
-        tip={$locales.get((l) => getFirstName(l.output.Aura.blur.names))}
-        label={$locales.get((l) => getFirstName(l.output.Aura.blur.names))}
+        tip={(l) => l.output.Aura.blur.names}
+        label={(l) => getFirstText(l.output.Aura.blur.names)}
         unit={'m'}
         precision={2}
         change={(value) => {
@@ -191,8 +191,8 @@
         min={-0.5}
         max={0.5}
         increment={0.01}
-        tip={$locales.get((l) => getFirstName(l.output.Aura.offsetX.names))}
-        label={$locales.get((l) => getFirstName(l.output.Aura.offsetX.names))}
+        tip={(l) => l.output.Aura.offsetX.names}
+        label={(l) => getFirstText(l.output.Aura.offsetX.names)}
         unit={'m'}
         precision={2}
         change={(value) => {
@@ -206,8 +206,8 @@
         min={-0.5}
         max={0.5}
         increment={0.01}
-        tip={$locales.get((l) => getFirstName(l.output.Aura.offsetY.names))}
-        label={$locales.get((l) => getFirstName(l.output.Aura.offsetY.names))}
+        tip={(l) => l.output.Aura.offsetY.names}
+        label={(l) => getFirstText(l.output.Aura.offsetY.names)}
         unit={'m'}
         precision={2}
         change={(value) => {

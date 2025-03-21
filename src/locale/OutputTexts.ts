@@ -1,4 +1,4 @@
-import type { NameAndDoc, Template, NameText } from './LocaleText';
+import type { NameAndDoc, NameText, Template } from './LocaleText';
 import type { ExceptionText } from './NodeTexts';
 
 export type TypeTexts = {

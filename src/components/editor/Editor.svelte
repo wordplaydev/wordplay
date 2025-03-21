@@ -81,6 +81,7 @@
     import Menu, { RevisionSet } from './util/Menu';
     import { OutlinePadding } from './util/outline';
 
+    // Add event dispatcher for large deletion notification
     const dispatch = createEventDispatcher<{
         largeDeletion: string | null;
     }>();
@@ -112,7 +113,7 @@
         updateConflicts: (source: Source, conflicts: Conflict[]) => void;
         /** Whether the code was revised by another creator */
         overwritten?: boolean;
-        /** The large deletion notification state, bindable by parent components */
+        /** The large deletion notification state */
         largeDeletionNotification?: string | null;
     }
 
@@ -1688,7 +1689,7 @@
     {#if project.getSupplements().length > 0}
         <div class="output-preview-container">
             <Button
-                tip={$locales.get((l) => l.ui.source.button.selectOutput)}
+                tip={(l) => l.ui.source.button.selectOutput}
                 active={!selected}
                 action={setOutputPreview}
                 scale={false}

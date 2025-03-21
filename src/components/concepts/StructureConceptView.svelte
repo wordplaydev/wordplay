@@ -1,11 +1,11 @@
 <script lang="ts">
-    import CodeView from './CodeView.svelte';
-    import type StructureConcept from '@concepts/StructureConcept';
-    import BindConceptView from './BindConceptView.svelte';
-    import ConceptView from './ConceptView.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type BindConcept from '@concepts/BindConcept';
+    import type StructureConcept from '@concepts/StructureConcept';
     import { onMount } from 'svelte';
-    import { locales } from '@db/Database';
+    import BindConceptView from './BindConceptView.svelte';
+    import CodeView from './CodeView.svelte';
+    import ConceptView from './ConceptView.svelte';
 
     interface Props {
         concept: StructureConcept;
@@ -51,14 +51,14 @@
     {/if} -->
 
     {#if concept.inter.length > 0}
-        <h2>{$locales.get((l) => l.ui.docs.header.interfaces)}</h2>
+        <h2><LocalizedText path={(l) => l.ui.docs.header.interfaces} /></h2>
         {#each concept.inter as inter}
             <CodeView concept={inter} node={inter.getRepresentation()} />
         {/each}
     {/if}
 
     {#if concept.inputs.length > 0}
-        <h2>{$locales.get((l) => l.ui.docs.header.inputs)}</h2>
+        <h2><LocalizedText path={(l) => l.ui.docs.header.inputs} /></h2>
         {#each concept.inputs as bind, index}
             <div id="input-{index}" class:selected={bind === subconcept}>
                 <BindConceptView concept={bind} />
@@ -67,7 +67,7 @@
     {/if}
 
     {#if concept.properties.length > 0}
-        <h2>{$locales.get((l) => l.ui.docs.header.properties)}</h2>
+        <h2><LocalizedText path={(l) => l.ui.docs.header.properties} /></h2>
         {#each concept.properties as bind, index}
             <div
                 id="property-{index + concept.inputs.length}"
@@ -79,14 +79,14 @@
     {/if}
 
     {#if concept.functions.length > 0}
-        <h2>{$locales.get((l) => l.ui.docs.header.functions)}</h2>
+        <h2><LocalizedText path={(l) => l.ui.docs.header.functions} /></h2>
         {#each concept.functions as fun}
             <CodeView node={fun.getRepresentation()} concept={fun} />
         {/each}
     {/if}
 
     {#if concept.conversions.length > 0}
-        <h2>{$locales.get((l) => l.ui.docs.header.conversions)}</h2>
+        <h2><LocalizedText path={(l) => l.ui.docs.header.conversions} /></h2>
         {#each concept.conversions as conversion}
             <CodeView
                 node={conversion.getRepresentation()}

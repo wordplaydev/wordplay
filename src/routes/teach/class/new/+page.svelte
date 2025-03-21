@@ -6,37 +6,37 @@
 </script>
 
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import { locales } from '@db/Database';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
+    import { goto } from '$app/navigation';
     import Centered from '@components/app/Centered.svelte';
-    import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
-    import {
-        createCredentials,
-        type StudentWithCredentials,
-    } from '../credentials';
+    import Feedback from '@components/app/Feedback.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import CreatorList from '@components/project/CreatorList.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
+    import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { UsernameLength } from '@db/creators/isValidUsername';
-    import { PasswordLength } from '../../../login/IsValidPassword';
     import { usernameAccountExists } from '@db/creators/accountExists';
-    import { httpsCallable } from 'firebase/functions';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import { UsernameLength } from '@db/creators/isValidUsername';
     import { functions } from '@db/firebase';
     import type {
         CreateClassError,
         CreateClassInputs,
         CreateClassOutput,
     } from '@db/functions';
-    import { getUser } from '@components/project/Contexts';
-    import Link from '@components/app/Link.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';
-    import { goto } from '$app/navigation';
+    import { httpsCallable } from 'firebase/functions';
+    import { PasswordLength } from '../../../login/IsValidPassword';
     import TeachersOnly from '../../TeachersOnly.svelte';
+    import {
+        createCredentials,
+        type StudentWithCredentials,
+    } from '../credentials';
 
     /** The state to store the name of the class. */
     let name = $state('');
@@ -204,23 +204,19 @@
 
 <TeachersOnly>
     <Link to="/teach"
-        >{PREVIOUS_SYMBOL} {$locales.get((l) => l.ui.page.teach.header)}</Link
+        >{PREVIOUS_SYMBOL}
+        <LocalizedText path={(l) => l.ui.page.teach.header} /></Link
     >
-    <Header>{$locales.get((l) => l.ui.page.newclass.header)}</Header>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.newclass.prompt.start)}
-    />
+    <Header text={(l) => l.ui.page.newclass.header} />
+    <MarkupHTMLView markup={(l) => l.ui.page.newclass.prompt.start} />
 
     <div class="page">
-        <Subheader
-            >{$locales.get(
-                (l) => l.ui.page.newclass.subheader.class,
-            )}</Subheader
-        >
+        <Subheader text={(l) => l.ui.page.newclass.subheader.class} />
         <LabeledTextbox
             id="class-name"
             fixed={FieldLabelWidth}
-            texts={(l) => l.ui.page.newclass.field.name}
+            description={(l) => l.ui.page.newclass.field.name.description}
+            placeholder={(l) => l.ui.page.newclass.field.name.placeholder}
             editable={!download}
             bind:text={name}
         ></LabeledTextbox>
@@ -228,27 +224,22 @@
             id="class-description"
             box
             fixed={FieldLabelWidth}
-            texts={(l) => l.ui.page.newclass.field.description}
+            description={(l) =>
+                l.ui.page.newclass.field.description.description}
+            placeholder={(l) =>
+                l.ui.page.newclass.field.description.placeholder}
             editable={!download}
             bind:text={description}
         ></LabeledTextbox>
 
-        <Subheader
-            >{$locales.get(
-                (l) => l.ui.page.newclass.subheader.students,
-            )}</Subheader
-        >
-
-        <MarkupHtmlView
-            markup={$locales.get(
-                (l) => l.ui.page.newclass.field.existing.prompt,
-            )}
-        ></MarkupHtmlView>
+        <Subheader text={(l) => l.ui.page.newclass.subheader.students} />
+        <MarkupHTMLView markup={(l) => l.ui.page.newclass.field.existing.prompt}
+        ></MarkupHTMLView>
 
         <Labeled
             fixed={FieldLabelWidth}
             column
-            label={$locales.get((l) => l.ui.page.newclass.field.existing.label)}
+            label={(l) => l.ui.page.newclass.field.existing.label}
         >
             <CreatorList
                 uids={existingStudents}
@@ -263,94 +254,70 @@
             ></CreatorList>
         </Labeled>
 
-        <MarkupHtmlView
-            markup={$locales.get(
-                (l) => l.ui.page.newclass.field.metadata.prompt,
-            )}
-        ></MarkupHtmlView>
+        <MarkupHTMLView markup={(l) => l.ui.page.newclass.field.metadata.prompt}
+        ></MarkupHTMLView>
 
         <LabeledTextbox
             id="metadata"
             box
             fixed={FieldLabelWidth}
             editable={!editing}
-            texts={(l) => l.ui.page.newclass.field.metadata}
+            description={(l) => l.ui.page.newclass.field.metadata.description}
+            placeholder={(l) => l.ui.page.newclass.field.metadata.placeholder}
             bind:text={metadata}
         ></LabeledTextbox>
 
         {#if metadataProblem !== undefined}
-            <Feedback>
-                {$locales.get((l) => l.ui.page.newclass.error[metadataProblem])}
-            </Feedback>
+            <Feedback text={(l) => l.ui.page.newclass.error[metadataProblem]} />
         {/if}
 
         <!-- Only need secret words if there are students to add -->
         {#if students.length > 0}
-            <MarkupHtmlView
-                markup={$locales.get(
-                    (l) => l.ui.page.newclass.field.words.prompt,
-                )}
-            ></MarkupHtmlView>
+            <MarkupHTMLView
+                markup={(l) => l.ui.page.newclass.field.words.prompt}
+            ></MarkupHTMLView>
             <LabeledTextbox
                 id="secret-words"
                 box
                 fixed={FieldLabelWidth}
-                texts={(l) => l.ui.page.newclass.field.words}
+                description={(l) => l.ui.page.newclass.field.words.description}
+                placeholder={(l) => l.ui.page.newclass.field.words.placeholder}
                 editable={!editing}
                 bind:text={words}
             ></LabeledTextbox>
 
             {#if wordsProblem}
-                <Feedback>
-                    {$locales.get((l) => l.ui.page.newclass.error.words)}
-                </Feedback>
+                <Feedback text={(l) => l.ui.page.newclass.error.words} />
             {/if}
 
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.newclass.subheader.credentials,
-                )}</Subheader
-            >
+            <Subheader text={(l) => l.ui.page.newclass.subheader.credentials} />
             {#if generatedStudents === undefined}
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.page.newclass.prompt.ready,
-                    )}
+                <MarkupHTMLView
+                    markup={(l) => l.ui.page.newclass.prompt.ready}
                 />
 
                 <Centered>
                     <Button
                         background
-                        tip={$locales.get(
-                            (l) => l.ui.page.newclass.field.generate.tip,
-                        )}
+                        tip={(l) => l.ui.page.newclass.field.generate.tip}
                         action={generateCredentials}
                         active={metadataProblem === undefined && !wordsProblem}
-                    >
-                        {$locales.get(
-                            (l) => l.ui.page.newclass.field.generate.label,
-                        )}</Button
-                    >
+                        label={(l) => l.ui.page.newclass.field.generate.label}
+                    />
                 </Centered>
 
                 {#if generateProblem}
-                    <Feedback>
-                        {$locales.get((l) => l.ui.page.newclass.error.generate)}
-                    </Feedback>
+                    <Feedback text={(l) => l.ui.page.newclass.error.generate} />
                 {/if}
             {:else}
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.page.newclass.prompt.review,
-                    )}
+                <MarkupHTMLView
+                    markup={(l) => l.ui.page.newclass.prompt.review}
                 />
 
                 <Centered>
                     <Button
                         background
-                        tip={$locales.get(
-                            (l) => l.ui.page.newclass.field.edit.tip,
-                        )}
+                        tip={(l) => l.ui.page.newclass.field.edit.tip}
                         action={() => {
                             if (generatedStudents === undefined) return;
                             editing = true;
@@ -361,11 +328,8 @@
                         active={generatedStudents !== undefined &&
                             generatedStudents.length > 0 &&
                             !editing}
-                    >
-                        {$locales.get(
-                            (l) => l.ui.page.newclass.field.edit.label,
-                        )}</Button
-                    >
+                        label={(l) => l.ui.page.newclass.field.edit.label}
+                    />
                 </Centered>
 
                 {@const taken = finalStudents
@@ -373,7 +337,9 @@
                     .map((s) => s.username)}
                 {#if taken !== undefined && taken.length > 0}
                     <Feedback
-                        >{$locales.get((l) => l.ui.page.newclass.error.taken)}:
+                        ><LocalizedText
+                            path={(l) => l.ui.page.newclass.error.taken}
+                        />:
                         <em>{taken.join(', ')}</em></Feedback
                     >
                 {/if}
@@ -386,18 +352,18 @@
                                     <td></td>
                                 {/each}
                                 <th
-                                    >{$locales.get(
-                                        (l) =>
+                                    ><LocalizedText
+                                        path={(l) =>
                                             l.ui.page.login.field.username
-                                                .placeholder,
-                                    )}</th
+                                                .placeholder}
+                                    /></th
                                 >
                                 <th
-                                    >{$locales.get(
-                                        (l) =>
+                                    ><LocalizedText
+                                        path={(l) =>
                                             l.ui.page.login.field.password
-                                                .placeholder,
-                                    )}</th
+                                                .placeholder}
+                                    /></th
                                 >
                             </tr>
                         </thead>
@@ -409,8 +375,14 @@
                                             >{#if editing}
                                                 <TextField
                                                     id="new-student-{studentIndex}-data-{columnIndex}"
-                                                    description=""
-                                                    placeholder=""
+                                                    description={(l) =>
+                                                        l.ui.page.newclass.field
+                                                            .metadata
+                                                            .description}
+                                                    placeholder={(l) =>
+                                                        l.ui.page.newclass.field
+                                                            .metadata
+                                                            .placeholder}
                                                     text={editedStudents !==
                                                     undefined
                                                         ? editedStudents[
@@ -436,8 +408,12 @@
                                         >{#if editing}
                                             <TextField
                                                 id="new-student-{studentIndex}"
-                                                description=""
-                                                placeholder=""
+                                                description={(l) =>
+                                                    l.ui.page.login.field
+                                                        .username.description}
+                                                placeholder={(l) =>
+                                                    l.ui.page.login.field
+                                                        .username.placeholder}
                                                 text={finalStudents[
                                                     studentIndex
                                                 ].username}
@@ -445,13 +421,9 @@
                                                     usernamesTaken.includes(
                                                         text,
                                                     )
-                                                        ? $locales.get(
-                                                              (l) =>
-                                                                  l.ui.page
-                                                                      .newclass
-                                                                      .error
-                                                                      .taken,
-                                                          )
+                                                        ? (l) =>
+                                                              l.ui.page.newclass
+                                                                  .error.taken
                                                         : true}
                                                 changed={(text) => {
                                                     // Update the username after it's changed.
@@ -483,8 +455,12 @@
                                         >{#if editing}
                                             <TextField
                                                 id="new-student-{studentIndex}-final"
-                                                description=""
-                                                placeholder=""
+                                                description={(l) =>
+                                                    l.ui.page.login.field
+                                                        .password.description}
+                                                placeholder={(l) =>
+                                                    l.ui.page.login.field
+                                                        .password.placeholder}
                                                 text={finalStudents[
                                                     studentIndex
                                                 ].password}
@@ -509,20 +485,13 @@
             {/if}
         {/if}
 
-        <Subheader
-            >{$locales.get(
-                (l) => l.ui.page.newclass.subheader.submit,
-            )}</Subheader
-        >
-
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.newclass.prompt.submit)}
-        />
+        <Subheader text={(l) => l.ui.page.newclass.subheader.submit} />
+        <MarkupHTMLView markup={(l) => l.ui.page.newclass.prompt.submit} />
 
         <Centered>
             <Button
                 background
-                tip={$locales.get((l) => l.ui.page.newclass.field.submit.tip)}
+                tip={(l) => l.ui.page.newclass.field.submit.tip}
                 action={submit}
                 active={!download &&
                     !submitting &&
@@ -536,26 +505,21 @@
                             !usernamesTaken.includes(s.username) &&
                             s.password.length >= PasswordLength,
                     )}
-            >
-                {$locales.get(
-                    (l) => l.ui.page.newclass.field.submit.label,
-                )}</Button
-            >
+                label={(l) => l.ui.page.newclass.field.submit.label}
+            />
         </Centered>
 
         {#if createError}
             <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.newclass.error[createError!.kind],
-                )}: {createError.info}</Feedback
+                ><LocalizedText
+                    path={(l) => l.ui.page.newclass.error[createError!.kind]}
+                />: {createError.info}</Feedback
             >
         {/if}
         {#if download === true}
             {#if finalStudents.length > 0}
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.page.newclass.prompt.download,
-                    )}
+                <MarkupHTMLView
+                    markup={(l) => l.ui.page.newclass.prompt.download}
                 />
             {/if}
             <Centered>

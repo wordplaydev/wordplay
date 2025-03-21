@@ -1,24 +1,25 @@
+import type LocaleText from '@locale/LocaleText';
+import type Names from '@nodes/Names';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import type Type from '@nodes/Type';
-import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
-import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import FunctionValue from '@values/FunctionValue';
-import Value from '@values/Value';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
-import BoolValue from '@values/BoolValue';
-import type Names from '@nodes/Names';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     TYPE_SYMBOL,
 } from '@parser/Symbols';
+import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
+import BoolValue from '@values/BoolValue';
+import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
+import FunctionValue from '@values/FunctionValue';
+import NumberValue from '@values/NumberValue';
+import TextValue from '@values/TextValue';
+import Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
 
 export default class StructureValue extends Value {
     readonly type: StructureDefinition;
@@ -169,8 +170,8 @@ export default class StructureValue extends Value {
         }${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.structure);
+    getDescription() {
+        return (l: LocaleText) => l.term.structure;
     }
 
     /**

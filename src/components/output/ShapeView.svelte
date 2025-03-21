@@ -1,18 +1,18 @@
 <script lang="ts">
-    import type Place from '@output/Place';
     import {
         getColorCSS,
-        getFaceCSS as getFaceCSS,
-        getSizeCSS as getSizeCSS,
+        getFaceCSS,
         getOpacityCSS,
-        toOutputTransform,
+        getSizeCSS,
         PX_PER_METER,
+        toOutputTransform,
     } from '@output/outputToCSS';
+    import type Place from '@output/Place';
     import type RenderContext from '@output/RenderContext';
-    import { locales } from '../../db/Database';
-    import type Shape from '../../output/Shape';
-    import { Circle, Polygon, Rectangle } from '../../output/Form';
     import { untrack } from 'svelte';
+    import { locales } from '../../db/Database';
+    import { Circle, Polygon, Rectangle } from '../../output/Form';
+    import type Shape from '../../output/Shape';
 
     interface Props {
         shape: Shape;

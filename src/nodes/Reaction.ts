@@ -1,37 +1,38 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import type Token from './Token';
-import type Type from './Type';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Check from '@runtime/Check';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import ExceptionValue from '@values/ExceptionValue';
-import { node, type Grammar, type Replacement } from './Node';
-import BooleanType from './BooleanType';
-import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
-import Check from '@runtime/Check';
+import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
-import ValueException from '../values/ValueException';
-import TypeException from '../values/TypeException';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
+import ExceptionValue from '@values/ExceptionValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import StreamToken from './StreamToken';
+import Purpose from '../concepts/Purpose';
+import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import UnknownType from './UnknownType';
 import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
-import StreamType from './StreamType';
-import Changed from './Changed';
+import Characters from '../lore/BasisCharacters';
+import TypeException from '../values/TypeException';
+import ValueException from '../values/ValueException';
 import Bind from './Bind';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import BooleanType from './BooleanType';
+import Changed from './Changed';
+import type Context from './Context';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import StreamToken from './StreamToken';
+import StreamType from './StreamType';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
+import UnknownType from './UnknownType';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -99,16 +100,14 @@ export default class Reaction extends Expression {
             {
                 name: 'initial',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.initial),
+                label: () => (l) => l.node.Reaction.initial,
             },
             { name: 'dots', kind: node(Sym.Stream), space: true },
             {
                 name: 'condition',
                 kind: node(Expression),
                 space: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.condition),
+                label: () => (l) => l.node.Reaction.condition,
                 getType: () => BooleanType.make(),
             },
             {
@@ -120,8 +119,7 @@ export default class Reaction extends Expression {
             {
                 name: 'next',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.next),
+                label: () => (l) => l.node.Reaction.next,
                 space: true,
                 indent: true,
             },
@@ -345,8 +343,9 @@ export default class Reaction extends Expression {
         return this.dots;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Reaction);
+    static readonly LocalePath = (l: LocaleText) => l.node.Reaction;
+    getLocalePath() {
+        return Reaction.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

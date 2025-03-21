@@ -1,15 +1,16 @@
 <!-- A modifiable list of creators -->
 <script lang="ts">
     import isValidUsername from '@db/creators/isValidUsername';
-    import type { Creator } from '../../db/creators/CreatorDatabase';
-    import { DB, locales } from '../../db/Database';
+    import type LocaleText from '@locale/LocaleText';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { Creator } from '../../db/creators/CreatorDatabase';
     import validEmail from '../../db/creators/isValidEmail';
+    import { DB } from '../../db/Database';
     import CreatorView from '../app/CreatorView.svelte';
     import Feedback from '../app/Feedback.svelte';
     import Spinning from '../app/Spinning.svelte';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         uids: string[];
@@ -49,13 +50,13 @@
 
     let creators: Record<string, Creator | null> = $state({});
 
-    function validCollaborator(emailOrUsername: string): string | true {
+    function validCollaborator(emailOrUsername: string) {
         if (!validEmail(emailOrUsername) && !isValidUsername(emailOrUsername)) {
-            return $locales.get((l) => l.ui.page.login.error.invalidUsername);
+            return (l: LocaleText) => l.ui.page.login.error.invalidUsername;
         }
         // Don't add self
-        if (emailOrUsername === DB.getUserEmail())
-            return $locales.get((l) => l.ui.dialog.share.error.self);
+        if (emailOrUsername === Creator.getUsername(DB.getUserEmail() ?? ''))
+            return (l: LocaleText) => l.ui.dialog.share.error.self;
         return true;
     }
 
@@ -91,30 +92,28 @@
             <TextField
                 id="creator-to-add"
                 bind:text={emailOrUsername}
-                placeholder={$locales.get(
-                    (l) => l.ui.dialog.share.field.emailOrUsername.placeholder,
-                )}
-                description={$locales.get(
-                    (l) => l.ui.dialog.share.field.emailOrUsername.description,
-                )}
+                placeholder={(l) =>
+                    l.ui.dialog.share.field.emailOrUsername.placeholder}
+                description={(l) =>
+                    l.ui.dialog.share.field.emailOrUsername.description}
                 validator={validCollaborator}
             />
             <Button
                 submit
                 background
                 padding={false}
-                tip={$locales.get((l) => l.ui.dialog.share.button.submit)}
+                tip={(l) => l.ui.dialog.share.button.submit}
                 active={validCollaborator(emailOrUsername) === true}
                 action={() => undefined}>&gt;</Button
             >
-            {#if adding}<Spinning label="" />{/if}
+            {#if adding}<Spinning />{/if}
         </form>
     {/if}
 {/snippet}
 
 {#snippet removeButton(uid: string, email: string)}
     {#if editable && removable && remove}<Button
-            tip={$locales.get((l) => l.ui.project.button.removeCollaborator)}
+            tip={(l) => l.ui.project.button.removeCollaborator}
             active={removable(uid)}
             action={() => remove(uid, email)}
             icon={CANCEL_SYMBOL}
@@ -133,16 +132,12 @@
                         {#each { length: columns } as _, index}
                             <th
                                 >{#if addcolumn}<Button
-                                        tip={$locales.get(
-                                            (l) => l.ui.widget.table.addcolumn,
-                                        )}
+                                        tip={(l) => l.ui.widget.table.addcolumn}
                                         action={() => addcolumn(index)}
                                         icon="+"
                                     ></Button>{/if}{#if removecolumn}<Button
-                                        tip={$locales.get(
-                                            (l) =>
-                                                l.ui.widget.table.removecolumn,
-                                        )}
+                                        tip={(l) =>
+                                            l.ui.widget.table.removecolumn}
                                         action={() => removecolumn(index)}
                                         icon={CANCEL_SYMBOL}
                                     ></Button>{/if}</th
@@ -151,9 +146,7 @@
                         <th
                             >{#if addcolumn}
                                 <Button
-                                    tip={$locales.get(
-                                        (l) => l.ui.widget.table.addcolumn,
-                                    )}
+                                    tip={(l) => l.ui.widget.table.addcolumn}
                                     action={() => addcolumn(columns)}
                                     icon="+"
                                 ></Button>
@@ -177,16 +170,12 @@
                                             <TextField
                                                 id="metadata-{uid}-{column}"
                                                 text={datum}
-                                                placeholder={$locales.get(
-                                                    (l) =>
-                                                        l.ui.widget.table.cell
-                                                            .placeholder,
-                                                )}
-                                                description={$locales.get(
-                                                    (l) =>
-                                                        l.ui.widget.table.cell
-                                                            .description,
-                                                )}
+                                                placeholder={(l) =>
+                                                    l.ui.widget.table.cell
+                                                        .placeholder}
+                                                description={(l) =>
+                                                    l.ui.widget.table.cell
+                                                        .description}
                                                 dwelled={(text) =>
                                                     cell(uid, column, text)}
                                             />
@@ -227,8 +216,8 @@
     </div>
 {/if}
 {#if unknown}
-    <Feedback>{$locales.get((l) => l.ui.dialog.share.error.unknown)}</Feedback
-    >{/if}
+    <Feedback text={(l) => l.ui.dialog.share.error.unknown} />
+{/if}
 
 <style>
     .people {

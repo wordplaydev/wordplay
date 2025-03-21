@@ -1,16 +1,17 @@
 <script lang="ts">
+    import Feedback from '@components/app/Feedback.svelte';
+    import { toClipboard } from '@components/editor/util/Clipboard';
+    import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { COPY_SYMBOL } from '@parser/Symbols';
     import { Galleries, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import Subheader from '../app/Subheader.svelte';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Options from '../widgets/Options.svelte';
     import { getUser } from './Contexts';
-    import Public from './Public.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
     import PII from './PII.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import { COPY_SYMBOL } from '@parser/Symbols';
-    import { toClipboard } from '@components/editor/util/Clipboard';
+    import Public from './Public.svelte';
 
     interface Props {
         project: Project;
@@ -24,22 +25,17 @@
 </script>
 
 {#if $user === null}
-    <Feedback>{$locales.get((l) => l.ui.dialog.share.error.anonymous)}</Feedback
-    >
+    <Feedback text={(l) => l.ui.dialog.share.error.anonymous} />
 {:else}
-    <Subheader>
-        {$locales.get((l) => l.ui.dialog.share.subheader.copy.header)}
-    </Subheader>
+    <Subheader text={(l) => l.ui.dialog.share.subheader.copy.header} />
 
-    <MarkupHtmlView
-        markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.copy.explanation,
-        )}
+    <MarkupHTMLView
+        markup={(l) => l.ui.dialog.share.subheader.copy.explanation}
     />
 
     <Button
         background
-        tip={$locales.get((l) => l.ui.project.button.copy.tip)}
+        tip={(l) => l.ui.project.button.copy.tip}
         action={() => {
             copied = false;
             toClipboard(project.toWordplay());
@@ -48,24 +44,19 @@
         }}
         icon={COPY_SYMBOL}
     >
-        {$locales.get((l) => l.ui.project.button.copy.label)}
+        <LocalizedText path={(l) => l.ui.project.button.copy.label} />
         {#if copied}✓{/if}</Button
     >
 
-    <Subheader
-        >{$locales.get(
-            (l) => l.ui.dialog.share.subheader.gallery.header,
-        )}</Subheader
-    >
-    <MarkupHtmlView
-        markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.gallery.explanation,
-        )}
+    <Subheader text={(l) => l.ui.dialog.share.subheader.gallery.header} />
+
+    <MarkupHTMLView
+        markup={(l) => l.ui.dialog.share.subheader.gallery.explanation}
     />
 
     <Options
         id="gallerychooser"
-        label={$locales.get((l) => l.ui.dialog.share.options.gallery)}
+        label={(l) => l.ui.dialog.share.options.gallery}
         value={project.getGallery() ?? undefined}
         options={[
             { value: undefined, label: '—' },

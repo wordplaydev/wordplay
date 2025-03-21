@@ -1,26 +1,26 @@
 import type Conflict from '@conflicts/Conflict';
+import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
+import { UnknownName } from '@conflicts/UnknownName';
 import { UnknownTypeName } from '@conflicts/UnknownTypeName';
-import type Token from './Token';
-import Type from './Type';
-import TypeVariable from './TypeVariable';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Emotion from '../lore/Emotion';
 import type Context from './Context';
 import type Definition from './Definition';
-import StructureDefinition from './StructureDefinition';
-import VariableType from './VariableType';
 import NameToken from './NameToken';
-import TypeInputs from './TypeInputs';
-import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import type TypeSet from './TypeSet';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import UnknownNameType from './UnknownNameType';
 import type Node from './Node';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import { UnknownName } from '@conflicts/UnknownName';
-import Emotion from '../lore/Emotion';
-import Sym from './Sym';
-import type Locales from '../locale/Locales';
+import { node, optional, type Grammar, type Replacement } from './Node';
+import StructureDefinition from './StructureDefinition';
 import StructureType from './StructureType';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Sym from './Sym';
+import type Token from './Token';
+import Type from './Type';
+import TypeInputs from './TypeInputs';
+import type TypeSet from './TypeSet';
+import TypeVariable from './TypeVariable';
+import UnknownNameType from './UnknownNameType';
+import VariableType from './VariableType';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -182,15 +182,13 @@ export default class NameType extends Type {
         return 'name';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NameType);
+    static readonly LocalePath = (l: LocaleText) => l.node.NameType;
+    getLocalePath() {
+        return NameType.LocalePath;
     }
 
     getCharacter() {
-        return {
-            symbols: this.name.getText(),
-            emotion: Emotion.kind,
-        };
+        return { symbols: this.name.getText(), emotion: Emotion.kind };
     }
 
     getDescriptionInputs() {

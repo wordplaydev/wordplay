@@ -1,19 +1,19 @@
-import toStructure from '../basis/toStructure';
-import type Value from '@values/Value';
-import type Color from './Color';
-import type Output from './Output';
-import type RenderContext from './RenderContext';
-import Place from './Place';
 import { getBind } from '@locale/getBind';
 import NumberValue from '@values/NumberValue';
-import Arrangement from './Arrangement';
-import Group from './Group';
-import Phrase from './Phrase';
-import { getOutputInput } from './Valued';
-import StructureValue from '../values/StructureValue';
-import type Locales from '../locale/Locales';
 import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
+import toStructure from '../basis/toStructure';
+import type Locales from '../locale/Locales';
+import StructureValue from '../values/StructureValue';
 import type Alignment from './Alignment';
+import Arrangement from './Arrangement';
+import type Color from './Color';
+import Group from './Group';
+import type Output from './Output';
+import Phrase from './Phrase';
+import Place from './Place';
+import type RenderContext from './RenderContext';
+import { getOutputInput } from './Valued';
 
 export function createRowType(locales: Locales) {
     return toStructure(`
@@ -99,15 +99,7 @@ export class Row extends Arrangement {
             }
         }
 
-        return {
-            left,
-            right,
-            top,
-            bottom,
-            width,
-            height,
-            places: positions,
-        };
+        return { left, right, top, bottom, width, height, places: positions };
     }
 
     getBackground(): Color | undefined {

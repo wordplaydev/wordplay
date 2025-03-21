@@ -7,10 +7,7 @@ import {
 } from '@parser/Symbols';
 import type { TileKind } from './Tile';
 
-type TileKindMeta = {
-    symbol: string;
-    order: number;
-};
+type TileKindMeta = { symbol: string; order: number };
 
 const TileKinds: { [ID in TileKind]: TileKindMeta } = {
     output: { symbol: STAGE_SYMBOL, order: 1 },

@@ -1,8 +1,8 @@
+import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class DuplicateShare extends Conflict {
     readonly share: Bind;

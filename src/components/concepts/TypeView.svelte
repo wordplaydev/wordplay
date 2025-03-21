@@ -1,12 +1,12 @@
 <script lang="ts">
     import type StructureConcept from '@concepts/StructureConcept';
-    import RootView from '../project/RootView.svelte';
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import { OR_SYMBOL } from '@parser/Symbols';
-    import type Type from '@nodes/Type';
-    import type Context from '@nodes/Context';
-    import type FunctionConcept from '../../concepts/FunctionConcept';
     import { blocks } from '@db/Database';
+    import type Context from '@nodes/Context';
+    import type Type from '@nodes/Type';
+    import { OR_SYMBOL } from '@parser/Symbols';
+    import type FunctionConcept from '../../concepts/FunctionConcept';
+    import { getConceptIndex, getConceptPath } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
 
     interface Props {
         type: Type;

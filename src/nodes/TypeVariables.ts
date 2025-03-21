@@ -1,16 +1,16 @@
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import Sym from './Sym';
-import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
-import Names from './Names';
-import type TypeVariable from './TypeVariable';
 import type Conflict from '@conflicts/Conflict';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
-import Node, { node } from './Node';
-import type Locales from '../locale/Locales';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
+import Names from './Names';
+import type { Grammar, Replacement } from './Node';
+import Node, { node } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import type TypeVariable from './TypeVariable';
 
 export default class TypeVariables extends Node {
     readonly open: Token;
@@ -93,8 +93,9 @@ export default class TypeVariables extends Node {
         return this.variables.some((variable) => variable.names.hasName(name));
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TypeVariables);
+    static readonly LocalePath = (l: LocaleText) => l.node.TypeVariables;
+    getLocalePath() {
+        return TypeVariables.LocalePath;
     }
 
     getCharacter() {

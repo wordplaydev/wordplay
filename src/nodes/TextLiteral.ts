@@ -1,31 +1,32 @@
-import TextType from './TextType';
-import type Type from './Type';
-import TextValue from '@values/TextValue';
-import type Language from './Language';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement, list } from './Node';
-import Literal from './Literal';
-import Emotion from '../lore/Emotion';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import Translation from './Translation';
-import UnionType from './UnionType';
-import { getPreferred } from './LanguageTagged';
-import Token from './Token';
-import Sym from './Sym';
-import type Expression from './Expression';
-import type Step from '@runtime/Step';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
-import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
-import type EditContext from '@edit/EditContext';
-import { ConceptRegExPattern } from '@parser/Tokenizer';
-import { getCodepointFromString } from '../unicode/getCodepoint';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { ConceptRegExPattern } from '@parser/Tokenizer';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import TextValue from '@values/TextValue';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Emotion from '../lore/Emotion';
+import { getCodepointFromString } from '../unicode/getCodepoint';
+import type Value from '../values/Value';
+import type Context from './Context';
+import type Expression from './Expression';
+import type Language from './Language';
+import { getPreferred } from './LanguageTagged';
+import Literal from './Literal';
+import { list, node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import TextType from './TextType';
+import Token from './Token';
+import Translation from './Translation';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class TextLiteral extends Literal {
     /** The list of translations for the text literal */
@@ -223,8 +224,9 @@ export default class TextLiteral extends Literal {
         return this.texts[0];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TextLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.TextLiteral;
+    getLocalePath() {
+        return TextLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

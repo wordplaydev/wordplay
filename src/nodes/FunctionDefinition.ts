@@ -1,49 +1,49 @@
-import type Node from './Node';
-import Bind from './Bind';
-import Expression, { type GuardContext } from './Expression';
-import Token from './Token';
-import Sym from './Sym';
-import Type from './Type';
 import type Conflict from '@conflicts/Conflict';
-import { getEvaluationInputConflicts } from './util';
+import NoExpression from '@conflicts/NoExpression';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
+import { OperatorRegEx } from '@parser/Tokenizer';
 import type Evaluator from '@runtime/Evaluator';
-import FunctionValue from '@values/FunctionValue';
+import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
+import FunctionValue from '@values/FunctionValue';
+import InternalException from '@values/InternalException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import IncompatibleType from '../conflicts/IncompatibleType';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BinaryEvaluate from './BinaryEvaluate';
+import Bind from './Bind';
 import type Context from './Context';
 import type Definition from './Definition';
-import { OperatorRegEx } from '@parser/Tokenizer';
-import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
-import type TypeSet from './TypeSet';
+import DefinitionExpression from './DefinitionExpression';
+import Docs from './Docs';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
-import Docs from './Docs';
-import Names from './Names';
-import type Value from '@values/Value';
-import StartFinish from '@runtime/StartFinish';
-import TypeVariables from './TypeVariables';
-import NoExpression from '@conflicts/NoExpression';
-import UnimplementedType from './UnimplementedType';
-import TypeToken from './TypeToken';
-import { any, node, none, type Grammar, type Replacement, list } from './Node';
-import type LocaleText from '@locale/LocaleText';
-import InternalException from '@values/InternalException';
-import Characters from '../lore/BasisCharacters';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import IncompatibleType from '../conflicts/IncompatibleType';
-import NameType from './NameType';
-import FunctionType from './FunctionType';
-import StructureDefinition from './StructureDefinition';
-import UnaryEvaluate from './UnaryEvaluate';
-import BinaryEvaluate from './BinaryEvaluate';
 import Evaluate from './Evaluate';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionType from './FunctionType';
+import Names from './Names';
+import NameType from './NameType';
+import type Node from './Node';
+import { any, list, node, none, type Grammar, type Replacement } from './Node';
 import PropertyReference from './PropertyReference';
 import Reference from './Reference';
-import Purpose from '../concepts/Purpose';
-import DefinitionExpression from './DefinitionExpression';
-import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
+import StructureDefinition from './StructureDefinition';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type TypeSet from './TypeSet';
+import TypeToken from './TypeToken';
+import TypeVariables from './TypeVariables';
+import UnaryEvaluate from './UnaryEvaluate';
+import UnimplementedType from './UnimplementedType';
+import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -472,8 +472,9 @@ export default class FunctionDefinition extends DefinitionExpression {
         return current;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FunctionDefinition);
+    static readonly LocalePath = (l: LocaleText) => l.node.FunctionDefinition;
+    getLocalePath() {
+        return FunctionDefinition.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

@@ -1,15 +1,15 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { STREAM_SYMBOL } from '@parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
 import AnyType from './AnyType';
 import type Context from './Context';
 import { node, type Grammar, type Replacement } from './Node';
-import Token from './Token';
 import Sym from './Sym';
+import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import Characters from '../lore/BasisCharacters';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export const STREAM_NATIVE_TYPE_NAME = 'stream';
 
@@ -73,8 +73,9 @@ export default class StreamType extends Type {
         ) as this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StreamType);
+    static readonly LocalePath = (l: LocaleText) => l.node.StreamType;
+    getLocalePath() {
+        return StreamType.LocalePath;
     }
 
     getCharacter() {

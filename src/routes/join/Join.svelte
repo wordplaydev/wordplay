@@ -1,21 +1,21 @@
 <script lang="ts">
-    import TextField from '@components/widgets/TextField.svelte';
-    import LoginForm from '../login/LoginForm.svelte';
-    import { locales } from '@db/Database';
-    import isValidPassword from '../login/IsValidPassword';
-    import { createUserWithEmailAndPassword } from 'firebase/auth';
-    import { auth, functions } from '@db/firebase';
-    import getAuthErrorDescription from '../login/getAuthErrorDescription';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import isValidUsername from '@db/creators/isValidUsername';
     import { goto } from '$app/navigation';
     import Feedback from '@components/app/Feedback.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
     import Header from '@components/app/Header.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import isValidUsername from '@db/creators/isValidUsername';
+    import { auth, functions } from '@db/firebase';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { createUserWithEmailAndPassword } from 'firebase/auth';
     import { usernameAccountExists } from '../../db/creators/accountExists';
+    import getAuthErrorDescription from '../login/getAuthErrorDescription';
+    import isValidPassword from '../login/IsValidPassword';
+    import LoginForm from '../login/LoginForm.svelte';
 
     let username = $state('');
     let password = $state('');
@@ -30,7 +30,7 @@
     let checkingUsername = $state(false);
 
     /** Feedback to show in the login form */
-    let feedback: string | undefined = $state(undefined);
+    let feedback: LocaleTextAccessor | undefined = $state(undefined);
 
     function createAccountFormComplete() {
         return (
@@ -59,7 +59,7 @@
                 // If successful, navigate to the login page to show the profile.
                 goto('/profile');
             } catch (error) {
-                feedback = getAuthErrorDescription($locales, error);
+                feedback = getAuthErrorDescription(error);
             } finally {
                 loading = false;
             }
@@ -67,32 +67,23 @@
     }
 </script>
 
-<Header>{$locales.get((l) => l.ui.page.join.header)}</Header>
+<Header text={(l) => l.ui.page.join.header} />
 
 <LoginForm submit={createAccount} {feedback}>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.join.prompt.create)}
-    />
+    <MarkupHTMLView markup={(l) => l.ui.page.join.prompt.create} />
 
-    <MarkupHtmlView
-        note
-        markup={$locales.get((l) => l.ui.page.join.prompt.username)}
-    />
+    <MarkupHTMLView note markup={(l) => l.ui.page.join.prompt.username} />
 
     <p class="center">
         <TextField
             id="username-field"
-            description={$locales.get(
-                (l) => l.ui.page.login.field.username.description,
-            )}
-            placeholder={$locales.get(
-                (l) => l.ui.page.login.field.username.placeholder,
-            )}
+            description={(l) => l.ui.page.login.field.username.description}
+            placeholder={(l) => l.ui.page.login.field.username.placeholder}
             bind:text={username}
             editable={!loading}
             validator={(text) =>
                 !isValidUsername(text)
-                    ? $locales.get((l) => l.ui.page.login.error.invalidUsername)
+                    ? (l) => l.ui.page.login.error.invalidUsername
                     : true}
             changed={() => {
                 if (available === false) available = undefined;
@@ -109,47 +100,36 @@
         <Feedback>This username is taken.</Feedback>
     {/if}
 
-    <MarkupHtmlView
-        note
-        markup={$locales.get((l) => l.ui.page.join.prompt.password)}
-    />
+    <MarkupHTMLView note markup={(l) => l.ui.page.join.prompt.password} />
     <p class="center">
         <TextField
             id="password-field"
             kind={reveal ? undefined : 'password'}
-            description={$locales.get(
-                (l) => l.ui.page.login.field.password.description,
-            )}
-            placeholder={$locales.get(
-                (l) => l.ui.page.login.field.password.placeholder,
-            )}
+            description={(l) => l.ui.page.login.field.password.description}
+            placeholder={(l) => l.ui.page.login.field.password.placeholder}
             bind:text={password}
             editable={!loading}
             validator={(pass) =>
                 !isValidPassword(pass)
-                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    ? (l) => l.ui.page.login.error.invalidPassword
                     : true}
         />
         <TextField
             id="password-repeat-field"
             kind={reveal ? undefined : 'password'}
-            description={$locales.get(
-                (l) => l.ui.page.login.field.password.description,
-            )}
-            placeholder={$locales.get(
-                (l) => l.ui.page.login.field.password.placeholder,
-            )}
+            description={(l) => l.ui.page.login.field.password.description}
+            placeholder={(l) => l.ui.page.login.field.password.placeholder}
             bind:text={password2}
             editable={!loading}
             validator={(pass) =>
                 !isValidPassword(pass)
-                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    ? (l) => l.ui.page.login.error.invalidPassword
                     : pass !== password
-                      ? $locales.get((l) => l.ui.page.login.error.mismatched)
+                      ? (l) => l.ui.page.login.error.mismatched
                       : true}
         />
         <Toggle
-            tips={$locales.get((l) => l.ui.page.login.toggle.reveal)}
+            tips={(l) => l.ui.page.login.toggle.reveal}
             on={reveal}
             toggle={() => (reveal = !reveal)}>🔎</Toggle
         >
@@ -162,13 +142,13 @@
             <Button
                 background
                 submit
-                tip={$locales.get((l) => l.ui.page.login.button.login)}
+                tip={(l) => l.ui.page.login.button.login}
                 active={isValidUsername(username) &&
                     isValidPassword(password) &&
                     password === password2}
                 action={() => undefined}
-                >{$locales.get((l) => l.ui.page.join.header)}</Button
-            >
+                label={(l) => l.ui.page.join.header}
+            />
         {/if}
     </p>
 </LoginForm>

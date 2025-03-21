@@ -18,7 +18,7 @@ export default class Transition {
         size: number | undefined,
         pose: Pose,
         duration: number,
-        style: string | undefined
+        style: string | undefined,
     ) {
         this.place = place;
         this.size = size;
@@ -33,7 +33,7 @@ export default class Transition {
             this.size,
             this.pose,
             this.duration,
-            this.style
+            this.style,
         );
     }
 
@@ -43,7 +43,7 @@ export default class Transition {
             this.size,
             this.pose,
             duration,
-            this.style
+            this.style,
         );
     }
 }

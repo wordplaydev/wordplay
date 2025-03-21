@@ -17,7 +17,7 @@
             class="emoji"
             class:selected={String.fromCodePoint(code.hex) === emoji}
             ><Button
-                tip={code.name}
+                tip={() => code.name}
                 action={() => pick(String.fromCodePoint(code.hex))}
                 ><span class="emoji"
                     >{withColorEmoji(String.fromCodePoint(code.hex))}</span

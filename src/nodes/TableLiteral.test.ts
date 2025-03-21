@@ -1,8 +1,8 @@
-import { test } from 'vitest';
-import { testConflict } from '@conflicts/TestUtilities';
-import MissingCell from '@conflicts/MissingCell';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
+import MissingCell from '@conflicts/MissingCell';
+import { testConflict } from '@conflicts/TestUtilities';
+import { test } from 'vitest';
 import TableLiteral from './TableLiteral';
 import TableType from './TableType';
 
@@ -19,5 +19,5 @@ test.each([
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {
         testConflict(good, bad, node, conflict);
-    }
+    },
 );

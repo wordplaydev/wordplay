@@ -1,12 +1,13 @@
 <script lang="ts">
-    import TextField from '@components/widgets/TextField.svelte';
-    import Feedback from '../../components/app/Feedback.svelte';
-    import { locales } from '@db/Database';
-    import { verifyBeforeUpdateEmail } from 'firebase/auth';
-    import type { User } from 'firebase/auth';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import validEmail from '@db/creators/isValidEmail';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import type { User } from 'firebase/auth';
+    import { verifyBeforeUpdateEmail } from 'firebase/auth';
+    import Feedback from '../../components/app/Feedback.svelte';
     import getLoginErrorDescription from './getAuthErrorDescription';
 
     interface Props {
@@ -16,7 +17,7 @@
     let { user }: Props = $props();
 
     let changeSubmitted = $state(false);
-    let changeFeedback: string | undefined = $state(undefined);
+    let changeFeedback: LocaleTextAccessor | undefined = $state(undefined);
     let newEmail: string = $state('');
 
     async function update() {
@@ -25,38 +26,32 @@
         changeSubmitted = true;
         try {
             await verifyBeforeUpdateEmail(user, newEmail);
-            changeFeedback = $locales.get(
-                (l) => l.ui.page.login.prompt.confirm,
-            );
+            changeFeedback = (l) => l.ui.page.login.prompt.confirm;
         } catch (error) {
-            changeFeedback = getLoginErrorDescription($locales, error);
+            changeFeedback = getLoginErrorDescription(error);
         } finally {
             changeSubmitted = false;
         }
     }
 </script>
 
-<p>{$locales.get((l) => l.ui.page.login.prompt.changeEmail)}</p>
+<p><LocalizedText path={(l) => l.ui.page.login.prompt.changeEmail} /></p>
 <form onsubmit={update}>
     <TextField
         id="new-email"
-        description={$locales.get(
-            (l) => l.ui.page.login.field.email.description,
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.email.placeholder,
-        )}
+        description={(l) => l.ui.page.login.field.email.description}
+        placeholder={(l) => l.ui.page.login.field.email.placeholder}
         bind:text={newEmail}
         editable={!changeSubmitted}
     /><Button
         submit
         background
-        tip={$locales.get((l) => l.ui.page.login.button.updateEmail)}
+        tip={(l) => l.ui.page.login.button.updateEmail}
         active={validEmail(newEmail)}
         action={() => undefined}>&gt;</Button
     >
     {#if changeSubmitted}<Spinning
-            label={$locales.get((l) => l.ui.page.login.feedback.changing)}
+            label={(l) => l.ui.page.login.feedback.changing}
         />
-    {:else if changeFeedback}<Feedback inline>{changeFeedback}</Feedback>{/if}
+    {:else if changeFeedback}<Feedback inline text={changeFeedback} />{/if}
 </form>

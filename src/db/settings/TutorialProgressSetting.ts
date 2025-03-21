@@ -13,13 +13,7 @@ export type TutorialProgress = {
 export const TutorialProgressSetting = new Setting<TutorialProgress>(
     'tutorial',
     false,
-    {
-        language: 'en',
-        region: 'US',
-        act: 1,
-        scene: 1,
-        line: 1,
-    },
+    { language: 'en', region: 'US', act: 1, scene: 1, line: 1 },
     (value) =>
         value != null &&
         typeof value === 'object' &&

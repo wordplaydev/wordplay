@@ -1,18 +1,18 @@
-import type { Grammar, Replacement } from './Node';
 import type LanguageCode from '@locale/LanguageCode';
-import Name from './Name';
-import Token from './Token';
-import { COMMA_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import NameToken from './NameToken';
-import Language from './Language';
 import type LocaleText from '@locale/LocaleText';
-import Purpose from '../concepts/Purpose';
-import Emotion from '../lore/Emotion';
-import Node, { list, node } from './Node';
-import { getPreferred as getPreferredName } from './LanguageTagged';
-import type Locales from '../locale/Locales';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { COMMA_SYMBOL } from '@parser/Symbols';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Emotion from '../lore/Emotion';
+import Language from './Language';
+import { getPreferred as getPreferredName } from './LanguageTagged';
+import Name from './Name';
+import NameToken from './NameToken';
+import type { Grammar, Replacement } from './Node';
+import Node, { list, node } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -206,8 +206,9 @@ export default class Names extends Node {
         return this.names.find((name) => name.startsWith(prefix));
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Names);
+    static readonly LocalePath = (l: LocaleText) => l.node.Names;
+    getLocalePath() {
+        return Names.LocalePath;
     }
 
     withName(name: string, language: LanguageCode) {
@@ -228,9 +229,6 @@ export default class Names extends Node {
     }
 
     getCharacter() {
-        return {
-            symbols: this.getNames()[0],
-            emotion: Emotion.kind,
-        };
+        return { symbols: this.getNames()[0], emotion: Emotion.kind };
     }
 }

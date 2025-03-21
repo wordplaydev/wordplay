@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Names from '@nodes/Names';
     import Sym from '@nodes/Sym';
     import {
         BIND_SYMBOL,
@@ -6,12 +7,11 @@
         EVAL_OPEN_SYMBOL,
     } from '@parser/Symbols';
     import type StructureValue from '@values/StructureValue';
-    import SymbolView from './SymbolView.svelte';
-    import ValueView from './ValueView.svelte';
+    import { locales } from '../../db/Database';
     import { toColor } from '../../output/Color';
     import Expandable from './Expandable.svelte';
-    import { locales } from '../../db/Database';
-    import Names from '@nodes/Names';
+    import SymbolView from './SymbolView.svelte';
+    import ValueView from './ValueView.svelte';
 
     interface Props {
         value: StructureValue;
@@ -35,8 +35,8 @@
                     value={val}
                     {inline}
                 />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}{/snippet}
-            {#snippet collapsed()}
-                {#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
+        {#snippet collapsed()}
+            {#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
                     class="color"
                     style:background-color={toColor(value)?.toCSS()}
                     >&ZeroWidthSpace;</span

@@ -1,8 +1,9 @@
 <script lang="ts">
     import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
-        label?: string | undefined;
+        label?: LocaleTextAccessor | undefined;
         large?: boolean;
     }
 
@@ -15,7 +16,7 @@
     aria-live="assertive"
     aria-atomic="true"
     aria-relevant="all"
-    aria-label={label ?? $locales.get((l) => l.ui.widget.loading.message)}
+    aria-label={$locales.get(label ?? ((l) => l.ui.widget.loading.message))}
 ></div>
 
 <style>

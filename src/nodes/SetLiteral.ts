@@ -1,30 +1,31 @@
-import Expression, { type GuardContext } from './Expression';
-import Token from './Token';
-import type Type from './Type';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import SetValue from '@values/SetValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import SetType from './SetType';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement, list } from './Node';
-import Characters from '../lore/BasisCharacters';
+import type Step from '@runtime/Step';
+import SetValue from '@values/SetValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
-import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
-import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
-import AnyType from './AnyType';
+import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Locales from '../locale/Locales';
-import { MAX_LINE_LENGTH } from '@parser/Spaces';
-import type EditContext from '@edit/EditContext';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import { list, node, type Grammar, type Replacement } from './Node';
+import SetCloseToken from './SetCloseToken';
+import SetType from './SetType';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -183,8 +184,9 @@ export default class SetLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.SetLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.SetLiteral;
+    getLocalePath() {
+        return SetLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

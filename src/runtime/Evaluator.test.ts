@@ -1,11 +1,11 @@
-import { expect, test } from 'vitest';
-import Project from '../db/projects/Project';
 import Source from '@nodes/Source';
+import Evaluator from '@runtime/Evaluator';
+import { expect, test } from 'vitest';
+import { DB } from '../db/Database';
+import Project from '../db/projects/Project';
+import DefaultLocale from '../locale/DefaultLocale';
 import EvaluationLimitException from '../values/EvaluationLimitException';
 import StepLimitException from '../values/StepLimitException';
-import Evaluator from '@runtime/Evaluator';
-import { DB } from '../db/Database';
-import DefaultLocale from '../locale/DefaultLocale';
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     const fib = `

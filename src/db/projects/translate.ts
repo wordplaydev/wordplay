@@ -1,21 +1,21 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type Project from './Project';
-import { httpsCallable, type Functions } from 'firebase/functions';
-import Reference from '@nodes/Reference';
-import type Source from '@nodes/Source';
-import Names from '@nodes/Names';
 import { Locales } from '@db/Database';
+import type LanguageCode from '@locale/LanguageCode';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Docs from '@nodes/Docs';
 import Doc from '@nodes/Doc';
-import { toMarkup } from '@parser/toMarkup';
-import Language from '@nodes/Language';
+import Docs from '@nodes/Docs';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
+import Language from '@nodes/Language';
+import Names from '@nodes/Names';
+import Reference from '@nodes/Reference';
+import type Source from '@nodes/Source';
 import TextLiteral from '@nodes/TextLiteral';
-import Translation from '@nodes/Translation';
 import Token from '@nodes/Token';
+import Translation from '@nodes/Translation';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { toMarkup } from '@parser/toMarkup';
+import { httpsCallable, type Functions } from 'firebase/functions';
+import type Project from './Project';
 
 // Convert any camel cased word into space separated words.
 const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
@@ -158,11 +158,7 @@ export default async function translateProject(
         // If there are more than one and the source and target are different, get some translations.
         if (originalTexts.length > 0 && sourceLanguage !== targetLanguage) {
             const getTranslations = httpsCallable<
-                {
-                    from: string;
-                    to: string;
-                    text: string[];
-                },
+                { from: string; to: string; text: string[] },
                 string[] | null
             >(functions, 'getTranslations');
 

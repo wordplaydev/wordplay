@@ -1,13 +1,13 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import { locales } from '@db/Database';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { type Class } from '@db/teachers/TeacherDatabase.svelte';
-    import Link from '@components/app/Link.svelte';
     import Centered from '@components/app/Centered.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import { getTeachData } from './+layout.svelte';
+    import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import Title from '@components/widgets/Title.svelte';
+    import { type Class } from '@db/teachers/TeacherDatabase.svelte';
+    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
+    import { getTeachData } from './+layout.svelte';
+    import TeachersOnly from './TeachersOnly.svelte';
 
     let teach = getTeachData();
 
@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.teach.header)}</title>
+    <Title text={(l) => l.ui.page.teach.header} />
 </svelte:head>
 
 {#snippet classDetails(group: Class)}
@@ -27,29 +27,25 @@
     >
 {/snippet}
 
-<Header>{$locales.get((l) => l.ui.page.teach.header)}</Header>
-{#if classes === undefined}
-    <Spinning></Spinning>
-{:else if classes === null}
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.teach.error.offline)}
-    />
-{:else}
-    {#if classes.length === 0}
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.teach.prompt.none)}
-        />
+<TeachersOnly>
+    {#if classes === undefined}
+        <Spinning></Spinning>
+    {:else if classes === null}
+        <MarkupHTMLView markup={(l) => l.ui.page.teach.error.offline} />
     {:else}
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.teach.prompt.some)}
-        />
+        {#if classes.length === 0}
+            <MarkupHTMLView markup={(l) => l.ui.page.teach.prompt.none} />
+        {:else}
+            <MarkupHTMLView markup={(l) => l.ui.page.teach.prompt.some} />
+        {/if}
+        <Centered>
+            <Link
+                to="/teach/class/new"
+                label={(l) => l.ui.page.teach.link.new}
+            />
+        </Centered>
+        {#each classes as group}
+            {@render classDetails(group)}
+        {/each}
     {/if}
-    <Centered>
-        <Link to="/teach/class/new">
-            {$locales.get((l) => l.ui.page.teach.link.new)}
-        </Link>
-    </Centered>
-    {#each classes as group}
-        {@render classDetails(group)}
-    {/each}
-{/if}
+</TeachersOnly>

@@ -1,20 +1,20 @@
-import StreamValue from '@values/StreamValue';
+import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import StreamDefinition from '../nodes/StreamDefinition';
+import BoolValue from '@values/BoolValue';
+import StreamValue from '@values/StreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import Bind from '../nodes/Bind';
-import UnionType from '../nodes/UnionType';
-import NoneType from '../nodes/NoneType';
-import NoneLiteral from '../nodes/NoneLiteral';
-import TextType from '../nodes/TextType';
-import BooleanType from '../nodes/BooleanType';
-import TextValue from '../values/TextValue';
-import BoolValue from '@values/BoolValue';
-import StreamType from '../nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
 import type Locales from '../locale/Locales';
-import type Evaluation from '@runtime/Evaluation';
+import Bind from '../nodes/Bind';
+import BooleanType from '../nodes/BooleanType';
+import NoneLiteral from '../nodes/NoneLiteral';
+import NoneType from '../nodes/NoneType';
+import StreamDefinition from '../nodes/StreamDefinition';
+import StreamType from '../nodes/StreamType';
+import TextType from '../nodes/TextType';
+import UnionType from '../nodes/UnionType';
+import TextValue from '../values/TextValue';
+import createStreamEvaluator from './createStreamEvaluator';
 
 export default class Key extends StreamValue<
     TextValue,

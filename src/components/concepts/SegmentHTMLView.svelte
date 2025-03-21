@@ -1,25 +1,25 @@
 <script lang="ts">
+    import ConceptRef from '../../locale/ConceptRef';
+    import NodeRef from '../../locale/NodeRef';
+    import ValueRef from '../../locale/ValueRef';
     import ConceptLink from '../../nodes/ConceptLink';
+    import Example from '../../nodes/Example';
+    import type { Segment } from '../../nodes/Paragraph';
     import Token from '../../nodes/Token';
+    import UnknownType from '../../nodes/UnknownType';
     import WebLink from '../../nodes/WebLink';
     import Words from '../../nodes/Words';
     import type Spaces from '../../parser/Spaces';
-    import WebLinkHTMLView from './WebLinkHTMLView.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import Example from '../../nodes/Example';
-    import ExampleUI from './ExampleUI.svelte';
-    import NodeRef from '../../locale/NodeRef';
-    import ValueRef from '../../locale/ValueRef';
-    import ValueView from '../values/ValueView.svelte';
-    import ConceptRef from '../../locale/ConceptRef';
-    import type { Segment } from '../../nodes/Paragraph';
-    import WordsHTMLView from './WordsHTMLView.svelte';
-    import RootView from '../project/RootView.svelte';
     import { unescapeMarkupSymbols } from '../../parser/Tokenizer';
-    import UnknownType from '../../nodes/UnknownType';
-    import MarkupHtmlView from './MarkupHTMLView.svelte';
     import { withColorEmoji } from '../../unicode/emoji';
+    import RootView from '../project/RootView.svelte';
+    import ValueView from '../values/ValueView.svelte';
     import CodeView from './CodeView.svelte';
+    import ConceptLinkUI from './ConceptLinkUI.svelte';
+    import ExampleUI from './ExampleUI.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import WebLinkHTMLView from './WebLinkHTMLView.svelte';
+    import WordsHTMLView from './WordsHTMLView.svelte';
 
     interface Props {
         segment: Segment;
@@ -50,7 +50,7 @@
     />
 {:else if segment instanceof Words}<WordsHTMLView words={segment} {spaces} />
 {:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}
-        <MarkupHtmlView
+        <MarkupHTMLView
             markup={segment.node.getDescription(
                 segment.locales,
                 segment.context,
@@ -67,7 +67,7 @@
         ><ValueView value={segment.value} /></strong
     >
     <!-- Remove the bullet if the words start with one. -->
-{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withColorEmoji(
+{:else if segment instanceof Token}{#if /^[ \n]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withColorEmoji(
         (segment.startsWith('•')
             ? segment.getText().substring(1).trimStart()
             : withColorEmoji(unescapeMarkupSymbols(segment.getText()))

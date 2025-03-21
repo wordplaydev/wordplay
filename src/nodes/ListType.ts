@@ -1,18 +1,19 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
-import type Context from './Context';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
-import Token from './Token';
+import type Context from './Context';
+import ListLiteral from './ListLiteral';
+import { node, optional, type Grammar, type Replacement } from './Node';
 import Sym from './Sym';
+import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import Characters from '../lore/BasisCharacters';
-import NodeRef from '../locale/NodeRef';
-import type Locales from '../locale/Locales';
-import ListLiteral from './ListLiteral';
-import type EditContext from '@edit/EditContext';
-import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ListType extends BasisType {
     readonly open: Token;
@@ -113,8 +114,9 @@ export default class ListType extends BasisType {
             : undefined;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ListType);
+    static readonly LocalePath = (l: LocaleText) => l.node.ListType;
+    getLocalePath() {
+        return ListType.LocalePath;
     }
 
     getCharacter() {

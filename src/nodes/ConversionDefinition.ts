@@ -1,33 +1,34 @@
-import type Node from './Node';
-import Expression, { type GuardContext } from './Expression';
-import Token from './Token';
-import Sym from './Sym';
 import type Conflict from '@conflicts/Conflict';
 import { MisplacedConversion } from '@conflicts/MisplacedConversion';
-import Block from './Block';
-import ConversionType from './ConversionType';
-import Type from './Type';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
+import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
-import type Context from './Context';
-import { CONVERT_SYMBOL } from '@parser/Symbols';
-import type TypeSet from './TypeSet';
-import Docs from './Docs';
-import StartFinish from '@runtime/StartFinish';
-import { node, none, type Grammar, type Replacement, any } from './Node';
 import InternalException from '@values/InternalException';
-import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
-import type Value from '../values/Value';
-import NodeRef from '../locale/NodeRef';
-import TypePlaceholder from './TypePlaceholder';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/parseType';
-import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
+import parseType from '../parser/parseType';
+import { toTokens } from '../parser/toTokens';
+import type Value from '../values/Value';
+import Block from './Block';
+import type Context from './Context';
+import ConversionType from './ConversionType';
+import DefinitionExpression from './DefinitionExpression';
+import Docs from './Docs';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Node from './Node';
+import { any, node, none, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
+import TypePlaceholder from './TypePlaceholder';
+import type TypeSet from './TypeSet';
 
 export default class ConversionDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
@@ -197,8 +198,9 @@ export default class ConversionDefinition extends DefinitionExpression {
         return this.arrow;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ConversionDefinition);
+    static readonly LocalePath = (l: LocaleText) => l.node.ConversionDefinition;
+    getLocalePath() {
+        return ConversionDefinition.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {

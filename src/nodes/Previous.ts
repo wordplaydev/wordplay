@@ -1,35 +1,36 @@
 import type Conflict from '@conflicts/Conflict';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { PREVIOUS_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import NumberValue from '@values/NumberValue';
+import StreamValue from '@values/StreamValue';
+import TypeException from '@values/TypeException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
+import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import ListType from './ListType';
+import { node, optional, type Grammar, type Replacement } from './Node';
+import NoneType from './NoneType';
 import NumberType from './NumberType';
+import StreamType from './StreamType';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import NumberValue from '@values/NumberValue';
-import type Step from '@runtime/Step';
-import Finish from '@runtime/Finish';
-import type Context from './Context';
-import StreamType from './StreamType';
-import StreamValue from '@values/StreamValue';
 import type TypeSet from './TypeSet';
-import TypeException from '@values/TypeException';
-import AnyType from './AnyType';
-import Sym from './Sym';
-import { PREVIOUS_SYMBOL } from '@parser/Symbols';
-import Start from '@runtime/Start';
 import UnionType from './UnionType';
-import NoneType from './NoneType';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Characters from '../lore/BasisCharacters';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Purpose from '../concepts/Purpose';
-import ListType from './ListType';
 import Unit from './Unit';
-import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
-import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Previous extends Expression {
     readonly previous: Token;
@@ -90,14 +91,11 @@ export default class Previous extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'previous', kind: node(Sym.Previous) },
-            {
-                name: 'range',
-                kind: optional(node(Sym.Previous)),
-            },
+            { name: 'range', kind: optional(node(Sym.Previous)) },
             {
                 name: 'number',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.index),
+                label: () => (l) => l.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),
                 space: true,
@@ -105,7 +103,7 @@ export default class Previous extends Expression {
             {
                 name: 'stream',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.stream),
+                label: () => (l) => l.term.stream,
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
                 space: true,
@@ -216,8 +214,9 @@ export default class Previous extends Expression {
         return this.previous;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Previous);
+    static readonly LocalePath = (l: LocaleText) => l.node.Previous;
+    getLocalePath() {
+        return Previous.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {

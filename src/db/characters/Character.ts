@@ -15,10 +15,7 @@ import z from 'zod';
 const PointSchema = z.object({ x: z.number(), y: z.number() });
 type Point = z.infer<typeof PointSchema>;
 
-const SizeSchema = z.object({
-    width: z.number(),
-    height: z.number(),
-});
+const SizeSchema = z.object({ width: z.number(), height: z.number() });
 
 /** See Color.ts for LCH details. */
 const ColorSchema = z.object({

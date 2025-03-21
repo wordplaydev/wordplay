@@ -15,11 +15,7 @@ export type CreateClassInputs = {
     /** Existing student uids to add */
     existing: string[];
     /** Information for the student accounts */
-    students: {
-        username: string;
-        password: string;
-        meta: string[];
-    }[];
+    students: { username: string; password: string; meta: string[] }[];
 };
 
 // FUNCTION createClass
@@ -27,6 +23,7 @@ export type CreateClassError = {
     kind: 'account' | 'limit' | 'generic';
     info: string;
 };
+
 export type CreateClassOutput = {
     /** The ID of the class created */
     classid: string | undefined;

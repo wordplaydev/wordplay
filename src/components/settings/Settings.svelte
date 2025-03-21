@@ -1,29 +1,29 @@
 <script lang="ts">
-    import LanguageChooser from './LocaleChooser.svelte';
-    import { getUser } from '../project/Contexts';
+    import { SupportedFaces } from '@basis/Fonts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import { FaceSetting } from '@db/settings/FaceSetting';
+    import { onMount } from 'svelte';
+    import { Creator } from '../../db/creators/CreatorDatabase';
     import {
         animationFactor,
-        locales,
         arrangement,
         camera,
+        dark,
         mic,
         Settings,
-        dark,
-        spaceIndicator,
         showLines,
+        spaceIndicator,
     } from '../../db/Database';
     import Arrangement from '../../db/settings/Arrangement';
-    import Options from '../widgets/Options.svelte';
-    import { onMount } from 'svelte';
+    import CreatorView from '../app/CreatorView.svelte';
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';
-    import Mode from '../widgets/Mode.svelte';
+    import { getUser } from '../project/Contexts';
     import Dialog from '../widgets/Dialog.svelte';
-    import CreatorView from '../app/CreatorView.svelte';
-    import { Creator } from '../../db/creators/CreatorDatabase';
-    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
-    import { SupportedFaces } from '@basis/Fonts';
-    import { FaceSetting } from '@db/settings/FaceSetting';
+    import Mode from '../widgets/Mode.svelte';
+    import Options from '../widgets/Options.svelte';
+    import LanguageChooser from './LocaleChooser.svelte';
 
     let user = getUser();
 
@@ -68,21 +68,21 @@
     <LanguageChooser />
     <Dialog
         button={{
-            tip: $locales.get((l) => l.ui.dialog.settings.button.show),
+            tip: (l) => l.ui.dialog.settings.button.show,
             icon: '⚙',
-            label: '',
         }}
-        description={$locales.get((l) => l.ui.dialog.settings)}
+        header={(l) => l.ui.dialog.settings.header}
+        explanation={(l) => l.ui.dialog.settings.explanation}
     >
         <hr />
         <div class="controls">
             <label for="ui-face">
-                {$locales.get((l) => l.ui.dialog.settings.options.face)}
+                <LocalizedText
+                    path={(l) => l.ui.dialog.settings.options.face}
+                />
                 <Options
                     value={FaceSetting.get() ?? 'Noto Sans'}
-                    label={$locales.get(
-                        (l) => l.ui.dialog.settings.options.face,
-                    )}
+                    label={(l) => l.ui.dialog.settings.options.face}
                     id="ui-face"
                     options={[
                         { value: undefined, label: '—' },
@@ -98,9 +98,7 @@
                 ></Options>
             </label>
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.layout,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.layout}
                 choice={$arrangement === Arrangement.Responsive
                     ? 0
                     : $arrangement === Arrangement.Horizontal
@@ -121,9 +119,7 @@
                 modes={['📐', '↔️', '↕', '⏹️']}
             />
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.animate,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.animate}
                 choice={$animationFactor}
                 select={(choice) => Settings.setAnimationFactor(choice)}
                 modes={AnimationFactorIcons}
@@ -133,9 +129,7 @@
                     🎥
                     <Options
                         value={cameraDevice?.label}
-                        label={$locales.get(
-                            (l) => l.ui.dialog.settings.options.camera,
-                        )}
+                        label={(l) => l.ui.dialog.settings.options.camera}
                         id="camera-setting"
                         options={[
                             { value: undefined, label: '—' },
@@ -152,16 +146,13 @@
                                     (camera) => camera.label === choice,
                                 )?.deviceId ?? null,
                             )}
-                        width="4em"
                     />
                 </label>
                 <label for="mic-setting">
                     🎤
                     <Options
                         value={micDevice?.label}
-                        label={$locales.get(
-                            (l) => l.ui.dialog.settings.options.mic,
-                        )}
+                        label={(l) => l.ui.dialog.settings.options.mic}
                         id="mic-setting"
                         options={[
                             { value: undefined, label: '—' },
@@ -177,14 +168,11 @@
                                 mics.find((mic) => mic.label === choice)
                                     ?.deviceId ?? null,
                             )}
-                        width="4em"
                     />
                 </label>
             {/if}
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.dark,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.dark}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
                     Settings.setDark(
@@ -194,18 +182,14 @@
             />
 
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.space,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.space}
                 choice={$spaceIndicator ? 1 : 0}
                 select={(choice) =>
                     Settings.setSpace(choice === 1 ? true : false)}
                 modes={['✗', '✓']}
             />
             <Mode
-                descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.lines,
-                )}
+                descriptions={(l) => l.ui.dialog.settings.mode.lines}
                 choice={$showLines ? 1 : 0}
                 select={(choice) =>
                     Settings.setLines(choice === 1 ? true : false)}
@@ -234,5 +218,8 @@
     label {
         white-space: nowrap;
         font-style: italic;
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
     }
 </style>

@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
-    import Checkbox from '../widgets/Checkbox.svelte';
-    import BooleanLiteral from '@nodes/BooleanLiteral';
     import type OutputProperty from '@edit/OutputProperty';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import BooleanLiteral from '@nodes/BooleanLiteral';
+    import { locales, Projects } from '../../db/Database';
     import { getProject } from '../project/Contexts';
-    import { Projects } from '../../db/Database';
+    import Checkbox from '../widgets/Checkbox.svelte';
 
     interface Props {
         property: OutputProperty;
@@ -24,7 +24,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 newValue !== undefined
                     ? BooleanLiteral.make(newValue)
                     : undefined,
@@ -34,7 +34,7 @@
 </script>
 
 <Checkbox
-    label={property.getName()}
+    label={property.name}
     on={values.getBool()}
     changed={handleChange}
     {editable}

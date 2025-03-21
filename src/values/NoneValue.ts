@@ -1,10 +1,10 @@
+import type LocaleText from '@locale/LocaleText';
 import NoneType from '@nodes/NoneType';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import type Value from '../values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import SimpleValue from './SimpleValue';
 import type Expression from '../nodes/Expression';
-import type Locales from '../locale/Locales';
+import type Value from '../values/Value';
+import SimpleValue from './SimpleValue';
 
 export default class NoneValue extends SimpleValue {
     constructor(creator: Expression) {
@@ -27,8 +27,8 @@ export default class NoneValue extends SimpleValue {
         return NONE_SYMBOL;
     }
 
-    getDescription(locales: Locales) {
-        return locales.concretize((l) => l.term.none);
+    getDescription() {
+        return (l: LocaleText) => l.term.none;
     }
 
     getRepresentativeText() {

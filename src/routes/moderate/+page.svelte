@@ -1,24 +1,32 @@
 <script lang="ts">
-    import Page from '@components/app/Page.svelte';
     import Header from '@components/app/Header.svelte';
+    import Page from '@components/app/Page.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import { getUser, setConceptPath } from '../../components/project/Contexts';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
+    import Markup from '@nodes/Markup';
     import {
-        query,
-        type DocumentData,
-        type QueryDocumentSnapshot,
-        collection,
-        limit,
-        startAfter,
-        orderBy,
-        where,
-        or,
-        getDocs,
         FieldPath,
         and,
+        collection,
+        getDocs,
+        limit,
+        or,
+        orderBy,
+        query,
+        startAfter,
+        where,
+        type DocumentData,
+        type QueryDocumentSnapshot,
     } from 'firebase/firestore';
     import { onMount } from 'svelte';
+    import { writable } from 'svelte/store';
+    import Spinning from '../../components/app/Spinning.svelte';
+    import { getUser, setConceptPath } from '../../components/project/Contexts';
+    import Button from '../../components/widgets/Button.svelte';
+    import { Projects, locales } from '../../db/Database';
     import { firestore } from '../../db/firebase';
+    import type { Flag, Moderation } from '../../db/projects/Moderation';
     import {
         Flags,
         getFlagDescription,
@@ -27,16 +35,7 @@
         withFlag,
     } from '../../db/projects/Moderation';
     import type Project from '../../db/projects/Project';
-    import { Projects } from '../../db/Database';
-    import { writable } from 'svelte/store';
-    import { locales } from '../../db/Database';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import Button from '../../components/widgets/Button.svelte';
-    import type { Flag, Moderation } from '../../db/projects/Moderation';
-    import Spinning from '../../components/app/Spinning.svelte';
     import { ProjectsCollection } from '../../db/projects/ProjectsDatabase.svelte';
-    import Markup from '@nodes/Markup';
 
     const user = getUser();
 
@@ -131,9 +130,9 @@
 <Page>
     <div class="moderate">
         <div class="flags">
-            <Header>{$locales.get((l) => l.moderation.moderate.header)}</Header>
+            <Header text={(l) => l.moderation.moderate.header} />
             {#if lastBatch === null}
-                <Spinning label="" />
+                <Spinning />
             {:else if moderator === false}
                 <p
                     >It looks like you're not a moderator. If you were recently
@@ -143,10 +142,10 @@
             {:else if lastBatch === undefined}
                 <p>Nothing else to moderate!</p>
             {:else if project === undefined}
-                <Spinning label="" />
+                <Spinning />
             {:else}
                 <div class="progress-counter">
-                    <MarkupHtmlView
+                    <MarkupHTMLView
                         markup={Markup.words(
                             $locales.get((l) => l.moderation.progress),
                         ).concretize($locales, [
@@ -155,15 +154,14 @@
                         ]) ?? '?'}
                     />
                 </div>
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.moderation.moderate.explanation,
-                    )}
+                <MarkupHTMLView
+                    markup={(l) => l.moderation.moderate.explanation}
                 />
                 {#each Object.entries(project.getFlags()) as [flag, state]}
                     <div class="flag">
                         <Checkbox
-                            label="Whether the project has this property"
+                            label={() =>
+                                'Whether the project has this property'}
                             on={state === null ? undefined : state}
                             id={flag}
                             changed={(value) =>
@@ -174,7 +172,7 @@
                                 ))}
                         />
                         <label for={flag}>
-                            <MarkupHtmlView
+                            <MarkupHTMLView
                                 markup={getFlagDescription(flag, $locales) ??
                                     ''}
                             /></label
@@ -184,28 +182,22 @@
                 <div class="controls">
                     <Button
                         background
-                        tip={$locales.get(
-                            (l) => l.moderation.button.submit.tip,
-                        )}
+                        tip={(l) => l.moderation.button.submit.tip}
                         action={save}
-                        >{$locales.get(
-                            (l) => l.moderation.button.submit.label,
-                        )}</Button
-                    >
+                        label={(l) => l.moderation.button.submit.label}
+                    />
                     <Button
                         background
-                        tip={$locales.get((l) => l.moderation.button.skip.tip)}
+                        tip={(l) => l.moderation.button.skip.tip}
                         action={skip}
-                        >{$locales.get(
-                            (l) => l.moderation.button.skip.label,
-                        )}</Button
-                    >
+                        label={(l) => l.moderation.button.skip.label}
+                    />
                 </div>
             {/if}
         </div>
         {#if lastBatch === undefined}<div class="big">✔</div
             >{:else if project === undefined}
-            <Spinning label="" />
+            <Spinning />
         {:else}
             <ProjectView
                 {project}

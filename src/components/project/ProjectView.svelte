@@ -12,6 +12,7 @@
     import Documentation from '@components/concepts/Documentation.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import {
@@ -106,6 +107,7 @@
         setKeyboardModifiers,
         setProjectCommandContext,
         setSelectedOutput,
+        type ConceptPath,
         type EditorState,
         type KeyModifierState,
     } from './Contexts';
@@ -140,6 +142,8 @@
         autofocus?: boolean;
         /** True if the project was overwritten by another instance of Wordplay */
         overwritten?: boolean;
+        /** Show the guide if the project is empty */
+        guide?: boolean;
         /** True if the moderation warnings should show */
         warn?: boolean;
         /** True if public dialog should show */
@@ -160,6 +164,7 @@
         fit = true,
         autofocus = true,
         overwritten = false,
+        guide = true,
         warn = true,
         shareable = true,
         dragged = $bindable(undefined),
@@ -513,7 +518,12 @@
                 new Tile(
                     TileKind.Documentation,
                     TileKind.Documentation,
-                    TileMode.Collapsed,
+                    // If we're not supposed to show the guide, or there's code, don't show the guide by default.
+                    !guide ||
+                    project.getMain().expression.expression.statements.length >
+                        0
+                        ? TileMode.Collapsed
+                        : TileMode.Expanded,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
@@ -634,9 +644,18 @@
         font: $locales.get((l) => l.ui.font.app),
     });
 
-    /** Update the concept index whenever the project or locales change. */
+    /** Get the store of how tos stored in the locales database. */
+    // @ts-ignore: Locales structure is complex
+    let howToStore = locales.howTos;
+    let howTos = $derived($howToStore[$locales.getLocaleString()]);
+
+    /** Update the concept index whenever the project, locales, or how tos change. */
     $effect(() => {
-        index = ConceptIndex.make(project, $locales);
+        index = ConceptIndex.make(
+            project,
+            $locales,
+            howTos instanceof Promise ? [] : howTos,
+        );
     });
 
     /* Keep the index context up to date when it changes.*/
@@ -669,9 +688,11 @@
             // Make a new concept index with the new project and translations, but the old examples.
             const newIndex =
                 project && index
-                    ? ConceptIndex.make(project, $locales).withExamples(
-                          index.examples,
-                      )
+                    ? ConceptIndex.make(
+                          project,
+                          $locales,
+                          howTos instanceof Promise ? [] : howTos,
+                      ).withExamples(index.examples)
                     : undefined;
 
             // Set the index
@@ -696,7 +717,7 @@
     });
 
     // When the path changes, show the docs and mirror the concept in the URL.
-    let latestPath = $state<Concept[]>($path ?? []);
+    let latestPath = $state<ConceptPath>($path ?? []);
 
     // When the path changes, show the docs, and leave fullscreen.
     $effect(() => {
@@ -1419,7 +1440,9 @@
                 <div class="empty">
                     <Speech character={Characters.FunctionDefinition}>
                         {#snippet content()}
-                            {$locales.get((l) => l.ui.project.collapsed)} ⬇
+                            <LocalizedText
+                                path={(l) => l.ui.project.collapsed}
+                            /> ⬇
                         {/snippet}
                     </Speech>
                 </div>
@@ -1455,24 +1478,39 @@
                                     stopPlaying();
                                 setFullscreen(fullscreen ? tile : undefined);
                             }}
+                            on:largeDeletion={(e) => {
+                                largeDeletionNotifications = {
+                                    ...largeDeletionNotifications,
+                                    [tile.id]: e.detail,
+                                };
+                            }}
+                            updateConflicts={(
+                                source: Source,
+                                conflicts: Conflict[],
+                            ) => {
+                                conflictsOfInterest = new Map(
+                                    conflictsOfInterest.set(source, conflicts),
+                                );
+                            }}
+                            setOutputPreview={() =>
+                                (selectedSourceIndex = getSourceIndexByID(
+                                    tile.id,
+                                ))}
                         >
                             {#snippet title()}
-                                {#if tile.isSource()}
+                                {#if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     <!-- Can't delete main. -->
                                     {#if editable && source !== project.getMain()}
                                         <ConfirmButton
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.source.confirm.delete
-                                                        .description,
-                                            )}
+                                            tip={(l) =>
+                                                l.ui.source.confirm.delete
+                                                    .description}
                                             action={() => removeSource(source)}
-                                            prompt={$locales.get(
-                                                (l) =>
-                                                    l.ui.source.confirm.delete
-                                                        .prompt,
-                                            )}>{CANCEL_SYMBOL}</ConfirmButton
+                                            prompt={(l) =>
+                                                l.ui.source.confirm.delete
+                                                    .prompt}
+                                            >{CANCEL_SYMBOL}</ConfirmButton
                                         >
                                     {/if}
                                 {:else if tile.kind === TileKind.Output}
@@ -1502,11 +1540,9 @@
                                             uiid="editProject"
                                             background
                                             padding={false}
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.page.projects.button
-                                                        .viewcode,
-                                            )}
+                                            tip={(l) =>
+                                                l.ui.page.projects.button
+                                                    .viewcode}
                                             action={() => stopPlaying()}
                                             icon="👁️"
                                         ></Button>{/if}
@@ -1528,17 +1564,13 @@
                                         />{/if} -->
                                     <Toggle
                                         background
-                                        tips={$locales.get(
-                                            (l) => l.ui.output.toggle.grid,
-                                        )}
+                                        tips={(l) => l.ui.output.toggle.grid}
                                         on={grid}
                                         toggle={() => (grid = !grid)}
                                         ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
                                         background
-                                        tips={$locales.get(
-                                            (l) => l.ui.output.toggle.fit,
-                                        )}
+                                        tips={(l) => l.ui.output.toggle.fit}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
                                         ><Emoji
@@ -1546,11 +1578,8 @@
                                         ></Toggle
                                     >
                                     <Mode
-                                        descriptions={$locales.get(
-                                            (l) =>
-                                                l.ui.dialog.settings.mode
-                                                    .animate,
-                                        )}
+                                        descriptions={(l) =>
+                                            l.ui.dialog.settings.mode.animate}
                                         choice={$animationFactor}
                                         select={(choice) =>
                                             Settings.setAnimationFactor(choice)}
@@ -1562,14 +1591,11 @@
                                         ></CopyButton>{/if}
                                     <Switch
                                         onLabel={withMonoEmoji('🖱️')}
-                                        onTip={$locales.get(
-                                            (l) =>
-                                                l.ui.source.toggle.blocks.off,
-                                        )}
+                                        onTip={(l) =>
+                                            l.ui.source.toggle.blocks.off}
                                         offLabel={withMonoEmoji('⌨️')}
-                                        offTip={$locales.get(
-                                            (l) => l.ui.source.toggle.blocks.on,
-                                        )}
+                                        offTip={(l) =>
+                                            l.ui.source.toggle.blocks.on}
                                         toggle={toggleBlocks}
                                         on={$blocks}
                                     />
@@ -1646,8 +1672,8 @@
                                                 };
                                             }}
                                             updateConflicts={(
-                                                source,
-                                                conflicts,
+                                                source: Source,
+                                                conflicts: Conflict[],
                                             ) => {
                                                 conflictsOfInterest = new Map(
                                                     conflictsOfInterest.set(
@@ -1672,18 +1698,16 @@
                                         />{/if}
                                     {#if checkpoint > -1}
                                         <div class="editor-warning"
-                                            >{$locales.get(
-                                                (l) =>
+                                            ><LocalizedText
+                                                path={(l) =>
                                                     l.ui.checkpoints.label
-                                                        .restore,
-                                            )}
+                                                        .restore}
+                                            />
                                             <Button
                                                 background
-                                                tip={$locales.get(
-                                                    (l) =>
-                                                        l.ui.checkpoints.button
-                                                            .restore,
-                                                )}
+                                                tip={(l) =>
+                                                    l.ui.checkpoints.button
+                                                        .restore}
                                                 active={checkpoint > -1}
                                                 action={() => {
                                                     // Save a version of the project with the current source in the history and the new source the old source.
@@ -1694,12 +1718,10 @@
                                                     );
                                                     checkpoint = -1;
                                                 }}
-                                                >{$locales.get(
-                                                    (l) =>
-                                                        l.ui.checkpoints.button
-                                                            .restore,
-                                                )}</Button
-                                            >
+                                                label={(l) =>
+                                                    l.ui.checkpoints.button
+                                                        .restore}
+                                            />
                                         </div>
                                     {/if}
                                     {#if largeDeletionNotifications[tile.id] !== null && largeDeletionNotifications[tile.id] !== undefined}
@@ -1716,12 +1738,12 @@
                                         </div>
                                     {/if}
                                     {#if $blocks}
-                                        <div class="editor-warning"
+                                        <p class="editor-warning feedback"
                                             >This editing mode is experimental. <Link
                                                 to="https://discord.gg/Jh2Qq9husy"
                                                 >Discuss</Link
                                             > improvements.
-                                        </div>
+                                        </p>
                                     {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
@@ -1751,14 +1773,14 @@
             <div class="footer-row">
                 {#if original}<Button
                         uiid="revertProject"
-                        tip={$locales.get((l) => l.ui.project.button.revert)}
+                        tip={(l) => l.ui.project.button.revert}
                         active={!project.equals(original)}
                         action={() => revert()}
                         icon="↺"
                     ></Button>{/if}
                 {#if owner}
                     {#await Creators.getCreator(owner)}
-                        <Spinning label="" />
+                        <Spinning />
                     {:then creator}
                         <CreatorView {creator} />
                     {/await}
@@ -1767,12 +1789,8 @@
                     <TextField
                         id="project-name"
                         text={project.getName()}
-                        description={$locales.get(
-                            (l) => l.ui.project.field.name.description,
-                        )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.project.field.name.placeholder,
-                        )}
+                        description={(l) => l.ui.project.field.name.description}
+                        placeholder={(l) => l.ui.project.field.name.placeholder}
                         changed={(name) =>
                             Projects.reviseProject(project.withName(name))}
                         max="10em"
@@ -1798,7 +1816,7 @@
                 {#if editable}
                     <Button
                         uiid="addSource"
-                        tip={$locales.get((l) => l.ui.project.button.addSource)}
+                        tip={(l) => l.ui.project.button.addSource}
                         action={addSource}
                         icon="+{Characters.Program.symbols}"
                     ></Button>{/if}
@@ -1818,15 +1836,15 @@
                 {/each}
                 <span class="right-align">
                     <Dialog
-                        description={$locales.get((l) => l.ui.dialog.help)}
+                        header={(l) => l.ui.dialog.help.header}
+                        explanation={(l) => l.ui.dialog.help.explanation}
                         button={{
-                            tip: $locales.get(ShowKeyboardHelp.description),
+                            tip: ShowKeyboardHelp.description,
                             icon: ShowKeyboardHelp.symbol,
-                            label: '',
                         }}><Shortcuts /></Dialog
                     >
                     <Toggle
-                        tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                        tips={(l) => l.ui.tile.toggle.fullscreen}
                         on={browserFullscreen}
                         command={browserFullscreen
                             ? ExitFullscreen
@@ -1841,19 +1859,16 @@
                 <div class="footer-row">
                     {#if shareable}
                         <Dialog
-                            description={$locales.get((l) => l.ui.dialog.share)}
+                            header={(l) => l.ui.dialog.share.header}
+                            explanation={(l) => l.ui.dialog.share.explanation}
                             button={{
-                                tip: $locales.get(
-                                    (l) => l.ui.project.button.share.tip,
-                                ),
+                                tip: (l) => l.ui.project.button.share.tip,
                                 icon:
                                     project.isPublic() &&
                                     isFlagged(project.getFlags())
                                         ? '‼️'
                                         : '↗',
-                                label: $locales.get(
-                                    (l) => l.ui.project.button.share.label,
-                                ),
+                                label: (l) => l.ui.project.button.share.label,
                             }}
                         >
                             <Sharing {project} />

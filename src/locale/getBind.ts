@@ -1,17 +1,17 @@
-import Names from '@nodes/Names';
-import Docs from '@nodes/Docs';
-import { localeToLanguage } from './localeToLanguage';
-import { toDocString, type NameAndDoc } from './LocaleText';
-import type LocaleText from './LocaleText';
-import { getLocaleNames } from './getInputLocales';
 import { parseLocaleDoc } from '@locale/LocaleText';
-import type Doc from '../nodes/Doc';
-import Name from '../nodes/Name';
-import Language from '../nodes/Language';
-import DefaultLocale from './DefaultLocale';
-import type Locales from './Locales';
+import Docs from '@nodes/Docs';
+import Names from '@nodes/Names';
 import { getFormattedWordplay } from '@parser/getPreferredSpaces';
 import { EMOJI_SYMBOL } from '@parser/Symbols';
+import type Doc from '../nodes/Doc';
+import Language from '../nodes/Language';
+import Name from '../nodes/Name';
+import DefaultLocale from './DefaultLocale';
+import { getLocaleNames } from './getInputLocales';
+import type Locales from './Locales';
+import type LocaleText from './LocaleText';
+import { toDocString, type NameAndDoc } from './LocaleText';
+import { localeToLanguage } from './localeToLanguage';
 
 export function getBind(
     locales: Locales,

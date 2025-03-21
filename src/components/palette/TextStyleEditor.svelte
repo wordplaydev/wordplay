@@ -1,8 +1,21 @@
 <script lang="ts">
-    import type Project from '@db/projects/Project';
-    import Options from '@components/widgets/Options.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import { getConceptIndex } from '@components/project/Contexts';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import { Projects, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import { getLanguageQuoteClose } from '@locale/LanguageCode';
+    import Example from '@nodes/Example';
+    import type Expression from '@nodes/Expression';
+    import FormattedLiteral from '@nodes/FormattedLiteral';
+    import Sym from '@nodes/Sym';
+    import TextLiteral from '@nodes/TextLiteral';
+    import Token from '@nodes/Token';
+    import Translation from '@nodes/Translation';
+    import { parseFormattedTranslation } from '@parser/parseExpression';
     import {
         CODE_SYMBOL,
         DOCUMENTATION_SYMBOL,
@@ -10,21 +23,9 @@
         ITALIC_SYMBOL,
         UNDERSCORE_SYMBOL,
     } from '@parser/Symbols';
-    import { getConceptIndex } from '@components/project/Contexts';
-    import NamedControl from './NamedControl.svelte';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import MarkupValue from '@values/MarkupValue';
-    import { Projects, locales } from '@db/Database';
-    import TextLiteral from '@nodes/TextLiteral';
-    import FormattedLiteral from '@nodes/FormattedLiteral';
-    import type Expression from '@nodes/Expression';
-    import Example from '@nodes/Example';
-    import Translation from '@nodes/Translation';
-    import Token from '@nodes/Token';
-    import Sym from '@nodes/Sym';
     import { toTokens } from '@parser/toTokens';
-    import { getLanguageQuoteClose } from '@locale/LanguageCode';
-    import { parseFormattedTranslation } from '@parser/parseExpression';
+    import MarkupValue from '@values/MarkupValue';
+    import NamedControl from './NamedControl.svelte';
 
     interface Props {
         project: Project;
@@ -109,7 +110,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName(),
+                outputs.property.getName($locales),
                 new FormattedLiteral([
                     parseFormattedTranslation(
                         toTokens(
@@ -138,7 +139,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName(),
+                outputs.property.getName($locales),
                 new FormattedLiteral([
                     parseFormattedTranslation(
                         toTokens(FORMATTED_SYMBOL + markup + FORMATTED_SYMBOL),
@@ -235,7 +236,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName(),
+                outputs.property.getName($locales),
                 newExpression,
             ),
         );
@@ -253,12 +254,12 @@
             >
         {/if}
         <label for="formatted"
-            >{$locales.get((l) => l.ui.palette.labels.format)}</label
+            ><LocalizedText path={(l) => l.ui.palette.labels.format} /></label
         >
     {/snippet}
     {#snippet control()}
         <Checkbox
-            label={$locales.get((l) => l.ui.palette.labels.format)}
+            label={(l) => l.ui.palette.labels.format}
             on={formatted}
             changed={(on) => setFormatted(on ?? false)}
             id="formatted"
@@ -269,11 +270,13 @@
     <div class="aspects">
         <div class="aspect">
             <label for="font-weight"
-                >{$locales.get((l) => l.ui.palette.labels.weight)}</label
+                ><LocalizedText
+                    path={(l) => l.ui.palette.labels.weight}
+                /></label
             >
             <Options
                 value={weight}
-                label="Font weight"
+                label={(l) => l.ui.palette.labels.weight}
                 id="weight-chooser"
                 width="auto"
                 options={[
@@ -299,24 +302,28 @@
         </div>
         <div class="aspect">
             <label for="font-italic"
-                >{$locales.get((l) => l.ui.palette.labels.italic)}</label
+                ><LocalizedText
+                    path={(l) => l.ui.palette.labels.italic}
+                /></label
             >
             <Checkbox
-                label={$locales.get((l) => l.ui.palette.labels.italic)}
+                label={(l) => l.ui.palette.labels.italic}
                 on={italic}
                 changed={() => applyStyle('italic')}
-                id={'font-italic'}
+                id="font-italic"
             ></Checkbox>
         </div>
         <div class="aspect">
             <label for="text-underlined"
-                >{$locales.get((l) => l.ui.palette.labels.underline)}</label
+                ><LocalizedText
+                    path={(l) => l.ui.palette.labels.underline}
+                /></label
             >
             <Checkbox
-                label={$locales.get((l) => l.ui.palette.labels.underline)}
+                label={(l) => l.ui.palette.labels.underline}
                 on={underlined}
                 changed={() => applyStyle('underline')}
-                id={'text-underlined'}
+                id="text-underlined"
             ></Checkbox>
         </div>
     </div>

@@ -1,16 +1,16 @@
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Node from '@nodes/Node';
-import BindConcept from './BindConcept';
-import Concept from './Concept';
-import type StructureConcept from './StructureConcept';
-import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
+import { COMMA_SYMBOL } from '@parser/Symbols';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
-import { COMMA_SYMBOL } from '@parser/Symbols';
+import BindConcept from './BindConcept';
+import Concept from './Concept';
+import type Purpose from './Purpose';
+import type StructureConcept from './StructureConcept';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */

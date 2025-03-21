@@ -4,13 +4,17 @@
 </script>
 
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { withMonoEmoji } from '../../unicode/emoji';
     import Spinning from '../app/Spinning.svelte';
-    import { locales } from '@db/Database';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
-        /** Tooltip and ARIA label for the button */
-        tip: string;
+        /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
+        tip: LocaleTextAccessor | (() => string);
+        /** Optional label; if children provided, they override */
+        label?: LocaleTextAccessor;
         /** What to do when pressed */
         action: Action;
         /** Whether the button should be clickable */
@@ -34,12 +38,15 @@
         testid?: string | undefined;
         /** An optional icon to place before the children, in monochrome */
         icon?: string;
+        /** An optional shortcut string for ARIA */
+        shortcut?: string;
         /** The label */
         children?: import('svelte').Snippet;
     }
 
     let {
         tip,
+        label,
         action,
         active = true,
         stretch = false,
@@ -52,11 +59,21 @@
         background = false,
         padding = true,
         testid = undefined,
+        shortcut = undefined,
         icon,
         children,
     }: Props = $props();
 
+    // Custom type guard to determine if the tip is a computed tooltip.
+    function isComputedTooltip(fun: Function): fun is () => string {
+        return fun.length === 0;
+    }
+
     let loading = $state(false);
+    let width = $state(0);
+    let tooltip = isComputedTooltip(tip)
+        ? tip()
+        : $locales.concretize($locales.get(tip)).toText();
 
     async function doAction(event: Event) {
         if (active) {
@@ -83,10 +100,13 @@
     data-testid={testid}
     data-uiid={uiid}
     class={classes}
+    bind:clientWidth={width}
+    style:--characters={width / 20}
     type={submit ? 'submit' : 'button'}
-    title={$locales.concretize(tip).toText()}
-    aria-label={tip}
+    title={tooltip}
+    aria-label={tooltip}
     aria-disabled={!active}
+    aria-keyshortcuts={shortcut}
     onpointerdown={(event) => event.preventDefault()}
     bind:this={_}
     ondblclick={(event) => event.stopPropagation()}
@@ -108,7 +128,9 @@
                   ? doAction(event)
                   : undefined}
     >{#if loading}<Spinning />{:else}{#if icon}{withMonoEmoji(icon)}{/if}
-        {@render children?.()}{/if}
+        {#if children}{@render children()}{:else if label}<LocalizedText
+                path={label}
+            />{/if}{/if}
 </button>
 
 <style>
@@ -188,8 +210,9 @@
         border-color: transparent;
     }
 
-    button:hover[aria-disabled='false'] {
-        transform: rotate(-3deg);
+    button:hover[aria-disabled='false'],
+    button:focus {
+        transform: rotate(calc(-15deg / var(--characters)));
     }
 
     button.background:hover[aria-disabled='false'] {

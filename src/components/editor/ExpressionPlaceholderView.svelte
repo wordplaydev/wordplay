@@ -1,17 +1,17 @@
 <script lang="ts">
+    import AnyType from '@nodes/AnyType';
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import NodeView from './NodeView.svelte';
+    import { locales } from '../../db/Database';
+    import UnknownType from '../../nodes/UnknownType';
     import {
         getCaret,
+        getIsBlocks,
         getProject,
         getRoot,
-        getIsBlocks,
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
-    import UnknownType from '../../nodes/UnknownType';
     import PlaceholderView from './MenuTrigger.svelte';
-    import { locales } from '../../db/Database';
-    import AnyType from '@nodes/AnyType';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: ExpressionPlaceholder;

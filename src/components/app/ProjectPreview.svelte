@@ -1,21 +1,21 @@
 <!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
-    import type Project from '@db/projects/Project';
-    import Evaluator from '@runtime/Evaluator';
-    import { Chats, DB, locales, Creators } from '../../db/Database';
-    import { isAudience, isFlagged } from '../../db/projects/Moderation';
-    import { getUser } from '../project/Contexts';
-    import Link from './Link.svelte';
     import { navigating } from '$app/state';
-    import Spinning from './Spinning.svelte';
+    import Fonts from '@basis/Fonts';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
+    import type Project from '@db/projects/Project';
+    import { getFaceCSS } from '@output/outputToCSS';
     import { toStage } from '@output/Stage';
     import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
-    import Fonts from '@basis/Fonts';
-    import { getFaceCSS } from '@output/outputToCSS';
-    import UnicodeString from '../../unicode/UnicodeString';
+    import Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
+    import { Chats, Creators, DB, locales } from '../../db/Database';
+    import { isAudience, isFlagged } from '../../db/projects/Moderation';
+    import UnicodeString from '../../unicode/UnicodeString';
+    import { getUser } from '../project/Contexts';
     import CreatorView from './CreatorView.svelte';
+    import Link from './Link.svelte';
+    import Spinning from './Spinning.svelte';
 
     interface Props {
         project: Project;
@@ -162,13 +162,13 @@
             {#if editable && owner !== null && showCollaborators && collaborators.length > 0}
                 <div class="creators">
                     {#await Creators.getCreator(owner)}
-                        <Spinning label="" />
+                        <Spinning />
                     {:then creator}
                         <CreatorView {anonymize} {creator} />
                     {/await}
                     {#each collaborators.slice(0, 2) as collaborator}
                         {#await Creators.getCreator(collaborator)}
-                            <Spinning label="" />
+                            <Spinning />
                         {:then collaboratorCreator}
                             <CreatorView
                                 {anonymize}

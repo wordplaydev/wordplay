@@ -1,11 +1,11 @@
-import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
 import ValueRef from '@locale/ValueRef';
+import type Type from '@nodes/Type';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
-import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
 
 export default class TypeException extends ExceptionValue {
     readonly expected: Type;

@@ -1,26 +1,27 @@
 <script lang="ts">
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
-    import TextLiteral from '@nodes/TextLiteral';
-    import TextField from '../widgets/TextField.svelte';
-    import type OutputProperty from '@edit/OutputProperty';
-    import { getProject } from '../project/Contexts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales, Projects } from '@db/Database';
-    import { tick } from 'svelte';
-    import Language from '@nodes/Language';
-    import { parseFormattedLiteral } from '@parser/parseExpression';
-    import { toTokens } from '@parser/toTokens';
-    import MarkupValue from '@values/MarkupValue';
-    import { FORMATTED_SYMBOL } from '@parser/Symbols';
+    import type OutputProperty from '@edit/OutputProperty';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import {
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
     } from '@locale/LanguageCode';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import Language from '@nodes/Language';
+    import TextLiteral from '@nodes/TextLiteral';
+    import { parseFormattedLiteral } from '@parser/parseExpression';
+    import { FORMATTED_SYMBOL } from '@parser/Symbols';
+    import { toTokens } from '@parser/toTokens';
+    import MarkupValue from '@values/MarkupValue';
+    import { tick } from 'svelte';
+    import { getProject } from '../project/Contexts';
+    import TextField from '../widgets/TextField.svelte';
 
     interface Props {
         property: OutputProperty;
         values: OutputPropertyValues;
-        validator: (text: string) => string | true;
+        validator: (text: string) => LocaleTextAccessor | true;
         editable: boolean;
         id: string;
     }
@@ -39,7 +40,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 isMarkup
                     ? parseFormattedLiteral(
                           toTokens(
@@ -68,7 +69,7 @@
         : getLanguageQuoteOpen($locales.getLocale().language)}
     <TextField
         text={values.getText()}
-        description={$locales.get((l) => l.ui.palette.field.text)}
+        description={(l) => l.ui.palette.field.text}
         placeholder={values.isEmpty()
             ? ''
             : $locales.getName(values.values[0].bind.names)}

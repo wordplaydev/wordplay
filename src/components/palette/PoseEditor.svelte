@@ -1,17 +1,18 @@
 <script lang="ts">
-    import type OutputProperty from '@edit/OutputProperty';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import PaletteProperty from './PaletteProperty.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import type OutputExpression from '@edit/OutputExpression';
-    import Button from '../widgets/Button.svelte';
-    import Evaluate from '@nodes/Evaluate';
-    import Reference from '@nodes/Reference';
-    import MapLiteral from '@nodes/MapLiteral';
-    import KeyValue from '@nodes/KeyValue';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import { Projects, locales } from '@db/Database';
+    import type OutputProperty from '@edit/OutputProperty';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import getPoseProperties from '@edit/PoseProperties';
+    import Evaluate from '@nodes/Evaluate';
+    import KeyValue from '@nodes/KeyValue';
+    import MapLiteral from '@nodes/MapLiteral';
+    import NumberLiteral from '@nodes/NumberLiteral';
+    import Reference from '@nodes/Reference';
+    import Button from '../widgets/Button.svelte';
+    import PaletteProperty from './PaletteProperty.svelte';
 
     interface Props {
         project: Project;
@@ -41,7 +42,11 @@
 
         // Map the properties to a set of values.
         for (const property of PoseProperties) {
-            const valueSet = new OutputPropertyValueSet(property, outputs);
+            const valueSet = new OutputPropertyValueSet(
+                property,
+                outputs,
+                $locales,
+            );
             // Exclue any properties that happen to have no values.
             if (!valueSet.isEmpty() && valueSet.onAll())
                 propertyValues.set(property, valueSet);
@@ -77,11 +82,9 @@
         <PaletteProperty {project} {property} {values} {editable} />
     {/each}
     {#if !sequence && editable}
-        <Button
-            tip={$locales.get((l) => l.ui.palette.button.sequence)}
-            action={convert}
+        <Button tip={(l) => l.ui.palette.button.sequence} action={convert}
             >{project.shares.output.Sequence.getNames()[0]}
-            {$locales.get((l) => l.ui.palette.button.sequence)}</Button
+            <LocalizedText path={(l) => l.ui.palette.button.sequence} /></Button
         >
     {/if}
 </div>

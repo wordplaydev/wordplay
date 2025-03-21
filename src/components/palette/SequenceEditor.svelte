@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type OutputProperty from '@edit/OutputProperty';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import PaletteProperty from './PaletteProperty.svelte';
+    import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import type OutputExpression from '@edit/OutputExpression';
-    import { locales } from '@db/Database';
-    import getSequenceProperties from '../../edit/SequenceProperties';
+    import type OutputProperty from '@edit/OutputProperty';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import { untrack } from 'svelte';
+    import getSequenceProperties from '../../edit/SequenceProperties';
+    import PaletteProperty from './PaletteProperty.svelte';
 
     interface Props {
         project: Project;
@@ -29,7 +29,11 @@
         // Map the properties to a set of values.
         untrack(() => {
             for (const property of SequenceProperties) {
-                const valueSet = new OutputPropertyValueSet(property, outputs);
+                const valueSet = new OutputPropertyValueSet(
+                    property,
+                    outputs,
+                    $locales,
+                );
                 // Exclue any properties that happen to have no values.
                 if (!valueSet.isEmpty() && valueSet.onAll())
                     propertyValues.set(property, valueSet);

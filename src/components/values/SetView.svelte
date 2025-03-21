@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type SetValue from '@values/SetValue';
-    import SymbolView from './SymbolView.svelte';
     import Sym from '@nodes/Sym';
-    import ValueView from './ValueView.svelte';
     import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
+    import type SetValue from '@values/SetValue';
     import Expandable from './Expandable.svelte';
+    import SymbolView from './SymbolView.svelte';
+    import ValueView from './ValueView.svelte';
 
     interface Props {
         value: SetValue;
@@ -25,11 +25,11 @@
     />{#if value.values.length > CollapsedLimit}<Expandable
             >{#snippet expanded()}
                 {#each value.values as item, index}<ValueView
-                    value={item}
-                    {inline}
-                />{#if index < value.values.length - 1}{' '}{/if}{/each}
+                        value={item}
+                        {inline}
+                    />{#if index < value.values.length - 1}{' '}{/if}{/each}
             {/snippet}
-            {#snippet collapsed()}        
+            {#snippet collapsed()}
                 {#each value.values.slice(0, CollapsedLimit) as item, index}<ValueView
                         value={item}
                         {inline}

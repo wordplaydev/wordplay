@@ -1,6 +1,6 @@
 <script lang="ts">
-    import NodeView from './NodeView.svelte';
     import type Otherwise from '@nodes/Otherwise';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: Otherwise;

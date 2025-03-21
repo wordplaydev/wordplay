@@ -1,7 +1,6 @@
 import Translate from '@google-cloud/translate';
+import { ConceptRegExPattern, MentionRegEx } from '@parser/Tokenizer';
 import type Log from './Log';
-import { MentionRegEx } from '@parser/Tokenizer';
-import { ConceptRegExPattern } from '@parser/Tokenizer';
 
 export default async function translate(
     log: Log,

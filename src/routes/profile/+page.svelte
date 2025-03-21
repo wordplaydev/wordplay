@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { getUser } from '@components/project/Contexts';
-    import Profile from '../login/Profile.svelte';
+    import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import Writing from '@components/app/Writing.svelte';
-    import { browser } from '$app/environment';
+    import { getUser } from '@components/project/Contexts';
+    import Profile from '../login/Profile.svelte';
 
     const user = getUser();
 

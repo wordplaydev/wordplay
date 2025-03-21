@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { getObjectFromJSONFile } from './getObjectFromJSONFile';
 import type Tutorial from '../../tutorial/Tutorial';
+import { getObjectFromJSONFile } from './getObjectFromJSONFile';
 import Log from './Log';
 
 // Read the tutorial schema.

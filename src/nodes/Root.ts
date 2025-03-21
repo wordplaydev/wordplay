@@ -1,6 +1,5 @@
 import Expression from './Expression';
 import type Node from './Node';
-import DefaultLocales from '../locale/DefaultLocales';
 
 export type Path = { type: string; index: number }[];
 
@@ -156,7 +155,7 @@ export default class Root {
             return [
                 ...this.getPath(parent),
                 {
-                    type: parent.getNodeLocale(DefaultLocales).name,
+                    type: parent.getDescriptor(),
                     index: parent.getChildren().indexOf(node),
                 },
             ];
@@ -175,8 +174,7 @@ export default class Root {
             node && index !== undefined ? node.getChildren()[index] : undefined;
 
         // If the type of node doesn't match, this path doesn't resolve.
-        return node.getNodeLocale(DefaultLocales).name !== type ||
-            child === undefined
+        return node.getDescriptor() !== type || child === undefined
             ? undefined
             : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
               // in which case the path doesn't resolve.

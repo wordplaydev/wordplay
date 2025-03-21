@@ -1,11 +1,11 @@
 <script lang="ts">
+    import Text from '@components/widgets/LocalizedText.svelte';
     import Spinning from './Spinning.svelte';
-    import { locales } from '@db/Database';
 </script>
 
 <div class="container">
-    <Spinning label={$locales.get((l) => l.ui.widget.loading.message)} large />
-    <p>{$locales.get((l) => l.ui.widget.loading.message)}</p>
+    <Spinning label={(l) => l.ui.widget.loading.message} large />
+    <p><Text path={(l) => l.ui.widget.loading.message} /></p>
 </div>
 
 <style>

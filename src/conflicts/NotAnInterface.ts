@@ -1,7 +1,7 @@
-import Conflict from './Conflict';
-import type Reference from '@nodes/Reference';
 import type Definition from '@nodes/Definition';
+import type Reference from '@nodes/Reference';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class NotAnInterface extends Conflict {
     readonly def: Definition;

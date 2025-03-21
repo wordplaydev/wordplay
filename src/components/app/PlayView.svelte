@@ -1,11 +1,11 @@
 <!-- Renders output, and output only -->
 <script lang="ts">
-    import type Project from '@db/projects/Project';
     import OutputView from '@components/output/OutputView.svelte';
+    import type Project from '@db/projects/Project';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
-    import { DB, locales } from '../../db/Database';
     import { untrack } from 'svelte';
+    import { DB, locales } from '../../db/Database';
 
     interface Props {
         project: Project;

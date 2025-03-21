@@ -1,38 +1,39 @@
 <script lang="ts">
-    import OutputPropertyRange from '@edit/OutputPropertyRange';
-    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import Button from '../widgets/Button.svelte';
-    import BindCheckbox from './BindCheckbox.svelte';
-    import BindColor from './BindColor.svelte';
-    import BindOptions from './BindOptions.svelte';
-    import BindSlider from './BindSlider.svelte';
-    import BindText from './BindText.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
-    import OutputPropertyOptions from '@edit/OutputPropertyOptions';
-    import OutputPropertyText from '@edit/OutputPropertyText';
     import type OutputProperty from '@edit/OutputProperty';
-    import Note from '../widgets/Note.svelte';
-    import NodeView from '../editor/NodeView.svelte';
+    import OutputPropertyOptions from '@edit/OutputPropertyOptions';
+    import OutputPropertyRange from '@edit/OutputPropertyRange';
+    import OutputPropertyText from '@edit/OutputPropertyText';
+    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
-    import PoseEditor from './PoseEditor.svelte';
-    import SequenceEditor from './SequenceEditor.svelte';
-    import SequencePosesEditor from './SequencePosesEditor.svelte';
-    import ContentEditor from './ContentEditor.svelte';
-    import PlaceEditor from './PlaceEditor.svelte';
-    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import { getConceptIndex } from '../project/Contexts';
-    import { DB, locales } from '../../db/Database';
     import { tick } from 'svelte';
+    import { DB, locales } from '../../db/Database';
     import {
         CANCEL_SYMBOL,
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
-    import MotionEditor from './MotionEditor.svelte';
-    import PlacementEditor from './PlacementEditor.svelte';
-    import NamedControl from './NamedControl.svelte';
+    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
+    import NodeView from '../editor/NodeView.svelte';
+    import { getConceptIndex } from '../project/Contexts';
+    import Button from '../widgets/Button.svelte';
+    import Note from '../widgets/Note.svelte';
     import AuraEditor from './AuraEditor.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import BindCheckbox from './BindCheckbox.svelte';
+    import BindColor from './BindColor.svelte';
+    import BindOptions from './BindOptions.svelte';
+    import BindSlider from './BindSlider.svelte';
+    import BindText from './BindText.svelte';
+    import ContentEditor from './ContentEditor.svelte';
+    import MotionEditor from './MotionEditor.svelte';
+    import NamedControl from './NamedControl.svelte';
+    import PlaceEditor from './PlaceEditor.svelte';
+    import PlacementEditor from './PlacementEditor.svelte';
+    import PoseEditor from './PoseEditor.svelte';
+    import SequenceEditor from './SequenceEditor.svelte';
+    import SequencePosesEditor from './SequencePosesEditor.svelte';
 
     interface Props {
         project: Project;
@@ -49,7 +50,7 @@
     let bind = $derived(values.getBind());
     let bindConcept = $derived(bind ? index?.getBindConcept(bind) : undefined);
     let valuesAreSet = $derived(values.areSet());
-    let propertyID = $derived(`property-${property.getName()}`);
+    let propertyID = $derived(`property-${property.getName($locales)}`);
 
     let toggleView: HTMLButtonElement | undefined = $state();
 
@@ -77,8 +78,8 @@
         {#if editable}
             <Button
                 tip={valuesAreSet
-                    ? $locales.get((l) => l.ui.palette.button.revert)
-                    : $locales.get((l) => l.ui.palette.button.set)}
+                    ? (l) => l.ui.palette.button.revert
+                    : (l) => l.ui.palette.button.set}
                 bind:view={toggleView}
                 action={() => toggleValues(!valuesAreSet)}
                 icon={valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}
@@ -87,24 +88,26 @@
     {#snippet control()}
         {#if values.areMixed()}
             <Note id={propertyID}
-                >{$locales.get((l) => l.ui.palette.labels.mixed)}</Note
+                ><LocalizedText path={(l) => l.ui.palette.labels.mixed} /></Note
             >
         {:else if !values.areSet()}
             {@const expression = values.getExpression()}
             <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
             <Note id={propertyID}
-                >{#if property.inherited}{$locales.get(
-                        (l) => l.ui.palette.labels.inherited,
-                    )}{:else if values.areDefault() && expression !== undefined}<NodeView
+                >{#if property.inherited}<LocalizedText
+                        path={(l) => l.ui.palette.labels.inherited}
+                    />{:else if values.areDefault() && expression !== undefined}<NodeView
                         node={expression}
                     />
-                    {$locales.get(
-                        (l) => l.ui.palette.labels.default,
-                    )}{:else}&mdash;{/if}</Note
+                    <LocalizedText
+                        path={(l) => l.ui.palette.labels.default}
+                    />{:else}&mdash;{/if}</Note
             >
         {:else if !values.areEditable(project)}
             <Note id={propertyID}
-                >{$locales.get((l) => l.ui.palette.labels.computed)}</Note
+                ><LocalizedText
+                    path={(l) => l.ui.palette.labels.computed}
+                /></Note
             >
         {:else if property.type instanceof OutputPropertyRange}
             <BindSlider

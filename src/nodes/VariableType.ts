@@ -1,10 +1,10 @@
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Type from './Type';
-import type TypeVariable from './TypeVariable';
 import Characters from '../lore/BasisCharacters';
 import type { Grammar } from './Node';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Type from './Type';
+import type TypeVariable from './TypeVariable';
 
 export default class VariableType extends Type {
     readonly definition: TypeVariable;
@@ -59,8 +59,9 @@ export default class VariableType extends Type {
         return this.definition.toWordplay();
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.VariableType);
+    static readonly LocalePath = (l: LocaleText) => l.node.VariableType;
+    getLocalePath() {
+        return VariableType.LocalePath;
     }
 
     getCharacter() {

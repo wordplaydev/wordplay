@@ -1,5 +1,5 @@
-import type { DocText, Template } from './LocaleText';
 import type Emotion from '../lore/Emotion';
+import type { DocText, Template } from './LocaleText';
 
 export type NodeText = {
     /** The name that should be used to refer to the node type */
@@ -167,10 +167,7 @@ type NodeTexts = {
         ExpressionText &
         Conflicts<{
             /** When a bind has duplicate names. Description inputs: $1: The name that shadowed this one */
-            DuplicateName: {
-                conflict: ConflictText;
-                resolution: Template;
-            };
+            DuplicateName: { conflict: ConflictText; resolution: Template };
             /** When a shared bind has a duplicate name that's shared. Description inputs: $1: The duplicate */
             DuplicateShare: ConflictText;
             /**
@@ -382,9 +379,9 @@ type NodeTexts = {
      * Description inputs: $1: type or undefined
      */
     ExpressionPlaceholder: DescriptiveNodeText &
-        SimpleExpressionText & {
-            placeholder: Template;
-        } & Conflicts<{ Placeholder: InternalConflictText }> &
+        SimpleExpressionText & { placeholder: Template } & Conflicts<{
+            Placeholder: InternalConflictText;
+        }> &
         Exceptions<{
             /** No inputs */
             UnimplementedException: ExceptionText;
@@ -534,9 +531,7 @@ type NodeTexts = {
      * Finish inputs: $1: property name, $2: value
      */
     PropertyReference: DescriptiveNodeText &
-        ExpressionText & {
-            property: Template;
-        };
+        ExpressionText & { property: Template };
     /**
      * Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1`
      * Finish inputs: $1 = resulting value

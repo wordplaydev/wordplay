@@ -3,6 +3,73 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.1 2025-02-25
+
+### Fixed
+
+- Better inactive color contrast in dark mode.
+- Fixed #691: Reset path when changing guide mode.
+- Don't use blocks mode for code examples.
+- Fixed #690: Adding labels to token fields in blocks mode.
+- Don't show how to guide by default in tutorial.
+- Vertical layout of project sets.
+
+### Maintenance
+
+- Updated types, eslint, prettier, svelte, tsx, uuid, vite, vitest, and firebase functions.
+- Fixed #528: Deploy to prod on push or merge to main.
+- Refactored widgets to use locale accessor functions instead of strings, for provenance.
+- Refactored nodes to return locale accessor function instead of specific locale, for provenance.
+- Refactored node labels to return locale accessor function, for provenance.
+- Wrapped most localized text, for provenance.
+
+## 0.16.0 2025-02-25
+
+### Added
+
+- How to guide! This feature adds a new section to the guide, which provides short tutorials about common behaviors.
+
+## 0.15.2 2025-02-15
+
+### Added
+
+- Allow ∂ in addition to ∆ for change, for consistency, and because of error in code examples in CHI 2025 paper.
+
+### Maintenance
+
+- Updated minor versions of Svelte, SvelteKit, ESLint, Firebase, Prettier, Zod.
+- Enforce organized imports on save; removed import cycles.
+
+## 0.15.1 2024-02-08
+
+### Added
+
+- New character button in glyph chooser.
+- Check for global name collisions between locales.
+- Added mechanism to mark a string revised, so that others can be checked for revision.
+
+### Fixed
+
+- Localized unlocalized buttons.
+- Don't allow users to add themselves to a creator list.
+- Better claim checking for teacher page, to explain what teacher accounts are for.
+- Fixed dark mode loading.
+- Fixed #673, more visible links in paragraphs.
+- Fixed #672, more visible links in feedback with background color.
+- Serialize locale verification.
+- Fixed French translation errors.
+- Fixed Gujarati translation errors.
+- Fixed Hindi translation errors.
+- Fixed Marathi translation errors.
+- Fixed Punjabi translation errors.
+- Fixed Tamil translation errors.
+- Account for full width punctuation in reserved symbols.
+- Disable background animation for speed.
+
+### Maintenance
+
+- Updated firebase and firebase-functions.
+
 ## 0.15.0 2024-01-26
 
 ### Added

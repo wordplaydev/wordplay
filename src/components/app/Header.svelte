@@ -1,15 +1,24 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { type Snippet } from 'svelte';
+
     interface Props {
         /** Whether the header is in a list of blocks of text, and therefore should be offset to the inline start and have a block margin. */
         block?: boolean;
         wrap?: boolean;
-        children?: import('svelte').Snippet;
+        text?: LocaleTextAccessor;
+        children?: Snippet;
     }
 
-    let { block = true, wrap = false, children }: Props = $props();
+    let { block = true, wrap = false, text, children }: Props = $props();
 </script>
 
-<h1 class:block class:wrap>{@render children?.()}</h1>
+<h1 class:block class:wrap
+    >{#if children}{@render children()}{:else if text}<LocalizedText
+            path={text}
+        />{/if}</h1
+>
 
 <style>
     h1 {

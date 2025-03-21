@@ -1,9 +1,9 @@
 <script lang="ts">
     import type FunctionConcept from '@concepts/FunctionConcept';
-    import ConceptView from './ConceptView.svelte';
-    import BindConceptView from './BindConceptView.svelte';
-    import type BindConcept from '../../concepts/BindConcept';
     import { onMount } from 'svelte';
+    import type BindConcept from '../../concepts/BindConcept';
+    import BindConceptView from './BindConceptView.svelte';
+    import ConceptView from './ConceptView.svelte';
 
     interface Props {
         concept: FunctionConcept;

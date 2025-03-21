@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type ListValue from '@values/ListValue';
+    import Sym from '@nodes/Sym';
     import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
+    import type ListValue from '@values/ListValue';
+    import Expandable from './Expandable.svelte';
     import SymbolView from './SymbolView.svelte';
     import ValueView from './ValueView.svelte';
-    import Sym from '@nodes/Sym';
-    import Expandable from './Expandable.svelte';
 
     interface Props {
         value: ListValue;

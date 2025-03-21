@@ -1,22 +1,23 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
-    import { toTokens } from '@parser/toTokens';
-    import type Project from '@db/projects/Project';
-    import NameToken from '@nodes/NameToken';
-    import type Token from '@nodes/Token';
-    import TokenTextEditor from './TokenEditor.svelte';
     import { getCaret } from '@components/project/Contexts';
+    import type Project from '@db/projects/Project';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import Name from '@nodes/Name';
-    import { locales } from '@db/Database';
+    import NameToken from '@nodes/NameToken';
+    import Sym from '@nodes/Sym';
+    import type Token from '@nodes/Token';
+    import { toTokens } from '@parser/toTokens';
+    import TokenTextEditor from './TokenEditor.svelte';
 
     interface Props {
         name: Token;
         project: Project;
         text: string;
-        placeholder: string;
+        description: LocaleTextAccessor;
+        placeholder: LocaleTextAccessor | string;
     }
 
-    let { name, project, text, placeholder }: Props = $props();
+    let { name, project, text, description, placeholder }: Props = $props();
 
     const caret = getCaret();
 </script>
@@ -25,13 +26,14 @@
     token={name}
     {project}
     {text}
+    {description}
     {placeholder}
     validator={(newName) => {
         const tokens = toTokens(newName);
         return tokens.remaining() === 2 &&
             tokens.nextIsOneOf(Sym.Name, Sym.Placeholder)
             ? true
-            : $locales.get((l) => l.ui.source.error.invalidName);
+            : (l) => l.ui.source.error.invalidName;
     }}
     creator={(text) => {
         if (caret && $caret) {

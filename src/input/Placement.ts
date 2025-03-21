@@ -1,33 +1,34 @@
-import StreamValue from '@values/StreamValue';
+import { createInputs } from '@locale/createInputs';
+import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import StreamDefinition from '../nodes/StreamDefinition';
+import BoolValue from '@values/BoolValue';
+import StreamValue from '@values/StreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import TextType from '../nodes/TextType';
+import type Locales from '../locale/Locales';
+import { getFirstText } from '../locale/LocaleText';
+import BooleanLiteral from '../nodes/BooleanLiteral';
 import BooleanType from '../nodes/BooleanType';
-import BoolValue from '@values/BoolValue';
-import StreamType from '../nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
-import StructureValue from '../values/StructureValue';
-import NumberValue from '../values/NumberValue';
-import { createInputs, getFirstName } from '../locale/LocaleText';
+import type Context from '../nodes/Context';
+import Evaluate from '../nodes/Evaluate';
 import NameType from '../nodes/NameType';
+import NumberLiteral from '../nodes/NumberLiteral';
 import NumberType from '../nodes/NumberType';
+import Reference from '../nodes/Reference';
+import StreamDefinition from '../nodes/StreamDefinition';
+import StreamType from '../nodes/StreamType';
+import type StructureDefinition from '../nodes/StructureDefinition';
+import StructureType from '../nodes/StructureType';
+import TextType from '../nodes/TextType';
+import type Type from '../nodes/Type';
 import Unit from '../nodes/Unit';
 import { createPlaceStructure } from '../output/Place';
-import NumberLiteral from '../nodes/NumberLiteral';
-import BooleanLiteral from '../nodes/BooleanLiteral';
-import Evaluate from '../nodes/Evaluate';
-import Reference from '../nodes/Reference';
-import type Context from '../nodes/Context';
-import type Type from '../nodes/Type';
-import StructureType from '../nodes/StructureType';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Locales from '../locale/Locales';
-import type Evaluation from '@runtime/Evaluation';
+import NumberValue from '../values/NumberValue';
+import StructureValue from '../values/StructureValue';
+import createStreamEvaluator from './createStreamEvaluator';
 
 type Direction = -1 | 0 | 1;
-type PlacementEvent = { x: Direction; y: Direction; z: Direction };
+export type PlacementEvent = { x: Direction; y: Direction; z: Direction };
 
 export default class Placement extends StreamValue<
     StructureValue,
@@ -57,11 +58,7 @@ export default class Placement extends StreamValue<
             evaluation,
             evaluation.getEvaluator().project.shares.input.Placement,
             start,
-            {
-                x: 0,
-                y: 0,
-                z: 0,
-            },
+            { x: 0, y: 0, z: 0 },
         );
 
         this.evaluator = evaluation.getEvaluator();
@@ -119,7 +116,7 @@ export function createPlacementDefinition(
     locales: Locales,
     placeType: StructureDefinition,
 ) {
-    const PlaceName = locales.get((l) => getFirstName(l.output.Place.names));
+    const PlaceName = locales.get((l) => getFirstText(l.output.Place.names));
     const inputs = createInputs(locales, (l) => l.input.Placement.inputs, [
         [
             NameType.make(PlaceName),

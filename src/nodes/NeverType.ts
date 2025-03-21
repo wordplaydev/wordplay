@@ -1,9 +1,9 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
-import Type from './Type';
-import Characters from '../lore/BasisCharacters';
-import { NEVER_SYMBOL } from '@parser/Symbols';
-import type Locales from '../locale/Locales';
+import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { NEVER_SYMBOL } from '@parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
+import Type from './Type';
 
 export default class NeverType extends Type {
     constructor() {
@@ -36,8 +36,9 @@ export default class NeverType extends Type {
         return new NeverType() as this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NeverType);
+    static readonly LocalePath = (l: LocaleText) => l.node.NeverType;
+    getLocalePath() {
+        return NeverType.LocalePath;
     }
 
     getCharacter() {

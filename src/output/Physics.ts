@@ -1,17 +1,17 @@
 import MatterJS from 'matter-js';
-import { PX_PER_METER } from './outputToCSS';
-import type Matter from './Matter';
-import type { OutputInfo, OutputInfoSet } from './Animator';
-import Phrase from './Phrase';
-import Group from './Group';
-import Stage, { DefaultGravity } from './Stage';
-import type Value from '../values/Value';
-import Motion from '../input/Motion';
-import type Evaluator from '../runtime/Evaluator';
 import type { ReboundEvent } from '../input/Collision';
 import Collision from '../input/Collision';
+import Motion from '../input/Motion';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../values/Value';
+import type { OutputInfo, OutputInfoSet } from './Animator';
 import { Circle, Polygon, Rectangle } from './Form';
+import Group from './Group';
+import type Matter from './Matter';
+import { PX_PER_METER } from './outputToCSS';
+import Phrase from './Phrase';
 import type Shape from './Shape';
+import Stage, { DefaultGravity } from './Stage';
 
 const TextCategory = 0b0001;
 const ShapeCategory = 0b0010;
@@ -487,9 +487,7 @@ export class OutputBody {
             PX_PER_METER * ascent,
             // Round corners by a fraction of their size
             {
-                chamfer: {
-                    radius: corner * PX_PER_METER,
-                },
+                chamfer: { radius: corner * PX_PER_METER },
                 restitution: matter?.bounciness ?? 0,
                 friction: matter?.friction ?? 0,
                 mass: (matter?.mass ?? 1) * 10,
@@ -540,9 +538,5 @@ function getCollisionFilter(matter: Matter | undefined) {
                   (matter.text ? TextCategory : 0) |
                   (matter.shapes ? ShapeCategory : 0),
           }
-        : {
-              group: -1,
-              category: TextCategory,
-              mask: 0,
-          };
+        : { group: -1, category: TextCategory, mask: 0 };
 }

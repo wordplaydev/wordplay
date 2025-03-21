@@ -1,15 +1,15 @@
 <script lang="ts">
+    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import Dimension from '@nodes/Dimension';
     import Evaluate from '@nodes/Evaluate';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import ColorChooser from '../widgets/ColorChooser.svelte';
+    import { locales, Projects } from '../../db/Database';
     import type OutputProperty from '../../edit/OutputProperty';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { Projects } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import ColorChooser from '../widgets/ColorChooser.svelte';
 
     interface Props {
         property: OutputProperty;
@@ -55,7 +55,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 replacement,
             ),
         );

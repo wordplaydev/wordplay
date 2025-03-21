@@ -1,22 +1,22 @@
-import TemporalStreamValue from '../values/TemporalStreamValue';
-import type Expression from '../nodes/Expression';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import BooleanType from '@nodes/BooleanType';
+import type Evaluation from '@runtime/Evaluation';
+import BoolValue from '@values/BoolValue';
+import NumberValue from '@values/NumberValue';
+import { getDocLocales } from '../locale/getDocLocales';
+import { getNameLocales } from '../locale/getNameLocales';
+import type Locales from '../locale/Locales';
 import Bind from '../nodes/Bind';
-import NumberType from '../nodes/NumberType';
+import type Expression from '../nodes/Expression';
 import NoneLiteral from '../nodes/NoneLiteral';
 import NoneType from '../nodes/NoneType';
+import NumberType from '../nodes/NumberType';
 import StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
-import NumberValue from '@values/NumberValue';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
+import TemporalStreamValue from '../values/TemporalStreamValue';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locales from '../locale/Locales';
-import BooleanType from '@nodes/BooleanType';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import BoolValue from '@values/BoolValue';
-import type Evaluation from '@runtime/Evaluation';
 
 const DEFAULT_FREQUENCY = 33;
 

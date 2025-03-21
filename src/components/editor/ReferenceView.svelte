@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type Reference from '@nodes/Reference';
-    import NodeView from './NodeView.svelte';
-    import { getEvaluation } from '../project/Contexts';
     import Evaluate from '@nodes/Evaluate';
-    import type StreamValue from '@values/StreamValue';
-    import type Value from '../../values/Value';
-    import { animationFactor } from '../../db/Database';
+    import type Reference from '@nodes/Reference';
     import Source from '@nodes/Source';
+    import type StreamValue from '@values/StreamValue';
+    import { animationFactor } from '../../db/Database';
+    import type Value from '../../values/Value';
+    import { getEvaluation } from '../project/Contexts';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: Reference;

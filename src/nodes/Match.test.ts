@@ -1,10 +1,10 @@
-import { test, expect } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
 import type Conflict from '@conflicts/Conflict';
-import { testConflict } from '@conflicts/TestUtilities';
 import IncompatibleType from '@conflicts/IncompatibleType';
-import type Node from './Node';
+import { testConflict } from '@conflicts/TestUtilities';
+import { expect, test } from 'vitest';
+import evaluateCode from '../runtime/evaluate';
 import Match from './Match';
+import type Node from './Node';
 
 test.each([
     [

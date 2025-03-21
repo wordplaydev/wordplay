@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type ConversionDefinition from './ConversionDefinition';
-import type FunctionDefinition from './FunctionDefinition';
-import Node from './Node';
-import type Context from './Context';
-import type Expression from './Expression';
-import TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
+import type Context from './Context';
+import type ConversionDefinition from './ConversionDefinition';
+import type Expression from './Expression';
+import type FunctionDefinition from './FunctionDefinition';
+import Node from './Node';
+import TypeSet from './TypeSet';
 
 export default abstract class Type extends Node {
     constructor() {

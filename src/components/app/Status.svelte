@@ -1,43 +1,51 @@
 <script lang="ts">
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import { SaveStatus, locales } from '../../db/Database';
-    import { status } from '../../db/Database';
-    import { getUser } from '../project/Contexts';
     import Button from '@components/widgets/Button.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type LocaleText from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { SaveStatus, status } from '../../db/Database';
     import { withMonoEmoji } from '../../unicode/emoji';
+    import { getUser } from '../project/Contexts';
 
     const user = getUser();
     let device = $derived($user === null);
 
     let showError = $state(false);
+
+    let labels = $derived(
+        $status.status === SaveStatus.Saved
+            ? {
+                  text: device
+                      ? (l: LocaleText) => l.ui.save.local
+                      : (l: LocaleText) => l.ui.save.saved,
+                  icon: withMonoEmoji(device ? '🖥️' : '🌐'),
+              }
+            : $status.status === SaveStatus.Saving
+              ? { text: (l: LocaleText) => l.ui.save.saving, icon: '…' }
+              : {
+                    text: (l: LocaleText) => l.ui.save.unsaved,
+                    icon: CANCEL_SYMBOL,
+                },
+    );
 </script>
 
 <Button
-    tip={$locales.get((l) => l.ui.project.button.unsaved)}
+    tip={(l) => l.ui.project.button.unsaved}
     action={() => (showError = true)}
     active={$status.message !== undefined}
 >
     <div class="status {$status.status}" class:device>
-        {$status.status === SaveStatus.Saved
-            ? `${
-                  device
-                      ? $locales.get((l) => l.ui.save.local)
-                      : $locales.get((l) => l.ui.save.saved)
-              } ${withMonoEmoji(device ? '🖥️' : '🌐')}`
-            : $status.status === SaveStatus.Saving
-              ? `${$locales.get((l) => l.ui.save.saving)} …`
-              : `${$locales.get((l) => l.ui.save.unsaved)} ${CANCEL_SYMBOL}`}
+        <LocalizedText path={labels.text} />
+        {labels.icon}
     </div>
 </Button>
 
 {#if $status.message}
     <Dialog
         bind:show={showError}
-        description={{
-            header: $locales.get((l) => l.ui.project.dialog.unsaved),
-            explanation: $status.message($locales.getLocale()),
-        }}
+        header={(l) => l.ui.project.dialog.unsaved}
+        explanation={$status.message}
         closeable={true}
     ></Dialog>
 {/if}

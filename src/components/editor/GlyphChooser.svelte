@@ -1,22 +1,23 @@
 <script lang="ts">
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import {
+        type Character,
+        characterToSVG,
+    } from '../../db/characters/Character';
+    import { CharactersDB, locales } from '../../db/Database';
     import { tokenize } from '../../parser/Tokenizer';
+    import NewCharacterButton from '../../routes/characters/NewCharacterButton.svelte';
+    import { isEmoji, withColorEmoji } from '../../unicode/emoji';
     import {
         getEmoji,
         getUnicodeNamed as getUnicodeWithNameText,
     } from '../../unicode/Unicode';
     import { IdleKind, getEditors } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
+    import CommandButton from '../widgets/CommandButton.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
-    import { CharactersDB, locales } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
-    import CommandButton from '../widgets/CommandButton.svelte';
-    import { isEmoji, withColorEmoji } from '../../unicode/emoji';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import {
-        type Character,
-        characterToSVG,
-    } from '../../db/characters/Character';
 
     interface Props {
         sourceID: string;
@@ -82,9 +83,10 @@
 
 {#snippet option(glyph: string, token = true)}
     <Button
-        tip={$locales
-            .concretize((l) => l.ui.source.cursor.insertSymbol, glyph)
-            .toText()}
+        tip={() =>
+            $locales
+                .concretize((l) => l.ui.source.cursor.insertSymbol, glyph)
+                .toText()}
         action={() => insert(glyph)}
         >{#if token}<TokenView
                 node={tokenize(glyph).getTokens()[0]}
@@ -94,12 +96,13 @@
 
 {#snippet character(character: Character)}
     <Button
-        tip={$locales
-            .concretize(
-                (l) => l.ui.source.cursor.insertSymbol,
-                character.description,
-            )
-            .toText()}
+        tip={() =>
+            $locales
+                .concretize(
+                    (l) => l.ui.source.cursor.insertSymbol,
+                    character.description,
+                )
+                .toText()}
         action={() => insert(character)}
         >{@html characterToSVG(character, '1em')}</Button
     >
@@ -109,13 +112,14 @@
     <TextField
         id="character-search"
         placeholder="🔍"
-        description={$locales.get((l) => l.ui.source.cursor.search)}
+        description={(l) => l.ui.source.cursor.search}
         bind:text={query}
     />
     <div class="matches">
         <!-- No query? Show emoji or defaults, depending on setting -->
         {#if query === ''}
             {#if emoji}
+                <NewCharacterButton inline></NewCharacterButton>
                 {#each customCharacters as glyph}
                     {@render character(glyph)}
                 {/each}
@@ -133,14 +137,15 @@
             <!-- Show search results. -->
         {:else}
             {#each results as glyph}<Button
-                    tip={$locales
-                        .concretize(
-                            (l) => l.ui.source.cursor.insertSymbol,
-                            typeof glyph === 'string'
-                                ? glyph
-                                : glyph.description,
-                        )
-                        .toText()}
+                    tip={() =>
+                        $locales
+                            .concretize(
+                                (l) => l.ui.source.cursor.insertSymbol,
+                                typeof glyph === 'string'
+                                    ? glyph
+                                    : glyph.description,
+                            )
+                            .toText()}
                     action={() => insert(glyph)}
                     >{#if typeof glyph === 'string'}
                         <TokenView node={tokenize(glyph).getTokens()[0]} />
@@ -152,7 +157,7 @@
     </div>
     {#if query.length === 0}
         <Toggle
-            tips={$locales.get((l) => l.ui.source.toggle.characters)}
+            tips={(l) => l.ui.source.toggle.characters}
             on={emoji}
             toggle={() => (emoji = !emoji)}
             >{withColorEmoji(emoji ? '😴' : '😊')}</Toggle

@@ -1,22 +1,53 @@
-import Token from '@nodes/Token';
 import Sym from '@nodes/Sym';
+import Token from '@nodes/Token';
+import ReservedSymbols from './ReservedSymbols';
 import {
     BIND_SYMBOL,
-    QUESTION_SYMBOL,
+    BIND_SYMBOL_FULL,
+    BOLD_SYMBOL,
     BORROW_SYMBOL,
     CHANGE_SYMBOL,
+    CHANGE_SYMBOL2,
+    COALESCE_SYMBOL,
+    CODE_SYMBOL,
+    COMMA_SYMBOL,
+    COMMA_SYMBOL_FULL,
+    COMMA_SYMBOL_FULL2,
     CONVERT_SYMBOL,
+    CONVERT_SYMBOL2,
+    CONVERT_SYMBOL3,
+    DELETE_SYMBOL,
+    DIFFERENCE_SYMBOL,
     DOCS_SYMBOL,
+    ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
+    EVAL_CLOSE_SYMBOL_FULL,
     EVAL_OPEN_SYMBOL,
+    EVAL_OPEN_SYMBOL_FULL,
+    EXTRA_SYMBOL,
     FALSE_SYMBOL,
+    FORMATTED_SYMBOL,
+    FORMATTED_SYMBOL_FULL,
+    FORMATTED_TYPE_SYMBOL,
     FUNCTION_SYMBOL,
+    GLOBE1_SYMBOL,
+    GLOBE2_SYMBOL,
+    GLOBE3_SYMBOL,
+    INITIAL_SYMBOL,
+    INSERT_SYMBOL,
+    ITALIC_SYMBOL,
     LANGUAGE_SYMBOL,
+    LIGHT_SYMBOL,
     LINK_SYMBOL,
     LIST_CLOSE_SYMBOL,
+    LIST_CLOSE_SYMBOL_FULL,
     LIST_OPEN_SYMBOL,
+    LIST_OPEN_SYMBOL_FULL,
+    LITERAL_SYMBOL,
+    LITERAL_SYMBOL_FULL,
+    MATCH_SYMBOL,
     MEASUREMENT_SYMBOL,
-    COMMA_SYMBOL,
+    MENTION_SYMBOL,
     NONE_SYMBOL,
     NOT_SYMBOL,
     OR_SYMBOL,
@@ -24,47 +55,34 @@ import {
     PREVIOUS_SYMBOL,
     PRODUCT_SYMBOL,
     PROPERTY_SYMBOL,
+    PROPERTY_SYMBOL_FULL,
+    QUESTION_SYMBOL,
+    QUESTION_SYMBOL_FULL,
+    SELECT_SYMBOL,
     SET_CLOSE_SYMBOL,
+    SET_CLOSE_SYMBOL_FULL,
     SET_OPEN_SYMBOL,
+    SET_OPEN_SYMBOL_FULL,
     SHARE_SYMBOL,
     STREAM_SYMBOL,
+    STREAM_SYMBOL2,
+    SUM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
     TAG_CLOSE_SYMBOL,
+    TAG_CLOSE_SYMBOL_FULL,
     TAG_OPEN_SYMBOL,
+    TAG_OPEN_SYMBOL_FULL,
     TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
+    TYPE_CLOSE_SYMBOL_FULL,
     TYPE_OPEN_SYMBOL,
+    TYPE_OPEN_SYMBOL_FULL,
     TYPE_SYMBOL,
-    LITERAL_SYMBOL,
-    INITIAL_SYMBOL,
-    SUM_SYMBOL,
-    DIFFERENCE_SYMBOL,
-    ITALIC_SYMBOL,
     UNDERSCORE_SYMBOL,
-    BOLD_SYMBOL,
-    EXTRA_SYMBOL,
-    MENTION_SYMBOL,
-    CONVERT_SYMBOL2,
-    CONVERT_SYMBOL3,
-    STREAM_SYMBOL2,
-    LIGHT_SYMBOL,
-    CODE_SYMBOL,
-    FORMATTED_SYMBOL,
-    FORMATTED_TYPE_SYMBOL,
-    GLOBE1_SYMBOL,
-    GLOBE2_SYMBOL,
-    GLOBE3_SYMBOL,
-    SELECT_SYMBOL,
-    INSERT_SYMBOL,
-    DELETE_SYMBOL,
     UPDATE_SYMBOL,
-    COALESCE_SYMBOL,
-    ELISION_SYMBOL,
-    MATCH_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
-import ReservedSymbols from './ReservedSymbols';
 import { toTokens } from './toTokens';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
@@ -142,7 +160,7 @@ export const WordsRegEx = new RegExp(
     'u',
 );
 
-/** A name is any sequence of characters that is not a reserve symbol or space. */
+/** A name is any sequence of characters that is not a reserved symbol, text separator, oeprator, whitespace, or full-width punctuation. */
 export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
     escapeRegexCharacter(s),
 ).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
@@ -158,15 +176,21 @@ function escapeRegexCharacter(c: string) {
     return /[\\/()[\]{}]/.test(c) ? '\\' + c : c;
 }
 
-type TokenPattern = {
-    pattern: string | RegExp;
-    types: Sym[];
-};
+type TokenPattern = { pattern: string | RegExp; types: Sym[] };
 
 const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
-const FormattedPattern = { pattern: FORMATTED_SYMBOL, types: [Sym.Formatted] };
+const FormattedPattern = {
+    pattern: new RegExp(`^[${FORMATTED_SYMBOL}${FORMATTED_SYMBOL_FULL}]`, 'u'),
+    types: [Sym.Formatted],
+};
 const DocPattern = { pattern: DOCS_SYMBOL, types: [Sym.Doc] };
-const ListOpenPattern = { pattern: LIST_OPEN_SYMBOL, types: [Sym.ListOpen] };
+const ListOpenPattern = {
+    pattern: new RegExp(
+        `^[\\${LIST_OPEN_SYMBOL}${LIST_OPEN_SYMBOL_FULL}]`,
+        'u',
+    ),
+    types: [Sym.ListOpen],
+};
 const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
 
 /** Variable references in markup, for templating and reuse in locales (e.g., $1, $?, $source) */
@@ -176,10 +200,25 @@ export const MentionRegEx = '\\$[a-zA-Z0-9?]+';
 const CodeTokenPatterns: TokenPattern[] = [
     ListOpenPattern,
     ListClosePattern,
-    { pattern: SET_OPEN_SYMBOL, types: [Sym.SetOpen] },
-    { pattern: SET_CLOSE_SYMBOL, types: [Sym.SetClose] },
     {
-        pattern: COMMA_SYMBOL,
+        pattern: new RegExp(
+            `^[${SET_OPEN_SYMBOL}{${SET_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.SetOpen],
+    },
+    {
+        pattern: new RegExp(
+            `^[${SET_CLOSE_SYMBOL}{${SET_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.SetClose],
+    },
+    {
+        pattern: new RegExp(
+            `^[${COMMA_SYMBOL}${COMMA_SYMBOL_FULL}${COMMA_SYMBOL_FULL2}]`,
+            'u',
+        ),
         types: [Sym.Separator],
     },
     { pattern: LANGUAGE_SYMBOL, types: [Sym.Language] },
@@ -189,7 +228,10 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: UPDATE_SYMBOL, types: [Sym.Update] },
     { pattern: TABLE_OPEN_SYMBOL, types: [Sym.TableOpen] },
     { pattern: TABLE_CLOSE_SYMBOL, types: [Sym.TableClose] },
-    { pattern: BIND_SYMBOL, types: [Sym.Bind] },
+    {
+        pattern: new RegExp(`^[${BIND_SYMBOL}${BIND_SYMBOL_FULL}]`, 'u'),
+        types: [Sym.Bind],
+    },
     { pattern: FUNCTION_SYMBOL, types: [Sym.Function] },
     { pattern: BORROW_SYMBOL, types: [Sym.Borrow] },
     { pattern: SHARE_SYMBOL, types: [Sym.Share] },
@@ -199,28 +241,32 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
     { pattern: TYPE_SYMBOL, types: [Sym.Type, Sym.TypeOperator] },
     { pattern: /^!#/, types: [Sym.Number] },
-    { pattern: LITERAL_SYMBOL, types: [Sym.Literal] },
     {
-        pattern: OR_SYMBOL,
-        types: [Sym.Operator, Sym.Union],
+        pattern: new RegExp(`^[${LITERAL_SYMBOL}${LITERAL_SYMBOL_FULL}]`, 'u'),
+        types: [Sym.Literal],
     },
-    { pattern: TYPE_OPEN_SYMBOL, types: [Sym.TypeOpen] },
-    { pattern: TYPE_CLOSE_SYMBOL, types: [Sym.TypeClose] },
+    { pattern: OR_SYMBOL, types: [Sym.Operator, Sym.Union] },
     {
-        pattern: STREAM_SYMBOL,
-        types: [Sym.Stream, Sym.Etc],
+        pattern: new RegExp(
+            `^[${TYPE_OPEN_SYMBOL}${TYPE_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.TypeOpen],
     },
     {
-        pattern: STREAM_SYMBOL2,
-        types: [Sym.Stream, Sym.Etc],
+        pattern: new RegExp(
+            `^[${TYPE_CLOSE_SYMBOL}${TYPE_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.TypeClose],
     },
+    { pattern: STREAM_SYMBOL, types: [Sym.Stream, Sym.Etc] },
+    { pattern: STREAM_SYMBOL2, types: [Sym.Stream, Sym.Etc] },
     { pattern: INITIAL_SYMBOL, types: [Sym.Initial] },
     { pattern: CHANGE_SYMBOL, types: [Sym.Change] },
+    { pattern: CHANGE_SYMBOL2, types: [Sym.Change] },
     { pattern: PREVIOUS_SYMBOL, types: [Sym.Previous] },
-    {
-        pattern: PLACEHOLDER_SYMBOL,
-        types: [Sym.Placeholder, Sym.Underline],
-    },
+    { pattern: PLACEHOLDER_SYMBOL, types: [Sym.Placeholder, Sym.Underline] },
     // Roman numerals
     {
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
@@ -238,18 +284,18 @@ const CodeTokenPatterns: TokenPattern[] = [
         types: [Sym.Number, Sym.Base],
     },
     // Tokenize Arabic numbers
-    {
-        pattern: /^-?[0-9]+([.,][0-9]+)?%?/,
-        types: [Sym.Number, Sym.Decimal],
-    },
-    {
-        pattern: /^-?[.,][0-9]+%?/,
-        types: [Sym.Number, Sym.Decimal],
-    },
+    { pattern: /^-?[0-9]+([.,][0-9]+)?%?/, types: [Sym.Number, Sym.Decimal] },
+    { pattern: /^-?[.,][0-9]+%?/, types: [Sym.Number, Sym.Decimal] },
     { pattern: /^π/, types: [Sym.Number, Sym.Pi] },
     { pattern: /^∞/, types: [Sym.Number, Sym.Infinity] },
     // Must be after numbers, which can have a leading period.
-    { pattern: PROPERTY_SYMBOL, types: [Sym.Access, Sym.This] },
+    {
+        pattern: new RegExp(
+            `^[${PROPERTY_SYMBOL}${PROPERTY_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.Access, Sym.This],
+    },
     { pattern: TRUE_SYMBOL, types: [Sym.Boolean] },
     { pattern: FALSE_SYMBOL, types: [Sym.Boolean] },
     // Match all possible text open and close tokens
@@ -271,20 +317,30 @@ const CodeTokenPatterns: TokenPattern[] = [
     // Match code open/close markers
     CodePattern,
     // Finally, catch any leftover single open or close parentheses.
-    { pattern: EVAL_OPEN_SYMBOL, types: [Sym.EvalOpen] },
-    { pattern: EVAL_CLOSE_SYMBOL, types: [Sym.EvalClose] },
+    {
+        pattern: new RegExp(
+            `^[${EVAL_OPEN_SYMBOL}${EVAL_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.EvalOpen],
+    },
+    {
+        pattern: new RegExp(
+            `^[${EVAL_CLOSE_SYMBOL}${EVAL_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.EvalClose],
+    },
+    { pattern: EVAL_CLOSE_SYMBOL_FULL, types: [Sym.EvalClose] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: MEASUREMENT_SYMBOL, types: [Sym.NumberType] },
+    { pattern: MATCH_SYMBOL, types: [Sym.Match] },
+    { pattern: COALESCE_SYMBOL, types: [Sym.Otherwise] },
     {
-        pattern: MATCH_SYMBOL,
-        types: [Sym.Match],
-    },
-    {
-        pattern: COALESCE_SYMBOL,
-        types: [Sym.Otherwise],
-    },
-    {
-        pattern: QUESTION_SYMBOL,
+        pattern: new RegExp(
+            `^[${QUESTION_SYMBOL}${QUESTION_SYMBOL_FULL}]`,
+            'u',
+        ),
         types: [Sym.BooleanType, Sym.Conditional],
     },
     { pattern: '¿', types: [Sym.BooleanType, Sym.Conditional] },
@@ -305,10 +361,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     DocPattern,
 
     // All other tokens are names, which are sequences of Unicode characters that are not one of the reserved symbols above or whitespace.
-    {
-        pattern: NameRegEx,
-        types: [Sym.Name],
-    },
+    { pattern: NameRegEx, types: [Sym.Name] },
 ];
 
 /**
@@ -337,38 +390,26 @@ const MarkupTokenPatterns = [
     // The concept reg ex above captures concepts; this captures any @ part of a link that's not a concept reference.
     { pattern: LINK_SYMBOL, types: [Sym.Link] },
     { pattern: LANGUAGE_SYMBOL, types: [Sym.Italic] },
+    { pattern: LIGHT_SYMBOL, types: [Sym.Light] },
+    { pattern: UNDERSCORE_SYMBOL, types: [Sym.Underline] },
+    { pattern: BOLD_SYMBOL, types: [Sym.Bold] },
+    { pattern: EXTRA_SYMBOL, types: [Sym.Extra] },
+    { pattern: new RegExp(`^${MentionRegEx}`, 'u'), types: [Sym.Mention] },
     {
-        pattern: LIGHT_SYMBOL,
-        types: [Sym.Light],
-    },
-    {
-        pattern: UNDERSCORE_SYMBOL,
-        types: [Sym.Underline],
-    },
-    {
-        pattern: BOLD_SYMBOL,
-        types: [Sym.Bold],
-    },
-    {
-        pattern: EXTRA_SYMBOL,
-        types: [Sym.Extra],
-    },
-    {
-        pattern: new RegExp(`^${MentionRegEx}`, 'u'),
-        types: [Sym.Mention],
-    },
-    {
-        pattern: TAG_OPEN_SYMBOL,
+        pattern: new RegExp(
+            `^[${TAG_OPEN_SYMBOL}${TAG_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
         types: [Sym.TagOpen],
     },
     {
-        pattern: TAG_CLOSE_SYMBOL,
+        pattern: new RegExp(
+            `^[${TAG_CLOSE_SYMBOL}${TAG_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
         types: [Sym.TagClose],
     },
-    {
-        pattern: OR_SYMBOL,
-        types: [Sym.Union],
-    },
+    { pattern: OR_SYMBOL, types: [Sym.Union] },
 ];
 
 export const TextCloseByTextOpen: Record<string, string> = {
@@ -396,10 +437,16 @@ export const TextDelimiters = new Set<string>([
 export const DelimiterCloseByOpen: Record<string, string> = {};
 
 DelimiterCloseByOpen[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
+DelimiterCloseByOpen[EVAL_OPEN_SYMBOL_FULL] = EVAL_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
+DelimiterCloseByOpen[LIST_OPEN_SYMBOL_FULL] = LIST_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
+DelimiterCloseByOpen[SET_OPEN_SYMBOL_FULL] = SET_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
+DelimiterCloseByOpen[TYPE_OPEN_SYMBOL_FULL] = TYPE_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+DelimiterCloseByOpen[TAG_OPEN_SYMBOL] = TAG_CLOSE_SYMBOL;
+DelimiterCloseByOpen[TAG_OPEN_SYMBOL_FULL] = TAG_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[CODE_SYMBOL] = CODE_SYMBOL;
 DelimiterCloseByOpen[DOCS_SYMBOL] = DOCS_SYMBOL;
 DelimiterCloseByOpen[ELISION_SYMBOL] = ELISION_SYMBOL;

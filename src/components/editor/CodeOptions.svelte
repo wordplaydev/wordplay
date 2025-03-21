@@ -4,7 +4,7 @@
     import MenuTrigger from './MenuTrigger.svelte';
 
     /** We don't get these until the menu is shown, for performance reasons.*/
-    
+
     interface Props {
         current: Token;
         /** How to handle a selection */

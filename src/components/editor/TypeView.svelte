@@ -1,9 +1,9 @@
 <!-- A fallback view of types that don't have a more specialized view, generally for type errors. -->
 <script lang="ts">
-    import { getProject, getRoot } from '../project/Contexts';
     import { locales } from '@db/Database';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import type Type from '../../nodes/Type';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import { getProject, getRoot } from '../project/Contexts';
 
     interface Props {
         node: Type;
@@ -24,7 +24,7 @@
 </script>
 
 <span class="TypeView"
-    >{#if context}<MarkupHtmlView
+    >{#if context}<MarkupHTMLView
             markup={node.getDescription($locales, context)}
         />{:else}{node.toWordplay()}{/if}</span
 >

@@ -1,9 +1,10 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type BindConcept from '@concepts/BindConcept';
-    import Speech from '../lore/Speech.svelte';
     import { blocks, locales } from '@db/Database';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import Speech from '../lore/Speech.svelte';
     import RootView from '../project/RootView.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
 
     interface Props {
         concept: BindConcept;
@@ -18,7 +19,7 @@
         {#if markup}
             <MarkupHTMLView {markup} />
         {:else}
-            {$locales.get((l) => l.ui.docs.nodoc)}
+            <LocalizedText path={(l) => l.ui.docs.nodoc} />
         {/if}
     {/snippet}
     {#snippet aside()}

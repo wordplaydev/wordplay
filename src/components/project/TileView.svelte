@@ -12,27 +12,28 @@
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
+    import Emoji from '@components/app/Emoji.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import type { Snippet } from 'svelte';
-    import Button from '../widgets/Button.svelte';
-    import type Tile from './Tile';
-    import { TileMode } from './Tile';
-    import type Layout from './Layout';
-    import TextField from '../widgets/TextField.svelte';
-    import { isName } from '../../parser/Tokenizer';
-    import { animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
+    import { animationDuration, locales } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
     import Arrangement from '../../db/settings/Arrangement';
     import Characters from '../../lore/BasisCharacters';
     import Color from '../../output/Color';
+    import { isName } from '../../parser/Tokenizer';
+    import Button from '../widgets/Button.svelte';
+    import TextField from '../widgets/TextField.svelte';
     import Toggle from '../widgets/Toggle.svelte';
-    import type Project from '../../db/projects/Project';
-    import Emoji from '@components/app/Emoji.svelte';
-    import TileKinds from './TileKinds';
-    import FullscreenIcon from './FullscreenIcon.svelte';
     import type Bounds from './Bounds';
-    import Note from '@components/widgets/Note.svelte';
+    import FullscreenIcon from './FullscreenIcon.svelte';
+    import type Layout from './Layout';
+    import type Tile from './Tile';
+    import { TileMode } from './Tile';
+    import TileKinds from './TileKinds';
     import TileMessage from './TileMessage.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
         project: Project;
@@ -274,12 +275,19 @@
         <svelte:boundary>
             {#snippet failed(error, reset)}
                 <TileMessage error>
-                    <h2>{$locales.get((l) => l.ui.project.error.tile)}</h2>
+                    <h2
+                        ><LocalizedText
+                            path={(l) => l.ui.project.error.tile}
+                        /></h2
+                    >
                     <p
-                        ><Button tip="Reset" action={reset} background
-                            >{$locales.get(
-                                (l) => l.ui.project.error.reset,
-                            )}</Button
+                        ><Button
+                            tip={(l) => l.ui.project.error.reset}
+                            action={reset}
+                            background
+                            ><LocalizedText
+                                path={(l) => l.ui.project.error.reset}
+                            /></Button
                         ></p
                     >
                     <Note>{'' + error}</Note>
@@ -296,13 +304,13 @@
                     <Button
                         background={background !== null}
                         padding={false}
-                        tip={$locales.get((l) => l.ui.tile.button.collapse)}
+                        tip={(l) => l.ui.tile.button.collapse}
                         action={() => mode(TileMode.Collapsed)}
                         icon="–"
                     ></Button>
                 {/if}
                 <Toggle
-                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                    tips={(l) => l.ui.tile.toggle.fullscreen}
                     on={fullscreen}
                     background={background !== null}
                     toggle={() => setFullscreen(!fullscreen)}
@@ -322,21 +330,14 @@
                                         ?.getPreferredName(
                                             $locales.getLocales(),
                                         )}
-                                    description={$locales.get(
-                                        (l) =>
-                                            l.ui.source.field.name.description,
-                                    )}
-                                    placeholder={$locales.get(
-                                        (l) =>
-                                            l.ui.source.field.name.placeholder,
-                                    )}
+                                    description={(l) =>
+                                        l.ui.source.field.name.description}
+                                    placeholder={(l) =>
+                                        l.ui.source.field.name.placeholder}
                                     validator={(text) =>
                                         !isName(text)
-                                            ? $locales.get(
-                                                  (l) =>
-                                                      l.ui.source.error
-                                                          .invalidName,
-                                              )
+                                            ? (l) =>
+                                                  l.ui.source.error.invalidName
                                             : true}
                                     inlineValidation
                                     changed={handleRename}

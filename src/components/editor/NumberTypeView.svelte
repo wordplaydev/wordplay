@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type NumberType from '@nodes/NumberType';
     import Node from '@nodes/Node';
+    import type NumberType from '@nodes/NumberType';
     import NodeView from './NodeView.svelte';
 
     interface Props {

@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-'on':
+on:
     push:
         branches:
             - main
@@ -11,10 +11,11 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-            - run: npm ci && echo "${{ secrets.ENV_FILE }}" > .env.template && npm run build
+            - run: npm ci
+            - run: echo "${{ secrets.ENV_PROD }}" > .env.wordplay-prod
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
-                  repoToken: '${{ secrets.GITHUB_TOKEN }}'
-                  firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORDPLAY_DEV }}'
+                  repoToken: ${{ secrets.GITHUB_TOKEN }}
+                  firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORDPLAY_PROD }}
                   channelId: live
-                  projectId: wordplay-dev
+                  projectId: wordplay-prod
