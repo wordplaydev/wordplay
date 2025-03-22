@@ -482,8 +482,10 @@ export function addMissingKeys(
                 ) {
                     for (let index = 0; index < targetValue.length; index++) {
                         const sourceValueElement = sourceValue[index];
+                        // Delete the value if there's no value at the source.
                         if (sourceValueElement === undefined)
                             delete targetValue[index];
+                        // If there is a value, add the missing key.
                         else
                             addMissingKeys(
                                 log,
@@ -495,6 +497,32 @@ export function addMissingKeys(
                     log.bad(
                         2,
                         `Target has the key ${key}, but it's not an array. Repair manually.`,
+                    );
+                }
+            } else if (
+                Array.isArray(sourceValue) &&
+                sourceValue.every((s) => typeof s === 'string')
+            ) {
+                if (
+                    Array.isArray(targetValue) &&
+                    targetValue.every((t) => typeof t === 'string')
+                ) {
+                    for (let index = 0; index < targetValue.length; index++) {
+                        const sourceValueElement = sourceValue[index];
+                        if (sourceValueElement === undefined)
+                            delete targetValue[index];
+                    }
+                    for (
+                        let index = 0;
+                        index < sourceValue.length - targetValue.length;
+                        index++
+                    ) {
+                        targetValue.push(Unwritten);
+                    }
+                } else {
+                    log.bad(
+                        2,
+                        "Target has the key ${key}, but it's not an array of strings. Repair manually.",
                     );
                 }
             }
