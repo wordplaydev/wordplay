@@ -500,6 +500,7 @@ export function addMissingKeys(
                     );
                 }
             } else if (
+                key !== 'names' &&
                 Array.isArray(sourceValue) &&
                 sourceValue.every((s) => typeof s === 'string')
             ) {
@@ -513,16 +514,16 @@ export function addMissingKeys(
                             delete targetValue[index];
                     }
                     for (
-                        let index = 0;
-                        index < sourceValue.length - targetValue.length;
+                        let index = targetValue.length;
+                        index < sourceValue.length;
                         index++
                     ) {
-                        targetValue.push(Unwritten);
+                        targetValue[index] = Unwritten;
                     }
                 } else {
                     log.bad(
                         2,
-                        "Target has the key ${key}, but it's not an array of strings. Repair manually.",
+                        `Target has the key ${key}, but it's not an array of strings. Repair manually.`,
                     );
                 }
             }
