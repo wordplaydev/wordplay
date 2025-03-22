@@ -5050,7 +5050,7 @@
                     "empty": "$~Välj ett ritläge i paletten för att skapa former.",
                     "unselected": "$~Välj ett ritläge eller välj och redigera former.",
                     "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i ett urval. Använd *delete* för att ta bort markeringen. Använd kontrollerna nedan för att ändra de valda formerna.",
-                    "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel.",
+                    "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel. *Dubbelklicka* för att fylla.",
                     "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",

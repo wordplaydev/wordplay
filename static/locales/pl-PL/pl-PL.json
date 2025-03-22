@@ -5055,7 +5055,7 @@
                     "empty": "$~Wybierz tryb rysowania na palecie, aby utworzyć kształty.",
                     "unselected": "$~Wybierz tryb rysowania lub zaznacz i edytuj kształty.",
                     "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *Shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *Delete*, aby usunąć zaznaczenie. Użyj poniższych elementów sterujących, aby zmienić zaznaczone kształty.",
-                    "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel.",
+                    "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel. *Kliknij dwukrotnie*, aby wypełnić.",
                     "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt.",

@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Expanded eraser to delete shapes on click.
 - Smooth, connected pixel strokes.
 - Multiline chat messages.
+- Double-click to fill pixels in a region.
 
 ### Fixed
 

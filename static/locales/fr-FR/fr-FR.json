@@ -4996,7 +4996,7 @@
                     "empty": "$~Choisissez un mode de dessin dans la palette pour créer des formes.",
                     "unselected": "$~Choisissez un mode de dessin ou sélectionnez et modifiez des formes.",
                     "selected": "$~Utilisez les touches fléchées pour déplacer les formes. Maintenez la touche Maj enfoncée pour ajouter d'autres formes à une sélection. Utilisez la touche Suppr pour supprimer la sélection. Utilisez les commandes ci-dessous pour modifier les formes sélectionnées.",
-                    "pixel": "$~Pour dessiner des pixels, choisissez une couleur. Cliquez ensuite sur la zone de dessin ou utilisez les *flèches* pour déplacer le curseur et la *barre d'espace* pour créer un pixel.",
+                    "pixel": "$~Pour dessiner des pixels, choisissez une couleur. Cliquez ensuite sur le canevas ou utilisez les flèches pour déplacer le curseur et la barre d'espace pour créer un pixel. Double-cliquez pour remplir.",
                     "rect": "$~Pour dessiner des rectangles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "ellipse": "$~Pour dessiner des ellipses et des cercles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "path": "$~Les chemins peuvent être des segments de ligne, des polygones et des courbes. Cliquez pour commencer à ajouter des points ou utilisez les touches *flèche* et *espace*. Appuyez sur *échapper* pour terminer le chemin. *supprimer* supprimera le dernier point.",

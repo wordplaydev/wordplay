@@ -13,7 +13,7 @@ import { LCHtoRGB } from '@output/Color';
 import z from 'zod';
 
 const PointSchema = z.object({ x: z.number(), y: z.number() });
-type Point = z.infer<typeof PointSchema>;
+export type Point = z.infer<typeof PointSchema>;
 
 const SizeSchema = z.object({ width: z.number(), height: z.number() });
 

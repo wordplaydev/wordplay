@@ -58,6 +58,7 @@
         type CharacterPixel,
         type CharacterRectangle,
         type CharacterShape,
+        type Point,
     } from '../../../db/characters/Character';
 
     // svelte-ignore non_reactive_update
@@ -1104,6 +1105,51 @@
         }
     }
 
+    function handleDoubleClick(event: MouseEvent) {
+        if (mode === DrawingMode.Path) {
+            endPath();
+        } else if (mode === DrawingMode.Pixel) {
+            fill(drawingCursorPosition.x, drawingCursorPosition.y);
+        }
+    }
+
+    // Flood fill at the given point
+    function fill(x: number, y: number, start = true) {
+        // Build a hash of filled pixels for quick lookup.
+        const filled = new Set(
+            shapes
+                .filter((s): s is CharacterPixel => s.type === 'pixel')
+                .map((s) => `${s.point.x},${s.point.y}`),
+        );
+
+        // Keep a stack of points visited.
+        const visited: Point[] = [{ x, y }];
+        while (visited.length > 0) {
+            const point = visited.shift();
+            // This should never happen, but TypeScript doesn't know it.
+            if (point === undefined) return;
+
+            // If there's not already a point here, skip it.
+            if (filled.has(`${point.x},${point.y}`) && !start) continue;
+            start = false;
+
+            const pixel: CharacterPixel = {
+                type: 'pixel',
+                point,
+                fill: { ...currentFill },
+            };
+            setShapes([...shapes, pixel], false);
+            filled.add(`${point.x},${point.y}`);
+
+            if (point.x > 0) visited.push({ x: point.x - 1, y: point.y });
+            if (point.x < CharacterSize - 1)
+                visited.push({ x: point.x + 1, y: point.y });
+            if (point.y > 0) visited.push({ x: point.x, y: point.y - 1 });
+            if (point.y < CharacterSize - 1)
+                visited.push({ x: point.x, y: point.y + 1 });
+        }
+    }
+
     function arrange(direction: 'back' | 'toBack' | 'forward' | 'toFront') {
         // Move each shape forward or backward in the shape list.
         for (const shape of selection.toReversed()) {
@@ -1882,6 +1928,7 @@
                         onpointermove={(event) =>
                             handlePointerDown(event, true)}
                         onpointerup={handlePointerUp}
+                        ondblclick={handleDoubleClick}
                     >
                         {@render grid()}
                         {#if editedCharacter}

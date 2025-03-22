@@ -5045,7 +5045,7 @@
                     "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
                     "unselected": "$~Bir çizim modu seçin veya şekilleri seçip düzenleyin.",
                     "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullanın. Seçime daha fazla şekil eklemek için *shift* tuşuna basılı tutun. Seçimi kaldırmak için *delete* tuşunu kullanın. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullanın.",
-                    "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın.",
+                    "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın. Doldurmak için *çift tıklayın*.",
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",

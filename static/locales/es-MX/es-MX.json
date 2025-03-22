@@ -4959,7 +4959,7 @@
                     "empty": "$~Elija un modo de dibujo en la paleta para crear formas.",
                     "unselected": "$~Elija un modo de dibujo o seleccione y edite formas.",
                     "selected": "$~Utilice las teclas de flecha para mover las formas. Mantenga presionada la tecla Shift para agregar más formas a una selección. Utilice la tecla Delete para eliminar la selección. Utilice los controles que se encuentran a continuación para cambiar las formas seleccionadas.",
-                    "pixel": "$~Para dibujar píxeles, elija un color. Luego, haga clic en el lienzo o utilice las *flechas* para mover el cursor y la *barra espaciadora* para crear un píxel.",
+                    "pixel": "$~Para dibujar píxeles, elige un color. Luego, haz clic en el lienzo o usa las *flechas* para mover el cursor y la *barra espaciadora* para crear un píxel. Haz *doble clic* para rellenar.",
                     "rect": "$~Para dibujar rectángulos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
                     "ellipse": "$~Para dibujar elipses y círculos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
                     "path": "$~Las rutas pueden ser segmentos de línea, polígonos y curvas. Haga clic para comenzar a agregar puntos o use las teclas de *flecha* y *espacio*. Presione *escape* para finalizar la ruta. *delete* eliminará el último punto.",
