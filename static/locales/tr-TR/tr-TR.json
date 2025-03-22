@@ -5049,7 +5049,7 @@
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
-                    "eraser": "$~Pikselleri silmek için silmek istediğiniz piksellerin üzerine tıklayın ve sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın."
+                    "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın."
                 },
                 "shape": {
                     "shape": "$~şekil",
@@ -5072,6 +5072,7 @@
                         "label": "$~mod",
                         "modes": [
                             "$~seçme",
+                            "$~silgi",
                             "$~piksel",
                             "$~dikdörtgen",
                             "$~elips",

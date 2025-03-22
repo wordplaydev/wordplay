@@ -5000,7 +5000,7 @@
                     "rect": "$~Pour dessiner des rectangles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "ellipse": "$~Pour dessiner des ellipses et des cercles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "path": "$~Les chemins peuvent être des segments de ligne, des polygones et des courbes. Cliquez pour commencer à ajouter des points ou utilisez les touches *flèche* et *espace*. Appuyez sur *échapper* pour terminer le chemin. *supprimer* supprimera le dernier point.",
-                    "eraser": "$~Pour effacer des pixels, cliquez et faites glisser le curseur sur les pixels à supprimer. Utilisez les touches fléchées pour déplacer la gomme et la barre d'espace pour supprimer."
+                    "eraser": "$~Pour effacer des formes, cliquez ou appuyez dessus. Faites glisser pour effacer les pixels. Utilisez les touches fléchées pour déplacer la gomme et la barre d'espace pour supprimer."
                 },
                 "shape": {
                     "shape": "$~forme",
@@ -5023,6 +5023,7 @@
                         "label": "$~mode",
                         "modes": [
                             "$~sélectionner",
+                            "$~gomme",
                             "$~pixel",
                             "$~rectangle",
                             "$~ellipse",

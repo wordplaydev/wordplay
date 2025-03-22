@@ -5054,7 +5054,7 @@
                     "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",
-                    "eraser": "$~För att radera pixlar, klicka och dra över pixlarna du vill ta bort. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera."
+                    "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera."
                 },
                 "shape": {
                     "shape": "$~form",
@@ -5077,6 +5077,7 @@
                         "label": "$~läge",
                         "modes": [
                             "$~välja",
+                            "$~suddgummi",
                             "$~pixel",
                             "$~rektangel",
                             "$~ellips",

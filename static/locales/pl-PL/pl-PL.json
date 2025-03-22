@@ -5059,7 +5059,7 @@
                     "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt.",
-                    "eraser": "$~Aby wymazać piksele, kliknij i przeciągnij nad pikselami, które chcesz usunąć. Użyj klawiszy *strzałek*, aby przesunąć gumkę i *spacji*, aby usunąć."
+                    "eraser": "$~Aby wymazać kształty, kliknij je lub dotknij. Przeciągnij, aby wymazać piksele. Użyj klawiszy *strzałek*, aby przesunąć gumkę i *spacji*, aby usunąć."
                 },
                 "shape": {
                     "shape": "$~kształt",
@@ -5082,6 +5082,7 @@
                         "label": "$~tryb",
                         "modes": [
                             "$~wybierać",
+                            "$~gumka do ścierania",
                             "$~piksel",
                             "$~prostokąt",
                             "$~elipsa",

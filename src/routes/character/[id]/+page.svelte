@@ -856,6 +856,24 @@
         }
     }
 
+    function getShapeUnderPointer(event: PointerEvent): CharacterShape | null {
+        const candidate = document.elementFromPoint(
+            event.clientX,
+            event.clientY,
+        );
+        if (candidate instanceof SVGElement) {
+            const svg = candidate.parentElement;
+            if (svg !== null && svg.parentElement === canvasView) {
+                const index = Array.from(svg.childNodes).indexOf(candidate);
+                if (index >= 0 && index < shapes.length) {
+                    const selected = shapes[index];
+                    return selected ?? null;
+                }
+            }
+        }
+        return null;
+    }
+
     function handlePointerDown(event: PointerEvent, move: boolean) {
         if (!(event.currentTarget instanceof HTMLElement)) return;
 
@@ -906,7 +924,12 @@
             return;
         } else if (mode === DrawingMode.Eraser) {
             selection = [];
-            erasePixel(false);
+            // If not moving, see what shape is under the pointer and delete it.
+            if (!move) {
+                const under = getShapeUnderPointer(event);
+                if (under !== null)
+                    setShapes(shapes.filter((s) => s !== under));
+            } else erasePixel(false);
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
         }
@@ -935,33 +958,11 @@
             return;
         } else if (mode === DrawingMode.Select) {
             if (!move) {
-                const candidate = document.elementFromPoint(
-                    event.clientX,
-                    event.clientY,
-                );
-                let found = false;
-                if (candidate instanceof SVGElement) {
-                    const svg = candidate.parentElement;
-                    if (svg !== null && svg.parentElement === canvasView) {
-                        const index = Array.from(svg.childNodes).indexOf(
-                            candidate,
-                        );
-                        if (index >= 0 && index < shapes.length) {
-                            const selected = shapes[index];
-                            // Don't change the selection if the selected shape is already selected.
-                            if (
-                                selected !== undefined &&
-                                !selection.includes(selected)
-                            ) {
-                                if (event.shiftKey)
-                                    selection = [...selection, selected];
-                                else selection = [selected];
-                            }
-                            found = true;
-                        }
-                    }
-                }
-                if (!found) selection = [];
+                const under = getShapeUnderPointer(event);
+                if (under !== null && !selection.includes(under)) {
+                    if (event.shiftKey) selection = [...selection, under];
+                    else selection = [under];
+                } else selection = [];
             }
 
             // No drag position yet? Set one.

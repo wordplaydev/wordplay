@@ -4900,7 +4900,7 @@
                     "empty": "Choose a drawing mode in the palette to create shapes.",
                     "unselected": "Choose a drawing mode or select and edit shapes.",
                     "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use the controls below to change the selected shapes.",
-                    "eraser": "To erase pixels, click and drag over the pixels you want to delete. Use the *arrow* keys to move the eraser and *space* to delete.",
+                    "eraser": "To erase shapes, click or tap on them. Drag to erase pixels. Use the *arrow* keys to move the eraser and *space* to delete.",
                     "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel.",
                     "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",

@@ -4997,7 +4997,7 @@
                     "rect": "$~Um Rechtecke zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
                     "ellipse": "$~Um Ellipsen und Kreise zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
                     "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt.",
-                    "eraser": "$~Um Pixel zu löschen, klicken und ziehen Sie über die zu löschenden Pixel. Verwenden Sie die Pfeiltasten zum Bewegen des Radierers und die Leertaste zum Löschen."
+                    "eraser": "$~Um Formen zu löschen, klicken oder tippen Sie darauf. Ziehen Sie, um Pixel zu löschen. Verwenden Sie die Pfeiltasten, um den Radiergummi zu bewegen, und die Leertaste, um zu löschen."
                 },
                 "shape": {
                     "shape": "$~Form",
@@ -5020,6 +5020,7 @@
                         "label": "$~Modus",
                         "modes": [
                             "$~wählen",
+                            "$~Radiergummi",
                             "$~Pixel",
                             "$~Rechteck",
                             "$~Ellipse",
