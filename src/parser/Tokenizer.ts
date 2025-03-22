@@ -160,7 +160,7 @@ export const WordsRegEx = new RegExp(
     'u',
 );
 
-/** A name is any sequence of characters that is not a reserved symbol, text separator, oeprator, whitespace, or full-width punctuation. */
+/** A name is any sequence of characters that is not a reserved symbol, text separator, operator, whitespace, or full-width punctuation. */
 export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
     escapeRegexCharacter(s),
 ).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
@@ -374,7 +374,7 @@ const CodeTokenPatterns: TokenPattern[] = [
  * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
  * 4) the globally unique name of a creator-defined character
  */
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}|${NameRegExPattern}(/${NameRegExPattern})?)`;
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}(?!${NameRegExPattern})|${NameRegExPattern}(/${NameRegExPattern})?)`;
 
 /** Valid tokens inside of markup. */
 const MarkupTokenPatterns = [
