@@ -305,10 +305,14 @@
             "description": "$~concept 1",
             "emotion": "$?",
             "doc": [
-                "$~Je suis un lien vers le personnage de Verse. Je suis utile lorsque vous souhaitez écrire un @Doc et faire référence à l'un d'entre nous.",
-                "$~Par exemple, disons que vous voulez parler de @Evaluate et de son excellence. Vous pourriez écrire :",
-                "$~\\¶Vous savez, @Evaluate est plutôt génial.¶\n'regarde, un lien conceptuel!'\\",
-                "$~Lorsque le @Doc que vous avez écrit apparaît ici, il affichera un lien vers le concept."
+                "$~Je suis un lien vers le personnage de Verse. Je peux vous aider si vous souhaitez rédiger un @Doc et faire référence à l'un d'entre nous.",
+                "$~Par exemple, imaginons que vous souhaitiez parler de @Evaluate et de son excellence. Vous pourriez écrire :",
+                "$~\\¶Tu sais, @Evaluate est vraiment génial.¶\n'Regarde, un lien de personnage !'\\",
+                "$~Les caractères ont également des numéros correspondants. Par exemple, @FunctionDefinition est 192. Vous pouvez les désigner par leur numéro :",
+                "$~\\`92 est tellement sympa!`\\",
+                "$~Et si vous créez votre propre personnage, vous pouvez vous y référer par le nom que vous lui avez donné.",
+                "$~\\`@coolbeans`\\",
+                "$~Oh… Je suppose que ce personnage n'existe pas, donc on obtient un petit carré. Mais s'il existait, il apparaîtrait ici !"
             ]
         },
         "Words": {
@@ -1543,18 +1547,20 @@
         },
         "Text": {
             "doc": [
-                "$~Je peux être n'importe quel texte de votre choix, dans n'importe quelle langue, et utiliser l'un de ces symboles d'ouverture et de fermeture : \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, ou \\『』\\.",
+                "$~Je peux être n'importe quel texte que vous voulez, de n'importe quelle langue, et utiliser n'importe lequel de ces symboles d'ouverture et de fermeture : \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, ou \\『』\\.",
                 "$~Pour illustrer, considérez ces belles phrases",
-                "$~« Il n’y a que deux façons de vivre sa vie. L’une consiste à faire comme si rien n’était un miracle. L’autre consiste à faire comme si tout était un miracle. »",
-                "$~\\『C'est une question de temps』\\",
-                "$~N'oubliez pas de me fermer si vous m'ouvrez et d'utiliser le symbole correspondant. Sinon, je ne saurai pas que vous avez fini de parler.",
+                "$~« Il n'y a que deux façons de vivre sa vie. L'une est de faire comme si rien n'était un miracle. L'autre est de faire comme si tout était un miracle. »",
+                "$~\\『Votre message』\\",
+                "$~N'oubliez pas de me fermer si vous m'ouvrez et d'utiliser le symbole correspondant. Sinon, je ne saurai pas que vous avez terminé.",
                 "$~\\'bonjour'/en'hola'/es-MX\\",
-                "$~Vous pouvez également me taguer avec des langues, et même me donner plusieurs traductions. J'évaluerai les langues actuellement sélectionnées, s'il existe une langue correspondante.",
-                "$~Si vous voulez me faire utiliser d'autres valeurs, vous pouvez utiliser un symbole pour",
-                "$~Par exemple, considérez ceci:",
+                "$~Vous pouvez également me taguer avec des langues et même proposer plusieurs traductions. J'évaluerai les langues actuellement sélectionnées, si une langue correspondante existe.",
+                "$~Si vous voulez me faire avec d'autres valeurs, vous pouvez faire ceci :",
                 "$~\\\"Voici quelques sommes \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
-                "$~Voyez avec quelle élégance je viens d’évaluer ces sommes et de les placer à l’intérieur du @Text ?",
-                "$~Sinon, il y a tellement de fonctions glorieuses que @FunctionDefinition a créées pour me permettre de faire toutes sortes de choses avec des mots!"
+                "$~Voyez avec quelle élégance je viens d'évaluer ces sommes et de les placer à l'intérieur du @Text ?",
+                "$~J'ai un dernier petit secret : saviez-vous que nous avons tous un numéro unique ? C'est vrai ! Vous pouvez nous désigner par notre numéro. Par exemple, @FunctionDefinition est 192 :",
+                "$~\\'92'\\",
+                "$~Vous voyez comment 192 est devenu @FunctionDefinition? Vous appelez ces nombres « Unicode ».",
+                "$~Sinon, il y a tellement de fonctions glorieuses que @FunctionDefinition a créées pour moi pour faire toutes sortes de choses avec des mots !"
             ],
             "name": ["$~''", "$~Texte"],
             "function": {
@@ -3167,11 +3173,11 @@
         "Collision": {
             "names": "$~Collision",
             "doc": [
-                "$~/Salut ! @FunctionDefinition ici. Découvrez cette entrée intéressante./",
-                "$~Cela peut vous aider à savoir quand @Output se croise ! C'est un excellent moyen de faire quelque chose lorsque nous nous croisons, autre que le rebond normal que @Output pourrait faire.",
-                "$~Donnez-moi simplement un nom de @Output, et je créerai une nouvelle valeur @Rebound chaque fois qu'elle entrera en collision avec un autre nom. Un @Rebound contient des informations sur les noms qui sont entrés en collision et la direction de leur collision.",
+                "$~/Salut ! Ici @FunctionDefinition. Découvrez cette entrée intéressante./",
+                "$~Cela peut vous aider à savoir quand @Output se croise ! C'est un excellent moyen de réagir lorsque nous nous croisons, au lieu de nous cogner les uns contre les autres comme @Output le fait habituellement.",
+                "$~Donnez-moi simplement le nom @Output et je créerai une nouvelle valeur @Rebound chaque fois qu'elle entrera en collision avec un autre nom. Une valeur @Rebound contient des informations sur les noms en collision et leur direction.",
                 "$~Et si vous me donnez deux noms, je ne créerai une nouvelle valeur que lorsque les deux noms se rencontreront.",
-                "$~Juste après avoir créé une nouvelle valeur, je vais créer un \\ø\\ puisque la collision est effectuée après qu'elle se soit produite. Cela indique qu'il n'y a plus de collision."
+                "$~Juste après avoir créé une nouvelle valeur, j'ajouterai un \\ø\\, car la collision est effectuée après. Cela indique qu'il n'y a plus de collision."
             ],
             "subject": {
                 "names": "$~sujet",
@@ -5000,7 +5006,8 @@
                     "rect": "$~Pour dessiner des rectangles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "ellipse": "$~Pour dessiner des ellipses et des cercles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "path": "$~Les chemins peuvent être des segments de ligne, des polygones et des courbes. Cliquez pour commencer à ajouter des points ou utilisez les touches *flèche* et *espace*. Appuyez sur *échapper* pour terminer le chemin. *supprimer* supprimera le dernier point.",
-                    "eraser": "$~Pour effacer des formes, cliquez ou appuyez dessus. Faites glisser pour effacer les pixels. Utilisez les touches fléchées pour déplacer la gomme et la barre d'espace pour supprimer."
+                    "eraser": "$~Pour effacer des formes, cliquez ou appuyez dessus. Faites glisser pour effacer les pixels. Utilisez les touches fléchées pour déplacer la gomme et la barre d'espace pour supprimer.",
+                    "emoji": "$~Choisissez un emoji à importer sous forme de pixels, puis modifiez-le comme vous le souhaitez."
                 },
                 "shape": {
                     "shape": "$~forme",
@@ -5008,7 +5015,8 @@
                     "rect": "$~rectangle",
                     "ellipse": "$~ellipse",
                     "path": "$~chemin",
-                    "eraser": "$~gomme"
+                    "eraser": "$~gomme",
+                    "emoji": "$~émoji"
                 },
                 "field": {
                     "name": {
@@ -5027,7 +5035,8 @@
                             "$~pixel",
                             "$~rectangle",
                             "$~ellipse",
-                            "$~chemin"
+                            "$~chemin",
+                            "$~émoji"
                         ]
                     },
                     "fill": {

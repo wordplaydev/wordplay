@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Smooth, connected pixel strokes.
 - Multiline chat messages.
 - Double-click to fill pixels in a region.
+- Import emojis in character editor for remixing.
 
 ### Fixed
 

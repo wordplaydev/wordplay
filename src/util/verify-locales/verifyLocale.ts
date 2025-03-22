@@ -523,7 +523,7 @@ export function addMissingKeys(
                 } else {
                     log.bad(
                         2,
-                        `Target has the key ${key}, but it's not an array of strings. Repair manually.`,
+                        `Target has the key ${key}, but it's not an array of strings: ${JSON.stringify(targetValue)}. Repair manually.`,
                     );
                 }
             }

@@ -18,6 +18,7 @@ type PageText = {
         rect: string;
         ellipse: string;
         path: string;
+        emoji: string;
     };
     shape: {
         shape: string;
@@ -26,6 +27,7 @@ type PageText = {
         rect: string;
         ellipse: string;
         path: string;
+        emoji: string;
     };
     share: {
         dialog: DialogText;
@@ -37,7 +39,9 @@ type PageText = {
     field: {
         name: FieldText;
         description: FieldText;
-        mode: ModeText<[string, string, string, string, string, string]>;
+        mode: ModeText<
+            [string, string, string, string, string, string, string]
+        >;
         fill: ModeText<string[]>;
         stroke: ModeText<string[]>;
         /** What to call no color */

@@ -9813,7 +9813,7 @@
                           "type": "string"
                         },
                         "mode": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
                         },
                         "name": {
                           "$ref": "#/definitions/FieldText"
@@ -9903,6 +9903,9 @@
                         "ellipse": {
                           "type": "string"
                         },
+                        "emoji": {
+                          "type": "string"
+                        },
                         "empty": {
                           "type": "string"
                         },
@@ -9933,7 +9936,8 @@
                         "pixel",
                         "rect",
                         "ellipse",
-                        "path"
+                        "path",
+                        "emoji"
                       ],
                       "type": "object"
                     },
@@ -9944,6 +9948,9 @@
                       "additionalProperties": false,
                       "properties": {
                         "ellipse": {
+                          "type": "string"
+                        },
+                        "emoji": {
                           "type": "string"
                         },
                         "eraser": {
@@ -9968,7 +9975,8 @@
                         "pixel",
                         "rect",
                         "ellipse",
-                        "path"
+                        "path",
+                        "emoji"
                       ],
                       "type": "object"
                     },
@@ -12645,7 +12653,7 @@
       ],
       "type": "object"
     },
-    "ModeText<[string,string,string,string,string,string]>": {
+    "ModeText<[string,string,string,string,string,string,string]>": {
       "additionalProperties": false,
       "properties": {
         "label": {
@@ -12657,8 +12665,8 @@
           "items": {
             "type": "string"
           },
-          "maxItems": 6,
-          "minItems": 6,
+          "maxItems": 7,
+          "minItems": 7,
           "type": "array"
         }
       },

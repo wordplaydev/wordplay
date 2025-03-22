@@ -307,8 +307,12 @@
             "doc": [
                 "$~Ben Verse karakterine bir bağlantıyım. @Doc yazmak ve bizden birine referans olmak istediğinizde yardımcı olurum.",
                 "$~Örneğin, @Evaluate hakkında konuşmak istediğinizi ve ne kadar harika olduklarını varsayalım. Şunu yazabilirsiniz:",
-                "$~\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir konsept bağlantısı!'\\",
-                "$~Yazdığınız @Doc burada göründüğünde, konsepte bir bağlantı gösterilecektir."
+                "$~\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir karakter bağlantısı!'\\",
+                "$~Karakterlerin de kendilerine karşılık gelen sayıları vardır. Örneğin, @FunctionDefinition 192'dir. Onlara numarayla başvurabilirsiniz ve şu şekilde görünürler:",
+                "$~\\`92 çok güzel!`\\",
+                "$~Ve eğer kendi karakterinizi yaratırsanız, onlara verdiğiniz isimle hitap edebilirsiniz.",
+                "$~\\`@coolbeans`\\",
+                "$~Oh... Sanırım o karakter yok, bu yüzden küçük bir kare elde ediyorsunuz. Ama olsaydı, burada görünürdüler!"
             ]
         },
         "Words": {
@@ -1550,10 +1554,12 @@
                 "$~Beni açarsan kapatmayı unutma ve eşleşen sembolü kullan. Aksi takdirde sözlerini bitirdiğini bilemem.",
                 "$~\\'merhaba'/en'hola'/es-MX\\",
                 "$~Ayrıca beni dillerle etiketleyebilir ve hatta birden fazla çeviri verebilirsiniz. Eşleşen bir dil varsa, şu anda seçili olan dilleri değerlendireceğim.",
-                "$~Eğer beni başka değerlerle yapmak istiyorsanız, bir sembol kullanabilirsiniz.",
-                "$~Örneğin şunu düşünün:",
+                "$~Eğer beni başka değerlerle yapmak istiyorsanız, şunu yapabilirsiniz:",
                 "$~\\\"İşte bazı toplamlar \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~Şu toplamları ne kadar zarif bir şekilde değerlendirip @Text'in içine yerleştirdiğimi görüyor musunuz?",
+                "$~Son bir küçük sırrım daha var: Hepimizin benzersiz bir numaramız olduğunu biliyor muydunuz? Doğru! Bize numaramızla hitap edebilirsiniz. Örneğin, @FunctionDefinition 192'dir:",
+                "$~\\'92'\\",
+                "$~192'nin @FunctionDefinition'a nasıl dönüştüğünü görüyor musunuz? Bu sayılara 'Unicode' dediğinizi duyuyorum.",
                 "$~Aksi takdirde, @FunctionDefinition'ın benim için kelimelerle her türlü şeyi yapmamı sağlayan o kadar çok muhteşem fonksiyonu var ki!"
             ],
             "name": ["$~''", "$~Metin"],
@@ -5049,7 +5055,8 @@
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
-                    "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın."
+                    "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
+                    "emoji": "$~Piksel olarak içe aktaracağınız emojiyi seçin, ardından istediğiniz gibi değiştirin."
                 },
                 "shape": {
                     "shape": "$~şekil",
@@ -5057,7 +5064,8 @@
                     "rect": "$~dikdörtgen",
                     "ellipse": "$~elips",
                     "path": "$~yol",
-                    "eraser": "$~silgi"
+                    "eraser": "$~silgi",
+                    "emoji": "$~emoji"
                 },
                 "field": {
                     "name": {
@@ -5076,7 +5084,8 @@
                             "$~piksel",
                             "$~dikdörtgen",
                             "$~elips",
-                            "$~yol"
+                            "$~yol",
+                            "$~emoji"
                         ]
                     },
                     "fill": {

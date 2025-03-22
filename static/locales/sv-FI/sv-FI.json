@@ -307,8 +307,12 @@
             "doc": [
                 "$~Jag är en länk till vers karaktär. Jag är behjälplig när du vill skriva en @Doc och hänvisa till någon av oss.",
                 "$~Säg till exempel att du ville prata om @Evaluate och hur fantastiska de är. Du kan skriva:",
-                "$~\\¶Du vet, @Evaluate är ganska häftigt.¶\n\"titta, en konceptlänk!\"\\",
-                "$~När @Doc du skrev visas här, kommer det att visa en länk till konceptet."
+                "$~\\¶Du vet, @Evaluate är ganska häftigt.¶\n'titta, en teckenlänk!'\\",
+                "$~Tecken har också siffror som motsvarar dem. Till exempel är @FunctionDefinition 192. Du kan referera till dem med nummer och de kommer att visas:",
+                "$~\\`92 är så trevligt!`\\",
+                "$~Och om du gör din egen karaktär kan du referera till dem med det namn du gav dem.",
+                "$~\\`@coolbeans`\\",
+                "$~Åh... Jag antar att den karaktären inte existerar, så man blir lite fyrkantig. Men om de gjorde det skulle de dyka upp här!"
             ]
         },
         "Words": {
@@ -1543,17 +1547,19 @@
         },
         "Text": {
             "doc": [
-                "$~Jag kan vara vilken text du vill, från vilket språk som helst, och använda någon av dessa symboler för öppnings- och stängningssymboler: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\''\\, \\‹ ›\\, \\«»\\, \\「」\\ eller \\『』\\.",
+                "$~Jag kan vara vilken text du vill, från vilket språk som helst, och använda någon av dessa symboler för öppnings- och stängningssymboler: \\\"\"\\, \\“\"\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\ eller \\『』\\.",
                 "$~För att illustrera, överväg dessa vackra fraser",
-                "$~\\“Det finns bara två sätt att leva sitt liv. En är som om ingenting är ett mirakel. Den andra är som om allt är ett mirakel.”\\",
+                "$~\\\"Det finns bara två sätt att leva sitt liv. Det ena är som om ingenting är ett mirakel. Det andra är som om allt är ett mirakel.\"\\",
                 "$~\\『一日三秋』\\",
-                "$~Kom bara ihåg att stänga mig om du öppnar mig och använd den matchande symbolen. Annars vet jag inte att du är färdig med dina ord.",
+                "$~Kom bara ihåg att stänga mig om du öppnar mig och använd den matchande symbolen. Annars vet jag inte att du är klar med dina ord.",
                 "$~\\'hello'/en'hola'/es-MX\\",
                 "$~Du kan också tagga mig med språk och till och med ge flera översättningar. Jag kommer att utvärdera till vilka språk som för närvarande är valda, om det finns ett matchande språk.",
-                "$~Om du vill göra mig med några andra värden kan du använda en symbol för att",
-                "$~Tänk till exempel på detta:",
+                "$~Om du vill ge mig några andra värden kan du göra så här:",
                 "$~\\\"Här är några summor \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~Se hur elegant jag just utvärderade dessa summor och placerade dem i @Text?",
+                "$~Jag har en sista liten hemlighet: visste du att vi alla har ett unikt nummer? Det är sant! Du kan hänvisa till oss på vårt nummer. Till exempel är @FunctionDefinition 192:",
+                "$~\\'92'\\",
+                "$~Se hur 192 förvandlades till @FunctionDefinition? Jag hör att du kallar dessa nummer \"Unicode\".",
                 "$~Annars finns det bara så många härliga funktioner som @FunctionDefinition gjorde för mig att göra alla möjliga saker med ord!"
             ],
             "name": ["$~''", "$~Text"],
@@ -3170,8 +3176,8 @@
                 "$~/Hej! @FunctionDefinition här. Kolla in denna coola input./",
                 "$~Det kan hjälpa dig att ta reda på när @Output stöter på varandra! Det här är ett bra sätt att göra något när vi stöter på varandra, annat än att det normala studsar av varandra @Output kan göra.",
                 "$~Ge mig bara namnet @Output, så skapar jag ett nytt @Rebound-värde när det stöter på ett annat namn. En @Rebound har information om namnen som kolliderade och riktningen för deras kollision.",
-                "$~Och om du ger mig två namn, gör jag bara ett nytt värde när de två namnen stöter på varandra.",
-                "$~Direkt efter att jag har gjort ett nytt värde, kommer jag att göra en \\ø\\ eftersom kollisionen sker efter att den har inträffat. Detta tyder på att det inte finns någon mer kollision."
+                "$~Och om du ger mig två namn, så gör jag ett nytt värde först när de två namnen stöter på varandra.",
+                "$~Direkt efter att jag har gjort ett nytt värde, kommer jag att göra en \\ø\\ eftersom kollisionen sker efter att den har inträffat. Detta indikerar att det inte finns någon mer kollision."
             ],
             "subject": {
                 "names": "$~ämne",
@@ -5054,7 +5060,8 @@
                     "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",
-                    "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera."
+                    "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera.",
+                    "emoji": "$~Välj en emoji att importera som pixlar och ändra sedan som du vill."
                 },
                 "shape": {
                     "shape": "$~form",
@@ -5062,7 +5069,8 @@
                     "rect": "$~rektangel",
                     "ellipse": "$~ellips",
                     "path": "$~väg",
-                    "eraser": "$~suddgummi"
+                    "eraser": "$~suddgummi",
+                    "emoji": "$~emoji"
                 },
                 "field": {
                     "name": {
@@ -5081,7 +5089,8 @@
                             "$~pixel",
                             "$~rektangel",
                             "$~ellips",
-                            "$~väg"
+                            "$~väg",
+                            "$~emoji"
                         ]
                     },
                     "fill": {

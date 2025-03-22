@@ -284,10 +284,14 @@
             "description": "concepto $1",
             "emotion": "serious",
             "doc": [
-                "Soy un enlace a un personaje del Verso. Soy útil cuando quieres escribir un @Doc y referirte a alguno de nosotros.",
-                "Por ejemplo, digamos que quieres hablar sobre @Evaluate y lo increíble que es. Podrías escribir:",
-                "\\¶Sabes, @Evaluate es bastante increíble.¶\n'mira, ¡un enlace de concepto!'\\",
-                "Cuando aparezca el @Doc que escribiste aquí, mostrará un enlace al concepto."
+                "$~Soy un enlace a un personaje de Verse. Soy útil cuando quieres escribir un @Doc y referirte a uno de nosotros.",
+                "$~Por ejemplo, digamos que quieres hablar de @Evaluate y lo genial que es. Podrías escribir:",
+                "$~\\¶Sabes, @Evaluate es genial.¶\n'¡Mira, un enlace de personaje!'\\",
+                "$~Los caracteres también tienen números que les corresponden. Por ejemplo, @FunctionDefinition es 192. Puedes referirte a ellos por número y aparecerán:",
+                "$~\\`92 es muy agradable!`\\",
+                "$~Y si creas tu propio personaje, puedes referirte a él por el nombre que le hayas dado.",
+                "$~@coolbeans",
+                "$~Ah... Supongo que ese personaje no existe, así que te toca un cuadradito. Pero si existiera, ¡aparecería aquí!"
             ]
         },
         "Words": {
@@ -1440,7 +1444,10 @@
     "basis": {
         "Boolean": {
             "doc": [
-                "Nosotros somos \\T\\ y \\⊥\\. \\T\\ es verdadero. \\⊥\\ is falso. \\T\\ no es \\⊥\\; \\⊥\\ no es \\T\\. Asi funcionamos"
+                "$~Somos \\⊤\\ y \\⊥\\. \\⊤\\ es verdadero. \\⊥\\ es falso. \\⊤\\ no es \\⊥\\; \\⊥\\ no es \\⊤\\. Así es.",
+                "$~¿Cómo nos haces? Solo \\⊤\\ y \\⊥\\, nada más, nada menos.",
+                "$~Algunos usan el teclado (/ctrl+9/ para \\⊤\\ y /ctrl+0/ para \\⊥\\). Otros usan la búsqueda de caracteres en la parte inferior del editor. O puedes arrastrarnos desde aquí.",
+                "$~Consulta nuestra @FunctionDefinition a continuación. Son muy lógicas."
             ],
             "name": ["T⊥", "Booleano"],
             "function": {
@@ -1540,17 +1547,20 @@
         },
         "Text": {
             "doc": [
-                "Yo puedo ser cualquier texto que tu quieras, en cualquier idioma, y usando cualquiera de estos simbolos de abrir y cerra: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
-                "Para ilustrar, considera una de estas bonitas frases.",
-                "\\“Solo hay dos maneras de vivir la vidad. Una es como si nada fuera un milagro. La otra es como si todo fuera un milagro.”\\",
-                "Solo recuerada de cerrarme si me abres, y usa el simbolo coincidente. Si no es asi, no sabre que has terminado con tus palabras.",
-                "\\'hola' /es-MX 'hello' /en\\",
-                "Tambine me puedes etiquetar con idiomas, y tambien me puedes pasar multiples traducciones. Yo evaluare a cualquier idioma que este actualmente seleccionado.",
-                "Si tu quieres crearme con otro tipo de valores, puedes utilizar un simbolo",
-                "Por ejemplo:",
-                "\\\"Mira estas sumas \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
-                "Mira que elegante yo evaluo esas sumas, y la pongo adentro del @Text",
-                "De cual quier manera, hay muchas funciones gloriosas que @FunctionDefinition a hecho para mi, para poder hacer todo tipo de cosas con palabras!"
+                "$~Puedo ser cualquier texto que quieras, de cualquier idioma, y usar cualquiera de estos símbolos de apertura y cierre: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, o \\『』\\.",
+                "$~Para ilustrarlo, considere estas hermosas frases:",
+                "$~“Solo hay dos maneras de vivir la vida. Una es como si nada fuera un milagro. La otra es como si todo fuera un milagro.”",
+                "$~\\\"El amor es una necesidad\"\\",
+                "$~Solo recuerda cerrarme si me abres y usar el símbolo correspondiente. Si no, no sabré que terminaste de escribir.",
+                "$~\\'hola'/en'hola'/es-MX\\",
+                "$~También puedes etiquetarme con idiomas e incluso proporcionar varias traducciones. Evaluaré los idiomas seleccionados, si hay alguno que coincida.",
+                "$~Si quieres hacerme con otros valores puedes hacer esto:",
+                "$~\"Aquí hay algunas sumas \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"",
+                "$~¿Ves con qué elegancia acabo de evaluar esas sumas y colocarlas dentro de @Text?",
+                "$~Tengo un último secretito: ¿sabías que todos tenemos un número único? ¡Es cierto! Puedes referirte a nosotros por nuestro número. Por ejemplo, @FunctionDefinition es 192:",
+                "$~\\'92'\\",
+                "$~¿Ves cómo 192 se convirtió en @FunctionDefinition? Me han dicho que a estos números los llamas «Unicode».",
+                "$~De lo contrario, ¡hay tantas funciones gloriosas que @FunctionDefinition creó para que pueda hacer todo tipo de cosas con palabras!"
             ],
             "name": ["''", "Texto"],
             "function": {
@@ -1585,12 +1595,13 @@
                 },
                 "repeat": {
                     "doc": [
-                        "Creo un nuevo @Text que soy yo, repetido el número de veces de \\count\\:",
-                        "\\('hola ' · 5\\)",
-                        "Si me das un @Number fraccionario, ignoro la fracción:",
-                        "\\('hola ' · 5.5\\)",
-                        "Si me das un @Number negativo o cero, doy un @Text vacío.",
-                        "\\('hola ' · -5\\)"
+                        "$~Creo un nuevo @Text que soy yo, repetido la cantidad de veces de \\count\\:",
+                        "$~Hola · 5",
+                        "$~Si me das un @Number fraccionario, ignoro la fracción:",
+                        "$~Hola · 5.5",
+                        "$~Si me das un @Number negativo o cero, doy un @Number vacío.",
+                        "$~\\'hola' · -5\\",
+                        "$~El texto más largo que puedo crear tiene 65.535 caracteres. Si intentas crear uno más largo, lo repetiré tantas veces como pueda."
                     ],
                     "names": ["·", "🔁", "repetir"],
                     "inputs": [
@@ -1695,11 +1706,12 @@
             "function": {
                 "add": {
                     "doc": [
-                        "Yo sumo un @Number con mi misma @Unit, creando un nuevo @Number de la misma @Unit",
-                        "Por ejemplo:",
-                        "\\1 + 1\\",
-                        "\\3gatos + 5gatos\\",
-                        "Si las unidads no coinciden, yo parare a mostrar \\3gatos + 5gaots\\"
+                        "$~Agrego un @Number con la misma @Unit a mí mismo, creando un nuevo @Number de la misma @Unit.",
+                        "$~Por ejemplo:",
+                        "$~\\1 + 1\\",
+                        "$~\\3gato + 5gato\\",
+                        "$~Si las unidades no coinciden, detengo el espectáculo.",
+                        "$~\\3 gatos + 5 perros\\"
                     ],
                     "names": ["+", "sumar"],
                     "inputs": [
@@ -2006,16 +2018,18 @@
         },
         "List": {
             "doc": [
-                "Yo soy una sequencia de valores, de cualquier tipo!",
-                "Puedes ponder lo que quieras adentro de mi: @Boolean, @Number, @Text, @None, incluso @List, @Set, @Map, or cualquier otra expresión. Asi seria una simple:",
-                "\\['manzana' 'platano' 'mango']\\",
-                "Lo que me hace espcial es que yo mantengo las cosas en orden, y yo enumero todo desde el 1 hasta la canditad de elementos que yo tenga",
-                "Mis elementos son enumerados, comenzando por el 1. Tu puedes obtener que to tengo con @ListAccess, usando su numero:",
-                "Por ejemplo, el segundo valor en esta lista es \\['platano']\\",
-                "\\['manzana' 'platano' 'mango'][2]\\",
-                "Puedo tener lo que sea adentro de mi. Mira a esta lista con @Text, @Number y @Time",
-                "\\['manzana' 10 + 10 Time()]\\",
-                "Yo puedo hacer un monton de cosas interesantes con mi @FunctionDefinition"
+                "$~¡Soy una secuencia de valores, de cualquier tipo!",
+                "$~Puedes poner cualquier cosa en mí: @Boolean, @Number, @Text, @None, incluso otras @List, @Set, @Map o cualquier expresión. Aquí tienes una sencilla:",
+                "$~\\['manzana' 'plátano' 'mango']\\",
+                "$~Lo que me hace especial es que mantengo las cosas en orden y numero todo del 1 al número de elementos que tenga dentro.",
+                "$~Mis artículos están numerados, comenzando desde 1. Puedes obtener los valores que estoy almacenando con @ListAccess, usando su número:",
+                "$~Por ejemplo, el segundo valor de esta lista es \\['banana']\\",
+                "$~\\['manzana' 'plátano' 'mango'][2]\\",
+                "$~Puedo tener cualquier cosa dentro de mí. ¡Mira esta lista, con @Text, @Number y @Time!",
+                "$~\\['manzana' 10 + 10 Tiempo()]\\",
+                "$~Cuando me das una lista de muchas cosas, las generalizaré si tienen un tipo en común. Pero a veces podrías referirte literalmente a esas cosas específicas. Si es así, simplemente añade un signo de interrogación (!) después de mí y me aseguraré de representar una lista de solo esos valores.",
+                "$~\\['manzana' 'plátano' 'mango']!\\",
+                "$~Eso es más o menos. ¡Pero puedo hacer llamadas a cosas interesantes con mi @FunctionDefinition!"
             ],
             "name": ["[]", "Lista"],
             "kind": "Kind",
@@ -2024,7 +2038,8 @@
             "function": {
                 "add": {
                     "doc": [
-                        "Yo puedo crear una nueva @List con el elemento dado"
+                        "$~Creo una nueva @List con el elemento dado al final.",
+                        "$~\\['manzana' 'plátano' 'mango'].with('sandía')\\"
                     ],
                     "names": "agregar",
                     "inputs": [
@@ -2436,19 +2451,20 @@
         },
         "Set": {
             "doc": [
-                "Yo soy una conjunto de valores! Eso significa que yo cualquier valor de valores, incluyendo valores sin valor. Tu me puedes crear asi:",
-                "\\{1 2 3 }\\",
-                "Yo soy muy util si quieres tener una coleccion de cosas sin valores duplicados",
-                "Eso significa pasas valores que yo ya tengo, simplemente los ignorare.",
-                "Por ejempo, este conjunto tiene muchos duplicados:",
-                "\\{1 1 2 2 3 3}\\.",
-                "Si quieres ver si yo tengo una valor adentro de mi, @SetOrMapAccess puede ser de ayuda:",
-                "\\{'frasco' 'botella' 'vaso'}{'copa'}\\",
-                "Por lo general, si me das un montón de valores del mismo tipo, asumiré que son una lista de ese tipo. Como este conjunto es \\{''}\\, porque todos son @Text.",
-                "\\{'hey' 'hi' 'hello'}\\",
-                "Pero tal vez quieras indicar que soy un conjunto de /solo/ esos valores, para que pueda decirte cuando estás intentando usar uno que no está permitido. Si es así, solo agrega un ! al final de mí.",
-                "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
-                "¿Hay algo más que quieras hacer conmigo? ¡Mira todas las geniales @FunctionDefinition que tengo!"
+                "$~¡Soy un conjunto de valores! Eso significa que puedo contener cualquier número de valores, incluso ninguno. Puedes hacerme así:",
+                "$~\\{1 2 3}\\",
+                "$~Soy realmente bueno si quieres mantener una colección de cosas sin duplicados.",
+                "$~Eso significa que si me das valores que ya tengo, ignoraré los extras.",
+                "$~Por ejemplo, este conjunto tiene muchos duplicados:",
+                "$~\\{1 1 2 2 3 3}\\",
+                "$~Lo evalúo como simplemente \\{1 2 3}\\.",
+                "$~Si quieres ver si tengo un valor en mí, @SetOrMapAccess puede ayudarte:",
+                "$~\\{'tarro' 'botella' 'vaso'}{'taza'}\\",
+                "$~Normalmente, si me das un conjunto de valores de un tipo común, asumiré que son una lista de ese tipo. Por ejemplo, este conjunto es \\{''}\\, porque todo es @Text.",
+                "$~\\{'hey' 'hola' 'hola'}\\",
+                "$~Pero quizás quieras indicar que soy un conjunto de /solo/ esos valores, para que pueda avisarte cuando intentas usar uno no permitido. Si es así, simplemente añade un ! al final de \"me\".",
+                "$~\\{'hey' 'hola' 'hola'}!{'yo'}\\",
+                "$~¿Hay algo más que quieras hacer conmigo? ¡Mira todo lo genial que tengo en @FunctionDefinition!"
             ],
             "name": ["{}", "Conjunto"],
             "kind": "Kind",
@@ -2500,7 +2516,9 @@
                 },
                 "remove": {
                     "doc": [
-                        "Dame un elemento para remover y yo creare un nuevo @Set sin ese elemento"
+                        "$~Dame un elemento para eliminar y crearé un nuevo @Set sin el elemento.",
+                        "$~\\{1 2 3} - 2\\",
+                        "$~Si no tengo el artículo lo evaluaré yo mismo."
                     ],
                     "names": ["remove", "-"],
                     "inputs": [
@@ -2605,17 +2623,21 @@
         },
         "Map": {
             "doc": [
-                "Yo emparejo valores, mapeando *llaves* a *valores*. Por ejemplo:",
-                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}\\",
-                "Mis llaves pueden ser de cualquier tipo de valor, y tambien mis valores",
-                "Personas piensan de mi como si yo fuera un indice o un diccionario, donde tu me das una llave, y yo te doy a lo que esta mapeado.",
-                "Si quieres ver a lo algo esta mapeado a. tu le puedes pasar a @SetOrMapAccess, una llave y ellos de daran el valor:",
-                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}{'tony'}\\",
-                "Si noy hay una llave que coincida, yo te dare @None.",
-                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}{'juan'}\\",
-                "Tu tambien puedes crear un mapa vacio asi:",
-                "\\{:}\\",
-                "Yo se hacer muchas cosas maravillosas con mis emparejamientos."
+                "$~Reúno valores, asignando *claves* a *valores*. Por ejemplo:",
+                "$~\\{'amy': 6 puntos 'tony': 3 puntos 'shiela': 8 puntos}\\",
+                "$~Mis claves pueden ser cualquier tipo de valor y mis valores pueden ser cualquier tipo de valor.",
+                "$~A algunas personas les gusta pensar en mí como un índice o un diccionario, donde tú me das algo y yo te doy su significado.",
+                "$~Si quieres comprobar a qué está asignado algo, puedes darle a @SetOrMapAccess una clave y te darán el valor:",
+                "$~\\{'amy': 6 puntos 'tony': 3 puntos 'shiela': 8 puntos}{'amy'}\\",
+                "$~Si no hay una clave coincidente, te daré @None.",
+                "$~\\{'amy': 6 puntos 'tony': 3 puntos 'shiela': 8 puntos}{'jen'}\\",
+                "$~También puedes hacer un mapa vacío como este:",
+                "$~\\{:}\\",
+                "$~Normalmente, veo cualquier tipo de claves y valores que me proporciones y creo un tipo que los represente todos. Así, se ve un mapa de números a números:",
+                "$~\\{1:1 2:2 3:3}\\",
+                "$~Pero digamos que quieres asegurarte de que solo se trate de esos valores; simplemente añade \"!\" al final de \"me\" y no generalizaré. Eso te ayudará a saber si intentas obtener un valor que no buscabas.",
+                "$~\\{1:1 2:2 3:3}!{4}\\",
+                "$~Sé hacer muchas cosas maravillosas con mis combinaciones."
             ],
             "name": ["{:}", "Mapa"],
             "key": "Key",
@@ -4963,7 +4985,8 @@
                     "rect": "$~Para dibujar rectángulos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
                     "ellipse": "$~Para dibujar elipses y círculos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
                     "path": "$~Las rutas pueden ser segmentos de línea, polígonos y curvas. Haga clic para comenzar a agregar puntos o use las teclas de *flecha* y *espacio*. Presione *escape* para finalizar la ruta. *delete* eliminará el último punto.",
-                    "eraser": "$~Para borrar formas, haz clic o tócalas. Arrastra para borrar píxeles. Usa las flechas para mover el borrador y la barra espaciadora para borrar."
+                    "eraser": "$~Para borrar formas, haz clic o tócalas. Arrastra para borrar píxeles. Usa las flechas para mover el borrador y la barra espaciadora para borrar.",
+                    "emoji": "$~Elige un emoji para importar como píxeles y luego modifícalo como quieras."
                 },
                 "shape": {
                     "shape": "$~forma",
@@ -4971,7 +4994,8 @@
                     "rect": "$~rectángulo",
                     "ellipse": "$~elipse",
                     "path": "$~camino",
-                    "eraser": "$~borrador"
+                    "eraser": "$~borrador",
+                    "emoji": "$~emoji"
                 },
                 "field": {
                     "name": {
@@ -4990,7 +5014,8 @@
                             "$~píxel",
                             "$~rectángulo",
                             "$~elipse",
-                            "$~camino"
+                            "$~camino",
+                            "$~emoji"
                         ]
                     },
                     "fill": {

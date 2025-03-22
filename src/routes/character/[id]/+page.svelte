@@ -16,6 +16,7 @@
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
+    import EmojiChooser from '@components/widgets/EmojiChooser.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -44,6 +45,7 @@
         UNDO_SYMBOL,
     } from '@parser/Symbols';
     import { toTokens } from '@parser/toTokens';
+    import ColorJS from 'colorjs.io';
     import { untrack } from 'svelte';
     import {
         CharacterSize,
@@ -60,6 +62,7 @@
         type CharacterShape,
         type Point,
     } from '../../../db/characters/Character';
+    import UnicodeString from '../../../unicode/UnicodeString';
 
     // svelte-ignore non_reactive_update
     enum DrawingMode {
@@ -69,6 +72,7 @@
         Rect,
         Ellipse,
         Path,
+        Emoji,
     }
 
     type ColorSetting = 'none' | 'inherit' | 'set';
@@ -427,11 +431,19 @@
     }
 
     /** Set the pixel at the current position and fill. */
-    function setPixel(remember = true): CharacterPixel {
+    function setPixel(
+        remember = true,
+        x?: number | undefined,
+        y?: number | undefined,
+        color?: LCH,
+    ): CharacterPixel {
+        x = x ?? drawingCursorPosition.x;
+        y = y ?? drawingCursorPosition.y;
+
         const candidate: CharacterPixel = {
             type: 'pixel',
-            point: { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
-            fill: currentFillSetting === undefined ? null : { ...currentFill },
+            point: { x, y },
+            fill: { ...(color ?? currentFill) },
         };
         const match = shapes
             // Remove pixels at the same position
@@ -446,8 +458,8 @@
                     .filter(
                         (s) =>
                             s.type !== 'pixel' ||
-                            s.point.x !== drawingCursorPosition.x ||
-                            s.point.y !== drawingCursorPosition.y,
+                            s.point.x !== x ||
+                            s.point.y !== y,
                     ),
                 // Add the new pixel.
                 candidate,
@@ -1153,6 +1165,56 @@
         }
     }
 
+    function importEmoji(emoji: string) {
+        // Get the
+        emoji = new UnicodeString(emoji).at(0)?.toString() ?? '';
+        if (emoji.length === 0) return;
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (ctx === null) return;
+        canvas.width = 32;
+        canvas.height = 32;
+
+        document.body.appendChild(canvas); // Optional: To see the canvas
+
+        // Draw emoji to canvas
+        ctx.font = '29px "Noto Color Emoji"';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(emoji, 16, 33);
+
+        // Get image data
+        const imageData = ctx.getImageData(0, 0, 32, 32);
+        const pixels = imageData.data;
+
+        // Convert pixel data to 2D array
+        for (let y = 0; y < 32; y++) {
+            for (let x = 0; x < 32; x++) {
+                const index = (y * 32 + x) * 4;
+                const r = pixels[index];
+                const g = pixels[index + 1];
+                const b = pixels[index + 2];
+                const a = pixels[index + 3];
+
+                if (a > 0) {
+                    const color = new ColorJS(
+                        ColorJS.spaces.srgb,
+                        [r / 255, g / 255, b / 255],
+                        a / 255,
+                    ).to('lch');
+                    setPixel(false, x, y, {
+                        l: color.coords[0] / 100,
+                        c: color.coords[1],
+                        h: isNaN(color.coords[2]) ? 0 : color.coords[2],
+                    });
+                }
+            }
+        }
+
+        document.body.removeChild(canvas);
+    }
+
     function arrange(direction: 'back' | 'toBack' | 'forward' | 'toFront') {
         // Move each shape forward or backward in the shape list.
         for (const shape of selection.toReversed()) {
@@ -1322,7 +1384,7 @@
         >
         <Mode
             descriptions={(l) => l.ui.page.character.field.mode}
-            modes={['👆', '⌫', '■', '🔲', '⚪️', '╱']}
+            modes={['👆', '⌫', '■', '🔲', '⚪️', '╱', '🙂']}
             choice={mode}
             select={(choice: number) => {
                 mode = choice as DrawingMode;
@@ -1352,6 +1414,8 @@
                 />
             {:else if mode === DrawingMode.Path}
                 <LocalizedText path={(l) => l.ui.page.character.shape.path} />
+            {:else if mode === DrawingMode.Emoji}
+                <LocalizedText path={(l) => l.ui.page.character.shape.emoji} />
             {:else}
                 <LocalizedText
                     path={(l) => l.ui.page.character.field.mode.modes[0]}
@@ -1362,26 +1426,30 @@
         <MarkupHTMLView
             markup={mode === DrawingMode.Select && shapes.length === 0
                 ? (l) => l.ui.page.character.instructions.empty
-                : mode === DrawingMode.Select &&
-                    shapes.length > 0 &&
-                    selection.length === 0
-                  ? (l) => l.ui.page.character.instructions.unselected
+                : mode === DrawingMode.Emoji
+                  ? (l) => l.ui.page.character.instructions.emoji
                   : mode === DrawingMode.Select &&
                       shapes.length > 0 &&
-                      selection.length > 0
-                    ? (l) => l.ui.page.character.instructions.selected
-                    : mode === DrawingMode.Eraser
-                      ? (l) => l.ui.page.character.instructions.eraser
-                      : mode === DrawingMode.Pixel
-                        ? (l) => l.ui.page.character.instructions.pixel
-                        : mode === DrawingMode.Rect
-                          ? (l) => l.ui.page.character.instructions.rect
-                          : mode === DrawingMode.Ellipse
-                            ? (l) => l.ui.page.character.instructions.ellipse
-                            : (l) => l.ui.page.character.instructions.path}
+                      selection.length === 0
+                    ? (l) => l.ui.page.character.instructions.unselected
+                    : mode === DrawingMode.Select &&
+                        shapes.length > 0 &&
+                        selection.length > 0
+                      ? (l) => l.ui.page.character.instructions.selected
+                      : mode === DrawingMode.Eraser
+                        ? (l) => l.ui.page.character.instructions.eraser
+                        : mode === DrawingMode.Pixel
+                          ? (l) => l.ui.page.character.instructions.pixel
+                          : mode === DrawingMode.Rect
+                            ? (l) => l.ui.page.character.instructions.rect
+                            : mode === DrawingMode.Ellipse
+                              ? (l) => l.ui.page.character.instructions.ellipse
+                              : mode === DrawingMode.Path
+                                ? (l) => l.ui.page.character.instructions.path
+                                : '—'}
         ></MarkupHTMLView>
 
-        {#if mode !== DrawingMode.Select || selection.length > 0}
+        {#if (mode !== DrawingMode.Select && mode !== DrawingMode.Emoji) || selection.length > 0}
             {@const selectedFillStates = Array.from(
                 new Set(
                     selection.map((s) =>
@@ -1671,6 +1739,15 @@
                     />
                 </label>
             {/if}
+        {/if}
+        {#if mode === DrawingMode.Emoji}
+            <EmojiChooser
+                pick={(emoji) => {
+                    importEmoji(emoji);
+                    rememberShapes();
+                }}
+                emoji="🙂"
+            />
         {/if}
     </div>
 
