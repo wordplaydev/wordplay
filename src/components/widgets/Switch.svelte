@@ -109,6 +109,7 @@
 
     .button.inactive {
         transform: scale(1);
+        color: var(--wordplay-inactive-color);
     }
 
     .button.inactive:hover {
@@ -121,9 +122,8 @@
 
     .button.active {
         transform: scale(0.9);
-        color: var(--wordplay-inactive-color);
-        background-color: var(--wordplay-alternating-color);
-        box-shadow: inset 1px 2px var(--wordplay-chrome);
+        color: var(--wordplay-foreground);
+        background-color: var(--wordplay-chrome);
     }
 
     .button:focus {

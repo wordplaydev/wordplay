@@ -102,8 +102,8 @@
     }
 
     button.selected {
-        color: var(--wordplay-foreground);
-        background: var(--wordplay-hover);
+        color: var(--wordplay-background);
+        background: var(--wordplay-highlight-color);
         transform: scale(1.1);
         cursor: default;
     }
