@@ -1105,10 +1105,13 @@
         }
     }
 
-    function handleDoubleClick(event: MouseEvent) {
+    function handleDoubleClick() {
         if (mode === DrawingMode.Path) {
             endPath();
         } else if (mode === DrawingMode.Pixel) {
+            // Undo the two clicks that just happened, so they're not part of the history or shapes.
+            undo();
+            undo();
             fill(drawingCursorPosition.x, drawingCursorPosition.y);
         }
     }
