@@ -679,15 +679,17 @@
             event.preventDefault();
         }
 
+        const control = event.ctrlKey || event.metaKey;
+
         // Handle undo/redo
-        if (event.key === 'z' && event.metaKey) {
+        if (event.key === 'z' && control) {
             if (event.shiftKey) redo();
             else undo();
             event.stopPropagation();
             event.preventDefault();
             return;
         }
-        if (event.key === 'y' && event.metaKey) {
+        if (event.key === 'y' && control) {
             redo();
             event.stopPropagation();
             event.preventDefault();
@@ -695,7 +697,7 @@
         }
 
         // Handle copy
-        if (event.key === 'c' && event.metaKey) {
+        if (event.key === 'c' && control) {
             copyShapes();
             event.stopPropagation();
             event.preventDefault();
@@ -703,7 +705,7 @@
         }
 
         // Handle paste
-        if (event.key === 'v' && event.metaKey) {
+        if (event.key === 'v' && control) {
             pasteShapes();
             event.stopPropagation();
             event.preventDefault();
@@ -711,7 +713,7 @@
         }
 
         // Handle undo
-        if (event.key === 'z' && event.metaKey) {
+        if (event.key === 'z' && control) {
             if (event.shiftKey) redo();
             else undo();
             event.stopPropagation();
@@ -720,7 +722,7 @@
         }
 
         // Handle redo
-        if (event.key === 'y' && event.metaKey) {
+        if (event.key === 'y' && control) {
             undo();
             event.stopPropagation();
             event.preventDefault();
@@ -728,7 +730,7 @@
         }
 
         // Handle select all
-        if (event.key === 'a' && event.metaKey) {
+        if (event.key === 'a' && control) {
             selectAll();
             event.stopPropagation();
             event.preventDefault();
@@ -1669,6 +1671,8 @@
         }
     </style>
 {/snippet}
+
+<svelte:body onkeydown={handleKey} />
 
 <Page>
     <section>
