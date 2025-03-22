@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.8
+
+### Maintenance
+
+- Updated Google Cloud Translate, Playwright, Svelte, SvelteKit, Vitest, Eslint.
+
 ## 0.16.7
 
 ### Added
