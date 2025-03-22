@@ -1037,9 +1037,11 @@
         } else if (mode === DrawingMode.Select) {
             if (!move) {
                 const under = getShapeUnderPointer(event);
-                if (under !== null && !selection.includes(under)) {
-                    if (event.shiftKey) selection = [...selection, under];
-                    else selection = [under];
+                if (under !== null) {
+                    if (!selection.includes(under)) {
+                        if (event.shiftKey) selection = [...selection, under];
+                        else selection = [under];
+                    } else selection = [under];
                 } else selection = [];
             }
 
