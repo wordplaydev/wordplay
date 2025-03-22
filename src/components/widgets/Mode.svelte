@@ -103,10 +103,7 @@
 
     button.selected {
         color: var(--wordplay-foreground);
-        background: var(--wordplay-alternating-color);
-        border-color: var(--wordplay-highlight-color);
-        outline: var(--wordplay-highlight-color) solid
-            calc(2 * var(--wordplay-border-width));
+        background: var(--wordplay-hover);
         transform: scale(1.1);
         cursor: default;
     }
