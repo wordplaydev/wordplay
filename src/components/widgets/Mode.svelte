@@ -91,7 +91,7 @@
         white-space: nowrap;
         border: 1px solid var(--wordplay-chrome);
         color: var(--wordplay-foreground);
-        background: var(--wordplay-background);
+        background-color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         transition: transform calc(var(--animation-factor) * 200ms);
         cursor: pointer;
@@ -99,12 +99,21 @@
 
     button:focus {
         outline: none;
-        color: var(--wordplay-focus-color);
     }
 
     button.selected {
-        background-color: var(--wordplay-alternating-color);
+        color: var(--wordplay-foreground);
+        background: var(--wordplay-alternating-color);
+        border-color: var(--wordplay-highlight-color);
+        outline: var(--wordplay-highlight-color) solid
+            calc(2 * var(--wordplay-border-width));
+        transform: scale(1.1);
         cursor: default;
+    }
+
+    button:focus {
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
     }
 
     button:first-child {
@@ -117,10 +126,6 @@
         border-top-right-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
         border-right: 1px solid var(--wordplay-chrome);
-    }
-
-    button:not(:global(.selected)) {
-        transform: scale(1.1);
     }
 
     button:not(:global(.selected)):hover {
