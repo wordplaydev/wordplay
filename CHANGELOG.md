@@ -21,6 +21,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #719, improving clarity of mode widget selection.
 - Fixed rendering of unknown types.
 - Fixed #715, improving language and region names on stage chooser.
+- Preview aura when editing.
 
 ### Maintenance
 
