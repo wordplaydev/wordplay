@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Prevent undefined fields on character JSON.
 - Narrow concept regular expression to avoid greedy matches on hexadecimal numbers that prefix names.
 - Fixed keyboard shortcuts for Windows control key.
+- Fixed swapped icons on character share.
 
 ### Maintenance
 

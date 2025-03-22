@@ -1800,13 +1800,11 @@
                         choice={isPublic ? 0 : 1}
                         select={(mode) => (isPublic = mode === 0)}
                         modes={[
-                            '🤫 ' +
-                                $locales.get(
-                                    (l) =>
-                                        l.ui.page.character.share.public
-                                            .modes[0],
-                                ),
-                            `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.page.character.share.public.modes[1])}`,
+                            `${GLOBE1_SYMBOL} ${$locales.get(
+                                (l) =>
+                                    l.ui.page.character.share.public.modes[0],
+                            )}`,
+                            `🤫 ${$locales.get((l) => l.ui.page.character.share.public.modes[1])}`,
                         ]}
                     />
                     {#if !isPublic}
