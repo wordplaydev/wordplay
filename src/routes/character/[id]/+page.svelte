@@ -237,9 +237,26 @@
         if (!savable) return;
 
         saving = Date.now();
+
+        // Get the raw, non-proxied value.
+        const raw = $state.snapshot(editedCharacter) as Character;
+
+        // Remove any undefined fields that accidentally slipped in due to optional properties in Zod permitting undefined values.
+        const removeEmpty = (obj: Record<any, any>) => {
+            let newObj: Record<any, any> = {};
+            Object.keys(obj).forEach((key) => {
+                if (obj[key] === Object(obj[key]))
+                    newObj[key] = removeEmpty(obj[key]);
+                else if (obj[key] !== undefined) newObj[key] = obj[key];
+            });
+            return newObj;
+        };
+        removeEmpty(raw);
+
+        // Save the character.
         CharactersDB.updateCharacter(
             {
-                ...($state.snapshot(editedCharacter) as Character),
+                ...raw,
                 updated: saving,
             },
             true,
@@ -355,6 +372,13 @@
 
     /** Centralized shape list updating to support undo/redo. */
     function setShapes(newShapes: CharacterShape[], remember = true) {
+        // Extra careful in case shapes is somehow set to undefined.
+        if (newShapes === undefined) {
+            console.error('Somehow, new shapes were sent as undefined');
+            console.trace();
+            return;
+        }
+
         // Remove the future if we're in the past
         if (historyIndex < history.length - 1)
             history = history.slice(0, historyIndex - 1);
@@ -385,14 +409,16 @@
     function undo() {
         if (historyIndex > 0) {
             historyIndex--;
-            shapes = history[historyIndex];
+            const previousShapes = history[historyIndex];
+            if (previousShapes) shapes = previousShapes;
         }
     }
 
     function redo() {
         if (historyIndex < history.length - 1) {
             historyIndex++;
-            shapes = history[historyIndex];
+            const futureShapes = history[historyIndex];
+            if (futureShapes) shapes = futureShapes;
         }
     }
 
@@ -437,6 +463,7 @@
         );
     }
 
+    /** Null if inherented, undefined if none, or the current fill color if set */
     function getCurrentFill() {
         return currentFillSetting === 'inherit'
             ? null
@@ -468,12 +495,8 @@
                 width: 1,
                 height: 1,
             },
-            ...(currentFillSetting !== undefined && {
-                fill: getCurrentFill(),
-            }),
-            ...(currentStrokeSetting !== undefined && {
-                stroke: getCurrentStroke(),
-            }),
+            ...(getCurrentFill() && { fill: getCurrentFill() }),
+            ...(getCurrentStroke() && { stroke: getCurrentStroke() }),
             ...(currentCorner !== 1 && { corner: currentCorner }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
         };
@@ -508,10 +531,10 @@
                 width: 1,
                 height: 1,
             },
-            ...(currentFillSetting !== undefined && {
+            ...(getCurrentFill() && {
                 fill: getCurrentFill(),
             }),
-            ...(currentStrokeSetting !== undefined && {
+            ...(getCurrentStroke() && {
                 stroke: getCurrentStroke(),
             }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
@@ -525,10 +548,10 @@
                 { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
             ],
             closed: currentClosed,
-            ...(currentFillSetting !== undefined && {
+            ...(getCurrentFill() && {
                 fill: getCurrentFill(),
             }),
-            ...(currentStrokeSetting !== undefined && {
+            ...(getCurrentStroke() && {
                 stroke: getCurrentStroke(),
             }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
@@ -540,6 +563,7 @@
         const last = pendingPath.points[pendingPath.points.length - 1];
         // Different point than the last? Record it.
         if (
+            last === undefined ||
             last.x !== drawingCursorPosition.x ||
             last.y !== drawingCursorPosition.y
         )
@@ -600,29 +624,42 @@
             if (event.shiftKey && shapes.length > 0) {
                 // No selection? Select the first shape in the list.
                 if (selection.length === 0) {
-                    selection = [shapes[0]];
+                    const first = shapes[0];
+                    if (first) selection = [first];
                 }
                 // Otherwise, move the selection based on the arrow key.
                 else {
                     if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-                        const index = shapes.indexOf(selection[0]);
-                        if (index >= 0 && index < shapes.length)
-                            selection = [
-                                shapes[
-                                    index === 0 ? shapes.length - 1 : index - 1
-                                ],
-                            ];
+                        const first = selection[0];
+                        if (first) {
+                            const index = shapes.indexOf(first);
+                            if (index >= 0 && index < shapes.length) {
+                                const previous =
+                                    shapes[
+                                        index === 0
+                                            ? shapes.length - 1
+                                            : index - 1
+                                    ];
+                                if (previous) selection = [previous];
+                            }
+                        }
                     } else if (
                         event.key === 'ArrowDown' ||
                         event.key === 'ArrowRight'
                     ) {
-                        const index = shapes.indexOf(selection[0]);
-                        if (index >= 0 && index < shapes.length)
-                            selection = [
-                                shapes[
-                                    index === shapes.length - 1 ? 0 : index + 1
-                                ],
-                            ];
+                        const first = selection[0];
+                        if (first) {
+                            const index = shapes.indexOf(first);
+                            if (index >= 0 && index < shapes.length) {
+                                const next =
+                                    shapes[
+                                        index === shapes.length - 1
+                                            ? 0
+                                            : index + 1
+                                    ];
+                                if (next) selection = [next];
+                            }
+                        }
                     }
                 }
             } else {
@@ -1244,21 +1281,25 @@
                     : currentFillSetting,
                 // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
                 getSharedColor(selection.map((s) => s.fill)) ?? currentFill,
+                // Don't allow none if the stroke is none and not a pixel.
                 mode !== DrawingMode.Pixel && currentStrokeSetting !== 'none',
                 (l) => l.ui.page.character.field.fill,
                 (choice) => {
                     currentFillSetting = choice;
                     const fill = getCurrentFill();
                     for (const shape of selection) {
-                        if (fill) shape.fill = fill;
+                        if (fill !== undefined) shape.fill = fill;
                         else delete shape.fill;
                     }
                     rememberShapes();
                 },
                 (color) => {
                     currentFill = color;
-                    for (const shape of selection)
-                        shape.fill = getCurrentFill() ?? null;
+                    const newColor = getCurrentFill();
+                    for (const shape of selection) {
+                        if (newColor !== undefined) shape.fill = newColor;
+                        else delete shape.fill;
+                    }
                     rememberShapes();
                 },
             )}
@@ -1267,8 +1308,8 @@
                 {@const selectedStrokeColors = Array.from(
                     new Set(
                         selection.map((s) =>
-                            'stroke' in s
-                                ? s.stroke === null
+                            'stroke' in s && s.stroke !== undefined
+                                ? s.stroke.color === null
                                     ? 'inherit'
                                     : 'set'
                                 : 'none',
@@ -1288,15 +1329,17 @@
                             .filter((s) => s.type !== 'pixel')
                             .map((s) => s.stroke?.color),
                     ) ?? currentStroke,
+                    // Don't allow none if the fill is none.
                     currentFillSetting !== 'none',
                     (l) => l.ui.page.character.field.stroke,
                     (choice) => {
                         currentStrokeSetting = choice;
+                        const newStroke = getCurrentStroke();
                         if (selection.length > 0) {
-                            const newStroke = getCurrentStroke();
                             for (const shape of selection)
                                 if (shape.type !== 'pixel') {
-                                    if (newStroke) shape.stroke = newStroke;
+                                    if (newStroke !== undefined)
+                                        shape.stroke = newStroke;
                                     else delete shape.stroke;
                                 }
                             rememberShapes();
@@ -1315,7 +1358,8 @@
                                     // Otherwise, set the whole stroke.
                                     else {
                                         const stroke = getCurrentStroke();
-                                        if (stroke) shape.stroke = stroke;
+                                        if (stroke !== undefined)
+                                            shape.stroke = stroke;
                                         else delete shape.stroke;
                                     }
                             rememberShapes();

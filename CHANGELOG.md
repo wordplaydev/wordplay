@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.8
 
+### Fixed
+
+- Prevent undefined fields on character JSON.
+
 ### Maintenance
 
 - Updated Google Cloud Translate, Playwright, Svelte, SvelteKit, Vitest, Eslint.
