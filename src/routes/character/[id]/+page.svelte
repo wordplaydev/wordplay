@@ -136,6 +136,9 @@
     /** The closed path state */
     let currentClosed = $state(true);
 
+    /** The last pixel drawn while dragging, so we can fill in pixels between them with interpolation. */
+    let lastPixel = $state<CharacterPixel | undefined>(undefined);
+
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = $state(null);
 
@@ -423,7 +426,7 @@
     }
 
     /** Set the pixel at the current position and fill. */
-    function setPixel(remember = true) {
+    function setPixel(remember = true): CharacterPixel {
         const candidate: CharacterPixel = {
             type: 'pixel',
             point: { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
@@ -432,8 +435,8 @@
         const match = shapes
             // Remove pixels at the same position
             .find((s) => s.type === 'pixel' && pixelsAreEqual(s, candidate));
-        // Already an identical pixel? Delete.
-        if (match) return;
+        // Already an identical pixel? Do nothing.
+        if (match) return match as CharacterPixel;
 
         setShapes(
             [
@@ -445,10 +448,13 @@
                             s.point.x !== drawingCursorPosition.x ||
                             s.point.y !== drawingCursorPosition.y,
                     ),
+                // Add the new pixel.
                 candidate,
             ],
             remember,
         );
+
+        return candidate;
     }
 
     function erasePixel(remember = true) {
@@ -874,6 +880,57 @@
         return null;
     }
 
+    /** Try to fill pixels between the two given points, to allow for strokes without gaps */
+    function interpolate(startPixel: CharacterPixel, endPixel: CharacterPixel) {
+        const start = startPixel.point;
+        const end = endPixel.point;
+
+        // If the manhattan distance is > 2, fill the gap. Otherwise, it's probably not necessary.
+        if (Math.abs(start.x - end.x) + Math.abs(start.y - end.y) >= 2) {
+            // Linear interpolation between two points.
+            let slope =
+                start.x === end.x
+                    ? Infinity
+                    : (end.y - start.y) / (end.x - start.x);
+            const newPixels: CharacterPixel[] = [];
+            if (slope === Infinity) {
+                for (
+                    let y = Math.min(start.y, end.y);
+                    y <= Math.max(start.y, end.y);
+                    y++
+                ) {
+                    newPixels.push({
+                        type: 'pixel',
+                        point: { x: start.x, y },
+                        fill: startPixel.fill,
+                    });
+                }
+            } else {
+                // Iterate through the x positions and calculate the y position based on the slope.
+                for (
+                    let x = start.x;
+                    x !== end.x;
+                    x += start.x < end.x ? 1 : -1
+                ) {
+                    const y = Math.round(slope * (x - start.x) + start.y);
+                    newPixels.push({
+                        type: 'pixel',
+                        point: { x, y },
+                        fill: startPixel.fill,
+                    });
+                }
+            }
+            const nonRedundantPixels = newPixels.filter(
+                (p) =>
+                    !shapes.some(
+                        (s) => s.type === 'pixel' && pixelsAreEqual(s, p),
+                    ),
+            );
+            if (nonRedundantPixels.length > 0)
+                setShapes([...shapes, ...nonRedundantPixels], false);
+        }
+    }
+
     function handlePointerDown(event: PointerEvent, move: boolean) {
         if (!(event.currentTarget instanceof HTMLElement)) return;
 
@@ -919,7 +976,15 @@
         // In pixel mode? Drop a pixel.
         if (mode === DrawingMode.Pixel) {
             selection = [];
-            setPixel(false);
+            const newPixel = setPixel(false);
+
+            if (move) {
+                // If we're dragging and there's a last pixel, draw pixels between them.
+                if (lastPixel)
+                    interpolate($state.snapshot(lastPixel), newPixel);
+                lastPixel = newPixel;
+            }
+
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
         } else if (mode === DrawingMode.Eraser) {
@@ -1015,6 +1080,9 @@
     }
 
     function handlePointerUp(event: PointerEvent) {
+        // Reset the last pixel tracker.
+        lastPixel = undefined;
+
         if (dragOffsets) {
             dragOffsets = undefined;
             firstDrag = false;
@@ -1673,7 +1741,7 @@
     </style>
 {/snippet}
 
-<svelte:body onkeydown={handleKey} />
+<svelte:body onkeydown={handleKey} onpointerup={handlePointerUp} />
 
 <Page>
     <section>

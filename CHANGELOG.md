@@ -5,9 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.8
 
-### Addd
+### Added
 
 - Expanded eraser to delete shapes on click.
+- Smooth, connected pixel strokes.
 
 ### Fixed
 
