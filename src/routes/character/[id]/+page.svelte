@@ -1167,6 +1167,7 @@
         }
     }
 
+    /** Given an emoji, render it to a canvas, get its pixels, and place the pixels in the character's shapes. */
     function importEmoji(emoji: string) {
         // Get the
         emoji = new UnicodeString(emoji).at(0)?.toString() ?? '';
@@ -1215,6 +1216,176 @@
         }
 
         document.body.removeChild(canvas);
+    }
+
+    /** Analyze the current shapes extends and grow them to fill the box */
+    function fit() {
+        // Find the bounds of all the shapes.
+        const bounds = shapes
+            .map((s) =>
+                s.type === 'pixel'
+                    ? {
+                          type: 'pixel',
+                          left: s.point.x,
+                          top: s.point.y,
+                          right: s.point.x,
+                          bottom: s.point.y,
+                      }
+                    : s.type === 'rect'
+                      ? {
+                            type: 'rect',
+                            left: s.point.x,
+                            top: s.point.y,
+                            right: s.point.x + s.width,
+                            bottom: s.point.y + s.height,
+                        }
+                      : s.type === 'ellipse'
+                        ? {
+                              type: 'ellipse',
+                              left: s.point.x,
+                              top: s.point.y,
+                              right: s.point.x + s.width,
+                              bottom: s.point.y + s.height,
+                          }
+                        : s.type === 'path'
+                          ? {
+                                type: 'path',
+                                left: Math.min(...s.points.map((p) => p.x)),
+                                top: Math.min(...s.points.map((p) => p.y)),
+                                right: Math.max(...s.points.map((p) => p.x)),
+                                bottom: Math.max(...s.points.map((p) => p.y)),
+                            }
+                          : undefined,
+            )
+            .filter((b) => b !== undefined);
+
+        const left = Math.min(...bounds.map((b) => b.left));
+        const top = Math.min(...bounds.map((b) => b.top));
+        const right = Math.max(...bounds.map((b) => b.right));
+        const bottom = Math.max(...bounds.map((b) => b.bottom));
+
+        // Determine the center of the shapes
+        const centerXOffset =
+            Math.round((left + right) / 2) - CharacterSize / 2;
+        const centerYOffset =
+            Math.round((top + bottom) / 2) - CharacterSize / 2;
+
+        // Grow everything by the specified scale.
+        const scale = Math.min(
+            CharacterSize / (right - left + 1),
+            CharacterSize / (bottom - top + 1),
+        );
+
+        // Translate everything to the center of the canvas
+        const fitShapes: CharacterShape[] = $state
+            .snapshot(shapes)
+            .map((shape) => {
+                switch (shape.type) {
+                    case 'rect': {
+                        const width = shape.width * scale;
+                        const height = shape.height * scale;
+                        return {
+                            ...shape,
+                            point: {
+                                x:
+                                    shape.point.x -
+                                    centerXOffset -
+                                    (width - shape.width) / 2,
+                                y:
+                                    shape.point.y -
+                                    centerYOffset -
+                                    (height - shape.height) / 2,
+                            },
+                            width: width,
+                            height: height,
+                        };
+                    }
+                    case 'ellipse': {
+                        const width = shape.width * scale;
+                        const height = shape.height * scale;
+                        return {
+                            ...shape,
+                            point: {
+                                x:
+                                    shape.point.x -
+                                    centerXOffset -
+                                    (width - shape.width) / 2,
+                                y:
+                                    shape.point.y -
+                                    centerYOffset -
+                                    (height - shape.height) / 2,
+                            },
+                            width: width,
+                            height: height,
+                        };
+                    }
+                    // No need to update this shape.
+                    case 'pixel':
+                        return shape;
+                    case 'path':
+                        // Get the center
+                        const center = getPathCenter(shape as CharacterPath);
+
+                        // Offset the points by the translation, and blow them out around the center by the scale.
+                        const points = shape.points.map((point) => ({
+                            x:
+                                point.x -
+                                centerXOffset -
+                                ((center.x - point.x) * scale) / 2,
+                            y:
+                                point.y -
+                                centerYOffset -
+                                ((center.y - point.y) * scale) / 2,
+                        }));
+                        return {
+                            ...shape,
+                            points: [points[0], ...points.slice(1)],
+                        } satisfies CharacterPath;
+                    default:
+                        return undefined;
+                }
+            })
+            .filter((s) => s !== undefined);
+
+        // Sample the pixels to from the centered pixels, and set new ones based on the smaller scale.
+        const newPixels: CharacterPixel[] = [];
+        for (let x = 0; x < CharacterSize; x++) {
+            for (let y = 0; y < CharacterSize; y++) {
+                const xProgress = x / CharacterSize;
+                const yProgress = y / CharacterSize;
+                // Sample in the coordinate system of the pixels
+                const sampleX = Math.round(
+                    left + xProgress * (right - left + 1),
+                );
+                const sampleY = Math.round(
+                    top + yProgress * (bottom - top + 1),
+                );
+
+                // Is there a pixel at this position upsampled position?
+                const sample = fitShapes.find(
+                    (s) =>
+                        s.type === 'pixel' &&
+                        s.point.x === sampleX &&
+                        s.point.y === sampleY,
+                );
+                if (sample && sample.fill) {
+                    newPixels.push({
+                        type: 'pixel',
+                        point: {
+                            x: x,
+                            y: y,
+                        },
+                        fill: { ...sample.fill },
+                    });
+                }
+            }
+        }
+
+        // Delete the old pixels and add the new ones.
+        setShapes(
+            [...fitShapes.filter((s) => s.type !== 'pixel'), ...newPixels],
+            true,
+        );
     }
 
     function arrange(direction: 'back' | 'toBack' | 'forward' | 'toFront') {
@@ -1796,6 +1967,13 @@
             active={shapes.length > 0}
             icon={ALL_SYMBOL}
             label={(l) => l.ui.page.character.button.all.label}
+        />
+        <Button
+            tip={(l) => l.ui.page.character.button.fit.tip}
+            action={() => fit()}
+            active={shapes.length > 0}
+            icon="✥"
+            label={(l) => l.ui.page.character.button.fit.label}
         />
         <Button
             tip={(l) => l.ui.page.character.button.toBack.tip}

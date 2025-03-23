@@ -90,6 +90,8 @@ type PageText = {
         horizontal: ButtonText;
         /** Flip path vertical */
         vertical: ButtonText;
+        /** Fit shapes to grid */
+        fit: ButtonText;
     };
     feedback: {
         /** When the name isn't a valid Wordplay name */

@@ -5044,6 +5044,10 @@
                     "vertical": {
                         "label": "flip vertical",
                         "tip": "flip the points vertically around the center "
+                    },
+                    "fit": {
+                        "label": "fit",
+                        "tip": "fit the shapes to the canvas"
                     }
                 },
                 "feedback": {

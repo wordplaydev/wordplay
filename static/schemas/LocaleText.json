@@ -9662,6 +9662,10 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "End path button"
                         },
+                        "fit": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Fit shapes to grid"
+                        },
                         "forward": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "The move selection forward button"
@@ -9709,7 +9713,8 @@
                         "all",
                         "end",
                         "horizontal",
-                        "vertical"
+                        "vertical",
+                        "fit"
                       ],
                       "type": "object"
                     },
