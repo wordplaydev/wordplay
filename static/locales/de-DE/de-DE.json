@@ -3442,7 +3442,9 @@
         },
         "Phrase": {
             "names": ["💬", "Satzglied"],
-            "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
+            "doc": [
+                "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen."
+            ],
             "description": {
                 "names": "$~Beschreibung",
                 "doc": [

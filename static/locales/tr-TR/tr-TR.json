@@ -5176,6 +5176,10 @@
                     "vertical": {
                         "label": "$~dikey çevir",
                         "tip": "$~Noktaları merkez etrafında dikey olarak çevirin"
+                    },
+                    "fit": {
+                        "label": "$~yerleştirmek",
+                        "tip": "$~şekilleri tuvale uydur"
                     }
                 },
                 "feedback": {

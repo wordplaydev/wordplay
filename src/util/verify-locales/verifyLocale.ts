@@ -55,7 +55,7 @@ export function getTranslatableLocalePairs(locale: LocaleText): LocalePath[] {
             pair.top() &&
             (pair.key === '$schema' ||
                 pair.key === 'language' ||
-                pair.key === 'region')
+                pair.key === 'regions')
         )
             return false;
 
@@ -501,6 +501,7 @@ export function addMissingKeys(
                 }
             } else if (
                 key !== 'names' &&
+                key !== 'doc' &&
                 Array.isArray(sourceValue) &&
                 sourceValue.every((s) => typeof s === 'string')
             ) {
