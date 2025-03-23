@@ -5106,6 +5106,10 @@
                     "vertical": {
                         "label": "$~voltear verticalmente",
                         "tip": "$~Gira los puntos verticalmente alrededor del centro"
+                    },
+                    "fit": {
+                        "label": "$~adaptar",
+                        "tip": "$~Ajustar las formas al lienzo"
                     }
                 },
                 "feedback": {

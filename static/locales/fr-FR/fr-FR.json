@@ -5127,6 +5127,10 @@
                     "vertical": {
                         "label": "$~retourner verticalement",
                         "tip": "$~retourner les points verticalement autour du centre"
+                    },
+                    "fit": {
+                        "label": "$~ajuster",
+                        "tip": "$~adapter les formes à la toile"
                     }
                 },
                 "feedback": {

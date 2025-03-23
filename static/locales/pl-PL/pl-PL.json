@@ -5186,6 +5186,10 @@
                     "vertical": {
                         "label": "$~odwróć w pionie",
                         "tip": "$~odwróć punkty pionowo wokół środka"
+                    },
+                    "fit": {
+                        "label": "$~pasować",
+                        "tip": "$~dopasuj kształty do płótna"
                     }
                 },
                 "feedback": {

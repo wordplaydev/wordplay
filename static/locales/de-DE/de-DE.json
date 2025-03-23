@@ -5124,6 +5124,10 @@
                     "vertical": {
                         "label": "$~vertikal spiegeln",
                         "tip": "$~Drehen Sie die Punkte vertikal um die Mitte"
+                    },
+                    "fit": {
+                        "label": "$~fit",
+                        "tip": "$~Passen Sie die Formen an die Leinwand an"
                     }
                 },
                 "feedback": {

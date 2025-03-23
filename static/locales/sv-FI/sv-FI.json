@@ -3174,10 +3174,10 @@
             "names": "$~Kollision",
             "doc": [
                 "$~/Hej! @FunctionDefinition här. Kolla in denna coola input./",
-                "$~Det kan hjälpa dig att ta reda på när @Output stöter på varandra! Det här är ett bra sätt att göra något när vi stöter på varandra, annat än att det normala studsar av varandra @Output kan göra.",
+                "$~Det kan hjälpa dig att ta reda på när @Output stöter på varandra! Det här är ett bra sätt att göra något när vi stöter på varandra, annat än att det normala studsande av varandra @Output kan göra.",
                 "$~Ge mig bara namnet @Output, så skapar jag ett nytt @Rebound-värde när det stöter på ett annat namn. En @Rebound har information om namnen som kolliderade och riktningen för deras kollision.",
-                "$~Och om du ger mig två namn, så gör jag ett nytt värde först när de två namnen stöter på varandra.",
-                "$~Direkt efter att jag har gjort ett nytt värde, kommer jag att göra en \\ø\\ eftersom kollisionen sker efter att den har inträffat. Detta indikerar att det inte finns någon mer kollision."
+                "$~Och om du ger mig två namn, gör jag bara ett nytt värde när de två namnen stöter på varandra.",
+                "$~Direkt efter att jag har gjort ett nytt värde, kommer jag att göra en \\ø\\ eftersom kollisionen sker efter att den har inträffat. Detta tyder på att det inte finns någon mer kollision."
             ],
             "subject": {
                 "names": "$~ämne",
@@ -5181,6 +5181,10 @@
                     "vertical": {
                         "label": "$~vänd vertikalt",
                         "tip": "$~vänd punkterna vertikalt runt mitten"
+                    },
+                    "fit": {
+                        "label": "$~färdig",
+                        "tip": "$~anpassa formerna till duken"
                     }
                 },
                 "feedback": {
