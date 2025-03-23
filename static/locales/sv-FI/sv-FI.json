@@ -1547,7 +1547,7 @@
         },
         "Text": {
             "doc": [
-                "$~Jag kan vara vilken text du vill, från vilket språk som helst, och använda någon av dessa symboler för öppnings- och stängningssymboler: \\\"\"\\, \\“\"\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\ eller \\『』\\.",
+                "$~Jag kan vara vilken text du vill, från vilket språk som helst, och använda någon av dessa symboler för öppnings- och stängningssymboler: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
                 "$~För att illustrera, överväg dessa vackra fraser",
                 "$~\\\"Det finns bara två sätt att leva sitt liv. Det ena är som om ingenting är ett mirakel. Det andra är som om allt är ett mirakel.\"\\",
                 "$~\\『一日三秋』\\",
