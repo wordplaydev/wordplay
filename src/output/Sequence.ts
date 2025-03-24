@@ -44,6 +44,8 @@ export function createSequenceType(locales: Locales) {
             .slice(1)
             .map((n) => `${n}x`)
             .join('|')}: 1x
+        /* Add description field once locale file is updated */
+        /* ${getBind(locales, (locale) => locale.output.Sequence.description)}•"""..."": "" */
     )
 `);
 }
@@ -55,6 +57,7 @@ export default class Sequence extends Valued {
     readonly poses: SequenceStep[];
     readonly duration: number;
     readonly style: string;
+    readonly description: string;
 
     constructor(
         value: Value,
@@ -62,6 +65,7 @@ export default class Sequence extends Valued {
         poses: SequenceStep[],
         duration: number,
         style: string,
+        description: string = '',
     ) {
         super(value);
 
@@ -69,6 +73,7 @@ export default class Sequence extends Valued {
         this.poses = poses;
         this.duration = duration;
         this.style = style;
+        this.description = description;
     }
 
     /**
@@ -136,6 +141,22 @@ export default class Sequence extends Valued {
     getFirstPose(): Pose | undefined {
         return this.poses[0]?.pose;
     }
+
+    getDescription(locales: Locales): string {
+        // If a custom description is provided, use it
+        if (this.description) {
+            return this.description;
+        }
+
+        // Fallback to using the description of the first pose
+        const firstPose = this.getFirstPose();
+        if (firstPose) {
+            return firstPose.getDescription(locales);
+        }
+
+        // Return an empty string if no poses or description
+        return '';
+    }
 }
 
 export function toSequence(project: Project, value: Value | undefined) {
@@ -147,10 +168,11 @@ export function toSequence(project: Project, value: Value | undefined) {
     )
         return undefined;
 
-    const [poses, durationVal, style, countVal] = getOutputInputs(value);
+    const [poses, durationVal, style, countVal, descriptionVal] = getOutputInputs(value);
 
     const count = toDecimal(countVal);
     const duration = toDecimal(durationVal);
+    const description = descriptionVal instanceof TextValue ? descriptionVal.text : '';
 
     if (!(poses instanceof MapValue)) return undefined;
 
@@ -174,6 +196,7 @@ export function toSequence(project: Project, value: Value | undefined) {
               steps,
               duration.toNumber(),
               style.text,
+              description
           )
         : undefined;
 }
