@@ -136,6 +136,15 @@ export default class Sequence extends Valued {
     getFirstPose(): Pose | undefined {
         return this.poses[0]?.pose;
     }
+
+    getDescription(locales: Locales): string {
+        // If there are poses, use the description of the first pose
+        if (this.poses.length > 0 && this.poses[0].pose) {
+            return this.poses[0].pose.getDescription(locales);
+        }
+        // Default empty description if no poses
+        return '';
+    }
 }
 
 export function toSequence(project: Project, value: Value | undefined) {
