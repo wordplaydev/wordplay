@@ -44,8 +44,7 @@ export function createSequenceType(locales: Locales) {
             .slice(1)
             .map((n) => `${n}x`)
             .join('|')}: 1x
-        /* Add description field once locale file is updated */
-        /* ${getBind(locales, (locale) => locale.output.Sequence.description)}•"""..."": "" */
+        ${getBind(locales, (locale) => locale.output.Sequence.description)}•"""..."": ""
     )
 `);
 }
