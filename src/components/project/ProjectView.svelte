@@ -1474,11 +1474,6 @@
                                         ).modes[$animationFactor]}
                                     >
                                         <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
-                                        {#if $animationFactor === 0}{$locales.get(
-                                                (l) =>
-                                                    l.ui.dialog.settings.mode
-                                                        .animate,
-                                            ).modes[0]}{/if}
                                     </span>
                                 {/if}
                             {/snippet}
@@ -1554,6 +1549,11 @@
                                         modes={AnimationFactorIcons}
                                         labeled={false}
                                     />
+                                    {#if $animationFactor === 0}{$locales.get(
+                                            (l) =>
+                                                l.ui.dialog.settings.mode
+                                                    .animate,
+                                        ).modes[0]}{/if}
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
