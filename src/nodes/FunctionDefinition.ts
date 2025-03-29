@@ -46,7 +46,7 @@ import UnimplementedType from './UnimplementedType';
 import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionDefinition extends DefinitionExpression {
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly share: Token | undefined;
     readonly fun: Token;
     readonly names: Names;

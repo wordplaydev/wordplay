@@ -5,7 +5,7 @@
         messages: Markup[];
         kind: 'step' | 'primary' | 'secondary' | 'minor';
         context: Context;
-        resolutions?: Resolution[];
+        resolutions: Resolution[];
     };
 </script>
 
@@ -108,7 +108,7 @@
                             : ('primary' as const),
                         context,
                         // Place the resolutions in the primary node.
-                        resolutions: nodes.resolutions,
+                        resolutions: nodes.resolutions ?? [],
                     },
                     ...(secondary !== undefined
                         ? [
@@ -125,6 +125,7 @@
                                   ],
                                   context,
                                   kind: 'secondary' as const,
+                                  resolutions: [],
                               },
                           ]
                         : []),
@@ -160,6 +161,7 @@
                         ],
                         kind: 'step',
                         context,
+                        resolutions: [],
                     },
                 ];
         }

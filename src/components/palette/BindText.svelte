@@ -68,7 +68,7 @@
         ? FORMATTED_SYMBOL
         : getLanguageQuoteOpen($locales.getLocale().language)}
     <TextField
-        text={values.getText()}
+        text={values.getText() ?? ''}
         description={(l) => l.ui.palette.field.text}
         placeholder={values.isEmpty()
             ? ''

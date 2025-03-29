@@ -21,7 +21,7 @@ export default class Doc extends LanguageTagged {
     readonly open: Token;
     readonly markup: Markup;
     readonly close: Token | undefined;
-    readonly language?: Language;
+    readonly language: Language | undefined;
     readonly separator: Token | undefined;
 
     constructor(

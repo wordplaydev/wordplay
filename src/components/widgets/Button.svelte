@@ -14,7 +14,7 @@
         /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
         tip: LocaleTextAccessor | (() => string);
         /** Optional label; if children provided, they override */
-        label?: LocaleTextAccessor;
+        label?: LocaleTextAccessor | undefined;
         /** What to do when pressed */
         action: Action;
         /** Whether the button should be clickable */
@@ -37,7 +37,7 @@
         /** A test ID to add */
         testid?: string | undefined;
         /** An optional icon to place before the children, in monochrome */
-        icon?: string;
+        icon?: string | undefined;
         /** An optional shortcut string for ARIA */
         shortcut?: string;
         /** The label */

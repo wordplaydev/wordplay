@@ -28,14 +28,14 @@ export function createPoseType(locales: Locales) {
 }
 
 export default class Pose extends Valued {
-    readonly color?: Color;
-    readonly opacity?: number;
-    readonly offset?: Place;
-    readonly rotation?: number;
-    readonly scale?: number;
-    readonly flipx?: boolean;
-    readonly flipy?: boolean;
-    readonly blur?: number;
+    readonly color: Color | undefined;
+    readonly opacity: number | undefined;
+    readonly offset: Place | undefined;
+    readonly rotation: number | undefined;
+    readonly scale: number | undefined;
+    readonly flipx: boolean | undefined;
+    readonly flipy: boolean | undefined;
+    readonly blur: number | undefined;
 
     private _description: string | undefined = undefined;
 

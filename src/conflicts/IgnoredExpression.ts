@@ -64,13 +64,11 @@ export class IgnoredExpression extends Conflict {
                                                 .toWordplay(),
                                         ),
                                     ),
-                                    newNode: undefined,
                                 };
                             }
                         }
                         return {
                             newProject: context.project,
-                            newNode: undefined,
                         };
                     },
                 };

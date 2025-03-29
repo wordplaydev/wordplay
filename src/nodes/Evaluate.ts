@@ -79,7 +79,7 @@ export default class Evaluate extends Expression {
     readonly types: TypeInputs | undefined;
     readonly open: Token;
     readonly inputs: (Expression | Input)[];
-    readonly close?: Token;
+    readonly close: Token | undefined;
 
     constructor(
         func: Expression,

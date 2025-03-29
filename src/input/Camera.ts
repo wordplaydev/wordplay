@@ -189,18 +189,19 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
         )
             return;
 
+        const videoConstraints: MediaTrackConstraints = {
+            width: { min: this.width },
+            height: { min: this.height },
+            facingMode: 'user',
+            frameRate: { ideal: 1000 / this.frequency },
+        };
+        const device = this.evaluator.database.Settings.getCamera();
+        if (device) videoConstraints.deviceId = device;
+
         navigator.mediaDevices
             .getUserMedia({
                 audio: false,
-                video: {
-                    deviceId:
-                        this.evaluator.database.Settings.getCamera() ??
-                        undefined,
-                    width: { min: this.width },
-                    height: { min: this.height },
-                    facingMode: 'user',
-                    frameRate: { ideal: 1000 / this.frequency },
-                },
+                video: videoConstraints,
             })
             .then((stream) => {
                 if (this.stopped) return;

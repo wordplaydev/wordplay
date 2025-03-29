@@ -23,10 +23,10 @@ import type TypeSet from './TypeSet';
 
 export default class MapType extends BasisType {
     readonly open: Token;
-    readonly key?: Type;
+    readonly key: Type | undefined;
     readonly bind: Token;
-    readonly value?: Type;
-    readonly close?: Token;
+    readonly value: Type | undefined;
+    readonly close: Token | undefined;
 
     constructor(
         open: Token,

@@ -5,7 +5,7 @@
     import Button from '@components/widgets/Button.svelte';
     import { CharactersDB } from '@db/Database';
 
-    let { inline }: { inline?: boolean } = $props();
+    let { inline = false }: { inline?: boolean } = $props();
 
     let creating: boolean | undefined = $state(false);
 

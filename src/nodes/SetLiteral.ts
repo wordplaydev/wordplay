@@ -31,7 +31,7 @@ export default class SetLiteral extends Expression {
     readonly open: Token;
     readonly values: Expression[];
     readonly close: Token | undefined;
-    readonly literal?: Token;
+    readonly literal: Token | undefined;
 
     constructor(
         open: Token,

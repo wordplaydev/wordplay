@@ -4,7 +4,7 @@ import type Language from './Language';
 import Node from './Node';
 
 export abstract class LanguageTagged extends Node {
-    readonly language?: Language;
+    readonly language?: Language | undefined;
 
     constructor(language?: Language) {
         super();

@@ -53,7 +53,7 @@ export default class StructureDefinition extends DefinitionExpression {
     readonly open: Token | undefined;
     readonly inputs: Bind[];
     readonly close: Token | undefined;
-    readonly expression?: Block;
+    readonly expression: Block | undefined;
 
     // PERF: Cache definitions to avoid having to recreate the list.
     #definitionsCache: Map<Node, Definition[]> = new Map();

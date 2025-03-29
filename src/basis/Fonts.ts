@@ -671,11 +671,13 @@ export class FontManager {
                 supportedFace.format
             }`,
             {
-                style: font.italic ? 'italic' : 'normal',
-                weight: Array.isArray(supportedFace.weights)
-                    ? font.weight.toString()
-                    : `${supportedFace.weights.min} ${supportedFace.weights.max}`,
-                unicodeRange: font.range,
+                ...{
+                    style: font.italic ? 'italic' : 'normal',
+                    weight: Array.isArray(supportedFace.weights)
+                        ? font.weight.toString()
+                        : `${supportedFace.weights.min} ${supportedFace.weights.max}`,
+                },
+                ...(font.range ? { unicodeRange: font.range } : {}),
             },
         );
         document.fonts.add(fontFace);

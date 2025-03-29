@@ -22,7 +22,7 @@ import type TypeSet from './TypeSet';
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
     readonly numerator: Dimension[];
-    readonly slash?: Token;
+    readonly slash: Token | undefined;
     readonly denominator: Dimension[];
 
     /** We store units internally as a map from unit names to a positive or negative non-zero exponent. */

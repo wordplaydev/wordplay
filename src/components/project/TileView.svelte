@@ -353,7 +353,7 @@
                                             .getSource(project)
                                             ?.getPreferredName(
                                                 $locales.getLocales(),
-                                            )}
+                                            ) ?? ''}
                                         description={(l) =>
                                             l.ui.source.field.name.description}
                                         placeholder={(l) =>

@@ -32,8 +32,8 @@ import UnionType from './UnionType';
 export default class ListLiteral extends Expression {
     readonly open: Token;
     readonly values: (Spread | Expression)[];
-    readonly close?: Token;
-    readonly literal?: Token;
+    readonly close: Token | undefined;
+    readonly literal: Token | undefined;
 
     constructor(
         open: Token,

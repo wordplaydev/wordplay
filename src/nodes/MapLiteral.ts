@@ -35,8 +35,8 @@ import UnionType from './UnionType';
 export default class MapLiteral extends Expression {
     readonly open: Token;
     readonly values: (Expression | KeyValue)[];
-    readonly close?: Token;
-    readonly bind?: Token;
+    readonly close: Token | undefined;
+    readonly bind: Token | undefined;
     readonly literal: Token | undefined;
 
     constructor(

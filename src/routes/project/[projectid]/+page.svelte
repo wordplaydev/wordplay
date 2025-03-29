@@ -83,9 +83,10 @@
                 history !== undefined &&
                 (project.hasContributor($user.uid) ||
                     (gallery !== null &&
-                        Galleries.accessibleGalleries
+                        (Galleries.accessibleGalleries
                             .get(gallery)
-                            ?.hasCurator($user.uid))))
+                            ?.hasCurator($user.uid) ??
+                            false))))
         );
     });
 
