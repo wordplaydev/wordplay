@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import AddProject from '@components/app/AddProject.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
@@ -38,7 +38,7 @@
 
     // When the page changes, get the gallery store corresponding to the requested ID.
     $effect(() => {
-        const galleryID = decodeURI($page.params.galleryid);
+        const galleryID = decodeURI(page.params.galleryid);
         Galleries.get(galleryID).then((gal) => {
             // Found a store? Subscribe to it, updating the gallery when it changes.
             if (gal) gallery = gal;

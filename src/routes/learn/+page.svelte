@@ -1,7 +1,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import Loading from '@components/app/Loading.svelte';
     import Page from '@components/app/Page.svelte';
     import TutorialView from '@components/app/TutorialView.svelte';
@@ -48,7 +48,7 @@
     // Save tutorial projects with projects changes.
     $effect(() => {
         if (tutorial) {
-            initial = Progress.fromURL(tutorial, $page.url.searchParams);
+            initial = Progress.fromURL(tutorial, page.url.searchParams);
             // Untack, since the below reads and sets
             untrack(() => {
                 if (initial) Settings.setTutorialProgress(initial);

@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Don't deploy on PR.
 - Run all tests on merge.
 - Renamed `Feedback` to `Notice`.
+- Migrated to from page state to stores.
 
 ## 0.16.8
 

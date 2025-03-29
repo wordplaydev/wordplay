@@ -1,6 +1,6 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
@@ -25,11 +25,11 @@
     /** The project is set either by an effect on load or changes to the project history map in the database. **/
     let project: Project | undefined = $state(undefined);
 
-    let projectID = $derived(decodeURI($page.params.projectid));
+    let projectID = $derived(decodeURI(page.params.projectid));
 
     // If the page params change, load the project explicitly, rather than waiting for the database to load it.
     $effect(() => {
-        if ($page && browser && projectID) {
+        if (page && browser && projectID) {
             // Set loading feedback.
             loading = true;
 
@@ -116,6 +116,6 @@
     </Page>
 {:else if loading}
     <Loading />
-{:else if $page.params.projectid || error}
+{:else if page.params.projectid || error}
     <Writing><Notice text={(l) => l.ui.project.error.unknown} /></Writing>
 {/if}
