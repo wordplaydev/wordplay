@@ -100,7 +100,7 @@
 
     .button {
         transition: transform;
-        transition-duration: calc(var(--animation-factor) * 200ms);
+        transition-duration: calc(var(--animation-factor) * 100ms);
     }
 
     .on .divider {
@@ -109,25 +109,23 @@
 
     .button.inactive {
         transform: scale(1);
-        color: var(--wordplay-inactive-color);
+        color: var(--wordplay-foreground);
+        background-color: var(--wordplay-background);
     }
 
     .button.inactive:hover {
-        outline: none;
-        transform: scale(1.1);
+        transform: scale(1.05);
         transform-origin: center;
         z-index: 1;
-        background: var(--wordplay-alternating-color);
     }
 
     .button.active {
-        transform: scale(0.9);
-        color: var(--wordplay-foreground);
-        background-color: var(--wordplay-chrome);
+        transform: scale(1.1);
+        color: var(--wordplay-background);
+        background: var(--wordplay-highlight-color);
     }
 
     .button:focus {
-        outline: none;
-        color: var(--wordplay-focus-color);
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
     }
 </style>
