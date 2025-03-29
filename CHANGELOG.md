@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - More precise handling of undefined and optional (?).
 - Fixed #723, tile dragging in tutorial.
 - Don't deploy on PR.
+- Run all tests on merge.
 
 ## 0.16.8
 
