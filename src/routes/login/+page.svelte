@@ -3,7 +3,7 @@
     import { goto } from '$app/navigation';
     import { getUser } from '@components/project/Contexts';
     import { auth } from '@db/firebase';
-    import Feedback from '../../components/app/Feedback.svelte';
+    import Feedback from '../../components/app/Notice.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import Login from './Login.svelte';
 

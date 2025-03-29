@@ -2,10 +2,10 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import AddProject from '@components/app/AddProject.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -116,7 +116,7 @@
 {:else}
     <Writing>
         {#if gallery === undefined}
-            <Feedback text={(l) => l.ui.gallery.error.unknown} />
+            <Notice text={(l) => l.ui.gallery.error.unknown} />
         {:else}
             <Header
                 >{#if editable}<TextField

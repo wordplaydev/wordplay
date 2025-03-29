@@ -3,11 +3,10 @@
 
     import { page } from '$app/state';
     import Centered from '@components/app/Centered.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
-
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -69,7 +68,7 @@
 >
 {#if classData === null}
     <Header text={(l) => l.ui.page.class.header} />
-    <Feedback text={(l) => l.ui.page.class.error.notfound} />
+    <Notice text={(l) => l.ui.page.class.error.notfound} />
 {:else if classData === undefined}
     <Spinning></Spinning>
 {:else}
@@ -182,7 +181,7 @@
     </Centered>
 
     {#if newGalleryError}
-        <Feedback text={(l) => l.ui.page.class.error.gallery} />
+        <Notice text={(l) => l.ui.page.class.error.gallery} />
     {/if}
 
     {#each classData.galleries as gallery, index}

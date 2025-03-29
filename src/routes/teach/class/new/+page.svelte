@@ -8,9 +8,9 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import Centered from '@components/app/Centered.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -24,13 +24,13 @@
     import { Creator } from '@db/creators/CreatorDatabase';
     import { UsernameLength } from '@db/creators/isValidUsername';
     import { functions } from '@db/firebase';
+    import { PREVIOUS_SYMBOL } from '@parser/Symbols';
+    import { httpsCallable } from 'firebase/functions';
     import type {
         CreateClassError,
         CreateClassInputs,
         CreateClassOutput,
     } from 'shared-types';
-    import { PREVIOUS_SYMBOL } from '@parser/Symbols';
-    import { httpsCallable } from 'firebase/functions';
     import { PasswordLength } from '../../../login/IsValidPassword';
     import TeachersOnly from '../../TeachersOnly.svelte';
     import {
@@ -268,7 +268,7 @@
         ></LabeledTextbox>
 
         {#if metadataProblem !== undefined}
-            <Feedback text={(l) => l.ui.page.newclass.error[metadataProblem]} />
+            <Notice text={(l) => l.ui.page.newclass.error[metadataProblem]} />
         {/if}
 
         <!-- Only need secret words if there are students to add -->
@@ -287,7 +287,7 @@
             ></LabeledTextbox>
 
             {#if wordsProblem}
-                <Feedback text={(l) => l.ui.page.newclass.error.words} />
+                <Notice text={(l) => l.ui.page.newclass.error.words} />
             {/if}
 
             <Subheader text={(l) => l.ui.page.newclass.subheader.credentials} />
@@ -307,7 +307,7 @@
                 </Centered>
 
                 {#if generateProblem}
-                    <Feedback text={(l) => l.ui.page.newclass.error.generate} />
+                    <Notice text={(l) => l.ui.page.newclass.error.generate} />
                 {/if}
             {:else}
                 <MarkupHTMLView
@@ -336,11 +336,11 @@
                     ?.filter((s) => usernamesTaken.includes(s.username))
                     .map((s) => s.username)}
                 {#if taken !== undefined && taken.length > 0}
-                    <Feedback
+                    <Notice
                         ><LocalizedText
                             path={(l) => l.ui.page.newclass.error.taken}
                         />:
-                        <em>{taken.join(', ')}</em></Feedback
+                        <em>{taken.join(', ')}</em></Notice
                     >
                 {/if}
 
@@ -510,10 +510,10 @@
         </Centered>
 
         {#if createError}
-            <Feedback
+            <Notice
                 ><LocalizedText
                     path={(l) => l.ui.page.newclass.error[createError!.kind]}
-                />: {createError.info}</Feedback
+                />: {createError.info}</Notice
             >
         {/if}
         {#if download === true}

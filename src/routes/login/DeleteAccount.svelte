@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Feedback from '@components/app/Feedback.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -115,11 +115,11 @@
                 label={(l) => l.ui.page.login.button.reallyDelete.label}
             />
             {#if confirmEmail?.length >= 5 && !readyToDeleteAccount(confirmEmail, password)}
-                <Feedback inline
+                <Notice inline
                     ><MarkupHTMLView
                         inline
                         markup={(l) => l.ui.page.login.feedback.match}
-                    /></Feedback
+                    /></Notice
                 >
             {/if}
         </form>
@@ -134,7 +134,7 @@
 {/if}
 
 {#if deleteFeedback}
-    <Feedback text={deleteFeedback} />
+    <Notice text={deleteFeedback} />
 {/if}
 
 <style>

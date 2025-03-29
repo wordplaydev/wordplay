@@ -7,7 +7,7 @@
     import validEmail from '../../db/creators/isValidEmail';
     import { DB } from '../../db/Database';
     import CreatorView from '../app/CreatorView.svelte';
-    import Feedback from '../app/Feedback.svelte';
+    import Feedback from '../app/Notice.svelte';
     import Spinning from '../app/Spinning.svelte';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';

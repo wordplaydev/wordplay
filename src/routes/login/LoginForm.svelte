@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Feedback from '@components/app/Feedback.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
@@ -12,7 +12,7 @@
 </script>
 
 <form class="login-form" onsubmit={submit}
-    >{@render children?.()}{#if feedback}<Feedback text={feedback} />{/if}</form
+    >{@render children?.()}{#if feedback}<Notice text={feedback} />{/if}</form
 >
 
 <style>

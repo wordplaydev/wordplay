@@ -1,8 +1,8 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { page } from '$app/stores';
-    import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
     import {
         getUser,
@@ -117,5 +117,5 @@
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Writing><Feedback text={(l) => l.ui.project.error.unknown} /></Writing>
+    <Writing><Notice text={(l) => l.ui.project.error.unknown} /></Writing>
 {/if}

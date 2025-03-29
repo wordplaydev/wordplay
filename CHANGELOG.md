@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #723, tile dragging in tutorial.
 - Don't deploy on PR.
 - Run all tests on merge.
+- Renamed `Feedback` to `Notice`.
 
 ## 0.16.8
 

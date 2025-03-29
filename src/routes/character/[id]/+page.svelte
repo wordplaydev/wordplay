@@ -2,8 +2,8 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import { Basis } from '@basis/Basis';
-    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -2056,15 +2056,15 @@
             <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
         </div>
         {#if $user === null}
-            <Feedback
+            <Notice
                 text={(l) => l.ui.page.character.feedback.unauthenticated}
             />
         {:else if persisted === 'loading'}
             <Spinning></Spinning>
         {:else if persisted === 'failed'}
-            <Feedback text={(l) => l.ui.page.character.feedback.loadfail} />
+            <Notice text={(l) => l.ui.page.character.feedback.loadfail} />
         {:else if persisted === 'unknown'}
-            <Feedback text={(l) => l.ui.page.character.feedback.notfound} />
+            <Notice text={(l) => l.ui.page.character.feedback.notfound} />
         {:else}
             <div class="meta">
                 <div class="preview">
@@ -2166,9 +2166,9 @@
                 ></TextBox>
             </div>
             {#if !nameAvailable}
-                <Feedback text={(l) => l.ui.page.character.feedback.taken} />
+                <Notice text={(l) => l.ui.page.character.feedback.taken} />
             {:else if !savable}
-                <Feedback text={(l) => l.ui.page.character.feedback.unsaved} />
+                <Notice text={(l) => l.ui.page.character.feedback.unsaved} />
             {/if}
 
             <div class="editor">
@@ -2216,7 +2216,7 @@
                     </div>
                     {#if pendingPath}
                         <div class="notes">
-                            <Feedback>
+                            <Notice>
                                 <Button
                                     background
                                     tip={(l) =>
@@ -2230,7 +2230,7 @@
                                 <LocalizedText
                                     path={(l) =>
                                         l.ui.page.character.feedback.end}
-                                /></Feedback
+                                /></Notice
                             >
                         </div>
                     {/if}
