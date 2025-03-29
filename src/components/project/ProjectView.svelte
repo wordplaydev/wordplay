@@ -1150,50 +1150,50 @@
 
     async function handlePointerMove(event: PointerEvent) {
         if (!canvas) return;
+        if (!draggedTile) return;
+        if (!view) return;
 
-        pointerX = event.clientX + canvas.scrollLeft;
-        pointerY = event.clientY + canvas.scrollTop;
+        const rect = view.getBoundingClientRect();
 
-        if (draggedTile) {
-            const tile = layout.getTileWithID(draggedTile.id);
-            if (tile) {
-                let newBounds;
-                if (draggedTile.direction === null) {
-                    newBounds = {
-                        left: pointerX - draggedTile.left,
-                        top: pointerY - draggedTile.top,
-                        width: tile.position.width,
-                        height: tile.position.height,
-                    };
-                } else {
-                    const left = draggedTile.direction.includes('left');
-                    const top = draggedTile.direction.includes('top');
-                    const right = draggedTile.direction.includes('right');
-                    const bottom = draggedTile.direction.includes('bottom');
-                    newBounds = {
-                        left: left ? pointerX : tile.position.left,
-                        top: top ? pointerY : tile.position.top,
-                        width: left
-                            ? tile.position.width +
-                              (tile.position.left - pointerX)
-                            : right
-                              ? pointerX - tile.position.left
-                              : tile.position.width,
-                        height: top
-                            ? tile.position.height +
-                              (tile.position.top - pointerY)
-                            : bottom
-                              ? pointerY - tile.position.top
-                              : tile.position.height,
-                    };
-                }
-                if (newBounds) {
-                    layout = layout.withTilePosition(tile, newBounds);
+        pointerX = event.clientX - rect.left + canvas.scrollLeft;
+        pointerY = event.clientY - rect.top + canvas.scrollTop;
 
-                    // Scroll tile into view if out
-                    await tick();
-                    if (draggedTile) scrollToTileView(draggedTile.id);
-                }
+        const tile = layout.getTileWithID(draggedTile.id);
+        if (tile) {
+            let newBounds;
+            if (draggedTile.direction === null) {
+                newBounds = {
+                    left: pointerX - draggedTile.left,
+                    top: pointerY - draggedTile.top,
+                    width: tile.position.width,
+                    height: tile.position.height,
+                };
+            } else {
+                const left = draggedTile.direction.includes('left');
+                const top = draggedTile.direction.includes('top');
+                const right = draggedTile.direction.includes('right');
+                const bottom = draggedTile.direction.includes('bottom');
+                newBounds = {
+                    left: left ? pointerX : tile.position.left,
+                    top: top ? pointerY : tile.position.top,
+                    width: left
+                        ? tile.position.width + (tile.position.left - pointerX)
+                        : right
+                          ? pointerX - tile.position.left
+                          : tile.position.width,
+                    height: top
+                        ? tile.position.height + (tile.position.top - pointerY)
+                        : bottom
+                          ? pointerY - tile.position.top
+                          : tile.position.height,
+                };
+            }
+            if (newBounds) {
+                layout = layout.withTilePosition(tile, newBounds);
+
+                // Scroll tile into view if out
+                await tick();
+                if (draggedTile) scrollToTileView(draggedTile.id);
             }
         }
     }

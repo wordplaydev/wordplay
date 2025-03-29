@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - More precise handling of undefined and optional (?).
+- Fixed #723, tile dragging in tutorial.
 
 ## 0.16.8
 
