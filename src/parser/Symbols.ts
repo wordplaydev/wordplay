@@ -126,3 +126,6 @@ export const REDO_SYMBOL = '⟳';
 export const DRAFT_SYMBOL = '🚧';
 
 export const LOCALE_SYMBOL = GLOBE1_SYMBOL;
+
+export const IDEA_SYMBOL = '💡';
+export const DEFECT_SYMBOL = '🪲';

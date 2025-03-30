@@ -4558,6 +4558,58 @@
                     "insertCode": "$~Infoga",
                     "debug": "$~Felsök"
                 }
+            },
+            "feedback": {
+                "header": "$~Feed-back",
+                "explanation": "$~Hjälp oss att förbättra ordspel genom att rapportera 🪲 *problem* och dela 💡 *idéer*!",
+                "button": {
+                    "show": "$~Visa feedbackformuläret.",
+                    "submit": {
+                        "tip": "$~Skicka in din feedback.",
+                        "label": "$~överlämna"
+                    },
+                    "delete": {
+                        "description": "$~Ta bort din feedback.",
+                        "prompt": "$~radera"
+                    },
+                    "like": "$~Gillar denna feedback",
+                    "close": {
+                        "label": "$~nära",
+                        "tip": "$~Stäng denna feedback som moderator"
+                    }
+                },
+                "mode": {
+                    "label": "$~feed-back",
+                    "modes": ["$~defekter", "$~idéer"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~rubriken på din feedback",
+                        "placeholder": "$~titel"
+                    },
+                    "defect": {
+                        "description": "$~beskrivning av ditt defekt",
+                        "placeholder": "$~Vilka steg tog du? Vad hände efter? Var så exakt som möjligt."
+                    },
+                    "idea": {
+                        "description": "$~beskrivning av ditt defekt",
+                        "placeholder": "$~Vad försöker du göra som du inte kan?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~defekt",
+                    "idea": "$~aning"
+                },
+                "prompt": {
+                    "defect": "$~Såg du inte problemet du upplever? Anmäl det här.",
+                    "idea": "$~Såg du inte idén du tänkte på? Föreslå det."
+                },
+                "error": {
+                    "login": "$~Du måste vara inloggad för att skicka feedback",
+                    "submit": "$~Det gick inte att skicka feedback.",
+                    "load": "$~Det gick inte att ladda feedback",
+                    "empty": "$~Det finns ingen feedback att visa."
+                }
             }
         },
         "collaborate": {

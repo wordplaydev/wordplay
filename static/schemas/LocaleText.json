@@ -8749,6 +8749,163 @@
             "dialog": {
               "additionalProperties": false,
               "properties": {
+                "feedback": {
+                  "additionalProperties": false,
+                  "description": "The feedback dialog",
+                  "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "close": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Close the feedback"
+                        },
+                        "delete": {
+                          "$ref": "#/definitions/ConfirmText",
+                          "description": "Delete"
+                        },
+                        "like": {
+                          "description": "Like feedback",
+                          "type": "string"
+                        },
+                        "show": {
+                          "description": "Show the feedback dialog",
+                          "type": "string"
+                        },
+                        "submit": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Submit the feedback"
+                        }
+                      },
+                      "required": [
+                        "show",
+                        "submit",
+                        "delete",
+                        "like",
+                        "close"
+                      ],
+                      "type": "object"
+                    },
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "empty": {
+                          "description": "No feedback yet",
+                          "type": "string"
+                        },
+                        "load": {
+                          "description": "Unable to laod feedback",
+                          "type": "string"
+                        },
+                        "login": {
+                          "description": "Must be logged in to submit",
+                          "type": "string"
+                        },
+                        "submit": {
+                          "description": "The error shown when the feedback was not submitted",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "login",
+                        "submit",
+                        "load",
+                        "empty"
+                      ],
+                      "type": "object"
+                    },
+                    "explanation": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "The explanation text just below the header."
+                    },
+                    "field": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "defect": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "Defect description"
+                        },
+                        "idea": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "Idea description"
+                        },
+                        "title": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "Feedback title"
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "defect",
+                        "idea"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "description": "The header to be shown at the top of the dialog",
+                      "type": "string"
+                    },
+                    "mode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "The mode chooser for defects and ideas"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "defect": {
+                          "type": "string"
+                        },
+                        "idea": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "defect",
+                        "idea"
+                      ],
+                      "type": "object"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "defect": {
+                          "description": "The subheader for the defect dialog",
+                          "type": "string"
+                        },
+                        "idea": {
+                          "description": "The subheader for the feedback dialog",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "defect",
+                        "idea"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "button",
+                    "error",
+                    "explanation",
+                    "field",
+                    "header",
+                    "mode",
+                    "prompt",
+                    "subheader"
+                  ],
+                  "type": "object"
+                },
                 "help": {
                   "additionalProperties": false,
                   "description": "The keyboard shortcut reference dialog",
@@ -9146,7 +9303,8 @@
                 "share",
                 "settings",
                 "locale",
-                "help"
+                "help",
+                "feedback"
               ],
               "type": "object"
             },

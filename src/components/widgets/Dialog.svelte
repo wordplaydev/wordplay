@@ -101,6 +101,7 @@
         background-color: var(--wordplay-background);
         color: var(--wordplay-foreground);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        font-size: var(--wordplay-font-size);
     }
 
     dialog::backdrop {

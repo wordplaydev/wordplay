@@ -4520,6 +4520,58 @@
                     "insertCode": "Insertar",
                     "debug": "Depurar"
                 }
+            },
+            "feedback": {
+                "header": "$~Comentario",
+                "explanation": "$~¡Ayúdanos a mejorar Wordplay informando 🪲 *problemas* y compartiendo 💡 *ideas*!",
+                "button": {
+                    "show": "$~Mostrar el formulario de comentarios.",
+                    "submit": {
+                        "tip": "$~Envíanos tus comentarios.",
+                        "label": "$~entregar"
+                    },
+                    "delete": {
+                        "description": "$~Eliminar tus comentarios",
+                        "prompt": "$~borrar"
+                    },
+                    "like": "$~Me gusta este comentario",
+                    "close": {
+                        "label": "$~cerca",
+                        "tip": "$~Cerrar este comentario como moderador"
+                    }
+                },
+                "mode": {
+                    "label": "$~comentario",
+                    "modes": ["$~defectos", "$~ideas"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Título de su comentario",
+                        "placeholder": "$~título"
+                    },
+                    "defect": {
+                        "description": "$~descripción de su defecto",
+                        "placeholder": "$~¿Qué pasos diste? ¿Qué pasó después? Sé lo más preciso posible."
+                    },
+                    "idea": {
+                        "description": "$~descripción de su defecto",
+                        "placeholder": "$~¿Qué estás intentando hacer que no puedes hacer?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~defecto",
+                    "idea": "$~idea"
+                },
+                "prompt": {
+                    "defect": "$~¿No viste el problema que tienes? Repórtalo aquí.",
+                    "idea": "$~¿No viste la idea que tienes en mente? Sugiérela."
+                },
+                "error": {
+                    "login": "$~Debe iniciar sesión para enviar comentarios.",
+                    "submit": "$~No es posible enviar comentarios.",
+                    "load": "$~No se pueden cargar los comentarios",
+                    "empty": "$~No hay comentarios para mostrar."
+                }
             }
         },
         "palette": {

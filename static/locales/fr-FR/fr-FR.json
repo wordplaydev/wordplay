@@ -4541,6 +4541,58 @@
                     "insertCode": "$~Insérer",
                     "debug": "$~Déboguer"
                 }
+            },
+            "feedback": {
+                "header": "$~Retour",
+                "explanation": "$~Aidez-nous à améliorer Wordplay en signalant 🪲 *problèmes* et en partageant 💡 *idées* !",
+                "button": {
+                    "show": "$~Afficher le formulaire de commentaires.",
+                    "submit": {
+                        "tip": "$~Soumettez votre commentaire.",
+                        "label": "$~soumettre"
+                    },
+                    "delete": {
+                        "description": "$~Supprimez vos commentaires.",
+                        "prompt": "$~supprimer"
+                    },
+                    "like": "$~J'aime ce commentaire",
+                    "close": {
+                        "label": "$~fermer",
+                        "tip": "$~Fermer ce commentaire en tant que modérateur"
+                    }
+                },
+                "mode": {
+                    "label": "$~retour",
+                    "modes": ["$~défauts", "$~idées"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~titre de votre commentaire",
+                        "placeholder": "$~titre"
+                    },
+                    "defect": {
+                        "description": "$~description de votre défaut",
+                        "placeholder": "$~Quelles mesures avez-vous prises ? Que s'est-il passé ensuite ? Soyez aussi précis que possible."
+                    },
+                    "idea": {
+                        "description": "$~description de votre défaut",
+                        "placeholder": "$~Qu'essayez-vous de faire que vous ne pouvez pas faire ?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~défaut",
+                    "idea": "$~idée"
+                },
+                "prompt": {
+                    "defect": "$~Vous n'avez pas trouvé le problème que vous rencontrez ? Signalez-le ici.",
+                    "idea": "$~Vous n'avez pas trouvé l'idée qui vous vient à l'esprit ? Proposez-la."
+                },
+                "error": {
+                    "login": "$~Vous devez être connecté pour soumettre vos commentaires",
+                    "submit": "$~Impossible de soumettre des commentaires.",
+                    "load": "$~Impossible de charger les commentaires",
+                    "empty": "$~Il n'y a aucun commentaire à afficher."
+                }
             }
         },
         "palette": {

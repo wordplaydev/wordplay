@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.9
 
+### Added
+
+- Fixed #699, basic feedback reporting tool.
+
 ### Fixed
 
 - More precise handling of undefined and optional (?).

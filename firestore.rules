@@ -99,5 +99,11 @@ service cloud.firestore {
       allow update: if request.auth.uid == resource.data.owner || ("collaborators" in resource.data && request.auth.uid in resource.data.collaborators);
       allow delete: if request.auth.uid == resource.data.owner;
     }
+    match /feedback/{id} {
+      // Anyone logged in can create feedback
+      allow create, read: if request.auth != null;
+      // Only the creator can read, update, or delete their feedback; anyone can vote on the feedback though
+      allow update, delete: if request.auth != null && (request.auth.uid == resource.data.creator || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["votes"]));
+    }
   }
 }

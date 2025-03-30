@@ -112,7 +112,10 @@
     aria-label={tooltip}
     aria-disabled={!active}
     aria-keyshortcuts={shortcut}
-    onpointerdown={(event) => event.preventDefault()}
+    onpointerdown={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+    }}
     bind:this={_}
     ondblclick={(event) => event.stopPropagation()}
     onclick={loading

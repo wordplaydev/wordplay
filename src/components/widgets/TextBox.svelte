@@ -102,6 +102,8 @@
         resize: none;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
+        min-width: 3em;
+        min-height: 2em;
     }
 
     .inline {

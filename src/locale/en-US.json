@@ -4554,6 +4554,58 @@
                     "insertCode": "Insert",
                     "debug": "Debug"
                 }
+            },
+            "feedback": {
+                "header": "Feedback",
+                "explanation": "Help us improve Wordplay by reporting 🪲 *problems* and sharing 💡 *ideas*!",
+                "button": {
+                    "show": "Show the feedback form.",
+                    "submit": {
+                        "tip": "Submit your feeback.",
+                        "label": "submit"
+                    },
+                    "delete": {
+                        "description": "Delete your feedback.",
+                        "prompt": "delete"
+                    },
+                    "like": "Like this feedback",
+                    "close": {
+                        "label": "close",
+                        "tip": "Close this feedback as a moderator"
+                    }
+                },
+                "mode": {
+                    "label": "feedback ",
+                    "modes": ["defects", "idesa"]
+                },
+                "field": {
+                    "title": {
+                        "description": "title of your feedback",
+                        "placeholder": "title"
+                    },
+                    "defect": {
+                        "description": "description of your defect",
+                        "placeholder": "What steps did you take? What happened after? Be as precise as possible."
+                    },
+                    "idea": {
+                        "description": "description of your defect",
+                        "placeholder": "What are you trying to do that you can't do?"
+                    }
+                },
+                "subheader": {
+                    "defect": "defect",
+                    "idea": "idea"
+                },
+                "prompt": {
+                    "defect": "Didn't see the problem you're experiencing? Report it here.",
+                    "idea": "Didn't see the idea you're thinking of? Suggest it."
+                },
+                "error": {
+                    "login": "You must be logged in to submit feedback",
+                    "submit": "Unable to submit feedback.",
+                    "load": "Unable to load feedback",
+                    "empty": "There is no feedback to show."
+                }
             }
         },
         "collaborate": {

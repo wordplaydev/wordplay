@@ -4563,6 +4563,58 @@
                     "insertCode": "$~Wstawić",
                     "debug": "$~Odpluskwić"
                 }
+            },
+            "feedback": {
+                "header": "$~Informacja zwrotna",
+                "explanation": "$~Pomóż nam ulepszyć Wordplay, zgłaszając 🪲 *problemy* i dzieląc się 💡 *pomysłami*!",
+                "button": {
+                    "show": "$~Pokaż formularz opinii.",
+                    "submit": {
+                        "tip": "$~Prześlij swoją opinię.",
+                        "label": "$~składać"
+                    },
+                    "delete": {
+                        "description": "$~Usuń swoją opinię.",
+                        "prompt": "$~usuwać"
+                    },
+                    "like": "$~Podoba mi się ta opinia",
+                    "close": {
+                        "label": "$~zamknąć",
+                        "tip": "$~Zamknij tę opinię jako moderator"
+                    }
+                },
+                "mode": {
+                    "label": "$~informacja zwrotna",
+                    "modes": ["$~wady", "$~pomysł"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~tytuł Twojej opinii",
+                        "placeholder": "$~tytuł"
+                    },
+                    "defect": {
+                        "description": "$~opis twojej wady",
+                        "placeholder": "$~Jakie kroki podjąłeś? Co się stało później? Bądź tak precyzyjny, jak to możliwe."
+                    },
+                    "idea": {
+                        "description": "$~opis twojej wady",
+                        "placeholder": "$~Co próbujesz zrobić, czego nie możesz zrobić?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~wada",
+                    "idea": "$~pomysł"
+                },
+                "prompt": {
+                    "defect": "$~Nie widzisz problemu, którego doświadczasz? Zgłoś go tutaj.",
+                    "idea": "$~Nie widziałeś pomysłu, o którym myślisz? Zaproponuj go."
+                },
+                "error": {
+                    "login": "$~Musisz być zalogowany, aby przesłać opinię",
+                    "submit": "$~Nie można przesłać opinii.",
+                    "load": "$~Nie można załadować opinii",
+                    "empty": "$~Brak opinii do wyświetlenia."
+                }
             }
         },
         "collaborate": {

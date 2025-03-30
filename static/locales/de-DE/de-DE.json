@@ -4540,6 +4540,58 @@
                     "insertCode": "$~Einfügen",
                     "debug": "$~Debuggen"
                 }
+            },
+            "feedback": {
+                "header": "$~Rückmeldung",
+                "explanation": "$~Helfen Sie uns, Wordplay zu verbessern, indem Sie 🪲 *Probleme* melden und 💡 *Ideen* teilen!",
+                "button": {
+                    "show": "$~Zeigen Sie das Feedback-Formular an.",
+                    "submit": {
+                        "tip": "$~Senden Sie Ihr Feedback.",
+                        "label": "$~einreichen"
+                    },
+                    "delete": {
+                        "description": "$~Löschen Sie Ihr Feedback.",
+                        "prompt": "$~löschen"
+                    },
+                    "like": "$~Gefällt mir dieses Feedback",
+                    "close": {
+                        "label": "$~schließen",
+                        "tip": "$~Als Moderator dieses Feedback schließen"
+                    }
+                },
+                "mode": {
+                    "label": "$~Rückmeldung",
+                    "modes": ["$~Mängel", "$~Ideen"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Titel Ihres Feedbacks",
+                        "placeholder": "$~Titel"
+                    },
+                    "defect": {
+                        "description": "$~Beschreibung Ihres Defekts",
+                        "placeholder": "$~Welche Schritte haben Sie unternommen? Was geschah danach? Seien Sie so präzise wie möglich."
+                    },
+                    "idea": {
+                        "description": "$~Beschreibung Ihres Defekts",
+                        "placeholder": "$~Was versuchen Sie zu tun, was Sie nicht können?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~Defekt",
+                    "idea": "$~Idee"
+                },
+                "prompt": {
+                    "defect": "$~Ist Ihr Problem nicht aufgetreten? Melden Sie es hier.",
+                    "idea": "$~Sie haben die Idee, die Sie sich vorstellen, nicht gefunden? Schlagen Sie sie vor."
+                },
+                "error": {
+                    "login": "$~Sie müssen angemeldet sein, um Feedback abzugeben",
+                    "submit": "$~Feedback kann nicht übermittelt werden.",
+                    "load": "$~Feedback konnte nicht geladen werden",
+                    "empty": "$~Es ist kein Feedback vorhanden."
+                }
             }
         },
         "palette": {

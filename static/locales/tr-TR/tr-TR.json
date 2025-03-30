@@ -4553,6 +4553,58 @@
                     "insertCode": "$~Sokmak",
                     "debug": "$~Hata ayıklama"
                 }
+            },
+            "feedback": {
+                "header": "$~Geri bildirim",
+                "explanation": "$~Wordplay'i geliştirmemize yardımcı olmak için 🪲 *sorunları* bildirin ve 💡 *fikirleri* paylaşın!",
+                "button": {
+                    "show": "$~Geri bildirim formunu göster.",
+                    "submit": {
+                        "tip": "$~Geri bildiriminizi gönderin.",
+                        "label": "$~göndermek"
+                    },
+                    "delete": {
+                        "description": "$~Geri bildiriminizi silin.",
+                        "prompt": "$~silmek"
+                    },
+                    "like": "$~Bu geri bildirimi beğenin",
+                    "close": {
+                        "label": "$~kapalı",
+                        "tip": "$~Bu geri bildirimi moderatör olarak kapatın"
+                    }
+                },
+                "mode": {
+                    "label": "$~geri bildirim",
+                    "modes": ["$~kusurlar", "$~fikirler"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Geri bildiriminizin başlığı",
+                        "placeholder": "$~başlık"
+                    },
+                    "defect": {
+                        "description": "$~Kusurunuzun açıklaması",
+                        "placeholder": "$~Hangi adımları attınız? Sonrasında ne oldu? Mümkün olduğunca net olun."
+                    },
+                    "idea": {
+                        "description": "$~Kusurunuzun açıklaması",
+                        "placeholder": "$~Ne yapmaya çalışıyorsun da yapamıyorsun?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~kusur",
+                    "idea": "$~fikir"
+                },
+                "prompt": {
+                    "defect": "$~Yaşadığınız sorunu göremiyor musunuz? Buradan bildirin.",
+                    "idea": "$~Aklınıza gelen fikri göremiyor musunuz? Önerin."
+                },
+                "error": {
+                    "login": "$~Geri bildirim göndermek için giriş yapmış olmanız gerekir",
+                    "submit": "$~Geri bildirim gönderilemedi.",
+                    "load": "$~Geri bildirim yüklenemiyor",
+                    "empty": "$~Gösterilecek geri bildirim yok."
+                }
             }
         },
         "collaborate": {

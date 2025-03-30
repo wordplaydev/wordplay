@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Faces, getFaceDescription } from '@basis/Fonts';
+    import Feedback from '@components/app/Feedback.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
@@ -24,7 +25,7 @@
     import Dialog from '../widgets/Dialog.svelte';
     import Mode from '../widgets/Mode.svelte';
     import Options from '../widgets/Options.svelte';
-    import LanguageChooser from './LocaleChooser.svelte';
+    import LocaleChooser from './LocaleChooser.svelte';
 
     let user = getUser();
 
@@ -66,8 +67,8 @@
             prompt
         />
     </Link>
-    <LanguageChooser />
-
+    <LocaleChooser />
+    <Feedback />
     <Dialog
         button={{
             tip: (l) => l.ui.dialog.settings.button.show,
