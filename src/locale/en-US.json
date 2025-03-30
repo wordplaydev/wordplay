@@ -4597,7 +4597,7 @@
                     "idea": "idea"
                 },
                 "prompt": {
-                    "defect": "Didn't see the problem you're experiencing? Report it here.",
+                    "defect": "Didn't see the problem you're experiencing? Report it here. The more detail you provide, the better!",
                     "idea": "Didn't see the idea you're thinking of? Suggest it."
                 },
                 "error": {

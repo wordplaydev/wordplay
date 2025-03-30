@@ -20,14 +20,19 @@
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^13",
         "firebase-functions": "^6",
+        "nodemailer": "^6.10.0",
         "shared-types": "file:./src/shared"
     },
     "devDependencies": {
+        "@types/nodemailer": "^6.4.17",
         "firebase-functions-test": "^3",
         "typescript": "^5"
     },
     "private": true,
     "bundledDependencies": [
+        "shared-types"
+    ],
+    "bundleDependencies": [
         "shared-types"
     ]
 }
