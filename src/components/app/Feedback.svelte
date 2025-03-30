@@ -18,8 +18,8 @@
     } from '@db/feedback/FeedbackDatabase';
     import { isModerator } from '@db/projects/Moderation';
     import { CANCEL_SYMBOL, DEFECT_SYMBOL, IDEA_SYMBOL } from '@parser/Symbols';
-    import Loading from './Loading.svelte';
     import Notice from './Notice.svelte';
+    import Spinning from './Spinning.svelte';
     import Subheader from './Subheader.svelte';
 
     let mode: 'defect' | 'idea' = $state('defect');
@@ -220,7 +220,7 @@
         />
 
         {#if currentFeedback === undefined}
-            <Loading></Loading>
+            <Spinning />
         {:else if currentFeedback === null}
             <Notice text={(l) => l.ui.dialog.feedback.error.load}></Notice>
         {:else}
