@@ -3,11 +3,73 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.9
+
+### Added
+
+- Fixed #699, basic feedback reporting tool.
+
+### Fixed
+
+- More precise handling of undefined and optional (?).
+- Fixed #723, tile dragging in tutorial.
+- Don't deploy on PR.
+- Run all tests on merge.
+- Renamed `Feedback` to `Notice`.
+- Migrated to from page state to stores.
+
+## 0.16.8
+
+### Added
+
+- Expanded eraser to delete shapes on click.
+- Smooth, connected pixel strokes.
+- Multiline chat messages.
+- Double-click to fill pixels in a region.
+- Import emojis in character editor for remixing.
+- Fit content to box.
+
+### Fixed
+
+- Prevent undefined fields on character JSON.
+- Narrow concept regular expression to avoid greedy matches on hexadecimal numbers that prefix names.
+- Fixed keyboard shortcuts for Windows control key.
+- Fixed swapped icons on character share.
+- Fixed #719, improving clarity of mode widget selection.
+- Fixed rendering of unknown types.
+- Fixed #715, improving language and region names on stage chooser.
+- Preview aura when editing.
+
+### Maintenance
+
+- Updated Google Cloud Translate, Playwright, Svelte, SvelteKit, Vitest, Eslint.
+
+## 0.16.7
+
+### Added
+
+Character editing features:
+
+- Added undo/redo keyboard shortcuts.
+- Added custom character how to.
+- Fixed #712, adding pixel eraser.
+- Fixed #717, correcting redundnant undos.
+
+### Fixed
+
+Character editing improvements:
+
+- Prevent character editor from scrolling.
+- Ensure no undefined in character fields to prevent saving errors.
+- Properly bound drawing cursor position.
+- Longer undo history.
+- Undo entire strokes, not individual pixels.
+
 ## 0.16.6
 
 ### Added
 
-- Added Papyrus, Broadway, Dreamin Outload, Modern Love, and Delius (Times equivalent).
+- Added Papyrus, Broadway, Dreamin Outloud, Modern Love, and Delius (Times equivalent).
 - Added Chinese, Korean, and Japanese fonts.
 - Added official Korean locale support.
 - Only show source file names if more than one source, to reduce confusion about project name.
@@ -15,6 +77,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #705, autoscroll tile views.
 - Don't hide code when debugging; just elide values and place them inline.
 - Allow locales to specify multiple regions they apply to (e.g., Tamil in India, Sri Lanka, Singapore).
+- Fixed #708, improving palette editing from code editor.
 
 ### Fixed
 
@@ -26,7 +89,6 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Show new source when added.
 - Clarified permissions for curators and creators
 - Hid associated classes for a gallery if empty.
-- Fixed #708, improving palette editing from code editor.
 - Less sensitive text selection drag initiation.
 - Don't go browser back when at the beginning of the timeline.
 - Fixed timeline dragging.

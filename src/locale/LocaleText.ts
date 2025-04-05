@@ -96,7 +96,7 @@ export type NameText = string | string[];
 export type DocText = string | string[];
 
 export function toLocale(locale: LocaleText) {
-    return `${locale.language}${locale.regions.map((r) => `-${r}`)}`;
+    return `${locale.language}${locale.regions.map((r) => `-${r}`).join('')}`;
 }
 
 export function toDocString(doc: DocText) {

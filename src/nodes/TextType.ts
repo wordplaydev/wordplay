@@ -19,7 +19,7 @@ export default class TextType extends BasisType {
     readonly open: Token;
     readonly text: Token | undefined;
     readonly close: Token | undefined;
-    readonly language?: Language;
+    readonly language: Language | undefined;
 
     constructor(
         open: Token,

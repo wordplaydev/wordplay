@@ -5,11 +5,11 @@ import type Value from '../values/Value';
 import Step from './Step';
 
 export default class Next extends Step {
-    action?: (evaluator: Evaluator) => Value | undefined;
+    action: (evaluator: Evaluator) => Value | undefined;
 
     constructor(
         node: Expression,
-        action?: (evaluator: Evaluator) => Value | undefined,
+        action: (evaluator: Evaluator) => Value | undefined,
     ) {
         super(node);
         this.action = action;

@@ -1618,7 +1618,7 @@
             {...outline}
             above={false}
             types={outline.types}
-            ignored={$evaluation &&
+            ignored={$evaluation !== undefined &&
                 $evaluation.playing === true &&
                 lastKeyDownIgnored}
         />

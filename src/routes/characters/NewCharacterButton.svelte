@@ -1,11 +1,11 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import Feedback from '@components/app/Feedback.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
     import { CharactersDB } from '@db/Database';
 
-    let { inline }: { inline?: boolean } = $props();
+    let { inline = false }: { inline?: boolean } = $props();
 
     let creating: boolean | undefined = $state(false);
 
@@ -22,7 +22,7 @@
 {#if creating}
     <Spinning></Spinning>
 {:else if creating === undefined}
-    <Feedback text={(l) => l.ui.page.characters.error.create} />
+    <Notice text={(l) => l.ui.page.characters.error.create} />
 {:else}
     <Button
         background={inline}

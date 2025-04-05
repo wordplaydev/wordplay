@@ -2,7 +2,10 @@
     import Options from '@components/widgets/Options.svelte';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
-    import { getLocaleLanguageName } from '@locale/LocaleText';
+    import {
+        getLocaleLanguageName,
+        getLocaleRegionNames,
+    } from '@locale/LocaleText';
     import { LOCALE_SYMBOL } from '@parser/Symbols';
     import { withMonoEmoji } from '../../unicode/emoji';
 
@@ -29,10 +32,12 @@
                 label: '—',
             },
             ...localesUsed.map((l) => {
-                const label = localeToString(l);
+                const locale = localeToString(l);
+                const language = getLocaleLanguageName(locale);
+                const regions = getLocaleRegionNames(locale);
                 return {
-                    value: label,
-                    label: label ? (getLocaleLanguageName(label) ?? '—') : '—',
+                    value: locale,
+                    label: `${language ?? '–'}${regions.length > 0 ? ` [${regions.join('|')}]` : ''}`,
                 };
             }),
         ]}

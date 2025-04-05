@@ -31,7 +31,7 @@ import type TypeSet from './TypeSet';
 import Unit from './Unit';
 
 export default class Program extends Expression {
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly borrows: Borrow[];
     readonly expression: Block;
     readonly end: Token | undefined;

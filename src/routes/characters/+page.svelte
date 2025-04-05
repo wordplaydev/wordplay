@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -60,9 +60,9 @@
     <MarkupHTMLView markup={(l) => l.ui.page.characters.prompt} />
 
     {#if firestore === undefined}
-        <Feedback text={(l) => l.ui.page.characters.error.offline} />
+        <Notice text={(l) => l.ui.page.characters.error.offline} />
     {:else if $user === null}
-        <Feedback text={(l) => l.ui.page.characters.error.noauth} />
+        <Notice text={(l) => l.ui.page.characters.error.noauth} />
     {:else}
         <NewCharacterButton></NewCharacterButton>
 

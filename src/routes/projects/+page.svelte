@@ -1,9 +1,9 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import AddProject from '@components/app/AddProject.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
     import Header from '@components/app/Header.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -84,11 +84,11 @@
     {#if Projects.allArchivedProjects.length > 0}
         <Subheader text={(l) => l.ui.page.projects.archiveheader} />
         <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
-        {#if $user === null}<Feedback
+        {#if $user === null}<Notice
                 text={(l) => l.ui.page.projects.error.nodeletes}
             />{/if}
         {#if deleteError}
-            <Feedback text={(l) => l.ui.page.projects.error.delete} />
+            <Notice text={(l) => l.ui.page.projects.error.delete} />
         {/if}
         <ProjectPreviewSet
             set={Projects.allArchivedProjects}
@@ -135,21 +135,21 @@
             ></Button></p
         >
         {#if newGalleryError}
-            <Feedback text={(l) => l.ui.page.projects.error.newgallery} />
+            <Notice text={(l) => l.ui.page.projects.error.newgallery} />
         {/if}
         {#if Galleries.getStatus() === 'loading'}
             <Spinning label={(l) => l.ui.widget.loading.message} large />
         {:else if Galleries.getStatus() === 'noaccess'}
-            <Feedback text={(l) => l.ui.page.projects.error.noaccess} />
+            <Notice text={(l) => l.ui.page.projects.error.noaccess} />
         {:else if Galleries.getStatus() === 'loggedout'}
-            <Feedback text={(l) => l.ui.page.projects.error.nogalleryedits} />
+            <Notice text={(l) => l.ui.page.projects.error.nogalleryedits} />
         {:else}
             {#each Galleries.accessibleGalleries.values() as gallery, index}
                 <GalleryPreview {gallery} delay={index * 1000} />
             {/each}
         {/if}
     {:else}
-        <Feedback text={(l) => l.ui.page.projects.error.nogalleryedits} />
+        <Notice text={(l) => l.ui.page.projects.error.nogalleryedits} />
     {/if}
 </Writing>
 

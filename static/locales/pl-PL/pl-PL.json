@@ -307,8 +307,12 @@
             "doc": [
                 "$~Jestem postacią linku do Verse. Jestem pomocny, gdy chcesz napisać @Doc i odnieść się do jednego z nas.",
                 "$~Na przykład, powiedzmy, że chcesz porozmawiać o @Evaluate i jak są niesamowici. Możesz napisać:",
-                "$~\\¶Wiesz, @Evaluate jest całkiem niezłe.¶\n'patrz, link do koncepcji!'\\",
-                "$~Gdy @Doc, który napisałeś, pojawi się tutaj, będzie w nim widoczny link do koncepcji."
+                "$~\\¶Wiesz, @Evaluate jest całkiem niezłe.¶\n'patrz, link do znaku!'\\",
+                "$~Znaki mają również numery, które im odpowiadają. Na przykład @FunctionDefinition to 192. Możesz się do nich odwołać po numerze, a one się pojawią:",
+                "$~\\`92 jest takie miłe!`\\",
+                "$~A jeśli stworzysz własną postać, możesz zwracać się do niej, używając imienia, które jej nadałeś.",
+                "$~\\`@coolbeans`\\",
+                "$~Och... Chyba ta postać nie istnieje, więc dostajesz mały kwadrat. Ale gdyby istniała, to by się tu pojawiła!"
             ]
         },
         "Words": {
@@ -1543,17 +1547,19 @@
         },
         "Text": {
             "doc": [
-                "$~Mogę to być dowolny tekst, napisany w dowolnym języku, z użyciem dowolnego z tych symboli otwierających i zamykających: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\ lub \\『』\\.",
+                "$~Mogę to być dowolny tekst, napisany w dowolnym języku, z użyciem dowolnego z tych symboli otwierających i zamykających: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
                 "$~Aby to zobrazować, rozważmy te piękne frazy",
-                "$~\\'Są tylko dwa sposoby na przeżycie życia. Jeden to taki, jakby nic nie było cudem. Drugi to taki, jakby wszystko było cudem.'\\",
+                "$~\\„Są tylko dwa sposoby na życie. Jeden to taki, jakby nic nie było cudem. Drugi to taki, jakby wszystko było cudem.”\\",
                 "$~\\『Poprzedni wpis』\\",
                 "$~Pamiętaj tylko, żeby zamknąć mnie, jeśli mnie otworzysz, i użyj pasującego symbolu. W przeciwnym razie nie będę wiedział, że skończyłeś ze swoimi słowami.",
                 "$~\\'cześć'/pl'hola'/es-MX\\",
                 "$~Możesz również oznaczyć mnie językami, a nawet podać wiele tłumaczeń. Ocenię je na dowolne języki, które są obecnie wybrane, jeśli istnieje pasujący język.",
-                "$~Jeśli chcesz, abym miał inne wartości, możesz użyć symbolu",
-                "$~Na przykład rozważmy to:",
-                "$~\\\"Oto kilka sum \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "$~Jeśli chcesz, abym miał inne wartości, możesz zrobić tak:",
+                "$~\\\"Oto kilka sum \\1 + 2\\, \\2 + 3\\, \\3 + 4\"\\",
                 "$~Widzisz, jak elegancko obliczyłem te sumy i umieściłem je w @Text?",
+                "$~Mam jeszcze jeden mały sekret: czy wiesz, że wszyscy mamy unikalny numer? To prawda! Możesz się do nas odwoływać po naszym numerze. Na przykład @FunctionDefinition to 192:",
+                "$~\\'92'\\",
+                "$~Widzisz jak 192 zamieniło się w @FunctionDefinition? Słyszałem, że nazywasz te liczby „Unicode”.",
                 "$~Poza tym @FunctionDefinition stworzyło mnóstwo wspaniałych funkcji, dzięki którym mogę robić najróżniejsze rzeczy za pomocą słów!"
             ],
             "name": ["$~''", "$~Tekst"],
@@ -4557,6 +4563,58 @@
                     "insertCode": "$~Wstawić",
                     "debug": "$~Odpluskwić"
                 }
+            },
+            "feedback": {
+                "header": "$~Informacja zwrotna",
+                "explanation": "$~Pomóż nam ulepszyć Wordplay, zgłaszając 🪲 *problemy* i dzieląc się 💡 *pomysłami*!",
+                "button": {
+                    "show": "$~Pokaż formularz opinii.",
+                    "submit": {
+                        "tip": "$~Prześlij swoją opinię.",
+                        "label": "$~składać"
+                    },
+                    "delete": {
+                        "description": "$~Usuń swoją opinię.",
+                        "prompt": "$~usuwać"
+                    },
+                    "like": "$~Podoba mi się ta opinia",
+                    "close": {
+                        "label": "$~zamknąć",
+                        "tip": "$~Zamknij tę opinię jako moderator"
+                    }
+                },
+                "mode": {
+                    "label": "$~informacja zwrotna",
+                    "modes": ["$~wady", "$~pomysł"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~tytuł Twojej opinii",
+                        "placeholder": "$~tytuł"
+                    },
+                    "defect": {
+                        "description": "$~opis twojej wady",
+                        "placeholder": "$~Jakie kroki podjąłeś? Co się stało później? Bądź tak precyzyjny, jak to możliwe."
+                    },
+                    "idea": {
+                        "description": "$~opis twojej wady",
+                        "placeholder": "$~Co próbujesz zrobić, czego nie możesz zrobić?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~wada",
+                    "idea": "$~pomysł"
+                },
+                "prompt": {
+                    "defect": "$~Nie widzisz problemu, którego doświadczasz? Zgłoś go tutaj.",
+                    "idea": "$~Nie widziałeś pomysłu, o którym myślisz? Zaproponuj go."
+                },
+                "error": {
+                    "login": "$~Musisz być zalogowany, aby przesłać opinię",
+                    "submit": "$~Nie można przesłać opinii.",
+                    "load": "$~Nie można załadować opinii",
+                    "empty": "$~Brak opinii do wyświetlenia."
+                }
             }
         },
         "collaborate": {
@@ -5055,17 +5113,21 @@
                     "empty": "$~Wybierz tryb rysowania na palecie, aby utworzyć kształty.",
                     "unselected": "$~Wybierz tryb rysowania lub zaznacz i edytuj kształty.",
                     "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *Shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *Delete*, aby usunąć zaznaczenie. Użyj poniższych elementów sterujących, aby zmienić zaznaczone kształty.",
-                    "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel.",
+                    "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel. *Kliknij dwukrotnie*, aby wypełnić.",
                     "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
-                    "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt."
+                    "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt.",
+                    "eraser": "$~Aby wymazać kształty, kliknij je lub dotknij. Przeciągnij, aby wymazać piksele. Użyj klawiszy *strzałek*, aby przesunąć gumkę i *spacji*, aby usunąć.",
+                    "emoji": "$~Wybierz emoji, które chcesz zaimportować jako piksele, a następnie zmodyfikuj je według własnego uznania."
                 },
                 "shape": {
                     "shape": "$~kształt",
                     "pixel": "$~piksel",
                     "rect": "$~prostokąt",
                     "ellipse": "$~elipsa",
-                    "path": "$~ścieżka"
+                    "path": "$~ścieżka",
+                    "eraser": "$~gumka do ścierania",
+                    "emoji": "$~emotikona"
                 },
                 "field": {
                     "name": {
@@ -5080,10 +5142,12 @@
                         "label": "$~tryb",
                         "modes": [
                             "$~wybierać",
+                            "$~gumka do ścierania",
                             "$~piksel",
                             "$~prostokąt",
                             "$~elipsa",
-                            "$~ścieżka"
+                            "$~ścieżka",
+                            "$~emotikona"
                         ]
                     },
                     "fill": {
@@ -5174,6 +5238,10 @@
                     "vertical": {
                         "label": "$~odwróć w pionie",
                         "tip": "$~odwróć punkty pionowo wokół środka"
+                    },
+                    "fit": {
+                        "label": "$~pasować",
+                        "tip": "$~dopasuj kształty do płótna"
                     }
                 },
                 "feedback": {

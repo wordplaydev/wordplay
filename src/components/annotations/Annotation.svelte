@@ -41,31 +41,28 @@
                     {#each annotation.messages as markup}
                         <aside aria-label={markup.toText()}>
                             <MarkupHTMLView {markup} />
-                            {#if annotation.resolutions}
-                                {#each annotation.resolutions as resolution}
-                                    <div class="resolution">
-                                        <Button
-                                            background
-                                            tip={(l) =>
-                                                l.ui.annotations.button
-                                                    .resolution}
-                                            action={() =>
-                                                resolveAnnotation(
-                                                    resolution,
-                                                    annotation.context,
-                                                )}>✓</Button
-                                        ><div class="description"
-                                            ><MarkupHTMLView
-                                                inline
-                                                markup={resolution.description(
-                                                    $locales,
-                                                    annotation.context,
-                                                )}
-                                            /></div
-                                        >
-                                    </div>
-                                {/each}
-                            {/if}
+                            {#each annotation.resolutions as resolution}
+                                <div class="resolution">
+                                    <Button
+                                        background
+                                        tip={(l) =>
+                                            l.ui.annotations.button.resolution}
+                                        action={() =>
+                                            resolveAnnotation(
+                                                resolution,
+                                                annotation.context,
+                                            )}>✓</Button
+                                    ><div class="description"
+                                        ><MarkupHTMLView
+                                            inline
+                                            markup={resolution.description(
+                                                $locales,
+                                                annotation.context,
+                                            )}
+                                        /></div
+                                    >
+                                </div>
+                            {/each}
                         </aside>
                     {/each}
                 {/snippet}

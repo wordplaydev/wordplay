@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import {
         setFullscreen,
         type FullscreenContext,
@@ -48,7 +48,7 @@
         if (
             (event.ctrlKey || event.metaKey) &&
             event.key === 'Escape' &&
-            $page.route.id !== null
+            page.route.id !== null
         ) {
             goto('/');
         }

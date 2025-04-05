@@ -41,7 +41,7 @@ import UnknownNameType from './UnknownNameType';
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
     readonly dot: Token;
-    readonly name?: Reference;
+    readonly name: Reference | undefined;
 
     constructor(subject: Expression, dot: Token, name?: Reference) {
         super();

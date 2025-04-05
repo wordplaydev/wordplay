@@ -307,8 +307,12 @@
             "doc": [
                 "$~Ich bin ein Link zum Verse-Charakter. Ich bin hilfreich, wenn Sie ein @Doc schreiben und auf einen von uns verweisen möchten.",
                 "$~Angenommen, Sie möchten über @Evaluate sprechen und wie großartig sie sind. Sie könnten schreiben:",
-                "$~\\¶Wissen Sie, @Evaluate ist ziemlich genial.¶\n'Schauen Sie, ein Konzept-Link!'\\",
-                "$~Wenn das von Ihnen verfasste @Doc hier erscheint, wird ein Link zum Konzept angezeigt."
+                "$~\\¶Weißt du, @Evaluate ist echt genial.¶\n‚Schau mal, ein Zeichenlink!‘\\",
+                "$~Zeichen haben auch entsprechende Nummern. Beispielsweise ist @FunctionDefinition 192. Sie können sie über die Nummer aufrufen, und sie werden angezeigt:",
+                "$~\\`92 ist so nett!`\\",
+                "$~Und wenn Sie Ihren eigenen Charakter erstellen, können Sie ihn mit dem Namen ansprechen, den Sie ihm gegeben haben.",
+                "$~\\`@coolbeans`\\",
+                "$~Oh ... ich schätze, dieses Zeichen existiert nicht, also bekommst du ein kleines Quadrat. Aber wenn es das gäbe, würde es hier erscheinen!"
             ]
         },
         "Words": {
@@ -1546,14 +1550,16 @@
                 "$~Ich kann jeder beliebige Text aus jeder beliebigen Sprache sein und die folgenden öffnenden und schließenden Symbole verwenden: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\ oder \\『』\\.",
                 "$~Zur Veranschaulichung betrachten Sie diese schönen Sätze",
                 "$~„Es gibt nur zwei Arten, sein Leben zu leben. Die eine ist, als wäre nichts ein Wunder. Die andere ist, als wäre alles ein Wunder.“",
-                "$~\\\"Die besten Seiten von heute\"\\",
-                "$~Denke nur daran, mich zu schließen, wenn du mich öffnest, und verwende das entsprechende Symbol. Sonst weiß ich nicht, dass du mit deinen Worten fertig bist.",
+                "$~\\『一日三秋』\\",
+                "$~Denk daran, mich zu schließen, wenn du mich öffnest, und verwende das entsprechende Symbol. Sonst weiß ich nicht, dass du mit deinen Worten fertig bist.",
                 "$~\\'hallo'/en'hola'/es-MX\\",
-                "$~Sie können mir auch Sprachen taggen und sogar mehrere Übersetzungen angeben. Ich werde die aktuell ausgewählten Sprachen auswerten, wenn eine passende Sprache vorhanden ist.",
-                "$~Wenn Sie mir andere Werte geben möchten, können Sie ein Symbol verwenden, um",
-                "$~Betrachten Sie beispielsweise Folgendes:",
+                "$~Sie können mir auch Sprachen taggen und sogar mehrere Übersetzungen angeben. Ich werte die aktuell ausgewählten Sprachen aus, sofern eine passende Sprache vorhanden ist.",
+                "$~Wenn Sie mir andere Werte geben möchten, können Sie Folgendes tun:",
                 "$~\\\"Hier sind einige Summen \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~Sehen Sie, wie elegant ich diese Summen gerade ausgewertet und in den @Text eingefügt habe?",
+                "$~Ich verrate Ihnen noch ein kleines Geheimnis: Wussten Sie, dass wir alle eine eindeutige Nummer haben? Stimmt! Sie können uns mit unserer Nummer erreichen. @FunctionDefinition lautet beispielsweise 192:",
+                "$~\\'92'\\",
+                "$~Sehen Sie, wie aus 192 @FunctionDefinition wurde? Ich habe gehört, Sie nennen diese Zahlen „Unicode“.",
                 "$~Ansonsten gibt es einfach so viele tolle Funktionen, die @FunctionDefinition für mich erstellt hat, um alle möglichen Dinge mit Wörtern zu tun!"
             ],
             "name": ["$~''", "$~Text"],
@@ -3170,11 +3176,11 @@
         "Collision": {
             "names": "$~Kollision",
             "doc": [
-                "$~/Hallo! @FunctionDefinition hier. Sieh dir diesen coolen Input an./",
-                "$~Damit können Sie herausfinden, wann @Output aufeinander stößt! Dies ist eine großartige Möglichkeit, etwas zu tun, wenn wir aufeinander stoßen, abgesehen vom normalen gegenseitigen Abprallen, das @Output möglicherweise bewirkt.",
-                "$~Geben Sie mir einfach den Namen @Output und ich erstelle einen neuen @Rebound-Wert, wenn er auf einen anderen Namen trifft. Ein @Rebound enthält Informationen zu den kollidierten Namen und der Richtung ihrer Kollision.",
+                "$~/Hallo! Hier ist @FunctionDefinition. Schau dir diesen coolen Input an./",
+                "$~Es kann Ihnen helfen herauszufinden, wann @Output aufeinander trifft! Dies ist eine großartige Möglichkeit, etwas zu tun, wenn wir aufeinander treffen, abgesehen vom normalen gegenseitigen Aufeinanderprallen, das @Output möglicherweise verursacht.",
+                "$~Geben Sie mir einfach den Namen @Output, und ich erstelle einen neuen @Rebound-Wert, sobald er auf einen anderen Namen trifft. Ein @Rebound enthält Informationen zu den kollidierenden Namen und deren Richtung.",
                 "$~Und wenn Sie mir zwei Namen geben, erstelle ich nur dann einen neuen Wert, wenn die beiden Namen aufeinandertreffen.",
-                "$~Gleich nachdem ich einen neuen Wert eingegeben habe, erstelle ich ein \\ø\\, da die Kollision nach ihrem Auftreten beendet ist. Dies zeigt an, dass keine weitere Kollision mehr vorliegt."
+                "$~Direkt nach der Eingabe eines neuen Werts setze ich ein \\ø\\, da die Kollision nach ihrem Auftreten beendet ist. Dies zeigt an, dass keine weitere Kollision vorliegt."
             ],
             "subject": {
                 "names": "$~Thema",
@@ -3436,7 +3442,9 @@
         },
         "Phrase": {
             "names": ["💬", "Satzglied"],
-            "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
+            "doc": [
+                "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen."
+            ],
             "description": {
                 "names": "$~Beschreibung",
                 "doc": [
@@ -4532,6 +4540,58 @@
                     "insertCode": "$~Einfügen",
                     "debug": "$~Debuggen"
                 }
+            },
+            "feedback": {
+                "header": "$~Rückmeldung",
+                "explanation": "$~Helfen Sie uns, Wordplay zu verbessern, indem Sie 🪲 *Probleme* melden und 💡 *Ideen* teilen!",
+                "button": {
+                    "show": "$~Zeigen Sie das Feedback-Formular an.",
+                    "submit": {
+                        "tip": "$~Senden Sie Ihr Feedback.",
+                        "label": "$~einreichen"
+                    },
+                    "delete": {
+                        "description": "$~Löschen Sie Ihr Feedback.",
+                        "prompt": "$~löschen"
+                    },
+                    "like": "$~Gefällt mir dieses Feedback",
+                    "close": {
+                        "label": "$~schließen",
+                        "tip": "$~Als Moderator dieses Feedback schließen"
+                    }
+                },
+                "mode": {
+                    "label": "$~Rückmeldung",
+                    "modes": ["$~Mängel", "$~Ideen"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Titel Ihres Feedbacks",
+                        "placeholder": "$~Titel"
+                    },
+                    "defect": {
+                        "description": "$~Beschreibung Ihres Defekts",
+                        "placeholder": "$~Welche Schritte haben Sie unternommen? Was geschah danach? Seien Sie so präzise wie möglich."
+                    },
+                    "idea": {
+                        "description": "$~Beschreibung Ihres Defekts",
+                        "placeholder": "$~Was versuchen Sie zu tun, was Sie nicht können?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~Defekt",
+                    "idea": "$~Idee"
+                },
+                "prompt": {
+                    "defect": "$~Ist Ihr Problem nicht aufgetreten? Melden Sie es hier.",
+                    "idea": "$~Sie haben die Idee, die Sie sich vorstellen, nicht gefunden? Schlagen Sie sie vor."
+                },
+                "error": {
+                    "login": "$~Sie müssen angemeldet sein, um Feedback abzugeben",
+                    "submit": "$~Feedback kann nicht übermittelt werden.",
+                    "load": "$~Feedback konnte nicht geladen werden",
+                    "empty": "$~Es ist kein Feedback vorhanden."
+                }
             }
         },
         "palette": {
@@ -4993,17 +5053,21 @@
                     "empty": "$~Wählen Sie einen Zeichenmodus in der Palette, um Formen zu erstellen.",
                     "unselected": "$~Wählen Sie einen Zeichenmodus oder wählen und bearbeiten Sie Formen.",
                     "selected": "$~Verwenden Sie die *Pfeiltasten*, um Formen zu verschieben. Halten Sie die *Umschalttaste* gedrückt, um einer Auswahl weitere Formen hinzuzufügen. Verwenden Sie *Entf*, um die Auswahl aufzuheben. Verwenden Sie die unten stehenden Steuerelemente, um die ausgewählten Formen zu ändern.",
-                    "pixel": "$~Um Pixel zu zeichnen, wählen Sie eine Farbe. Klicken Sie dann auf die Leinwand oder verwenden Sie die *Pfeile*, um den Cursor zu bewegen, und die *Leertaste*, um ein Pixel zu erstellen.",
+                    "pixel": "$~Um Pixel zu zeichnen, wählen Sie eine Farbe. Klicken Sie dann auf die Leinwand oder verwenden Sie die *Pfeile*, um den Cursor zu bewegen, und die *Leertaste*, um ein Pixel zu erstellen. *Doppelklicken* zum Füllen.",
                     "rect": "$~Um Rechtecke zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
                     "ellipse": "$~Um Ellipsen und Kreise zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
-                    "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt."
+                    "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt.",
+                    "eraser": "$~Um Formen zu löschen, klicken oder tippen Sie darauf. Ziehen Sie, um Pixel zu löschen. Verwenden Sie die Pfeiltasten, um den Radiergummi zu bewegen, und die Leertaste, um zu löschen.",
+                    "emoji": "$~Wählen Sie ein Emoji aus, das Sie als Pixel importieren möchten, und ändern Sie es dann nach Belieben."
                 },
                 "shape": {
                     "shape": "$~Form",
                     "pixel": "$~Pixel",
                     "rect": "$~Rechteck",
                     "ellipse": "$~Ellipse",
-                    "path": "$~Weg"
+                    "path": "$~Weg",
+                    "eraser": "$~Radiergummi",
+                    "emoji": "$~Emoji"
                 },
                 "field": {
                     "name": {
@@ -5018,10 +5082,12 @@
                         "label": "$~Modus",
                         "modes": [
                             "$~wählen",
+                            "$~Radiergummi",
                             "$~Pixel",
                             "$~Rechteck",
                             "$~Ellipse",
-                            "$~Weg"
+                            "$~Weg",
+                            "$~Emoji"
                         ]
                     },
                     "fill": {
@@ -5112,6 +5178,10 @@
                     "vertical": {
                         "label": "$~vertikal spiegeln",
                         "tip": "$~Drehen Sie die Punkte vertikal um die Mitte"
+                    },
+                    "fit": {
+                        "label": "$~fit",
+                        "tip": "$~Passen Sie die Formen an die Leinwand an"
                     }
                 },
                 "feedback": {

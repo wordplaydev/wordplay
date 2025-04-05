@@ -42,7 +42,7 @@ import TypeToken from './TypeToken';
 import { getEvaluationInputConflicts } from './util';
 
 export default class StreamDefinition extends DefinitionExpression {
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly dots: Token;
     readonly names: Names;
     readonly open: Token | undefined;

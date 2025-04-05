@@ -48,10 +48,10 @@
         command.active === undefined
             ? true
             : context
-              ? command.active(
+              ? (command.active(
                     { ...context.context, editor: editor !== undefined },
                     '',
-                )
+                ) ?? false)
               : false,
     );
 </script>

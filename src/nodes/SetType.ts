@@ -20,8 +20,8 @@ import type TypeSet from './TypeSet';
 
 export default class SetType extends BasisType {
     readonly open: Token;
-    readonly key?: Type;
-    readonly close?: Token;
+    readonly key: Type | undefined;
+    readonly close: Token | undefined;
 
     constructor(open: Token, key?: Type, close?: Token) {
         super();

@@ -13,7 +13,7 @@
         label: LocaleTextAccessor;
         column?: boolean;
         children: Snippet;
-        fixed?: string;
+        fixed?: string | undefined;
     } = $props();
 </script>
 

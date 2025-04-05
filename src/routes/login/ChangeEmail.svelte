@@ -7,7 +7,7 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import type { User } from 'firebase/auth';
     import { verifyBeforeUpdateEmail } from 'firebase/auth';
-    import Feedback from '../../components/app/Feedback.svelte';
+    import Feedback from '../../components/app/Notice.svelte';
     import getLoginErrorDescription from './getAuthErrorDescription';
 
     interface Props {

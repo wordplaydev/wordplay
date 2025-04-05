@@ -47,7 +47,6 @@
                 title={descriptionText.modes[index]}
                 aria-disabled={!active || index === choice}
                 ondblclick={(event) => event.stopPropagation()}
-                onmousedown={(event) => event.preventDefault()}
                 onpointerdown={(event) =>
                     index !== choice && event.button === 0 && active
                         ? select(index)
@@ -91,20 +90,21 @@
         white-space: nowrap;
         border: 1px solid var(--wordplay-chrome);
         color: var(--wordplay-foreground);
-        background: var(--wordplay-background);
+        background-color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         transition: transform calc(var(--animation-factor) * 200ms);
         cursor: pointer;
     }
 
-    button:focus {
-        outline: none;
-        color: var(--wordplay-focus-color);
+    button.selected {
+        color: var(--wordplay-background);
+        background: var(--wordplay-highlight-color);
+        transform: scale(1.1);
+        cursor: default;
     }
 
-    button.selected {
-        background-color: var(--wordplay-alternating-color);
-        cursor: default;
+    button:focus {
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
     }
 
     button:first-child {
@@ -119,12 +119,8 @@
         border-right: 1px solid var(--wordplay-chrome);
     }
 
-    button:not(:global(.selected)) {
-        transform: scale(1.1);
-    }
-
     button:not(:global(.selected)):hover {
-        background: var(--wordplay-alternating-color);
+        transform: scale(1.05);
     }
 
     .group {

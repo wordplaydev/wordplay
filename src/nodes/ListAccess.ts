@@ -42,7 +42,7 @@ export default class ListAccess extends Expression {
     readonly list: Expression;
     readonly open: Token;
     readonly index: Expression;
-    readonly close?: Token;
+    readonly close: Token | undefined;
 
     constructor(
         list: Expression,

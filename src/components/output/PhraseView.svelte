@@ -349,6 +349,9 @@
         border-bottom: var(--wordplay-highlight-color) solid
             var(--wordplay-focus-width);
         outline: none;
+        opacity: inherit;
+        line-height: inherit;
+        text-shadow: inherit;
         min-width: 1em;
     }
 

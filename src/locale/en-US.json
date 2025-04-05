@@ -1430,7 +1430,7 @@
         },
         "UnknownNameType": {
             "name": "unknown name",
-            "description": "$1[$1 isn't defined |a name wasn't given]",
+            "description": "$1[$1 isn't defined|a name wasn't given]",
             "emotion": "curious",
             "doc": "You know how sometimes @Reference and @PropertyReference don't know the name you're talking about? I'm around when that happens, to represent that we don't know who you're talking about."
         },
@@ -4554,6 +4554,58 @@
                     "insertCode": "Insert",
                     "debug": "Debug"
                 }
+            },
+            "feedback": {
+                "header": "Feedback",
+                "explanation": "Help us improve Wordplay by reporting 🪲 *problems* and sharing 💡 *ideas*!",
+                "button": {
+                    "show": "Show the feedback form.",
+                    "submit": {
+                        "tip": "Submit your feeback.",
+                        "label": "submit"
+                    },
+                    "delete": {
+                        "description": "Delete your feedback.",
+                        "prompt": "delete"
+                    },
+                    "like": "Like this feedback",
+                    "close": {
+                        "label": "close",
+                        "tip": "Close this feedback as a moderator"
+                    }
+                },
+                "mode": {
+                    "label": "feedback ",
+                    "modes": ["defects", "idesa"]
+                },
+                "field": {
+                    "title": {
+                        "description": "title of your feedback",
+                        "placeholder": "title"
+                    },
+                    "defect": {
+                        "description": "description of your defect",
+                        "placeholder": "What steps did you take? What happened after? Be as precise as possible."
+                    },
+                    "idea": {
+                        "description": "description of your defect",
+                        "placeholder": "What are you trying to do that you can't do?"
+                    }
+                },
+                "subheader": {
+                    "defect": "defect",
+                    "idea": "idea"
+                },
+                "prompt": {
+                    "defect": "Didn't see the problem you're experiencing? Report it here. The more detail you provide, the better!",
+                    "idea": "Didn't see the idea you're thinking of? Suggest it."
+                },
+                "error": {
+                    "login": "You must be logged in to submit feedback",
+                    "submit": "Unable to submit feedback.",
+                    "load": "Unable to load feedback",
+                    "empty": "There is no feedback to show."
+                }
             }
         },
         "collaborate": {
@@ -4900,17 +4952,21 @@
                     "empty": "Choose a drawing mode in the palette to create shapes.",
                     "unselected": "Choose a drawing mode or select and edit shapes.",
                     "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use the controls below to change the selected shapes.",
-                    "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel.",
+                    "eraser": "To erase shapes, click or tap on them. Drag to erase pixels. Use the *arrow* keys to move the eraser and *space* to delete.",
+                    "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel. *Double-click* to fill.",
                     "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
-                    "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point."
+                    "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point.",
+                    "emoji": "Choose an emoji to import as pixels, then modify as you like."
                 },
                 "shape": {
                     "shape": "shape",
+                    "eraser": "eraser",
                     "pixel": "pixel",
                     "rect": "rectangle",
                     "ellipse": "ellipse",
-                    "path": "path"
+                    "path": "path",
+                    "emoji": "emoji"
                 },
                 "share": {
                     "dialog": {
@@ -4944,10 +5000,12 @@
                         "label": "mode",
                         "modes": [
                             "select",
+                            "eraser",
                             "pixel",
                             "rectangle",
                             "ellipse",
-                            "path"
+                            "path",
+                            "emoji"
                         ]
                     },
                     "fill": {
@@ -5038,6 +5096,10 @@
                     "vertical": {
                         "label": "flip vertical",
                         "tip": "flip the points vertically around the center "
+                    },
+                    "fit": {
+                        "label": "fit",
+                        "tip": "fit the shapes to the canvas"
                     }
                 },
                 "feedback": {

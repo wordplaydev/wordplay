@@ -6,6 +6,7 @@
     import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
+        /** The current text to show */
         text?: string;
         placeholder: LocaleTextAccessor | string;
         description: LocaleTextAccessor;

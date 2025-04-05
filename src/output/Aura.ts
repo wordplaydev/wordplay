@@ -24,10 +24,10 @@ export function createAuraType(locales: Locales) {
 }
 
 export default class Aura extends Valued {
-    readonly color?: Color;
-    readonly blur?: number;
-    readonly offsetX?: number;
-    readonly offsetY?: number;
+    readonly color: Color | undefined;
+    readonly blur: number | undefined;
+    readonly offsetX: number | undefined;
+    readonly offsetY: number | undefined;
 
     constructor(
         value: Value,

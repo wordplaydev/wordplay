@@ -2,7 +2,7 @@
     import Text from '@components/widgets/LocalizedText.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import CreatorSymbolView from './CreatorCharacterView.svelte';
-    import Feedback from './Feedback.svelte';
+    import Feedback from './Notice.svelte';
 
     interface Props {
         creator: Creator | null;

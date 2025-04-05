@@ -307,8 +307,12 @@
             "doc": [
                 "$~Ben Verse karakterine bir bağlantıyım. @Doc yazmak ve bizden birine referans olmak istediğinizde yardımcı olurum.",
                 "$~Örneğin, @Evaluate hakkında konuşmak istediğinizi ve ne kadar harika olduklarını varsayalım. Şunu yazabilirsiniz:",
-                "$~\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir konsept bağlantısı!'\\",
-                "$~Yazdığınız @Doc burada göründüğünde, konsepte bir bağlantı gösterilecektir."
+                "$~\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir karakter bağlantısı!'\\",
+                "$~Karakterlerin de kendilerine karşılık gelen sayıları vardır. Örneğin, @FunctionDefinition 192'dir. Onlara numarayla başvurabilirsiniz ve şu şekilde görünürler:",
+                "$~\\`92 çok güzel!`\\",
+                "$~Ve eğer kendi karakterinizi yaratırsanız, onlara verdiğiniz isimle hitap edebilirsiniz.",
+                "$~\\`@coolbeans`\\",
+                "$~Oh... Sanırım o karakter yok, bu yüzden küçük bir kare elde ediyorsunuz. Ama olsaydı, burada görünürdüler!"
             ]
         },
         "Words": {
@@ -1550,10 +1554,12 @@
                 "$~Beni açarsan kapatmayı unutma ve eşleşen sembolü kullan. Aksi takdirde sözlerini bitirdiğini bilemem.",
                 "$~\\'merhaba'/en'hola'/es-MX\\",
                 "$~Ayrıca beni dillerle etiketleyebilir ve hatta birden fazla çeviri verebilirsiniz. Eşleşen bir dil varsa, şu anda seçili olan dilleri değerlendireceğim.",
-                "$~Eğer beni başka değerlerle yapmak istiyorsanız, bir sembol kullanabilirsiniz.",
-                "$~Örneğin şunu düşünün:",
+                "$~Eğer beni başka değerlerle yapmak istiyorsanız, şunu yapabilirsiniz:",
                 "$~\\\"İşte bazı toplamlar \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~Şu toplamları ne kadar zarif bir şekilde değerlendirip @Text'in içine yerleştirdiğimi görüyor musunuz?",
+                "$~Son bir küçük sırrım daha var: Hepimizin benzersiz bir numaramız olduğunu biliyor muydunuz? Doğru! Bize numaramızla hitap edebilirsiniz. Örneğin, @FunctionDefinition 192'dir:",
+                "$~\\'92'\\",
+                "$~192'nin @FunctionDefinition'a nasıl dönüştüğünü görüyor musunuz? Bu sayılara 'Unicode' dediğinizi duyuyorum.",
                 "$~Aksi takdirde, @FunctionDefinition'ın benim için kelimelerle her türlü şeyi yapmamı sağlayan o kadar çok muhteşem fonksiyonu var ki!"
             ],
             "name": ["$~''", "$~Metin"],
@@ -4547,6 +4553,58 @@
                     "insertCode": "$~Sokmak",
                     "debug": "$~Hata ayıklama"
                 }
+            },
+            "feedback": {
+                "header": "$~Geri bildirim",
+                "explanation": "$~Wordplay'i geliştirmemize yardımcı olmak için 🪲 *sorunları* bildirin ve 💡 *fikirleri* paylaşın!",
+                "button": {
+                    "show": "$~Geri bildirim formunu göster.",
+                    "submit": {
+                        "tip": "$~Geri bildiriminizi gönderin.",
+                        "label": "$~göndermek"
+                    },
+                    "delete": {
+                        "description": "$~Geri bildiriminizi silin.",
+                        "prompt": "$~silmek"
+                    },
+                    "like": "$~Bu geri bildirimi beğenin",
+                    "close": {
+                        "label": "$~kapalı",
+                        "tip": "$~Bu geri bildirimi moderatör olarak kapatın"
+                    }
+                },
+                "mode": {
+                    "label": "$~geri bildirim",
+                    "modes": ["$~kusurlar", "$~fikirler"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Geri bildiriminizin başlığı",
+                        "placeholder": "$~başlık"
+                    },
+                    "defect": {
+                        "description": "$~Kusurunuzun açıklaması",
+                        "placeholder": "$~Hangi adımları attınız? Sonrasında ne oldu? Mümkün olduğunca net olun."
+                    },
+                    "idea": {
+                        "description": "$~Kusurunuzun açıklaması",
+                        "placeholder": "$~Ne yapmaya çalışıyorsun da yapamıyorsun?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~kusur",
+                    "idea": "$~fikir"
+                },
+                "prompt": {
+                    "defect": "$~Yaşadığınız sorunu göremiyor musunuz? Buradan bildirin.",
+                    "idea": "$~Aklınıza gelen fikri göremiyor musunuz? Önerin."
+                },
+                "error": {
+                    "login": "$~Geri bildirim göndermek için giriş yapmış olmanız gerekir",
+                    "submit": "$~Geri bildirim gönderilemedi.",
+                    "load": "$~Geri bildirim yüklenemiyor",
+                    "empty": "$~Gösterilecek geri bildirim yok."
+                }
             }
         },
         "collaborate": {
@@ -5045,17 +5103,21 @@
                     "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
                     "unselected": "$~Bir çizim modu seçin veya şekilleri seçip düzenleyin.",
                     "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullanın. Seçime daha fazla şekil eklemek için *shift* tuşuna basılı tutun. Seçimi kaldırmak için *delete* tuşunu kullanın. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullanın.",
-                    "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın.",
+                    "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın. Doldurmak için *çift tıklayın*.",
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
-                    "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır."
+                    "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
+                    "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
+                    "emoji": "$~Piksel olarak içe aktaracağınız emojiyi seçin, ardından istediğiniz gibi değiştirin."
                 },
                 "shape": {
                     "shape": "$~şekil",
                     "pixel": "$~piksel",
                     "rect": "$~dikdörtgen",
                     "ellipse": "$~elips",
-                    "path": "$~yol"
+                    "path": "$~yol",
+                    "eraser": "$~silgi",
+                    "emoji": "$~emoji"
                 },
                 "field": {
                     "name": {
@@ -5070,10 +5132,12 @@
                         "label": "$~mod",
                         "modes": [
                             "$~seçme",
+                            "$~silgi",
                             "$~piksel",
                             "$~dikdörtgen",
                             "$~elips",
-                            "$~yol"
+                            "$~yol",
+                            "$~emoji"
                         ]
                     },
                     "fill": {
@@ -5164,6 +5228,10 @@
                     "vertical": {
                         "label": "$~dikey çevir",
                         "tip": "$~Noktaları merkez etrafında dikey olarak çevirin"
+                    },
+                    "fit": {
+                        "label": "$~yerleştirmek",
+                        "tip": "$~şekilleri tuvale uydur"
                     }
                 },
                 "feedback": {

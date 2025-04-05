@@ -53,10 +53,10 @@ export type SharedDefinition =
 
 export default class Borrow extends SimpleExpression {
     readonly borrow: Token;
-    readonly source?: Reference;
-    readonly dot?: Token;
-    readonly name?: Reference;
-    readonly version?: Token;
+    readonly source: Reference | undefined;
+    readonly dot: Token | undefined;
+    readonly name: Reference | undefined;
+    readonly version: Token | undefined;
 
     constructor(
         borrow?: Token,

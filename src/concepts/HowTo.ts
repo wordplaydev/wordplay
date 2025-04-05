@@ -27,6 +27,7 @@ export type HowToCategory = keyof typeof HowToCategories;
 export const HowToMetadata = {
     'animate-phrase': { category: 'characters' },
     'move-phrase': { category: 'characters' },
+    'custom-characters': { category: 'characters' },
     'animated-scene': { category: 'stories' },
     'interactive-scene': { category: 'stories' },
     'shake-phrase': { category: 'randomization' },

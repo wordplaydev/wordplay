@@ -12,6 +12,7 @@
         dwelled?: undefined | ((text: string) => void);
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         id: string;
+        view?: HTMLTextAreaElement | undefined;
     }
 
     let {
@@ -24,9 +25,9 @@
         inline = false,
         dwelled = undefined,
         id,
+        view = $bindable(undefined),
     }: Props = $props();
 
-    let view: HTMLTextAreaElement | undefined = $state();
     let focused = $state(false);
     let title = $derived($locales.get(description));
 
@@ -54,7 +55,7 @@
     }
 
     $effect(() => {
-        if (text) resize();
+        if (text.length >= 0) resize();
     });
 </script>
 
@@ -79,7 +80,7 @@
         oninput={handleInput}
     ></textarea>
     {#if message !== undefined}
-        <div class="message" id="id-{id}">{message}</div>
+        <div class="message" id="id-{id}">{$locales.get(message)}</div>
     {/if}
 </div>
 
@@ -101,6 +102,8 @@
         resize: none;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
+        min-width: 3em;
+        min-height: 2em;
     }
 
     .inline {

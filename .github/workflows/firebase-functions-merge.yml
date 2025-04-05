@@ -11,7 +11,8 @@ jobs:
             - uses: actions/setup-node@v3
               with:
                   node-version: '20'
-            - run: npm install -g firebase-tools
+            - run: npm install -g firebase-tools@13
+            - run: echo "${{ secrets.FUNCTIONS_ENV_PROD }}" > functions/.env
             - uses: 'google-github-actions/auth@v2'
               with:
                   credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORDPLAY_PROD }}'

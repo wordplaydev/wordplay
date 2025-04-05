@@ -745,6 +745,51 @@ type UITexts = {
                 debug: string;
             };
         };
+        /** The feedback dialog */
+        feedback: DialogText & {
+            button: {
+                /** Show the feedback dialog */
+                show: string;
+                /** Submit the feedback */
+                submit: ButtonText;
+                /** Delete */
+                delete: ConfirmText;
+                /** Like feedback */
+                like: string;
+                /** Close the feedback */
+                close: ButtonText;
+            };
+            /** The mode chooser for defects and ideas */
+            mode: ModeText<[string, string]>;
+            field: {
+                /** Feedback title */
+                title: FieldText;
+                /** Defect description */
+                defect: FieldText;
+                /** Idea description */
+                idea: FieldText;
+            };
+            subheader: {
+                /** The subheader for the defect dialog */
+                defect: string;
+                /** The subheader for the feedback dialog */
+                idea: string;
+            };
+            prompt: {
+                defect: string;
+                idea: string;
+            };
+            error: {
+                /** Must be logged in to submit */
+                login: string;
+                /** The error shown when the feedback was not submitted */
+                submit: string;
+                /** Unable to laod feedback */
+                load: string;
+                /** No feedback yet */
+                empty: string;
+            };
+        };
     };
     save: {
         /** Shown when saving has started */

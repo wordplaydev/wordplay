@@ -6,7 +6,7 @@ import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type { FormattedText } from '../output/Phrase';
-import type Spaces from '../parser/Spaces';
+import Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/toMarkup';
 import { getCodepointFromString } from '../unicode/getCodepoint';
 import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
@@ -14,7 +14,7 @@ import Content from './Content';
 import Example from './Example';
 import type Node from './Node';
 import { list, node, type Grammar, type Replacement } from './Node';
-import Paragraph from './Paragraph';
+import Paragraph, { type Segment } from './Paragraph';
 import Sym from './Sym';
 import Token from './Token';
 import Words from './Words';
@@ -198,6 +198,32 @@ export default class Markup extends Content {
                 (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
             )[0]
             ?.getText();
+    }
+
+    append(markups: (Markup | Token)[]): Markup {
+        let segments: Segment[] = [];
+        const tokens: Token[] = [];
+        let spaces: Spaces | undefined = this.spaces;
+        for (const markup of [this, ...markups]) {
+            if (markup instanceof Markup) {
+                const markupSegments = markup.paragraphs
+                    .map((p) => p.segments)
+                    .flat();
+                segments = [...segments, ...markupSegments];
+                if (markup.spaces) {
+                    spaces = spaces
+                        ? spaces.withSpaces(markup.spaces)
+                        : markup.spaces
+                          ? markup.spaces
+                          : undefined;
+                }
+            } else if (markup instanceof Token) {
+                segments.push(markup);
+                tokens.push(markup);
+            }
+        }
+
+        return new Markup([new Paragraph(segments)], spaces);
     }
 
     toString() {
