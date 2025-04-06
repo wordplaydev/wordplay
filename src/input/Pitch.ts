@@ -25,7 +25,7 @@ export default class Pitch extends AudioStream {
     readonly detector: PitchDetector<Float32Array>;
 
     constructor(evaluation: Evaluation, frequency: number | undefined) {
-        super(evaluation, frequency, FFT_SIZE);
+        super(evaluation, frequency, Unit.reuse(['hz']), FFT_SIZE);
 
         this.frequency = Math.max(15, frequency ?? DEFAULT_FREQUENCY);
         this.detector = PitchDetector.forFloat32Array(FFT_SIZE);
@@ -68,7 +68,7 @@ export function createPitchDefinition(locales: Locales) {
         getNameLocales(locales, (locale) => locale.input.Pitch.names),
         [FrequencyBind],
         createStreamEvaluator(
-            NumberType.make(),
+            NumberType.make(Unit.create(['hz'])),
             Pitch,
             (evaluation) =>
                 new Pitch(
