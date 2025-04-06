@@ -117,18 +117,18 @@
             >
             <div class="tools">
                 <Button
-                    tip={(l) => l.ui.dialog.feedback.button.close.tip}
-                    icon="✓"
-                    label={(l) => l.ui.dialog.feedback.button.close.label}
-                    action={() => close(feed)}
-                ></Button>
-                <Button
                     tip={(l) => l.ui.dialog.feedback.button.like}
                     icon="⭐️"
                     active={!votes.has(feed.id)}
                     action={() => vote(feed)}>{feed.votes}</Button
                 >
                 {#if feed.creator === $user?.uid || moderator}
+                    <Button
+                        tip={(l) => l.ui.dialog.feedback.button.close.tip}
+                        icon="✓"
+                        label={(l) => l.ui.dialog.feedback.button.close.label}
+                        action={() => close(feed)}
+                    ></Button>
                     <ConfirmButton
                         icon={CANCEL_SYMBOL}
                         tip={(l) =>
