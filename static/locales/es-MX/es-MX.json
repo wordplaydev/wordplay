@@ -5219,7 +5219,8 @@
             "wrap": "poner paréntesis",
             "unwrap": "desenvolver",
             "bind": "nombrar esta expresión",
-            "range": "$~Selección desde $1 a $2"
+            "range": "$~Selección desde $1 a $2",
+            "show": "$~… mostrar más"
         },
         "template": {
             "unwritten": "Por determinar",

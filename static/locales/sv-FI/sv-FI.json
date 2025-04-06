@@ -5294,7 +5294,8 @@
             "wrap": "$~parentes",
             "unwrap": "$~packa upp",
             "bind": "$~namnge detta uttryck",
-            "range": "$~urval från $1 till $2"
+            "range": "$~urval från $1 till $2",
+            "show": "$~… visa mer"
         },
         "template": {
             "unwritten": "$~TBD",

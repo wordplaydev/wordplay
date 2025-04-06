@@ -5240,7 +5240,8 @@
             "wrap": "$~mettre entre parenthèses",
             "unwrap": "$~déballer",
             "bind": "$~nomme cette expression",
-            "range": "$~sélection de $1 à $2"
+            "range": "$~sélection de $1 à $2",
+            "show": "$~… afficher plus"
         },
         "template": {
             "unwritten": "$~À déterminer",

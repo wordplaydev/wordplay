@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "ta",
-    "regions": ["IN", "LK", "SG"],
+    "regions": ["IN", "LK", "SK"],
     "wordplay": "$~வார்த்தை விளையாட்டு",
     "term": {
         "bind": "$~கட்டு",
@@ -5303,7 +5303,8 @@
             "wrap": "$~அடைப்புக்குறி",
             "unwrap": "$~அவிழ்",
             "bind": "$~இந்த வெளிப்பாட்டிற்கு பெயரிடுங்கள்",
-            "range": "$~$1 முதல் $2 வரை தேர்வு"
+            "range": "$~$1 முதல் $2 வரை தேர்வு",
+            "show": "$~… மேலும் காட்டு"
         },
         "template": {
             "unwritten": "$~TBD",
