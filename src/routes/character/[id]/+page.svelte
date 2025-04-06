@@ -147,6 +147,9 @@
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = $state(null);
 
+    /** Pixels drawn or erased in a stroke */
+    let strokePixels = $state(0);
+
     /** The pending rectangle or ellipse */
     let pendingRectOrEllipse:
         | CharacterRectangle
@@ -382,7 +385,7 @@
 
     /** Remember the current state */
     function rememberShapes() {
-        setShapes([...shapes]);
+        setShapes([...shapes], true);
     }
 
     /** Centralized shape list updating to support undo/redo. */
@@ -443,7 +446,7 @@
         x?: number | undefined,
         y?: number | undefined,
         color?: LCH,
-    ): CharacterPixel {
+    ): CharacterPixel | undefined {
         x = x ?? drawingCursorPosition.x;
         y = y ?? drawingCursorPosition.y;
 
@@ -456,7 +459,7 @@
             // Remove pixels at the same position
             .find((s) => s.type === 'pixel' && pixelsAreEqual(s, candidate));
         // Already an identical pixel? Do nothing.
-        if (match) return match as CharacterPixel;
+        if (match) return undefined;
 
         setShapes(
             [
@@ -478,15 +481,15 @@
     }
 
     function erasePixel(remember = true) {
-        setShapes(
-            shapes.filter(
-                (s) =>
-                    s.type !== 'pixel' ||
-                    s.point.x !== drawingCursorPosition.x ||
-                    s.point.y !== drawingCursorPosition.y,
-            ),
-            remember,
+        const removed = shapes.filter(
+            (s) =>
+                s.type !== 'pixel' ||
+                s.point.x !== drawingCursorPosition.x ||
+                s.point.y !== drawingCursorPosition.y,
         );
+        if (removed.length === shapes.length) return false;
+        setShapes(removed, remember);
+        return true;
     }
 
     /** Null if inherented, undefined if none, or the current fill color if set */
@@ -997,12 +1000,15 @@
         if (mode === DrawingMode.Pixel) {
             selection = [];
             const newPixel = setPixel(false);
+            strokePixels = 1;
 
             if (move) {
                 // If we're dragging and there's a last pixel, draw pixels between them.
-                if (lastPixel)
+                if (lastPixel !== undefined && newPixel !== undefined) {
                     interpolate($state.snapshot(lastPixel), newPixel);
-                lastPixel = newPixel;
+                    strokePixels++;
+                }
+                if (newPixel !== undefined) lastPixel = newPixel;
             }
 
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
@@ -1011,10 +1017,18 @@
             selection = [];
             // If not moving, see what shape is under the pointer and delete it.
             if (!move) {
+                strokePixels = 0;
                 const under = getShapeUnderPointer(event);
-                if (under !== null)
-                    setShapes(shapes.filter((s) => s !== under));
-            } else erasePixel(false);
+                if (under !== null) {
+                    const removed = shapes.filter((s) => s !== under);
+                    if (removed.length !== shapes.length) {
+                        strokePixels++;
+                        setShapes(removed);
+                    }
+                }
+            } else {
+                if (erasePixel(false)) strokePixels++;
+            }
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
         }
@@ -1122,7 +1136,10 @@
         }
         // Done drawing or erasing pixels? Remember the current shapes.
         else if (mode === DrawingMode.Pixel || mode === DrawingMode.Eraser) {
-            rememberShapes();
+            if (strokePixels > 0) {
+                rememberShapes();
+                strokePixels = 0;
+            }
         }
     }
 
@@ -1139,22 +1156,44 @@
 
     // Flood fill at the given point
     function fill(x: number, y: number, start = true) {
-        // Build a hash of filled pixels for quick lookup.
-        const filled = new Set(
-            shapes
-                .filter((s): s is CharacterPixel => s.type === 'pixel')
-                .map((s) => `${s.point.x},${s.point.y}`),
-        );
+        // Build a hash of pixel colors for quick lookup.
+        const filled: Map<string, string | undefined> = new Map();
+        for (const shape of shapes) {
+            if (shape.type === 'pixel')
+                filled.set(
+                    `${shape.point.x},${shape.point.y}`,
+                    shape.fill === null
+                        ? undefined
+                        : `${shape.fill.l},${shape.fill.c},${shape.fill.h}`,
+                );
+        }
+
+        // Get the tracking color for the current fill. This determines the boundaries.
+        const currentColor = filled.get(`${x},${y}`);
 
         // Keep a stack of points visited.
-        const visited: Point[] = [{ x, y }];
-        while (visited.length > 0) {
-            const point = visited.shift();
+        const queue: Point[] = [{ x, y }];
+        const visited = new Set<string>();
+        while (queue.length > 0) {
+            const point = queue.shift();
             // This should never happen, but TypeScript doesn't know it.
             if (point === undefined) return;
 
-            // If there's not already a point here, skip it.
-            if (filled.has(`${point.x},${point.y}`) && !start) continue;
+            // If there's already a matching point here, and we're not at the start, skip it.
+            const position = `${point.x},${point.y}`;
+
+            // Already visited this position? Quit.
+            if (visited.has(position)) continue;
+            visited.add(position);
+
+            // See the current color at this position.
+            let colorAtPoint = filled.get(position);
+            let colorChange = colorAtPoint !== currentColor;
+
+            // Different from the tracking color? Stop.
+            if (!start && colorChange) continue;
+
+            // Not the start anymore.
             start = false;
 
             const pixel: CharacterPixel = {
@@ -1162,16 +1201,37 @@
                 point,
                 fill: { ...currentFill },
             };
-            setShapes([...shapes, pixel], false);
-            filled.add(`${point.x},${point.y}`);
+            // Remove the existing pixel here, and add the new one.
+            setShapes(
+                [
+                    ...shapes.filter(
+                        (s) =>
+                            start ||
+                            s.type !== 'pixel' ||
+                            s.point.x !== point.x ||
+                            s.point.y !== point.y,
+                    ),
+                    pixel,
+                ],
+                false,
+            );
 
-            if (point.x > 0) visited.push({ x: point.x - 1, y: point.y });
+            // Remember the color we filled.
+            filled.set(
+                `${point.x},${point.y}`,
+                `${currentFill.l},${currentFill.c},${currentFill.h}`,
+            );
+
+            // Visit the four directions.
+            if (point.x > 0) queue.push({ x: point.x - 1, y: point.y });
             if (point.x < CharacterSize - 1)
-                visited.push({ x: point.x + 1, y: point.y });
-            if (point.y > 0) visited.push({ x: point.x, y: point.y - 1 });
+                queue.push({ x: point.x + 1, y: point.y });
+            if (point.y > 0) queue.push({ x: point.x, y: point.y - 1 });
             if (point.y < CharacterSize - 1)
-                visited.push({ x: point.x, y: point.y + 1 });
+                queue.push({ x: point.x, y: point.y + 1 });
         }
+        // Add the fill to the undo history.
+        rememberShapes();
     }
 
     /** Given an emoji, render it to a canvas, get its pixels, and place the pixels in the character's shapes. */

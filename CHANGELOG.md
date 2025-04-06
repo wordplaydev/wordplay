@@ -19,6 +19,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Allow mods to edit feedback.
 - Fixed dialog scroll closing behavior.
 - Allow dragging of multiple selection.
+- Allow for pixel fill on existing colors.
 
 ## 0.16.9
 
