@@ -1048,7 +1048,7 @@
                     if (!selection.includes(under)) {
                         if (event.shiftKey) selection = [...selection, under];
                         else selection = [under];
-                    } else selection = [under];
+                    }
                 } else selection = [];
             }
 
