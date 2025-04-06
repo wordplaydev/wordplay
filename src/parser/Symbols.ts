@@ -97,6 +97,7 @@ export const BOLD_SYMBOL = '*';
 export const EXTRA_SYMBOL = '^';
 export const MENTION_SYMBOL = '$';
 
+export const LOGO_SYMBOL = '💬';
 export const PHRASE_SYMBOL = '💬';
 export const GROUP_SYMBOL = '🔳';
 export const STAGE_SYMBOL = '🎭';
