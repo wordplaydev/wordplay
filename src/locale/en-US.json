@@ -5291,7 +5291,8 @@
             "replace": "/Wants to step in…/",
             "wrap": "parentheize",
             "unwrap": "unwrap",
-            "bind": "name this expression"
+            "bind": "name this expression",
+            "show": "… show more"
         },
         "template": {
             "unwritten": "TBD",

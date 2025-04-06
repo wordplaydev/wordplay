@@ -9522,6 +9522,10 @@
                   "$ref": "#/definitions/Template",
                   "description": "$1: node description or undefined"
                 },
+                "show": {
+                  "$ref": "#/definitions/Template",
+                  "description": "Show elided data structure $1 count"
+                },
                 "unwrap": {
                   "description": "Shown in menus to offer to unwrap an expression in parentheses",
                   "type": "string"
@@ -9545,7 +9549,8 @@
                 "replace",
                 "wrap",
                 "unwrap",
-                "bind"
+                "bind",
+                "show"
               ],
               "type": "object"
             },

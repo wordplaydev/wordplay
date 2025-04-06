@@ -1,8 +1,9 @@
 <script module lang="ts">
-    const LIMIT = 25;
+    const LIMIT = 20;
 </script>
 
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Node from '@nodes/Node';
     import { getCaret, getIsBlocks } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
@@ -66,15 +67,17 @@
             // A caret? See if it's in the list, and if so, show what's around it.
             if (anchor) {
                 const index = nodes.indexOf(anchor);
-                const min = Math.max(0, index - LIMIT / 2);
-                const max = Math.min(nodes.length, index + LIMIT / 2);
+                const min = Math.round(Math.max(0, index - LIMIT / 2));
+                const max = Math.round(
+                    Math.min(nodes.length, index + LIMIT / 2),
+                );
                 visible = nodes.slice(min, max);
                 hiddenBefore = min;
                 hiddenAfter = nodes.length - max;
             } else {
                 visible = nodes.slice(0, LIMIT / 2);
                 hiddenBefore = 0;
-                hiddenAfter = Math.max(0, nodes.length - LIMIT / 2);
+                hiddenAfter = Math.max(0, Math.round(nodes.length - LIMIT / 2));
             }
         } else {
             visible = nodes;
@@ -94,13 +97,19 @@
         <Button
             tip={(l) => l.ui.source.button.expandSequence}
             action={() => (elide = false)}
-            ><span class="count">… {hiddenBefore}</span></Button
+            ><span class="count"
+                ><LocalizedText path={(l) => l.ui.edit.show} />
+                ({hiddenBefore})</span
+            ></Button
         >{/if}{#each visible as node}<NodeView
             {node}
         />{/each}{#if hiddenAfter > 0}<Button
             tip={(l) => l.ui.source.button.expandSequence}
             action={() => (elide = false)}
-            ><span class="count">… {hiddenAfter}</span></Button
+            ><span class="count"
+                ><LocalizedText path={(l) => l.ui.edit.show} />
+                ({hiddenAfter})</span
+            ></Button
         >{/if}
 {/if}
 
