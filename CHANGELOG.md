@@ -23,6 +23,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed several pixel and fill undo errors.
 - Fixed pixel fitting algorithm.
 - Better labels on elided data structures.
+- Fixed #732, improving English placeholder dialog.
 
 ## 0.16.9
 
