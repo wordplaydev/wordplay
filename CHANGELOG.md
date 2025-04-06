@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Added unit to initial `Pitch` value.
 - More visible home link in footer.
 - Don't autocomplete `<` symbol.
+- Enable pointer events on links in inactive `Phrase` output.
 
 ## 0.16.9
 
