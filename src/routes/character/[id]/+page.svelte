@@ -303,12 +303,19 @@
                     history = [structuredClone(loadedCharacter.shapes)];
                     historyIndex = 0;
 
+                    persisted = loadedCharacter;
+                    loadedCharacter === undefined
+                        ? 'failed'
+                        : loadedCharacter === null
+                          ? 'unknown'
+                          : loadedCharacter;
+                } else {
                     persisted =
                         loadedCharacter === undefined
                             ? 'failed'
                             : loadedCharacter === null
                               ? 'unknown'
-                              : loadedCharacter;
+                              : 'unknown';
                 }
             });
         }
@@ -2113,28 +2120,22 @@
                             `🤫 ${$locales.get((l) => l.ui.page.character.share.public.modes[1])}`,
                         ]}
                     />
-                    {#if !isPublic}
-                        <Labeled
-                            label={(l) =>
-                                l.ui.page.character.share.collaborators}
-                        >
-                            <CreatorList
-                                uids={collaborators}
-                                editable={!isPublic}
-                                anonymize={false}
-                                add={(userID) =>
-                                    (collaborators = [
-                                        ...collaborators,
-                                        userID,
-                                    ])}
-                                remove={(userID) =>
-                                    (collaborators = collaborators.filter(
-                                        (c) => c !== userID,
-                                    ))}
-                                removable={() => true}
-                            />
-                        </Labeled>
-                    {/if}
+                    <Labeled
+                        label={(l) => l.ui.page.character.share.collaborators}
+                    >
+                        <CreatorList
+                            uids={collaborators}
+                            editable
+                            anonymize={false}
+                            add={(userID) =>
+                                (collaborators = [...collaborators, userID])}
+                            remove={(userID) =>
+                                (collaborators = collaborators.filter(
+                                    (c) => c !== userID,
+                                ))}
+                            removable={() => true}
+                        />
+                    </Labeled>
                 </Dialog>
                 {#if $user !== null && editedCharacter !== null && $user.uid === editedCharacter.owner}
                     <ConfirmButton

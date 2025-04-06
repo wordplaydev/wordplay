@@ -5107,7 +5107,7 @@
                     "description": "Characters need a description so those who can't see know what they represent.",
                     "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
-                    "notfound": "This character doesn't exist.",
+                    "notfound": "This character doesn't exist or isn't visible to you.",
                     "unauthenticated": "You must be logged in to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
                     "unsaved": "Give this character a description and a valid, unique name to save."

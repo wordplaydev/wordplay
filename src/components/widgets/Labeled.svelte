@@ -37,7 +37,6 @@
 
     label .label {
         font-style: italic;
-        font-size: var(--wordplay-small-font-size);
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);

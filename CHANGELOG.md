@@ -11,6 +11,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - More visible home link in footer.
 - Don't autocomplete `<` symbol.
 - Enable pointer events on links in inactive `Phrase` output.
+- Fixed label size consistency.
+- Always show collaborators in character share dialog, even when public.
 
 ## 0.16.9
 

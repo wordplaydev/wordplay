@@ -27,13 +27,14 @@
 
 <div class="mode">
     {#if labeled}
-        <span class="label" id={descriptionText.label}
-            >{descriptionText.label}</span
+        <label class="label" for={descriptionText.label}
+            >{descriptionText.label}</label
         >
     {/if}
     <div
         class="group"
         role="radiogroup"
+        id={descriptionText.label}
         aria-labelledby={descriptionText.label}
     >
         {#each modes as mode, index}
