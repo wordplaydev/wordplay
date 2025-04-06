@@ -1434,19 +1434,30 @@
             })
             .filter((s) => s !== undefined);
 
+        // Stretch on the horizontal of it's wider than it is tall.
+        const horizontal = right - left > bottom - top;
+        const newWidth = horizontal
+            ? CharacterSize
+            : Math.round((right - left + 1) * scale);
+        const newHeight = horizontal
+            ? Math.round((bottom - top + 1) * scale)
+            : CharacterSize;
+
         // Sample the pixels to from the centered pixels, and set new ones based on the smaller scale.
         const newPixels: CharacterPixel[] = [];
         for (let x = 0; x < CharacterSize; x++) {
             for (let y = 0; y < CharacterSize; y++) {
-                const xProgress = x / CharacterSize;
-                const yProgress = y / CharacterSize;
-                // Sample in the coordinate system of the pixels
-                const sampleX = Math.round(
-                    left + xProgress * (right - left + 1),
-                );
-                const sampleY = Math.round(
-                    top + yProgress * (bottom - top + 1),
-                );
+                const xProgress = x > newWidth ? undefined : x / newWidth;
+                const yProgress = y > newHeight ? undefined : y / newHeight;
+                // Sample in the coordinate system of the pixels if on the stretching axis
+                const sampleX =
+                    xProgress !== undefined
+                        ? Math.round(left + xProgress * (right - left + 1))
+                        : undefined;
+                const sampleY =
+                    yProgress !== undefined
+                        ? Math.round(top + yProgress * (bottom - top + 1))
+                        : undefined;
 
                 // Is there a pixel at this position upsampled position?
                 const sample = fitShapes.find(
@@ -1459,8 +1470,8 @@
                     newPixels.push({
                         type: 'pixel',
                         point: {
-                            x: x,
-                            y: y,
+                            x: x + (CharacterSize - newWidth) / 2,
+                            y: y + (CharacterSize - newHeight) / 2,
                         },
                         fill: { ...sample.fill },
                     });
