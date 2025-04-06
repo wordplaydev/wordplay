@@ -2,6 +2,7 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -17,6 +18,20 @@
     const user = getUser();
 
     let characters = $derived(CharactersDB.getEditableCharacters());
+    let owned: Character[] = $derived(
+        $user === null
+            ? []
+            : Array.from(characters.values()).filter(
+                  (c) => c.owner === $user.uid,
+              ),
+    );
+    let shared: Character[] = $derived(
+        $user === null
+            ? []
+            : Array.from(characters.values()).filter((c) =>
+                  c.collaborators.includes($user.uid),
+              ),
+    );
 </script>
 
 <svelte:head>
@@ -67,12 +82,25 @@
         <NewCharacterButton></NewCharacterButton>
 
         <div class="characters">
-            {#each characters.values() as character}
+            {#each owned as character}
                 {#if character !== null}
                     {@render preview(character)}
                 {/if}
             {/each}
         </div>
+
+        {#if shared.length > 0}
+            <Subheader text={(l) => l.ui.page.characters.subheader.shared}
+            ></Subheader>
+
+            <div class="characters">
+                {#each shared as character}
+                    {#if character !== null}
+                        {@render preview(character)}
+                    {/if}
+                {/each}
+            </div>
+        {/if}
     {/if}
 </Writing>
 

@@ -4939,6 +4939,9 @@
                 "button": {
                     "new": "Create a new character"
                 },
+                "subheader": {
+                    "shared": "Shared"
+                },
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
                     "noauth": "You must be logged in to see your characters and create new ones.",

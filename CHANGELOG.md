@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed label size consistency.
 - Always show collaborators in character share dialog, even when public.
 - Only allow one feedback vote per page load.
+- Split owned and shared characters on the characters page.
 
 ## 0.16.9
 

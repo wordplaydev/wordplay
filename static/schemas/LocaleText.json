@@ -10233,12 +10233,26 @@
                     "prompt": {
                       "description": "Explanation for the character page",
                       "type": "string"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "shared": {
+                          "description": "Header for the shared character list",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "shared"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "prompt",
                     "button",
+                    "subheader",
                     "error"
                   ],
                   "type": "object"
