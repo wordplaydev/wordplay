@@ -20,6 +20,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed dialog scroll closing behavior.
 - Allow dragging of multiple selection.
 - Allow for pixel fill on existing colors.
+- Fixed several pixel and fill undo errors.
 
 ## 0.16.9
 

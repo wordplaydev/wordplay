@@ -150,6 +150,12 @@
     /** Pixels drawn or erased in a stroke */
     let strokePixels = $state(0);
 
+    /** Whether we moved shapes */
+    let moved = $state(false);
+
+    /** The pixel replaced by a set pixel, in case we double click fill */
+    let replacedPixel: CharacterPixel | undefined = $state(undefined);
+
     /** The pending rectangle or ellipse */
     let pendingRectOrEllipse:
         | CharacterRectangle
@@ -399,7 +405,7 @@
 
         // Remove the future if we're in the past
         if (historyIndex < history.length - 1)
-            history = history.slice(0, historyIndex - 1);
+            history = history.slice(0, historyIndex + 1);
 
         // Remove any selection that's no longer in the shapes.
         selection = selection.filter((s) => shapes.includes(s));
@@ -458,8 +464,17 @@
         const match = shapes
             // Remove pixels at the same position
             .find((s) => s.type === 'pixel' && pixelsAreEqual(s, candidate));
+
+        const pixelAtPosition = shapes.find(
+            (s): s is CharacterPixel =>
+                s.type === 'pixel' && s.point.x === x && s.point.y === y,
+        );
+
         // Already an identical pixel? Do nothing.
         if (match) return undefined;
+
+        // Remember the replaced pixel so we can can fill if there's a later double click.
+        replacedPixel = pixelAtPosition;
 
         setShapes(
             [
@@ -1000,7 +1015,10 @@
         if (mode === DrawingMode.Pixel) {
             selection = [];
             const newPixel = setPixel(false);
-            strokePixels = 1;
+            if (newPixel) {
+                lastPixel = newPixel;
+                strokePixels = 1;
+            }
 
             if (move) {
                 // If we're dragging and there's a last pixel, draw pixels between them.
@@ -1064,6 +1082,9 @@
                         else selection = [under];
                     }
                 } else selection = [];
+
+                // Reset the moved tracker.
+                moved = false;
             }
 
             // No drag position yet? Set one.
@@ -1095,11 +1116,11 @@
             else {
                 if (move && firstDrag) {
                     // Just starting a drag? Remember the current positions in the history so we can undo to before the drag.
-                    rememberShapes();
                     firstDrag = false;
                 }
 
                 if (selection.length > 0) {
+                    moved = true;
                     for (const [index, shape] of selection.entries()) {
                         const offset = dragOffsets[index];
                         if (offset)
@@ -1116,23 +1137,20 @@
     }
 
     function handlePointerUp(event: PointerEvent) {
-        // Reset the last pixel tracker.
-        lastPixel = undefined;
-
-        if (dragOffsets) {
+        if (dragOffsets && mode === DrawingMode.Select) {
             dragOffsets = undefined;
             firstDrag = false;
+            if (moved) rememberShapes();
+            moved = false;
         }
-
         // Done? Reset the pending shapes to nothing.
-        if (pendingRectOrEllipse) {
+        else if (pendingRectOrEllipse) {
             selection = [pendingRectOrEllipse];
             pendingRectOrEllipse = undefined;
             mode = DrawingMode.Select;
             event.stopPropagation();
             // Snapshot for history.
             rememberShapes();
-            return;
         }
         // Done drawing or erasing pixels? Remember the current shapes.
         else if (mode === DrawingMode.Pixel || mode === DrawingMode.Eraser) {
@@ -1147,9 +1165,8 @@
         if (mode === DrawingMode.Path) {
             endPath();
         } else if (mode === DrawingMode.Pixel) {
-            // Undo the two clicks that just happened, so they're not part of the history or shapes.
-            undo();
-            undo();
+            // Undo the pixel that just happened, so they're not part of the history or shapes.
+            if (lastPixel) undo();
             fill(drawingCursorPosition.x, drawingCursorPosition.y);
         }
     }
@@ -1169,7 +1186,10 @@
         }
 
         // Get the tracking color for the current fill. This determines the boundaries.
-        const currentColor = filled.get(`${x},${y}`);
+        const currentColor =
+            replacedPixel === undefined || replacedPixel.fill === null
+                ? undefined
+                : `${replacedPixel.fill.l},${replacedPixel.fill.c},${replacedPixel.fill.h}`;
 
         // Keep a stack of points visited.
         const queue: Point[] = [{ x, y }];
@@ -1177,7 +1197,7 @@
         while (queue.length > 0) {
             const point = queue.shift();
             // This should never happen, but TypeScript doesn't know it.
-            if (point === undefined) return;
+            if (point === undefined) continue;
 
             // If there's already a matching point here, and we're not at the start, skip it.
             const position = `${point.x},${point.y}`;
@@ -1715,20 +1735,24 @@
                 (choice) => {
                     currentFillSetting = choice;
                     const fill = getCurrentFill();
-                    for (const shape of selection) {
-                        if (fill !== undefined) shape.fill = fill;
-                        else delete shape.fill;
+                    if (selection.length > 0) {
+                        for (const shape of selection) {
+                            if (fill !== undefined) shape.fill = fill;
+                            else delete shape.fill;
+                        }
+                        rememberShapes();
                     }
-                    rememberShapes();
                 },
                 (color) => {
                     currentFill = color;
                     const newColor = getCurrentFill();
-                    for (const shape of selection) {
-                        if (newColor !== undefined) shape.fill = newColor;
-                        else delete shape.fill;
+                    if (selection.length > 0) {
+                        for (const shape of selection) {
+                            if (newColor !== undefined) shape.fill = newColor;
+                            else delete shape.fill;
+                        }
+                        rememberShapes();
                     }
-                    rememberShapes();
                 },
             )}
             <!-- All shapes except pixels have strokes -->
@@ -1828,7 +1852,9 @@
                             } else currentStrokeWidth = val;
                         }
                     }
-                    release={() => rememberShapes()}
+                    release={() => {
+                        if (selection.length > 0) rememberShapes();
+                    }}
                 ></Slider>
             {/if}
             {#if mode !== DrawingMode.Pixel}
@@ -1878,7 +1904,9 @@
                             } else currentCorner = val;
                         }
                     }
-                    release={() => rememberShapes()}
+                    release={() => {
+                        if (selection.length > 0) rememberShapes();
+                    }}
                 ></Slider>
             {/if}
             <!-- All shapes but pixels have rotation -->
@@ -1916,7 +1944,9 @@
                             } else currentAngle = val;
                         }
                     }
-                    release={() => rememberShapes()}
+                    release={() => {
+                        if (selection.length > 0) rememberShapes();
+                    }}
                 ></Slider>
             {/if}
             {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
