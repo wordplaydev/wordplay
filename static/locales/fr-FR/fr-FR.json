@@ -4723,7 +4723,6 @@
             "projects": {
                 "header": "$~Projets",
                 "projectprompt": "$~Vous êtes prêt à dire quelque chose ? Créez un projet ou travaillez sur un projet. Si vous êtes bloqué, continuez à <learning@://learn>.",
-                "archiveheader": "$~Archivé",
                 "archiveprompt": "$~Il s'agit des projets que vous avez archivés. Seuls les propriétaires peuvent les supprimer ou les désarchiver définitivement. Les projets archivés seront définitivement supprimés 30 jours après leur dernière modification.",
                 "galleriesheader": "$~Galeries",
                 "galleryprompt": "$~Créez et organisez des galeries pour partager une collection de projets avec d’autres.",
@@ -4754,6 +4753,10 @@
                     "newgallery": "$~Nous n'avons pas pu créer une nouvelle galerie.",
                     "nodeletes": "$~Vous devez être connecté pour supprimer les projets archivés.",
                     "delete": "$~Oups, nous n'avons pas pu supprimer le projet!"
+                },
+                "subheader": {
+                    "shared": "$~Commun",
+                    "archived": "$~Archivé"
                 }
             },
             "galleries": {
@@ -5045,6 +5048,9 @@
                     "offline": "$~Nous n'avons pas pu accéder à vos personnages stockés en ligne.",
                     "noauth": "$~Vous devez être connecté pour voir vos personnages et en créer de nouveaux.",
                     "create": "$~Impossible de créer un nouveau personnage."
+                },
+                "subheader": {
+                    "shared": "$~Commun"
                 }
             },
             "character": {

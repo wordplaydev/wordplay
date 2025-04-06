@@ -4702,7 +4702,6 @@
             "projects": {
                 "header": "Proyectos",
                 "projectprompt": "¿Listo para decir algo? Crea un proyecto o trabaja en uno. Si te quedas atascado, sigue <learning@://learn>.",
-                "archiveheader": "Archivados",
                 "archiveprompt": "Estos son proyectos que has archivado. Solo los propietarios pueden eliminarlos permanentemente o desarchivarlos. Los proyectos archivados se eliminarán permanentemente 30 días después de su última edición.",
                 "galleriesheader": "Galerías",
                 "galleryprompt": "Crea y cura galerías para compartir una colección de proyectos con otros.",
@@ -4733,6 +4732,10 @@
                     "newgallery": "No pudimos crear una nueva galería.",
                     "nodeletes": "Debes iniciar sesión para eliminar proyectos archivados.",
                     "delete": "Oops, no pudimos eliminar el proyecto."
+                },
+                "subheader": {
+                    "shared": "$~Compartido",
+                    "archived": "$~Archivado"
                 }
             },
             "galleries": {
@@ -5024,6 +5027,9 @@
                     "offline": "$~No pudimos acceder a tus personajes almacenados en línea.",
                     "noauth": "$~Debes iniciar sesión para ver tus personajes y crear otros nuevos.",
                     "create": "$~No se puede crear un nuevo personaje."
+                },
+                "subheader": {
+                    "shared": "$~Compartido"
                 }
             },
             "character": {

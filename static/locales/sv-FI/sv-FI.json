@@ -4892,7 +4892,6 @@
             "projects": {
                 "header": "$~Projekt",
                 "projectprompt": "$~Redo att säga något? Skapa ett projekt eller arbeta med ett. Om du fastnar, fortsätt med <learning@://learn>.",
-                "archiveheader": "$~Arkiverad",
                 "archiveprompt": "$~Det här är projekt som du har arkiverat. Endast ägare kan permanent ta bort eller avarkivera dem. Arkiverade projekt kommer att raderas permanent 30 dagar efter att de senast redigerades.",
                 "galleriesheader": "$~Gallerier",
                 "galleryprompt": "$~Skapa och kurera gallerier för att dela en samling projekt med andra.",
@@ -4923,6 +4922,10 @@
                     "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
                     "nodeletes": "$~Du måste vara inloggad för att ta bort arkiverade projekt.",
                     "delete": "$~Hoppsan, vi kunde inte ta bort projektet!"
+                },
+                "subheader": {
+                    "shared": "$~Delad",
+                    "archived": "$~Arkiverad"
                 }
             },
             "galleries": {
@@ -5099,6 +5102,9 @@
                     "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",
                     "noauth": "$~Du måste vara inloggad för att se dina karaktärer och skapa nya.",
                     "create": "$~Det går inte att skapa en ny karaktär."
+                },
+                "subheader": {
+                    "shared": "$~Delad"
                 }
             },
             "character": {

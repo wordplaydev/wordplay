@@ -11220,17 +11220,12 @@
                       "$ref": "#/definitions/DialogText",
                       "description": "Dialog text for the project addition dialog"
                     },
-                    "archiveheader": {
-                      "description": "The header for the archived subsection",
-                      "type": "string"
-                    },
                     "archiveprompt": {
                       "description": "Explanation for the archive subsection",
                       "type": "string"
                     },
                     "button": {
                       "additionalProperties": false,
-                      "description": "Buttons on the project page",
                       "properties": {
                         "editproject": {
                           "description": "Edit a project",
@@ -11328,16 +11323,35 @@
                     "projectprompt": {
                       "description": "Explanation for the project page",
                       "type": "string"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "description": "Buttons on the project page",
+                      "properties": {
+                        "archived": {
+                          "description": "Header for the unarchived project list",
+                          "type": "string"
+                        },
+                        "shared": {
+                          "description": "Header for the shared project list",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "shared",
+                        "archived"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "projectprompt",
-                    "archiveheader",
                     "archiveprompt",
                     "galleriesheader",
                     "galleryprompt",
                     "add",
+                    "subheader",
                     "button",
                     "confirm",
                     "error"

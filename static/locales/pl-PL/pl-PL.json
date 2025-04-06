@@ -4897,7 +4897,6 @@
             "projects": {
                 "header": "$~Projektowanie",
                 "projectprompt": "$~Chcesz coś powiedzieć? Stwórz projekt lub pracuj nad nim. Jeśli utkniesz, kontynuuj <learning@://learn>.",
-                "archiveheader": "$~Zarchiwizowano",
                 "archiveprompt": "$~Są to projekty, które zarchiwizowałeś. Tylko właściciele mogą je trwale usunąć lub przywrócić z archiwum. Zarchiwizowane projekty zostaną trwale usunięte 30 dni po ostatniej edycji.",
                 "galleriesheader": "$~Galerie",
                 "galleryprompt": "$~Twórz i zarządzaj galeriami, aby udostępniać innym kolekcję projektów.",
@@ -4928,6 +4927,10 @@
                     "newgallery": "$~Nie udało się utworzyć nowej galerii.",
                     "nodeletes": "$~Aby usunąć zarchiwizowane projekty, musisz się zalogować.",
                     "delete": "$~Ups, nie udało się usunąć projektu!"
+                },
+                "subheader": {
+                    "shared": "$~Wspólny",
+                    "archived": "$~Zarchiwizowano"
                 }
             },
             "galleries": {
@@ -5104,6 +5107,9 @@
                     "offline": "$~Nie udało nam się uzyskać dostępu do Twoich postaci przechowywanych online.",
                     "noauth": "$~Musisz się zalogować, aby zobaczyć swoje postacie i stworzyć nowe.",
                     "create": "$~Nie można utworzyć nowej postaci."
+                },
+                "subheader": {
+                    "shared": "$~Wspólny"
                 }
             },
             "character": {

@@ -4673,7 +4673,6 @@
             "projects": {
                 "header": "项目",
                 "projectprompt": "准备好说些什么了吗？你可以开始创建一个新项目，或者继续在现有项目上工作。如果你遇到困难，继续学习 <learning@://learn>",
-                "archiveheader": "已归档",
                 "archiveprompt": "这些是你已归档的项目。只有所有者才能永久删除或取消归档它们。归档的项目将在最后编辑后的30天内永久删除。",
                 "galleriesheader": "画廊",
                 "galleryprompt": "创建和策划画廊，与他人分享项目集合",
@@ -4704,6 +4703,10 @@
                     "newgallery": "我们无法创建新的画廊。",
                     "nodeletes": "你必须登录才能删除已归档的项目。",
                     "delete": "哎呀，我们无法删除该项目！"
+                },
+                "subheader": {
+                    "shared": "$~共享",
+                    "archived": "$~已归档"
                 }
             },
             "galleries": {
@@ -4995,6 +4998,9 @@
                     "offline": "$~我们无法访问您在线存储的角色。",
                     "noauth": "$~您必须登录才能查看您的角色并创建新角色。",
                     "create": "$~无法创建新角色。"
+                },
+                "subheader": {
+                    "shared": "$~共享"
                 }
             },
             "character": {

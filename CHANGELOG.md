@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Always show collaborators in character share dialog, even when public.
 - Only allow one feedback vote per page load.
 - Split owned and shared characters on the characters page.
+- Split owned and shared projects on projects page.
 
 ## 0.16.9
 

@@ -4887,7 +4887,6 @@
             "projects": {
                 "header": "$~Projeler",
                 "projectprompt": "$~Bir şey söylemeye hazır mısınız? Bir proje oluşturun veya üzerinde çalışın. Takılırsanız, <learning@://learn>'e devam edin.",
-                "archiveheader": "$~Arşivlendi",
                 "archiveprompt": "$~Bunlar arşivlediğiniz projelerdir. Yalnızca sahipleri bunları kalıcı olarak silebilir veya arşivden çıkarabilir. Arşivlenen projeler, son düzenlendikten 30 gün sonra kalıcı olarak silinecektir.",
                 "galleriesheader": "$~Galeriler",
                 "galleryprompt": "$~Projelerinizin koleksiyonunu başkalarıyla paylaşmak için galeriler oluşturun ve düzenleyin.",
@@ -4918,6 +4917,10 @@
                     "newgallery": "$~Yeni bir galeri oluşturamadık.",
                     "nodeletes": "$~Arşivlenmiş projeleri silmek için giriş yapmanız gerekmektedir.",
                     "delete": "$~Oops, projeyi silemedik!"
+                },
+                "subheader": {
+                    "shared": "$~Paylaşılan",
+                    "archived": "$~Arşivlendi"
                 }
             },
             "galleries": {
@@ -5094,6 +5097,9 @@
                     "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",
                     "noauth": "$~Karakterlerinizi görmek ve yeni karakterler oluşturmak için giriş yapmanız gerekmektedir.",
                     "create": "$~Yeni bir karakter oluşturulamıyor."
+                },
+                "subheader": {
+                    "shared": "$~Paylaşılan"
                 }
             },
             "character": {

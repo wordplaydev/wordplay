@@ -4669,7 +4669,6 @@
             "projects": {
                 "header": "項目",
                 "projectprompt": "準備好說些什麼了嗎？您可以開始創建一個新項目，或者繼續在現有項目上工作。如果您遇到困難，繼續學習<learning@://learn>",
-                "archiveheader": "已歸檔",
                 "archiveprompt": "這些是您已歸檔的項目。只有所有者才能永久刪除或取消歸檔它們。歸檔的項目將在最後編輯後的30天內永久刪除。",
                 "galleriesheader": "圖庫",
                 "galleryprompt": "創建和規劃畫廊，與他人分享項目集合",
@@ -4700,6 +4699,10 @@
                 "add": {
                     "header": "$~新项目",
                     "explanation": "$~选择一个模板来创建一个新项目。"
+                },
+                "subheader": {
+                    "shared": "$~共享",
+                    "archived": "$~已归档"
                 }
             },
             "galleries": {
@@ -4991,6 +4994,9 @@
                     "offline": "$~我们无法访问您在线存储的角色。",
                     "noauth": "$~您必须登录才能查看您的角色并创建新角色。",
                     "create": "$~无法创建新角色。"
+                },
+                "subheader": {
+                    "shared": "$~共享"
                 }
             },
             "character": {
