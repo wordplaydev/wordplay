@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Enable pointer events on links in inactive `Phrase` output.
 - Fixed label size consistency.
 - Always show collaborators in character share dialog, even when public.
+- Only allow one feedback vote per page load.
 
 ## 0.16.9
 

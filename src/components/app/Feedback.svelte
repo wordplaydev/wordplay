@@ -34,6 +34,7 @@
     let ideas = $derived(feedback?.filter((f) => f.type === 'idea'));
     let currentFeedback = $derived(mode === 'defect' ? defects : ideas);
     let expanded: boolean[] = $state([]);
+    let votes = $state<Set<string>>(new Set());
 
     const user = getUser();
 
@@ -82,11 +83,12 @@
     async function vote(feed: Feedback) {
         const newFeedback = { ...feed, votes: feed.votes + 1 };
         const success = await updateFeedback(newFeedback);
-        if (success && feedback)
+        if (success && feedback) {
+            votes.add(feed.id);
             feedback = feedback.map((f) =>
                 f.id === feed.id ? newFeedback : f,
             );
-        else error = true;
+        } else error = true;
     }
 
     async function close(feed: Feedback) {
@@ -123,6 +125,7 @@
                 <Button
                     tip={(l) => l.ui.dialog.feedback.button.like}
                     icon="⭐️"
+                    active={!votes.has(feed.id)}
                     action={() => vote(feed)}>{feed.votes}</Button
                 >
                 {#if feed.creator === $user?.uid || moderator}
