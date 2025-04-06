@@ -17,6 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Split owned and shared characters on the characters page.
 - Split owned and shared projects on projects page.
 - Allow mods to edit feedback.
+- Fixed dialog scroll closing behavior.
 
 ## 0.16.9
 
