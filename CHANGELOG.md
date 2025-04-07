@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.10
 
+### Added
+
+- Added 2x, 5x, and 10x play time, to help with `Scene` testing.
+
 ### Fixed
 
 - Added unit to initial `Pitch` value.
