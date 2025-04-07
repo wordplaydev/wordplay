@@ -30,6 +30,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #732, improving English placeholder dialog.
 - Improved display of values when paused.
 - Clarified visibility of chats for curators.
+- Flipped scroll zoom on stage.
 
 ## 0.16.9
 
