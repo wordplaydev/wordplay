@@ -4642,7 +4642,7 @@
                 "solo": "Chat with yourself or add a collaborator, who can edit and chat.",
                 "owner": "Collaborators can edit this project and chat about it.",
                 "collaborator": "You're a collaborator. You can edit this project and chat about it.",
-                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it."
+                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner and collaborators can see the chat."
             }
         },
         "palette": {

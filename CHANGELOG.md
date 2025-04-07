@@ -29,6 +29,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Better labels on elided data structures.
 - Fixed #732, improving English placeholder dialog.
 - Improved display of values when paused.
+- Clarified visibility of chats for curators.
 
 ## 0.16.9
 
