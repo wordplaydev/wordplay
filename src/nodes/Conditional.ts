@@ -79,6 +79,10 @@ export default class Conditional extends Expression {
         );
     }
 
+    isUndelimited() {
+        return true;
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'Conditional';
     }
