@@ -1,0 +1,41 @@
+Style your text
+
+Sometimes we want our text to stand out. We can do this by /italicizing/, *bolding*, and more!
+
+For example, to italicize text, you can wrap it in forward slashes //, like //Hello//. For example:
+
+\
+Scene([
+  Phrase(`This is normal text`)
+  Phrase(`/This is italicized text/`)
+])
+\
+
+@Scene can also bold text. You can do this by wrapping your text in asterisks **, like **Hello**. For example:
+
+\
+Scene([
+  Phrase(`This is normal text`)
+  Phrase(`*This is bolded text*`)
+])
+\
+
+@Scene can also make text EXTRA bold. For this, wrap your text with carets ^^, like ^^Hello^^. For example:
+
+\
+Scene([
+  Phrase(`This is normal text`)
+  Phrase(`^This is extra bolded text^`)
+])
+\
+
+Finally, @Scene can make text underlined. For this, wrap your text in underscores __, like __Hello__. For example:
+
+\
+Scene([
+  Phrase(`This is normal text`)
+  Phrase(`_This is underlined text_`)
+])
+\
+
+animate-phrase
