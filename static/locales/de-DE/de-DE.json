@@ -4786,7 +4786,7 @@
                     "email": "$~Haben Sie ein Nur-E-Mail-Konto? Melden Sie sich an, indem Sie Ihre E-Mail-Adresse angeben. Wenn ein Konto damit verknüpft ist, senden wir Ihnen eine E-Mail mit einem Anmeldelink. Neue Nur-E-Mail-Konten werden aus Datenschutzgründen nicht unterstützt.",
                     "enter": "$~Offenbar stammt Ihr Anmeldelink von einem anderen Browser oder Gerät. Können Sie Ihre E-Mail-Adresse noch einmal eingeben, damit wir sicher sind, dass Sie es sind?",
                     "tooyoung": "$~Sie müssen mindestens 13 Jahre alt sein, um sich mit einer E-Mail anzumelden.",
-                    "passwordrule": "$~Passwörter müssen mindestens 10 Zeichen lang sein. Wenn Sie keinen Passwort-Manager verwenden, wählen Sie drei lange Wörter, die Sie sich gut merken können.",
+                    "passwordrule": "$~Passwörter müssen mindestens 6 Zeichen lang sein. Wenn Sie keinen Passwort-Manager verwenden, wählen Sie drei lange Wörter, die Sie sich gut merken können.",
                     "passwordreminder": "$~Es sieht so aus, als ob Sie noch kein Konto haben. Geben Sie Ihr Passwort erneut ein und stellen Sie sicher, dass Sie es sicher und korrekt gespeichert haben, da es nicht wiederherstellbar ist.",
                     "play": "$~Sie sind angemeldet, wir können Ihre Projekte jetzt online speichern! Möchten Sie etwas erstellen?",
                     "changeEmail": "$~Möchten Sie Ihre E-Mail-Adresse ändern? Senden Sie eine neue und wir senden eine Bestätigung an die alte.",
@@ -4831,7 +4831,7 @@
                         "placeholder": "$~Nutzername"
                     },
                     "password": {
-                        "description": "$~Login-Passwort, mindestens 10 Zeichen",
+                        "description": "$~Login-Passwort, mindestens 6 Zeichen",
                         "placeholder": "$~Passwort"
                     },
                     "currentPassword": {
@@ -4873,7 +4873,7 @@
                 "prompt": {
                     "create": "$~Erstellen Sie ein Konto, um Ihre Projekte zu speichern, mit anderen zusammenzuarbeiten und Ihre Arbeit zu teilen.",
                     "username": "$~Benutzernamen müssen mindestens 5 Zeichen lang sein, dürfen keine E-Mail-Adresse sein und dürfen weder Ihren Namen noch andere identifizierende Informationen enthalten.",
-                    "password": "$~Passwörter müssen mindestens /10 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
+                    "password": "$~Passwörter müssen mindestens /6 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
                 }
             },
             "rights": {

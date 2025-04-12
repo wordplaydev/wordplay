@@ -4968,7 +4968,7 @@
                     "enter": "$~Wygląda na to, że Twój link logowania pochodzi z innej przeglądarki lub urządzenia. Czy możesz wpisać swój adres e-mail jeszcze raz, abyśmy mieli pewność, że to Ty?",
                     "play": "$~Jesteś zalogowany, możemy teraz zapisać Twoje projekty online! Chcesz coś stworzyć?",
                     "tooyoung": "$~Musisz mieć ukończone 13 lat, aby zalogować się za pomocą adresu e-mail.",
-                    "passwordrule": "$~Hasło musi mieć co najmniej 10 znaków. Jeśli nie używasz menedżera haseł, wybierz trzy długie słowa, które łatwo zapamiętasz.",
+                    "passwordrule": "$~Hasło musi mieć co najmniej 6 znaków. Jeśli nie używasz menedżera haseł, wybierz trzy długie słowa, które łatwo zapamiętasz.",
                     "passwordreminder": "$~Wygląda na to, że nie masz jeszcze konta. Wprowadź ponownie swoje hasło i upewnij się, że zapisałeś je bezpiecznie i poprawnie, ponieważ nie można go odzyskać.",
                     "changeEmail": "$~Chcesz zmienić swój adres e-mail? Prześlij nowy, a my wyślemy potwierdzenie na stary.",
                     "changePassword": "$~Chcesz zmienić hasło? Podaj nowe i powtórz je.",
@@ -5011,7 +5011,7 @@
                         "placeholder": "$~nazwa użytkownika"
                     },
                     "password": {
-                        "description": "$~hasło logowania, co najmniej 10 znaków",
+                        "description": "$~hasło logowania, co najmniej 6 znaków",
                         "placeholder": "$~hasło"
                     },
                     "currentPassword": {
@@ -5052,7 +5052,7 @@
                 "prompt": {
                     "create": "$~Utwórz konto, aby zapisywać swoje projekty, współpracować z innymi i udostępniać swoją pracę.",
                     "username": "$~Nazwy użytkowników muszą mieć co najmniej /5 znaków/, nie mogą być adresami e-mail i nie powinny zawierać Twojego imienia ani innych informacji identyfikujących.",
-                    "password": "$~Hasła muszą mieć co najmniej /10 znaków/. Wpisz je dwa razy i zapisz w bezpiecznym miejscu, np. w menedżerze haseł. *Nie ma możliwości odzyskania konta*, jeśli je zgubisz, ponieważ nie zbieramy informacji kontaktowych."
+                    "password": "$~Hasła muszą mieć co najmniej /6 znaków/. Wpisz je dwa razy i zapisz w bezpiecznym miejscu, np. w menedżerze haseł. *Nie ma możliwości odzyskania konta*, jeśli je zgubisz, ponieważ nie zbieramy informacji kontaktowych."
                 }
             },
             "rights": {

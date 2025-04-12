@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.11
 
+### Fixed
+
+- Fixed password requirement inconsistency
+
 ### Maintenance
 
 - Updated Svelte, SvelteKit, Typescript, eslint, Vite, and Vitest.
