@@ -95,7 +95,7 @@
                         blocks={false}
                     /></div
                 ></div
-            >{/if} -->{#if menuPosition}
+            >{/if} -->{#if nextBind && menuPosition}
             &nbsp;<PlaceholderView position={menuPosition} />
         {/if}<NodeView node={node.close} />
     </div>
@@ -116,7 +116,7 @@
                     blocks={$blocks}
                 /></div
             ></div
-        >{/if} -->{#if menuPosition}
+        >{/if} -->{#if nextBind && menuPosition}
         &nbsp;<PlaceholderView position={menuPosition} />
     {/if}<NodeView node={node.close} />
 {/if}
