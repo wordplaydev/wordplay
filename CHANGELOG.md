@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Better troubleshooting info for clipboard operations.
 - Fixed localization of references when editor locale is selected.
 - Don't do rename on bind when inserting spaces before name.
+- Less jumpy evaluate suggestions.
 
 ### Maintenance
 
