@@ -169,7 +169,10 @@ export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
 const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
 
 export function isName(name: string) {
-    return toTokens(name).nextAre(Sym.Name, Sym.End);
+    const tokens = toTokens(name);
+    return (
+        tokens.nextAre(Sym.Name, Sym.End) && tokens.nextLacksPrecedingSpace()
+    );
 }
 
 function escapeRegexCharacter(c: string) {

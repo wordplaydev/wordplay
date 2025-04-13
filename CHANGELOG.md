@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed password requirement inconsistency
 - Better troubleshooting info for clipboard operations.
 - Fixed localization of references when editor locale is selected.
+- Don't do rename on bind when inserting spaces before name.
 
 ### Maintenance
 
