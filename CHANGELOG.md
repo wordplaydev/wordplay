@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Fixed password requirement inconsistency
+- Better troubleshooting info for clipboard operations.
 
 ### Maintenance
 
