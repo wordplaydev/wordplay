@@ -81,6 +81,10 @@ export default class Match extends Expression {
         return [Match.make()];
     }
 
+    isUndelimited() {
+        return true;
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'Match';
     }

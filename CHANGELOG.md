@@ -3,6 +3,50 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.11
+
+### Fixed
+
+- Fixed password requirement inconsistency
+- Better troubleshooting info for clipboard operations.
+- Fixed localization of references when editor locale is selected.
+- Don't do rename on bind when inserting spaces before name.
+- Less jumpy evaluate suggestions.
+
+### Maintenance
+
+- Updated Svelte, SvelteKit, Typescript, eslint, Vite, and Vitest.
+
+## 0.16.10
+
+### Added
+
+- Added 2x, 5x, and 10x play time, to help with `Scene` testing.
+
+### Fixed
+
+- Added unit to initial `Pitch` value.
+- More visible home link in footer.
+- Don't autocomplete `<` symbol.
+- Enable pointer events on links in inactive `Phrase` output.
+- Fixed label size consistency.
+- Always show collaborators in character share dialog, even when public.
+- Only allow one feedback vote per page load.
+- Split owned and shared characters on the characters page.
+- Split owned and shared projects on projects page.
+- Allow mods to edit feedback.
+- Fixed dialog scroll closing behavior.
+- Allow dragging of multiple selection.
+- Allow for pixel fill on existing colors.
+- Fixed several pixel and fill undo errors.
+- Fixed pixel fitting algorithm.
+- Better labels on elided data structures.
+- Fixed #732, improving English placeholder dialog.
+- Improved display of values when paused.
+- Clarified visibility of chats for curators.
+- Flipped scroll zoom on stage.
+- Fixed several translation errors.
+
 ## 0.16.9
 
 ### Added

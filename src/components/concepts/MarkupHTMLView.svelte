@@ -127,10 +127,14 @@
         font-size: var(--wordplay-small-font-size);
     }
 
-    p,
-    ul {
+    p {
         margin-block-start: 0em;
         margin-block-end: 0em;
+    }
+
+    ul {
+        margin-block-start: 0em;
+        margin-block-end: 1em;
     }
 
     p:last-child {

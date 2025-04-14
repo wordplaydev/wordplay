@@ -239,9 +239,9 @@ export class CharactersDatabase {
                 try {
                     match = CharacterSchema.parse(character);
                 } catch (err) {
-                    // Couldn't parse, so don't save it.
+                    // Couldn't parse, so there was a problem loading.
                     console.error(err);
-                    return null;
+                    return undefined;
                 }
             }
 
@@ -255,7 +255,7 @@ export class CharactersDatabase {
             return null;
         } catch (err) {
             console.error(err);
-            return undefined;
+            return null;
         }
     }
 

@@ -118,9 +118,10 @@
 
     .close {
         position: sticky;
-        top: 0;
+        top: 1em;
         width: 100%;
         text-align: right;
+        z-index: 2;
     }
 
     .content {

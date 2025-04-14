@@ -9522,6 +9522,10 @@
                   "$ref": "#/definitions/Template",
                   "description": "$1: node description or undefined"
                 },
+                "show": {
+                  "$ref": "#/definitions/Template",
+                  "description": "Show elided data structure $1 count"
+                },
                 "unwrap": {
                   "description": "Shown in menus to offer to unwrap an expression in parentheses",
                   "type": "string"
@@ -9545,7 +9549,8 @@
                 "replace",
                 "wrap",
                 "unwrap",
-                "bind"
+                "bind",
+                "show"
               ],
               "type": "object"
             },
@@ -10233,12 +10238,26 @@
                     "prompt": {
                       "description": "Explanation for the character page",
                       "type": "string"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "shared": {
+                          "description": "Header for the shared character list",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "shared"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "prompt",
                     "button",
+                    "subheader",
                     "error"
                   ],
                   "type": "object"
@@ -11206,17 +11225,12 @@
                       "$ref": "#/definitions/DialogText",
                       "description": "Dialog text for the project addition dialog"
                     },
-                    "archiveheader": {
-                      "description": "The header for the archived subsection",
-                      "type": "string"
-                    },
                     "archiveprompt": {
                       "description": "Explanation for the archive subsection",
                       "type": "string"
                     },
                     "button": {
                       "additionalProperties": false,
-                      "description": "Buttons on the project page",
                       "properties": {
                         "editproject": {
                           "description": "Edit a project",
@@ -11314,16 +11328,35 @@
                     "projectprompt": {
                       "description": "Explanation for the project page",
                       "type": "string"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "description": "Buttons on the project page",
+                      "properties": {
+                        "archived": {
+                          "description": "Header for the unarchived project list",
+                          "type": "string"
+                        },
+                        "shared": {
+                          "description": "Header for the shared project list",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "shared",
+                        "archived"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "projectprompt",
-                    "archiveheader",
                     "archiveprompt",
                     "galleriesheader",
                     "galleryprompt",
                     "add",
+                    "subheader",
                     "button",
                     "confirm",
                     "error"

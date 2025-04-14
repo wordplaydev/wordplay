@@ -28,7 +28,7 @@ export function createUnwrittenLocale(): LocaleText {
     let locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
 
     // Find the translatable pairs
-    const pairs = getTranslatableLocalePairs(locale);
+    const pairs = getCheckableLocalePairs(locale);
 
     // Mark all strings as unwritten
     for (const pair of pairs)
@@ -44,7 +44,7 @@ export function createUnwrittenLocale(): LocaleText {
 }
 
 /** Get translatable keys for locale text */
-export function getTranslatableLocalePairs(locale: LocaleText): LocalePath[] {
+export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
     // Find the translatable pairs
     return getKeyTemplatePairs(locale).filter((pair) => {
         // Emotion? Skip it.
@@ -117,8 +117,8 @@ async function checkLocale(
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
 
-    // Get the key/value pairs
-    let pairs: LocalePath[] = getKeyTemplatePairs(revised);
+    // Get the key/value pairs to check.
+    let pairs: LocalePath[] = getCheckableLocalePairs(revised);
 
     // Find all of the unwritten strings.
     const unwritten = pairs

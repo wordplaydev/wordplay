@@ -22,7 +22,10 @@
     import type Conflict from '@conflicts/Conflict';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+    } from '@db/settings/AnimationFactorSetting';
     import type Locale from '@locale/Locale';
     import Node from '@nodes/Node';
     import Source from '@nodes/Source';
@@ -1543,9 +1546,13 @@
                                     <Mode
                                         descriptions={(l) =>
                                             l.ui.dialog.settings.mode.animate}
-                                        choice={$animationFactor}
+                                        choice={AnimationFactors.indexOf(
+                                            $animationFactor,
+                                        )}
                                         select={(choice) =>
-                                            Settings.setAnimationFactor(choice)}
+                                            Settings.setAnimationFactor(
+                                                AnimationFactors[choice],
+                                            )}
                                         modes={AnimationFactorIcons}
                                         labeled={false}
                                     />

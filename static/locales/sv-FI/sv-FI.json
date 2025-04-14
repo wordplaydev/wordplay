@@ -4892,7 +4892,6 @@
             "projects": {
                 "header": "$~Projekt",
                 "projectprompt": "$~Redo att säga något? Skapa ett projekt eller arbeta med ett. Om du fastnar, fortsätt med <learning@://learn>.",
-                "archiveheader": "$~Arkiverad",
                 "archiveprompt": "$~Det här är projekt som du har arkiverat. Endast ägare kan permanent ta bort eller avarkivera dem. Arkiverade projekt kommer att raderas permanent 30 dagar efter att de senast redigerades.",
                 "galleriesheader": "$~Gallerier",
                 "galleryprompt": "$~Skapa och kurera gallerier för att dela en samling projekt med andra.",
@@ -4923,6 +4922,10 @@
                     "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
                     "nodeletes": "$~Du måste vara inloggad för att ta bort arkiverade projekt.",
                     "delete": "$~Hoppsan, vi kunde inte ta bort projektet!"
+                },
+                "subheader": {
+                    "shared": "$~Delad",
+                    "archived": "$~Arkiverad"
                 }
             },
             "galleries": {
@@ -4960,7 +4963,7 @@
                     "enter": "$~Det verkar som om din inloggningslänk kom från en annan webbläsare eller enhet. Kan du ange din e-postadress igen, bara så att vi är säkra på att det är du?",
                     "play": "$~Du är inloggad, vi kan spara dina projekt online nu! Vill du skapa något?",
                     "tooyoung": "$~Du måste vara 13 år eller äldre för att logga in med e-post.",
-                    "passwordrule": "$~Lösenord måste vara minst 10 tecken långa; om du inte använder en lösenordshanterare, välj tre långa ord som du kommer ihåg.",
+                    "passwordrule": "$~Lösenord måste vara minst 6 tecken långa; om du inte använder en lösenordshanterare, välj tre långa ord som du kommer ihåg.",
                     "passwordreminder": "$~Det verkar som att du inte har ett konto än. Ange ditt lösenord igen och se till att du har lagrat det säkert och korrekt, eftersom det inte går att återställa.",
                     "changeEmail": "$~Vill du ändra din e-postadress? Skicka in en ny så skickar vi en bekräftelse till den gamla.",
                     "changePassword": "$~Vill du ändra ditt lösenord? Skicka in en ny och upprepa den.",
@@ -5003,7 +5006,7 @@
                         "placeholder": "$~användarnamn"
                     },
                     "password": {
-                        "description": "$~inloggningslösenord, minst 10 tecken",
+                        "description": "$~inloggningslösenord, minst 6 tecken",
                         "placeholder": "$~lösenord"
                     },
                     "currentPassword": {
@@ -5044,7 +5047,7 @@
                 "prompt": {
                     "create": "$~Skapa ett konto för att spara dina projekt, samarbeta med andra och dela ditt arbete.",
                     "username": "$~Användarnamn måste vara minst /5 tecken/, får inte vara ett e-postmeddelande och får inte innehålla ditt namn eller annan identifieringsinformation.",
-                    "password": "$~Lösenord måste vara minst /10 tecken/. Skriv det två gånger och skriv ner det på ett säkert ställe, som en lösenordshanterare. *Det finns inget sätt att återställa ditt konto* om du förlorar det, eftersom vi inte samlar in kontaktinformation."
+                    "password": "$~Lösenord måste vara minst /6 tecken/. Skriv det två gånger och skriv ner det på ett säkert ställe, som en lösenordshanterare. *Det finns inget sätt att återställa ditt konto* om du förlorar det, eftersom vi inte samlar in kontaktinformation."
                 }
             },
             "rights": {
@@ -5099,6 +5102,9 @@
                     "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",
                     "noauth": "$~Du måste vara inloggad för att se dina karaktärer och skapa nya.",
                     "create": "$~Det går inte att skapa en ny karaktär."
+                },
+                "subheader": {
+                    "shared": "$~Delad"
                 }
             },
             "character": {
@@ -5288,7 +5294,8 @@
             "wrap": "$~parentes",
             "unwrap": "$~packa upp",
             "bind": "$~namnge detta uttryck",
-            "range": "$~urval från $1 till $2"
+            "range": "$~urval från $1 till $2",
+            "show": "$~… visa mer"
         },
         "template": {
             "unwritten": "$~TBD",

@@ -91,6 +91,10 @@ export default class Reaction extends Expression {
         );
     }
 
+    isUndelimited() {
+        return true;
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'Reaction';
     }

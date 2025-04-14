@@ -2,7 +2,10 @@
     import { Faces, getFaceDescription } from '@basis/Fonts';
     import Feedback from '@components/app/Feedback.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+    } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { onMount } from 'svelte';
     import { Creator } from '../../db/creators/CreatorDatabase';
@@ -132,8 +135,9 @@
             />
             <Mode
                 descriptions={(l) => l.ui.dialog.settings.mode.animate}
-                choice={$animationFactor}
-                select={(choice) => Settings.setAnimationFactor(choice)}
+                choice={AnimationFactors.indexOf($animationFactor)}
+                select={(choice) =>
+                    Settings.setAnimationFactor(AnimationFactors[choice])}
                 modes={AnimationFactorIcons}
             />
             {#if devicesRetrieved}

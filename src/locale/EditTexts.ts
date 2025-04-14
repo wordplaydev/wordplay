@@ -29,6 +29,8 @@ type EditTexts = {
     unwrap: string;
     /** Shown in menus to offer to name an expression with a bind */
     bind: string;
+    /** Show elided data structure $1 count */
+    show: Template;
 };
 
 export { type EditTexts as default };

@@ -4887,7 +4887,6 @@
             "projects": {
                 "header": "$~Projeler",
                 "projectprompt": "$~Bir şey söylemeye hazır mısınız? Bir proje oluşturun veya üzerinde çalışın. Takılırsanız, <learning@://learn>'e devam edin.",
-                "archiveheader": "$~Arşivlendi",
                 "archiveprompt": "$~Bunlar arşivlediğiniz projelerdir. Yalnızca sahipleri bunları kalıcı olarak silebilir veya arşivden çıkarabilir. Arşivlenen projeler, son düzenlendikten 30 gün sonra kalıcı olarak silinecektir.",
                 "galleriesheader": "$~Galeriler",
                 "galleryprompt": "$~Projelerinizin koleksiyonunu başkalarıyla paylaşmak için galeriler oluşturun ve düzenleyin.",
@@ -4918,6 +4917,10 @@
                     "newgallery": "$~Yeni bir galeri oluşturamadık.",
                     "nodeletes": "$~Arşivlenmiş projeleri silmek için giriş yapmanız gerekmektedir.",
                     "delete": "$~Oops, projeyi silemedik!"
+                },
+                "subheader": {
+                    "shared": "$~Paylaşılan",
+                    "archived": "$~Arşivlendi"
                 }
             },
             "galleries": {
@@ -4955,7 +4958,7 @@
                     "enter": "$~Giriş bağlantınız farklı bir tarayıcıdan veya cihazdan gelmiş gibi görünüyor. Siz olduğunuzdan emin olmak için e-postanızı tekrar girebilir misiniz?",
                     "play": "$~Giriş yaptınız, projelerinizi artık çevrimiçi olarak kaydedebiliriz! Bir şey oluşturmak ister misiniz?",
                     "tooyoung": "$~E-posta ile giriş yapabilmek için 13 yaşında veya daha büyük olmanız gerekmektedir.",
-                    "passwordrule": "$~Şifreleriniz en az 10 karakter uzunluğunda olmalı; eğer şifre yöneticisi kullanmıyorsanız hatırlayabileceğiniz üç uzun kelime seçin.",
+                    "passwordrule": "$~Şifreleriniz en az 6 karakter uzunluğunda olmalı; eğer şifre yöneticisi kullanmıyorsanız hatırlayabileceğiniz üç uzun kelime seçin.",
                     "passwordreminder": "$~Henüz bir hesabınız yok gibi görünüyor. Şifrenizi tekrar girin ve kurtarılamaz olduğundan güvenli ve doğru bir şekilde sakladığınızdan emin olun.",
                     "changeEmail": "$~E-postanızı değiştirmek mi istiyorsunuz? Yeni bir tane gönderin, eskisine bir onay gönderelim.",
                     "changePassword": "$~Şifrenizi değiştirmek mi istiyorsunuz? Yeni bir şifre gönderip tekrarlayın.",
@@ -4998,7 +5001,7 @@
                         "placeholder": "$~kullanıcı adı"
                     },
                     "password": {
-                        "description": "$~giriş şifresi, en az 10 karakter",
+                        "description": "$~giriş şifresi, en az 6 karakter",
                         "placeholder": "$~şifre"
                     },
                     "currentPassword": {
@@ -5039,7 +5042,7 @@
                 "prompt": {
                     "create": "$~Projelerinizi kaydetmek, başkalarıyla işbirliği yapmak ve çalışmalarınızı paylaşmak için bir hesap oluşturun.",
                     "username": "$~Kullanıcı adları en az /5 karakter/ olmalı, e-posta olmamalı ve adınızı veya diğer tanımlayıcı bilgileri içermemelidir.",
-                    "password": "$~Şifreler en az /10 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz."
+                    "password": "$~Şifreler en az /6 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz."
                 }
             },
             "rights": {
@@ -5094,6 +5097,9 @@
                     "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",
                     "noauth": "$~Karakterlerinizi görmek ve yeni karakterler oluşturmak için giriş yapmanız gerekmektedir.",
                     "create": "$~Yeni bir karakter oluşturulamıyor."
+                },
+                "subheader": {
+                    "shared": "$~Paylaşılan"
                 }
             },
             "character": {
@@ -5283,7 +5289,8 @@
             "wrap": "$~parantez içine almak",
             "unwrap": "$~açmak",
             "bind": "$~bu ifadeyi adlandırın",
-            "range": "$~1$'dan $2'a kadar seçim"
+            "range": "$~1$'dan $2'a kadar seçim",
+            "show": "$~… daha fazlasını göster"
         },
         "template": {
             "unwritten": "$~Belirsiz",

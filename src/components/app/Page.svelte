@@ -6,6 +6,7 @@
         type FullscreenContext,
     } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { LOGO_SYMBOL } from '@parser/Symbols';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
     import Color from '../../output/Color';
@@ -65,7 +66,10 @@
         <nav>
             {#if footer}
                 <Link nowrap tip={(l) => l.ui.widget.home} to="/"
-                    ><Emoji>💬</Emoji></Link
+                    ><Emoji
+                        ><span style:font-size="150%">{LOGO_SYMBOL}</span
+                        ></Emoji
+                    ></Link
                 >
                 <Link nowrap to="/projects"
                     ><LocalizedText

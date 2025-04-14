@@ -169,7 +169,10 @@ export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
 const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
 
 export function isName(name: string) {
-    return toTokens(name).nextAre(Sym.Name, Sym.End);
+    const tokens = toTokens(name);
+    return (
+        tokens.nextAre(Sym.Name, Sym.End) && tokens.nextLacksPrecedingSpace()
+    );
 }
 
 function escapeRegexCharacter(c: string) {
@@ -445,8 +448,6 @@ DelimiterCloseByOpen[SET_OPEN_SYMBOL_FULL] = SET_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 DelimiterCloseByOpen[TYPE_OPEN_SYMBOL_FULL] = TYPE_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
-DelimiterCloseByOpen[TAG_OPEN_SYMBOL] = TAG_CLOSE_SYMBOL;
-DelimiterCloseByOpen[TAG_OPEN_SYMBOL_FULL] = TAG_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[CODE_SYMBOL] = CODE_SYMBOL;
 DelimiterCloseByOpen[DOCS_SYMBOL] = DOCS_SYMBOL;
 DelimiterCloseByOpen[ELISION_SYMBOL] = ELISION_SYMBOL;

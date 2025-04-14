@@ -8,6 +8,10 @@ type PageText = {
         /** Create a new project */
         new: string;
     };
+    subheader: {
+        /** Header for the shared character list */
+        shared: string;
+    };
     error: {
         /** When there's no access to the database. */
         offline: string;

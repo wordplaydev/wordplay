@@ -1549,13 +1549,13 @@
             "doc": [
                 "$~Mogę to być dowolny tekst, napisany w dowolnym języku, z użyciem dowolnego z tych symboli otwierających i zamykających: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
                 "$~Aby to zobrazować, rozważmy te piękne frazy",
-                "$~\\„Są tylko dwa sposoby na życie. Jeden to taki, jakby nic nie było cudem. Drugi to taki, jakby wszystko było cudem.”\\",
-                "$~\\『Poprzedni wpis』\\",
+                "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
+                "\\『一日三秋』\\",
                 "$~Pamiętaj tylko, żeby zamknąć mnie, jeśli mnie otworzysz, i użyj pasującego symbolu. W przeciwnym razie nie będę wiedział, że skończyłeś ze swoimi słowami.",
-                "$~\\'cześć'/pl'hola'/es-MX\\",
+                "\\'hello'/en'hola'/es-MX\\",
                 "$~Możesz również oznaczyć mnie językami, a nawet podać wiele tłumaczeń. Ocenię je na dowolne języki, które są obecnie wybrane, jeśli istnieje pasujący język.",
                 "$~Jeśli chcesz, abym miał inne wartości, możesz zrobić tak:",
-                "$~\\\"Oto kilka sum \\1 + 2\\, \\2 + 3\\, \\3 + 4\"\\",
+                "$~\\\"Oto kilka sum \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~Widzisz, jak elegancko obliczyłem te sumy i umieściłem je w @Text?",
                 "$~Mam jeszcze jeden mały sekret: czy wiesz, że wszyscy mamy unikalny numer? To prawda! Możesz się do nas odwoływać po naszym numerze. Na przykład @FunctionDefinition to 192:",
                 "$~\\'92'\\",
@@ -4897,7 +4897,6 @@
             "projects": {
                 "header": "$~Projektowanie",
                 "projectprompt": "$~Chcesz coś powiedzieć? Stwórz projekt lub pracuj nad nim. Jeśli utkniesz, kontynuuj <learning@://learn>.",
-                "archiveheader": "$~Zarchiwizowano",
                 "archiveprompt": "$~Są to projekty, które zarchiwizowałeś. Tylko właściciele mogą je trwale usunąć lub przywrócić z archiwum. Zarchiwizowane projekty zostaną trwale usunięte 30 dni po ostatniej edycji.",
                 "galleriesheader": "$~Galerie",
                 "galleryprompt": "$~Twórz i zarządzaj galeriami, aby udostępniać innym kolekcję projektów.",
@@ -4928,6 +4927,10 @@
                     "newgallery": "$~Nie udało się utworzyć nowej galerii.",
                     "nodeletes": "$~Aby usunąć zarchiwizowane projekty, musisz się zalogować.",
                     "delete": "$~Ups, nie udało się usunąć projektu!"
+                },
+                "subheader": {
+                    "shared": "$~Wspólny",
+                    "archived": "$~Zarchiwizowano"
                 }
             },
             "galleries": {
@@ -4965,7 +4968,7 @@
                     "enter": "$~Wygląda na to, że Twój link logowania pochodzi z innej przeglądarki lub urządzenia. Czy możesz wpisać swój adres e-mail jeszcze raz, abyśmy mieli pewność, że to Ty?",
                     "play": "$~Jesteś zalogowany, możemy teraz zapisać Twoje projekty online! Chcesz coś stworzyć?",
                     "tooyoung": "$~Musisz mieć ukończone 13 lat, aby zalogować się za pomocą adresu e-mail.",
-                    "passwordrule": "$~Hasło musi mieć co najmniej 10 znaków. Jeśli nie używasz menedżera haseł, wybierz trzy długie słowa, które łatwo zapamiętasz.",
+                    "passwordrule": "$~Hasło musi mieć co najmniej 6 znaków. Jeśli nie używasz menedżera haseł, wybierz trzy długie słowa, które łatwo zapamiętasz.",
                     "passwordreminder": "$~Wygląda na to, że nie masz jeszcze konta. Wprowadź ponownie swoje hasło i upewnij się, że zapisałeś je bezpiecznie i poprawnie, ponieważ nie można go odzyskać.",
                     "changeEmail": "$~Chcesz zmienić swój adres e-mail? Prześlij nowy, a my wyślemy potwierdzenie na stary.",
                     "changePassword": "$~Chcesz zmienić hasło? Podaj nowe i powtórz je.",
@@ -5008,7 +5011,7 @@
                         "placeholder": "$~nazwa użytkownika"
                     },
                     "password": {
-                        "description": "$~hasło logowania, co najmniej 10 znaków",
+                        "description": "$~hasło logowania, co najmniej 6 znaków",
                         "placeholder": "$~hasło"
                     },
                     "currentPassword": {
@@ -5049,7 +5052,7 @@
                 "prompt": {
                     "create": "$~Utwórz konto, aby zapisywać swoje projekty, współpracować z innymi i udostępniać swoją pracę.",
                     "username": "$~Nazwy użytkowników muszą mieć co najmniej /5 znaków/, nie mogą być adresami e-mail i nie powinny zawierać Twojego imienia ani innych informacji identyfikujących.",
-                    "password": "$~Hasła muszą mieć co najmniej /10 znaków/. Wpisz je dwa razy i zapisz w bezpiecznym miejscu, np. w menedżerze haseł. *Nie ma możliwości odzyskania konta*, jeśli je zgubisz, ponieważ nie zbieramy informacji kontaktowych."
+                    "password": "$~Hasła muszą mieć co najmniej /6 znaków/. Wpisz je dwa razy i zapisz w bezpiecznym miejscu, np. w menedżerze haseł. *Nie ma możliwości odzyskania konta*, jeśli je zgubisz, ponieważ nie zbieramy informacji kontaktowych."
                 }
             },
             "rights": {
@@ -5104,6 +5107,9 @@
                     "offline": "$~Nie udało nam się uzyskać dostępu do Twoich postaci przechowywanych online.",
                     "noauth": "$~Musisz się zalogować, aby zobaczyć swoje postacie i stworzyć nowe.",
                     "create": "$~Nie można utworzyć nowej postaci."
+                },
+                "subheader": {
+                    "shared": "$~Wspólny"
                 }
             },
             "character": {
@@ -5293,7 +5299,8 @@
             "wrap": "$~w nawiasach",
             "unwrap": "$~odwijać się",
             "bind": "$~nazwij to wyrażenie",
-            "range": "$~wybór od $1 do $2 dolarów"
+            "range": "$~wybór od $1 do $2 dolarów",
+            "show": "$~… pokaż więcej"
         },
         "template": {
             "unwritten": "$~Do ustalenia",
