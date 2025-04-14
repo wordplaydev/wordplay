@@ -758,20 +758,20 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "*Expressions* are how we create values. All expressions are evaluations of functions that I make. The result of evaluating an expression is a value of some type."
+                            "*表達式（Expression）* 是我們創建一個值（Value）的方式。所有的表達式都是經由我評估、計算後創建的值，像是如果你問我1+1大於2嗎？我在經過計算和評估後，我會給你一個值（Value）：正確（True）！但根據你問我的問題不同，我會給你的表達式（Expression）也不一樣。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "🤔"],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Abstract? Hm, I guess this is all pretty abstract. It feels so… normal to me, I forget how foreign these things can be to new directors! Maybe let's go meet some expressions that make values, and this will make it more concrete? Let's start with one you've already seen: @Text."
+                            "有點抽象齁？也許我們去見一些創造值（Value）的 expressions，這會讓它更具體？讓我們從你已經見過的一個開始：@Text。"
                         ]
                     ]
                 },
                 {
-                    "title": "Quote, unquote",
-                    "subtitle": "Text",
+                    "title": "加上引號！",
+                    "subtitle": "文本",
                     "concept": "TextLiteral",
                     "performance": [
                         "fit",
@@ -786,7 +786,7 @@
                         [
                             "Text",
                             "happy",
-                            "Welcome my dear friend, how long it has been. What have you been doing in this dramatic silence of ours?"
+                            "喔，@Text，好久不見啦！我最近都在做夢還有想事情。我剛剛才去看了 @Evaluate，一個很久沒見的朋友。我正在把他介紹給我們的新導演呢！"
                         ],
                         null,
                         [
