@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "ta",
-    "regions": ["IN", "LK", "SK"],
+    "regions": ["IN", "LK", "SG"],
     "wordplay": "$~வார்த்தை விளையாட்டு",
     "term": {
         "bind": "$~கட்டு",
@@ -5366,6 +5366,10 @@
         "tools": {
             "name": "$~கருவிகள்",
             "description": "$~எளிய பயன்பாடுகள் மற்றும் பயன்பாடுகள்."
+        },
+        "stories": {
+            "name": "$~கதைகள்",
+            "description": "$~ஊடாடும் கதைகள் மற்றும் கதைகள்."
         }
     }
 }

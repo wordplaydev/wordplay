@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.11
 
+### Added
+
+- Added a few story examples to the gallery.
+
 ### Fixed
 
 - Fixed password requirement inconsistency

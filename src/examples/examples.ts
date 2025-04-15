@@ -117,6 +117,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Madlib',
                 'WheresWaldough',
                 'KatakanaGuess',
+                'FrenchNumbers',
             ],
         ),
         createGallery(
@@ -162,6 +163,13 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 locale.map((l) => [localeToString(l), l.gallery.av]),
             ),
             ['Listen', 'Talk', 'RainingLetters', 'Video', 'ASCII'],
+        ),
+        createGallery(
+            'Stories',
+            Object.fromEntries(
+                locale.map((l) => [localeToString(l), l.gallery.stories]),
+            ),
+            ['Pears', 'JapaneseClass'],
         ),
         createGallery(
             'Tools',

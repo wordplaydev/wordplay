@@ -318,6 +318,9 @@
         "motion": {
           "$ref": "#/definitions/GalleryText"
         },
+        "stories": {
+          "$ref": "#/definitions/GalleryText"
+        },
         "tools": {
           "$ref": "#/definitions/GalleryText"
         },
@@ -330,7 +333,8 @@
         "visualizations",
         "motion",
         "av",
-        "tools"
+        "tools",
+        "stories"
       ],
       "type": "object"
     },

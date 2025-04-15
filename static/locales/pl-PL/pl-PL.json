@@ -5362,6 +5362,10 @@
         "tools": {
             "name": "$~Narzędzia",
             "description": "$~Proste narzędzia i aplikacje."
+        },
+        "stories": {
+            "name": "$~Historie",
+            "description": "$~Interaktywne historie i narracje."
         }
     }
 }

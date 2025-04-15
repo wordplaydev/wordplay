@@ -5357,6 +5357,10 @@
         "tools": {
             "name": "$~Verktyg",
             "description": "$~Enkla verktyg och applikationer."
+        },
+        "stories": {
+            "name": "$~Berättelser",
+            "description": "$~Interaktiva berättelser och berättelser."
         }
     }
 }

@@ -5354,6 +5354,10 @@
         "tools": {
             "name": "Tools",
             "description": "Simple utilities and applications."
+        },
+        "stories": {
+            "name": "Stories",
+            "description": "Interactive stories and narratives."
         }
     }
 }

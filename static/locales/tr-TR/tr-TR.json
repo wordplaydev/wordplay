@@ -5352,6 +5352,10 @@
         "tools": {
             "name": "$~Aletler",
             "description": "$~Basit yardımcı programlar ve uygulamalar."
+        },
+        "stories": {
+            "name": "$~Hikayeler",
+            "description": "$~Etkileşimli hikayeler ve anlatılar."
         }
     }
 }
