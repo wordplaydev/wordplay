@@ -5303,6 +5303,10 @@
         "tools": {
             "name": "工具",
             "description": "簡單的實用工具和應用程式。"
+        },
+        "stories": {
+            "name": "$~故事",
+            "description": "$~互动故事和叙述。"
         }
     }
 }

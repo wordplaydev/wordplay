@@ -5357,6 +5357,10 @@
         "tools": {
             "name": "$~Outils",
             "description": "$~Utilitaires et applications simples."
+        },
+        "stories": {
+            "name": "$~Histoires",
+            "description": "$~Histoires et récits interactifs."
         }
     }
 }

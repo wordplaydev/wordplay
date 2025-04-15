@@ -5307,6 +5307,10 @@
         "tools": {
             "name": "工具",
             "description": "简单的实用工具和应用程序。"
+        },
+        "stories": {
+            "name": "$~故事",
+            "description": "$~互动故事和叙述。"
         }
     }
 }

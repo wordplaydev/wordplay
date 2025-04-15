@@ -5357,6 +5357,10 @@
         "tools": {
             "name": "도구",
             "description": "간단한 유틸리티 와와 애플리케이션."
+        },
+        "stories": {
+            "name": "$~스토리",
+            "description": "$~대화형 스토리와 내러티브."
         }
     }
 }
