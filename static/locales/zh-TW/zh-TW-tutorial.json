@@ -786,45 +786,45 @@
                         [
                             "Text",
                             "happy",
-                            "喔，@Text，好久不見啦！我最近都在做夢還有想事情。我剛剛才去看了 @Evaluate，一個很久沒見的朋友。我正在把他介紹給我們的新導演呢！"
+                            "@Text？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "happy",
-                            "Oh, @Text, it has been a while! I've mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director."
+                            "喔，@Text，好久不見啦！我最近都在做夢還有想事情。我剛剛才去看了 @Evaluate，一個很久沒見的朋友。我正在把他介紹給我們的新導演呢！"
                         ],
                         [
                             "Text",
                             "eager",
-                            "Oh, how exceptional it is to meet you! I can see that you're a creative, curious person, probably full of intriguing ideas for how we might entertain. I love entertaining. But do you know what I love even more? Words! Glorious words. The short ones, the overwhelming ones, the sticky ones, and the slippery ones. Words are my favorite toys."
+                            "哇，能見到你真是太棒了！我看得出來你是一個有創意、愛問問題的人，應該有很多有趣的想法。跟你說喔，我超級喜歡表演！不過你知道我最喜歡的是什麼嗎？是*文字*！各種文字——筆畫多的、筆畫少的、好聽的、好看的，我最喜歡和文字一起玩了！"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "In case you couldn't tell, @Text likes words :) @Text, do you want to explain what you do?"
+                            "哈哈，你大概已經發現了，@Text 超級喜歡文字 :)   @Text，你想跟大家說說你是做什麼的嗎？"
                         ],
                         [
                             "Text",
                             "serious",
-                            "I do one simple thing: represent sequences of symbols, and the many things you can do with them. I think you saw me earlier when you wrote the word \\“hello”\\? That was me, and my friends \\“h”\\, \\“e”\\, \\“l”\\, and \\“o”\\. That was @Text, an expression that evaluates to any @Text you like."
+                            "我在這邊做一件簡單但重要的事情：我代表一連串的符號，也就是文字！你還記得你剛剛打出來的 \\「你好」\\ 這幾個字嗎？那就是我！還有我的朋友 \\「你」\\、 \\「好」\\。這就是我，文本 @Text，一種可以變成你想要的任何文字的表達式。"
                         ],
                         null,
                         [
                             "Text",
                             "serious",
-                            "Why don't you try making a text in this blank @Program?",
-                            "You can use whatever quotes you like — single \\''\\, double \\''\\, angle \\«»\\, brackets \\「」\\, in whatever language you like. The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. Everything inside is the text value I will create!"
+                            "試試看，在這片空白 @Program 裡寫一段文字？",
+                            "你也可以用任何你喜歡的引號來包住它們——單引號 \\「」\\、 雙引號 \\『』\\、書名號 \\«»\\、括號 \\（）\\，也可以用任何你喜歡的語言！唯一的規則是：你用什麼符號開始，就要用相同的符號結束。裡面的東西，我就會幫你變成的文本！"
                         ],
                         ["edit", "''"],
                         null,
                         [
                             "Text",
                             "serious",
-                            "You might not be able to type every character you want with the device you're using to communicate with us.",
-                            "If you can't, you can search for characters in the *directory* @UI/directory. That contains every character in the Verse.",
-                            "For example, if you wanted an arrow of some kind, you could type 'arrow', and choose from the many arrows. Alas, they only have English names, so searching only works if you know English words :/"
+                            "如果你現在用的裝置不能打出你想要的符號也沒關係。你可以去 @UI/directory 這個 目錄 找找看，那裡面有整個世界裡的所有符號。",
+                            "你可以去 @UI/directory 這個 目錄 找找看，那裡面有整個詩篇裡的所有符號。",
+                            "比如你想找一個箭頭，只要打「arrow」這個英文單字，就會出現好多種箭頭讓你選，不過可惜的是，這些名字現在還都是英文的，所以你可能要會一點英文才能找得到 :（ "
                         ],
                         null,
                         [
