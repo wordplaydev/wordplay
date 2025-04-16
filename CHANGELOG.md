@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Added
 
 - Added a few story examples to the gallery.
+- Added to game-related how to documents.
 
 ### Fixed
 
