@@ -135,7 +135,7 @@ export default class Language extends Node {
         return language
             ? {
                   language: language as LanguageCode,
-                  regions: [region as RegionCode],
+                  regions: region ? [region as RegionCode] : [],
               }
             : undefined;
     }

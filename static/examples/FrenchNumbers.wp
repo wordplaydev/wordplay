@@ -1,5 +1,5 @@
 numéros français
-=== start
+=== start/en-US,start/fr-FR
 ¶The numbers to guess¶/en
 ¶Les nombres à deviner¶/fr
 numbers/en,numeros/fr: [
@@ -24,7 +24,7 @@ key/en,clé/fr: Key()
 
 ¶The current secret is increased each time a key is pressed, but stops at 10¶/en
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
-secretIndex/en,secretIndice•#:
+secretIndex/en,secretIndice/fr•#:
 	1 …
 	∆ key …
 		(secretIndice < 10) ? secretIndice + 1 secretIndice
@@ -53,7 +53,7 @@ gameover: secretIndex = 10
 After all the 9 secrets, show a final result¶/en
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-Scène([
+Stage([
 		Group(
 			Stack()
 			[

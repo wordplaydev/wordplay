@@ -289,7 +289,7 @@ export default class Source extends Expression {
     }
 
     getGraphemesBetween(start: number, end: number) {
-        return this.code.substring(start, end);
+        return this.code.substring(Math.min(start, end), Math.max(start, end));
     }
 
     /**
