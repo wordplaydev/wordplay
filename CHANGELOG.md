@@ -17,6 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Don't do rename on bind when inserting spaces before name.
 - Less jumpy evaluate suggestions.
 - Fixed example conflict.
+- Fixed case where flipped selection range wouldn't copy.
 
 ### Maintenance
 
