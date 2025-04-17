@@ -30,6 +30,7 @@ export const HowToMetadata = {
     'custom-characters': { category: 'characters' },
     'animated-scene': { category: 'stories' },
     'interactive-scene': { category: 'stories' },
+    'styling-text': { category: 'stories' },
     'shake-phrase': { category: 'randomization' },
     'video-grid': { category: 'video' },
     'track-points': { category: 'remembering' },
@@ -126,3 +127,4 @@ export function parseHowTo(
 }
 
 export type { HowTo as default };
+
