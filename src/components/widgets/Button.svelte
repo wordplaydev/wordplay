@@ -166,8 +166,6 @@
         overflow: visible;
         /* Don't let it shrink smaller than its width */
         flex-shrink: 0;
-        /* Don't stretch inside of a flex container */
-        flex-grow: 0;
     }
 
     .padding {

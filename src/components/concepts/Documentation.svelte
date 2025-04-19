@@ -512,6 +512,6 @@
     .howtos {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: 1em;
     }
 </style>

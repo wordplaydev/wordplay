@@ -150,8 +150,4 @@
     .node:not(:global(.outline)) {
         border-radius: var(--wordplay-border-radius);
     }
-
-    .view {
-        margin-block-end: 1em;
-    }
 </style>
