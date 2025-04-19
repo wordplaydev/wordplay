@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Strip zero width spaces from tokenizing; they serve no purpose.
 - Don't localize operators.
 - More precise tokenizing of URLs to allow for <3 emoticons.
+- Fixed select all in character text box.
 
 ## 0.16.11
 
