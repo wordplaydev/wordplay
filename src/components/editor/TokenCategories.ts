@@ -67,5 +67,8 @@ TokenCategories.set(Sym.Boolean, TokenCategoryLiteral);
 TokenCategories.set(Sym.Name, TokenCategoryName);
 TokenCategories.set(Sym.End, TokenCategoryEnd);
 TokenCategories.set(Sym.Unknown, TokenCategoryUnknown);
+TokenCategories.set(Sym.TagOpen, TokenCategoryDelimiter);
+TokenCategories.set(Sym.TagClose, TokenCategoryDelimiter);
+TokenCategories.set(Sym.URL, TokenCategoryShare);
 
 export default TokenCategories;

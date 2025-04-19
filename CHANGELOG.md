@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed wrapping and alignment of how to links.
 - Strip zero width spaces from tokenizing; they serve no purpose.
 - Don't localize operators.
+- More precise tokenizing of URLs to allow for <3 emoticons.
 
 ## 0.16.11
 
