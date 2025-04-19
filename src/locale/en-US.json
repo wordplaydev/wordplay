@@ -3257,7 +3257,7 @@
             },
             "face": {
                 "doc": "The name of the font face content inside me should have, unless they have their own face to use.",
-                "names": "face"
+                "names": ["face", "font"]
             },
             "place": {
                 "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
