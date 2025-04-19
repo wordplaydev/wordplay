@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 - Account for empty name list.
+- Fixed #734. Typos in account creation.
 
 ## 0.16.11
 
