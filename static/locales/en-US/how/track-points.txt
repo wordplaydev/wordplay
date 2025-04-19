@@ -15,9 +15,7 @@ This example says, /Points starts at 0, and then every time a key is pressed, if
 There are three parts to a reaction in this:
 
 • The initial value for points (\0\)
-
 • The condition that, when true, produces a new value (\['a' 'e' 'i' 'o' 'u'].has(Key())\)
-
 • The new value, if the condition becomes true (\points + 1\)
 
 To make more sophisticated point tracking, just make more sophisticed conditions or new values. Take some time to think through the rules of those conditions and new values, and then try to express them in code.

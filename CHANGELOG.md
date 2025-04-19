@@ -18,6 +18,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Don't localize operators.
 - More precise tokenizing of URLs to allow for <3 emoticons.
 - Fixed select all in character text box.
+- Don't require spaces after bullets in markup.
 
 ## 0.16.11
 
