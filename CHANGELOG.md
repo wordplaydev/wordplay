@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.12
 
+## Added
+
+- Copy custom character.
+
 ## Fixed
 
 - Account for empty name list.

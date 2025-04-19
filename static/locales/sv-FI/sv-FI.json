@@ -5096,7 +5096,12 @@
                 "header": "$~Karaktärer",
                 "prompt": "$~Skapa anpassade emojis och symboler att använda i dina projekt och dela med andra.",
                 "button": {
-                    "new": "$~Skapa en ny karaktär"
+                    "new": "$~Skapa en ny karaktär",
+                    "copy": "$~Kopiera denna karaktär",
+                    "remove": {
+                        "tip": "$~Ta bort detta tecken",
+                        "prompt": "$~radera?"
+                    }
                 },
                 "error": {
                     "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",

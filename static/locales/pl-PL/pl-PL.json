@@ -5101,7 +5101,12 @@
                 "header": "$~Pismo",
                 "prompt": "$~Twórz własne emotikony i symbole, których możesz używać w swoich projektach i udostępniać je innym.",
                 "button": {
-                    "new": "$~Utwórz nową postać"
+                    "new": "$~Utwórz nową postać",
+                    "copy": "$~Skopiuj ten znak",
+                    "remove": {
+                        "tip": "$~Usuń tę postać",
+                        "prompt": "$~usuwać?"
+                    }
                 },
                 "error": {
                     "offline": "$~Nie udało nam się uzyskać dostępu do Twoich postaci przechowywanych online.",

@@ -5091,7 +5091,12 @@
                 "header": "$~Karakterler",
                 "prompt": "$~Projelerinizde kullanmak ve başkalarıyla paylaşmak için özel emojiler ve semboller oluşturun.",
                 "button": {
-                    "new": "$~Yeni bir karakter yarat"
+                    "new": "$~Yeni bir karakter yarat",
+                    "copy": "$~Bu karakteri kopyala",
+                    "remove": {
+                        "tip": "$~Bu karakteri sil",
+                        "prompt": "$~silmek?"
+                    }
                 },
                 "error": {
                     "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",

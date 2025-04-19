@@ -5041,7 +5041,12 @@
                 "header": "$~Charaktere",
                 "prompt": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole, die Sie in Ihren Projekten verwenden und mit anderen teilen können.",
                 "button": {
-                    "new": "$~Einen neuen Charakter erstellen"
+                    "new": "$~Einen neuen Charakter erstellen",
+                    "copy": "$~Kopiere dieses Zeichen",
+                    "remove": {
+                        "tip": "$~Dieses Zeichen löschen",
+                        "prompt": "$~löschen?"
+                    }
                 },
                 "error": {
                     "offline": "$~Wir konnten nicht auf Ihre online gespeicherten Charaktere zugreifen.",

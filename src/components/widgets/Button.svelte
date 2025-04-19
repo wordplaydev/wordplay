@@ -40,6 +40,8 @@
         icon?: string | undefined;
         /** An optional shortcut string for ARIA */
         shortcut?: string;
+        /** Whether to wrap the text in the button */
+        wrap?: boolean;
         /** The label */
         children?: import('svelte').Snippet;
     }
@@ -60,6 +62,7 @@
         padding = true,
         testid = undefined,
         shortcut = undefined,
+        wrap = false,
         icon,
         children,
     }: Props = $props();
@@ -102,6 +105,7 @@
     class:scale
     class:large
     class:pressed
+    class:wrap
     data-testid={testid}
     data-uiid={uiid}
     class={classes}
@@ -159,13 +163,17 @@
         min-width: 1em;
         min-height: var(--wordplay-widget-height);
         width: fit-content;
-        white-space: wrap;
+        white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 100ms);
         /* This allows command hints to be visible */
         position: relative;
         overflow: visible;
         /* Don't let it shrink smaller than its width */
         flex-shrink: 0;
+    }
+
+    .wrap {
+        white-space: normal;
     }
 
     .padding {

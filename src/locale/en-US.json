@@ -4940,7 +4940,12 @@
                 "header": "Characters",
                 "prompt": "Create custom emojis and symbols to use in your projects and share with others.",
                 "button": {
-                    "new": "Create a new character"
+                    "new": "Create a new character",
+                    "copy": "Copy this character",
+                    "remove": {
+                        "tip": "Delete this character",
+                        "prompt": "delete?"
+                    }
                 },
                 "subheader": {
                     "shared": "Shared"
@@ -5116,7 +5121,7 @@
                     "notfound": "This character doesn't exist or isn't visible to you.",
                     "unauthenticated": "You must be logged in to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
-                    "unsaved": "Your character will not save until it has a unique name and a description."
+                    "unsaved": "Your character will not save until it has a uniquename and a description."
                 },
                 "announce": {
                     "position": "at $1 $2",
