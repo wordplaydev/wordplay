@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #734. Typos in account creation.
 - Fixed wrapping and alignment of how to links.
 - Strip zero width spaces from tokenizing; they serve no purpose.
+- Don't localize operators.
 
 ## 0.16.11
 

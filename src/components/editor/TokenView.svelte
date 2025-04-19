@@ -82,7 +82,13 @@
     // Don't localize the name if the caret is in the name.
     let text = $derived(
         context && root && localize && $localize
-            ? node.localized(isInCaret, false, $localize, root, context)
+            ? node.localized(
+                  isInCaret,
+                  node.isSymbol(Sym.Operator),
+                  $localize,
+                  root,
+                  context,
+              )
             : node.getText(),
     );
 
