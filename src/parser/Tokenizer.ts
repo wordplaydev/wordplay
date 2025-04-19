@@ -479,6 +479,9 @@ export function tokenize(source: string): TokenList {
     // First, strip any carriage returns. We only work with line feeds.
     source = source.replaceAll('\r', '');
 
+    // Then, strip any zero width spaces. Those only cause confusion, since they are invisible.
+    source = source.replaceAll('\u200B', '');
+
     // Start with an empty list
     const tokens: Token[] = [];
 
