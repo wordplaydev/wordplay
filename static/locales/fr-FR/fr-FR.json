@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Je vais ignorer $1, car il ne définit rien et n'est pas ma dernière expression.",
                     "secondary": "$~@Block, ne m'ignore pas !",
-                    "resolution": "$~Vouliez-vous dire que ce serait un @BinaryEvaluate au lieu d'un @UnaryEvaluate ? Je peux ajouter un espace, donc je sais que c'est ce que vous vouliez dire."
+                    "resolution": {
+                        "binary": "$~Vouliez-vous dire que ce serait un @BinaryEvaluate au lieu d'un @UnaryEvaluate ? Je peux ajouter un espace, donc je sais que c'est ce que vous vouliez dire.",
+                        "evaluate": "$~Vouliez-vous que ce soit une @Evaluate? Je peux supprimer cet espace pour en faire une seule expression, au lieu de deux expressions distinctes."
+                    }
                 }
             }
         },

@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~$1 は何も定義しておらず、最後の式でもないので無視します。",
                     "secondary": "$~@Block、無視しないで！",
-                    "resolution": "$~これを @UnaryEvaluate ではなく @BinaryEvaluate にするつもりでしたか? スペースを追加できるので、それが意図したことだとわかります。"
+                    "resolution": {
+                        "binary": "$~これを @UnaryEvaluate ではなく @BinaryEvaluate にするつもりでしたか? スペースを追加できるので、それが意図したことだとわかります。",
+                        "evaluate": "$~これを @Evaluate にするつもりでしたか? このスペースを削除して、2 つの別々の式ではなく 1 つの式にすることができます。"
+                    }
                 }
             }
         },

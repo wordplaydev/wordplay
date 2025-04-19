@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Jag kommer att ignorera $1, eftersom det inte definierar någonting och inte är mitt sista uttryck.",
                     "secondary": "$~@Block, ignorera mig inte!",
-                    "resolution": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade."
+                    "resolution": {
+                        "binary": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade.",
+                        "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck."
+                    }
                 }
             }
         },

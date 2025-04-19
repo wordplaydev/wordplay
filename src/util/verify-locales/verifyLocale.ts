@@ -502,6 +502,7 @@ export function addMissingKeys(
             } else if (
                 key !== 'names' &&
                 key !== 'doc' &&
+                key !== 'regions' &&
                 Array.isArray(sourceValue) &&
                 sourceValue.every((s) => typeof s === 'string')
             ) {

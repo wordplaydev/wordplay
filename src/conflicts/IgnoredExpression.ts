@@ -4,7 +4,7 @@ import type Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type Locales from '../locale/Locales';
-import type Block from '../nodes/Block';
+import Block from '../nodes/Block';
 import Conflict, { type Resolution } from './Conflict';
 
 export class IgnoredExpression extends Conflict {
@@ -36,7 +36,7 @@ export class IgnoredExpression extends Conflict {
                         locales.concretize(
                             (l) =>
                                 l.node.Block.conflict.IgnoredExpression
-                                    .resolution,
+                                    .resolution.binary,
                         ),
                     mediator: (context: Context) => {
                         const source = context.project.getSourceOf(next);
@@ -74,6 +74,47 @@ export class IgnoredExpression extends Conflict {
                 };
         }
 
+        // If the expression is followed by a block with a preceding space, offer to remove the space.
+        let splitEvaluate: Resolution | undefined;
+        if (next instanceof Block) {
+            const source = context.project.getSourceOf(next);
+            if (source) {
+                const firstLeaf = next.leaves()[0];
+                if (firstLeaf) {
+                    splitEvaluate = {
+                        description: (locales: Locales) =>
+                            locales.concretize(
+                                (l) =>
+                                    l.node.Block.conflict.IgnoredExpression
+                                        .resolution.evaluate,
+                            ),
+                        mediator: (context: Context) => {
+                            const source = context.project.getSourceOf(next);
+                            if (source) {
+                                return {
+                                    newProject: context.project.withSource(
+                                        source,
+                                        source.withCode(
+                                            source
+                                                .withSpaces(
+                                                    source
+                                                        .getSpaces()
+                                                        .withSpace(
+                                                            firstLeaf,
+                                                            '',
+                                                        ),
+                                                )
+                                                .toWordplay(),
+                                        ),
+                                    ),
+                                };
+                            }
+                            return { newProject: context.project };
+                        },
+                    };
+                }
+            }
+        }
         return {
             primary: {
                 node: this.block,
@@ -91,7 +132,10 @@ export class IgnoredExpression extends Conflict {
                             l.node.Block.conflict.IgnoredExpression.secondary,
                     ),
             },
-            resolutions: unary ? [unary] : [],
+            resolutions: [
+                ...(unary ? [unary] : []),
+                ...(splitEvaluate ? [splitEvaluate] : []),
+            ],
         };
     }
 }

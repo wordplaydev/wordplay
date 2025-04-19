@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~$1'i görmezden geleceğim, çünkü hiçbir şeyi tanımlamıyor ve son ifadem de değil.",
                     "secondary": "$~@Block, beni görmezden gelme!",
-                    "resolution": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum."
+                    "resolution": {
+                        "binary": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum.",
+                        "evaluate": "$~Bunun bir @Evaluate olmasını mı istediniz? İki ayrı ifade yerine, tek bir ifade yapmak için bu alanı kaldırabilirim."
+                    }
                 }
             }
         },

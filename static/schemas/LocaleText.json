@@ -2755,7 +2755,20 @@
                           "description": "The text that describes this conflict on the node which generated it."
                         },
                         "resolution": {
-                          "$ref": "#/definitions/Template"
+                          "additionalProperties": false,
+                          "properties": {
+                            "binary": {
+                              "$ref": "#/definitions/Template"
+                            },
+                            "evaluate": {
+                              "$ref": "#/definitions/Template"
+                            }
+                          },
+                          "required": [
+                            "binary",
+                            "evaluate"
+                          ],
+                          "type": "object"
                         },
                         "secondary": {
                           "$ref": "#/definitions/Template",
