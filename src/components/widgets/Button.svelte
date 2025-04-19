@@ -159,13 +159,15 @@
         min-width: 1em;
         min-height: var(--wordplay-widget-height);
         width: fit-content;
-        white-space: nowrap;
+        white-space: wrap;
         transition: transform calc(var(--animation-factor) * 100ms);
         /* This allows command hints to be visible */
         position: relative;
         overflow: visible;
         /* Don't let it shrink smaller than its width */
         flex-shrink: 0;
+        /* Don't stretch inside of a flex container */
+        flex-grow: 0;
     }
 
     .padding {

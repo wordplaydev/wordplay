@@ -189,6 +189,7 @@
     .conceptlink {
         display: inline-block;
         font-style: normal;
+        text-align: start;
     }
 
     .conceptlink.interactive {
