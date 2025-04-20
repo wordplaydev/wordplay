@@ -3345,7 +3345,7 @@
             ],
             "names": ["💬", "Phrase"],
             "text": {
-                "doc": "The characters to show on @Stage.",
+                "doc": "The characters to show on @Stage, in plain text or @FormattedLiteral.",
                 "names": "text"
             },
             "size": {

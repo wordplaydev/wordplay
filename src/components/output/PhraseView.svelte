@@ -65,7 +65,7 @@
     );
 
     // Get the phrase's text in the preferred language
-    let text = $derived(phrase.getLocalizedTextOrDoc($locales));
+    let text = $derived(phrase.getLocalizedTextOrDoc());
     let empty = $derived(phrase.isEmpty());
     let selectable = $derived(phrase.selectable && !empty);
 

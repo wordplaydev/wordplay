@@ -7,7 +7,6 @@ import {
 } from '@locale/Scripts';
 import { getBind } from '@locale/getBind';
 import { LINK_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
-import ListValue from '@values/ListValue';
 import MarkupValue from '@values/MarkupValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
@@ -43,7 +42,7 @@ import { getTypeStyle } from './toOutput';
 export function createPhraseType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Phrase, TYPE_SYMBOL)} Output(
-        ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
+        ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|\`…\`
         ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
         ${getBind(
             locales,
@@ -114,7 +113,7 @@ export type Metrics = {
 };
 
 export default class Phrase extends Output {
-    readonly text: TextLang[] | MarkupValue;
+    readonly text: TextLang | MarkupValue;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
     readonly direction: WritingLayoutSymbol;
@@ -127,7 +126,7 @@ export default class Phrase extends Output {
 
     constructor(
         value: StructureValue,
-        text: TextLang[] | MarkupValue,
+        text: TextLang | MarkupValue,
         size: number | undefined = undefined,
         face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
@@ -204,7 +203,7 @@ export default class Phrase extends Output {
         const renderedSize = this.size ?? context.size;
 
         // Get the text that will be rendered.
-        const text = this.getLocalizedTextOrDoc(context.locales);
+        const text = this.getLocalizedTextOrDoc();
 
         // Tracking metrics
         let width = 0;
@@ -326,27 +325,15 @@ export default class Phrase extends Output {
         return undefined;
     }
 
-    getLocalizedTextOrDoc(locales: Locales): TextLang | Markup {
+    getLocalizedTextOrDoc(): TextLang | Markup {
         // Get the list of text lang and doc and find the one with the best matching language.
-        if (Array.isArray(this.text)) {
-            const options = this.text;
-            // Convert the preferred languages into matching text, filtering unmatched languages, and choosing the
-            // first match. If no match, default to the first text.
-            return (
-                locales
-                    .getLocales()
-                    .map((locale) =>
-                        options.find((text) => locale.language === text.lang),
-                    )
-                    .filter(
-                        (text): text is TextLang => text !== undefined,
-                    )[0] ?? this.text[0]
-            );
+        if (this.text instanceof TextLang) {
+            return this.text;
         } else return this.text.markup;
     }
 
-    getShortDescription(locales: Locales) {
-        const textOrDoc = this.getLocalizedTextOrDoc(locales);
+    getShortDescription() {
+        const textOrDoc = this.getLocalizedTextOrDoc();
         return textOrDoc instanceof TextLang
             ? textOrDoc.text
             : (textOrDoc?.toText() ?? '');
@@ -354,7 +341,7 @@ export default class Phrase extends Output {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            const text = this.getShortDescription(locales);
+            const text = this.getShortDescription();
 
             this._description = locales
                 .concretize(
@@ -381,8 +368,8 @@ export default class Phrase extends Output {
         return false;
     }
 
-    getRepresentativeText(locales: Locales) {
-        const preferred = this.getLocalizedTextOrDoc(locales);
+    getRepresentativeText() {
+        const preferred = this.getLocalizedTextOrDoc();
         return preferred instanceof Markup
             ? preferred.getRepresentativeText()
             : preferred.text;
@@ -394,8 +381,8 @@ export default class Phrase extends Output {
     }
 
     toString() {
-        return Array.isArray(this.text)
-            ? this.text.map((text) => text.text).join(', ')
+        return this.text instanceof TextLang
+            ? this.text
             : this.text.markup.toText();
     }
 }
@@ -480,15 +467,10 @@ export function toText(value: Value | undefined) {
 export function toTextLang(value: Value | undefined) {
     const texts =
         value instanceof TextValue
-            ? [new TextLang(value, value.text, value.format)]
-            : value instanceof ListValue &&
-                value.values.every((t) => t instanceof TextValue)
-              ? (value.values as TextValue[]).map(
-                    (val) => new TextLang(val, val.text, val.format),
-                )
-              : value instanceof MarkupValue
-                ? value
-                : undefined;
+            ? new TextLang(value, value.text, value.format)
+            : value instanceof MarkupValue
+              ? value
+              : undefined;
 
     return texts;
 }
