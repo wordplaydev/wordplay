@@ -20,6 +20,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed select all in character text box.
 - Don't require spaces after bullets in markup.
 - Added "font" to English and Chinese names, even though it conflates "typeface" and "font".
+- Fixed localization of function inputs in guide.
 
 ## 0.16.11
 
