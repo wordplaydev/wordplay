@@ -1153,13 +1153,16 @@
 
     async function handlePointerMove(event: PointerEvent) {
         if (!canvas) return;
-        if (!draggedTile) return;
         if (!view) return;
 
-        const rect = view.getBoundingClientRect();
+        if (dragged) {
+            const rect = view.getBoundingClientRect();
 
-        pointerX = event.clientX - rect.left + canvas.scrollLeft;
-        pointerY = event.clientY - rect.top + canvas.scrollTop;
+            pointerX = event.clientX - rect.left + canvas.scrollLeft;
+            pointerY = event.clientY - rect.top + canvas.scrollTop;
+        }
+
+        if (!draggedTile) return;
 
         const tile = layout.getTileWithID(draggedTile.id);
         if (tile) {
@@ -1959,6 +1962,11 @@
         position: absolute;
         pointer-events: none;
         z-index: 2;
+        background: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        opacity: 0.8;
     }
 
     /* A fancy dragon cursor for dragon drop! Get it? */

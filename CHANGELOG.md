@@ -25,6 +25,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed duplicate search results.
 - Fixed multilingual guide search.
 - Removed legacy support for a list of text in Phrase.
+- Fixed positioning of dragged tiles from guide.
 
 ## 0.16.11
 
