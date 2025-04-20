@@ -1,0 +1,54 @@
+Show selectable choices
+
+Sometimes you want to show a bunch of choices on screen, and do something with what the audience chooses. To do this, we need two things:
+
+• One or more @Phrase that are marked selectable and have a unique name (e.g., \Phrase('option 1' selectable: ⊤ name: 'one')\)
+• A @Choice, which changes to the @Phrase name most recently chosen.
+
+For example, here we show three choices, each with a unique name.
+
+\
+option: Choice()
+
+Group(
+	Stack() [
+		Phrase('option 1' selectable: ⊤ name: 'one')
+		Phrase('option 2' selectable: ⊤ name: 'two')
+		Phrase('option 3' selectable: ⊤ name: 'three')
+		Phrase(option)
+	]
+)
+\
+
+Every time one is chosen, last @Phrase shows the name selected.
+
+You can use this pattern to do things in response to a choice. For example, we could change the project above to show a secret emoji based on the choice:
+
+\
+option: Choice()
+
+option = '' ?
+	Group(
+		Stack() [
+			Phrase('option 1' selectable: ⊤ name: 'one')
+			Phrase('option 2' selectable: ⊤ name: 'two')
+			Phrase('option 3' selectable: ⊤ name: 'three')
+		]
+	)
+	Phrase(
+		{
+			'one': '😡'
+			'two': '🏀'
+			'three': '❤️'
+		}{option} ?? '?'
+	)
+\
+
+The @Choice starts as an empty @Text, and so when the project starts, we check for that, and show the three choices.
+Once a choice is made, it becomes one of the three @Phrase names.
+
+To show an emoji based on the choice we can use a @Map to convert the name to a secret emoji.
+When we get a value from a @Map, if there's no match, it evaluates to \ø\, so we use the \??\ to default to \'?'\ if the option isn't in the map. 
+In this case, that can never happen, but we aren't smart enough to know this!
+
+move-phrase

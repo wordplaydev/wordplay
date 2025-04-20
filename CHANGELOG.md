@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Added
 
 - Copy custom character.
+- Added another how to for making choices.
 
 ## Fixed
 
