@@ -50,17 +50,24 @@ export default class NodeConcept extends Concept {
         return match ? match[0] === name || match[1].name === name : false;
     }
 
-    getDocs(locales: Locales): Markup | undefined {
-        return docToMarkup(this.template.getDoc(locales)).concretize(
-            locales,
-            [],
-        );
+    getDocs(locales: Locales): Markup[] {
+        return locales
+            .getLocales()
+            .map((l) => this.template.getLocalePath()(l))
+            .map((text) => docToMarkup(text.doc).concretize(locales, []))
+            .filter((m) => m !== undefined);
     }
 
     getName(locales: Locales, symbolic: boolean) {
         return symbolic
             ? this.template.getCharacter(locales).symbols
             : this.template.getLabel(locales);
+    }
+
+    getNames(locales: Locales, symbolic: boolean) {
+        return symbolic
+            ? [this.template.getCharacter(locales).symbols]
+            : [this.template.getLabel(locales)];
     }
 
     getRepresentation() {

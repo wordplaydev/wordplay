@@ -22,6 +22,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Added "font" to English and Chinese names, even though it conflates "typeface" and "font".
 - Fixed localization of function inputs in guide.
 - Fixed duplicate search results.
+- Fixed multilingual guide search.
 
 ## 0.16.11
 

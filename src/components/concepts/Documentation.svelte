@@ -124,12 +124,11 @@
     );
 
     // Find all the highlights in the current documentation so we can render them.
-
     let highlights = $derived(
         currentConcept === undefined
             ? undefined
             : currentConcept
-                  .getDocs($locales)
+                  .getDocs($locales)[0]
                   ?.nodes()
                   .filter(
                       (n): n is ConceptLink =>
