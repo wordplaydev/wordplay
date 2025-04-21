@@ -6,9 +6,7 @@ Each time there's some input, that state changes, and then we want to display ne
 A general pattern for any game does three things:
 
 • Define a game state data structure, to store all of the game state
-
 • Define a reaction that makes a new game state based on previous game state whenver there is new input
-
 • Make a @Stage with @Group and @Phrase to show the game state
 
 For example, let's imagine a simple game that involves typing secret words into a text box, and getting a point each time a secret word is guessed:
@@ -28,9 +26,7 @@ Stage(
 Let's break this down.
 
 • The first line, \•Game(secrets•[''] points•#)\ says, /Make a data structure called \Game\ that stores a list of secrets and points/
-
 • The second line says /The game state starts with a list of secrets and zero points. Each time the \Chat\ changes, if the word entered is in the list of secrets, then make a new game state with the points increased by one/.
-
 • Each time the program reevaluates (when the \Chat\ changes), show a stage. If the number of points is equal to the number of secrets, shown a winnning stage. If not, show a prompt and the number of secrets remaining.
 
 This example has some problems:

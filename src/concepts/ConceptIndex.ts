@@ -315,44 +315,23 @@ export default class ConceptIndex {
     getQuery(
         locales: Locales,
         query: string,
-    ): [Concept, [string, number, number][]][] {
+    ): [Concept, [string, number, number]][] {
         // Find matching concepts for each locale and the string that matched.
-        const matches = locales
-            .getLocales()
-            .reduce(
-                (matches: [Concept, [string, number, number]][], locale) => {
-                    const lowerQuery = query.toLocaleLowerCase(locale.language);
+        const results = this.concepts.reduce(
+            (matches: [Concept, [string, number, number]][], concept) => {
+                const lowerQuery = query.toLocaleLowerCase(
+                    locales.getLocale().language,
+                );
+                const match = concept.getTextMatching(locales, lowerQuery);
+                if (match !== undefined)
                     return [
                         ...matches,
-                        ...this.concepts
-                            .map((c) => {
-                                const match = c.getTextMatching(
-                                    locales,
-                                    lowerQuery,
-                                );
-                                return match !== undefined
-                                    ? [c, match]
-                                    : undefined;
-                            })
-                            .filter(
-                                (
-                                    match,
-                                ): match is [
-                                    Concept,
-                                    [string, number, number],
-                                ] => Array.isArray(match),
-                            ),
+                        [concept, match] as [Concept, [string, number, number]],
                     ];
-                },
-                [],
-            );
-        // Collapse matching text of equivalent concepts
-        const map = new Map<Concept, [string, number, number][]>();
-        for (const [concept, match] of matches) {
-            const list = map.get(concept);
-            map.set(concept, list === undefined ? [match] : [...list, match]);
-        }
-
-        return Array.from(map.entries());
+                else return matches;
+            },
+            [],
+        );
+        return results;
     }
 }

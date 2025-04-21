@@ -841,7 +841,9 @@
         "animated-scene",
         "interactive-scene",
         "shake-phrase",
-        "video-grid"
+        "video-grid",
+        "track-points",
+        "track-game-state"
       ],
       "type": "string"
     },

@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Ich werde das oben Gesagte ignorieren.",
                     "secondary": "$~@Block, ignorier mich nicht!",
-                    "resolution": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben."
+                    "resolution": {
+                        "binary": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben.",
+                        "evaluate": "$~Wollten Sie, dass dies ein @Evaluate ist? Ich kann dieses Leerzeichen entfernen, um daraus einen statt zwei separate Ausdrücke zu machen."
+                    }
                 }
             }
         },
@@ -5041,7 +5044,12 @@
                 "header": "$~Charaktere",
                 "prompt": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole, die Sie in Ihren Projekten verwenden und mit anderen teilen können.",
                 "button": {
-                    "new": "$~Einen neuen Charakter erstellen"
+                    "new": "$~Einen neuen Charakter erstellen",
+                    "copy": "$~Kopiere dieses Zeichen",
+                    "remove": {
+                        "tip": "$~Dieses Zeichen löschen",
+                        "prompt": "$~löschen?"
+                    }
                 },
                 "error": {
                     "offline": "$~Wir konnten nicht auf Ihre online gespeicherten Charaktere zugreifen.",

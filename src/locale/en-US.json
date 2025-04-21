@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "I'm going to ignore $1, since it doesn't define anything and isn't my last expression.",
                     "secondary": "@Block, don't ignore me!",
-                    "resolution": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant."
+                    "resolution": {
+                        "binary": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant.",
+                        "evaluate": "Did you mean for this to be an @Evaluate? I can remove this space to make it one, instead of two separate expressions."
+                    }
                 }
             }
         },
@@ -3254,7 +3257,7 @@
             },
             "face": {
                 "doc": "The name of the font face content inside me should have, unless they have their own face to use.",
-                "names": "face"
+                "names": ["face", "font"]
             },
             "place": {
                 "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
@@ -3342,7 +3345,7 @@
             ],
             "names": ["💬", "Phrase"],
             "text": {
-                "doc": "The characters to show on @Stage.",
+                "doc": "The characters to show on @Stage, in plain text or @FormattedLiteral.",
                 "names": "text"
             },
             "size": {
@@ -4940,7 +4943,12 @@
                 "header": "Characters",
                 "prompt": "Create custom emojis and symbols to use in your projects and share with others.",
                 "button": {
-                    "new": "Create a new character"
+                    "new": "Create a new character",
+                    "copy": "Copy this character",
+                    "remove": {
+                        "tip": "Delete this character",
+                        "prompt": "delete?"
+                    }
                 },
                 "subheader": {
                     "shared": "Shared"
@@ -5116,7 +5124,7 @@
                     "notfound": "This character doesn't exist or isn't visible to you.",
                     "unauthenticated": "You must be logged in to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
-                    "unsaved": "Give this character a description and a valid, unique name to save."
+                    "unsaved": "Your character will not save until it has a uniquename and a description."
                 },
                 "announce": {
                     "position": "at $1 $2",
@@ -5151,7 +5159,7 @@
                     "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
-                    "email": "Do you have an email-only account? Login by submit your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
+                    "email": "Do you have an email-only account? Login with your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
                     "sent": "If this email is associated with an account, it will receive an email with a login link. It may take a few minutes to appear. If there is no account associated with this email, you will not receive anything.",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
@@ -5164,7 +5172,7 @@
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
                     "email": "Not a valid email.",
-                    "invalidUsername": "Usernames must be emails or at least 5 letters with no spaces.",
+                    "invalidUsername": "Usernames must at least 5 letters with no spaces.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",

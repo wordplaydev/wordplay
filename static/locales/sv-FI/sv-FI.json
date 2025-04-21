@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Jag kommer att ignorera $1, eftersom det inte definierar någonting och inte är mitt sista uttryck.",
                     "secondary": "$~@Block, ignorera mig inte!",
-                    "resolution": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade."
+                    "resolution": {
+                        "binary": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade.",
+                        "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck."
+                    }
                 }
             }
         },
@@ -5096,7 +5099,12 @@
                 "header": "$~Karaktärer",
                 "prompt": "$~Skapa anpassade emojis och symboler att använda i dina projekt och dela med andra.",
                 "button": {
-                    "new": "$~Skapa en ny karaktär"
+                    "new": "$~Skapa en ny karaktär",
+                    "copy": "$~Kopiera denna karaktär",
+                    "remove": {
+                        "tip": "$~Ta bort detta tecken",
+                        "prompt": "$~radera?"
+                    }
                 },
                 "error": {
                     "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",

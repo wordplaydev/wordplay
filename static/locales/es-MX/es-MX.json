@@ -438,7 +438,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Voy a ignorar $1, ya que no define nada y no es mi última expresión.",
                     "secondary": "$~@Block, ¡no me ignores!",
-                    "resolution": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir."
+                    "resolution": {
+                        "binary": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir.",
+                        "evaluate": "$~¿Querías que esto fuera @Evaluate? Puedo quitar este espacio para que sea una sola expresión, en lugar de dos."
+                    }
                 }
             }
         },
@@ -5021,7 +5024,12 @@
                 "header": "$~Personajes",
                 "prompt": "$~Crea emojis y símbolos personalizados para usar en tus proyectos y compartirlos con otros.",
                 "button": {
-                    "new": "$~Crea un nuevo personaje"
+                    "new": "$~Crea un nuevo personaje",
+                    "copy": "$~Copiar este personaje",
+                    "remove": {
+                        "tip": "$~Eliminar este personaje",
+                        "prompt": "$~¿borrar?"
+                    }
                 },
                 "error": {
                     "offline": "$~No pudimos acceder a tus personajes almacenados en línea.",

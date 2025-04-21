@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Zignoruję $1, ponieważ niczego nie definiuje i nie jest moim ostatnim wyrażeniem.",
                     "secondary": "$~@Block, nie ignoruj mnie!",
-                    "resolution": "$~Czy miałeś na myśli, żeby to było @BinaryEvaluate zamiast @UnaryEvaluate? Mogę dodać spację, więc wiem, że o to ci chodziło."
+                    "resolution": {
+                        "binary": "$~Czy miałeś na myśli, żeby to było @BinaryEvaluate zamiast @UnaryEvaluate? Mogę dodać spację, więc wiem, że o to ci chodziło.",
+                        "evaluate": "$~Czy miałeś na myśli, że to będzie @Evaluate? Mogę usunąć tę spację, aby zrobić z tego jedno, zamiast dwóch oddzielnych wyrażeń."
+                    }
                 }
             }
         },
@@ -5101,7 +5104,12 @@
                 "header": "$~Pismo",
                 "prompt": "$~Twórz własne emotikony i symbole, których możesz używać w swoich projektach i udostępniać je innym.",
                 "button": {
-                    "new": "$~Utwórz nową postać"
+                    "new": "$~Utwórz nową postać",
+                    "copy": "$~Skopiuj ten znak",
+                    "remove": {
+                        "tip": "$~Usuń tę postać",
+                        "prompt": "$~usuwać?"
+                    }
                 },
                 "error": {
                     "offline": "$~Nie udało nam się uzyskać dostępu do Twoich postaci przechowywanych online.",

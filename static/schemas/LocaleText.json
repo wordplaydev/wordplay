@@ -2755,7 +2755,20 @@
                           "description": "The text that describes this conflict on the node which generated it."
                         },
                         "resolution": {
-                          "$ref": "#/definitions/Template"
+                          "additionalProperties": false,
+                          "properties": {
+                            "binary": {
+                              "$ref": "#/definitions/Template"
+                            },
+                            "evaluate": {
+                              "$ref": "#/definitions/Template"
+                            }
+                          },
+                          "required": [
+                            "binary",
+                            "evaluate"
+                          ],
+                          "type": "object"
                         },
                         "secondary": {
                           "$ref": "#/definitions/Template",
@@ -10202,13 +10215,38 @@
                       "additionalProperties": false,
                       "description": "Buttons for the page",
                       "properties": {
-                        "new": {
-                          "description": "Create a new project",
+                        "copy": {
+                          "description": "Copy a character",
                           "type": "string"
+                        },
+                        "new": {
+                          "description": "Create a new character",
+                          "type": "string"
+                        },
+                        "remove": {
+                          "additionalProperties": false,
+                          "description": "Delete a character",
+                          "properties": {
+                            "prompt": {
+                              "description": "Confirmation message",
+                              "type": "string"
+                            },
+                            "tip": {
+                              "description": "Delete character toolitp",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "prompt",
+                            "tip"
+                          ],
+                          "type": "object"
                         }
                       },
                       "required": [
-                        "new"
+                        "new",
+                        "copy",
+                        "remove"
                       ],
                       "type": "object"
                     },

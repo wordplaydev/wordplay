@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~我将忽略 $1，因为它没有定义任何东西并且不是我的最后一个表达式。",
                     "secondary": "$~@Block，不要忽略我！",
-                    "resolution": "$~您的意思是将其改为 @BinaryEvaluate 而不是 @UnaryEvaluate 吗？我可以添加一个空格，这样我就知道这就是您的意思。"
+                    "resolution": {
+                        "binary": "$~您的意思是将其改为 @BinaryEvaluate 而不是 @UnaryEvaluate 吗？我可以添加一个空格，这样我就知道这就是您的意思。",
+                        "evaluate": "$~你的意思是把它变成一个 @Evaluate 表达式吗？我可以去掉这个空格，让它变成一个表达式，而不是两个独立的表达式。"
+                    }
                 }
             }
         },
@@ -3235,7 +3238,7 @@
             },
             "face": {
                 "doc": "類似@Group/face",
-                "names": "朝向"
+                "names": ["字体", "朝向"]
             },
             "place": {
                 "doc": "如果我是相機,這就是我正在看向的地方。",
@@ -4988,7 +4991,12 @@
                 "header": "$~人物",
                 "prompt": "$~创建自定义表情符号和符号以在您的项目中使用并与他人分享。",
                 "button": {
-                    "new": "$~创建新角色"
+                    "new": "$~创建新角色",
+                    "copy": "$~复制此字符",
+                    "remove": {
+                        "tip": "$~删除此字符",
+                        "prompt": "$~删除？"
+                    }
                 },
                 "error": {
                     "offline": "$~我们无法访问您在线存储的角色。",

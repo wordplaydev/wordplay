@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~$1'i görmezden geleceğim, çünkü hiçbir şeyi tanımlamıyor ve son ifadem de değil.",
                     "secondary": "$~@Block, beni görmezden gelme!",
-                    "resolution": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum."
+                    "resolution": {
+                        "binary": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum.",
+                        "evaluate": "$~Bunun bir @Evaluate olmasını mı istediniz? İki ayrı ifade yerine, tek bir ifade yapmak için bu alanı kaldırabilirim."
+                    }
                 }
             }
         },
@@ -5091,7 +5094,12 @@
                 "header": "$~Karakterler",
                 "prompt": "$~Projelerinizde kullanmak ve başkalarıyla paylaşmak için özel emojiler ve semboller oluşturun.",
                 "button": {
-                    "new": "$~Yeni bir karakter yarat"
+                    "new": "$~Yeni bir karakter yarat",
+                    "copy": "$~Bu karakteri kopyala",
+                    "remove": {
+                        "tip": "$~Bu karakteri sil",
+                        "prompt": "$~silmek?"
+                    }
                 },
                 "error": {
                     "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",

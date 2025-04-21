@@ -157,6 +157,7 @@
     <Button
         padding={false}
         action={navigate}
+        wrap={true}
         tip={() =>
             $locales.concretize((l) => l.ui.docs.link, longName).toText()}
         ><span class="conceptlink interactive"
@@ -189,6 +190,7 @@
     .conceptlink {
         display: inline-block;
         font-style: normal;
+        text-align: start;
     }
 
     .conceptlink.interactive {

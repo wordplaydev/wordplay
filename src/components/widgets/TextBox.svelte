@@ -78,6 +78,7 @@
         }}
         onfocus={() => (focused = true)}
         oninput={handleInput}
+        onkeydown={(e) => e.stopPropagation()}
     ></textarea>
     {#if message !== undefined}
         <div class="message" id="id-{id}">{$locales.get(message)}</div>

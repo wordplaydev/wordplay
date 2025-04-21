@@ -5,8 +5,17 @@ type PageText = {
     prompt: string;
     /** Buttons for the page */
     button: {
-        /** Create a new project */
+        /** Create a new character */
         new: string;
+        /** Copy a character */
+        copy: string;
+        /** Delete a character */
+        remove: {
+            /** Confirmation message */
+            prompt: string;
+            /** Delete character toolitp */
+            tip: string;
+        };
     };
     subheader: {
         /** Header for the shared character list */
