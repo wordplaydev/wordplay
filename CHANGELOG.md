@@ -3,6 +3,51 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.12
+
+## Added
+
+- Copy custom character.
+- Added another how to for making choices.
+
+## Fixed
+
+- Account for empty name list.
+- Fixed #734. Typos in account creation.
+- Fixed wrapping and alignment of how to links.
+- Strip zero width spaces from tokenizing; they serve no purpose.
+- Don't localize operators.
+- More precise tokenizing of URLs to allow for <3 emoticons.
+- Fixed select all in character text box.
+- Don't require spaces after bullets in markup.
+- Added "font" to English and Chinese names, even though it conflates "typeface" and "font".
+- Fixed localization of function inputs in guide.
+- Fixed duplicate search results.
+- Fixed multilingual guide search.
+- Removed legacy support for a list of text in Phrase.
+- Fixed positioning of dragged tiles from guide.
+
+## 0.16.11
+
+### Added
+
+- Added a few story examples to the gallery.
+- Added to game-related how to documents.
+
+### Fixed
+
+- Fixed password requirement inconsistency
+- Better troubleshooting info for clipboard operations.
+- Fixed localization of references when editor locale is selected.
+- Don't do rename on bind when inserting spaces before name.
+- Less jumpy evaluate suggestions.
+- Fixed example conflict.
+- Fixed case where flipped selection range wouldn't copy.
+
+### Maintenance
+
+- Updated Svelte, SvelteKit, Typescript, eslint, Vite, and Vitest.
+
 ## 0.16.10
 
 ### Added

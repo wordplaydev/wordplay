@@ -202,7 +202,12 @@ type NodeTexts = {
             /** When there's no ending expression */
             ExpectedEndingExpression: InternalConflictText;
             /** When a statement is ignored because it's not last and not a bind */
-            IgnoredExpression: ConflictText & { resolution: Template };
+            IgnoredExpression: ConflictText & {
+                resolution: {
+                    binary: Template;
+                    evaluate: Template;
+                };
+            };
         }>;
     /**
      * A single boolean literal, e.g., `⊤` or `⊥`

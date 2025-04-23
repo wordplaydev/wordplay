@@ -32,6 +32,8 @@ body:
       id: browsers
       attributes:
           label: What browsers are you seeing the problem on?
+          description: |
+              If the problem is on multiple browsers, reopen the dropdown and choose each one individually.
           multiple: true
           options:
               - Firefox

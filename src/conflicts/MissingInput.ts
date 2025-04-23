@@ -42,7 +42,9 @@ export default class MissingInput extends Conflict {
                         (l) => l.node.Evaluate.conflict.MissingInput.primary,
                         this.func.names.getPreferredNameString(
                             locales.getLocales(),
-                        ) ?? this.func.names.getFirst(),
+                        ) ??
+                            this.func.names.getFirst() ??
+                            '—',
                         context.project.contains(this.input)
                             ? new NodeRef(this.input, locales, context)
                             : new ConceptRef(

@@ -131,6 +131,31 @@ export default class Paragraph extends Content {
         );
     }
 
+    getBullets(): Paragraph[] {
+        if (this.isBulleted()) {
+            const bullets: Paragraph[] = [];
+            const remaining = this.segments.slice();
+            let current: Segment[] = [];
+            while (remaining.length > 0) {
+                const segment = remaining.shift();
+                if (segment === undefined) break;
+                if (
+                    (segment instanceof Words && segment.isBulleted()) ||
+                    (segment instanceof Token &&
+                        segment.getText().startsWith('•'))
+                ) {
+                    if (current.length > 0)
+                        bullets.push(new Paragraph(current));
+                    current = [segment];
+                } else current.push(segment);
+            }
+            if (current.length > 0) bullets.push(new Paragraph(current));
+
+            return bullets;
+        }
+        return [];
+    }
+
     /** Finds all of the Words that wrap all of the content of this paragraph and gets all of their formats. */
     getFormats(): Format[] {
         return this.segments.length === 1 && this.segments[0] instanceof Words

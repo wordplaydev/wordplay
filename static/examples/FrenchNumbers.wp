@@ -1,0 +1,76 @@
+numéros français
+=== start/en-US,start/fr-FR
+¶The numbers to guess¶/en
+¶Les nombres à deviner¶/fr
+numbers/en,numeros/fr: [
+		"un"/en"one"/fr
+		"deux"/en"two"/fr
+		"trois"/en"three"/fr
+		"quatre"/en"four"/fr
+		"cinq"/en"five"/fr
+		"six"/en"six"/fr
+		"sept"/en"seven"/fr
+		"huit"/en"eight"/fr
+		"neuve"/en"nine"/fr
+	]
+
+¶The secrets are the numbers 1 to 9 in random order¶/en
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+secrets: [1 2 3 4 5 6 7 8 9].shuffled()
+
+¶What's the latest key pressed?¶/en
+¶Quelle est la dernière touche appuyée ?¶/en
+key/en,clé/fr: Key()
+
+¶The current secret is increased each time a key is pressed, but stops at 10¶/en
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+secretIndex/en,secretIndice/fr•#:
+	1 …
+	∆ key …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶The current secret, based on the secret index¶
+currentSecret/en,secretActuel/fr: secrets[secretIndex]
+
+¶The guess was correct if the number pressed matches the previous secret number¶/en
+correct: clé → # = secrets[secretIndex - 1]
+
+¶Points start at 0 and increase if the guess was correct.¶/en
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+points•#: 0 …
+	∆ key …
+		correct ?
+			points + 1
+			points
+
+¶Winning means getting all 9 numbers¶
+win/en,gagner/fr: points = 9
+
+¶Done when on secret index 10¶
+gameover: secretIndex = 10
+
+¶Show the current french number and the current points
+After all the 9 secrets, show a final result¶/en
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Stage([
+		Group(
+			Stack()
+			[
+				gameover ?
+					Phrase(win ?
+							"You know french numbers!"/en"Tu connais les chiffres français!"/fr
+							"almost, try again"/en"presque, réessaye"/fr size: 2m)
+					Phrase(numeros[secretActuel] size: 2m)
+				Phrase("\points\ points!" size: 1m)
+				Phrase(
+					secretIndex = 1 ?
+						'what number is this?'/en'quel est ce numéro ?'/fr
+						correct ?
+							"Correct!"
+							"That was \secrets[secretIndex - 1]\")
+			]
+		)
+	]
+	face: "Aclonica"
+)

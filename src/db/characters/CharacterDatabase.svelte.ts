@@ -125,22 +125,35 @@ export class CharactersDatabase {
     }
 
     /** Create a character */
-    async createCharacter(): Promise<string | undefined> {
+    async createCharacter(
+        character?: Character | undefined,
+    ): Promise<string | undefined> {
         if (firestore === undefined) return;
         const user = this.db.getUser();
         if (user === null) return;
 
         // Make a new character.
-        const character: Character = {
-            id: uuidv4(),
-            owner: user.uid,
-            public: true,
-            collaborators: [],
-            updated: Date.now(),
-            name: '',
-            description: '',
-            shapes: [],
-        };
+        if (character === undefined)
+            character = {
+                id: uuidv4(),
+                owner: user.uid,
+                public: true,
+                collaborators: [],
+                updated: Date.now(),
+                name: '',
+                description: '',
+                shapes: [],
+            };
+        else {
+            character = {
+                ...character,
+                id: uuidv4(),
+                owner: user.uid,
+                // Make the name unique
+                name: character.name + this.byID.size,
+                updated: Date.now(),
+            };
+        }
 
         try {
             await setDoc(
@@ -157,6 +170,10 @@ export class CharactersDatabase {
 
         // Return the id to confirm we created it.
         return character.id;
+    }
+
+    async copy(character: Character) {
+        return this.createCharacter(character);
     }
 
     /** Update the local store's version of this character, and defer a save to the database later. */

@@ -84,7 +84,7 @@ type CommandResult =
     // An edit to a whole project
     | ProjectRevision
     // An eventual edit to a source file or project
-    | Promise<Edit | ProjectRevision | undefined>
+    | Promise<Edit | ProjectRevision | true | undefined>
     // Handled, but no side effect
     | true
     // Not handled
@@ -1318,15 +1318,16 @@ const Commands: Command[] = [
                 copyNode(caret.position, getPreferredSpaces(caret.source));
                 return caret.delete(project, false, blocks) ?? true;
             } else if (caret.isRange()) {
-                toClipboard(
+                return toClipboard(
                     caret.source
                         .getGraphemesBetween(
                             caret.position[0],
                             caret.position[1],
                         )
                         .toString(),
-                );
-                return caret.delete(project, false, blocks) ?? true;
+                ).then(() => {
+                    return caret.delete(project, false, blocks) ?? true;
+                });
             } else return false;
         },
     },
@@ -1352,7 +1353,7 @@ const Commands: Command[] = [
                     ) ?? false
                 );
             else if (caret.isRange()) {
-                toClipboard(
+                return toClipboard(
                     caret.source
                         .getGraphemesBetween(
                             caret.position[0],
@@ -1360,7 +1361,6 @@ const Commands: Command[] = [
                         )
                         .toString(),
                 );
-                return true;
             } else return false;
         },
     },

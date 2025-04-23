@@ -33,6 +33,9 @@ export const HowToMetadata = {
     'interactive-scene': { category: 'stories' },
     'shake-phrase': { category: 'randomization' },
     'video-grid': { category: 'video' },
+    'track-points': { category: 'remembering' },
+    'track-game-state': { category: 'remembering' },
+    'offer-choices': { category: 'remembering' },
 } satisfies Record<string, { category: HowToCategory }>;
 
 export const HowToIDs = Object.keys(HowToMetadata);

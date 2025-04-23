@@ -1196,7 +1196,10 @@
 
         if (result !== false) {
             if (result instanceof Promise) {
-                result.then((edit) => handleEdit(edit, idle, true));
+                result.then((edit) => {
+                    if (edit === undefined) setIgnored(true);
+                    else if (edit !== true) handleEdit(edit, idle, true);
+                });
             } else if (result !== undefined && result !== true) {
                 handleEdit(result, idle, true);
             }

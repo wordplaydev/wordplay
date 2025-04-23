@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
-    import { blocks } from '@db/Database';
+    import { blocks, locales } from '@db/Database';
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
@@ -74,7 +74,14 @@
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
                     : undefined}
-            ><RootView {node} {inline} {spaces} blocks={false} {elide} /></div
+            ><RootView
+                {node}
+                {inline}
+                {spaces}
+                blocks={false}
+                {elide}
+                locale={$locales.getLocale()}
+            /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}

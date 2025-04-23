@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Je vais ignorer $1, car il ne définit rien et n'est pas ma dernière expression.",
                     "secondary": "$~@Block, ne m'ignore pas !",
-                    "resolution": "$~Vouliez-vous dire que ce serait un @BinaryEvaluate au lieu d'un @UnaryEvaluate ? Je peux ajouter un espace, donc je sais que c'est ce que vous vouliez dire."
+                    "resolution": {
+                        "binary": "$~Vouliez-vous dire que ce serait un @BinaryEvaluate au lieu d'un @UnaryEvaluate ? Je peux ajouter un espace, donc je sais que c'est ce que vous vouliez dire.",
+                        "evaluate": "$~Vouliez-vous que ce soit une @Evaluate? Je peux supprimer cet espace pour en faire une seule expression, au lieu de deux expressions distinctes."
+                    }
                 }
             }
         },
@@ -4791,7 +4794,7 @@
                     "email": "$~Avez-vous un compte de messagerie uniquement ? Connectez-vous en soumettant votre adresse e-mail et, si un compte y est associé, nous vous enverrons un e-mail avec un lien de connexion. Les nouveaux comptes de messagerie uniquement ne sont pas pris en charge, afin de préserver la confidentialité.",
                     "enter": "$~Il semble que votre lien de connexion provienne d'un autre navigateur ou appareil. Pouvez-vous saisir à nouveau votre adresse e-mail, juste pour être sûr qu'il s'agit bien de vous ?",
                     "tooyoung": "$~Vous devez avoir 13 ans ou plus pour vous connecter avec une adresse e-mail.",
-                    "passwordrule": "$~Les mots de passe doivent comporter au moins 10 caractères; si vous n'utilisez pas de gestionnaire de mots de passe, choisissez trois longs mots dont vous vous souviendrez.",
+                    "passwordrule": "$~Les mots de passe doivent comporter au moins 6 caractères; si vous n'utilisez pas de gestionnaire de mots de passe, choisissez trois longs mots dont vous vous souviendrez.",
                     "passwordreminder": "$~Il semble que vous n'ayez pas encore de compte. Saisissez à nouveau votre mot de passe et assurez-vous de l'avoir enregistré de manière sûre et correcte, car il n'est pas récupérable.",
                     "play": "$~Vous êtes connecté, nous pouvons enregistrer vos projets en ligne maintenant ! Vous voulez créer quelque chose ?",
                     "changeEmail": "$~Vous souhaitez modifier votre adresse e-mail ? Soumettez-en une nouvelle et nous vous enverrons une confirmation à l'ancienne.",
@@ -4836,7 +4839,7 @@
                         "placeholder": "$~nom d'utilisateur"
                     },
                     "password": {
-                        "description": "$~mot de passe de connexion, au moins 10 caractères",
+                        "description": "$~mot de passe de connexion, au moins 6 caractères",
                         "placeholder": "$~mot de passe"
                     },
                     "currentPassword": {
@@ -4878,7 +4881,7 @@
                 "prompt": {
                     "create": "$~Créez un compte pour enregistrer vos projets, collaborer avec d'autres et partager votre travail.",
                     "username": "$~Les noms d'utilisateur doivent comporter au moins /5 caractères/, ne peuvent pas être une adresse e-mail et ne doivent pas contenir votre nom ou d'autres informations d'identification.",
-                    "password": "$~Les mots de passe doivent comporter au moins /10 caractères/. Tapez-les deux fois et notez-les dans un endroit sûr, comme un gestionnaire de mots de passe. *Il n'y a aucun moyen de récupérer votre compte* si vous le perdez, car nous ne collectons pas d'informations de contact."
+                    "password": "$~Les mots de passe doivent comporter au moins /6 caractères/. Tapez-les deux fois et notez-les dans un endroit sûr, comme un gestionnaire de mots de passe. *Il n'y a aucun moyen de récupérer votre compte* si vous le perdez, car nous ne collectons pas d'informations de contact."
                 }
             },
             "rights": {
@@ -5042,7 +5045,12 @@
                 "header": "$~Personnages",
                 "prompt": "$~Créez des émojis et des symboles personnalisés à utiliser dans vos projets et à partager avec d'autres.",
                 "button": {
-                    "new": "$~Créer un nouveau personnage"
+                    "new": "$~Créer un nouveau personnage",
+                    "copy": "$~Copiez ce caractère",
+                    "remove": {
+                        "tip": "$~Supprimer ce caractère",
+                        "prompt": "$~supprimer?"
+                    }
                 },
                 "error": {
                     "offline": "$~Nous n'avons pas pu accéder à vos personnages stockés en ligne.",
@@ -5357,6 +5365,10 @@
         "tools": {
             "name": "$~Outils",
             "description": "$~Utilitaires et applications simples."
+        },
+        "stories": {
+            "name": "$~Histoires",
+            "description": "$~Histoires et récits interactifs."
         }
     }
 }

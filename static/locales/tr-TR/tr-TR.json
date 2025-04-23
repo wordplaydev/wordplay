@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~$1'i görmezden geleceğim, çünkü hiçbir şeyi tanımlamıyor ve son ifadem de değil.",
                     "secondary": "$~@Block, beni görmezden gelme!",
-                    "resolution": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum."
+                    "resolution": {
+                        "binary": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum.",
+                        "evaluate": "$~Bunun bir @Evaluate olmasını mı istediniz? İki ayrı ifade yerine, tek bir ifade yapmak için bu alanı kaldırabilirim."
+                    }
                 }
             }
         },
@@ -4958,7 +4961,7 @@
                     "enter": "$~Giriş bağlantınız farklı bir tarayıcıdan veya cihazdan gelmiş gibi görünüyor. Siz olduğunuzdan emin olmak için e-postanızı tekrar girebilir misiniz?",
                     "play": "$~Giriş yaptınız, projelerinizi artık çevrimiçi olarak kaydedebiliriz! Bir şey oluşturmak ister misiniz?",
                     "tooyoung": "$~E-posta ile giriş yapabilmek için 13 yaşında veya daha büyük olmanız gerekmektedir.",
-                    "passwordrule": "$~Şifreleriniz en az 10 karakter uzunluğunda olmalı; eğer şifre yöneticisi kullanmıyorsanız hatırlayabileceğiniz üç uzun kelime seçin.",
+                    "passwordrule": "$~Şifreleriniz en az 6 karakter uzunluğunda olmalı; eğer şifre yöneticisi kullanmıyorsanız hatırlayabileceğiniz üç uzun kelime seçin.",
                     "passwordreminder": "$~Henüz bir hesabınız yok gibi görünüyor. Şifrenizi tekrar girin ve kurtarılamaz olduğundan güvenli ve doğru bir şekilde sakladığınızdan emin olun.",
                     "changeEmail": "$~E-postanızı değiştirmek mi istiyorsunuz? Yeni bir tane gönderin, eskisine bir onay gönderelim.",
                     "changePassword": "$~Şifrenizi değiştirmek mi istiyorsunuz? Yeni bir şifre gönderip tekrarlayın.",
@@ -5001,7 +5004,7 @@
                         "placeholder": "$~kullanıcı adı"
                     },
                     "password": {
-                        "description": "$~giriş şifresi, en az 10 karakter",
+                        "description": "$~giriş şifresi, en az 6 karakter",
                         "placeholder": "$~şifre"
                     },
                     "currentPassword": {
@@ -5042,7 +5045,7 @@
                 "prompt": {
                     "create": "$~Projelerinizi kaydetmek, başkalarıyla işbirliği yapmak ve çalışmalarınızı paylaşmak için bir hesap oluşturun.",
                     "username": "$~Kullanıcı adları en az /5 karakter/ olmalı, e-posta olmamalı ve adınızı veya diğer tanımlayıcı bilgileri içermemelidir.",
-                    "password": "$~Şifreler en az /10 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz."
+                    "password": "$~Şifreler en az /6 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz."
                 }
             },
             "rights": {
@@ -5091,7 +5094,12 @@
                 "header": "$~Karakterler",
                 "prompt": "$~Projelerinizde kullanmak ve başkalarıyla paylaşmak için özel emojiler ve semboller oluşturun.",
                 "button": {
-                    "new": "$~Yeni bir karakter yarat"
+                    "new": "$~Yeni bir karakter yarat",
+                    "copy": "$~Bu karakteri kopyala",
+                    "remove": {
+                        "tip": "$~Bu karakteri sil",
+                        "prompt": "$~silmek?"
+                    }
                 },
                 "error": {
                     "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",
@@ -5352,6 +5360,10 @@
         "tools": {
             "name": "$~Aletler",
             "description": "$~Basit yardımcı programlar ve uygulamalar."
+        },
+        "stories": {
+            "name": "$~Hikayeler",
+            "description": "$~Etkileşimli hikayeler ve anlatılar."
         }
     }
 }
