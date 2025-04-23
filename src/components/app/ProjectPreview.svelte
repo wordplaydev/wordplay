@@ -16,6 +16,11 @@
     import CreatorView from './CreatorView.svelte';
     import Link from './Link.svelte';
     import Spinning from './Spinning.svelte';
+    // new added
+    import type { Character } from '../../db/characters/Character';
+    import { characterToSVG } from '../../db/characters/Character';
+    import ConceptLink, { CharacterName } from '../../nodes/ConceptLink';
+    import MarkupValue from '../../values/MarkupValue';
 
     interface Props {
         project: Project;
@@ -29,6 +34,42 @@
         children?: import('svelte').Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
+    }
+
+    function findCharacterName(value: unknown): string | null {
+        // If it's a MarkupValue, check for character links
+        if (value instanceof MarkupValue) {
+            const nodes = value.markup.nodes();
+            for (const node of nodes) {
+                if (node instanceof ConceptLink) {
+                    const parsed = ConceptLink.parse(node.getName());
+                    if (parsed instanceof CharacterName) {
+                        return `${parsed.username}/${parsed.name}`;
+                    }
+                }
+            }
+        }
+
+        // If it's a StructureValue, check all its fields recursively
+        if (
+            value &&
+            value.constructor &&
+            value.constructor.name === 'StructureValue' &&
+            (value as any).context &&
+            (value as any).context.getBindingsByNames
+        ) {
+            const structureValue = value as any;
+            // Get all bindings from the context
+            const bindings = structureValue.context.getBindingsByNames();
+
+            // Loop through each binding and check if it contains a character name
+            for (const [_, fieldValue] of bindings) {
+                const result = findCharacterName(fieldValue);
+                if (result) return result;
+            }
+        }
+
+        return null;
     }
 
     let {
@@ -48,6 +89,8 @@
         representativeBackground: string | null;
         representativeFace: string | null;
         representativeText: string;
+        isCustomCharacter: boolean;
+        characterName: string | null;
     };
 
     /** Derive the preview contents from the project by getting it's first value */
@@ -56,6 +99,8 @@
         representativeBackground,
         representativeFace,
         representativeText,
+        isCustomCharacter,
+        characterName,
     }: Preview = $derived.by(() => {
         const evaluator = new Evaluator(
             project,
@@ -65,6 +110,21 @@
         );
         const value = evaluator.getInitialValue();
         evaluator.stop();
+
+        // First, check if there's a character name in the value
+        const foundCharacterName = findCharacterName(value);
+        if (foundCharacterName) {
+            return {
+                representativeForeground: null,
+                representativeBackground: null,
+                representativeFace: null,
+                representativeText: '',
+                isCustomCharacter: true,
+                characterName: foundCharacterName,
+            };
+        }
+
+        // If no character found, proceed with regular representation
         const stage = value ? toStage(evaluator, value) : undefined;
         if (stage && stage.face) Fonts.loadFace(stage.face);
 
@@ -85,7 +145,41 @@
                 : value
                   ? value.getRepresentativeText($locales)
                   : EXCEPTION_SYMBOL,
+            isCustomCharacter: false,
+            characterName: null,
         };
+    });
+
+    // Add a state variable to hold the character
+    let character = $state<Character | null>(null);
+
+    // Effect to fetch the character from the database when characterName changes
+    $effect(() => {
+        // Clear character if characterName is not valid
+        if (!isCustomCharacter || !characterName) {
+            character = null;
+            return;
+        }
+
+        // Make sure DB.Characters exists and has getByName method
+        if (!DB.Characters || typeof DB.Characters.getByName !== 'function') {
+            console.error('DB.Characters or getByName method not available');
+            return;
+        }
+
+        // Fetch the character
+        DB.Characters.getByName(characterName)
+            .then((result) => {
+                if (result) {
+                    character = result;
+                } else {
+                    character = null;
+                }
+            })
+            .catch((error) => {
+                console.error('bug', error);
+                character = null;
+            });
     });
 
     const user = getUser();
@@ -138,7 +232,11 @@
             style:font-size={`${Math.max(4, size - 3)}rem`}
             class:blurred={audience && isFlagged(project.getFlags())}
         >
-            {representativeText}
+            {#if character}
+                {@html characterToSVG(character, '100%')}
+            {:else}
+                {representativeText}
+            {/if}
         </div>
     </a>
     {#if name}
