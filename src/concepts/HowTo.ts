@@ -28,9 +28,9 @@ export const HowToMetadata = {
     'animate-phrase': { category: 'characters' },
     'move-phrase': { category: 'characters' },
     'custom-characters': { category: 'characters' },
+    'styling-text': { category: 'characters' },
     'animated-scene': { category: 'stories' },
     'interactive-scene': { category: 'stories' },
-    'styling-text': { category: 'stories' },
     'shake-phrase': { category: 'randomization' },
     'video-grid': { category: 'video' },
 } satisfies Record<string, { category: HowToCategory }>;
