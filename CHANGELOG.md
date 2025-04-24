@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Fixed #723 regression of tile dragging in free layout.
 - Fixed #740, resolving stuck tutorial advance button when guide is open.
+- Fixed #750 only handle keyboard shortcuts when editor is focused.
 
 ## Maintennace
 

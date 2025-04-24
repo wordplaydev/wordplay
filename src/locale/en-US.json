@@ -5124,7 +5124,7 @@
                     "notfound": "This character doesn't exist or isn't visible to you.",
                     "unauthenticated": "You must be logged in to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
-                    "unsaved": "Your character will not save until it has a uniquename and a description."
+                    "unsaved": "Your character will not save until it has a unique name and a description."
                 },
                 "announce": {
                     "position": "at $1 $2",

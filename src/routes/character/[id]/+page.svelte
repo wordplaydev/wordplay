@@ -741,7 +741,7 @@
         }
 
         // Handle copy
-        if (event.key === 'c' && control) {
+        if (event.key === 'c' && control && selection.length > 0) {
             copyShapes();
             event.stopPropagation();
             event.preventDefault();
@@ -2155,7 +2155,7 @@
     </style>
 {/snippet}
 
-<svelte:body onkeydown={handleKey} onpointerup={handlePointerUp} />
+<svelte:body onpointerup={handlePointerUp} />
 
 <Page>
     <section>
