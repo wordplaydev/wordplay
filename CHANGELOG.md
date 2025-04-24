@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.1.6.13
 
+## Fixed
+
+- Fixed #723 regression of tile dragging in free layout.
+
 ## Maintennace
 
 - Updated minor versions of Playwright, SvelteKit, Eslint, Firebase, Svelte, Vite, Vitest, and Zod.

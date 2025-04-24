@@ -1155,12 +1155,10 @@
         if (!canvas) return;
         if (!view) return;
 
-        if (dragged) {
-            const rect = view.getBoundingClientRect();
+        const rect = view.getBoundingClientRect();
 
-            pointerX = event.clientX - rect.left + canvas.scrollLeft;
-            pointerY = event.clientY - rect.top + canvas.scrollTop;
-        }
+        pointerX = event.clientX - rect.left + canvas.scrollLeft;
+        pointerY = event.clientY - rect.top + canvas.scrollTop;
 
         if (!draggedTile) return;
 
@@ -1169,8 +1167,8 @@
             let newBounds;
             if (draggedTile.direction === null) {
                 newBounds = {
-                    left: pointerX - draggedTile.left,
-                    top: pointerY - draggedTile.top,
+                    left: Math.max(pointerX - draggedTile.left, 0),
+                    top: Math.max(pointerY - draggedTile.top, 0),
                     width: tile.position.width,
                     height: tile.position.height,
                 };
@@ -1940,6 +1938,9 @@
     /** If in free layout mode, allow scrolling of content */
     .canvas.free {
         overflow: auto;
+        width: 100%;
+        height: 100%;
+        position: relative;
     }
 
     nav {

@@ -59,7 +59,13 @@ export default class Layout {
                               tile.expanded
                                   ? TileMode.Expanded
                                   : TileMode.Collapsed,
-                              tile.bounds ?? undefined,
+                              tile.bounds
+                                  ? {
+                                        ...tile.bounds,
+                                        left: Math.max(0, tile.bounds.left),
+                                        top: Math.max(0, tile.bounds.top),
+                                    }
+                                  : undefined,
                               tile.position ?? undefined,
                           ),
                   ),
