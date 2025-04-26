@@ -843,7 +843,8 @@
         "shake-phrase",
         "video-grid",
         "track-points",
-        "track-game-state"
+        "track-game-state",
+        "offer-choices"
       ],
       "type": "string"
     },
