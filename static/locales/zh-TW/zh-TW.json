@@ -4512,35 +4512,35 @@
                 },
                 "mode": {
                     "label": "反饋",
-                    "modes": ["$~缺陷", "$~艾迪萨"]
+                    "modes": ["缺陷", "$~艾迪萨"]
                 },
                 "field": {
                     "title": {
-                        "description": "$~您的反馈标题",
-                        "placeholder": "$~标题"
+                        "description": "您的反饋標題",
+                        "placeholder": "標題"
                     },
                     "defect": {
-                        "description": "$~您的缺陷描述",
-                        "placeholder": "$~你采取了哪些步骤？之后发生了什么？请尽可能准确。"
+                        "description": "請描述您發現的缺陷",
+                        "placeholder": "請問您採取了什麼步驟？之後發生了什麼，請盡可能詳細並準確的描述。"
                     },
                     "idea": {
-                        "description": "$~您的缺陷描述",
-                        "placeholder": "$~你想做但做不到什么？"
+                        "description": "您描述的缺陷",
+                        "placeholder": "您想做什麼但是做不到？"
                     }
                 },
                 "subheader": {
-                    "defect": "$~缺点",
-                    "idea": "$~主意"
+                    "defect": "缺陷",
+                    "idea": "主意"
                 },
                 "prompt": {
-                    "defect": "$~没有看到您遇到的问题？请在此处报告。",
-                    "idea": "$~没有看到你想的主意？建议一下。"
+                    "defect": "沒有看到您發現的缺陷？請在此處回報。",
+                    "idea": "沒有看到您想的主意？請在這裡給我們建議。"
                 },
                 "error": {
-                    "login": "$~您必须登录才能提交反馈",
-                    "submit": "$~无法提交反馈。",
-                    "load": "$~无法加载反馈",
-                    "empty": "$~沒有可显示的反饋。"
+                    "login": "您必須登錄才能提供反饋",
+                    "submit": "$無法提交反饋",
+                    "load": "無法下載反饋",
+                    "empty": "目前沒有可顯示的反饋"
                 }
             }
         },
@@ -4553,14 +4553,14 @@
                 "inherited": "繼任",
                 "notSequence": "不是一個序列",
                 "notContent": "不是內容清單",
-                "format": "$~格式",
-                "weight": "$~重量",
-                "light": "$~光",
-                "normal": "$~普通的",
-                "bold": "$~大胆的",
-                "extra": "$~额外的",
-                "italic": "$~斜体",
-                "underline": "$~强调"
+                "format": "格式",
+                "weight": "重量",
+                "light": "光",
+                "normal": "普通",
+                "bold": "粗體",
+                "extra": "更多",
+                "italic": "斜體",
+                "underline": "底線"
             },
             "button": {
                 "revert": "回覆預設設定",
@@ -4584,7 +4584,7 @@
                 "offerGroup": "你做了一個很棒的@Phrase。你想將它們組合到@Group 中，以便進行排列嗎？",
                 "offerStage": "非常好的@Program。將我加到控制燈光、顏色和幀數的項目中。",
                 "editing": "編輯我！",
-                "select": "$~要编辑，请在代码中选择💬、🔳或🎭，或⏸️阶段并选择输出。"
+                "select": "如果要編輯，請在代碼中選擇💬、🔳或🎭，或⏸️階段並輸出。"
             },
             "field": {
                 "coordinate": "編輯座標",
@@ -4602,10 +4602,10 @@
                 }
             },
             "error": {
-                "nan": "$~这不是一个数字。",
-                "percent": "$~必须是 0 至 100 之间的百分比。",
-                "lessThanNext": "$~这必须小于下一个条目。",
-                "moreThanPrevious": "$~这肯定比之前的条目更多。"
+                "nan": "這不是一個數字。",
+                "percent": "必須是0到100之間的百分比。",
+                "lessThanNext": "這必須小於下一個項目。",
+                "moreThanPrevious": "這一定比前一個項目要多。"
             }
         },
         "save": {
@@ -4638,7 +4638,7 @@
                 "link": {
                     "about": "這個地方為什麼存在？",
                     "learn": " 這是什麼地方？",
-                    "guide": "$~搜索和浏览语言参考",
+                    "guide": "搜索和瀏覽不同語言",
                     "projects": "創作並分享表演",
                     "galleries": "體驗他人的表演",
                     "rights": "責任，我們的和你們的",
@@ -4650,8 +4650,8 @@
                         "label": "貢獻",
                         "subtitle": "幫助我們製作文字遊戲。"
                     },
-                    "teach": "$~管理学生班级及其项目",
-                    "characters": "$~创建自定义表情符号和符号"
+                    "teach": "管理學生班級及其項目",
+                    "characters": "創建自己的角色和項目"
                 }
             },
             "learn": {
@@ -4662,12 +4662,12 @@
                     "previous": "對話中的前一個暫停"
                 },
                 "options": {
-                    "lesson": "$~当前课程"
+                    "lesson": "當前課程"
                 }
             },
             "guide": {
-                "header": "$~指导",
-                "description": "$~这是 Wordplay 编程语言每个部分的参考资料。搜索概念或浏览列表以了解更多信息。"
+                "header": "指導",
+                "description": "這是 Wordplay 計畫的參考資料，搜索概念或瀏覽列表以了解更多訊息。"
             },
             "projects": {
                 "header": "項目",
@@ -4700,12 +4700,12 @@
                     "delete": "哎呀，我們無法刪除該項目！"
                 },
                 "add": {
-                    "header": "$~新项目",
-                    "explanation": "$~选择一个模板来创建一个新项目。"
+                    "header": "新項目",
+                    "explanation": "選擇一個模板來創建新項目。"
                 },
                 "subheader": {
-                    "shared": "$~共享",
-                    "archived": "$~已归档"
+                    "shared": "共享",
+                    "archived": "已儲存"
                 }
             },
             "galleries": {
@@ -4714,8 +4714,8 @@
                 "examples": "範例",
                 "button": {
                     "more": {
-                        "label": "$~更多的...",
-                        "tip": "$~加载更多画廊"
+                        "label": "更多的...",
+                        "tip": "下載更多畫廊！"
                     }
                 }
             },
