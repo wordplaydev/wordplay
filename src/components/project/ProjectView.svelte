@@ -585,13 +585,14 @@
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
-        if (index)
+        if (index) {
             setConceptInURL(
                 $locales,
                 $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
                 index,
                 searchParams,
             );
+        }
 
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
@@ -722,13 +723,20 @@
                 !$path.every((concept, index) =>
                     concept.isEqualTo(latestPath[index]),
                 ) ||
-                untrack(() => layout.isFullscreen()))
+                untrack(() => layout.isFullscreen()) ||
+                (docs !== undefined && !docs.isExpanded()))
         ) {
             if (docs) {
                 setFullscreen(undefined);
                 setMode(docs, TileMode.Expanded);
             }
         }
+    });
+
+    // When the layout changes to hide the docs, reset the path.
+    $effect(() => {
+        const docs = layout.getDocs();
+        if (docs?.isCollapsed()) path.set([]);
     });
 
     // When the path changes, set the latest path
@@ -1155,12 +1163,10 @@
         if (!canvas) return;
         if (!view) return;
 
-        if (dragged) {
-            const rect = view.getBoundingClientRect();
+        const rect = view.getBoundingClientRect();
 
-            pointerX = event.clientX - rect.left + canvas.scrollLeft;
-            pointerY = event.clientY - rect.top + canvas.scrollTop;
-        }
+        pointerX = event.clientX - rect.left + canvas.scrollLeft;
+        pointerY = event.clientY - rect.top + canvas.scrollTop;
 
         if (!draggedTile) return;
 
@@ -1169,8 +1175,8 @@
             let newBounds;
             if (draggedTile.direction === null) {
                 newBounds = {
-                    left: pointerX - draggedTile.left,
-                    top: pointerY - draggedTile.top,
+                    left: Math.max(pointerX - draggedTile.left, 0),
+                    top: Math.max(pointerY - draggedTile.top, 0),
                     width: tile.position.width,
                     height: tile.position.height,
                 };
@@ -1940,6 +1946,9 @@
     /** If in free layout mode, allow scrolling of content */
     .canvas.free {
         overflow: auto;
+        width: 100%;
+        height: 100%;
+        position: relative;
     }
 
     nav {

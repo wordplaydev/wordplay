@@ -44,7 +44,7 @@
 
     interface Props {
         progress: Progress;
-        navigate: (progress: Progress) => void;
+        navigate: (progress: Progress) => Promise<void>;
         fallback: boolean;
     }
 
@@ -61,6 +61,13 @@
 
     // Create a concept path for children
     setConceptPath(writable([]));
+    const conceptPath = getConceptPath();
+
+    // When navigating
+    function nav(progress: Progress) {
+        // Reset the concept path after each navigation.
+        navigate(progress);
+    }
 
     const user = getUser();
 
@@ -123,8 +130,6 @@
                 concept.concept.getText().substring('@UI/'.length),
             ),
     );
-
-    const conceptPath = getConceptPath();
 
     /* 
         Silly workaround to only modify code when it actually changes. 
@@ -295,7 +300,7 @@
                 lessonJSON.scene,
                 lessonJSON.line,
             );
-            navigate(newProgress);
+            nav(newProgress);
         }
     }
 
@@ -306,11 +311,11 @@
         focusView = undefined;
         if (event.key === 'ArrowLeft') {
             focusView = previousButton;
-            navigate(progress.previousPause() ?? progress);
+            nav(progress.previousPause() ?? progress);
         } else if (event.key === 'ArrowRight' || event.key === ' ') {
             focusView = nextButton;
             const next = progress.nextPause();
-            if (next) navigate(next);
+            if (next) nav(next);
             else goto('/projects');
         }
 
@@ -391,8 +396,7 @@
                     <Button
                         large
                         tip={(l) => l.ui.page.learn.button.previous}
-                        action={() =>
-                            navigate(progress.previousPause() ?? progress)}
+                        action={() => nav(progress.previousPause() ?? progress)}
                         active={progress.previousPause() !== undefined}
                         icon="←"
                         bind:view={previousButton}
@@ -411,8 +415,7 @@
                     <Button
                         large
                         tip={(l) => l.ui.page.learn.button.next}
-                        action={() =>
-                            navigate(progress.nextPause() ?? progress)}
+                        action={() => nav(progress.nextPause() ?? progress)}
                         active={progress.nextPause() !== undefined}
                         icon="→"
                         bind:view={nextButton}
