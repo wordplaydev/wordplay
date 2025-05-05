@@ -126,6 +126,7 @@
     import Sharing from './Sharing.svelte';
     import Shortcuts from './Shortcuts.svelte';
     import SourceTileToggle from './SourceTileToggle.svelte';
+    import SplitAdjuster from './SplitAdjuster.svelte';
     import Tile, { TileKind, TileMode } from './Tile';
     import TileView, { type ResizeDirection } from './TileView.svelte';
     import Translate from './Translate.svelte';
@@ -549,6 +550,7 @@
                 defaultTiles,
                 // If showing output was requested, we fullscreen on output
                 showOutput ? TileKind.Output : undefined,
+                null,
             )
         );
     }
@@ -825,6 +827,13 @@
             canvasWidth,
             canvasHeight,
         );
+    }
+
+    function adjustSplit(axis: number, index: number, split: number) {
+        layout = layout
+            .withSplit($arrangement, axis, index, split)
+            .horizontal(canvasWidth, canvasHeight);
+        refreshLayout();
     }
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
@@ -1740,6 +1749,20 @@
                         </TileView>
                     {/if}
                 {/each}
+                <!-- Create an adjuster for each axis split in the current layout -->
+                {#each layout.getSplits($arrangement) ?? [] as axis, axisIndex}
+                    {#each axis.splits as _, index}
+                        {#if index < axis.splits.length - 1}
+                            <SplitAdjuster
+                                {axis}
+                                {index}
+                                {layout}
+                                adjuster={(split) =>
+                                    adjustSplit(axisIndex, index, split)}
+                            ></SplitAdjuster>
+                        {/if}
+                    {/each}
+                {/each}
             {/if}
         {/key}
     </div>
@@ -1941,6 +1964,7 @@
 
     .canvas {
         flex: 1;
+        position: relative;
     }
 
     /** If in free layout mode, allow scrolling of content */
@@ -1948,7 +1972,6 @@
         overflow: auto;
         width: 100%;
         height: 100%;
-        position: relative;
     }
 
     nav {
