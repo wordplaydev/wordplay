@@ -16,12 +16,12 @@
     import CreatorView from './CreatorView.svelte';
     import Link from './Link.svelte';
     import Spinning from './Spinning.svelte';
-    // new added
     import type { Character } from '../../db/characters/Character';
     import { characterToSVG } from '../../db/characters/Character';
     import ConceptLink, { CharacterName } from '../../nodes/ConceptLink';
     import MarkupValue from '../../values/MarkupValue';
     import Value from '../../values/Value';
+    import StructureValue from '@values/StructureValue';
 
     interface Props {
         project: Project;
@@ -52,24 +52,13 @@
         }
 
         // If it's a StructureValue, check all its fields recursively
-        if (
-            value &&
-            value.constructor &&
-            value.constructor.name === 'StructureValue' &&
-            (value as any).context &&
-            (value as any).context.getBindingsByNames
-        ) {
-            const structureValue = value as any;
-            // Get all bindings from the context
-            const bindings = structureValue.context.getBindingsByNames();
-
-            // Loop through each binding and check if it contains a character name
-            for (const [_, fieldValue] of bindings) {
-                const result = findCharacterName(fieldValue);
-                if (result) return result;
+        if (value instanceof StructureValue) {
+            const bindings = value.context.getBindingsByNames();
+            for (const [, fieldValue] of bindings) {
+            const result = findCharacterName(fieldValue);
+            if (result) return result;
             }
         }
-
         return null;
     }
 
