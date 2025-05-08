@@ -17,13 +17,12 @@ sentences: [
 		(`Masarap! @lamamel/emptyadobo`)
 	]
 
-¶These are the list of sentences that should only be advanced by speaking.¶
+¶These are the list of sentences that should only be advanced by moving the mouse.¶
 moveSentences: [9 11]
 
 ¶The current sentence starts at 1, 
-and increments if the mic volume goes above .8 
-for a speaking sentence, or a button or key is 
-pressed for other sentences.¶
+and increments if the mouse goes to a certain coordinate on the screen, 
+or a button or key is pressed for other sentences.¶
 currentSentence•#: 1 …
 	moveSentences.has(currentSentence) ?
 		Pointer().x > 2m & (Pointer().y > 3m)
