@@ -12,8 +12,6 @@ Group(Stack() [
         Phrase(`Just put a slash (//) before and after the word or phrase, /like this/.`)
     ]
 )
-¶Note: Check out the <guide@https://wordplay.dev/guide?locale=en-US> for more tips!¶ 
-
 \
 
 
