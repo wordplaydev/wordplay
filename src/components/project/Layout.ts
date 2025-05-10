@@ -3,18 +3,18 @@ import type Bounds from './Bounds';
 import Tile, { TileKind, TileMode } from './Tile';
 import TileKinds from './TileKinds';
 
-export type Split = {
+export type Position = {
     /** A set of tile kinds or a source numbers that this is laying out. */
     id: (TileKind | number)[];
-    /** The proportion of the dimension the tile should receive, if expanded, between 0 and 1 */
-    proportion: number;
+    /** The proportional position at which the tile should be positioned if expanded, between 0 and 1. Could be placed earlier if groups previous are not visible */
+    position: number;
 };
 
 export type Axis = {
     /** The axis this corresponds to */
     direction: 'x' | 'y';
-    /** The splits to apply; should be monotonically increasing */
-    splits: Split[];
+    /** The splits to apply; should be monotonically increasing in position. */
+    positions: Position[];
 };
 
 /** The current layouts for each arrangement that supports splits. If null, there is no proportions, so we have defaults. */
@@ -41,30 +41,39 @@ export type SerializedLayout = {
 const DefaultHorizontalSplits: Axis[] = [
     {
         direction: 'y',
-        splits: [
-            { id: [TileKind.Documentation], proportion: 0.5 },
-            { id: [TileKind.Collaborate], proportion: 0.5 },
+        positions: [
+            { id: [TileKind.Documentation], position: 0.0 },
+            { id: [TileKind.Collaborate], position: 0.5 },
         ],
     },
     {
         direction: 'x',
-        splits: [
+        positions: [
             {
                 id: [TileKind.Documentation, TileKind.Collaborate],
-                proportion: 0.25,
+                position: 0,
             },
-            { id: [TileKind.Source], proportion: 0.5 },
+            { id: [TileKind.Source], position: 0.25 },
             {
                 id: [TileKind.Output, TileKind.Palette],
-                proportion: 0.25,
+                position: 0.7,
             },
         ],
     },
     {
         direction: 'y',
-        splits: [
-            { id: [TileKind.Output], proportion: 0.5 },
-            { id: [TileKind.Palette], proportion: 0.5 },
+        positions: [
+            {
+                id: [TileKind.Source],
+                position: 0.0,
+            },
+        ],
+    },
+    {
+        direction: 'y',
+        positions: [
+            { id: [TileKind.Output], position: 0.0 },
+            { id: [TileKind.Palette], position: 0.5 },
         ],
     },
 ];
@@ -72,30 +81,39 @@ const DefaultHorizontalSplits: Axis[] = [
 const DefaultVerticalSplits: Axis[] = [
     {
         direction: 'x',
-        splits: [
-            { id: [TileKind.Documentation], proportion: 0.5 },
-            { id: [TileKind.Collaborate], proportion: 0.5 },
+        positions: [
+            { id: [TileKind.Documentation], position: 0.0 },
+            { id: [TileKind.Collaborate], position: 0.5 },
+        ],
+    },
+    {
+        direction: 'x',
+        positions: [
+            {
+                id: [TileKind.Source],
+                position: 0.0,
+            },
         ],
     },
     {
         direction: 'y',
-        splits: [
+        positions: [
             {
                 id: [TileKind.Documentation, TileKind.Collaborate],
-                proportion: 0.25,
+                position: 0,
             },
-            { id: [TileKind.Source], proportion: 0.5 },
+            { id: [TileKind.Source], position: 0.25 },
             {
                 id: [TileKind.Output, TileKind.Palette],
-                proportion: 0.25,
+                position: 0.7,
             },
         ],
     },
     {
         direction: 'x',
-        splits: [
-            { id: [TileKind.Output], proportion: 0.5 },
-            { id: [TileKind.Palette], proportion: 0.5 },
+        positions: [
+            { id: [TileKind.Output], position: 0.0 },
+            { id: [TileKind.Palette], position: 0.5 },
         ],
     },
 ];
@@ -293,6 +311,17 @@ export default class Layout {
         return this.replace(tile, tile.withBounds(bounds));
     }
 
+    getTileBounds(tile: Tile) {
+        return (
+            tile.bounds ?? {
+                left: 0,
+                top: 0,
+                width: 0,
+                height: 0,
+            }
+        );
+    }
+
     withTilePosition(tile: Tile, bounds: Bounds) {
         return this.replace(tile, tile.withPosition(bounds));
     }
@@ -339,6 +368,7 @@ export default class Layout {
 
     /** Take a generic specification for a layout on axes, determining the position and size of each tile. */
     onAxes(axes: Axis[], width: number, height: number): Layout {
+        // Make a new layout that we'll iteratively update.
         let newLayout: Layout = new Layout(
             this.projectID,
             this.tiles,
@@ -346,60 +376,73 @@ export default class Layout {
             this.splits,
         );
 
-        const thisLayout = this;
-
+        // Given a layout and direction, layout all of the position and size of the tiles on the corresponding axis.
         function position(layout: Layout, direction: 'x' | 'y') {
-            // Go through the axis and position and size the visible tiles.
-            const xAxes = axes.filter((a) => a.direction === 'x');
-            for (const axis of xAxes) {
-                let position = 0;
-                let unusedProportion = 0;
-                // For each of the splits on this axis, determine if the relevant tiles are visible, and
-                // if so, position and size them based on the proporition allocated to them, plus
-                // any previous space unused, and any space after unused.
-                for (let index = 0; index < axis.splits.length; index++) {
-                    const split = axis.splits[index];
+            // Find the axes on this direction.
+            const correspondingAxes = axes.filter(
+                (a) => a.direction === direction,
+            );
+
+            // Determine the length on this axis
+            const length = direction === 'x' ? width : height;
+
+            // For each axes, determine the position and size of the tiles on this axis.
+            for (const axis of correspondingAxes) {
+                // Track the previous position and length on the axis, so we can position each tile appropriately.
+                let previousPosition = undefined;
+
+                // For each of the splits on this axis, determine if the referenced tiles are visible, and
+                // if so, set their position based on the requested position and their size based on the position of the
+                // position of the next visible tile, or the remainder of the axis if there are no visible tiles after it.
+                for (let index = 0; index < axis.positions.length; index++) {
+                    const group = axis.positions[index];
                     // Get the tiles referenced in this split and see if they are expanded.
-                    const tiles = split.id
+                    const visibleTiles = group.id
                         .map((id) =>
-                            thisLayout.tiles.find(
+                            layout.tiles.find(
                                 (t) => t.kind === id && t.isExpanded(),
                             ),
                         )
                         .filter((t) => t !== undefined);
 
-                    // Get the tiles on this axis after this split and see if any are expanded.
-                    const subsequentTilesVisible =
-                        axis.splits
+                    // Get the group with an expanded tile after this group, if any.
+                    const subsequentVisibleTile: Position | undefined =
+                        axis.positions
                             .slice(index + 1)
                             .filter((split) =>
                                 split.id.some((id) =>
-                                    thisLayout.tiles.find(
+                                    layout.tiles.find(
                                         (t) => t.kind === id && t.isExpanded(),
                                     ),
                                 ),
-                            ).length > 0;
+                            )[0];
 
-                    // TODO Are any future tiles visible? If not, it gets the remaining space.
+                    // Set the position of the tiles based on the requested position.
+                    // Set the width/height of the tile based on the position of the next tile or the end of the axis.
+                    const proporitionalPosition =
+                        previousPosition === undefined ? 0 : group.position;
+                    const position: number =
+                        previousPosition === undefined
+                            ? 0
+                            : proporitionalPosition * length;
+                    const size =
+                        ((subsequentVisibleTile
+                            ? subsequentVisibleTile.position
+                            : 1) -
+                            proporitionalPosition) *
+                        length;
 
-                    const proportion = split.proportion + unusedProportion;
-                    // No tiles visible for this split? Give up unused proportion.
-                    if (tiles.length === 0) unusedProportion += proportion;
-                    // Otherwise, reset the unused proporition, and position the tiles on this axis.
-                    else {
-                        unusedProportion = 0;
-                        const size = width * proportion;
-                        for (const tile of tiles) {
-                            newLayout = newLayout.withTileBounds(tile, {
-                                left: position,
-                                top: 0,
-                                width: size,
-                                height: 0,
-                            });
-                        }
+                    // Remember what we chose.
+                    if (visibleTiles.length > 0) previousPosition = position;
 
-                        // Advance the x based on the tile width.
-                        position += size;
+                    for (const tile of visibleTiles) {
+                        const currentBounds = layout.getTileBounds(tile);
+                        layout = layout.withTileBounds(tile, {
+                            ...currentBounds,
+                            ...(direction === 'x'
+                                ? { left: position, width: size }
+                                : { top: position, height: size }),
+                        });
                     }
                 }
             }
@@ -409,6 +452,8 @@ export default class Layout {
         // Layout on each axis according to the specification.
         newLayout = position(newLayout, 'x');
         newLayout = position(newLayout, 'y');
+
+        return newLayout;
     }
 
     /* A stack of output and source files with optional palette next to output and docs next to source */
@@ -418,96 +463,6 @@ export default class Layout {
             width,
             height,
         );
-
-        /*
-        let newLayout: Layout = new Layout(
-            this.projectID,
-            this.tiles,
-            this.fullscreenID,
-            this.splits,
-        );
-        const expanded = this.expanded();
-
-        const output = expanded.find((tile) => tile.id === TileKind.Output);
-        const palette = expanded.find((tile) => tile.id === TileKind.Palette);
-        const sources = expanded.filter((tile) => tile.id.startsWith('source'));
-        const docs = expanded.find(
-            (tile) => tile.id === TileKind.Documentation,
-        );
-        const chat = expanded.find((tile) => tile.id === TileKind.Collaborate);
-
-        let top = 0;
-        let tileCount =
-            (output ? 1 : 0) +
-            (palette ? 1 : 0) +
-            (docs ? 1 : 0) +
-            (chat ? 1 : 0) +
-            sources.length;
-        const tileProportion = 1 / tileCount;
-        const tileHeight = height * tileProportion;
-
-        // The vertical layout is a stack of tiles, with the output at the top, followed by the sources, then other tiles.
-
-        const splits =
-            this.splits && this.splits.vertical
-                ? this.splits.vertical.map((s) => s ?? 1 / tileCount)
-                : undefined;
-
-        // If the output is expanded, give it a portion.
-        if (output) {
-            newLayout = newLayout.withTileBounds(output, {
-                left: 0,
-                top: 0,
-                width: width,
-                height: tileHeight,
-            });
-            top += tileHeight;
-        }
-
-        // Add the sources next
-        for (const tile of sources) {
-            newLayout = newLayout.withTileBounds(tile, {
-                left: 0,
-                top: top,
-                width: width,
-                height: tileHeight,
-            });
-            top += tileHeight;
-        }
-
-        // Then add the palette
-        if (palette) {
-            newLayout = newLayout.withTileBounds(palette, {
-                left: 0,
-                top: top,
-                width: width,
-                height: tileHeight,
-            });
-            top += tileHeight;
-        }
-
-        if (docs) {
-            newLayout = newLayout.withTileBounds(docs, {
-                left: 0,
-                top: top,
-                width: width,
-                height:
-                    tileHeight - (splits ? tileHeight * (0.5 - splits[3]) : 0),
-            });
-            top += tileHeight;
-        }
-
-        if (chat) {
-            newLayout = newLayout.withTileBounds(chat, {
-                left: 0,
-                top: top,
-                width: width,
-                height: tileHeight,
-            });
-        }
-
-        return newLayout;
-        */
     }
 
     /* Docs on the left, then source, then output, with optional palette below it */
@@ -517,136 +472,6 @@ export default class Layout {
             width,
             height,
         );
-
-        /*
-
-        let newLayout: Layout = new Layout(
-            this.projectID,
-            this.tiles,
-            this.fullscreenID,
-            this.splits,
-        );
-        const expanded = this.expanded();
-
-        const output = expanded.find((tile) => tile.id === TileKind.Output);
-        const palette = expanded.find((tile) => tile.id === TileKind.Palette);
-        const chat = expanded.find((tile) => tile.id === TileKind.Collaborate);
-        const sources = expanded.filter((tile) => tile.id.startsWith('source'));
-        const docs = expanded.find(
-            (tile) => tile.id === TileKind.Documentation,
-        );
-
-        let left = 0;
-        const tileWidth =
-            width /
-            ((docs || chat ? 0.5 : 0) +
-                sources.length +
-                (output || palette ? 1 : 0));
-
-        // Docs first, if expanded, gets half a tile width
-        if (docs || chat) {
-            const leftCodeSplit =
-                this.splits && this.splits.horizontal
-                    ? (this.splits.horizontal[1] ?? 0.5)
-                    : 0.5;
-
-            const leftWidth = tileWidth * leftCodeSplit;
-
-            if (docs && chat) {
-                const docChatSplit =
-                    this.splits && this.splits.horizontal
-                        ? (this.splits.horizontal[0] ?? 0.5)
-                        : 0.5;
-
-                newLayout = newLayout
-                    .withTileBounds(docs, {
-                        left: left,
-                        top: 0,
-                        width: leftWidth,
-                        height: height * docChatSplit,
-                    })
-                    .withTileBounds(chat, {
-                        left: left,
-                        top: height * docChatSplit,
-                        width: leftWidth,
-                        height: height * (1 - docChatSplit),
-                    });
-            } else if (docs) {
-                newLayout = newLayout.withTileBounds(docs, {
-                    left: left,
-                    top: 0,
-                    width: leftWidth,
-                    height: height,
-                });
-            } else if (chat) {
-                newLayout = newLayout.withTileBounds(chat, {
-                    left: left,
-                    top: 0,
-                    width: leftWidth,
-                    height: height,
-                });
-            }
-            left += tileWidth * leftCodeSplit;
-        }
-
-        // Get the source/right margin split.
-        const rightCodeSplit =
-            this.splits && this.splits.horizontal
-                ? (this.splits.horizontal[2] ?? 0.5)
-                : 0.5;
-        const extraRight =
-            output || palette ? tileWidth * (0.5 - rightCodeSplit) : 0;
-        const sourceWidth = tileWidth - extraRight;
-
-        // Sources next
-        for (const tile of sources) {
-            newLayout = newLayout.withTileBounds(tile, {
-                left: left,
-                top: 0,
-                width: sourceWidth,
-                height: height,
-            });
-            left += sourceWidth;
-        }
-
-        if (output && palette) {
-            const split =
-                this.splits && this.splits.horizontal
-                    ? (this.splits.horizontal[3] ?? 0.5)
-                    : 0.5;
-
-            newLayout = newLayout
-                .withTileBounds(output, {
-                    left: left,
-                    top: 0,
-                    width: tileWidth + extraRight,
-                    height: height * split,
-                })
-                .withTileBounds(palette, {
-                    left: left,
-                    top: height * split,
-                    width: tileWidth + extraRight,
-                    height: height * (1 - split),
-                });
-        } else if (output) {
-            newLayout = newLayout.withTileBounds(output, {
-                left: left,
-                top: 0,
-                width: tileWidth + extraRight,
-                height: height,
-            });
-        } else if (palette) {
-            newLayout = newLayout.withTileBounds(palette, {
-                left: left,
-                top: 0,
-                width: tileWidth + extraRight,
-                height: height,
-            });
-        }
-
-        return newLayout;
-
-        */
     }
 
     positioned() {
@@ -699,9 +524,9 @@ export default class Layout {
 
         // Update the split at the given index.
         if (horizontal && newSplits.horizontal !== null)
-            newSplits.horizontal[axis].splits[index].proportion = split;
+            newSplits.horizontal[axis].positions[index].position = split;
         else if (!horizontal && newSplits.vertical !== null)
-            newSplits.vertical[axis].splits[index].proportion = split;
+            newSplits.vertical[axis].positions[index].position = split;
 
         return new Layout(
             this.projectID,

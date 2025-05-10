@@ -13,7 +13,7 @@
         /** The index of the split being adjusted */
         index: number;
         layout: Layout;
-        adjuster: (split: number) => void;
+        adjuster: (position: number) => void;
     }
 
     let { axis, index, layout, adjuster }: Props = $props();
@@ -37,8 +37,8 @@
 
     function getBounds(): Bounds[] {
         // Find the kinds from the axis.
-        const kind = axis.splits[index].id;
-        const nextKind = axis.splits[index + 1].id;
+        const kind = axis.positions[index].id;
+        const nextKind = axis.positions[index + 1].id;
 
         const kindTiles = kind
             .map((k) =>
@@ -64,7 +64,7 @@
     }
 
     function getSplit(): number {
-        return axis.splits[index].proportion;
+        return axis.positions[index].position;
     }
 
     function handleKey(event: KeyboardEvent) {

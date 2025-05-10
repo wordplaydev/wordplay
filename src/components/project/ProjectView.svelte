@@ -120,13 +120,13 @@
     import Moderation from './Moderation.svelte';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
+    import SplitAdjuster from './PositionAdjuster.svelte';
     import RootView from './RootView.svelte';
     import SelectedOutput from './SelectedOutput.svelte';
     import Separator from './Separator.svelte';
     import Sharing from './Sharing.svelte';
     import Shortcuts from './Shortcuts.svelte';
     import SourceTileToggle from './SourceTileToggle.svelte';
-    import SplitAdjuster from './SplitAdjuster.svelte';
     import Tile, { TileKind, TileMode } from './Tile';
     import TileView, { type ResizeDirection } from './TileView.svelte';
     import Translate from './Translate.svelte';
@@ -1751,8 +1751,8 @@
                 {/each}
                 <!-- Create an adjuster for each axis split in the current layout -->
                 {#each layout.getSplits($arrangement) ?? [] as axis, axisIndex}
-                    {#each axis.splits as _, index}
-                        {#if index < axis.splits.length - 1}
+                    {#each axis.positions as _, index}
+                        {#if index < axis.positions.length - 1}
                             <SplitAdjuster
                                 {axis}
                                 {index}
