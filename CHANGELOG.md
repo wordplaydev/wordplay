@@ -9,6 +9,11 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Fixed #755 Machine translation of traditional Chinese tutorial.
 
+## Fixed
+
+- Improved description of project archive tooltip.
+- Refined feedback reading rules to permit read without authentication.
+
 ## Maintenance
 
 - Updated minor versions of SvelteKit, Svelte, svelte-check, eslint, tsx, vite, vitest, zod, firebase-admin

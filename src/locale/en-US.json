@@ -4912,7 +4912,7 @@
                 },
                 "confirm": {
                     "archive": {
-                        "description": "archive this performance",
+                        "description": "archive this performance for later deletion",
                         "prompt": "archive"
                     },
                     "delete": {
