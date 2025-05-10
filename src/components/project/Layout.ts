@@ -5,9 +5,11 @@ import TileKinds from './TileKinds';
 
 export type Position = {
     /** A set of tile kinds or a source numbers that this is laying out. */
-    id: (TileKind | number)[];
+    id: TileKind[];
     /** The proportional position at which the tile should be positioned if expanded, between 0 and 1. Could be placed earlier if groups previous are not visible */
     position: number;
+    /** Whether to share the space of tiles of the same kind on this axis. Undefined means false */
+    split?: boolean;
 };
 
 export type Axis = {
@@ -53,7 +55,7 @@ const DefaultHorizontalSplits: Axis[] = [
                 id: [TileKind.Documentation, TileKind.Collaborate],
                 position: 0,
             },
-            { id: [TileKind.Source], position: 0.25 },
+            { id: [TileKind.Source], position: 0.25, split: true },
             {
                 id: [TileKind.Output, TileKind.Palette],
                 position: 0.7,
@@ -92,6 +94,7 @@ const DefaultVerticalSplits: Axis[] = [
             {
                 id: [TileKind.Source],
                 position: 0.0,
+                split: true,
             },
         ],
     },
@@ -397,13 +400,9 @@ export default class Layout {
                 for (let index = 0; index < axis.positions.length; index++) {
                     const group = axis.positions[index];
                     // Get the tiles referenced in this split and see if they are expanded.
-                    const visibleTiles = group.id
-                        .map((id) =>
-                            layout.tiles.find(
-                                (t) => t.kind === id && t.isExpanded(),
-                            ),
-                        )
-                        .filter((t) => t !== undefined);
+                    const visibleTiles = layout.tiles.filter(
+                        (t) => group.id.includes(t.kind) && t.isExpanded(),
+                    );
 
                     // Get the group with an expanded tile after this group, if any.
                     const subsequentVisibleTile: Position | undefined =
@@ -435,14 +434,41 @@ export default class Layout {
                     // Remember what we chose.
                     if (visibleTiles.length > 0) previousPosition = position;
 
+                    // Split the visible tiles into groups based on their kind.
+                    const visibleKinds = new Map<TileKind, Tile[]>();
                     for (const tile of visibleTiles) {
-                        const currentBounds = layout.getTileBounds(tile);
-                        layout = layout.withTileBounds(tile, {
-                            ...currentBounds,
-                            ...(direction === 'x'
-                                ? { left: position, width: size }
-                                : { top: position, height: size }),
-                        });
+                        const kind = tile.kind;
+                        if (!visibleKinds.has(kind)) visibleKinds.set(kind, []);
+                        visibleKinds.get(kind)?.push(tile);
+                    }
+
+                    // Split up the space for each type of visible tile.
+                    for (const tiles of visibleKinds.values()) {
+                        let currentPosition = position;
+                        for (const tile of tiles) {
+                            const currentBounds = layout.getTileBounds(tile);
+                            layout = layout.withTileBounds(tile, {
+                                ...currentBounds,
+                                ...(direction === 'x'
+                                    ? {
+                                          left: group.split
+                                              ? currentPosition
+                                              : position,
+                                          width: group.split
+                                              ? size / tiles.length
+                                              : size,
+                                      }
+                                    : {
+                                          top: group.split
+                                              ? currentPosition
+                                              : position,
+                                          height: group.split
+                                              ? size / tiles.length
+                                              : size,
+                                      }),
+                            });
+                            currentPosition += size / tiles.length;
+                        }
                     }
                 }
             }
