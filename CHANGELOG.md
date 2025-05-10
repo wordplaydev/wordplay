@@ -3,6 +3,13 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 01.6.14
+
+## Maintenance
+
+- Updated minor versions of SvelteKit, Svelte, svelte-check, eslint, tsx, vite, vitest, zod, firebase-admin
+- Updated to nodemailer 7.0.
+
 ## 0.1.6.13
 
 ## Fixed
