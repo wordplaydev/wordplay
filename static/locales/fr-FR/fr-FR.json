@@ -1109,7 +1109,8 @@
                 "address": "$~*$1* est-ce l'adresse de quelqu'un ? Si c'est le cas, ne me mettez pas ici, nous ne voulons pas que quelqu'un soit traqué !\n\n$2",
                 "handle": "$~*$1* est-il votre nom d'utilisateur pour un autre site Internet ? Si c'est le cas, ne le partagez pas ici, à moins que vous ne le vouliez vraiment.\n\n$2",
                 "resolution": "$~Ce ne sont pas des données sensibles",
-                "reminder": "$~Remarque: vous pouvez annuler cette action et voir d’autres éléments que vous avez marqués comme non sensibles dans la boîte de dialogue de partage."
+                "reminder": "$~Remarque: vous pouvez annuler cette action et voir d’autres éléments que vous avez marqués comme non sensibles dans la boîte de dialogue de partage.",
+                "character": "$~Cela ressemble à un nom de personnage. Pour l'afficher, utilisez @FormattedLiteral au lieu de @TextLiteral."
             }
         },
         "FormattedLiteral": {

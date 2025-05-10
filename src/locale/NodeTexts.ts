@@ -667,6 +667,7 @@ type NodeTexts = {
             resolution: Template;
             /** Note to remind users where they can manage sensitive information for their project. */
             reminder: Template;
+            character: InternalConflictText;
         }>;
     /**
      * A formatted text literal, e.g., ` `hello *wordplay*` `

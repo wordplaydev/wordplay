@@ -1109,7 +1109,8 @@
                 "address": "$~*$1* birinin ev adresi mi? Eğer öyleyse, beni buraya koymayın, kimsenin takip edilmesini istemiyoruz!\n\n$2",
                 "handle": "$~*$1* internetteki başka bir yer için kullanıcı adınız mı? Eğer öyleyse, gerçekten istemedikçe beni burada paylaşmayın.\n\n$2",
                 "resolution": "$~Bu hassas bir veri değil",
-                "reminder": "$~Not: Bu işlemi geri alabilir ve paylaşım iletişim kutusunda hassas olmayan olarak işaretlediğiniz diğer şeyleri görebilirsiniz."
+                "reminder": "$~Not: Bu işlemi geri alabilir ve paylaşım iletişim kutusunda hassas olmayan olarak işaretlediğiniz diğer şeyleri görebilirsiniz.",
+                "character": "$~Bu bir karakter ismine benziyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın."
             }
         },
         "FormattedLiteral": {

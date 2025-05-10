@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Fixed #755 Machine translation of traditional Chinese tutorial.
 - Allow feedback editing by owners or moderators.
+- Added a warning when a character name is referenced in plain text.
 
 ## Fixed
 
