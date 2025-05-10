@@ -120,7 +120,7 @@
     import Moderation from './Moderation.svelte';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
-    import SplitAdjuster from './PositionAdjuster.svelte';
+    import PositionAdjuster from './PositionAdjuster.svelte';
     import RootView from './RootView.svelte';
     import SelectedOutput from './SelectedOutput.svelte';
     import Separator from './Separator.svelte';
@@ -609,7 +609,9 @@
 
     /** Persist the layout when it changes */
     $effect(() => {
-        if (persistLayout) Settings.setProjectLayout(project.getID(), layout);
+        if (persistLayout) {
+            Settings.setProjectLayout(project.getID(), layout);
+        }
     });
 
     /** The tile being dragged */
@@ -829,10 +831,16 @@
         );
     }
 
+    /** Take the given axis, group, and split, and adjust it. */
     function adjustSplit(axis: number, index: number, split: number) {
-        layout = layout
-            .withSplit($arrangement, axis, index, split)
-            .horizontal(canvasWidth, canvasHeight);
+        layout = layout.withSplit(
+            $arrangement,
+            axis,
+            index,
+            split,
+            canvasWidth,
+            canvasHeight,
+        );
         refreshLayout();
     }
 
@@ -1749,17 +1757,17 @@
                         </TileView>
                     {/if}
                 {/each}
-                <!-- Create an adjuster for each axis split in the current layout -->
-                {#each layout.getSplits($arrangement) ?? [] as axis, axisIndex}
-                    {#each axis.positions as _, index}
-                        {#if index < axis.positions.length - 1}
-                            <SplitAdjuster
+                <!-- Create an adjuster for each axis split in the current layout that isn't the first in the axis -->
+                {#each layout.getSplits($arrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
+                    {#each axis.positions as _, groupIndex}
+                        {#if groupIndex > 0}
+                            <PositionAdjuster
                                 {axis}
-                                {index}
+                                index={groupIndex}
                                 {layout}
                                 adjuster={(split) =>
-                                    adjustSplit(axisIndex, index, split)}
-                            ></SplitAdjuster>
+                                    adjustSplit(axisIndex, groupIndex, split)}
+                            ></PositionAdjuster>
                         {/if}
                     {/each}
                 {/each}

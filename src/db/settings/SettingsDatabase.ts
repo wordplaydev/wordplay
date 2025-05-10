@@ -121,6 +121,7 @@ export default class SettingsDatabase {
         const currentLayout = currentLayoutObject
             ? Layout.fromObject(id, currentLayoutObject)
             : null;
+
         if (currentLayout !== null && currentLayout.isEqualTo(layout)) return;
 
         const newLayout = Object.fromEntries(

@@ -183,12 +183,16 @@ export default class Layout {
     }
 
     // Given the current arrangement, get a list of axes for layout, including default proportions if not defined.
-    getSplits(arrangement: Arrangement) {
+    getSplits(arrangement: Arrangement, width: number, height: number) {
         return arrangement === Arrangement.Horizontal
             ? (this.splits?.horizontal ?? DefaultHorizontalSplits)
             : arrangement === Arrangement.Vertical
               ? (this.splits?.vertical ?? DefaultVerticalSplits)
-              : null;
+              : arrangement === Arrangement.Responsive
+                ? width > height
+                    ? (this.splits?.horizontal ?? DefaultHorizontalSplits)
+                    : (this.splits?.vertical ?? DefaultVerticalSplits)
+                : null;
     }
 
     isFullscreen() {
@@ -533,25 +537,39 @@ export default class Layout {
         axis: number,
         index: number,
         split: number,
+        width: number,
+        height: number,
     ) {
+        // Constrain the split
+        if (split < 0) split = 0;
+        if (split > 1) split = 1;
+
         if (
             arrangement !== Arrangement.Horizontal &&
-            arrangement !== Arrangement.Vertical
+            arrangement !== Arrangement.Vertical &&
+            arrangement !== Arrangement.Responsive
         )
             return this;
-        const horizontal = arrangement === Arrangement.Horizontal;
+        const horizontal =
+            arrangement === Arrangement.Horizontal ||
+            (arrangement === Arrangement.Responsive && width > height);
 
         // Initialize the splits if null.
-        let newSplits = this.splits ?? {
-            horizontal: DefaultHorizontalSplits,
-            vertical: DefaultVerticalSplits,
-        };
+        let newSplits = JSON.parse(
+            JSON.stringify(
+                this.splits ?? {
+                    horizontal: DefaultHorizontalSplits,
+                    vertical: DefaultVerticalSplits,
+                },
+            ),
+        );
 
         // Update the split at the given index.
         if (horizontal && newSplits.horizontal !== null)
             newSplits.horizontal[axis].positions[index].position = split;
-        else if (!horizontal && newSplits.vertical !== null)
+        else if (!horizontal && newSplits.vertical !== null) {
             newSplits.vertical[axis].positions[index].position = split;
+        }
 
         return new Layout(
             this.projectID,

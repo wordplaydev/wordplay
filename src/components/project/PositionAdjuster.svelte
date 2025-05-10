@@ -1,5 +1,6 @@
 <script module lang="ts">
     const Increment = 0.05;
+    const MinLength = 0.15;
 </script>
 
 <script lang="ts">
@@ -18,49 +19,49 @@
 
     let { axis, index, layout, adjuster }: Props = $props();
 
+    let isFirstVisible = $derived(
+        axis.positions.findIndex((pos) =>
+            layout.tiles.some((t) => t.isExpanded() && pos.id.includes(t.kind)),
+        ) === index,
+    );
     let bounds = $derived(getBounds());
     let left = $derived(
         bounds.length === 0
             ? undefined
             : axis.direction === 'y'
-              ? bounds[0].left + bounds.reduce((sum, b) => sum + b.width, 0) / 2
-              : bounds[0].left + bounds[0].width,
+              ? (bounds[0].left +
+                    Math.max.apply(
+                        undefined,
+                        bounds.map((b) => b.left + b.width),
+                    )) /
+                2
+              : bounds[0].left,
     );
     let top = $derived(
         bounds.length === 0
             ? undefined
             : axis.direction === 'y'
-              ? bounds[0].top + bounds[0].height
-              : bounds[0].top +
-                bounds.reduce((sum, b) => sum + b.height, 0) / 2,
+              ? bounds[0].top
+              : (bounds[0].top +
+                    Math.max.apply(
+                        undefined,
+                        bounds.map((b) => b.top + b.height),
+                    )) /
+                2,
     );
 
     function getBounds(): Bounds[] {
-        // Find the kinds from the axis.
-        const kind = axis.positions[index].id;
-        const nextKind = axis.positions[index + 1].id;
+        // The first group in the axes doesn't get an adjuster.
+        if (index === 0) return [];
 
-        const kindTiles = kind
-            .map((k) =>
-                typeof k === 'number'
-                    ? layout.getSource(k)
-                    : layout.getTileWithID(k),
-            )
-            .filter((k) => k !== undefined)
-            .filter((k) => k.isExpanded());
-        const nextKindTiles = nextKind
-            .map((k) =>
-                typeof k === 'number'
-                    ? layout.getSource(k)
-                    : layout.getTileWithID(k),
-            )
-            .filter((k) => k !== undefined);
-        return kindTiles.length > 0 &&
-            nextKindTiles !== undefined &&
-            kindTiles.some((k) => k.isExpanded()) &&
-            nextKindTiles.some((k) => k.isExpanded())
-            ? kindTiles.map((k) => k.bounds).filter((k) => k !== undefined)
-            : [];
+        // Get the kinds specified on the axis.
+        const kinds = axis.positions[index].id;
+
+        // Get the bounds of the expanded tiles of the specified kinds in the layout.
+        return layout.tiles
+            .filter((t) => t.isExpanded() && kinds.includes(t.kind))
+            .map((t) => t.bounds)
+            .filter((b) => b !== undefined);
     }
 
     function getSplit(): number {
@@ -68,22 +69,29 @@
     }
 
     function handleKey(event: KeyboardEvent) {
+        const previousPosition =
+            (axis.positions[index - 1]?.position ?? 0) + MinLength;
+        const nextPosition =
+            (axis.positions[index + 1]?.position ?? 1) - MinLength;
+
+        // The minimum is the previous position plus the minimum length
         if (event.key === 'ArrowUp' || event.key === 'ArrowLeft')
-            adjuster(Math.max(0.2, getSplit() - Increment));
+            adjuster(Math.max(previousPosition, getSplit() - Increment));
+        // The maximum is 1 - minus the max length.
         else if (event.key === 'ArrowDown' || event.key === 'ArrowRight')
-            adjuster(Math.min(0.8, getSplit() + Increment));
+            adjuster(Math.min(nextPosition, getSplit() + Increment));
     }
 
     function handlePointer(event: PointerEvent) {}
 </script>
 
-{#if bounds.length > 0}
+{#if bounds.length > 0 && !isFirstVisible}
     <div
         role="slider"
         style:left="{left}px"
         style:top="{top}px"
         tabindex="0"
-        aria-valuenow={getSplit() ?? 0.5}
+        aria-valuenow={getSplit()}
         onpointerdown={handlePointer}
         onkeydown={handleKey}
     ></div>
