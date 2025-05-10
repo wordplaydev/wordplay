@@ -94,7 +94,6 @@ const DefaultVerticalSplits: Axis[] = [
             {
                 id: [TileKind.Source],
                 position: 0.0,
-                split: true,
             },
         ],
     },
@@ -105,7 +104,7 @@ const DefaultVerticalSplits: Axis[] = [
                 id: [TileKind.Documentation, TileKind.Collaborate],
                 position: 0,
             },
-            { id: [TileKind.Source], position: 0.25 },
+            { id: [TileKind.Source], position: 0.25, split: true },
             {
                 id: [TileKind.Output, TileKind.Palette],
                 position: 0.7,
