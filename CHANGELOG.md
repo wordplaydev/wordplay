@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Improved description of project archive tooltip.
 - Refined feedback reading rules to permit read without authentication.
+- Show local projects without owner.
 
 ## Maintenance
 
