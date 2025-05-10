@@ -120,6 +120,7 @@
     import Moderation from './Moderation.svelte';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
+    import PositionAdjuster from './PositionAdjuster.svelte';
     import RootView from './RootView.svelte';
     import SelectedOutput from './SelectedOutput.svelte';
     import Separator from './Separator.svelte';
@@ -549,6 +550,7 @@
                 defaultTiles,
                 // If showing output was requested, we fullscreen on output
                 showOutput ? TileKind.Output : undefined,
+                null,
             )
         );
     }
@@ -607,7 +609,9 @@
 
     /** Persist the layout when it changes */
     $effect(() => {
-        if (persistLayout) Settings.setProjectLayout(project.getID(), layout);
+        if (persistLayout) {
+            Settings.setProjectLayout(project.getID(), layout);
+        }
     });
 
     /** The tile being dragged */
@@ -825,6 +829,21 @@
             canvasWidth,
             canvasHeight,
         );
+    }
+
+    let adjusting = $state(false);
+
+    /** Take the given axis, group, and split, and adjust it. */
+    function adjustSplit(axis: number, index: number, split: number) {
+        layout = layout.withSplit(
+            $arrangement,
+            axis,
+            index,
+            split,
+            canvasWidth,
+            canvasHeight,
+        );
+        refreshLayout();
     }
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
@@ -1457,6 +1476,7 @@
                                 ? outputBackground
                                 : null}
                             dragging={draggedTile?.id === tile.id}
+                            animated={!adjusting}
                             fullscreenID={layout.fullscreenID}
                             focuscontent={tile.kind === TileKind.Source ||
                                 tile.kind === TileKind.Output}
@@ -1740,6 +1760,24 @@
                         </TileView>
                     {/if}
                 {/each}
+                <!-- Create an adjuster for each axis split in the current layout that isn't the first in the axis -->
+                {#each layout.getSplits($arrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
+                    {#each axis.positions as _, groupIndex}
+                        {#if groupIndex > 0}
+                            <PositionAdjuster
+                                {axis}
+                                index={groupIndex}
+                                {layout}
+                                adjuster={(split) =>
+                                    adjustSplit(axisIndex, groupIndex, split)}
+                                setAdjusting={(state) => (adjusting = state)}
+                                {adjusting}
+                                width={canvasWidth}
+                                height={canvasHeight}
+                            ></PositionAdjuster>
+                        {/if}
+                    {/each}
+                {/each}
             {/if}
         {/key}
     </div>
@@ -1941,6 +1979,7 @@
 
     .canvas {
         flex: 1;
+        position: relative;
     }
 
     /** If in free layout mode, allow scrolling of content */
@@ -1948,7 +1987,6 @@
         overflow: auto;
         width: 100%;
         height: 100%;
-        position: relative;
     }
 
     nav {

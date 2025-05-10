@@ -46,6 +46,7 @@
         background?: Color | string | null;
         focuscontent?: boolean;
         editable: boolean;
+        animated: boolean;
         title: Snippet;
         content: Snippet;
         extra?: Snippet;
@@ -74,6 +75,7 @@
         background = null,
         focuscontent = false,
         editable,
+        animated,
         title,
         extra,
         content,
@@ -255,7 +257,7 @@
     class:fullscreen
     class:dragging
     class:focuscontent
-    class:animated={mounted}
+    class:animated={mounted && animated && !dragging}
     data-id={tile.id}
     data-testid="tile-{tile.id}"
     style:background={background instanceof Color
@@ -473,9 +475,11 @@
             var(--wordplay-border-color);
     }
 
-    .tile:not(:global(.output)).responsive,
-    .tile:not(:global(.output)).horizontal {
+    .tile.responsive,
+    .tile.horizontal {
         border-right: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }
 
