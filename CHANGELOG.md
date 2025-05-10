@@ -7,7 +7,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## Added
 
-- Split view controls on horizontal and vertical layouts.
+- Fixed #370 Split view controls on horizontal and vertical layouts.
 
 ## Fixed
 

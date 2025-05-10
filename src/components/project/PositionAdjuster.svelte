@@ -15,9 +15,28 @@
         index: number;
         layout: Layout;
         adjuster: (position: number) => void;
+        /** Whether a position adjuster is being dragged */
+        adjusting: boolean;
+        /** Function to set whether rapid adjusting is happening, to avoid throttling CSS transitions. */
+        setAdjusting: (state: boolean) => void;
+        /** The canvas width */
+        width: number;
+        /** The canvas height */
+        height: number;
     }
 
-    let { axis, index, layout, adjuster }: Props = $props();
+    let {
+        axis,
+        index,
+        layout,
+        adjuster,
+        width,
+        height,
+        adjusting,
+        setAdjusting,
+    }: Props = $props();
+
+    let view: HTMLDivElement | undefined = $state(undefined);
 
     let isFirstVisible = $derived(
         axis.positions.findIndex((pos) =>
@@ -50,6 +69,13 @@
                 2,
     );
 
+    let previousPosition = $derived(
+        (axis.positions[index - 1]?.position ?? 0) + MinLength,
+    );
+    let nextPosition = $derived(
+        (axis.positions[index + 1]?.position ?? 1) - MinLength,
+    );
+
     function getBounds(): Bounds[] {
         // The first group in the axes doesn't get an adjuster.
         if (index === 0) return [];
@@ -69,11 +95,6 @@
     }
 
     function handleKey(event: KeyboardEvent) {
-        const previousPosition =
-            (axis.positions[index - 1]?.position ?? 0) + MinLength;
-        const nextPosition =
-            (axis.positions[index + 1]?.position ?? 1) - MinLength;
-
         // The minimum is the previous position plus the minimum length
         if (event.key === 'ArrowUp' || event.key === 'ArrowLeft')
             adjuster(Math.max(previousPosition, getSplit() - Increment));
@@ -82,36 +103,80 @@
             adjuster(Math.min(nextPosition, getSplit() + Increment));
     }
 
-    function handlePointer(event: PointerEvent) {}
+    function handleDrag(event: PointerEvent) {
+        if (event.buttons === 0) return;
+
+        if (axis.direction === 'x') {
+            const newPosition = event.clientX / width;
+            if (getSplit() !== newPosition)
+                adjuster(
+                    Math.max(
+                        previousPosition,
+                        Math.min(nextPosition, newPosition),
+                    ),
+                );
+        } else {
+            const newPosition = event.clientY / height;
+            if (getSplit() !== newPosition)
+                adjuster(
+                    Math.max(
+                        previousPosition,
+                        Math.min(nextPosition, newPosition),
+                    ),
+                );
+        }
+    }
 </script>
 
 {#if bounds.length > 0 && !isFirstVisible}
     <div
+        bind:this={view}
         role="slider"
         style:left="{left}px"
         style:top="{top}px"
+        class:animated={!adjusting}
         tabindex="0"
         aria-valuenow={getSplit()}
-        onpointerdown={handlePointer}
+        onpointerdown={(event) => {
+            view?.setPointerCapture(event.pointerId);
+            setAdjusting(true);
+        }}
+        onpointermove={handleDrag}
+        onpointerup={(event) => {
+            view?.releasePointerCapture(event.pointerId);
+            setAdjusting(false);
+        }}
         onkeydown={handleKey}
     ></div>
 {/if}
 
 <style>
     div {
+        --width: 0.6em;
+
         position: absolute;
         cursor: pointer;
-        height: 0.5em;
-        width: 0.5em;
+        height: var(--width);
+        width: var(--width);
         text-align: center;
-        border-radius: 0.5em;
+        border-radius: var(--width);
+        transform: translate(
+            calc(-1 * var(--width) / 2),
+            calc(-1 * var(--width) / 2)
+        );
+        background: var(--wordplay-inactive-color);
+    }
+
+    .animated {
         transition:
             left ease-out,
             top ease-out,
             width ease-out,
             height ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
-        transform: translate(-0.25em, -0.25em);
+    }
+
+    div:hover {
         background: var(--wordplay-foreground);
     }
 

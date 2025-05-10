@@ -565,9 +565,13 @@ export default class Layout {
         );
 
         // Update the split at the given index.
-        if (horizontal && newSplits.horizontal !== null)
+        if (horizontal && newSplits.horizontal !== null) {
+            if (newSplits.horizontal[axis].positions[index].position === split)
+                return this;
             newSplits.horizontal[axis].positions[index].position = split;
-        else if (!horizontal && newSplits.vertical !== null) {
+        } else if (!horizontal && newSplits.vertical !== null) {
+            if (newSplits.vertical[axis].positions[index].position === split)
+                return this;
             newSplits.vertical[axis].positions[index].position = split;
         }
 

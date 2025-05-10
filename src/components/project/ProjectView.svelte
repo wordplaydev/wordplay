@@ -831,6 +831,8 @@
         );
     }
 
+    let adjusting = $state(false);
+
     /** Take the given axis, group, and split, and adjust it. */
     function adjustSplit(axis: number, index: number, split: number) {
         layout = layout.withSplit(
@@ -1474,6 +1476,7 @@
                                 ? outputBackground
                                 : null}
                             dragging={draggedTile?.id === tile.id}
+                            animated={!adjusting}
                             fullscreenID={layout.fullscreenID}
                             focuscontent={tile.kind === TileKind.Source ||
                                 tile.kind === TileKind.Output}
@@ -1767,6 +1770,10 @@
                                 {layout}
                                 adjuster={(split) =>
                                     adjustSplit(axisIndex, groupIndex, split)}
+                                setAdjusting={(state) => (adjusting = state)}
+                                {adjusting}
+                                width={canvasWidth}
+                                height={canvasHeight}
                             ></PositionAdjuster>
                         {/if}
                     {/each}
