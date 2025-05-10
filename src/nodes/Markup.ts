@@ -12,8 +12,7 @@ import { getCodepointFromString } from '../unicode/getCodepoint';
 import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
 import Content from './Content';
 import Example from './Example';
-import type Node from './Node';
-import { list, node, type Grammar, type Replacement } from './Node';
+import Node, { list, node, type Grammar, type Replacement } from './Node';
 import Paragraph, { type Segment } from './Paragraph';
 import Sym from './Sym';
 import Token from './Token';
@@ -82,6 +81,7 @@ export default class Markup extends Content {
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Markup;
+
     getLocalePath() {
         return Markup.LocalePath;
     }
@@ -97,6 +97,12 @@ export default class Markup extends Content {
     getExamples(): Example[] {
         return this.paragraphs
             .map((p) => p.segments.filter((e) => e instanceof Example))
+            .flat();
+    }
+
+    getNodeSegments() {
+        return this.paragraphs
+            .map((p) => p.segments.filter((e) => e instanceof Node))
             .flat();
     }
 

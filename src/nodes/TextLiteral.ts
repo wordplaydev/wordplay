@@ -135,7 +135,7 @@ export default class TextLiteral extends Literal {
                 next =
                     value instanceof TextValue
                         ? value.text
-                        : (value?.toString() ?? '');
+                        : (value.toString() ?? '');
             }
             // Assemble in reverse order
             text = next + text;
