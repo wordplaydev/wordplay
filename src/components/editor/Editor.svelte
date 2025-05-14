@@ -1,5 +1,9 @@
 <script module lang="ts">
     const SHOW_OUTPUT_IN_PALETTE = false;
+
+    // Add the large deletion notification store inline
+    import { writable } from 'svelte/store';
+    export const largeDeletionNotification = writable<string | null>(null);
 </script>
 
 <script lang="ts">
@@ -18,8 +22,7 @@
     import TypePlaceholder from '@nodes/TypePlaceholder';
     import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
-    import { createEventDispatcher, onMount, tick, untrack } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { onMount, tick, untrack } from 'svelte';
     import {
         DB,
         Projects,
@@ -69,7 +72,6 @@
         type Edit,
         type ProjectRevision,
         InsertSymbol,
-        Undo,
         handleKeyCommand,
     } from './util/Commands';
     import {
@@ -81,11 +83,6 @@
     } from './util/Highlights';
     import Menu, { RevisionSet } from './util/Menu';
     import { type Outline, OutlinePadding } from './util/outline';
-
-    // Add event dispatcher for large deletion notification
-    const dispatch = createEventDispatcher<{
-        largeDeletion: string | null;
-    }>();
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -114,8 +111,6 @@
         updateConflicts: (source: Source, conflicts: Conflict[]) => void;
         /** Whether the code was revised by another creator */
         overwritten?: boolean;
-        /** The large deletion notification state */
-        largeDeletionNotification?: string | null;
     }
 
     let {
@@ -132,7 +127,6 @@
         setOutputPreview,
         updateConflicts,
         overwritten = false,
-        largeDeletionNotification = $bindable(null),
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -401,8 +395,7 @@
 
     function handlePointerDown(event: PointerEvent) {
         // Clear any existing large deletion notification when user clicks to clear selection
-        largeDeletionNotification = null;
-        dispatch('largeDeletion', null);
+        largeDeletionNotification.set(null);
         event.preventDefault();
         event.stopPropagation();
 
@@ -979,8 +972,7 @@
         if (edit === undefined) return;
 
         // Clear any existing large deletion notification since a new edit has started
-        largeDeletionNotification = null;
-        dispatch('largeDeletion', null);
+        largeDeletionNotification.set(null);
         const previousSource = source;
 
         const navigation = edit instanceof Caret;
@@ -1052,10 +1044,9 @@
                 newSource.getCode().getLength() >=
                 40
         ) {
-            largeDeletionNotification = $locales.get(
-                (l) => l.ui.source.cursor.largeDelete,
+            largeDeletionNotification.set(
+                'Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.',
             );
-            dispatch('largeDeletion', largeDeletionNotification);
         }
 
         // After everything is updated, if we were asked to focus the editor, focus it.
@@ -1178,17 +1169,38 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        if (
+            (event.ctrlKey || event.metaKey) &&
+            event.key.toLowerCase() === 'z'
+        ) {
+            // Clear the large deletion notification if user performs undo
+            largeDeletionNotification.set(null);
+        }
+        // If we receive a keyboard event that says
         if (composing && !event.isComposing) handleCompositionEnd();
+
+        // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
             composingJustEnded = false;
             return;
         }
+        // If we're in the middle of composing, ignore the key events.
         if (composing || event.isComposing) return;
         if (evaluator === undefined) return;
         if (editor === null) return;
 
+        // Assume we'll handle it.
         setIgnored(false);
+
+        // If it was a dead key, don't handle it as a command, just remember that it was
+        // a dead key, then let the input event above insert it.
         keyWasDead = event.key === 'Dead';
+        if (keyWasDead) {
+            return;
+        }
+
+        // Are we to replace the prior symbol with the next? Don't handle it as a command,
+        // just let the character with diacritic remark be typed, and handle it in the input handler above.
         if (replacePreviousWithNext) return;
 
         const [command, result] = handleKeyCommand(event, {
@@ -1207,14 +1219,10 @@
         // Don't insert symbols if composing.
         insertedSymbol = command === InsertSymbol;
 
-        // If the command processed is the Undo command, clear the deletion notification
-        if (command && command === Undo) {
-            largeDeletionNotification = null;
-            dispatch('largeDeletion', null);
-        }
-
+        // If it produced a new caret and optionally a new project, update the stores.
         const idle =
             command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
+
         if (result !== false) {
             if (result instanceof Promise) {
                 result.then((edit) => {
@@ -1224,9 +1232,13 @@
             } else if (result !== undefined && result !== true) {
                 handleEdit(result, idle, true);
             }
+
+            // Prevent default keyboard commands from being otherwise handled, since they were handled here.
             event.preventDefault();
             event.stopPropagation();
-        } else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
+        }
+        // Give feedback that we didn't execute a command.
+        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
             setIgnored(true);
     }
 
@@ -1893,12 +1905,15 @@
         justify-content: center;
     }
 
-    /* Merged editor-warning styling */
-    .editor-warning {
-        width: 100%;
-        padding: var(--wordplay-spacing);
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
+    /** A single cycle color animation to indicate the code was revised. */
+    @keyframes overwritten {
+        0% {
+            background-color: var(--wordplay-highlight-color);
+        }
+
+        100% {
+            background-color: var(--wordplay-background);
+        }
     }
 
     .overwritten {
