@@ -88,7 +88,7 @@
         localized: Locale | null | 'symbolic',
     ): Locale | null {
         return localized === 'symbolic'
-            ? { language: EMOJI_SYMBOL, region: undefined }
+            ? { language: EMOJI_SYMBOL, regions: [] }
             : localized;
     }
 

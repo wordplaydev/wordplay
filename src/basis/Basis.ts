@@ -41,6 +41,16 @@ export class Basis {
     readonly languages: LanguageCode[];
     readonly shares: ReturnType<typeof createDefaultShares>;
 
+    readonly functionsByType: Record<
+        string,
+        Record<string, FunctionDefinition>
+    > = {};
+    readonly conversionsByType: Record<string, ConversionDefinition[]> = {};
+    readonly structureDefinitionsByName: Record<string, StructureDefinition> =
+        {};
+
+    private readonly roots: Root[] = [];
+
     /**
      * A global collection of Basis for every combination of language codes.
      * The key in this case is the join of a sequence of LanguageCode.
@@ -62,6 +72,13 @@ export class Basis {
         this.addStructure('structure', bootstrapStructure(locales));
 
         this.shares = createDefaultShares(locales);
+
+        this.roots = [
+            ...this.shares.all,
+            ...this.getAllStructureDefinitions(),
+            ...this.getAllFunctionDefinitions(),
+            ...this.getAllConversions(),
+        ].map((s) => new Root(s));
     }
 
     static getLocalizedBasis(locales: Locales) {
@@ -72,14 +89,9 @@ export class Basis {
         return basis;
     }
 
-    readonly functionsByType: Record<
-        string,
-        Record<string, FunctionDefinition>
-    > = {};
-    readonly conversionsByType: Record<string, ConversionDefinition[]> = {};
-    readonly structureDefinitionsByName: Record<string, StructureDefinition> =
-        {};
-    readonly roots: Root[] = [];
+    getRoots() {
+        return this.roots;
+    }
 
     addFunction(kind: BasisTypeName, fun: FunctionDefinition) {
         if (!(kind in this.functionsByType)) this.functionsByType[kind] = {};
@@ -88,6 +100,16 @@ export class Basis {
             const name = a.getName();
             if (name !== undefined) this.functionsByType[kind][name] = fun;
         });
+    }
+
+    getAllFunctionDefinitions() {
+        return Object.values(this.functionsByType).reduce(
+            (
+                all: FunctionDefinition[],
+                next: Record<string, FunctionDefinition>,
+            ) => [...all, ...Object.values(next)],
+            [],
+        );
     }
 
     addConversion(kind: BasisTypeName, conversion: ConversionDefinition) {
@@ -110,8 +132,6 @@ export class Basis {
                     this.addConversion(kind, statement);
             }
         }
-
-        this.roots.push(new Root(structure));
     }
 
     getConversion(

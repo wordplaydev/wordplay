@@ -7,7 +7,7 @@ import * as prettier from 'prettier';
 import type LocaleText from '../../locale/LocaleText';
 import {
     getLocaleLanguage,
-    getLocaleRegion,
+    getLocaleRegions,
     isRevised,
     toLocale,
 } from '../../locale/LocaleText';
@@ -52,7 +52,7 @@ const FocalLocale = process.argv[3] ?? null;
 
 const FocalLanguage = FocalLocale ? getLocaleLanguage(FocalLocale) : null;
 const FocalRegion = FocalLocale
-    ? (getLocaleRegion(FocalLocale) as RegionCode)
+    ? (getLocaleRegions(FocalLocale)[0] as RegionCode)
     : null;
 
 if (FocalLanguage === undefined)
@@ -104,60 +104,58 @@ async function handleLocale(
         fs.writeFileSync(getLocalePath(locale), prettyLocale);
     }
 
-    if (locale !== 'example') {
-        // If there's a locale, let's see if there's a tutorial.
-        let currentTutorial = getTutorialJSON(log, locale);
+    // If there's a locale, let's see if there's a tutorial.
+    let currentTutorial = getTutorialJSON(log, locale);
 
-        // Remember whether we created one so we can write it below.
-        let tutorialIsNew = false;
+    // Remember whether we created one so we can write it below.
+    let tutorialIsNew = false;
 
-        // Validate, repair, and optionally translate the tutorial file.
-        if (currentTutorial === undefined) {
-            // No translation requested? Just warn.
-            if (!TranslationRequested)
-                log.bad(1, "This locale doesn't have a tutorial file.");
-            // If a translation was requested and it was a valid langauge and region,
-            // copy the default tutorial, mark all of its text unwritten, and then translate it.
-            else if (FocalLanguage && FocalRegion) {
-                log.say(
-                    1,
-                    'Creating a new tutorial for this locale based on en-US...',
-                );
-                currentTutorial = createUnwrittenTutorial();
-                currentTutorial.region = FocalRegion;
-                currentTutorial.language = FocalLanguage;
-                tutorialIsNew = true;
-            }
+    // Validate, repair, and optionally translate the tutorial file.
+    if (currentTutorial === undefined) {
+        // No translation requested? Just warn.
+        if (!TranslationRequested)
+            log.bad(1, "This locale doesn't have a tutorial file.");
+        // If a translation was requested and it was a valid langauge and region,
+        // copy the default tutorial, mark all of its text unwritten, and then translate it.
+        else if (FocalLanguage && FocalRegion) {
+            log.say(
+                1,
+                'Creating a new tutorial for this locale based on en-US...',
+            );
+            currentTutorial = createUnwrittenTutorial();
+            currentTutorial.regions = [FocalRegion];
+            currentTutorial.language = FocalLanguage;
+            tutorialIsNew = true;
         }
+    }
 
-        // If there is a tutorial file, verify it, and optionally translate it.
-        if (currentTutorial) {
-            const revisedTutorial = await verifyTutorial(
-                log,
-                revisedLocale,
-                currentTutorial,
-                TranslationRequested,
+    // If there is a tutorial file, verify it, and optionally translate it.
+    if (currentTutorial) {
+        const revisedTutorial = await verifyTutorial(
+            log,
+            revisedLocale,
+            currentTutorial,
+            TranslationRequested,
+        );
+
+        // If the tutorial was revised, write the results.
+        if (
+            tutorialIsNew ||
+            (revisedTutorial &&
+                JSON.stringify(currentTutorial) !==
+                    JSON.stringify(revisedTutorial))
+        ) {
+            // Write a formatted version of the revised tutorial file.
+            const prettyTutorial = await prettier.format(
+                JSON.stringify(revisedTutorial, null, 4),
+                { ...prettierOptions, parser: 'json' },
             );
 
-            // If the tutorial was revised, write the results.
-            if (
-                tutorialIsNew ||
-                (revisedTutorial &&
-                    JSON.stringify(currentTutorial) !==
-                        JSON.stringify(revisedTutorial))
-            ) {
-                // Write a formatted version of the revised tutorial file.
-                const prettyTutorial = await prettier.format(
-                    JSON.stringify(revisedTutorial, null, 4),
-                    { ...prettierOptions, parser: 'json' },
-                );
-
-                if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
-                    log.good(1, 'Writing revised ' + locale + ' tutorial');
-                    fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
-                }
+            if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
+                log.good(1, 'Writing revised ' + locale + ' tutorial');
+                fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
             }
-        }
+        } else log.good(1, 'No changes necessary in ' + locale + ' tutorial');
     }
 }
 
@@ -247,7 +245,7 @@ if (
     log.good(2, 'No locale found, creating one based on English.');
     let localeText = createUnwrittenLocale();
     localeText.language = FocalLanguage as LanguageCode;
-    localeText.region = FocalRegion as RegionCode;
+    localeText.regions = [FocalRegion] as RegionCode[];
     localeText['$schema'] = '../../schemas/LocaleText.json';
 
     handleLocale(localeText, revisedStrings, true, globals);

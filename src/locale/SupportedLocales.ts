@@ -1,13 +1,12 @@
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 export const DraftLocales = [
     'zh-TW',
-    'ko-KR',
     'fr-FR',
     'ja-JP',
     'de-DE',
     'hi-IN',
     'pa-IN',
-    'ta-LK',
+    'ta-IN-LK-SG',
     'sv-FI',
     'sr-RS',
     'mr-IN',
@@ -17,7 +16,7 @@ export const DraftLocales = [
 ];
 
 /** Supported locale names. Put a locale in this list when it's no longer a draft. */
-const CompleteLocales = ['en-US', 'es-MX', 'zh-CN'];
+const CompleteLocales = ['en-US', 'es-MX', 'zh-CN', 'ko-KR'];
 
 /** Officially supported locales that have passable text for the UI and tutorial. */
 export const SupportedLocales = Array.from(

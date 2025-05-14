@@ -1,7 +1,7 @@
 {
     "$schema": "../../static/schemas/LocaleText.json",
     "language": "en",
-    "region": "US",
+    "regions": ["US"],
     "wordplay": "Wordplay",
     "term": {
         "bind": "bind",
@@ -422,8 +422,8 @@
                     "secondary": "I have has the same name as $1"
                 },
                 "IncompatibleType": {
-                    "primary": "I'm supposed to be a $2, but I'm a $1",
-                    "secondary": "Oh, I'm sorry. Should I change, or maybe you're supposed to be a $1 ?"
+                    "primary": "I'm supposed to be type $2, but I'm type $1",
+                    "secondary": "Oh, I'm sorry. Should I change, or maybe you're supposed to be type $1?"
                 },
                 "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
                 "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "I'm going to ignore $1, since it doesn't define anything and isn't my last expression.",
                     "secondary": "@Block, don't ignore me!",
-                    "resolution": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant."
+                    "resolution": {
+                        "binary": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant.",
+                        "evaluate": "Did you mean for this to be an @Evaluate? I can remove this space to make it one, instead of two separate expressions."
+                    }
                 }
             }
         },
@@ -520,8 +523,8 @@
             "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "How can I choose yes and no with a $1? No really, how?",
-                    "secondary": "I think @Conditional wanted me to be a @Boolean, but I'm a $1."
+                    "primary": "How can I choose yes and no with type $1? No really, how?",
+                    "secondary": "I think @Conditional wanted me to be a @Boolean, but I'm type $1."
                 }
             }
         },
@@ -609,8 +612,8 @@
             "input": "input",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "I'm supposed to be a $1, but I'm a $2",
-                    "secondary": "Umm, I got a $2 instead of a $1"
+                    "primary": "I'm supposed to be type $1, but I'm type $2",
+                    "secondary": "Umm, I got type $2 instead of type $1"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "I wasn't expecting this type input",
@@ -754,7 +757,7 @@
             "exception": {
                 "TypeException": {
                     "description": "incompatible values",
-                    "explanation": "I expected a $1 but received $2"
+                    "explanation": "I expected type $1 but received type $2"
                 }
             }
         },
@@ -1028,8 +1031,8 @@
             "finish": "The value is $1",
             "conflict": {
                 "IncompatibleKey": {
-                    "primary": "I expected a $1 key",
-                    "secondary": "I got a $1 instead of a $2"
+                    "primary": "I expected $1 key",
+                    "secondary": "I got type $1 instead of type $2"
                 }
             }
         },
@@ -1106,11 +1109,12 @@
                 "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2",
                 "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2",
                 "resolution": "This isn't sensitive data",
-                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog."
+                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
+                "character": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
             }
         },
         "FormattedLiteral": {
-            "name": "formatted",
+            "name": "formatted text",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
@@ -1184,7 +1188,7 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is.",
-                    "resolution": "Did you mean a $1, $2?"
+                    "resolution": "Did you mean type $1, $2?"
                 },
                 "UnclosedDelimiter": "I expected $2 sometime after $1"
             },
@@ -1209,7 +1213,7 @@
             "conflict": {
                 "ExpectedColumnBind": "I need a value for every column",
                 "IncompatibleCellType": {
-                    "primary": "I needed a $1, but got a $2",
+                    "primary": "I needed type $1, but got type $2",
                     "secondary": "I got a $2"
                 }
             }
@@ -1295,7 +1299,7 @@
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
             ],
             "conflict": {
-                "UnknownTypeName": "type names can only refer to structures or type variables, but this refers to a $1"
+                "UnknownTypeName": "type names can only refer to structures or type variables, but this refers to type $1"
             }
         },
         "NeverType": {
@@ -1409,7 +1413,7 @@
         },
         "NotAType": {
             "name": "unexpected",
-            "description": "not a $1",
+            "description": "not type $1",
             "emotion": "curious",
             "doc": "Sometimes we know what kind of value something should be. Like @ListAccess needs a @Number. If we don't get it, I represent that something is a type other than what we expected."
         },
@@ -1430,7 +1434,7 @@
         },
         "UnknownNameType": {
             "name": "unknown name",
-            "description": "$1[$1 isn't defined |a name wasn't given]",
+            "description": "$1[$1 isn't defined|a name wasn't given]",
             "emotion": "curious",
             "doc": "You know how sometimes @Reference and @PropertyReference don't know the name you're talking about? I'm around when that happens, to represent that we don't know who you're talking about."
         },
@@ -1923,7 +1927,7 @@
                 },
                 "notequal": {
                     "doc": [
-                        "\\⊤\\ if I'm equal to the given @Number:",
+                        "\\⊤\\ if I'm not equal to the given @Number:",
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
@@ -3245,7 +3249,7 @@
             },
             "face": {
                 "doc": "The name of the font face content inside me should have, unless they have their own face to use.",
-                "names": "face"
+                "names": ["face", "font"]
             },
             "place": {
                 "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
@@ -3333,7 +3337,7 @@
             ],
             "names": ["💬", "Phrase"],
             "text": {
-                "doc": "The characters to show on @Stage.",
+                "doc": "The characters to show on @Stage, in plain text or @FormattedLiteral.",
                 "names": "text"
             },
             "size": {
@@ -4173,11 +4177,11 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Creators who manage this gallery."
+                    "explanation": "Creators can edit the projects and gallery settings, and chat on all projects."
                 },
                 "creators": {
                     "header": "Creators",
-                    "explanation": "Creators who contribute to this gallery."
+                    "explanation": "Creators can view all projects in the gallery and add new projects."
                 },
                 "delete": {
                     "header": "Delete",
@@ -4263,6 +4267,10 @@
                 "nextLine": "move cursor to line after",
                 "priorInline": "move cursor to position before",
                 "nextInline": "move cursor to position after",
+                "expandBeforeInline": "expand selection before",
+                "expandAfterInline": "expand selection after",
+                "expandPriorLine": "expand selection to prior line",
+                "expandNextLine": "expand selection to next line",
                 "lineStart": "move cursor to start of line",
                 "lineEnd": "move cursor to end of line",
                 "sourceStart": "move cursor to start of source",
@@ -4317,7 +4325,7 @@
         },
         "annotations": {
             "label": "conflicts and help",
-            "cursor": "This is *$1*$2[ and they are of type $2|].    $3[ They're inside a *$3*.|]",
+            "cursor": "This is *$1*$2[ and they are of type $2|]. $3[ They're inside a *$3*.|]",
             "cursorParent": "They're inside a *$1*$2[ of type $2|].",
             "learn": "/Learn more/",
             "evaluating": "Oh fun, let's evaluate!",
@@ -4543,6 +4551,58 @@
                     "insertCode": "Insert",
                     "debug": "Debug"
                 }
+            },
+            "feedback": {
+                "header": "Feedback",
+                "explanation": "Help us improve Wordplay by reporting 🪲 *problems* and sharing 💡 *ideas*!",
+                "button": {
+                    "show": "Show the feedback form.",
+                    "submit": {
+                        "tip": "Submit your feeback.",
+                        "label": "submit"
+                    },
+                    "delete": {
+                        "description": "Delete your feedback.",
+                        "prompt": "delete"
+                    },
+                    "like": "Like this feedback",
+                    "close": {
+                        "label": "close",
+                        "tip": "Close this feedback as a moderator"
+                    }
+                },
+                "mode": {
+                    "label": "feedback ",
+                    "modes": ["defects", "idesa"]
+                },
+                "field": {
+                    "title": {
+                        "description": "title of your feedback",
+                        "placeholder": "title"
+                    },
+                    "defect": {
+                        "description": "description of your defect",
+                        "placeholder": "What steps did you take? What happened after? Be as precise as possible."
+                    },
+                    "idea": {
+                        "description": "description of your defect",
+                        "placeholder": "What are you trying to do that you can't do?"
+                    }
+                },
+                "subheader": {
+                    "defect": "defect",
+                    "idea": "idea"
+                },
+                "prompt": {
+                    "defect": "Didn't see the problem you're experiencing? Report it here. The more detail you provide, the better!",
+                    "idea": "Didn't see the idea you're thinking of? Suggest it."
+                },
+                "error": {
+                    "login": "You must be logged in to submit feedback",
+                    "submit": "Unable to submit feedback.",
+                    "load": "Unable to load feedback",
+                    "empty": "There is no feedback to show."
+                }
             }
         },
         "collaborate": {
@@ -4579,7 +4639,7 @@
                 "solo": "Chat with yourself or add a collaborator, who can edit and chat.",
                 "owner": "Collaborators can edit this project and chat about it.",
                 "collaborator": "You're a collaborator. You can edit this project and chat about it.",
-                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it."
+                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner and collaborators can see the chat."
             }
         },
         "palette": {
@@ -4621,7 +4681,7 @@
                 "offerPhrase": "What a gorgeous value you made! Shall I show it on @Stage?",
                 "offerGroup": "What a wonderful @Phrase you made. Do you want to bring them together into a @Group, to get them arranged?",
                 "offerStage": "VERY GOOD @Program. ADD ME TO CONTROL LIGHTING. COLORS. FRAMES.",
-                "pauseToEdit": "If you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
+                "select": "To edit, select a 💬, 🔳, or 🎭 in code, or ⏸️ the stage and select output.",
                 "editing": "Edit me!"
             },
             "field": {
@@ -4728,7 +4788,7 @@
                     "submit": "Submit"
                 },
                 "prompt": {
-                    "start": "Creating a class with generte accounts for all of the students in your class and let you create galleries that all of your students can add projects to. If students have existing accounts, you can add them later.",
+                    "start": "This form allows you to 1) generate accounts for all of the students in your class and 2) create a gallery that all of your students can add projects to. If students have existing accounts, you can add them to the gallery later.",
                     "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
                     "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
                     "pending": "Generating usernames and passwords...",
@@ -4826,13 +4886,16 @@
             "projects": {
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
-                "archiveheader": "Archived",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "Galleries",
                 "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
                 "add": {
                     "header": "New Project",
                     "explanation": "Choose a template to create a new project."
+                },
+                "subheader": {
+                    "shared": "Shared",
+                    "archived": "Archived"
                 },
                 "button": {
                     "newproject": "new project",
@@ -4843,7 +4906,7 @@
                 },
                 "confirm": {
                     "archive": {
-                        "description": "archive this performance",
+                        "description": "archive this performance for later deletion",
                         "prompt": "archive"
                     },
                     "delete": {
@@ -4874,7 +4937,15 @@
                 "header": "Characters",
                 "prompt": "Create custom emojis and symbols to use in your projects and share with others.",
                 "button": {
-                    "new": "Create a new character"
+                    "new": "Create a new character",
+                    "copy": "Copy this character",
+                    "remove": {
+                        "tip": "Delete this character",
+                        "prompt": "delete?"
+                    }
+                },
+                "subheader": {
+                    "shared": "Shared"
                 },
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
@@ -4889,17 +4960,21 @@
                     "empty": "Choose a drawing mode in the palette to create shapes.",
                     "unselected": "Choose a drawing mode or select and edit shapes.",
                     "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use the controls below to change the selected shapes.",
-                    "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel.",
+                    "eraser": "To erase shapes, click or tap on them. Drag to erase pixels. Use the *arrow* keys to move the eraser and *space* to delete.",
+                    "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel. *Double-click* to fill.",
                     "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
-                    "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point."
+                    "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point.",
+                    "emoji": "Choose an emoji to import as pixels, then modify as you like."
                 },
                 "shape": {
                     "shape": "shape",
+                    "eraser": "eraser",
                     "pixel": "pixel",
                     "rect": "rectangle",
                     "ellipse": "ellipse",
-                    "path": "path"
+                    "path": "path",
+                    "emoji": "emoji"
                 },
                 "share": {
                     "dialog": {
@@ -4933,10 +5008,12 @@
                         "label": "mode",
                         "modes": [
                             "select",
+                            "eraser",
                             "pixel",
                             "rectangle",
                             "ellipse",
-                            "path"
+                            "path",
+                            "emoji"
                         ]
                     },
                     "fill": {
@@ -5027,6 +5104,10 @@
                     "vertical": {
                         "label": "flip vertical",
                         "tip": "flip the points vertically around the center "
+                    },
+                    "fit": {
+                        "label": "fit",
+                        "tip": "fit the shapes to the canvas"
                     }
                 },
                 "feedback": {
@@ -5034,10 +5115,10 @@
                     "description": "Characters need a description so those who can't see know what they represent.",
                     "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
-                    "notfound": "This character doesn't exist.",
+                    "notfound": "This character doesn't exist or isn't visible to you.",
                     "unauthenticated": "You must be logged in to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
-                    "unsaved": "Give this character a description and a valid, unique name to save."
+                    "unsaved": "Your character will not save until it has a unique name and a description."
                 },
                 "announce": {
                     "position": "at $1 $2",
@@ -5068,29 +5149,29 @@
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "tooyoung": "You must be 13 or older to login with an email.",
-                    "passwordrule": "Passwords must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                    "passwordrule": "Passwords must be at least 6 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
-                    "email": "Do you have an email-only account? Login by submit your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
+                    "email": "Do you have an email-only account? Login with your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
                     "sent": "If this email is associated with an account, it will receive an email with a login link. It may take a few minutes to appear. If there is no account associated with this email, you will not receive anything.",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
                     "delete": "Want us to forget everything you've made here? This can't be undone.",
                     "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email or username to confirm that this is what you want.",
-                    "name": "Pick an emoji to represent yourself to others."
+                    "name": "Pick an emoji or custom character to represent yourself to others."
                 },
                 "error": {
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
                     "email": "Not a valid email.",
-                    "invalidUsername": "Usernames must be emails or at least 5 letters with no spaces.",
+                    "invalidUsername": "Usernames must at least 5 letters with no spaces.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
-                    "invalidPassword": "Passwords must be at least 10 characters long.",
+                    "invalidPassword": "Passwords must be at least 6 characters long.",
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
                     "mismatched": "The passwords don't match.",
                     "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
@@ -5111,7 +5192,7 @@
                         "placeholder": "username"
                     },
                     "password": {
-                        "description": "login password, at least 10 character",
+                        "description": "login password, at least 6 character",
                         "placeholder": "password"
                     },
                     "currentPassword": {
@@ -5152,7 +5233,7 @@
                 "prompt": {
                     "create": "Create an account to save your projects, collaborate with others, and share your work.",
                     "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifing information.",
-                    "password": "Passwords must be at least /10 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
+                    "password": "Passwords must be at least /6 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
                 }
             },
             "rights": {
@@ -5202,6 +5283,7 @@
             "node": "$1$2[, type $2|]",
             "before": "before $1[$1|end]",
             "inside": "in $1, between $2[$2|start] and $3[$3|end]",
+            "range": "selection from $1 to $2",
             "between": "between $1 and $2",
             "line": "empty line between $1[$1|start] and $2[$2|end]",
             "conflicts": "$1 conflicts",
@@ -5211,7 +5293,8 @@
             "replace": "/Wants to step in…/",
             "wrap": "parentheize",
             "unwrap": "unwrap",
-            "bind": "name this expression"
+            "bind": "name this expression",
+            "show": "… show more"
         },
         "template": {
             "unwritten": "TBD",
@@ -5273,6 +5356,10 @@
         "tools": {
             "name": "Tools",
             "description": "Simple utilities and applications."
+        },
+        "stories": {
+            "name": "Stories",
+            "description": "Interactive stories and narratives."
         }
     }
 }

@@ -34,8 +34,12 @@ export default class HowConcept extends Concept {
         return this.how.id === id;
     }
 
-    getDocs(): Markup | undefined {
-        return this.how.content;
+    getDocs(): Markup[] {
+        return [this.how.content];
+    }
+
+    getNames() {
+        return [this.how.title];
     }
 
     getName() {

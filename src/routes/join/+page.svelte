@@ -1,7 +1,7 @@
 <script>
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
-    import Feedback from '@components/app/Feedback.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
     import { auth } from '@db/firebase';
@@ -21,6 +21,6 @@
         <Join></Join>
     {:else}
         <!-- No connection? Give some feedback. -->
-        <Feedback text={(l) => l.ui.page.login.error.offline} />
+        <Notice text={(l) => l.ui.page.login.error.offline} />
     {/if}
 </Writing>

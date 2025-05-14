@@ -22,6 +22,18 @@ import LocalesDatabase from './locales/LocalesDatabase';
 import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
 import SettingsDatabase from './settings/SettingsDatabase';
 
+// Intercept console.log and console.error
+
+export const Logs: string[] = [];
+
+{
+    const log = console.log.bind(console);
+    console.log = (...args) => {
+        for (const arg of args) Logs.push(JSON.stringify(arg));
+        log(...args);
+    };
+}
+
 export enum SaveStatus {
     Saved = 'saved',
     Saving = 'saving',

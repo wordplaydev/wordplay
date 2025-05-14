@@ -8,6 +8,7 @@
         | 'bottom-right'
         | 'right'
         | 'top-right';
+    const AUTO_SCROLL_THRESHOLD = 20;
 </script>
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
@@ -45,6 +46,7 @@
         background?: Color | string | null;
         focuscontent?: boolean;
         editable: boolean;
+        animated: boolean;
         title: Snippet;
         content: Snippet;
         extra?: Snippet;
@@ -73,6 +75,7 @@
         background = null,
         focuscontent = false,
         editable,
+        animated,
         title,
         extra,
         content,
@@ -96,6 +99,10 @@
     let foreground = $derived(
         background instanceof Color ? background.contrasting().toCSS() : null,
     );
+
+    let contentView = $state<HTMLElement | null>(null);
+    let tileWidth = $state(0);
+    let tileHeight = $state(0);
 
     function handleKeyDown(event: KeyboardEvent) {
         // Move or resize on command-arrow
@@ -213,123 +220,131 @@
         }
     }
 
+    function handleContentPointerMove(event: PointerEvent) {
+        if (event.buttons === 1 && contentView) {
+            const rect = contentView.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            if (x < AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollLeft -= -AUTO_SCROLL_THRESHOLD;
+            } else if (x > tileWidth - AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollLeft += AUTO_SCROLL_THRESHOLD;
+            } else if (y < AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollTop -= AUTO_SCROLL_THRESHOLD;
+            } else if (y > tileHeight - AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollTop += AUTO_SCROLL_THRESHOLD;
+            }
+        }
+    }
+
     function handleRename(name: string) {
         rename(tile.id, name);
     }
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-    class="container"
+<section
+    class="tile {resizeDirection
+        ? `resize-${resizeDirection}`
+        : ''} {arrangement} {tile.id} {tile.id.startsWith('source')
+        ? 'editor-viewport'
+        : ''}"
     class:arrangement
     onpointermove={handlePointerMove}
     onpointerleave={() => (resizeDirection = null)}
     onpointerdown={handlePointerDown}
     onkeydown={handleKeyDown}
+    class:fullscreen
+    class:dragging
+    class:focuscontent
+    class:animated={mounted && animated && !dragging}
+    data-id={tile.id}
+    data-testid="tile-{tile.id}"
+    style:background={background instanceof Color
+        ? background.toCSS()
+        : background}
+    style:left={fullscreen
+        ? null
+        : `${
+              arrangement === 'free'
+                  ? tile.position.left
+                  : (tile.bounds?.left ?? 0)
+          }px`}
+    style:top={fullscreen
+        ? null
+        : `${
+              arrangement === 'free'
+                  ? tile.position.top
+                  : (tile.bounds?.top ?? 0)
+          }px`}
+    style:width={fullscreen
+        ? null
+        : `${
+              arrangement === 'free'
+                  ? tile.position.width
+                  : (tile.bounds?.width ?? 0)
+          }px`}
+    style:height={fullscreen
+        ? null
+        : `${
+              arrangement === 'free'
+                  ? tile.position.height
+                  : (tile.bounds?.height ?? 0)
+          }px`}
+    bind:this={view}
 >
-    <section
-        class="tile {resizeDirection
-            ? `resize-${resizeDirection}`
-            : ''} {arrangement} {tile.id} {tile.id.startsWith('source')
-            ? 'editor-viewport'
-            : ''}"
-        class:fullscreen
-        class:dragging
-        class:focuscontent
-        class:animated={mounted}
-        data-id={tile.id}
-        data-testid="tile-{tile.id}"
-        style:background={background instanceof Color
-            ? background.toCSS()
-            : background}
-        style:left={fullscreen
-            ? null
-            : `${
-                  arrangement === 'free'
-                      ? tile.position.left
-                      : (tile.bounds?.left ?? 0)
-              }px`}
-        style:top={fullscreen
-            ? null
-            : `${
-                  arrangement === 'free'
-                      ? tile.position.top
-                      : (tile.bounds?.top ?? 0)
-              }px`}
-        style:width={fullscreen
-            ? null
-            : `${
-                  arrangement === 'free'
-                      ? tile.position.width
-                      : (tile.bounds?.width ?? 0)
-              }px`}
-        style:height={fullscreen
-            ? null
-            : `${
-                  arrangement === 'free'
-                      ? tile.position.height
-                      : (tile.bounds?.height ?? 0)
-              }px`}
-        bind:this={view}
-    >
-        <svelte:boundary>
-            {#snippet failed(error, reset)}
-                <TileMessage error>
-                    <h2
+    <svelte:boundary>
+        {#snippet failed(error, reset)}
+            <TileMessage error>
+                <h2><LocalizedText path={(l) => l.ui.project.error.tile} /></h2>
+                <p
+                    ><Button
+                        tip={(l) => l.ui.project.error.reset}
+                        action={reset}
+                        background
                         ><LocalizedText
-                            path={(l) => l.ui.project.error.tile}
-                        /></h2
-                    >
-                    <p
-                        ><Button
-                            tip={(l) => l.ui.project.error.reset}
-                            action={reset}
-                            background
-                            ><LocalizedText
-                                path={(l) => l.ui.project.error.reset}
-                            /></Button
-                        ></p
-                    >
-                    <Note>{'' + error}</Note>
-                </TileMessage>
-            {/snippet}
-
-            <!-- Render the toolbar -->
-            <div
-                class="header"
-                style:color={foreground}
-                style:fill={foreground}
-            >
-                {#if !layout.isFullscreen()}
-                    <Button
-                        background={background !== null}
-                        padding={false}
-                        tip={(l) => l.ui.tile.button.collapse}
-                        action={() => mode(TileMode.Collapsed)}
-                        icon="–"
-                    ></Button>
-                {/if}
-                <Toggle
-                    tips={(l) => l.ui.tile.toggle.fullscreen}
-                    on={fullscreen}
-                    background={background !== null}
-                    toggle={() => setFullscreen(!fullscreen)}
+                            path={(l) => l.ui.project.error.reset}
+                        /></Button
+                    ></p
                 >
-                    <FullscreenIcon />
-                </Toggle>
-                <!-- This goes above the toolbar because we need the feedback to be visible. -->
-                <div style="z-index:2">
-                    <Subheader compact>
-                        <div class="name" class:source={tile.isSource()}>
-                            {#if editable && tile.isSource()}
-                                <Emoji>{Characters.Program.symbols}</Emoji>
+                <Note>{'' + error}</Note>
+            </TileMessage>
+        {/snippet}
+
+        <!-- Render the toolbar -->
+        <div class="header" style:color={foreground} style:fill={foreground}>
+            {#if !layout.isFullscreen()}
+                <Button
+                    background={background !== null}
+                    padding={false}
+                    tip={(l) => l.ui.tile.button.collapse}
+                    action={() => mode(TileMode.Collapsed)}
+                    icon="–"
+                ></Button>
+            {/if}
+            <Toggle
+                tips={(l) => l.ui.tile.toggle.fullscreen}
+                on={fullscreen}
+                background={background !== null}
+                toggle={() => setFullscreen(!fullscreen)}
+            >
+                <FullscreenIcon />
+            </Toggle>
+            <!-- This goes above the toolbar because we need the feedback to be visible. -->
+            <div style="z-index:2">
+                <Subheader compact>
+                    <div class="name" class:source={tile.isSource()}>
+                        {#if editable && tile.isSource()}
+                            <Emoji>{Characters.Program.symbols}</Emoji>
+                            {#if project.getSources().length > 1}
+                                <!-- Only show the source name editor if there's more than one source, to simplify. -->
                                 <TextField
                                     id="source-name-editor-{tile.id}"
                                     text={tile
                                         .getSource(project)
                                         ?.getPreferredName(
                                             $locales.getLocales(),
-                                        )}
+                                        ) ?? ''}
                                     description={(l) =>
                                         l.ui.source.field.name.description}
                                     placeholder={(l) =>
@@ -342,36 +357,43 @@
                                     inlineValidation
                                     changed={handleRename}
                                 />
-                            {:else}
-                                <Emoji>{TileKinds[tile.kind].symbol}</Emoji
-                                >{tile.getName(project, $locales)}
                             {/if}
-                            {@render title()}
-                        </div>
-                    </Subheader>
-                </div>
-                <div class="toolbar">
-                    {@render extra?.()}
-                </div>
+                        {:else}
+                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                            >{tile.getName(project, $locales)}
+                        {/if}
+                        {@render title()}
+                    </div>
+                </Subheader>
             </div>
-            <!-- Render the content -->
-            <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-                <div class="content" onscroll={() => scroll()}>
-                    {@render content()}
-                </div>
-                {#if margin}
-                    <div class="margin">{@render margin()}</div>
-                {/if}
+            <div class="toolbar">
+                {@render extra?.()}
             </div>
-            <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
-            {#if focuscontent}
-                <div class="focus-indicator"></div>
+        </div>
+        <!-- Render the content -->
+        <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+            <div
+                class="content"
+                onscroll={() => scroll()}
+                bind:this={contentView}
+                bind:clientWidth={tileWidth}
+                bind:clientHeight={tileHeight}
+                onpointermove={handleContentPointerMove}
+            >
+                {@render content()}
+            </div>
+            {#if margin}
+                <div class="margin">{@render margin()}</div>
             {/if}
-            <!-- Render the footer -->
-            <div class="footer">{@render footer?.()}</div>
-        </svelte:boundary>
-    </section>
-</div>
+        </div>
+        <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
+        {#if focuscontent}
+            <div class="focus-indicator"></div>
+        {/if}
+        <!-- Render the footer -->
+        <div class="footer">{@render footer?.()}</div>
+    </svelte:boundary>
+</section>
 
 <style>
     .container.free {
@@ -453,9 +475,11 @@
             var(--wordplay-border-color);
     }
 
-    .tile:not(:global(.output)).responsive,
-    .tile:not(:global(.output)).horizontal {
+    .tile.responsive,
+    .tile.horizontal {
         border-right: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }
 

@@ -17,7 +17,7 @@
 
 <Speech below character={concept.getCharacter($locales)}>
     {#snippet content()}
-        {@const markup = concept.getDocs()}
+        {@const markup = concept.getDocs()[0]}
         {#if markup}
             <MarkupHTMLView {markup} />
         {:else}

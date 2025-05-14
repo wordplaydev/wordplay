@@ -2,6 +2,8 @@ import type Project from '@db/projects/Project';
 import Evaluate from '@nodes/Evaluate';
 import type { Path } from '@nodes/Root';
 
+type SelectionOrigin = 'editor' | 'output' | 'palette';
+
 type SelectedOutputPaths = {
     source: number | undefined;
     path: Path | undefined;
@@ -20,6 +22,9 @@ export default class SelectedOutput {
 
     // The phrase selected and the index in the phrase text that we are editing.
     phrase: SelectedPhrase | null = $state(null);
+
+    // Remember how it was it selected.
+    origin: SelectionOrigin | null = $state(null);
 
     constructor() {}
 
@@ -65,7 +70,7 @@ export default class SelectedOutput {
         return this.phrase;
     }
 
-    setPaths(project: Project, evaluates: Evaluate[]) {
+    setPaths(project: Project, evaluates: Evaluate[], origin: SelectionOrigin) {
         // Map each selected output to its replacement, then set the selected output to the replacements.
         this.paths = evaluates.map((output) => {
             const source = project.getSourceOf(output);
@@ -77,9 +82,11 @@ export default class SelectedOutput {
                 path: project.getRoot(output)?.getPath(output),
             };
         });
+        this.origin = origin;
     }
 
     setPhrase(phrase: SelectedPhrase) {
         this.phrase = phrase;
+        this.origin = 'output';
     }
 }

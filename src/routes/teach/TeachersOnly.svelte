@@ -1,8 +1,8 @@
 <script lang="ts">
     import Centered from '@components/app/Centered.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -23,9 +23,9 @@
         {#if !claim}
             <Header text={(l) => l.ui.page.teach.header} />
             <MarkupHTMLView markup={(l) => l.ui.page.teach.prompt.none} />
-            <Feedback>
+            <Notice>
                 <MarkupHTMLView markup={(l) => l.ui.page.teach.error.teacher} />
-            </Feedback>
+            </Notice>
             <Centered>
                 <Link
                     to="https://forms.gle/6x1sbyC4SZHoPXYq5"

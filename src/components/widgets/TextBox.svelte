@@ -1,7 +1,6 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import { onMount } from 'svelte';
 
     interface Props {
         text: string;
@@ -9,10 +8,11 @@
         placeholder: LocaleTextAccessor;
         active?: boolean;
         inline?: boolean;
-        done?: (text: string) => void;
+        done?: ((text: string) => void) | ((text: string) => Promise<void>);
         dwelled?: undefined | ((text: string) => void);
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         id: string;
+        view?: HTMLTextAreaElement | undefined;
     }
 
     let {
@@ -25,11 +25,12 @@
         inline = false,
         dwelled = undefined,
         id,
+        view = $bindable(undefined),
     }: Props = $props();
 
-    let view: HTMLTextAreaElement | undefined = $state();
     let focused = $state(false);
     let title = $derived($locales.get(description));
+    let savingDone = $state<boolean | undefined>(false);
 
     /** The message to display if invalid */
     let message = $derived.by(() => {
@@ -54,7 +55,9 @@
         }
     }
 
-    onMount(() => resize());
+    $effect(() => {
+        if (text.length >= 0) resize();
+    });
 </script>
 
 <div class="box" {id} class:focused>
@@ -68,18 +71,30 @@
         bind:value={text}
         bind:this={view}
         aria-disabled={!active}
-        rows={1}
+        rows={text.split('\n').length}
         disabled={!active}
-        onblur={() => {
-            if (done) done(text);
+        onblur={async () => {
+            if (done) {
+                savingDone = undefined;
+                await done(text);
+                savingDone = true;
+                setTimeout(() => {
+                    savingDone = false;
+                }, 1500);
+            }
             focused = false;
         }}
         onfocus={() => (focused = true)}
         oninput={handleInput}
+        onkeydown={(e) => e.stopPropagation()}
     ></textarea>
     {#if message !== undefined}
-        <div class="message" id="id-{id}">{message}</div>
+        <div class="message" id="id-{id}">{$locales.get(message)}</div>
     {/if}
+    {#if savingDone !== false}
+        <div class="done"
+            >{#if savingDone === undefined}…{:else if savingDone === true}✓{/if}</div
+        >{/if}
 </div>
 
 <style>
@@ -100,6 +115,8 @@
         resize: none;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
+        min-width: 3em;
+        min-height: 2em;
     }
 
     .inline {
@@ -142,5 +159,13 @@
         border-bottom-left-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
         z-index: 2;
+    }
+
+    .done {
+        position: absolute;
+        right: 0;
+        top: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-small-font-size));
+        color: var(--wordplay-inactive-color);
     }
 </style>

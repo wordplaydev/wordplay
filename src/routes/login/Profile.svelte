@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import Action from '@components/app/Action.svelte';
+    import CreatorCharacterView from '@components/app/CreatorCharacterView.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
@@ -48,18 +49,21 @@
 </script>
 
 <Header wrap
-    ><span class="emoji">{user.displayName ?? '😃'}</span>
-    {creator.getUsername(false)}</Header
+    ><span class="emoji"
+        ><CreatorCharacterView character={user.displayName}
+        ></CreatorCharacterView></span
+    >{creator.getUsername(false)}</Header
 >
 
 <div class="actions">
     <Action>
-        <p><LocalizedText path={(l) => l.ui.page.login.prompt.play} /></p>
-        <p><Link to="/projects" label={(l) => l.ui.page.projects.header} /></p>
-        <p><Link to="/teach" label={(l) => l.ui.page.teach.header} /></p>
+        <LocalizedText path={(l) => l.ui.page.login.prompt.play} />
+        <Link to="/projects" label={(l) => l.ui.page.projects.header} />
+        <Link to="/characters" label={(l) => l.ui.page.characters.header} />
+        <Link to="/teach" label={(l) => l.ui.page.teach.header} />
     </Action>
     <Action>
-        <p><LocalizedText path={(l) => l.ui.page.login.prompt.name} /></p>
+        <LocalizedText path={(l) => l.ui.page.login.prompt.name} />
         <EmojiChooser
             pick={(name) => rename(name)}
             emoji={user.displayName ?? ''}
@@ -67,16 +71,14 @@
     </Action>
     <Action>
         <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.logout} />
-        <p
-            ><ConfirmButton
-                background
-                tip={(l) => l.ui.page.login.button.logout.tip}
-                action={logout}
-                enabled={$status.status === SaveStatus.Saved}
-                prompt={(l) => l.ui.page.login.button.logout.label}
-                label={(l) => l.ui.page.login.button.logout.label}
-            />
-        </p>
+        <ConfirmButton
+            background
+            tip={(l) => l.ui.page.login.button.logout.tip}
+            action={logout}
+            enabled={$status.status === SaveStatus.Saved}
+            prompt={(l) => l.ui.page.login.button.logout.label}
+            label={(l) => l.ui.page.login.button.logout.label}
+        />
     </Action>
     {#if !creator.isUsername()}
         <Action>

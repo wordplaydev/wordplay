@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -97,7 +97,7 @@
     </p>
     {#if checkingUsername}<Spinning></Spinning>
     {:else if available === false}
-        <Feedback>This username is taken.</Feedback>
+        <Notice>This username is taken.</Notice>
     {/if}
 
     <MarkupHTMLView note markup={(l) => l.ui.page.join.prompt.password} />

@@ -48,10 +48,10 @@
         command.active === undefined
             ? true
             : context
-              ? command.active(
+              ? (command.active(
                     { ...context.context, editor: editor !== undefined },
                     '',
-                )
+                ) ?? false)
               : false,
     );
 </script>
@@ -80,7 +80,7 @@
         const result = command.execute(caretyContext, '');
         if (result instanceof Promise)
             result.then((edit) =>
-                editor
+                editor && edit !== true
                     ? editor.edit(edit, IdleKind.Typed, focusAfter)
                     : undefined,
             );

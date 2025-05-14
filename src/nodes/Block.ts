@@ -42,10 +42,10 @@ export enum BlockKind {
 }
 
 export default class Block extends Expression {
-    readonly docs?: Docs;
-    readonly open?: Token;
+    readonly docs: Docs | undefined;
+    readonly open: Token | undefined;
     readonly statements: Expression[];
-    readonly close?: Token;
+    readonly close: Token | undefined;
 
     readonly kind: BlockKind;
 

@@ -1,4 +1,4 @@
-export const Regions = {
+export const Regions: Record<string, { en: string }> = {
     AF: { en: 'Afghanistan' },
     AX: { en: '\u00c5land Islands' },
     AL: { en: 'Albania' },

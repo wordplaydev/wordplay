@@ -4,6 +4,7 @@ export const BlocksSetting = new Setting<boolean>(
     'blocks',
     true,
     false,
-    (value) => (typeof value === 'boolean' ? value : false),
+    // Deactivating blocks mode for now; it's too unstable.
+    (value) => false, //(typeof value === 'boolean' ? value : false),
     (current, value) => current === value,
 );

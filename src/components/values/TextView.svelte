@@ -14,7 +14,7 @@
 
     let text = $derived(value.toWordplay());
 
-    const limit = 32;
+    const limit = 8;
 </script>
 
 {#if inline && text.length > limit}

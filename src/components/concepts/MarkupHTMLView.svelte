@@ -39,13 +39,14 @@
         parsed.paragraphs.reduce(
             (stuff: ParagraphOrList[], next: Paragraph) => {
                 if (next.isBulleted()) {
+                    const items = next.getBullets();
                     const previous = stuff.at(-1);
                     if (previous instanceof Paragraph)
-                        return [...stuff, { items: [next] }];
+                        return [...stuff, { items }];
                     else if (previous !== undefined) {
                         previous.items.push(next);
                         return stuff;
-                    } else return [{ items: [next] }];
+                    } else return [{ items }];
                 } else return [...stuff, next];
             },
             [],
@@ -64,10 +65,11 @@
                         class="paragraph"
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
-                        >{#each paragraphOrList.segments as segment}<SegmentHTMLView
+                        >{#each paragraphOrList.segments as segment, index}<SegmentHTMLView
                                 {segment}
                                 {spaces}
                                 alone={paragraphOrList.segments.length === 1}
+                                first={index === 0}
                             />{/each}</p
                     >{:else}<ul
                         class:animated={$animationFactor > 0}
@@ -87,7 +89,7 @@
     .markup {
         display: flex;
         flex-direction: column;
-        gap: 1em;
+        font-size: var(--wordplay-font-size);
     }
 
     .markup:not(:last-child) {
@@ -126,10 +128,14 @@
         font-size: var(--wordplay-small-font-size);
     }
 
-    p,
-    ul {
+    p {
         margin-block-start: 0em;
         margin-block-end: 0em;
+    }
+
+    ul {
+        margin-block-start: 0em;
+        margin-block-end: 1em;
     }
 
     p:last-child {

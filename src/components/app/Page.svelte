@@ -1,11 +1,12 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import {
         setFullscreen,
         type FullscreenContext,
     } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { LOGO_SYMBOL } from '@parser/Symbols';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
     import Color from '../../output/Color';
@@ -48,7 +49,7 @@
         if (
             (event.ctrlKey || event.metaKey) &&
             event.key === 'Escape' &&
-            $page.route.id !== null
+            page.route.id !== null
         ) {
             goto('/');
         }
@@ -65,7 +66,10 @@
         <nav>
             {#if footer}
                 <Link nowrap tip={(l) => l.ui.widget.home} to="/"
-                    ><Emoji>💬</Emoji></Link
+                    ><Emoji
+                        ><span style:font-size="150%">{LOGO_SYMBOL}</span
+                        ></Emoji
+                    ></Link
                 >
                 <Link nowrap to="/projects"
                     ><LocalizedText
@@ -109,7 +113,9 @@
 <style>
     .page {
         width: 100vw;
-        height: 100vh;
+        height: calc(100vh - 1px);
+        max-width: 100%;
+        max-height: 100%;
         display: flex;
         flex-direction: column;
     }

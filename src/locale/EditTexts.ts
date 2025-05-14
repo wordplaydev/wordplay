@@ -7,6 +7,8 @@ type EditTexts = {
     before: Template;
     /** A way to say "inside [description], between character [before|start] and [after|end]" */
     inside: Template;
+    /** Description of a selection range */
+    range: Template;
     /** A way to say "between [token1] and [token2]" */
     between: Template;
     /** A way to say "empty line between [node1] and [node2]" */
@@ -27,6 +29,8 @@ type EditTexts = {
     unwrap: string;
     /** Shown in menus to offer to name an expression with a bind */
     bind: string;
+    /** Show elided data structure $1 count */
+    show: Template;
 };
 
 export { type EditTexts as default };

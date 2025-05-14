@@ -8,6 +8,8 @@ import type Context from './Context';
 import type Markup from './Markup';
 import type Node from './Node';
 import type { Grammar } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 import Type from './Type';
 
 export default abstract class UnknownType<
@@ -64,22 +66,26 @@ export default abstract class UnknownType<
         const reasons = this.getReasons().map((reason) =>
             reason.getReason(locales, context),
         );
-        let segments: string[] = [
-            // Get the unknown type description
-            ...super.getDescription(locales, context).toWordplay(),
-        ];
+
+        const start = super.getDescription(locales, context);
+
+        // Get the unknown type description
+        let parts: (Markup | Token)[] = [];
+
         // Get all the reasons for the unknown types.
         for (const reason of reasons) {
-            segments = [
-                ...segments,
-                locales.get((l) => l.node.UnknownType.connector),
-
-                ...reason.toWordplay(),
+            parts = [
+                ...parts,
+                new Token(
+                    locales.get((l) => l.node.UnknownType.connector),
+                    Sym.Words,
+                ),
+                reason,
             ];
         }
 
         // Make a bunch of markup for each reason.
-        return locales.concretize(segments.join('\n\n'));
+        return start.append(parts);
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.UnknownType;

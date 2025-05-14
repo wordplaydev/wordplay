@@ -97,6 +97,7 @@ export const BOLD_SYMBOL = '*';
 export const EXTRA_SYMBOL = '^';
 export const MENTION_SYMBOL = '$';
 
+export const LOGO_SYMBOL = '💬';
 export const PHRASE_SYMBOL = '💬';
 export const GROUP_SYMBOL = '🔳';
 export const STAGE_SYMBOL = '🎭';
@@ -126,3 +127,6 @@ export const REDO_SYMBOL = '⟳';
 export const DRAFT_SYMBOL = '🚧';
 
 export const LOCALE_SYMBOL = GLOBE1_SYMBOL;
+
+export const IDEA_SYMBOL = '💡';
+export const DEFECT_SYMBOL = '🪲';

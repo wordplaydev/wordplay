@@ -11,7 +11,7 @@
     import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
@@ -65,7 +65,7 @@
     });
 
     let newMessage = $state('');
-    let newMessageView = $state<HTMLInputElement | undefined>();
+    let newMessageView = $state<HTMLTextAreaElement | undefined>();
     let scrollerView = $state<HTMLDivElement | undefined>();
 
     // When the project changes, mark read if it was unread and scroll.
@@ -153,7 +153,9 @@
                     ><LocalizedText
                         path={(l) => l.ui.collaborate.error.deleted}
                     /></em
-                >{:else}<MarkupHTMLView markup={msg.text} />{/if}</div
+                >{:else}<MarkupHTMLView
+                    markup={msg.text.replaceAll('\n', '\n\n')}
+                />{/if}</div
         >
     </div>
 {/snippet}
@@ -260,9 +262,8 @@
             </div>
             <form class="new" data-sveltekit-keepfocus>
                 <div class="controls">
-                    <TextField
+                    <TextBox
                         id="new-message"
-                        fill
                         placeholder={(l) =>
                             l.ui.collaborate.field.message.placeholder}
                         description={(l) =>
@@ -272,10 +273,10 @@
                     />
                     <Button
                         submit
-                        padding={false}
                         active={chat !== undefined && newMessage.trim() !== ''}
                         tip={(l) => l.ui.collaborate.button.submit.tip}
                         action={submitMessage}
+                        background
                         ><LocalizedText
                             path={(l) => l.ui.collaborate.button.submit.label}
                         /></Button

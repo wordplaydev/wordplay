@@ -29,7 +29,7 @@ export const ReservedConceptIDs = new Set([
 
 export class ConceptName {
     readonly name: string;
-    readonly property?: string;
+    readonly property: string | undefined;
 
     constructor(name: string, property?: string) {
         this.name = name;

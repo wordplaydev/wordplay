@@ -1,7 +1,11 @@
 <script lang="ts">
-    import { SupportedFaces } from '@basis/Fonts';
+    import { Faces, getFaceDescription } from '@basis/Fonts';
+    import Feedback from '@components/app/Feedback.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+    } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { onMount } from 'svelte';
     import { Creator } from '../../db/creators/CreatorDatabase';
@@ -10,6 +14,7 @@
         arrangement,
         camera,
         dark,
+        locales,
         mic,
         Settings,
         showLines,
@@ -23,7 +28,7 @@
     import Dialog from '../widgets/Dialog.svelte';
     import Mode from '../widgets/Mode.svelte';
     import Options from '../widgets/Options.svelte';
-    import LanguageChooser from './LocaleChooser.svelte';
+    import LocaleChooser from './LocaleChooser.svelte';
 
     let user = getUser();
 
@@ -65,7 +70,8 @@
             prompt
         />
     </Link>
-    <LanguageChooser />
+    <LocaleChooser />
+    <Feedback />
     <Dialog
         button={{
             tip: (l) => l.ui.dialog.settings.button.show,
@@ -86,12 +92,21 @@
                     id="ui-face"
                     options={[
                         { value: undefined, label: '—' },
-                        ...SupportedFaces.map((face) => {
-                            return {
-                                value: face,
-                                label: face,
-                            };
-                        }),
+                        // Only show faces supported in the current locale
+                        ...Object.entries(Faces)
+                            .filter(
+                                ([name, face]) =>
+                                    name === FaceSetting.get() ||
+                                    face.scripts.some((script) =>
+                                        $locales.usesScript(script),
+                                    ),
+                            )
+                            .map(([name, face]) => {
+                                return {
+                                    value: name,
+                                    label: getFaceDescription(name, face),
+                                };
+                            }),
                     ]}
                     change={(choice) =>
                         Settings.setFace(choice === undefined ? null : choice)}
@@ -120,8 +135,9 @@
             />
             <Mode
                 descriptions={(l) => l.ui.dialog.settings.mode.animate}
-                choice={$animationFactor}
-                select={(choice) => Settings.setAnimationFactor(choice)}
+                choice={AnimationFactors.indexOf($animationFactor)}
+                select={(choice) =>
+                    Settings.setAnimationFactor(AnimationFactors[choice])}
                 modes={AnimationFactorIcons}
             />
             {#if devicesRetrieved}

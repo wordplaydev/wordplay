@@ -98,7 +98,9 @@ export const MarkupSymbols = [
     CODE_SYMBOL,
     LINK_SYMBOL,
     TAG_OPEN_SYMBOL,
+    TAG_OPEN_SYMBOL_FULL,
     TAG_CLOSE_SYMBOL,
+    TAG_CLOSE_SYMBOL_FULL,
     ITALIC_SYMBOL,
     UNDERSCORE_SYMBOL,
     BOLD_SYMBOL,
@@ -108,8 +110,10 @@ export const MarkupSymbols = [
     LIGHT_SYMBOL,
     MENTION_SYMBOL,
     LIST_OPEN_SYMBOL,
+    LIST_OPEN_SYMBOL_FULL,
     OR_SYMBOL,
     LIST_CLOSE_SYMBOL,
+    LIST_CLOSE_SYMBOL_FULL,
 ];
 
 export const FormattingSymbols = [
@@ -128,39 +132,47 @@ export function unescapeMarkupSymbols(text: string) {
 }
 
 /**
- *  Words are any sequence of characters that aren't formatting characters, unless those special characters are repeated,
- * indicating an escape. */
+ *  Words are any sequence of characters, except unescaped formatting characters and newlines.
+ */
 export const WordsRegEx = new RegExp(
-    // Escape regex special characters
-    `^(${MarkupSymbols.map((c) => {
-        const escape =
-            c === CODE_SYMBOL ||
-            c === ITALIC_SYMBOL ||
-            c === BOLD_SYMBOL ||
-            c === EXTRA_SYMBOL ||
-            c === MENTION_SYMBOL ||
-            c === OR_SYMBOL ||
-            c === LIST_OPEN_SYMBOL ||
-            c === LIST_CLOSE_SYMBOL
-                ? '\\'
-                : '';
-        return `${escape}${c}${escape}${c}|`;
-    }).join('')}[^\n${MarkupSymbols.map(
-        // Escape character class special characters
-        (c) =>
-            `${
+    `^(${
+        // Match any twice repeated formatting characters. Escape formatting characters that have meaning in the regex syntax.
+        MarkupSymbols.map((c) => {
+            const escape =
                 c === CODE_SYMBOL ||
                 c === ITALIC_SYMBOL ||
+                c === BOLD_SYMBOL ||
+                c === EXTRA_SYMBOL ||
+                c === MENTION_SYMBOL ||
+                c === OR_SYMBOL ||
                 c === LIST_OPEN_SYMBOL ||
                 c === LIST_CLOSE_SYMBOL
                     ? '\\'
-                    : ''
-            }${c}`,
-    ).join('')}])+`,
+                    : '';
+            return `${escape}${c}${escape}${c}|`;
+        }).join('')
+    }[^\n${
+        // Match any non-formatting characters
+        MarkupSymbols.map(
+            // Escape character class special characters
+            (c) =>
+                `${
+                    c === CODE_SYMBOL ||
+                    c === ITALIC_SYMBOL ||
+                    c === LIST_OPEN_SYMBOL ||
+                    c === LIST_CLOSE_SYMBOL
+                        ? '\\'
+                        : ''
+                }${c}`,
+        ).join('')
+    }]|${
+        // Match tag open symbols that are not links
+        `[${TAG_OPEN_SYMBOL}${TAG_OPEN_SYMBOL_FULL}](?!.+${LINK_SYMBOL}.+[${TAG_CLOSE_SYMBOL}${TAG_CLOSE_SYMBOL_FULL}])`
+    })+`,
     'u',
 );
 
-/** A name is any sequence of characters that is not a reserved symbol, text separator, oeprator, whitespace, or full-width punctuation. */
+/** A name is any sequence of characters that is not a reserved symbol, text separator, operator, whitespace, or full-width punctuation. */
 export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
     escapeRegexCharacter(s),
 ).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
@@ -169,7 +181,10 @@ export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
 const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
 
 export function isName(name: string) {
-    return toTokens(name).nextAre(Sym.Name, Sym.End);
+    const tokens = toTokens(name);
+    return (
+        tokens.nextAre(Sym.Name, Sym.End) && tokens.nextLacksPrecedingSpace()
+    );
 }
 
 function escapeRegexCharacter(c: string) {
@@ -374,7 +389,7 @@ const CodeTokenPatterns: TokenPattern[] = [
  * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
  * 4) the globally unique name of a creator-defined character
  */
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}|${NameRegExPattern}(/${NameRegExPattern})?)`;
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}(?!${NameRegExPattern})|${NameRegExPattern}(/${NameRegExPattern})?)`;
 
 /** Valid tokens inside of markup. */
 const MarkupTokenPatterns = [
@@ -395,9 +410,10 @@ const MarkupTokenPatterns = [
     { pattern: BOLD_SYMBOL, types: [Sym.Bold] },
     { pattern: EXTRA_SYMBOL, types: [Sym.Extra] },
     { pattern: new RegExp(`^${MentionRegEx}`, 'u'), types: [Sym.Mention] },
+    // Only match an open link if it's followed by ...@...> */
     {
         pattern: new RegExp(
-            `^[${TAG_OPEN_SYMBOL}${TAG_OPEN_SYMBOL_FULL}]`,
+            `^[${TAG_OPEN_SYMBOL}${TAG_OPEN_SYMBOL_FULL}](?=.+${LINK_SYMBOL}.+[${TAG_CLOSE_SYMBOL}${TAG_CLOSE_SYMBOL_FULL}])`,
             'u',
         ),
         types: [Sym.TagOpen],
@@ -445,8 +461,6 @@ DelimiterCloseByOpen[SET_OPEN_SYMBOL_FULL] = SET_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 DelimiterCloseByOpen[TYPE_OPEN_SYMBOL_FULL] = TYPE_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
-DelimiterCloseByOpen[TAG_OPEN_SYMBOL] = TAG_CLOSE_SYMBOL;
-DelimiterCloseByOpen[TAG_OPEN_SYMBOL_FULL] = TAG_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[CODE_SYMBOL] = CODE_SYMBOL;
 DelimiterCloseByOpen[DOCS_SYMBOL] = DOCS_SYMBOL;
 DelimiterCloseByOpen[ELISION_SYMBOL] = ELISION_SYMBOL;
@@ -477,6 +491,9 @@ export function tokens(source: string): Token[] {
 export function tokenize(source: string): TokenList {
     // First, strip any carriage returns. We only work with line feeds.
     source = source.replaceAll('\r', '');
+
+    // Then, strip any zero width spaces. Those only cause confusion, since they are invisible.
+    source = source.replaceAll('\u200B', '');
 
     // Start with an empty list
     const tokens: Token[] = [];

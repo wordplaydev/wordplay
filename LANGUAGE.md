@@ -77,7 +77,7 @@ Text literals can be opened and closed with numerous delimiters:
 > textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
 > textclose → `"` | `„` | `”` | `'` | `’` | `›` | `»` | `」` | `』`  
 > markup → `\`  
-> text → _any sequence of characters between open/close delimiters_
+> text → _any sequence of characters between open/close and markup delimiters_
 
 Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `I am \*bold\*\` ¶. Between backticks, these tokens are valid:
 
@@ -275,14 +275,17 @@ Numbers are only equal to other numbers that have identical decimal values and e
 ### Text
 
 > TEXT → TRANSLATION\*  
-> TRANSLATION → textopen text textclose LANGUAGE  
-> LANGUAGE → language name
+> TRANSLATION → textopen text textclose LOCALE
+> LOCALE → LANGUAGE [- REGION]
+> LANGUAGE [any valid ISO 639 language code]
+> REGION → [any valid ISO 3166 country code]
 
 Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in a few ways:
 
 - They are interpreted as a sequence of graphemes, using a grapheme segmentation algorithm. That means that emojis comprised of multiple Unicode code points are treated as a single symbol when indexing text.
 - They can be language tagged, indicating what language and optional region they are written in
 - They can have multiple translations, allowing for one to be selected at runtime using the environment's list of preferred locales.
+- Language tags are a language
 
 For example, these are all valid text values:
 

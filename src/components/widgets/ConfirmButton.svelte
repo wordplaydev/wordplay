@@ -32,7 +32,7 @@
 <div class="prompt" class:confirming class:background>
     <Button
         {background}
-        {icon}
+        icon={confirming ? undefined : icon}
         tip={confirming ? (l) => l.ui.widget.confirm.cancel : tip}
         action={() => (confirming = !confirming)}
         active={enabled}
@@ -54,7 +54,7 @@
 
 <style>
     .prompt.confirming {
-        display: flex;
+        display: inline-flex;
         flex-direction: row;
         width: max-content;
         gap: var(--wordplay-spacing);

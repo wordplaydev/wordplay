@@ -40,7 +40,7 @@ export default class Progress {
     }
 
     getLocale() {
-        return `${this.tutorial.language}-${this.tutorial.region}`;
+        return `${this.tutorial.language}${this.tutorial.regions.map((r) => `-${r}`).join('')}`;
     }
 
     getAct(): Act | undefined {
@@ -118,7 +118,7 @@ export default class Progress {
     serialize(): TutorialProgress {
         return {
             language: this.tutorial.language,
-            region: this.tutorial.region,
+            region: this.tutorial.regions,
             act: this.act,
             scene: this.scene,
             line: this.pause,

@@ -20,7 +20,7 @@ export default class ListType extends BasisType {
     readonly type: Type | undefined;
     readonly close: Token | undefined;
     // In some cases we know the length of a list and the index in an accessor and can use this to narrow types.
-    readonly length?: number;
+    readonly length: number | undefined;
 
     constructor(
         open: Token,

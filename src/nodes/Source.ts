@@ -45,7 +45,7 @@ export default class Source extends Expression {
     /** The program this source can evaluate. */
     readonly expression: Program;
 
-    /** The tokens of this program */
+    /** The tokens of this program, in order */
     readonly tokens: Token[];
 
     /** The spaces preceding each token in the program. */
@@ -286,6 +286,10 @@ export default class Source extends Expression {
 
     getGraphemeAt(index: number) {
         return this.code.at(index);
+    }
+
+    getGraphemesBetween(start: number, end: number) {
+        return this.code.substring(Math.min(start, end), Math.max(start, end));
     }
 
     /**

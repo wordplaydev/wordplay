@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/Tutorial.json",
     "language": "en",
-    "region": "US",
+    "regions": ["US"],
     "acts": [
         {
             "title": "The Verse",
@@ -266,19 +266,19 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Yeah. It's been so long. How are you?"
+                            "Yes, it's me. It's been so long. How are you?"
                         ],
                         ["ExpressionPlaceholder", "scared", "Lonely."],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "I know that feeling. I have been too. We haven't had a lot of reasons to hang out, have we?"
+                            "I know that feeling. I have been lonely too. We haven't had a lot of reasons to hang out, have we?"
                         ],
                         [
                             "ExpressionPlaceholder",
                             "scared",
-                            "No. I've missed you. I've missed everyone…"
+                            "No, we haven't. I've missed you. I've missed everyone…"
                         ],
                         null,
                         [

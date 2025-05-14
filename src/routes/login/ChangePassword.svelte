@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Feedback from '@components/app/Feedback.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
@@ -112,9 +112,9 @@
         action={() => undefined}>&gt;</Button
     >
     {#if password2.length > 0 && !isValidPassword(password2)}
-        <Feedback text={(l) => l.ui.page.login.prompt.passwordrule} />
+        <Notice text={(l) => l.ui.page.login.prompt.passwordrule} />
     {:else if feedback}
-        <Feedback text={feedback} />
+        <Notice text={feedback} />
     {/if}
 </form>
 
