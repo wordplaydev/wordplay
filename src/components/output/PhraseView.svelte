@@ -65,7 +65,7 @@
     );
 
     // Get the phrase's text in the preferred language
-    let text = $derived(phrase.getLocalizedTextOrDoc($locales));
+    let text = $derived(phrase.getLocalizedTextOrDoc());
     let empty = $derived(phrase.isEmpty());
     let selectable = $derived(phrase.selectable && !empty);
 
@@ -349,6 +349,9 @@
         border-bottom: var(--wordplay-highlight-color) solid
             var(--wordplay-focus-width);
         outline: none;
+        opacity: inherit;
+        line-height: inherit;
+        text-shadow: inherit;
         min-width: 1em;
     }
 

@@ -14,7 +14,7 @@
         /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
         tip: LocaleTextAccessor | (() => string);
         /** Optional label; if children provided, they override */
-        label?: LocaleTextAccessor;
+        label?: LocaleTextAccessor | undefined;
         /** What to do when pressed */
         action: Action;
         /** Whether the button should be clickable */
@@ -37,9 +37,11 @@
         /** A test ID to add */
         testid?: string | undefined;
         /** An optional icon to place before the children, in monochrome */
-        icon?: string;
+        icon?: string | undefined;
         /** An optional shortcut string for ARIA */
         shortcut?: string;
+        /** Whether to wrap the text in the button */
+        wrap?: boolean;
         /** The label */
         children?: import('svelte').Snippet;
     }
@@ -60,6 +62,7 @@
         padding = true,
         testid = undefined,
         shortcut = undefined,
+        wrap = false,
         icon,
         children,
     }: Props = $props();
@@ -74,10 +77,14 @@
     let tooltip = isComputedTooltip(tip)
         ? tip()
         : $locales.concretize($locales.get(tip)).toText();
+    let pressed = $state(false);
 
     async function doAction(event: Event) {
         if (active) {
             const result = action();
+            pressed = true;
+            setTimeout(() => (pressed = false), 100);
+
             if (result instanceof Promise) {
                 loading = true;
                 result.finally(() => (loading = false));
@@ -97,6 +104,8 @@
     class:padding
     class:scale
     class:large
+    class:pressed
+    class:wrap
     data-testid={testid}
     data-uiid={uiid}
     class={classes}
@@ -107,7 +116,10 @@
     aria-label={tooltip}
     aria-disabled={!active}
     aria-keyshortcuts={shortcut}
-    onpointerdown={(event) => event.preventDefault()}
+    onpointerdown={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+    }}
     bind:this={_}
     ondblclick={(event) => event.stopPropagation()}
     onclick={loading
@@ -152,12 +164,16 @@
         min-height: var(--wordplay-widget-height);
         width: fit-content;
         white-space: nowrap;
-        transition: transform calc(var(--animation-factor) * 200ms);
+        transition: transform calc(var(--animation-factor) * 100ms);
         /* This allows command hints to be visible */
         position: relative;
         overflow: visible;
         /* Don't let it shrink smaller than its width */
         flex-shrink: 0;
+    }
+
+    .wrap {
+        white-space: normal;
     }
 
     .padding {
@@ -193,6 +209,10 @@
         background: var(--wordplay-alternating-color);
     }
 
+    .button.active {
+        transform: translateY(0.25em) scale(0.9);
+    }
+
     :global(button:focus .token-view) {
         color: var(--wordplay-background);
     }
@@ -210,7 +230,7 @@
         border-color: transparent;
     }
 
-    button:hover[aria-disabled='false'],
+    button:hover:not(.pressed)[aria-disabled='false'],
     button:focus {
         transform: rotate(calc(-15deg / var(--characters)));
     }
@@ -218,5 +238,9 @@
     button.background:hover[aria-disabled='false'] {
         background: var(--wordplay-chrome);
         border-color: var(--wordplay-alternating-color);
+    }
+
+    button.pressed {
+        transform: translateY(-0.25em) scale(1.1);
     }
 </style>

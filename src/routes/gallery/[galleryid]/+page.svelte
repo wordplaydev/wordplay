@@ -1,11 +1,11 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import AddProject from '@components/app/AddProject.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -38,7 +38,7 @@
 
     // When the page changes, get the gallery store corresponding to the requested ID.
     $effect(() => {
-        const galleryID = decodeURI($page.params.galleryid);
+        const galleryID = decodeURI(page.params.galleryid);
         Galleries.get(galleryID).then((gal) => {
             // Found a store? Subscribe to it, updating the gallery when it changes.
             if (gal) gallery = gal;
@@ -116,7 +116,7 @@
 {:else}
     <Writing>
         {#if gallery === undefined}
-            <Feedback text={(l) => l.ui.gallery.error.unknown} />
+            <Notice text={(l) => l.ui.gallery.error.unknown} />
         {:else}
             <Header
                 >{#if editable}<TextField
@@ -279,7 +279,7 @@
                 />
             {/if}
 
-            {#if classes}
+            {#if classes && classes.length > 0}
                 <Subheader
                     text={(l) => l.ui.gallery.subheader.classes.header}
                 />

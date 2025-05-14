@@ -138,8 +138,7 @@ export default class Project {
         // Initialize roots for all definitions that can be referenced.
         this.roots = [
             ...this.getSources().map((source) => source.root),
-            ...this.basis.roots,
-            ...this.shares.all.map((share) => new Root(share)),
+            ...this.basis.getRoots(),
         ];
     }
 
@@ -834,7 +833,9 @@ export default class Project {
         return position !== undefined
             ? typeof position === 'number'
                 ? position
-                : source.root.resolvePath(position)
+                : position.every((n) => typeof n === 'number')
+                  ? [position[0], position[1]]
+                  : source.root.resolvePath(position)
             : undefined;
     }
 

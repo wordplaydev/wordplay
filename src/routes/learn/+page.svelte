@@ -1,7 +1,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import Loading from '@components/app/Loading.svelte';
     import Page from '@components/app/Page.svelte';
     import TutorialView from '@components/app/TutorialView.svelte';
@@ -27,7 +27,7 @@
         if (browser && $locales) {
             Locales.getTutorial(
                 $locales.get((l) => l.language),
-                $locales.get((l) => l.region),
+                $locales.get((l) => l.regions),
             ).then((t) => (tutorial = t));
         }
     });
@@ -37,7 +37,7 @@
         import.meta.hot.on('locales-update', async () => {
             tutorial = await Locales.getTutorial(
                 $locales.get((l) => l.language),
-                $locales.get((l) => l.region),
+                $locales.get((l) => l.regions),
             );
         });
     }
@@ -48,19 +48,20 @@
     // Save tutorial projects with projects changes.
     $effect(() => {
         if (tutorial) {
-            initial = Progress.fromURL(tutorial, $page.url.searchParams);
-            // Untack, since the below reads and sets
+            initial = Progress.fromURL(tutorial, page.url.searchParams);
+            // Untrack, since the below reads and sets
             untrack(() => {
                 if (initial) Settings.setTutorialProgress(initial);
             });
         }
     });
 
-    function navigate(newProgress: Progress) {
+    async function navigate(newProgress: Progress) {
         initial = undefined;
-        Settings.setTutorialProgress(newProgress);
         // Set the URL to mirror the progress, if not at it.
-        goto(newProgress.getURL());
+        await goto(newProgress.getURL());
+        // After navigation, update the tutorial progress.
+        Settings.setTutorialProgress(newProgress);
     }
 </script>
 

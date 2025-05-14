@@ -5,8 +5,6 @@ type PageText = {
     header: string;
     /** Explanation for the project page */
     projectprompt: string;
-    /** The header for the archived subsection */
-    archiveheader: string;
     /** Explanation for the archive subsection */
     archiveprompt: string;
     /** Header for the galleries page */
@@ -16,6 +14,12 @@ type PageText = {
     /** Dialog text for the project addition dialog */
     add: DialogText;
     /** Buttons on the project page */
+    subheader: {
+        /** Header for the shared project list */
+        shared: string;
+        /** Header for the unarchived project list */
+        archived: string;
+    };
     button: {
         /** Create a new project */
         newproject: string;

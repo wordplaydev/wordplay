@@ -76,10 +76,11 @@
         type HighlightSpec,
         type Highlights,
         getHighlights,
+        getRangeOutline,
         updateOutlines,
     } from './util/Highlights';
     import Menu, { RevisionSet } from './util/Menu';
-    import { OutlinePadding } from './util/outline';
+    import { type Outline, OutlinePadding } from './util/outline';
 
     // Add event dispatcher for large deletion notification
     const dispatch = createEventDispatcher<{
@@ -313,12 +314,12 @@
 
     /**
      * Given a node, find its rendered counterpart. This is expensive, so we do some caching.
-     * resetting the cache whenever the source changes, since we will likely have new nodes.
+     * resetting the cache whenever the source or evaluation state changes, since we will likely have new nodes.
      * null represents that the node could not be found when we first checked.
      */
     let nodeViewCache = new Map<Node, HTMLElement | null>();
     $effect(() => {
-        if (source) nodeViewCache = new Map();
+        if (source && $evaluation) nodeViewCache = new Map();
     });
     function getNodeView(node: Node): HTMLElement | undefined {
         if (editor === null) return undefined;
@@ -433,13 +434,12 @@
             caret.set($caret.withPosition(newPosition));
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
-        dragPoint = undefined;
-        if (editable && nonTokenNodeUnderPointer) {
+        dragPoint = { x: event.clientX, y: event.clientY };
+        if (editable && nonTokenNodeUnderPointer && event.shiftKey) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
             if (dragCandidate && event.buttons === 1) {
-                dragPoint = { x: event.clientX, y: event.clientY };
                 event.preventDefault();
                 event.stopPropagation();
                 if (editor) editor.style.touchAction = 'none';
@@ -821,6 +821,25 @@
         // Handle an edit
         handleEditHover(event);
 
+        // If dragging and there's no drag candidate, update the selection.
+        if (
+            event.buttons === 1 &&
+            $dragged === undefined &&
+            dragPoint !== undefined
+        ) {
+            // Dragging to select. What's under the pointer?
+            const position = getCaretPositionAt(event);
+            // Update the selection based on the caret position.
+            if (position !== undefined) {
+                if ($caret.isPosition() && $caret.position !== position)
+                    caret.set($caret.withPosition([$caret.position, position]));
+                else if ($caret.isRange() && $caret.position[0] !== position)
+                    caret.set(
+                        $caret.withPosition([$caret.position[0], position]),
+                    );
+            }
+        }
+
         // Hover debug stuff when paused.
         if (!evaluator.isPlaying()) handleDebugHover(event);
     }
@@ -1198,7 +1217,10 @@
             command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
         if (result !== false) {
             if (result instanceof Promise) {
-                result.then((edit) => handleEdit(edit, idle, true));
+                result.then((edit) => {
+                    if (edit === undefined) setIgnored(true);
+                    else if (edit !== true) handleEdit(edit, idle, true);
+                });
             } else if (result !== undefined && result !== true) {
                 handleEdit(result, idle, true);
             }
@@ -1276,9 +1298,13 @@
         evalUpdate();
     });
 
-    // Whenever the selected output changes, ensure the first selected node is scrolled to.
+    // Whenever the selected output changes from a source other than the editor, ensure the first selected node is scrolled to.
     $effect(() => {
-        if (selection?.hasPaths()) {
+        if (
+            selection !== undefined &&
+            selection.hasPaths() &&
+            selection.origin !== 'editor'
+        ) {
             const node = selection.getOutput(project)[0];
             if (node) {
                 tick().then(() => {
@@ -1353,7 +1379,7 @@
 
                 // If not, what is the "nearest" conflicted node at the caret position?
                 if (conflictSelection === undefined) {
-                    if (typeof $caret.position === 'number') {
+                    if ($caret.isPosition()) {
                         // Try:
                         // 1) the token just before
                         // 2) the token before if we're at it's end.
@@ -1395,7 +1421,7 @@
                             conflictSelection = conflictsAtPosition[0];
                     }
                     // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
-                    else {
+                    else if ($caret.isNode()) {
                         const conflictedAncestor = [
                             $caret.position,
                             ...source.root.getAncestors($caret.position),
@@ -1469,7 +1495,7 @@
                 project.shares.output.Stage,
             )
         )
-            selection.setPaths(project, [$caret.position]);
+            selection.setPaths(project, [$caret.position], 'editor');
     });
 
     // Update the highlights when any of these stores values change
@@ -1490,7 +1516,7 @@
         );
     });
 
-    // Update the outline positions any time the highlights change;
+    // Update the outline positions any time the highlights change, but only after we're done rendering.
     let outlines = $state<HighlightSpec[]>([]);
     $effect(() => {
         if ($highlights)
@@ -1503,6 +1529,20 @@
                 );
             });
     });
+
+    // When the caret changes, and it's a range, compute a range highlight.
+    let rangeHighlight: Outline | undefined = $derived(
+        $caret.isRange()
+            ? getRangeOutline(
+                  $caret.source,
+                  $caret.position[0],
+                  $caret.position[1],
+                  getNodeView,
+                  true,
+                  $locales.getDirection() === 'rtl',
+              )
+            : undefined,
+    );
 
     // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
     $effect(() => {
@@ -1560,7 +1600,7 @@
     onkeydown={handleKeyDown}
     ondblclick={(event) => {
         event.stopPropagation();
-        let node = getNodeAt(event, false);
+        let node = getNodeAt(event, true);
         if (node) caret.set($caret.withPosition(node));
     }}
     onfocusin={() => {
@@ -1583,13 +1623,22 @@
         }
     }}
 >
+    {#if rangeHighlight}
+        <Highlight
+            outline={rangeHighlight}
+            underline={rangeHighlight}
+            types={['hovered']}
+            above={false}
+        />
+    {/if}
+
     <!-- Render highlights below the code -->
     {#each outlines as outline}
         <Highlight
             {...outline}
             above={false}
             types={outline.types}
-            ignored={$evaluation &&
+            ignored={$evaluation !== undefined &&
                 $evaluation.playing === true &&
                 lastKeyDownIgnored}
         />
@@ -1641,6 +1690,16 @@
             ignored={shakeCaret}
         />
     {/each}
+    <!-- If a range outline, rander it -->
+    {#if rangeHighlight}
+        <Highlight
+            outline={rangeHighlight}
+            underline={rangeHighlight}
+            types={['selected']}
+            above={true}
+            ignored={shakeCaret}
+        />
+    {/if}
 
     <!-- Render the caret on top of the program -->
     <CaretView

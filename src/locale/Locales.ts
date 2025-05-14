@@ -3,14 +3,15 @@ import { DRAFT_SYMBOL } from '@parser/Symbols';
 import type Names from '../nodes/Names';
 import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
 import type ConceptRef from './ConceptRef';
+import type { Concretizer } from './concretize';
 import type LanguageCode from './LanguageCode';
-import { getLanguageDirection } from './LanguageCode';
+import { getLanguageDirection, getLanguageScripts } from './LanguageCode';
 import { localeToString } from './Locale';
 import type LocaleText from './LocaleText';
 import { isUnwritten, MachineTranslated, toLocale } from './LocaleText';
 import type NodeRef from './NodeRef';
+import type { Script } from './Scripts';
 import type ValueRef from './ValueRef';
-import type { Concretizer } from './concretize';
 
 export type TemplateInput =
     | number
@@ -75,6 +76,13 @@ export default class Locales {
     /** Get preferred locales, in order of preference */
     getPreferredLocales() {
         return [...this.locales];
+    }
+
+    /** True if one of the locales uses the given script */
+    usesScript(script: Script) {
+        return this.locales.some((locale) =>
+            getLanguageScripts(locale.language).includes(script),
+        );
     }
 
     /** Get the language codes for the preferred locales */

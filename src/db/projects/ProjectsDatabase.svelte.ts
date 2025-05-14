@@ -71,7 +71,14 @@ export default class ProjectsDatabase {
 
     /** A store of all user editable projects stored in projectsDB. Derived from editable projects above. */
     readonly allEditableProjects: Project[] = $derived(
-        this.currentProjects.filter((project) => !project.isArchived()),
+        this.currentProjects.filter((project) => {
+            if (project.isArchived()) return false;
+            const user = this.database.getUser();
+            if (user === null || project.getOwner() === null) return true;
+            if (project.isOwner(user.uid)) return true;
+            if (project.hasCollaborator(user.uid)) return true;
+            return false;
+        }),
     );
 
     /** A store of all archived projects stored in projectsDB. Derived from editable projects above. */
@@ -108,7 +115,7 @@ export default class ProjectsDatabase {
             if (this.editableProjects && this.editableProjects.getValue) {
                 // Sync every time projects changes locally
                 this.editableProjects.subscribe((projects) =>
-                    this.sync(projects),
+                    this.trackLocal(projects),
                 );
             }
         }
@@ -116,13 +123,13 @@ export default class ProjectsDatabase {
         // We don't pull projects from the cloud. That's handled by syncUser() when the user changes.
     }
 
-    async sync(serialized: SerializedProject[]) {
+    async trackLocal(serialized: SerializedProject[]) {
         // Get all the projects from disk, deserialize them.
         const projects = await this.deserializeAll(serialized);
 
-        // Track each as editable, but don't persist back to the local database, since we just read them from disk.
+        // Don't persist back to the local database, since we just read them from disk.
         // If it's a tutorial project, mark it as local saves only.
-        for (const project of projects)
+        for (const project of projects) {
             this.track(
                 project,
                 true,
@@ -131,6 +138,7 @@ export default class ProjectsDatabase {
                     : PersistenceType.Online,
                 true,
             );
+        }
     }
 
     /** Call the given function when the project with the given ID is edited locally or remotely. */
@@ -161,7 +169,7 @@ export default class ProjectsDatabase {
         return Project.deserialize(this.database.Locales, project);
     }
 
-    /** When the user changes, update the projects from the cloud query */
+    /** When the user changes, update the realtime query for projects. */
     syncUser(remove: boolean) {
         // If we're supposed to remove local, do it before syncing the user.
         if (remove) this.deleteLocal();
@@ -180,16 +188,17 @@ export default class ProjectsDatabase {
         // If there's no more user, do nothing.
         if (user === null) return;
 
-        // Get the current list of gallery ies.
+        // Get the current list of galleries to watch.
         const galleryIDsToWatch = Array.from(
             Galleries.accessibleGalleries.keys(),
         );
 
-        // Construct the query constraints.
+        // Construct the query constraints. Visible projects are either owned by the user or shared with the user.
         const constraints = [
             where('owner', '==', user.uid),
             where('collaborators', 'array-contains', user.uid),
         ];
+
         // If the user has any gallery IDs it has access to, include those in the project query.
         if (galleryIDsToWatch.length > 0)
             constraints.push(where('gallery', 'in', galleryIDsToWatch));
@@ -220,9 +229,21 @@ export default class ProjectsDatabase {
                     if (change.type === 'removed') deleted.push(change.doc.id);
                 });
 
-                // Deserialize the projects and track them, if they're not already tracked
-                for (const project of await this.deserializeAll(serialized))
-                    this.track(project, true, PersistenceType.Online, true);
+                // Deserialize the projects and track them, if they're not already tracked.
+                // Ensure the project is only tracked as editable if the user is the owner, collaborator, or curator.
+                for (const project of await this.deserializeAll(serialized)) {
+                    // The project is ediable i they are an owner, collaborator, or it is in a gallery for which they are curator.
+                    const gallery = project.getGallery();
+                    const editable =
+                        project.isOwner(user.uid) ||
+                        project.hasCollaborator(user.uid) ||
+                        (gallery !== null &&
+                            Galleries.accessibleGalleries
+                                .get(gallery)
+                                ?.hasCurator(user.uid) === true);
+
+                    this.track(project, editable, PersistenceType.Online, true);
+                }
 
                 // Find all projects 1) known locally, 2) that didn't appear in latest update
                 // 3) were previously marked as cloud persisted, and 4) aren't pending
@@ -595,7 +616,8 @@ export default class ProjectsDatabase {
                 this.localDB.saveProjects(
                     local.map((history) => history.getCurrent().serialize()),
                 );
-            } catch (_) {
+            } catch (err) {
+                console.error(err);
                 this.database.setStatus(
                     SaveStatus.Error,
                     (l) => l.ui.project.save.projectsNotSavedLocally,

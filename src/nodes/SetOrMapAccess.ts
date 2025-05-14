@@ -43,7 +43,7 @@ export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
     readonly open: Token;
     readonly key: Expression;
-    readonly close?: Token;
+    readonly close: Token | undefined;
 
     constructor(
         setOrMap: Expression,

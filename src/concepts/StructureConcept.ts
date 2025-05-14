@@ -123,9 +123,14 @@ export default class StructureConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(locales: Locales): Markup | undefined {
-        const doc = this.definition.docs?.getPreferredLocale(locales);
-        return doc?.markup.concretize(locales, []);
+    getDocs(locales: Locales): Markup[] {
+        return (this.definition.docs?.docs ?? [])
+            .map((doc) => doc.markup.concretize(locales, []))
+            .filter((m) => m !== undefined);
+    }
+
+    getNames() {
+        return this.definition.names.getNames();
     }
 
     getName(locales: Locales, symbolic: boolean) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Feedback from '@components/app/Feedback.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
@@ -59,7 +59,7 @@
         const newLocale = projectLocales.find(
             (l) =>
                 l.language === primary.split('-')[0] &&
-                l.region === primary.split('-')[1],
+                l.regions.includes(primary.split('-')[1]),
         );
         if (newLocale)
             Projects.reviseProject(project.withPrimaryLocale(newLocale));
@@ -108,7 +108,7 @@
         <Spinning />
     {/if}
     {#if error}
-        <Feedback text={(l) => l.ui.project.error.translate} />
+        <Notice text={(l) => l.ui.project.error.translate} />
     {/if}
 </Dialog>
 

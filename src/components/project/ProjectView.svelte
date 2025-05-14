@@ -9,6 +9,7 @@
     import { page } from '$app/state';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Link from '@components/app/Link.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -22,7 +23,10 @@
     import type Conflict from '@conflicts/Conflict';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+    } from '@db/settings/AnimationFactorSetting';
     import type Locale from '@locale/Locale';
     import Node from '@nodes/Node';
     import Source from '@nodes/Source';
@@ -41,6 +45,7 @@
         Chats,
         Creators,
         DB,
+        Locales,
         locales,
         mic,
         Projects,
@@ -61,7 +66,7 @@
     import CreatorView from '../app/CreatorView.svelte';
     import Emoji from '../app/Emoji.svelte';
     import Spinning from '../app/Spinning.svelte';
-    import Editor from '../editor/Editor.svelte';
+    import Editor, { largeDeletionNotification } from '../editor/Editor.svelte';
     import CharacterChooser from '../editor/GlyphChooser.svelte';
     import Highlight from '../editor/Highlight.svelte';
     import Menu from '../editor/Menu.svelte';
@@ -118,6 +123,7 @@
     import Moderation from './Moderation.svelte';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
+    import PositionAdjuster from './PositionAdjuster.svelte';
     import RootView from './RootView.svelte';
     import SelectedOutput from './SelectedOutput.svelte';
     import Separator from './Separator.svelte';
@@ -415,11 +421,6 @@
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
 
-    // Clear the selected output upon playing.
-    evaluation.subscribe((val) => {
-        if (val.playing) if (!selectedOutput.isEmpty()) selectedOutput.empty();
-    });
-
     function syncTiles(project: Project, tiles: Tile[]): Tile[] {
         const newTiles: Tile[] = [];
 
@@ -458,7 +459,7 @@
 
         // Go through each source file and find the tile. If we don't find one, create one.
         let index = 0;
-        for (const source of sources) {
+        for (const source of project.getSources()) {
             const tile = tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index),
             );
@@ -555,6 +556,7 @@
                 defaultTiles,
                 // If showing output was requested, we fullscreen on output
                 showOutput ? TileKind.Output : undefined,
+                null,
             )
         );
     }
@@ -591,13 +593,14 @@
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
-        if (index)
+        if (index) {
             setConceptInURL(
                 $locales,
                 $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
                 index,
                 searchParams,
             );
+        }
 
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
@@ -612,7 +615,9 @@
 
     /** Persist the layout when it changes */
     $effect(() => {
-        if (persistLayout) Settings.setProjectLayout(project.getID(), layout);
+        if (persistLayout) {
+            Settings.setProjectLayout(project.getID(), layout);
+        }
     });
 
     /** The tile being dragged */
@@ -729,13 +734,20 @@
                 !$path.every((concept, index) =>
                     concept.isEqualTo(latestPath[index]),
                 ) ||
-                untrack(() => layout.isFullscreen()))
+                untrack(() => layout.isFullscreen()) ||
+                (docs !== undefined && !docs.isExpanded()))
         ) {
             if (docs) {
                 setFullscreen(undefined);
                 setMode(docs, TileMode.Expanded);
             }
         }
+    });
+
+    // When the layout changes to hide the docs, reset the path.
+    $effect(() => {
+        const docs = layout.getDocs();
+        if (docs?.isCollapsed()) path.set([]);
     });
 
     // When the path changes, set the latest path
@@ -824,6 +836,21 @@
             canvasWidth,
             canvasHeight,
         );
+    }
+
+    let adjusting = $state(false);
+
+    /** Take the given axis, group, and split, and adjust it. */
+    function adjustSplit(axis: number, index: number, split: number) {
+        layout = layout.withSplit(
+            $arrangement,
+            axis,
+            index,
+            split,
+            canvasWidth,
+            canvasHeight,
+        );
+        refreshLayout();
     }
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
@@ -1082,17 +1109,10 @@
     function setMode(tile: Tile, mode: TileMode) {
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
 
-        // Special case selected output and the palette.
+        // Special case selected output and the palette, removing the selection of collapsing.
         if (tile === layout.getPalette()) {
-            if (tile.mode === TileMode.Collapsed && selectedOutput.isEmpty()) {
-                const output = project.getOutput();
-                if (output.length > 0) {
-                    selectedOutput.setPaths(project, [output[0]]);
-                    $evaluator.pause();
-                }
-            } else if (tile.mode === TileMode.Expanded) {
-                selectedOutput.setPaths(project, []);
-            }
+            if (tile.mode === TileMode.Expanded)
+                selectedOutput.setPaths(project, [], 'editor');
         }
 
         layout = layout
@@ -1167,50 +1187,51 @@
 
     async function handlePointerMove(event: PointerEvent) {
         if (!canvas) return;
+        if (!view) return;
 
-        pointerX = event.clientX + canvas.scrollLeft;
-        pointerY = event.clientY + canvas.scrollTop;
+        const rect = view.getBoundingClientRect();
 
-        if (draggedTile) {
-            const tile = layout.getTileWithID(draggedTile.id);
-            if (tile) {
-                let newBounds;
-                if (draggedTile.direction === null) {
-                    newBounds = {
-                        left: pointerX - draggedTile.left,
-                        top: pointerY - draggedTile.top,
-                        width: tile.position.width,
-                        height: tile.position.height,
-                    };
-                } else {
-                    const left = draggedTile.direction.includes('left');
-                    const top = draggedTile.direction.includes('top');
-                    const right = draggedTile.direction.includes('right');
-                    const bottom = draggedTile.direction.includes('bottom');
-                    newBounds = {
-                        left: left ? pointerX : tile.position.left,
-                        top: top ? pointerY : tile.position.top,
-                        width: left
-                            ? tile.position.width +
-                              (tile.position.left - pointerX)
-                            : right
-                              ? pointerX - tile.position.left
-                              : tile.position.width,
-                        height: top
-                            ? tile.position.height +
-                              (tile.position.top - pointerY)
-                            : bottom
-                              ? pointerY - tile.position.top
-                              : tile.position.height,
-                    };
-                }
-                if (newBounds) {
-                    layout = layout.withTilePosition(tile, newBounds);
+        pointerX = event.clientX - rect.left + canvas.scrollLeft;
+        pointerY = event.clientY - rect.top + canvas.scrollTop;
 
-                    // Scroll tile into view if out
-                    await tick();
-                    if (draggedTile) scrollToTileView(draggedTile.id);
-                }
+        if (!draggedTile) return;
+
+        const tile = layout.getTileWithID(draggedTile.id);
+        if (tile) {
+            let newBounds;
+            if (draggedTile.direction === null) {
+                newBounds = {
+                    left: Math.max(pointerX - draggedTile.left, 0),
+                    top: Math.max(pointerY - draggedTile.top, 0),
+                    width: tile.position.width,
+                    height: tile.position.height,
+                };
+            } else {
+                const left = draggedTile.direction.includes('left');
+                const top = draggedTile.direction.includes('top');
+                const right = draggedTile.direction.includes('right');
+                const bottom = draggedTile.direction.includes('bottom');
+                newBounds = {
+                    left: left ? pointerX : tile.position.left,
+                    top: top ? pointerY : tile.position.top,
+                    width: left
+                        ? tile.position.width + (tile.position.left - pointerX)
+                        : right
+                          ? pointerX - tile.position.left
+                          : tile.position.width,
+                    height: top
+                        ? tile.position.height + (tile.position.top - pointerY)
+                        : bottom
+                          ? pointerY - tile.position.top
+                          : tile.position.height,
+                };
+            }
+            if (newBounds) {
+                layout = layout.withTilePosition(tile, newBounds);
+
+                // Scroll tile into view if out
+                await tick();
+                if (draggedTile) scrollToTileView(draggedTile.id);
             }
         }
     }
@@ -1261,7 +1282,7 @@
         return parseInt(id.replace('source', ''));
     }
 
-    function getSourceByTileID(id: string) {
+    function getSourceByTileID(id: string): Source | undefined {
         return sources[getSourceIndexByID(id)];
     }
 
@@ -1361,6 +1382,7 @@
 
         // Sync the tiles.
         layout = layout.withTiles(syncTiles(newProject, layout.tiles));
+
         refreshLayout();
     }
 
@@ -1374,6 +1396,7 @@
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByTileID(id);
+        if (!source) return;
         Projects.reviseProject(
             project.withSource(
                 source,
@@ -1460,6 +1483,7 @@
                                 ? outputBackground
                                 : null}
                             dragging={draggedTile?.id === tile.id}
+                            animated={!adjusting}
                             fullscreenID={layout.fullscreenID}
                             focuscontent={tile.kind === TileKind.Source ||
                                 tile.kind === TileKind.Output}
@@ -1498,10 +1522,24 @@
                                 ))}
                         >
                             {#snippet title()}
+                                {#if tile.kind === TileKind.Output}
+                                    <span
+                                        title={$locales.get(
+                                            (l) =>
+                                                l.ui.dialog.settings.mode
+                                                    .animate,
+                                        ).modes[$animationFactor]}
+                                    >
+                                        <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
+                                    </span>
+                                {/if}
+                            {/snippet}
+
+                            {#snippet extra()}
                                 {#if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     <!-- Can't delete main. -->
-                                    {#if editable && source !== project.getMain()}
+                                    {#if source && editable && source !== project.getMain()}
                                         <ConfirmButton
                                             tip={(l) =>
                                                 l.ui.source.confirm.delete
@@ -1513,25 +1551,7 @@
                                             >{CANCEL_SYMBOL}</ConfirmButton
                                         >
                                     {/if}
-                                {:else if tile.kind === TileKind.Output}
-                                    <span
-                                        title={$locales.get(
-                                            (l) =>
-                                                l.ui.dialog.settings.mode
-                                                    .animate,
-                                        ).modes[$animationFactor]}
-                                    >
-                                        <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
-                                        {#if $animationFactor === 0}{$locales.get(
-                                                (l) =>
-                                                    l.ui.dialog.settings.mode
-                                                        .animate,
-                                            ).modes[0]}{/if}
-                                    </span>
                                 {/if}
-                            {/snippet}
-
-                            {#snippet extra()}
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     {#if !editable}<CopyButton {project}
@@ -1580,16 +1600,26 @@
                                     <Mode
                                         descriptions={(l) =>
                                             l.ui.dialog.settings.mode.animate}
-                                        choice={$animationFactor}
+                                        choice={AnimationFactors.indexOf(
+                                            $animationFactor,
+                                        )}
                                         select={(choice) =>
-                                            Settings.setAnimationFactor(choice)}
+                                            Settings.setAnimationFactor(
+                                                AnimationFactors[choice],
+                                            )}
                                         modes={AnimationFactorIcons}
                                         labeled={false}
                                     />
+                                    {#if $animationFactor === 0}{$locales.get(
+                                            (l) =>
+                                                l.ui.dialog.settings.mode
+                                                    .animate,
+                                        ).modes[0]}{/if}
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    <Switch
+                                    <!-- Dactivating for now. It's too unstable. -->
+                                    <!-- <Switch
                                         onLabel={withMonoEmoji('🖱️')}
                                         onTip={(l) =>
                                             l.ui.source.toggle.blocks.off}
@@ -1598,7 +1628,7 @@
                                             l.ui.source.toggle.blocks.on}
                                         toggle={toggleBlocks}
                                         on={$blocks}
-                                    />
+                                    /> -->
                                     {#if localesUsed.length > 1}
                                         {LOCALE_SYMBOL}
                                         <EditorLocaleChooser
@@ -1631,6 +1661,7 @@
                                     <Palette
                                         {project}
                                         editable={editableAndCurrent}
+                                        editors={Array.from($editors.values())}
                                     />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView
@@ -1649,46 +1680,46 @@
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
-                                    <div class="annotated-editor">
-                                        <Editor
-                                            {project}
-                                            evaluator={$evaluator}
-                                            {source}
-                                            locale={editorLocales[tile.id] ??
-                                                null}
-                                            editable={editableAndCurrent}
-                                            {overwritten}
-                                            sourceID={tile.id}
-                                            selected={source === selectedSource}
-                                            autofocus={autofocus &&
-                                                tile.isExpanded() &&
-                                                getSourceByTileID(tile.id) ===
-                                                    project.getMain()}
-                                            bind:menu
-                                            on:largeDeletion={(e) => {
-                                                largeDeletionNotifications = {
-                                                    ...largeDeletionNotifications,
-                                                    [tile.id]: e.detail,
-                                                };
-                                            }}
-                                            updateConflicts={(
-                                                source: Source,
-                                                conflicts: Conflict[],
-                                            ) => {
-                                                conflictsOfInterest = new Map(
-                                                    conflictsOfInterest.set(
-                                                        source,
-                                                        conflicts,
-                                                    ),
-                                                );
-                                            }}
-                                            setOutputPreview={() =>
-                                                (selectedSourceIndex =
-                                                    getSourceIndexByID(
+                                    {#if source}
+                                        <div class="annotated-editor">
+                                            <Editor
+                                                {project}
+                                                evaluator={$evaluator}
+                                                {source}
+                                                locale={editorLocales[
+                                                    tile.id
+                                                ] ?? null}
+                                                editable={editableAndCurrent}
+                                                {overwritten}
+                                                sourceID={tile.id}
+                                                selected={source ===
+                                                    selectedSource}
+                                                autofocus={autofocus &&
+                                                    tile.isExpanded() &&
+                                                    getSourceByTileID(
                                                         tile.id,
-                                                    ))}
-                                        />
-                                    </div>
+                                                    ) === project.getMain()}
+                                                bind:menu
+                                                updateConflicts={(
+                                                    source,
+                                                    conflicts,
+                                                ) => {
+                                                    conflictsOfInterest =
+                                                        new Map(
+                                                            conflictsOfInterest.set(
+                                                                source,
+                                                                conflicts,
+                                                            ),
+                                                        );
+                                                }}
+                                                setOutputPreview={() =>
+                                                    (selectedSourceIndex =
+                                                        getSourceIndexByID(
+                                                            tile.id,
+                                                        ))}
+                                            />
+                                        </div>
+                                    {/if}
                                 {/if}
                             {/snippet}
                             {#snippet footer()}
@@ -1750,18 +1781,40 @@
                             {/snippet}
                             {#snippet margin()}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    <Annotations
-                                        {project}
-                                        evaluator={$evaluator}
-                                        source={getSourceByTileID(tile.id)}
-                                        sourceID={tile.id}
-                                        conflicts={visibleConflicts}
-                                        stepping={$evaluation.playing === false}
-                                        caret={$editors.get(tile.id)?.caret}
-                                    />{/if}
+                                    {@const source = getSourceByTileID(tile.id)}
+                                    {#if source}
+                                        <Annotations
+                                            {project}
+                                            evaluator={$evaluator}
+                                            {source}
+                                            sourceID={tile.id}
+                                            conflicts={visibleConflicts}
+                                            stepping={$evaluation.playing ===
+                                                false}
+                                            caret={$editors.get(tile.id)?.caret}
+                                        />{/if}
+                                {/if}
                             {/snippet}
                         </TileView>
                     {/if}
+                {/each}
+                <!-- Create an adjuster for each axis split in the current layout that isn't the first in the axis -->
+                {#each layout.getSplits($arrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
+                    {#each axis.positions as _, groupIndex}
+                        {#if groupIndex > 0}
+                            <PositionAdjuster
+                                {axis}
+                                index={groupIndex}
+                                {layout}
+                                adjuster={(split) =>
+                                    adjustSplit(axisIndex, groupIndex, split)}
+                                setAdjusting={(state) => (adjusting = state)}
+                                {adjusting}
+                                width={canvasWidth}
+                                height={canvasHeight}
+                            ></PositionAdjuster>
+                        {/if}
+                    {/each}
                 {/each}
             {/if}
         {/key}
@@ -1785,17 +1838,21 @@
                         <CreatorView {creator} />
                     {/await}
                 {/if}
-                {#if editable}
-                    <TextField
-                        id="project-name"
-                        text={project.getName()}
-                        description={(l) => l.ui.project.field.name.description}
-                        placeholder={(l) => l.ui.project.field.name.placeholder}
-                        changed={(name) =>
-                            Projects.reviseProject(project.withName(name))}
-                        max="10em"
-                    />
-                {:else}{project.getName()}{/if}
+                <Subheader compact>
+                    {#if editable}
+                        <TextField
+                            id="project-name"
+                            text={project.getName()}
+                            description={(l) =>
+                                l.ui.project.field.name.description}
+                            placeholder={(l) =>
+                                l.ui.project.field.name.placeholder}
+                            changed={(name) =>
+                                Projects.reviseProject(project.withName(name))}
+                            max="7em"
+                        />
+                    {:else}{project.getName()}{/if}
+                </Subheader>
                 {#each sources as source, index}
                     {@const tile = layout.getTileWithID(
                         Layout.getSourceID(index),
@@ -1960,11 +2017,14 @@
 
     .canvas {
         flex: 1;
+        position: relative;
     }
 
     /** If in free layout mode, allow scrolling of content */
     .canvas.free {
         overflow: auto;
+        width: 100%;
+        height: 100%;
     }
 
     nav {
@@ -1987,6 +2047,11 @@
         position: absolute;
         pointer-events: none;
         z-index: 2;
+        background: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        opacity: 0.8;
     }
 
     /* A fancy dragon cursor for dragon drop! Get it? */

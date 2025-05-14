@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "sv",
-    "region": "FI",
+    "regions": ["FI"],
     "wordplay": "$~Ordlek",
     "term": {
         "bind": "$~binda",
@@ -307,8 +307,12 @@
             "doc": [
                 "$~Jag är en länk till vers karaktär. Jag är behjälplig när du vill skriva en @Doc och hänvisa till någon av oss.",
                 "$~Säg till exempel att du ville prata om @Evaluate och hur fantastiska de är. Du kan skriva:",
-                "$~\\¶Du vet, @Evaluate är ganska häftigt.¶\n\"titta, en konceptlänk!\"\\",
-                "$~När @Doc du skrev visas här, kommer det att visa en länk till konceptet."
+                "$~\\¶Du vet, @Evaluate är ganska häftigt.¶\n'titta, en teckenlänk!'\\",
+                "$~Tecken har också siffror som motsvarar dem. Till exempel är @FunctionDefinition 192. Du kan referera till dem med nummer och de kommer att visas:",
+                "$~\\`92 är så trevligt!`\\",
+                "$~Och om du gör din egen karaktär kan du referera till dem med det namn du gav dem.",
+                "$~\\`@coolbeans`\\",
+                "$~Åh... Jag antar att den karaktären inte existerar, så man blir lite fyrkantig. Men om de gjorde det skulle de dyka upp här!"
             ]
         },
         "Words": {
@@ -455,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Jag kommer att ignorera $1, eftersom det inte definierar någonting och inte är mitt sista uttryck.",
                     "secondary": "$~@Block, ignorera mig inte!",
-                    "resolution": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade."
+                    "resolution": {
+                        "binary": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade.",
+                        "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck."
+                    }
                 }
             }
         },
@@ -1102,7 +1109,8 @@
                 "address": "$~Är *$1* någons hemadress? Om så är fallet, lägg mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2",
                 "handle": "$~Är *$1* ditt användarnamn för någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2",
                 "resolution": "$~Det här är inte känslig information",
-                "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan."
+                "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan.",
+                "character": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
             }
         },
         "FormattedLiteral": {
@@ -1543,17 +1551,19 @@
         },
         "Text": {
             "doc": [
-                "$~Jag kan vara vilken text du vill, från vilket språk som helst, och använda någon av dessa symboler för öppnings- och stängningssymboler: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\''\\, \\‹ ›\\, \\«»\\, \\「」\\ eller \\『』\\.",
+                "$~Jag kan vara vilken text du vill, från vilket språk som helst, och använda någon av dessa symboler för öppnings- och stängningssymboler: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
                 "$~För att illustrera, överväg dessa vackra fraser",
-                "$~\\“Det finns bara två sätt att leva sitt liv. En är som om ingenting är ett mirakel. Den andra är som om allt är ett mirakel.”\\",
+                "$~\\\"Det finns bara två sätt att leva sitt liv. Det ena är som om ingenting är ett mirakel. Det andra är som om allt är ett mirakel.\"\\",
                 "$~\\『一日三秋』\\",
-                "$~Kom bara ihåg att stänga mig om du öppnar mig och använd den matchande symbolen. Annars vet jag inte att du är färdig med dina ord.",
+                "$~Kom bara ihåg att stänga mig om du öppnar mig och använd den matchande symbolen. Annars vet jag inte att du är klar med dina ord.",
                 "$~\\'hello'/en'hola'/es-MX\\",
                 "$~Du kan också tagga mig med språk och till och med ge flera översättningar. Jag kommer att utvärdera till vilka språk som för närvarande är valda, om det finns ett matchande språk.",
-                "$~Om du vill göra mig med några andra värden kan du använda en symbol för att",
-                "$~Tänk till exempel på detta:",
+                "$~Om du vill ge mig några andra värden kan du göra så här:",
                 "$~\\\"Här är några summor \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~Se hur elegant jag just utvärderade dessa summor och placerade dem i @Text?",
+                "$~Jag har en sista liten hemlighet: visste du att vi alla har ett unikt nummer? Det är sant! Du kan hänvisa till oss på vårt nummer. Till exempel är @FunctionDefinition 192:",
+                "$~\\'92'\\",
+                "$~Se hur 192 förvandlades till @FunctionDefinition? Jag hör att du kallar dessa nummer \"Unicode\".",
                 "$~Annars finns det bara så många härliga funktioner som @FunctionDefinition gjorde för mig att göra alla möjliga saker med ord!"
             ],
             "name": ["$~''", "$~Text"],
@@ -3168,7 +3178,7 @@
             "names": "$~Kollision",
             "doc": [
                 "$~/Hej! @FunctionDefinition här. Kolla in denna coola input./",
-                "$~Det kan hjälpa dig att ta reda på när @Output stöter på varandra! Det här är ett bra sätt att göra något när vi stöter på varandra, annat än att det normala studsar av varandra @Output kan göra.",
+                "$~Det kan hjälpa dig att ta reda på när @Output stöter på varandra! Det här är ett bra sätt att göra något när vi stöter på varandra, annat än att det normala studsande av varandra @Output kan göra.",
                 "$~Ge mig bara namnet @Output, så skapar jag ett nytt @Rebound-värde när det stöter på ett annat namn. En @Rebound har information om namnen som kolliderade och riktningen för deras kollision.",
                 "$~Och om du ger mig två namn, gör jag bara ett nytt värde när de två namnen stöter på varandra.",
                 "$~Direkt efter att jag har gjort ett nytt värde, kommer jag att göra en \\ø\\ eftersom kollisionen sker efter att den har inträffat. Detta tyder på att det inte finns någon mer kollision."
@@ -4302,7 +4312,11 @@
                 "redo": "$~gör om ångrad redigering",
                 "search": "$~sök efter specialtecken att infoga",
                 "tidy": "$~snyggt mellanrum",
-                "elide": "$~växla elision"
+                "elide": "$~växla elision",
+                "expandBeforeInline": "$~utöka urvalet innan",
+                "expandAfterInline": "$~utöka urvalet efter",
+                "expandPriorLine": "$~utöka urvalet till föregående rad",
+                "expandNextLine": "$~utöka urvalet till nästa rad"
             },
             "options": {
                 "locale": {
@@ -4548,6 +4562,58 @@
                     "insertCode": "$~Infoga",
                     "debug": "$~Felsök"
                 }
+            },
+            "feedback": {
+                "header": "$~Feed-back",
+                "explanation": "$~Hjälp oss att förbättra ordspel genom att rapportera 🪲 *problem* och dela 💡 *idéer*!",
+                "button": {
+                    "show": "$~Visa feedbackformuläret.",
+                    "submit": {
+                        "tip": "$~Skicka in din feedback.",
+                        "label": "$~överlämna"
+                    },
+                    "delete": {
+                        "description": "$~Ta bort din feedback.",
+                        "prompt": "$~radera"
+                    },
+                    "like": "$~Gillar denna feedback",
+                    "close": {
+                        "label": "$~nära",
+                        "tip": "$~Stäng denna feedback som moderator"
+                    }
+                },
+                "mode": {
+                    "label": "$~feed-back",
+                    "modes": ["$~defekter", "$~idéer"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~rubriken på din feedback",
+                        "placeholder": "$~titel"
+                    },
+                    "defect": {
+                        "description": "$~beskrivning av ditt defekt",
+                        "placeholder": "$~Vilka steg tog du? Vad hände efter? Var så exakt som möjligt."
+                    },
+                    "idea": {
+                        "description": "$~beskrivning av ditt defekt",
+                        "placeholder": "$~Vad försöker du göra som du inte kan?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~defekt",
+                    "idea": "$~aning"
+                },
+                "prompt": {
+                    "defect": "$~Såg du inte problemet du upplever? Anmäl det här.",
+                    "idea": "$~Såg du inte idén du tänkte på? Föreslå det."
+                },
+                "error": {
+                    "login": "$~Du måste vara inloggad för att skicka feedback",
+                    "submit": "$~Det gick inte att skicka feedback.",
+                    "load": "$~Det gick inte att ladda feedback",
+                    "empty": "$~Det finns ingen feedback att visa."
+                }
             }
         },
         "collaborate": {
@@ -4626,8 +4692,8 @@
                 "offerPhrase": "$~Vilket fantastiskt värde du gjort! Ska jag visa den på @Stage?",
                 "offerGroup": "$~Vilken underbar @Phrase du gjorde. Vill du sammanföra dem till en @Group, för att få dem ordnade?",
                 "offerStage": "$~MYCKET BRA @Program. LÄGG TILL MIG FÖR ATT STYRA LJUS. FÄRGER. RAMAR.",
-                "pauseToEdit": "$~Om du ⏸️ scenen kan du välja en 💬, 🔳 eller 🎭 för att redigera!",
-                "editing": "$~Redigera mig!"
+                "editing": "$~Redigera mig!",
+                "select": "$~För att redigera, välj en 💬, 🔳 eller 🎭 i kod, eller ⏸️ scenen och välj utgång."
             },
             "field": {
                 "coordinate": "$~redigera koordinat",
@@ -4830,7 +4896,6 @@
             "projects": {
                 "header": "$~Projekt",
                 "projectprompt": "$~Redo att säga något? Skapa ett projekt eller arbeta med ett. Om du fastnar, fortsätt med <learning@://learn>.",
-                "archiveheader": "$~Arkiverad",
                 "archiveprompt": "$~Det här är projekt som du har arkiverat. Endast ägare kan permanent ta bort eller avarkivera dem. Arkiverade projekt kommer att raderas permanent 30 dagar efter att de senast redigerades.",
                 "galleriesheader": "$~Gallerier",
                 "galleryprompt": "$~Skapa och kurera gallerier för att dela en samling projekt med andra.",
@@ -4861,6 +4926,10 @@
                     "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
                     "nodeletes": "$~Du måste vara inloggad för att ta bort arkiverade projekt.",
                     "delete": "$~Hoppsan, vi kunde inte ta bort projektet!"
+                },
+                "subheader": {
+                    "shared": "$~Delad",
+                    "archived": "$~Arkiverad"
                 }
             },
             "galleries": {
@@ -4898,7 +4967,7 @@
                     "enter": "$~Det verkar som om din inloggningslänk kom från en annan webbläsare eller enhet. Kan du ange din e-postadress igen, bara så att vi är säkra på att det är du?",
                     "play": "$~Du är inloggad, vi kan spara dina projekt online nu! Vill du skapa något?",
                     "tooyoung": "$~Du måste vara 13 år eller äldre för att logga in med e-post.",
-                    "passwordrule": "$~Lösenord måste vara minst 10 tecken långa; om du inte använder en lösenordshanterare, välj tre långa ord som du kommer ihåg.",
+                    "passwordrule": "$~Lösenord måste vara minst 6 tecken långa; om du inte använder en lösenordshanterare, välj tre långa ord som du kommer ihåg.",
                     "passwordreminder": "$~Det verkar som att du inte har ett konto än. Ange ditt lösenord igen och se till att du har lagrat det säkert och korrekt, eftersom det inte går att återställa.",
                     "changeEmail": "$~Vill du ändra din e-postadress? Skicka in en ny så skickar vi en bekräftelse till den gamla.",
                     "changePassword": "$~Vill du ändra ditt lösenord? Skicka in en ny och upprepa den.",
@@ -4922,7 +4991,7 @@
                     "wrongPassword": "$~Inte ett giltigt användarnamn och lösenord. Antingen är ditt lösenord fel eller så har någon annan det här användarnamnet.",
                     "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",
                     "invalidUsername": "$~Användarnamn måste vara e-postmeddelanden eller >5 bokstäver utan mellanslag.",
-                    "invalidPassword": "$~Lösenord måste vara minst 10 tecken långa.",
+                    "invalidPassword": "$~Lösenord måste vara minst 6 tecken långa.",
                     "mismatched": "$~Lösenorden stämmer inte överens."
                 },
                 "feedback": {
@@ -4941,7 +5010,7 @@
                         "placeholder": "$~användarnamn"
                     },
                     "password": {
-                        "description": "$~inloggningslösenord, minst 10 tecken",
+                        "description": "$~inloggningslösenord, minst 6 tecken",
                         "placeholder": "$~lösenord"
                     },
                     "currentPassword": {
@@ -4982,7 +5051,7 @@
                 "prompt": {
                     "create": "$~Skapa ett konto för att spara dina projekt, samarbeta med andra och dela ditt arbete.",
                     "username": "$~Användarnamn måste vara minst /5 tecken/, får inte vara ett e-postmeddelande och får inte innehålla ditt namn eller annan identifieringsinformation.",
-                    "password": "$~Lösenord måste vara minst /10 tecken/. Skriv det två gånger och skriv ner det på ett säkert ställe, som en lösenordshanterare. *Det finns inget sätt att återställa ditt konto* om du förlorar det, eftersom vi inte samlar in kontaktinformation."
+                    "password": "$~Lösenord måste vara minst /6 tecken/. Skriv det två gånger och skriv ner det på ett säkert ställe, som en lösenordshanterare. *Det finns inget sätt att återställa ditt konto* om du förlorar det, eftersom vi inte samlar in kontaktinformation."
                 }
             },
             "rights": {
@@ -5031,12 +5100,20 @@
                 "header": "$~Karaktärer",
                 "prompt": "$~Skapa anpassade emojis och symboler att använda i dina projekt och dela med andra.",
                 "button": {
-                    "new": "$~Skapa en ny karaktär"
+                    "new": "$~Skapa en ny karaktär",
+                    "copy": "$~Kopiera denna karaktär",
+                    "remove": {
+                        "tip": "$~Ta bort detta tecken",
+                        "prompt": "$~radera?"
+                    }
                 },
                 "error": {
                     "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",
                     "noauth": "$~Du måste vara inloggad för att se dina karaktärer och skapa nya.",
                     "create": "$~Det går inte att skapa en ny karaktär."
+                },
+                "subheader": {
+                    "shared": "$~Delad"
                 }
             },
             "character": {
@@ -5046,17 +5123,21 @@
                     "empty": "$~Välj ett ritläge i paletten för att skapa former.",
                     "unselected": "$~Välj ett ritläge eller välj och redigera former.",
                     "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i ett urval. Använd *delete* för att ta bort markeringen. Använd kontrollerna nedan för att ändra de valda formerna.",
-                    "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel.",
+                    "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel. *Dubbelklicka* för att fylla.",
                     "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
-                    "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten."
+                    "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",
+                    "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera.",
+                    "emoji": "$~Välj en emoji att importera som pixlar och ändra sedan som du vill."
                 },
                 "shape": {
                     "shape": "$~form",
                     "pixel": "$~pixel",
                     "rect": "$~rektangel",
                     "ellipse": "$~ellips",
-                    "path": "$~väg"
+                    "path": "$~väg",
+                    "eraser": "$~suddgummi",
+                    "emoji": "$~emoji"
                 },
                 "field": {
                     "name": {
@@ -5071,10 +5152,12 @@
                         "label": "$~läge",
                         "modes": [
                             "$~välja",
+                            "$~suddgummi",
                             "$~pixel",
                             "$~rektangel",
                             "$~ellips",
-                            "$~väg"
+                            "$~väg",
+                            "$~emoji"
                         ]
                     },
                     "fill": {
@@ -5165,6 +5248,10 @@
                     "vertical": {
                         "label": "$~vänd vertikalt",
                         "tip": "$~vänd punkterna vertikalt runt mitten"
+                    },
+                    "fit": {
+                        "label": "$~färdig",
+                        "tip": "$~anpassa formerna till duken"
                     }
                 },
                 "feedback": {
@@ -5215,7 +5302,9 @@
             "replace": "$~/Vill kliva in.../",
             "wrap": "$~parentes",
             "unwrap": "$~packa upp",
-            "bind": "$~namnge detta uttryck"
+            "bind": "$~namnge detta uttryck",
+            "range": "$~urval från $1 till $2",
+            "show": "$~… visa mer"
         },
         "template": {
             "unwritten": "$~TBD",
@@ -5277,6 +5366,10 @@
         "tools": {
             "name": "$~Verktyg",
             "description": "$~Enkla verktyg och applikationer."
+        },
+        "stories": {
+            "name": "$~Berättelser",
+            "description": "$~Interaktiva berättelser och berättelser."
         }
     }
 }

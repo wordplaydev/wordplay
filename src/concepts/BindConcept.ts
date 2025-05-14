@@ -50,9 +50,14 @@ export default class BindConcept extends Concept {
         return this.bind.hasName(name);
     }
 
-    getDocs(locales: Locales): Markup | undefined {
-        const doc = this.bind.docs?.getPreferredLocale(locales);
-        return doc?.markup?.concretize(locales, []);
+    getDocs(locales: Locales): Markup[] {
+        return (this.bind.docs?.docs ?? [])
+            .map((doc) => doc.markup.concretize(locales, []))
+            .filter((m) => m !== undefined);
+    }
+
+    getNames(): string[] {
+        return this.bind.names.getNames();
     }
 
     getName(locales: Locales, symbolic: boolean) {

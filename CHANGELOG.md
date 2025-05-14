@@ -3,6 +3,265 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 01.6.14
+
+## Added
+
+- Fixed #755 Machine translation of traditional Chinese tutorial.
+- Allow feedback editing by owners or moderators.
+- Added a warning when a character name is referenced in plain text.
+
+## Fixed
+
+- Improved description of project archive tooltip.
+- Refined feedback reading rules to permit read without authentication.
+- Show local projects without owner.
+- Allow markup templates to evaluate to markup.
+
+## Maintenance
+
+- Updated minor versions of SvelteKit, Svelte, svelte-check, eslint, tsx, vite, vitest, zod, firebase-admin
+- Updated to nodemailer 7.0.
+
+## 0.1.6.13
+
+## Added
+
+- Fixed #370 Split view controls on horizontal and vertical layouts.
+
+## Fixed
+
+- Fixed #723 regression of tile dragging in free layout.
+- Fixed #740, resolving stuck tutorial advance button when guide is open.
+- Fixed #750 only handle keyboard shortcuts when editor is focused.
+- Added choose your own adventure how to.
+
+## Maintennace
+
+- Updated minor versions of Playwright, SvelteKit, Eslint, Firebase, Svelte, Vite, Vitest, and Zod.
+
+## 0.16.12
+
+## Added
+
+- Copy custom character.
+- Added another how to for making choices.
+
+## Fixed
+
+- Account for empty name list.
+- Fixed #734. Typos in account creation.
+- Fixed wrapping and alignment of how to links.
+- Strip zero width spaces from tokenizing; they serve no purpose.
+- Don't localize operators.
+- More precise tokenizing of URLs to allow for <3 emoticons.
+- Fixed select all in character text box.
+- Don't require spaces after bullets in markup.
+- Added "font" to English and Chinese names, even though it conflates "typeface" and "font".
+- Fixed localization of function inputs in guide.
+- Fixed duplicate search results.
+- Fixed multilingual guide search.
+- Removed legacy support for a list of text in Phrase.
+- Fixed positioning of dragged tiles from guide.
+
+## 0.16.11
+
+### Added
+
+- Added a few story examples to the gallery.
+- Added to game-related how to documents.
+
+### Fixed
+
+- Fixed password requirement inconsistency
+- Better troubleshooting info for clipboard operations.
+- Fixed localization of references when editor locale is selected.
+- Don't do rename on bind when inserting spaces before name.
+- Less jumpy evaluate suggestions.
+- Fixed example conflict.
+- Fixed case where flipped selection range wouldn't copy.
+
+### Maintenance
+
+- Updated Svelte, SvelteKit, Typescript, eslint, Vite, and Vitest.
+
+## 0.16.10
+
+### Added
+
+- Added 2x, 5x, and 10x play time, to help with `Scene` testing.
+
+### Fixed
+
+- Added unit to initial `Pitch` value.
+- More visible home link in footer.
+- Don't autocomplete `<` symbol.
+- Enable pointer events on links in inactive `Phrase` output.
+- Fixed label size consistency.
+- Always show collaborators in character share dialog, even when public.
+- Only allow one feedback vote per page load.
+- Split owned and shared characters on the characters page.
+- Split owned and shared projects on projects page.
+- Allow mods to edit feedback.
+- Fixed dialog scroll closing behavior.
+- Allow dragging of multiple selection.
+- Allow for pixel fill on existing colors.
+- Fixed several pixel and fill undo errors.
+- Fixed pixel fitting algorithm.
+- Better labels on elided data structures.
+- Fixed #732, improving English placeholder dialog.
+- Improved display of values when paused.
+- Clarified visibility of chats for curators.
+- Flipped scroll zoom on stage.
+- Fixed several translation errors.
+
+## 0.16.9
+
+### Added
+
+- Fixed #699, basic feedback reporting tool.
+
+### Fixed
+
+- More precise handling of undefined and optional (?).
+- Fixed #723, tile dragging in tutorial.
+- Don't deploy on PR.
+- Run all tests on merge.
+- Renamed `Feedback` to `Notice`.
+- Migrated to from page state to stores.
+
+## 0.16.8
+
+### Added
+
+- Expanded eraser to delete shapes on click.
+- Smooth, connected pixel strokes.
+- Multiline chat messages.
+- Double-click to fill pixels in a region.
+- Import emojis in character editor for remixing.
+- Fit content to box.
+
+### Fixed
+
+- Prevent undefined fields on character JSON.
+- Narrow concept regular expression to avoid greedy matches on hexadecimal numbers that prefix names.
+- Fixed keyboard shortcuts for Windows control key.
+- Fixed swapped icons on character share.
+- Fixed #719, improving clarity of mode widget selection.
+- Fixed rendering of unknown types.
+- Fixed #715, improving language and region names on stage chooser.
+- Preview aura when editing.
+
+### Maintenance
+
+- Updated Google Cloud Translate, Playwright, Svelte, SvelteKit, Vitest, Eslint.
+
+## 0.16.7
+
+### Added
+
+Character editing features:
+
+- Added undo/redo keyboard shortcuts.
+- Added custom character how to.
+- Fixed #712, adding pixel eraser.
+- Fixed #717, correcting redundnant undos.
+
+### Fixed
+
+Character editing improvements:
+
+- Prevent character editor from scrolling.
+- Ensure no undefined in character fields to prevent saving errors.
+- Properly bound drawing cursor position.
+- Longer undo history.
+- Undo entire strokes, not individual pixels.
+
+## 0.16.6
+
+### Added
+
+- Added Papyrus, Broadway, Dreamin Outloud, Modern Love, and Delius (Times equivalent).
+- Added Chinese, Korean, and Japanese fonts.
+- Added official Korean locale support.
+- Only show source file names if more than one source, to reduce confusion about project name.
+- Added language script names and include them in font choosers for support clarity.
+- Fixed #705, autoscroll tile views.
+- Don't hide code when debugging; just elide values and place them inline.
+- Allow locales to specify multiple regions they apply to (e.g., Tamil in India, Sri Lanka, Singapore).
+- Fixed #708, improving palette editing from code editor.
+
+### Fixed
+
+- Forward delete selection now deletes selection.
+- Only show fonts that support the script of the currently selected languages.
+- Prevent extra spaces in first segment of markup paragraph.
+- Fixed 'an'/'a' typos in English locale.
+- Fixed pose editing effect crash.
+- Show new source when added.
+- Clarified permissions for curators and creators
+- Hid associated classes for a gallery if empty.
+- Less sensitive text selection drag initiation.
+- Don't go browser back when at the beginning of the timeline.
+- Fixed timeline dragging.
+- Better feedback after button press.
+- Store project history state as raw, not deeply reactive, as its immutable.
+- Fixed source value history preservation bug.
+- Fixed missing evaluation dependency in outline updates.
+- Fixed missing keyboard input dependency on evaluation.
+- Eliminated proactive root walk to reduce edit overhead.
+- Account for undefined evaluation context in tutorial.
+
+### Maintenance
+
+- Updated minor versions of Svelte, SvelteKit, Vite.
+
+## 0.16.5
+
+### Fixed
+
+- Prevent scroll bars on window.
+- Improved contrast of inactive color in dark mode.
+- Fixed Serbian typo.
+
+## 0.16.4 2025-03-10
+
+### Fixed
+
+- Increased compatibility of Firebase connection for complex school networks.
+- Deactivated confusing blocks mode for now; everyone was perplexed by the "experimental" label.
+- Less intense typing jump animation.
+- Fixed Punjabi reading order.
+- Resolved several evaluator memory leaks.
+
+## 0.16.3 2025-03-08
+
+### Added
+
+- By student request, allow custom characters in profile and creator views.
+- By student request, added Comic Neue as a supported font! Long live Comic Sans.
+- Fixed #264, adding text selection to code editor.
+
+### Fixed
+
+- Grow text boxes
+- Improved spacing of profile page.
+- Prevent accidental overwriting of English locale when verifying locales.
+- Deploy to staging on main PR, prod on main merge.
+- Only run tests and checks on PR, not merge.
+- Allow selection of names with escape key, rather than selecting parent.
+
+### Maintenance
+
+- Updated Google Translate, Svelte, SvelteKit, Firebase, Prettier, TypeScript, Vite, Vitest.
+
+## 0.16.2 2025-03-02
+
+### Fixed
+
+- Added more detail to text literal locales in LANGUAGE.md.
+- Fixed #698 resolving gallery project write status defect.
+
 ## 0.16.1 2025-02-25
 
 ### Fixed

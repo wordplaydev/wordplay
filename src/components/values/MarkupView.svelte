@@ -7,7 +7,7 @@
         inline?: boolean;
     }
 
-    let { value, inline }: Props = $props();
+    let { value, inline = false }: Props = $props();
 </script>
 
 <MarkupHtmlView {inline} markup={value.markup} />

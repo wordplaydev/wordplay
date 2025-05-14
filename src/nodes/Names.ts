@@ -1,4 +1,5 @@
 import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
@@ -122,7 +123,7 @@ export default class Names extends Node {
     }
 
     getPreferredNameString(
-        preferred: LocaleText | LocaleText[],
+        preferred: LocaleText | LocaleText[] | Locale | Locale[],
         symbolic = true,
     ) {
         preferred = Array.isArray(preferred) ? preferred : [preferred];
@@ -134,7 +135,7 @@ export default class Names extends Node {
     }
 
     getPreferredName(
-        preferred: LocaleText | LocaleText[],
+        preferred: LocaleText | LocaleText[] | Locale | Locale[],
         symbolic = true,
     ): Name | undefined {
         if (symbolic) {
@@ -153,8 +154,8 @@ export default class Names extends Node {
         );
     }
 
-    getFirst() {
-        return this.names[0].getName();
+    getFirst(): string | undefined {
+        return this.names[0]?.getName();
     }
 
     getNameInLanguage(lang: LanguageCode, symbolic: boolean | undefined) {

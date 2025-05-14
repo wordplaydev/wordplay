@@ -12,7 +12,7 @@ import SimpleValue from './SimpleValue';
 
 export default abstract class ExceptionValue extends SimpleValue {
     readonly evaluator: Evaluator;
-    readonly step?: Step;
+    readonly step: Step | undefined;
 
     constructor(creator: Expression, evaluator: Evaluator) {
         super(creator);

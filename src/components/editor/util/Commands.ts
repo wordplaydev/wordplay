@@ -45,7 +45,7 @@ import type Project from '../../../db/projects/Project';
 import Sym from '../../../nodes/Sym';
 import { TileKind } from '../../project/Tile';
 import { moveVisualVertical } from '../CaretView.svelte';
-import { copyNode } from './Clipboard';
+import { copyNode, toClipboard } from './Clipboard';
 import interpret from './interpret';
 
 export type Command = {
@@ -71,8 +71,8 @@ export type Command = {
     typing?: boolean | undefined;
     /** An UI to place on buttons corresponding to this command for tutorial highlighting */
     uiid?: string;
-    /** A function that should indicate whether the command is active */
-    active?: (context: CommandContext, key: string) => boolean;
+    /** A function that should indicate whether the command is active. If undefined, it's not executed, but the keystroke is consumed. */
+    active?: (context: CommandContext, key: string) => boolean | undefined;
     /** Generates an edit or other editor command */
     execute: (context: CommandContext, key: string) => CommandResult;
 };
@@ -84,7 +84,7 @@ type CommandResult =
     // An edit to a whole project
     | ProjectRevision
     // An eventual edit to a source file or project
-    | Promise<Edit | ProjectRevision | undefined>
+    | Promise<Edit | ProjectRevision | true | undefined>
     // Handled, but no side effect
     | true
     // Not handled
@@ -172,14 +172,16 @@ export function handleKeyCommand(
             if (command !== InsertSymbol) matchedShortcut = true;
 
             // Is the command active? If so, execute it.
-            if (
+            const isActive =
                 command.active === undefined ||
-                command.active(context, event.key)
-            ) {
+                command.active(context, event.key);
+
+            if (isActive) {
                 // If so, execute it.
                 const result = command.execute(context, event.key);
                 if (result !== false) return [command, result, true];
-            }
+            } else if (matchedShortcut && isActive === null)
+                return [command, true, true];
         }
     }
     // Didn't execute? Return false if we didn't match anything and let the shortcut travel to the browser.
@@ -254,7 +256,9 @@ export const StepBack: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    active: (context) => !context.evaluator.isAtBeginning(),
+    // If we don't consume this, the browser will go back, which is annoying.
+    // active: (context) =>
+    //     !context.evaluator.isAtBeginning() ? true : undefined,
     execute: (context) => {
         context.evaluator.stepBackWithinProgram();
         return true;
@@ -274,7 +278,9 @@ export const StepForward: Command = {
     active: (context) =>
         context.evaluator.isInPast() &&
         context.evaluator.getStepIndex() !== undefined &&
-        context.evaluator.getStepIndex() < context.evaluator.getStepCount(),
+        context.evaluator.getStepIndex() < context.evaluator.getStepCount()
+            ? true
+            : undefined,
     execute: (context) => context.evaluator.stepWithinProgram(),
 };
 
@@ -670,6 +676,19 @@ const Commands: Command[] = [
                 : false,
     },
     {
+        symbol: '↑☐',
+        description: (l) => l.ui.source.cursor.expandPriorLine,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowUp',
+        keySymbol: '↑',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandVertically(-1)) : false,
+    },
+    {
         symbol: '↓',
         description: (l) => l.ui.source.cursor.nextLine,
         visible: Visibility.Touch,
@@ -688,6 +707,19 @@ const Commands: Command[] = [
                         : false
                     : (caret.moveVertical(1) ?? false)
                 : false,
+    },
+    {
+        symbol: '↓☐',
+        description: (l) => l.ui.source.cursor.expandNextLine,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowDown',
+        keySymbol: '↓',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandVertically(1)) : false,
     },
     {
         symbol: '←',
@@ -712,6 +744,19 @@ const Commands: Command[] = [
                 : false,
     },
     {
+        symbol: '←☐',
+        description: (l) => l.ui.source.cursor.expandBeforeInline,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowLeft',
+        keySymbol: '←',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandInline(-1)) : false,
+    },
+    {
         symbol: '→',
         description: (l) => l.ui.source.cursor.nextInline,
         visible: Visibility.Touch,
@@ -732,6 +777,19 @@ const Commands: Command[] = [
                               : -1,
                       )
                 : false,
+    },
+    {
+        symbol: '☐→',
+        description: (l) => l.ui.source.cursor.expandAfterInline,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: true,
+        key: 'ArrowRight',
+        keySymbol: '→',
+        execute: ({ caret, blocks }) =>
+            caret ? (blocks ? false : caret.expandInline(1)) : false,
     },
     {
         symbol: '⇤',
@@ -836,7 +894,7 @@ const Commands: Command[] = [
                     return caret
                         .withEntry(undefined)
                         .withPosition(
-                            parent?.getChildren()[0] === token ? parent : token,
+                            parent?.getChildren().length === 1 ? parent : token,
                         );
                 }
             }
@@ -1252,18 +1310,25 @@ const Commands: Command[] = [
         keySymbol: 'X',
         active: ({ caret }) =>
             caret !== undefined &&
-            caret.isNode() &&
+            (caret.isNode() || caret.isRange()) &&
             typeof ClipboardItem !== 'undefined',
-        execute: (context) => {
-            if (!(context.caret?.position instanceof Node)) return false;
-            copyNode(
-                context.caret.position,
-                getPreferredSpaces(context.caret.source),
-            );
-            return (
-                context.caret.delete(context.project, false, context.blocks) ??
-                true
-            );
+        execute: ({ caret, project, blocks }) => {
+            if (caret === undefined) return false;
+            if (caret.isNode()) {
+                copyNode(caret.position, getPreferredSpaces(caret.source));
+                return caret.delete(project, false, blocks) ?? true;
+            } else if (caret.isRange()) {
+                return toClipboard(
+                    caret.source
+                        .getGraphemesBetween(
+                            caret.position[0],
+                            caret.position[1],
+                        )
+                        .toString(),
+                ).then(() => {
+                    return caret.delete(project, false, blocks) ?? true;
+                });
+            } else return false;
         },
     },
     {
@@ -1276,15 +1341,27 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyC',
         keySymbol: 'C',
-        active: ({ caret }) => caret !== undefined && caret.isNode(),
-        execute: (context) => {
-            if (!(context.caret?.position instanceof Node)) return false;
-            return (
-                copyNode(
-                    context.caret.position,
-                    getPreferredSpaces(context.caret.source),
-                ) ?? false
-            );
+        active: ({ caret }) =>
+            caret !== undefined && (caret.isNode() || caret.isRange()),
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            if (caret.isNode())
+                return (
+                    copyNode(
+                        caret.position,
+                        getPreferredSpaces(caret.source),
+                    ) ?? false
+                );
+            else if (caret.isRange()) {
+                return toClipboard(
+                    caret.source
+                        .getGraphemesBetween(
+                            caret.position[0],
+                            caret.position[1],
+                        )
+                        .toString(),
+                );
+            } else return false;
         },
     },
     {

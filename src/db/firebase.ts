@@ -12,7 +12,7 @@ import { getApp, getApps, initializeApp } from 'firebase/app';
 import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import {
     connectFirestoreEmulator,
-    getFirestore,
+    initializeFirestore,
     type Firestore,
 } from 'firebase/firestore';
 import {
@@ -46,7 +46,13 @@ if (typeof process === 'undefined') {
 
         auth = getAuth(app);
 
-        firestore = getFirestore(app);
+        firestore = initializeFirestore(app, {
+            // There are some network proxies and anti-virus software that require long polling to correctly
+            // transmit data. This slows down the entire persistence layer, but may be necessary for some school settings.
+            // See https://github.com/firebase/firebase-js-sdk/issues/1674
+            experimentalForceLongPolling: true,
+        });
+        // firestore = getFirestore(app);
         functions = getFunctions(app);
         analytics = emulating ? undefined : getAnalytics(app);
 

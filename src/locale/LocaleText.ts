@@ -35,7 +35,7 @@ export type LocaleText = {
     /** An ISO 639-1 language code */
     language: LanguageCode;
     /** An ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
-    region: RegionCode;
+    regions: RegionCode[];
     /** The name of the platform */
     wordplay: string;
     /** Common vocabulary that can be used in documentation and descriptions. */
@@ -96,7 +96,7 @@ export type NameText = string | string[];
 export type DocText = string | string[];
 
 export function toLocale(locale: LocaleText) {
-    return `${locale.language}-${locale.region}`;
+    return `${locale.language}${locale.regions.map((r) => `-${r}`).join('')}`;
 }
 
 export function toDocString(doc: DocText) {
@@ -144,15 +144,15 @@ export function getLocaleLanguageName(
     }
 }
 
-export function getLocaleRegion(locale: string): RegionCode | undefined {
-    const [, region] = locale.split('-');
-    if (region !== undefined && region in Regions) return region as RegionCode;
-    else return undefined;
+export function getLocaleRegions(locale: string): RegionCode[] {
+    const regions = locale.split('-');
+    regions.shift();
+    return regions as RegionCode[];
 }
 
-export function getLocaleRegionName(locale: string): string | undefined {
-    const region = getLocaleRegion(locale);
-    return region ? Regions[region as RegionCode].en : undefined;
+export function getLocaleRegionNames(locale: string): string[] {
+    const regions = getLocaleRegions(locale);
+    return regions.map((r) => Regions[r]?.en).filter((r) => r !== undefined);
 }
 
 export function isLocaleDraft(locale: string): boolean {

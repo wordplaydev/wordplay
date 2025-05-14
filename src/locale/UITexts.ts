@@ -253,6 +253,14 @@ type UITexts = {
             priorInline: string;
             /** Move cursor inline one position after */
             nextInline: string;
+            /** Expand selection before inline */
+            expandBeforeInline: string;
+            /** Expand selection after inline */
+            expandAfterInline: string;
+            /** Expand selection to prior line */
+            expandPriorLine: string;
+            /** Expand selection to next line */
+            expandNextLine: string;
             /** Move cursor to line start */
             lineStart: string;
             /** Move cursor to line end */
@@ -558,8 +566,8 @@ type UITexts = {
             offerGroup: Template;
             /** The text offering to create a stage in the palette without a stage */
             offerStage: Template;
-            /** The text offering to pause the project to allow palette editing */
-            pauseToEdit: Template;
+            /** Prompt if no selection */
+            select: Template;
             /** The text prompting the creator to edit the selected output */
             editing: Template;
         };
@@ -737,6 +745,51 @@ type UITexts = {
                 editCode: string;
                 insertCode: string;
                 debug: string;
+            };
+        };
+        /** The feedback dialog */
+        feedback: DialogText & {
+            button: {
+                /** Show the feedback dialog */
+                show: string;
+                /** Submit the feedback */
+                submit: ButtonText;
+                /** Delete */
+                delete: ConfirmText;
+                /** Like feedback */
+                like: string;
+                /** Close the feedback */
+                close: ButtonText;
+            };
+            /** The mode chooser for defects and ideas */
+            mode: ModeText<[string, string]>;
+            field: {
+                /** Feedback title */
+                title: FieldText;
+                /** Defect description */
+                defect: FieldText;
+                /** Idea description */
+                idea: FieldText;
+            };
+            subheader: {
+                /** The subheader for the defect dialog */
+                defect: string;
+                /** The subheader for the feedback dialog */
+                idea: string;
+            };
+            prompt: {
+                defect: string;
+                idea: string;
+            };
+            error: {
+                /** Must be logged in to submit */
+                login: string;
+                /** The error shown when the feedback was not submitted */
+                submit: string;
+                /** Unable to laod feedback */
+                load: string;
+                /** No feedback yet */
+                empty: string;
             };
         };
     };

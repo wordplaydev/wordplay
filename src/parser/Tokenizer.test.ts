@@ -36,6 +36,7 @@ test.each([
         '¶hello <link@https://amyjko.com>¶',
         '¶|hello |<|link|@|https://amyjko.com|>|¶|',
     ],
+    ['¶hello <3!¶', '¶|hello <3!|¶|'],
     ['¶this is $1 [hi|no]¶', '¶|this is |$1| |[|hi|||no|]|¶|'],
     [
         '\'hi\'"hi"‘hi’«hi»‹hi›„hi“「hi」',

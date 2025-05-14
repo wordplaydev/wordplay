@@ -11,6 +11,7 @@
         "sourceMap": true,
         "noEmit": true,
         "strict": true,
-        "noErrorTruncation": true
+        "noErrorTruncation": true,
+        "exactOptionalPropertyTypes": true
     }
 }

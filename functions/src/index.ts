@@ -4,16 +4,19 @@ import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
+import { defineString } from 'firebase-functions/params';
+import { onDocumentCreated } from 'firebase-functions/v2/firestore';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import * as http from 'http';
 import * as https from 'https';
+import nodemailer from 'nodemailer';
 import {
     CreateClassInputs,
     CreateClassOutput,
     type EmailExistsInputs,
     type EmailExistsOutput,
-} from './functions';
+} from 'shared-types';
 
 initializeApp();
 const db = getFirestore();
@@ -342,3 +345,34 @@ export const createClass = onCall<
 
     return { classid: classRef.id, error: undefined };
 });
+
+const emailPassword = defineString('SMTP_PASSWORD');
+
+/** When new feedback is created, post it to the GitHub repository. */
+export const postFeedback = onDocumentCreated(
+    'feedback/{id}',
+    async (event) => {
+        const feedback = event.data?.data();
+        if (feedback === undefined) return;
+        if (feedback.title === undefined || feedback.description === undefined)
+            return;
+
+        let authData = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'hi@wordplay.dev',
+                pass: emailPassword.value(),
+            },
+        });
+
+        return authData.sendMail({
+            from: 'hi@wordplay.dev',
+            to: 'hi@wordplay.dev',
+            subject: `New feedback`,
+            text: `New feedback from the app:\n\n${feedback.title}\n\n${feedback.description}`,
+            html: `<p>New feedback from the app!</p><h2>Title</h2><p>${feedback.title}</p><h2>Description</h2><p>${feedback.description}</p>`,
+        });
+    },
+);

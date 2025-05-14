@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Feedback from '@components/app/Feedback.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import { toClipboard } from '@components/editor/util/Clipboard';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -25,7 +25,7 @@
 </script>
 
 {#if $user === null}
-    <Feedback text={(l) => l.ui.dialog.share.error.anonymous} />
+    <Notice text={(l) => l.ui.dialog.share.error.anonymous} />
 {:else}
     <Subheader text={(l) => l.ui.dialog.share.subheader.copy.header} />
 

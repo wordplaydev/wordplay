@@ -52,14 +52,14 @@ import TypeToken from './TypeToken';
 import UnknownType from './UnknownType';
 
 export default class Bind extends Expression {
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly share: Token | undefined;
     readonly names: Names;
     readonly etc: Token | undefined;
-    readonly dot?: Token;
-    readonly type?: Type;
-    readonly colon?: Token;
-    readonly value?: Expression;
+    readonly dot: Token | undefined;
+    readonly type: Type | undefined;
+    readonly colon: Token | undefined;
+    readonly value: Expression | undefined;
 
     constructor(
         docs: Docs | undefined,
@@ -140,7 +140,7 @@ export default class Bind extends Expression {
                 kind: any(node(Sym.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
             },
-            { name: 'names', kind: node(Names) },
+            { name: 'names', kind: node(Names), newline: true },
             {
                 name: 'etc',
                 kind: any(node(Sym.Etc), none()),

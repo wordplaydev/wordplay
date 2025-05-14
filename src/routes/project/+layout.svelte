@@ -13,6 +13,9 @@
         display: flex;
         flex-direction: row;
         width: 100vw;
-        height: 100vh;
+        height: calc(100vh - 1px);
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
     }
 </style>

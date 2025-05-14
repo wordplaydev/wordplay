@@ -13,17 +13,21 @@ type PageText = {
         empty: string;
         unselected: string;
         selected: string;
+        eraser: string;
         pixel: string;
         rect: string;
         ellipse: string;
         path: string;
+        emoji: string;
     };
     shape: {
         shape: string;
+        eraser: string;
         pixel: string;
         rect: string;
         ellipse: string;
         path: string;
+        emoji: string;
     };
     share: {
         dialog: DialogText;
@@ -35,7 +39,9 @@ type PageText = {
     field: {
         name: FieldText;
         description: FieldText;
-        mode: ModeText<string[]>;
+        mode: ModeText<
+            [string, string, string, string, string, string, string]
+        >;
         fill: ModeText<string[]>;
         stroke: ModeText<string[]>;
         /** What to call no color */
@@ -84,6 +90,8 @@ type PageText = {
         horizontal: ButtonText;
         /** Flip path vertical */
         vertical: ButtonText;
+        /** Fit shapes to grid */
+        fit: ButtonText;
     };
     feedback: {
         /** When the name isn't a valid Wordplay name */

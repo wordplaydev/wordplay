@@ -112,6 +112,10 @@ export default class Words extends Content {
         return this.segments.filter((s) => s instanceof Node) as NodeSegment[];
     }
 
+    withSegments(segments: Segment[]) {
+        return new Words(this.open, segments, this.close);
+    }
+
     getPurpose() {
         return Purpose.Document;
     }

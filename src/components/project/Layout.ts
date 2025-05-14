@@ -3,6 +3,28 @@ import type Bounds from './Bounds';
 import Tile, { TileKind, TileMode } from './Tile';
 import TileKinds from './TileKinds';
 
+export type Position = {
+    /** A set of tile kinds or a source numbers that this is laying out. */
+    id: TileKind[];
+    /** The proportional position at which the tile should be positioned if expanded, between 0 and 1. Could be placed earlier if groups previous are not visible */
+    position: number;
+    /** Whether to share the space of tiles of the same kind on this axis. Undefined means false */
+    split?: boolean;
+};
+
+export type Axis = {
+    /** The axis this corresponds to */
+    direction: 'x' | 'y';
+    /** The splits to apply; should be monotonically increasing in position. */
+    positions: Position[];
+};
+
+/** The current layouts for each arrangement that supports splits. If null, there is no proportions, so we have defaults. */
+export type Splits = {
+    horizontal: Axis[] | null;
+    vertical: Axis[] | null;
+};
+
 export type SerializedTile = {
     id: TileKind | string;
     expanded: boolean;
@@ -14,21 +36,106 @@ export type SerializedTile = {
 export type SerializedLayout = {
     fullscreen: string | null;
     tiles: SerializedTile[];
+    /** Optional persistent splits defining the splits between tiles in vetical and horizontal layouts */
+    splits?: Splits | null;
 };
+
+const DefaultHorizontalSplits: Axis[] = [
+    {
+        direction: 'y',
+        positions: [
+            { id: [TileKind.Documentation], position: 0.0 },
+            { id: [TileKind.Collaborate], position: 0.5 },
+        ],
+    },
+    {
+        direction: 'x',
+        positions: [
+            {
+                id: [TileKind.Documentation, TileKind.Collaborate],
+                position: 0,
+            },
+            { id: [TileKind.Source], position: 0.25, split: true },
+            {
+                id: [TileKind.Output, TileKind.Palette],
+                position: 0.7,
+            },
+        ],
+    },
+    {
+        direction: 'y',
+        positions: [
+            {
+                id: [TileKind.Source],
+                position: 0.0,
+            },
+        ],
+    },
+    {
+        direction: 'y',
+        positions: [
+            { id: [TileKind.Output], position: 0.0 },
+            { id: [TileKind.Palette], position: 0.5 },
+        ],
+    },
+];
+
+const DefaultVerticalSplits: Axis[] = [
+    {
+        direction: 'x',
+        positions: [
+            { id: [TileKind.Documentation], position: 0.0 },
+            { id: [TileKind.Collaborate], position: 0.5 },
+        ],
+    },
+    {
+        direction: 'x',
+        positions: [
+            {
+                id: [TileKind.Source],
+                position: 0.0,
+            },
+        ],
+    },
+    {
+        direction: 'y',
+        positions: [
+            {
+                id: [TileKind.Documentation, TileKind.Collaborate],
+                position: 0,
+            },
+            { id: [TileKind.Source], position: 0.25, split: true },
+            {
+                id: [TileKind.Output, TileKind.Palette],
+                position: 0.7,
+            },
+        ],
+    },
+    {
+        direction: 'x',
+        positions: [
+            { id: [TileKind.Output], position: 0.0 },
+            { id: [TileKind.Palette], position: 0.5 },
+        ],
+    },
+];
 
 export default class Layout {
     readonly projectID: string;
     readonly tiles: Tile[];
     readonly fullscreenID: string | undefined;
+    readonly splits: Splits | null;
 
     constructor(
         projectID: string,
         tiles: Tile[],
         fullscreenID: string | undefined,
+        splits: Splits | null,
     ) {
         this.projectID = projectID;
         this.fullscreenID = fullscreenID;
         this.tiles = tiles;
+        this.splits = splits ?? null;
     }
 
     toObject(): SerializedLayout {
@@ -43,6 +150,7 @@ export default class Layout {
                     position: tile.position,
                 };
             }),
+            splits: this.splits,
         };
     }
 
@@ -59,12 +167,32 @@ export default class Layout {
                               tile.expanded
                                   ? TileMode.Expanded
                                   : TileMode.Collapsed,
-                              tile.bounds ?? undefined,
+                              tile.bounds
+                                  ? {
+                                        ...tile.bounds,
+                                        left: Math.max(0, tile.bounds.left),
+                                        top: Math.max(0, tile.bounds.top),
+                                    }
+                                  : undefined,
                               tile.position ?? undefined,
                           ),
                   ),
                   layout.fullscreen ?? undefined,
+                  layout.splits ?? null,
               );
+    }
+
+    // Given the current arrangement, get a list of axes for layout, including default proportions if not defined.
+    getSplits(arrangement: Arrangement, width: number, height: number) {
+        return arrangement === Arrangement.Horizontal
+            ? (this.splits?.horizontal ?? DefaultHorizontalSplits)
+            : arrangement === Arrangement.Vertical
+              ? (this.splits?.vertical ?? DefaultVerticalSplits)
+              : arrangement === Arrangement.Responsive
+                ? width > height
+                    ? (this.splits?.horizontal ?? DefaultHorizontalSplits)
+                    : (this.splits?.vertical ?? DefaultVerticalSplits)
+                : null;
     }
 
     isFullscreen() {
@@ -122,6 +250,10 @@ export default class Layout {
         return this.tiles.filter((tile) => tile.id.startsWith('source'));
     }
 
+    getVisibleSourceCount() {
+        return this.getSources().filter((s) => s.isExpanded()).length;
+    }
+
     getNonSources() {
         return this.tiles
             .filter((tile) => !tile.id.startsWith('source'))
@@ -144,11 +276,17 @@ export default class Layout {
                       ...this.tiles.slice(index + 1),
                   ],
                   this.fullscreenID,
+                  this.splits,
               );
     }
 
     withTiles(tiles: Tile[]) {
-        return new Layout(this.projectID, tiles, this.fullscreenID);
+        return new Layout(
+            this.projectID,
+            tiles,
+            this.fullscreenID,
+            this.splits,
+        );
     }
 
     /**  Adds any of the given tiles not in the current layout, based on id.*/
@@ -171,11 +309,23 @@ export default class Layout {
                       tile,
                   ],
                   this.fullscreenID,
+                  this.splits,
               );
     }
 
     withTileBounds(tile: Tile, bounds: Bounds) {
         return this.replace(tile, tile.withBounds(bounds));
+    }
+
+    getTileBounds(tile: Tile) {
+        return (
+            tile.bounds ?? {
+                left: 0,
+                top: 0,
+                width: 0,
+                height: 0,
+            }
+        );
     }
 
     withTilePosition(tile: Tile, bounds: Bounds) {
@@ -194,11 +344,12 @@ export default class Layout {
                 tile.id === tileID ? tile.withMode(TileMode.Expanded) : tile,
             ),
             tileID,
+            this.splits,
         );
     }
 
     withoutFullscreen() {
-        return new Layout(this.projectID, this.tiles, undefined);
+        return new Layout(this.projectID, this.tiles, undefined, this.splits);
     }
 
     collapsed() {
@@ -221,189 +372,135 @@ export default class Layout {
                 : this.positioned();
     }
 
-    /* A stack of output and source files with optional palette next to output and docs next to source */
-    vertical(width: number, height: number) {
+    /** Take a generic specification for a layout on axes, determining the position and size of each tile. */
+    onAxes(axes: Axis[], width: number, height: number): Layout {
+        // Make a new layout that we'll iteratively update.
         let newLayout: Layout = new Layout(
             this.projectID,
             this.tiles,
             this.fullscreenID,
+            this.splits,
         );
-        const expanded = this.expanded();
 
-        const output = expanded.find((tile) => tile.id === TileKind.Output);
-        const palette = expanded.find((tile) => tile.id === TileKind.Palette);
-        const sources = expanded.filter((tile) => tile.id.startsWith('source'));
-        const docs = expanded.find(
-            (tile) => tile.id === TileKind.Documentation,
-        );
-        const chat = expanded.find((tile) => tile.id === TileKind.Collaborate);
+        // Given a layout and direction, layout all of the position and size of the tiles on the corresponding axis.
+        function position(layout: Layout, direction: 'x' | 'y') {
+            // Find the axes on this direction.
+            const correspondingAxes = axes.filter(
+                (a) => a.direction === direction,
+            );
 
-        let top = 0;
-        const tileHeight =
-            height /
-            ((output ? 1 : 0) +
-                (palette ? 1 : 0) +
-                (docs ? 1 : 0) +
-                (chat ? 1 : 0) +
-                sources.length);
+            // Determine the length on this axis
+            const length = direction === 'x' ? width : height;
 
-        // The vertical layout is a stack of tiles, with the output at the top, followed by the sources, then other tiles.
+            // For each axes, determine the position and size of the tiles on this axis.
+            for (const axis of correspondingAxes) {
+                // Track the previous position and length on the axis, so we can position each tile appropriately.
+                let previousPosition = undefined;
 
-        // If the output is expanded, give it a portion.
-        if (output) {
-            newLayout = newLayout.withTileBounds(output, {
-                left: 0,
-                top: top,
-                width: width,
-                height: tileHeight,
-            });
-            top += tileHeight;
+                // For each of the splits on this axis, determine if the referenced tiles are visible, and
+                // if so, set their position based on the requested position and their size based on the position of the
+                // position of the next visible tile, or the remainder of the axis if there are no visible tiles after it.
+                for (let index = 0; index < axis.positions.length; index++) {
+                    const group = axis.positions[index];
+                    // Get the tiles referenced in this split and see if they are expanded.
+                    const visibleTiles = layout.tiles.filter(
+                        (t) => group.id.includes(t.kind) && t.isExpanded(),
+                    );
+
+                    // Get the group with an expanded tile after this group, if any.
+                    const subsequentVisibleTile: Position | undefined =
+                        axis.positions
+                            .slice(index + 1)
+                            .filter((split) =>
+                                split.id.some((id) =>
+                                    layout.tiles.find(
+                                        (t) => t.kind === id && t.isExpanded(),
+                                    ),
+                                ),
+                            )[0];
+
+                    // Set the position of the tiles based on the requested position.
+                    // Set the width/height of the tile based on the position of the next tile or the end of the axis.
+                    const proporitionalPosition =
+                        previousPosition === undefined ? 0 : group.position;
+                    const position: number =
+                        previousPosition === undefined
+                            ? 0
+                            : proporitionalPosition * length;
+                    const size =
+                        ((subsequentVisibleTile
+                            ? subsequentVisibleTile.position
+                            : 1) -
+                            proporitionalPosition) *
+                        length;
+
+                    // Remember what we chose.
+                    if (visibleTiles.length > 0) previousPosition = position;
+
+                    // Split the visible tiles into groups based on their kind.
+                    const visibleKinds = new Map<TileKind, Tile[]>();
+                    for (const tile of visibleTiles) {
+                        const kind = tile.kind;
+                        if (!visibleKinds.has(kind)) visibleKinds.set(kind, []);
+                        visibleKinds.get(kind)?.push(tile);
+                    }
+
+                    // Split up the space for each type of visible tile.
+                    for (const tiles of visibleKinds.values()) {
+                        let currentPosition = position;
+                        for (const tile of tiles) {
+                            const currentBounds = layout.getTileBounds(tile);
+                            layout = layout.withTileBounds(tile, {
+                                ...currentBounds,
+                                ...(direction === 'x'
+                                    ? {
+                                          left: group.split
+                                              ? currentPosition
+                                              : position,
+                                          width: group.split
+                                              ? size / tiles.length
+                                              : size,
+                                      }
+                                    : {
+                                          top: group.split
+                                              ? currentPosition
+                                              : position,
+                                          height: group.split
+                                              ? size / tiles.length
+                                              : size,
+                                      }),
+                            });
+                            currentPosition += size / tiles.length;
+                        }
+                    }
+                }
+            }
+            return layout;
         }
 
-        // Add the sources next
-        for (const tile of sources) {
-            newLayout = newLayout.withTileBounds(tile, {
-                left: 0,
-                top: top,
-                width: width,
-                height: tileHeight,
-            });
-            top += tileHeight;
-        }
-
-        // Then add the palette
-        if (palette) {
-            newLayout = newLayout.withTileBounds(palette, {
-                left: 0,
-                top: top,
-                width: width,
-                height: tileHeight,
-            });
-            top += tileHeight;
-        }
-
-        if (docs) {
-            newLayout = newLayout.withTileBounds(docs, {
-                left: 0,
-                top: top,
-                width: width,
-                height: tileHeight,
-            });
-            top += tileHeight;
-        }
-
-        if (chat) {
-            newLayout = newLayout.withTileBounds(chat, {
-                left: 0,
-                top: top,
-                width: width,
-                height: tileHeight,
-            });
-        }
+        // Layout on each axis according to the specification.
+        newLayout = position(newLayout, 'x');
+        newLayout = position(newLayout, 'y');
 
         return newLayout;
     }
 
+    /* A stack of output and source files with optional palette next to output and docs next to source */
+    vertical(width: number, height: number) {
+        return this.onAxes(
+            this.splits?.vertical ?? DefaultVerticalSplits,
+            width,
+            height,
+        );
+    }
+
     /* Docs on the left, then source, then output, with optional palette below it */
     horizontal(width: number, height: number) {
-        let newLayout: Layout = new Layout(
-            this.projectID,
-            this.tiles,
-            this.fullscreenID,
+        return this.onAxes(
+            this.splits?.horizontal ?? DefaultHorizontalSplits,
+            width,
+            height,
         );
-        const expanded = this.expanded();
-
-        const output = expanded.find((tile) => tile.id === TileKind.Output);
-        const palette = expanded.find((tile) => tile.id === TileKind.Palette);
-        const chat = expanded.find((tile) => tile.id === TileKind.Collaborate);
-        const sources = expanded.filter((tile) => tile.id.startsWith('source'));
-        const docs = expanded.find(
-            (tile) => tile.id === TileKind.Documentation,
-        );
-
-        let left = 0;
-        const tileWidth =
-            width /
-            ((docs || chat ? 0.5 : 0) +
-                sources.length +
-                (output || palette ? 1 : 0));
-
-        // Docs first, if expanded, gets half a tile width
-        if (docs || chat) {
-            if (docs && chat) {
-                newLayout = newLayout
-                    .withTileBounds(docs, {
-                        left: left,
-                        top: 0,
-                        width: tileWidth / 2,
-                        height: height / 2,
-                    })
-                    .withTileBounds(chat, {
-                        left: left,
-                        top: height / 2,
-                        width: tileWidth / 2,
-                        height: height / 2,
-                    });
-            } else if (docs) {
-                newLayout = newLayout.withTileBounds(docs, {
-                    left: left,
-                    top: 0,
-                    width: tileWidth / 2,
-                    height: height,
-                });
-            } else if (chat) {
-                newLayout = newLayout.withTileBounds(chat, {
-                    left: left,
-                    top: 0,
-                    width: tileWidth / 2,
-                    height: height,
-                });
-            }
-            left += tileWidth / 2;
-        }
-
-        // Sources next
-        for (const tile of sources) {
-            newLayout = newLayout.withTileBounds(tile, {
-                left: left,
-                top: 0,
-                width: tileWidth,
-                height: height,
-            });
-            left += tileWidth;
-        }
-
-        if (output && palette) {
-            newLayout = newLayout
-                .withTileBounds(output, {
-                    left: left,
-                    top: 0,
-                    width: tileWidth,
-                    height: height / 2,
-                })
-                .withTileBounds(palette, {
-                    left: left,
-                    top: height / 2,
-                    width: tileWidth,
-                    height: height / 2,
-                });
-        } else if (output) {
-            newLayout = newLayout.withTileBounds(output, {
-                left: left,
-                top: 0,
-                width: tileWidth,
-                height: height,
-            });
-        } else if (palette) {
-            newLayout = newLayout.withTileBounds(palette, {
-                left: left,
-                top: 0,
-                width: tileWidth,
-                height: height,
-            });
-        }
-
-        return newLayout;
     }
 
     positioned() {
@@ -411,6 +508,7 @@ export default class Layout {
             this.projectID,
             this.tiles,
             this.fullscreenID,
+            this.splits,
         );
         for (const tile of this.tiles)
             newLayout = newLayout.withTileBounds(tile, tile.position);
@@ -434,11 +532,63 @@ export default class Layout {
         return positions;
     }
 
+    withSplit(
+        arrangement: Arrangement,
+        axis: number,
+        index: number,
+        split: number,
+        width: number,
+        height: number,
+    ) {
+        // Constrain the split
+        if (split < 0) split = 0;
+        if (split > 1) split = 1;
+
+        if (
+            arrangement !== Arrangement.Horizontal &&
+            arrangement !== Arrangement.Vertical &&
+            arrangement !== Arrangement.Responsive
+        )
+            return this;
+        const horizontal =
+            arrangement === Arrangement.Horizontal ||
+            (arrangement === Arrangement.Responsive && width > height);
+
+        // Initialize the splits if null.
+        let newSplits = JSON.parse(
+            JSON.stringify(
+                this.splits ?? {
+                    horizontal: DefaultHorizontalSplits,
+                    vertical: DefaultVerticalSplits,
+                },
+            ),
+        );
+
+        // Update the split at the given index.
+        if (horizontal && newSplits.horizontal !== null) {
+            if (newSplits.horizontal[axis].positions[index].position === split)
+                return this;
+            newSplits.horizontal[axis].positions[index].position = split;
+        } else if (!horizontal && newSplits.vertical !== null) {
+            if (newSplits.vertical[axis].positions[index].position === split)
+                return this;
+            newSplits.vertical[axis].positions[index].position = split;
+        }
+
+        return new Layout(
+            this.projectID,
+            this.tiles,
+            this.fullscreenID,
+            newSplits,
+        );
+    }
+
     isEqualTo(layout: Layout) {
         return (
             layout.fullscreenID === this.fullscreenID &&
             this.tiles.length === layout.tiles.length &&
-            this.tiles.every((t, index) => t.isEqualTo(layout.tiles[index]))
+            this.tiles.every((t, index) => t.isEqualTo(layout.tiles[index])) &&
+            JSON.stringify(this.splits) === JSON.stringify(layout.splits)
         );
     }
 }

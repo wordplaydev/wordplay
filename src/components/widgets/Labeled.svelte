@@ -13,7 +13,7 @@
         label: LocaleTextAccessor;
         column?: boolean;
         children: Snippet;
-        fixed?: string;
+        fixed?: string | undefined;
     } = $props();
 </script>
 
@@ -37,7 +37,6 @@
 
     label .label {
         font-style: italic;
-        font-size: var(--wordplay-small-font-size);
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);

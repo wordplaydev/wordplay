@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "tr",
-    "region": "TR",
+    "regions": ["TR"],
     "wordplay": "$~Kelime oyunu",
     "term": {
         "bind": "$~bağlamak",
@@ -307,8 +307,12 @@
             "doc": [
                 "$~Ben Verse karakterine bir bağlantıyım. @Doc yazmak ve bizden birine referans olmak istediğinizde yardımcı olurum.",
                 "$~Örneğin, @Evaluate hakkında konuşmak istediğinizi ve ne kadar harika olduklarını varsayalım. Şunu yazabilirsiniz:",
-                "$~\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir konsept bağlantısı!'\\",
-                "$~Yazdığınız @Doc burada göründüğünde, konsepte bir bağlantı gösterilecektir."
+                "$~\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir karakter bağlantısı!'\\",
+                "$~Karakterlerin de kendilerine karşılık gelen sayıları vardır. Örneğin, @FunctionDefinition 192'dir. Onlara numarayla başvurabilirsiniz ve şu şekilde görünürler:",
+                "$~\\`92 çok güzel!`\\",
+                "$~Ve eğer kendi karakterinizi yaratırsanız, onlara verdiğiniz isimle hitap edebilirsiniz.",
+                "$~\\`@coolbeans`\\",
+                "$~Oh... Sanırım o karakter yok, bu yüzden küçük bir kare elde ediyorsunuz. Ama olsaydı, burada görünürdüler!"
             ]
         },
         "Words": {
@@ -455,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~$1'i görmezden geleceğim, çünkü hiçbir şeyi tanımlamıyor ve son ifadem de değil.",
                     "secondary": "$~@Block, beni görmezden gelme!",
-                    "resolution": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum."
+                    "resolution": {
+                        "binary": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum.",
+                        "evaluate": "$~Bunun bir @Evaluate olmasını mı istediniz? İki ayrı ifade yerine, tek bir ifade yapmak için bu alanı kaldırabilirim."
+                    }
                 }
             }
         },
@@ -1102,7 +1109,8 @@
                 "address": "$~*$1* birinin ev adresi mi? Eğer öyleyse, beni buraya koymayın, kimsenin takip edilmesini istemiyoruz!\n\n$2",
                 "handle": "$~*$1* internetteki başka bir yer için kullanıcı adınız mı? Eğer öyleyse, gerçekten istemedikçe beni burada paylaşmayın.\n\n$2",
                 "resolution": "$~Bu hassas bir veri değil",
-                "reminder": "$~Not: Bu işlemi geri alabilir ve paylaşım iletişim kutusunda hassas olmayan olarak işaretlediğiniz diğer şeyleri görebilirsiniz."
+                "reminder": "$~Not: Bu işlemi geri alabilir ve paylaşım iletişim kutusunda hassas olmayan olarak işaretlediğiniz diğer şeyleri görebilirsiniz.",
+                "character": "$~Bu bir karakter ismine benziyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın."
             }
         },
         "FormattedLiteral": {
@@ -1550,10 +1558,12 @@
                 "$~Beni açarsan kapatmayı unutma ve eşleşen sembolü kullan. Aksi takdirde sözlerini bitirdiğini bilemem.",
                 "$~\\'merhaba'/en'hola'/es-MX\\",
                 "$~Ayrıca beni dillerle etiketleyebilir ve hatta birden fazla çeviri verebilirsiniz. Eşleşen bir dil varsa, şu anda seçili olan dilleri değerlendireceğim.",
-                "$~Eğer beni başka değerlerle yapmak istiyorsanız, bir sembol kullanabilirsiniz.",
-                "$~Örneğin şunu düşünün:",
+                "$~Eğer beni başka değerlerle yapmak istiyorsanız, şunu yapabilirsiniz:",
                 "$~\\\"İşte bazı toplamlar \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~Şu toplamları ne kadar zarif bir şekilde değerlendirip @Text'in içine yerleştirdiğimi görüyor musunuz?",
+                "$~Son bir küçük sırrım daha var: Hepimizin benzersiz bir numaramız olduğunu biliyor muydunuz? Doğru! Bize numaramızla hitap edebilirsiniz. Örneğin, @FunctionDefinition 192'dir:",
+                "$~\\'92'\\",
+                "$~192'nin @FunctionDefinition'a nasıl dönüştüğünü görüyor musunuz? Bu sayılara 'Unicode' dediğinizi duyuyorum.",
                 "$~Aksi takdirde, @FunctionDefinition'ın benim için kelimelerle her türlü şeyi yapmamı sağlayan o kadar çok muhteşem fonksiyonu var ki!"
             ],
             "name": ["$~''", "$~Metin"],
@@ -4302,7 +4312,11 @@
                 "redo": "$~yapılmamış düzenlemeyi yeniden yap",
                 "search": "$~eklenecek özel karakterleri arayın",
                 "tidy": "$~düzenli aralık",
-                "elide": "$~geçişi değiştir"
+                "elide": "$~geçişi değiştir",
+                "expandBeforeInline": "$~seçimi genişletmeden önce",
+                "expandAfterInline": "$~seçimi genişlet",
+                "expandPriorLine": "$~seçimi önceki satıra genişlet",
+                "expandNextLine": "$~seçimi bir sonraki satıra genişlet"
             },
             "options": {
                 "locale": {
@@ -4543,6 +4557,58 @@
                     "insertCode": "$~Sokmak",
                     "debug": "$~Hata ayıklama"
                 }
+            },
+            "feedback": {
+                "header": "$~Geri bildirim",
+                "explanation": "$~Wordplay'i geliştirmemize yardımcı olmak için 🪲 *sorunları* bildirin ve 💡 *fikirleri* paylaşın!",
+                "button": {
+                    "show": "$~Geri bildirim formunu göster.",
+                    "submit": {
+                        "tip": "$~Geri bildiriminizi gönderin.",
+                        "label": "$~göndermek"
+                    },
+                    "delete": {
+                        "description": "$~Geri bildiriminizi silin.",
+                        "prompt": "$~silmek"
+                    },
+                    "like": "$~Bu geri bildirimi beğenin",
+                    "close": {
+                        "label": "$~kapalı",
+                        "tip": "$~Bu geri bildirimi moderatör olarak kapatın"
+                    }
+                },
+                "mode": {
+                    "label": "$~geri bildirim",
+                    "modes": ["$~kusurlar", "$~fikirler"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Geri bildiriminizin başlığı",
+                        "placeholder": "$~başlık"
+                    },
+                    "defect": {
+                        "description": "$~Kusurunuzun açıklaması",
+                        "placeholder": "$~Hangi adımları attınız? Sonrasında ne oldu? Mümkün olduğunca net olun."
+                    },
+                    "idea": {
+                        "description": "$~Kusurunuzun açıklaması",
+                        "placeholder": "$~Ne yapmaya çalışıyorsun da yapamıyorsun?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~kusur",
+                    "idea": "$~fikir"
+                },
+                "prompt": {
+                    "defect": "$~Yaşadığınız sorunu göremiyor musunuz? Buradan bildirin.",
+                    "idea": "$~Aklınıza gelen fikri göremiyor musunuz? Önerin."
+                },
+                "error": {
+                    "login": "$~Geri bildirim göndermek için giriş yapmış olmanız gerekir",
+                    "submit": "$~Geri bildirim gönderilemedi.",
+                    "load": "$~Geri bildirim yüklenemiyor",
+                    "empty": "$~Gösterilecek geri bildirim yok."
+                }
             }
         },
         "collaborate": {
@@ -4621,8 +4687,8 @@
                 "offerPhrase": "$~Ne güzel bir değer yaratmışsınız! @Stage'de göstereyim mi?",
                 "offerGroup": "$~Ne harika bir @Phrase yapmışsın. Bunları bir @Phrase'ta bir araya getirip düzenlemek ister misin?",
                 "offerStage": "$~ÇOK İYİ @Program. AYDINLATMAYI, RENKLERİ, ÇERÇEVELERİ KONTROL ETMEK İÇİN BENİ EKLEYİN.",
-                "pauseToEdit": "$~Sahneyi ⏸️ seçerseniz düzenlemek için 💬, 🔳 veya 🎭 seçebilirsiniz!",
-                "editing": "$~Beni düzenle!"
+                "editing": "$~Beni düzenle!",
+                "select": "$~Düzenlemek için kodda 💬, 🔳 veya 🎭 işaretini seçin ya da sahneyi ⏸️ seçip çıktıyı seçin."
             },
             "field": {
                 "coordinate": "$~Koordinatı düzenle",
@@ -4825,7 +4891,6 @@
             "projects": {
                 "header": "$~Projeler",
                 "projectprompt": "$~Bir şey söylemeye hazır mısınız? Bir proje oluşturun veya üzerinde çalışın. Takılırsanız, <learning@://learn>'e devam edin.",
-                "archiveheader": "$~Arşivlendi",
                 "archiveprompt": "$~Bunlar arşivlediğiniz projelerdir. Yalnızca sahipleri bunları kalıcı olarak silebilir veya arşivden çıkarabilir. Arşivlenen projeler, son düzenlendikten 30 gün sonra kalıcı olarak silinecektir.",
                 "galleriesheader": "$~Galeriler",
                 "galleryprompt": "$~Projelerinizin koleksiyonunu başkalarıyla paylaşmak için galeriler oluşturun ve düzenleyin.",
@@ -4856,6 +4921,10 @@
                     "newgallery": "$~Yeni bir galeri oluşturamadık.",
                     "nodeletes": "$~Arşivlenmiş projeleri silmek için giriş yapmanız gerekmektedir.",
                     "delete": "$~Oops, projeyi silemedik!"
+                },
+                "subheader": {
+                    "shared": "$~Paylaşılan",
+                    "archived": "$~Arşivlendi"
                 }
             },
             "galleries": {
@@ -4893,7 +4962,7 @@
                     "enter": "$~Giriş bağlantınız farklı bir tarayıcıdan veya cihazdan gelmiş gibi görünüyor. Siz olduğunuzdan emin olmak için e-postanızı tekrar girebilir misiniz?",
                     "play": "$~Giriş yaptınız, projelerinizi artık çevrimiçi olarak kaydedebiliriz! Bir şey oluşturmak ister misiniz?",
                     "tooyoung": "$~E-posta ile giriş yapabilmek için 13 yaşında veya daha büyük olmanız gerekmektedir.",
-                    "passwordrule": "$~Şifreleriniz en az 10 karakter uzunluğunda olmalı; eğer şifre yöneticisi kullanmıyorsanız hatırlayabileceğiniz üç uzun kelime seçin.",
+                    "passwordrule": "$~Şifreleriniz en az 6 karakter uzunluğunda olmalı; eğer şifre yöneticisi kullanmıyorsanız hatırlayabileceğiniz üç uzun kelime seçin.",
                     "passwordreminder": "$~Henüz bir hesabınız yok gibi görünüyor. Şifrenizi tekrar girin ve kurtarılamaz olduğundan güvenli ve doğru bir şekilde sakladığınızdan emin olun.",
                     "changeEmail": "$~E-postanızı değiştirmek mi istiyorsunuz? Yeni bir tane gönderin, eskisine bir onay gönderelim.",
                     "changePassword": "$~Şifrenizi değiştirmek mi istiyorsunuz? Yeni bir şifre gönderip tekrarlayın.",
@@ -4917,7 +4986,7 @@
                     "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
                     "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",
                     "invalidUsername": "$~Kullanıcı adları e-posta veya 5 harften fazla olmamalı ve boşluk içermemelidir.",
-                    "invalidPassword": "$~Şifreler en az 10 karakter uzunluğunda olmalıdır.",
+                    "invalidPassword": "$~Şifreler en az 6 karakter uzunluğunda olmalıdır.",
                     "mismatched": "$~Şifreler uyuşmuyor."
                 },
                 "feedback": {
@@ -4936,7 +5005,7 @@
                         "placeholder": "$~kullanıcı adı"
                     },
                     "password": {
-                        "description": "$~giriş şifresi, en az 10 karakter",
+                        "description": "$~giriş şifresi, en az 6 karakter",
                         "placeholder": "$~şifre"
                     },
                     "currentPassword": {
@@ -4977,7 +5046,7 @@
                 "prompt": {
                     "create": "$~Projelerinizi kaydetmek, başkalarıyla işbirliği yapmak ve çalışmalarınızı paylaşmak için bir hesap oluşturun.",
                     "username": "$~Kullanıcı adları en az /5 karakter/ olmalı, e-posta olmamalı ve adınızı veya diğer tanımlayıcı bilgileri içermemelidir.",
-                    "password": "$~Şifreler en az /10 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz."
+                    "password": "$~Şifreler en az /6 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz."
                 }
             },
             "rights": {
@@ -5026,12 +5095,20 @@
                 "header": "$~Karakterler",
                 "prompt": "$~Projelerinizde kullanmak ve başkalarıyla paylaşmak için özel emojiler ve semboller oluşturun.",
                 "button": {
-                    "new": "$~Yeni bir karakter yarat"
+                    "new": "$~Yeni bir karakter yarat",
+                    "copy": "$~Bu karakteri kopyala",
+                    "remove": {
+                        "tip": "$~Bu karakteri sil",
+                        "prompt": "$~silmek?"
+                    }
                 },
                 "error": {
                     "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",
                     "noauth": "$~Karakterlerinizi görmek ve yeni karakterler oluşturmak için giriş yapmanız gerekmektedir.",
                     "create": "$~Yeni bir karakter oluşturulamıyor."
+                },
+                "subheader": {
+                    "shared": "$~Paylaşılan"
                 }
             },
             "character": {
@@ -5041,17 +5118,21 @@
                     "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
                     "unselected": "$~Bir çizim modu seçin veya şekilleri seçip düzenleyin.",
                     "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullanın. Seçime daha fazla şekil eklemek için *shift* tuşuna basılı tutun. Seçimi kaldırmak için *delete* tuşunu kullanın. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullanın.",
-                    "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın.",
+                    "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın. Doldurmak için *çift tıklayın*.",
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
-                    "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır."
+                    "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
+                    "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
+                    "emoji": "$~Piksel olarak içe aktaracağınız emojiyi seçin, ardından istediğiniz gibi değiştirin."
                 },
                 "shape": {
                     "shape": "$~şekil",
                     "pixel": "$~piksel",
                     "rect": "$~dikdörtgen",
                     "ellipse": "$~elips",
-                    "path": "$~yol"
+                    "path": "$~yol",
+                    "eraser": "$~silgi",
+                    "emoji": "$~emoji"
                 },
                 "field": {
                     "name": {
@@ -5066,10 +5147,12 @@
                         "label": "$~mod",
                         "modes": [
                             "$~seçme",
+                            "$~silgi",
                             "$~piksel",
                             "$~dikdörtgen",
                             "$~elips",
-                            "$~yol"
+                            "$~yol",
+                            "$~emoji"
                         ]
                     },
                     "fill": {
@@ -5160,6 +5243,10 @@
                     "vertical": {
                         "label": "$~dikey çevir",
                         "tip": "$~Noktaları merkez etrafında dikey olarak çevirin"
+                    },
+                    "fit": {
+                        "label": "$~yerleştirmek",
+                        "tip": "$~şekilleri tuvale uydur"
                     }
                 },
                 "feedback": {
@@ -5210,7 +5297,9 @@
             "replace": "$~/İçeri girmek istiyor…/",
             "wrap": "$~parantez içine almak",
             "unwrap": "$~açmak",
-            "bind": "$~bu ifadeyi adlandırın"
+            "bind": "$~bu ifadeyi adlandırın",
+            "range": "$~1$'dan $2'a kadar seçim",
+            "show": "$~… daha fazlasını göster"
         },
         "template": {
             "unwritten": "$~Belirsiz",
@@ -5272,6 +5361,10 @@
         "tools": {
             "name": "$~Aletler",
             "description": "$~Basit yardımcı programlar ve uygulamalar."
+        },
+        "stories": {
+            "name": "$~Hikayeler",
+            "description": "$~Etkileşimli hikayeler ve anlatılar."
         }
     }
 }

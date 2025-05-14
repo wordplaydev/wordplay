@@ -2,7 +2,7 @@
     import { DRAFT_SYMBOL } from '@parser/Symbols';
     import {
         getLocaleLanguageName,
-        getLocaleRegionName,
+        getLocaleRegionNames,
         isLocaleDraft,
     } from '../../locale/LocaleText';
     import { withColorEmoji } from '../../unicode/emoji';
@@ -14,14 +14,18 @@
 
     let { locale, supported }: Props = $props();
 
-    let region = $derived(getLocaleRegionName(locale));
+    let regions = $derived(getLocaleRegionNames(locale));
     let draft = $derived(isLocaleDraft(locale));
 </script>
 
 <span class="language" class:supported>
     {#if draft}{withColorEmoji(DRAFT_SYMBOL)}{/if}
     <span class="name">{getLocaleLanguageName(locale)}</span>
-    {#if region}<sub>{region}</sub>{/if}
+    {#each regions as region, index}<sub
+            >{#if index > 0}
+                /
+            {/if}{region}</sub
+        >{/each}
 </span>
 
 <style>

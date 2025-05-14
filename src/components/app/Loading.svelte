@@ -12,6 +12,8 @@
     .container {
         width: 100vw;
         height: 100vh;
+        max-width: 100%;
+        max-height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;

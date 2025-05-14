@@ -28,7 +28,7 @@ export function createUnwrittenLocale(): LocaleText {
     let locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
 
     // Find the translatable pairs
-    const pairs = getTranslatableLocalePairs(locale);
+    const pairs = getCheckableLocalePairs(locale);
 
     // Mark all strings as unwritten
     for (const pair of pairs)
@@ -44,7 +44,7 @@ export function createUnwrittenLocale(): LocaleText {
 }
 
 /** Get translatable keys for locale text */
-export function getTranslatableLocalePairs(locale: LocaleText): LocalePath[] {
+export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
     // Find the translatable pairs
     return getKeyTemplatePairs(locale).filter((pair) => {
         // Emotion? Skip it.
@@ -55,7 +55,7 @@ export function getTranslatableLocalePairs(locale: LocaleText): LocalePath[] {
             pair.top() &&
             (pair.key === '$schema' ||
                 pair.key === 'language' ||
-                pair.key === 'region')
+                pair.key === 'regions')
         )
             return false;
 
@@ -95,7 +95,7 @@ export async function verifyLocale(
         log,
         revisedText,
         DefaultLocale,
-        locale !== 'example',
+        true,
         translate && locale !== 'en-US',
         revisedStrings,
         globalNames,
@@ -117,8 +117,8 @@ async function checkLocale(
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
 
-    // Get the key/value pairs
-    let pairs: LocalePath[] = getKeyTemplatePairs(revised);
+    // Get the key/value pairs to check.
+    let pairs: LocalePath[] = getCheckableLocalePairs(revised);
 
     // Find all of the unwritten strings.
     const unwritten = pairs
@@ -482,8 +482,10 @@ export function addMissingKeys(
                 ) {
                     for (let index = 0; index < targetValue.length; index++) {
                         const sourceValueElement = sourceValue[index];
+                        // Delete the value if there's no value at the source.
                         if (sourceValueElement === undefined)
                             delete targetValue[index];
+                        // If there is a value, add the missing key.
                         else
                             addMissingKeys(
                                 log,
@@ -495,6 +497,35 @@ export function addMissingKeys(
                     log.bad(
                         2,
                         `Target has the key ${key}, but it's not an array. Repair manually.`,
+                    );
+                }
+            } else if (
+                key !== 'names' &&
+                key !== 'doc' &&
+                key !== 'regions' &&
+                Array.isArray(sourceValue) &&
+                sourceValue.every((s) => typeof s === 'string')
+            ) {
+                if (
+                    Array.isArray(targetValue) &&
+                    targetValue.every((t) => typeof t === 'string')
+                ) {
+                    for (let index = 0; index < targetValue.length; index++) {
+                        const sourceValueElement = sourceValue[index];
+                        if (sourceValueElement === undefined)
+                            delete targetValue[index];
+                    }
+                    for (
+                        let index = targetValue.length;
+                        index < sourceValue.length;
+                        index++
+                    ) {
+                        targetValue[index] = Unwritten;
+                    }
+                } else {
+                    log.bad(
+                        2,
+                        `Target has the key ${key}, but it's not an array of strings: ${JSON.stringify(targetValue)}. Repair manually.`,
                     );
                 }
             }

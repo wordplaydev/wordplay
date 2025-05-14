@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "de",
-    "region": "DE",
+    "regions": ["DE"],
     "wordplay": "Wordplay",
     "term": {
         "evaluate": "auswerten",
@@ -307,8 +307,12 @@
             "doc": [
                 "$~Ich bin ein Link zum Verse-Charakter. Ich bin hilfreich, wenn Sie ein @Doc schreiben und auf einen von uns verweisen möchten.",
                 "$~Angenommen, Sie möchten über @Evaluate sprechen und wie großartig sie sind. Sie könnten schreiben:",
-                "$~\\¶Wissen Sie, @Evaluate ist ziemlich genial.¶\n'Schauen Sie, ein Konzept-Link!'\\",
-                "$~Wenn das von Ihnen verfasste @Doc hier erscheint, wird ein Link zum Konzept angezeigt."
+                "$~\\¶Weißt du, @Evaluate ist echt genial.¶\n‚Schau mal, ein Zeichenlink!‘\\",
+                "$~Zeichen haben auch entsprechende Nummern. Beispielsweise ist @FunctionDefinition 192. Sie können sie über die Nummer aufrufen, und sie werden angezeigt:",
+                "$~\\`92 ist so nett!`\\",
+                "$~Und wenn Sie Ihren eigenen Charakter erstellen, können Sie ihn mit dem Namen ansprechen, den Sie ihm gegeben haben.",
+                "$~\\`@coolbeans`\\",
+                "$~Oh ... ich schätze, dieses Zeichen existiert nicht, also bekommst du ein kleines Quadrat. Aber wenn es das gäbe, würde es hier erscheinen!"
             ]
         },
         "Words": {
@@ -455,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Ich werde das oben Gesagte ignorieren.",
                     "secondary": "$~@Block, ignorier mich nicht!",
-                    "resolution": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben."
+                    "resolution": {
+                        "binary": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben.",
+                        "evaluate": "$~Wollten Sie, dass dies ein @Evaluate ist? Ich kann dieses Leerzeichen entfernen, um daraus einen statt zwei separate Ausdrücke zu machen."
+                    }
                 }
             }
         },
@@ -1082,7 +1089,8 @@
                 "address": "$~Ist *$1* die Privatadresse von jemandem? Wenn ja, dann schreib mich nicht hier rein, wir wollen nicht, dass jemand gestalkt wird!\n\n$2",
                 "handle": "$~Ist *$1* Ihr Benutzername für eine andere Stelle im Internet? Wenn ja, teilen Sie mich hier nicht mit, es sei denn, Sie möchten es wirklich.\n\n$2",
                 "resolution": "$~Dies sind keine sensiblen Daten",
-                "reminder": "$~Hinweis: Sie können diese Aktion rückgängig machen und im Freigabedialog andere Dinge sehen, die Sie als nicht vertraulich markiert haben."
+                "reminder": "$~Hinweis: Sie können diese Aktion rückgängig machen und im Freigabedialog andere Dinge sehen, die Sie als nicht vertraulich markiert haben.",
+                "character": "$~Dies sieht aus wie ein Zeichenname. Um diesen anzuzeigen, verwenden Sie @FormattedLiteral anstelle von @TextLiteral."
             }
         },
         "FormattedLiteral": {
@@ -1546,14 +1554,16 @@
                 "$~Ich kann jeder beliebige Text aus jeder beliebigen Sprache sein und die folgenden öffnenden und schließenden Symbole verwenden: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\ oder \\『』\\.",
                 "$~Zur Veranschaulichung betrachten Sie diese schönen Sätze",
                 "$~„Es gibt nur zwei Arten, sein Leben zu leben. Die eine ist, als wäre nichts ein Wunder. Die andere ist, als wäre alles ein Wunder.“",
-                "$~\\\"Die besten Seiten von heute\"\\",
-                "$~Denke nur daran, mich zu schließen, wenn du mich öffnest, und verwende das entsprechende Symbol. Sonst weiß ich nicht, dass du mit deinen Worten fertig bist.",
+                "$~\\『一日三秋』\\",
+                "$~Denk daran, mich zu schließen, wenn du mich öffnest, und verwende das entsprechende Symbol. Sonst weiß ich nicht, dass du mit deinen Worten fertig bist.",
                 "$~\\'hallo'/en'hola'/es-MX\\",
-                "$~Sie können mir auch Sprachen taggen und sogar mehrere Übersetzungen angeben. Ich werde die aktuell ausgewählten Sprachen auswerten, wenn eine passende Sprache vorhanden ist.",
-                "$~Wenn Sie mir andere Werte geben möchten, können Sie ein Symbol verwenden, um",
-                "$~Betrachten Sie beispielsweise Folgendes:",
+                "$~Sie können mir auch Sprachen taggen und sogar mehrere Übersetzungen angeben. Ich werte die aktuell ausgewählten Sprachen aus, sofern eine passende Sprache vorhanden ist.",
+                "$~Wenn Sie mir andere Werte geben möchten, können Sie Folgendes tun:",
                 "$~\\\"Hier sind einige Summen \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~Sehen Sie, wie elegant ich diese Summen gerade ausgewertet und in den @Text eingefügt habe?",
+                "$~Ich verrate Ihnen noch ein kleines Geheimnis: Wussten Sie, dass wir alle eine eindeutige Nummer haben? Stimmt! Sie können uns mit unserer Nummer erreichen. @FunctionDefinition lautet beispielsweise 192:",
+                "$~\\'92'\\",
+                "$~Sehen Sie, wie aus 192 @FunctionDefinition wurde? Ich habe gehört, Sie nennen diese Zahlen „Unicode“.",
                 "$~Ansonsten gibt es einfach so viele tolle Funktionen, die @FunctionDefinition für mich erstellt hat, um alle möglichen Dinge mit Wörtern zu tun!"
             ],
             "name": ["$~''", "$~Text"],
@@ -3170,11 +3180,11 @@
         "Collision": {
             "names": "$~Kollision",
             "doc": [
-                "$~/Hallo! @FunctionDefinition hier. Sieh dir diesen coolen Input an./",
-                "$~Damit können Sie herausfinden, wann @Output aufeinander stößt! Dies ist eine großartige Möglichkeit, etwas zu tun, wenn wir aufeinander stoßen, abgesehen vom normalen gegenseitigen Abprallen, das @Output möglicherweise bewirkt.",
-                "$~Geben Sie mir einfach den Namen @Output und ich erstelle einen neuen @Rebound-Wert, wenn er auf einen anderen Namen trifft. Ein @Rebound enthält Informationen zu den kollidierten Namen und der Richtung ihrer Kollision.",
+                "$~/Hallo! Hier ist @FunctionDefinition. Schau dir diesen coolen Input an./",
+                "$~Es kann Ihnen helfen herauszufinden, wann @Output aufeinander trifft! Dies ist eine großartige Möglichkeit, etwas zu tun, wenn wir aufeinander treffen, abgesehen vom normalen gegenseitigen Aufeinanderprallen, das @Output möglicherweise verursacht.",
+                "$~Geben Sie mir einfach den Namen @Output, und ich erstelle einen neuen @Rebound-Wert, sobald er auf einen anderen Namen trifft. Ein @Rebound enthält Informationen zu den kollidierenden Namen und deren Richtung.",
                 "$~Und wenn Sie mir zwei Namen geben, erstelle ich nur dann einen neuen Wert, wenn die beiden Namen aufeinandertreffen.",
-                "$~Gleich nachdem ich einen neuen Wert eingegeben habe, erstelle ich ein \\ø\\, da die Kollision nach ihrem Auftreten beendet ist. Dies zeigt an, dass keine weitere Kollision mehr vorliegt."
+                "$~Direkt nach der Eingabe eines neuen Werts setze ich ein \\ø\\, da die Kollision nach ihrem Auftreten beendet ist. Dies zeigt an, dass keine weitere Kollision vorliegt."
             ],
             "subject": {
                 "names": "$~Thema",
@@ -3436,7 +3446,9 @@
         },
         "Phrase": {
             "names": ["💬", "Satzglied"],
-            "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
+            "doc": [
+                "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen."
+            ],
             "description": {
                 "names": "$~Beschreibung",
                 "doc": [
@@ -4282,7 +4294,11 @@
                 "search": "$~Suche nach einzufügenden Sonderzeichen",
                 "tidy": "$~ordentlicher Abstand",
                 "elide": "$~Elision umschalten",
-                "insertDocs": "$~Erklärungssymbol einfügen"
+                "insertDocs": "$~Erklärungssymbol einfügen",
+                "expandBeforeInline": "$~Auswahl erweitern vor",
+                "expandAfterInline": "$~Auswahl erweitern nach",
+                "expandPriorLine": "$~Auswahl bis zur vorherigen Zeile erweitern",
+                "expandNextLine": "$~Auswahl bis zur nächsten Zeile erweitern"
             },
             "options": {
                 "locale": {
@@ -4528,6 +4544,58 @@
                     "insertCode": "$~Einfügen",
                     "debug": "$~Debuggen"
                 }
+            },
+            "feedback": {
+                "header": "$~Rückmeldung",
+                "explanation": "$~Helfen Sie uns, Wordplay zu verbessern, indem Sie 🪲 *Probleme* melden und 💡 *Ideen* teilen!",
+                "button": {
+                    "show": "$~Zeigen Sie das Feedback-Formular an.",
+                    "submit": {
+                        "tip": "$~Senden Sie Ihr Feedback.",
+                        "label": "$~einreichen"
+                    },
+                    "delete": {
+                        "description": "$~Löschen Sie Ihr Feedback.",
+                        "prompt": "$~löschen"
+                    },
+                    "like": "$~Gefällt mir dieses Feedback",
+                    "close": {
+                        "label": "$~schließen",
+                        "tip": "$~Als Moderator dieses Feedback schließen"
+                    }
+                },
+                "mode": {
+                    "label": "$~Rückmeldung",
+                    "modes": ["$~Mängel", "$~Ideen"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Titel Ihres Feedbacks",
+                        "placeholder": "$~Titel"
+                    },
+                    "defect": {
+                        "description": "$~Beschreibung Ihres Defekts",
+                        "placeholder": "$~Welche Schritte haben Sie unternommen? Was geschah danach? Seien Sie so präzise wie möglich."
+                    },
+                    "idea": {
+                        "description": "$~Beschreibung Ihres Defekts",
+                        "placeholder": "$~Was versuchen Sie zu tun, was Sie nicht können?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~Defekt",
+                    "idea": "$~Idee"
+                },
+                "prompt": {
+                    "defect": "$~Ist Ihr Problem nicht aufgetreten? Melden Sie es hier.",
+                    "idea": "$~Sie haben die Idee, die Sie sich vorstellen, nicht gefunden? Schlagen Sie sie vor."
+                },
+                "error": {
+                    "login": "$~Sie müssen angemeldet sein, um Feedback abzugeben",
+                    "submit": "$~Feedback kann nicht übermittelt werden.",
+                    "load": "$~Feedback konnte nicht geladen werden",
+                    "empty": "$~Es ist kein Feedback vorhanden."
+                }
             }
         },
         "palette": {
@@ -4569,8 +4637,8 @@
                 "offerPhrase": "$~Was für einen tollen Wert Sie geschaffen haben! Soll ich es auf @Stage zeigen?",
                 "offerGroup": "$~Was für eine wunderbare @Phrase du erstellt hast. Möchtest du sie in einer @Gruppe zusammenführen, um sie zu ordnen?",
                 "offerStage": "$~SEHR GUT @Programm. FÜGEN SIE MICH HINZU, UM BELEUCHTUNG, FARBEN UND RAHMEN ZU STEUERN.",
-                "pauseToEdit": "$~Wenn Sie die Phase ⏸️, können Sie ein 💬, 🔳 oder 🎭 zum Bearbeiten auswählen!",
-                "editing": "$~Bearbeite mich!"
+                "editing": "$~Bearbeite mich!",
+                "select": "$~Wählen Sie zum Bearbeiten ein 💬, 🔳 oder 🎭 im Code aus oder ⏸️ die Phase und wählen Sie „Ausgabe“ aus."
             },
             "field": {
                 "coordinate": "$~Koordinate bearbeiten",
@@ -4654,7 +4722,6 @@
             "projects": {
                 "header": "Projekte",
                 "projectprompt": "$~Bereit, etwas zu sagen? Erstellen Sie ein Projekt oder arbeiten Sie an einem. Wenn Sie nicht weiterkommen, <learning@://learn> weiter.",
-                "archiveheader": "$~Archiviert",
                 "archiveprompt": "$~Dies sind Projekte, die Sie archiviert haben. Nur Eigentümer können sie dauerhaft löschen oder aus dem Archiv entfernen. Archivierte Projekte werden 30 Tage nach ihrer letzten Bearbeitung dauerhaft gelöscht.",
                 "galleriesheader": "Galerien",
                 "galleryprompt": "$~Erstellen und kuratieren Sie Galerien, um eine Projektsammlung mit anderen zu teilen.",
@@ -4685,6 +4752,10 @@
                     "newgallery": "$~Wir konnten keine neue Galerie erstellen.",
                     "nodeletes": "$~Sie müssen angemeldet sein, um archivierte Projekte zu löschen.",
                     "delete": "$~Hoppla, wir konnten das Projekt nicht löschen!"
+                },
+                "subheader": {
+                    "shared": "$~Geteilt",
+                    "archived": "$~Archiviert"
                 }
             },
             "galleries": {
@@ -4719,7 +4790,7 @@
                     "email": "$~Haben Sie ein Nur-E-Mail-Konto? Melden Sie sich an, indem Sie Ihre E-Mail-Adresse angeben. Wenn ein Konto damit verknüpft ist, senden wir Ihnen eine E-Mail mit einem Anmeldelink. Neue Nur-E-Mail-Konten werden aus Datenschutzgründen nicht unterstützt.",
                     "enter": "$~Offenbar stammt Ihr Anmeldelink von einem anderen Browser oder Gerät. Können Sie Ihre E-Mail-Adresse noch einmal eingeben, damit wir sicher sind, dass Sie es sind?",
                     "tooyoung": "$~Sie müssen mindestens 13 Jahre alt sein, um sich mit einer E-Mail anzumelden.",
-                    "passwordrule": "$~Passwörter müssen mindestens 10 Zeichen lang sein. Wenn Sie keinen Passwort-Manager verwenden, wählen Sie drei lange Wörter, die Sie sich gut merken können.",
+                    "passwordrule": "$~Passwörter müssen mindestens 6 Zeichen lang sein. Wenn Sie keinen Passwort-Manager verwenden, wählen Sie drei lange Wörter, die Sie sich gut merken können.",
                     "passwordreminder": "$~Es sieht so aus, als ob Sie noch kein Konto haben. Geben Sie Ihr Passwort erneut ein und stellen Sie sicher, dass Sie es sicher und korrekt gespeichert haben, da es nicht wiederherstellbar ist.",
                     "play": "$~Sie sind angemeldet, wir können Ihre Projekte jetzt online speichern! Möchten Sie etwas erstellen?",
                     "changeEmail": "$~Möchten Sie Ihre E-Mail-Adresse ändern? Senden Sie eine neue und wir senden eine Bestätigung an die alte.",
@@ -4745,7 +4816,7 @@
                     "wrongPassword": "$~Kein gültiger Benutzername und Passwort. Entweder ist Ihr Passwort falsch oder jemand anderes hat diesen Benutzernamen.",
                     "tooMany": "$~Sie haben zu oft erfolglos versucht, sich anzumelden. Sie müssen warten, bevor Sie es erneut versuchen können.",
                     "invalidUsername": "$~Benutzernamen müssen E-Mail-Adressen oder >5 Buchstaben ohne Leerzeichen sein.",
-                    "invalidPassword": "$~Passwörter müssen mindestens 10 Zeichen lang sein.",
+                    "invalidPassword": "$~Passwörter müssen mindestens 6 Zeichen lang sein.",
                     "mismatched": "$~Die Passwörter stimmen nicht überein."
                 },
                 "feedback": {
@@ -4764,7 +4835,7 @@
                         "placeholder": "$~Nutzername"
                     },
                     "password": {
-                        "description": "$~Login-Passwort, mindestens 10 Zeichen",
+                        "description": "$~Login-Passwort, mindestens 6 Zeichen",
                         "placeholder": "$~Passwort"
                     },
                     "currentPassword": {
@@ -4806,7 +4877,7 @@
                 "prompt": {
                     "create": "$~Erstellen Sie ein Konto, um Ihre Projekte zu speichern, mit anderen zusammenzuarbeiten und Ihre Arbeit zu teilen.",
                     "username": "$~Benutzernamen müssen mindestens 5 Zeichen lang sein, dürfen keine E-Mail-Adresse sein und dürfen weder Ihren Namen noch andere identifizierende Informationen enthalten.",
-                    "password": "$~Passwörter müssen mindestens /10 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
+                    "password": "$~Passwörter müssen mindestens /6 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
                 }
             },
             "rights": {
@@ -4974,12 +5045,20 @@
                 "header": "$~Charaktere",
                 "prompt": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole, die Sie in Ihren Projekten verwenden und mit anderen teilen können.",
                 "button": {
-                    "new": "$~Einen neuen Charakter erstellen"
+                    "new": "$~Einen neuen Charakter erstellen",
+                    "copy": "$~Kopiere dieses Zeichen",
+                    "remove": {
+                        "tip": "$~Dieses Zeichen löschen",
+                        "prompt": "$~löschen?"
+                    }
                 },
                 "error": {
                     "offline": "$~Wir konnten nicht auf Ihre online gespeicherten Charaktere zugreifen.",
                     "noauth": "$~Sie müssen angemeldet sein, um Ihre Charaktere zu sehen und neue zu erstellen.",
                     "create": "$~Es kann kein neuer Charakter erstellt werden."
+                },
+                "subheader": {
+                    "shared": "$~Geteilt"
                 }
             },
             "character": {
@@ -4989,17 +5068,21 @@
                     "empty": "$~Wählen Sie einen Zeichenmodus in der Palette, um Formen zu erstellen.",
                     "unselected": "$~Wählen Sie einen Zeichenmodus oder wählen und bearbeiten Sie Formen.",
                     "selected": "$~Verwenden Sie die *Pfeiltasten*, um Formen zu verschieben. Halten Sie die *Umschalttaste* gedrückt, um einer Auswahl weitere Formen hinzuzufügen. Verwenden Sie *Entf*, um die Auswahl aufzuheben. Verwenden Sie die unten stehenden Steuerelemente, um die ausgewählten Formen zu ändern.",
-                    "pixel": "$~Um Pixel zu zeichnen, wählen Sie eine Farbe. Klicken Sie dann auf die Leinwand oder verwenden Sie die *Pfeile*, um den Cursor zu bewegen, und die *Leertaste*, um ein Pixel zu erstellen.",
+                    "pixel": "$~Um Pixel zu zeichnen, wählen Sie eine Farbe. Klicken Sie dann auf die Leinwand oder verwenden Sie die *Pfeile*, um den Cursor zu bewegen, und die *Leertaste*, um ein Pixel zu erstellen. *Doppelklicken* zum Füllen.",
                     "rect": "$~Um Rechtecke zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
                     "ellipse": "$~Um Ellipsen und Kreise zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
-                    "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt."
+                    "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt.",
+                    "eraser": "$~Um Formen zu löschen, klicken oder tippen Sie darauf. Ziehen Sie, um Pixel zu löschen. Verwenden Sie die Pfeiltasten, um den Radiergummi zu bewegen, und die Leertaste, um zu löschen.",
+                    "emoji": "$~Wählen Sie ein Emoji aus, das Sie als Pixel importieren möchten, und ändern Sie es dann nach Belieben."
                 },
                 "shape": {
                     "shape": "$~Form",
                     "pixel": "$~Pixel",
                     "rect": "$~Rechteck",
                     "ellipse": "$~Ellipse",
-                    "path": "$~Weg"
+                    "path": "$~Weg",
+                    "eraser": "$~Radiergummi",
+                    "emoji": "$~Emoji"
                 },
                 "field": {
                     "name": {
@@ -5014,10 +5097,12 @@
                         "label": "$~Modus",
                         "modes": [
                             "$~wählen",
+                            "$~Radiergummi",
                             "$~Pixel",
                             "$~Rechteck",
                             "$~Ellipse",
-                            "$~Weg"
+                            "$~Weg",
+                            "$~Emoji"
                         ]
                     },
                     "fill": {
@@ -5108,6 +5193,10 @@
                     "vertical": {
                         "label": "$~vertikal spiegeln",
                         "tip": "$~Drehen Sie die Punkte vertikal um die Mitte"
+                    },
+                    "fit": {
+                        "label": "$~fit",
+                        "tip": "$~Passen Sie die Formen an die Leinwand an"
                     }
                 },
                 "feedback": {
@@ -5149,7 +5238,7 @@
             "node": "$~$1$2[, Typ $2|]",
             "before": "$~vor $1[$1|Ende]",
             "inside": "$~in $1, zwischen $2[$2|Start] und $3[$3|Ende]",
-            "between": "$~zwischen 1 und 2 US-Dollar",
+            "between": "$~zwischen $1 und $2",
             "line": "$~leere Zeile zwischen $1[$1|Start] und $2[$2|Ende]",
             "conflicts": "$~$1 Konflikte",
             "assign": "$~/$2[Möchte gern mitmachen|Erwägt, auszusteigen]…/",
@@ -5158,7 +5247,9 @@
             "replace": "$~/Will eingreifen…/",
             "wrap": "$~Elternheizung",
             "unwrap": "$~auspacken",
-            "bind": "$~Nennen Sie diesen Ausdruck"
+            "bind": "$~Nennen Sie diesen Ausdruck",
+            "range": "$~Auswahl von $1 bis $2",
+            "show": "$~… mehr anzeigen"
         },
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
@@ -5274,6 +5365,10 @@
         "tools": {
             "name": "$~Werkzeuge",
             "description": "$~Einfache Dienstprogramme und Anwendungen."
+        },
+        "stories": {
+            "name": "$~Geschichten",
+            "description": "$~Interaktive Geschichten und Erzählungen."
         }
     }
 }

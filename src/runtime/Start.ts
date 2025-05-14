@@ -7,7 +7,7 @@ import Step from './Step';
 type Action = (evalutor: Evaluator) => Value | undefined;
 
 export default class Start extends Step {
-    readonly action?: Action;
+    readonly action?: Action | undefined;
 
     constructor(node: Expression, action?: Action) {
         super(node);

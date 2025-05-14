@@ -47,6 +47,8 @@
     a {
         color: var(--wordplay-highlight-color);
         text-decoration: none;
+        /* In case a parent disables pointer events, we need to enable them here. */
+        pointer-events: auto;
     }
 
     /* Links in paragraphs should have underlines for visibility. */

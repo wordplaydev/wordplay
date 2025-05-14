@@ -101,6 +101,7 @@
         background-color: var(--wordplay-background);
         color: var(--wordplay-foreground);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        font-size: var(--wordplay-font-size);
     }
 
     dialog::backdrop {
@@ -117,9 +118,10 @@
 
     .close {
         position: sticky;
-        top: 0;
+        top: 1em;
         width: 100%;
         text-align: right;
+        z-index: 2;
     }
 
     .content {
