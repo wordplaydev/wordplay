@@ -37,6 +37,7 @@ export const HowToMetadata = {
     'track-points': { category: 'remembering' },
     'track-game-state': { category: 'remembering' },
     'offer-choices': { category: 'remembering' },
+    'choose-adventure': { category: 'remembering' },
 } satisfies Record<string, { category: HowToCategory }>;
 
 export const HowToIDs = Object.keys(HowToMetadata);
@@ -129,4 +130,3 @@ export function parseHowTo(
 }
 
 export type { HowTo as default };
-

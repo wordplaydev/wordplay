@@ -38,18 +38,16 @@
     let deleteError = $state(false);
 
     let owned: Project[] = $derived(
-        $user === null
-            ? []
-            : Projects.allEditableProjects.filter(
-                  (p) => p.getOwner() === $user.uid,
-              ),
+        Projects.allEditableProjects.filter(
+            (p) => p.getOwner() === $user?.uid || !p.hasOwner(),
+        ),
     );
 
     let shared: Project[] = $derived(
         $user === null
             ? []
             : Projects.allEditableProjects.filter(
-                  (p) => p.getOwner() !== $user.uid,
+                  (p) => p.hasOwner() && p.getOwner() !== $user.uid,
               ),
     );
 </script>

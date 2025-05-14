@@ -140,7 +140,7 @@ export default class Bind extends Expression {
                 kind: any(node(Sym.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
             },
-            { name: 'names', kind: node(Names) },
+            { name: 'names', kind: node(Names), newline: true },
             {
                 name: 'etc',
                 kind: any(node(Sym.Etc), none()),

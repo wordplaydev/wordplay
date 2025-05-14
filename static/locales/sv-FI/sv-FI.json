@@ -1109,7 +1109,8 @@
                 "address": "$~Är *$1* någons hemadress? Om så är fallet, lägg mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2",
                 "handle": "$~Är *$1* ditt användarnamn för någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2",
                 "resolution": "$~Det här är inte känslig information",
-                "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan."
+                "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan.",
+                "character": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
             }
         },
         "FormattedLiteral": {

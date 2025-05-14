@@ -1,10 +1,15 @@
+import { CharacterWarning } from '@conflicts/CharacterWarning';
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
-import { TextCloseByTextOpen, TextDelimiters } from '../parser/Tokenizer';
+import {
+    ConceptRegExPattern,
+    TextCloseByTextOpen,
+    TextDelimiters,
+} from '../parser/Tokenizer';
 import type Context from './Context';
 import Example from './Example';
 import type Expression from './Expression';
@@ -84,8 +89,16 @@ export default class Translation extends LanguageTagged {
         return Purpose.Value;
     }
 
+    static ConceptRegExPattern = new RegExp(ConceptRegExPattern, 'ug');
+
     computeConflicts(context: Context): Conflict[] {
-        return PossiblePII.analyze(this, context);
+        const conflicts: Conflict[] = PossiblePII.analyze(this, context);
+
+        if (Translation.ConceptRegExPattern.test(this.getText())) {
+            conflicts.push(new CharacterWarning(this));
+        }
+
+        return conflicts;
     }
 
     /** Get the text, with any escape characters processed. */
