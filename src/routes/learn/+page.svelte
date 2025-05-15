@@ -49,18 +49,19 @@
     $effect(() => {
         if (tutorial) {
             initial = Progress.fromURL(tutorial, page.url.searchParams);
-            // Untack, since the below reads and sets
+            // Untrack, since the below reads and sets
             untrack(() => {
                 if (initial) Settings.setTutorialProgress(initial);
             });
         }
     });
 
-    function navigate(newProgress: Progress) {
+    async function navigate(newProgress: Progress) {
         initial = undefined;
-        Settings.setTutorialProgress(newProgress);
         // Set the URL to mirror the progress, if not at it.
-        goto(newProgress.getURL());
+        await goto(newProgress.getURL());
+        // After navigation, update the tutorial progress.
+        Settings.setTutorialProgress(newProgress);
     }
 </script>
 

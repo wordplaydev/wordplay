@@ -13,6 +13,7 @@
     import Button from '@components/widgets/Button.svelte';
     import Title from '@components/widgets/Title.svelte';
     import { Galleries, Projects, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
     import {
         CANCEL_SYMBOL,
         COPY_SYMBOL,
@@ -35,6 +36,20 @@
 
     // Whether to show an error
     let deleteError = $state(false);
+
+    let owned: Project[] = $derived(
+        Projects.allEditableProjects.filter(
+            (p) => p.getOwner() === $user?.uid || !p.hasOwner(),
+        ),
+    );
+
+    let shared: Project[] = $derived(
+        $user === null
+            ? []
+            : Projects.allEditableProjects.filter(
+                  (p) => p.hasOwner() && p.getOwner() !== $user.uid,
+              ),
+    );
 </script>
 
 <svelte:head>
@@ -56,7 +71,7 @@
     />
 
     <ProjectPreviewSet
-        set={Projects.allEditableProjects}
+        set={owned}
         edit={{
             description: (l) => l.ui.page.projects.button.editproject,
             action: (project) => goto(project.getLink(false)),
@@ -80,9 +95,32 @@
         anonymize={false}
         showCollaborators={true}
     />
+
+    <!-- If there are any shared projects, make a shared section. -->
+    {#if shared.length > 0}
+        <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
+        <ProjectPreviewSet
+            set={shared}
+            edit={{
+                description: (l) => l.ui.page.projects.button.editproject,
+                action: (project) => goto(project.getLink(false)),
+                label: EDIT_SYMBOL,
+            }}
+            copy={{
+                description: (l) => l.ui.project.button.duplicate,
+                action: (project) =>
+                    goto(Projects.duplicate(project).getLink(false)),
+                label: COPY_SYMBOL,
+            }}
+            remove={() => false}
+            anonymize={false}
+            showCollaborators={true}
+        />
+    {/if}
+
     <!-- If there are any archived projects, make an archived section. -->
     {#if Projects.allArchivedProjects.length > 0}
-        <Subheader text={(l) => l.ui.page.projects.archiveheader} />
+        <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
         <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
         {#if $user === null}<Notice
                 text={(l) => l.ui.page.projects.error.nodeletes}

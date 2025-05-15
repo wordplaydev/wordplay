@@ -28,11 +28,16 @@ export const HowToMetadata = {
     'animate-phrase': { category: 'characters' },
     'move-phrase': { category: 'characters' },
     'custom-characters': { category: 'characters' },
+    'styling-text': { category: 'characters' },
     'animated-scene': { category: 'stories' },
     'interactive-scene': { category: 'stories' },
     'shake-phrase': { category: 'randomization' },
     'video-grid': { category: 'video' },
-    'repeating-a-movement': { category: 'characters' }
+    'track-points': { category: 'remembering' },
+    'track-game-state': { category: 'remembering' },
+    'offer-choices': { category: 'remembering' },
+    'choose-adventure': { category: 'remembering' },
+    'repeating-a-movement': { category: 'characters' },
 } satisfies Record<string, { category: HowToCategory }>;
 
 export const HowToIDs = Object.keys(HowToMetadata);

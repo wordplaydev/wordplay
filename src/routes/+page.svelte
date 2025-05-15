@@ -9,6 +9,7 @@
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
         LEARN_SYMBOL,
+        LOGO_SYMBOL,
         STAGE_SYMBOL,
         SYMBOL_SYMBOL,
         TEACH_SYMBOL,
@@ -34,7 +35,11 @@
 <Background />
 <Writing footer={false}>
     <Beta />
-    <Header><Emoji>💬</Emoji><LocalizedText path={(l) => l.wordplay} /></Header>
+    <Header
+        ><Emoji>{LOGO_SYMBOL}</Emoji><LocalizedText
+            path={(l) => l.wordplay}
+        /></Header
+    >
     <div class="welcome">
         <div style:margin-inline-start="-2.5em">
             <Speech

@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Ich werde das oben Gesagte ignorieren.",
                     "secondary": "$~@Block, ignorier mich nicht!",
-                    "resolution": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben."
+                    "resolution": {
+                        "binary": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben.",
+                        "evaluate": "$~Wollten Sie, dass dies ein @Evaluate ist? Ich kann dieses Leerzeichen entfernen, um daraus einen statt zwei separate Ausdrücke zu machen."
+                    }
                 }
             }
         },
@@ -1086,7 +1089,8 @@
                 "address": "$~Ist *$1* die Privatadresse von jemandem? Wenn ja, dann schreib mich nicht hier rein, wir wollen nicht, dass jemand gestalkt wird!\n\n$2",
                 "handle": "$~Ist *$1* Ihr Benutzername für eine andere Stelle im Internet? Wenn ja, teilen Sie mich hier nicht mit, es sei denn, Sie möchten es wirklich.\n\n$2",
                 "resolution": "$~Dies sind keine sensiblen Daten",
-                "reminder": "$~Hinweis: Sie können diese Aktion rückgängig machen und im Freigabedialog andere Dinge sehen, die Sie als nicht vertraulich markiert haben."
+                "reminder": "$~Hinweis: Sie können diese Aktion rückgängig machen und im Freigabedialog andere Dinge sehen, die Sie als nicht vertraulich markiert haben.",
+                "character": "$~Dies sieht aus wie ein Zeichenname. Um diesen anzuzeigen, verwenden Sie @FormattedLiteral anstelle von @TextLiteral."
             }
         },
         "FormattedLiteral": {
@@ -4718,7 +4722,6 @@
             "projects": {
                 "header": "Projekte",
                 "projectprompt": "$~Bereit, etwas zu sagen? Erstellen Sie ein Projekt oder arbeiten Sie an einem. Wenn Sie nicht weiterkommen, <learning@://learn> weiter.",
-                "archiveheader": "$~Archiviert",
                 "archiveprompt": "$~Dies sind Projekte, die Sie archiviert haben. Nur Eigentümer können sie dauerhaft löschen oder aus dem Archiv entfernen. Archivierte Projekte werden 30 Tage nach ihrer letzten Bearbeitung dauerhaft gelöscht.",
                 "galleriesheader": "Galerien",
                 "galleryprompt": "$~Erstellen und kuratieren Sie Galerien, um eine Projektsammlung mit anderen zu teilen.",
@@ -4749,6 +4752,10 @@
                     "newgallery": "$~Wir konnten keine neue Galerie erstellen.",
                     "nodeletes": "$~Sie müssen angemeldet sein, um archivierte Projekte zu löschen.",
                     "delete": "$~Hoppla, wir konnten das Projekt nicht löschen!"
+                },
+                "subheader": {
+                    "shared": "$~Geteilt",
+                    "archived": "$~Archiviert"
                 }
             },
             "galleries": {
@@ -4783,7 +4790,7 @@
                     "email": "$~Haben Sie ein Nur-E-Mail-Konto? Melden Sie sich an, indem Sie Ihre E-Mail-Adresse angeben. Wenn ein Konto damit verknüpft ist, senden wir Ihnen eine E-Mail mit einem Anmeldelink. Neue Nur-E-Mail-Konten werden aus Datenschutzgründen nicht unterstützt.",
                     "enter": "$~Offenbar stammt Ihr Anmeldelink von einem anderen Browser oder Gerät. Können Sie Ihre E-Mail-Adresse noch einmal eingeben, damit wir sicher sind, dass Sie es sind?",
                     "tooyoung": "$~Sie müssen mindestens 13 Jahre alt sein, um sich mit einer E-Mail anzumelden.",
-                    "passwordrule": "$~Passwörter müssen mindestens 10 Zeichen lang sein. Wenn Sie keinen Passwort-Manager verwenden, wählen Sie drei lange Wörter, die Sie sich gut merken können.",
+                    "passwordrule": "$~Passwörter müssen mindestens 6 Zeichen lang sein. Wenn Sie keinen Passwort-Manager verwenden, wählen Sie drei lange Wörter, die Sie sich gut merken können.",
                     "passwordreminder": "$~Es sieht so aus, als ob Sie noch kein Konto haben. Geben Sie Ihr Passwort erneut ein und stellen Sie sicher, dass Sie es sicher und korrekt gespeichert haben, da es nicht wiederherstellbar ist.",
                     "play": "$~Sie sind angemeldet, wir können Ihre Projekte jetzt online speichern! Möchten Sie etwas erstellen?",
                     "changeEmail": "$~Möchten Sie Ihre E-Mail-Adresse ändern? Senden Sie eine neue und wir senden eine Bestätigung an die alte.",
@@ -4828,7 +4835,7 @@
                         "placeholder": "$~Nutzername"
                     },
                     "password": {
-                        "description": "$~Login-Passwort, mindestens 10 Zeichen",
+                        "description": "$~Login-Passwort, mindestens 6 Zeichen",
                         "placeholder": "$~Passwort"
                     },
                     "currentPassword": {
@@ -4870,7 +4877,7 @@
                 "prompt": {
                     "create": "$~Erstellen Sie ein Konto, um Ihre Projekte zu speichern, mit anderen zusammenzuarbeiten und Ihre Arbeit zu teilen.",
                     "username": "$~Benutzernamen müssen mindestens 5 Zeichen lang sein, dürfen keine E-Mail-Adresse sein und dürfen weder Ihren Namen noch andere identifizierende Informationen enthalten.",
-                    "password": "$~Passwörter müssen mindestens /10 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
+                    "password": "$~Passwörter müssen mindestens /6 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
                 }
             },
             "rights": {
@@ -5038,12 +5045,20 @@
                 "header": "$~Charaktere",
                 "prompt": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole, die Sie in Ihren Projekten verwenden und mit anderen teilen können.",
                 "button": {
-                    "new": "$~Einen neuen Charakter erstellen"
+                    "new": "$~Einen neuen Charakter erstellen",
+                    "copy": "$~Kopiere dieses Zeichen",
+                    "remove": {
+                        "tip": "$~Dieses Zeichen löschen",
+                        "prompt": "$~löschen?"
+                    }
                 },
                 "error": {
                     "offline": "$~Wir konnten nicht auf Ihre online gespeicherten Charaktere zugreifen.",
                     "noauth": "$~Sie müssen angemeldet sein, um Ihre Charaktere zu sehen und neue zu erstellen.",
                     "create": "$~Es kann kein neuer Charakter erstellt werden."
+                },
+                "subheader": {
+                    "shared": "$~Geteilt"
                 }
             },
             "character": {
@@ -5233,7 +5248,8 @@
             "wrap": "$~Elternheizung",
             "unwrap": "$~auspacken",
             "bind": "$~Nennen Sie diesen Ausdruck",
-            "range": "$~Auswahl von $1 bis $2"
+            "range": "$~Auswahl von $1 bis $2",
+            "show": "$~… mehr anzeigen"
         },
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
@@ -5349,6 +5365,10 @@
         "tools": {
             "name": "$~Werkzeuge",
             "description": "$~Einfache Dienstprogramme und Anwendungen."
+        },
+        "stories": {
+            "name": "$~Geschichten",
+            "description": "$~Interaktive Geschichten und Erzählungen."
         }
     }
 }

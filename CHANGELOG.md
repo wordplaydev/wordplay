@@ -3,6 +3,118 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 01.6.14
+
+## Added
+
+- Fixed #755 Machine translation of traditional Chinese tutorial.
+- Allow feedback editing by owners or moderators.
+- Added a warning when a character name is referenced in plain text.
+
+## Fixed
+
+- Improved description of project archive tooltip.
+- Refined feedback reading rules to permit read without authentication.
+- Show local projects without owner.
+- Allow markup templates to evaluate to markup.
+
+## Maintenance
+
+- Updated minor versions of SvelteKit, Svelte, svelte-check, eslint, tsx, vite, vitest, zod, firebase-admin
+- Updated to nodemailer 7.0.
+
+## 0.1.6.13
+
+## Added
+
+- Fixed #370 Split view controls on horizontal and vertical layouts.
+
+## Fixed
+
+- Fixed #723 regression of tile dragging in free layout.
+- Fixed #740, resolving stuck tutorial advance button when guide is open.
+- Fixed #750 only handle keyboard shortcuts when editor is focused.
+- Added choose your own adventure how to.
+
+## Maintennace
+
+- Updated minor versions of Playwright, SvelteKit, Eslint, Firebase, Svelte, Vite, Vitest, and Zod.
+
+## 0.16.12
+
+## Added
+
+- Copy custom character.
+- Added another how to for making choices.
+
+## Fixed
+
+- Account for empty name list.
+- Fixed #734. Typos in account creation.
+- Fixed wrapping and alignment of how to links.
+- Strip zero width spaces from tokenizing; they serve no purpose.
+- Don't localize operators.
+- More precise tokenizing of URLs to allow for <3 emoticons.
+- Fixed select all in character text box.
+- Don't require spaces after bullets in markup.
+- Added "font" to English and Chinese names, even though it conflates "typeface" and "font".
+- Fixed localization of function inputs in guide.
+- Fixed duplicate search results.
+- Fixed multilingual guide search.
+- Removed legacy support for a list of text in Phrase.
+- Fixed positioning of dragged tiles from guide.
+
+## 0.16.11
+
+### Added
+
+- Added a few story examples to the gallery.
+- Added to game-related how to documents.
+
+### Fixed
+
+- Fixed password requirement inconsistency
+- Better troubleshooting info for clipboard operations.
+- Fixed localization of references when editor locale is selected.
+- Don't do rename on bind when inserting spaces before name.
+- Less jumpy evaluate suggestions.
+- Fixed example conflict.
+- Fixed case where flipped selection range wouldn't copy.
+
+### Maintenance
+
+- Updated Svelte, SvelteKit, Typescript, eslint, Vite, and Vitest.
+
+## 0.16.10
+
+### Added
+
+- Added 2x, 5x, and 10x play time, to help with `Scene` testing.
+
+### Fixed
+
+- Added unit to initial `Pitch` value.
+- More visible home link in footer.
+- Don't autocomplete `<` symbol.
+- Enable pointer events on links in inactive `Phrase` output.
+- Fixed label size consistency.
+- Always show collaborators in character share dialog, even when public.
+- Only allow one feedback vote per page load.
+- Split owned and shared characters on the characters page.
+- Split owned and shared projects on projects page.
+- Allow mods to edit feedback.
+- Fixed dialog scroll closing behavior.
+- Allow dragging of multiple selection.
+- Allow for pixel fill on existing colors.
+- Fixed several pixel and fill undo errors.
+- Fixed pixel fitting algorithm.
+- Better labels on elided data structures.
+- Fixed #732, improving English placeholder dialog.
+- Improved display of values when paused.
+- Clarified visibility of chats for curators.
+- Flipped scroll zoom on stage.
+- Fixed several translation errors.
+
 ## 0.16.9
 
 ### Added

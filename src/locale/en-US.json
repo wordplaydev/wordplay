@@ -459,7 +459,10 @@
                 "IgnoredExpression": {
                     "primary": "I'm going to ignore $1, since it doesn't define anything and isn't my last expression.",
                     "secondary": "@Block, don't ignore me!",
-                    "resolution": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant."
+                    "resolution": {
+                        "binary": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant.",
+                        "evaluate": "Did you mean for this to be an @Evaluate? I can remove this space to make it one, instead of two separate expressions."
+                    }
                 }
             }
         },
@@ -1106,11 +1109,12 @@
                 "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2",
                 "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2",
                 "resolution": "This isn't sensitive data",
-                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog."
+                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
+                "character": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
             }
         },
         "FormattedLiteral": {
-            "name": "formatted",
+            "name": "formatted text",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
@@ -3254,7 +3258,7 @@
             },
             "face": {
                 "doc": "The name of the font face content inside me should have, unless they have their own face to use.",
-                "names": "face"
+                "names": ["face", "font"]
             },
             "place": {
                 "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
@@ -3342,7 +3346,7 @@
             ],
             "names": ["💬", "Phrase"],
             "text": {
-                "doc": "The characters to show on @Stage.",
+                "doc": "The characters to show on @Stage, in plain text or @FormattedLiteral.",
                 "names": "text"
             },
             "size": {
@@ -4642,7 +4646,7 @@
                 "solo": "Chat with yourself or add a collaborator, who can edit and chat.",
                 "owner": "Collaborators can edit this project and chat about it.",
                 "collaborator": "You're a collaborator. You can edit this project and chat about it.",
-                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it."
+                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner and collaborators can see the chat."
             }
         },
         "palette": {
@@ -4889,13 +4893,16 @@
             "projects": {
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
-                "archiveheader": "Archived",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "Galleries",
                 "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
                 "add": {
                     "header": "New Project",
                     "explanation": "Choose a template to create a new project."
+                },
+                "subheader": {
+                    "shared": "Shared",
+                    "archived": "Archived"
                 },
                 "button": {
                     "newproject": "new project",
@@ -4906,7 +4913,7 @@
                 },
                 "confirm": {
                     "archive": {
-                        "description": "archive this performance",
+                        "description": "archive this performance for later deletion",
                         "prompt": "archive"
                     },
                     "delete": {
@@ -4937,7 +4944,15 @@
                 "header": "Characters",
                 "prompt": "Create custom emojis and symbols to use in your projects and share with others.",
                 "button": {
-                    "new": "Create a new character"
+                    "new": "Create a new character",
+                    "copy": "Copy this character",
+                    "remove": {
+                        "tip": "Delete this character",
+                        "prompt": "delete?"
+                    }
+                },
+                "subheader": {
+                    "shared": "Shared"
                 },
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
@@ -5107,10 +5122,10 @@
                     "description": "Characters need a description so those who can't see know what they represent.",
                     "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
-                    "notfound": "This character doesn't exist.",
+                    "notfound": "This character doesn't exist or isn't visible to you.",
                     "unauthenticated": "You must be logged in to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
-                    "unsaved": "Give this character a description and a valid, unique name to save."
+                    "unsaved": "Your character will not save until it has a unique name and a description."
                 },
                 "announce": {
                     "position": "at $1 $2",
@@ -5141,11 +5156,11 @@
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "tooyoung": "You must be 13 or older to login with an email.",
-                    "passwordrule": "Passwords must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                    "passwordrule": "Passwords must be at least 6 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
-                    "email": "Do you have an email-only account? Login by submit your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
+                    "email": "Do you have an email-only account? Login with your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
                     "sent": "If this email is associated with an account, it will receive an email with a login link. It may take a few minutes to appear. If there is no account associated with this email, you will not receive anything.",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
@@ -5158,7 +5173,7 @@
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
                     "email": "Not a valid email.",
-                    "invalidUsername": "Usernames must be emails or at least 5 letters with no spaces.",
+                    "invalidUsername": "Usernames must at least 5 letters with no spaces.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
@@ -5184,7 +5199,7 @@
                         "placeholder": "username"
                     },
                     "password": {
-                        "description": "login password, at least 10 character",
+                        "description": "login password, at least 6 character",
                         "placeholder": "password"
                     },
                     "currentPassword": {
@@ -5225,7 +5240,7 @@
                 "prompt": {
                     "create": "Create an account to save your projects, collaborate with others, and share your work.",
                     "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifing information.",
-                    "password": "Passwords must be at least /10 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
+                    "password": "Passwords must be at least /6 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
                 }
             },
             "rights": {
@@ -5285,7 +5300,8 @@
             "replace": "/Wants to step in…/",
             "wrap": "parentheize",
             "unwrap": "unwrap",
-            "bind": "name this expression"
+            "bind": "name this expression",
+            "show": "… show more"
         },
         "template": {
             "unwritten": "TBD",
@@ -5347,6 +5363,10 @@
         "tools": {
             "name": "Tools",
             "description": "Simple utilities and applications."
+        },
+        "stories": {
+            "name": "Stories",
+            "description": "Interactive stories and narratives."
         }
     }
 }

@@ -3,6 +3,7 @@
     import Block from '@nodes/Block';
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
+    import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
     import { locales } from '../../db/Database';
     import Token from '../../nodes/Token';
     import {
@@ -162,8 +163,12 @@
         aria-hidden={hide ? 'true' : null}
         aria-label={description}
         ><!--Render the value if there's a value ot render, or the node view otherwise -->
-        <NodeView {node} />{#if value}
-            <div class="value"><ValueView {value} {node} interactive /></div
+        {#if value && node.isUndelimited()}<span class="eval"
+                >{EVAL_OPEN_SYMBOL}</span
+            >{/if}<NodeView {node} />{#if value}{#if node.isUndelimited()}<span
+                    class="eval">{EVAL_CLOSE_SYMBOL}</span
+                >{/if}<div class="value"
+                ><ValueView {value} {node} interactive /></div
             >{/if}
     </div>
 {/if}
@@ -185,8 +190,9 @@
     }
 
     .value {
-        display: inline;
-        margin-inline-start: var(--wordplay-spacing);
+        display: inline-block;
+        /* margin-inline-start: var(--wordplay-spacing); */
+        transform: translateY(calc(var(--wordplay-spacing) / 2));
     }
 
     .blockselected {
@@ -272,5 +278,9 @@
         gap: var(--wordplay-border-width);
         position: relative;
         color: var(--wordplay-inactive-color);
+    }
+
+    .eval {
+        color: var(--wordplay-evaluation-color);
     }
 </style>

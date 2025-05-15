@@ -34,8 +34,10 @@ export function parseSerializedProject(
         const header = file.substring(0, EOL);
         const names = header.replace('===', '').trim();
         const code = file.substring(EOL);
-        for (const language of parseNames(toTokens(names)).getLanguages())
-            languages.add(language);
+        for (const name of parseNames(toTokens(names)).names) {
+            const locale = name.language?.getLocaleID();
+            if (locale) languages.add(localeToString(locale));
+        }
         return { names, code, caret: 0 };
     });
 
@@ -117,6 +119,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Madlib',
                 'WheresWaldough',
                 'KatakanaGuess',
+                'FrenchNumbers',
             ],
         ),
         createGallery(
@@ -162,6 +165,13 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 locale.map((l) => [localeToString(l), l.gallery.av]),
             ),
             ['Listen', 'Talk', 'RainingLetters', 'Video', 'ASCII'],
+        ),
+        createGallery(
+            'Stories',
+            Object.fromEntries(
+                locale.map((l) => [localeToString(l), l.gallery.stories]),
+            ),
+            ['Pears', 'JapaneseClass'],
         ),
         createGallery(
             'Tools',

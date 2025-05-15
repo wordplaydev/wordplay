@@ -34,6 +34,7 @@
     let ideas = $derived(feedback?.filter((f) => f.type === 'idea'));
     let currentFeedback = $derived(mode === 'defect' ? defects : ideas);
     let expanded: boolean[] = $state([]);
+    let votes = $state<Set<string>>(new Set());
 
     const user = getUser();
 
@@ -82,11 +83,12 @@
     async function vote(feed: Feedback) {
         const newFeedback = { ...feed, votes: feed.votes + 1 };
         const success = await updateFeedback(newFeedback);
-        if (success && feedback)
+        if (success && feedback) {
+            votes.add(feed.id);
             feedback = feedback.map((f) =>
                 f.id === feed.id ? newFeedback : f,
             );
-        else error = true;
+        } else error = true;
     }
 
     async function close(feed: Feedback) {
@@ -111,21 +113,38 @@
         >
             <Subheader>
                 {feed.type === 'defect' ? DEFECT_SYMBOL : IDEA_SYMBOL}
-                {feed.title}</Subheader
-            >
+                {#if feed.creator === $user?.uid || moderator}
+                    <TextField
+                        editable={!submitting}
+                        bind:text={feed.title}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.title.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.title.placeholder}
+                        id={'feedback-title'}
+                        done={(t) => {
+                            updateFeedback({ ...feed, ...{ title: t } });
+                        }}
+                        max="20em"
+                    />
+                {:else}
+                    {feed.title}
+                {/if}
+            </Subheader>
             <div class="tools">
-                <Button
-                    tip={(l) => l.ui.dialog.feedback.button.close.tip}
-                    icon="✓"
-                    label={(l) => l.ui.dialog.feedback.button.close.label}
-                    action={() => close(feed)}
-                ></Button>
                 <Button
                     tip={(l) => l.ui.dialog.feedback.button.like}
                     icon="⭐️"
+                    active={!votes.has(feed.id)}
                     action={() => vote(feed)}>{feed.votes}</Button
                 >
                 {#if feed.creator === $user?.uid || moderator}
+                    <Button
+                        tip={(l) => l.ui.dialog.feedback.button.close.tip}
+                        icon="✓"
+                        label={(l) => l.ui.dialog.feedback.button.close.label}
+                        action={() => close(feed)}
+                    ></Button>
                     <ConfirmButton
                         icon={CANCEL_SYMBOL}
                         tip={(l) =>
@@ -141,9 +160,38 @@
             </div>
         </div>
         {#if expanded[index]}
-            {#each feed.description.split('\n') as paragraph}
-                <p>{paragraph}</p>
-            {/each}
+            {#if feed.creator === $user?.uid || moderator}
+                {#if mode === 'defect'}
+                    <TextBox
+                        bind:text={feed.description}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.defect.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.defect.placeholder}
+                        id={'defect-description'}
+                        done={(t) => {
+                            updateFeedback({ ...feed, ...{ description: t } });
+                        }}
+                    />
+                {:else}
+                    <TextBox
+                        active={!submitting}
+                        bind:text={description}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.idea.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.idea.placeholder}
+                        id={'idea-description'}
+                        done={(t) => {
+                            updateFeedback({ ...feed, ...{ description: t } });
+                        }}
+                    />
+                {/if}
+            {:else}
+                {#each feed.description.split('\n') as paragraph}
+                    <p>{paragraph}</p>
+                {/each}
+            {/if}
             <Note>
                 {#if feed.logs.trim().length > 0}
                     <hr />
@@ -206,37 +254,36 @@
         icon: `${IDEA_SYMBOL}/${DEFECT_SYMBOL}`,
     }}
 >
+    <Mode
+        choice={mode === 'defect' ? 0 : 1}
+        modes={[
+            `${DEFECT_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.defect)}`,
+            `${IDEA_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.idea)}`,
+        ]}
+        descriptions={(l) => l.ui.dialog.feedback.mode}
+        select={(num) => (mode = num === 0 ? 'defect' : 'idea')}
+    />
+
+    {#if currentFeedback === undefined}
+        <Spinning />
+    {:else if currentFeedback === null}
+        <Notice text={(l) => l.ui.dialog.feedback.error.load}></Notice>
+    {:else}
+        <div class="feedback-list">
+            {#if currentFeedback.length === 0}
+                <Notice text={(l) => l.ui.dialog.feedback.error.empty}></Notice>
+            {:else}
+                {#each currentFeedback as f, index}{@render feedbackView(
+                        f,
+                        index,
+                    )}{/each}
+            {/if}
+        </div>
+    {/if}
+
     {#if $user === null}
         <Notice text={(l) => l.ui.dialog.feedback.error.login}></Notice>
     {:else}
-        <Mode
-            choice={mode === 'defect' ? 0 : 1}
-            modes={[
-                `${DEFECT_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.defect)}`,
-                `${IDEA_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.idea)}`,
-            ]}
-            descriptions={(l) => l.ui.dialog.feedback.mode}
-            select={(num) => (mode = num === 0 ? 'defect' : 'idea')}
-        />
-
-        {#if currentFeedback === undefined}
-            <Spinning />
-        {:else if currentFeedback === null}
-            <Notice text={(l) => l.ui.dialog.feedback.error.load}></Notice>
-        {:else}
-            <div class="feedback-list">
-                {#if currentFeedback.length === 0}
-                    <Notice text={(l) => l.ui.dialog.feedback.error.empty}
-                    ></Notice>
-                {:else}
-                    {#each currentFeedback as f, index}{@render feedbackView(
-                            f,
-                            index,
-                        )}{/each}
-                {/if}
-            </div>
-        {/if}
-
         {#if currentFeedback !== undefined && currentFeedback !== null && currentFeedback.length > 0}
             {#if mode === 'defect'}
                 <MarkupHtmlView

@@ -380,7 +380,7 @@
 
     function handleWheel(event: WheelEvent) {
         if (stage && (wheel || event.shiftKey)) {
-            stage.adjustFocus(0, 0, event.deltaY / PX_PER_METER);
+            stage.adjustFocus(0, 0, -event.deltaY / PX_PER_METER);
             event.preventDefault();
         }
     }

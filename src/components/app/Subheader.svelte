@@ -24,7 +24,7 @@
         margin-block-end: var(--wordplay-spacing);
     }
 
-    h2:first-of-type {
+    h2:first-child {
         margin-block-start: 0;
     }
 

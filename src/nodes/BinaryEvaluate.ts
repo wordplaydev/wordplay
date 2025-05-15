@@ -75,6 +75,10 @@ export default class BinaryEvaluate extends Expression {
         return [];
     }
 
+    isUndelimited() {
+        return true;
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'BinaryEvaluate';
     }

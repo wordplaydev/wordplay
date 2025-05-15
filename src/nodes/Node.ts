@@ -48,6 +48,10 @@ export default abstract class Node {
         return false;
     }
 
+    isUndelimited() {
+        return false;
+    }
+
     // CHILDREN
 
     /**

@@ -1,0 +1,51 @@
+Style your text
+
+Sometimes we want our text to stand out. We can do this by /italicizing/, *bolding*, and more!
+
+For example, to italicize text, you can wrap it in forward slashes //, like //Hello//. For example:
+
+
+\
+Group(Stack() [
+        Phrase(`Want to flex some /italics/ in your text?`)
+        Phrase(`It's good for emphasis or to give your words that /extra jazz/.`)
+        Phrase(`Just put a slash (//) before and after the word or phrase, /like this/.`)
+    ]
+)
+\
+
+
+@Phrase can also bold text. You can do this by wrapping your text in asterisks **, like **Hello**. For example:
+
+\
+Group(Stack() [
+        Phrase(`Want to make your text pop with *bold*?`)
+        Phrase(`It’s perfect for when you need to *shout somethin’ loud*.`)
+        Phrase(`Just throw single asterisks (**) around your words, like *hey!*, and watch it hit different.`)
+      ]
+)
+\
+
+@Phrase can also make text EXTRA bold. For this, wrap your text with carets ^^, like ^^Hello^^. For example:
+
+\
+Group(Stack() [
+        Phrase(`Extra bold is the ^GOAT^ when you need to turn the vibe to the max.`)
+        Phrase(`It’s like bold but more ^fire^, usually done with single carrots around (^^)`)
+        Phrase(`Use it to flex on ^headers^ or ^big ideas^.`)
+    ]
+)
+\
+
+Finally, @Phrase can make text underlined. For this, wrap your text in underscores __, like __Hello__. For example:
+
+\
+Group(Stack() [
+        Phrase(`Underline is _lowkey fire_ for when you want to keep text sleek but still stand out.`)
+        Phrase(`Drop a single underscore (__) before and after your text, _like this_, and it’s giving clean emphasis.`)
+        Phrase(`It’s _perfect_ for making your point without being too _extra_.`)
+    ]
+)
+\
+
+custom-characters

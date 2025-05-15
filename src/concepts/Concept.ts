@@ -61,12 +61,14 @@ export default abstract class Concept {
      * Returns a localized creator-facing name or description to represent the concept.
      * Returns a symbolic name if asked and available.
      */
+    abstract getNames(locales: Locales, symbolic: boolean): string[];
+
     abstract getName(locales: Locales, symbolic: boolean): string;
 
     /**
      * Returns, if available, documentation for the concept.
      */
-    abstract getDocs(locales: Locales): Markup | undefined;
+    abstract getDocs(locales: Locales): Markup[];
 
     /**
      * Provides a set of Nodes that could be rendered in the UI.
@@ -95,14 +97,20 @@ export default abstract class Concept {
         locales: Locales,
         query: string,
     ): [string, number, number] | undefined {
-        const name = this.getName(locales, false);
-        const lowerDescription = name.toLocaleLowerCase(locales.getLanguages());
-        const index = lowerDescription.indexOf(query);
+        const names = this.getNames(locales, false);
+        const lowerDescriptions = names.map((name) =>
+            name.toLocaleLowerCase(locales.getLanguages()),
+        );
+        const name = lowerDescriptions.find((lowerDescription) =>
+            lowerDescription.includes(query),
+        );
         // Return name match at priority 1
-        if (index >= 0) return [name, index, 1];
-        const markup = this.getDocs(locales);
+        if (name) {
+            return [name, name.indexOf(query), 1];
+        }
+        const markups = this.getDocs(locales);
         // If the name doesn't match, see if a doc does
-        if (markup) {
+        for (const markup of markups) {
             const [match, index] = markup.getMatchingText(query, locales) ?? [
                 undefined,
                 undefined,

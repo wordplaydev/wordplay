@@ -147,6 +147,15 @@
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = $state(null);
 
+    /** Pixels drawn or erased in a stroke */
+    let strokePixels = $state(0);
+
+    /** Whether we moved shapes */
+    let moved = $state(false);
+
+    /** The pixel replaced by a set pixel, in case we double click fill */
+    let replacedPixel: CharacterPixel | undefined = $state(undefined);
+
     /** The pending rectangle or ellipse */
     let pendingRectOrEllipse:
         | CharacterRectangle
@@ -303,12 +312,19 @@
                     history = [structuredClone(loadedCharacter.shapes)];
                     historyIndex = 0;
 
+                    persisted = loadedCharacter;
+                    loadedCharacter === undefined
+                        ? 'failed'
+                        : loadedCharacter === null
+                          ? 'unknown'
+                          : loadedCharacter;
+                } else {
                     persisted =
                         loadedCharacter === undefined
                             ? 'failed'
                             : loadedCharacter === null
                               ? 'unknown'
-                              : loadedCharacter;
+                              : 'unknown';
                 }
             });
         }
@@ -375,7 +391,7 @@
 
     /** Remember the current state */
     function rememberShapes() {
-        setShapes([...shapes]);
+        setShapes([...shapes], true);
     }
 
     /** Centralized shape list updating to support undo/redo. */
@@ -389,7 +405,7 @@
 
         // Remove the future if we're in the past
         if (historyIndex < history.length - 1)
-            history = history.slice(0, historyIndex - 1);
+            history = history.slice(0, historyIndex + 1);
 
         // Remove any selection that's no longer in the shapes.
         selection = selection.filter((s) => shapes.includes(s));
@@ -436,7 +452,7 @@
         x?: number | undefined,
         y?: number | undefined,
         color?: LCH,
-    ): CharacterPixel {
+    ): CharacterPixel | undefined {
         x = x ?? drawingCursorPosition.x;
         y = y ?? drawingCursorPosition.y;
 
@@ -448,8 +464,17 @@
         const match = shapes
             // Remove pixels at the same position
             .find((s) => s.type === 'pixel' && pixelsAreEqual(s, candidate));
+
+        const pixelAtPosition = shapes.find(
+            (s): s is CharacterPixel =>
+                s.type === 'pixel' && s.point.x === x && s.point.y === y,
+        );
+
         // Already an identical pixel? Do nothing.
-        if (match) return match as CharacterPixel;
+        if (match) return undefined;
+
+        // Remember the replaced pixel so we can can fill if there's a later double click.
+        replacedPixel = pixelAtPosition;
 
         setShapes(
             [
@@ -471,15 +496,15 @@
     }
 
     function erasePixel(remember = true) {
-        setShapes(
-            shapes.filter(
-                (s) =>
-                    s.type !== 'pixel' ||
-                    s.point.x !== drawingCursorPosition.x ||
-                    s.point.y !== drawingCursorPosition.y,
-            ),
-            remember,
+        const removed = shapes.filter(
+            (s) =>
+                s.type !== 'pixel' ||
+                s.point.x !== drawingCursorPosition.x ||
+                s.point.y !== drawingCursorPosition.y,
         );
+        if (removed.length === shapes.length) return false;
+        setShapes(removed, remember);
+        return true;
     }
 
     /** Null if inherented, undefined if none, or the current fill color if set */
@@ -716,7 +741,7 @@
         }
 
         // Handle copy
-        if (event.key === 'c' && control) {
+        if (event.key === 'c' && control && selection.length > 0) {
             copyShapes();
             event.stopPropagation();
             event.preventDefault();
@@ -990,12 +1015,18 @@
         if (mode === DrawingMode.Pixel) {
             selection = [];
             const newPixel = setPixel(false);
+            if (newPixel) {
+                lastPixel = newPixel;
+                strokePixels = 1;
+            }
 
             if (move) {
                 // If we're dragging and there's a last pixel, draw pixels between them.
-                if (lastPixel)
+                if (lastPixel !== undefined && newPixel !== undefined) {
                     interpolate($state.snapshot(lastPixel), newPixel);
-                lastPixel = newPixel;
+                    strokePixels++;
+                }
+                if (newPixel !== undefined) lastPixel = newPixel;
             }
 
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
@@ -1004,10 +1035,18 @@
             selection = [];
             // If not moving, see what shape is under the pointer and delete it.
             if (!move) {
+                strokePixels = 0;
                 const under = getShapeUnderPointer(event);
-                if (under !== null)
-                    setShapes(shapes.filter((s) => s !== under));
-            } else erasePixel(false);
+                if (under !== null) {
+                    const removed = shapes.filter((s) => s !== under);
+                    if (removed.length !== shapes.length) {
+                        strokePixels++;
+                        setShapes(removed);
+                    }
+                }
+            } else {
+                if (erasePixel(false)) strokePixels++;
+            }
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
         }
@@ -1041,8 +1080,11 @@
                     if (!selection.includes(under)) {
                         if (event.shiftKey) selection = [...selection, under];
                         else selection = [under];
-                    } else selection = [under];
+                    }
                 } else selection = [];
+
+                // Reset the moved tracker.
+                moved = false;
             }
 
             // No drag position yet? Set one.
@@ -1074,11 +1116,11 @@
             else {
                 if (move && firstDrag) {
                     // Just starting a drag? Remember the current positions in the history so we can undo to before the drag.
-                    rememberShapes();
                     firstDrag = false;
                 }
 
                 if (selection.length > 0) {
+                    moved = true;
                     for (const [index, shape] of selection.entries()) {
                         const offset = dragOffsets[index];
                         if (offset)
@@ -1095,27 +1137,27 @@
     }
 
     function handlePointerUp(event: PointerEvent) {
-        // Reset the last pixel tracker.
-        lastPixel = undefined;
-
-        if (dragOffsets) {
+        if (dragOffsets && mode === DrawingMode.Select) {
             dragOffsets = undefined;
             firstDrag = false;
+            if (moved) rememberShapes();
+            moved = false;
         }
-
         // Done? Reset the pending shapes to nothing.
-        if (pendingRectOrEllipse) {
+        else if (pendingRectOrEllipse) {
             selection = [pendingRectOrEllipse];
             pendingRectOrEllipse = undefined;
             mode = DrawingMode.Select;
             event.stopPropagation();
             // Snapshot for history.
             rememberShapes();
-            return;
         }
         // Done drawing or erasing pixels? Remember the current shapes.
         else if (mode === DrawingMode.Pixel || mode === DrawingMode.Eraser) {
-            rememberShapes();
+            if (strokePixels > 0) {
+                rememberShapes();
+                strokePixels = 0;
+            }
         }
     }
 
@@ -1123,31 +1165,55 @@
         if (mode === DrawingMode.Path) {
             endPath();
         } else if (mode === DrawingMode.Pixel) {
-            // Undo the two clicks that just happened, so they're not part of the history or shapes.
-            undo();
-            undo();
+            // Undo the pixel that just happened, so they're not part of the history or shapes.
+            if (lastPixel) undo();
             fill(drawingCursorPosition.x, drawingCursorPosition.y);
         }
     }
 
     // Flood fill at the given point
     function fill(x: number, y: number, start = true) {
-        // Build a hash of filled pixels for quick lookup.
-        const filled = new Set(
-            shapes
-                .filter((s): s is CharacterPixel => s.type === 'pixel')
-                .map((s) => `${s.point.x},${s.point.y}`),
-        );
+        // Build a hash of pixel colors for quick lookup.
+        const filled: Map<string, string | undefined> = new Map();
+        for (const shape of shapes) {
+            if (shape.type === 'pixel')
+                filled.set(
+                    `${shape.point.x},${shape.point.y}`,
+                    shape.fill === null
+                        ? undefined
+                        : `${shape.fill.l},${shape.fill.c},${shape.fill.h}`,
+                );
+        }
+
+        // Get the tracking color for the current fill. This determines the boundaries.
+        const currentColor =
+            replacedPixel === undefined || replacedPixel.fill === null
+                ? undefined
+                : `${replacedPixel.fill.l},${replacedPixel.fill.c},${replacedPixel.fill.h}`;
 
         // Keep a stack of points visited.
-        const visited: Point[] = [{ x, y }];
-        while (visited.length > 0) {
-            const point = visited.shift();
+        const queue: Point[] = [{ x, y }];
+        const visited = new Set<string>();
+        while (queue.length > 0) {
+            const point = queue.shift();
             // This should never happen, but TypeScript doesn't know it.
-            if (point === undefined) return;
+            if (point === undefined) continue;
 
-            // If there's not already a point here, skip it.
-            if (filled.has(`${point.x},${point.y}`) && !start) continue;
+            // If there's already a matching point here, and we're not at the start, skip it.
+            const position = `${point.x},${point.y}`;
+
+            // Already visited this position? Quit.
+            if (visited.has(position)) continue;
+            visited.add(position);
+
+            // See the current color at this position.
+            let colorAtPoint = filled.get(position);
+            let colorChange = colorAtPoint !== currentColor;
+
+            // Different from the tracking color? Stop.
+            if (!start && colorChange) continue;
+
+            // Not the start anymore.
             start = false;
 
             const pixel: CharacterPixel = {
@@ -1155,16 +1221,37 @@
                 point,
                 fill: { ...currentFill },
             };
-            setShapes([...shapes, pixel], false);
-            filled.add(`${point.x},${point.y}`);
+            // Remove the existing pixel here, and add the new one.
+            setShapes(
+                [
+                    ...shapes.filter(
+                        (s) =>
+                            start ||
+                            s.type !== 'pixel' ||
+                            s.point.x !== point.x ||
+                            s.point.y !== point.y,
+                    ),
+                    pixel,
+                ],
+                false,
+            );
 
-            if (point.x > 0) visited.push({ x: point.x - 1, y: point.y });
+            // Remember the color we filled.
+            filled.set(
+                `${point.x},${point.y}`,
+                `${currentFill.l},${currentFill.c},${currentFill.h}`,
+            );
+
+            // Visit the four directions.
+            if (point.x > 0) queue.push({ x: point.x - 1, y: point.y });
             if (point.x < CharacterSize - 1)
-                visited.push({ x: point.x + 1, y: point.y });
-            if (point.y > 0) visited.push({ x: point.x, y: point.y - 1 });
+                queue.push({ x: point.x + 1, y: point.y });
+            if (point.y > 0) queue.push({ x: point.x, y: point.y - 1 });
             if (point.y < CharacterSize - 1)
-                visited.push({ x: point.x, y: point.y + 1 });
+                queue.push({ x: point.x, y: point.y + 1 });
         }
+        // Add the fill to the undo history.
+        rememberShapes();
     }
 
     /** Given an emoji, render it to a canvas, get its pixels, and place the pixels in the character's shapes. */
@@ -1347,19 +1434,30 @@
             })
             .filter((s) => s !== undefined);
 
+        // Stretch on the horizontal of it's wider than it is tall.
+        const horizontal = right - left > bottom - top;
+        const newWidth = horizontal
+            ? CharacterSize
+            : Math.round((right - left + 1) * scale);
+        const newHeight = horizontal
+            ? Math.round((bottom - top + 1) * scale)
+            : CharacterSize;
+
         // Sample the pixels to from the centered pixels, and set new ones based on the smaller scale.
         const newPixels: CharacterPixel[] = [];
         for (let x = 0; x < CharacterSize; x++) {
             for (let y = 0; y < CharacterSize; y++) {
-                const xProgress = x / CharacterSize;
-                const yProgress = y / CharacterSize;
-                // Sample in the coordinate system of the pixels
-                const sampleX = Math.round(
-                    left + xProgress * (right - left + 1),
-                );
-                const sampleY = Math.round(
-                    top + yProgress * (bottom - top + 1),
-                );
+                const xProgress = x > newWidth ? undefined : x / newWidth;
+                const yProgress = y > newHeight ? undefined : y / newHeight;
+                // Sample in the coordinate system of the pixels if on the stretching axis
+                const sampleX =
+                    xProgress !== undefined
+                        ? Math.round(left + xProgress * (right - left + 1))
+                        : undefined;
+                const sampleY =
+                    yProgress !== undefined
+                        ? Math.round(top + yProgress * (bottom - top + 1))
+                        : undefined;
 
                 // Is there a pixel at this position upsampled position?
                 const sample = fitShapes.find(
@@ -1372,8 +1470,8 @@
                     newPixels.push({
                         type: 'pixel',
                         point: {
-                            x: x,
-                            y: y,
+                            x: x + (CharacterSize - newWidth) / 2,
+                            y: y + (CharacterSize - newHeight) / 2,
                         },
                         fill: { ...sample.fill },
                     });
@@ -1648,20 +1746,24 @@
                 (choice) => {
                     currentFillSetting = choice;
                     const fill = getCurrentFill();
-                    for (const shape of selection) {
-                        if (fill !== undefined) shape.fill = fill;
-                        else delete shape.fill;
+                    if (selection.length > 0) {
+                        for (const shape of selection) {
+                            if (fill !== undefined) shape.fill = fill;
+                            else delete shape.fill;
+                        }
+                        rememberShapes();
                     }
-                    rememberShapes();
                 },
                 (color) => {
                     currentFill = color;
                     const newColor = getCurrentFill();
-                    for (const shape of selection) {
-                        if (newColor !== undefined) shape.fill = newColor;
-                        else delete shape.fill;
+                    if (selection.length > 0) {
+                        for (const shape of selection) {
+                            if (newColor !== undefined) shape.fill = newColor;
+                            else delete shape.fill;
+                        }
+                        rememberShapes();
                     }
-                    rememberShapes();
                 },
             )}
             <!-- All shapes except pixels have strokes -->
@@ -1761,7 +1863,9 @@
                             } else currentStrokeWidth = val;
                         }
                     }
-                    release={() => rememberShapes()}
+                    release={() => {
+                        if (selection.length > 0) rememberShapes();
+                    }}
                 ></Slider>
             {/if}
             {#if mode !== DrawingMode.Pixel}
@@ -1811,7 +1915,9 @@
                             } else currentCorner = val;
                         }
                     }
-                    release={() => rememberShapes()}
+                    release={() => {
+                        if (selection.length > 0) rememberShapes();
+                    }}
                 ></Slider>
             {/if}
             <!-- All shapes but pixels have rotation -->
@@ -1849,7 +1955,9 @@
                             } else currentAngle = val;
                         }
                     }
-                    release={() => rememberShapes()}
+                    release={() => {
+                        if (selection.length > 0) rememberShapes();
+                    }}
                 ></Slider>
             {/if}
             {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
@@ -2047,7 +2155,7 @@
     </style>
 {/snippet}
 
-<svelte:body onkeydown={handleKey} onpointerup={handlePointerUp} />
+<svelte:body onpointerup={handlePointerUp} />
 
 <Page>
     <section>
@@ -2113,28 +2221,22 @@
                             `🤫 ${$locales.get((l) => l.ui.page.character.share.public.modes[1])}`,
                         ]}
                     />
-                    {#if !isPublic}
-                        <Labeled
-                            label={(l) =>
-                                l.ui.page.character.share.collaborators}
-                        >
-                            <CreatorList
-                                uids={collaborators}
-                                editable={!isPublic}
-                                anonymize={false}
-                                add={(userID) =>
-                                    (collaborators = [
-                                        ...collaborators,
-                                        userID,
-                                    ])}
-                                remove={(userID) =>
-                                    (collaborators = collaborators.filter(
-                                        (c) => c !== userID,
-                                    ))}
-                                removable={() => true}
-                            />
-                        </Labeled>
-                    {/if}
+                    <Labeled
+                        label={(l) => l.ui.page.character.share.collaborators}
+                    >
+                        <CreatorList
+                            uids={collaborators}
+                            editable
+                            anonymize={false}
+                            add={(userID) =>
+                                (collaborators = [...collaborators, userID])}
+                            remove={(userID) =>
+                                (collaborators = collaborators.filter(
+                                    (c) => c !== userID,
+                                ))}
+                            removable={() => true}
+                        />
+                    </Labeled>
                 </Dialog>
                 {#if $user !== null && editedCharacter !== null && $user.uid === editedCharacter.owner}
                     <ConfirmButton

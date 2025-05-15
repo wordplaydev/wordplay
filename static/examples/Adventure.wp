@@ -1,13 +1,13 @@
 Adventure
 === start/en
-•State(action•"" description•[""] options•[State] won•?)
+•State(action•"" description•"" options•[State] won•?)
 
-stand: State('stand up' ["You can't stand, you're tied down."] [] ⊥)
-cut: State('cut yourself free' [ "You've cut yourself free."] [] ⊤)
-throw: State('throw' [ "You threw the knife"] [stand] ⊥)
-pickup: State('pickup' ['You have a knife.'] [ cut throw ] ⊥)
-roll: State('roll over' ['There is a knife next to you.'] [ pickup stand ] ⊥)
-start: State("start" ["You awaken in a dark, cold room that smells of mold."] [ roll stand ] ⊥)
+stand: State('stand up' "You can't stand, you're tied down." [] ⊥)
+cut: State('cut yourself free'  "You've cut yourself free." [] ⊤)
+throw: State('throw' "You threw the knife" [stand] ⊥)
+pickup: State('pickup' 'You have a knife.' [ cut throw ] ⊥)
+roll: State('roll over' 'There is a knife next to you.' [ pickup stand ] ⊥)
+start: State("start" "You awaken in a dark, cold room that smells of mold." [ roll stand ] ⊥)
 
 key: Key()
 

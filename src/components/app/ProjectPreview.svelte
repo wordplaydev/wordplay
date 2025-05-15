@@ -16,6 +16,12 @@
     import CreatorView from './CreatorView.svelte';
     import Link from './Link.svelte';
     import Spinning from './Spinning.svelte';
+    import type { Character } from '../../db/characters/Character';
+    import { characterToSVG } from '../../db/characters/Character';
+    import ConceptLink, { CharacterName } from '../../nodes/ConceptLink';
+    import MarkupValue from '../../values/MarkupValue';
+    import Value from '../../values/Value';
+    import StructureValue from '@values/StructureValue';
 
     interface Props {
         project: Project;
@@ -29,6 +35,31 @@
         children?: import('svelte').Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
+    }
+
+    function findCharacterName(value: Value): string | null {
+        // If it's a MarkupValue, check for character links
+        if (value instanceof MarkupValue) {
+            const nodes = value.markup.nodes();
+            for (const node of nodes) {
+                if (node instanceof ConceptLink) {
+                    const parsed = ConceptLink.parse(node.getName());
+                    if (parsed instanceof CharacterName) {
+                        return `${parsed.username}/${parsed.name}`;
+                    }
+                }
+            }
+        }
+
+        // If it's a StructureValue, check all its fields recursively
+        if (value instanceof StructureValue) {
+            const bindings = value.context.getBindingsByNames();
+            for (const [, fieldValue] of bindings) {
+            const result = findCharacterName(fieldValue);
+            if (result) return result;
+            }
+        }
+        return null;
     }
 
     let {
@@ -48,6 +79,7 @@
         representativeBackground: string | null;
         representativeFace: string | null;
         representativeText: string;
+        characterName: string | null;
     };
 
     /** Derive the preview contents from the project by getting it's first value */
@@ -56,6 +88,7 @@
         representativeBackground,
         representativeFace,
         representativeText,
+        characterName,
     }: Preview = $derived.by(() => {
         const evaluator = new Evaluator(
             project,
@@ -65,6 +98,21 @@
         );
         const value = evaluator.getInitialValue();
         evaluator.stop();
+
+        // First, check if there's a character name in the value
+        const foundCharacterName = value ? findCharacterName(value) : null;
+        
+        if (foundCharacterName) {
+            return {
+                representativeForeground: null,
+                representativeBackground: null,
+                representativeFace: null,
+                representativeText: '',
+                characterName: foundCharacterName,
+            };
+        }
+
+        // If no character found, proceed with regular representation
         const stage = value ? toStage(evaluator, value) : undefined;
         if (stage && stage.face) Fonts.loadFace(stage.face);
 
@@ -85,7 +133,34 @@
                 : value
                   ? value.getRepresentativeText($locales)
                   : EXCEPTION_SYMBOL,
+            characterName: null,
         };
+    });
+
+    // Add a state variable to hold the character
+    let character = $state<Character | null>(null);
+
+    // Effect to fetch the character from the database when characterName changes
+    $effect(() => {
+        // Clear character if characterName is not valid
+        if (!characterName) {
+            character = null;
+            return;
+        }
+
+        // Fetch the character
+        DB.Characters.getByName(characterName)
+            .then((result) => {
+                if (result) {
+                    character = result;
+                } else {
+                    character = null;
+                }
+            })
+            .catch((error) => {
+                console.error('Failed to load character:', characterName, error);
+                character = null;
+            });
     });
 
     const user = getUser();
@@ -138,7 +213,11 @@
             style:font-size={`${Math.max(4, size - 3)}rem`}
             class:blurred={audience && isFlagged(project.getFlags())}
         >
-            {representativeText}
+            {#if character}
+                {@html characterToSVG(character, '100%')}
+            {:else}
+                {representativeText}
+            {/if}
         </div>
     </a>
     {#if name}

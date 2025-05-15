@@ -120,10 +120,12 @@ export default class Language extends Node {
         );
     }
 
+    /** True if these this language and the given locale region match, where match means both are undefined or both are the same region. */
     isLocaleRegion(locale: Locale) {
         return (
-            this.region !== undefined &&
-            locale.regions.includes(this.region.getText())
+            (this.region === undefined && locale.regions.length === 0) ||
+            (this.region !== undefined &&
+                locale.regions.includes(this.region.getText()))
         );
     }
 
@@ -133,7 +135,7 @@ export default class Language extends Node {
         return language
             ? {
                   language: language as LanguageCode,
-                  regions: [region as RegionCode],
+                  regions: region ? [region as RegionCode] : [],
               }
             : undefined;
     }

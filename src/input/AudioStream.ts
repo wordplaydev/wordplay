@@ -1,3 +1,4 @@
+import type Unit from '@nodes/Unit';
 import type Evaluation from '@runtime/Evaluation';
 import NumberValue from '@values/NumberValue';
 import NumberType from '../nodes/NumberType';
@@ -26,12 +27,13 @@ export default abstract class AudioStream extends TemporalStreamValue<
     constructor(
         evaluation: Evaluation,
         frequency: number | undefined,
+        unit: Unit | undefined,
         fftSize: number,
     ) {
         super(
             evaluation,
             evaluation.getEvaluator().project.shares.input.Volume,
-            new NumberValue(evaluation.getCreator(), 0),
+            new NumberValue(evaluation.getCreator(), 0, unit),
             0,
         );
         this.fftSize = fftSize;
