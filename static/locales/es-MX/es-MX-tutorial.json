@@ -132,7 +132,7 @@
                 },
                 {
                     "title": "¿Quieres un programa?",
-                    "subtitle": "Program",
+                    "subtitle": "Programa",
                     "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
@@ -241,7 +241,7 @@
                 },
                 {
                     "title": "Mantener espacios",
-                    "subtitle": "Placeholder",
+                    "subtitle": "Marcador de posición",
                     "concept": "ExpressionPlaceholder",
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
@@ -352,8 +352,8 @@
                 },
                 {
                     "title": "¿Decir de nuevo?",
-                    "subtitle": "NoAnalizable",
-                    "concept": "NoAnalizableExpresión",
+                    "subtitle": "No Analizable",
+                    "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
                     "lines": [
                         [
@@ -496,7 +496,7 @@
                 {
                     "title": "El amor está en el err",
                     "subtitle": "Evaluar",
-                    "concept": "Evaluar",
+                    "concept": "Evaluate",
                     "performance": [
                         "fit",
                         "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
@@ -769,7 +769,7 @@
                 },
                 {
                     "title": "Quote, unquote",
-                    "subtitle": "Text",
+                    "subtitle": "Texto",
                     "concept": "TextLiteral",
                     "performance": [
                         "fit",
