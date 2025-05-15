@@ -1028,7 +1028,7 @@
                 },
                 {
                     "title": "Si y no",
-                    "subtitle": "Truth",
+                    "subtitle": "Verdad",
                     "concept": "Boolean",
                     "performance": [
                         "fit",
@@ -1215,7 +1215,7 @@
                 },
                 {
                     "title": "Déjame contar las formas",
-                    "subtitle": "Numbers",
+                    "subtitle": "Números",
                     "concept": "Number",
                     "performance": [
                         "fit",
@@ -1402,7 +1402,7 @@
                 },
                 {
                     "title": "Marcas de apertura",
-                    "subtitle": "Prefix",
+                    "subtitle": "Prefijo",
                     "concept": "UnaryEvaluate",
                     "performance": ["use", "fit", "Symbol", "~"],
                     "lines": [
@@ -1447,7 +1447,7 @@
                 },
                 {
                     "title": "Vacío",
-                    "subtitle": "Nothing",
+                    "subtitle": "Nada",
                     "concept": "None",
                     "performance": [
                         "fix",
@@ -1570,7 +1570,7 @@
                 },
                 {
                     "title": "Lugares, todas!",
-                    "subtitle": "Lists",
+                    "subtitle": "Listas",
                     "concept": "List",
                     "performance": [
                         "fit",
@@ -1732,7 +1732,7 @@
                 },
                 {
                     "title": "Uno de cada uno",
-                    "subtitle": "Sets",
+                    "subtitle": "Conjuntos",
                     "concept": "Set",
                     "performance": [
                         "fit",
@@ -1850,7 +1850,7 @@
                 },
                 {
                     "title": "Cara a cara",
-                    "subtitle": "Mappings",
+                    "subtitle": "Mapeos",
                     "concept": "Map",
                     "performance": [
                         "fit",
@@ -2047,7 +2047,7 @@
                 },
                 {
                     "title": "Nosotros podemos ser lo que sea",
-                    "subtitle": "Convert",
+                    "subtitle": "Convertir",
                     "concept": "Convert",
                     "performance": ["use", "fix", "FlyIn", "→"],
                     "lines": [
@@ -2206,7 +2206,7 @@
                 },
                 {
                     "title": "¿Como escoger?",
-                    "subtitle": "Decisions",
+                    "subtitle": "Decisiones",
                     "concept": "Conditional",
                     "performance": ["use", "fix", "FlyIn", "?"],
                     "lines": [
@@ -2369,7 +2369,7 @@
                 },
                 {
                     "title": "Tic, tic, tic...",
-                    "subtitle": "Time",
+                    "subtitle": "Tiempo",
                     "concept": "Time",
                     "performance": ["use", "fit", "Symbol", "🕦"],
                     "lines": [
@@ -2428,7 +2428,7 @@
                 },
                 {
                     "title": "Clic clic",
-                    "subtitle": "Key",
+                    "subtitle": "Tecla",
                     "concept": "Key",
                     "performance": ["use", "fit", "Symbol", "⌨️"],
                     "lines": [
