@@ -85,11 +85,16 @@ export default class Paragraph extends Content {
         return this.segments.filter((s) => s instanceof Node) as NodeSegment[];
     }
 
+    withSegments(segments: Segment[]) {
+        return new Paragraph(segments);
+    }
+
     getPurpose() {
         return Purpose.Document;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Paragraph;
+
     getLocalePath() {
         return Paragraph.LocalePath;
     }

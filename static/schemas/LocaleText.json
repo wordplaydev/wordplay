@@ -6113,6 +6113,9 @@
                     "address": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
+                    "character": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
                     "email": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
@@ -6141,7 +6144,8 @@
                     "tin",
                     "handle",
                     "resolution",
-                    "reminder"
+                    "reminder",
+                    "character"
                   ],
                   "type": "object"
                 },

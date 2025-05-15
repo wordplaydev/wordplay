@@ -21,10 +21,12 @@ import { getPreferred } from './LanguageTagged';
 import Literal from './Literal';
 import type { Grammar, Replacement } from './Node';
 import Node, { list, node } from './Node';
+import Paragraph from './Paragraph';
 import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
+import Words from './Words';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -121,18 +123,48 @@ export default class FormattedLiteral extends Literal {
         const translation = this.getPreferredText(evaluator.getLocaleIDs());
         const expressions = translation.getExamples();
 
-        let concrete = translation;
+        let concrete = translation.markup;
         for (let i = expressions.length - 1; i >= 0; i--) {
-            const example = concrete.getExamples()[i];
+            const example = translation.getExamples()[i];
             const value = evaluator.popValue(this);
             const text =
+                // If it's text, just get the text
                 value instanceof TextValue
                     ? value.text
-                    : (value?.toString() ?? '');
-            concrete = concrete.replace(example, new Token(text, Sym.Words));
+                    : // If it's a markup value, use just the value
+                      value instanceof MarkupValue
+                      ? value
+                      : // Otherwise, convert the value to a string for display.
+                        (value.toString() ?? '');
+            // Replace the markup's example with the computed markup paragraphs
+            // Need to get the parent paragraph of the example so we can create a new list of segments.
+            const container: Paragraph | Words | undefined = concrete
+                .nodes()
+                .find(
+                    (p): p is Paragraph | Words =>
+                        (p instanceof Paragraph &&
+                            p.segments.includes(example)) ||
+                        (p instanceof Words && p.segments.includes(example)),
+                );
+            if (container) {
+                let index = container.segments.indexOf(example);
+                if (index >= 0) {
+                    let segments = [
+                        ...container.segments.slice(0, index),
+                        ...(typeof text === 'string'
+                            ? [new Token(text, Sym.Words)]
+                            : text.markup.getNodeSegments()),
+                        ...container.segments.slice(index + 1),
+                    ];
+                    concrete = concrete.replace(
+                        container,
+                        container.withSegments(segments),
+                    );
+                }
+            }
         }
 
-        return new MarkupValue(this, concrete.markup);
+        return new MarkupValue(this, concrete);
     }
 
     getTagged(): FormattedTranslation[] {

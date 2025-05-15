@@ -1109,11 +1109,12 @@
                 "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2",
                 "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2",
                 "resolution": "This isn't sensitive data",
-                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog."
+                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
+                "character": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
             }
         },
         "FormattedLiteral": {
-            "name": "formatted",
+            "name": "formatted text",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
@@ -4912,7 +4913,7 @@
                 },
                 "confirm": {
                     "archive": {
-                        "description": "archive this performance",
+                        "description": "archive this performance for later deletion",
                         "prompt": "archive"
                     },
                     "delete": {
