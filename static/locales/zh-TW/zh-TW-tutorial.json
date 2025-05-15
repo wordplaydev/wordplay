@@ -12,15 +12,15 @@
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
-                        ["FunctionDefinition", "bored", "… Oh, hi."],
+                        ["FunctionDefinition", "bored", "...喔，你好"],
                         null,
-                        ["FunctionDefinition", "neutral", "Do I know you?"],
+                        ["FunctionDefinition", "neutral", "我認識你嗎？"],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
                             "噢，你好，這是你第一次來這裡嗎？",
-                            "很高興認識你，我的名字是 @FunctionDefinition.",
+                            "很高興認識你，我的名字是函式（Function）！ @FunctionDefinition.",
                             "…"
                         ],
                         null,
@@ -44,7 +44,7 @@
                             "sad",
                             "停止？",
                             "我們從來沒想過要停！我們只是失去了靈感...",
-                            "我可以是很多東西，比如說，我以前是一種荷蘭的古老貨幣（Florin）的象徵，那時候我被幾乎全世界的人所熟知並用來交易；更久以前，我也曾經是小寫的拉丁文字。",
+                            "我可以是很多東西，比如說，我以前是一種荷蘭的古老貨幣的象徵，那時候我被幾乎全世界的人所熟知並用來交易；更久以前，我也曾經是小寫的拉丁文字。",
                             "但今天，已經沒有多少人知道我了..."
                         ],
                         null,
@@ -131,8 +131,8 @@
                     ]
                 },
                 {
-                    "title": "$~您想要一个程序吗？",
-                    "subtitle": "$~程序",
+                    "title": "想要來一份程序嗎？",
+                    "subtitle": "程序",
                     "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
@@ -140,276 +140,272 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~嘿，@Program！我找到一个人了。嗯，看来他们找到我们了。他们想成为我们的新主管！"
+                            "嘿 程式（Program）@Program！我找到了一個人！好吧，我想是他找到我們。他想成為我們的新導演！"
                         ],
                         [
                             "Program",
                             "curious",
-                            "$~真的吗！？你确定你是人吗？说点人会说的话。"
+                            "真的嗎！？你真的是人嗎？說些人會說的話。"
                         ],
                         null,
                         ["fit", "Phrase('📄' entering: Sequence(spin() 1s))"],
                         [
                             "Program",
                             "serious",
-                            "$~嗯……你真是个人。而且你想当导演？"
+                            "哇喔...你真的是一個人，你說你想當我們的導演？"
                         ],
                         null,
                         ["fit", "Phrase('📄' resting: Pose(rotation: 010°))"],
                         [
                             "Program",
                             "excited",
-                            "$~我明白了。@FunctionDefinition 跟你说过关于我们的事吗？很多人试图指导我们，但有些人会感到困惑、无聊，甚至恼火。我们有时确实很笨。但我为我们所做的事情感到自豪，所以我不想和随便的人一起工作。"
+                            "恩，我知道了。函數（Function）@FunctionDefinition 有跟你說過我們的事嗎？很多人嘗試當過我們導演，但有些人會感到困惑、無聊，甚至煩躁。我們有時真的很笨。不過我為我們的表演感到驕傲，所以我不想和隨便的人合作。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~我跟他们说了一点。我说我们很奇怪，有时候董事们会因为这个离开。但他们还是加入了。对吧，你加入了？"
+                            "我有告訴他一些，我說我們有時候會很奇怪，有時導演還會因此離開，但他還是想參加。你想參加，對吧？"
                         ],
                         [
                             "Program",
                             "serious",
-                            "$~好的。嗯，很高兴认识你。抱歉，最近很多人来这里说“这不适合我”，我对那些尝试了一段时间就放弃的人有点怀疑了。我不应该为了迎合别人的期望而改变自己。但如果你愿意了解我，了解我们，那就试试吧！"
+                            "好吧。很高興見到你，抱歉，我只是遇到很多人來這裡說「這不適合我」，所以我對嘗試一下就放棄的人有點懷疑。我不想改變自己去迎合別人的期待。但如果你願意了解我和我們，那就一起試試吧！"
                         ],
                         null,
                         ["edit", ""],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~你想说说你做了什么吗？"
+                            "你想聊聊你的工作嗎？"
                         ],
                         [
                             "Program",
                             "neutral",
-                            "$~当然。我基本上是演出节目的组织者。",
-                            "$~你可以看到我在那里，手里拿着一个*编辑器* @UI/editor，向我展示*舞台* @UI/stage，上面显示了我评估的内容（目前什么也没有）。*导演*——也就是你——帮助每个人弄清楚他们在做什么，编写一个程序来解释演出中将要发生的事情。然后，我评估程序，并将结果放到舞台上供观众观看。"
+                            "當然，基本上，我是表演的組織者",
+                            "你可以在那邊看到我，和 *編輯器* @UI/editor 一起，顯示我正在評估的 *舞台* @UI/stage （現在還沒有就是了）。 *導演* — 就是你 — 幫助每個人弄清楚他們要做什麼，寫出要表演的東西和計畫，然後我評估計劃，並把結果放在舞台上讓觀眾看到。"
                         ],
                         null,
                         [
                             "Program",
                             "neutral",
-                            "$~例如，尝试在那边的编辑器中输入“hello”。",
-                            "$~（不要担心犯错误，您可以随时使用 *revert* @UI/revertProject 恢复到原始状态）。",
-                            "$~你输入了什么吗？那是我的朋友@Text。你见过他们吗？他们会将“hello”或你输入的任何文本进行求值，然后把这些文本放到舞台上。试试把你的文本改成其他内容。我会显示那个文本。这样我就能立即计算你输入的内容并显示结果了。"
+                            "比如說， 試著在那邊的編輯器裡面輸入 \\'你好'\\ 。",
+                            "（別擔心，你隨時可以用 *返回* @UI/revertProject 回到原來的樣子）",
+                            "你有輸入什麼了嗎？那是我的朋友文本（Text） @Text 你認識他們嗎？他們會評估你輸入的 \\'你好'\\ 或你輸入的任何其他文本，然後將該文本放在舞台上。試著把你的文本改成其他的，我會馬上評估你輸入的任何內容並顯示結果。"
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~指令可以根据您的需要变得尽可能复杂，但也有一些规则。",
-                            "$~例如，我只能计算一个值，并在舞台上显示该值。这个值可以任意复杂，只要我知道如何显示它，我就会去做。",
-                            "$~但如果你给我两件东西，我只会展示你给我的最后一件东西。",
-                            "$~例如，尝试添加另一行，然后在引号中输入您想要的任何单词。"
+                            "只要你想要，多複雜的指令我們都能做到！但是有幾條規則",
+                            "比如說，我只能評估一個 *值* ，然後把他們呈現在舞台上。那個值可以很複雜，只要我知道怎麼顯示它，我就一定會把它呈現出來。",
+                            "但如果你給我兩個東西，我只會顯示你給我的最後一個。",
+                            "例如，試著在你輸入的文本後加上隨便一個你想要的東西，放在引號裡。"
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~看到了吗？我只是展示了你的第二个短语，而不是第一个。你知道你违反了我的规定，因为我在你的第一个短语下面划了线，而我们告诉过你我们会忽略它。"
+                            "看到了嗎？我只顯示了你的第二個文本，而不是第一個。而且你會知道你打破了我的規則，因為我已經劃線了你的第一句，告訴你，我會忽略它。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~但你还可以做更多！"
+                            "但是你還可以做更多！"
                         ],
                         [
                             "Program",
                             "serious",
-                            "$~是也不是。我能做很多，但那只是因为我和*Verse*里的其他人一起工作。是他们把所有激动人心的可能性带到了*舞台*。我真正做的就是让他们发挥自己的才能，然后把他们创作的最终成果搬上舞台。我更像是一个护卫，把最终的*价值*，比如数字、文字、短语或其他价值，带到舞台上。"
+                            "是，也不是。我可以做很多事情，是因為我和 *詩篇* 裡面的其他人一起合作。他們才是把所有令人興奮的可能性帶來 *舞台* 的傢伙，而我做的只是讓他們隨意發揮，然後把他們最後創造的東西展示在舞台上。我更像是一個引導者，把最後的 *值* 展示在舞台上，像是數字、文本、片語和很多其他的東西。"
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~事实上，如果你想查看舞台上的某个项目的程序，你可以点击舞台上的 @UI/editProject 按钮。这样你就能看到大家是如何齐心协力创作舞台作品的。这个程序只是一个简单的短语。"
+                            "事實上，如果你想要看某樣在舞台上的東西中間的過程，你可以點一下舞台上的鉛筆 @UI/editProject ，它會告訴你大家是怎麼創造出舞台上的東西的，像是我們剛剛寫的就是一個簡單的片語"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~谢谢@Program！我们很高兴见到大家并分享这个消息！"
+                            "謝謝你！方程式（Program）@Program ，我們很期待接下來去見見其他人並告訴他們我們有導演了！"
                         ],
                         [
                             "Program",
                             "happy",
-                            "$~很高兴认识你，新导演！祝大家一切顺利。我会一直在这里。"
+                            "新導演，很高興認識你！祝你和其他人一切順利，我會一直在這裡，歡迎你隨時回來。"
                         ]
                     ]
                 },
                 {
-                    "title": "$~容纳空间",
-                    "subtitle": "$~占位符",
+                    "title": "佔位符",
+                    "subtitle": "佔位符",
                     "concept": "ExpressionPlaceholder",
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~你一定会喜欢@ExpressionPlaceholder。他们超级友善，而且非常灵活。但他们有点害羞。对他们温柔点就好。"
+                            "你會喜歡佔位符（Placeholder）@ExpressionPlaceholder 的！他們很善良，也很靈活，但他們有點害羞，請對他們有耐心一點。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "confused",
-                            "$~你好，@ExpressionPlaceholder？",
-                            "$~嗯，它们通常无处不在。现在好像哪儿也找不到它们了……"
+                            "嗨囉？ 佔位符（Placeholder）@ExpressionPlaceholder ？ 你在哪裡？",
+                            "恩...他們通常到處都是，現在卻好像不在了..."
                         ],
                         [
                             "ExpressionPlaceholder",
                             "scared",
-                            "$~@FunctionDefinition…是你吗？"
+                            "函式（Function）@FunctionDefinition ...是你嗎？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~是的，是我。好久不见了。你还好吗？"
+                            "恩，是我，好久不見了，你還好嗎？"
                         ],
                         ["ExpressionPlaceholder", "scared", "$~孤独。"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~我懂那种感觉。我也曾经孤独过。我们在一起的理由不多，不是吗？"
+                            "我懂你的感受...我也有一樣的感覺。我們已經有好一陣子沒有見面了，對嗎？"
                         ],
                         [
                             "ExpressionPlaceholder",
                             "scared",
-                            "$~没有，我们没有。我想你。我想念大家……"
+                            "恩...我很想念你，我也很想念大家..."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~我知道。我也有过这样的经历。真的很抱歉。",
-                            "$~这就是我来这里的原因。我想向你们介绍我们新来的实习主管。"
+                            "對，我也是...",
+                            "這也是為什麼我現在來找你，我要向你介紹我們的新的、還在實習中的導演！"
                         ],
                         ["ExpressionPlaceholder", "scared", "$~你好。"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~他们刚刚认识@Program，所以他们真的才刚刚开始，但我想接下来最好让他们见见你，因为你是这里很多人的优秀代表。"
+                            "他剛剛認識方程式（Program）@Program 現在正開始學習，我覺得最好接下來讓他認識你，因為你是我們這裡很多人的一個很好的代表。"
                         ],
                         ["ExpressionPlaceholder", "curious", "$~…"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~你想说说你做了什么吗？"
+                            "你想說說你都做些什麼嗎？"
                         ],
-                        ["ExpressionPlaceholder", "scared", "$~你可以吗？"],
+                        ["ExpressionPlaceholder", "scared", "...你來"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~当然！我的朋友 @ExpressionPlaceholder 是一个占位符。它们代表程序中任何类型的表达式。它们不会计算任何特定的值——事实上，如果它们出现在 @Program 中，@Program 只会暂停执行，因为接下来该做什么并不清楚。"
+                            "好啊！我的朋友佔位符（Placeholder） @ExpressionPlaceholder 在程序中能代表任何的表達方式。他們不會評估任何值，其實，當方程式（Program） @Program 看到他們出現的時候，方程式（Program） @Program 就會因為不清楚要做什麼而停下來。"
                         ],
                         null,
                         ["conflict", "_"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~但它们之所以强大，是因为它们可以代表任何其他人，就像一个替身，直到你决定表演的某个部分是什么。@ExpressionPlaceholder，想在这个@ExpressionPlaceholder？看到@Program @Program？这表示你可能在那里放了什么。"
+                            "但他們是強大的，直到你決定好這一部分的表演想要表達的是什麼之前，他們可以代表其他人，就像一個未知數。佔位符（Placeholder） @ExpressionPlaceholder ，想要在這裡 @Program 示範一下嗎？看到在方程式（Program） @Program @UI/ExpressionPlaceholder 那裡的佔位符了嗎？這表示你可以在那裡輸入訊息。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program 不知道如何处理 @ExpressionPlaceholder，因此它在 *stage* 上显示了 *exception* @UI/exception，并在 @Program @UI/conflict 中显示了 *conflict*。",
-                            "$~但是，如果您点击 @ExpressionPlaceholder，或将文本插入符号移到其上方，您将看到其他字符的无限可能。您也可以直接在 @ExpressionPlaceholder 上键入您自己的字符。例如，尝试在引号中输入您的姓名。"
+                            "因為方程式（Program） @Program 不知道要怎麼處理佔位符（Placeholder） @ExpressionPlaceholder ，所以它在 *舞台* 上表示 *例外* @UI/exception ，並在方程式（Program） @Program @UI/conflict 顯示 *衝突* 。",
+                            "但是如果你點擊佔位符（Placeholder） @ExpressionPlaceholder ，或者將文字光標移到上面，你會看到很多其他可能性。你也可以直接在佔位符（Placeholder） @ExpressionPlaceholder 上輸入內容。例如，試著在引號中輸入你的名字。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "-"],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~就这样，@ExpressionPlaceholder 被替换成了其他字符。我明白了吗，@ExpressionPlaceholder？"
+                            "就像這樣，佔位符（Placeholder） @ExpressionPlaceholder 被其他字符取代了，我說的都對嗎？佔位符（Placeholder） @ExpressionPlaceholder ？"
                         ],
-                        [
-                            "ExpressionPlaceholder",
-                            "eager",
-                            "$~是的，我想是的。"
-                        ],
+                        ["ExpressionPlaceholder", "eager", "恩，沒錯。"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~您觉得怎么样？我们可以继续吗？"
+                            "那你覺得呢，導演？我們繼續去和其他字符聊聊吧？"
                         ],
                         [
                             "ExpressionPlaceholder",
                             "excited",
-                            "$~很高兴认识你！"
+                            "很高興認識你！"
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "$~他们不喜欢在舞台上待太久，甚至不喜欢在一个节目里待太久。他们永远不会承认，但他们确实很重要，大多数导演都离不开他们。你可以把他们想象成一个个小巧玲珑、乐于助人的舞台助手，提醒你一些你还没弄清楚的事情。"
+                            "他們其實不喜歡在舞台上待太久，甚至不喜歡在程序中待太久，但他們不會承認。他們其實很重要，但他們也不會承認。而且大多數導演沒有他們是無法工作的，他們像是一個小幫手，會提醒你還沒有想出來的事情。"
                         ]
                     ]
                 },
                 {
-                    "title": "$~再說一遍嗎？",
-                    "subtitle": "$~无法解析",
+                    "title": "再說一遍？",
+                    "subtitle": "無法理解（Unparsable）",
                     "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~@UnparsableExpression？是你吗？"
+                            "嘿！無法理解（Unparsable） @UnparsableExpression ？是你嗎？"
                         ],
                         [
                             "UnparsableExpression",
                             "neutral",
-                            "$~/dwjkdlserkuvisdke！/"
+                            "ㄐ%ㄓ$ㄜ|"
                         ],
                         null,
                         ["use", "fit", "Symbol", "c iise we dvk"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~我也很高兴见到你！好久不见了。这么久没见面了，你都在忙些什么呢？"
+                            "很高興見到你！我們好久不見了，你最近在做什麼呢？"
                         ],
                         [
                             "UnparsableExpression",
                             "sad",
-                            "$~/sd fdsdfdsf ksdf。Dkfjdfdskfd df sdf sd fsdk;l！Adks zxcviw werdsf wer ado。我们 dsdfd ksld df.ds dfsdfds DIDIIDI。/"
+                            "ㄧ#ㄎ(ㄋ)ㄥ!ㄅ^ㄓ+ㄚㄦ_ㄣ|ㄐ%ㄥ&ㄇ*ㄩ#ㄑㄒ(ㄉ)ㄓ&&ㄩ#ㄓ^ㄩ|ㄧ$ㄎ(ㄓ)ㄇ!ㄥ%ㄙㄣ&ㄐ*ㄉ)ㄓ&ㄨ$ㄚ^ㄙ+ㄧㄑ|ㄇ$ㄉ*ㄩ#ㄙ|ㄥ"
                         ],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~（听起来他们在海滩上度过了很多时间。他们结识了一些新朋友，并且练习了无所事事。）"
+                            "（聽起來他們在海灘上玩了很久，交了新朋友，還練習了什麼都不做。）"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "ivioas we wjjdks"],
+                        ["use", "fit", "Symbol", "$ㄩ&ㄧ@ㄅ"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~我想把我们潜在的新主管介绍给你。他们刚到，正在学习基础知识。我刚刚给他们介绍了@Program@ExpressionPlaceholder。"
+                            "我想介紹你認識我們的新導演！他才剛到，還在學習基本的東西，我剛剛才把他們介紹給方程式（Program） @Program 和佔位符（Placeholder） @ExpressionPlaceholder 。"
                         ],
                         [
                             "UnparsableExpression",
                             "excited",
-                            "$~/EEIRC DFUIDIII CAD EWDF FSDE!!!/"
+                            "/&ㄋ@ㄕㄧ!ㄙ#ㄥ+ㄦ%ㄨ+ㄥ@ㄧ^ㄩㄒ|ㄧ$ㄇ+ㄐ*ㄙ#ㄧㄖ@ㄎ!/"
                         ],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~（他们只是说见到你真是太棒了，他们认为你会成为一名伟大的导演。）"
+                            "（他們說能見到你很棒，還說你會是一位很好的導演。）"
                         ],
                         null,
                         ["use", "fit", "Symbol", "v s d we iweiwei"],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~我想知道你是否想解释一下你的工作？我可以翻译。"
+                            "你想解釋一下你在做什麼嗎？我可以幫你翻譯。"
                         ],
                         [
                             "UnparsableExpression",
@@ -419,62 +415,62 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~（我代表一切毫无意义的东西。而我却毫无意义。）"
+                            "（我代表所有沒意義的東西。也就是說，無。）"
                         ],
                         null,
                         ["edit", ""],
                         [
                             "UnparsableExpression",
                             "eager",
-                            "$~/CNNNDN KDKLSL oOOLLlllll PPOLSLSO liiiiiiis，sdllslll，xck 我们认为 a./"
+                            "/ㄒ!ㄧㄧ&ㄑ|ㄕㄨ+ㄨ%ㄉ_ㄧ+ㄓ@ㄅㄒ%ㄨ#ㄧㄓ&ㄣ_ㄦ$ㄓ|ㄣㄋ+ㄖ%ㄑ!ㄉㄐㄕ#ㄓㄨㄧ/"
                         ],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~（例如，尝试输入 \\][\\。看看我们完全糊涂了没有？这没有任何意义，我在这里就是要说出来。）"
+                            "（比如說，試著打打看 \\][\\ 。你會發現我們完全不懂，這並沒有任何意義，我就是來告訴你這完全沒有意義的。）"
                         ],
                         null,
                         ["conflict", "]["],
                         [
                             "UnparsableExpression",
                             "eager",
-                            "$~/ICO Odksjdf lksls kjsfiou fskd 我们 rl,vxids eekd sd dsmf kksdcv./"
+                            "/ㄧ^ㄖ%ㄋ_ㄅ&ㄩㄓ+ㄧ$ㄥㄥ&ㄙ+ㄑ|ㄦ!ㄓㄒ$ㄩ&ㄧ@ㄅ^ㄉ|/"
                         ],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~（当我出现时，这意味着我们不知道你的意思。）"
+                            "（當我出現的時候，表示我們不明白你說的話。）"
                         ],
                         null,
                         ["conflict", "]["],
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~谢谢，@UnparsableExpression！",
-                            "$~就像他们说的，当你说了一些我们不明白的话时，unparsable 就是说“我们不明白”。当这种情况发生时，我希望我们能提供更多帮助，但我们通常很迟钝，所以我们不太擅长猜测你的意思。"
+                            "謝拉！無法理解（Unparsable） @UnparsableExpression ！",
+                            "就像他們說的，當你說了我們聽不懂的話時， @UnparsableExpression 就是來這裡說「等一下！我們聽不懂！」，我很希望我們能幫助你，但我們有時真的猜不出來你想表達什麼。"
                         ],
                         null,
                         [
                             "UnparsableExpression",
                             "eager",
-                            "$~/OSOOSOO SOIEIIIEIEIIE ISIISI EIEIIEE！/"
+                            "/ㄅ@ㄚ!ㄋ^ㄧ? ㄧ%ㄏ^ㄩ#ㄉ$ㄜㄌ(ㄑ) ㄖ+ㄇ|ㄆ=ㄥ*ㄙ&ㄓ@ㄐ/"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~所以，@UnparsableExpression 希望你尽可能多地尝试一下。（你可以随便敲几个字符，说不定就能得到很多）。"
+                            "所以～無法理解（Unparsable） @UnparsableExpression 希望你你可以試著打很多亂七八糟的字，試著讓他們出現很多次。（你可以試著在鍵盤上面隨便亂按，這樣他們大概會出現很多次。）"
                         ],
                         ["edit", ""],
                         null,
                         [
                             "UnparsableExpression",
                             "happy",
-                            "$~/PPOOOEPOEP EPWPEPEPPEPP PP PE P！/"
+                            "/_ㄇ%ㄩㄥ#ㄨ(ㄥ)ㄐ!ㄉ+ㄙㄒ$ㄕ^ㄎ+ㄦ!!/"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~他们真的很喜欢，谢谢！写一些我们完全无法理解的东西真的很难。但这并不意味着你写的一切都有意义。比如，我敢肯定你只是随便打了一堆字。但这到底意味着什么呢？"
+                            "他們很喜歡這樣，謝謝你！其實寫一些完全沒意義的東西是很難的。但這不代表你寫的每一個字我們都能理解，像是你剛剛打的那些我就不太懂，無法理解（Unparsable） @UnparsableExpression ，你知道嗎？"
                         ],
                         ["UnparsableExpression", "confused", "$~…/DDook/"],
                         null,
@@ -486,24 +482,24 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~他们想知道您是否有关于表演的任何想法。"
+                            "他好奇你有沒有什麼想要表演的主題呢？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~没有？没关系。我们才刚刚开始向你展示各种可能性。我们去见见@Evaluate。再见，@UnparsableExpression，很高兴见到你！我们很快就能一起玩了。"
+                            "還在想？沒關係，我也才剛開始展示我們能做到的事情。接下來，我們去見見評估（Evaluate） @Evaluate 吧！再見， @UnparsableExpression 我們下次再一起玩吧～"
                         ],
                         [
                             "UnparsableExpression",
                             "happy",
-                            "$~/Ood sd fosd oiewi dk c HNLLLooooooO！/"
+                            "/$ㄚ^ㄙ+ㄧㄑ|ㄇ$ㄉ*ㄩ#ㄙ|ㄥ_ㄋ!/"
                         ]
                     ]
                 },
                 {
-                    "title": "$~爱是在错误中",
-                    "subtitle": "$~评价",
+                    "title": "愛就在錯誤裡",
+                    "subtitle": "評估",
                     "concept": "Evaluate",
                     "performance": [
                         "fit",
@@ -513,41 +509,41 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~很高兴认识@Evaluate。他们真的是我最好的朋友。某种程度上，我们什么事都一起做。我制定规则，他们遵守；我们就像花生酱和果冻一样。但他们比我强大得多……@Evaluate？"
+                            "我好期待讓你見到評估（Evaluate） @Evaluate 喔！它真的是我最好的朋友，我們幾乎什麼事都一起做。我定什麼規則，它就來玩什麼規則，我們簡直就是天生一對。不過他比我強大多了... @Evaluate？"
                         ],
-                        ["Evaluate", "shy", "$~@FunctionDefinition？"],
+                        ["Evaluate", "shy", "函式（Function）@FunctionDefinition ？"],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~是的，是我。你在哪里？"
+                            "是我！你在哪裡？"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "$~无处可去。我无处可去。我什么都不是。你去哪儿了？"
+                            "我...哪裡都不在，我什麼也不是。你去哪裡了？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~我也……哪儿都没去。我想你了。我找不到你。"
+                            "我去...我哪裡也去不了，我好想你，我到處都找不到你。"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "$~感觉空虚极了。我……想做点什么，却感觉……漫无目的。"
+                            "那裡好空虛啊。我…有試著做些事情，但感覺好迷茫。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~真抱歉。我懂那种空虚的感觉。有时候，没有目标真的太痛苦了。我努力想要找到目标，却感觉……如此空虚。"
+                            "對不起，我知道那種空虛的感覺。有時候沒有任何目標真的很痛苦，我也很努力想要找到目標，但還是感覺很...迷茫。"
                         ],
                         [
                             "Evaluate",
                             "sad",
-                            "$~不要再这样离开我了。我不能再这样做了。"
+                            "別再像那次那樣離開我了，我真的不想再經歷一次了。 "
                         ],
                         null,
                         [
@@ -557,30 +553,30 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~永远不会。我不会。我不能。我爱你。"
+                            "我不想再離開了，我也很想你"
                         ],
                         ["Evaluate", "serious", "$~我爱你…"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~@Evaluate，我想向您介绍我们的新任实习主管。"
+                            "評估（Evaluate）@Evaluate 我想和你介紹我們的新導演。"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "$~你好。很高兴认识你。欢迎来到 The Verse；我们非常高兴你来到这里。"
+                            "嗨，很高興認識你，歡迎來到詩篇。我們都很高興你能來這裡。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~我们最近和几个人见了面：@Program、@ExpressionPlaceholder、@UnparsableExpression。我们才刚刚开始。我想接下来会见你们，因为你们是我们社区中如此不可思议的一部分。真是最不可思议的一部分。"
+                            "我向他介紹了很多夥伴方程式（Program） @Program 、 佔位符（Placeholder）@ExpressionPlaceholder 、 無法理解（Unparsable）@UnparsableExpression ，這才剛剛開始而已。我認為我們接下來該來見你，因為你是我們這個詩篇中非常不可思議的一部分，最不可思議的部分。"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "$~真是太好了！我很感激能成为这个社区的一员，也感激能和@FunctionDefinition如此亲近。我们一起做了很多很棒的事情。但正如@FunctionDefinition，如果没有灵感，我们无法做到。"
+                            "恩，謝謝你。我也很感謝能成為這裡的一份子，也很感謝能夠遇到函式（Function） @FunctionDefinition ，我們一起做了很多很棒的事情。不過，和函式（Function） @FunctionDefinition 可能告訴過你們的一樣，我們沒有導演就無法做到這些。"
                         ],
                         null,
                         [
@@ -590,44 +586,44 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~你想说说你做了什么吗？"
+                            "你想說說你做的事嗎？"
                         ],
                         [
                             "Evaluate",
                             "serious",
-                            "$~是的。但我解释这个就得先解释一下@FunctionDefinition。他们太谦虚了，不愿分享这一点，但他们可能是这首诗里最重要的角色。他们当然也是我世界里最重要的人。他们是每场演出的核心，也是每个角色角色的一部分。他们代表了我们世界里最根本的理念：*功能*。"
-                        ],
-                        null,
-                        [
-                            "Evaluate",
-                            "serious",
-                            "$~函数就像一种炼金术。它们接受任意数量的输入，并使用这些输入产生一个输出。它们可以有名字，也可以没有名字。它们的输入可以是零个，也可以是五个，甚至是一个未知数。而炼金术的核心在于：它们就像 @Program 一样，可以有任意数量的表达式来产生一个值。"
+                            "恩，不過我無法解釋這些，除非先了解函式（Function） @FunctionDefinition 做的事。它們太謙虛了，從不炫耀，但它們可能是這整個詩篇最重要的角色，他們也是對我來說最重要的角色。它們在每一場演出中都扮演著核心角色，並且是每個其他角色的一部分，它們代表著我們世界中最基本的概念： *函數*（Function）。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "$~它如此强大的原因在于：事实证明，@Program 中的所有内容都是函数求值的组合。所有的舞蹈、所有的游戏、所有我们一起讲述的精彩故事——它们都是由函数求值组成的，一次一个，最终构成了你在舞台上看到的值。",
-                            "$~而@FunctionDefinition，我亲爱的@FunctionDefinition，就是定义所有这些的。"
+                            "函數就像魔法一樣，它們可以接受任何數量的輸入，並且會使用這些輸入來產生一個輸出，比如說，它們可以有零個輸入，或者五個，或甚至是未知數量的輸入！ 而且，函數會根據不同的輸入來產生不同的結果。"
                         ],
                         null,
-                        ["FunctionDefinition", "happy", "$~… @Evaluate…"],
                         [
                             "Evaluate",
                             "serious",
-                            "$~是的，@FunctionDefinition，你就是这样的人。而我很幸运，能够负责这项评估。我接受其他人提供的输入，按照@FunctionDefinition定义的指令，并创建@FunctionDefinition告诉我的输出。@FunctionDefinition，我做菜。然后我们一起享用盛宴。",
-                            "$~你想看嗎？"
+                            "為什麼這麼厲害呢？因為在程式方程式（Program） @Program 裡面，所有的東西都是由一個個函數來完成的。無論是跳舞、玩遊戲、還是講故事！",
+                            "而且，函式（Function） @FunctionDefinition ，就是那個可以定義他們的人。"
+                        ],
+                        null,
+                        ["FunctionDefinition", "happy", "...評估（Evaluate） @Evaluate"],
+                        [
+                            "Evaluate",
+                            "serious",
+                            "沒錯，函式（Function） @FunctionDefinition 你就是有那麼重要。而我則是那個有幸進行計算的角色，我接收大家給我的輸入，按照函式（Function） @FunctionDefinition 設定的規則來計算，並根據函式（Function） @FunctionDefinition 的指示來生成結果。簡單來說，函式（Function） @FunctionDefinition 把食譜給我，我就能做菜，然後我們一起享受這頓大餐。",
+                            "你想看看我們是怎麼做的嗎？"
                         ],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~…是的，让我们给他们看看。"
+                            "那我們來讓他見識一下吧！"
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "$~每个求值看起来都像 @UI/Evaluate 这样的：某个函数，后面跟着左右括号，中间可以包含任意数量的输入。这里，我只有 @ExpressionPlaceholder 作为函数，另外三个作为占位符输入。"
+                            "每個評估都長得像這樣 @UI/Evaluate ：一個函數，後面跟著一對括號，括號中間放的是輸入。現在我只放了佔位符（Placeholder） @ExpressionPlaceholder 作為輸入。"
                         ],
                         ["conflict", "_(_ _ _)"],
                         null,
@@ -635,94 +631,94 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~这是我最喜欢的功能之一：@Phrase。它们充满了有趣的按钮、旋钮和滑块。它是一种在舞台上显示文本的方式，但又不失风格，包括不同的字体、大小、颜色和动画。",
-                            "$~以下是对@Phrase @UI/Evaluate 的简单评估。"
+                            "這是我最喜歡的函數之一--片語（Phrase） @Phrase 。它充滿了有趣的按鈕、旋鈕和操作桿。這是一種在舞台上顯示文字的方法，而且可以用來調整不同的字型、大小、顏色和動畫。",
+                            "這裡是一個簡單版本的片語（Phrase） @Phrase @UI/Evaluate 。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "$~这就是我在 @Program 中的样子：一个函数，后面跟着括号，括号之间是一系列表示输入的表达式。本例中的函数是 @Phrase，单个输入是“hello”。当我计算这个值时，我会生成一个 @Phrase 值，然后 @Program 会将其显示在舞台上。"
+                            "然後...這就是是我在方程式（Program） @Program 裡面看起來的樣子！一個函數，後面跟著括號，括號中放著一些表達式，代表輸入。現在，函式（Function）是片語（Phrase）@Phrase的模式，然後我們輸入\\'你好'\\。當我開始評估後，我會做出一個片語（Phrase）@Phrase 然後再把片語（Phrase）@Phrase 放到舞台上。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "neutral",
-                            "$~我来给你展示一下其中一个旋钮。你能找到那个小小的“调色板”切换按钮 @UI/paletteExpand 吗？点击它可以展开调色板，然后选择舞台上的乐句。",
-                            "$~完成后，您将看到 @Phrase 接受的多种输入。例如，尝试按下 @Phrase/size 的铅笔按钮，这将显示一个滑块。",
-                            "$~您可以使用此滑块修改短语的大小，它也会根据您选择的大小修改@Evaluate 代码。"
+                            "讓我給你看一個旋鈕！ 你能找到小小的 *調色板* @UI/paletteExpand 切換按鈕嗎？點一下它來展開調色板，然後選擇舞台上的片語。",
+                            "當你這樣做時，你會看到片語（Phrase）@Phrase 接受的很多種輸入。比如說，試著按下鉛筆按鈕 @Phrase/size ，這會顯示一個滑塊。",
+                            "你可以使用這個滑塊來修改片語（Phrase）的大小，這也會根據你選擇的大小 @Evaluate 改變。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "$~看看你这样做之后，程序里是不是多了一个输入？它就是 @Phrase/size 输入。函数的输入有一定的顺序，但如果函数有一系列可选输入，你可以使用它们的名称来指定要输入哪一个。我们在这里只提供了 @Phrase/size，没有提供任何其他可选输入。试着用调色板更改其他输入，比如字体。"
+                            "看到當你這樣做時，我在方程式（Program）中有了一個新的輸入嗎？這是大小 @Phrase/size 輸入。輸入是有順序的，而且，當同時有很多個輸入時，你可以使用它們的名稱來指定你想要給的輸入。現在我們有了大小的輸入 @Phrase/size 但沒有給其他可以給的輸入。試著用調色板改變另一個輸入，也許是字體。"
                         ],
                         null,
                         ["conflict", "'hi'(1 2)"],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~太棒了！@Phrase 太好玩了。这是我最喜欢玩的函数。以后我们还会经常看到它们。你有什么可能会出错的地方吗？"
+                            "哈哈，片語（Phrase） @Phrase 真的很有趣！我真的很喜歡跟他們一起合作，我們之後還會看到更多。不過...你想要說一下你「不能」做什麼嗎？"
                         ],
                         [
                             "Evaluate",
                             "serious",
-                            "$~哦，是的，这是个好主意。很多事情都可能出错。比如，你可能给我一些不是函数的东西。看看我这里是如何把文本“hi”作为一个函数传入的，然后给我两个输入“1”和“2”？嗯，我只知道如何求函数的值，而“hi”不是函数；它是文本。这让我很困惑，所以如果发生这种情况，我基本上会停止表演。"
+                            "喔，對！這是個好主意！很多事情可能會出錯。例如，你可能會給我一些不是函式（Function）的東西。看，當我輸入一個 \\“hi”\\ 作為函式（Function），並給了我兩個數字 \\1\\ and \\2\\ ，不過呢，我只知道如何評估函式，而 \\“hi”\\ 不是函式，它是文本。所以我會不知道該怎麼辦，如果發生這種情況，我基本上會停止表演。"
                         ],
                         null,
                         ["conflict", "Phrase()"],
                         [
                             "Evaluate",
                             "eager",
-                            "$~这是另一个。@Phrase 至少需要一些文本，所以如果你不给我文本，我就无法评估@Phrase，因为我缺少必需的输入。"
+                            "還有一件事！ @Phrase 片語（Phrase）至少需要一些文本，所以如果你不給我文本，我就不能去評估 @Phrase 片語（Phrase），因為我缺少必要的輸入。"
                         ],
                         null,
                         ["conflict", "Phrase(1)"],
                         [
                             "Evaluate",
                             "excited",
-                            "$~或者，如果你给我一个输入，但它不是我期望的类型，那就有问题了。这里，@Phrase 被赋予了数字 \\1\\ 而不是文本值。"
+                            "或者，如果你給我一個輸入，但它不是我期望的那種，那就會出問題了。就像現在， @Phrase 片語（Phrase）被輸入了數字 \\1\\ 而不是文本。"
                         ],
                         null,
                         ["fit", "Stage([] background: 🌈(90% 100 0°))"],
                         [
                             "Evaluate",
                             "curious",
-                            "$~所以基本上，每当你给我一个函数以外的东西，或者一个函数所期望的输入时，我都会感到困惑。所以函数真的很重要。@FunctionDefinition，你想进一步解释一下如何定义函数吗？"
+                            "所以基本上，每當你給我一個函式（Function）以外的東西，或者一個函式（Function）不期望的輸入時，我就會感到困惑、不知道該做什麼。所以函式（Function）真的很重要。 @FunctionDefinition 函式（Function），你想多說一些關於如何定義函數的內容嗎？"
                         ],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~不，那我们以后再说吧。我觉得先和大家聊聊，然后和我们新来的导演一起办几个迷你节目会更有趣。等有用的时候，我们可以再聊聊我的情况。"
+                            "不會，我們晚點再做吧。我覺得我們可以先和大家聊聊天，然後和我們的新導演一起來場迷你表演會更有趣。等到合適的時候再聊我的事吧。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "kind",
-                            "$~我真的很想念你，@FunctionDefinition。"
+                            "我真的很想你 @FunctionDefinition."
                         ],
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~我也想你。我们可以晚点再聊吗？"
+                            "我也想你了，我們晚一點再一起聊天吧？"
                         ],
                         [
                             "Evaluate",
                             "kind",
-                            "$~……是的。别太久。没有你我活不下去。我需要你。"
+                            "...好吧。早點來找我喔，我真的很想你。"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~……我知道，@Evaluate；我很快就会回来。我们去见见剧团的其他成员吧！"
+                            "我知道 @Evaluation 評估（Evaluate）我很快就回來。導演我們走吧！去見其他劇團成員！"
                         ]
                     ]
                 }
             ]
         },
         {
-            "title": "$~这是小事",
+            "title": "不起眼的大事",
             "performance": ["use", "fit", "SimpleJiggle"],
             "scenes": [
                 {
@@ -737,8 +733,8 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~我真的很想念@Evaluate。我无法想象没有他们的Verse会是什么样子。",
-                            "$~但他们有时有点……需要帮助。我希望他们能……我不知道，相信自己？他们能做很多事，但他们自己却不去意识到。我的意思是，他们把*价值观*转化成其他*价值观*！我做的只是提供菜谱，他们做菜。有时候我觉得我做的只是给予，而他们做的只是索取。这感觉太令人窒息了。"
+                            "我真的很想念 @Evaluation 評估（Evaluate）。我無法想像沒有他們的詩篇。",
+                            "但有時候他們會有點...不夠相信自己？他們能做很多事情，但他們常常不了解自己有多厲害！例如，他們可以把一種 *值（Value）* 轉換、編輯、計算後變成另一種 *值（Value）* ！而我所做的只是提供食譜而已，他們才是真正下廚的人。"
                         ],
                         null,
                         [
@@ -748,15 +744,15 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~……*价值观*？抱歉，我知道我们应该在*诗篇*中进行一次大型巡演。我只是不知道该如何处理@Evaluate。所以……*价值观*。我还没解释清楚呢，对吧？嗯……怎么解释……你知道“数据”是什么吗？比如数字和文本？价值观就是其中任何一种。一个价值观可以小到一个数字，也可以大到舞台上的整个场景，充满了跳舞和移动的人物。有些价值观是由许多其他价值观组成的，就像交织在一起的庞大而复杂的数据值结构。"
+                            "你問什麼是 *值（Value）* ？ 歐抱歉，我還沒解釋過這個，嗯...，怎麼解釋呢...你知道什麼是資料嗎？像是數字和文字？值（Value）是任何這些東西。值（Value）可以小到一個數字，也可以大到舞台上的整個場景，充滿了跳舞和移動的角色。有些值（Value）甚至可以是由許多其他值（Value）組成的，就像我們會用「點心」代表很多種不同的食物一樣！"
                         ],
                         null,
                         ["fit", "Group(Stack() [Phrase('#') Phrase('\"\"')])"],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~每个值都有一个*类型*。例如，\\1\\ 是数字类型；这就是我们的朋友 @Number。而 \\'hello'\\ 是文本类型；这就是我们的朋友 @Text。类型很重要，因为它们可以帮助我们追踪正在创建的值的类型。",
-                            "$~这有助于我们发现问题。例如，将“hello”+1 相加没有任何意义，因为将@Text 添加到@Number 又有什么意义呢？"
+                            "每個值（Value）都有一個 *類型* （Type）。例如，\\1\\是是我們的朋友 @Number ；\\'你好'\\ 是我們的另一個朋友 @Text。類型（Type）對我們設計的舞台十分重要！因為他們可以幫助我們了解我們創造的值（Value）是什麼類型。",
+                            "了解類型（Type）可以幫助我們發現問題，比如說，當我試著將這兩個 \\'你好' + 1\\ 加在一起是沒有意義的，對吧？我們無法理解 @Text 要怎麼和 @Number 相加。"
                         ],
                         null,
                         [
@@ -766,20 +762,20 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~*表达式*是我们创建值的方式。所有表达式都是对函数的求值。表达式求值的结果是某种类型的值。"
+                            "*表達式（Expression）* 是我們創建一個值（Value）的方式。所有的表達式都是經由我評估、計算後創建的值，像是如果你問我1+1大於2嗎？我在經過計算和評估後，我會給你一個值（Value）：正確（True）！但根據你問我的問題不同，我會給你的表達式（Expression）也不一樣。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "🤔"],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~抽象？嗯，我觉得这确实挺抽象的。感觉……很正常；我都忘了这些东西对新导演来说有多陌生了！或许我们去看看一些构成价值观的表达式，这样会更具体一些？先从你已经见过的一个开始：@Text。"
+                            "有點抽象齁？也許我們去見一些創造值（Value）的 expressions，這會讓它更具體？讓我們從你已經見過的一個開始：@Text。"
                         ]
                     ]
                 },
                 {
-                    "title": "$~引用，取消引用",
-                    "subtitle": "$~文本",
+                    "title": "加上引號！",
+                    "subtitle": "文本",
                     "concept": "TextLiteral",
                     "performance": [
                         "fit",
@@ -794,51 +790,51 @@
                         [
                             "Text",
                             "happy",
-                            "$~欢迎，我亲爱的朋友，好久不见了。在我们这戏剧性的沉默中，你都在做什么呢？"
+                            "@Text？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~哦，@Text，好久不见了！我大部分时间都在幻想和思考。我好久没见@Text。其实我是在把他们介绍给我们的新导演。"
+                            "喔，@Text，好久不見啦！我最近都在做夢還有想事情。我剛剛才去看了 @Evaluate，一個很久沒見的朋友。我正在把他介紹給我們的新導演呢！"
                         ],
                         [
                             "Text",
                             "eager",
-                            "$~哦，见到你真是太特别了！我看得出来你是个有创造力、好奇心强的人，可能对如何娱乐大众有很多有趣的想法。我喜欢娱乐大众。但你知道我更爱什么吗？文字！美妙的文字。简短的、震撼的、黏糊糊的、滑溜溜的。文字是我最爱的玩具。"
+                            "哇，能見到你真是太棒了！我看得出來你是一個有創意、愛問問題的人，應該有很多有趣的想法。跟你說喔，我超級喜歡表演！不過你知道我最喜歡的是什麼嗎？是*文字*！各種文字——筆畫多的、筆畫少的、好聽的、好看的，我最喜歡和文字一起玩了！"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~如果你不知道的话，@Text 喜欢文字 :) @Text，你想解释一下你所做的事情吗？"
+                            "哈哈，你大概已經發現了，@Text 超級喜歡文字 :)   @Text，你想跟大家說說你是做什麼的嗎？"
                         ],
                         [
                             "Text",
                             "serious",
-                            "$~我做一件很简单的事情：表示符号序列以及你可以用它们实现的众多功能。我想你之前写下“hello”这个词的时候见过我。那是我和我的朋友们，“h”、“e”、“l”和“o”。那就是@Text，一个可以计算任意@Text。"
+                            "我在這邊做一件簡單但重要的事情：我代表一連串的符號，也就是文字！你還記得你剛剛打出來的 \\「你好」\\ 這幾個字嗎？那就是我！還有我的朋友 \\「你」\\、 \\「好」\\。這就是我，文本 @Text，一種可以變成你想要的任何文字的表達式。"
                         ],
                         null,
                         [
                             "Text",
                             "serious",
-                            "$~你为什么不尝试在这个空白的@Program 中创建一个文本？",
-                            "$~您可以使用任何您喜欢的引号——单引号 \\''\\、双引号 \\\"\"\\、尖括号 \\«»\\、方括号 \\「」\\——无论您喜欢哪种语言。唯一的规则是，如果您的文本以引号符号开头，则必须以引号符号结尾。引号内的所有内容都是我将创建的文本值！"
+                            "試試看，在這片空白 @Program 裡寫一段文字？",
+                            "你也可以用任何你喜歡的引號來包住它們——單引號 \\「」\\、 雙引號 \\『』\\、書名號 \\«»\\、括號 \\（）\\，也可以用任何你喜歡的語言！唯一的規則是：你用什麼符號開始，就要用相同的符號結束。裡面的東西，我就會幫你變成的文本！"
                         ],
                         ["edit", "''"],
                         null,
                         [
                             "Text",
                             "serious",
-                            "$~您可能无法使用与我们通信时使用的设备输入您想要的每个字符。",
-                            "$~如果找不到，您可以在*目录* @UI/directory 中搜索字符。它包含诗句中的每个字符。",
-                            "$~例如，如果你想要某种箭，可以输入“arrow”（箭头），然后从众多箭头中选择。可惜的是，它们只有英文名称，所以只有懂英文单词的人才能搜索到 :/"
+                            "如果你現在用的裝置不能打出你想要的符號也沒關係。你可以去 @UI/directory 這個 目錄 找找看，那裡面有整個世界裡的所有符號。",
+                            "你可以去 @UI/directory 這個 目錄 找找看，那裡面有整個詩篇裡的所有符號。",
+                            "比如你想找一個箭頭，只要打「arrow」這個英文單字，就會出現好多種箭頭讓你選，不過可惜的是，這些名字現在還都是英文的，所以你可能要會一點英文才能找得到 :（ "
                         ],
                         null,
                         [
                             "Text",
                             "serious",
-                            "$~太棒了。当然，“里面”这个词可能比较棘手。假设你写了这个。你看，开头有引言，结尾却没有？那我怎么知道这段文字什么时候结束呢？"
+                            "太好了！ Of course, 'inside' can be tricky. Say you wrote this. See how there's an opening quote but not a closing one? Well, how am I supposed to know when the text ends?"
                         ],
                         ["conflict", "'hello"],
                         null,
@@ -5078,34 +5074,42 @@
                         [
                             "Evaluate",
                             "sad",
-                            "$~@FunctionDefinition，你去哪儿了？？"
+                            "@FunctionDefinition, 你去哪裡了？？"
                         ],
                         [
                             "FunctionDefinition",
-                            "surprised",
-                            "$~我一直在向我们的新导演展示……"
+                            "surprised", 
+                            "我剛剛在帶我們的新導演四處看看……"
                         ],
                         null,
                         [
                             "fit",
                             "Stage([Phrase('😢')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "shy", "$~我没想到你会这么久……"],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "我沒想到你會花這麼長的時間…"
+                        ],
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~……@Evaluate，我知道你想我了。我也想你。但这件事很重要：沉默被打破了；我们有了新导演……我爱你，我知道你需要我，但我也有事要做。"
+                            "… @Evaluate, 我知道你想我了。我也想你。但這很重要：沉默被打破了，我們有了新的導演…… 我知道你需要我，但我也有自己的事要做。"
                         ],
                         null,
                         [
                             "fit",
                             "Stage([Phrase('😠')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "sad", "$~这事以后再说吧，你还有事要做。"],
+                        [
+                            "Evaluate",
+                            "sad",
+                            "我們晚點再談這件事吧。你還有事要做。"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~我认为我们现在需要谈谈这个问题。我们不能再陷入这种循环了。"
+                            "我覺得我們現在就需要談談。我們不能一直陷入這個循環。"
                         ],
                         null,
                         [
@@ -5115,334 +5119,342 @@
                         [
                             "Evaluate",
                             "curious",
-                            "$~什么循环？我爱你！这怎么能叫循环呢？"
+                            "什麼循環？我愛你！這怎麼會是循環呢？"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~我创造功能，你评估它们：这就是我们的行事方式。但我们之间应该还有更多东西，而不仅仅是你需要我。与大家重聚让我意识到，我们需要多么多的空间来做自己，也需要多么爱自己。我无法给予你们所有你们需要的爱。其中一些爱必须由你们来给予。"
+                            "我負責建立函式 (Function)，你負責評估 (Evaluate)，這是我們的方式。但我們之間不應該只是你需要我。和大家重聚讓我明白，我們需要空間做自己，也需要學會愛自己。我沒辦法給你所有的愛，有些愛必須來自你自己。"
                         ],
                         null,
                         [
                             "fit",
                             "Stage([Phrase('😭')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "sad", "$~你不爱我？"],
+                        ["Evaluate", "sad", "你不愛我了嗎?"],
                         [
                             "FunctionDefinition",
                             "angry",
-                            "$~不，我不是这个意思……我的意思是，在这段关系中，我们双方都必须重要。我需要说出我需要的，你也需要说出你需要的，我们可以彼此相爱，因为彼此都是独立的个体。你/需要什么？你喜欢自己什么？"
+                            " 不，我不是這個意思……我的意思是，我們的關係中兩個人都很重要。我需要說出我的需求，你也要說出你的需求，然後我們才能真正愛對方，愛彼此的獨特之處。你需要什麼？你喜歡自己哪一點？"
                         ],
                         null,
                         [
                             "fit",
                             "Stage([Phrase('🫠')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "shy", "$~我需要……你。我不需要我自己。"],
+                        ["Evaluate", "shy", "我需要……你。我不需要我自己"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~我爱你，@Evaluate。但我需要你爱你自己。我为我们的世界重获生机而兴奋，也为再次相聚的意义而兴奋，但我需要你找到自我，找到你的需求，找到你自己的目标。我无法成为你的目标。"
+                            "我愛你，@Evaluate。但我希望你也愛你自己。我對我們的世界重新甦醒感到興奮，也期待我們能再次在一起，但你需要找到自己，找到你的需求，找到你的目標。我不能成為你的唯一目標。"
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~我需要一些空间。抱歉，导演朋友。或许@Evaluate 可以不用我，就结束这场欢迎派对。"
+                            "我需要一些空間。對不起，導演朋友。也許 @Evaluate 可以幫忙結束這場歡迎派對。"
                         ],
                         null,
-                        ["Evaluate", "shy", "$~… 你好。"],
+                        ["Evaluate", "shy", "… 嗨."],
                         null,
                         [
                             "Evaluate",
                             "shy",
-                            "$~…你学到了很多吗？@FunctionDefinition 知道的真多。"
+                            "你學到了很多嗎？@FunctionDefinition 知道好多事情。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "curious",
-                            "$~我？我什么都不知道。我把他们需要的东西给了@FunctionDefinition……至少，我以为我这么做了。"
+                            "我？ 我什麼都不知道。Me? 我只是給 @FunctionDefinition 他們需要的東西……至少我以為我是這樣做的。"
                         ],
                         null,
                         ["fit", "Stage([] background: Color(10% 0 0°))"],
-                        ["List", "kind", "$~事实并非如此，@Evaluate。"],
-                        ["Boolean", "precise", "$~不对。"],
-                        ["Text", "happy", "$~根本不是事实！"],
-                        ["Changed", "happy", "$~非常不真实！"],
+                        ["List", "kind", "這不是真的，@Evaluate。"],
+                        ["Boolean", "precise", "你在說謊"],
+                        ["Text", "happy", "這一點都不對!"],
+                        ["Changed", "happy", "完全不是真的！"],
                         [
                             "Number",
                             "serious",
-                            "$~1) 您基本上负责我们的表演，2) 没有您，@FunctionDefinition 将毫无用处，3) 您确实将事物转化为全新的价值，4) 您以多种不同的形式出现，5) 您赋予我们所有人目标，6) 我们都仰望您的指导……"
+                            "1) 你基本上掌控了我們的演出，2) @Evaluate 沒有你就什麼都不是，3) 你能把東西完全轉變成新的數值，4) 你有超多不同的形態，5) 你讓我們所有人都找到意義，6) 我們都仰賴你來指引方向……"
                         ],
                         null,
                         ["fit", "Stage([] background: Color(20% 0 0°))"],
                         [
                             "Phrase",
                             "kind",
-                            "$~@Number 是对的，@Evaluate，你在五十个方面都很出色。"
+                            "@Number 說得對 @Evaluate, 你真的超棒！"
                         ],
-                        ["Sequence", "happy", "$~我一看到你就旋转！"],
-                        ["Group", "kind", "$~你激励我将我们聚集在一起！"],
-                        ["Stage", "serious", "$~你们是我们生命的骨干"],
-                        ["None", "serious", "$~…"],
-                        ["Program", "kind", "$~我就是你创造的一切！"],
+                        ["Sequence", "happy", "我每一次看到你都很開心"],
+                        [
+                            "Group",
+                            "kind",
+                            " 你激勵我把大家聚在一起！" 
+                        ],
+                        ["Stage", "serious", "你是我們存在的基石！!"],
+                        ["None", "serious", "…"],
+                        ["Program", "kind", "我就是你創造出來的一切！"],
                         null,
                         ["fit", "Stage([] background: Color(40% 0 0°))"],
-                        ["Convert", "kind", "$~我从你身上学到了一切！"],
+                        ["Convert", "kind", "我從你身上學到了一切！"],
                         [
                             "StructureDefinition",
                             "kind",
-                            "$~如果没有你，我们就会陷入混乱。"
+                            " 沒有你，我們是一團混亂。"
                         ],
                         [
                             "Bind",
                             "happy",
-                            "$~比如，如果你没能成功，我会给你起什么名字？"
+                            "如果沒有你，我還能命名什麼呢？"
                         ],
-                        ["Conditional", "curious", "$~没有你我们怎么办？"],
-                        ["Block", "kind", "$~…你是@Evaluate！"],
+                        [
+                            "Conditional",
+                            "curious",
+                            "沒有你，我們還能做什麼？"
+                        ],
+                        ["Block", "kind", "… 你就是 @Evaluate！"],
                         null,
                         ["fit", "Stage([] background: Color(50% 0 0°))"],
                         ["Evaluate", "happy", "$~…"],
                         null,
                         ["fit", "Stage([] background: Color(60% 0 0°))"],
-                        ["Evaluate", "kind", "$~你们都太好了……我……"],
+                        ["Evaluate", "kind", "你們真的太好了……我……"],
                         null,
                         ["fit", "Stage([] background: Color(70% 0 0°))"],
                         [
                             "Evaluate",
                             "kind",
-                            "$~我们可以跳舞吗？我太想念你们了。"
+                            "我們能一起跳舞嗎？我真的好想念你們！"
                         ],
                         null,
                         ["fit", "Stage([] background: Color(80% 0 0°))"],
-                        ["FunctionDefinition", "happy", "$~我们跳舞吧。"],
-                        ["Evaluate", "sad", "$~@FunctionDefinition…我太…"],
+                        ["FunctionDefinition", "happy", "讓我們跳舞吧！"],
+                        ["Evaluate", "sad", "@FunctionDefinition… 我太……"],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~你为什么不带领我们呢？"
+                            "你應該來帶領我們。"
                         ],
                         null,
-                        ["Evaluate", "shy", "$~…我不能…"],
-                        ["FunctionDefinition", "happy", "$~你可以*。"],
+                        ["Evaluate", "shy", "… 我做不到……"],
+                        ["FunctionDefinition", "happy", "你 *可以*的."],
                         null,
                         ["fit", "Stage([] background: Color(90% 0 0°))"],
-                        ["Evaluate", "shy", "$~……我……我会试试的。"],
+                        ["Evaluate", "shy", "… 我……我會試試看。"],
                         null,
                         ["fit", "Stage([] background: Color(100% 0 0°))"],
                         [
                             "Evaluate",
                             "shy",
-                            "$~我想要……我想要我们都能跟着节拍舞动。在黑暗中……跟着节拍倾斜。我们能做到吗？"
+                            "我想……我想讓我們都隨著節拍移動，在黑暗中微微搖擺。可以嗎？"
                         ],
                         null,
-                        ["Program", "happy", "$~我们能做到！"],
-                        ["Stage", "kind", "$~从我开始"],
+                        ["Program", "happy", "當然可以！"],
+                        ["Stage", "kind", "讓我們開始吧——我先！"],
                         [
                             "Evaluate",
                             "kind",
-                            "$~好的，@Stage，你能把它弄暗吗？"
+                            " 好的，@Stage，你能讓它變暗嗎?"
                         ],
-                        ["Stage", "kind", "$~黑暗的！"],
+                        ["Stage", "kind", "黑暗模式，啟動！"],
                         ["use", "edit", "EvaluateDance1"],
                         null,
                         [
                             "Evaluate",
                             "kind",
-                            "$~@StructureDefinition，我觉得我们需要一种方法来记住我们的位置。你能帮我们做一个结构吗？"
+                            "@StructureDefinition，我覺得我們需要記住自己的位置。你能幫我們設計一個結構嗎？"
                         ],
-                        ["StructureDefinition", "curious", "$~像这样？"],
+                        ["StructureDefinition", "curious", "這樣可以嗎？"],
                         ["use", "edit", "EvaluateDance2"],
                         null,
                         [
                             "Evaluate",
                             "kind",
-                            "$~是的……我也希望我们能跟着节拍旋转。你也能记得旋转吗？"
+                            "沒錯……我還希望我們可以隨著節拍旋轉。可以記住旋轉嗎？"
                         ],
-                        ["StructureDefinition", "curious", "$~这个怎么样？"],
+                        ["StructureDefinition", "curious", "這樣如何？"],
                         ["use", "edit", "EvaluateDance3"],
                         null,
                         [
                             "Evaluate",
                             "happy",
-                            "$~嗯，就像这样。嗯……哦，我们得上台了。@Text，你介意列个名单吗？我们会把它变成\\Character>s。"
+                            "太棒了！嗯……，我們還需要站上舞台。@Text，你可以幫我們列出所有人嗎？我們會把名單轉成\\角色。"
                         ],
-                        ["Text", "excited", "$~亲爱的，我很乐意。这样可以吗？"],
+                        [
+                            "Text",
+                            "excited",
+                            "沒問題。這樣可以嗎？"
+                        ],
                         ["use", "conflict", "EvaluateDance4"],
                         null,
                         [
                             "Evaluate",
                             "excited",
-                            "$~是的，太棒了！我们现在只需要把它们变成字符。@List，我们可以翻译它们吗？@FunctionDefinition，你能帮忙吗？"
+                            "完美！現在我們要把名單變成角色。@List，我們可以進行轉換嗎？@FunctionDefinition，你願意幫忙嗎？"
                         ],
-                        ["List", "happy", "$~翻译，1，2，3！像这样？"],
+                        ["List", "happy", "轉換開始，1、2、3！這樣如何？"],
                         ["use", "conflict", "EvaluateDance5"],
                         null,
                         [
                             "Evaluate",
                             "happy",
-                            "$~太棒了！现在，我们需要我们上台。我们可以把这些字符翻译成@Phrase？或许可以加入@Free @Group？"
+                            "太棒了！現在我們需要讓角色登上舞台。可以把角色轉換成 @Phrase 嗎？或許放進 @Free Group 會更好？"
                         ],
-                        ["List", "kind", "$~再一次！"],
-                        ["Phrase", "kind", "$~大家注意！"],
-                        ["Group", "kind", "$~来吧，各位，请就位……"],
+                        ["List", "kind", "再來一次！"],
+                        ["Phrase", "kind", "集中所有目光！"],
+                        ["Group", "kind", "來吧，大家就位……"],
                         ["use", "edit", "EvaluateDance6"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "$~哦……我们在哪儿？哦！我们需要颜色。@Pose，我们可以是白色的吗？"
+                            "哦……我們在哪裡？哦！我們需要顏色。@Pose，我們能變成白色嗎？"
                         ],
                         ["use", "edit", "EvaluateDance7"],
                         null,
                         [
                             "Evaluate",
                             "surprised",
-                            "$~哎呀，我们都挤在一起了！我们需要一个起点。我们去@Random？"
+                            "糟了，我們全擠在一起了！我們需要起始位置。來試試 @Random 吧？"
                         ],
                         ["use", "edit", "EvaluateDance8"],
                         null,
                         [
                             "Evaluate",
                             "happy",
-                            "$~好极了！现在我们只需要移动一下。@Reaction，你能给我们一个节拍吗，比如 0.75 秒？"
+                            "太棒了！現在我們需要動起來。@Reaction，能給我們一個節拍嗎？比如 \\0.75 \\秒？"
                         ],
                         [
                             "Reaction",
                             "kind",
-                            "$~我可以修改它！我们需要一个 @Time 流，但我们也需要修改字符。那么下一个值应该是什么呢？"
+                            "我能調整它！我們需要一個 @Time stream，還需要改變角色的狀態。但下一個值應該是什麼呢？"
                         ],
                         ["use", "edit", "EvaluateDance9"],
                         null,
                         [
                             "Evaluate",
                             "eager",
-                            "$~我想我们需要某种方式让我们在每个节拍上移动。@StructureDefinition，我们可以制作一个选择新位置和旋转的移动函数吗？"
+                            "看來我們需要一個方法，讓我們在每個節拍上移動。@StructureDefinition，我們能創建一個選擇新位置和旋轉的 移動函式嗎？"
                         ],
                         [
                             "StructureDefinition",
                             "sad",
-                            "$~我不知道如何创建一个函数……"
+                            "我不知道怎麼寫函式……"
                         ],
                         null,
-                        ["Evaluate", "sad", "$~…"],
-                        ["FunctionDefinition", "happy", "$~我可以帮忙。"],
-                        ["Evaluate", "happy", "$~…"],
+                        ["Evaluate", "sad", "…"],
+                        ["FunctionDefinition", "happy", "我可以幫你。"],
+                        ["Evaluate", "happy", "…"],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~有时候……我只是想让你知道你有多棒。有时候，这意味着离开。看看你在这里创造了什么……"
+                            "有時候……你需要知道自己有多棒。而有時，這意味著我要放手。看看你正在創造的東西……"
                         ],
                         [
                             "Evaluate",
                             "happy",
-                            "$~我……我正在创造一些东西。我们正在创造一些东西……但没有你我们做不到。你能帮忙吗？"
+                            " 我……我真的在創造些什麼。我們在創造些什麼……但沒有你，我們辦不到。你願意幫忙嗎？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~当然。\\move\\ 函数马上就来。我来启动，你来完成……"
+                            "當然！ 一個 \\移動\\ 函式，馬上來。我來開個頭，你來完成它……"
                         ],
                         ["use", "edit", "EvaluateDance10"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "$~谢谢@FunctionDefinition。它们没动……哦，对了，\\move\\ 什么都没改变！我们先从当前位置开始，水平和垂直随机移动一个方向。或许还可以随机移动一个深度，这样我们都能提前有机会移动。然后随机旋转一下？"
+                            " 謝謝你，@FunctionDefinition。但它們沒有動……啊，對了，\\移動\\ 什麼都沒改變！我們得從當前位置開始，隨機移動水平方向和垂直方向，然後加上一點深度變化，讓大家輪流站到最前面。還有隨機旋轉？"
                         ],
                         ["use", "edit", "EvaluateDance11"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "$~嗯……还是没动。哦！我们没有在@Reaction\\move\\。@List，你能把每个\\Character\\翻译成_moved_\\Character\\吗？"
+                            "嗯……還是不動。哦！我們忘了在 @Reaction 中評估 移動（move）！@List，能幫我們把每個 \\角色\\ 轉換成 移動後的 \\角色\\ 嗎？"
                         ],
-                        ["List", "excited", "$~在您的帮助下进行翻译！"],
+                        ["List", "excited", "和你一起翻譯！"],
                         ["use", "edit", "EvaluateDance12"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "$~我们动作太不连贯了。哦，@Phrase，我们忘了设置移动的@Phrase。你能不能设置一个比@Time tick更小的时长，这样我们移动一下，然后休息一下？"
+                            "動作還是很生硬……哦，@Phrase，我們忘了設定 移動（move） 的 @Pose 和持續時間。我們應該選個比 @Time tick 還小的值，這樣能讓我們移動後稍作停頓。"
                         ],
                         ["use", "edit", "EvaluateDance13"],
                         null,
                         [
                             "Evaluate",
                             "excited",
-                            "$~我们在跳舞！我们真的在跳舞。我们做到了！"
+                            "我們跳舞了！我們真的在跳舞！我們成功了！"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~我们只是忘记了一个人……"
+                            "我們忘了一個人……"
                         ],
-                        ["Evaluate", "excited", "$~WHO？"],
+                        ["Evaluate", "excited", "誰?"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~我们的导演！他们应该和我们一起跳舞。"
+                            "我們的導演！他們應該也一起跳舞。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "excited",
-                            "$~哦，当然！让他们来做音乐怎么样？@Phrase，你能听一下@Volume，然后把它连接到你颜色的@Phrase@Volume？这样，导演发出声音的时候，我们就能全神贯注了！"
+                            "哦對！當然！不如讓他們來製作音樂吧？@Phrase，你能監聽 @Volume，並將它連結到你的 @Color/lightness 和 @Color/chroma 嗎？這樣當我們的導演發聲時，我們就會閃耀出炙熱的白光！"
                         ],
-                        ["Phrase", "kind", "$~好主意！"],
+                        ["Phrase", "kind", "好主意！"],
                         ["use", "edit", "EvaluateDance14"],
                         null,
                         ["use", "fix", "EvaluateDance14"],
-                        ["List", "excited", "$~1、2、3、1、2、3"],
-                        ["Boolean", "excited", "$~移动！"],
-                        ["Text", "excited", "$~兴奋！"],
-                        ["Conditional", "excited", "$~舞蹈究竟是什么？"],
-                        ["Changed", "excited", "$~砰，砰，砰"],
-                        ["Number", "excited", "$~左转5度，上移1米"],
-                        ["Phrase", "excited", "$~奇妙！"],
-                        ["Sequence", "excited", "$~那种感觉！"],
-                        ["Group", "excited", "$~现在一起！"],
-                        ["Stage", "excited", "$~轰轰轰"],
-                        ["None", "excited", "$~…"],
-                        [
-                            "StructureDefinition",
-                            "excited",
-                            "$~记得要动起来哦！"
-                        ],
-                        ["Bind", "excited", "$~人物！"],
+                        ["List", "excited", "1, 2, 3, 1, 2, 3"],
+                        ["Boolean", "excited", "移動！"],
+                        ["Text", "excited", "喜悅！"],
+                        ["Conditional", "excited", "什麼才是跳舞，真的？"],
+                        ["Changed", "excited", "砰，砰，砰！"],
+                        ["Number", "excited", "左轉 5 度，上升 1 公尺！"],
+                        ["Phrase", "excited", "美妙！"],
+                        ["Sequence", "excited", "這種感覺！"],
+                        ["Group", "excited", "一起來！"],
+                        ["Stage", "excited", "BOOM BOOM BOOM"],
+                        ["None", "excited", "…"],
+                        ["StructureDefinition", "excited", "記得繼續移動！"],
+                        ["Bind", "excited", "角色們！"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~你成功了，@Evaluate！这就是你的愿景。"
+                            "你做到了，@Evaluate！這是你的願景。"
                         ],
                         [
                             "Evaluate",
                             "kind",
-                            "$~我……我确实这么做了。但我们也是一起做的。"
+                            "我……的確做到了。但這也是我們一起完成的。"
                         ],
                         null,
                         [
                             "Program",
                             "curious",
-                            "$~我们只是在表演我们自己的表演吗？"
+                            "我們剛剛是不是完成了一場表演？"
                         ],
-                        ["Reaction", "eager", "$~我想我们确实……"],
+                        ["Reaction", "eager", "好像有喔……"],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~我们做到了……但如果没有我们这位新导演朋友，我们不可能做到。他们打破了我们的沉默；他们提醒我们，我们为什么要一起表达。"
+                            "是的……但如果沒有我們的新導演朋友，我們不可能做到。他們打破了沉默，提醒我們——我們是為了表達而存在，一起。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "?"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~那么，闪亮的新导演，我们该说些什么呢？"
+                            "那麼，閃耀的新導演，我們應該說些什麼呢？"
                         ]
                     ]
                 }
