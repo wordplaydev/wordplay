@@ -60,7 +60,7 @@ export default class Name extends LanguageTagged {
     }
 
     simplify() {
-        return new Name(this.name, undefined, this.separator);
+        return this;
     }
 
     getCorrespondingDefinition(context: Context): Definition | undefined {

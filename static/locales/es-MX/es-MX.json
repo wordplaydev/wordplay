@@ -438,7 +438,10 @@
                 "IgnoredExpression": {
                     "primary": "$~Voy a ignorar $1, ya que no define nada y no es mi última expresión.",
                     "secondary": "$~@Block, ¡no me ignores!",
-                    "resolution": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir."
+                    "resolution": {
+                        "binary": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir.",
+                        "evaluate": "$~¿Querías que esto fuera @Evaluate? Puedo quitar este espacio para que sea una sola expresión, en lugar de dos."
+                    }
                 }
             }
         },
@@ -1085,7 +1088,8 @@
                 "address": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!\n\n$2",
                 "handle": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.\n\n$2",
                 "resolution": "Esto no es información sensible",
-                "reminder": "$~Nota: Puedes deshacer esta acción y ver otras cosas que hayas marcado como no confidenciales en el cuadro de diálogo para compartir."
+                "reminder": "$~Nota: Puedes deshacer esta acción y ver otras cosas que hayas marcado como no confidenciales en el cuadro de diálogo para compartir.",
+                "character": "$~Parece el nombre de un personaje. Para mostrarlo, usa @FormattedLiteral en lugar de @TextLiteral."
             }
         },
         "FormattedLiteral": {
@@ -4770,7 +4774,7 @@
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
                     "tooyoung": "Debes tener 13 años o más para iniciar sesión con un correo electrónico.",
-                    "passwordrule": "Las contraseñas deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
+                    "passwordrule": "Las contraseñas deben tener al menos 6 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
@@ -4815,7 +4819,7 @@
                         "placeholder": "nombre de usuario"
                     },
                     "password": {
-                        "description": "contraseña para iniciar sesión, al menos 10 caracteres",
+                        "description": "contraseña para iniciar sesión, al menos 6 caracteres",
                         "placeholder": "contraseña"
                     },
                     "currentPassword": {
@@ -4857,7 +4861,7 @@
                 "prompt": {
                     "create": "$~Crea una cuenta para guardar tus proyectos, colaborar con otros y compartir tu trabajo.",
                     "username": "$~Los nombres de usuario deben tener al menos /5 caracteres/, no pueden ser un correo electrónico y no deben contener su nombre u otra información de identificación.",
-                    "password": "$~Las contraseñas deben tener al menos 10 caracteres. Escríbalas dos veces y anótelas en un lugar seguro, como un administrador de contraseñas. *No hay forma de recuperar su cuenta* si la pierde, ya que no recopilamos información de contacto."
+                    "password": "$~Las contraseñas deben tener al menos 6 caracteres. Escríbalas dos veces y anótelas en un lugar seguro, como un administrador de contraseñas. *No hay forma de recuperar su cuenta* si la pierde, ya que no recopilamos información de contacto."
                 }
             },
             "rights": {
@@ -5021,7 +5025,12 @@
                 "header": "$~Personajes",
                 "prompt": "$~Crea emojis y símbolos personalizados para usar en tus proyectos y compartirlos con otros.",
                 "button": {
-                    "new": "$~Crea un nuevo personaje"
+                    "new": "$~Crea un nuevo personaje",
+                    "copy": "$~Copiar este personaje",
+                    "remove": {
+                        "tip": "$~Eliminar este personaje",
+                        "prompt": "$~¿borrar?"
+                    }
                 },
                 "error": {
                     "offline": "$~No pudimos acceder a tus personajes almacenados en línea.",
@@ -5336,6 +5345,10 @@
         "tools": {
             "name": "Herramientas",
             "description": "Utilidades y aplicaciones simples."
+        },
+        "stories": {
+            "name": "$~Historias",
+            "description": "$~Historias y narraciones interactivas."
         }
     }
 }

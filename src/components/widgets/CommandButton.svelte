@@ -80,7 +80,7 @@
         const result = command.execute(caretyContext, '');
         if (result instanceof Promise)
             result.then((edit) =>
-                editor
+                editor && edit !== true
                     ? editor.edit(edit, IdleKind.Typed, focusAfter)
                     : undefined,
             );

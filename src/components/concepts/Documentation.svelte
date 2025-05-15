@@ -113,31 +113,22 @@
     });
 
     // If the query changes to non-empty, compute matches
-    let results: [Concept, [string, number, number][]][] | undefined = $derived(
+    let results: [Concept, [string, number, number]][] | undefined = $derived(
         query.length > 1
             ? index?.getQuery($locales, query)?.sort((a, b) => {
                   const [, aMatches] = a;
                   const [, bMatches] = b;
-                  const aMinPriority = Math.min.apply(
-                      null,
-                      aMatches.map(([, , match]) => match),
-                  );
-                  const bMinPriority = Math.min.apply(
-                      null,
-                      bMatches.map(([, , match]) => match),
-                  );
-                  return aMinPriority - bMinPriority;
+                  return aMatches[2] - bMatches[2];
               })
             : undefined,
     );
 
     // Find all the highlights in the current documentation so we can render them.
-
     let highlights = $derived(
         currentConcept === undefined
             ? undefined
             : currentConcept
-                  .getDocs($locales)
+                  .getDocs($locales)[0]
                   ?.nodes()
                   .filter(
                       (n): n is ConceptLink =>
@@ -260,21 +251,18 @@
                 <div class="result">
                     <CodeView {concept} node={concept.getRepresentation()} />
                     <!-- Show the matching text -->
-                    {#if text.length > 1 || concept.getName($locales, false) !== text[0][0]}
+                    {#if text.length > 1 || concept.getName($locales, false) !== text[0]}
+                        {@const match = text[0]}
+                        {@const index = text[1]}
                         <div class="matches">
-                            {#each text as [match, index]}
-                                <Note
-                                    >{match.substring(0, index)}<span
-                                        class="match"
-                                        >{match.substring(
-                                            index,
-                                            index + query.length,
-                                        )}</span
+                            <Note
+                                >{match.substring(0, index)}<span class="match"
                                     >{match.substring(
+                                        index,
                                         index + query.length,
-                                    )}</Note
-                                >
-                            {/each}
+                                    )}</span
+                                >{match.substring(index + query.length)}</Note
+                            >
                         </div>
                     {/if}
                 </div>
@@ -512,6 +500,6 @@
     .howtos {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: 1em;
     }
 </style>

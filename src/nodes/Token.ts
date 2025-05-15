@@ -1,3 +1,4 @@
+import type Locale from '@locale/Locale';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
 import {
@@ -158,7 +159,7 @@ export default class Token extends Node {
         // If the caret is inside the token
         inside: boolean,
         symbolic: boolean,
-        locales: LocaleText[],
+        locale: Locale,
         root: Root,
         context: Context,
     ) {
@@ -186,10 +187,10 @@ export default class Token extends Node {
                         : undefined;
                 if (open) {
                     const preferredQuote = getLanguageQuoteOpen(
-                        locales[0].language,
+                        locale.language,
                     );
                     const preferredSecondaryQuote = getLanguageSecondaryQuote(
-                        locales[0].language,
+                        locale.language,
                     );
                     const preferredOpen =
                         open.getText() === preferredQuote
@@ -207,13 +208,16 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (!inside && this.isSymbol(Sym.Name) && this.isSymbol(Sym.Operator)) {
+        if (
+            !inside &&
+            (this.isSymbol(Sym.Name) || this.isSymbol(Sym.Operator))
+        ) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {
                 def = parent.getCorrespondingDefinition(context);
                 if (def) {
-                    text = def.names.getPreferredNameString(locales, symbolic);
+                    text = def.names.getPreferredNameString(locale, symbolic);
                 }
             }
         }

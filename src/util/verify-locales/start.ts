@@ -155,7 +155,7 @@ async function handleLocale(
                 log.good(1, 'Writing revised ' + locale + ' tutorial');
                 fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
             }
-        }
+        } else log.good(1, 'No changes necessary in ' + locale + ' tutorial');
     }
 }
 

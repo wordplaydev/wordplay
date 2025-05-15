@@ -120,6 +120,7 @@
     import Moderation from './Moderation.svelte';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
+    import PositionAdjuster from './PositionAdjuster.svelte';
     import RootView from './RootView.svelte';
     import SelectedOutput from './SelectedOutput.svelte';
     import Separator from './Separator.svelte';
@@ -549,6 +550,7 @@
                 defaultTiles,
                 // If showing output was requested, we fullscreen on output
                 showOutput ? TileKind.Output : undefined,
+                null,
             )
         );
     }
@@ -585,13 +587,14 @@
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
-        if (index)
+        if (index) {
             setConceptInURL(
                 $locales,
                 $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
                 index,
                 searchParams,
             );
+        }
 
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
@@ -606,7 +609,9 @@
 
     /** Persist the layout when it changes */
     $effect(() => {
-        if (persistLayout) Settings.setProjectLayout(project.getID(), layout);
+        if (persistLayout) {
+            Settings.setProjectLayout(project.getID(), layout);
+        }
     });
 
     /** The tile being dragged */
@@ -722,13 +727,20 @@
                 !$path.every((concept, index) =>
                     concept.isEqualTo(latestPath[index]),
                 ) ||
-                untrack(() => layout.isFullscreen()))
+                untrack(() => layout.isFullscreen()) ||
+                (docs !== undefined && !docs.isExpanded()))
         ) {
             if (docs) {
                 setFullscreen(undefined);
                 setMode(docs, TileMode.Expanded);
             }
         }
+    });
+
+    // When the layout changes to hide the docs, reset the path.
+    $effect(() => {
+        const docs = layout.getDocs();
+        if (docs?.isCollapsed()) path.set([]);
     });
 
     // When the path changes, set the latest path
@@ -817,6 +829,21 @@
             canvasWidth,
             canvasHeight,
         );
+    }
+
+    let adjusting = $state(false);
+
+    /** Take the given axis, group, and split, and adjust it. */
+    function adjustSplit(axis: number, index: number, split: number) {
+        layout = layout.withSplit(
+            $arrangement,
+            axis,
+            index,
+            split,
+            canvasWidth,
+            canvasHeight,
+        );
+        refreshLayout();
     }
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
@@ -1153,7 +1180,6 @@
 
     async function handlePointerMove(event: PointerEvent) {
         if (!canvas) return;
-        if (!draggedTile) return;
         if (!view) return;
 
         const rect = view.getBoundingClientRect();
@@ -1161,13 +1187,15 @@
         pointerX = event.clientX - rect.left + canvas.scrollLeft;
         pointerY = event.clientY - rect.top + canvas.scrollTop;
 
+        if (!draggedTile) return;
+
         const tile = layout.getTileWithID(draggedTile.id);
         if (tile) {
             let newBounds;
             if (draggedTile.direction === null) {
                 newBounds = {
-                    left: pointerX - draggedTile.left,
-                    top: pointerY - draggedTile.top,
+                    left: Math.max(pointerX - draggedTile.left, 0),
+                    top: Math.max(pointerY - draggedTile.top, 0),
                     width: tile.position.width,
                     height: tile.position.height,
                 };
@@ -1448,6 +1476,7 @@
                                 ? outputBackground
                                 : null}
                             dragging={draggedTile?.id === tile.id}
+                            animated={!adjusting}
                             fullscreenID={layout.fullscreenID}
                             focuscontent={tile.kind === TileKind.Source ||
                                 tile.kind === TileKind.Output}
@@ -1731,6 +1760,24 @@
                         </TileView>
                     {/if}
                 {/each}
+                <!-- Create an adjuster for each axis split in the current layout that isn't the first in the axis -->
+                {#each layout.getSplits($arrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
+                    {#each axis.positions as _, groupIndex}
+                        {#if groupIndex > 0}
+                            <PositionAdjuster
+                                {axis}
+                                index={groupIndex}
+                                {layout}
+                                adjuster={(split) =>
+                                    adjustSplit(axisIndex, groupIndex, split)}
+                                setAdjusting={(state) => (adjusting = state)}
+                                {adjusting}
+                                width={canvasWidth}
+                                height={canvasHeight}
+                            ></PositionAdjuster>
+                        {/if}
+                    {/each}
+                {/each}
             {/if}
         {/key}
     </div>
@@ -1932,11 +1979,14 @@
 
     .canvas {
         flex: 1;
+        position: relative;
     }
 
     /** If in free layout mode, allow scrolling of content */
     .canvas.free {
         overflow: auto;
+        width: 100%;
+        height: 100%;
     }
 
     nav {
@@ -1959,6 +2009,11 @@
         position: absolute;
         pointer-events: none;
         z-index: 2;
+        background: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        opacity: 0.8;
     }
 
     /* A fancy dragon cursor for dragon drop! Get it? */

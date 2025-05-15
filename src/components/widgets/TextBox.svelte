@@ -8,7 +8,7 @@
         placeholder: LocaleTextAccessor;
         active?: boolean;
         inline?: boolean;
-        done?: (text: string) => void;
+        done?: ((text: string) => void) | ((text: string) => Promise<void>);
         dwelled?: undefined | ((text: string) => void);
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         id: string;
@@ -30,6 +30,7 @@
 
     let focused = $state(false);
     let title = $derived($locales.get(description));
+    let savingDone = $state<boolean | undefined>(false);
 
     /** The message to display if invalid */
     let message = $derived.by(() => {
@@ -72,16 +73,28 @@
         aria-disabled={!active}
         rows={text.split('\n').length}
         disabled={!active}
-        onblur={() => {
-            if (done) done(text);
+        onblur={async () => {
+            if (done) {
+                savingDone = undefined;
+                await done(text);
+                savingDone = true;
+                setTimeout(() => {
+                    savingDone = false;
+                }, 1500);
+            }
             focused = false;
         }}
         onfocus={() => (focused = true)}
         oninput={handleInput}
+        onkeydown={(e) => e.stopPropagation()}
     ></textarea>
     {#if message !== undefined}
         <div class="message" id="id-{id}">{$locales.get(message)}</div>
     {/if}
+    {#if savingDone !== false}
+        <div class="done"
+            >{#if savingDone === undefined}…{:else if savingDone === true}✓{/if}</div
+        >{/if}
 </div>
 
 <style>
@@ -146,5 +159,13 @@
         border-bottom-left-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
         z-index: 2;
+    }
+
+    .done {
+        position: absolute;
+        right: 0;
+        top: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-small-font-size));
+        color: var(--wordplay-inactive-color);
     }
 </style>

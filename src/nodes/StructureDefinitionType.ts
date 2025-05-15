@@ -54,7 +54,7 @@ export default class StructureDefinitionType extends Type {
     toWordplay(_: Spaces | undefined, locale: LocaleText | undefined) {
         return locale
             ? this.type.definition.names.getPreferredNameString([locale])
-            : this.type.definition.names.getFirst();
+            : (this.type.definition.names.getFirst() ?? '');
     }
 
     static readonly LocalePath = (l: LocaleText) =>

@@ -838,10 +838,15 @@
         "animate-phrase",
         "move-phrase",
         "custom-characters",
+        "styling-text",
         "animated-scene",
         "interactive-scene",
         "shake-phrase",
-        "video-grid"
+        "video-grid",
+        "track-points",
+        "track-game-state",
+        "offer-choices",
+        "choose-adventure"
       ],
       "type": "string"
     },

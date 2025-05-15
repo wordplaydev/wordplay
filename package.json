@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.16.9",
+    "version": "0.16.14",
     "scripts": {
         "postinstall": "run-script-os",
         "postinstall:default": "svelte-kit sync && cp .env.template .env",
@@ -47,14 +47,14 @@
         }
     },
     "devDependencies": {
-        "@google-cloud/translate": "^8",
+        "@google-cloud/translate": "^9",
         "@playwright/test": "^1",
         "svelte": "^5",
         "svelte-check": "^4",
         "svelte-jester": "^5",
         "svelte-preprocess": "^6.0",
         "@sveltejs/adapter-static": "^3",
-        "@sveltejs/kit": "^2.12.0",
+        "@sveltejs/kit": "^2.20.6",
         "@sveltejs/vite-plugin-svelte": "^5",
         "@types/matter-js": "^0",
         "@types/node": "^22",
@@ -66,7 +66,7 @@
         "eslint": "^9",
         "eslint-plugin-compat": "^6",
         "eslint-plugin-import": "^2",
-        "eslint-plugin-svelte": "^2",
+        "eslint-plugin-svelte": "^3",
         "npm-watch": "^0",
         "prettier": "^3",
         "prettier-plugin-svelte": "^3",

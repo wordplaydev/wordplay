@@ -1,0 +1,37 @@
+日本語クラス (Japanese class)
+=== start
+¶These are the list of scenes to show¶
+sentences: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣️, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶These are the list of sentences that should only be advanced by speaking.¶
+speakSentences: [5 7 9]
+
+¶The current sentence starts at 1, 
+and increments if the mic volume goes above .8 
+for a speaking sentence, or a button or key is 
+pressed for other sentences.¶
+currentSentence•#: 1 …
+	speakSentences.has(currentSentence) ?
+		Volume() > .6
+		∆ Button() | ∆ Key()
+		…
+		(currentSentence <
+				sentences.length()) ?
+			currentSentence + 1
+			currentSentence
+
+Stage(
+	[Phrase(sentences[currentSentence] ↵: 10m)]
+	face: 'Sue Ellen Francisco'
+)

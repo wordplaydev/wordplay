@@ -39,13 +39,14 @@
         parsed.paragraphs.reduce(
             (stuff: ParagraphOrList[], next: Paragraph) => {
                 if (next.isBulleted()) {
+                    const items = next.getBullets();
                     const previous = stuff.at(-1);
                     if (previous instanceof Paragraph)
-                        return [...stuff, { items: [next] }];
+                        return [...stuff, { items }];
                     else if (previous !== undefined) {
                         previous.items.push(next);
                         return stuff;
-                    } else return [{ items: [next] }];
+                    } else return [{ items }];
                 } else return [...stuff, next];
             },
             [],
