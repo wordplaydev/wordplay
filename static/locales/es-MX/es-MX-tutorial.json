@@ -3861,19 +3861,19 @@
                 },
                 {
                     "title": "Y ... escena!",
-                    "subtitle": "Scene",
+                    "subtitle": "Escena",
                     "concept": "Scene",
                     "performance": ["fix", "Phrase('🎬' 10m)"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Okay, okay, so now you know @Stage, @Group, @Phrase, and the many things you can do with them. Now you might be thinking, what if I want to tell a story with them?"
+                            "Okay, okay, ahora conoces @Stage, @Group, @Phrase, y todo lo que puedes hacer con ellos. ¿Quizás estás pensando, que pasa si quiero contar una historia con ellos?"
                         ],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Scene is really cool. The basic idea is to give it a list of @Phrase or @Group, and it will show them in order, letting you show a sequence of content."
+                            "Escena es tan chido. La idea básica es pasarle una lista de @Phrase o @Group, y te los enseña en orden, dejando que enseñes una secuencia de contenido."
                         ],
                         null,
                         [
@@ -3888,13 +3888,13 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Here's an example. Did you see how it counted down and then said 'Boo!'? You can reset to see it again."
+                            "Aquí esta un ejemplo. ¿Miraste como contó hacia abajo y dijo 'Boo!'? Lo puedes reiniciar para verlo otra vez."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "If we want to slow it down, we can specify exact durations for each @Phrase. Try editing the durations and seeing what happens when they change."
+                            "Si queremos hacerlo más despacio, podemos especificar la duración exacta para cada @Phrase. Intenta editar la duración y mira lo que pasa cuando se cambian."
                         ],
                         [
                             "edit",
@@ -3909,7 +3909,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "And now you might be thinking, what about transitions between them? We can control that with @Phrase/entering and @Phrase/exiting, setting @Pose to start and end on. Here, for example, we start and end each @Phrase as invisible, so it fades in and out."
+                            "¿Y quizás ahora estás pensando, que pasa con las transiciónes entre ellos? Podemos controlar eso con @Phrase/entering y @Phrase/exiting, colocando @Pose para empezar y terminar. Aquí, por ejemplo, empezamos y terminamos cada @Phrase como invisible, para que aparezca y desaparezca."
                         ],
                         [
                             "edit",
@@ -3924,7 +3924,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "We can even set a @Sequence on one of them to animate it before advancing. Did you see the 2 spin?"
+                            "Hasta podemos colocar una @Sequence en uno de ellos para animarlo antes que avanze. ¿Miraste el 2 girar?"
                         ],
                         [
                             "edit",
@@ -3939,7 +3939,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "We can change the content however we want, even making it dynamic. For example, let's make the numbers random and the ending word random! Each time it restarts, we get different content."
+                            "Podemoms cambiar el contenido como queremos, hasta hacerlo dinámico. Por ejemplo, hacemos que el último número sea aleatorio y que la última palabra sea aleatoria! Cada vez que reinicie, tenemos diferente contenido."
                         ],
                         [
                             "edit",
@@ -3954,12 +3954,13 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "But you can also make them interactive."
+                            "But you can also make them interactive.",
+                            "Pero los puedes hacer interactivos."
                         ],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "The secret is putting a @Boolean where you want to pause and wait for something to be true. For example, we can wait for the mouse button to change. See how @Scene waits after each @Phrase for the button to be clicked?"
+                            "El secreto es colocar un @Boolean donde quieras parar y esperar que algo sea verdad. Por ejemplo, podemos esperar que cambie el botón de mouse. Mira como @Scene espera que presiones el botón después de cada @Phrase."
                         ],
                         [
                             "edit",
@@ -3975,7 +3976,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "@Scene is great for telling animated stories, either is a whole project or as part of a project! What kind of stories do you want to tell?"
+                            "@Scene es excelente para contar historias animadas, sea un proyecto intero o como parte de un proyecto! ¿Que tipo de historias quieres contar?"
                         ]
                     ]
                 },
