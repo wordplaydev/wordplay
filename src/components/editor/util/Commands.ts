@@ -57,6 +57,8 @@ export type Command = {
     visible: Visibility;
     /** The category of command, used to decide where to display controls if visible */
     category: Category;
+    /** If true, the command is always visible and not hidden behind an accordion */
+    important?: boolean;
     /** The key that triggers the command, or if not provided, all keys trigger it */
     key?: string;
     /** The optional symbol representing the key, for rendering shortcuts */
@@ -638,6 +640,7 @@ export const Undo: Command = {
     description: (l) => l.ui.source.cursor.undo,
     visible: Visibility.Visible,
     category: Category.Modify,
+    important: true,
     shift: false,
     control: true,
     alt: false,
@@ -1233,6 +1236,7 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.redo,
         visible: Visibility.Visible,
         category: Category.Modify,
+        important: true,
         shift: true,
         control: true,
         alt: false,
