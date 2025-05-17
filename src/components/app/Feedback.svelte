@@ -215,9 +215,10 @@
                                                 .placeholder}
                                         id="new-github-{feed.id}"
                                         validator={(t) => {
-                                            return t.startsWith(
-                                                'https://github.com/wordplaydev/wordplay/issues/',
-                                            )
+                                            return t === '' ||
+                                                t.startsWith(
+                                                    'https://github.com/wordplaydev/wordplay/issues/',
+                                                )
                                                 ? true
                                                 : (l) =>
                                                       l.ui.dialog.feedback.error
@@ -227,8 +228,10 @@
                                             if ($user === null) return;
                                             updateFeedback({
                                                 ...feed,
-                                                github: t,
+                                                github:
+                                                    t.length === 0 ? null : t,
                                             });
+                                            loadFeedback();
                                         }}
                                     />
                                 </td>
