@@ -791,6 +791,8 @@ type UITexts = {
                 defect: string;
                 /** The subheader for the feedback dialog */
                 idea: string;
+                /** The moderator subheader for a moderator comment */
+                moderator: string;
             };
             prompt: {
                 defect: string;

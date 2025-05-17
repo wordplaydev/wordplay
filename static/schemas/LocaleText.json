@@ -8926,11 +8926,16 @@
                         "idea": {
                           "description": "The subheader for the feedback dialog",
                           "type": "string"
+                        },
+                        "moderator": {
+                          "description": "The moderator subheader for a moderator comment",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "defect",
-                        "idea"
+                        "idea",
+                        "moderator"
                       ],
                       "type": "object"
                     }

@@ -4,6 +4,7 @@
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Note from '@components/widgets/Note.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
@@ -271,7 +272,14 @@
 
             {#each feed.comments.toSorted((a, b) => a.created - b.created) as comment, commentIndex}
                 <div class="header">
-                    <div class="comment">
+                    <div class="comment" class:moderator={comment.moderator}>
+                        <Note
+                            >{#if comment.moderator}<LocalizedText
+                                    path={(l) =>
+                                        l.ui.dialog.feedback.subheader
+                                            .moderator}
+                                />{/if}
+                        </Note>
                         {#if ($user && comment.creator === $user?.uid) || moderator}
                             <TextField
                                 editable={!submitting}
@@ -392,7 +400,12 @@
             margin-block-start: 1em;
             display: flex;
             flex-direction: row;
+            align-items: baseline;
             gap: var(--wordplay-spacing);
+        }
+
+        .comment.moderator {
+            background-color: var(--wordplay-alternating-color);
         }
 
         .header {

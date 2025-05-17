@@ -4613,7 +4613,8 @@
                 },
                 "subheader": {
                     "defect": "defect",
-                    "idea": "idea"
+                    "idea": "idea",
+                    "moderator": "moderator"
                 },
                 "prompt": {
                     "defect": "Didn't see the problem you're experiencing? Report it here. The more detail you provide, the better!",
