@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 - Fixed #767 Correcting animation speed labels.
+- Preserve multi-region IDs in locales.
 
 ## 0.6.14
 
