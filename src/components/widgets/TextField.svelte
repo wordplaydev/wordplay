@@ -10,6 +10,7 @@
         text?: string;
         placeholder: LocaleTextAccessor | string;
         description: LocaleTextAccessor;
+        /** A validation function that either returns true if valid or a message accessor if false */
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         changed?: undefined | ((text: string) => void);
         // Called if someone typed and paused for more than a second.

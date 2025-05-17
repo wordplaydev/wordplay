@@ -769,6 +769,8 @@ type UITexts = {
                 like: string;
                 /** Close the feedback */
                 close: ButtonText;
+                /** Submit comment */
+                comment: ButtonText;
             };
             /** The mode chooser for defects and ideas */
             mode: ModeText<[string, string]>;
@@ -779,6 +781,10 @@ type UITexts = {
                 defect: FieldText;
                 /** Idea description */
                 idea: FieldText;
+                /** New comment */
+                comment: FieldText;
+                /** GitHub URL */
+                github: FieldText;
             };
             subheader: {
                 /** The subheader for the defect dialog */
@@ -799,6 +805,8 @@ type UITexts = {
                 load: string;
                 /** No feedback yet */
                 empty: string;
+                /** Not a valid URL */
+                url: string;
             };
         };
     };

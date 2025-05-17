@@ -13,21 +13,73 @@ import { z } from 'zod';
 
 const FeedbackCollection = 'feedback';
 
-const FeedbackSchema = z.object({
+const FeedbackSchemaV1 = z.object({
     id: z.string(),
+    /** The creator uid who made the feedback */
     creator: z.string(),
+    /** Title of the feedback */
     title: z.string(),
+    /** Description of the feedback */
     description: z.string(),
+    /** Defect or idea */
     type: z.enum(['defect', 'idea']),
+    /** Open or resolved. We don't load resolved feedback. */
     status: z.enum(['open', 'resolved']),
+    /** Millisecond timestamp of when it was created */
     created: z.number(),
+    /** The browser user agent */
     browser: z.string(),
+    /** The Wordplay URL on which it was captured */
     url: z.string(),
+    /** Any console logs that were captured as part of the defect */
     logs: z.string(),
+    /** Number of votes from individuals, a rough signal of importance */
     votes: z.number(),
 });
 
-export type Feedback = z.infer<typeof FeedbackSchema>;
+const CommentSchemaV1 = z.object({
+    creator: z.string(),
+    created: z.number(),
+    text: z.string(),
+    moderator: z.boolean(),
+});
+
+/** v2 adds an optional GitHub URL, comments */
+const FeedbackSchemaV2 = FeedbackSchemaV1.merge(
+    /** A list of strings that are not considered personally identifiable by a creator */
+    z.object({
+        v: z.literal(2),
+        github: z.nullable(z.string()),
+        comments: z.array(CommentSchemaV1),
+    }),
+);
+
+export type UnknownFeedbackVersion =
+    | z.infer<typeof FeedbackSchemaV1>
+    | z.infer<typeof FeedbackSchemaV2>;
+
+const CurrentFeedbackSchema = FeedbackSchemaV2;
+
+export type Feedback = z.infer<typeof CurrentFeedbackSchema>;
+
+/** Project updgrader */
+export function upgradeFeedback(feedback: UnknownFeedbackVersion): Feedback {
+    if ('v' in feedback === false)
+        return upgradeFeedback({
+            ...feedback,
+            v: 2,
+            github: null,
+            comments: [],
+        });
+    switch (feedback.v) {
+        case 2:
+            return feedback;
+        default:
+            throw new Error(
+                'Unexpected feedback version ' + JSON.stringify(feedback),
+            );
+    }
+}
 
 export async function createFeedback(
     uid: string,
@@ -43,6 +95,7 @@ export async function createFeedback(
     const id = uuidv4();
 
     const feedback: Feedback = {
+        v: 2,
         id,
         creator: uid,
         title,
@@ -54,6 +107,8 @@ export async function createFeedback(
         browser,
         logs,
         votes: 1,
+        github: null,
+        comments: [],
     };
 
     try {
@@ -105,7 +160,10 @@ export async function getFeedback(): Promise<Feedback[] | null> {
     return querySnapshot.docs
         .map((doc) => {
             try {
-                return FeedbackSchema.parse(doc.data());
+                const upgraded = upgradeFeedback(
+                    doc.data() as UnknownFeedbackVersion,
+                );
+                return CurrentFeedbackSchema.parse(upgraded);
             } catch (err) {
                 console.error('Class had an invalid schema', err);
                 return undefined;

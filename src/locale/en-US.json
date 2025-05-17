@@ -4579,6 +4579,10 @@
                     "close": {
                         "label": "close",
                         "tip": "Close this feedback as a moderator"
+                    },
+                    "comment": {
+                        "label": "submit",
+                        "tip": "Submit comment on this feedback."
                     }
                 },
                 "mode": {
@@ -4597,6 +4601,14 @@
                     "idea": {
                         "description": "description of your defect",
                         "placeholder": "What are you trying to do that you can't do?"
+                    },
+                    "comment": {
+                        "description": "comment",
+                        "placeholder": "Add a comment to this feedback"
+                    },
+                    "github": {
+                        "description": "GitHub issue",
+                        "placeholder": "Link to GitHub issue"
                     }
                 },
                 "subheader": {
@@ -4611,7 +4623,8 @@
                     "login": "You must be logged in to submit feedback",
                     "submit": "Unable to submit feedback.",
                     "load": "Unable to load feedback",
-                    "empty": "There is no feedback to show."
+                    "empty": "There is no feedback to show.",
+                    "url": "This is not a valid GitHub URL."
                 }
             }
         },

@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.15
 
+## Added
+
+- Added GitHub URLs and ability to comment to feedback form.
+
 ## Fixed
 
 - Fixed #767 Correcting animation speed labels.
