@@ -1,0 +1,28 @@
+Layer images over each other
+
+Sometimes we want to layer images over each other to create cool scenes and shapes. 
+
+For example, we can use multiple layers in your project on @Stage to stack and manipulate images.
+
+Look! Here's a turtle that I made using shapes!
+
+\
+¶Note: Check out the gallery for another project <example@https://wordplay.dev/project/example-Layers?play> of layering images.¶
+
+
+Stage(
+	[
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Circle(2m 0m -11m 0m))
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+
+	]
+	place: Place(0m 10m -30m)
+)
+\
+
+You could make some really cool stuff with layers! Try it out!
+
+custom-characters
