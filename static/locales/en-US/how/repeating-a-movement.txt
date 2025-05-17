@@ -1,0 +1,21 @@
+Repeating a movement
+
+Sometimes we want to make a character move the same way several times! 
+Typing out the same lines over and over again came become tedious.
+
+Instead, we can use @Sequence with @Phrase to make something repeat multiple times! Specifically,
+we can use the count in @Sequence and choose how many times a set of poses happens. For example, 
+here's a basketball bouncing up and down twice. 
+
+\
+Stage([
+	Phrase('🏀' entering: Sequence({
+				0%: Pose(offset: Place(y: 0.25m))
+				25%: Pose(offset: Place(y: 0m))
+				50%: Pose(offset: Place(y: -0.25m))
+				75%: Pose(offset: Place(y: 0m))
+				100%: Pose(offset: Place(y: 0.25m))} count:2x duration:2s))
+])
+\
+
+animate-phrase, shake-phrase
