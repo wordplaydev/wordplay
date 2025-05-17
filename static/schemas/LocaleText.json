@@ -9104,7 +9104,7 @@
                       "additionalProperties": false,
                       "properties": {
                         "animate": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The animation on/off/slowdown mode"
                         },
                         "dark": {
@@ -12895,6 +12895,29 @@
       ],
       "type": "object"
     },
+    "ModeText<[string,string,string,string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "modes": {
+          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 8,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
+      ],
+      "type": "object"
+    },
     "ModeText<[string,string,string,string,string,string,string]>": {
       "additionalProperties": false,
       "properties": {
@@ -12909,29 +12932,6 @@
           },
           "maxItems": 7,
           "minItems": 7,
-          "type": "array"
-        }
-      },
-      "required": [
-        "label",
-        "modes"
-      ],
-      "type": "object"
-    },
-    "ModeText<[string,string,string,string,string]>": {
-      "additionalProperties": false,
-      "properties": {
-        "label": {
-          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
-          "type": "string"
-        },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
-          "items": {
-            "type": "string"
-          },
-          "maxItems": 5,
-          "minItems": 5,
           "type": "array"
         }
       },

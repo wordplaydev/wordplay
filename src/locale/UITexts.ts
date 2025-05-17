@@ -694,7 +694,18 @@ type UITexts = {
                 /** The project tile layout mode */
                 layout: ModeText<[string, string, string, string]>;
                 /** The animation on/off/slowdown mode */
-                animate: ModeText<[string, string, string, string, string]>;
+                animate: ModeText<
+                    [
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                    ]
+                >;
                 /** The dark on/off/automatic mode */
                 dark: ModeText<[string, string, string]>;
                 /** The writing layout direction */

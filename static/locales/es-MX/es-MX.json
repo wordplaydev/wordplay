@@ -4459,11 +4459,14 @@
                     "animate": {
                         "label": "animaciones",
                         "modes": [
-                            "apagadas",
-                            "encendidas",
-                            "a la mitad de velocidad",
-                            "a un tercio de velocidad",
-                            "a un cuarto de velocidad"
+                            "$~animaciones desactivadas",
+                            "$~cuarto de velocidad",
+                            "$~tercera velocidad",
+                            "$~media velocidad",
+                            "$~velocidad normal",
+                            "$~doble velocidad",
+                            "$~cinco velocidades",
+                            "$~diez velocidades"
                         ]
                     },
                     "dark": {

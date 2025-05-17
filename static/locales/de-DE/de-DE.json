@@ -4477,10 +4477,13 @@
                         "label": "$~Animationen",
                         "modes": [
                             "$~Animationen aus",
-                            "$~normale Geschwindigkeit",
-                            "$~halbe Geschwindigkeit",
+                            "$~Viertelgeschwindigkeit",
                             "$~dritte Geschwindigkeit",
-                            "$~Viertelgeschwindigkeit"
+                            "$~halbe Geschwindigkeit",
+                            "$~normale Geschwindigkeit",
+                            "$~doppelte Geschwindigkeit",
+                            "$~Fünfgang",
+                            "$~Zehngang"
                         ]
                     },
                     "dark": {

@@ -4490,10 +4490,13 @@
                         "label": "$~animasyonlar",
                         "modes": [
                             "$~animasyonlar kapalı",
-                            "$~normal hız",
-                            "$~yarım hız",
+                            "$~çeyrek hız",
                             "$~üçüncü hız",
-                            "$~çeyrek hız"
+                            "$~yarım hız",
+                            "$~normal hız",
+                            "$~çift hız",
+                            "$~beş hız",
+                            "$~on hız"
                         ]
                     },
                     "dark": {

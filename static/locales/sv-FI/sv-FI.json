@@ -4495,10 +4495,13 @@
                         "label": "$~animationer",
                         "modes": [
                             "$~animationer av",
-                            "$~normal hastighet",
-                            "$~halvfart",
+                            "$~kvarts hastighet",
                             "$~tredje hastigheten",
-                            "$~kvarts hastighet"
+                            "$~halvfart",
+                            "$~normal hastighet",
+                            "$~dubbel hastighet",
+                            "$~femväxlad",
+                            "$~tioväxlad"
                         ]
                     },
                     "dark": {

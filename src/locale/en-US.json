@@ -4491,10 +4491,13 @@
                         "label": "animations",
                         "modes": [
                             "animations off",
-                            "normal speed",
-                            "half speed",
+                            "quarter speed",
                             "third speed",
-                            "quarter speed"
+                            "half speed",
+                            "normal speed",
+                            "double speed",
+                            "five speed",
+                            "ten speed"
                         ]
                     },
                     "dark": {
