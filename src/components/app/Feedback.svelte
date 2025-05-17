@@ -536,5 +536,6 @@
         gap: var(--wordplay-spacing);
         margin-top: 1em;
         margin-bottom: 1em;
+        max-width: 40em;
     }
 </style>
