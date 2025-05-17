@@ -256,7 +256,7 @@
                 {:else}
                     <TextBox
                         active={!submitting}
-                        bind:text={description}
+                        bind:text={feed.description}
                         description={(l) =>
                             l.ui.dialog.feedback.field.idea.description}
                         placeholder={(l) =>
