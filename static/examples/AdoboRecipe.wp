@@ -1,4 +1,4 @@
-Adventure
+Adobo Recipe
 === start/en
 
 ¶These are the list of scenes to show¶
@@ -23,9 +23,10 @@ moveSentences: [9 11]
 ¶The current sentence starts at 1, 
 and increments if the mouse goes to a certain coordinate on the screen, 
 or a button or key is pressed for other sentences.¶
+point: Pointer()
 currentSentence•#: 1 …
 	moveSentences.has(currentSentence) ?
-		Pointer().x > 2m & (Pointer().y > 3m)
+		(point.x > 2m) & (point.y > 3m)
 		∆ Button() | ∆ Key()
 		…
 		(currentSentence <
