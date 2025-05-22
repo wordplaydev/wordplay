@@ -100,7 +100,7 @@ service cloud.firestore {
       allow delete: if request.auth.uid == resource.data.owner;
     }
     match /feedback/{id} {
-      // Anyone can read feedback
+      // Anyone can see feedback
       allow read: if true;
       // Anyone logged in can create feedback
       allow create: if request.auth != null;

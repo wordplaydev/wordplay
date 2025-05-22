@@ -4500,10 +4500,13 @@
                         "label": "$~animacje",
                         "modes": [
                             "$~animacje wyłączone",
-                            "$~normalna prędkość",
-                            "$~połowa prędkości",
+                            "$~ćwierć prędkości",
                             "$~trzecia prędkość",
-                            "$~ćwierć prędkości"
+                            "$~połowa prędkości",
+                            "$~normalna prędkość",
+                            "$~podwójna prędkość",
+                            "$~pięć prędkości",
+                            "$~dziesięć prędkości"
                         ]
                     },
                     "dark": {

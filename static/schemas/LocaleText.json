@@ -8781,6 +8781,10 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "Close the feedback"
                         },
+                        "comment": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Submit comment"
+                        },
                         "delete": {
                           "$ref": "#/definitions/ConfirmText",
                           "description": "Delete"
@@ -8803,7 +8807,8 @@
                         "submit",
                         "delete",
                         "like",
-                        "close"
+                        "close",
+                        "comment"
                       ],
                       "type": "object"
                     },
@@ -8825,13 +8830,18 @@
                         "submit": {
                           "description": "The error shown when the feedback was not submitted",
                           "type": "string"
+                        },
+                        "url": {
+                          "description": "Not a valid URL",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "login",
                         "submit",
                         "load",
-                        "empty"
+                        "empty",
+                        "url"
                       ],
                       "type": "object"
                     },
@@ -8852,9 +8862,17 @@
                     "field": {
                       "additionalProperties": false,
                       "properties": {
+                        "comment": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "New comment"
+                        },
                         "defect": {
                           "$ref": "#/definitions/FieldText",
                           "description": "Defect description"
+                        },
+                        "github": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "GitHub URL"
                         },
                         "idea": {
                           "$ref": "#/definitions/FieldText",
@@ -8868,7 +8886,9 @@
                       "required": [
                         "title",
                         "defect",
-                        "idea"
+                        "idea",
+                        "comment",
+                        "github"
                       ],
                       "type": "object"
                     },
@@ -8906,11 +8926,16 @@
                         "idea": {
                           "description": "The subheader for the feedback dialog",
                           "type": "string"
+                        },
+                        "moderator": {
+                          "description": "The moderator subheader for a moderator comment",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "defect",
-                        "idea"
+                        "idea",
+                        "moderator"
                       ],
                       "type": "object"
                     }
@@ -9104,7 +9129,7 @@
                       "additionalProperties": false,
                       "properties": {
                         "animate": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The animation on/off/slowdown mode"
                         },
                         "dark": {
@@ -12895,6 +12920,29 @@
       ],
       "type": "object"
     },
+    "ModeText<[string,string,string,string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "modes": {
+          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 8,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
+      ],
+      "type": "object"
+    },
     "ModeText<[string,string,string,string,string,string,string]>": {
       "additionalProperties": false,
       "properties": {
@@ -12909,29 +12957,6 @@
           },
           "maxItems": 7,
           "minItems": 7,
-          "type": "array"
-        }
-      },
-      "required": [
-        "label",
-        "modes"
-      ],
-      "type": "object"
-    },
-    "ModeText<[string,string,string,string,string]>": {
-      "additionalProperties": false,
-      "properties": {
-        "label": {
-          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
-          "type": "string"
-        },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
-          "items": {
-            "type": "string"
-          },
-          "maxItems": 5,
-          "minItems": 5,
           "type": "array"
         }
       },

@@ -4478,10 +4478,13 @@
                         "label": "$~animations",
                         "modes": [
                             "$~animations désactivées",
-                            "$~vitesse normale",
-                            "$~demi-vitesse",
+                            "$~quart de vitesse",
                             "$~troisième vitesse",
-                            "$~quart de vitesse"
+                            "$~demi-vitesse",
+                            "$~vitesse normale",
+                            "$~double vitesse",
+                            "$~cinq vitesses",
+                            "$~dix vitesses"
                         ]
                     },
                     "dark": {

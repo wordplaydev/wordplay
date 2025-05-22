@@ -3,7 +3,18 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 01.6.14
+## 0.6.15
+
+## Added
+
+- Added GitHub URLs and ability to comment to feedback form.
+
+## Fixed
+
+- Fixed #767 Correcting animation speed labels.
+- Preserve multi-region IDs in locales.
+
+## 0.6.14
 
 ## Added
 
@@ -23,7 +34,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Updated minor versions of SvelteKit, Svelte, svelte-check, eslint, tsx, vite, vitest, zod, firebase-admin
 - Updated to nodemailer 7.0.
 
-## 0.1.6.13
+## 0.6.13
 
 ## Added
 
