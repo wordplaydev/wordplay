@@ -352,7 +352,7 @@
                 },
                 {
                     "title": "¿Decir de nuevo?",
-                    "subtitle": "No Analizable",
+                    "subtitle": "No analizable",
                     "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
                     "lines": [
@@ -944,7 +944,7 @@
                 },
                 {
                     "title": "Símbolo en el medio",
-                    "subtitle": "Infix",
+                    "subtitle": "Infijo",
                     "concept": "BinaryEvaluate",
                     "performance": [
                         "fit",
@@ -2477,7 +2477,7 @@
                 },
                 {
                     "title": "Hummmmmmm…",
-                    "subtitle": "Pointer",
+                    "subtitle": "Puntero",
                     "concept": "Pointer",
                     "performance": ["use", "fit", "Symbol", "👆🏻"],
                     "lines": [
@@ -2518,7 +2518,7 @@
                 },
                 {
                     "title": "¡Y... ahora!",
-                    "subtitle": "Button",
+                    "subtitle": "Botón",
                     "concept": "Button",
                     "performance": ["use", "fit", "Symbol", "🖱️"],
                     "lines": [
@@ -2548,7 +2548,7 @@
                 },
                 {
                     "title": "¿Alguien está escuchando?",
-                    "subtitle": "Volume",
+                    "subtitle": "Volumen",
                     "concept": "Volume",
                     "performance": ["use", "fit", "Symbol", "🎤"],
                     "lines": [
@@ -2571,7 +2571,7 @@
                 },
                 {
                     "title": "Nunca sabes…",
-                    "subtitle": "Random",
+                    "subtitle": "Al azar",
                     "concept": "Random",
                     "performance": [
                         "fit",
@@ -2608,7 +2608,7 @@
                 },
                 {
                     "title": "Mueve me",
-                    "subtitle": "Placement",
+                    "subtitle": "Colocación",
                     "concept": "Placement",
                     "performance": [
                         "fix",
@@ -2652,7 +2652,7 @@
                 },
                 {
                     "title": "Seguir moviéndose",
-                    "subtitle": "Motion",
+                    "subtitle": "Movimiento",
                     "concept": "Motion",
                     "performance": [
                         "fix",
@@ -2778,7 +2778,7 @@
                 },
                 {
                     "title": "Hablemos",
-                    "subtitle": "Chat",
+                    "subtitle": "Charla",
                     "concept": "Chat",
                     "performance": ["fit", "Phrase('🗣️')"],
                     "lines": [
@@ -2807,7 +2807,7 @@
                 },
                 {
                     "title": "¿Que dices?",
-                    "subtitle": "Webpage",
+                    "subtitle": "Página de web",
                     "concept": "Webpage",
                     "performance": ["fix", "Webpage('https://wordplay.dev')"],
                     "lines": [
@@ -2847,7 +2847,7 @@
                 },
                 {
                     "title": "En el momento justo",
-                    "subtitle": "Reaction",
+                    "subtitle": "Reacción",
                     "concept": "Reaction",
                     "performance": ["use", "fit", "Symbol", "…"],
                     "lines": [
@@ -3027,7 +3027,7 @@
                 },
                 {
                     "title": "¿Que dices?",
-                    "subtitle": "Phrase",
+                    "subtitle": "Frase",
                     "concept": "Phrase",
                     "performance": ["use", "fit", "Symbol", "💬"],
                     "lines": [
@@ -3317,7 +3317,7 @@
                 },
                 {
                     "title": "1, 2, 3, 4, 1, 2, 3, 4",
-                    "subtitle": "Sequence",
+                    "subtitle": "Secuencia",
                     "concept": "Sequence",
                     "performance": ["use", "fix", "DancingEmoji", "💃"],
                     "lines": [
@@ -3494,7 +3494,7 @@
                 },
                 {
                     "title": "Lugares por favor",
-                    "subtitle": "Group",
+                    "subtitle": "Grupo",
                     "concept": "Group",
                     "performance": [
                         "fit",
@@ -3861,7 +3861,7 @@
                 },
                 {
                     "title": "Y ... escena!",
-                    "subtitle": "Scene",
+                    "subtitle": "Escena",
                     "concept": "Scene",
                     "performance": ["fix", "Phrase('🎬' 10m)"],
                     "lines": [
