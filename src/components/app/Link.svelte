@@ -57,12 +57,6 @@
             var(--wordplay-highlight-color);
     }
 
-    :global(.feedback) > a {
-        color: var(--wordplay-background);
-        text-decoration: var(--wordplay-focus-width) underline
-            var(--wordplay-background);
-    }
-
     .nowrap {
         white-space: nowrap;
     }

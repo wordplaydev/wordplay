@@ -694,7 +694,18 @@ type UITexts = {
                 /** The project tile layout mode */
                 layout: ModeText<[string, string, string, string]>;
                 /** The animation on/off/slowdown mode */
-                animate: ModeText<[string, string, string, string, string]>;
+                animate: ModeText<
+                    [
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                    ]
+                >;
                 /** The dark on/off/automatic mode */
                 dark: ModeText<[string, string, string]>;
                 /** The writing layout direction */
@@ -758,6 +769,8 @@ type UITexts = {
                 like: string;
                 /** Close the feedback */
                 close: ButtonText;
+                /** Submit comment */
+                comment: ButtonText;
             };
             /** The mode chooser for defects and ideas */
             mode: ModeText<[string, string]>;
@@ -768,12 +781,18 @@ type UITexts = {
                 defect: FieldText;
                 /** Idea description */
                 idea: FieldText;
+                /** New comment */
+                comment: FieldText;
+                /** GitHub URL */
+                github: FieldText;
             };
             subheader: {
                 /** The subheader for the defect dialog */
                 defect: string;
                 /** The subheader for the feedback dialog */
                 idea: string;
+                /** The moderator subheader for a moderator comment */
+                moderator: string;
             };
             prompt: {
                 defect: string;
@@ -788,6 +807,8 @@ type UITexts = {
                 load: string;
                 /** No feedback yet */
                 empty: string;
+                /** Not a valid URL */
+                url: string;
             };
         };
     };

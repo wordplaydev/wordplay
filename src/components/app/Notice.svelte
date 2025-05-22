@@ -33,6 +33,12 @@
         flex-grow: 0;
     }
 
+    .feedback > :global(a) {
+        color: var(--wordplay-background);
+        text-decoration: var(--wordplay-focus-width) underline
+            var(--wordplay-background);
+    }
+
     span {
         display: inline-block;
     }

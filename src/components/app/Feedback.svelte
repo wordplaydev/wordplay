@@ -4,6 +4,7 @@
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Note from '@components/widgets/Note.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
@@ -18,6 +19,7 @@
     } from '@db/feedback/FeedbackDatabase';
     import { isModerator } from '@db/projects/Moderation';
     import { CANCEL_SYMBOL, DEFECT_SYMBOL, IDEA_SYMBOL } from '@parser/Symbols';
+    import Link from './Link.svelte';
     import Notice from './Notice.svelte';
     import Spinning from './Spinning.svelte';
     import Subheader from './Subheader.svelte';
@@ -35,6 +37,8 @@
     let currentFeedback = $derived(mode === 'defect' ? defects : ideas);
     let expanded: boolean[] = $state([]);
     let votes = $state<Set<string>>(new Set());
+    let newComments = $state<Record<string, string>>({});
+    let githubURLs = $state<Record<string, string>>({});
 
     const user = getUser();
 
@@ -44,13 +48,22 @@
     });
 
     $effect(() => {
-        if (show || !submitting) loadFeedback();
+        if (show || !submitting) loadFeedback(true);
     });
 
-    function loadFeedback() {
+    function loadFeedback(reset: boolean = false) {
         getFeedback().then((f: Feedback[] | null) => {
+            if (f === null) return;
             feedback = f?.toSorted((a, b) => a.created - b.created);
-            expanded = feedback ? new Array(feedback.length).fill(false) : [];
+            for (const feed of feedback) {
+                if (!(feed.id in githubURLs))
+                    githubURLs[feed.id] = feed.github ?? '';
+                if (!(feed.id in newComments)) newComments[feed.id] = '';
+            }
+            if (reset)
+                expanded = feedback
+                    ? new Array(feedback.length).fill(false)
+                    : [];
         });
     }
 
@@ -106,16 +119,35 @@
             role="button"
             class="header"
             tabindex="0"
-            onpointerdown={(event) =>
+            onpointerup={(event) =>
                 event.button === 0 && (expanded[index] = !expanded[index])}
             onkeydown={(event) =>
                 event.key === 'Enter' && (expanded[index] = !expanded[index])}
         >
             <Subheader>
                 {feed.type === 'defect' ? DEFECT_SYMBOL : IDEA_SYMBOL}
-                {feed.title}</Subheader
-            >
+                {#if feed.creator === $user?.uid || moderator}
+                    <TextField
+                        editable={!submitting}
+                        bind:text={feed.title}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.title.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.title.placeholder}
+                        id="feedback-title-{feed.id}"
+                        done={(t) => {
+                            updateFeedback({ ...feed, ...{ title: t } });
+                        }}
+                        max="20em"
+                    />
+                {:else}
+                    {feed.title}
+                {/if}
+            </Subheader>
             <div class="tools">
+                {#if feed.github}
+                    <Link to={feed.github} external>GitHub</Link>
+                {/if}
                 <Button
                     tip={(l) => l.ui.dialog.feedback.button.like}
                     icon="⭐️"
@@ -144,25 +176,202 @@
             </div>
         </div>
         {#if expanded[index]}
-            {#each feed.description.split('\n') as paragraph}
-                <p>{paragraph}</p>
+            {#if moderator}
+                <Note>
+                    <table>
+                        <tbody>
+                            {#if feed.logs.trim().length > 0}
+                                <tr>
+                                    <td>Logs</td>
+                                    <td>
+                                        <ul>
+                                            {#each feed.logs.split('\n') as log}
+                                                <li>{log}</li>
+                                            {/each}
+                                        </ul>
+                                    </td>
+                                </tr>
+                            {/if}
+                            {#if feed.type === 'defect'}
+                                <tr>
+                                    <td>user agent</td>
+                                    <td>{feed.browser}</td>
+                                </tr>
+                            {/if}
+                            <tr>
+                                <td>url</td>
+                                <td>{feed.url}</td>
+                            </tr>
+                            <tr>
+                                <td>github</td>
+                                <td>
+                                    <TextField
+                                        bind:text={githubURLs[feed.id]}
+                                        description={(l) =>
+                                            l.ui.dialog.feedback.field.github
+                                                .description}
+                                        placeholder={(l) =>
+                                            l.ui.dialog.feedback.field.github
+                                                .placeholder}
+                                        id="new-github-{feed.id}"
+                                        validator={(t) => {
+                                            return t === '' ||
+                                                t.startsWith(
+                                                    'https://github.com/wordplaydev/wordplay/issues/',
+                                                )
+                                                ? true
+                                                : (l) =>
+                                                      l.ui.dialog.feedback.error
+                                                          .url;
+                                        }}
+                                        done={(t) => {
+                                            if ($user === null) return;
+                                            updateFeedback({
+                                                ...feed,
+                                                github:
+                                                    t.length === 0 ? null : t,
+                                            });
+                                            loadFeedback();
+                                        }}
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </Note>
+            {/if}
+            {#if feed.creator === $user?.uid || moderator}
+                {#if mode === 'defect'}
+                    <TextBox
+                        bind:text={feed.description}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.defect.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.defect.placeholder}
+                        id={'defect-description'}
+                        done={(t) => {
+                            updateFeedback({ ...feed, ...{ description: t } });
+                        }}
+                    />
+                {:else}
+                    <TextBox
+                        active={!submitting}
+                        bind:text={feed.description}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.idea.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.idea.placeholder}
+                        id={'idea-description'}
+                        done={(t) => {
+                            updateFeedback({ ...feed, ...{ description: t } });
+                        }}
+                    />
+                {/if}
+            {:else}
+                {#each feed.description.split('\n') as paragraph}
+                    <p>{paragraph}</p>
+                {/each}
+            {/if}
+
+            {#each feed.comments.toSorted((a, b) => a.created - b.created) as comment, commentIndex}
+                <div class="header">
+                    <div class="comment" class:moderator={comment.moderator}>
+                        <Note
+                            >{#if comment.moderator}<LocalizedText
+                                    path={(l) =>
+                                        l.ui.dialog.feedback.subheader
+                                            .moderator}
+                                />{/if}
+                        </Note>
+                        {#if ($user && comment.creator === $user?.uid) || moderator}
+                            <TextField
+                                editable={!submitting}
+                                bind:text={comment.text}
+                                description={(l) =>
+                                    l.ui.dialog.feedback.field.idea.description}
+                                placeholder={(l) =>
+                                    l.ui.dialog.feedback.field.idea.placeholder}
+                                id="new-comment-{feed.id}-{commentIndex}"
+                                done={(t) => {
+                                    if ($user === null) return;
+                                    updateFeedback({
+                                        ...feed,
+                                        comments: [
+                                            ...feed.comments,
+                                            {
+                                                creator: $user.uid,
+                                                text: t,
+                                                created: Date.now(),
+                                                moderator,
+                                            },
+                                        ],
+                                    });
+                                }}
+                            />
+                        {:else}
+                            {#each comment.text.split('\n') as paragraph}
+                                <p>{paragraph}</p>
+                            {/each}
+                        {/if}
+                        <div class="tools">
+                            {#if moderator || comment.creator === $user?.uid}
+                                <ConfirmButton
+                                    icon={CANCEL_SYMBOL}
+                                    tip={(l) =>
+                                        l.ui.dialog.feedback.button.delete
+                                            .description}
+                                    prompt={(l) =>
+                                        l.ui.dialog.feedback.button.delete
+                                            .prompt}
+                                    action={async () => {
+                                        await updateFeedback({
+                                            ...feed,
+                                            comments: feed.comments.filter(
+                                                (_, index) =>
+                                                    index !== commentIndex,
+                                            ),
+                                        });
+                                        loadFeedback();
+                                    }}
+                                ></ConfirmButton>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
             {/each}
-            <Note>
-                {#if feed.logs.trim().length > 0}
-                    <hr />
-                    <ul>
-                        {#each feed.logs.split('\n') as log}
-                            <li>{log}</li>
-                        {/each}
-                    </ul>
-                {/if}
-                {#if feed.type === 'defect'}
-                    <hr />
-                    {feed.browser}
-                {/if}
-                <hr />
-                {feed.url}
-            </Note>
+            {#if $user}
+                <div class="comment">
+                    <TextField
+                        bind:text={newComments[feed.id]}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.comment.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.comment.placeholder}
+                        id="new-comment-{feed.id}"
+                    />
+                    <Button
+                        tip={(l) => l.ui.dialog.feedback.button.comment.tip}
+                        label={(l) => l.ui.dialog.feedback.button.comment.label}
+                        background
+                        action={async () => {
+                            updateFeedback({
+                                ...feed,
+                                comments: [
+                                    ...feed.comments,
+                                    {
+                                        creator: $user.uid,
+                                        text: newComments[feed.id] ?? '',
+                                        created: Date.now(),
+                                        moderator,
+                                    },
+                                ],
+                            });
+                            loadFeedback();
+                            newComments[feed.id] = '';
+                        }}
+                    ></Button>
+                </div>
+            {/if}
         {/if}
     </div>
 
@@ -183,6 +392,25 @@
             overflow: auto;
         }
 
+        .comment {
+            width: 100%;
+            padding: var(--wordplay-spacing);
+            border-left: var(--wordplay-border-color) solid
+                var(--wordplay-focus-width);
+            background-color: var(--color-background);
+            padding-inline-start: 1em;
+            margin-inline-start: 1em;
+            margin-block-start: 1em;
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            gap: var(--wordplay-spacing);
+        }
+
+        .comment.moderator {
+            background-color: var(--wordplay-alternating-color);
+        }
+
         .header {
             display: flex;
             align-items: baseline;
@@ -190,7 +418,6 @@
             cursor: pointer;
             border-radius: var(--wordplay-border-radius);
         }
-
         .tools {
             display: flex;
             flex-direction: row;
@@ -209,37 +436,36 @@
         icon: `${IDEA_SYMBOL}/${DEFECT_SYMBOL}`,
     }}
 >
+    <Mode
+        choice={mode === 'defect' ? 0 : 1}
+        modes={[
+            `${DEFECT_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.defect)}`,
+            `${IDEA_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.idea)}`,
+        ]}
+        descriptions={(l) => l.ui.dialog.feedback.mode}
+        select={(num) => (mode = num === 0 ? 'defect' : 'idea')}
+    />
+
+    {#if currentFeedback === undefined}
+        <Spinning />
+    {:else if currentFeedback === null}
+        <Notice text={(l) => l.ui.dialog.feedback.error.load}></Notice>
+    {:else}
+        <div class="feedback-list">
+            {#if currentFeedback.length === 0}
+                <Notice text={(l) => l.ui.dialog.feedback.error.empty}></Notice>
+            {:else}
+                {#each currentFeedback as f, index}{@render feedbackView(
+                        f,
+                        index,
+                    )}{/each}
+            {/if}
+        </div>
+    {/if}
+
     {#if $user === null}
         <Notice text={(l) => l.ui.dialog.feedback.error.login}></Notice>
     {:else}
-        <Mode
-            choice={mode === 'defect' ? 0 : 1}
-            modes={[
-                `${DEFECT_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.defect)}`,
-                `${IDEA_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.idea)}`,
-            ]}
-            descriptions={(l) => l.ui.dialog.feedback.mode}
-            select={(num) => (mode = num === 0 ? 'defect' : 'idea')}
-        />
-
-        {#if currentFeedback === undefined}
-            <Spinning />
-        {:else if currentFeedback === null}
-            <Notice text={(l) => l.ui.dialog.feedback.error.load}></Notice>
-        {:else}
-            <div class="feedback-list">
-                {#if currentFeedback.length === 0}
-                    <Notice text={(l) => l.ui.dialog.feedback.error.empty}
-                    ></Notice>
-                {:else}
-                    {#each currentFeedback as f, index}{@render feedbackView(
-                            f,
-                            index,
-                        )}{/each}
-                {/if}
-            </div>
-        {/if}
-
         {#if currentFeedback !== undefined && currentFeedback !== null && currentFeedback.length > 0}
             {#if mode === 'defect'}
                 <MarkupHtmlView
@@ -310,5 +536,6 @@
         gap: var(--wordplay-spacing);
         margin-top: 1em;
         margin-bottom: 1em;
+        max-width: 40em;
     }
 </style>

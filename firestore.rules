@@ -100,8 +100,10 @@ service cloud.firestore {
       allow delete: if request.auth.uid == resource.data.owner;
     }
     match /feedback/{id} {
+      // Anyone can see feedback
+      allow read: if true;
       // Anyone logged in can create feedback
-      allow create, read: if request.auth != null;
+      allow create: if request.auth != null;
       // Only the creator can read, update, or delete their feedback; anyone can vote on the feedback though
       allow update, delete: if request.auth != null && (request.auth.uid == resource.data.creator || ("mod" in request.auth.token && request.auth.token.mod) || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["votes"]));
     }

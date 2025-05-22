@@ -1089,7 +1089,8 @@
                 "address": "$~Ist *$1* die Privatadresse von jemandem? Wenn ja, dann schreib mich nicht hier rein, wir wollen nicht, dass jemand gestalkt wird!\n\n$2",
                 "handle": "$~Ist *$1* Ihr Benutzername für eine andere Stelle im Internet? Wenn ja, teilen Sie mich hier nicht mit, es sei denn, Sie möchten es wirklich.\n\n$2",
                 "resolution": "$~Dies sind keine sensiblen Daten",
-                "reminder": "$~Hinweis: Sie können diese Aktion rückgängig machen und im Freigabedialog andere Dinge sehen, die Sie als nicht vertraulich markiert haben."
+                "reminder": "$~Hinweis: Sie können diese Aktion rückgängig machen und im Freigabedialog andere Dinge sehen, die Sie als nicht vertraulich markiert haben.",
+                "character": "$~Dies sieht aus wie ein Zeichenname. Um diesen anzuzeigen, verwenden Sie @FormattedLiteral anstelle von @TextLiteral."
             }
         },
         "FormattedLiteral": {
@@ -4476,10 +4477,13 @@
                         "label": "$~Animationen",
                         "modes": [
                             "$~Animationen aus",
-                            "$~normale Geschwindigkeit",
-                            "$~halbe Geschwindigkeit",
+                            "$~Viertelgeschwindigkeit",
                             "$~dritte Geschwindigkeit",
-                            "$~Viertelgeschwindigkeit"
+                            "$~halbe Geschwindigkeit",
+                            "$~normale Geschwindigkeit",
+                            "$~doppelte Geschwindigkeit",
+                            "$~Fünfgang",
+                            "$~Zehngang"
                         ]
                     },
                     "dark": {

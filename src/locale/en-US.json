@@ -1109,11 +1109,12 @@
                 "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2",
                 "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2",
                 "resolution": "This isn't sensitive data",
-                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog."
+                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
+                "character": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
             }
         },
         "FormattedLiteral": {
-            "name": "formatted",
+            "name": "formatted text",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
@@ -4490,10 +4491,13 @@
                         "label": "animations",
                         "modes": [
                             "animations off",
-                            "normal speed",
-                            "half speed",
+                            "quarter speed",
                             "third speed",
-                            "quarter speed"
+                            "half speed",
+                            "normal speed",
+                            "double speed",
+                            "five speed",
+                            "ten speed"
                         ]
                     },
                     "dark": {
@@ -4575,6 +4579,10 @@
                     "close": {
                         "label": "close",
                         "tip": "Close this feedback as a moderator"
+                    },
+                    "comment": {
+                        "label": "submit",
+                        "tip": "Submit comment on this feedback."
                     }
                 },
                 "mode": {
@@ -4593,11 +4601,20 @@
                     "idea": {
                         "description": "description of your defect",
                         "placeholder": "What are you trying to do that you can't do?"
+                    },
+                    "comment": {
+                        "description": "comment",
+                        "placeholder": "Add a comment to this feedback"
+                    },
+                    "github": {
+                        "description": "GitHub issue",
+                        "placeholder": "Link to GitHub issue"
                     }
                 },
                 "subheader": {
                     "defect": "defect",
-                    "idea": "idea"
+                    "idea": "idea",
+                    "moderator": "moderator"
                 },
                 "prompt": {
                     "defect": "Didn't see the problem you're experiencing? Report it here. The more detail you provide, the better!",
@@ -4607,7 +4624,8 @@
                     "login": "You must be logged in to submit feedback",
                     "submit": "Unable to submit feedback.",
                     "load": "Unable to load feedback",
-                    "empty": "There is no feedback to show."
+                    "empty": "There is no feedback to show.",
+                    "url": "This is not a valid GitHub URL."
                 }
             }
         },
@@ -4912,7 +4930,7 @@
                 },
                 "confirm": {
                     "archive": {
-                        "description": "archive this performance",
+                        "description": "archive this performance for later deletion",
                         "prompt": "archive"
                     },
                     "delete": {

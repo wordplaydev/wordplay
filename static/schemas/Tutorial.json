@@ -838,13 +838,16 @@
         "animate-phrase",
         "move-phrase",
         "custom-characters",
+        "styling-text",
         "animated-scene",
         "interactive-scene",
         "shake-phrase",
         "video-grid",
         "track-points",
         "track-game-state",
-        "offer-choices"
+        "offer-choices",
+        "choose-adventure",
+        "repeating-a-movement"
       ],
       "type": "string"
     },

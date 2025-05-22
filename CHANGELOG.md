@@ -3,7 +3,42 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 0.1.6.13
+## 0.6.15
+
+## Added
+
+- Added GitHub URLs and ability to comment to feedback form.
+
+## Fixed
+
+- Fixed #767 Correcting animation speed labels.
+- Preserve multi-region IDs in locales.
+
+## 0.6.14
+
+## Added
+
+- Fixed #755 Machine translation of traditional Chinese tutorial.
+- Allow feedback editing by owners or moderators.
+- Added a warning when a character name is referenced in plain text.
+
+## Fixed
+
+- Improved description of project archive tooltip.
+- Refined feedback reading rules to permit read without authentication.
+- Show local projects without owner.
+- Allow markup templates to evaluate to markup.
+
+## Maintenance
+
+- Updated minor versions of SvelteKit, Svelte, svelte-check, eslint, tsx, vite, vitest, zod, firebase-admin
+- Updated to nodemailer 7.0.
+
+## 0.6.13
+
+## Added
+
+- Fixed #370 Split view controls on horizontal and vertical layouts.
 
 ## Fixed
 

@@ -10,11 +10,15 @@
         text?: string;
         placeholder: LocaleTextAccessor | string;
         description: LocaleTextAccessor;
+        /** A validation function that either returns true if valid or a message accessor if false */
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         changed?: undefined | ((text: string) => void);
         // Called if someone typed and paused for more than a second.
         dwelled?: undefined | ((text: string) => void);
-        done?: undefined | ((text: string) => void);
+        done?:
+            | undefined
+            | ((text: string) => Promise<void>)
+            | ((text: string) => void);
         fill?: boolean;
         view?: HTMLInputElement | undefined;
         border?: boolean;
@@ -62,6 +66,7 @@
             ? placeholder
             : $locales.get(placeholder),
     );
+    let savingDone = $state<false | undefined | true>(false);
 
     let timeout: NodeJS.Timeout | undefined = undefined;
 
@@ -167,9 +172,16 @@
         oninput={handleInput}
         onkeydown={handleKeyDown}
         onpointerdown={(event) => event.stopPropagation()}
-        onblur={() => {
+        onblur={async () => {
             focused = false;
-            if (done) done(text);
+            if (done) {
+                savingDone = undefined;
+                await done(text);
+                savingDone = true;
+                setTimeout(() => {
+                    savingDone = false;
+                }, 1500);
+            }
         }}
         onfocus={() => (focused = true)}
     />
@@ -185,6 +197,10 @@
             >{message}</div
         >
     {/if}
+    {#if savingDone !== false}
+        <div class="done"
+            >{#if savingDone === undefined}…{:else if savingDone === true}✓{/if}</div
+        >{/if}
 </div>
 
 <style>
@@ -296,5 +312,13 @@
         border-bottom-right-radius: 0;
         border-top-right-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
+    }
+
+    .done {
+        position: absolute;
+        right: -1em;
+        top: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-small-font-size));
+        color: var(--wordplay-inactive-color);
     }
 </style>

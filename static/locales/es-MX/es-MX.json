@@ -1088,7 +1088,8 @@
                 "address": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!\n\n$2",
                 "handle": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.\n\n$2",
                 "resolution": "Esto no es información sensible",
-                "reminder": "$~Nota: Puedes deshacer esta acción y ver otras cosas que hayas marcado como no confidenciales en el cuadro de diálogo para compartir."
+                "reminder": "$~Nota: Puedes deshacer esta acción y ver otras cosas que hayas marcado como no confidenciales en el cuadro de diálogo para compartir.",
+                "character": "$~Parece el nombre de un personaje. Para mostrarlo, usa @FormattedLiteral en lugar de @TextLiteral."
             }
         },
         "FormattedLiteral": {
@@ -4458,11 +4459,14 @@
                     "animate": {
                         "label": "animaciones",
                         "modes": [
-                            "apagadas",
-                            "encendidas",
-                            "a la mitad de velocidad",
-                            "a un tercio de velocidad",
-                            "a un cuarto de velocidad"
+                            "$~animaciones desactivadas",
+                            "$~cuarto de velocidad",
+                            "$~tercera velocidad",
+                            "$~media velocidad",
+                            "$~velocidad normal",
+                            "$~doble velocidad",
+                            "$~cinco velocidades",
+                            "$~diez velocidades"
                         ]
                     },
                     "dark": {
