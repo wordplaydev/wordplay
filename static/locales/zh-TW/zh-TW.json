@@ -4512,6 +4512,10 @@
                     "close": {
                         "label": "$~关闭",
                         "tip": "$~以版主身份关闭此反馈"
+                    },
+                    "comment": {
+                        "label": "$~提交",
+                        "tip": "$~提交对此反馈的评论。"
                     }
                 },
                 "mode": {
@@ -4530,11 +4534,20 @@
                     "idea": {
                         "description": "$~您的缺陷描述",
                         "placeholder": "$~你想做但做不到什么？"
+                    },
+                    "comment": {
+                        "description": "$~评论",
+                        "placeholder": "$~对此反馈添加评论"
+                    },
+                    "github": {
+                        "description": "$~GitHub 问题",
+                        "placeholder": "$~GitHub 问题链接"
                     }
                 },
                 "subheader": {
                     "defect": "$~缺点",
-                    "idea": "$~主意"
+                    "idea": "$~主意",
+                    "moderator": "$~主持人"
                 },
                 "prompt": {
                     "defect": "$~没有看到您遇到的问题？请在此处报告。",
@@ -4544,7 +4557,8 @@
                     "login": "$~您必须登录才能提交反馈",
                     "submit": "$~无法提交反馈。",
                     "load": "$~无法加载反馈",
-                    "empty": "$~沒有可显示的反饋。"
+                    "empty": "$~沒有可显示的反饋。",
+                    "url": "$~这不是有效的 GitHub URL。"
                 }
             }
         },

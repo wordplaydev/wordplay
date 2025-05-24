@@ -26,7 +26,7 @@ import { getKeyTemplatePairs } from './LocalePath';
 import type Log from './Log';
 import TutorialSchema, { DefaultTutorial } from './TutorialSchema';
 import Validator from './Validator';
-import translate from './translate';
+import translate, { GoogleTranslate } from './translate';
 
 /** Load, validate, and check the tutorial, and optionally translate. */
 export async function verifyTutorial(
@@ -262,11 +262,6 @@ async function translateTutorial(log: Log, tutorial: Tutorial) {
 
     if (unwritten.length === 0) return tutorial;
 
-    log.say(
-        2,
-        `Tutorial has ${unwritten.length} unwritten strings ("${Unwritten}"). Translating using Google translate...`,
-    );
-
     // Copy the target tutorial so we can revise it.
     const revised = JSON.parse(JSON.stringify(tutorial)) as Tutorial;
 
@@ -281,11 +276,27 @@ async function translateTutorial(log: Log, tutorial: Tutorial) {
         .filter((s) => s !== undefined)
         .flat();
 
+    // See if the region of the target language is supported and append it if so.
+    const [languages] = await GoogleTranslate.getLanguages();
+    const locales = Array.from(languages)
+        .map((l) => l.code)
+        .filter((l) => l.startsWith(tutorial.language));
+    const targetRegion = tutorial.regions.find((r) =>
+        locales.includes(`${tutorial.language}-${r}`),
+    );
+    const targetLocale = `${tutorial.language}${targetRegion ? `-${targetRegion}` : ''}`;
+    const sourceLocale = 'en-US';
+
+    log.say(
+        2,
+        `Tutorial has ${unwritten.length} unwritten strings ("${Unwritten}"). Translating using Google translate from ${sourceLocale} to ${targetLocale}...`,
+    );
+
     const translations = await translate(
         log,
         sourceStrings,
-        'en',
-        tutorial.language,
+        sourceLocale,
+        targetLocale,
     );
 
     if (translations === undefined) {

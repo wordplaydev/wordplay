@@ -2,6 +2,8 @@ import Translate from '@google-cloud/translate';
 import { ConceptRegExPattern, MentionRegEx } from '@parser/Tokenizer';
 import type Log from './Log';
 
+export const GoogleTranslate = new Translate.v2.Translate();
+
 export default async function translate(
     log: Log,
     text: string[],
@@ -17,9 +19,8 @@ export default async function translate(
     for (const batch of sourceStringsBatches) {
         try {
             // Create a Google Translate client
-            const translator = new Translate.v2.Translate();
             // Translate the strings
-            const [translatedBatch] = await translator.translate(batch, {
+            const [translatedBatch] = await GoogleTranslate.translate(batch, {
                 from: source,
                 to: target,
             });
