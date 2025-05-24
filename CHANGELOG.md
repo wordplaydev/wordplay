@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed cursor placement after reversed range deletion.
 - Reversed default order of vertical layout.
 - Fixed translation choices in project translate dialog.
+- Fixed undefined symbols for speech causing crash.
 
 ## Maintenance
 
