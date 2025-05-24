@@ -123,7 +123,7 @@ const CharactersSet = {
     Link: { symbols: LINK_SYMBOL },
     Words: { symbols: ETC_SYMBOL },
     Paragraph: { symbols: '¶' },
-} as const;
+} satisfies Record<string, Readonly<BasisCharacter>>;
 
 // A little TypeScript hackery to type based on the keys of the literal above.
 const Characters: Readonly<

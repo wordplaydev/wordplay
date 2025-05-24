@@ -688,7 +688,9 @@ export default class Bind extends Expression {
         const preferredName =
             this.names.getPreferredName(locales.getLocales())?.getName() ??
             this.names.getNames()[0];
-        return preferredName ? { symbols: preferredName } : Characters.Bind;
+        return preferredName
+            ? { symbols: preferredName ?? '' }
+            : Characters.Bind;
     }
 
     getKind() {
