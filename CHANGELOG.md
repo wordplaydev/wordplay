@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 - Fixed #748 correcting guide back button.
+- Fixed #760 correcting keyboard selection of locale.
 
 ## Maintenance
 
