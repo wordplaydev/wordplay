@@ -30,8 +30,13 @@
     let show: boolean = $state(false);
 
     let projectLocales = $derived(
-        project
-            .getLocalesUsed()
+        [...project.getLocalesUsed(), ...project.getLocales().getLocales()]
+            .filter((l, index, list) => {
+                const match = list.findIndex(
+                    (l2, index2) => index2 > index && localesAreEqual(l, l2),
+                );
+                return match < 0;
+            })
             .toSorted((a, b) =>
                 localeToString(a).localeCompare(localeToString(b)),
             ),
@@ -86,22 +91,21 @@
 >
     <Subheader text={(l) => l.ui.project.subheader.source} />
     <div class="options">
-        {#each projectLocales as projectLocale, index}
+        {#each projectLocales as locale, index}
             <div class="option">
-                {#if projectLocale === sourceLocale}✔{/if}
                 <Button
                     action={() => updatePrimaryLocale(index)}
                     active={!translating &&
                         (sourceLocale === undefined ||
-                            !localesAreEqual(projectLocale, sourceLocale))}
+                            !localesAreEqual(locale, sourceLocale))}
                     tip={(l) => l.ui.project.button.primary}
-                    icon={sourceLocale &&
-                    localesAreEqual(projectLocale, sourceLocale)
+                    icon={sourceLocale && localesAreEqual(locale, sourceLocale)
                         ? CONFIRM_SYMBOL
                         : undefined}
                     ><LocaleName
-                        locale={localeToString(projectLocale)}
+                        locale={localeToString(locale)}
                         supported
+                        showDraft={false}
                     /></Button
                 >
             </div>
@@ -118,11 +122,14 @@
                     }}
                     active={!translating &&
                         (targetLocale === undefined ||
-                            !localesAreEqual(targetLocale, locale))}
+                            !localesAreEqual(targetLocale, locale)) &&
+                        (sourceLocale === undefined ||
+                            !localesAreEqual(sourceLocale, locale))}
                     tip={(l) => l.ui.dialog.locale.button.replace}
                     ><LocaleName
                         locale={localeToString(locale)}
                         supported
+                        showDraft={false}
                     /></Button
                 >
             </div>

@@ -112,7 +112,7 @@ export const Languages = {
         name: 'English',
         en: 'English',
         scripts: ['Latn'],
-        regions: ['US', 'UK'],
+        regions: ['US', 'GB'],
     },
     es: {
         name: 'español',
