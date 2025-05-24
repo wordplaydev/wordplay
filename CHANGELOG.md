@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #776 passing region to Google Translate.
 - Added missing translations.
 - Fixed cursor placement after reversed range deletion.
+- Reversed default order of vertical layout.
 
 ## Maintenance
 

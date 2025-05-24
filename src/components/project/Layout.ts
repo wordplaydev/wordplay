@@ -101,12 +101,12 @@ const DefaultVerticalSplits: Axis[] = [
         direction: 'y',
         positions: [
             {
-                id: [TileKind.Documentation, TileKind.Collaborate],
+                id: [TileKind.Output, TileKind.Palette],
                 position: 0,
             },
-            { id: [TileKind.Source], position: 0.25, split: true },
+            { id: [TileKind.Source], position: 0.3, split: true },
             {
-                id: [TileKind.Output, TileKind.Palette],
+                id: [TileKind.Documentation, TileKind.Collaborate],
                 position: 0.7,
             },
         ],
