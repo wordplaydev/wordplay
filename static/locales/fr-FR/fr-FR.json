@@ -4566,6 +4566,10 @@
                     "close": {
                         "label": "$~fermer",
                         "tip": "$~Fermer ce commentaire en tant que modérateur"
+                    },
+                    "comment": {
+                        "label": "$~soumettre",
+                        "tip": "$~Soumettre un commentaire sur ce retour d'information."
                     }
                 },
                 "mode": {
@@ -4584,11 +4588,20 @@
                     "idea": {
                         "description": "$~description de votre défaut",
                         "placeholder": "$~Qu'essayez-vous de faire que vous ne pouvez pas faire ?"
+                    },
+                    "comment": {
+                        "description": "$~commentaire",
+                        "placeholder": "$~Ajouter un commentaire à ce feedback"
+                    },
+                    "github": {
+                        "description": "$~Problème GitHub",
+                        "placeholder": "$~Lien vers le problème GitHub"
                     }
                 },
                 "subheader": {
                     "defect": "$~défaut",
-                    "idea": "$~idée"
+                    "idea": "$~idée",
+                    "moderator": "$~modérateur"
                 },
                 "prompt": {
                     "defect": "$~Vous n'avez pas trouvé le problème que vous rencontrez ? Signalez-le ici.",
@@ -4598,7 +4611,8 @@
                     "login": "$~Vous devez être connecté pour soumettre vos commentaires",
                     "submit": "$~Impossible de soumettre des commentaires.",
                     "load": "$~Impossible de charger les commentaires",
-                    "empty": "$~Il n'y a aucun commentaire à afficher."
+                    "empty": "$~Il n'y a aucun commentaire à afficher.",
+                    "url": "$~Ce n'est pas une URL GitHub valide."
                 }
             }
         },

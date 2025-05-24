@@ -4583,6 +4583,10 @@
                     "close": {
                         "label": "$~nära",
                         "tip": "$~Stäng denna feedback som moderator"
+                    },
+                    "comment": {
+                        "label": "$~överlämna",
+                        "tip": "$~Skicka kommentar till denna feedback."
                     }
                 },
                 "mode": {
@@ -4601,11 +4605,20 @@
                     "idea": {
                         "description": "$~beskrivning av ditt defekt",
                         "placeholder": "$~Vad försöker du göra som du inte kan?"
+                    },
+                    "comment": {
+                        "description": "$~kommentar",
+                        "placeholder": "$~Lägg till en kommentar till den här feedbacken"
+                    },
+                    "github": {
+                        "description": "$~GitHub-problem",
+                        "placeholder": "$~Länk till GitHub-problem"
                     }
                 },
                 "subheader": {
                     "defect": "$~defekt",
-                    "idea": "$~aning"
+                    "idea": "$~aning",
+                    "moderator": "$~moderator"
                 },
                 "prompt": {
                     "defect": "$~Såg du inte problemet du upplever? Anmäl det här.",
@@ -4615,7 +4628,8 @@
                     "login": "$~Du måste vara inloggad för att skicka feedback",
                     "submit": "$~Det gick inte att skicka feedback.",
                     "load": "$~Det gick inte att ladda feedback",
-                    "empty": "$~Det finns ingen feedback att visa."
+                    "empty": "$~Det finns ingen feedback att visa.",
+                    "url": "$~Detta är inte en giltig GitHub-URL."
                 }
             }
         },

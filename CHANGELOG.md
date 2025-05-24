@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #748 correcting guide back button.
 - Fixed #760 correcting keyboard selection of locale.
 - Fixed #776 passing region to Google Translate.
+- Added missing translations.
 
 ## Maintenance
 

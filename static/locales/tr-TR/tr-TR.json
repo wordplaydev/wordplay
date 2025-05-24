@@ -4578,6 +4578,10 @@
                     "close": {
                         "label": "$~kapalı",
                         "tip": "$~Bu geri bildirimi moderatör olarak kapatın"
+                    },
+                    "comment": {
+                        "label": "$~göndermek",
+                        "tip": "$~Bu geri bildirime yorum gönderin."
                     }
                 },
                 "mode": {
@@ -4596,11 +4600,20 @@
                     "idea": {
                         "description": "$~Kusurunuzun açıklaması",
                         "placeholder": "$~Ne yapmaya çalışıyorsun da yapamıyorsun?"
+                    },
+                    "comment": {
+                        "description": "$~Yorum",
+                        "placeholder": "$~Bu geri bildirime bir yorum ekleyin"
+                    },
+                    "github": {
+                        "description": "$~GitHub sorunu",
+                        "placeholder": "$~GitHub sorununa bağlantı"
                     }
                 },
                 "subheader": {
                     "defect": "$~kusur",
-                    "idea": "$~fikir"
+                    "idea": "$~fikir",
+                    "moderator": "$~moderatör"
                 },
                 "prompt": {
                     "defect": "$~Yaşadığınız sorunu göremiyor musunuz? Buradan bildirin.",
@@ -4610,7 +4623,8 @@
                     "login": "$~Geri bildirim göndermek için giriş yapmış olmanız gerekir",
                     "submit": "$~Geri bildirim gönderilemedi.",
                     "load": "$~Geri bildirim yüklenemiyor",
-                    "empty": "$~Gösterilecek geri bildirim yok."
+                    "empty": "$~Gösterilecek geri bildirim yok.",
+                    "url": "$~Bu geçerli bir GitHub URL'si değil."
                 }
             }
         },

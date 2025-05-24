@@ -4588,6 +4588,10 @@
                     "close": {
                         "label": "$~zamknąć",
                         "tip": "$~Zamknij tę opinię jako moderator"
+                    },
+                    "comment": {
+                        "label": "$~składać",
+                        "tip": "$~Prześlij komentarz do tej opinii."
                     }
                 },
                 "mode": {
@@ -4606,11 +4610,20 @@
                     "idea": {
                         "description": "$~opis twojej wady",
                         "placeholder": "$~Co próbujesz zrobić, czego nie możesz zrobić?"
+                    },
+                    "comment": {
+                        "description": "$~komentarz",
+                        "placeholder": "$~Dodaj komentarz do tej opinii"
+                    },
+                    "github": {
+                        "description": "$~Problem GitHub",
+                        "placeholder": "$~Link do problemu GitHub"
                     }
                 },
                 "subheader": {
                     "defect": "$~wada",
-                    "idea": "$~pomysł"
+                    "idea": "$~pomysł",
+                    "moderator": "$~moderator"
                 },
                 "prompt": {
                     "defect": "$~Nie widzisz problemu, którego doświadczasz? Zgłoś go tutaj.",
@@ -4620,7 +4633,8 @@
                     "login": "$~Musisz być zalogowany, aby przesłać opinię",
                     "submit": "$~Nie można przesłać opinii.",
                     "load": "$~Nie można załadować opinii",
-                    "empty": "$~Brak opinii do wyświetlenia."
+                    "empty": "$~Brak opinii do wyświetlenia.",
+                    "url": "$~To nie jest prawidłowy adres URL GitHub."
                 }
             }
         },

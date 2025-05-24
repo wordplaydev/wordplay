@@ -4545,6 +4545,10 @@
                     "close": {
                         "label": "$~cerca",
                         "tip": "$~Cerrar este comentario como moderador"
+                    },
+                    "comment": {
+                        "label": "$~entregar",
+                        "tip": "$~Enviar comentario sobre esta retroalimentación."
                     }
                 },
                 "mode": {
@@ -4563,11 +4567,20 @@
                     "idea": {
                         "description": "$~descripción de su defecto",
                         "placeholder": "$~¿Qué estás intentando hacer que no puedes hacer?"
+                    },
+                    "comment": {
+                        "description": "$~comentario",
+                        "placeholder": "$~Añade un comentario a esta retroalimentación"
+                    },
+                    "github": {
+                        "description": "$~Problema de GitHub",
+                        "placeholder": "$~Enlace al problema de GitHub"
                     }
                 },
                 "subheader": {
                     "defect": "$~defecto",
-                    "idea": "$~idea"
+                    "idea": "$~idea",
+                    "moderator": "$~moderador"
                 },
                 "prompt": {
                     "defect": "$~¿No viste el problema que tienes? Repórtalo aquí.",
@@ -4577,7 +4590,8 @@
                     "login": "$~Debe iniciar sesión para enviar comentarios.",
                     "submit": "$~No es posible enviar comentarios.",
                     "load": "$~No se pueden cargar los comentarios",
-                    "empty": "$~No hay comentarios para mostrar."
+                    "empty": "$~No hay comentarios para mostrar.",
+                    "url": "$~Esta no es una URL de GitHub válida."
                 }
             }
         },
