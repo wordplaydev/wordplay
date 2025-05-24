@@ -65,7 +65,7 @@
             path.set([concept]);
         }
         // Only update if the path isn't already empty.
-        else if (concept === null) {
+        else if (!concept) {
             path.set([]);
         }
     });

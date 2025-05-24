@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.16
 
+## Fixed
+
+- Fixed #748 correcting guide back button.
+
 ## Maintenance
 
 - Updated all minor versions.
