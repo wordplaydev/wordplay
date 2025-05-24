@@ -18,7 +18,12 @@
         type Feedback,
     } from '@db/feedback/FeedbackDatabase';
     import { isModerator } from '@db/projects/Moderation';
-    import { CANCEL_SYMBOL, DEFECT_SYMBOL, IDEA_SYMBOL } from '@parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        CONFIRM_SYMBOL,
+        DEFECT_SYMBOL,
+        IDEA_SYMBOL,
+    } from '@parser/Symbols';
     import Link from './Link.svelte';
     import Notice from './Notice.svelte';
     import Spinning from './Spinning.svelte';
@@ -157,7 +162,7 @@
                 {#if feed.creator === $user?.uid || moderator}
                     <Button
                         tip={(l) => l.ui.dialog.feedback.button.close.tip}
-                        icon="✓"
+                        icon={CONFIRM_SYMBOL}
                         label={(l) => l.ui.dialog.feedback.button.close.label}
                         action={() => close(feed)}
                     ></Button>

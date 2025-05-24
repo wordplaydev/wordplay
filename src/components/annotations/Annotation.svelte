@@ -2,6 +2,7 @@
     import Button from '@components/widgets/Button.svelte';
     import type { Resolution } from '@conflicts/Conflict';
     import type Context from '@nodes/Context';
+    import { CONFIRM_SYMBOL } from '@parser/Symbols';
     import { fade } from 'svelte/transition';
     import { Projects, animationDuration, locales } from '../../db/Database';
     import { default as MarkupHTMLView } from '../concepts/MarkupHTMLView.svelte';
@@ -51,7 +52,7 @@
                                             resolveAnnotation(
                                                 resolution,
                                                 annotation.context,
-                                            )}>✓</Button
+                                            )}>{CONFIRM_SYMBOL}</Button
                                     ><div class="description"
                                         ><MarkupHTMLView
                                             inline

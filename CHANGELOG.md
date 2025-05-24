@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Added missing translations.
 - Fixed cursor placement after reversed range deletion.
 - Reversed default order of vertical layout.
+- Fixed translation choices in project translate dialog.
 
 ## Maintenance
 

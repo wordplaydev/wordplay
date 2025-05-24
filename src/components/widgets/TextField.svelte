@@ -2,6 +2,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import { CONFIRM_SYMBOL } from '@parser/Symbols';
     import { onMount, tick } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
 
@@ -199,7 +200,7 @@
     {/if}
     {#if savingDone !== false}
         <div class="done"
-            >{#if savingDone === undefined}…{:else if savingDone === true}✓{/if}</div
+            >{#if savingDone === undefined}…{:else if savingDone === true}{CONFIRM_SYMBOL}{/if}</div
         >{/if}
 </div>
 

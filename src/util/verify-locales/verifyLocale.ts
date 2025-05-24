@@ -8,7 +8,7 @@ import {
     MachineTranslated,
     parseLocaleDoc,
     toDocString,
-    toLocale,
+    toLocaleString,
     Unwritten,
 } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -240,7 +240,8 @@ async function checkLocale(
                                     .get(nameWithoutPlaceholder)
                                     ?.filter(
                                         (p) =>
-                                            p.locale !== toLocale(original) &&
+                                            p.locale !==
+                                                toLocaleString(original) &&
                                             !p.path.equals(path),
                                     ) ?? [];
                             if (existing.length > 1)

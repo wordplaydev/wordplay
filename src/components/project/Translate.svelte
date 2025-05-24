@@ -9,9 +9,13 @@
     import { functions } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
-    import { TranslatableLanguages } from '@locale/LanguageCode';
-    import { toLocale } from '@locale/LocaleText';
-    import { LOCALE_SYMBOL } from '@parser/Symbols';
+    import { TranslatableLocales } from '@locale/LanguageCode';
+    import {
+        localesAreEqual,
+        localeToString,
+        type Locale,
+    } from '@locale/Locale';
+    import { CONFIRM_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         project: Project;
@@ -25,18 +29,29 @@
     let error: boolean = $state(false);
     let show: boolean = $state(false);
 
-    let projectLocales = $derived(project.getLocales().getLocales());
-    let primaryLocale = $derived(toLocale(projectLocales[0]));
-    let allLocales = $derived(projectLocales.map((l) => toLocale(l)).sort());
+    let projectLocales = $derived(
+        project
+            .getLocalesUsed()
+            .toSorted((a, b) =>
+                localeToString(a).localeCompare(localeToString(b)),
+            ),
+    );
+
+    let sourceLocale = $state<Locale | undefined>(
+        project.getLocales().getLocales()[0],
+    );
+
+    let targetLocale = $state<Locale | undefined>(undefined);
 
     /** Translate the project into another language */
-    async function translate(targetLocaleCode: string) {
-        if (functions) {
+    async function translate() {
+        if (functions && sourceLocale && targetLocale) {
             translating = true;
             const revisedProject = await translateProject(
                 functions,
                 project,
-                targetLocaleCode,
+                sourceLocale,
+                targetLocale,
             );
             translating = false;
 
@@ -55,14 +70,7 @@
     }
 
     function updatePrimaryLocale(index: number) {
-        const primary = allLocales[index];
-        const newLocale = projectLocales.find(
-            (l) =>
-                l.language === primary.split('-')[0] &&
-                l.regions.includes(primary.split('-')[1]),
-        );
-        if (newLocale)
-            Projects.reviseProject(project.withPrimaryLocale(newLocale));
+        sourceLocale = projectLocales[index];
     }
 </script>
 
@@ -78,14 +86,23 @@
 >
     <Subheader text={(l) => l.ui.project.subheader.source} />
     <div class="options">
-        {#each allLocales as projectLocale, index}
+        {#each projectLocales as projectLocale, index}
             <div class="option">
-                {#if projectLocale === primaryLocale}✔{/if}
+                {#if projectLocale === sourceLocale}✔{/if}
                 <Button
                     action={() => updatePrimaryLocale(index)}
-                    active={projectLocale !== primaryLocale}
+                    active={!translating &&
+                        (sourceLocale === undefined ||
+                            !localesAreEqual(projectLocale, sourceLocale))}
                     tip={(l) => l.ui.project.button.primary}
-                    ><LocaleName locale={projectLocale} supported /></Button
+                    icon={sourceLocale &&
+                    localesAreEqual(projectLocale, sourceLocale)
+                        ? CONFIRM_SYMBOL
+                        : undefined}
+                    ><LocaleName
+                        locale={localeToString(projectLocale)}
+                        supported
+                    /></Button
                 >
             </div>
         {/each}
@@ -93,17 +110,38 @@
     <Subheader text={(l) => l.ui.project.subheader.destination} />
     <div class="options">
         <!-- Allow all of the languages that Google Translate supports. -->
-        {#each TranslatableLanguages as language}
+        {#each TranslatableLocales as locale}
             <div class="option">
                 <Button
-                    action={() => translate(language)}
+                    action={() => {
+                        targetLocale = locale;
+                    }}
+                    active={!translating &&
+                        (targetLocale === undefined ||
+                            !localesAreEqual(targetLocale, locale))}
                     tip={(l) => l.ui.dialog.locale.button.replace}
-                    ><LocaleName locale={language} supported /></Button
+                    ><LocaleName
+                        locale={localeToString(locale)}
+                        supported
+                    /></Button
                 >
             </div>
         {:else}&mdash;
         {/each}
     </div>
+
+    <Button
+        background
+        action={() => {
+            translate();
+        }}
+        active={targetLocale !== undefined &&
+            sourceLocale !== undefined &&
+            !translating}
+        tip={(l) => l.ui.project.button.translate.tip}
+        label={(l) => l.ui.project.button.translate.label}
+    ></Button>
+
     {#if translating}
         <Spinning />
     {/if}
