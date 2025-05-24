@@ -64,7 +64,7 @@
     import CreatorView from '../app/CreatorView.svelte';
     import Emoji from '../app/Emoji.svelte';
     import Spinning from '../app/Spinning.svelte';
-    import Editor from '../editor/Editor.svelte';
+    import Editor, { largeDeletionNotification } from '../editor/Editor.svelte';
     import CharacterChooser from '../editor/GlyphChooser.svelte';
     import Highlight from '../editor/Highlight.svelte';
     import Menu from '../editor/Menu.svelte';
@@ -1730,6 +1730,13 @@
                                             />
                                         </div>
                                     {/if}
+                                    {#if $largeDeletionNotification}
+                                        <div
+                                            class="large-deletion-notification"
+                                        >
+                                            {$largeDeletionNotification}
+                                        </div>
+                                    {/if}
                                     {#if $blocks}
                                         <p class="editor-warning feedback"
                                             >This editing mode is experimental. <Link
@@ -2075,5 +2082,28 @@
         padding: var(--wordplay-spacing);
         background: var(--wordplay-error);
         color: var(--wordplay-background);
+    }
+
+    .large-deletion-notification {
+        width: 100%;
+        padding: var(--wordplay-spacing);
+        background: black;
+        color: white;
+        border: 1px solid black;
+        animation: popUp 0.6s ease-out;
+    }
+
+    @keyframes popUp {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+        }
     }
 </style>
