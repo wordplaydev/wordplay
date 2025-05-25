@@ -822,7 +822,7 @@ export default class Evaluate extends Expression {
                             ),
                         ];
                 }
-                // Otherise, check its type, and either halt or evaluate.
+                // Otherwise, check its type, and either halt or evaluate.
                 else {
                     const expectedType = expected.getType(context);
                     const acceptable =
@@ -888,12 +888,13 @@ export default class Evaluate extends Expression {
                 this.fun,
             );
 
-        // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.
+        // Pop as many values as the definition allows, or the number of inputs provided if there's a variable input.
         // This accounts for variable length arguments.
-        const count = Math.max(
-            definitionValue.definition.inputs.length,
-            this.inputs.length,
-        );
+        const count = definitionValue.definition.inputs.some((input) =>
+            input.isVariableLength(),
+        )
+            ? this.inputs.length
+            : definitionValue.definition.inputs.length;
 
         // Get all the values off the stack, getting as many as is defined.
         const values = [];
