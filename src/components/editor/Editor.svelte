@@ -1433,6 +1433,8 @@
                                         c1 === c2 && i2 > i1 && i1 !== i2,
                                 ),
                         );
+                // If we didn't find a selection, just get all conflicts in the project.
+                else newConflictsOfInterest = $nodeConflicts;
             }
             untrack(() => updateConflicts(source, newConflictsOfInterest));
 

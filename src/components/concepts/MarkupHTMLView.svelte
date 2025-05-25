@@ -89,7 +89,6 @@
     .markup {
         display: flex;
         flex-direction: column;
-        font-size: var(--wordplay-font-size);
     }
 
     .markup:not(:last-child) {

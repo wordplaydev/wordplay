@@ -18,6 +18,11 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Permit required named expressions out of order in an `Evaluate`
 - Gracefully ignore extra inputs to an `Evaluate`.
 
+## Added
+
+- Smaller font for secondary conflict messages.
+- Show all conflicts if there's no selected conflict.
+
 ## Maintenance
 
 - Updated all minor versions.

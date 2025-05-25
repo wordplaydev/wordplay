@@ -109,6 +109,10 @@
         border-color: var(--wordplay-warning);
     }
 
+    .annotation.secondary {
+        font-size: var(--wordplay-small-font-size);
+    }
+
     aside {
         display: flex;
         flex-direction: column;
