@@ -22,6 +22,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Smaller font for secondary conflict messages.
 - Show all conflicts if there's no selected conflict.
+- Added headers to conflicts for clarity.
 
 ## Maintenance
 

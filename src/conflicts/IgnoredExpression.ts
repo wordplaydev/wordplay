@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
@@ -16,6 +17,9 @@ export class IgnoredExpression extends Conflict {
         this.block = block;
         this.expr = expr;
     }
+
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Block.conflict.IgnoredExpression;
 
     getConflictingNodes(context: Context) {
         // Is the expression after the ignored expression a unary one that, if a space were inserted, would resolve
@@ -120,7 +124,7 @@ export class IgnoredExpression extends Conflict {
                 node: this.block,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Block.conflict.IgnoredExpression.primary,
+                        (l) => IgnoredExpression.LocalePath(l).primary,
                         new NodeRef(this.expr, locales, context),
                     ),
             },
@@ -128,8 +132,7 @@ export class IgnoredExpression extends Conflict {
                 node: this.expr,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Block.conflict.IgnoredExpression.secondary,
+                        (l) => IgnoredExpression.LocalePath(l).secondary,
                     ),
             },
             resolutions: [
@@ -137,5 +140,9 @@ export class IgnoredExpression extends Conflict {
                 ...(splitEvaluate ? [splitEvaluate] : []),
             ],
         };
+    }
+
+    getLocalePath() {
+        return IgnoredExpression.LocalePath;
     }
 }

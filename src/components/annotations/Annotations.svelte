@@ -6,6 +6,7 @@
         kind: 'step' | 'primary' | 'secondary' | 'minor';
         context: Context;
         resolutions: Resolution[];
+        conflict?: ConflictLocaleAccessor;
     };
 </script>
 
@@ -23,7 +24,10 @@
     import Expander from '@components/widgets/Expander.svelte';
     import Templates from '@concepts/Templates';
     import type Conflict from '@conflicts/Conflict';
-    import type { Resolution } from '@conflicts/Conflict';
+    import type {
+        ConflictLocaleAccessor,
+        Resolution,
+    } from '@conflicts/Conflict';
     import type Caret from '@edit/Caret';
     import { docToMarkup } from '@locale/LocaleText';
     import NodeRef from '@locale/NodeRef';
@@ -109,6 +113,7 @@
                         context,
                         // Place the resolutions in the primary node.
                         resolutions: nodes.resolutions ?? [],
+                        conflict: conflict.getLocalePath(),
                     },
                     ...(secondary !== undefined
                         ? [

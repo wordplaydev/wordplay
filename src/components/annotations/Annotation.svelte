@@ -1,6 +1,10 @@
 <script lang="ts">
     import Button from '@components/widgets/Button.svelte';
-    import type { Resolution } from '@conflicts/Conflict';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type {
+        ConflictLocaleAccessor,
+        Resolution,
+    } from '@conflicts/Conflict';
     import type Context from '@nodes/Context';
     import { CONFIRM_SYMBOL } from '@parser/Symbols';
     import { fade } from 'svelte/transition';
@@ -24,6 +28,14 @@
 
 <div class="annotations">
     {#each annotations as annotation}
+        {#if annotation.conflict}
+            <h3
+                ><LocalizedText
+                    path={(l) =>
+                        (annotation.conflict as ConflictLocaleAccessor)(l).name}
+                ></LocalizedText></h3
+            >
+        {/if}
         <div
             class={`annotation ${annotation.kind} ${
                 annotation.kind === 'secondary' ? 'flip' : ''
@@ -129,5 +141,9 @@
     .description {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-spacing);
+    }
+
+    h3 {
+        margin-block-end: 0;
     }
 </style>

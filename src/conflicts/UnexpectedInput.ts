@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Context from '@nodes/Context';
@@ -26,13 +27,16 @@ export default class UnexpectedInput extends Conflict {
         this.input = input;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Evaluate.conflict.UnexpectedInput;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.input,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Evaluate.conflict.UnexpectedInput.primary,
+                        (l) => UnexpectedInput.LocalePath(l).primary,
                         new NodeRef(this.input, locales, context),
                     ),
             },
@@ -40,11 +44,14 @@ export default class UnexpectedInput extends Conflict {
                 node: this.func.names,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Evaluate.conflict.UnexpectedInput.secondary,
+                        (l) => UnexpectedInput.LocalePath(l).secondary,
                         new NodeRef(this.input, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return UnexpectedInput.LocalePath;
     }
 }

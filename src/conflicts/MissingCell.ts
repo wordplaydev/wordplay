@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
@@ -19,13 +20,16 @@ export default class MissingCell extends Conflict {
         this.column = column;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.Row.conflict.MissingCell;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.row,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Row.conflict.MissingCell.primary,
+                        (l) => MissingCell.LocalePath(l).primary,
                         new NodeRef(
                             this.column,
                             locales,
@@ -38,10 +42,14 @@ export default class MissingCell extends Conflict {
                 node: this.column,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Row.conflict.MissingCell.secondary,
+                        (l) => MissingCell.LocalePath(l).secondary,
                         new NodeRef(this.row, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return MissingCell.LocalePath;
     }
 }

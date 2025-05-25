@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
@@ -15,16 +16,23 @@ export class ImpossibleType extends Conflict {
         this.givenType = givenType;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Is.conflict.ImpossibleType;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.expression,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Is.conflict.ImpossibleType,
+                        (l) => ImpossibleType.LocalePath(l).primary,
                         new NodeRef(this.givenType, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return ImpossibleType.LocalePath;
     }
 }

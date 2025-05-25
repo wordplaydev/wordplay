@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
@@ -17,14 +18,16 @@ export default class IncompatibleInput extends Conflict {
         this.expectedType = expectedType;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Evaluate.conflict.IncompatibleInput;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.givenNode,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Evaluate.conflict.IncompatibleInput.primary,
+                        (l) => IncompatibleInput.LocalePath(l).primary,
                         new NodeRef(
                             this.expectedType.simplify(context),
                             locales,
@@ -41,9 +44,7 @@ export default class IncompatibleInput extends Conflict {
                 node: this.expectedType,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Evaluate.conflict.IncompatibleInput
-                                .secondary,
+                        (l) => IncompatibleInput.LocalePath(l).secondary,
                         new NodeRef(
                             this.expectedType.simplify(context),
                             locales,
@@ -57,5 +58,9 @@ export default class IncompatibleInput extends Conflict {
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return IncompatibleInput.LocalePath;
     }
 }

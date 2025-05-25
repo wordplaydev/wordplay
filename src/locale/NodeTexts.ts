@@ -30,12 +30,15 @@ export interface Conflicts<T> {
     conflict: T;
 }
 
-/** The text that describes this confilct type. */
-export type InternalConflictText = Template;
-
-export type ConflictText = {
+/** The text that describes this conflict type. */
+export type InternalConflictText = {
+    /** The short header to describe the conflict */
+    name: string;
     /** The text that describes this conflict on the node which generated it. */
     primary: Template;
+};
+
+export type ConflictText = InternalConflictText & {
     /** The text that describes this conflict on a related note, but not the one that generated it. */
     secondary: Template;
 };

@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
@@ -27,14 +28,16 @@ export default class IncompatibleCellType extends Conflict {
         this.received = received;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Update.conflict.IncompatibleCellType;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.cell,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Update.conflict.IncompatibleCellType.primary,
+                        (l) => IncompatibleCellType.LocalePath(l).primary,
                         new NodeRef(this.expected, locales, context),
                     ),
             },
@@ -42,12 +45,14 @@ export default class IncompatibleCellType extends Conflict {
                 node: this.type,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Update.conflict.IncompatibleCellType
-                                .secondary,
+                        (l) => IncompatibleCellType.LocalePath(l).secondary,
                         new NodeRef(this.received, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return IncompatibleCellType.LocalePath;
     }
 }

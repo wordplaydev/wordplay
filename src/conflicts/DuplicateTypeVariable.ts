@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type TypeVariable from '@nodes/TypeVariable';
@@ -15,17 +16,16 @@ export default class DuplicateTypeVariable extends Conflict {
         this.duplicate = duplicate;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.TypeVariable.conflict.DuplicateTypeVariable;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.typeVar,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        locales.get(
-                            (l) =>
-                                l.node.TypeVariable.conflict
-                                    .DuplicateTypeVariable,
-                        ).primary,
+                        (l) => DuplicateTypeVariable.LocalePath(l).primary,
                         new NodeRef(
                             this.duplicate,
                             locales,
@@ -38,11 +38,7 @@ export default class DuplicateTypeVariable extends Conflict {
                 node: this.duplicate,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        locales.get(
-                            (l) =>
-                                l.node.TypeVariable.conflict
-                                    .DuplicateTypeVariable,
-                        ).secondary,
+                        (l) => DuplicateTypeVariable.LocalePath(l).secondary,
                         new NodeRef(
                             this.typeVar,
                             locales,
@@ -52,5 +48,9 @@ export default class DuplicateTypeVariable extends Conflict {
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return DuplicateTypeVariable.LocalePath;
     }
 }

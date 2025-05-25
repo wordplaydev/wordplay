@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
@@ -24,20 +25,25 @@ export class UnparsableConflict extends Conflict {
         this.context = context;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.UnparsableExpression.conflict.UnparsableConflict.conflict;
+
     getConflictingNodes(_: Context, nodes: Node[]) {
         return {
             primary: {
                 node: this.unparsable,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.UnparsableExpression.conflict
-                                .UnparsableConflict.conflict,
+                        (l) => UnparsableConflict.LocalePath(l).primary,
                         this.unparsable instanceof UnparsableExpression,
                     ),
             },
             resolutions: this.getLikelyIntentions(nodes),
         };
+    }
+
+    getLocalePath() {
+        return UnparsableConflict.LocalePath;
     }
 
     getLikelyIntentions(templates: Node[]): Resolution[] {

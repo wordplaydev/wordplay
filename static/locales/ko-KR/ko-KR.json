@@ -189,8 +189,14 @@
                 "내가 이해하는 <2글자 언어 코드들@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>이 많아요. 만약 그 중 하나를 사용하지 않는다면 알려드릴게요."
             ],
             "conflict": {
-                "UnknownLanguage": "이 언어를 모르겠어요",
-                "MissingLanguage": "언어가 빠져 있어요. 하나 추가해 줄 수 있나요?"
+                "UnknownLanguage": {
+                    "primary": "이 언어를 모르겠어요",
+                    "name": "$~알수없는언어"
+                },
+                "MissingLanguage": {
+                    "primary": "언어가 빠져 있어요. 하나 추가해 줄 수 있나요?",
+                    "name": "$~누락된언어"
+                }
             }
         },
         "Name": {
@@ -225,19 +231,28 @@
             "emotion": "$?",
             "doc": "나는 @Table 한 행을 나타냅니다. 나에 대해 모든 것을 아는 @Table 말하는 것이 아마도 최선일 거예요. 나는 그저 앉아서 값들을 줄지어 정렬하고 있을 뿐이에요 :(",
             "conflict": {
-                "InvalidRow": "행은 모두 값이거나 모두 @Bind 이어야 합니다.",
+                "InvalidRow": {
+                    "primary": "행은 모두 값이거나 모두 @Bind 이어야 합니다.",
+                    "name": "$~잘못된행"
+                },
                 "MissingCell": {
                     "primary": "나는 $1 열이 누락되었습니다",
-                    "secondary": "나는 필요하지만 $1이 제공하지 않았어요"
+                    "secondary": "나는 필요하지만 $1이 제공하지 않았어요",
+                    "name": "$~누락된열"
                 },
                 "ExtraCell": {
                     "primary": "여기 있어야 하나요?",
-                    "secondary": "이봐요 $1, 당신은 이 @Table 일부가 아니에요!"
+                    "secondary": "이봐요 $1, 당신은 이 @Table 일부가 아니에요!",
+                    "name": "$~추가열"
                 },
-                "UnknownColumn": "이 이름을 가진 열을 모르겠어요",
+                "UnknownColumn": {
+                    "primary": "이 이름을 가진 열을 모르겠어요",
+                    "name": "$~알수없는열이름"
+                },
                 "UnexpectedColumnBind": {
                     "primary": "나는 @Bind 되어야 하나요?",
-                    "secondary": "이봐, 나는 @Table. 나는 @Bind 아닌 값들이 필요해."
+                    "secondary": "이봐, 나는 @Table. 나는 @Bind 아닌 값들이 필요해.",
+                    "name": "$~바인딩행없음"
                 }
             }
         },
@@ -262,7 +277,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "primary": "나는 $1과 같은 이름을 가지고 있습니다",
-                    "secondary": "나는 $1과 같은 이름을 가지고 있습니다"
+                    "secondary": "나는 $1과 같은 이름을 가지고 있습니다",
+                    "name": "$~중복유형변수"
                 }
             }
         },
@@ -374,7 +390,10 @@
             "start": "$1을 먼저 평가해 봅시다",
             "finish": "보세요, $1을 만들었습니다!",
             "conflict": {
-                "OrderOfOperations": "나는 읽는 순서대로 평가하며, 수학의 연산 순서대로 평가하지 않습니다. 평가해야 할 순서를 지정하기 위해 @Block 사용하시겠습니까?"
+                "OrderOfOperations": {
+                    "primary": "나는 읽는 순서대로 평가하며, 수학의 연산 순서대로 평가하지 않습니다. 평가해야 할 순서를 지정하기 위해 @Block 사용하시겠습니까?",
+                    "name": "$~모호한순서"
+                }
             }
         },
         "Bind": {
@@ -413,23 +432,41 @@
                 "DuplicateName": {
                     "conflict": {
                         "primary": "누군가가 이미 $1이라는 이름을 가지고 있어서, 이 이름을 사용할 수 없어요.",
-                        "secondary": "어, $1은 제 이름이에요"
+                        "secondary": "어, $1은 제 이름이에요",
+                        "name": "$~중복된이름"
                     },
                     "resolution": "$~중복된 이름이 있습니다. 하나를 제거하시겠습니까?"
                 },
                 "DuplicateShare": {
                     "primary": "$1과 같은 이름을 가지고 있어서, 무엇이 공유되는지 모호해져요",
-                    "secondary": "$1과 같은 이름을 가지고 있어요"
+                    "secondary": "$1과 같은 이름을 가지고 있어요",
+                    "name": "$~중복공유"
                 },
                 "IncompatibleType": {
                     "primary": "저는 $2이어야 하는데, 실제로는 $1이에요",
-                    "secondary": "오… 죄송해요, $1인가요, 정말로?"
+                    "secondary": "오… 죄송해요, $1인가요, 정말로?",
+                    "name": "$~호환되지않는유형"
                 },
-                "MisplacedShare": "@Program 레벨에서만 공유할 수 있어요, 어떤 것 안에서는 안 돼요!",
-                "MissingShareLanguages": "이것을 공유하고 싶다면, 어떤 언어인지 말해야 해서 다른 사람들이 읽을 수 있는지 알 수 있어요!",
-                "RequiredAfterOptional": "제가 여기 있으면 안 돼요, 저 앞에 선택적인 @바인드가 있어요",
-                "UnexpectedEtc": "@FunctionDefinition 가변 길이가 될 수 있어요",
-                "UnusedBind": "이 값을 이름 지었는데, 아무도 사용하지 않고 있어요!"
+                "MisplacedShare": {
+                    "primary": "@Program 레벨에서만 공유할 수 있어요, 어떤 것 안에서는 안 돼요!",
+                    "name": "$~잘못된공유"
+                },
+                "MissingShareLanguages": {
+                    "primary": "이것을 공유하고 싶다면, 어떤 언어인지 말해야 해서 다른 사람들이 읽을 수 있는지 알 수 있어요!",
+                    "name": "$~누락된언어"
+                },
+                "RequiredAfterOptional": {
+                    "primary": "제가 여기 있으면 안 돼요, 저 앞에 선택적인 @바인드가 있어요",
+                    "name": "$~선택사항후필수입력"
+                },
+                "UnexpectedEtc": {
+                    "primary": "@FunctionDefinition 가변 길이가 될 수 있어요",
+                    "name": "$~입력목록후예상치못한입력"
+                },
+                "UnusedBind": {
+                    "primary": "이 값을 이름 지었는데, 아무도 사용하지 않고 있어요!",
+                    "name": "$~사용하지않은바인드"
+                }
             }
         },
         "Block": {
@@ -455,14 +492,18 @@
             "start": "첫 번째 표현식",
             "finish": "끝났어요, $1을 얻었습니다",
             "conflict": {
-                "ExpectedEndingExpression": "표현식이 필요합니다.",
+                "ExpectedEndingExpression": {
+                    "primary": "표현식이 필요합니다.",
+                    "name": "$~표현이누락됨"
+                },
                 "IgnoredExpression": {
                     "primary": "$~$1은 아무것도 정의하지 않고 마지막 표현도 아니기 때문에 무시하겠습니다.",
                     "secondary": "$~@Block, 나를 무시하지 마세요!",
                     "resolution": {
                         "binary": "$~@UnaryEvaluate 대신 @BinaryEvaluate 를 사용한다는 뜻인가요? 공백을 추가하면 그 뜻을 알 수 있습니다.",
                         "evaluate": "$~@Evaluate 설정하려고 하셨나요? 이 공백을 제거하면 두 개의 별도 표현식 대신 하나로 만들 수 있습니다."
-                    }
+                    },
+                    "name": "$~무시된표현"
                 }
             }
         },
@@ -483,8 +524,14 @@
             "bind": "이름",
             "version": "버전",
             "conflict": {
-                "UnknownBorrow": "이 이름을 가진 $source를 모르겠어요",
-                "BorrowCycle": "이것은 $1에 의존하는데, $1은 이 $source에 의존하므로 프로그램을 평가할 수 없어요"
+                "UnknownBorrow": {
+                    "primary": "이 이름을 가진 $source를 모르겠어요",
+                    "name": "$~알수없는차용"
+                },
+                "BorrowCycle": {
+                    "primary": "이것은 $1에 의존하는데, $1은 이 $source에 의존하므로 프로그램을 평가할 수 없어요",
+                    "name": "$~자기참조차용"
+                }
             },
             "exception": {
                 "CycleException": {
@@ -524,7 +571,8 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "$1로 어떻게 예와 아니오를 선택할 수 있죠? 정말로, 어떻게요?",
-                    "secondary": "@Conditional 저를 @Boolean 원했던 것 같은데, 저는 $1입니다."
+                    "secondary": "@Conditional 저를 @Boolean 원했던 것 같은데, 저는 $1입니다.",
+                    "name": "$~예상되는부울조건"
                 }
             }
         },
@@ -540,7 +588,10 @@
             ],
             "start": "대단해, 새로운 변환!",
             "conflict": {
-                "MisplacedConversion": "어머, 여기 있으면 안 돼요, @Block 가능해요."
+                "MisplacedConversion": {
+                    "primary": "어머, 여기 있으면 안 돼요, @Block 가능해요.",
+                    "name": "$~잘못된변환"
+                }
             }
         },
         "Convert": {
@@ -558,7 +609,10 @@
             "start": "$1에서 값을 가져와요!",
             "finish": "대단해, $1을 만들었어요",
             "conflict": {
-                "UnknownConversion": "앗, $1을 $2로 변환하는 방법이 없네요"
+                "UnknownConversion": {
+                    "primary": "앗, $1을 $2로 변환하는 방법이 없네요",
+                    "name": "$~알수없는변환"
+                }
             },
             "exception": {
                 "ConversionException": {
@@ -613,27 +667,41 @@
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "나는 $1였어야 하는데, $2이야",
-                    "secondary": "음, $1 대신 $2를 받았어"
+                    "secondary": "음, $1 대신 $2를 받았어",
+                    "name": "$~호환되지않는입력"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "난 이런 입력 수 를 예상 하지 않았어",
-                    "secondary": "이런, 내가 여기 있어야 하는것이 아니니?"
+                    "secondary": "이런, 내가 여기 있어야 하는것이 아니니?",
+                    "name": "$~예상치못한유형입력"
                 },
                 "MissingInput": {
                     "primary": "$~$1이라는 입력 없이는 평가할 수 없습니다.",
-                    "secondary": "$~아, 이런. 우리를 도와서 내 입력 목록에 추가해 주실 수 있나요?"
+                    "secondary": "$~아, 이런. 우리를 도와서 내 입력 목록에 추가해 주실 수 있나요?",
+                    "name": "$~입력누락"
                 },
-                "NotInstantiable": "나는 @StructureDefinition 로 만들 수 없어, 구현되지 못한 함수들이 있기 때문이야.",
+                "NotInstantiable": {
+                    "primary": "나는 @StructureDefinition 로 만들 수 없어, 구현되지 못한 함수들이 있기 때문이야.",
+                    "name": "$~불완전한구조"
+                },
                 "UnexpectedInput": {
                     "primary": "예상 하지 못한 입력 수야 $1",
-                    "secondary": "이런, 내가 여기 있어야 하는것이 아니니?"
+                    "secondary": "이런, 내가 여기 있어야 하는것이 아니니?",
+                    "name": "$~예상치못한입력"
                 },
                 "UnknownInput": {
                     "primary": "이런 이름의 입력수는 모르는걸",
-                    "secondary": "나는 여기에 속하지 않는것 같아"
+                    "secondary": "나는 여기에 속하지 않는것 같아",
+                    "name": "$~알수없는입력"
                 },
-                "InputListMustBeLast": "$~입력 목록은 마지막에 와야 합니다",
-                "SeparatedEvaluate": "$~$1이 평가하려는 $2[$structure|$function]의 이름입니까? 나 뒤에 있는 공백을 제거해 보면 별도의 @Block 이 아니라 @Evaluate 임을 알 수 있습니다."
+                "InputListMustBeLast": {
+                    "name": "$~추가입력은마지막이아닙니다",
+                    "primary": "$~입력 목록은 마지막이어야 합니다."
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~모호한평가",
+                    "primary": "$~$1이 평가하려는 $2[$structure|$function]의 이름인가요? 제 뒤에 있는 공백을 제거해 보세요. 그러면 @Evaluate 별도의 @Block 아니라는 걸 알 수 있을 겁니다."
+                }
             },
             "exception": {
                 "FunctionException": {
@@ -670,7 +738,10 @@
             "start": "악, 어떻게 해야 할지 모르겠어!",
             "placeholder": "표현",
             "conflict": {
-                "Placeholder": "누군가가 내 자리를 대신할 수 있을까?"
+                "Placeholder": {
+                    "primary": "누군가가 내 자리를 대신할 수 있을까?",
+                    "name": "$~플레이스홀더"
+                }
             },
             "exception": {
                 "UnimplementedException": {
@@ -701,7 +772,10 @@
             ],
             "start": "이 함수를 만들어 보자!",
             "conflict": {
-                "NoExpression": "평가할 표현이 필요해. 추가할 수 있을까?"
+                "NoExpression": {
+                    "primary": "평가할 표현이 필요해. 추가할 수 있을까?",
+                    "name": "$~표현이누락됨"
+                }
             }
         },
         "Iteration": {
@@ -752,7 +826,10 @@
             "start": "우리 먼저 $1의 값을 가져오자",
             "finish": "$1[값은 $2|값은 $2가 아님]",
             "conflict": {
-                "ImpossibleType": "이건 결코 이 타입이 될 수 없어"
+                "ImpossibleType": {
+                    "primary": "이건 결코 이 타입이 될 수 없어",
+                    "name": "$~불가능한유형"
+                }
             },
             "exception": {
                 "TypeException": {
@@ -810,7 +887,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "내 키 중 하나에 값이 누락돼있어",
-                    "secondary": "어? 내 값이 어디 갔지?"
+                    "secondary": "어? 내 값이 어디 갔지?",
+                    "name": "$~누락된값"
                 }
             }
         },
@@ -838,7 +916,10 @@
             "doc": "@Number 구체적인 값이야. 어떤 언어의 어떤 종류의 숫자든 나를 쓸 수 있어. 내가 할 수 있는 모든 걸 알려면 @Number 참고해봐.",
             "start": "$1!",
             "conflict": {
-                "NotANumber": "나는 모든 숫자를 알고 있을 줄 알았는데, 이건 모르는 숫자야"
+                "NotANumber": {
+                    "primary": "나는 모든 숫자를 알고 있을 줄 알았는데, 이건 모르는 숫자야",
+                    "name": "$~숫자가아니다"
+                }
             }
         },
         "InternalExpression": {
@@ -932,7 +1013,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "primary": "$~나는 $1의 입력이 아니기 때문에 정제될 수 없습니다.",
-                    "secondary": "$~$1이라는 입력이 없습니다."
+                    "secondary": "$~$1이라는 입력이 없습니다.",
+                    "name": "$~알려지지않은속성"
                 }
             }
         },
@@ -965,7 +1047,10 @@
             "condition": "조건",
             "next": "다음",
             "conflict": {
-                "ExpectedStream": "$1이 스트림을 참조하지 않으므로, 저는 반응하지 않을 거예요!"
+                "ExpectedStream": {
+                    "primary": "$1이 스트림을 참조하지 않으므로, 저는 반응하지 않을 거예요!",
+                    "name": "$~예상스트림"
+                }
             }
         },
         "Reference": {
@@ -981,11 +1066,20 @@
             "start": "$1은 어떤 값을 가지고 있나요?",
             "conflict": {
                 "UnknownName": {
-                    "conflict": "$1[이름이 $1인 사람을 $2[$2|이 @Block] 모릅니다|이름을 알려줄 수 있나요?]",
+                    "conflict": {
+                        "primary": "$1[이름이 $1인 사람을 $2[$2|이 @Block] 모릅니다|이름을 알려줄 수 있나요?]",
+                        "name": "$~알수없는이름"
+                    },
                     "resolution": "$~*$1*을 말씀하셨나요?"
                 },
-                "ReferenceCycle": "음, $1의 값이 자기 자신에 의존하는데, 어떤 값을 제공해야 할지 어떻게 알 수 있죠?",
-                "UnexpectedTypeVariable": "이 타입 입력들로 무엇을 해야 할지 모르겠어요"
+                "ReferenceCycle": {
+                    "primary": "음, $1의 값이 자기 자신에 의존하는데, 어떤 값을 제공해야 할지 어떻게 알 수 있죠?",
+                    "name": "$~자기참조값"
+                },
+                "UnexpectedTypeVariable": {
+                    "primary": "이 타입 입력들로 무엇을 해야 할지 모르겠어요",
+                    "name": "$~예상치못한유형변수"
+                }
             },
             "exception": {
                 "NameException": {
@@ -1006,7 +1100,10 @@
             "start": "먼저 테이블을 가져와 봅시다",
             "finish": "선택된 행과 열만 있는 새로운 테이블을 만들었어요!",
             "conflict": {
-                "ExpectedSelectName": "적어도 하나의 열 이름이 필요해요."
+                "ExpectedSelectName": {
+                    "primary": "적어도 하나의 열 이름이 필요해요.",
+                    "name": "$~열이름이누락되었습니다"
+                }
             }
         },
         "SetLiteral": {
@@ -1032,7 +1129,8 @@
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "$1 키를 예상했습니다",
-                    "secondary": "$2 대신 $1을 받았습니다"
+                    "secondary": "$2 대신 $1을 받았습니다",
+                    "name": "$~호환되지않는키"
                 }
             }
         },
@@ -1068,10 +1166,22 @@
             ],
             "start": "이 멋진 구조를 정의해 봅시다",
             "conflict": {
-                "DisallowedInputs": "제 인터페이스 함수 중 하나 이상이 구현되지 않았기 때문에 입력을 가질 수 없어요",
-                "IncompleteImplementation": "제 함수들은 모두 구현되거나, 하나도 구현되지 않아야 해요. 어정쩡한 혼합은 안 됩니다!",
-                "NotAnInterface": "저는 인터페이스가 아니에요; 구조는 다른 구조가 아닌 인터페이스만 구현할 수 있어요",
-                "UnimplementedInterface": "저는 $1을 구현하지만 $2를 구현하지 않았어요"
+                "DisallowedInputs": {
+                    "primary": "제 인터페이스 함수 중 하나 이상이 구현되지 않았기 때문에 입력을 가질 수 없어요",
+                    "name": "$~입력이허용되지않습니다"
+                },
+                "IncompleteImplementation": {
+                    "primary": "제 함수들은 모두 구현되거나, 하나도 구현되지 않아야 해요. 어정쩡한 혼합은 안 됩니다!",
+                    "name": "$~불완전한구조"
+                },
+                "NotAnInterface": {
+                    "primary": "저는 인터페이스가 아니에요; 구조는 다른 구조가 아닌 인터페이스만 구현할 수 있어요",
+                    "name": "$~인터페이스가아니다"
+                },
+                "UnimplementedInterface": {
+                    "primary": "저는 $1을 구현하지만 $2를 구현하지 않았어요",
+                    "name": "$~구현되지않은"
+                }
             }
         },
         "StructureDefinitionType": {
@@ -1103,14 +1213,32 @@
             "emotion": "$?",
             "doc": "저는 @Language 태그가 있는 텍스트를 나타냅니다. 저에 대해 더 알고 싶다면 @Text 참조하세요!",
             "conflict": {
-                "phone": "$~*$1* 누군가의 전화번호인가요? 그렇다면 온라인에서 저를 공유하지 마세요!\n\n$2",
-                "email": "$~*$1* 이메일이 다른 사람의 이메일인가요? 그렇다면 여기에 나를 공유하지 마십시오!\n\n$2",
-                "tin": "$~*$1*은 세금 식별자인가요? 그렇다면 저를 공유하지 마십시오. 저는 매우 민감한 정보입니다!\n\n$2",
-                "address": "$~*$1*이 누군가의 집 주소인가요? 그렇다면 나를 여기에 두지 마십시오. 우리는 누구도 스토킹당하는 것을 원하지 않습니다!\n\n$2",
-                "handle": "$~*$1* 사용자 이름이 인터넷의 다른 곳에 있습니까? 그렇다면 정말로 의도하지 않는 한 여기에 저를 공유하지 마십시오.\n\n$2",
+                "phone": {
+                    "name": "$~가능한전화번호",
+                    "primary": "$~*$1*이 누군가의 전화번호인가요? 그렇다면 온라인에 공유하지 마세요!\n\n$2"
+                },
+                "email": {
+                    "name": "$~가능한이메일",
+                    "primary": "$~*$1*이 누군가의 이메일인가요? 그렇다면 제 이메일 주소를 여기에 공유하지 마세요!\n\n$2"
+                },
+                "tin": {
+                    "name": "$~가능한세금식별자",
+                    "primary": "$~*$1*은 세금 식별자인가요? 만약 그렇다면, 절대 공유하지 마세요. 저는 매우 민감한 정보입니다!\n\n$2"
+                },
+                "address": {
+                    "name": "$~가능한주소",
+                    "primary": "$~*$1*이 누군가의 집 주소인가요? 그렇다면 저를 여기에 두지 마세요. 누구도 스토킹당하는 걸 원치 않으니까요!\n\n$2"
+                },
+                "handle": {
+                    "name": "$~가능한사용자이름",
+                    "primary": "$~*$1*님이 인터넷 다른 곳에서 사용하시는 사용자 이름인가요? 그렇다면, 정말 그럴 의도가 아니라면 여기에 공유하지 마세요.\n\n$2"
+                },
                 "resolution": "$~민감한 데이터가 아닙니다.",
                 "reminder": "$~참고: 이 작업을 실행 취소하고 공유 대화상자에서 민감하지 않은 것으로 표시한 다른 항목을 볼 수 있습니다.",
-                "character": "$~캐릭터 이름인 것 같습니다. 캐릭터 이름을 표시하려면 @TextLiteral 대신 @FormattedLiteral 사용하세요."
+                "character": {
+                    "name": "$~사용자정의문자가능",
+                    "primary": "$~캐릭터 이름처럼 보입니다. 캐릭터 이름을 표시하려면 @TextLiteral 대신 @FormattedLiteral 사용하세요."
+                }
             }
         },
         "FormattedLiteral": {
@@ -1151,7 +1279,10 @@
             ],
             "start": "$1로 평가되었습니다",
             "conflict": {
-                "MisplacedThis": "저는 구조, 변환, 또는 반응 안에서만 허용됩니다."
+                "MisplacedThis": {
+                    "primary": "저는 구조, 변환, 또는 반응 안에서만 허용됩니다.",
+                    "name": "$~이참조를잘못배치했습니다"
+                }
             }
         },
         "UnaryEvaluate": {
@@ -1187,10 +1318,16 @@
             "start": "???",
             "conflict": {
                 "UnparsableConflict": {
-                    "conflict": "@FunctionDefinition 여기 있어요, @UnparsableExpression 이것이 어떤 종류의 $1[ 표현 | 타입 ]인지 모르겠어요/",
+                    "conflict": {
+                        "primary": "@FunctionDefinition 여기 있어요, @UnparsableExpression 이것이 어떤 종류의 $1[ 표현 | 타입 ]인지 모르겠어요/",
+                        "name": "$~읽을수없는코드"
+                    },
                     "resolution": "$~1달러, 2달러라고 말씀하셨나요?"
                 },
-                "UnclosedDelimiter": "$1 이후에 언젠가 $2가 나올 것이라고 예상했어요"
+                "UnclosedDelimiter": {
+                    "primary": "$1 이후에 언젠가 $2가 나올 것이라고 예상했어요",
+                    "name": "$~닫히지않은구분기호"
+                }
             },
             "exception": {
                 "UnparsableException": {
@@ -1211,10 +1348,14 @@
             "start": "먼저 테이블을 가져와 봅시다",
             "finish": "개정된 행을 포함한 새 테이블로 평가되었습니다!",
             "conflict": {
-                "ExpectedColumnBind": "모든 열에 대한 값을 필요로 합니다",
+                "ExpectedColumnBind": {
+                    "primary": "모든 열에 대한 값을 필요로 합니다",
+                    "name": "$~열값이누락되었습니다"
+                },
                 "IncompatibleCellType": {
                     "primary": "$1이 필요했지만, $2를 받았습니다",
-                    "secondary": "$2를 받았습니다"
+                    "secondary": "$2를 받았습니다",
+                    "name": "$~비호환세포유형"
                 }
             }
         },
@@ -1299,7 +1440,10 @@
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
             ],
             "conflict": {
-                "UnknownTypeName": "타입 이름은 구조 또는 타입 변수를 참조할 수 있지만 이것은 $1을 참조함"
+                "UnknownTypeName": {
+                    "primary": "타입 이름은 구조 또는 타입 변수를 참조할 수 있지만 이것은 $1을 참조함",
+                    "name": "$~알수없는유형이름"
+                }
             }
         },
         "NeverType": {
@@ -1354,7 +1498,10 @@
             "emotion": "$?",
             "doc": "나는 테이블을 나타냄.",
             "conflict": {
-                "ExpectedColumnType": "나는 열 타입이 필요해"
+                "ExpectedColumnType": {
+                    "primary": "나는 열 타입이 필요해",
+                    "name": "$~열유형이누락되었습니다"
+                }
             }
         },
         "TextType": {

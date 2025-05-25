@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Name from '@nodes/Name';
@@ -16,14 +17,16 @@ export default class DuplicateName extends Conflict {
         this.duplicate = duplicate;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.Bind.conflict.DuplicateName.conflict;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.bind,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Bind.conflict.DuplicateName.conflict.primary,
+                        (l) => DuplicateName.LocalePath(l).primary,
                         new NodeRef(
                             this.duplicate.name ?? this.duplicate,
                             locales,
@@ -36,9 +39,7 @@ export default class DuplicateName extends Conflict {
                 node: this.duplicate,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Bind.conflict.DuplicateName.conflict
-                                .secondary,
+                        (l) => DuplicateName.LocalePath(l).secondary,
                         new NodeRef(
                             this.bind.names.names.find(
                                 (name) =>
@@ -71,5 +72,9 @@ export default class DuplicateName extends Conflict {
                   ]
                 : [],
         };
+    }
+
+    getLocalePath() {
+        return DuplicateName.LocalePath;
     }
 }

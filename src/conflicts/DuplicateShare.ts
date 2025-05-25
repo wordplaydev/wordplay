@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
@@ -13,13 +14,16 @@ export class DuplicateShare extends Conflict {
         this.other = other;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.Bind.conflict.DuplicateShare;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.share.names,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Bind.conflict.DuplicateShare.primary,
+                        (l) => DuplicateShare.LocalePath(l).primary,
                         new NodeRef(this.other, locales, context),
                     ),
             },
@@ -27,10 +31,14 @@ export class DuplicateShare extends Conflict {
                 node: this.other.names,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Bind.conflict.DuplicateShare.secondary,
+                        (l) => DuplicateShare.LocalePath(l).secondary,
                         new NodeRef(this.other, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return DuplicateShare.LocalePath;
     }
 }
