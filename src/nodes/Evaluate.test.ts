@@ -44,7 +44,7 @@ test.each([
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
         'ƒ x(a•# b•#) a - b\nx(a:1 c:2)',
         Evaluate,
-        UnexpectedInput,
+        UnknownInput,
     ],
     [
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
@@ -53,7 +53,7 @@ test.each([
         UnknownInput,
     ],
     [
-        'x: ƒ(a•# b•#) a - b\nx(1 2)',
+        'x: ƒ(a•# b•#) a - b\nx(b:1 a:2)',
         'ƒ x(a•# b•#) a - b\nx(a:1 a:2)',
         Evaluate,
         UnexpectedInput,

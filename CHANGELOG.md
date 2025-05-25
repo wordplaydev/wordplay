@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Reversed default order of vertical layout.
 - Fixed translation choices in project translate dialog.
 - Fixed undefined symbols for speech causing crash.
+- Permit required named expressions out of order in an `Evaluate`.
 
 ## Maintenance
 

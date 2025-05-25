@@ -308,45 +308,36 @@ export default class Evaluate extends Expression {
                 given: undefined,
             };
 
-            if (expectedInput.isRequired()) {
+            // If the expected input is variable length, consume all remaining inputs.
+            if (expectedInput.isVariableLength()) {
+                mapping.given = [];
+                while (givenInputs.length > 0) {
+                    const given = givenInputs.shift();
+                    if (given)
+                        mapping.given.push(
+                            given instanceof Input ? given.value : given,
+                        );
+                }
+            }
+            // If the next input is an expression, map it on to the expected input.
+            else if (givenInputs[0] instanceof Expression) {
                 mapping.given = givenInputs.shift();
             }
-            // If it's optional, go through each input to see if it's provided in the remaining inputs.
+            // If it's a named input, find the bind that has the expected name.
             else {
-                // If it's variable length, check all of the remaining given inputs to see if they match this type.
-                if (expectedInput.isVariableLength()) {
-                    mapping.given = [];
-                    while (givenInputs.length > 0) {
-                        const given = givenInputs.shift();
-                        if (given)
-                            mapping.given.push(
-                                given instanceof Input ? given.value : given,
-                            );
-                    }
-                }
-                // If it's just an optional input, see if any of the given inputs provide it by name.
-                else {
-                    // Is there a named input that matches?
-                    const bind = givenInputs.find(
-                        (i) =>
-                            i instanceof Input &&
-                            expectedInput.hasName(i.getName()),
-                    );
-                    if (bind instanceof Input) {
-                        // Remove it from the given inputs list.
-                        givenInputs.splice(givenInputs.indexOf(bind), 1);
-                        mapping.given = bind;
-                    }
-                    // If there wasn't a named input matching, see if the next non-input expression matches the type.
-                    else if (
-                        givenInputs.length > 0 &&
-                        !(givenInputs[0] instanceof Input)
-                    ) {
-                        mapping.given = givenInputs.shift();
-                    }
-                    // Otherwise, there's no given input for this optional input.
+                // Is there a named input that matches?
+                const bind = givenInputs.find(
+                    (i) =>
+                        i instanceof Input &&
+                        expectedInput.hasName(i.getName()),
+                );
+                if (bind instanceof Input) {
+                    // Remove it from the given inputs list.
+                    givenInputs.splice(givenInputs.indexOf(bind), 1);
+                    mapping.given = bind;
                 }
             }
+            // Otherwise, there's no given input for this optional input.
 
             // Add the mapping to the mappings.
             mappings.inputs.push(mapping);
@@ -452,7 +443,7 @@ export default class Evaluate extends Expression {
                 fun instanceof StreamDefinition
             )
         ) {
-            return [
+            conflicts.push(
                 new IncompatibleInput(
                     this.fun instanceof PropertyReference
                         ? (this.fun.name ?? this.fun)
@@ -462,7 +453,8 @@ export default class Evaluate extends Expression {
                         : this.fun.getType(context),
                     FunctionType.make(undefined, [], new AnyType()),
                 ),
-            ];
+            );
+            return conflicts;
         }
 
         // If it's a structure definition, can we create it?
@@ -478,7 +470,8 @@ export default class Evaluate extends Expression {
 
         // If the target inputs has conflicts with its names, defaults, or variable length inputs,
         // then we don't analyze this.
-        if (getEvaluationInputConflicts(expectedInputs).length > 0) return [];
+        if (getEvaluationInputConflicts(expectedInputs).length > 0)
+            return conflicts;
 
         // To verify that this evaluation's given inputs match the target inputs,
         // we get the mapping from expected to given, then look for various conflicts in the mapping,
@@ -488,9 +481,9 @@ export default class Evaluate extends Expression {
         if (mapping) {
             // Loop through each of the expected types and see if the given types match.
             for (const { expected, given } of mapping.inputs) {
-                // If it's required but not given, conflict
+                // If it's required but not given, conflict and bail.
                 if (expected.isRequired() && given === undefined)
-                    return [
+                    conflicts.push(
                         new MissingInput(
                             fun,
                             this,
@@ -499,20 +492,20 @@ export default class Evaluate extends Expression {
                                 this.open,
                             expected,
                         ),
-                    ];
+                    );
 
                 // Given a named with an incompatible name? Conflict.
                 if (
                     given instanceof Input &&
                     !expected.hasName(given.getName())
                 )
-                    return [
+                    conflicts.push(
                         new UnexpectedInput(
                             fun,
                             this,
                             given instanceof Input ? given.value : given,
                         ),
-                    ];
+                    );
 
                 // Concretize the expected type.
                 const expectedType = getConcreteExpectedType(
@@ -585,7 +578,9 @@ export default class Evaluate extends Expression {
                     )
                 ) {
                     conflicts.push(new UnknownInput(fun, this, given));
-                } else conflicts.push(new UnexpectedInput(fun, this, given));
+                } else {
+                    conflicts.push(new UnexpectedInput(fun, this, given));
+                }
             }
 
             // Check type

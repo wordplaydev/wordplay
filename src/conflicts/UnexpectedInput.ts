@@ -10,7 +10,7 @@ import type Locales from '../locale/Locales';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import Conflict from './Conflict';
 
-export default class UnexpectedInputs extends Conflict {
+export default class UnexpectedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
     readonly evaluate: Evaluate | BinaryEvaluate;
     readonly input: Expression | Input;
