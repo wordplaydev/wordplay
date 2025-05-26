@@ -17,6 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed undefined symbols for speech causing crash.
 - Permit required named expressions out of order in an `Evaluate`
 - Gracefully ignore extra inputs to an `Evaluate`.
+- Ensure conflict highlights are rendered after edit.
 
 ## Added
 

@@ -589,7 +589,7 @@ export default class ProjectsDatabase {
 
         // Before doing anything, ensure all editable projects that don't have an owner have one.
         for (const [, history] of this.projectHistories)
-            if (history.getCurrent().getOwner() === null)
+            if (history.getCurrent().getOwner() === null && userID !== null)
                 history.edit(
                     history.getCurrent().withOwner(userID),
                     true,

@@ -1486,19 +1486,19 @@
     // Update the highlights when any of these stores values change
     $effect(() => {
         $evaluation;
-        highlights.set(
-            getHighlights(
-                source,
-                evaluator,
-                $caret,
-                $dragged,
-                $hovered,
-                $insertion,
-                $animatingNodes,
-                selection?.getOutput(project),
-                $blocks,
-            ),
+        conflictsOfInterest;
+        const newHighlights = getHighlights(
+            source,
+            evaluator,
+            $caret,
+            $dragged,
+            $hovered,
+            $insertion,
+            $animatingNodes,
+            selection?.getOutput(project),
+            $blocks,
         );
+        highlights.set(newHighlights);
     });
 
     // Update the outline positions any time the highlights change, but only after we're done rendering.

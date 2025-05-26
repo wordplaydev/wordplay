@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 500;
+    export const KeyboardIdleWaitTime = 300;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
@@ -337,10 +337,9 @@
     projectStore.subscribe((newProject) => {
         if ($keyboardEditIdle === IdleKind.Typing) {
             if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
-            evaluatorTimeout = setTimeout(
-                () => updateEvaluator(newProject),
-                KeyboardIdleWaitTime,
-            );
+            evaluatorTimeout = setTimeout(() => {
+                updateEvaluator(newProject);
+            }, KeyboardIdleWaitTime);
         } else {
             updateEvaluator(newProject);
         }
@@ -778,12 +777,12 @@
 
         function updateConflicts() {
             // In the middle of analyzing? Check later.
-            if (project.analyzed === 'analyzing')
-                setTimeout(updateConflicts, KeyboardIdleWaitTime);
+            if (project.analyzed === 'analyzing') {
+                updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
+            }
             // Done analyzing, or not analyzed?
-            else {
-                // Analyze if not analyzed  yet.
-                if (project.analyzed === 'unanalyzed') project.analyze();
+            else if (project.analyzed === 'unanalyzed') {
+                project.analyze();
                 // Get the resulting conflicts.
                 conflicts.set(project.getConflicts());
             }
@@ -1550,6 +1549,9 @@
                                             locale={evaluationLocale}
                                             change={(locale) => {
                                                 evaluationLocale = locale;
+                                                console.log(
+                                                    'Updating evaluator: locale change.',
+                                                );
                                                 updateEvaluator(project);
                                             }}
                                         />{/if}

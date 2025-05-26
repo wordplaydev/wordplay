@@ -314,7 +314,15 @@ export default class Project {
 
         this.analyzed = 'analyzing';
 
-        this.analysis = {
+        // Update the analysis and status.
+        this.analysis = Project.analyze(this);
+        this.analyzed = 'analyzed';
+
+        return this.analysis;
+    }
+
+    static analyze(project: Project): Analysis {
+        let newAnalysis: Analysis = {
             conflicts: [],
             primary: new Map(),
             secondary: new Map(),
@@ -323,33 +331,32 @@ export default class Project {
         };
 
         // Build a mapping from nodes to conflicts.
-        for (const source of this.getSources()) {
-            const context = this.getContext(source);
+        for (const source of project.getSources()) {
+            const context = project.getContext(source);
 
             // Compute all of the conflicts in the program.
-            this.analysis.conflicts = this.analysis.conflicts.concat(
+            newAnalysis.conflicts = newAnalysis.conflicts.concat(
                 source.expression.getAllConflicts(context),
             );
 
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
-            for (const conflict of this.analysis.conflicts) {
+            for (const conflict of newAnalysis.conflicts) {
                 const complicitNodes = conflict.getConflictingNodes(
                     context,
                     Templates,
                 );
-                this.analysis.primary.set(complicitNodes.primary.node, [
-                    ...(this.analysis.primary.get(
-                        complicitNodes.primary.node,
-                    ) ?? []),
+                newAnalysis.primary.set(complicitNodes.primary.node, [
+                    ...(newAnalysis.primary.get(complicitNodes.primary.node) ??
+                        []),
                     conflict,
                 ]);
                 if (complicitNodes.secondary) {
                     const nodeConflicts =
-                        this.analysis.secondary.get(
+                        newAnalysis.secondary.get(
                             complicitNodes.secondary.node,
                         ) ?? [];
-                    this.analysis.secondary.set(complicitNodes.secondary.node, [
+                    newAnalysis.secondary.set(complicitNodes.secondary.node, [
                         ...nodeConflicts,
                         conflict,
                     ]);
@@ -365,9 +372,9 @@ export default class Project {
                     if (fun) {
                         // Add this evaluate to the function's list of calls.
                         const evaluates =
-                            this.analysis.evaluations.get(fun) ?? new Set();
+                            newAnalysis.evaluations.get(fun) ?? new Set();
                         evaluates.add(node);
-                        this.analysis.evaluations.set(fun, evaluates);
+                        newAnalysis.evaluations.set(fun, evaluates);
 
                         // Is it a higher order function? Get the function input
                         // and add the Evaluate as a caller of the function input.
@@ -379,11 +386,11 @@ export default class Project {
                                     type.definition
                                 ) {
                                     const hofEvaluates =
-                                        this.analysis.evaluations.get(
+                                        newAnalysis.evaluations.get(
                                             type.definition,
                                         ) ?? new Set();
                                     hofEvaluates.add(node);
-                                    this.analysis.evaluations.set(
+                                    newAnalysis.evaluations.set(
                                         type.definition,
                                         hofEvaluates,
                                     );
@@ -401,10 +408,10 @@ export default class Project {
                 if (node instanceof Expression) {
                     const dependencies = node.getDependencies(context);
                     for (const dependency of dependencies) {
-                        const set = this.analysis.dependencies.get(dependency);
+                        const set = newAnalysis.dependencies.get(dependency);
                         if (set) set.add(node);
                         else
-                            this.analysis.dependencies.set(
+                            newAnalysis.dependencies.set(
                                 dependency,
                                 new Set([node]),
                             );
@@ -413,9 +420,7 @@ export default class Project {
             }
         }
 
-        this.analyzed = 'analyzed';
-
-        return this.analysis;
+        return newAnalysis;
     }
 
     getConflicts() {
