@@ -314,8 +314,105 @@ export default class Project {
 
         this.analyzed = 'analyzing';
 
-        // Update the analysis and status.
-        this.analysis = Project.analyze(this);
+        this.analysis = {
+            conflicts: [],
+            primary: new Map(),
+            secondary: new Map(),
+            evaluations: new Map(),
+            dependencies: new Map(),
+        };
+
+        // Build a mapping from nodes to conflicts.
+        for (const source of this.getSources()) {
+            const context = this.getContext(source);
+
+            // Compute all of the conflicts in the program.
+            this.analysis.conflicts = this.analysis.conflicts.concat(
+                source.expression.getAllConflicts(context),
+            );
+
+            // Build conflict indices by going through each conflict, asking for the conflicting nodes
+            // and adding to the conflict to each node's list of conflicts.
+            for (const conflict of this.analysis.conflicts) {
+                const complicitNodes = conflict.getConflictingNodes(
+                    context,
+                    Templates,
+                );
+                this.analysis.primary.set(complicitNodes.primary.node, [
+                    ...(this.analysis.primary.get(
+                        complicitNodes.primary.node,
+                    ) ?? []),
+                    conflict,
+                ]);
+                if (complicitNodes.secondary) {
+                    const nodeConflicts =
+                        this.analysis.secondary.get(
+                            complicitNodes.secondary.node,
+                        ) ?? [];
+                    this.analysis.secondary.set(complicitNodes.secondary.node, [
+                        ...nodeConflicts,
+                        conflict,
+                    ]);
+                }
+            }
+
+            // Build a mapping from functions and structures to their evaluations.
+            for (const node of source.nodes()) {
+                // Find all Evaluates
+                if (node instanceof Evaluate) {
+                    // Find the function called.
+                    const fun = node.getFunction(context);
+                    if (fun) {
+                        // Add this evaluate to the function's list of calls.
+                        const evaluates =
+                            this.analysis.evaluations.get(fun) ?? new Set();
+                        evaluates.add(node);
+                        this.analysis.evaluations.set(fun, evaluates);
+
+                        // Is it a higher order function? Get the function input
+                        // and add the Evaluate as a caller of the function input.
+                        if (fun instanceof FunctionDefinition) {
+                            for (const input of node.inputs) {
+                                const type = input.getType(context);
+                                if (
+                                    type instanceof FunctionType &&
+                                    type.definition
+                                ) {
+                                    const hofEvaluates =
+                                        this.analysis.evaluations.get(
+                                            type.definition,
+                                        ) ?? new Set();
+                                    hofEvaluates.add(node);
+                                    this.analysis.evaluations.set(
+                                        type.definition,
+                                        hofEvaluates,
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Now create the dependency graph using the call graph.
+            for (const node of source.nodes()) {
+                // Build the dependency graph by asking each expression node for its dependencies.
+                // Determine whether the node is constant.
+                if (node instanceof Expression) {
+                    const dependencies = node.getDependencies(context);
+                    for (const dependency of dependencies) {
+                        const set = this.analysis.dependencies.get(dependency);
+                        if (set) set.add(node);
+                        else
+                            this.analysis.dependencies.set(
+                                dependency,
+                                new Set([node]),
+                            );
+                    }
+                }
+            }
+        }
+
         this.analyzed = 'analyzed';
 
         return this.analysis;
