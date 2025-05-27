@@ -37,7 +37,8 @@
 </div>
 {#if collapse}
     {#if expanded || concepts.length > 3}
-        <Expander {expanded} {toggle}></Expander>
+        <Expander {expanded} {toggle} label={(l) => l.ui.docs.button.toggle}
+        ></Expander>
     {/if}
 {/if}
 

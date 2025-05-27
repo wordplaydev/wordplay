@@ -1,6 +1,7 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import { CONFIRM_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         text: string;
@@ -93,7 +94,7 @@
     {/if}
     {#if savingDone !== false}
         <div class="done"
-            >{#if savingDone === undefined}…{:else if savingDone === true}✓{/if}</div
+            >{#if savingDone === undefined}…{:else if savingDone === true}{CONFIRM_SYMBOL}{/if}</div
         >{/if}
 </div>
 

@@ -1,7 +1,13 @@
 <script lang="ts">
+    import { getEditors } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
-    import type { Resolution } from '@conflicts/Conflict';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type {
+        ConflictLocaleAccessor,
+        Resolution,
+    } from '@conflicts/Conflict';
     import type Context from '@nodes/Context';
+    import { CONFIRM_SYMBOL, SEARCH_SYMBOL } from '@parser/Symbols';
     import { fade } from 'svelte/transition';
     import { Projects, animationDuration, locales } from '../../db/Database';
     import { default as MarkupHTMLView } from '../concepts/MarkupHTMLView.svelte';
@@ -11,9 +17,15 @@
     interface Props {
         id: number;
         annotations: AnnotationInfo[];
+        /** The tile ID this corresponds to */
+        sourceID: string;
     }
 
-    let { id, annotations }: Props = $props();
+    let { id, annotations, sourceID }: Props = $props();
+
+    // Get the editor this corresponds to.
+    const editors = getEditors();
+    let editor = $derived($editors.get(sourceID));
 
     function resolveAnnotation(resolution: Resolution, context: Context) {
         const { newProject } = resolution.mediator(context, $locales);
@@ -23,6 +35,23 @@
 
 <div class="annotations">
     {#each annotations as annotation}
+        {#if annotation.conflict}
+            <h3>
+                {#if editor}
+                    <Button
+                        icon={SEARCH_SYMBOL}
+                        tip={(l) => l.ui.annotations.button.highlight}
+                        action={() => {
+                            editor.setCaretPosition(annotation.node);
+                        }}
+                    ></Button>
+                {/if}
+                <LocalizedText
+                    path={(l) =>
+                        (annotation.conflict as ConflictLocaleAccessor)(l).name}
+                ></LocalizedText>
+            </h3>
+        {/if}
         <div
             class={`annotation ${annotation.kind} ${
                 annotation.kind === 'secondary' ? 'flip' : ''
@@ -51,7 +80,7 @@
                                             resolveAnnotation(
                                                 resolution,
                                                 annotation.context,
-                                            )}>✓</Button
+                                            )}>{CONFIRM_SYMBOL}</Button
                                     ><div class="description"
                                         ><MarkupHTMLView
                                             inline
@@ -108,6 +137,10 @@
         border-color: var(--wordplay-warning);
     }
 
+    .annotation.secondary {
+        font-size: var(--wordplay-small-font-size);
+    }
+
     aside {
         display: flex;
         flex-direction: column;
@@ -124,5 +157,9 @@
     .description {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-spacing);
+    }
+
+    h3 {
+        margin-block-end: 0;
     }
 </style>

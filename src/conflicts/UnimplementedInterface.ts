@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
@@ -21,15 +22,16 @@ export class UnimplementedInterface extends Conflict {
         this.fun = fun;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.StructureDefinition.conflict.UnimplementedInterface;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.structure,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.StructureDefinition.conflict
-                                .UnimplementedInterface,
+                        (l) => UnimplementedInterface.LocalePath(l).primary,
                         new NodeRef(
                             this.interfaceStructure,
                             locales,
@@ -45,5 +47,9 @@ export class UnimplementedInterface extends Conflict {
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return UnimplementedInterface.LocalePath;
     }
 }

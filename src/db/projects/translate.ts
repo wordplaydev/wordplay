@@ -1,5 +1,6 @@
 import { Locales } from '@db/Database';
-import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
+import { localeToString } from '@locale/Locale';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Doc from '@nodes/Doc';
 import Docs from '@nodes/Docs';
@@ -27,14 +28,12 @@ const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
 export default async function translateProject(
     functions: Functions,
     project: Project,
-    targetLocaleCode: string,
+    sourceLocale: Locale,
+    targetLocale: Locale,
 ) {
-    const targetLanguage = targetLocaleCode.split('-')[0] as LanguageCode;
+    const targetLanguage = targetLocale.language;
 
     try {
-        // Get the project's primary language.
-        const sourceLanguage = project.getPrimaryLanguage();
-
         // Keep track of existing names in target language
         const existingNames = new Set<string>();
 
@@ -68,7 +67,8 @@ export default async function translateProject(
                 // Is there a name in the source language or a name with no language? Use that as the source name.
                 const nameToTranslate = names.names.find(
                     (name) =>
-                        name.isLanguage(sourceLanguage) || !name.hasLanguage(),
+                        name.isLanguage(sourceLocale.language) ||
+                        !name.hasLanguage(),
                 );
 
                 if (nameToTranslate === undefined) return undefined;
@@ -125,7 +125,7 @@ export default async function translateProject(
             )
             .map((markups) => {
                 const docToTranslate =
-                    markups.getLanguage(sourceLanguage) ??
+                    markups.getLanguage(sourceLocale.language) ??
                     markups.getOptions()[0];
                 const existingTranslation = markups.getLanguage(targetLanguage);
 
@@ -156,7 +156,10 @@ export default async function translateProject(
         // If there are original texts to translate, get the translations from the API.
         let translations: string[] | null = null;
         // If there are more than one and the source and target are different, get some translations.
-        if (originalTexts.length > 0 && sourceLanguage !== targetLanguage) {
+        if (
+            originalTexts.length > 0 &&
+            sourceLocale.language !== targetLanguage
+        ) {
             const getTranslations = httpsCallable<
                 { from: string; to: string; text: string[] },
                 string[] | null
@@ -164,8 +167,8 @@ export default async function translateProject(
 
             translations = (
                 await getTranslations({
-                    from: sourceLanguage,
-                    to: targetLanguage,
+                    from: localeToString(sourceLocale),
+                    to: localeToString(targetLocale),
                     // Remove duplicates from the original texts to minimize cost.
                     text: Array.from(new Set(originalTexts)),
                 })
@@ -176,9 +179,12 @@ export default async function translateProject(
         }
 
         // First, revise the project to contain the target locale, so we have names from the locale.
-        const targetLocale = await Locales.loadLocale(targetLocaleCode, false);
-        if (targetLocale)
-            newProject = newProject.withPrimaryLocale(targetLocale);
+        const targetLocaleText = await Locales.loadLocale(
+            localeToString(targetLocale),
+            false,
+        );
+        if (targetLocaleText)
+            newProject = newProject.withPrimaryLocale(targetLocaleText);
 
         // Revise the project to include the new translated names and updated references to those new names.
         newProject = newProject.withRevisedNodes(

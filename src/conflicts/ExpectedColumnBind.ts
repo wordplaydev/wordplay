@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
@@ -15,16 +16,23 @@ export default class ExpectedColumnBind extends Conflict {
         this.cell = cell;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.Update.conflict.ExpectedColumnBind;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.update,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Update.conflict.ExpectedColumnBind,
+                        (l) => ExpectedColumnBind.LocalePath(l).primary,
                         new NodeRef(this.cell, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return ExpectedColumnBind.LocalePath;
     }
 }

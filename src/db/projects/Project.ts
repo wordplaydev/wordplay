@@ -418,6 +418,108 @@ export default class Project {
         return this.analysis;
     }
 
+    static analyze(project: Project): Analysis {
+        let newAnalysis: Analysis = {
+            conflicts: [],
+            primary: new Map(),
+            secondary: new Map(),
+            evaluations: new Map(),
+            dependencies: new Map(),
+        };
+
+        // Build a mapping from nodes to conflicts.
+        for (const source of project.getSources()) {
+            const context = project.getContext(source);
+
+            // Compute all of the conflicts in the program.
+            newAnalysis.conflicts = newAnalysis.conflicts.concat(
+                source.expression.getAllConflicts(context),
+            );
+
+            // Build conflict indices by going through each conflict, asking for the conflicting nodes
+            // and adding to the conflict to each node's list of conflicts.
+            for (const conflict of newAnalysis.conflicts) {
+                const complicitNodes = conflict.getConflictingNodes(
+                    context,
+                    Templates,
+                );
+                newAnalysis.primary.set(complicitNodes.primary.node, [
+                    ...(newAnalysis.primary.get(complicitNodes.primary.node) ??
+                        []),
+                    conflict,
+                ]);
+                if (complicitNodes.secondary) {
+                    const nodeConflicts =
+                        newAnalysis.secondary.get(
+                            complicitNodes.secondary.node,
+                        ) ?? [];
+                    newAnalysis.secondary.set(complicitNodes.secondary.node, [
+                        ...nodeConflicts,
+                        conflict,
+                    ]);
+                }
+            }
+
+            // Build a mapping from functions and structures to their evaluations.
+            for (const node of source.nodes()) {
+                // Find all Evaluates
+                if (node instanceof Evaluate) {
+                    // Find the function called.
+                    const fun = node.getFunction(context);
+                    if (fun) {
+                        // Add this evaluate to the function's list of calls.
+                        const evaluates =
+                            newAnalysis.evaluations.get(fun) ?? new Set();
+                        evaluates.add(node);
+                        newAnalysis.evaluations.set(fun, evaluates);
+
+                        // Is it a higher order function? Get the function input
+                        // and add the Evaluate as a caller of the function input.
+                        if (fun instanceof FunctionDefinition) {
+                            for (const input of node.inputs) {
+                                const type = input.getType(context);
+                                if (
+                                    type instanceof FunctionType &&
+                                    type.definition
+                                ) {
+                                    const hofEvaluates =
+                                        newAnalysis.evaluations.get(
+                                            type.definition,
+                                        ) ?? new Set();
+                                    hofEvaluates.add(node);
+                                    newAnalysis.evaluations.set(
+                                        type.definition,
+                                        hofEvaluates,
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Now create the dependency graph using the call graph.
+            for (const node of source.nodes()) {
+                // Build the dependency graph by asking each expression node for its dependencies.
+                // Determine whether the node is constant.
+                if (node instanceof Expression) {
+                    const dependencies = node.getDependencies(context);
+                    for (const dependency of dependencies) {
+                        const set = newAnalysis.dependencies.get(dependency);
+                        if (set) set.add(node);
+                        else
+                            newAnalysis.dependencies.set(
+                                dependency,
+                                new Set([node]),
+                            );
+                    }
+                }
+            }
+        }
+
+        return newAnalysis;
+    }
+
     getConflicts() {
         return this.getAnalysis().conflicts;
     }

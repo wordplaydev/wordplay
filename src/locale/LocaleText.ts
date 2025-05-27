@@ -95,7 +95,7 @@ export type NameText = string | string[];
 /** Wordplay markup, a single paragraph or a list of paragraphs. */
 export type DocText = string | string[];
 
-export function toLocale(locale: LocaleText) {
+export function toLocaleString(locale: Locale) {
     return `${locale.language}${locale.regions.map((r) => `-${r}`).join('')}`;
 }
 

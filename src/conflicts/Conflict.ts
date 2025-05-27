@@ -1,4 +1,6 @@
 import type Project from '@db/projects/Project';
+import type LocaleText from '@locale/LocaleText';
+import type { InternalConflictText } from '@locale/NodeTexts';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import type Locales from '../locale/Locales';
@@ -18,6 +20,10 @@ export type Resolution = {
         locales: Locales,
     ) => { newProject: Project; newNode?: Node };
 };
+
+export type ConflictLocaleAccessor = (
+    locale: LocaleText,
+) => InternalConflictText;
 
 export default abstract class Conflict {
     readonly #minor: boolean;
@@ -47,4 +53,6 @@ export default abstract class Conflict {
     toString() {
         return this.constructor.name;
     }
+
+    abstract getLocalePath(): ConflictLocaleAccessor;
 }

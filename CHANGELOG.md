@@ -3,6 +3,34 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.16
+
+## Added
+
+- Smaller font for secondary conflict messages.
+- Show all conflicts if there's no selected conflict.
+- Added headers to conflicts for clarity.
+- Button to show code annotation concerns.
+
+## Fixed
+
+- Fixed #748 correcting guide back button.
+- Fixed #760 correcting keyboard selection of locale.
+- Fixed #776 passing region to Google Translate.
+- Added missing translations.
+- Fixed cursor placement after reversed range deletion.
+- Reversed default order of vertical layout.
+- Fixed translation choices in project translate dialog.
+- Fixed undefined symbols for speech causing crash.
+- Permit required named expressions out of order in an `Evaluate`
+- Gracefully ignore extra inputs to an `Evaluate`.
+- Ensure conflict highlights are rendered after edit.
+- Fixed type exception value type.
+
+## Maintenance
+
+- Updated all minor versions.
+
 ## 0.6.15
 
 ## Added

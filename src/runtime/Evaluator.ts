@@ -734,7 +734,7 @@ export default class Evaluator {
         this.#steppedToNode = false;
 
         // Reset the streams resolved to avoid memory leaks.
-        this.streamsResolved.clear();
+        if (!keepConstants) this.streamsResolved.clear();
 
         // Reset the stream evaluation count
         this.streamCreatorCount.clear();

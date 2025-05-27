@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type TypePlaceholder from '@nodes/TypePlaceholder';
 import type Locales from '../locale/Locales';
@@ -11,16 +12,22 @@ export default class Placeholder extends Conflict {
         this.placeholder = placeholder;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.ExpressionPlaceholder.conflict.Placeholder;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.placeholder,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.ExpressionPlaceholder.conflict.Placeholder,
+                        (l) => Placeholder.LocalePath(l).primary,
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return Placeholder.LocalePath;
     }
 }

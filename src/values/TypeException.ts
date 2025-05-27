@@ -1,5 +1,4 @@
 import NodeRef from '@locale/NodeRef';
-import ValueRef from '@locale/ValueRef';
 import type Type from '@nodes/Type';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
@@ -35,8 +34,8 @@ export default class TypeException extends ExceptionValue {
                 locales,
                 this.getNodeContext(this.expected),
             ),
-            new ValueRef(
-                this.received,
+            new NodeRef(
+                this.received.getType(this.evaluator.getCurrentContext()),
                 locales,
                 this.getNodeContext(this.received.creator),
             ),

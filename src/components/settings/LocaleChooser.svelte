@@ -80,8 +80,9 @@
             .concretize((l) => l.ui.dialog.locale.subheader.selected)
             .toText()}</h2
     >
+
     <div class="languages">
-        {#each selectedLocales as selected}
+        {#each selectedLocales as selected (selected)}
             <Button
                 action={() => select(selected, 'remove')}
                 tip={(l) => l.ui.dialog.locale.button.remove}
@@ -98,20 +99,21 @@
             .toText()}</h2
     >
     <div class="supported">
-        {#each SupportedLocales.filter((supported) => !selectedLocales.some((locale) => locale === supported)) as supported}
+        {#each SupportedLocales.filter((supported) => !selectedLocales.includes(supported)) as supported (supported)}
             <div class="option">
                 <Button
                     action={() => select(supported, 'replace')}
                     tip={(l) => l.ui.dialog.locale.button.replace}
-                    ><LocaleName locale={supported} supported /></Button
                 >
+                    <LocaleName locale={supported} supported />
+                </Button>
+
                 <Button
                     action={() => select(supported, 'add')}
                     tip={(l) => l.ui.dialog.locale.button.add}
                     icon="+"
-                ></Button>
+                />
             </div>
-        {:else}&mdash;
         {/each}
     </div>
 

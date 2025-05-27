@@ -3,7 +3,7 @@
     import { toClipboard } from '@components/editor/util/Clipboard';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { COPY_SYMBOL } from '@parser/Symbols';
+    import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import { Galleries, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import Subheader from '../app/Subheader.svelte';
@@ -45,7 +45,7 @@
         icon={COPY_SYMBOL}
     >
         <LocalizedText path={(l) => l.ui.project.button.copy.label} />
-        {#if copied}✓{/if}</Button
+        {#if copied}{CONFIRM_SYMBOL}{/if}</Button
     >
 
     <Subheader text={(l) => l.ui.dialog.share.subheader.gallery.header} />

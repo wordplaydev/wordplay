@@ -8,7 +8,7 @@ import {
     MachineTranslated,
     parseLocaleDoc,
     toDocString,
-    toLocale,
+    toLocaleString,
     Unwritten,
 } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -240,7 +240,8 @@ async function checkLocale(
                                     .get(nameWithoutPlaceholder)
                                     ?.filter(
                                         (p) =>
-                                            p.locale !== toLocale(original) &&
+                                            p.locale !==
+                                                toLocaleString(original) &&
                                             !p.path.equals(path),
                                     ) ?? [];
                             if (existing.length > 1)
@@ -467,10 +468,21 @@ export function addMissingKeys(
                         sourceValue as Record<string, unknown>,
                         targetValue as Record<string, unknown>,
                     );
-                else
+                else if (
+                    typeof targetValue === 'string' &&
+                    (targetValue.startsWith(MachineTranslated) ||
+                        targetValue === Unwritten)
+                ) {
+                    target[key] = {} as Record<string, unknown>;
+                    addMissingKeys(
+                        log,
+                        sourceValue as Record<string, unknown>,
+                        target[key] as Record<string, unknown>,
+                    );
+                } else
                     log.bad(
                         2,
-                        `Target has the key ${key}, but it's not an object. Repair manually.`,
+                        `Target has the key ${key}, but it's not an object. Repair manually: ${targetValue}`,
                     );
             } else if (
                 Array.isArray(sourceValue) &&

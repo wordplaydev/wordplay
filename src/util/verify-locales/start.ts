@@ -9,7 +9,7 @@ import {
     getLocaleLanguage,
     getLocaleRegions,
     isRevised,
-    toLocale,
+    toLocaleString,
 } from '../../locale/LocaleText';
 import type LocalePath from './LocalePath';
 import {
@@ -83,7 +83,7 @@ async function handleLocale(
     localeIsNew: boolean,
     globals: Map<string, { locale: string; path: LocalePath }[]>,
 ) {
-    const locale = toLocale(localeText);
+    const locale = toLocaleString(localeText);
 
     // Validate, repair, and translate the locale file.
     const [revisedLocale, localeChanged] = await verifyLocale(
@@ -209,7 +209,9 @@ for (const localeText of allLocaleText) {
             );
             for (const name of names) {
                 if (!globals.has(name)) globals.set(name, []);
-                globals.get(name)!.push({ locale: toLocale(localeText), path });
+                globals
+                    .get(name)!
+                    .push({ locale: toLocaleString(localeText), path });
             }
         }
 
@@ -224,7 +226,7 @@ for (const localeText of allLocaleText) {
         if (revised)
             revisedStrings.push({
                 path,
-                locale: toLocale(localeText),
+                locale: toLocaleString(localeText),
                 text: revised,
             });
     }
@@ -232,7 +234,7 @@ for (const localeText of allLocaleText) {
 
 // Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
 for (const localeText of allLocaleText) {
-    log.say(1, `Checking ${toLocale(localeText)}`);
+    log.say(1, `Checking ${toLocaleString(localeText)}`);
     await handleLocale(localeText, revisedStrings, false, globals);
 }
 

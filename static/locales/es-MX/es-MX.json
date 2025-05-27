@@ -189,8 +189,14 @@
                 "Hay muchos <códigos de idioma de 2 letras@https://es.wikipedia.org/wiki/ISO_639-1> que entiendo. Si no usas uno de esos, te lo haré saber."
             ],
             "conflict": {
-                "UnknownLanguage": "No conozco este idioma",
-                "MissingLanguage": "Me falta un idioma. ¿Puedes añadir uno?"
+                "UnknownLanguage": {
+                    "primary": "No conozco este idioma",
+                    "name": "$~idiomadesconocido"
+                },
+                "MissingLanguage": {
+                    "primary": "Me falta un idioma. ¿Puedes añadir uno?",
+                    "name": "$~idiomafaltante"
+                }
             }
         },
         "Name": {
@@ -225,19 +231,28 @@
             "emotion": "shy",
             "doc": "Represento una fila en una @Table. Probablemente sea mejor hablar con @Table, ellos saben todo sobre mí. Solo estoy por aquí y mantengo los valores en línea :(",
             "conflict": {
-                "InvalidRow": "Las filas deben ser todas valores o todas @Bind.",
+                "InvalidRow": {
+                    "primary": "Las filas deben ser todas valores o todas @Bind.",
+                    "name": "$~filanoválida"
+                },
                 "MissingCell": {
                     "primary": "Me falta la columna $1",
-                    "secondary": "Soy obligatoria, pero $1 no la proporcionó"
+                    "secondary": "Soy obligatoria, pero $1 no la proporcionó",
+                    "name": "$~columnafaltante"
                 },
                 "ExtraCell": {
                     "primary": "¿Se supone que debo estar aquí?",
-                    "secondary": "¡Oye $1, no eres parte de esta @Table!"
+                    "secondary": "¡Oye $1, no eres parte de esta @Table!",
+                    "name": "$~columnaadicional"
                 },
-                "UnknownColumn": "No conozco una columna con este nombre",
+                "UnknownColumn": {
+                    "primary": "No conozco una columna con este nombre",
+                    "name": "$~nombredecolumnadesconocido"
+                },
                 "UnexpectedColumnBind": {
                     "primary": "¿Se supone que debo ser un @Bind?",
-                    "secondary": "Oye, soy una @Table, necesito valores, no @Bind."
+                    "secondary": "Oye, soy una @Table, necesito valores, no @Bind.",
+                    "name": "$~sinfilasenlazadas"
                 }
             }
         },
@@ -353,7 +368,10 @@
             "start": "vamos a evaluar primero $1",
             "finish": "mira, ¡hice $1!",
             "conflict": {
-                "OrderOfOperations": "Evalúo en orden de lectura, no en el orden de operaciones matemáticas. ¿Quieres usar @Block para especificar el orden en el que debería evaluar?"
+                "OrderOfOperations": {
+                    "primary": "Evalúo en orden de lectura, no en el orden de operaciones matemáticas. ¿Quieres usar @Block para especificar el orden en el que debería evaluar?",
+                    "name": "$~ordenambiguo"
+                }
             }
         },
         "Bind": {
@@ -392,23 +410,41 @@
                 "DuplicateName": {
                     "conflict": {
                         "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
-                        "secondary": "eh, $1 es mi nombre"
+                        "secondary": "eh, $1 es mi nombre",
+                        "name": "$~nombreduplicado"
                     },
                     "resolution": "$~Hay nombres duplicados, ¿quieres eliminar uno?"
                 },
                 "DuplicateShare": {
                     "primary": "tengo el mismo nombre que $1, lo que hace que lo compartido sea ambiguo",
-                    "secondary": "tengo el mismo nombre que $1"
+                    "secondary": "tengo el mismo nombre que $1",
+                    "name": "$~compartirduplicado"
                 },
                 "IncompatibleType": {
                     "primary": "se supone que soy un $2, pero soy un $1",
-                    "secondary": "Oh... lo siento, ¿un $1, en serio?"
+                    "secondary": "Oh... lo siento, ¿un $1, en serio?",
+                    "name": "$~tipoincompatible"
                 },
-                "MisplacedShare": "Solo puedo compartir cosas a nivel de @Program, ¡no dentro de nada!",
-                "MissingShareLanguages": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
-                "RequiredAfterOptional": "No puedo estar aquí, hay un @Bind opcional antes que yo",
-                "UnexpectedEtc": "Solo puedo tener una longitud variable en un @FunctionDefinition",
-                "UnusedBind": "Oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
+                "MisplacedShare": {
+                    "primary": "Solo puedo compartir cosas a nivel de @Program, ¡no dentro de nada!",
+                    "name": "$~acciónextraviada"
+                },
+                "MissingShareLanguages": {
+                    "primary": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
+                    "name": "$~idiomafaltante"
+                },
+                "RequiredAfterOptional": {
+                    "primary": "No puedo estar aquí, hay un @Bind opcional antes que yo",
+                    "name": "$~entradaobligatoriadespuésdeopcional"
+                },
+                "UnexpectedEtc": {
+                    "primary": "Solo puedo tener una longitud variable en un @FunctionDefinition",
+                    "name": "$~entradainesperadadespuésdelalistadeentrada"
+                },
+                "UnusedBind": {
+                    "primary": "Oye, le puse nombre a este valor, ¡pero nadie lo está usando!",
+                    "name": "$~enlacenoutilizado"
+                }
             }
         },
         "Block": {
@@ -434,14 +470,18 @@
             "start": "primera expresión",
             "finish": "listo, obtuve $1",
             "conflict": {
-                "ExpectedEndingExpression": "Necesito una expresión.",
+                "ExpectedEndingExpression": {
+                    "primary": "Necesito una expresión.",
+                    "name": "$~expresiónfaltante"
+                },
                 "IgnoredExpression": {
                     "primary": "$~Voy a ignorar $1, ya que no define nada y no es mi última expresión.",
                     "secondary": "$~@Block, ¡no me ignores!",
                     "resolution": {
                         "binary": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir.",
                         "evaluate": "$~¿Querías que esto fuera @Evaluate? Puedo quitar este espacio para que sea una sola expresión, en lugar de dos."
-                    }
+                    },
+                    "name": "$~expresiónignorada"
                 }
             }
         },
@@ -462,8 +502,14 @@
             "bind": "nombre",
             "version": "versión",
             "conflict": {
-                "UnknownBorrow": "No conozco una $source con este nombre",
-                "BorrowCycle": "esto depende de $1, que depende de esta $source, por lo que el programa no se puede evaluar"
+                "UnknownBorrow": {
+                    "primary": "No conozco una $source con este nombre",
+                    "name": "$~préstamodesconocido"
+                },
+                "BorrowCycle": {
+                    "primary": "esto depende de $1, que depende de esta $source, por lo que el programa no se puede evaluar",
+                    "name": "$~préstamoautorreferencial"
+                }
             },
             "exception": {
                 "CycleException": {
@@ -503,7 +549,8 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "¿Cómo puedo elegir sí y no con un $1? No en serio, ¿cómo?",
-                    "secondary": "Creo que @Conditional quería que fuera un @Boolean, pero soy un $1."
+                    "secondary": "Creo que @Conditional quería que fuera un @Boolean, pero soy un $1.",
+                    "name": "$~condiciónbooleanaesperada"
                 }
             }
         },
@@ -519,7 +566,10 @@
             ],
             "start": "¡increíble, una nueva conversión!",
             "conflict": {
-                "MisplacedConversion": "¡guau, no puedo estar aquí, solo en @Block!"
+                "MisplacedConversion": {
+                    "primary": "¡guau, no puedo estar aquí, solo en @Block!",
+                    "name": "$~conversiónfueradelugar"
+                }
             }
         },
         "Convert": {
@@ -537,7 +587,10 @@
             "start": "¡obtén ese valor de $1!",
             "finish": "Increíble, hice $1",
             "conflict": {
-                "UnknownConversion": "Vaya, no hay forma de hacer que $1 sea $2"
+                "UnknownConversion": {
+                    "primary": "Vaya, no hay forma de hacer que $1 sea $2",
+                    "name": "$~conversióndesconocida"
+                }
             },
             "exception": {
                 "ConversionException": {
@@ -592,27 +645,41 @@
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "Se supone que debo ser un $1, pero soy un $2",
-                    "secondary": "Mmm, obtuve un $2 en lugar de un $1"
+                    "secondary": "Mmm, obtuve un $2 en lugar de un $1",
+                    "name": "$~entradaincompatible"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "No esperaba este tipo de input",
-                    "secondary": "oh, ¿no debería estar aquí?"
+                    "secondary": "oh, ¿no debería estar aquí?",
+                    "name": "$~entradadetipoinesperado"
                 },
                 "MissingInput": {
                     "primary": "$~No puedo evaluar sin la entrada llamada $1 :(",
-                    "secondary": "$~Ah, vaya. ¿Puedes ayudarnos y agregarlo a mi lista de entradas?"
+                    "secondary": "$~Ah, vaya. ¿Puedes ayudarnos y agregarlo a mi lista de entradas?",
+                    "name": "$~entradafaltante"
                 },
-                "NotInstantiable": "No puedo hacer esta @StructureDefinition, tiene funciones no implementadas.",
+                "NotInstantiable": {
+                    "primary": "No puedo hacer esta @StructureDefinition, tiene funciones no implementadas.",
+                    "name": "$~estructuraincompleta"
+                },
                 "UnexpectedInput": {
                     "primary": "No esperaba este input $1",
-                    "secondary": "Oh, ¿no debería estar aquí?"
+                    "secondary": "Oh, ¿no debería estar aquí?",
+                    "name": "$~entradainesperada"
                 },
                 "UnknownInput": {
                     "primary": "No conozco un input con este nombre",
-                    "secondary": "No creo que pertenezca aquí"
+                    "secondary": "No creo que pertenezca aquí",
+                    "name": "$~entradadesconocida"
                 },
-                "InputListMustBeLast": "la lista de inputs debe ir al final",
-                "SeparatedEvaluate": "$~¿Es $1 el nombre de una $2[$structure|$function] que estás intentando evaluar? Intente eliminar el espacio después de mí, para saber que es un @Evaluate y no un @Block separado."
+                "InputListMustBeLast": {
+                    "primary": "la lista de inputs debe ir al final",
+                    "name": "$~Lasentradasadicionalesnosonloúltimo"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~evaluaciónambigua",
+                    "primary": "$~¿Es $1 el nombre de una $2[$1|$2ón] que intentas evaluar? Intenta quitar el espacio después de mí para que sepa que es un @Evaluate y no un @Block aparte."
+                }
             },
             "exception": {
                 "FunctionException": {
@@ -649,7 +716,10 @@
             "start": "¡ay!, no sé qué hacer",
             "placeholder": "expresión",
             "conflict": {
-                "Placeholder": "¿alguien puede ocupar mi lugar?"
+                "Placeholder": {
+                    "primary": "¿alguien puede ocupar mi lugar?",
+                    "name": "$~marcadordeposición"
+                }
             },
             "exception": {
                 "UnimplementedException": {
@@ -680,7 +750,10 @@
             ],
             "start": "¡vamos a crear esta función!",
             "conflict": {
-                "NoExpression": "Necesito una expresión para evaluar, ¿puedes agregar una?"
+                "NoExpression": {
+                    "primary": "Necesito una expresión para evaluar, ¿puedes agregar una?",
+                    "name": "$~expresiónfaltante"
+                }
             }
         },
         "Iteration": {
@@ -731,7 +804,10 @@
             "start": "vamos a obtener el valor de $1 primero",
             "finish": "$1[el valor es $2|el valor no es $2]",
             "conflict": {
-                "ImpossibleType": "esto no puede ser nunca de este $1"
+                "ImpossibleType": {
+                    "primary": "esto no puede ser nunca de este $1",
+                    "name": "$~tipoimposible"
+                }
             },
             "exception": {
                 "TypeException": {
@@ -789,7 +865,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "una de mis claves no tiene un valor",
-                    "secondary": "ups, ¿dónde está mi valor?"
+                    "secondary": "ups, ¿dónde está mi valor?",
+                    "name": "$~valorfaltante"
                 }
             }
         },
@@ -817,7 +894,10 @@
             "doc": "Soy un @Number específico. Puedes escribirme con cualquier tipo de dígitos de cualquier idioma. Consulta @Number para conocer todo lo que puedo hacer.",
             "start": "¡$1!",
             "conflict": {
-                "NotANumber": "Pensé que conocía todos los números, pero no conozco este"
+                "NotANumber": {
+                    "primary": "Pensé que conocía todos los números, pero no conozco este",
+                    "name": "$~noesunnúmero"
+                }
             }
         },
         "InternalExpression": {
@@ -911,7 +991,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "primary": "$~No soy un insumo de $1, por lo que no puedo ser refinado.",
-                    "secondary": "$~No tengo una entrada llamada $1"
+                    "secondary": "$~No tengo una entrada llamada $1",
+                    "name": "$~propiedaddesconocida"
                 }
             }
         },
@@ -944,7 +1025,10 @@
             "condition": "condición",
             "next": "siguiente",
             "conflict": {
-                "ExpectedStream": "$1 no referencia un stream, ¡así que nunca reaccionaré!"
+                "ExpectedStream": {
+                    "primary": "$1 no referencia un stream, ¡así que nunca reaccionaré!",
+                    "name": "$~flujoesperado"
+                }
             }
         },
         "Reference": {
@@ -960,11 +1044,20 @@
             "start": "¿qué valor tiene $1?",
             "conflict": {
                 "UnknownName": {
-                    "conflict": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                    "conflict": {
+                        "primary": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                        "name": "$~nombredesconocido"
+                    },
                     "resolution": "$~¿Quisiste decir *$1*?"
                 },
-                "ReferenceCycle": "um, el valor de $1 depende de sí mismo, ¿cómo sé qué valor darle?",
-                "UnexpectedTypeVariable": "No sé qué hacer con estos inputs de tipo"
+                "ReferenceCycle": {
+                    "primary": "um, el valor de $1 depende de sí mismo, ¿cómo sé qué valor darle?",
+                    "name": "$~valordeautorreferencia"
+                },
+                "UnexpectedTypeVariable": {
+                    "primary": "No sé qué hacer con estos inputs de tipo",
+                    "name": "$~variabledetipoinesperado"
+                }
             },
             "exception": {
                 "NameException": {
@@ -985,7 +1078,10 @@
             "start": "primero obtengamos la tabla",
             "finish": "¡Hice una nueva tabla solo con las filas y columnas seleccionadas!",
             "conflict": {
-                "ExpectedSelectName": "Necesito al menos un nombre de columna."
+                "ExpectedSelectName": {
+                    "primary": "Necesito al menos un nombre de columna.",
+                    "name": "$~nombredecolumnafaltante"
+                }
             }
         },
         "SetLiteral": {
@@ -1011,7 +1107,8 @@
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "Esperaba una clave $1",
-                    "secondary": "Obtuve un $1 en lugar de un $2"
+                    "secondary": "Obtuve un $1 en lugar de un $2",
+                    "name": "$~claveincompatible"
                 }
             }
         },
@@ -1047,10 +1144,22 @@
             ],
             "start": "definamos esta encantadora estructura",
             "conflict": {
-                "DisallowedInputs": "No puedo tener entradas porque una o más de mis funciones de interfaz no están implementadas",
-                "IncompleteImplementation": "mis funciones deben estar todas implementadas o ninguna. ¡Nada de mezclas confusas!",
-                "NotAnInterface": "No soy una interfaz; una estructura solo puede implementar interfaces, no otras estructuras",
-                "UnimplementedInterface": "Implemento $1 pero no he implementado $2"
+                "DisallowedInputs": {
+                    "primary": "No puedo tener entradas porque una o más de mis funciones de interfaz no están implementadas",
+                    "name": "$~entradasnopermitidas"
+                },
+                "IncompleteImplementation": {
+                    "primary": "mis funciones deben estar todas implementadas o ninguna. ¡Nada de mezclas confusas!",
+                    "name": "$~estructuraincompleta"
+                },
+                "NotAnInterface": {
+                    "primary": "No soy una interfaz; una estructura solo puede implementar interfaces, no otras estructuras",
+                    "name": "$~noesunainterfaz"
+                },
+                "UnimplementedInterface": {
+                    "primary": "Implemento $1 pero no he implementado $2",
+                    "name": "$~noimplementado"
+                }
             }
         },
         "StructureDefinitionType": {
@@ -1082,14 +1191,32 @@
             "emotion": "serious",
             "doc": "Represento algún texto, con una etiqueta @Language. ¡Consulta @Text para aprender más!",
             "conflict": {
-                "phone": "¿Es *$1* el número de teléfono de alguien? ¡No me compartas en línea si es así!\n\n$2",
-                "email": "¿Es *$1* el correo electrónico de alguien? ¡No me lo compartas aquí si es así!\n\n$2",
-                "tin": "¿Es *$1* un identificador fiscal? Si es así, ¡definitivamente no me compartas, soy información muy sensible!\n\n$2",
-                "address": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!\n\n$2",
-                "handle": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.\n\n$2",
+                "phone": {
+                    "primary": "¿Es *$1* el número de teléfono de alguien? ¡No me compartas en línea si es así!\n\n$2",
+                    "name": "$~posiblenúmerodeteléfono"
+                },
+                "email": {
+                    "primary": "¿Es *$1* el correo electrónico de alguien? ¡No me lo compartas aquí si es así!\n\n$2",
+                    "name": "$~posiblecorreoelectrónico"
+                },
+                "tin": {
+                    "primary": "¿Es *$1* un identificador fiscal? Si es así, ¡definitivamente no me compartas, soy información muy sensible!\n\n$2",
+                    "name": "$~posibleidentificadorfiscal"
+                },
+                "address": {
+                    "primary": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!\n\n$2",
+                    "name": "$~posibledirección"
+                },
+                "handle": {
+                    "primary": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.\n\n$2",
+                    "name": "$~posiblenombredeusuario"
+                },
                 "resolution": "Esto no es información sensible",
                 "reminder": "$~Nota: Puedes deshacer esta acción y ver otras cosas que hayas marcado como no confidenciales en el cuadro de diálogo para compartir.",
-                "character": "$~Parece el nombre de un personaje. Para mostrarlo, usa @FormattedLiteral en lugar de @TextLiteral."
+                "character": {
+                    "name": "$~posiblepersonajepersonalizado",
+                    "primary": "$~Parece el nombre de un personaje. Para mostrarlo, usa @FormattedLiteral en lugar de @TextLiteral."
+                }
             }
         },
         "FormattedLiteral": {
@@ -1130,7 +1257,10 @@
             ],
             "start": "evaluado como $1",
             "conflict": {
-                "MisplacedThis": "Solo se me permite en una estructura, conversión o reacción."
+                "MisplacedThis": {
+                    "primary": "Solo se me permite en una estructura, conversión o reacción.",
+                    "name": "$~extravióestareferencia"
+                }
             }
         },
         "UnaryEvaluate": {
@@ -1166,10 +1296,16 @@
             "start": "???",
             "conflict": {
                 "UnparsableConflict": {
-                    "conflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                    "conflict": {
+                        "primary": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                        "name": "$~códigoilegible"
+                    },
                     "resolution": "$~¿Quiso decir $1, $2?"
                 },
-                "UnclosedDelimiter": "Esperaba $2 en algún momento después de $1"
+                "UnclosedDelimiter": {
+                    "primary": "Esperaba $2 en algún momento después de $1",
+                    "name": "$~delimitadornocerrado"
+                }
             },
             "exception": {
                 "UnparsableException": {
@@ -1190,10 +1326,14 @@
             "start": "vamos a obtener la tabla primero",
             "finish": "¡evaluado como una nueva tabla con filas revisadas!",
             "conflict": {
-                "ExpectedColumnBind": "Necesito un valor para cada columna",
+                "ExpectedColumnBind": {
+                    "primary": "Necesito un valor para cada columna",
+                    "name": "$~valordecolumnafaltante"
+                },
                 "IncompatibleCellType": {
                     "primary": "Necesitaba un $1, pero obtuve un $2",
-                    "secondary": "Obtuve un $2"
+                    "secondary": "Obtuve un $2",
+                    "name": "$~tipodecélulaincompatible"
                 }
             }
         },
@@ -1278,7 +1418,10 @@
                 "\\•Amigo(nombre•'')\nmejorAmigo•Amigo: Amigo('Jonah')\\"
             ],
             "conflict": {
-                "UnknownTypeName": "los nombres de tipo solo pueden referirse a estructuras o variables de tipo, pero esto se refiere a un $1"
+                "UnknownTypeName": {
+                    "primary": "los nombres de tipo solo pueden referirse a estructuras o variables de tipo, pero esto se refiere a un $1",
+                    "name": "$~nombredetipodesconocido"
+                }
             }
         },
         "NeverType": {
@@ -1333,7 +1476,10 @@
             "emotion": "angry",
             "doc": "Represento una tabla.",
             "conflict": {
-                "ExpectedColumnType": "Necesito un tipo de columna"
+                "ExpectedColumnType": {
+                    "primary": "Necesito un tipo de columna",
+                    "name": "$~tipodecolumnafaltante"
+                }
             }
         },
         "TextType": {
@@ -1381,7 +1527,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "primary": "Tengo el mismo nombre que $1",
-                    "secondary": "Tengo el mismo nombre que $1"
+                    "secondary": "Tengo el mismo nombre que $1",
+                    "name": "$~variabledetipoduplicado"
                 }
             }
         },
@@ -4302,7 +4449,9 @@
             "evaluating": "¡Oh, qué divertido, evaluemos!",
             "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",
             "button": {
-                "resolution": "Resolver este conflicto"
+                "resolution": "Resolver este conflicto",
+                "toggle": "$~mostrar y ocultar anotaciones",
+                "highlight": "$~mostrar este código en el editor"
             }
         },
         "output": {
@@ -4359,7 +4508,8 @@
             "nodoc": "¿Quién soy? ¿Qué soy? ¿Cuál es mi propósito?",
             "button": {
                 "home": "volver a casa",
-                "back": "regresar al anterior"
+                "back": "regresar al anterior",
+                "toggle": "$~mostrar y ocultar este grupo de conceptos"
             },
             "field": {
                 "search": "buscar conceptos con palabras"
@@ -4545,6 +4695,10 @@
                     "close": {
                         "label": "$~cerca",
                         "tip": "$~Cerrar este comentario como moderador"
+                    },
+                    "comment": {
+                        "label": "$~entregar",
+                        "tip": "$~Enviar comentario sobre esta retroalimentación."
                     }
                 },
                 "mode": {
@@ -4563,11 +4717,20 @@
                     "idea": {
                         "description": "$~descripción de su defecto",
                         "placeholder": "$~¿Qué estás intentando hacer que no puedes hacer?"
+                    },
+                    "comment": {
+                        "description": "$~comentario",
+                        "placeholder": "$~Añade un comentario a esta retroalimentación"
+                    },
+                    "github": {
+                        "description": "$~Problema de GitHub",
+                        "placeholder": "$~Enlace al problema de GitHub"
                     }
                 },
                 "subheader": {
                     "defect": "$~defecto",
-                    "idea": "$~idea"
+                    "idea": "$~idea",
+                    "moderator": "$~moderador"
                 },
                 "prompt": {
                     "defect": "$~¿No viste el problema que tienes? Repórtalo aquí.",
@@ -4577,7 +4740,8 @@
                     "login": "$~Debe iniciar sesión para enviar comentarios.",
                     "submit": "$~No es posible enviar comentarios.",
                     "load": "$~No se pueden cargar los comentarios",
-                    "empty": "$~No hay comentarios para mostrar."
+                    "empty": "$~No hay comentarios para mostrar.",
+                    "url": "$~Esta no es una URL de GitHub válida."
                 }
             }
         },

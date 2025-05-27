@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Block from '@nodes/Block';
 import type Context from '@nodes/Context';
@@ -18,17 +19,24 @@ export default class SeparatedEvaluate extends Conflict {
         this.structure = structure;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Evaluate.conflict.SeparatedEvaluate;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.name,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Evaluate.conflict.SeparatedEvaluate,
+                        (l) => SeparatedEvaluate.LocalePath(l).primary,
                         new NodeRef(this.name, locales, context),
                         this.structure,
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return SeparatedEvaluate.LocalePath;
     }
 }

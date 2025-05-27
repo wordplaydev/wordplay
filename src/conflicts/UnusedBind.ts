@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
@@ -13,16 +14,23 @@ export default class UnusedBind extends Conflict {
         this.bind = bind;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Bind.conflict.UnusedBind;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.bind.names,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Bind.conflict.UnusedBind,
+                        (l) => UnusedBind.LocalePath(l).primary,
                         new NodeRef(this.bind.names, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return UnusedBind.LocalePath;
     }
 }

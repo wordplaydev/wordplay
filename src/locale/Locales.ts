@@ -8,7 +8,7 @@ import type LanguageCode from './LanguageCode';
 import { getLanguageDirection, getLanguageScripts } from './LanguageCode';
 import { localeToString } from './Locale';
 import type LocaleText from './LocaleText';
-import { isUnwritten, MachineTranslated, toLocale } from './LocaleText';
+import { isUnwritten, MachineTranslated, toLocaleString } from './LocaleText';
 import type NodeRef from './NodeRef';
 import type { Script } from './Scripts';
 import type ValueRef from './ValueRef';
@@ -56,7 +56,7 @@ export default class Locales {
     }
 
     getLocaleString() {
-        return toLocale(this.getLocale());
+        return toLocaleString(this.getLocale());
     }
 
     /** Get all preferred locales, but with the fallback at the end if not included. */

@@ -7,6 +7,7 @@
         AnimationFactors,
     } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
+    import { CANCEL_SYMBOL, CONFIRM_SYMBOL } from '@parser/Symbols';
     import { onMount } from 'svelte';
     import { Creator } from '../../db/creators/CreatorDatabase';
     import {
@@ -202,14 +203,14 @@
                 choice={$spaceIndicator ? 1 : 0}
                 select={(choice) =>
                     Settings.setSpace(choice === 1 ? true : false)}
-                modes={['✗', '✓']}
+                modes={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
             />
             <Mode
                 descriptions={(l) => l.ui.dialog.settings.mode.lines}
                 choice={$showLines ? 1 : 0}
                 select={(choice) =>
                     Settings.setLines(choice === 1 ? true : false)}
-                modes={['✗', '✓']}
+                modes={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
             />
         </div>
     </Dialog>

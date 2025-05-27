@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Context from '@nodes/Context';
@@ -10,7 +11,7 @@ import type Locales from '../locale/Locales';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import Conflict from './Conflict';
 
-export default class UnexpectedInputs extends Conflict {
+export default class UnexpectedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
     readonly evaluate: Evaluate | BinaryEvaluate;
     readonly input: Expression | Input;
@@ -26,13 +27,16 @@ export default class UnexpectedInputs extends Conflict {
         this.input = input;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Evaluate.conflict.UnexpectedInput;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.input,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Evaluate.conflict.UnexpectedInput.primary,
+                        (l) => UnexpectedInput.LocalePath(l).primary,
                         new NodeRef(this.input, locales, context),
                     ),
             },
@@ -40,11 +44,14 @@ export default class UnexpectedInputs extends Conflict {
                 node: this.func.names,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Evaluate.conflict.UnexpectedInput.secondary,
+                        (l) => UnexpectedInput.LocalePath(l).secondary,
                         new NodeRef(this.input, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return UnexpectedInput.LocalePath;
     }
 }

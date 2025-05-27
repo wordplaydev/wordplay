@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Borrow from '@nodes/Borrow';
 import type Context from '@nodes/Context';
@@ -18,13 +19,16 @@ export class BorrowCycle extends Conflict {
         this.cycle = cycle;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.Borrow.conflict.BorrowCycle;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.borrow,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Borrow.conflict.BorrowCycle,
+                        (l) => BorrowCycle.LocalePath(l).primary,
                         new NodeRef(
                             this.borrow,
                             locales,
@@ -34,5 +38,9 @@ export class BorrowCycle extends Conflict {
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return BorrowCycle.LocalePath;
     }
 }

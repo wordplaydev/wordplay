@@ -1,4 +1,5 @@
 import ConceptRef from '@locale/ConceptRef';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Bind from '@nodes/Bind';
@@ -33,13 +34,16 @@ export default class MissingInput extends Conflict {
         this.input = expected;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Evaluate.conflict.MissingInput;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.evaluate.fun,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Evaluate.conflict.MissingInput.primary,
+                        (l) => MissingInput.LocalePath(l).primary,
                         this.func.names.getPreferredNameString(
                             locales.getLocales(),
                         ) ??
@@ -60,10 +64,14 @@ export default class MissingInput extends Conflict {
                 node: this.input.names,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Evaluate.conflict.MissingInput.secondary,
+                        (l) => MissingInput.LocalePath(l).secondary,
                         new NodeRef(this.evaluate.fun, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return MissingInput.LocalePath;
     }
 }

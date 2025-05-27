@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 500;
+    export const KeyboardIdleWaitTime = 300;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
@@ -337,10 +337,9 @@
     projectStore.subscribe((newProject) => {
         if ($keyboardEditIdle === IdleKind.Typing) {
             if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
-            evaluatorTimeout = setTimeout(
-                () => updateEvaluator(newProject),
-                KeyboardIdleWaitTime,
-            );
+            evaluatorTimeout = setTimeout(() => {
+                updateEvaluator(newProject);
+            }, KeyboardIdleWaitTime);
         } else {
             updateEvaluator(newProject);
         }
@@ -414,6 +413,9 @@
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
+
+    /** A map of tile IDs to editor components, so we can pass around references for programmatic use of editors. */
+    const editorViews = $state<Record<string, Editor>>({});
 
     function syncTiles(project: Project, tiles: Tile[]): Tile[] {
         const newTiles: Tile[] = [];
@@ -778,12 +780,12 @@
 
         function updateConflicts() {
             // In the middle of analyzing? Check later.
-            if (project.analyzed === 'analyzing')
-                setTimeout(updateConflicts, KeyboardIdleWaitTime);
+            if (project.analyzed === 'analyzing') {
+                updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
+            }
             // Done analyzing, or not analyzed?
-            else {
-                // Analyze if not analyzed  yet.
-                if (project.analyzed === 'unanalyzed') project.analyze();
+            else if (project.analyzed === 'unanalyzed') {
+                project.analyze();
                 // Get the resulting conflicts.
                 conflicts.set(project.getConflicts());
             }
@@ -1550,6 +1552,9 @@
                                             locale={evaluationLocale}
                                             change={(locale) => {
                                                 evaluationLocale = locale;
+                                                console.log(
+                                                    'Updating evaluator: locale change.',
+                                                );
                                                 updateEvaluator(project);
                                             }}
                                         />{/if}
@@ -1658,6 +1663,7 @@
                                     {#if source}
                                         <div class="annotated-editor">
                                             <Editor
+                                                bind:this={editorViews[tile.id]}
                                                 {project}
                                                 evaluator={$evaluator}
                                                 {source}
