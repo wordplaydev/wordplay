@@ -4484,7 +4484,9 @@
             "evaluating": "$~Åh kul, låt oss utvärdera!",
             "space": "$~Det här är utrymme! Vem visste att ingenting kunde säga så mycket?",
             "button": {
-                "resolution": "$~Lös denna konflikt"
+                "resolution": "$~Lös denna konflikt",
+                "toggle": "$~visa och dölj anteckningar",
+                "highlight": "$~visa den här koden i editorn"
             }
         },
         "output": {
@@ -4541,7 +4543,8 @@
             "nodoc": "$~Vem är jag? Vad är jag? Vad är mitt syfte?",
             "button": {
                 "home": "$~hemkomst",
-                "back": "$~återgå till föregående"
+                "back": "$~återgå till föregående",
+                "toggle": "$~visa och dölj den här konceptgruppen"
             },
             "field": {
                 "search": "$~söka efter begrepp med ord"

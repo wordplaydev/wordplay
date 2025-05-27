@@ -11,6 +11,7 @@
     import isValidUsername from '@db/creators/isValidUsername';
     import { auth, functions } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { createUserWithEmailAndPassword } from 'firebase/auth';
     import { usernameAccountExists } from '../../db/creators/accountExists';
     import getAuthErrorDescription from '../login/getAuthErrorDescription';
@@ -131,7 +132,7 @@
         <Toggle
             tips={(l) => l.ui.page.login.toggle.reveal}
             on={reveal}
-            toggle={() => (reveal = !reveal)}>🔎</Toggle
+            toggle={() => (reveal = !reveal)}>{SEARCH_SYMBOL}</Toggle
         >
     </p>
 

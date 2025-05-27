@@ -4466,7 +4466,9 @@
             "evaluating": "$~Oh Spaß, lass es uns auswerten!",
             "space": "$~Das ist Weltraum! Wer hätte gedacht, dass nichts so viel aussagen kann?",
             "button": {
-                "resolution": "$~Diesen Konflikt lösen"
+                "resolution": "$~Diesen Konflikt lösen",
+                "toggle": "$~Anmerkungen ein- und ausblenden",
+                "highlight": "$~diesen Code im Editor anzeigen"
             }
         },
         "output": {
@@ -4523,7 +4525,8 @@
             "nodoc": "$~Wer bin ich? Was bin ich? Was ist mein Ziel?",
             "button": {
                 "home": "$~nach Hause zurückkehren",
-                "back": "$~Zurück zur vorherigen"
+                "back": "$~Zurück zur vorherigen",
+                "toggle": "$~Diese Konzeptgruppe ein- und ausblenden"
             },
             "field": {
                 "search": "$~Suche nach Konzepten mit Wörtern"

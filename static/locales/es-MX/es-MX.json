@@ -4449,7 +4449,9 @@
             "evaluating": "¡Oh, qué divertido, evaluemos!",
             "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",
             "button": {
-                "resolution": "Resolver este conflicto"
+                "resolution": "Resolver este conflicto",
+                "toggle": "$~mostrar y ocultar anotaciones",
+                "highlight": "$~mostrar este código en el editor"
             }
         },
         "output": {
@@ -4506,7 +4508,8 @@
             "nodoc": "¿Quién soy? ¿Qué soy? ¿Cuál es mi propósito?",
             "button": {
                 "home": "volver a casa",
-                "back": "regresar al anterior"
+                "back": "regresar al anterior",
+                "toggle": "$~mostrar y ocultar este grupo de conceptos"
             },
             "field": {
                 "search": "buscar conceptos con palabras"

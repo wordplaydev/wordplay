@@ -1,11 +1,15 @@
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+
     interface Props {
         expanded: boolean;
         toggle: () => void;
         vertical?: boolean;
+        label: LocaleTextAccessor;
     }
 
-    let { expanded, toggle, vertical = true }: Props = $props();
+    let { expanded, toggle, vertical = true, label }: Props = $props();
 </script>
 
 <div
@@ -13,6 +17,8 @@
     class="expander {vertical ? 'vertical' : 'horizontal'}"
     class:expanded
     tabindex="0"
+    title={$locales.get(label)}
+    aria-label={$locales.get(label)}
     onpointerdown={(event) => {
         event.stopPropagation();
         toggle();

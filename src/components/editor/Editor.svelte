@@ -43,6 +43,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import OutputView from '../output/OutputView.svelte';
     import {
+        type EditorState,
         IdleKind,
         getAnimatingNodes,
         getAnnounce,
@@ -127,7 +128,7 @@
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
-    // We start at the saved caret position or 0.
+    // We start at the saved caret position or 0. We also share it with parents through a bind.
     const caret = writable<Caret>(
         new Caret(
             source,
@@ -137,6 +138,10 @@
             undefined,
         ),
     );
+
+    export function setCaretPosition(position: CaretPosition) {
+        caret.set($caret.withPosition(position));
+    }
 
     // Share the caret store with children.
     setCaret(caret);
@@ -221,6 +226,7 @@
         focused: false,
         toggleMenu,
         grabFocus,
+        setCaretPosition,
     });
     setEditor(editContext);
 
@@ -1301,7 +1307,7 @@
     // Keep the project-level editors store in sync with this editor's state.
     $effect(() => {
         if (untrack(() => editors)) {
-            const state = {
+            const state: EditorState = {
                 caret: $caret,
                 edit: handleEdit,
                 blocks: $blocks,
@@ -1309,6 +1315,7 @@
                 focused,
                 toggleMenu,
                 grabFocus,
+                setCaretPosition,
             };
             untrack(() => {
                 // Update the editor state in the editors store.

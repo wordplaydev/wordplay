@@ -414,6 +414,9 @@
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
 
+    /** A map of tile IDs to editor components, so we can pass around references for programmatic use of editors. */
+    const editorViews = $state<Record<string, Editor>>({});
+
     function syncTiles(project: Project, tiles: Tile[]): Tile[] {
         const newTiles: Tile[] = [];
 
@@ -1660,6 +1663,7 @@
                                     {#if source}
                                         <div class="annotated-editor">
                                             <Editor
+                                                bind:this={editorViews[tile.id]}
                                                 {project}
                                                 evaluator={$evaluator}
                                                 {source}

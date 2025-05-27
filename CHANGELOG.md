@@ -5,6 +5,13 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.16
 
+## Added
+
+- Smaller font for secondary conflict messages.
+- Show all conflicts if there's no selected conflict.
+- Added headers to conflicts for clarity.
+- Button to show code annotation concerns.
+
 ## Fixed
 
 - Fixed #748 correcting guide back button.
@@ -19,12 +26,6 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Gracefully ignore extra inputs to an `Evaluate`.
 - Ensure conflict highlights are rendered after edit.
 - Fixed type exception value type.
-
-## Added
-
-- Smaller font for secondary conflict messages.
-- Show all conflicts if there's no selected conflict.
-- Added headers to conflicts for clarity.
 
 ## Maintenance
 

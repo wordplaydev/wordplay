@@ -4485,7 +4485,9 @@
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
             "button": {
-                "resolution": "Resolve this conflict"
+                "resolution": "Resolve this conflict",
+                "toggle": "show and hide annotations",
+                "highlight": "show this code in the editor"
             }
         },
         "output": {
@@ -4542,7 +4544,8 @@
             "nodoc": "Who am I? What am I? What is my purpose?",
             "button": {
                 "home": "return home",
-                "back": "return to previous"
+                "back": "return to previous",
+                "toggle": "show and hide this concept group"
             },
             "field": {
                 "search": "keywords"

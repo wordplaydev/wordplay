@@ -17,6 +17,7 @@
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import type Node from '@nodes/Node';
     import Source from '@nodes/Source';
+    import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { onDestroy, tick } from 'svelte';
     import { Locales, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
@@ -196,7 +197,7 @@
 <div class="header">
     <TextField
         id="concept-search"
-        placeholder={'🔍'}
+        placeholder={SEARCH_SYMBOL}
         description={(l) => l.ui.docs.field.search}
         bind:text={query}
         fill

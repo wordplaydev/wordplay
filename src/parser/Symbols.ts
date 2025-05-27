@@ -131,3 +131,5 @@ export const LOCALE_SYMBOL = GLOBE1_SYMBOL;
 
 export const IDEA_SYMBOL = '💡';
 export const DEFECT_SYMBOL = '🪲';
+
+export const SEARCH_SYMBOL = '🔍';

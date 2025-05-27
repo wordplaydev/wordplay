@@ -8541,13 +8541,23 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
+                    "highlight": {
+                      "description": "The button to show the annotation's node in the code",
+                      "type": "string"
+                    },
                     "resolution": {
                       "$ref": "#/definitions/Template",
                       "description": "How the resolution button should should be described"
+                    },
+                    "toggle": {
+                      "description": "The button to toggle the annotations",
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "resolution"
+                    "resolution",
+                    "toggle",
+                    "highlight"
                   ],
                   "type": "object"
                 },
@@ -9393,11 +9403,16 @@
                     "home": {
                       "description": "The home button in the docs tile",
                       "type": "string"
+                    },
+                    "toggle": {
+                      "description": "The toggle to expand and collapse concept groups",
+                      "type": "string"
                     }
                   },
                   "required": [
                     "home",
-                    "back"
+                    "back",
+                    "toggle"
                   ],
                   "type": "object"
                 },

@@ -43,7 +43,11 @@
     import Characters from '../../lore/BasisCharacters';
     import type Markup from '../../nodes/Markup';
     import type Source from '../../nodes/Source';
-    import { getConceptIndex, getEvaluation } from '../project/Contexts';
+    import {
+        getConceptIndex,
+        getEditors,
+        getEvaluation,
+    } from '../project/Contexts';
     import Annotation from './Annotation.svelte';
 
     interface Props {
@@ -80,6 +84,10 @@
 
     let annotations: AnnotationInfo[] = $state([]);
     let annotationsByNode: Map<Node, AnnotationInfo[]> = $state(new Map());
+
+    // Get the editor this corresponds to.
+    const editors = getEditors();
+    let editor = $derived($editors.get(sourceID));
 
     async function updateAnnotations() {
         // Wait for DOM updates so that everything is in position before we layout annotations.
@@ -246,14 +254,12 @@
     aria-label={$locales.get((l) => l.ui.annotations.label)}
     class:expanded={$showAnnotations}
     data-uiid="conflict"
-    onpointerdown={() => {
-        if (!$showAnnotations) Settings.setShowAnnotations(true);
-    }}
 >
     <Expander
         expanded={$showAnnotations}
         toggle={() => Settings.setShowAnnotations(!$showAnnotations)}
         vertical={false}
+        label={(l) => l.ui.annotations.button.toggle}
     />
     {#if $showAnnotations}
         <div class="annotations">
@@ -273,9 +279,6 @@
                     {/snippet}
                 </Speech>
             {:else}
-                {#each Array.from(annotationsByNode.values()) as annotations, index}
-                    <Annotation id={index} {annotations} />
-                {/each}
                 <Speech
                     character={Characters.FunctionDefinition}
                     scroll={false}
@@ -390,10 +393,27 @@
                     {/snippet}
                 </Speech>
             {/if}
+            {#if annotationsByNode.size > 0}
+                <hr />
+            {/if}
+            {#each Array.from(annotationsByNode.values()) as annotations, index}
+                <Annotation id={index} {annotations} {sourceID} />
+            {/each}
         </div>
     {:else}
         {#each annotations as annotation}
-            <div class="annotation {annotation.kind}"></div>
+            <div
+                role="button"
+                title={$locales.get((l) => l.ui.annotations.button.highlight)}
+                aria-label={$locales.get(
+                    (l) => l.ui.annotations.button.highlight,
+                )}
+                onpointerdown={() =>
+                    editor
+                        ? editor.setCaretPosition(annotation.node)
+                        : undefined}
+                class="annotation {annotation.kind}"
+            ></div>
         {/each}
     {/if}
 </section>
@@ -422,7 +442,6 @@
         flex-direction: column;
         align-items: center;
         gap: var(--wordplay-spacing);
-        cursor: pointer;
     }
 
     .who {
@@ -440,10 +459,11 @@
 
     .annotation {
         display: inline-block;
-        width: var(--wordplay-focus-width);
+        width: calc(2 * var(--wordplay-focus-width));
         height: 1em;
         background: var(--wordplay-error);
         animation: spin ease-out calc(var(--animation-factor) * 100ms);
+        cursor: pointer;
     }
 
     @keyframes spin {

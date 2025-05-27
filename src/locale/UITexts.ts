@@ -378,6 +378,10 @@ type UITexts = {
         button: {
             /** How the resolution button should should be described */
             resolution: Template;
+            /** The button to toggle the annotations */
+            toggle: string;
+            /** The button to show the annotation's node in the code */
+            highlight: string;
         };
     };
     output: {
@@ -419,6 +423,8 @@ type UITexts = {
             home: string;
             /** The back button in the docs tile */
             back: string;
+            /** The toggle to expand and collapse concept groups */
+            toggle: string;
         };
         field: {
             /** The search text field */

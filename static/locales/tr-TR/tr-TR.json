@@ -4484,7 +4484,9 @@
             "evaluating": "$~Aman ne güzel, değerlendirelim!",
             "space": "$~Burası uzay! Hiçbir şeyin bu kadar çok şey söyleyebileceğini kim bilebilirdi?",
             "button": {
-                "resolution": "$~Bu çatışmayı çöz"
+                "resolution": "$~Bu çatışmayı çöz",
+                "toggle": "$~açıklamaları göster ve gizle",
+                "highlight": "$~bu kodu editörde göster"
             }
         },
         "output": {
@@ -4541,7 +4543,8 @@
             "nodoc": "$~Ben kimim? Ben neyim? Amacım nedir?",
             "button": {
                 "home": "$~eve dönüş",
-                "back": "$~öncekine dön"
+                "back": "$~öncekine dön",
+                "toggle": "$~Bu kavram grubunu göster ve gizle"
             },
             "field": {
                 "search": "$~Sözcüklerle kavramları arayın"

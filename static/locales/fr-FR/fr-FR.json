@@ -4467,7 +4467,9 @@
             "evaluating": "$~Oh c'est amusant, évaluons !",
             "space": "$~C'est l'espace ! Qui aurait cru que rien ne pouvait en dire autant ?",
             "button": {
-                "resolution": "$~Résoudre ce conflit"
+                "resolution": "$~Résoudre ce conflit",
+                "toggle": "$~afficher et masquer les annotations",
+                "highlight": "$~afficher ce code dans l'éditeur"
             }
         },
         "output": {
@@ -4524,7 +4526,8 @@
             "nodoc": "$~Qui suis-je ? Que suis-je ? Quel est mon but ?",
             "button": {
                 "home": "$~retour à la maison",
-                "back": "$~retour au précédent"
+                "back": "$~retour au précédent",
+                "toggle": "$~afficher et masquer ce groupe de concepts"
             },
             "field": {
                 "search": "$~rechercher des concepts avec des mots"
