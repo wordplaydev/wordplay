@@ -1097,7 +1097,13 @@ export default class Caret {
         }
         // If it's a range, delete the range.
         else {
-            const [start, end] = this.position;
+            // Swap if out of order.
+            let [start, end] = this.position;
+            if (start > end) {
+                const temp = start;
+                start = end;
+                end = temp;
+            }
             if (start === end) {
                 newSource = this.source;
                 newPosition = start;

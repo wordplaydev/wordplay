@@ -26,6 +26,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Gracefully ignore extra inputs to an `Evaluate`.
 - Ensure conflict highlights are rendered after edit.
 - Fixed type exception value type.
+- Fixed bug where type over was reversed.
 
 ## Maintenance
 
