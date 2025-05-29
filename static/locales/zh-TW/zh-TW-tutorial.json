@@ -848,7 +848,7 @@
                         [
                             "Text",
                             "serious",
-                            "太好了！ Of course, 'inside' can be tricky. Say you wrote this. See how there's an opening quote but not a closing one? Well, how am I supposed to know when the text ends?"
+                            "對我來說，要分辨哪裡需要翻譯真的很不容易，假設你寫下這些好了，看！他們只有開始的符號但沒有結束的！我好混亂啊，我不知道要從哪裡開始轉換文本哪裡結束才好？"
 
                         ],
                         ["conflict", "'hello"],
