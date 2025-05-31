@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Updated translation script to permit overriding machine translations with new machine translations.
 - #781: Updated traditional Chinese with correct machine translations.
+- Clear streams resolved to prevent memory leak.
 
 ## 0.6.16
 

@@ -713,17 +713,22 @@ export default class Evaluator {
     ) {
         // Reset the non-constant expression values and any values dependent on reaction.
         if (keepConstants) {
-            for (const [expression] of this.values)
+            for (const [expression, values] of this.values)
                 if (
                     !this.project.isConstant(expression) &&
                     (this.#currentStreamDependencies === null ||
                         this.#currentStreamDependencies.has(expression))
-                )
+                ) {
                     this.values.delete(expression);
+                    for (const value of values)
+                        if (value.value)
+                            this.streamsResolved.delete(value.value);
+                }
         }
-        // Not keeping constants? Reset the value history.
+        // Not keeping constants? Reset histories entirely to avoid memory leaks.
         else {
             this.values.clear();
+            this.streamsResolved.clear();
         }
 
         // Reset the evluation stack.
@@ -732,9 +737,6 @@ export default class Evaluator {
 
         // Didn't recently step to node.
         this.#steppedToNode = false;
-
-        // Reset the streams resolved to avoid memory leaks.
-        if (!keepConstants) this.streamsResolved.clear();
 
         // Reset the stream evaluation count
         this.streamCreatorCount.clear();
