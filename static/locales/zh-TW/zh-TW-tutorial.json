@@ -333,6 +333,12 @@
                             "neutral",
                             "那你覺得呢，導演？我們繼續去和其他字符聊聊吧？"
                         ],
+                        [
+                            "ExpressionPlaceholder",
+                            "excited",
+                            "很高興認識你！"
+
+                        ],
                         ["ExpressionPlaceholder", "excited", "很高興認識你！"],
                         null,
                         ["use", "fit", "DarkVoid"],
@@ -354,6 +360,11 @@
                             "eager",
                             "嘿！無法理解（Unparsable） @UnparsableExpression ？是你嗎？"
                         ],
+                        [
+                            "UnparsableExpression",
+                            "neutral",
+                            "ㄐ%ㄓ$ㄜ|"
+                        ],
                         ["UnparsableExpression", "neutral", "ㄐ%ㄓ$ㄜ|"],
                         null,
                         ["use", "fit", "Symbol", "c iise we dvk"],
@@ -373,6 +384,7 @@
                             "（聽起來他們在海灘上玩了很久，交了新朋友，還練習了什麼都不做。）"
                         ],
                         null,
+
                         ["use", "fit", "Symbol", "ㄩ&ㄧㄅ"],
                         [
                             "FunctionDefinition",
@@ -500,10 +512,14 @@
                             "excited",
                             "我好期待讓你見到評估（Evaluate） @Evaluate 喔！它真的是我最好的朋友，我們幾乎什麼事都一起做。我定什麼規則，它就來玩什麼規則，我們簡直就是天生一對。不過他比我強大多了... @Evaluate？"
                         ],
+
+                        ["Evaluate", "shy", "函式（Function）@FunctionDefinition ？"],
+                        null,
                         [
-                            "Evaluate",
-                            "shy",
-                            "函式（Function）@FunctionDefinition ？"
+                            "FunctionDefinition",
+                            "curious",
+                            "是我！你在哪裡？"
+
                         ],
                         null,
                         ["FunctionDefinition", "curious", "是我！你在哪裡？"],
@@ -596,11 +612,8 @@
                             "而且，函式（Function） @FunctionDefinition ，就是那個可以定義他們的人。"
                         ],
                         null,
-                        [
-                            "FunctionDefinition",
-                            "happy",
-                            "...評估（Evaluate） @Evaluate"
-                        ],
+                        ["FunctionDefinition", "happy", "...評估（Evaluate） @Evaluate"],
+
                         [
                             "Evaluate",
                             "serious",
@@ -781,7 +794,9 @@
                             "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                         ],
                         ["FunctionDefinition", "curious", "$~@Text?"],
+
                         ["Text", "happy", "@Text？"],
+
                         null,
                         [
                             "FunctionDefinition",
@@ -5186,7 +5201,9 @@
                             "@Number 說得對 @Evaluate, 你真的超棒！"
                         ],
                         ["Sequence", "happy", "我每一次看到你都很開心"],
+
                         ["Group", "kind", " 你激勵我把大家聚在一起！"],
+
                         ["Stage", "serious", "你是我們存在的基石！!"],
                         ["None", "serious", "…"],
                         ["Program", "kind", "我就是你創造出來的一切！"],
@@ -5239,6 +5256,7 @@
                         null,
                         ["Program", "happy", "當然可以！"],
                         ["Stage", "kind", "讓我們開始吧——我先！"],
+
                         ["Evaluate", "kind", " 好的，@Stage，你能讓它變暗嗎?"],
                         ["Stage", "kind", "黑暗模式，啟動！"],
                         ["use", "edit", "EvaluateDance1"],
