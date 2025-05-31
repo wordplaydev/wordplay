@@ -886,7 +886,8 @@ const Commands: Command[] = [
             // And if it's parent only has the one child, select it.
             else {
                 const token =
-                    caret.atTokenEnd() && caret.hasSpaceAfter()
+                    (caret.atTokenEnd() && caret.hasSpaceAfter()) ||
+                    caret.atEnd()
                         ? caret.tokenPrior
                         : caret.getToken();
                 if (token !== undefined) {

@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - #722: Give ARIA-label to `CodeView`.
 - #721: Contrast of values in dark mode.
 - #689: Header contrast over error colors in dark mode.
+- #681: Don't allow end token to be selected.
 
 ## 0.6.16
 
