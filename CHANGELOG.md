@@ -3,6 +3,18 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.17
+
+## Fixed
+
+- Updated translation script to permit overriding machine translations with new machine translations.
+- #781: Updated traditional Chinese with correct machine translations.
+- Clear streams resolved to prevent memory leak.
+- #722: Give ARIA-label to `CodeView`.
+- #721: Contrast of values in dark mode.
+- #689: Header contrast over error colors in dark mode.
+- #681: Don't allow end token to be selected.
+
 ## 0.6.16
 
 ## Added

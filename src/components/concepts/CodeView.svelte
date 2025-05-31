@@ -58,6 +58,7 @@
     <div class="code">
         <div
             role="textbox"
+            aria-label={$locales.get(node.getLocalePath()).name}
             aria-readonly="true"
             class:blocks={$blocks}
             class="node"

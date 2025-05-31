@@ -23,7 +23,6 @@
                             "噢，你好，這是你第一次來這裡嗎？",
                             "很高興認識你，我的名字是函式（Function）！ @FunctionDefinition.",
                             "…"
-
                         ],
                         null,
                         [
@@ -48,7 +47,6 @@
                             "我們從來沒想過要停！我們只是失去了靈感...",
                             "我可以是很多東西，比如說，我以前是一種荷蘭的古老貨幣的象徵，那時候我被幾乎全世界的人所熟知並用來交易；更久以前，我也曾經是小寫的拉丁文字。",
                             "但今天，已經沒有多少人知道我了..."
-
                         ],
                         null,
                         [
@@ -140,13 +138,11 @@
                             "FunctionDefinition",
                             "excited",
                             "嘿 程式（Program）@Program！我找到了一個人！好吧，我想是他找到我們。他想成為我們的新導演！"
-
                         ],
                         [
                             "Program",
                             "curious",
                             "真的嗎！？你真的是人嗎？說些人會說的話。"
-
                         ],
                         null,
                         ["fit", "Phrase('📄' entering: Sequence(spin() 1s))"],
@@ -172,7 +168,6 @@
                             "Program",
                             "serious",
                             "好吧。很高興見到你，抱歉，我只是遇到很多人來這裡說「這不適合我」，所以我對嘗試一下就放棄的人有點懷疑。我不想改變自己去迎合別人的期待。但如果你願意了解我和我們，那就一起試試吧！"
-
                         ],
                         null,
                         ["edit", ""],
@@ -180,14 +175,12 @@
                             "FunctionDefinition",
                             "neutral",
                             "你想聊聊你的工作嗎？"
-
                         ],
                         [
                             "Program",
                             "neutral",
                             "當然，基本上，我是表演的組織者",
                             "你可以在那邊看到我，和 *編輯器* @UI/editor 一起，顯示我正在評估的 *舞台* @UI/stage （現在還沒有就是了）。 *導演* — 就是你 — 幫助每個人弄清楚他們要做什麼，寫出要表演的東西和計畫，然後我評估計劃，並把結果放在舞台上讓觀眾看到。"
-
                         ],
                         null,
                         [
@@ -205,7 +198,6 @@
                             "比如說，我只能評估一個 *值* ，然後把他們呈現在舞台上。那個值可以很複雜，只要我知道怎麼顯示它，我就一定會把它呈現出來。",
                             "但如果你給我兩個東西，我只會顯示你給我的最後一個。",
                             "例如，試著在你輸入的文本後加上隨便一個你想要的東西，放在引號裡。"
-
                         ],
                         null,
                         [
@@ -345,7 +337,9 @@
                             "ExpressionPlaceholder",
                             "excited",
                             "很高興認識你！"
+
                         ],
+                        ["ExpressionPlaceholder", "excited", "很高興認識你！"],
                         null,
                         ["use", "fit", "DarkVoid"],
                         [
@@ -371,6 +365,7 @@
                             "neutral",
                             "ㄐ%ㄓ$ㄜ|"
                         ],
+                        ["UnparsableExpression", "neutral", "ㄐ%ㄓ$ㄜ|"],
                         null,
                         ["use", "fit", "Symbol", "c iise we dvk"],
                         [
@@ -389,7 +384,8 @@
                             "（聽起來他們在海灘上玩了很久，交了新朋友，還練習了什麼都不做。）"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "$ㄩ&ㄧ@ㄅ"],
+
+                        ["use", "fit", "Symbol", "ㄩ&ㄧㄅ"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -516,13 +512,17 @@
                             "excited",
                             "我好期待讓你見到評估（Evaluate） @Evaluate 喔！它真的是我最好的朋友，我們幾乎什麼事都一起做。我定什麼規則，它就來玩什麼規則，我們簡直就是天生一對。不過他比我強大多了... @Evaluate？"
                         ],
+
                         ["Evaluate", "shy", "函式（Function）@FunctionDefinition ？"],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
                             "是我！你在哪裡？"
+
                         ],
+                        null,
+                        ["FunctionDefinition", "curious", "是我！你在哪裡？"],
                         [
                             "Evaluate",
                             "shy",
@@ -613,6 +613,7 @@
                         ],
                         null,
                         ["FunctionDefinition", "happy", "...評估（Evaluate） @Evaluate"],
+
                         [
                             "Evaluate",
                             "serious",
@@ -750,7 +751,6 @@
                             "FunctionDefinition",
                             "neutral",
                             "你問什麼是 *值（Value）* ？ 歐抱歉，我還沒解釋過這個，嗯...，怎麼解釋呢...你知道什麼是資料嗎？像是數字和文字？值（Value）是任何這些東西。值（Value）可以小到一個數字，也可以大到舞台上的整個場景，充滿了跳舞和移動的角色。有些值（Value）甚至可以是由許多其他值（Value）組成的，就像我們會用「點心」代表很多種不同的食物一樣！"
-
                         ],
                         null,
                         ["fit", "Group(Stack() [Phrase('#') Phrase('\"\"')])"],
@@ -759,7 +759,6 @@
                             "neutral",
                             "每個值（Value）都有一個 *類型* （Type）。例如，\\1\\是是我們的朋友 @Number ；\\'你好'\\ 是我們的另一個朋友 @Text。類型（Type）對我們設計的舞台十分重要！因為他們可以幫助我們了解我們創造的值（Value）是什麼類型。",
                             "了解類型（Type）可以幫助我們發現問題，比如說，當我試著將這兩個 \\'你好' + 1\\ 加在一起是沒有意義的，對吧？我們無法理解 @Text 要怎麼和 @Number 相加。"
-
                         ],
                         null,
                         [
@@ -770,7 +769,6 @@
                             "FunctionDefinition",
                             "curious",
                             "*表達式（Expression）* 是我們創建一個值（Value）的方式。所有的表達式都是經由我評估、計算後創建的值，像是如果你問我1+1大於2嗎？我在經過計算和評估後，我會給你一個值（Value）：正確（True）！但根據你問我的問題不同，我會給你的表達式（Expression）也不一樣。"
-
                         ],
                         null,
                         ["use", "fit", "Symbol", "🤔"],
@@ -796,23 +794,19 @@
                             "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                         ],
                         ["FunctionDefinition", "curious", "$~@Text?"],
-                        [
-                            "Text",
-                            "happy",
-                            "@Text？"
-                        ],
+
+                        ["Text", "happy", "@Text？"],
+
                         null,
                         [
                             "FunctionDefinition",
                             "happy",
                             "喔，@Text，好久不見啦！我最近都在做夢還有想事情。我剛剛才去看了 @Evaluate，一個很久沒見的朋友。我正在把他介紹給我們的新導演呢！"
-
                         ],
                         [
                             "Text",
                             "eager",
                             "哇，能見到你真是太棒了！我看得出來你是一個有創意、愛問問題的人，應該有很多有趣的想法。跟你說喔，我超級喜歡表演！不過你知道我最喜歡的是什麼嗎？是*文字*！各種文字——筆畫多的、筆畫少的、好聽的、好看的，我最喜歡和文字一起玩了！"
-
                         ],
                         null,
                         [
@@ -824,7 +818,6 @@
                             "Text",
                             "serious",
                             "我在這邊做一件簡單但重要的事情：我代表一連串的符號，也就是文字！你還記得你剛剛打出來的 \\「你好」\\ 這幾個字嗎？那就是我！還有我的朋友 \\「你」\\、 \\「好」\\。這就是我，文本 @Text，一種可以變成你想要的任何文字的表達式。"
-
                         ],
                         null,
                         [
@@ -832,7 +825,6 @@
                             "serious",
                             "試試看，在這片空白 @Program 裡寫一段文字？",
                             "你也可以用任何你喜歡的引號來包住它們——單引號 \\「」\\、 雙引號 \\『』\\、書名號 \\«»\\、括號 \\（）\\，也可以用任何你喜歡的語言！唯一的規則是：你用什麼符號開始，就要用相同的符號結束。裡面的東西，我就會幫你變成的文本！"
-
                         ],
                         ["edit", "''"],
                         null,
@@ -842,14 +834,12 @@
                             "如果你現在用的裝置不能打出你想要的符號也沒關係。你可以去 @UI/directory 這個 目錄 找找看，那裡面有整個世界裡的所有符號。",
                             "你可以去 @UI/directory 這個 目錄 找找看，那裡面有整個詩篇裡的所有符號。",
                             "比如你想找一個箭頭，只要打「arrow」這個英文單字，就會出現好多種箭頭讓你選，不過可惜的是，這些名字現在還都是英文的，所以你可能要會一點英文才能找得到 :（ "
-
                         ],
                         null,
                         [
                             "Text",
                             "serious",
                             "對我來說，要分辨哪裡需要翻譯真的很不容易，假設你寫下這些好了，看！他們只有開始的符號但沒有結束的！我好混亂啊，我不知道要從哪裡開始轉換文本哪裡結束才好？"
-
                         ],
                         ["conflict", "'hello"],
                         null,
@@ -5105,25 +5095,19 @@
                         ],
                         [
                             "FunctionDefinition",
-                            "surprised", 
+                            "surprised",
                             "我剛剛在帶我們的新導演四處看看……"
-
                         ],
                         null,
                         [
                             "fit",
                             "Stage([Phrase('😢')] background: Color(0% 0 0°))"
                         ],
-                        [
-                            "Evaluate",
-                            "shy",
-                            "我沒想到你會花這麼長的時間…"
-                        ],
+                        ["Evaluate", "shy", "我沒想到你會花這麼長的時間…"],
                         [
                             "FunctionDefinition",
                             "sad",
                             "… @Evaluate, 我知道你想我了。我也想你。但這很重要：沉默被打破了，我們有了新的導演…… 我知道你需要我，但我也有自己的事要做。"
-
                         ],
                         null,
                         [
@@ -5134,13 +5118,11 @@
                             "Evaluate",
                             "sad",
                             "我們晚點再談這件事吧。你還有事要做。"
-
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
                             "我覺得我們現在就需要談談。我們不能一直陷入這個循環。"
-
                         ],
                         null,
                         [
@@ -5151,13 +5133,11 @@
                             "Evaluate",
                             "curious",
                             "什麼循環？我愛你！這怎麼會是循環呢？"
-
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
                             "我負責建立函式 (Function)，你負責評估 (Evaluate)，這是我們的方式。但我們之間不應該只是你需要我。和大家重聚讓我明白，我們需要空間做自己，也需要學會愛自己。我沒辦法給你所有的愛，有些愛必須來自你自己。"
-
                         ],
                         null,
                         [
@@ -5169,7 +5149,6 @@
                             "FunctionDefinition",
                             "angry",
                             " 不，我不是這個意思……我的意思是，我們的關係中兩個人都很重要。我需要說出我的需求，你也要說出你的需求，然後我們才能真正愛對方，愛彼此的獨特之處。你需要什麼？你喜歡自己哪一點？"
-
                         ],
                         null,
                         [
@@ -5181,7 +5160,6 @@
                             "FunctionDefinition",
                             "kind",
                             "我愛你，@Evaluate。但我希望你也愛你自己。我對我們的世界重新甦醒感到興奮，也期待我們能再次在一起，但你需要找到自己，找到你的需求，找到你的目標。我不能成為你的唯一目標。"
-
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
@@ -5189,7 +5167,6 @@
                             "FunctionDefinition",
                             "sad",
                             "我需要一些空間。對不起，導演朋友。也許 @Evaluate 可以幫忙結束這場歡迎派對。"
-
                         ],
                         null,
                         ["Evaluate", "shy", "… 嗨."],
@@ -5198,7 +5175,6 @@
                             "Evaluate",
                             "shy",
                             "你學到了很多嗎？@FunctionDefinition 知道好多事情。"
-
                         ],
                         null,
                         [
@@ -5216,7 +5192,6 @@
                             "Number",
                             "serious",
                             "1) 你基本上掌控了我們的演出，2) @Evaluate 沒有你就什麼都不是，3) 你能把東西完全轉變成新的數值，4) 你有超多不同的形態，5) 你讓我們所有人都找到意義，6) 我們都仰賴你來指引方向……"
-
                         ],
                         null,
                         ["fit", "Stage([] background: Color(20% 0 0°))"],
@@ -5226,11 +5201,9 @@
                             "@Number 說得對 @Evaluate, 你真的超棒！"
                         ],
                         ["Sequence", "happy", "我每一次看到你都很開心"],
-                        [
-                            "Group",
-                            "kind",
-                            " 你激勵我把大家聚在一起！" 
-                        ],
+
+                        ["Group", "kind", " 你激勵我把大家聚在一起！"],
+
                         ["Stage", "serious", "你是我們存在的基石！!"],
                         ["None", "serious", "…"],
                         ["Program", "kind", "我就是你創造出來的一切！"],
@@ -5241,18 +5214,9 @@
                             "StructureDefinition",
                             "kind",
                             " 沒有你，我們是一團混亂。"
-
                         ],
-                        [
-                            "Bind",
-                            "happy",
-                            "如果沒有你，我還能命名什麼呢？"
-                        ],
-                        [
-                            "Conditional",
-                            "curious",
-                            "沒有你，我們還能做什麼？"
-                        ],
+                        ["Bind", "happy", "如果沒有你，我還能命名什麼呢？"],
+                        ["Conditional", "curious", "沒有你，我們還能做什麼？"],
                         ["Block", "kind", "… 你就是 @Evaluate！"],
 
                         null,
@@ -5273,11 +5237,7 @@
                         ["fit", "Stage([] background: Color(80% 0 0°))"],
                         ["FunctionDefinition", "happy", "讓我們跳舞吧！"],
                         ["Evaluate", "sad", "@FunctionDefinition… 我太……"],
-                        [
-                            "FunctionDefinition",
-                            "happy",
-                            "你應該來帶領我們。"
-                        ],
+                        ["FunctionDefinition", "happy", "你應該來帶領我們。"],
 
                         null,
                         ["Evaluate", "shy", "… 我做不到……"],
@@ -5296,12 +5256,8 @@
                         null,
                         ["Program", "happy", "當然可以！"],
                         ["Stage", "kind", "讓我們開始吧——我先！"],
-                        [
-                            "Evaluate",
-                            "kind",
-                            " 好的，@Stage，你能讓它變暗嗎?"
 
-                        ],
+                        ["Evaluate", "kind", " 好的，@Stage，你能讓它變暗嗎?"],
                         ["Stage", "kind", "黑暗模式，啟動！"],
                         ["use", "edit", "EvaluateDance1"],
                         null,
@@ -5328,11 +5284,7 @@
                             "happy",
                             "太棒了！嗯……，我們還需要站上舞台。@Text，你可以幫我們列出所有人嗎？我們會把名單轉成\\角色。"
                         ],
-                        [
-                            "Text",
-                            "excited",
-                            "沒問題。這樣可以嗎？"
-                        ],
+                        ["Text", "excited", "沒問題。這樣可以嗎？"],
 
                         ["use", "conflict", "EvaluateDance4"],
                         null,
@@ -5360,7 +5312,6 @@
                             "Evaluate",
                             "confused",
                             "哦……我們在哪裡？哦！我們需要顏色。@Pose，我們能變成白色嗎？"
-
                         ],
                         ["use", "edit", "EvaluateDance7"],
                         null,
@@ -5368,7 +5319,6 @@
                             "Evaluate",
                             "surprised",
                             "糟了，我們全擠在一起了！我們需要起始位置。來試試 @Random 吧？"
-
                         ],
                         ["use", "edit", "EvaluateDance8"],
                         null,
@@ -5376,13 +5326,11 @@
                             "Evaluate",
                             "happy",
                             "太棒了！現在我們需要動起來。@Reaction，能給我們一個節拍嗎？比如 \\0.75 \\秒？"
-
                         ],
                         [
                             "Reaction",
                             "kind",
                             "我能調整它！我們需要一個 @Time stream，還需要改變角色的狀態。但下一個值應該是什麼呢？"
-
                         ],
                         ["use", "edit", "EvaluateDance9"],
                         null,
@@ -5390,13 +5338,8 @@
                             "Evaluate",
                             "eager",
                             "看來我們需要一個方法，讓我們在每個節拍上移動。@StructureDefinition，我們能創建一個選擇新位置和旋轉的 移動函式嗎？"
-
                         ],
-                        [
-                            "StructureDefinition",
-                            "sad",
-                            "我不知道怎麼寫函式……"
-                        ],
+                        ["StructureDefinition", "sad", "我不知道怎麼寫函式……"],
                         null,
                         ["Evaluate", "sad", "…"],
                         ["FunctionDefinition", "happy", "我可以幫你。"],
@@ -5405,20 +5348,17 @@
                             "FunctionDefinition",
                             "happy",
                             "有時候……你需要知道自己有多棒。而有時，這意味著我要放手。看看你正在創造的東西……"
-
                         ],
                         [
                             "Evaluate",
                             "happy",
                             " 我……我真的在創造些什麼。我們在創造些什麼……但沒有你，我們辦不到。你願意幫忙嗎？"
-
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
                             "當然！ 一個 \\移動\\ 函式，馬上來。我來開個頭，你來完成它……"
-
                         ],
                         ["use", "edit", "EvaluateDance10"],
                         null,
@@ -5449,24 +5389,18 @@
                             "excited",
                             "我們跳舞了！我們真的在跳舞！我們成功了！"
                         ],
-                        [
-                            "FunctionDefinition",
-                            "kind",
-                            "我們忘了一個人……"
-                        ],
+                        ["FunctionDefinition", "kind", "我們忘了一個人……"],
                         ["Evaluate", "excited", "誰?"],
                         [
                             "FunctionDefinition",
                             "kind",
                             "我們的導演！他們應該也一起跳舞。"
-
                         ],
                         null,
                         [
                             "Evaluate",
                             "excited",
                             "哦對！當然！不如讓他們來製作音樂吧？@Phrase，你能監聽 @Volume，並將它連結到你的 @Color/lightness 和 @Color/chroma 嗎？這樣當我們的導演發聲時，我們就會閃耀出炙熱的白光！"
-
                         ],
                         ["Phrase", "kind", "好主意！"],
                         ["use", "edit", "EvaluateDance14"],
@@ -5490,7 +5424,6 @@
                             "FunctionDefinition",
                             "kind",
                             "你做到了，@Evaluate！這是你的願景。"
-
                         ],
                         [
                             "Evaluate",
@@ -5515,7 +5448,6 @@
                             "FunctionDefinition",
                             "excited",
                             "那麼，閃耀的新導演，我們應該說些什麼呢？"
-
                         ]
                     ]
                 }

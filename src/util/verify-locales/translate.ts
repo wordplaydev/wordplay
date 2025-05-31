@@ -1,4 +1,6 @@
 import Translate from '@google-cloud/translate';
+import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
 import { ConceptRegExPattern, MentionRegEx } from '@parser/Tokenizer';
 import type Log from './Log';
 
@@ -7,8 +9,8 @@ export const GoogleTranslate = new Translate.v2.Translate();
 export default async function translate(
     log: Log,
     text: string[],
-    source: string,
-    target: string,
+    sourceLocale: string,
+    targetLocale: string,
 ): Promise<string[] | undefined> {
     // Split the strings into groups of 100, since Google Translate only allows 128 at a time.
     const sourceStringsBatches: string[][] = [];
@@ -21,8 +23,8 @@ export default async function translate(
             // Create a Google Translate client
             // Translate the strings
             const [translatedBatch] = await GoogleTranslate.translate(batch, {
-                from: source,
-                to: target,
+                from: sourceLocale,
+                to: targetLocale,
             });
             translations = [
                 ...translations,
@@ -43,13 +45,30 @@ export default async function translate(
                         ),
                     ),
             ];
-            log.good(2, 'Translated ' + batch.length + ' strings...');
+            log.good(
+                2,
+                `Translated ${batch.length} strings from ${sourceLocale} to ${targetLocale} ...`,
+            );
         } catch (error) {
             console.error(error);
             return undefined;
         }
     }
     return translations;
+}
+
+export async function getGoogleTranslateTargetLocale(
+    language: LanguageCode,
+    regions: RegionCode[],
+): Promise<string> {
+    const [languages] = await GoogleTranslate.getLanguages();
+    const locales = Array.from(languages)
+        .map((l) => l.code)
+        .filter((l) => l.startsWith(language));
+    const targetRegion = regions.find((r) =>
+        locales.includes(`${language}-${r}`),
+    );
+    return `${language}${targetRegion ? `-${targetRegion}` : ''}`;
 }
 
 export const ConceptPattern = new RegExp(ConceptRegExPattern, 'ug');
