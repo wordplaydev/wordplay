@@ -11,7 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - #781: Updated traditional Chinese with correct machine translations.
 - Clear streams resolved to prevent memory leak.
 - #722: Give ARIA-label to `CodeView`.
-- #721: Fix contrast of values in dark mode.
+- #721: Fix contrast of values in dark
 
 ## 0.6.16
 
