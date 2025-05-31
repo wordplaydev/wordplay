@@ -50,7 +50,9 @@ if (!LocaleValidator(DefaultLocale)) {
 }
 
 // We're we asked to translate? Let's see if there was a specific locale we're focusing on.
-const TranslationRequested = process.argv.includes('translate');
+const TranslationRequested =
+    process.argv[2] === 'translate' || process.argv[2] === 'override';
+const OverrideMachineTranslations = process.argv[2] === 'override';
 const FocalLocale = process.argv[3] ?? null;
 
 const FocalLanguage = FocalLocale ? getLocaleLanguage(FocalLocale) : null;
@@ -91,6 +93,7 @@ async function handleLocale(
         locale,
         localeText as LocaleText,
         TranslationRequested,
+        OverrideMachineTranslations,
         revisedStrings,
         globals,
     );
@@ -139,6 +142,7 @@ async function handleLocale(
             revisedLocale,
             currentTutorial,
             TranslationRequested,
+            OverrideMachineTranslations,
         );
 
         // If the tutorial was revised, write the results.

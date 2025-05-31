@@ -3,6 +3,13 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.17
+
+## Fixed
+
+- Updated translation script to permit overriding machine translations with new machine translations.
+- #781: Updated traditional Chinese with correct machine translations.
+
 ## 0.6.16
 
 ## Added

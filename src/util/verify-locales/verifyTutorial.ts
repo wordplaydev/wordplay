@@ -26,7 +26,7 @@ import { getKeyTemplatePairs } from './LocalePath';
 import type Log from './Log';
 import TutorialSchema, { DefaultTutorial } from './TutorialSchema';
 import Validator from './Validator';
-import translate, { GoogleTranslate } from './translate';
+import translate, { getGoogleTranslateTargetLocale } from './translate';
 
 /** Load, validate, and check the tutorial, and optionally translate. */
 export async function verifyTutorial(
@@ -34,6 +34,7 @@ export async function verifyTutorial(
     locale: LocaleText,
     tutorial: Tutorial,
     translate: boolean,
+    override: boolean,
 ): Promise<Tutorial | undefined> {
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
@@ -52,7 +53,7 @@ export async function verifyTutorial(
     tutorial = await checkTutorial(log, locale, tutorial as Tutorial);
 
     // Translate if requested.
-    if (translate) tutorial = await translateTutorial(log, tutorial);
+    if (translate) tutorial = await translateTutorial(log, tutorial, override);
 
     return tutorial;
 }
@@ -250,14 +251,18 @@ export function createUnwrittenTutorial(): Tutorial {
 }
 
 /** Given a source tutorial and a current target tutorial, translate untranslated tutorial text. */
-async function translateTutorial(log: Log, tutorial: Tutorial) {
+async function translateTutorial(
+    log: Log,
+    tutorial: Tutorial,
+    override: boolean,
+): Promise<Tutorial> {
     // Get the key/value pairs to translate.
     let pairs: LocalePath[] = getTranslatableTutorialPairs(tutorial);
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
-            ? isUnwritten(value)
-            : value.some((s) => isUnwritten(s)),
+            ? isUnwritten(value) || (override && isAutomated(value))
+            : value.some((s) => isUnwritten(s) || (override && isAutomated(s))),
     );
 
     if (unwritten.length === 0) return tutorial;
@@ -265,7 +270,7 @@ async function translateTutorial(log: Log, tutorial: Tutorial) {
     // Copy the target tutorial so we can revise it.
     const revised = JSON.parse(JSON.stringify(tutorial)) as Tutorial;
 
-    // Extract strings that need to be translated from source
+    // Extract strings that need to be translated from source, but don't translate unwritten strings.
     const sourceStrings = unwritten
         .map((path) => {
             const match = path.resolve(tutorial);
@@ -277,14 +282,10 @@ async function translateTutorial(log: Log, tutorial: Tutorial) {
         .flat();
 
     // See if the region of the target language is supported and append it if so.
-    const [languages] = await GoogleTranslate.getLanguages();
-    const locales = Array.from(languages)
-        .map((l) => l.code)
-        .filter((l) => l.startsWith(tutorial.language));
-    const targetRegion = tutorial.regions.find((r) =>
-        locales.includes(`${tutorial.language}-${r}`),
+    const targetLocale = await getGoogleTranslateTargetLocale(
+        tutorial.language,
+        tutorial.regions,
     );
-    const targetLocale = `${tutorial.language}${targetRegion ? `-${targetRegion}` : ''}`;
     const sourceLocale = 'en-US';
 
     log.say(
