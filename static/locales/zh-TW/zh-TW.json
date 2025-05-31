@@ -4684,14 +4684,6 @@
                     "idea": {
                         "description": "您描述的缺陷",
                         "placeholder": "您想做什麼但是做不到？"
-                    }
-                },
-                "subheader": {
-                    "defect": "缺陷",
-                    "idea": "主意"
-
-                        "description": "$~您的缺陷描述",
-                        "placeholder": "$~你想做但做不到的事是什麼？"
                     },
                     "comment": {
                         "description": "$~評論",
@@ -4706,7 +4698,6 @@
                     "defect": "$~缺點",
                     "idea": "$~主意",
                     "moderator": "$~主持人"
-
                 },
                 "prompt": {
                     "defect": "沒有看到您發現的缺陷？請在此處回報。",
@@ -4716,7 +4707,7 @@
                     "login": "您必須登錄才能提供反饋",
                     "submit": "$無法提交反饋",
                     "load": "無法下載反饋",
-                    "empty": "目前沒有可顯示的反饋"
+                    "empty": "目前沒有可顯示的反饋",
                     "url": "$~这不是有效的 GitHub URL。"
                 }
             }
