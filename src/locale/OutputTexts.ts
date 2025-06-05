@@ -1,4 +1,4 @@
-import type { NameAndDoc, Template, NameText } from './LocaleText';
+import type { NameAndDoc, NameText, Template } from './LocaleText';
 import type { ExceptionText } from './NodeTexts';
 
 export type TypeTexts = {
@@ -199,6 +199,8 @@ type OutputTexts = {
         count: NameAndDoc;
         /** The style to use to complete the sequence */
         style: NameAndDoc;
+        /** A description of the animation sequence for accessibility */
+        description: NameAndDoc;
     };
     /** A color in LCH spaces */
     Color: NameAndDoc & {

@@ -7492,6 +7492,10 @@
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The style to use to complete the sequence"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A description of the animation sequence for accessibility"
                 }
               },
               "required": [
