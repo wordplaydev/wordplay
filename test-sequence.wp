@@ -1,0 +1,28 @@
+/* Testing Sequence description feature */
+
+/* Test 1: Backwards compatibility - existing Sequence should still work */
+Stage(
+    Phrase('🐱' resting: Sequence({
+        0%: Pose(rotation: 0°)
+        50%: Pose(rotation: 180°)
+        100%: Pose(rotation: 360°)
+    } 2s))
+)
+
+/* Test 2: New description parameter - should work when provided */
+Stage(
+    Phrase('🐶' resting: Sequence({
+        0%: Pose(offset: Place(0m))
+        50%: Pose(offset: Place(0.5m))
+        100%: Pose(offset: Place(0m))
+    } 1s "straight" 1x "bouncing up and down"))
+)
+
+/* Test 3: Empty description - should work */
+Stage(
+    Phrase('🐭' resting: Sequence({
+        0%: Pose(scale: 1.0)
+        50%: Pose(scale: 1.2)
+        100%: Pose(scale: 1.0)
+    } 0.8s "straight" 1x ""))
+)
