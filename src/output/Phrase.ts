@@ -361,14 +361,30 @@ export default class Phrase extends Output {
         if (this._description === undefined) {
             const text = this.getShortDescription(locales);
 
-            // Include sequence description if available
-            let restingDescription = '';
-            if (this.resting instanceof Pose) {
-                restingDescription = this.resting.getDescription(locales);
-            } else if (this.resting instanceof Sequence) {
-                restingDescription = this.resting.getDescription(locales);
+            // Include sequence description if available, checking all animation states
+            let animationDescription = '';
+
+            // Check entering sequence first (most likely to have description)
+            if (this.entering instanceof Sequence) {
+                animationDescription = this.entering.getDescription(locales);
+            }
+            // Fall back to resting sequence
+            else if (this.resting instanceof Sequence) {
+                animationDescription = this.resting.getDescription(locales);
+            }
+            // Check moving sequence
+            else if (this.moving instanceof Sequence) {
+                animationDescription = this.moving.getDescription(locales);
+            }
+            // Check exiting sequence
+            else if (this.exiting instanceof Sequence) {
+                animationDescription = this.exiting.getDescription(locales);
+            }
+            // Fall back to pose descriptions
+            else if (this.resting instanceof Pose) {
+                animationDescription = this.resting.getDescription(locales);
             } else {
-                restingDescription = this.pose.getDescription(locales);
+                animationDescription = this.pose.getDescription(locales);
             }
 
             this._description = locales
@@ -378,7 +394,7 @@ export default class Phrase extends Output {
                     this.name instanceof TextLang ? this.name.text : undefined,
                     this.size,
                     this.face,
-                    restingDescription,
+                    animationDescription,
                 )
                 .toText()
                 .trim();
