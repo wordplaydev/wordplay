@@ -1,0 +1,102 @@
+沙梨 (Pears)
+=== start/en
+¶This is an interactive short story. It defines several
+distinct scenes and moves between them based on different
+interactions, like clicks, collisions, and other actions.
+Part of the fun of experiencing the story is discovering the
+interactions necessary to advance the story.¶
+exposition: [
+		Phrase(`My Dad wanted to leave.` place: 📍(-9m 0m))
+	]
+
+conflict: [
+		Phrase(`"Mom", we gotta go.` place: Place(-8m 7m))
+		Phrase(`/"Take go home."/` place: Place(1m 4m))
+		Phrase(`"Mom we don't want anything!"` place: Place(-8m 1m))
+		Phrase(`"Take go home!"` size: 2m place: Place(-6m -4m) resting: Sequence(shake()))
+	]
+
+risingAction1: [
+		Phrase(`My 炮炮👵🏽 stepped into the backyard` place: Place(-9m 7m))
+		Phrase(`I followed her, curious` place: Place(-6m 4m))
+		Phrase(`/"沙梨🍐, take go home!"/` place: Place(-3m 1m))
+		Phrase(`👵🏽` name: 'paupau' size: 2m matter: Matter() place: Place(6m -6m))
+		Phrase(`👧🏻` name: 'me' size: 1m matter: Matter() place: Placement(Place(-8m -6m)))
+	]
+
+risingAction2: [
+		Phrase(`She stopped at a small tree.` place: Place(-9m 6m))
+		Phrase(`On it tangled dozens of bright yellow 沙梨` place: Place(-9m 1m) wrap: 10m)
+		Phrase(`"Mom, we don't want any pears."` size: .75m place: Place(-4m 0m))
+		Phrase(`/I wanted a pear./` size: 2m place: Place(-8m -3m))
+		Phrase("🍐" size: 2m place: Place(-1m -7m) name: 'pear' selectable: ⊤)
+	]
+
+¶We determine places in advance so we can make them fall from the same spot.¶
+places: (6 → []).translate(ƒ() Place(Random(-2m 2m) Random(-3m -5m)))
+climax: [
+		Phrase(`She kneeled in the dirt.` place: Place(-9m 6m))
+		Phrase(`Grabbed a knife` place: Place(-9m 4m))
+		Phrase(`And carefully cut six` place: Place(-9m 2m))
+		Phrase(`Dropping them into her basket below` place: Place(-9m 0m))
+		Phrase("🧺" size: 4m place: Place(-2m -12m))
+		Phrase("🌳" name: "tree" size: 5m place: Place(-3m -7m) selectable: ⊤)
+		:places.translate(
+			ƒ(place index)
+				Phrase(
+					"🍐"
+					name: "pear\index\"
+					place: Choice() = 'tree' ? Motion(place) place
+				)
+		)
+		Phrase("🔪" place: Pointer())
+	]
+
+resolution: [
+		Phrase(`She carried them to me` place: Place(-9m 6m))
+		Phrase(`Kneeled down to me` place: Place(-8m 4m))
+		Phrase(`And handed me the basket` place: Place(-7m 2m))
+		Phrase(`/"Take go home"/` place: Place(0m -2m))
+	]
+
+credits: [
+		Phrase(`by /Amy J. Ko/`)
+	]
+
+story: [
+		exposition
+		conflict
+		risingAction1
+		risingAction2
+		climax
+		resolution
+		credits
+	]
+
+¶Keep track of clicks and taps¶
+click: ∆ Button()
+¶Keep track of how long after the tree is clicked¶
+timeAfterCut: 0ms … Choice() = 'tree' … Time(1000ms)
+¶Track when we reach Pau Pau¶
+atPauPau: ∆ Collision('me')
+¶Track when the pear is chosen¶
+chosePear: Choice() = 'pear'
+¶Change the segment based on the current segment¶
+segment•#:
+	1 …
+	. ???
+		1: click
+		2: click
+		3: atPauPau
+		4: chosePear
+		5: timeAfterCut > 1500ms
+		6: ∆ Button()
+		⊥
+		… segment + 1
+
+Stage(
+	story[segment]
+	face: 'Arvo'
+	place: Place(0m 0m -20m)
+	frame: Rectangle(-10m 10m 10m -10m)
+)

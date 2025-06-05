@@ -227,6 +227,10 @@ type UITexts = {
             selectOutput: string;
             /** The button shown when a list of code is ellided; clicking it shows the hidden code. */
             expandSequence: string;
+            /** The button tooltip for expanding the controls accordion */
+            expandControls: string;
+            /** The button tooltip for collapsing the controls accordion */
+            collapseControls: string;
         };
         menu: {
             /** How to describe the autocomplete menu */
