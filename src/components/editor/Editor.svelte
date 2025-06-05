@@ -1,9 +1,5 @@
 <script module lang="ts">
     const SHOW_OUTPUT_IN_PALETTE = false;
-
-    // Add the large deletion notification store inline
-    import { writable } from 'svelte/store';
-    export const largeDeletionNotification = writable<string | null>(null);
 </script>
 
 <script lang="ts">
@@ -23,6 +19,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import { onMount, tick, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
     import {
         DB,
         Projects,
@@ -111,6 +108,8 @@
         updateConflicts: (source: Source, conflicts: Conflict[]) => void;
         /** Whether the code was revised by another creator */
         overwritten?: boolean;
+        /** Function to set large deletion notification for this editor */
+        setLargeDeletionNotification?: (message: string | null) => void;
     }
 
     let {
@@ -127,6 +126,7 @@
         setOutputPreview,
         updateConflicts,
         overwritten = false,
+        setLargeDeletionNotification,
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -395,7 +395,7 @@
 
     function handlePointerDown(event: PointerEvent) {
         // Clear any existing large deletion notification when user clicks to clear selection
-        largeDeletionNotification.set(null);
+        setLargeDeletionNotification?.(null);
         event.preventDefault();
         event.stopPropagation();
 
@@ -972,7 +972,7 @@
         if (edit === undefined) return;
 
         // Clear any existing large deletion notification since a new edit has started
-        largeDeletionNotification.set(null);
+        setLargeDeletionNotification?.(null);
         const previousSource = source;
 
         const navigation = edit instanceof Caret;
@@ -1044,7 +1044,7 @@
                 newSource.getCode().getLength() >=
                 40
         ) {
-            largeDeletionNotification.set(
+            setLargeDeletionNotification?.(
                 'Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.',
             );
         }
@@ -1174,7 +1174,7 @@
             event.key.toLowerCase() === 'z'
         ) {
             // Clear the large deletion notification if user performs undo
-            largeDeletionNotification.set(null);
+            setLargeDeletionNotification?.(null);
         }
         // If we receive a keyboard event that says
         if (composing && !event.isComposing) handleCompositionEnd();
