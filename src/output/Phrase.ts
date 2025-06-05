@@ -30,7 +30,7 @@ import type Place from './Place';
 import type { DefinitePose } from './Pose';
 import Pose from './Pose';
 import type RenderContext from './RenderContext';
-import type Sequence from './Sequence';
+import Sequence from './Sequence';
 import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
 import TextLang from './TextLang';
 import { getOutputInput } from './Valued';
@@ -343,6 +343,31 @@ export default class Phrase extends Output {
         if (this._description === undefined) {
             const text = this.getShortDescription();
 
+            // Check for sequence descriptions in animation states
+            let animationDescription = '';
+            if (this.entering && this.entering.getDescription) {
+                const desc = this.entering.getDescription(locales);
+                if (desc) animationDescription = desc;
+            }
+            if (!animationDescription && this.resting && this.resting.getDescription) {
+                const desc = this.resting.getDescription(locales);
+                if (desc) animationDescription = desc;
+            }
+            if (!animationDescription && this.moving && this.moving.getDescription) {
+                const desc = this.moving.getDescription(locales);
+                if (desc) animationDescription = desc;
+            }
+            if (!animationDescription && this.exiting && this.exiting.getDescription) {
+                const desc = this.exiting.getDescription(locales);
+                if (desc) animationDescription = desc;
+            }
+
+            // Use animation description if available, otherwise fallback to pose description
+            const poseDescription = animationDescription ||
+                (this.resting instanceof Pose
+                    ? this.resting.getDescription(locales)
+                    : this.pose.getDescription(locales));
+
             this._description = locales
                 .concretize(
                     (l) => l.output.Phrase.defaultDescription,
@@ -350,9 +375,7 @@ export default class Phrase extends Output {
                     this.name instanceof TextLang ? this.name.text : undefined,
                     this.size,
                     this.face,
-                    this.resting instanceof Pose
-                        ? this.resting.getDescription(locales)
-                        : this.pose.getDescription(locales),
+                    poseDescription,
                 )
                 .toText()
                 .trim();

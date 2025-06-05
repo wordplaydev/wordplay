@@ -7538,6 +7538,10 @@
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The style to use to complete the sequence"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the sequence for screen readers"
                 }
               },
               "required": [
@@ -7546,7 +7550,8 @@
                 "duration",
                 "names",
                 "poses",
-                "style"
+                "style",
+                "description"
               ],
               "type": "object"
             },

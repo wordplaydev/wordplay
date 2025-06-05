@@ -1698,9 +1698,9 @@
         },
         "Text": {
             "doc": [
-                "I can be any text you like, from any language, and using any of these symbols opening and closing symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
+                "I can be any text you like, from any language, and using any of these symbols opening and closing symbols: \\\"\"\\, \\"”\\, \\„"”\\, \\''\\, \\'’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
                 "To illustrate, consider these beautiful phrases",
-                "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
+                "\\"There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.\\"",
                 "\\『一日三秋』\\",
                 "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
                 "\\'hello'/en'hola'/es-MX\\",
@@ -3915,6 +3915,10 @@
             "count": {
                 "doc": "How many times the sequence should repeat before it is done. This is really helpful for when I enter stage, move on stage, or exit on stage, but when for a rest sequence, it's ignored, since I can rest forever.",
                 "names": "count"
+            },
+            "description": {
+                "doc": "An optional description of this sequence for screen readers, describing what the animation looks like to people who can't see it.",
+                "names": "description"
             }
         },
         "Place": {

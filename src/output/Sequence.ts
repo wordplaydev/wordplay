@@ -44,6 +44,7 @@ export function createSequenceType(locales: Locales) {
             .slice(1)
             .map((n) => `${n}x`)
             .join('|')}: 1x
+        ${getBind(locales, (locale) => locale.output.Sequence.description)}•"": ""
     )
 `);
 }
@@ -55,6 +56,7 @@ export default class Sequence extends Valued {
     readonly poses: SequenceStep[];
     readonly duration: number;
     readonly style: string;
+    readonly description: string;
 
     constructor(
         value: Value,
@@ -62,6 +64,7 @@ export default class Sequence extends Valued {
         poses: SequenceStep[],
         duration: number,
         style: string,
+        description: string = '',
     ) {
         super(value);
 
@@ -69,6 +72,11 @@ export default class Sequence extends Valued {
         this.poses = poses;
         this.duration = duration;
         this.style = style;
+        this.description = description;
+    }
+
+    getDescription(locales: Locales): string {
+        return this.description || (this.poses.length > 0 ? this.poses[0].pose.getDescription(locales) : '');
     }
 
     /**
@@ -147,7 +155,7 @@ export function toSequence(project: Project, value: Value | undefined) {
     )
         return undefined;
 
-    const [poses, durationVal, style, countVal] = getOutputInputs(value);
+    const [poses, durationVal, style, countVal, description] = getOutputInputs(value);
 
     const count = toDecimal(countVal);
     const duration = toDecimal(durationVal);
@@ -174,6 +182,7 @@ export function toSequence(project: Project, value: Value | undefined) {
               steps,
               duration.toNumber(),
               style.text,
+              description instanceof TextValue ? description.text : '',
           )
         : undefined;
 }

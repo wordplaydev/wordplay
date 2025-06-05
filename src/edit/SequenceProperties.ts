@@ -3,11 +3,13 @@ import type Locales from '../locale/Locales';
 import KeyValue from '../nodes/KeyValue';
 import MapLiteral from '../nodes/MapLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
+import TextLiteral from '../nodes/TextLiteral';
 import Unit from '../nodes/Unit';
 import { createPoseLiteral } from '../output/Pose';
 import { getDurationProperty, getStyleProperty } from './OutputProperties';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
+import OutputPropertyText from './OutputPropertyText';
 
 export default function getSequenceProperties(
     project: Project,
@@ -41,6 +43,14 @@ export default function getSequenceProperties(
             false,
             (expr) => expr instanceof NumberLiteral,
             () => NumberLiteral.make(1, Unit.create(['x'])),
+        ),
+        new OutputProperty(
+            (l) => l.output.Sequence.description.names,
+            new OutputPropertyText(() => true),
+            false,
+            false,
+            (expr) => expr instanceof TextLiteral,
+            () => TextLiteral.make(''),
         ),
     ];
 }
