@@ -1,20 +1,20 @@
-import toStructure from '../basis/toStructure';
+import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
+import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import { getBind } from '@locale/getBind';
-import Valued, { getOutputInputs } from './Valued';
+import toStructure from '../basis/toStructure';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import MapValue from '../values/MapValue';
+import TextValue from '../values/TextValue';
+import type { TransitionSequence } from './OutputAnimation';
+import type Place from './Place';
 import type Pose from './Pose';
 import { toPose } from './Pose';
 import { toDecimal } from './Stage';
-import TextValue from '../values/TextValue';
-import MapValue from '../values/MapValue';
-import NumberValue from '@values/NumberValue';
 import Transition from './Transition';
-import type Place from './Place';
-import type { TransitionSequence } from './OutputAnimation';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
+import Valued, { getOutputInputs } from './Valued';
 
 const MaxCount = 5;
 
@@ -135,6 +135,15 @@ export default class Sequence extends Valued {
 
     getFirstPose(): Pose | undefined {
         return this.poses[0]?.pose;
+    }
+
+    getDescription(locales: Locales): string {
+        // If there are poses, use the description of the first pose
+        if (this.poses.length > 0 && this.poses[0].pose) {
+            return this.poses[0].pose.getDescription(locales);
+        }
+        // Default empty description if no poses
+        return '';
     }
 }
 
