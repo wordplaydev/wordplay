@@ -30,7 +30,7 @@ import type Place from './Place';
 import type { DefinitePose } from './Pose';
 import Pose from './Pose';
 import type RenderContext from './RenderContext';
-import type Sequence from './Sequence';
+import Sequence from './Sequence';
 import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
 import TextLang from './TextLang';
 import { getOutputInput } from './Valued';
@@ -343,6 +343,26 @@ export default class Phrase extends Output {
         if (this._description === undefined) {
             const text = this.getShortDescription();
 
+            // Check all animation states for sequence descriptions first
+            let animationDescription = '';
+            const animations = [this.entering, this.resting, this.moving, this.exiting];
+            for (const animation of animations) {
+                if (animation instanceof Sequence) {
+                    const seqDescription = animation.getDescription(locales);
+                    if (seqDescription && seqDescription.trim() !== '') {
+                        animationDescription = seqDescription;
+                        break;
+                    }
+                }
+            }
+
+            // If no sequence description found, use pose description
+            if (!animationDescription) {
+                animationDescription = this.resting instanceof Pose
+                    ? this.resting.getDescription(locales)
+                    : this.pose.getDescription(locales);
+            }
+
             this._description = locales
                 .concretize(
                     (l) => l.output.Phrase.defaultDescription,
@@ -350,9 +370,7 @@ export default class Phrase extends Output {
                     this.name instanceof TextLang ? this.name.text : undefined,
                     this.size,
                     this.face,
-                    this.resting instanceof Pose
-                        ? this.resting.getDescription(locales)
-                        : this.pose.getDescription(locales),
+                    animationDescription,
                 )
                 .toText()
                 .trim();
