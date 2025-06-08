@@ -1,8 +1,0 @@
-Test Sequence Description
-===
-Phrase('🎮' resting: (((Sequence({
-  0: Pose(rotation: 0°)
-  1: Pose(rotation: 90°)
-  2: Pose(rotation: 180°)
-  3: Pose(rotation: 270°)
-  4: Pose(rotation: 360°)} 1s "zippy" 1x description: "controller spinning in a full circle")))))
