@@ -4400,7 +4400,9 @@
             },
             "button": {
                 "selectOutput": "$~この出力をステージで見せる",
-                "expandSequence": "$~この折りたたまれたコードを展開する"
+                "expandSequence": "$~この折りたたまれたコードを展開する",
+                "expandControls": "$~追加の編集コマンドを表示",
+                "collapseControls": "$~追加の編集コマンドを非表示にする"
             },
             "field": {
                 "name": {

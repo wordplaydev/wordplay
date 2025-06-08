@@ -4405,7 +4405,9 @@
             },
             "button": {
                 "selectOutput": "$~pokaż ten wynik na scenie",
-                "expandSequence": "$~rozwiń ten zwinięty kod"
+                "expandSequence": "$~rozwiń ten zwinięty kod",
+                "expandControls": "$~pokaż dodatkowe polecenia edycyjne",
+                "collapseControls": "$~ukryj dodatkowe polecenia edycyjne"
             },
             "field": {
                 "name": {

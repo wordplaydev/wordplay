@@ -14,7 +14,7 @@ function readProjects(dir: string): SerializedProject[] {
     const proj: SerializedProject[] = [];
     readdirSync(path.join('static', dir), { withFileTypes: true }).forEach(
         (file) => {
-            if (file.isFile()) {
+            if (file.isFile() && file.name.endsWith('.wp')) {
                 const text = readFileSync(
                     path.join('static', dir, file.name),
                     'utf8',
@@ -177,6 +177,6 @@ test.each([...projects])(
         );
         const value = evaluator.getInitialValue();
         evaluator.stop();
-        expect(value).not.toBeInstanceOf(ExceptionValue);
+        expect(value, value?.toWordplay()).not.toBeInstanceOf(ExceptionValue);
     },
 );

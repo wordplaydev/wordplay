@@ -12225,6 +12225,14 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
+                    "collapseControls": {
+                      "description": "The button tooltip for collapsing the controls accordion",
+                      "type": "string"
+                    },
+                    "expandControls": {
+                      "description": "The button tooltip for expanding the controls accordion",
+                      "type": "string"
+                    },
                     "expandSequence": {
                       "description": "The button shown when a list of code is ellided; clicking it shows the hidden code.",
                       "type": "string"
@@ -12236,7 +12244,9 @@
                   },
                   "required": [
                     "selectOutput",
-                    "expandSequence"
+                    "expandSequence",
+                    "expandControls",
+                    "collapseControls"
                   ],
                   "type": "object"
                 },
