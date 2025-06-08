@@ -4400,7 +4400,9 @@
             },
             "button": {
                 "selectOutput": "$~bu çıktıyı sahnede göster",
-                "expandSequence": "$~bu daraltılmış kodu genişlet"
+                "expandSequence": "$~bu daraltılmış kodu genişlet",
+                "expandControls": "$~ek düzenleme komutlarını göster",
+                "collapseControls": "$~ek düzenleme komutlarını gizle"
             },
             "field": {
                 "name": {

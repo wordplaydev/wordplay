@@ -4383,7 +4383,9 @@
             },
             "button": {
                 "selectOutput": "$~montrer cette sortie sur scène",
-                "expandSequence": "$~développer ce code réduit"
+                "expandSequence": "$~développer ce code réduit",
+                "expandControls": "$~afficher des commandes d'édition supplémentaires",
+                "collapseControls": "$~masquer les commandes d'édition supplémentaires"
             },
             "field": {
                 "name": {

@@ -29,7 +29,7 @@
     import type Locale from '@locale/Locale';
     import Node from '@nodes/Node';
     import Source from '@nodes/Source';
-    import { CANCEL_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
@@ -65,6 +65,7 @@
     import Emoji from '../app/Emoji.svelte';
     import Spinning from '../app/Spinning.svelte';
     import Editor from '../editor/Editor.svelte';
+    import EditorToolbar from '../editor/EditorToolbar.svelte';
     import CharacterChooser from '../editor/GlyphChooser.svelte';
     import Highlight from '../editor/Highlight.svelte';
     import Menu from '../editor/Menu.svelte';
@@ -114,7 +115,6 @@
         type KeyModifierState,
     } from './Contexts';
     import CopyButton from './CopyButton.svelte';
-    import EditorLocaleChooser from './EditorLocaleChooser.svelte';
     import FullscreenIcon from './FullscreenIcon.svelte';
     import Layout from './Layout';
     import Moderation from './Moderation.svelte';
@@ -1598,40 +1598,17 @@
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    <!-- Dactivating for now. It's too unstable. -->
-                                    <!-- <Switch
-                                        onLabel={withMonoEmoji('🖱️')}
-                                        onTip={(l) =>
-                                            l.ui.source.toggle.blocks.off}
-                                        offLabel={withMonoEmoji('⌨️')}
-                                        offTip={(l) =>
-                                            l.ui.source.toggle.blocks.on}
-                                        toggle={toggleBlocks}
-                                        on={$blocks}
-                                    /> -->
-                                    {#if localesUsed.length > 1}
-                                        {LOCALE_SYMBOL}
-                                        <EditorLocaleChooser
-                                            locale={editorLocales[tile.id] ??
-                                                null}
-                                            options={localesUsed}
-                                            change={(locale) => {
-                                                editorLocales[tile.id] = locale;
-                                            }}
-                                        ></EditorLocaleChooser>
-                                    {/if}
-                                    <!-- Make a Button for every navigate command -->
-                                    {#each VisibleNavigateCommands as command}<CommandButton
-                                            {command}
-                                            sourceID={tile.id}
-                                        />{/each}
-                                    <!-- Make a Button for every modify command if editable -->
-                                    {#if editable}
-                                        {#each VisibleModifyCommands as command}<CommandButton
-                                                {command}
-                                                sourceID={tile.id}
-                                            />{/each}
-                                    {/if}
+                                    <EditorToolbar
+                                        sourceID={tile.id}
+                                        navigateCommands={VisibleNavigateCommands}
+                                        modifyCommands={VisibleModifyCommands}
+                                        {editable}
+                                        {localesUsed}
+                                        {editorLocales}
+                                        onChangeLocale={(locale) => {
+                                            editorLocales[tile.id] = locale;
+                                        }}
+                                    />
                                 {/if}
                             {/snippet}
                             {#snippet content()}

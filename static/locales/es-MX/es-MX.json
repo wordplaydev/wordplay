@@ -4365,7 +4365,9 @@
             },
             "button": {
                 "selectOutput": "mostrar este resultado en el escenario",
-                "expandSequence": "expandir este código colapsado"
+                "expandSequence": "expandir este código colapsado",
+                "expandControls": "$~mostrar comandos de edición adicionales",
+                "collapseControls": "$~ocultar comandos de edición adicionales"
             },
             "field": {
                 "name": {

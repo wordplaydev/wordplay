@@ -4407,7 +4407,9 @@
             },
             "button": {
                 "selectOutput": "show this output on stage",
-                "expandSequence": "expand this collapsed code"
+                "expandSequence": "expand this collapsed code",
+                "expandControls": "show additional editing commands",
+                "collapseControls": "hide additional editing commands"
             },
             "field": {
                 "name": {

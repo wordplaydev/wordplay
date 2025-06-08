@@ -4400,7 +4400,9 @@
             },
             "button": {
                 "selectOutput": "$~हे आउटपुट स्टेजवर दाखवा",
-                "expandSequence": "$~हा कोलॅप्स केलेला कोड विस्तृत करा"
+                "expandSequence": "$~हा कोलॅप्स केलेला कोड विस्तृत करा",
+                "expandControls": "$~अतिरिक्त संपादन आदेश दाखवा",
+                "collapseControls": "$~अतिरिक्त संपादन आदेश लपवा"
             },
             "field": {
                 "name": {
