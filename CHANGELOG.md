@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Added
 
 - #470: Custom sequence descriptions for screen readers.
+- #538: Simplified overwhelming toolbar buttons.
 
 ## Maintenance
 
