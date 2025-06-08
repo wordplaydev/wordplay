@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Borrow from '@nodes/Borrow';
 import type Locales from '../locale/Locales';
 import Conflict from './Conflict';
@@ -11,6 +12,9 @@ export class UnknownBorrow extends Conflict {
         this.borrow = borrow;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Borrow.conflict.UnknownBorrow;
+
     getConflictingNodes() {
         return {
             primary: {
@@ -20,9 +24,13 @@ export class UnknownBorrow extends Conflict {
                         : this.borrow.source,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) => l.node.Borrow.conflict.UnknownBorrow,
+                        (l) => UnknownBorrow.LocalePath(l).primary,
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return UnknownBorrow.LocalePath;
     }
 }

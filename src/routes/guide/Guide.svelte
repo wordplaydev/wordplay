@@ -17,7 +17,7 @@
     } from '@concepts/ConceptParams';
     import { Locales, locales } from '@db/Database';
     import Project from '@db/projects/Project';
-    import { toLocale } from '@locale/LocaleText';
+    import { toLocaleString } from '@locale/LocaleText';
     import Source from '@nodes/Source';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
@@ -25,7 +25,7 @@
     function getLocaleInURL() {
         return (
             page.url.searchParams.get('locale') ??
-            toLocale($locales.getLocales()[0])
+            toLocaleString($locales.getLocales()[0])
         );
     }
 
@@ -65,7 +65,7 @@
             path.set([concept]);
         }
         // Only update if the path isn't already empty.
-        else if (concept === null) {
+        else if (!concept) {
             path.set([]);
         }
     });

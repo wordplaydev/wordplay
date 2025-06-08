@@ -8,8 +8,65 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Added
 
 - Fixed #454, fixed #695: simplifying toolbar buttons.
+- Fixed #470: Custom sequence descriptions for screen readers.
 
-## 01.6.14
+## Maintenance
+
+- Updated Axe, SvelteKit, eslint, Firebase, zod, vitest minor versions.
+
+## 0.6.17
+
+## Fixed
+
+- Updated translation script to permit overriding machine translations with new machine translations.
+- #781: Updated traditional Chinese with correct machine translations.
+- Clear streams resolved to prevent memory leak.
+- #722: Give ARIA-label to `CodeView`.
+- #721: Contrast of values in dark mode.
+- #689: Header contrast over error colors in dark mode.
+- #681: Don't allow end token to be selected.
+
+## 0.6.16
+
+## Added
+
+- Smaller font for secondary conflict messages.
+- Show all conflicts if there's no selected conflict.
+- Added headers to conflicts for clarity.
+- Button to show code annotation concerns.
+
+## Fixed
+
+- Fixed #748 correcting guide back button.
+- Fixed #760 correcting keyboard selection of locale.
+- Fixed #776 passing region to Google Translate.
+- Added missing translations.
+- Fixed cursor placement after reversed range deletion.
+- Reversed default order of vertical layout.
+- Fixed translation choices in project translate dialog.
+- Fixed undefined symbols for speech causing crash.
+- Permit required named expressions out of order in an `Evaluate`
+- Gracefully ignore extra inputs to an `Evaluate`.
+- Ensure conflict highlights are rendered after edit.
+- Fixed type exception value type.
+- Fixed bug where type over was reversed.
+
+## Maintenance
+
+- Updated all minor versions.
+
+## 0.6.15
+
+## Added
+
+- Added GitHub URLs and ability to comment to feedback form.
+
+## Fixed
+
+- Fixed #767 Correcting animation speed labels.
+- Preserve multi-region IDs in locales.
+
+## 0.6.14
 
 ## Added
 
@@ -29,7 +86,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Updated minor versions of SvelteKit, Svelte, svelte-check, eslint, tsx, vite, vitest, zod, firebase-admin
 - Updated to nodemailer 7.0.
 
-## 0.1.6.13
+## 0.6.13
 
 ## Added
 

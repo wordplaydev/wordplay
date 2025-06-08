@@ -189,8 +189,14 @@
                 "There are many <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> that I understand. If you don't use one of those, I'll let you know."
             ],
             "conflict": {
-                "UnknownLanguage": "I don't know this language",
-                "MissingLanguage": "I'm missing a language. Can you add one?"
+                "UnknownLanguage": {
+                    "name": "unknown language",
+                    "primary": "I don't know this language"
+                },
+                "MissingLanguage": {
+                    "name": "missing language",
+                    "primary": "I'm missing a language. Can you add one?"
+                }
             }
         },
         "Name": {
@@ -225,17 +231,26 @@
             "emotion": "shy",
             "doc": "I represent a row in a @Table. It's probably best to go talk to @Table, they know everything about me. I just sit around and keep values in line :(",
             "conflict": {
-                "InvalidRow": "Rows either have to be all values or all @Bind.",
+                "InvalidRow": {
+                    "name": "invalid row",
+                    "primary": "Rows either have to be all values or all @Bind."
+                },
                 "MissingCell": {
+                    "name": "missing column",
                     "primary": "I'm missing column $1",
                     "secondary": "I'm required, but $1 didn't provide it"
                 },
                 "ExtraCell": {
+                    "name": "extra column",
                     "primary": "Am I supposed to be here?",
                     "secondary": "Hey $1, you're not part of this @Table!"
                 },
-                "UnknownColumn": "I don't know a column by this name",
+                "UnknownColumn": {
+                    "name": "unknown column name",
+                    "primary": "I don't know a column by this name"
+                },
                 "UnexpectedColumnBind": {
+                    "name": "no binds rows",
                     "primary": "Am I supposed to be a @Bind?",
                     "secondary": "Hey, I'm a @Table, I need values, not @Bind."
                 }
@@ -261,6 +276,7 @@
             "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
+                    "name": "duplicate type variable",
                     "primary": "I have the same name as $1",
                     "secondary": "I have the same name as $1"
                 }
@@ -374,7 +390,10 @@
             "start": "Let's evaluate $1 first",
             "finish": "Look, I made $1!",
             "conflict": {
-                "OrderOfOperations": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
+                "OrderOfOperations": {
+                    "name": "ambiguous order",
+                    "primary": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
+                }
             }
         },
         "Bind": {
@@ -412,24 +431,42 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
+                        "name": "duplicate name",
                         "primary": "someone has the name $1 so I can't have this name.",
                         "secondary": "hey, $1 is my name, you can't have it!"
                     },
                     "resolution": "There are duplicate names, do you want to remove one?"
                 },
                 "DuplicateShare": {
+                    "name": "duplicate share",
                     "primary": "I have the same name as $1, which makes what is shared ambiguous",
                     "secondary": "I have has the same name as $1"
                 },
                 "IncompatibleType": {
+                    "name": "incompatible type",
                     "primary": "I'm supposed to be type $2, but I'm type $1",
                     "secondary": "Oh, I'm sorry. Should I change, or maybe you're supposed to be type $1?"
                 },
-                "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
-                "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
-                "RequiredAfterOptional": "I can't be here, there's an optional @Bind before me",
-                "UnexpectedEtc": "I can only be variable length in a @FunctionDefinition",
-                "UnusedBind": "I'm named $1, but no one is using me. Maybe I'm not needed?"
+                "MisplacedShare": {
+                    "name": "misplaced share",
+                    "primary": "I can only share things at the @Program level, not inside anything!"
+                },
+                "MissingShareLanguages": {
+                    "name": "missing language",
+                    "primary": "if you want to share this, you have to say what language this is in, so others know if they can read it!"
+                },
+                "RequiredAfterOptional": {
+                    "name": "required input after optional",
+                    "primary": "I can't be here, there's an optional @Bind before me"
+                },
+                "UnexpectedEtc": {
+                    "name": "unexpected input after input list",
+                    "primary": "I can only be variable length in a @FunctionDefinition"
+                },
+                "UnusedBind": {
+                    "name": "unused bind",
+                    "primary": "I'm named $1, but no one is using me. Maybe I'm not needed?"
+                }
             }
         },
         "Block": {
@@ -455,8 +492,12 @@
             "start": "First expression",
             "finish": "Done, I got $1",
             "conflict": {
-                "ExpectedEndingExpression": "I need an expression.",
+                "ExpectedEndingExpression": {
+                    "name": "missing expression",
+                    "primary": "I need an expression."
+                },
                 "IgnoredExpression": {
+                    "name": "ignored expression",
                     "primary": "I'm going to ignore $1, since it doesn't define anything and isn't my last expression.",
                     "secondary": "@Block, don't ignore me!",
                     "resolution": {
@@ -483,8 +524,14 @@
             "bind": "name",
             "version": "version",
             "conflict": {
-                "UnknownBorrow": "I don't know a $source by this name",
-                "BorrowCycle": "this depends on $1, which depends on this $source, so the program can't be evaluated"
+                "UnknownBorrow": {
+                    "name": "unknown borrow",
+                    "primary": "I don't know a $source by this name"
+                },
+                "BorrowCycle": {
+                    "name": "self-referencing borrow",
+                    "primary": "this depends on $1, which depends on this $source, so the program can't be evaluated"
+                }
             },
             "exception": {
                 "CycleException": {
@@ -523,6 +570,7 @@
             "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
+                    "name": "expected boolean condition",
                     "primary": "How can I choose yes and no with type $1? No really, how?",
                     "secondary": "I think @Conditional wanted me to be a @Boolean, but I'm type $1."
                 }
@@ -540,7 +588,10 @@
             ],
             "start": "Awesome, a new conversion!",
             "conflict": {
-                "MisplacedConversion": "whoa, I can't be here, just in @Block."
+                "MisplacedConversion": {
+                    "name": "misplaced conversion",
+                    "primary": "whoa, I can't be here, just in @Block."
+                }
             }
         },
         "Convert": {
@@ -558,7 +609,10 @@
             "start": "Get that value from $1!",
             "finish": "Awesome, I made $1",
             "conflict": {
-                "UnknownConversion": "Bummer, no way make $1 into $2"
+                "UnknownConversion": {
+                    "name": "unknown conversion",
+                    "primary": "Bummer, no way make $1 into $2"
+                }
             },
             "exception": {
                 "ConversionException": {
@@ -612,28 +666,42 @@
             "input": "input",
             "conflict": {
                 "IncompatibleInput": {
+                    "name": "incompatible input",
                     "primary": "I'm supposed to be type $1, but I'm type $2",
                     "secondary": "Umm, I got type $2 instead of type $1"
                 },
                 "UnexpectedTypeInput": {
+                    "name": "unexpected type input",
                     "primary": "I wasn't expecting this type input",
                     "secondary": "oh, am I not supposed to be here?"
                 },
                 "MissingInput": {
+                    "name": "missing input",
                     "primary": "I can't evaluate without the input $2 :(",
                     "secondary": "I need a value, can you give me one?"
                 },
-                "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
+                "NotInstantiable": {
+                    "name": "incomplete structure",
+                    "primary": "I can't make this @StructureDefinition, it has unimplemented functions."
+                },
                 "UnexpectedInput": {
+                    "name": "unexpected input",
                     "primary": "I didn't expect this input $1",
                     "secondary": "Oh, am I not supposed to be here?"
                 },
                 "UnknownInput": {
+                    "name": "unknown input",
                     "primary": "I don't know of an input by this name in $1",
                     "secondary": "I don't have an input with the name $1"
                 },
-                "InputListMustBeLast": "list of inputs must be last",
-                "SeparatedEvaluate": "Is $1 the name of a $2[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
+                "InputListMustBeLast": {
+                    "name": "extra inputs aren't last",
+                    "primary": "list of inputs must be last"
+                },
+                "SeparatedEvaluate": {
+                    "name": "ambiguous evaluate",
+                    "primary": "Is $1 the name of a $2[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
+                }
             },
             "exception": {
                 "FunctionException": {
@@ -670,7 +738,10 @@
             "start": "I don't know what to do here. Can you fill me in?",
             "placeholder": "expression",
             "conflict": {
-                "Placeholder": "Can you fill me? I'm just a placeholder."
+                "Placeholder": {
+                    "name": "placeholder",
+                    "primary": "Can you fill me? I'm just a placeholder."
+                }
             },
             "exception": {
                 "UnimplementedException": {
@@ -701,7 +772,10 @@
             ],
             "start": "Let's make this function!",
             "conflict": {
-                "NoExpression": "I need an expression to evaluate, can you add one?"
+                "NoExpression": {
+                    "name": "missing expression",
+                    "primary": "I need an expression to evaluate, can you add one?"
+                }
             }
         },
         "Iteration": {
@@ -752,7 +826,10 @@
             "start": "Let's get the value of $1 first",
             "finish": "$1[value is $2|value is not $2]",
             "conflict": {
-                "ImpossibleType": "this can't ever be $1"
+                "ImpossibleType": {
+                    "name": "impossible type",
+                    "primary": "this can't ever be $1"
+                }
             },
             "exception": {
                 "TypeException": {
@@ -809,6 +886,7 @@
             "finish": "I connected everyone, $1",
             "conflict": {
                 "NotAKeyValue": {
+                    "name": "missing value",
                     "primary": "one of my keys is missing a value",
                     "secondary": "oops, where's my value?"
                 }
@@ -838,7 +916,10 @@
             "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of language. See @Number for everything I can do.",
             "start": "$1!",
             "conflict": {
-                "NotANumber": "I thought I knew all the numbers, but I don't know this one"
+                "NotANumber": {
+                    "name": "not a number",
+                    "primary": "I thought I knew all the numbers, but I don't know this one"
+                }
             }
         },
         "InternalExpression": {
@@ -931,6 +1012,7 @@
             "finish": "I copied the structure, but with $1 as $2",
             "conflict": {
                 "InvalidProperty": {
+                    "name": "unknown property",
                     "primary": "I'm not an input of $1, so I can't be refined.",
                     "secondary": "I don't have an input named $1"
                 }
@@ -965,7 +1047,10 @@
             "condition": "condition",
             "next": "next",
             "conflict": {
-                "ExpectedStream": "$1 doesn't reference a stream, so I will never react!"
+                "ExpectedStream": {
+                    "name": "expected stream",
+                    "primary": "$1 doesn't reference a stream, so I will never react!"
+                }
             }
         },
         "Reference": {
@@ -981,11 +1066,20 @@
             "start": "What value does $1 have?",
             "conflict": {
                 "UnknownName": {
-                    "conflict": "$1[I don't know anyone named $1 in $2[$2|this @Block]|Can you give me a name?]",
+                    "conflict": {
+                        "name": "unknown name",
+                        "primary": "$1[I don't know anyone named $1 in $2[$2|this @Block]|Can you give me a name?]"
+                    },
                     "resolution": "Did you mean *$1?*"
                 },
-                "ReferenceCycle": "um, $1's value depends on itself, so how do I know what value to give it?",
-                "UnexpectedTypeVariable": "I don't now what to do with these type inputs"
+                "ReferenceCycle": {
+                    "name": "self-referencing value",
+                    "primary": "um, $1's value depends on itself, so how do I know what value to give it?"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "unexpected type variable",
+                    "primary": "I don't now what to do with these type inputs"
+                }
             },
             "exception": {
                 "NameException": {
@@ -1006,7 +1100,10 @@
             "start": "Let's get the table first",
             "finish": "I made a new table with just the selected rows and columns!",
             "conflict": {
-                "ExpectedSelectName": "I need at least one column name."
+                "ExpectedSelectName": {
+                    "name": "missing column name",
+                    "primary": "I need at least one column name."
+                }
             }
         },
         "SetLiteral": {
@@ -1031,6 +1128,7 @@
             "finish": "The value is $1",
             "conflict": {
                 "IncompatibleKey": {
+                    "name": "incompatible key",
                     "primary": "I expected $1 key",
                     "secondary": "I got type $1 instead of type $2"
                 }
@@ -1068,10 +1166,22 @@
             ],
             "start": "Let's define this lovely structure",
             "conflict": {
-                "DisallowedInputs": "I can't have inputs because one of or more of my interface functions isn't implemented",
-                "IncompleteImplementation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!",
-                "NotAnInterface": "I am not an interface; a structure can only implement interfaces, not other structures",
-                "UnimplementedInterface": "I implement $1 but haven't implemented $2"
+                "DisallowedInputs": {
+                    "name": "inputs not allowed",
+                    "primary": "I can't have inputs because one of or more of my interface functions isn't implemented"
+                },
+                "IncompleteImplementation": {
+                    "name": "incomplete structure",
+                    "primary": "my functions either need to all be implemented, or none be implemented. No messy mixtures!"
+                },
+                "NotAnInterface": {
+                    "name": "not an interface",
+                    "primary": "I am not an interface; a structure can only implement interfaces, not other structures"
+                },
+                "UnimplementedInterface": {
+                    "name": "unimplemented",
+                    "primary": "I implement $1 but haven't implemented $2"
+                }
             }
         },
         "StructureDefinitionType": {
@@ -1103,14 +1213,32 @@
             "emotion": "serious",
             "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
-                "phone": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2",
-                "email": "Is *$1* someone's email? Don't share me here if so!\n\n$2",
-                "tin": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$2",
-                "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2",
-                "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2",
+                "phone": {
+                    "name": "possible phone number",
+                    "primary": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2"
+                },
+                "email": {
+                    "name": "possible email",
+                    "primary": "Is *$1* someone's email? Don't share me here if so!\n\n$2"
+                },
+                "tin": {
+                    "name": "possible tax identifier",
+                    "primary": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$2"
+                },
+                "address": {
+                    "name": "possible address",
+                    "primary": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2"
+                },
+                "handle": {
+                    "name": "possible username",
+                    "primary": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2"
+                },
                 "resolution": "This isn't sensitive data",
                 "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
-                "character": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
+                "character": {
+                    "name": "possible custom character",
+                    "primary": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
+                }
             }
         },
         "FormattedLiteral": {
@@ -1151,7 +1279,10 @@
             ],
             "start": "Evaluated to $1",
             "conflict": {
-                "MisplacedThis": "I'm only allowed in a structure, conversion, or reaction."
+                "MisplacedThis": {
+                    "name": "misplaced this reference",
+                    "primary": "I'm only allowed in a structure, conversion, or reaction."
+                }
             }
         },
         "UnaryEvaluate": {
@@ -1187,10 +1318,16 @@
             "start": "???",
             "conflict": {
                 "UnparsableConflict": {
-                    "conflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is.",
+                    "conflict": {
+                        "name": "unreadable code",
+                        "primary": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is."
+                    },
                     "resolution": "Did you mean type $1, $2?"
                 },
-                "UnclosedDelimiter": "I expected $2 sometime after $1"
+                "UnclosedDelimiter": {
+                    "name": "unclosed delimiter",
+                    "primary": "I expected $2 sometime after $1"
+                }
             },
             "exception": {
                 "UnparsableException": {
@@ -1211,8 +1348,12 @@
             "start": "Let's get the table first",
             "finish": "Evaluated to a new table with revised rows!",
             "conflict": {
-                "ExpectedColumnBind": "I need a value for every column",
+                "ExpectedColumnBind": {
+                    "name": "missing column value",
+                    "primary": "I need a value for every column"
+                },
                 "IncompatibleCellType": {
+                    "name": "incompatible cell type",
                     "primary": "I needed type $1, but got type $2",
                     "secondary": "I got a $2"
                 }
@@ -1299,7 +1440,10 @@
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
             ],
             "conflict": {
-                "UnknownTypeName": "type names can only refer to structures or type variables, but this refers to type $1"
+                "UnknownTypeName": {
+                    "name": "unknown type name",
+                    "primary": "type names can only refer to structures or type variables, but this refers to type $1"
+                }
             }
         },
         "NeverType": {
@@ -1354,7 +1498,10 @@
             "emotion": "angry",
             "doc": "I represent a Table.",
             "conflict": {
-                "ExpectedColumnType": "I need a column type"
+                "ExpectedColumnType": {
+                    "name": "missing column type",
+                    "primary": "I need a column type"
+                }
             }
         },
         "TextType": {
@@ -3768,6 +3915,10 @@
             "count": {
                 "doc": "How many times the sequence should repeat before it is done. This is really helpful for when I enter stage, move on stage, or exit on stage, but when for a rest sequence, it's ignored, since I can rest forever.",
                 "names": "count"
+            },
+            "description": {
+                "doc": "An optional description of this sequence for viewers who can't see the animation.",
+                "names": "description"
             }
         },
         "Place": {
@@ -4340,7 +4491,9 @@
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
             "button": {
-                "resolution": "Resolve this conflict"
+                "resolution": "Resolve this conflict",
+                "toggle": "show and hide annotations",
+                "highlight": "show this code in the editor"
             }
         },
         "output": {
@@ -4397,7 +4550,8 @@
             "nodoc": "Who am I? What am I? What is my purpose?",
             "button": {
                 "home": "return home",
-                "back": "return to previous"
+                "back": "return to previous",
+                "toggle": "show and hide this concept group"
             },
             "field": {
                 "search": "keywords"
@@ -4493,10 +4647,13 @@
                         "label": "animations",
                         "modes": [
                             "animations off",
-                            "normal speed",
-                            "half speed",
+                            "quarter speed",
                             "third speed",
-                            "quarter speed"
+                            "half speed",
+                            "normal speed",
+                            "double speed",
+                            "five speed",
+                            "ten speed"
                         ]
                     },
                     "dark": {
@@ -4578,6 +4735,10 @@
                     "close": {
                         "label": "close",
                         "tip": "Close this feedback as a moderator"
+                    },
+                    "comment": {
+                        "label": "submit",
+                        "tip": "Submit comment on this feedback."
                     }
                 },
                 "mode": {
@@ -4596,11 +4757,20 @@
                     "idea": {
                         "description": "description of your defect",
                         "placeholder": "What are you trying to do that you can't do?"
+                    },
+                    "comment": {
+                        "description": "comment",
+                        "placeholder": "Add a comment to this feedback"
+                    },
+                    "github": {
+                        "description": "GitHub issue",
+                        "placeholder": "Link to GitHub issue"
                     }
                 },
                 "subheader": {
                     "defect": "defect",
-                    "idea": "idea"
+                    "idea": "idea",
+                    "moderator": "moderator"
                 },
                 "prompt": {
                     "defect": "Didn't see the problem you're experiencing? Report it here. The more detail you provide, the better!",
@@ -4610,7 +4780,8 @@
                     "login": "You must be logged in to submit feedback",
                     "submit": "Unable to submit feedback.",
                     "load": "Unable to load feedback",
-                    "empty": "There is no feedback to show."
+                    "empty": "There is no feedback to show.",
+                    "url": "This is not a valid GitHub URL."
                 }
             }
         },

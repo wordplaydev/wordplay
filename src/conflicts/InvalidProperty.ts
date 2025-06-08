@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type PropertyBind from '@nodes/PropertyBind';
@@ -16,15 +17,16 @@ export default class InvalidProperty extends Conflict {
         this.refine = refine;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.PropertyBind.conflict.InvalidProperty;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.refine.reference,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.PropertyBind.conflict.InvalidProperty
-                                .primary,
+                        (l) => InvalidProperty.LocalePath(l).primary,
                         new NodeRef(this.definition.names, locales, context),
                     ),
             },
@@ -32,9 +34,7 @@ export default class InvalidProperty extends Conflict {
                 node: this.definition.names,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.PropertyBind.conflict.InvalidProperty
-                                .secondary,
+                        (l) => InvalidProperty.LocalePath(l).secondary,
                         new NodeRef(
                             this.refine.reference.name ?? this.refine.reference,
                             locales,
@@ -43,5 +43,9 @@ export default class InvalidProperty extends Conflict {
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return InvalidProperty.LocalePath;
     }
 }

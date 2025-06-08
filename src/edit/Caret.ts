@@ -1097,7 +1097,13 @@ export default class Caret {
         }
         // If it's a range, delete the range.
         else {
-            const [start, end] = this.position;
+            // Swap if out of order.
+            let [start, end] = this.position;
+            if (start > end) {
+                const temp = start;
+                start = end;
+                end = temp;
+            }
             if (start === end) {
                 newSource = this.source;
                 newPosition = start;
@@ -1806,22 +1812,22 @@ export default class Caret {
         }
         // Range? Delete the range.
         else {
-            const [start, end] = this.position;
+            const [start, stop] = this.position;
             // No range deletions in valid only unless both positions are in the same token.
             if (
                 validOnly &&
-                this.source.getTokenAt(start) !== this.source.getTokenAt(end)
+                this.source.getTokenAt(start) !== this.source.getTokenAt(stop)
             )
                 return;
 
-            const newSource = this.source.withoutGraphemesBetween(
-                Math.min(start, end),
-                Math.max(start, end),
-            );
+            const begin = Math.min(start, stop);
+            const end = Math.max(start, stop);
+
+            const newSource = this.source.withoutGraphemesBetween(begin, end);
             if (newSource === undefined) return;
             return [
                 newSource,
-                this.withPosition(start).withAddition(undefined),
+                this.withPosition(begin).withAddition(undefined),
             ];
         }
     }

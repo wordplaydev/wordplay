@@ -1,4 +1,5 @@
 import type Refer from '@edit/Refer';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import Token from '@nodes/Token';
@@ -17,6 +18,9 @@ export class UnknownName extends Conflict {
         this.name = name;
         this.type = type;
     }
+
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Reference.conflict.UnknownName.conflict;
 
     levenshtein(a: string, b: string): number {
         // convert both input strings to lowercase to perform check case-insensitively
@@ -88,7 +92,7 @@ export class UnknownName extends Conflict {
                 node: this.name,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Reference.conflict.UnknownName.conflict,
+                        (l) => UnknownName.LocalePath(l).primary,
                         this.name instanceof Token
                             ? undefined
                             : new NodeRef(this.name, locales, context),
@@ -124,5 +128,9 @@ export class UnknownName extends Conflict {
                 };
             }),
         };
+    }
+
+    getLocalePath() {
+        return UnknownName.LocalePath;
     }
 }

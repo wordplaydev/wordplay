@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
@@ -17,6 +18,9 @@ export default class ExpectedBooleanCondition extends Conflict {
         this.type = type;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.Conditional.conflict.ExpectedBooleanCondition;
+
     getConflictingNodes() {
         return {
             primary: {
@@ -26,9 +30,7 @@ export default class ExpectedBooleanCondition extends Conflict {
                         : this.conditional.dots,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.Conditional.conflict.ExpectedBooleanCondition
-                                .primary,
+                        (l) => ExpectedBooleanCondition.LocalePath(l).primary,
                         new NodeRef(this.type, locales, context),
                     ),
             },
@@ -43,5 +45,9 @@ export default class ExpectedBooleanCondition extends Conflict {
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return ExpectedBooleanCondition.LocalePath;
     }
 }

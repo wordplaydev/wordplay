@@ -8,7 +8,7 @@ import {
     MachineTranslated,
     parseLocaleDoc,
     toDocString,
-    toLocale,
+    toLocaleString,
     Unwritten,
 } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -20,7 +20,7 @@ import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import { LocaleValidator } from './LocaleSchema';
 import type Log from './Log';
 import type { RevisedString } from './start';
-import translate from './translate';
+import translate, { getGoogleTranslateTargetLocale } from './translate';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {
@@ -70,6 +70,8 @@ export async function verifyLocale(
     text: LocaleText,
     /** Whether to translate unwritten strings in the locale */
     translate: boolean,
+    /** Whether to override existing machine translations */
+    override: boolean,
     /** Strings that have been revised in one or more locales */
     revisedStrings: RevisedString[],
     /** Global names used by other locales */
@@ -97,6 +99,7 @@ export async function verifyLocale(
         DefaultLocale,
         true,
         translate && locale !== 'en-US',
+        override,
         revisedStrings,
         globalNames,
     );
@@ -111,6 +114,8 @@ async function checkLocale(
     DefaultLocale: LocaleText,
     warnUnwritten: boolean,
     translate: boolean,
+    /** If true, machine written translations are re-translated */
+    override: boolean,
     revisedStrings: RevisedString[],
     globalNames: Map<string, { locale: string; path: LocalePath }[]>,
 ): Promise<LocaleText> {
@@ -121,23 +126,30 @@ async function checkLocale(
     let pairs: LocalePath[] = getCheckableLocalePairs(revised);
 
     // Find all of the unwritten strings.
-    const unwritten = pairs
+    const pairsToTranslate = pairs
         .filter(({ value }) =>
             typeof value === 'string'
-                ? isUnwritten(value)
-                : value.some((s) => isUnwritten(s)),
+                ? isUnwritten(value) || (override && isAutomated(value))
+                : value.some(
+                      (s) => isUnwritten(s) || (override && isAutomated(s)),
+                  ),
         )
         // Don't translate emotions; those have meaning.
         .filter(({ key }) => key !== 'emotion');
 
     // If there are any unwritten strings and we were asked to translate them, do so.
-    if (unwritten.length > 0 && warnUnwritten && translate) {
+    if (pairsToTranslate.length > 0 && warnUnwritten && translate) {
         log.bad(
             2,
-            `Locale has ${unwritten.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,
+            `Locale has ${pairsToTranslate.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,
         );
 
-        revised = await translateLocale(log, DefaultLocale, revised, unwritten);
+        revised = await translateLocale(
+            log,
+            DefaultLocale,
+            revised,
+            pairsToTranslate,
+        );
     }
 
     // Check the translated pairs for errors.
@@ -240,7 +252,8 @@ async function checkLocale(
                                     .get(nameWithoutPlaceholder)
                                     ?.filter(
                                         (p) =>
-                                            p.locale !== toLocale(original) &&
+                                            p.locale !==
+                                                toLocaleString(original) &&
                                             !p.path.equals(path),
                                     ) ?? [];
                             if (existing.length > 1)
@@ -341,11 +354,16 @@ async function translateLocale(
         .filter((s) => s !== undefined)
         .flat();
 
+    const targetLocale = await getGoogleTranslateTargetLocale(
+        target.language,
+        target.regions,
+    );
+
     const translations = await translate(
         log,
         sourceStrings,
-        source.language,
-        target.language,
+        toLocaleString(source),
+        targetLocale,
     );
 
     if (translations === undefined) {
@@ -467,10 +485,21 @@ export function addMissingKeys(
                         sourceValue as Record<string, unknown>,
                         targetValue as Record<string, unknown>,
                     );
-                else
+                else if (
+                    typeof targetValue === 'string' &&
+                    (targetValue.startsWith(MachineTranslated) ||
+                        targetValue === Unwritten)
+                ) {
+                    target[key] = {} as Record<string, unknown>;
+                    addMissingKeys(
+                        log,
+                        sourceValue as Record<string, unknown>,
+                        target[key] as Record<string, unknown>,
+                    );
+                } else
                     log.bad(
                         2,
-                        `Target has the key ${key}, but it's not an object. Repair manually.`,
+                        `Target has the key ${key}, but it's not an object. Repair manually: ${targetValue}`,
                     );
             } else if (
                 Array.isArray(sourceValue) &&

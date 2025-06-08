@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
@@ -17,16 +18,23 @@ export default class ExpectedSelectName extends Conflict {
         this.cell = cell;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Select.conflict.ExpectedSelectName;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.select,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Select.conflict.ExpectedSelectName,
+                        (l) => ExpectedSelectName.LocalePath(l).primary,
                         new NodeRef(this.cell, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return ExpectedSelectName.LocalePath;
     }
 }

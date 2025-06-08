@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
@@ -26,13 +27,16 @@ export default class IncompatibleType extends Conflict {
         this.givenType = givenType;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Bind.conflict.IncompatibleType;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.receiver,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Bind.conflict.IncompatibleType.primary,
+                        (l) => IncompatibleType.LocalePath(l).primary,
                         new NodeRef(this.givenType, locales, context),
                         new NodeRef(this.expectedType, locales, context),
                     ),
@@ -41,11 +45,15 @@ export default class IncompatibleType extends Conflict {
                 node: this.expression,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Bind.conflict.IncompatibleType.secondary,
+                        (l) => IncompatibleType.LocalePath(l).secondary,
                         new NodeRef(this.givenType, locales, context),
                         new NodeRef(this.expectedType, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return IncompatibleType.LocalePath;
     }
 }

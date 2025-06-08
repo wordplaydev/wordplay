@@ -6,6 +6,7 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import { auth } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { FirebaseError } from 'firebase/app';
     import {
         signInWithEmailAndPassword,
@@ -102,7 +103,7 @@
     <Toggle
         tips={(l) => l.ui.page.login.toggle.reveal}
         on={reveal}
-        toggle={() => (reveal = !reveal)}>🔎</Toggle
+        toggle={() => (reveal = !reveal)}>{SEARCH_SYMBOL}</Toggle
     >
     <Button
         submit

@@ -113,6 +113,7 @@ export const CUT_SYMBOL = '✄';
 export const COPY_SYMBOL = '📚';
 export const PASTE_SYMBOL = '📋';
 export const CANCEL_SYMBOL = '⨉';
+export const CONFIRM_SYMBOL = '✓';
 export const ALL_SYMBOL = '⊞';
 export const ERASE_SYMBOL = '⌫';
 
@@ -130,3 +131,5 @@ export const LOCALE_SYMBOL = GLOBE1_SYMBOL;
 
 export const IDEA_SYMBOL = '💡';
 export const DEFECT_SYMBOL = '🪲';
+
+export const SEARCH_SYMBOL = '🔍';

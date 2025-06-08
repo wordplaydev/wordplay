@@ -841,12 +841,14 @@
         "styling-text",
         "animated-scene",
         "interactive-scene",
+        "layering-images",
         "shake-phrase",
         "video-grid",
         "track-points",
         "track-game-state",
         "offer-choices",
-        "choose-adventure"
+        "choose-adventure",
+        "repeating-a-movement"
       ],
       "type": "string"
     },

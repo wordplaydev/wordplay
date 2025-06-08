@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import OrderOfOperations from '@conflicts/OrderOfOperations';
-import UnexpectedInputs from '@conflicts/UnexpectedInput';
+import UnexpectedInput from '@conflicts/UnexpectedInput';
 import type { LocaleText } from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -208,7 +208,7 @@ export default class BinaryEvaluate extends Expression {
         if (fun instanceof FunctionDefinition) {
             // Are there too many inputs?
             if (fun.inputs.length === 0)
-                conflicts.push(new UnexpectedInputs(fun, this, this.right));
+                conflicts.push(new UnexpectedInput(fun, this, this.right));
             // Are there too few inputs?
             else if (fun.inputs.length > 1) {
                 const secondInput = fun.inputs[1];

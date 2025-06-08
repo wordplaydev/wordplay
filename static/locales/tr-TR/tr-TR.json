@@ -189,8 +189,14 @@
                 "$~Anladığım birçok <2 harfli dil kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> var. Bunlardan birini kullanmıyorsanız, size bildireceğim."
             ],
             "conflict": {
-                "UnknownLanguage": "$~Bu dili bilmiyorum",
-                "MissingLanguage": "$~Bir dili eksik buldum. Bir tane ekleyebilir misiniz?"
+                "UnknownLanguage": {
+                    "name": "$~bilinmeyendil",
+                    "primary": "$~Bu dili bilmiyorum"
+                },
+                "MissingLanguage": {
+                    "name": "$~eksikdil",
+                    "primary": "$~Bir dili eksik buldum. Bir tane ekleyebilir misiniz?"
+                }
             }
         },
         "Name": {
@@ -225,19 +231,28 @@
             "emotion": "shy",
             "doc": "$~@Table'da bir satırı temsil ediyorum. Muhtemelen @Table ile konuşmak en iyisi, onlar benim hakkımda her şeyi biliyorlar. Ben sadece etrafta oturup değerleri aynı çizgide tutuyorum :(",
             "conflict": {
-                "InvalidRow": "$~Satırlar ya tamamen değerlerden ya da tamamen @Bind değerlerinden oluşmalıdır.",
+                "InvalidRow": {
+                    "name": "$~geçersizsatır",
+                    "primary": "$~Satırlar ya tamamen değerlerden ya da tamamen @Bind değerlerinden oluşmalıdır."
+                },
                 "MissingCell": {
                     "primary": "$~1 numaralı sütunum eksik",
-                    "secondary": "$~Gerekliyim ama 1 dolar bunu sağlamadı"
+                    "secondary": "$~Gerekliyim ama 1 dolar bunu sağlamadı",
+                    "name": "$~eksiksütun"
                 },
                 "ExtraCell": {
                     "primary": "$~Benim burada olmam mı gerekiyor?",
-                    "secondary": "$~Hey $1, sen bu @Table'ın bir parçası değilsin!"
+                    "secondary": "$~Hey $1, sen bu @Table'ın bir parçası değilsin!",
+                    "name": "$~ekstrasütun"
                 },
-                "UnknownColumn": "$~Bu isimde bir köşe yazısı bilmiyorum",
+                "UnknownColumn": {
+                    "name": "$~bilinmeyensütunadı",
+                    "primary": "$~Bu isimde bir köşe yazısı bilmiyorum"
+                },
                 "UnexpectedColumnBind": {
                     "primary": "$~@Bind mi olmam gerekiyor?",
-                    "secondary": "$~Merhaba, ben @Table'ım, değerlere ihtiyacım var, @Bind'e değil."
+                    "secondary": "$~Merhaba, ben @Table'ım, değerlere ihtiyacım var, @Bind'e değil.",
+                    "name": "$~hiçbirsatırbağlamaz"
                 }
             }
         },
@@ -262,7 +277,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "primary": "$~Benim adım $1 ile aynı",
-                    "secondary": "$~Benim adım $1 ile aynı"
+                    "secondary": "$~Benim adım $1 ile aynı",
+                    "name": "$~yinelenentürdeğişkeni"
                 }
             }
         },
@@ -374,7 +390,10 @@
             "start": "$~Önce 1$'ı değerlendirelim",
             "finish": "$~Bakın, 1 dolar kazandım!",
             "conflict": {
-                "OrderOfOperations": "$~İşlemlerin matematiksel sırasına göre değil, okuma sırasına göre değerlendiriyorum. Değerlendirmem gereken sırayı belirtmek için @Block kullanmak ister misiniz?"
+                "OrderOfOperations": {
+                    "name": "$~belirsizdüzen",
+                    "primary": "$~İşlemlerin matematiksel sırasına göre değil, okuma sırasına göre değerlendiriyorum. Değerlendirmem gereken sırayı belirtmek için @Block kullanmak ister misiniz?"
+                }
             }
         },
         "Bind": {
@@ -413,23 +432,41 @@
                 "DuplicateName": {
                     "conflict": {
                         "primary": "$~Birisinin adı $1 olduğundan bu adı kullanamam.",
-                        "secondary": "$~Hey, benim adım 1 dolar, onu alamazsın!"
+                        "secondary": "$~Hey, benim adım 1 dolar, onu alamazsın!",
+                        "name": "$~yinelenenisim"
                     },
                     "resolution": "$~Tekrar eden isimler var, birini kaldırmak ister misiniz?"
                 },
                 "DuplicateShare": {
                     "primary": "$~Benim adım $1 ile aynı, bu da paylaşılan şeyin belirsiz olmasına neden oluyor",
-                    "secondary": "$~Benim de $1 ile aynı ismim var"
+                    "secondary": "$~Benim de $1 ile aynı ismim var",
+                    "name": "$~kopyalapaylaş"
                 },
                 "IncompatibleType": {
                     "primary": "$~2 dolar olmam gerekirken ben 1 dolarım",
-                    "secondary": "$~Ah, özür dilerim. Değişmeli miyim, yoksa belki de senin 1 dolar olman mı gerekiyor?"
+                    "secondary": "$~Ah, özür dilerim. Değişmeli miyim, yoksa belki de senin 1 dolar olman mı gerekiyor?",
+                    "name": "$~uyumsuztip"
                 },
-                "MisplacedShare": "$~Sadece @Program seviyesinde paylaşım yapabiliyorum, hiçbir şeyin içinde paylaşım yapamıyorum!",
-                "MissingShareLanguages": "$~Bunu paylaşmak istiyorsanız, bunun hangi dilde olduğunu söylemelisiniz, böylece diğerleri bunu okuyabildiklerini bilirler!",
-                "RequiredAfterOptional": "$~Burada olamam, benden önce isteğe bağlı bir @Bind var",
-                "UnexpectedEtc": "$~@FunctionDefinition'da yalnızca değişken uzunlukta olabilirim",
-                "UnusedBind": "$~Adım $1 ama kimse beni kullanmıyor. Belki de bana ihtiyaç yoktur?"
+                "MisplacedShare": {
+                    "name": "$~yanlışyerleştirilmişpaylaşım",
+                    "primary": "$~Sadece @Program seviyesinde paylaşım yapabiliyorum, hiçbir şeyin içinde paylaşım yapamıyorum!"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~eksikdil",
+                    "primary": "$~Bunu paylaşmak istiyorsanız, bunun hangi dilde olduğunu söylemelisiniz, böylece diğerleri bunu okuyabildiklerini bilirler!"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~isteğebağlıdansonragerekligirdi",
+                    "primary": "$~Burada olamam, benden önce isteğe bağlı bir @Bind var"
+                },
+                "UnexpectedEtc": {
+                    "name": "$~girişlistesindensonrabeklenmeyengiriş",
+                    "primary": "$~@FunctionDefinition'da yalnızca değişken uzunlukta olabilirim"
+                },
+                "UnusedBind": {
+                    "name": "$~kullanılmamışbağ",
+                    "primary": "$~Adım $1 ama kimse beni kullanmıyor. Belki de bana ihtiyaç yoktur?"
+                }
             }
         },
         "Block": {
@@ -455,14 +492,18 @@
             "start": "$~İlk ifade",
             "finish": "$~Tamamdır, 1$ kazandım",
             "conflict": {
-                "ExpectedEndingExpression": "$~Bir ifadeye ihtiyacım var.",
+                "ExpectedEndingExpression": {
+                    "name": "$~eksikifade",
+                    "primary": "$~Bir ifadeye ihtiyacım var."
+                },
                 "IgnoredExpression": {
                     "primary": "$~$1'i görmezden geleceğim, çünkü hiçbir şeyi tanımlamıyor ve son ifadem de değil.",
                     "secondary": "$~@Block, beni görmezden gelme!",
                     "resolution": {
                         "binary": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum.",
                         "evaluate": "$~Bunun bir @Evaluate olmasını mı istediniz? İki ayrı ifade yerine, tek bir ifade yapmak için bu alanı kaldırabilirim."
-                    }
+                    },
+                    "name": "$~görmezdengelinenifade"
                 }
             }
         },
@@ -483,8 +524,14 @@
             "bind": "$~isim",
             "version": "$~versiyon",
             "conflict": {
-                "UnknownBorrow": "$~Bu isimde bir kaynak tanımıyorum",
-                "BorrowCycle": "$~bu $1'e bağlıdır, bu da $source'a bağlıdır, bu yüzden program değerlendirilemez"
+                "UnknownBorrow": {
+                    "name": "$~bilinmeyenödünç",
+                    "primary": "$~Bu isimde bir kaynak tanımıyorum"
+                },
+                "BorrowCycle": {
+                    "name": "$~kendikendineatıftabulunanödünçalma",
+                    "primary": "$~bu $1'e bağlıdır, bu da $source'a bağlıdır, bu yüzden program değerlendirilemez"
+                }
             },
             "exception": {
                 "CycleException": {
@@ -524,7 +571,8 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "$~1$ ile evet ve hayırı nasıl seçebilirim? Gerçekten hayır, nasıl?",
-                    "secondary": "$~Sanırım @Conditional benim @Boolean olmamı istiyordu, ama ben $1'ım."
+                    "secondary": "$~Sanırım @Conditional benim @Boolean olmamı istiyordu, ama ben $1'ım.",
+                    "name": "$~beklenenbooleankoşulu"
                 }
             }
         },
@@ -540,7 +588,10 @@
             ],
             "start": "$~Harika, yeni bir dönüşüm!",
             "conflict": {
-                "MisplacedConversion": "$~vay canına, burada olamayacağım, sadece @Block'ta."
+                "MisplacedConversion": {
+                    "name": "$~yanlışyerleştirilmişdönüşüm",
+                    "primary": "$~vay canına, burada olamayacağım, sadece @Block'ta."
+                }
             }
         },
         "Convert": {
@@ -558,7 +609,10 @@
             "start": "$~1 dolardan o değeri al!",
             "finish": "$~Harika, 1 dolar kazandım",
             "conflict": {
-                "UnknownConversion": "$~Yazık, 1 doları 2 dolara çevirmenin yolu yok"
+                "UnknownConversion": {
+                    "name": "$~bilinmeyendönüşüm",
+                    "primary": "$~Yazık, 1 doları 2 dolara çevirmenin yolu yok"
+                }
             },
             "exception": {
                 "ConversionException": {
@@ -613,27 +667,41 @@
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "$~1 dolar olmam gerekirken 2 dolarım",
-                    "secondary": "$~Şey, 1 dolar yerine 2 dolar aldım"
+                    "secondary": "$~Şey, 1 dolar yerine 2 dolar aldım",
+                    "name": "$~uyumsuzgiriş"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "$~Bu tür bir girdi beklemiyordum",
-                    "secondary": "$~aa, ben burada olmamalı mıyım?"
+                    "secondary": "$~aa, ben burada olmamalı mıyım?",
+                    "name": "$~beklenmeyentipgirişi"
                 },
                 "MissingInput": {
                     "primary": "$~$2 girişi olmadan değerlendirme yapamıyorum :(",
-                    "secondary": "$~Bir değere ihtiyacım var, bana bir değer verebilir misiniz?"
+                    "secondary": "$~Bir değere ihtiyacım var, bana bir değer verebilir misiniz?",
+                    "name": "$~eksikgiriş"
                 },
-                "NotInstantiable": "$~Bunu @StructureDefinition yapamam, uygulanmamış fonksiyonları var.",
+                "NotInstantiable": {
+                    "name": "$~tamamlanmamışyapı",
+                    "primary": "$~Bunu @StructureDefinition yapamam, uygulanmamış fonksiyonları var."
+                },
                 "UnexpectedInput": {
                     "primary": "$~Bu girdiyi beklemiyordum $1",
-                    "secondary": "$~Ah, ben burada olmamalı mıyım?"
+                    "secondary": "$~Ah, ben burada olmamalı mıyım?",
+                    "name": "$~beklenmedikgirdi"
                 },
                 "UnknownInput": {
                     "primary": "$~$1'de bu isimde bir girdi bilmiyorum",
-                    "secondary": "$~$1 adında bir girdim yok"
+                    "secondary": "$~$1 adında bir girdim yok",
+                    "name": "$~bilinmeyengirdi"
                 },
-                "InputListMustBeLast": "$~girdilerin listesi en sonda olmalı",
-                "SeparatedEvaluate": "$~$1, değerlendirmeye çalıştığınız $2[$structure|$function]'ın adı mı? Benden sonraki boşluğu kaldırmayı deneyin, böylece bunun bir @Evaluate olduğunu ve ayrı bir @Block olmadığını bilirim."
+                "InputListMustBeLast": {
+                    "name": "$~ekstragirdilersondeğildir",
+                    "primary": "$~girdilerin listesi en sonda olmalı"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~belirsizdeğerlendirme",
+                    "primary": "$~$1, değerlendirmeye çalıştığınız $2[$structure|$function]'ın adı mı? Benden sonraki boşluğu kaldırmayı deneyin, böylece bunun bir @Evaluate olduğunu ve ayrı bir @Block olmadığını bilirim."
+                }
             },
             "exception": {
                 "FunctionException": {
@@ -670,7 +738,10 @@
             "start": "$~Burada ne yapacağımı bilmiyorum. Bana bilgi verebilir misiniz?",
             "placeholder": "$~ifade",
             "conflict": {
-                "Placeholder": "$~Bana bilgi verebilir misin? Ben sadece bir geçiciyim."
+                "Placeholder": {
+                    "name": "$~yertutucu",
+                    "primary": "$~Bana bilgi verebilir misin? Ben sadece bir geçiciyim."
+                }
             },
             "exception": {
                 "UnimplementedException": {
@@ -701,7 +772,10 @@
             ],
             "start": "$~Hadi bunu bir fonksiyon haline getirelim!",
             "conflict": {
-                "NoExpression": "$~Değerlendirmek için bir ifadeye ihtiyacım var, ekleyebilir misiniz?"
+                "NoExpression": {
+                    "name": "$~eksikifade",
+                    "primary": "$~Değerlendirmek için bir ifadeye ihtiyacım var, ekleyebilir misiniz?"
+                }
             }
         },
         "Iteration": {
@@ -752,7 +826,10 @@
             "start": "$~Önce 1$'ın değerini öğrenelim",
             "finish": "$~$1[değer $2'dir|değer $2 değildir]",
             "conflict": {
-                "ImpossibleType": "$~bu asla 1 dolar olamaz"
+                "ImpossibleType": {
+                    "name": "$~imkansıztip",
+                    "primary": "$~bu asla 1 dolar olamaz"
+                }
             },
             "exception": {
                 "TypeException": {
@@ -810,7 +887,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "$~anahtarlarımdan birinde değer eksik",
-                    "secondary": "$~oops, benim değerim nerede?"
+                    "secondary": "$~oops, benim değerim nerede?",
+                    "name": "$~eksikdeğer"
                 }
             }
         },
@@ -838,7 +916,10 @@
             "doc": "$~Ben belirli bir @Number'ım. Bana her türlü dilden her türlü rakamla yazabilirsiniz. Yapabileceğim her şey için @Number'a bakın.",
             "start": "$~1 dolar!",
             "conflict": {
-                "NotANumber": "$~Tüm sayıları bildiğimi sanıyordum ama bunu bilmiyorum"
+                "NotANumber": {
+                    "name": "$~birsayıdeğil",
+                    "primary": "$~Tüm sayıları bildiğimi sanıyordum ama bunu bilmiyorum"
+                }
             }
         },
         "InternalExpression": {
@@ -932,7 +1013,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "primary": "$~Ben 1$'lık bir girdi değilim, bu yüzden rafine edilemem.",
-                    "secondary": "$~$1 adında bir girdim yok"
+                    "secondary": "$~$1 adında bir girdim yok",
+                    "name": "$~bilinmeyenmülk"
                 }
             }
         },
@@ -965,7 +1047,10 @@
             "condition": "$~durum",
             "next": "$~Sonraki",
             "conflict": {
-                "ExpectedStream": "$~$1 bir akışı ifade etmiyor, bu yüzden asla tepki vermeyeceğim!"
+                "ExpectedStream": {
+                    "name": "$~beklenenakış",
+                    "primary": "$~$1 bir akışı referans almıyor, bu yüzden asla tepki vermeyeceğim!"
+                }
             }
         },
         "Reference": {
@@ -981,11 +1066,20 @@
             "start": "$~1 doların değeri nedir?",
             "conflict": {
                 "UnknownName": {
-                    "conflict": "$~$1[$2[$2|bu @Block'ta $1 adında birini tanımıyorum]|Bana bir isim verebilir misin?]",
+                    "conflict": {
+                        "name": "$~bilinmeyenisim",
+                        "primary": "$~$1[$2[$2|bu @Block'ta $1 adında birini tanımıyorum]|Bana bir isim verebilir misin?]"
+                    },
                     "resolution": "$~*$1* mı demek istediniz?"
                 },
-                "ReferenceCycle": "$~hımm, 1$'ın değeri kendine bağlı, peki ona ne değer vereceğimi nasıl bileceğim?",
-                "UnexpectedTypeVariable": "$~Bu tür girdilerle ne yapacağımı bilmiyorum"
+                "ReferenceCycle": {
+                    "name": "$~kendikendinireferansalandeğer",
+                    "primary": "$~hımm, 1$'ın değeri kendisine bağlı, peki ona ne değer vereceğimi nasıl bileceğim?"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~beklenmeyentipdeğişkeni",
+                    "primary": "$~Bu tür girdilerle ne yapacağımı bilmiyorum"
+                }
             },
             "exception": {
                 "NameException": {
@@ -1006,7 +1100,10 @@
             "start": "$~Önce masayı alalım",
             "finish": "$~Sadece seçili satır ve sütunlardan oluşan yeni bir tablo oluşturdum!",
             "conflict": {
-                "ExpectedSelectName": "$~En azından bir sütun adına ihtiyacım var."
+                "ExpectedSelectName": {
+                    "name": "$~eksiksütunadı",
+                    "primary": "$~En azından bir sütun adına ihtiyacım var."
+                }
             }
         },
         "SetLiteral": {
@@ -1032,7 +1129,8 @@
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "$~1 dolarlık bir anahtar bekliyordum",
-                    "secondary": "$~2 dolar yerine 1 dolar aldım"
+                    "secondary": "$~2 dolar yerine 1 dolar aldım",
+                    "name": "$~uyumsuzanahtar"
                 }
             }
         },
@@ -1068,10 +1166,22 @@
             ],
             "start": "$~Bu güzel yapıyı tanımlayalım",
             "conflict": {
-                "DisallowedInputs": "$~Arayüz fonksiyonlarımdan biri veya birkaçı uygulanmadığı için girdilerim olamaz",
-                "IncompleteImplementation": "$~ya tüm fonksiyonlarım uygulanmalı ya da hiçbiri uygulanmamalı. Karmaşık karışımlar yok!",
-                "NotAnInterface": "$~Ben bir arayüz değilim; bir yapı yalnızca arayüzleri uygulayabilir, diğer yapıları uygulayamaz",
-                "UnimplementedInterface": "$~$1'i uyguladım ama $2'yi uygulamadım"
+                "DisallowedInputs": {
+                    "name": "$~girişlereizinverilmiyor",
+                    "primary": "$~Arayüz fonksiyonlarımdan biri veya birkaçı uygulanmadığı için girdilerim olamaz"
+                },
+                "IncompleteImplementation": {
+                    "name": "$~tamamlanmamışyapı",
+                    "primary": "$~ya tüm fonksiyonlarım uygulanmalı ya da hiçbiri uygulanmamalı. Karmaşık karışımlar yok!"
+                },
+                "NotAnInterface": {
+                    "name": "$~birarayüzdeğil",
+                    "primary": "$~Ben bir arayüz değilim; bir yapı yalnızca arayüzleri uygulayabilir, diğer yapıları uygulayamaz"
+                },
+                "UnimplementedInterface": {
+                    "name": "$~uygulanmamış",
+                    "primary": "$~$1'i uyguladım ama $2'yi uygulamadım"
+                }
             }
         },
         "StructureDefinitionType": {
@@ -1103,14 +1213,32 @@
             "emotion": "serious",
             "doc": "$~@Language etiketiyle bir miktar metin temsil ediyorum. Daha fazla bilgi edinmek için @Text'e bakın!",
             "conflict": {
-                "phone": "$~*$1* birinin telefon numarası mı? Eğer öyleyse beni çevrimiçi paylaşmayın!\n\n$2",
-                "email": "$~*$1* birinin e-postası mı? Eğer öyleyse beni burada paylaşmayın!\n\n$2",
-                "tin": "$~*$1* bir vergi tanımlayıcısı mıdır? Eğer evetse, kesinlikle beni paylaşmayın, çok hassas bir bilgiyim!\n\n$2",
-                "address": "$~*$1* birinin ev adresi mi? Eğer öyleyse, beni buraya koymayın, kimsenin takip edilmesini istemiyoruz!\n\n$2",
-                "handle": "$~*$1* internetteki başka bir yer için kullanıcı adınız mı? Eğer öyleyse, gerçekten istemedikçe beni burada paylaşmayın.\n\n$2",
+                "phone": {
+                    "name": "$~olasıtelefonnumarası",
+                    "primary": "$~*$1* birinin telefon numarası mı? Eğer öyleyse beni çevrimiçi paylaşmayın!\n\n$2"
+                },
+                "email": {
+                    "name": "$~olasıe-posta",
+                    "primary": "$~*$1* birinin e-postası mı? Eğer öyleyse beni burada paylaşmayın!\n\n$2"
+                },
+                "tin": {
+                    "name": "$~olasıvergitanımlayıcısı",
+                    "primary": "$~*$1* bir vergi tanımlayıcısı mıdır? Eğer evetse, kesinlikle beni paylaşmayın, çok hassas bir bilgiyim!\n\n$2"
+                },
+                "address": {
+                    "name": "$~olasıadres",
+                    "primary": "$~*$1* birinin ev adresi mi? Eğer öyleyse, beni buraya koymayın, kimsenin takip edilmesini istemiyoruz!\n\n$2"
+                },
+                "handle": {
+                    "name": "$~olasıkullanıcıadı",
+                    "primary": "$~*$1* internetteki başka bir yer için kullanıcı adınız mı? Eğer öyleyse, gerçekten istemedikçe beni burada paylaşmayın.\n\n$2"
+                },
                 "resolution": "$~Bu hassas bir veri değil",
                 "reminder": "$~Not: Bu işlemi geri alabilir ve paylaşım iletişim kutusunda hassas olmayan olarak işaretlediğiniz diğer şeyleri görebilirsiniz.",
-                "character": "$~Bu bir karakter ismine benziyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın."
+                "character": {
+                    "name": "$~olasıözelkarakter",
+                    "primary": "$~Bu bir karakter ismine benziyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın."
+                }
             }
         },
         "FormattedLiteral": {
@@ -1151,7 +1279,10 @@
             ],
             "start": "$~1$ olarak değerlendirildi",
             "conflict": {
-                "MisplacedThis": "$~Bana ancak bir yapı, dönüşüm veya tepki içinde izin veriliyor."
+                "MisplacedThis": {
+                    "name": "$~bureferansıyanlışyerekoydum",
+                    "primary": "$~Bana ancak bir yapı, dönüşüm veya tepki içinde izin veriliyor."
+                }
             }
         },
         "UnaryEvaluate": {
@@ -1187,10 +1318,16 @@
             "start": "$~???",
             "conflict": {
                 "UnparsableConflict": {
-                    "conflict": "$~@FunctionDefinition burada, @UnparsableExpression bunun ne tür bir $1[ ifade | tür ] olduğunu bilmiyor.",
+                    "conflict": {
+                        "name": "$~okunamayankod",
+                        "primary": "$~@FunctionDefinition burada, @UnparsableExpression bunun ne tür bir $1[ ifade | tür ] olduğunu bilmiyor."
+                    },
                     "resolution": "$~1 dolar, 2 dolar mı demek istedin?"
                 },
-                "UnclosedDelimiter": "$~1 dolardan bir süre sonra 2 dolar bekliyordum"
+                "UnclosedDelimiter": {
+                    "name": "$~kapatılmamışayırıcı",
+                    "primary": "$~1 dolardan bir süre sonra 2 dolar bekliyordum"
+                }
             },
             "exception": {
                 "UnparsableException": {
@@ -1211,10 +1348,14 @@
             "start": "$~Önce masayı alalım",
             "finish": "$~Revize edilmiş satırlarla yeni bir tabloya değerlendirildi!",
             "conflict": {
-                "ExpectedColumnBind": "$~Her sütun için bir değere ihtiyacım var",
+                "ExpectedColumnBind": {
+                    "name": "$~eksiksütundeğeri",
+                    "primary": "$~Her sütun için bir değere ihtiyacım var"
+                },
                 "IncompatibleCellType": {
                     "primary": "$~1 dolara ihtiyacım vardı ama 2 dolar aldım",
-                    "secondary": "$~2 dolar aldım"
+                    "secondary": "$~2 dolar aldım",
+                    "name": "$~uyumsuzhücretipi"
                 }
             }
         },
@@ -1299,7 +1440,10 @@
                 "$~\\•Arkadaş(isim•'')\nen iyi•Arkadaş: Arkadaş('Jonah')\\"
             ],
             "conflict": {
-                "UnknownTypeName": "$~tür adları yalnızca yapılara veya tür değişkenlerine başvurabilir, ancak bu $1'e başvurur"
+                "UnknownTypeName": {
+                    "name": "$~bilinmeyentüradı",
+                    "primary": "$~tür adları yalnızca yapılara veya tür değişkenlerine başvurabilir, ancak bu $1 türüne başvurur"
+                }
             }
         },
         "NeverType": {
@@ -1354,7 +1498,10 @@
             "emotion": "angry",
             "doc": "$~Ben bir Tabloyu temsil ediyorum.",
             "conflict": {
-                "ExpectedColumnType": "$~Bir sütun türüne ihtiyacım var"
+                "ExpectedColumnType": {
+                    "name": "$~eksiksütuntürü",
+                    "primary": "$~Bir sütun türüne ihtiyacım var"
+                }
             }
         },
         "TextType": {
@@ -3767,6 +3914,10 @@
             "count": {
                 "doc": "$~Dizinin bitmeden önce kaç kez tekrarlanması gerektiği. Sahneye girdiğimde, sahnede hareket ettiğimde veya sahneden çıktığımda bu gerçekten çok yardımcı oluyor, ancak bir dinlenme dizisi için, sonsuza kadar dinlenebildiğim için görmezden geliniyor.",
                 "names": "$~saymak"
+            },
+            "description": {
+                "doc": "$~Animasyonu göremeyen izleyiciler için bu sekansın isteğe bağlı açıklaması.",
+                "names": "$~Tanım"
             }
         },
         "Place": {
@@ -4339,7 +4490,9 @@
             "evaluating": "$~Aman ne güzel, değerlendirelim!",
             "space": "$~Burası uzay! Hiçbir şeyin bu kadar çok şey söyleyebileceğini kim bilebilirdi?",
             "button": {
-                "resolution": "$~Bu çatışmayı çöz"
+                "resolution": "$~Bu çatışmayı çöz",
+                "toggle": "$~açıklamaları göster ve gizle",
+                "highlight": "$~bu kodu editörde göster"
             }
         },
         "output": {
@@ -4396,7 +4549,8 @@
             "nodoc": "$~Ben kimim? Ben neyim? Amacım nedir?",
             "button": {
                 "home": "$~eve dönüş",
-                "back": "$~öncekine dön"
+                "back": "$~öncekine dön",
+                "toggle": "$~Bu kavram grubunu göster ve gizle"
             },
             "field": {
                 "search": "$~Sözcüklerle kavramları arayın"
@@ -4492,10 +4646,13 @@
                         "label": "$~animasyonlar",
                         "modes": [
                             "$~animasyonlar kapalı",
-                            "$~normal hız",
-                            "$~yarım hız",
+                            "$~çeyrek hız",
                             "$~üçüncü hız",
-                            "$~çeyrek hız"
+                            "$~yarım hız",
+                            "$~normal hız",
+                            "$~çift hız",
+                            "$~beş hız",
+                            "$~on hız"
                         ]
                     },
                     "dark": {
@@ -4577,6 +4734,10 @@
                     "close": {
                         "label": "$~kapalı",
                         "tip": "$~Bu geri bildirimi moderatör olarak kapatın"
+                    },
+                    "comment": {
+                        "label": "$~göndermek",
+                        "tip": "$~Bu geri bildirime yorum gönderin."
                     }
                 },
                 "mode": {
@@ -4595,11 +4756,20 @@
                     "idea": {
                         "description": "$~Kusurunuzun açıklaması",
                         "placeholder": "$~Ne yapmaya çalışıyorsun da yapamıyorsun?"
+                    },
+                    "comment": {
+                        "description": "$~Yorum",
+                        "placeholder": "$~Bu geri bildirime bir yorum ekleyin"
+                    },
+                    "github": {
+                        "description": "$~GitHub sorunu",
+                        "placeholder": "$~GitHub sorununa bağlantı"
                     }
                 },
                 "subheader": {
                     "defect": "$~kusur",
-                    "idea": "$~fikir"
+                    "idea": "$~fikir",
+                    "moderator": "$~moderatör"
                 },
                 "prompt": {
                     "defect": "$~Yaşadığınız sorunu göremiyor musunuz? Buradan bildirin.",
@@ -4609,7 +4779,8 @@
                     "login": "$~Geri bildirim göndermek için giriş yapmış olmanız gerekir",
                     "submit": "$~Geri bildirim gönderilemedi.",
                     "load": "$~Geri bildirim yüklenemiyor",
-                    "empty": "$~Gösterilecek geri bildirim yok."
+                    "empty": "$~Gösterilecek geri bildirim yok.",
+                    "url": "$~Bu geçerli bir GitHub URL'si değil."
                 }
             }
         },

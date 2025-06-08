@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import type { LanguageTagged } from '@nodes/LanguageTagged';
 import Sym from '@nodes/Sym';
@@ -40,7 +41,8 @@ export class PossiblePII extends Conflict {
                 node: this.text,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) => l.node.Translation.conflict[this.pii.kind],
+                        (l) =>
+                            l.node.Translation.conflict[this.pii.kind].primary,
                         this.pii.text,
                         locales.get(
                             (l) => l.node.Translation.conflict.reminder,
@@ -63,5 +65,10 @@ export class PossiblePII extends Conflict {
                 },
             ],
         };
+    }
+
+    getLocalePath() {
+        return (locale: LocaleText) =>
+            locale.node.Translation.conflict[this.pii.kind];
     }
 }

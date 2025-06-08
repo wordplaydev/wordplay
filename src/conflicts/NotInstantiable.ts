@@ -1,7 +1,8 @@
+import type LocaleText from '@locale/LocaleText';
 import type Evaluate from '@nodes/Evaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '../locale/Locales';
+import Locales from '../locale/Locales';
 import Conflict from './Conflict';
 
 export default class NotInstantiable extends Conflict {
@@ -21,15 +22,22 @@ export default class NotInstantiable extends Conflict {
         this.abstractFunctions = abstractFunctions;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.Evaluate.conflict.NotInstantiable;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.evaluate,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) => l.node.Evaluate.conflict.NotInstantiable,
+                        (l) => NotInstantiable.LocalePath(l).primary,
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return NotInstantiable.LocalePath;
     }
 }

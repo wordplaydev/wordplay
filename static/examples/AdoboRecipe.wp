@@ -1,0 +1,40 @@
+Adobo Recipe
+=== start/en
+
+¶These are the list of scenes to show¶
+sentences: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (move the mouse around to eat)`)
+		(`Masarap! @lamamel/emptyadobo`)
+	]
+
+¶These are the list of sentences that should only be advanced by moving the mouse.¶
+moveSentences: [9 11]
+
+¶The current sentence starts at 1, 
+and increments if the mouse goes to a certain coordinate on the screen, 
+or a button or key is pressed for other sentences.¶
+point: Pointer()
+currentSentence•#: 1 …
+	moveSentences.has(currentSentence) ?
+		(point.x > 2m) & (point.y > 3m)
+		∆ Button() | ∆ Key()
+		…
+		(currentSentence <
+				sentences.length()) ?
+			currentSentence + 1
+			currentSentence
+
+Stage(
+	[Phrase(sentences[currentSentence] ↵: 10m)]
+	face: 'Short Stack'
+)

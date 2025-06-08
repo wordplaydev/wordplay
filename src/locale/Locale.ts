@@ -19,4 +19,14 @@ export function stringToLocale(localeString: string): Locale | undefined {
     return language ? { language, regions } : undefined;
 }
 
+export function localesAreEqual(locale1: Locale, locale2: Locale): boolean {
+    return (
+        locale1.language === locale2.language &&
+        locale1.regions.length === locale2.regions.length &&
+        locale1.regions.every(
+            (region, index) => region === locale2.regions[index],
+        )
+    );
+}
+
 export type { Locale as default };

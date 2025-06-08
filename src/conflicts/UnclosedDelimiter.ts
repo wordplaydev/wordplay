@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
@@ -18,15 +19,16 @@ export default class UnclosedDelimiter extends Conflict {
         this.expected = expected;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.UnparsableExpression.conflict.UnclosedDelimiter;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.open,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.UnparsableExpression.conflict
-                                .UnclosedDelimiter,
+                        (l) => UnclosedDelimiter.LocalePath(l).primary,
                         new NodeRef(
                             this.open,
                             locales,
@@ -42,5 +44,9 @@ export default class UnclosedDelimiter extends Conflict {
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return UnclosedDelimiter.LocalePath;
     }
 }

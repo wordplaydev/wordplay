@@ -230,6 +230,6 @@ export default class Names extends Node {
     }
 
     getCharacter() {
-        return { symbols: this.getNames()[0], emotion: Emotion.kind };
+        return { symbols: this.getNames()[0] ?? '–', emotion: Emotion.kind };
     }
 }

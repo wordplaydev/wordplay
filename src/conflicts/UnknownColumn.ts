@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Expression from '@nodes/Expression';
 import type Input from '@nodes/Input';
 import type TableType from '@nodes/TableType';
@@ -14,15 +15,22 @@ export default class UnknownColumn extends Conflict {
         this.cell = cell;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Row.conflict.UnknownColumn;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.cell,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) => l.node.Row.conflict.UnknownColumn,
+                        (l) => UnknownColumn.LocalePath(l).primary,
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return UnknownColumn.LocalePath;
     }
 }

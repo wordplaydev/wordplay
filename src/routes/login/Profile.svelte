@@ -92,7 +92,10 @@
     <Action><DeleteAccount {user} /></Action>
     {#if moderator}
         <Action>
-            You're a moderator. Go <Link to="/moderate">moderate</Link>?
+            <span
+                >You're a moderator. Go <Link to="/moderate">moderate</Link
+                >?</span
+            >
         </Action>
     {/if}
 </div>

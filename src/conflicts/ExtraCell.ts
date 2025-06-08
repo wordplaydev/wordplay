@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Input from '@nodes/Input';
@@ -17,23 +18,30 @@ export default class MissingCell extends Conflict {
         this.type = type;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Row.conflict.MissingCell;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.cell,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) => l.node.Row.conflict.ExtraCell.primary,
+                        (l) => MissingCell.LocalePath(l).primary,
                     ),
             },
             secondary: {
                 node: this.type,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
-                        (l) => l.node.Row.conflict.ExtraCell.secondary,
+                        (l) => MissingCell.LocalePath(l).secondary,
                         new NodeRef(this.cell, locales, context),
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return MissingCell.LocalePath;
     }
 }

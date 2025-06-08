@@ -1,5 +1,6 @@
 <script lang="ts">
     import Toggle from '@components/widgets/Toggle.svelte';
+    import { SEARCH_SYMBOL } from '@parser/Symbols';
     import {
         type Character,
         characterToSVG,
@@ -111,7 +112,7 @@
 <section class:expanded class="directory" data-uiid="directory">
     <TextField
         id="character-search"
-        placeholder="🔍"
+        placeholder={SEARCH_SYMBOL}
         description={(l) => l.ui.source.cursor.search}
         bind:text={query}
     />

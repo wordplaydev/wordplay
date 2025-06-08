@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Bind from '@nodes/Bind';
 import type Token from '@nodes/Token';
 import type Locales from '../locale/Locales';
@@ -12,15 +13,22 @@ export default class UnexpectedEtc extends Conflict {
         this.bind = bind;
     }
 
+    static readonly LocalePath = (locales: LocaleText) =>
+        locales.node.Bind.conflict.UnexpectedEtc;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.bind,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) => l.node.Bind.conflict.UnexpectedEtc,
+                        (l) => UnexpectedEtc.LocalePath(l).primary,
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return UnexpectedEtc.LocalePath;
     }
 }

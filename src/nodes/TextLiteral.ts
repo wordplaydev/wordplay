@@ -235,7 +235,7 @@ export default class TextLiteral extends Literal {
 
     getCharacter() {
         return {
-            symbols: this.texts[0].getDelimiters(),
+            symbols: this.texts[0].getDelimiters() ?? '–',
             emotion: Emotion.excited,
         };
     }

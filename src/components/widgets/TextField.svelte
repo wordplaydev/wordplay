@@ -2,6 +2,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import { CONFIRM_SYMBOL } from '@parser/Symbols';
     import { onMount, tick } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
 
@@ -10,6 +11,7 @@
         text?: string;
         placeholder: LocaleTextAccessor | string;
         description: LocaleTextAccessor;
+        /** A validation function that either returns true if valid or a message accessor if false */
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         changed?: undefined | ((text: string) => void);
         // Called if someone typed and paused for more than a second.
@@ -198,7 +200,7 @@
     {/if}
     {#if savingDone !== false}
         <div class="done"
-            >{#if savingDone === undefined}…{:else if savingDone === true}✓{/if}</div
+            >{#if savingDone === undefined}…{:else if savingDone === true}{CONFIRM_SYMBOL}{/if}</div
         >{/if}
 </div>
 

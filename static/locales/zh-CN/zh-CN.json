@@ -189,8 +189,14 @@
                 "这里还有许多我能理解的 <两个字母的语言表达代码@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> 。如果你没有使用它们中的任意一个，我会告诉你的。"
             ],
             "conflict": {
-                "UnknownLanguage": "我不知道这个语言呢",
-                "MissingLanguage": "这里缺少了对语言的描述，你能加上一个吗？"
+                "UnknownLanguage": {
+                    "primary": "我不知道这个语言呢",
+                    "name": "$~未知语言"
+                },
+                "MissingLanguage": {
+                    "primary": "这里缺少了对语言的描述，你能加上一个吗？",
+                    "name": "$~缺少语言"
+                }
             }
         },
         "Name": {
@@ -225,19 +231,28 @@
             "emotion": "shy",
             "doc": "我代表了一个 @Table 中的一排。你最好和 @Table 聊聊这个，因为它知道我的所有事情。我只是在这里确保所有值都在一行里。 :(",
             "conflict": {
-                "InvalidRow": "行要么是所有值，要么必须是所有 @Bind 。",
+                "InvalidRow": {
+                    "primary": "行要么是所有值，要么必须是所有 @Bind 。",
+                    "name": "$~无效行"
+                },
                 "MissingCell": {
                     "primary": "我和一列 $1 走散啦。",
-                    "secondary": "这里是需要我的，但是 $1 好像没有提供呢。"
+                    "secondary": "这里是需要我的，但是 $1 好像没有提供呢。",
+                    "name": "$~缺失列"
                 },
-                "UnknownColumn": "我不知道有哪一列是这个名字呀。",
+                "UnknownColumn": {
+                    "primary": "我不知道有哪一列是这个名字呀。",
+                    "name": "$~未知的列名"
+                },
                 "ExtraCell": {
                     "primary": "我真的应该在这里吗？",
-                    "secondary": "嘿 $1，你不是 @Table 的一部分呀!"
+                    "secondary": "嘿 $1，你不是 @Table 的一部分呀!",
+                    "name": "$~额外的列"
                 },
                 "UnexpectedColumnBind": {
                     "primary": "我真的应该是一个 @Bind 吗?",
-                    "secondary": "嘿，我是一个 @Table, 我需要一个值，而不是 @Bind。"
+                    "secondary": "嘿，我是一个 @Table, 我需要一个值，而不是 @Bind。",
+                    "name": "$~无绑定行"
                 }
             }
         },
@@ -262,7 +277,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "primary": "我和 $1 有一样的值。",
-                    "secondary": "我和 $1 有一样的名字。"
+                    "secondary": "我和 $1 有一样的名字。",
+                    "name": "$~重复类型变量"
                 }
             }
         },
@@ -374,7 +390,10 @@
             "start": "让我们先来运算 $1 吧",
             "finish": "你看，我创造了 $1!",
             "conflict": {
-                "OrderOfOperations": "我是按照读取顺序而非数学运算顺序来评估一个值的。你想用 @Block 来来指定我的运算顺序吗？"
+                "OrderOfOperations": {
+                    "primary": "我是按照读取顺序而非数学运算顺序来评估一个值的。你想用 @Block 来来指定我的运算顺序吗？",
+                    "name": "$~模糊的顺序"
+                }
             }
         },
         "Bind": {
@@ -413,23 +432,41 @@
                 "DuplicateName": {
                     "conflict": {
                         "primary": "有其他人已经被命名为 $1 了，所以我不能叫这个名字。",
-                        "secondary": "噢, $1 是我的名字"
+                        "secondary": "噢, $1 是我的名字",
+                        "name": "$~重复名称"
                     },
                     "resolution": "有重复的名称，是否要删除一个？"
                 },
                 "DuplicateShare": {
                     "primary": "我有和 $1 一样的名字，这让事情有些模棱两可",
-                    "secondary": "我有和 $1 一样的名字"
+                    "secondary": "我有和 $1 一样的名字",
+                    "name": "$~重复共享"
                 },
                 "IncompatibleType": {
                     "primary": "我应该是 $2 的，但现在我是 $1",
-                    "secondary": "噢……抱歉，你输入了什么？ $1, 真的吗?"
+                    "secondary": "噢……抱歉，你输入了什么？ $1, 真的吗?",
+                    "name": "$~不相容类型"
                 },
-                "MisplacedShare": "我只能分享在 @Program 等级的事物，但没办法解释它里面的一切！",
-                "MissingShareLanguages": "如果你想要分享这个，你需要说明它是什么语言的，这样其他人才知道他们能不能阅读你分享的东西！",
-                "RequiredAfterOptional": "我不能在这，这里还有一个可选的 @Bind 在我前面",
-                "UnexpectedEtc": "只有在 @FunctionDefinition 中我才是可变的长度",
-                "UnusedBind": "嘿，我给这这个变量命名了，但是它还没有被使用呢！"
+                "MisplacedShare": {
+                    "primary": "我只能分享在 @Program 等级的事物，但没办法解释它里面的一切！",
+                    "name": "$~放错位置的份额"
+                },
+                "MissingShareLanguages": {
+                    "primary": "如果你想要分享这个，你需要说明它是什么语言的，这样其他人才知道他们能不能阅读你分享的东西！",
+                    "name": "$~缺少语言"
+                },
+                "RequiredAfterOptional": {
+                    "primary": "我不能在这，这里还有一个可选的 @Bind 在我前面",
+                    "name": "$~可选后必填输入"
+                },
+                "UnexpectedEtc": {
+                    "primary": "只有在 @FunctionDefinition 中我才是可变的长度",
+                    "name": "$~输入列表后的意外输入"
+                },
+                "UnusedBind": {
+                    "primary": "嘿，我给这这个变量命名了，但是它还没有被使用呢！",
+                    "name": "$~未使用的绑定"
+                }
             }
         },
         "Block": {
@@ -455,14 +492,18 @@
             "start": "第一个表述",
             "finish": "好啦，我现在有 $1 了",
             "conflict": {
-                "ExpectedEndingExpression": "我需要一个表述。",
+                "ExpectedEndingExpression": {
+                    "primary": "我需要一个表述。",
+                    "name": "$~缺失表达"
+                },
                 "IgnoredExpression": {
                     "primary": "$~我将忽略 $1，因为它没有定义任何东西并且不是我的最后一个表达式。",
                     "secondary": "$~@Block，不要忽略我！",
                     "resolution": {
                         "binary": "$~您的意思是将其改为 @BinaryEvaluate 而不是 @UnaryEvaluate 吗？我可以添加一个空格，这样我就知道这就是您的意思。",
                         "evaluate": "$~你的意思是把它变成一个 @Evaluate 表达式吗？我可以去掉这个空格，让它变成一个表达式，而不是两个独立的表达式。"
-                    }
+                    },
+                    "name": "$~忽略的表达"
                 }
             }
         },
@@ -483,8 +524,14 @@
             "bind": "命名",
             "version": "版本",
             "conflict": {
-                "UnknownBorrow": "我不知道哪个 $source 是叫这个名字的",
-                "BorrowCycle": "这取决于 $1，而它取决于 $source，所以这个程序不能被运算。"
+                "UnknownBorrow": {
+                    "primary": "我不知道哪个 $source 是叫这个名字的",
+                    "name": "$~未知借款"
+                },
+                "BorrowCycle": {
+                    "primary": "这取决于 $1，而它取决于 $source，所以这个程序不能被运算。",
+                    "name": "$~自引用借用"
+                }
             },
             "exception": {
                 "CycleException": {
@@ -524,7 +571,8 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "我怎样才能用 $1 来选择是或不是呢? 这样是没办法的",
-                    "secondary": "我感觉 @Conditional 想要我成为一个 @Boolean，但我现在还是 $1。"
+                    "secondary": "我感觉 @Conditional 想要我成为一个 @Boolean，但我现在还是 $1。",
+                    "name": "$~预期布尔条件"
                 }
             }
         },
@@ -540,7 +588,10 @@
             ],
             "start": "太棒了，一个新的转换！",
             "conflict": {
-                "MisplacedConversion": "哇，我不能在这里，只能在 @Block 中。"
+                "MisplacedConversion": {
+                    "primary": "哇，我不能在这里，只能在 @Block 中。",
+                    "name": "$~错误的转换"
+                }
             }
         },
         "Convert": {
@@ -558,7 +609,10 @@
             "start": "从 $1 获取那个值！",
             "finish": "太棒了，我做到了 $1",
             "conflict": {
-                "UnknownConversion": "糟糕，无法将 $1 转成 $2"
+                "UnknownConversion": {
+                    "primary": "糟糕，无法将 $1 转成 $2",
+                    "name": "$~未知转换"
+                }
             },
             "exception": {
                 "ConversionException": {
@@ -613,27 +667,41 @@
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "我应该是一个 $1，但我是一个 $2",
-                    "secondary": "嗯，我得到了一个 $2 而不是 $1"
+                    "secondary": "嗯，我得到了一个 $2 而不是 $1",
+                    "name": "$~不兼容的输入"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "我没料到会得到这种类型的输入",
-                    "secondary": "哦，我这里不应该出现吗？"
+                    "secondary": "哦，我这里不应该出现吗？",
+                    "name": "$~意外的类型输入"
                 },
                 "MissingInput": {
                     "primary": "$~如果没有名为 $1 的输入，我无法进行评估:(",
-                    "secondary": "$~哦，哎呀。你能帮我们把它添加到我的输入列表中吗？"
+                    "secondary": "$~哦，哎呀。你能帮我们把它添加到我的输入列表中吗？",
+                    "name": "$~缺少输入"
                 },
-                "NotInstantiable": "我不能创建这个 @StructureDefinition，它有未实现的函数。",
+                "NotInstantiable": {
+                    "primary": "我不能创建这个 @StructureDefinition，它有未实现的函数。",
+                    "name": "$~结构不完整"
+                },
                 "UnexpectedInput": {
                     "primary": "我没预料到会得到这个输入 $1",
-                    "secondary": "哦，我这里不应该出现吗？"
+                    "secondary": "哦，我这里不应该出现吗？",
+                    "name": "$~意外输入"
                 },
                 "UnknownInput": {
                     "primary": "我不知道这个名字的输入",
-                    "secondary": "我觉得我不应该在这里"
+                    "secondary": "我觉得我不应该在这里",
+                    "name": "$~未知输入"
                 },
-                "InputListMustBeLast": "输入列表必须放在最后",
-                "SeparatedEvaluate": "$1 是你要评估的 $2[$structure|$function] 的名称吗？请尝试删除我后面的空格，这样我就知道它是 @Evaluate 而不是单独的 @Block。"
+                "InputListMustBeLast": {
+                    "primary": "输入列表必须放在最后",
+                    "name": "$~额外的输入不是最后的"
+                },
+                "SeparatedEvaluate": {
+                    "primary": "$1 是你要评估的 $2[$structure|$function] 的名称吗？请尝试删除我后面的空格，这样我就知道它是 @Evaluate 而不是单独的 @Block。",
+                    "name": "$~模棱两可的评价"
+                }
             },
             "exception": {
                 "FunctionException": {
@@ -670,7 +738,10 @@
             "start": "哎呀，我不知道该怎么办！",
             "placeholder": "表达式",
             "conflict": {
-                "Placeholder": "有人能顶替我吗？"
+                "Placeholder": {
+                    "primary": "有人能顶替我吗？",
+                    "name": "$~占位符"
+                }
             },
             "exception": {
                 "UnimplementedException": {
@@ -701,7 +772,10 @@
             ],
             "start": "让我们创建这个函数！",
             "conflict": {
-                "NoExpression": "我需要一个要评估的表达式，你能添加一个吗?"
+                "NoExpression": {
+                    "primary": "我需要一个要评估的表达式，你能添加一个吗?",
+                    "name": "$~缺失表达"
+                }
             }
         },
         "Iteration": {
@@ -752,7 +826,10 @@
             "start": "首先让我们获取 $1 的值",
             "finish": "$1[值是 $2|值不是 $2]",
             "conflict": {
-                "ImpossibleType": "这永远不可能是这种类型 $1"
+                "ImpossibleType": {
+                    "primary": "这永远不可能是这种类型 $1",
+                    "name": "$~不可能类型"
+                }
             },
             "exception": {
                 "TypeException": {
@@ -810,7 +887,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "我的某个键缺少值",
-                    "secondary": "哎呀，我的值在哪里？"
+                    "secondary": "哎呀，我的值在哪里？",
+                    "name": "$~缺失值"
                 }
             }
         },
@@ -838,7 +916,10 @@
             "doc": "我是一个具体的 @Number。你可以用任何语言的任何数字来书写我。查看 @Number 了解我能做的一切。",
             "start": "$1!",
             "conflict": {
-                "NotANumber": "我以为我认识所有的数字，但我不认识这个"
+                "NotANumber": {
+                    "primary": "我以为我认识所有的数字，但我不认识这个",
+                    "name": "$~不是一个数字"
+                }
             }
         },
         "InternalExpression": {
@@ -932,7 +1013,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "primary": "我不是1美元的输入，所以无法被分析。",
-                    "secondary": "我没有名为 $1 的输入值"
+                    "secondary": "我没有名为 $1 的输入值",
+                    "name": "$~未知财产"
                 }
             }
         },
@@ -965,7 +1047,10 @@
             "condition": "条件",
             "next": "下一项",
             "conflict": {
-                "ExpectedStream": "$1没有引用流，所以我永远不会做出反应!"
+                "ExpectedStream": {
+                    "primary": "$1没有引用流，所以我永远不会做出反应!",
+                    "name": "$~预期流量"
+                }
             }
         },
         "Reference": {
@@ -981,11 +1066,20 @@
             "start": "1$有什么价值?",
             "conflict": {
                 "UnknownName": {
-                    "conflict": "我不知道有谁叫$1在$2里$2这个 @Block 你能给我一个名字吗?］",
+                    "conflict": {
+                        "primary": "我不知道有谁叫$1在$2里$2这个 @Block 你能给我一个名字吗?］",
+                        "name": "$~未知名称"
+                    },
                     "resolution": "$~您的意思是 *$1 吗？*"
                 },
-                "ReferenceCycle": "1$的值取决于它本身，所以我怎么知道应该给它什么值呢?",
-                "UnexpectedTypeVariable": "我不知道该怎么处理这些输入"
+                "ReferenceCycle": {
+                    "primary": "1$的值取决于它本身，所以我怎么知道应该给它什么值呢?",
+                    "name": "$~自我参照价值"
+                },
+                "UnexpectedTypeVariable": {
+                    "primary": "我不知道该怎么处理这些输入",
+                    "name": "$~意外类型变量"
+                }
             },
             "exception": {
                 "NameException": {
@@ -1006,7 +1100,10 @@
             "start": "我们先拿那个表格",
             "finish": "我用选定的行和列创建了一个新的表格!",
             "conflict": {
-                "ExpectedSelectName": "我至少需要一个列名"
+                "ExpectedSelectName": {
+                    "primary": "我至少需要一个列名",
+                    "name": "$~缺少列名"
+                }
             }
         },
         "SetLiteral": {
@@ -1032,7 +1129,8 @@
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "我想要一把1$的钥匙",
-                    "secondary": "我得到了1$，而不是2$"
+                    "secondary": "我得到了1$，而不是2$",
+                    "name": "$~不兼容的密钥"
                 }
             }
         },
@@ -1068,10 +1166,22 @@
             ],
             "start": "让我们来定义这个可爱的结构",
             "conflict": {
-                "DisallowedInputs": "我不能有输入，因为我的一个或多个接口函数没有实现",
-                "IncompleteImplementation": "我的函数要么需要全部实现，要么不需要实现。没有混乱的混合物!",
-                "NotAnInterface": "我不是一个界面;一个结构只能实现接口，而不能实现其他结构",
-                "UnimplementedInterface": "我实现了1$，但没有实现2$"
+                "DisallowedInputs": {
+                    "primary": "我不能有输入，因为我的一个或多个接口函数没有实现",
+                    "name": "$~不允许输入"
+                },
+                "IncompleteImplementation": {
+                    "primary": "我的函数要么需要全部实现，要么不需要实现。没有混乱的混合物!",
+                    "name": "$~结构不完整"
+                },
+                "NotAnInterface": {
+                    "primary": "我不是一个界面;一个结构只能实现接口，而不能实现其他结构",
+                    "name": "$~不是一个接口"
+                },
+                "UnimplementedInterface": {
+                    "primary": "我实现了1$，但没有实现2$",
+                    "name": "$~未实现"
+                }
             }
         },
         "StructureDefinitionType": {
@@ -1101,14 +1211,32 @@
             "emotion": "serious",
             "doc": "我代表一些文本，带有 @Language 标签。请参阅 @Text 以了解更多！",
             "conflict": {
-                "phone": "*$1* 是某人的电话号码吗？如果是的话，请不要在网上分享我！\n\n$2",
-                "email": "*$1* 是某人的电子邮箱吗？如果是的话，请不要在这里分享我！\n\n$2",
-                "tin": "*$1* 是税务识别符吗？如果是，绝对不要分享给我，我的信息非常敏感！\n\n$2",
-                "address": "*$1* 是某人的家庭住址吗？如果是，别把我放在这里，我们不想让任何人被跟踪！\n\n$2",
-                "handle": "*$1* 是你在互联网上其他地方的用户名吗？如果是，请不要在这里分享我，除非你真的想这样做。\n\n$2",
+                "phone": {
+                    "primary": "*$1* 是某人的电话号码吗？如果是的话，请不要在网上分享我！\n\n$2",
+                    "name": "$~可能的电话号码"
+                },
+                "email": {
+                    "primary": "*$1* 是某人的电子邮箱吗？如果是的话，请不要在这里分享我！\n\n$2",
+                    "name": "$~可能的电子邮件"
+                },
+                "tin": {
+                    "primary": "*$1* 是税务识别符吗？如果是，绝对不要分享给我，我的信息非常敏感！\n\n$2",
+                    "name": "$~可能的税务识别符"
+                },
+                "address": {
+                    "primary": "*$1* 是某人的家庭住址吗？如果是，别把我放在这里，我们不想让任何人被跟踪！\n\n$2",
+                    "name": "$~可能的地址"
+                },
+                "handle": {
+                    "primary": "*$1* 是你在互联网上其他地方的用户名吗？如果是，请不要在这里分享我，除非你真的想这样做。\n\n$2",
+                    "name": "$~可能的用户名"
+                },
                 "resolution": "这不是敏感数据",
                 "reminder": "注意：你可以撤消此操作并在共享对话框中查看你标记为非敏感的其他内容。",
-                "character": "$~这看起来像一个角色名。要显示它，请使用 @FormattedLiteral 而不是 @TextLiteral。"
+                "character": {
+                    "name": "$~可能的自定义角色",
+                    "primary": "$~这看起来像一个角色名。要显示它，请使用 @FormattedLiteral 而不是 @TextLiteral。"
+                }
             }
         },
         "FormattedLiteral": {
@@ -1149,7 +1277,10 @@
             ],
             "start": "评估为 $1",
             "conflict": {
-                "MisplacedThis": "我只允许出现在结构、转换或反应中。"
+                "MisplacedThis": {
+                    "primary": "我只允许出现在结构、转换或反应中。",
+                    "name": "$~放错了这个参考"
+                }
             }
         },
         "UnaryEvaluate": {
@@ -1185,10 +1316,16 @@
             "start": "???",
             "conflict": {
                 "UnparsableConflict": {
-                    "conflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                    "conflict": {
+                        "primary": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                        "name": "$~无法读取的代码"
+                    },
                     "resolution": "你的意思是 1 美元还是 2 美元？"
                 },
-                "UnclosedDelimiter": "我期望在 $1 之后的某个时刻会有 $2"
+                "UnclosedDelimiter": {
+                    "primary": "我期望在 $1 之后的某个时刻会有 $2",
+                    "name": "$~未闭合的分隔符"
+                }
             },
             "exception": {
                 "UnparsableException": {
@@ -1209,10 +1346,14 @@
             "start": "首先让我们获取表格",
             "finish": "评估为具有修订行的新表格！",
             "conflict": {
-                "ExpectedColumnBind": "我需要每列的值",
+                "ExpectedColumnBind": {
+                    "primary": "我需要每列的值",
+                    "name": "$~缺失列值"
+                },
                 "IncompatibleCellType": {
                     "primary": "我需要一个 $1，但得到了 $2",
-                    "secondary": "我得到了一个 $2"
+                    "secondary": "我得到了一个 $2",
+                    "name": "$~不相容的细胞类型"
                 }
             }
         },
@@ -1297,7 +1438,10 @@
                 "\\•朋友(名字•'')\n最好朋友•朋友: 朋友('乔纳')\\"
             ],
             "conflict": {
-                "UnknownTypeName": "类型名称只能指代结构或类型变量，但这里指代了一个 $1"
+                "UnknownTypeName": {
+                    "primary": "类型名称只能指代结构或类型变量，但这里指代了一个 $1",
+                    "name": "$~未知类型名称"
+                }
             }
         },
         "NeverType": {
@@ -1352,7 +1496,10 @@
             "emotion": "angry",
             "doc": "我代表一个表。",
             "conflict": {
-                "ExpectedColumnType": "我需要一个竖列类型"
+                "ExpectedColumnType": {
+                    "primary": "我需要一个竖列类型",
+                    "name": "$~缺少列类型"
+                }
             }
         },
         "TextType": {
@@ -3731,6 +3878,10 @@
             "count": {
                 "doc": "该序列在完成之前应该重复多少遍。助于我上$stage、在$stage上移动或退出$stage。但在休息序列时，它就会被忽略，因为我可以永远休息。",
                 "names": "计数"
+            },
+            "description": {
+                "doc": "$~对于无法观看动画的观众来说，这是一个可选的序列描述。",
+                "names": "$~描述"
             }
         },
         "Place": {
@@ -4284,7 +4435,9 @@
             "evaluating": "好玩哦，大家来评价一下吧！",
             "space": "这就是太空！谁知道没有什么东西能表达这么多？",
             "button": {
-                "resolution": "解决这一冲突"
+                "resolution": "解决这一冲突",
+                "toggle": "$~显示和隐藏注释",
+                "highlight": "$~在编辑器中显示此代码"
             }
         },
         "output": {
@@ -4341,7 +4494,8 @@
             "nodoc": "我是谁？我是什么？我的目的是什么？",
             "button": {
                 "home": "返回主页",
-                "back": "返回上一页"
+                "back": "返回上一页",
+                "toggle": "$~显示和隐藏此概念组"
             },
             "field": {
                 "search": "使用关键词搜索概念"
@@ -4436,11 +4590,14 @@
                     "animate": {
                         "label": "动画",
                         "modes": [
-                            "关闭",
-                            "开启",
-                            "半速",
-                            "三分之一速度",
-                            "四分之一速度"
+                            "$~动画关闭",
+                            "$~四分之一速度",
+                            "$~第三速度",
+                            "$~半速",
+                            "$~正常速度",
+                            "$~双倍速度",
+                            "$~五速",
+                            "$~十速"
                         ]
                     },
                     "dark": {
@@ -4515,6 +4672,10 @@
                     "close": {
                         "label": "$~关闭",
                         "tip": "$~以版主身份关闭此反馈"
+                    },
+                    "comment": {
+                        "label": "$~提交",
+                        "tip": "$~提交对此反馈的评论。"
                     }
                 },
                 "mode": {
@@ -4533,11 +4694,20 @@
                     "idea": {
                         "description": "$~您的缺陷描述",
                         "placeholder": "$~你想做但做不到什么？"
+                    },
+                    "comment": {
+                        "description": "$~评论",
+                        "placeholder": "$~对此反馈添加评论"
+                    },
+                    "github": {
+                        "description": "$~GitHub 问题",
+                        "placeholder": "$~GitHub 问题链接"
                     }
                 },
                 "subheader": {
                     "defect": "$~缺点",
-                    "idea": "$~主意"
+                    "idea": "$~主意",
+                    "moderator": "$~主持人"
                 },
                 "prompt": {
                     "defect": "$~没有看到您遇到的问题？请在此处报告。",
@@ -4547,7 +4717,8 @@
                     "login": "$~您必须登录才能提交反馈",
                     "submit": "$~无法提交反馈。",
                     "load": "$~无法加载反馈",
-                    "empty": "$~沒有可显示的反饋。"
+                    "empty": "$~沒有可显示的反饋。",
+                    "url": "$~这不是有效的 GitHub URL。"
                 }
             }
         },

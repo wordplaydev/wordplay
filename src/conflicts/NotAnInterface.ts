@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Definition from '@nodes/Definition';
 import type Reference from '@nodes/Reference';
 import type Locales from '../locale/Locales';
@@ -13,16 +14,22 @@ export default class NotAnInterface extends Conflict {
         this.ref = ref;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.StructureDefinition.conflict.NotAnInterface;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.ref,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) =>
-                            l.node.StructureDefinition.conflict.NotAnInterface,
+                        (l) => NotAnInterface.LocalePath(l).primary,
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return NotAnInterface.LocalePath;
     }
 }

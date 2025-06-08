@@ -199,6 +199,8 @@ type OutputTexts = {
         count: NameAndDoc;
         /** The style to use to complete the sequence */
         style: NameAndDoc;
+        /** An optional description of this sequence for screen readers */
+        description: NameAndDoc;
     };
     /** A color in LCH spaces */
     Color: NameAndDoc & {

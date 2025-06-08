@@ -6,7 +6,7 @@
     import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Spaces from '@parser/Spaces';
-    import { COPY_SYMBOL } from '@parser/Symbols';
+    import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import Evaluator from '@runtime/Evaluator';
     import { onMount } from 'svelte';
     import { DB, locales } from '../../db/Database';
@@ -150,7 +150,7 @@
             }}
             icon={COPY_SYMBOL}
         >
-            {#if copied}✓{/if}</Button
+            {#if copied}{CONFIRM_SYMBOL}{/if}</Button
         >
 
         <Button

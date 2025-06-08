@@ -49,7 +49,7 @@ export default class Key extends StreamValue<
     }
 
     react(event: { key: string; down: boolean }) {
-        // Only add the event if it mateches the requirements.
+        // Only add the event if it matches the requirements.
         if (
             this.on &&
             (this.key === undefined || this.key === event.key) &&

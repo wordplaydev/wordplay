@@ -1,3 +1,4 @@
+import type LocaleText from '@locale/LocaleText';
 import type Language from '@nodes/Language';
 import type Token from '@nodes/Token';
 import type Locales from '../locale/Locales';
@@ -13,15 +14,22 @@ export default class MissingLanguage extends Conflict {
         this.slash = slash;
     }
 
+    static readonly LocalePath = (locale: LocaleText) =>
+        locale.node.Language.conflict.MissingLanguage;
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.language,
                 explanation: (locales: Locales) =>
                     locales.concretize(
-                        (l) => l.node.Language.conflict.MissingLanguage,
+                        (l) => MissingLanguage.LocalePath(l).primary,
                     ),
             },
         };
+    }
+
+    getLocalePath() {
+        return MissingLanguage.LocalePath;
     }
 }

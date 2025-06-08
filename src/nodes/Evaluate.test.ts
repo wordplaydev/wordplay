@@ -44,7 +44,7 @@ test.each([
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
         'ƒ x(a•# b•#) a - b\nx(a:1 c:2)',
         Evaluate,
-        UnexpectedInput,
+        UnknownInput,
     ],
     [
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
@@ -53,7 +53,7 @@ test.each([
         UnknownInput,
     ],
     [
-        'x: ƒ(a•# b•#) a - b\nx(1 2)',
+        'x: ƒ(a•# b•#) a - b\nx(b:1 a:2)',
         'ƒ x(a•# b•#) a - b\nx(a:1 a:2)',
         Evaluate,
         UnexpectedInput,
@@ -141,6 +141,7 @@ test.each([
     ['x: ƒ(a•#:1 b•#:1) a - b\nx(5)', '4'],
     ['x: ƒ(a•#:1 b•#:1) a - b\nx(a:4 b:2)', '2'],
     ['x: ƒ(a•#:1 b•#:1) a - b\nx(b:1 a:5)', '4'],
+    ['x: ƒ(a•#:1 b•#:1) a - b\nx(4 3 2 1)', '1'],
     ['x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(1 5)', '[1 [5]]'],
     ['x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(5 1)', '[5 [1]]'],
 ])('%s = %s', (code: string, value: string) => {

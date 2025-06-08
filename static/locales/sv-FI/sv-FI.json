@@ -189,8 +189,14 @@
                 "$~Det finns många <2-bokstavsspråkkoder@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> som jag förstår. Om du inte använder någon av dessa så meddelar jag dig."
             ],
             "conflict": {
-                "UnknownLanguage": "$~Jag kan inte det här språket",
-                "MissingLanguage": "$~Jag saknar ett språk. Kan du lägga till en?"
+                "UnknownLanguage": {
+                    "name": "$~okäntspråk",
+                    "primary": "$~Jag kan inte det här språket"
+                },
+                "MissingLanguage": {
+                    "name": "$~saknatspråk",
+                    "primary": "$~Jag saknar ett språk. Kan du lägga till ett?"
+                }
             }
         },
         "Name": {
@@ -225,19 +231,28 @@
             "emotion": "shy",
             "doc": "$~Jag representerar en rad i en @Table. Det är nog bäst att gå och prata med @Table, de vet allt om mig. Jag sitter bara och håller värderingar i linje :(",
             "conflict": {
-                "InvalidRow": "$~Rader måste antingen vara alla värden eller alla @Bind.",
+                "InvalidRow": {
+                    "name": "$~ogiltigrad",
+                    "primary": "$~Rader måste antingen vara alla värden eller alla @Bind."
+                },
                 "MissingCell": {
                     "primary": "$~Jag saknar kolumn $1",
-                    "secondary": "$~Jag är obligatorisk, men $1 gav det inte"
+                    "secondary": "$~Jag är obligatorisk, men $1 gav det inte",
+                    "name": "$~saknadkolumn"
                 },
                 "ExtraCell": {
                     "primary": "$~Ska jag vara här?",
-                    "secondary": "$~Hej $1, du är inte en del av detta @Table!"
+                    "secondary": "$~Hej $1, du är inte en del av detta @Table!",
+                    "name": "$~extrakolumn"
                 },
-                "UnknownColumn": "$~Jag känner inte till en kolumn med detta namn",
+                "UnknownColumn": {
+                    "name": "$~okäntkolumnnamn",
+                    "primary": "$~Jag känner inte till en kolumn med det här namnet"
+                },
                 "UnexpectedColumnBind": {
                     "primary": "$~Ska jag vara en @Bind?",
-                    "secondary": "$~Hej, jag är en @Table, jag behöver värden, inte @Bind."
+                    "secondary": "$~Hej, jag är en @Table, jag behöver värden, inte @Bind.",
+                    "name": "$~ingabindningsrader"
                 }
             }
         },
@@ -262,7 +277,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "primary": "$~Jag har samma namn som $1",
-                    "secondary": "$~Jag har samma namn som $1"
+                    "secondary": "$~Jag har samma namn som $1",
+                    "name": "$~dupliceradtypvariabel"
                 }
             }
         },
@@ -374,7 +390,10 @@
             "start": "$~Låt oss utvärdera $1 först",
             "finish": "$~Titta, jag tjänade $1!",
             "conflict": {
-                "OrderOfOperations": "$~Jag utvärderar i läsordning, inte i matteordning. Vill du använda @Block för att specificera i vilken ordning jag ska utvärdera?"
+                "OrderOfOperations": {
+                    "name": "$~tvetydigordning",
+                    "primary": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?"
+                }
             }
         },
         "Bind": {
@@ -413,23 +432,41 @@
                 "DuplicateName": {
                     "conflict": {
                         "primary": "$~någon har namnet $1 så jag kan inte ha det här namnet.",
-                        "secondary": "$~hej, $1 är mitt namn, du kan inte få det!"
+                        "secondary": "$~hej, $1 är mitt namn, du kan inte få det!",
+                        "name": "$~dupliceratnamn"
                     },
                     "resolution": "$~Det finns dubbletter av namn, vill du ta bort ett?"
                 },
                 "DuplicateShare": {
                     "primary": "$~Jag har samma namn som $1, vilket gör det som delas tvetydigt",
-                    "secondary": "$~Jag har har samma namn som $1"
+                    "secondary": "$~Jag har har samma namn som $1",
+                    "name": "$~dupliceraddelning"
                 },
                 "IncompatibleType": {
                     "primary": "$~Jag ska vara en $2, men jag är en $1",
-                    "secondary": "$~Åh, jag är ledsen. Ska jag byta, eller kanske du ska vara en $1?"
+                    "secondary": "$~Åh, jag är ledsen. Ska jag byta, eller kanske du ska vara en $1?",
+                    "name": "$~inkompatibeltyp"
                 },
-                "MisplacedShare": "$~Jag kan bara dela saker på @Program-nivå, inte i någonting!",
-                "MissingShareLanguages": "$~om du vill dela detta måste du säga vilket språk detta är på, så att andra vet om de kan läsa det!",
-                "RequiredAfterOptional": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig",
-                "UnexpectedEtc": "$~Jag kan bara vara variabel längd i en @FunctionDefinition",
-                "UnusedBind": "$~Jag heter $1, men ingen använder mig. Jag kanske inte behövs?"
+                "MisplacedShare": {
+                    "name": "$~felplaceraddelning",
+                    "primary": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~saknatspråk",
+                    "primary": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~obligatoriskinmatningeftervalfritt",
+                    "primary": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig"
+                },
+                "UnexpectedEtc": {
+                    "name": "$~oväntadinmatningefterinmatningslista",
+                    "primary": "$~Jag kan bara ha variabel längd i en @FunctionDefinition"
+                },
+                "UnusedBind": {
+                    "name": "$~oanvändbindning",
+                    "primary": "$~Jag heter $1, men ingen utnyttjar mig. Kanske behövs jag inte?"
+                }
             }
         },
         "Block": {
@@ -455,14 +492,18 @@
             "start": "$~Första uttrycket",
             "finish": "$~Klart, jag fick $1",
             "conflict": {
-                "ExpectedEndingExpression": "$~Jag behöver ett uttryck.",
+                "ExpectedEndingExpression": {
+                    "name": "$~saknatuttryck",
+                    "primary": "$~Jag behöver ett uttryck."
+                },
                 "IgnoredExpression": {
                     "primary": "$~Jag kommer att ignorera $1, eftersom det inte definierar någonting och inte är mitt sista uttryck.",
                     "secondary": "$~@Block, ignorera mig inte!",
                     "resolution": {
                         "binary": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade.",
                         "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck."
-                    }
+                    },
+                    "name": "$~ignoreratuttryck"
                 }
             }
         },
@@ -483,8 +524,14 @@
             "bind": "$~namn",
             "version": "$~version",
             "conflict": {
-                "UnknownBorrow": "$~Jag känner inte till en $source med detta namn",
-                "BorrowCycle": "$~$source beror på $1, vilket beror på denna $source, så programmet kan inte utvärderas"
+                "UnknownBorrow": {
+                    "name": "$~okändlån",
+                    "primary": "$~Jag känner inte till en $source med det här namnet"
+                },
+                "BorrowCycle": {
+                    "name": "$~självrefererandelån",
+                    "primary": "$~detta beror på $1, vilket beror på denna $source, så programmet kan inte utvärderas"
+                }
             },
             "exception": {
                 "CycleException": {
@@ -524,7 +571,8 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "$~Hur kan jag välja ja och nej med en $1? Nej egentligen, hur?",
-                    "secondary": "$~Jag tror att @Conditional ville att jag skulle vara en @Boolean, men jag är en $1."
+                    "secondary": "$~Jag tror att @Conditional ville att jag skulle vara en @Boolean, men jag är en $1.",
+                    "name": "$~förväntatboolesktvillkor"
                 }
             }
         },
@@ -540,7 +588,10 @@
             ],
             "start": "$~Fantastiskt, en ny omställning!",
             "conflict": {
-                "MisplacedConversion": "$~oj, jag kan inte vara här, bara i @Block."
+                "MisplacedConversion": {
+                    "name": "$~felplaceradkonvertering",
+                    "primary": "$~Oj, jag kan inte vara här, bara i @Block."
+                }
             }
         },
         "Convert": {
@@ -558,7 +609,10 @@
             "start": "$~Få det värdet från $1!",
             "finish": "$~Fantastiskt, jag tjänade $1",
             "conflict": {
-                "UnknownConversion": "$~Tråkigt, gör aldrig $1 till $2"
+                "UnknownConversion": {
+                    "name": "$~okändkonvertering",
+                    "primary": "$~Synd, det går inte att göra 1 dollar till 2 dollar"
+                }
             },
             "exception": {
                 "ConversionException": {
@@ -613,27 +667,41 @@
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "$~Jag ska vara en $1, men jag är en $2",
-                    "secondary": "$~Umm, jag fick en $2 istället för en $1"
+                    "secondary": "$~Umm, jag fick en $2 istället för en $1",
+                    "name": "$~inkompatibelingång"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "$~Jag förväntade mig inte den här typen av input",
-                    "secondary": "$~åh, ska jag inte vara här?"
+                    "secondary": "$~åh, ska jag inte vara här?",
+                    "name": "$~oväntadtypinmatning"
                 },
                 "MissingInput": {
                     "primary": "$~Jag kan inte utvärdera utan inmatningen $2 :(",
-                    "secondary": "$~Jag behöver ett värde, kan du ge mig ett?"
+                    "secondary": "$~Jag behöver ett värde, kan du ge mig ett?",
+                    "name": "$~saknadinmatning"
                 },
-                "NotInstantiable": "$~Jag kan inte göra den här @StructureDefinition, den har oimplementerade funktioner.",
+                "NotInstantiable": {
+                    "name": "$~ofullständigstruktur",
+                    "primary": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner."
+                },
                 "UnexpectedInput": {
                     "primary": "$~Jag förväntade mig inte denna ingång $1",
-                    "secondary": "$~Åh, ska jag inte vara här?"
+                    "secondary": "$~Åh, ska jag inte vara här?",
+                    "name": "$~oväntadinmatning"
                 },
                 "UnknownInput": {
                     "primary": "$~Jag känner inte till en inmatning med detta namn i $1",
-                    "secondary": "$~Jag har ingen ingång med namnet $1"
+                    "secondary": "$~Jag har ingen ingång med namnet $1",
+                    "name": "$~okändingång"
                 },
-                "InputListMustBeLast": "$~listan över ingångar måste vara sist",
-                "SeparatedEvaluate": "$~Är $1 namnet på en $2[$structure|$funktion] du försöker utvärdera? Försök att ta bort utrymmet efter mig, så jag vet att det är ett @Evaluate och inte ett separat @Block."
+                "InputListMustBeLast": {
+                    "name": "$~extrainmatningarärintesista",
+                    "primary": "$~listan över inmatningar måste vara sist"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~tvetydigutvärdering",
+                    "primary": "$~Är $1 namnet på en $2[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block."
+                }
             },
             "exception": {
                 "FunctionException": {
@@ -670,7 +738,10 @@
             "start": "$~Jag vet inte vad jag ska göra här. Kan du fylla i mig?",
             "placeholder": "$~uttryck",
             "conflict": {
-                "Placeholder": "$~Kan du fylla mig? Jag är bara en platshållare."
+                "Placeholder": {
+                    "name": "$~platshållare",
+                    "primary": "$~Kan du fylla i mig? Jag är bara en platsmarkör."
+                }
             },
             "exception": {
                 "UnimplementedException": {
@@ -701,7 +772,10 @@
             ],
             "start": "$~Låt oss göra den här funktionen!",
             "conflict": {
-                "NoExpression": "$~Jag behöver ett uttryck att utvärdera, kan du lägga till ett?"
+                "NoExpression": {
+                    "name": "$~saknatuttryck",
+                    "primary": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?"
+                }
             }
         },
         "Iteration": {
@@ -752,7 +826,10 @@
             "start": "$~Låt oss först få värdet på $1",
             "finish": "$~$1[värdet är $2|värdet är inte $2]",
             "conflict": {
-                "ImpossibleType": "$~det här kan aldrig bli $1"
+                "ImpossibleType": {
+                    "name": "$~omöjligtyp",
+                    "primary": "$~detta kan aldrig vara 1 dollar"
+                }
             },
             "exception": {
                 "TypeException": {
@@ -810,7 +887,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "$~en av mina nycklar saknar ett värde",
-                    "secondary": "$~oj, var är mitt värde?"
+                    "secondary": "$~oj, var är mitt värde?",
+                    "name": "$~saknatvärde"
                 }
             }
         },
@@ -838,7 +916,10 @@
             "doc": "$~Jag är ett specifikt @Number. Du kan skriva till mig med alla typer av siffror från vilket språk som helst. Se @Number för allt jag kan göra.",
             "start": "$~$1!",
             "conflict": {
-                "NotANumber": "$~Jag trodde att jag kunde alla siffror, men jag kan inte den här"
+                "NotANumber": {
+                    "name": "$~inteettnummer",
+                    "primary": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här."
+                }
             }
         },
         "InternalExpression": {
@@ -932,7 +1013,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "primary": "$~Jag är inte en ingång på $1, så jag kan inte förfinas.",
-                    "secondary": "$~Jag har ingen ingång som heter $1"
+                    "secondary": "$~Jag har ingen ingång som heter $1",
+                    "name": "$~okändegendom"
                 }
             }
         },
@@ -965,7 +1047,10 @@
             "condition": "$~skick",
             "next": "$~nästa",
             "conflict": {
-                "ExpectedStream": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
+                "ExpectedStream": {
+                    "name": "$~förväntadström",
+                    "primary": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
+                }
             }
         },
         "Reference": {
@@ -981,11 +1066,20 @@
             "start": "$~Vilket värde har $1?",
             "conflict": {
                 "UnknownName": {
-                    "conflict": "$~$1[Jag känner inte någon som heter $1 i $2[$2|detta @Block]|Kan du ge mig ett namn?]",
+                    "conflict": {
+                        "name": "$~okäntnamn",
+                        "primary": "$~$1[Jag känner ingen som heter $1 i $2[$2|detta @Block]|Kan du ge mig ett namn?]"
+                    },
                     "resolution": "$~Menade du *$1?*"
                 },
-                "ReferenceCycle": "$~um, $1s värde beror på sig självt, så hur vet jag vilket värde jag ska ge det?",
-                "UnexpectedTypeVariable": "$~Nu vet jag inte vad jag ska göra med den här typen av ingångar"
+                "ReferenceCycle": {
+                    "name": "$~självrefererandevärde",
+                    "primary": "$~Öh, värdet på 1 dollar beror på sig självt, så hur vet jag vilket värde jag ska ge den?"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~oväntadtypvariabel",
+                    "primary": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar."
+                }
             },
             "exception": {
                 "NameException": {
@@ -1006,7 +1100,10 @@
             "start": "$~Låt oss ta bordet först",
             "finish": "$~Jag gjorde en ny tabell med bara de valda raderna och kolumnerna!",
             "conflict": {
-                "ExpectedSelectName": "$~Jag behöver minst ett kolumnnamn."
+                "ExpectedSelectName": {
+                    "name": "$~saknatkolumnnamn",
+                    "primary": "$~Jag behöver minst ett kolumnnamn."
+                }
             }
         },
         "SetLiteral": {
@@ -1032,7 +1129,8 @@
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "$~Jag förväntade mig en nyckel för $1",
-                    "secondary": "$~Jag fick en $1 istället för en $2"
+                    "secondary": "$~Jag fick en $1 istället för en $2",
+                    "name": "$~inkompatibelnyckel"
                 }
             }
         },
@@ -1068,10 +1166,22 @@
             ],
             "start": "$~Låt oss definiera denna vackra struktur",
             "conflict": {
-                "DisallowedInputs": "$~Jag kan inte ha ingångar eftersom en av eller flera av mina gränssnittsfunktioner inte är implementerade",
-                "IncompleteImplementation": "$~antingen måste alla mina funktioner implementeras eller så måste ingen implementeras. Inga röriga blandningar!",
-                "NotAnInterface": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer",
-                "UnimplementedInterface": "$~Jag implementerar $1 men har inte implementerat $2"
+                "DisallowedInputs": {
+                    "name": "$~inmatningarärintetillåtna",
+                    "primary": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade."
+                },
+                "IncompleteImplementation": {
+                    "name": "$~ofullständigstruktur",
+                    "primary": "$~Antingen måste alla mina funktioner implementeras, eller så måste ingen implementeras. Inga röriga blandningar!"
+                },
+                "NotAnInterface": {
+                    "name": "$~inteettgränssnitt",
+                    "primary": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer."
+                },
+                "UnimplementedInterface": {
+                    "name": "$~oimplementerad",
+                    "primary": "$~Jag implementerar $1 men har inte implementerat $2"
+                }
             }
         },
         "StructureDefinitionType": {
@@ -1103,14 +1213,32 @@
             "emotion": "serious",
             "doc": "$~Jag representerar viss text, med en @Language-tagg. Se @Text för att lära dig mer!",
             "conflict": {
-                "phone": "$~Är *$1* någons telefonnummer? Dela mig inte online i så fall!\n\n$2",
-                "email": "$~Är *$1* någons e-post? Dela mig inte här i så fall!\n\n$2",
-                "tin": "$~Är *$1* en skatteidentifierare? Om ja, dela inte mig, jag är mycket känslig information!\n\n$2",
-                "address": "$~Är *$1* någons hemadress? Om så är fallet, lägg mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2",
-                "handle": "$~Är *$1* ditt användarnamn för någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2",
+                "phone": {
+                    "name": "$~möjligttelefonnummer",
+                    "primary": "$~Är *$1* någons telefonnummer? Dela mig inte online i så fall!\n\n$2"
+                },
+                "email": {
+                    "name": "$~möjlige-post",
+                    "primary": "$~Är *$1* någons e-postadress? Dela mig inte här i så fall!\n\n$2"
+                },
+                "tin": {
+                    "name": "$~möjligskatteidentifiering",
+                    "primary": "$~Är *$1* ett skatteidentifieringsnummer? Om ja, dela mig absolut inte, jag är mycket känslig information!\n\n$2"
+                },
+                "address": {
+                    "name": "$~möjligadress",
+                    "primary": "$~Är *$1* någons hemadress? Om så är fallet, skriv mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2"
+                },
+                "handle": {
+                    "name": "$~möjligtanvändarnamn",
+                    "primary": "$~Är *$1* ditt användarnamn någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2"
+                },
                 "resolution": "$~Det här är inte känslig information",
                 "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan.",
-                "character": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
+                "character": {
+                    "name": "$~möjliganpassadkaraktär",
+                    "primary": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
+                }
             }
         },
         "FormattedLiteral": {
@@ -1151,7 +1279,10 @@
             ],
             "start": "$~Värderad till $1",
             "conflict": {
-                "MisplacedThis": "$~Jag är bara tillåten i en struktur, omvandling eller reaktion."
+                "MisplacedThis": {
+                    "name": "$~felplaceradedennareferens",
+                    "primary": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion."
+                }
             }
         },
         "UnaryEvaluate": {
@@ -1187,10 +1318,16 @@
             "start": "$~???",
             "conflict": {
                 "UnparsableConflict": {
-                    "conflict": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $1[ uttryck | typ ] detta är.",
+                    "conflict": {
+                        "name": "$~oläsligkod",
+                        "primary": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $1[uttryck | typ] detta är."
+                    },
                     "resolution": "$~Menade du $1, $2?"
                 },
-                "UnclosedDelimiter": "$~Jag förväntade mig $2 någon gång efter $1"
+                "UnclosedDelimiter": {
+                    "name": "$~oavslutadavgränsare",
+                    "primary": "$~Jag förväntade mig 2 dollar någon gång efter 1 dollar"
+                }
             },
             "exception": {
                 "UnparsableException": {
@@ -1211,10 +1348,14 @@
             "start": "$~Låt oss ta bordet först",
             "finish": "$~Utvärderad till en ny tabell med reviderade rader!",
             "conflict": {
-                "ExpectedColumnBind": "$~Jag behöver ett värde för varje kolumn",
+                "ExpectedColumnBind": {
+                    "name": "$~saknatkolumnvärde",
+                    "primary": "$~Jag behöver ett värde för varje kolumn"
+                },
                 "IncompatibleCellType": {
                     "primary": "$~Jag behövde en $1, men fick en $2",
-                    "secondary": "$~Jag fick en $2"
+                    "secondary": "$~Jag fick en $2",
+                    "name": "$~inkompatibelcelltyp"
                 }
             }
         },
@@ -1299,7 +1440,10 @@
                 "$~\\•Vän(namn•'')\nbästis•Vän: Friend('Jonah')\\"
             ],
             "conflict": {
-                "UnknownTypeName": "$~typnamn kan bara hänvisa till strukturer eller typvariabler, men detta hänvisar till en $1"
+                "UnknownTypeName": {
+                    "name": "$~okänttypnamn",
+                    "primary": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $1"
+                }
             }
         },
         "NeverType": {
@@ -1354,7 +1498,10 @@
             "emotion": "angry",
             "doc": "$~Jag representerar ett bord.",
             "conflict": {
-                "ExpectedColumnType": "$~Jag behöver en kolumntyp"
+                "ExpectedColumnType": {
+                    "name": "$~saknadkolumntyp",
+                    "primary": "$~Jag behöver en kolumntyp"
+                }
             }
         },
         "TextType": {
@@ -3767,6 +3914,10 @@
             "count": {
                 "doc": "$~Hur många gånger sekvensen ska upprepas innan den är klar. Det här är verkligen användbart när jag går in på scenen, rör mig på scenen eller går ut på scenen, men när det gäller en vilosekvens ignoreras det, eftersom jag kan vila för evigt.",
                 "names": "$~räkna"
+            },
+            "description": {
+                "doc": "$~En valfri beskrivning av den här sekvensen för tittare som inte kan se animationen.",
+                "names": "$~beskrivning"
             }
         },
         "Place": {
@@ -4339,7 +4490,9 @@
             "evaluating": "$~Åh kul, låt oss utvärdera!",
             "space": "$~Det här är utrymme! Vem visste att ingenting kunde säga så mycket?",
             "button": {
-                "resolution": "$~Lös denna konflikt"
+                "resolution": "$~Lös denna konflikt",
+                "toggle": "$~visa och dölj anteckningar",
+                "highlight": "$~visa den här koden i editorn"
             }
         },
         "output": {
@@ -4396,7 +4549,8 @@
             "nodoc": "$~Vem är jag? Vad är jag? Vad är mitt syfte?",
             "button": {
                 "home": "$~hemkomst",
-                "back": "$~återgå till föregående"
+                "back": "$~återgå till föregående",
+                "toggle": "$~visa och dölj den här konceptgruppen"
             },
             "field": {
                 "search": "$~söka efter begrepp med ord"
@@ -4497,10 +4651,13 @@
                         "label": "$~animationer",
                         "modes": [
                             "$~animationer av",
-                            "$~normal hastighet",
-                            "$~halvfart",
+                            "$~kvarts hastighet",
                             "$~tredje hastigheten",
-                            "$~kvarts hastighet"
+                            "$~halvfart",
+                            "$~normal hastighet",
+                            "$~dubbel hastighet",
+                            "$~femväxlad",
+                            "$~tioväxlad"
                         ]
                     },
                     "dark": {
@@ -4582,6 +4739,10 @@
                     "close": {
                         "label": "$~nära",
                         "tip": "$~Stäng denna feedback som moderator"
+                    },
+                    "comment": {
+                        "label": "$~överlämna",
+                        "tip": "$~Skicka kommentar till denna feedback."
                     }
                 },
                 "mode": {
@@ -4600,11 +4761,20 @@
                     "idea": {
                         "description": "$~beskrivning av ditt defekt",
                         "placeholder": "$~Vad försöker du göra som du inte kan?"
+                    },
+                    "comment": {
+                        "description": "$~kommentar",
+                        "placeholder": "$~Lägg till en kommentar till den här feedbacken"
+                    },
+                    "github": {
+                        "description": "$~GitHub-problem",
+                        "placeholder": "$~Länk till GitHub-problem"
                     }
                 },
                 "subheader": {
                     "defect": "$~defekt",
-                    "idea": "$~aning"
+                    "idea": "$~aning",
+                    "moderator": "$~moderator"
                 },
                 "prompt": {
                     "defect": "$~Såg du inte problemet du upplever? Anmäl det här.",
@@ -4614,7 +4784,8 @@
                     "login": "$~Du måste vara inloggad för att skicka feedback",
                     "submit": "$~Det gick inte att skicka feedback.",
                     "load": "$~Det gick inte att ladda feedback",
-                    "empty": "$~Det finns ingen feedback att visa."
+                    "empty": "$~Det finns ingen feedback att visa.",
+                    "url": "$~Detta är inte en giltig GitHub-URL."
                 }
             }
         },

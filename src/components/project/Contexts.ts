@@ -130,7 +130,7 @@ export type EditHandler = (
     edit: Edit | ProjectRevision | undefined,
     idle: IdleKind,
     focus: boolean,
-) => void;
+) => Promise<void>;
 
 /** Various components outside the editor use this to apply edits */
 
@@ -142,6 +142,7 @@ export type EditorState = {
     blocks: boolean;
     toggleMenu: () => void;
     grabFocus: (message: string) => void;
+    setCaretPosition: (position: CaretPosition) => void;
 };
 
 const EditorsSymbol = Symbol('editors');

@@ -10,18 +10,19 @@
     interface Props {
         locale: string;
         supported: boolean;
+        showDraft?: boolean;
     }
 
-    let { locale, supported }: Props = $props();
+    let { locale, supported, showDraft = true }: Props = $props();
 
     let regions = $derived(getLocaleRegionNames(locale));
     let draft = $derived(isLocaleDraft(locale));
 </script>
 
 <span class="language" class:supported>
-    {#if draft}{withColorEmoji(DRAFT_SYMBOL)}{/if}
-    <span class="name">{getLocaleLanguageName(locale)}</span>
-    {#each regions as region, index}<sub
+    {#if draft && showDraft}{withColorEmoji(DRAFT_SYMBOL)}{/if}
+    <span class="name">{getLocaleLanguageName(locale)}</span
+    >{#each regions as region, index}<sub
             >{#if index > 0}
                 /
             {/if}{region}</sub
