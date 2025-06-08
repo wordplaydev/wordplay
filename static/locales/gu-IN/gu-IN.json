@@ -4249,7 +4249,9 @@
             },
             "button": {
                 "selectOutput": "$~સ્ટેજ પર આ આઉટપુટ બતાવો",
-                "expandSequence": "$~આ સંકુચિત કોડને વિસ્તૃત કરો"
+                "expandSequence": "$~આ સંકુચિત કોડને વિસ્તૃત કરો",
+                "expandControls": "$~વધારાના સંપાદન આદેશો બતાવો",
+                "collapseControls": "$~વધારાના સંપાદન આદેશો છુપાવો"
             },
             "field": {
                 "name": {

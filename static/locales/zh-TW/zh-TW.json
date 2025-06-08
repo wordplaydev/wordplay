@@ -4190,7 +4190,9 @@
             },
             "button": {
                 "selectOutput": "在舞台上顯示此輸出",
-                "expandSequence": "展開此折疊的程式碼"
+                "expandSequence": "展開此折疊的程式碼",
+                "expandControls": "$~显示附加编辑命令",
+                "collapseControls": "$~隐藏附加编辑命令"
             },
             "field": {
                 "name": {

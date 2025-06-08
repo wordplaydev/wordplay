@@ -4232,7 +4232,9 @@
             },
             "button": {
                 "selectOutput": "$~이 출력을 무대에 표시",
-                "expandSequence": "$~이 접힌 코드를 확장하세요"
+                "expandSequence": "$~이 접힌 코드를 확장하세요",
+                "expandControls": "$~추가 편집 명령 표시",
+                "collapseControls": "$~추가 편집 명령 숨기기"
             },
             "field": {
                 "name": {

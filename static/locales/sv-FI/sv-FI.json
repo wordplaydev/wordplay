@@ -4249,7 +4249,9 @@
             },
             "button": {
                 "selectOutput": "$~visa denna produktion på scenen",
-                "expandSequence": "$~expandera den här komprimerade koden"
+                "expandSequence": "$~expandera den här komprimerade koden",
+                "expandControls": "$~visa ytterligare redigeringskommandon",
+                "collapseControls": "$~dölj ytterligare redigeringskommandon"
             },
             "field": {
                 "name": {

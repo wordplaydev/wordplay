@@ -4194,7 +4194,9 @@
             },
             "button": {
                 "selectOutput": "在舞台上显示此输出",
-                "expandSequence": "展开此折叠的代码"
+                "expandSequence": "展开此折叠的代码",
+                "expandControls": "$~显示附加编辑命令",
+                "collapseControls": "$~隐藏附加编辑命令"
             },
             "field": {
                 "name": {

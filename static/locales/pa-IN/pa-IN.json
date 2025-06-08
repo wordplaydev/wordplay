@@ -4249,7 +4249,9 @@
             },
             "button": {
                 "selectOutput": "$~ਇਸ ਆਉਟਪੁੱਟ ਨੂੰ ਸਟੇਜ 'ਤੇ ਦਿਖਾਓ",
-                "expandSequence": "$~ਇਸ ਸਮੇ ਹੋਏ ਕੋਡ ਦਾ ਵਿਸਤਾਰ ਕਰੋ"
+                "expandSequence": "$~ਇਸ ਸਮੇ ਹੋਏ ਕੋਡ ਦਾ ਵਿਸਤਾਰ ਕਰੋ",
+                "expandControls": "$~ਵਾਧੂ ਸੰਪਾਦਨ ਕਮਾਂਡਾਂ ਦਿਖਾਓ",
+                "collapseControls": "$~ਵਾਧੂ ਸੰਪਾਦਨ ਕਮਾਂਡਾਂ ਲੁਕਾਓ"
             },
             "field": {
                 "name": {

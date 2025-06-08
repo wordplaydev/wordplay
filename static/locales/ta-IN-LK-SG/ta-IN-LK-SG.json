@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "ta",
-    "regions": ["IN", null, null],
+    "regions": ["IN", "LK", "SG"],
     "wordplay": "$~வார்த்தை விளையாட்டு",
     "term": {
         "bind": "$~கட்டு",
@@ -4254,7 +4254,9 @@
             },
             "button": {
                 "selectOutput": "$~இந்த வெளியீட்டை மேடையில் காட்டு",
-                "expandSequence": "$~இந்த சுருக்கப்பட்ட குறியீட்டை விரிவாக்குங்கள்"
+                "expandSequence": "$~இந்த சுருக்கப்பட்ட குறியீட்டை விரிவாக்குங்கள்",
+                "expandControls": "$~கூடுதல் திருத்தக் கட்டளைகளைக் காட்டு.",
+                "collapseControls": "$~கூடுதல் திருத்தும் கட்டளைகளை மறை."
             },
             "field": {
                 "name": {

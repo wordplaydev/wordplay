@@ -4231,7 +4231,9 @@
             },
             "button": {
                 "selectOutput": "$~diese Ausgabe auf der Bühne zeigen",
-                "expandSequence": "$~Erweitern Sie diesen ausgeblendeten Code"
+                "expandSequence": "$~Erweitern Sie diesen ausgeblendeten Code",
+                "expandControls": "$~zusätzliche Bearbeitungsbefehle anzeigen",
+                "collapseControls": "$~zusätzliche Bearbeitungsbefehle ausblenden"
             },
             "field": {
                 "name": {
