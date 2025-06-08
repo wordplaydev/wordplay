@@ -10,6 +10,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #454, fixed #695: simplifying toolbar buttons.
 - Fixed #470: Custom sequence descriptions for screen readers.
 
+## Fixed
+
+- Preserve regions when repairing locales.
+
 ## Maintenance
 
 - Updated Axe, SvelteKit, eslint, Firebase, zod, vitest minor versions.

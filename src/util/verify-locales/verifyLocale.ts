@@ -89,7 +89,7 @@ export async function verifyLocale(
                 log.bad(3, `${error.instancePath}: ${error.message}`);
         }
 
-        revisedText = repairLocale(log, DefaultLocale, text);
+        revisedText = repairLocale(log, DefaultLocale, revisedText);
     }
 
     // Don't warn if we're checking the example locale.
@@ -437,18 +437,26 @@ export function removeExtraKeys(
                     sourceValue as Record<string, unknown>,
                     targetValue as Record<string, unknown>,
                 );
-            else if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+            // If they are arrays, go through them and remove any extra keys.
+            else if (
+                Array.isArray(targetValue) &&
+                Array.isArray(sourceValue) &&
+                key !== 'regions'
+            ) {
                 for (let index = 0; index < targetValue.length; index++) {
                     const sourceValueElement = sourceValue[index];
-                    if (sourceValueElement === undefined)
-                        delete targetValue[index];
-                    else
+                    if (sourceValueElement === undefined) {
+                        targetValue[index] = undefined;
+                    } else
                         removeExtraKeys(
                             log,
                             sourceValueElement,
                             targetValue[index],
                         );
                 }
+                // Truncate any undefined values created in the list.
+                const firstNullIndex = targetValue.indexOf(undefined);
+                if (firstNullIndex !== -1) targetValue.length = firstNullIndex;
             }
         }
     }
