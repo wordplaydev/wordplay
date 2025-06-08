@@ -4019,6 +4019,10 @@
             "count": {
                 "doc": "$~Wie oft die Sequenz wiederholt werden soll, bevor sie beendet ist. Dies ist sehr hilfreich, wenn ich die Bühne betrete, mich auf die Bühne bewege oder sie verlasse, aber bei einer Ruhesequenz wird es ignoriert, da ich ewig ruhen kann.",
                 "names": "$~zählen"
+            },
+            "description": {
+                "doc": "$~Eine optionale Beschreibung dieser Sequenz für Zuschauer, die die Animation nicht sehen können.",
+                "names": "$~Beschreibung"
             }
         },
         "Place": {

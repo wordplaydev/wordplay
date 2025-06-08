@@ -3917,7 +3917,7 @@
                 "names": "count"
             },
             "description": {
-                "doc": "An optional description of this sequence for screen readers.",
+                "doc": "An optional description of this sequence for viewers who can't see the animation.",
                 "names": "description"
             }
         },

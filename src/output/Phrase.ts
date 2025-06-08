@@ -345,7 +345,12 @@ export default class Phrase extends Output {
 
             // Check all animation states for sequence descriptions first
             let animationDescription = '';
-            const animations = [this.entering, this.resting, this.moving, this.exiting];
+            const animations = [
+                this.entering,
+                this.resting,
+                this.moving,
+                this.exiting,
+            ];
             for (const animation of animations) {
                 if (animation instanceof Sequence) {
                     const seqDescription = animation.getDescription(locales);
@@ -358,9 +363,10 @@ export default class Phrase extends Output {
 
             // If no sequence description found, use pose description
             if (!animationDescription) {
-                animationDescription = this.resting instanceof Pose
-                    ? this.resting.getDescription(locales)
-                    : this.pose.getDescription(locales);
+                animationDescription =
+                    this.resting instanceof Pose
+                        ? this.resting.getDescription(locales)
+                        : this.pose.getDescription(locales);
             }
 
             this._description = locales

@@ -160,7 +160,8 @@ export function toSequence(project: Project, value: Value | undefined) {
     )
         return undefined;
 
-    const [poses, durationVal, style, countVal, description] = getOutputInputs(value);
+    const [poses, durationVal, style, countVal, description] =
+        getOutputInputs(value);
 
     const count = toDecimal(countVal);
     const duration = toDecimal(durationVal);

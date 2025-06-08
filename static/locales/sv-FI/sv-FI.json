@@ -3914,6 +3914,10 @@
             "count": {
                 "doc": "$~Hur många gånger sekvensen ska upprepas innan den är klar. Det här är verkligen användbart när jag går in på scenen, rör mig på scenen eller går ut på scenen, men när det gäller en vilosekvens ignoreras det, eftersom jag kan vila för evigt.",
                 "names": "$~räkna"
+            },
+            "description": {
+                "doc": "$~En valfri beskrivning av den här sekvensen för tittare som inte kan se animationen.",
+                "names": "$~beskrivning"
             }
         },
         "Place": {
