@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.18
 
+## Added
+
+- #470: Custom sequence descriptions for screen readers.
+
 ## Maintenance
 
 - Updated Axe, SvelteKit, eslint, Firebase, zod, vitest minor versions.

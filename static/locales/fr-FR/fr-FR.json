@@ -4020,6 +4020,10 @@
             "count": {
                 "doc": "$~Combien de fois la séquence doit-elle se répéter avant d'être terminée. C'est vraiment utile lorsque j'entre sur scène, que je me déplace sur scène ou que je sors de scène, mais lorsqu'il s'agit d'une séquence de repos, c'est ignoré, car je peux me reposer indéfiniment.",
                 "names": "$~compter"
+            },
+            "description": {
+                "doc": "$~Une description facultative de cette séquence pour les spectateurs qui ne peuvent pas voir l'animation.",
+                "names": "$~description"
             }
         },
         "Place": {

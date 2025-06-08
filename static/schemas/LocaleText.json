@@ -7519,6 +7519,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "How many times to repeat the sequence"
                 },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of this sequence for screen readers"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
@@ -7542,6 +7546,7 @@
               },
               "required": [
                 "count",
+                "description",
                 "doc",
                 "duration",
                 "names",
