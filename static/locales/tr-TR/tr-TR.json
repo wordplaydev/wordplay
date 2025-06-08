@@ -3914,6 +3914,10 @@
             "count": {
                 "doc": "$~Dizinin bitmeden önce kaç kez tekrarlanması gerektiği. Sahneye girdiğimde, sahnede hareket ettiğimde veya sahneden çıktığımda bu gerçekten çok yardımcı oluyor, ancak bir dinlenme dizisi için, sonsuza kadar dinlenebildiğim için görmezden geliniyor.",
                 "names": "$~saymak"
+            },
+            "description": {
+                "doc": "$~Animasyonu göremeyen izleyiciler için bu sekansın isteğe bağlı açıklaması.",
+                "names": "$~Tanım"
             }
         },
         "Place": {

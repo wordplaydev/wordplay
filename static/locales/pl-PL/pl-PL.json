@@ -3919,6 +3919,10 @@
             "count": {
                 "doc": "$~Ile razy sekwencja powinna się powtórzyć, zanim zostanie ukończona. Jest to naprawdę pomocne, gdy wchodzę na scenę, poruszam się po scenie lub wychodzę ze sceny, ale gdy chodzi o sekwencję odpoczynku, jest ignorowane, ponieważ mogę odpoczywać wiecznie.",
                 "names": "$~liczyć"
+            },
+            "description": {
+                "doc": "$~Opcjonalny opis tej sekwencji dla widzów, którzy nie mogą zobaczyć animacji.",
+                "names": "$~opis"
             }
         },
         "Place": {

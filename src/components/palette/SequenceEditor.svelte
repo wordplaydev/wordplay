@@ -27,18 +27,16 @@
         propertyValues = new Map();
 
         // Map the properties to a set of values.
-        untrack(() => {
-            for (const property of SequenceProperties) {
-                const valueSet = new OutputPropertyValueSet(
-                    property,
-                    outputs,
-                    $locales,
-                );
-                // Exclue any properties that happen to have no values.
-                if (!valueSet.isEmpty() && valueSet.onAll())
-                    propertyValues.set(property, valueSet);
-            }
-        });
+        for (const property of SequenceProperties) {
+            const valueSet = new OutputPropertyValueSet(
+                property,
+                outputs,
+                $locales,
+            );
+            // Exclue any properties that happen to have no values.
+            if (!valueSet.isEmpty() && valueSet.onAll())
+                untrack(() => propertyValues.set(property, valueSet));
+        }
     });
 </script>
 

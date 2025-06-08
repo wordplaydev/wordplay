@@ -3896,6 +3896,10 @@
             "count": {
                 "doc": "Cuántas veces debe repetirse la secuencia antes de que termine. Esto es realmente útil cuando entro en escena, me muevo en escena o salgo del escenario, pero cuando es una secuencia de descanso, se ignora, ¡ya que puedo descansar para siempre!",
                 "names": "cuenta"
+            },
+            "description": {
+                "doc": "$~Una descripción opcional de esta secuencia para los espectadores que no pueden ver la animación.",
+                "names": "$~descripción"
             }
         },
         "Place": {

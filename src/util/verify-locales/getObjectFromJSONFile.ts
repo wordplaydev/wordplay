@@ -21,7 +21,7 @@ export function getObjectFromJSONFile(
                 return undefined;
             }
         } catch (err) {
-            log.bad(2, `Locale file has a parsing error: ${err}`);
+            log.bad(2, `Locale file ${path} has a parsing error: ${err}`);
             process.exit();
         }
     } catch (err) {
