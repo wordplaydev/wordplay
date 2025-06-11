@@ -112,6 +112,8 @@ export type CommandContext = {
     resetInputs?: () => void;
     help?: () => void;
     getTokenViews?: () => HTMLElement[];
+    /** Function to clear large deletion notification */
+    clearLargeDeletionNotification?: () => void;
 };
 
 export type Edit = Caret | Revision;
@@ -647,8 +649,10 @@ export const Undo: Command = {
         database.Projects.getHistory(
             evaluator.project.getID(),
         )?.isUndoable() === true,
-    execute: ({ database, evaluator }) => {
+    execute: ({ database, evaluator, clearLargeDeletionNotification }) => {
         database.Projects.undoRedo(evaluator.project.getID(), -1);
+        // Clear large deletion notification when user undoes
+        clearLargeDeletionNotification?.();
         // Always swallow the shortcut to avoid the browser or OS from handling it.
         return true;
     },

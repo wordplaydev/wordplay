@@ -1045,7 +1045,7 @@
                 40
         ) {
             setLargeDeletionNotification?.(
-                'Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.',
+                $locales.get((l) => l.ui.source.cursor.largeDelete),
             );
         }
 
@@ -1169,13 +1169,6 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-        if (
-            (event.ctrlKey || event.metaKey) &&
-            event.key.toLowerCase() === 'z'
-        ) {
-            // Clear the large deletion notification if user performs undo
-            setLargeDeletionNotification?.(null);
-        }
         // If we receive a keyboard event that says
         if (composing && !event.isComposing) handleCompositionEnd();
 
@@ -1214,6 +1207,8 @@
             blocks: $blocks,
             view: editor,
             getTokenViews,
+            clearLargeDeletionNotification: () =>
+                setLargeDeletionNotification?.(null),
         });
 
         // Don't insert symbols if composing.
