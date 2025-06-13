@@ -4476,7 +4476,8 @@
                 "redo": "redo undone edit",
                 "search": "search for special characters to insert",
                 "tidy": "tidy spacing",
-                "elide": "toggle elision"
+                "elide": "toggle elision",
+                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind."
             },
             "error": {
                 "invalidName": "This must be a valid Wordplay name.",

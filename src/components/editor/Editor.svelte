@@ -109,6 +109,8 @@
         updateConflicts: (source: Source, conflicts: Conflict[]) => void;
         /** Whether the code was revised by another creator */
         overwritten?: boolean;
+        /** Function to set large deletion notification for this editor */
+        setLargeDeletionNotification?: (message: string | null) => void;
     }
 
     let {
@@ -125,6 +127,7 @@
         setOutputPreview,
         updateConflicts,
         overwritten = false,
+        setLargeDeletionNotification,
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -397,6 +400,8 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
+        // Clear any existing large deletion notification when user clicks to clear selection
+        setLargeDeletionNotification?.(null);
         event.preventDefault();
         event.stopPropagation();
 
@@ -972,6 +977,10 @@
     ) {
         if (edit === undefined) return;
 
+        // Clear any existing large deletion notification since a new edit has started
+        setLargeDeletionNotification?.(null);
+        const previousSource = source;
+
         const navigation = edit instanceof Caret;
 
         // Get the new caret and source to display.
@@ -1031,6 +1040,19 @@
         } else {
             // Remove the addition, since the caret moved since being added.
             caret.set(newCaret.withoutAddition());
+        }
+
+        // After processing the edit, if it was a deletion, check if a large deletion occurred
+        if (
+            newSource &&
+            'getCode' in newSource &&
+            previousSource.getCode().getLength() -
+                newSource.getCode().getLength() >=
+                40
+        ) {
+            setLargeDeletionNotification?.(
+                $locales.get((l) => l.ui.source.cursor.largeDelete),
+            );
         }
 
         // After everything is updated, if we were asked to focus the editor, focus it.
@@ -1191,6 +1213,8 @@
             blocks: $blocks,
             view: editor,
             getTokenViews,
+            clearLargeDeletionNotification: () =>
+                setLargeDeletionNotification?.(null),
         });
 
         // Don't insert symbols if composing.
@@ -1558,10 +1582,10 @@
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window onblur={handleRelease} />
 
-<!-- 
-    Has ARIA role text box to allow keyboard keys to go through 
+<!--
+    Has ARIA role text box to allow keyboard keys to go through
     All NodeViews are set to role="presentation"
-    We use the live region above 
+    We use the live region above
 -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
@@ -1635,8 +1659,8 @@
                 lastKeyDownIgnored}
         />
     {/each}
-    <!-- 
-        If the caret is a position, render the invisible text field that allows us to capture inputs 
+    <!--
+        If the caret is a position, render the invisible text field that allows us to capture inputs
         We put it here, before rendering the code, so anything focusable in the code comes after this.
         That way, all controls are just a tab away.
     -->
@@ -1708,7 +1732,7 @@
         viewportHeight={editorHeight}
         bind:location={caretLocation}
     />
-    <!-- 
+    <!--
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.
      -->

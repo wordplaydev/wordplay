@@ -357,6 +357,8 @@ type UITexts = {
             tidy: string;
             /** Toggle elision */
             elide: string;
+            /** Large deletion notification */
+            largeDelete: string;
         };
         error: {
             /** An invalid source name */
