@@ -20,6 +20,7 @@ import {
 } from './LocaleSchema';
 import Log from './Log';
 import { getTutorialJSON, getTutorialPath } from './TutorialSchema';
+import { verifyHowTo } from './verifyHowTo';
 import {
     createUnwrittenLocale,
     getCheckableLocalePairs,
@@ -164,6 +165,16 @@ async function handleLocale(
             }
         } else log.good(1, 'No changes necessary in ' + locale + ' tutorial');
     }
+
+    // Verify and optionally translate how-to content
+    await verifyHowTo(
+        log,
+        locale,
+        localeText.language,
+        localeText.regions,
+        TranslationRequested,
+        OverrideMachineTranslations,
+    );
 }
 
 // Build a database of all locales
