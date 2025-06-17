@@ -4474,7 +4474,8 @@
                 "expandBeforeInline": "$~rozszerz wybór przed",
                 "expandAfterInline": "$~rozwiń wybór po",
                 "expandPriorLine": "$~rozszerz zaznaczenie do poprzedniego wiersza",
-                "expandNextLine": "$~rozszerz zaznaczenie do następnego wiersza"
+                "expandNextLine": "$~rozszerz zaznaczenie do następnego wiersza",
+                "largeDelete": "$~Czy na pewno chcesz usunąć ten wybór? Możesz użyć przycisku cofania (↺), jeśli zmienisz zdanie."
             },
             "options": {
                 "locale": {

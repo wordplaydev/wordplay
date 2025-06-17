@@ -4451,7 +4451,8 @@
                 "expandBeforeInline": "$~Auswahl erweitern vor",
                 "expandAfterInline": "$~Auswahl erweitern nach",
                 "expandPriorLine": "$~Auswahl bis zur vorherigen Zeile erweitern",
-                "expandNextLine": "$~Auswahl bis zur nächsten Zeile erweitern"
+                "expandNextLine": "$~Auswahl bis zur nächsten Zeile erweitern",
+                "largeDelete": "$~Möchten Sie diese Auswahl wirklich löschen? Sie können die Auswahl mit dem Rückgängig-Button (↺) rückgängig machen."
             },
             "options": {
                 "locale": {

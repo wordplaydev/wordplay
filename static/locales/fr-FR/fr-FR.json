@@ -4452,7 +4452,8 @@
                 "expandBeforeInline": "$~élargir la sélection avant",
                 "expandAfterInline": "$~développer la sélection après",
                 "expandPriorLine": "$~étendre la sélection à la ligne précédente",
-                "expandNextLine": "$~étendre la sélection à la ligne suivante"
+                "expandNextLine": "$~étendre la sélection à la ligne suivante",
+                "largeDelete": "$~Êtes-vous sûr de vouloir supprimer cette sélection ? Vous pouvez utiliser le bouton Annuler (↺) si vous changez d'avis."
             },
             "options": {
                 "locale": {

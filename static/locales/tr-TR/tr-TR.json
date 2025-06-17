@@ -4469,7 +4469,8 @@
                 "expandBeforeInline": "$~seçimi genişletmeden önce",
                 "expandAfterInline": "$~seçimi genişlet",
                 "expandPriorLine": "$~seçimi önceki satıra genişlet",
-                "expandNextLine": "$~seçimi bir sonraki satıra genişlet"
+                "expandNextLine": "$~seçimi bir sonraki satıra genişlet",
+                "largeDelete": "$~Bu seçimi silmek istediğinizden emin misiniz? Fikrinizi değiştirirseniz geri al düğmesini (↺) kullanabilirsiniz."
             },
             "options": {
                 "locale": {

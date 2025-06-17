@@ -4469,7 +4469,8 @@
                 "expandBeforeInline": "$~utöka urvalet innan",
                 "expandAfterInline": "$~utöka urvalet efter",
                 "expandPriorLine": "$~utöka urvalet till föregående rad",
-                "expandNextLine": "$~utöka urvalet till nästa rad"
+                "expandNextLine": "$~utöka urvalet till nästa rad",
+                "largeDelete": "$~Är du säker på att du vill ta bort det här valet? Du kan använda ångra-knappen (↺) om du ångrar dig."
             },
             "options": {
                 "locale": {

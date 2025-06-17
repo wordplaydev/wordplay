@@ -4469,7 +4469,8 @@
                 "expandBeforeInline": "$~選択範囲を拡張する",
                 "expandAfterInline": "$~選択範囲を拡大",
                 "expandPriorLine": "$~選択範囲を前の行まで拡張",
-                "expandNextLine": "$~選択範囲を次の行に拡張する"
+                "expandNextLine": "$~選択範囲を次の行に拡張する",
+                "largeDelete": "$~この選択を削除してもよろしいですか？気が変わった場合は、元に戻すボタン (↺) を使用できます。"
             },
             "options": {
                 "locale": {

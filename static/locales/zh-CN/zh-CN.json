@@ -4414,7 +4414,8 @@
                 "expandBeforeInline": "$~展开选择之前",
                 "expandAfterInline": "$~扩大选择范围后",
                 "expandPriorLine": "$~扩大选择范围至上一行",
-                "expandNextLine": "$~扩展选择到下一行"
+                "expandNextLine": "$~扩展选择到下一行",
+                "largeDelete": "$~您确定要删除此选择吗？如果您改变主意，可以使用撤消按钮 (↺)。"
             },
             "options": {
                 "locale": {
