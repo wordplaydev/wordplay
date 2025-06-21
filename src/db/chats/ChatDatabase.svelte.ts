@@ -9,13 +9,13 @@ import {
     collection,
     deleteDoc,
     doc,
-    Firestore,
     getDoc,
     onSnapshot,
     query,
     setDoc,
     updateDoc,
     where,
+    type Firestore,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
