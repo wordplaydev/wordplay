@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #805: Clarify meaning of camera and microphone chooser.
 - Fixed several defects in how to translation, respecting file and markup structure.
 - Ensure code examples are localized.
+- Fixed #801: Slightly more visible concept link underlines, consistent with other links.
 
 ## Maintenance
 
