@@ -161,7 +161,7 @@
                             .toText()}
                     action={() => insert(glyph)}
                     >{#if typeof glyph === 'string'}
-                        <TokenView node={tokenize(glyph).getTokens()[0]} />
+                        {glyph}
                     {:else}
                         {@html characterToSVG(glyph, '1em')}
                     {/if}
