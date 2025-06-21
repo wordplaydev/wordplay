@@ -4691,7 +4691,8 @@
                 "options": {
                     "face": "font face",
                     "mic": "selected microphone",
-                    "camera": "selected camera"
+                    "camera": "selected camera",
+                    "default": "default"
                 }
             },
             "locale": {

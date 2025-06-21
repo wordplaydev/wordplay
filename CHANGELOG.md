@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 - Fixed #792: Broken links to node concepts in guide.
+- Fixed #805: Clarify meaning of camera and microphone chooser.
 
 ## Maintenance
 

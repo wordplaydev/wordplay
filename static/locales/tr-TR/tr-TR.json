@@ -4690,7 +4690,8 @@
                 "options": {
                     "face": "$~yazı tipi",
                     "mic": "$~seçili mikrofon",
-                    "camera": "$~seçili kamera"
+                    "camera": "$~seçili kamera",
+                    "default": "$~varsayılan"
                 }
             },
             "locale": {

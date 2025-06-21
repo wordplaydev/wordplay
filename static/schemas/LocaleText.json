@@ -9210,6 +9210,10 @@
                           "description": "The label for the camera drop down",
                           "type": "string"
                         },
+                        "default": {
+                          "description": "The label for default device",
+                          "type": "string"
+                        },
                         "face": {
                           "description": "The label for the font face chooser",
                           "type": "string"
@@ -9222,7 +9226,8 @@
                       "required": [
                         "face",
                         "mic",
-                        "camera"
+                        "camera",
+                        "default"
                       ],
                       "type": "object"
                     }
@@ -12407,7 +12412,7 @@
                       "type": "string"
                     },
                     "largeDelete": {
-                      "description": "Large deletion notification text",
+                      "description": "Large deletion notification",
                       "type": "string"
                     },
                     "lineEnd": {

@@ -4695,7 +4695,8 @@
                 "options": {
                     "face": "$~teckensnitt",
                     "mic": "$~vald mikrofon",
-                    "camera": "$~vald kamera"
+                    "camera": "$~vald kamera",
+                    "default": "$~standard"
                 }
             },
             "locale": {

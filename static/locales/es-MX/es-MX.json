@@ -4657,7 +4657,8 @@
                 "options": {
                     "mic": "micrófono seleccionado",
                     "camera": "cámara seleccionada ",
-                    "face": "$~tipo de fuente"
+                    "face": "$~tipo de fuente",
+                    "default": "$~por defecto"
                 }
             },
             "locale": {

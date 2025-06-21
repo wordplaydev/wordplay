@@ -4628,7 +4628,8 @@
                 "options": {
                     "mic": "选定的麦克风",
                     "camera": "选定的相机",
-                    "face": "$~字体"
+                    "face": "$~字体",
+                    "default": "$~默认"
                 }
             },
             "locale": {

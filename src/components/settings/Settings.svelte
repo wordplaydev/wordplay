@@ -149,7 +149,12 @@
                         label={(l) => l.ui.dialog.settings.options.camera}
                         id="camera-setting"
                         options={[
-                            { value: undefined, label: '—' },
+                            {
+                                value: undefined,
+                                label: $locales.get(
+                                    (l) => l.ui.dialog.settings.options.default,
+                                ),
+                            },
                             ...cameras.map((device) => {
                                 return {
                                     value: device.label,
@@ -172,7 +177,12 @@
                         label={(l) => l.ui.dialog.settings.options.mic}
                         id="mic-setting"
                         options={[
-                            { value: undefined, label: '—' },
+                            {
+                                value: undefined,
+                                label: $locales.get(
+                                    (l) => l.ui.dialog.settings.options.default,
+                                ),
+                            },
                             ...mics.map((device) => {
                                 return {
                                     value: device.label,

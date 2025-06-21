@@ -4624,7 +4624,8 @@
                 "options": {
                     "mic": "選定的麥克風",
                     "camera": "選定的相機",
-                    "face": "字體"
+                    "face": "字體",
+                    "default": "$~預設"
                 }
             },
             "locale": {

@@ -4700,7 +4700,8 @@
                 "options": {
                     "face": "$~krój czcionki",
                     "mic": "$~wybrany mikrofon",
-                    "camera": "$~wybrana kamera"
+                    "camera": "$~wybrana kamera",
+                    "default": "$~domyślny"
                 }
             },
             "locale": {

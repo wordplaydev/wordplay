@@ -734,6 +734,8 @@ type UITexts = {
                 mic: string;
                 /** The label for the camera drop down */
                 camera: string;
+                /** The label for default device */
+                default: string;
             };
         };
         /** The locale chooser dialog */

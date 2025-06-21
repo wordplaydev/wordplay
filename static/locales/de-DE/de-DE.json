@@ -4677,7 +4677,8 @@
                 "options": {
                     "mic": "$~ausgewähltes Mikrofon",
                     "camera": "$~ausgewählte Kamera",
-                    "face": "$~Schriftart"
+                    "face": "$~Schriftart",
+                    "default": "$~Standard"
                 }
             },
             "locale": {
