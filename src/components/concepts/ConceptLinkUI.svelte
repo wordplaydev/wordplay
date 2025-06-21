@@ -189,7 +189,7 @@
 <style>
     .conceptlink {
         display: inline-block;
-        font-style: normal;
+        font-style: var(--wordplay-font-size);
         text-align: start;
     }
 
