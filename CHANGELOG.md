@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Ensure code examples are localized.
 - Fixed #801: Slightly more visible concept link underlines, consistent with other links.
 - Fixed #751: Corrected inconsistency in simplified Chinese locale login screen.
+- Fixed #803: Adjusted behavior of code examples in standalone guide.
 
 ## Maintenance
 

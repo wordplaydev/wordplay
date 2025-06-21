@@ -7,7 +7,7 @@
     import type Type from '../../nodes/Type';
     import Spaces from '../../parser/Spaces';
     import { copyNode } from '../editor/util/Clipboard';
-    import { getDragged } from '../project/Contexts';
+    import { getConceptIndex, getDragged } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
     import TypeView from './TypeView.svelte';
@@ -38,6 +38,12 @@
 
     let dragged = getDragged();
 
+    // Find out if the project this view is in is a real editable project.
+    const index = getConceptIndex();
+    const draggable = $derived(
+        index !== undefined && index.index?.project.getName() !== 'guide',
+    );
+
     function handlePointerDown(event: PointerEvent) {
         event.stopPropagation();
         // Release the implicit pointer capture so events can travel to other components.
@@ -62,14 +68,14 @@
             aria-readonly="true"
             class:blocks={$blocks}
             class="node"
-            class:draggable={dragged !== undefined}
+            class:draggable={dragged !== undefined && draggable}
             class:outline
             class:elide
             class:evaluate={node instanceof Expression &&
                 node.getKind() === ExpressionKind.Evaluate}
             class:definition={node instanceof Expression &&
                 node.getKind() === ExpressionKind.Definition}
-            tabindex="0"
+            tabindex={draggable ? 0 : 0}
             onpointerdown={handlePointerDown}
             onkeydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
@@ -82,6 +88,7 @@
                 blocks={false}
                 {elide}
                 locale={$locales.getLocale()}
+                inert={!draggable}
             /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
@@ -119,9 +126,8 @@
 
     .node {
         display: inline-block;
-        user-select: none;
-        display: inline-block;
         vertical-align: middle;
+        user-select: none;
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
@@ -151,7 +157,7 @@
     }
 
     .node:focus,
-    .node:hover {
+    .node.draggable:hover {
         background: var(--wordplay-hover);
     }
 

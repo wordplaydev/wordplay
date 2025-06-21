@@ -186,7 +186,6 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
-        cursor: grab;
     }
 
     .value {
