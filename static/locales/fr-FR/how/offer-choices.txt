@@ -1,0 +1,32 @@
+Afficher les choix sélectionnables
+
+Parfois, on souhaite présenter plusieurs choix à l'écran et exploiter les choix du public. Pour cela, deux éléments sont nécessaires :
+
+• Un ou plusieurs @Phrase qui sont marqués comme sélectionnables et ont un nom unique (par exemple,\Phrase('option 1' selectable: ⊤ name: 'un')\)• UN  @Choice , qui change en @Phrase nom le plus récemment choisi.
+
+Par exemple, nous montrons ici trois choix, chacun avec un nom unique.
+
+\option: Choice()
+Group(Stack() [
+		Phrase('option 1' selectable: ⊤ name: 'un')
+		Phrase('option 2' selectable: ⊤ name: 'deux')
+		Phrase('option 3' selectable: ⊤ name: 'trois')
+		Phrase(option)
+	])\
+
+Chaque fois qu'on en choisit un, le dernier @Phrase affiche le nom sélectionné.
+
+Vous pouvez utiliser ce modèle pour réagir à un choix. Par exemple, nous pourrions modifier le projet ci-dessus pour afficher un emoji secret basé sur ce choix :
+
+\option: Choice()
+option = '' ? Group(Stack() [
+			Phrase('option 1' selectable: ⊤ name: 'un')
+			Phrase('option 2' selectable: ⊤ name: 'deux')
+			Phrase('option 3' selectable: ⊤ name: 'trois')
+		]) Phrase({'un': '😡' 'deux': '🏀' 'trois': '❤️'}{option} ?? '?')\
+
+Le  @Choice commence comme un vide @Text , et donc lorsque le projet démarre, nous vérifions cela et montrons les trois choix.Une fois qu'un choix est fait, il devient l'un des trois @Phrase noms.
+
+Pour afficher un emoji en fonction du choix, nous pouvons utiliser un @Map pour convertir le nom en un emoji secret.Lorsque nous obtenons une valeur à partir d'un @Map , s'il n'y a pas de correspondance, il évalue à\ø\, nous utilisons donc le\??\par défaut\'?'\si l'option n'est pas sur la carte.Dans ce cas, cela ne peut jamais arriver, mais nous ne sommes pas assez intelligents pour le savoir !
+
+move-phrase

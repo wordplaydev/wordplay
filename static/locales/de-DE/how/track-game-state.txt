@@ -1,0 +1,30 @@
+Behalten Sie den Spielstatus im Auge
+
+Bei den meisten Spielen werden im Verlauf des Spiels mehrere Dinge verfolgt: Punkte, Spielerpositionen und andere Details sind alle wichtig.Bei jeder Eingabe ändert sich der Status und wir möchten als Reaktion darauf eine neue Ausgabe anzeigen.
+
+Ein allgemeines Muster für jedes Spiel bewirkt drei Dinge:
+
+• Definieren Sie eine Spielstatus-Datenstruktur, um den gesamten Spielstatus zu speichern• Definieren Sie eine Reaktion, die einen neuen Spielstatus basierend auf dem vorherigen Spielstatus erstellt, wenn neue Eingaben vorliegen• Machen Sie eine @Stage  mit  @Group  Und  @Phrase um den Spielstand anzuzeigen
+
+Stellen wir uns beispielsweise ein einfaches Spiel vor, bei dem man geheime Wörter in ein Textfeld eingibt und jedes Mal einen Punkt bekommt, wenn ein geheimes Wort erraten wird:
+
+\•Game(secrets•[''] points•#)
+state: Game(['Katze' 'Hund'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("du gewinnst!")] [
+			Group(Stack() [
+					Phrase("errate meine geheimen Worte")
+					Phrase(`\state.secrets.length() - state.points\mehr Geheimnisse`)
+				])
+		])\
+
+Lassen Sie uns das aufschlüsseln.
+
+• Die erste Zeile,\•Game(secrets•[''] points•#)\sagt,/Erstellen Sie eine Datenstruktur namens\Game\das eine Liste von Geheimnissen und Punkten speichert/• Die zweite Zeile lautet/Der Spielstand beginnt mit einer Liste von Geheimnissen und null Punkten. Jedes Mal, wenn die\Chat\Änderungen, wenn das eingegebene Wort in der Liste der Geheimnisse ist, dann machen Sie einen neuen Spielzustand mit den um eins erhöhten Punkten/.• Jedes Mal, wenn das Programm neu bewertet (wenn die\Chat\Änderungen), zeigen Sie eine Stufe an. Wenn die Anzahl der Punkte der Anzahl der Geheimnisse entspricht, wird eine Gewinnstufe angezeigt. Wenn nicht, zeigen Sie eine Eingabeaufforderung und die Anzahl der verbleibenden Geheimnisse an.
+
+Dieses Beispiel weist einige Probleme auf:
+
+• Wenn sie ein geheimes Wort mehrmals erraten, erhalten sie mehr Punkte! Unser Spielstatus muss sich möglicherweise auch merken, was erraten wurde, sodass jedes Wort nur zweimal gezählt wird.• Soll es zählen, wenn der Spieler mehrere Wörter eingibt?
+
+Ausgefeiltere Spielzustände und Spielaktualisierungen würden uns bei der Bewältigung dieser Fälle helfen.
+
+track-points

@@ -1,0 +1,19 @@
+Superposer les images les unes sur les autres
+
+Parfois, nous souhaitons superposer des images pour créer des scènes amusantes ou des formes créatives.
+
+Par exemple, vous pouvez utiliser plusieurs calques sur votre projet @Stage pour empiler et organiser les images comme vous le souhaitez.
+
+Regardez ! Voici une tortue que j'ai réalisée en utilisant uniquement des formes !Essayez de modifier les numéros de chaque forme. Vous pouvez les déplacer, les redimensionner et même les faire pivoter.Jouez et voyez ce que vous pouvez créer !
+
+\¶Remarque : consultez la galerie pour un autre projet<exemple@https://wordplay.dev/project/example-Layers?play>de superposition d'images.¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+Tu pourrais créer des trucs vraiment sympas avec des couches ! Essaie !
+
+custom-characters

@@ -1,0 +1,23 @@
+캐릭터를 흔들어 보세요
+
+때로는 캐릭터가 떨고 있는 것처럼 보이게 하는 것이 도움이 됩니다.이를 실현할 수 있는 몇 가지 방법이 있습니다.
+
+우리는 사용할 수 있습니다 @Phrase/offset  와 함께  @Random  그리고  @Time 그 일이 일어나도록 하기 위해서입니다.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('안녕' offset: Place(offset 0m))\
+
+이것은 다음과 같은 값을 생성합니다.\offset\시계가 똑딱거릴 때마다 새로운 무작위 값으로 변경됩니다.그런 다음 해당 오프셋을 사용하여 다음을 표시합니다. @Phrase 해당 금액만큼 상쇄됩니다.
+
+흔들림을 더 정확하게 제어하려면 다음을 사용할 수 있습니다. @Sequence 반복되는 무작위 흔들림 애니메이션을 만듭니다.
+
+\Phrase('안녕' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+이 예제는 무작위 값을 한 번만 선택하지만 이를 반복되는 시퀀스로 바꿉니다.
+
+move-phrase

@@ -1,0 +1,19 @@
+将图像层叠在一起
+
+有时我们希望对图像进行分层，以构建有趣的场景或富有创意的形状。
+
+例如，您可以在您的项目上使用多个层 @Stage 按照您喜欢的方式堆叠和排列图像。
+
+看！这是我用形状制作的乌龟！尝试更改每个形状的数字。你可以移动它们、调整它们的大小，甚至旋转它们。玩一玩，看看你能创造什么！
+
+\¶注意：查看图库以了解另一个项目<例子@https://wordplay.dev/project/example-Layers?play>分层图像。¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+你可以用图层制作出一些很酷的东西！快来试试吧！
+
+custom-characters

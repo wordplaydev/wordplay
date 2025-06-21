@@ -1,0 +1,21 @@
+Направите видео са камере
+
+The @Camera Стрим је одличан начин да добијете мрежу боја из света.Шта ако желимо да видимо те боје, рекреирајући слику @Camera види?
+
+Можемо користити @Grid распоред за @Group и @List/combine функција за претварање боја у листу @Phrase које дајемо @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+Овај пример гради листу фраза, покривајући сваку боју у круг са одређеном бојом.
+
+Будите пажљиви са @Camera токови: они производе много уноса! Пожелећете да ширина и висина слике буду мале.
+
+interactive-scene

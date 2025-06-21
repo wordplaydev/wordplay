@@ -1,0 +1,17 @@
+動きを繰り返す
+
+時には、キャラクターを何度も同じように動かしたいこともあります。同じ行を何度も入力するのは面倒になってきました。
+
+代わりに、 @Sequence  と  @Phrase 何かを何度も繰り返すこと！具体的には、カウントを使用することができます @Sequence ポーズセットの回数を選択します。例えば、バスケットボールが上下に2回跳ねています。
+
+\Stage([
+		Phrase('🏀' entering: Sequence({
+					0%: Pose(offset: Place(y: 0.25m))
+					25%: Pose(offset: Place(y: 0m))
+					50%: Pose(offset: Place(y: -0.25m))
+					75%: Pose(offset: Place(y: 0m))
+					100%: Pose(offset: Place(y: 0.25m))
+				} count: 2x duration: 2s))
+	])\
+
+animate-phrase, shake-phrase

@@ -1,0 +1,21 @@
+Rendre un personnage mobile
+
+Parfois, il est utile de faire un @Phrase déplaçable avec un clavier, une souris ou un doigt.
+
+Fais-le, nous pouvons nous combiner @Phrase  avec  @Placement :
+
+\Stage([Phrase('bouge-moi' place: Placement())] place: Place(0m 0m -10m))\
+
+En utilisant les flèches du clavier ou en cliquant sur le @Stage mettra à jour le @Placement , provoquant la @Phrase pour aller dans cette direction.
+
+Mais saviez-vous que @Placement peut être utilisé avec/rien/ça prend un @Place ?Par exemple un @Stage a un @Place qui détermine où pointe la caméra.Essayons de définir un @Placement pour un @Stage chez nous, et voyons ce qui se passe.
+
+\Stage([
+		Phrase('🐈' place: Place(-2m 2m))
+		Phrase('🐈' place: Place(2m -2m))
+		Phrase('🐈' place: Place(-1m 3m))
+	] place: Placement(Place(0m 0m -10m)))\
+
+Cela fait bouger la caméra ! (Remarque : nous commençons le @Placement avec un\z\valeur de\10m\afin que la caméra soit en retrait de tout.)
+
+animated-scene

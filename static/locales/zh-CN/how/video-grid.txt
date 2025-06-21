@@ -1,0 +1,21 @@
+使用相机创建视频
+
+这  @Camera 流是从世界获取颜色网格的好方法。如果我们想看到这些颜色，重建图像 @Camera 看到了嗎？
+
+我们可以使用 @Grid 布局 @Group ， 和  @List/combine 函数将颜色转换为列表 @Phrase 我们给予 @Grid 。
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+此示例构建了一个短语列表，将每种颜色转换为具有特定颜色的圆圈。
+
+小心 @Camera 流：它们会产生大量的输入！你需要保持图像的宽度和高度较小。
+
+interactive-scene

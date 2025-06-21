@@ -1,0 +1,15 @@
+Mostrar un personaje personalizado
+
+¡Los emojis, las letras y los símbolos son geniales! Pero a veces quieres crear tus propios personajes.¿Cómo puedes crear y mostrar el tuyo propio?
+
+Primero, comienza creando un personaje en elPersonajespágina.Puedes utilizar píxeles, rectángulos, círculos y trazados.Dale un nombre, descríbelo y luego podrás usar tu nombre de usuario y el nombre del personaje de esta manera:
+
+\Phrase(`Mira mi fantasía@username/charactername!`)\
+
+Ese nombre de usuario y nombre de personaje no existen, por lo que se mostrarán como un rectángulo vacío.Asegúrate de usar tu nombre de usuario real y el nombre de tu personaje.
+
+¿Ves cómo el texto usa la comilla invertida en lugar de las comillas? Es importante.Eso nos indica que está utilizando el modo de texto enriquecido, y eso es necesario para hacer referencia a un carácter personalizado.
+
+Puede obtener más información sobre el formato de texto en@Phrase.
+
+animate-phrase

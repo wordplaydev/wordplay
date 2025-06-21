@@ -1,0 +1,31 @@
+텍스트 어드벤처를 만들어 보세요
+
+재미있는 게임 중 하나는/나만의 모험을 선택하세요/플레이어가 일련의 선택을 통해 행복한 결말을 찾는 게임입니다.
+
+이 중 하나를 만들려면 다음을 사용할 수 있습니다. @Structure , @Key , @Reaction , 그리고  @List 다음과 같이 각각에 대한 옵션을 갖는 일련의 결정을 함께 내립니다.
+
+\¶이는 선택 사항과 해당 선택 사항이 어떤 결정을 내릴지 저장하는 데이터 구조를 만듭니다.¶•Option(text•'' decision•#)
+¶이 데이터 구조는 선택 목록을 저장합니다.¶•Decision(options: [Option])
+¶이게 바로 게임 콘텐츠입니다! 옵션의 텍스트를 변경하여 분위기와 어려운 선택을 만들어 보세요.까다로운 선택의 장을 만들기 위해 옵션을 추가합니다.¶
+decisions: [
+		Decision([Option('시작' 2)])
+		Decision([
+				Option('왼쪽' 3)
+				Option('똑바로' 4)
+				Option('오른쪽' 4)
+			])
+		Decision([Option('이기다' 1)])
+		Decision([Option('잃다' 1)])
+	]
+¶키가 1이면 키를 숫자로 변환합니다.¶
+key: Key()
+choice: key → #
+¶이 값은 위 목록의 현재 결정을 나타냅니다.키가 눌리면 다음 중 하나가 수행됩니다.이 결정에 대한 선택이 하나뿐이라면 현재 결정을 변경합니다.어떤 키를 눌렀는지와 관계없이 옵션의 목표 결정에 영향을 미칩니다.눌린 키가 1과 옵션 수 사이에 있으면 해당 옵션의 목표 결정으로 이동합니다.그렇지 않으면 우리는 현재의 결정을 그대로 유지합니다.¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶이 옵션은 문구를 쌓아 놓은 형태로 표시됩니다. 이 옵션을 변경하여 설명, 애니메이션 등 다양한 효과를 추가할 수 있습니다!¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+이 패턴은 복잡해 보이지만, 실제로는 현재 옵션 세트를 보여주고, 키가 변경될 때마다 선택한 옵션에 대한 결정을 내리는 역할을 합니다. 게임 디자인의 핵심은 상단의 콘텐츠를 변경하는 것입니다!
+
+offer-choices

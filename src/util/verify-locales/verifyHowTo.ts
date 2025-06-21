@@ -1,6 +1,9 @@
+import { howToToString, parseHowTo } from '@concepts/HowTo';
 import type LanguageCode from '@locale/LanguageCode';
-import { MachineTranslated, isAutomated, isUnwritten } from '@locale/LocaleText';
+import { isAutomated } from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
+import Sym from '@nodes/Sym';
+import Token from '@nodes/Token';
 import fs from 'fs';
 import path from 'path';
 import type Log from './Log';
@@ -30,7 +33,9 @@ export async function verifyHowTo(
 
     let englishFiles: string[];
     try {
-        englishFiles = fs.readdirSync(englishHowToDir).filter((f) => f.endsWith('.txt'));
+        englishFiles = fs
+            .readdirSync(englishHowToDir)
+            .filter((f) => f.endsWith('.txt'));
     } catch (error) {
         log.bad(2, `Failed to read English how-to directory: ${error}`);
         return;
@@ -50,11 +55,14 @@ export async function verifyHowTo(
 
     if (!translateContent) {
         // Just check for missing files in verification mode
-        const missingFiles = englishFiles.filter((filename) =>
-            !fs.existsSync(path.join(targetHowToDir, filename)),
+        const missingFiles = englishFiles.filter(
+            (filename) => !fs.existsSync(path.join(targetHowToDir, filename)),
         );
         if (missingFiles.length > 0) {
-            log.bad(2, `Missing ${missingFiles.length} how-to files for ${locale}`);
+            log.bad(
+                2,
+                `Missing ${missingFiles.length} how-to files for ${locale}`,
+            );
         }
         return;
     }
@@ -93,7 +101,10 @@ export async function verifyHowTo(
     }
 
     if (translatedCount > 0) {
-        log.good(2, `Translated ${translatedCount}/${totalFiles} how-to files for ${locale}`);
+        log.good(
+            2,
+            `Translated ${translatedCount}/${totalFiles} how-to files for ${locale}`,
+        );
     } else {
         log.good(2, `No how-to files needed translation for ${locale}`);
     }
@@ -119,79 +130,100 @@ async function translateHowToFile(
         throw new Error(`Failed to read English file: ${error}`);
     }
 
-    const englishLines = englishContent.split('\n');
-    let targetLines: string[];
+    let targetLines: string;
     let isNewFile = false;
 
     // Check if target file exists and read it
     if (fs.existsSync(targetFilePath)) {
         try {
             const targetContent = fs.readFileSync(targetFilePath, 'utf-8');
-            targetLines = targetContent.split('\n');
+            targetLines = targetContent;
         } catch (error) {
             throw new Error(`Failed to read target file: ${error}`);
         }
     } else {
         // File doesn't exist, copy English content as starting point
-        targetLines = [...englishLines];
+        targetLines = englishContent;
         isNewFile = true;
     }
 
     // Check if any lines need translation
-    const needsTranslation = isNewFile || targetLines.some((line) =>
-        isUnwritten(line) || (override && isAutomated(line)),
-    );
+    const needsTranslation =
+        isNewFile || (override && isAutomated(targetLines));
 
     if (!needsTranslation) return;
 
-    // Extract strings that need translation
-    const translationPairs: Array<{ lineIndex: number; originalText: string }> = [];
+    // Parse the target text as a how to.
+    const parsedHowTo = parseHowTo(filename.replace('.txt', ''), targetLines);
 
-    for (let i = 0; i < targetLines.length; i++) {
-        const line = targetLines[i];
-        if (!line.trim()) continue; // Skip empty lines
+    // Find all of the words in the content.
+    if (parsedHowTo.how === null) return;
 
-        const needsLineTranslation = isNewFile || isUnwritten(line) || (override && isAutomated(line));
-        if (needsLineTranslation) {
-            // Clean the line of existing markers
-            const cleanLine = line.replace(MachineTranslated, '').replace(/^\$~/, '').trim();
-            if (cleanLine) {
-                translationPairs.push({
-                    lineIndex: i,
-                    originalText: cleanLine,
-                });
-            }
-        }
-    }
+    const phrases = parsedHowTo.how.content
+        .nodes()
+        .filter(
+            (node): node is Token =>
+                node instanceof Token && node.isSymbol(Sym.Words),
+        );
 
-    if (translationPairs.length === 0) return;
+    if (phrases.length === 0) return;
 
-    // Extract just the text for translation
-    const stringsToTranslate = translationPairs.map((pair) => pair.originalText);
+    // Translate the title and content
+    const translations = await translate(
+        log,
+        [parsedHowTo.how.title, ...phrases.map((phrase) => phrase.getText())],
+        sourceLocale,
+        targetLocale,
+    );
 
-    // Translate the strings
-    const translations = await translate(log, stringsToTranslate, sourceLocale, targetLocale);
-
-    if (!translations) {
+    if (translations === undefined) {
         throw new Error('Translation service returned no results');
     }
 
-    if (translations.length !== stringsToTranslate.length) {
+    if (translations.length !== phrases.length + 1) {
         throw new Error(
-            `Translation count mismatch: expected ${stringsToTranslate.length}, got ${translations.length}`,
+            `Translation count mismatch: expected ${phrases.length}, got ${translations.length}`,
         );
     }
 
-    // Apply translations
+    // Apply translations to the title.
+    parsedHowTo.how.title = translations[0];
+    translations.shift();
+
+    // Apply translations to the words in the markup, replacing the original tokens with the revised ones.
+    let markup = parsedHowTo.how.content;
     for (let i = 0; i < translations.length; i++) {
-        const { lineIndex } = translationPairs[i];
-        const translatedText = translations[i].trim();
-        targetLines[lineIndex] = MachineTranslated + translatedText;
+        const tokens = markup.leaves();
+        const tokenBefore = tokens[tokens.indexOf(phrases[i]) - 1];
+        const tokenAfter = tokens[tokens.indexOf(phrases[i]) + 1];
+        const nameBefore =
+            tokenBefore !== undefined &&
+            (tokenBefore.isSymbol(Sym.Name) ||
+                tokenBefore.isSymbol(Sym.Concept));
+        const nameAfter =
+            tokenAfter !== undefined &&
+            (tokenAfter.isSymbol(Sym.Name) || tokenAfter.isSymbol(Sym.Concept));
+        markup = markup.replace(
+            phrases[i],
+            new Token(
+                (nameBefore ? ' ' : '') +
+                    translations[i] +
+                    (nameAfter ? ' ' : ''),
+                Sym.Words,
+            ),
+        );
     }
+
+    // Update the content.
+    parsedHowTo.how.content = markup;
 
     // Write the translated file
     try {
-        fs.writeFileSync(targetFilePath, targetLines.join('\n'), 'utf-8');
+        fs.writeFileSync(
+            targetFilePath,
+            howToToString(parsedHowTo.how),
+            'utf-8',
+        );
     } catch (error) {
         throw new Error(`Failed to write translated file: ${error}`);
     }

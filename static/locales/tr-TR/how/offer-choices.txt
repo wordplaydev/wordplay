@@ -1,0 +1,32 @@
+Seçilebilir seçenekleri göster
+
+Bazen ekranda bir sürü seçenek göstermek ve izleyicinin seçtikleriyle bir şeyler yapmak istersiniz. Bunu yapmak için iki şeye ihtiyacımız var:
+
+• Bir veya daha fazla @Phrase seçilebilir olarak işaretlenmiş ve benzersiz bir ada sahip olanlar (örneğin,\Phrase('Seçenek 1' selectable: ⊤ name: 'bir')\)• A  @Choice , şu şekilde değişir: @Phrase En son seçilen isim.
+
+Örneğin, burada her biri benzersiz bir isme sahip üç seçenek gösteriyoruz.
+
+\option: Choice()
+Group(Stack() [
+		Phrase('Seçenek 1' selectable: ⊤ name: 'bir')
+		Phrase('Seçenek 2' selectable: ⊤ name: 'iki')
+		Phrase('Seçenek 3' selectable: ⊤ name: 'üç')
+		Phrase(option)
+	])\
+
+Her seferinde biri seçildiğinde, sonuncusu @Phrase seçilen ismi gösterir.
+
+Bu deseni bir seçime yanıt olarak bir şeyler yapmak için kullanabilirsiniz. Örneğin, yukarıdaki projeyi seçime dayalı gizli bir emoji gösterecek şekilde değiştirebiliriz:
+
+\option: Choice()
+option = '' ? Group(Stack() [
+			Phrase('Seçenek 1' selectable: ⊤ name: 'bir')
+			Phrase('Seçenek 2' selectable: ⊤ name: 'iki')
+			Phrase('Seçenek 3' selectable: ⊤ name: 'üç')
+		]) Phrase({'bir': '😡' 'iki': '🏀' 'üç': '❤️'}{option} ?? '?')\
+
+The @Choice boş olarak başlar @Text ve proje başladığında bunu kontrol ediyoruz ve üç seçeneği gösteriyoruz.Bir seçim yapıldığında, üç seçenekten biri haline gelir. @Phrase İsimler.
+
+Seçime dayalı bir emoji göstermek için şunu kullanabiliriz: @Map ismini gizli bir emojiye dönüştürmek için.Bir değer aldığımızda @Map , eğer eşleşme yoksa, şu şekilde değerlendirilir\ø\, bu yüzden şunu kullanırız\??\varsayılan olarak\'?'\Eğer seçenek haritada yoksa.Bu durumda böyle bir şey asla olamaz ama bunu bilecek kadar akıllı değiliz!
+
+move-phrase

@@ -1,0 +1,23 @@
+Faire trembler un personnage
+
+Parfois, il est utile de donner l'impression qu'un personnage tremble.Il existe plusieurs façons d’y parvenir.
+
+Nous pouvons utiliser @Phrase/offset  avec  @Random  et  @Time pour que cela se produise.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('Salut' offset: Place(offset 0m))\
+
+Cela crée une valeur appelée\offset\qui change en une nouvelle valeur aléatoire à chaque fois que l'horloge tourne.Ensuite, il utilise ce décalage pour afficher le @Phrase compensé par ce montant.
+
+Si nous voulions contrôler les secousses plus précisément, nous pourrions utiliser un @Sequence pour créer une animation de tremblement aléatoire qui se répète.
+
+\Phrase('Salut' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+Cet exemple sélectionne simplement des valeurs aléatoires une fois, mais les transforme en une séquence répétitive.
+
+move-phrase

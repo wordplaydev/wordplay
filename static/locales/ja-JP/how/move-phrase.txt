@@ -1,0 +1,21 @@
+キャラクターを移動可能にする
+
+時には、 @Phrase キーボード、マウス、または指で移動できます。
+
+これをやれば、組み合わせることができます @Phrase  と  @Placement ：
+
+\Stage([Phrase('感動させる' place: Placement())] place: Place(0m 0m -10m))\
+
+キーボードの矢印キーを使用するか、 @Stage 更新します @Placement 、原因は @Phrase その方向へ進む。
+
+でもご存知でしたか？ @Placement 一緒に使える/何でも/それは @Place ？例えば @Stage は @Place カメラがどこを向いているかを決定します。設定してみましょう @Placement のために @Stage の場所に行って、何が起こるか見てみましょう。
+
+\Stage([
+		Phrase('🐈' place: Place(-2m 2m))
+		Phrase('🐈' place: Place(2m -2m))
+		Phrase('🐈' place: Place(-1m 3m))
+	] place: Placement(Place(0m 0m -10m)))\
+
+これでカメラが動きます！（注： @Placement と\z\の価値\10m\カメラがあらゆるものから遠ざかるようにします。
+
+animated-scene

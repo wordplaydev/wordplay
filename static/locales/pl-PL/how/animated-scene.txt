@@ -1,0 +1,31 @@
+Utwórz animowaną serię scen
+
+Czasami chcemy opowiedzieć historie, pokazać teksty piosenek lub ożywić poezję.Aby to zrobić, możemy użyć @Scene  I  @Phrase razem, aby pokazać sekwencję.
+
+Na przykład wyobraźmy sobie, że chcielibyśmy stworzyć animację krótkiej rymowanki dla dzieci „Jack be Nimble”.Moglibyśmy zrobić @Scene w którym każda linia jest @Phrase i ustawiając @Phrase/duration każdej linii, @Scene będzie się przesuwać, gdy każda fraza zostanie ukończona.
+
+\Scene([
+		Phrase('Jack, bądź zwinny' duration: 1s)
+		Phrase('Jack, bądź szybki' duration: 1s)
+		Phrase('Jack przeskakuje świeczkę' duration: 1s)
+	])\
+
+@Scene będzie czekać na @Sequence też do zrobienia. Zróbmy skok linii świec!
+
+\Scene([
+		Phrase('Jack, bądź zwinny' duration: 1s)
+		Phrase('Jack, bądź szybki' duration: 1s)
+		Phrase('Jack przeskakuje świeczkę' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene może również wziąć @Group również tekstu i będzie czekać, aż cała jego zawartość zakończy animację.
+
+\Scene([
+		Group(Stack() [
+				Phrase('Jack, bądź zwinny')
+				Phrase('Jack, bądź szybki')
+			] duration: 2s)
+		Phrase('Jack przeskakuje świeczkę' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

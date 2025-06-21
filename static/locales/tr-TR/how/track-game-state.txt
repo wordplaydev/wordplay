@@ -1,0 +1,30 @@
+Oyun durumunu takip edin
+
+Çoğu oyun, oyun ilerledikçe birden fazla şeyi takip eder: puanlar, oyuncuların pozisyonları ve diğer ayrıntıların hepsi önemlidir.Her seferinde bir girdi olduğunda, bu durum değişir ve sonra yanıt olarak yeni bir çıktı görüntülemek isteriz.
+
+Herhangi bir oyun için genel bir kalıp üç şeyi yapar:
+
+• Tüm oyun durumlarını depolamak için bir oyun durumu veri yapısı tanımlayın• Yeni bir girdi olduğunda önceki oyun durumuna dayalı olarak yeni bir oyun durumu oluşturan bir tepki tanımlayın• Bir tane yapın @Stage  ile  @Group  Ve  @Phrase oyun durumunu göstermek için
+
+Örneğin, bir metin kutusuna gizli kelimeler yazmayı ve her gizli kelime tahmin edildiğinde bir puan almayı içeren basit bir oyun hayal edelim:
+
+\•Game(secrets•[''] points•#)
+state: Game(['kedi' 'köpek'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("sen kazandın!")] [
+			Group(Stack() [
+					Phrase("gizli kelimelerimi tahmin et")
+					Phrase(`\state.secrets.length() - state.points\daha fazla sır`)
+				])
+		])\
+
+Bunu biraz açalım.
+
+• İlk satır,\•Game(secrets•[''] points•#)\diyor ki,/Adında bir veri yapısı oluşturun\Game\sırların ve noktaların bir listesini saklayan/• İkinci satırda şöyle yazıyor/Oyun durumu sırlar listesi ve sıfır puanla başlar. Her seferinde\Chat\değişiklikler, girilen kelime sırlar listesindeyse, puanlar bir artırılarak yeni bir oyun durumu oluşturulur/.• Program her yeniden değerlendirildiğinde (program\Chat\değişiklikler), bir aşamayı gösterir. Puan sayısı sır sayısına eşitse, kazanan bir aşama gösterilir. Değilse, bir istem ve kalan sır sayısını gösterir.
+
+Bu örnekte bazı sorunlar var:
+
+• Gizli bir kelimeyi birden fazla kez tahmin ederlerse daha fazla puan alırlar! Oyun durumumuzun neyin tahmin edildiğini de hatırlaması gerekebilir, bu yüzden her kelime yalnızca iki kez sayılır.• Oyuncu birden fazla kelime girerse, bu sayılır mı?
+
+Daha gelişmiş oyun durumları ve oyun güncellemeleri bu tür durumlarla başa çıkmamıza yardımcı olacaktır.
+
+track-points

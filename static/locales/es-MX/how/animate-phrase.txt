@@ -1,0 +1,19 @@
+Hacer que un personaje se anime
+
+Los personajes pueden tener una animación de reposo que se repite mientras no se mueven.
+
+Por ejemplo, hagamos que este gato baile un poco haciéndolo girar y moverse:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+Este ejemplo utiliza un @Sequence de diferentes @Pose .
+
+move-phrase, shake-phrase

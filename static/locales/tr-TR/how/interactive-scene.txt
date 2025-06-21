@@ -1,0 +1,31 @@
+Etkileşimli bir sahne dizisi yaratın
+
+Bazen izleyicinin bir sonraki içeriğe geçmeden önce bir şeyler yapmasını bekleyen hikayeler anlatmak isteriz.
+
+Bunu yapmak için şunu kullanabiliriz: @Scene , ama koy @Boolean göstermek istediğimiz içerik arasındaki değerler. Örneğin, burada bir tıklama, bir sonraki içeriğe ilerlemenizi sağlar, bir @Button :
+
+\Scene([
+		Phrase('bana tıkla')
+		Button()
+		Phrase('beni tekrar tıkla' duration: 1s)
+		Button()
+		Phrase('hayır gerçekten, bana olabildiğince sert tıkla!!' duration: 1s)
+		Button()
+		Phrase('beni tıkladın mı?' duration: 1s)
+	])\
+
+The @Scene ilkini gösterir @Phrase , sonra bekler @Button doğruysa ve doğruysa, bir sonraki aşamaya geçer @Phrase .
+
+İlerlemek için istediğiniz her şeyi kullanabilirsiniz, yeter ki doğru ya da yanlış olsun.Mesela sesimizi kullanabiliriz!Yeterince yüksek sesle bağırırsak sahne ilerleyecek:
+
+\Scene([
+		Phrase('orada kimse var mı?')
+		Volume() > .5
+		Phrase("Duyamadım, tekrar söyler misin?" duration: 1s)
+		Volume() > .7
+		Phrase('daha yüksek sesle lütfen...' duration: 1s)
+		Volume() > .9
+		Phrase('aa merhaba!' duration: 1s)
+	])\
+
+animated-scene

@@ -1,0 +1,37 @@
+Stylizuj swój tekst
+
+Czasami chcemy, aby nasz tekst się wyróżniał. Możemy to zrobić,/kursywa/,*pogrubienie*i wiele więcej!
+
+Na przykład, aby pochylić tekst, możesz umieścić go w ukośnikach //, jak //Hello//. Na przykład:
+
+\Group(Stack() [
+		Phrase(`Chcesz się trochę popisać?/kursywa/w Twoim tekście?`)
+		Phrase(`Dobrze jest to podkreślić lub nadać słowom to, co.../dodatkowy jazz/.`)
+		Phrase(`Wystarczy umieścić ukośnik (//) przed i po słowie lub frazie,/tak/.`)
+	])\
+
+@Phrase możesz również pogrubić tekst. Możesz to zrobić, otaczając tekst gwiazdkami **, jak **Witaj**. Na przykład:
+
+\Group(Stack() [
+		Phrase(`Chcesz, aby Twój tekst się wyróżniał?*pogrubiony*?`)
+		Phrase(`To idealne rozwiązanie, gdy potrzebujesz*krzyczeć coś głośno*.`)
+		Phrase(`Po prostu wstaw pojedyncze gwiazdki (**) wokół swoich słów, np.*Hej!*i zobacz, jak zmienia się sytuacja.`)
+	])\
+
+@Phrase możesz również uczynić tekst BARDZO pogrubionym. W tym celu otocz tekst znakami ^^, jak ^^Hello^^. Na przykład:
+
+\Group(Stack() [
+		Phrase(`Ekstra pogrubione jest^KOZA^kiedy trzeba zwiększyć głośność do maksimum.`)
+		Phrase(`To jest takie odważne, ale bardziej^ogień^, zwykle robione z pojedynczymi marchewkami dookoła (^^)`)
+		Phrase(`Użyj go, aby się zgiąć^nagłówki^ Lub ^wielkie pomysły^.`)
+	])\
+
+Wreszcie,  @Phrase może sprawić, że tekst będzie podkreślony. W tym celu owiń tekst podkreślnikami __, jak __Hello__. Na przykład:
+
+\Group(Stack() [
+		Phrase(`Podkreślenie jest_dyskretny ogień_gdy chcesz, aby tekst był elegancki, ale nadal się wyróżniał.`)
+		Phrase(`Przed i po tekście wstaw pojedynczy znak podkreślenia (__),_tak_i daje czysty nacisk.`)
+		Phrase(`Jego _doskonały_za wyrażenie swojego punktu widzenia bez przesady_dodatkowy_.`)
+	])\
+
+custom-characters

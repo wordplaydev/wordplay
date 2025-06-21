@@ -1,0 +1,19 @@
+Lagra bilder ovanpå varandra
+
+Ibland vill vi lägga bilder i lager för att skapa roliga scener eller kreativa former.
+
+Till exempel kan du använda flera lager för ditt projekt @Stage att stapla och arrangera bilder hur du vill.
+
+Titta! Här är en sköldpadda jag gjorde med bara former!Försök att ändra siffrorna för varje form. Du kan flytta dem, ändra storlek på dem och till och med rotera dem.Lek runt och se vad du kan skapa!
+
+\¶Obs: Kolla in galleriet för ett annat projekt<exempel@https://wordplay.dev/project/example-Layers?play>av att lägga bilder i lager.¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+Du kan göra riktigt coola saker med lager! Testa det!
+
+custom-characters

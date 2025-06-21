@@ -1,0 +1,19 @@
+Puanları takip edin
+
+Bazen bir oyunda, bir şey olduğunda puanları takip etmek faydalıdır. Wordplay değişkenlere yeni değerler verilmesine izin vermiyorsa, bunu nasıl yapabiliriz?
+
+İşin püf noktası bir tane kullanmaktır @Reaction tanımlamak için @Bind 'nin değerini ve hangi olayın yeni bir değere yol açacağını dikkatlice düşünmek @Bind .
+
+Örneğin, bir oyuncunun klavyedeki gizli bir tuşa her bastığında daha fazla puan aldığı çok basit bir oyun düşünün.
+
+\points: 0 … ['A' 've' 'Ben' 'O' 'sen'].has(Key()) … points + 1\
+
+Bu örnek şunu söylüyor:/Puanlar 0'dan başlar ve sonra her tuşa basıldığında, eğer tuş sesli harfler listesindeyse, puanlar geçerli puan artı bir olur./Her seferinde\Key()\  @Stream değişirse, program yeniden değerlendirir, koşulu kontrol eder ve doğruysa,\points\yeni bir değer.
+
+Bu tepkimenin üç bölümü vardır:
+
+• Puanlar için başlangıç değeri (\0\)• Doğru olduğunda yeni bir değer üreten koşul (\['A' 've' 'Ben' 'O' 'sen'].has(Key())\)• Koşul doğruysa yeni değer (\points + 1\)
+
+Daha karmaşık nokta takibi yapmak için, daha karmaşık koşullar veya yeni değerler oluşturun. Bu koşulların ve yeni değerlerin kurallarını düşünmek için biraz zaman ayırın ve sonra bunları kodda ifade etmeye çalışın.
+
+track-points

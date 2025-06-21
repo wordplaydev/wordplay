@@ -1,0 +1,37 @@
+Stylisez votre texte
+
+Parfois, nous souhaitons que notre texte se démarque. Nous pouvons y parvenir en/en italique/,*mise en gras*, et plus encore !
+
+Par exemple, pour mettre du texte en italique, vous pouvez l'entourer de barres obliques //, comme //Bonjour//. Par exemple :
+
+\Group(Stack() [
+		Phrase(`Envie de vous exercer un peu/italique/dans ton texte ?`)
+		Phrase(`C'est bon pour mettre l'accent ou pour donner à vos mots ce/jazz supplémentaire/.`)
+		Phrase(`Il suffit de mettre une barre oblique (//) avant et après le mot ou la phrase,/comme ça/.`)
+	])\
+
+@Phrase Vous pouvez également mettre le texte en gras. Pour ce faire, placez des astérisques **, comme **Bonjour**. Par exemple :
+
+\Group(Stack() [
+		Phrase(`Vous voulez faire ressortir votre texte avec*audacieux*?`)
+		Phrase(`C'est parfait lorsque vous en avez besoin*crier quelque chose fort*.`)
+		Phrase(`Il suffit de mettre des astérisques simples (**) autour de vos mots, comme*Hé!*, et regardez-le frapper différemment.`)
+	])\
+
+@Phrase Vous pouvez également mettre du texte en gras. Pour cela, entourez votre texte de carets ^^, comme ^^Bonjour^^. Par exemple :
+
+\Group(Stack() [
+		Phrase(`Extra gras est le^CHÈVRE^quand vous avez besoin de mettre l'ambiance au maximum.`)
+		Phrase(`C'est comme audacieux mais en plus^feu^, généralement fait avec des carottes simples autour (^^)`)
+		Phrase(`Utilisez-le pour vous fléchir^en-têtes^ ou ^grandes idées^.`)
+	])\
+
+Enfin,  @Phrase Vous pouvez souligner du texte. Pour cela, entourez votre texte de traits de soulignement __, comme __Bonjour__. Par exemple :
+
+\Group(Stack() [
+		Phrase(`Le soulignement est_feu discret_pour quand vous souhaitez garder un texte élégant mais qui se démarque.`)
+		Phrase(`Déposez un seul trait de soulignement (__) avant et après votre texte,_comme ça_, et cela donne une emphase nette.`)
+		Phrase(`C'est _parfait_pour faire valoir votre point de vue sans être trop_supplémentaire_.`)
+	])\
+
+custom-characters

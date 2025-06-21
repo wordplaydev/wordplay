@@ -1,0 +1,19 @@
+Nakładanie obrazów na siebie
+
+Czasami chcemy nakładać na siebie warstwy obrazów, aby tworzyć zabawne sceny lub kreatywne kształty.
+
+Na przykład możesz użyć wielu warstw swojego projektu @Stage układać i układać obrazy w dowolny sposób.
+
+Spójrz! Oto żółw, którego stworzyłem używając tylko kształtów!Spróbuj zmienić liczby dla każdego kształtu. Możesz je przesuwać, zmieniać ich rozmiar, a nawet obracać.Pobaw się i zobacz, co możesz stworzyć!
+
+\¶Uwaga: Sprawdź galerię, aby zobaczyć inny projekt<przykład@https://wordplay.dev/project/example-Layers?play>warstwowania obrazów.¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+Możesz zrobić naprawdę fajne rzeczy z warstwami! Spróbuj!
+
+custom-characters

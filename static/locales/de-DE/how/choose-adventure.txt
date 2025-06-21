@@ -1,0 +1,31 @@
+Machen Sie ein Textabenteuer
+
+Eine lustige Art von Spiel ist ein/Wähle dein eigenes Abenteuer/Spiel, bei dem ein Spieler eine Reihe von Entscheidungen trifft und versucht, einen Weg zu einem Happy End zu finden.
+
+Um eines davon zu erstellen, können wir verwenden @Structure , @Key , @Reaction , Und  @List um gemeinsam eine Reihe von Entscheidungen zu treffen, jede mit einer Reihe von Optionen, etwa wie folgt:
+
+\¶Dadurch wird eine Datenstruktur erstellt, die eine Auswahl speichert und angibt, zu welcher Entscheidung sie führt.¶•Option(text•'' decision•#)
+¶Diese Datenstruktur speichert eine Auswahlliste¶•Decision(options: [Option])
+¶Dies ist der Spielinhalt! Ändern Sie den Text in den Optionen, um Atmosphäre und schwierige Entscheidungen zu schaffen.Fügen Sie Optionen hinzu, um ein Netz kniffliger Entscheidungen zu erstellen.¶
+decisions: [
+		Decision([Option('Start' 2)])
+		Decision([
+				Option('links' 3)
+				Option('gerade' 4)
+				Option('Rechts' 4)
+			])
+		Decision([Option('gewinnen' 1)])
+		Decision([Option('verlieren' 1)])
+	]
+¶Konvertieren Sie den Schlüssel in eine Zahl, falls es sich um eine handelt¶
+key: Key()
+choice: key → #
+¶Dieser Wert stellt die aktuelle Entscheidung in der obigen Liste dar.Wenn die Taste gedrückt wird, führen wir eine der folgenden Aktionen aus.Wenn es für diese Entscheidung nur eine Möglichkeit gibt, ändern wir die aktuelle Entscheidungzur Zielentscheidung der Option, unabhängig davon, welche Taste gedrückt wurde.Wenn die gedrückte Taste zwischen 1 und der Anzahl der Optionen liegt, gehen wir zur Zielentscheidung dieser Option.Ansonsten behalten wir die aktuelle Entscheidung einfach bei.¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶Hier werden die Optionen als Satzstapel angezeigt. Sie können dies ändern, um Anweisungen, Animationen und andere interessante Elemente hinzuzufügen!¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+Dieses Muster sieht komplex aus, zeigt aber lediglich die aktuellen Optionen an und wechselt bei jeder Tastenänderung zur Entscheidung für die gewählte Option. Beim Entwerfen eines Spiels geht es darum, den Inhalt oben zu ändern!
+
+offer-choices

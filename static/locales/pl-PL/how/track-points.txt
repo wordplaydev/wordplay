@@ -1,0 +1,19 @@
+Śledź punkty
+
+Czasami w grze pomocne jest śledzenie punktów, gdy coś się dzieje. Jeśli Wordplay nie pozwala na nadawanie zmiennym nowych wartości, jak możemy to zrobić?
+
+Sztuką jest użyć @Reaction zdefiniować @Bind wartość i dokładnie przemyśleć, jakie zdarzenie powinno skutkować nową wartością @Bind .
+
+Wyobraźmy sobie na przykład bardzo prostą grę, w której gracz zdobywa więcej punktów za każdym razem, gdy wciśnie tajny klawisz na klawiaturze.
+
+\points: 0 … ['A' 'mi' 'I' 'o' 'ty'].has(Key()) … points + 1\
+
+W tym przykładzie jest napisane,/Punkty zaczynają się od 0, a następnie po każdym naciśnięciu klawisza (o ile klawisz ten znajduje się na liście samogłosek) punkty stają się bieżącą liczbą punktów plus jeden./Za każdym razem, gdy\Key()\  @Stream zmiany, program dokonuje ponownej oceny, sprawdza warunek i jeśli jest prawdziwy, podaje\points\nowa wartość.
+
+Reakcja składa się z trzech części:
+
+• Wartość początkowa punktów (\0\)• Warunek, który, gdy jest prawdziwy, generuje nową wartość (\['A' 'mi' 'I' 'o' 'ty'].has(Key())\)• Nowa wartość, jeśli warunek stanie się prawdziwy (\points + 1\)
+
+Aby uzyskać bardziej wyrafinowane śledzenie punktów, po prostu stwórz bardziej wyrafinowane warunki lub nowe wartości. Poświęć trochę czasu na przemyślenie reguł tych warunków i nowych wartości, a następnie spróbuj wyrazić je w kodzie.
+
+track-points

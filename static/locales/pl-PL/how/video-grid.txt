@@ -1,0 +1,21 @@
+Utwórz wideo z kamery
+
+Ten @Camera Stream to świetny sposób na uzyskanie siatki kolorów ze świata.Co jeśli chcemy zobaczyć te kolory, odtwarzając obraz? @Camera widzi?
+
+Możemy użyć @Grid układ dla @Group , I  @List/combine funkcja umożliwiająca konwersję kolorów na listę @Phrase że dajemy @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+W tym przykładzie utworzono listę fraz, umieszczając każdy kolor w okręgu o określonym kolorze.
+
+Uważaj na @Camera strumienie: produkują dużo danych wejściowych! Będziesz chciał zachować małą szerokość i wysokość obrazu.
+
+interactive-scene

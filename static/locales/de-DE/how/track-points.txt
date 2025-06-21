@@ -1,0 +1,19 @@
+Behalten Sie den Überblick über Ihre Punkte
+
+Manchmal ist es im Spiel hilfreich, die Punkte zu verfolgen, wenn etwas passiert. Wenn Wordplay es nicht zulässt, Variablen neue Werte zuzuweisen, wie können wir das dann tun?
+
+Der Trick besteht darin, ein @Reaction zur Definition eines @Bind Wert und sorgfältig darüber nachzudenken, welches Ereignis zu einem neuen Wert für den @Bind .
+
+Stellen Sie sich beispielsweise ein sehr einfaches Spiel vor, bei dem ein Spieler jedes Mal mehr Punkte erhält, wenn er eine geheime Taste auf der Tastatur drückt.
+
+\points: 0 … ['A' 'e' 'ich' 'O' 'du'].has(Key()) … points + 1\
+
+Dieses Beispiel besagt:/Die Punkte beginnen bei 0 und werden dann bei jedem Drücken einer Taste, sofern sich die Taste in der Vokalliste befindet, auf die aktuellen Punkte plus eins erhöht./Jedes Mal, wenn die\Key()\  @Stream Änderungen, das Programm wertet neu aus, prüft die Bedingung und gibt, wenn sie wahr ist,\points\einen neuen Wert.
+
+Eine Reaktion besteht dabei aus drei Teilen:
+
+• Der Anfangswert für Punkte (\0\)• Die Bedingung, die, wenn sie wahr ist, einen neuen Wert erzeugt (\['A' 'e' 'ich' 'O' 'du'].has(Key())\)• Der neue Wert, wenn die Bedingung wahr wird (\points + 1\)
+
+Um die Punktverfolgung zu verfeinern, legen Sie einfach komplexere Bedingungen oder neue Werte fest. Nehmen Sie sich etwas Zeit, um die Regeln dieser Bedingungen und neuen Werte zu durchdenken, und versuchen Sie dann, sie in Code auszudrücken.
+
+track-points

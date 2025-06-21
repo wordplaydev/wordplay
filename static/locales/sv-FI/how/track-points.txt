@@ -1,0 +1,19 @@
+Håll koll på poängen
+
+Ibland i ett spel är det bra att hålla koll på poäng när något händer. Om Wordplay inte tillåter att variabler ges nya värden, hur kan vi göra det?
+
+Tricket är att använda en @Reaction att definiera en @Bind s värde, och att noggrant tänka igenom vilken händelse som ska resultera i ett nytt värde för @Bind .
+
+Tänk dig till exempel ett mycket enkelt spel där en spelare får fler poäng varje gång de skriver en hemlig tangent på tangentbordet.
+
+\points: 0 … ['en' 'e' 'jag' 'o' 'du'].has(Key()) … points + 1\
+
+Detta exempel säger,/Poäng börjar på 0, och varje gång en tangent trycks ner, om tangenten finns i listan över vokaler, blir poäng de aktuella poängen plus ett./Varje gång\Key()\  @Stream ändras, programmet utvärderar om, kontrollerar villkoret och om det är sant, ger\points\ett nytt värde.
+
+Det finns tre delar i en reaktion i detta:
+
+• Det initiala värdet för poäng (\0\)• Villkoret som, när det är sant, producerar ett nytt värde (\['en' 'e' 'jag' 'o' 'du'].has(Key())\)• Det nya värdet, om villkoret blir sant (\points + 1\)
+
+För att göra mer sofistikerad punktspårning, skapa helt enkelt mer avancerade villkor eller nya värden. Ta dig tid att tänka igenom reglerna för dessa villkor och nya värden, och försök sedan att uttrycka dem i kod.
+
+track-points

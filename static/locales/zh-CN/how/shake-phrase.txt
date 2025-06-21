@@ -1,0 +1,23 @@
+让角色摇晃
+
+有时让角色看起来在颤抖是有帮助的。我们可以通过几种方法来实现这一点。
+
+我们可以使用 @Phrase/offset  和  @Random  和  @Time 来实现这一点。
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('你好' offset: Place(offset 0m))\
+
+这将创建一个名为\offset\每当时钟滴答作响时，它就会变成一个新的随机值。然后，它使用该偏移量来显示 @Phrase 抵消该金额。
+
+如果我们想更精确地控制震动，我们可以使用 @Sequence 制作重复的随机摇动动画。
+
+\Phrase('你好' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+此示例仅选择一次随机值，但将它们变成重复序列。
+
+move-phrase

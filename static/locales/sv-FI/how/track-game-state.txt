@@ -1,0 +1,30 @@
+Håll koll på spelets status
+
+De flesta spel spårar flera saker allt eftersom spelet fortskrider: poäng, spelarpositioner och andra detaljer är alla viktiga.Varje gång det finns någon indata ändras det tillståndet, och sedan vill vi visa ny utdata som svar.
+
+Ett generellt mönster för vilket spel som helst gör tre saker:
+
+• Definiera en datastruktur för speltillstånd för att lagra allt speltillstånd• Definiera en reaktion som skapar ett nytt speltillstånd baserat på föregående speltillstånd när det finns ny inmatning• Gör en @Stage med @Group och @Phrase för att visa spelets status
+
+Låt oss till exempel föreställa oss ett enkelt spel som går ut på att skriva hemliga ord i en textruta och få en poäng varje gång ett hemligt ord gissas:
+
+\•Game(secrets•[''] points•#)
+state: Game(['katt' 'hund'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("du vinner!")] [
+			Group(Stack() [
+					Phrase("gissa mina hemliga ord")
+					Phrase(`\state.secrets.length() - state.points\fler hemligheter`)
+				])
+		])\
+
+Låt oss bryta ner det här.
+
+• Den första raden,\•Game(secrets•[''] points•#)\säger,/Skapa en datastruktur som heter\Game\som lagrar en lista med hemligheter och punkter/• Den andra raden säger/Speltillståndet börjar med en lista över hemligheter och noll poäng. Varje gång\Chat\ändringar, om det inmatade ordet finns i listan över hemligheter, skapa då ett nytt spelläge med poängen ökade med ett/.• Varje gång programmet omvärderas (när\Chat\ändringar), visar ett steg. Om antalet poäng är lika med antalet hemligheter visas ett vinnande steg. Om inte, visar en prompt och antalet återstående hemligheter.
+
+Det här exemplet har vissa problem:
+
+• Om de gissar ett hemligt ord flera gånger får de fler poäng! Vårt spelläge kan också behöva komma ihåg vad som gissades, så varje ord räknas bara två gånger.• Om spelaren skriver in flera ord, ska det räknas?
+
+Mer sofistikerade speltillstånd och speluppdateringar skulle hjälpa oss att hantera dessa fall.
+
+track-points

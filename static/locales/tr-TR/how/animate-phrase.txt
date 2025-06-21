@@ -1,0 +1,19 @@
+Bir karakteri canlandırın
+
+Karakterler hareket etmedikleri sırada tekrarlanan bir dinlenme animasyonuna sahip olabilir.
+
+Örneğin, bu kediyi döndürüp kaydırarak biraz dans ettirelim:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+Bu örnek bir @Sequence farklı @Pose .
+
+move-phrase, shake-phrase

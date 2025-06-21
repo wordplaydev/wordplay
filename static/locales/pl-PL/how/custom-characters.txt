@@ -1,0 +1,15 @@
+Pokaż niestandardową postać
+
+Emoji, litery i symbole są świetne! Ale czasami chcesz stworzyć własne postacie.Jak możesz stworzyć i zaprezentować swoje własne?
+
+Najpierw zacznij od stworzenia postaci na<Pismo@://characters>strona.Możesz używać pikseli, prostokątów, okręgów i ścieżek.Nadaj mu nazwę, opisz go, a następnie możesz użyć swojej nazwy użytkownika i nazwy postaci w następujący sposób:
+
+\Phrase(`Spójrz na moją wyobraźnię @username/charactername !`)\
+
+Taka nazwa użytkownika i nazwa postaci nie istnieją, więc zostaną wyświetlone jako pusty prostokąt.Pamiętaj, aby użyć swojej prawdziwej nazwy użytkownika i nazwy postaci
+
+Widzisz, jak tekst używa odwrotnego apostrofu zamiast symbolu cudzysłowu? To ważne.Oznacza to, że używasz trybu tekstu sformatowanego, a jest to wymagane w celu odwołania się do niestandardowego znaku.
+
+Więcej informacji na temat formatowania tekstu można znaleźć w @Phrase .
+
+animate-phrase

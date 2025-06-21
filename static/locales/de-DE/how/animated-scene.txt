@@ -1,0 +1,31 @@
+Erstellen Sie eine animierte Reihe von Szenen
+
+Manchmal möchten wir Geschichten erzählen, Liedtexte zeigen oder Gedichte animieren.Dazu können wir verwenden @Scene  Und  @Phrase zusammen, um eine Sequenz anzuzeigen.
+
+Stellen Sie sich beispielsweise vor, wir wollten den kurzen Kinderreim „Jack be Nimble“ animieren.Wir könnten eine @Scene das jede Zeile als @Phrase und durch Festlegen der @Phrase/duration jeder Zeile, die @Scene würde weitergehen, wenn jede Phrase fertig ist.
+
+\Scene([
+		Phrase('Jack sei flink' duration: 1s)
+		Phrase('Jack, sei schnell' duration: 1s)
+		Phrase('Jack springt über den Kerzenständer' duration: 1s)
+	])\
+
+@Scene werde warten auf eine @Sequence muss auch gemacht werden. Lasst uns die Kerzenlinie springen lassen!
+
+\Scene([
+		Phrase('Jack sei flink' duration: 1s)
+		Phrase('Jack, sei schnell' duration: 1s)
+		Phrase('Jack springt über den Kerzenständer' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene kann auch eine @Group von Text und wartet, bis der gesamte Inhalt fertig animiert ist.
+
+\Scene([
+		Group(Stack() [
+				Phrase('Jack sei flink')
+				Phrase('Jack, sei schnell')
+			] duration: 2s)
+		Phrase('Jack springt über den Kerzenständer' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

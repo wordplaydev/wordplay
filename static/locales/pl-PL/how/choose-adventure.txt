@@ -1,0 +1,31 @@
+Stwórz przygodową wersję tekstową
+
+Jedną z zabawnych gier jest/wybierz swoją własną przygodę/gra, w której gracz musi dokonać serii wyborów i stara się znaleźć sposób na szczęśliwe zakończenie.
+
+Aby wykonać jeden z nich, możemy użyć @Structure , @Key , @Reaction , I  @List wspólnie podjąć szereg decyzji, z których każda zawiera zestaw opcji, jak ta:
+
+\¶Tworzy strukturę danych, która przechowuje wybór i decyzję, do której będzie on prowadził¶•Option(text•'' decision•#)
+¶Ta struktura danych przechowuje listę wyborów¶•Decision(options: [Option])
+¶To jest zawartość gry! Zmień tekst w Opcjach, aby stworzyć atmosferę i trudne wybory.Dodaj opcje, aby stworzyć sieć trudnych wyborów.¶
+decisions: [
+		Decision([Option('start' 2)])
+		Decision([
+				Option('lewy' 3)
+				Option('prosty' 4)
+				Option('Prawidłowy' 4)
+			])
+		Decision([Option('wygrać' 1)])
+		Decision([Option('stracić' 1)])
+	]
+¶Przekształć klucz na liczbę, jeśli jest to liczba¶
+key: Key()
+choice: key → #
+¶Wartość ta przedstawia aktualną decyzję na liście powyżej.Po naciśnięciu klawisza wykonujemy jedną z następujących czynności.Jeśli istnieje tylko jedna możliwość podjęcia tej decyzji, zmieniamy bieżącą decyzjędo decyzji docelowej opcji niezależnie od tego, jaki klawisz został naciśnięty.Jeśli naciśnięty klawisz jest pomiędzy 1 a liczbą opcji, przechodzimy do decyzji docelowej dla tej opcji.W przeciwnym wypadku po prostu utrzymamy obecną decyzję w tej samej formie.¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶To pokazuje opcje jako stos fraz. Możesz to zmienić, aby dodać instrukcje, animacje i inne pikantności!¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+Ten wzór wygląda skomplikowanie, ale tak naprawdę pokazuje tylko aktualny zestaw opcji i za każdym razem, gdy klucz się zmienia, przechodzi do decyzji o wybranej opcji. Projektowanie gry polega na zmianie zawartości na górze!
+
+offer-choices

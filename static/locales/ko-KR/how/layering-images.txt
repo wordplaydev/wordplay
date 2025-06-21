@@ -1,0 +1,19 @@
+이미지를 서로 겹쳐 놓기
+
+가끔은 재미있는 장면이나 창의적인 모양을 만들기 위해 이미지를 겹쳐서 표현하고 싶을 때가 있습니다.
+
+예를 들어, 프로젝트에 여러 레이어를 사용할 수 있습니다. @Stage 원하는 대로 이미지를 쌓고 배열하세요.
+
+보세요! 모양만으로 거북이를 만들었어요!각 도형의 숫자를 바꿔 보세요. 도형을 이동하고, 크기를 조절하고, 회전할 수도 있습니다.여러가지를 시도해보고 무엇을 만들 수 있는지 살펴보세요!
+
+\¶참고: 다른 프로젝트에 대한 갤러리를 확인하세요<예@https://wordplay.dev/project/example-Layers?play>이미지를 레이어링하는 것.¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+레이어를 활용하면 정말 멋진 작품을 만들 수 있어요! 한번 만들어 보세요!
+
+custom-characters

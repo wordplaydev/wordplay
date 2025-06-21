@@ -1,0 +1,31 @@
+创建一系列交互式场景
+
+有时我们想讲述一些故事，等待观众采取一些行动，然后再进入下一个内容。
+
+为此，我们可以使用 @Scene ，但把 @Boolean 我们要显示的内容之间的值。例如，点击后会前进到下一个内容，使用 @Button ：
+
+\Scene([
+		Phrase('点击我')
+		Button()
+		Phrase('再次点击我' duration: 1s)
+		Button()
+		Phrase('不，真的，用尽全力点击我！！' duration: 1s)
+		Button()
+		Phrase('你點擊我了嗎？' duration: 1s)
+	])\
+
+这  @Scene 显示第一个 @Phrase ，然后等待 @Button 是真的，一旦是真的，它就会进入下一个 @Phrase 。
+
+您可以使用任何您想要推进的事情，只要它是真或假。例如，我们可以使用我们的声音！如果我们喊得足够大声，场景就会推进：
+
+\Scene([
+		Phrase('有人在嗎？')
+		Volume() > .5
+		Phrase("我听不见，再说一遍？" duration: 1s)
+		Volume() > .7
+		Phrase('请大声点...' duration: 1s)
+		Volume() > .9
+		Phrase('噢，嗨！' duration: 1s)
+	])\
+
+animated-scene

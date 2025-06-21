@@ -1,0 +1,15 @@
+Özel bir karakter göster
+
+Emojiler, harfler ve semboller harika! Ama bazen kendi karakterlerinizi yaratmak istersiniz.Kendinize ait olanı nasıl yaratabilir ve gösterebilirsiniz?
+
+İlk olarak, bir karakter oluşturarak başlayın<Karakterler@://characters> sayfa. Piksel, dikdörtgen, daire ve yol kullanabilirsiniz.Bir isim verin, tanımlayın ve ardından kullanıcı adınızı ve karakter adını şu şekilde kullanabilirsiniz:
+
+\Phrase(`Benim fantezime bak @username/charactername !`)\
+
+Bu kullanıcı adı ve karakter adı mevcut olmadığından boş bir dikdörtgen olarak gösterilecektir.Gerçek kullanıcı adınızı ve karakter adınızı kullandığınızdan emin olun
+
+Metnin tırnak işareti yerine ters tırnak işaretini nasıl kullandığını görüyor musunuz? Bu önemli.Bu bize zengin metin modunu kullandığınızı ve özel bir karaktere başvurmak için bunun gerekli olduğunu söylüyor.
+
+Metin biçimlendirme hakkında daha fazla bilgi edinmek için şuraya bakabilirsiniz: @Phrase .
+
+animate-phrase

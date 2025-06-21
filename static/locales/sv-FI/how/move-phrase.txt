@@ -1,0 +1,21 @@
+Gör en karaktär rörlig
+
+Ibland är det bra att göra en @Phrase rörlig med tangentbord, mus eller finger.
+
+Gör det här, vi kan kombinera @Phrase med @Placement :
+
+\Stage([Phrase('flytta mig' place: Placement())] place: Place(0m 0m -10m))\
+
+Använda piltangenterna på tangentbordet eller genom att klicka på @Stage kommer att uppdatera @Placement , vilket orsakar @Phrase att röra sig i den riktningen.
+
+Visste du dock att @Placement kan användas med/något/som tar en @Place ?Till exempel en @Stage har en @Place som avgör vart kameran pekar.Låt oss försöka sätta en @Placement för en @Stage s plats, och se vad som händer.
+
+\Stage([
+		Phrase('🐈' place: Place(-2m 2m))
+		Phrase('🐈' place: Place(2m -2m))
+		Phrase('🐈' place: Place(-1m 3m))
+	] place: Placement(Place(0m 0m -10m)))\
+
+Det får kameran att röra sig! (Obs: vi startar @Placement med en\z\värde av\10m\så att kameran är placerad på avstånd från allting.)
+
+animated-scene

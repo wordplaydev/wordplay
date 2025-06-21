@@ -1,0 +1,30 @@
+Suivez l'état du jeu
+
+La plupart des jeux suivent plusieurs éléments au fur et à mesure de la progression de la partie : les points, les positions des joueurs et d'autres détails sont tous essentiels.Chaque fois qu'il y a une entrée, cet état change, et nous voulons alors afficher une nouvelle sortie, en réponse.
+
+Un modèle général pour n’importe quel jeu fait trois choses :
+
+• Définir une structure de données d'état du jeu, pour stocker tout l'état du jeu• Définir une réaction qui crée un nouvel état de jeu basé sur l'état de jeu précédent chaque fois qu'il y a une nouvelle entrée• Faire un @Stage  avec  @Group  et  @Phrase pour afficher l'état du jeu
+
+Par exemple, imaginons un jeu simple qui consiste à taper des mots secrets dans une zone de texte et à obtenir un point à chaque fois qu'un mot secret est deviné :
+
+\•Game(secrets•[''] points•#)
+state: Game(['chat' 'chien'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("tu as gagné!")] [
+			Group(Stack() [
+					Phrase("devine mes mots secrets")
+					Phrase(`\state.secrets.length() - state.points\plus de secrets`)
+				])
+		])\
+
+Décomposons cela.
+
+• La première ligne,\•Game(secrets•[''] points•#)\dit,/Créez une structure de données appelée\Game\qui stocke une liste de secrets et de points/• La deuxième ligne dit/Le jeu commence avec une liste de secrets et zéro point. Chaque fois que\Chat\changements, si le mot saisi est dans la liste des secrets, alors créez un nouvel état de jeu avec les points augmentés d'un/.• Chaque fois que le programme réévalue (lorsque le\Chat\(changements), affiche une étape. Si le nombre de points est égal au nombre de secrets, affiche une étape gagnante. Sinon, affiche une invite et le nombre de secrets restants.
+
+Cet exemple présente quelques problèmes :
+
+• S'ils devinent un mot secret plusieurs fois, ils gagnent plus de points ! Notre jeu devra peut-être également mémoriser ce qui a été deviné, donc chaque mot n'est compté que deux fois.• Si le joueur entre plusieurs mots, cela doit-il compter ?
+
+Des états de jeu et des mises à jour de jeu plus sophistiqués nous aideraient à gérer ces cas.
+
+track-points

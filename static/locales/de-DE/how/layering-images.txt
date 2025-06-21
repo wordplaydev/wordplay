@@ -1,0 +1,19 @@
+Bilder übereinander legen
+
+Manchmal möchten wir Bilder übereinanderlegen, um lustige Szenen oder kreative Formen zu erstellen.
+
+Sie können beispielsweise mehrere Ebenen Ihres Projekts verwenden @Stage um Bilder nach Belieben zu stapeln und anzuordnen.
+
+Schau! Hier ist eine Schildkröte, die ich nur aus Formen gemacht habe!Ändern Sie die Zahlen für jede Form. Sie können sie verschieben, ihre Größe ändern und sogar drehen.Probieren Sie es aus und sehen Sie, was Sie erstellen können!
+
+\¶Hinweis: Schauen Sie sich die Galerie für ein anderes Projekt an<Beispiel@https://wordplay.dev/project/example-Layers?play>von Bildschichten.¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+Mit Ebenen lassen sich richtig coole Sachen kreieren! Probier es aus!
+
+custom-characters

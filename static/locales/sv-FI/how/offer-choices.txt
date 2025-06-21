@@ -1,0 +1,32 @@
+Visa valbara alternativ
+
+Ibland vill man visa en massa valmöjligheter på skärmen och göra något med det publiken väljer. För att göra detta behöver vi två saker:
+
+• En eller flera @Phrase som är markerade som valbara och har ett unikt namn (t.ex.\Phrase('alternativ 1' selectable: ⊤ name: 'en')\)• En @Choice , vilket ändras till @Phrase det senast valda namnet.
+
+Till exempel visar vi här tre alternativ, vart och ett med ett unikt namn.
+
+\option: Choice()
+Group(Stack() [
+		Phrase('alternativ 1' selectable: ⊤ name: 'en')
+		Phrase('alternativ 2' selectable: ⊤ name: 'två')
+		Phrase('alternativ 3' selectable: ⊤ name: 'tre')
+		Phrase(option)
+	])\
+
+Varje gång en väljs, sist @Phrase visar det valda namnet.
+
+Du kan använda det här mönstret för att göra saker som svar på ett val. Vi kan till exempel ändra projektet ovan för att visa en hemlig emoji baserat på valet:
+
+\option: Choice()
+option = '' ? Group(Stack() [
+			Phrase('alternativ 1' selectable: ⊤ name: 'en')
+			Phrase('alternativ 2' selectable: ⊤ name: 'två')
+			Phrase('alternativ 3' selectable: ⊤ name: 'tre')
+		]) Phrase({'en': '😡' 'två': '🏀' 'tre': '❤️'}{option} ?? '?')\
+
+Den @Choice börjar som en tom @Text , och så när projektet startar kontrollerar vi det och visar de tre alternativen.När ett val väl är gjort blir det ett av tre @Phrase namn.
+
+För att visa en emoji baserat på valet kan vi använda en @Map för att konvertera namnet till en hemlig emoji.När vi får ett värde från en @Map , om det inte finns någon matchning, utvärderas den till\ø\, så vi använder\??\att använda som standard\'?'\om alternativet inte finns på kartan.I det här fallet kan det aldrig hända, men vi är inte smarta nog att veta det!
+
+move-phrase

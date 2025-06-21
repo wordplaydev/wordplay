@@ -1,0 +1,37 @@
+Gestalten Sie Ihren Text
+
+Manchmal möchten wir, dass unser Text hervorsticht. Das erreichen wir durch/Kursivschrift/,*Fettdruck*, und mehr!
+
+Um Text beispielsweise kursiv zu formatieren, können Sie ihn in Schrägstriche // einschließen, wie z. B. //Hallo//. Beispiel:
+
+\Group(Stack() [
+		Phrase(`Willst du etwas flexen/Kursivschrift/in deinem Text?`)
+		Phrase(`Es ist gut zur Betonung oder um Ihren Worten das zu geben,/extra Jazz/.`)
+		Phrase(`Setzen Sie einfach einen Schrägstrich (//) vor und nach dem Wort oder der Phrase,/so was/.`)
+	])\
+
+@Phrase Sie können Text auch fett formatieren. Dazu setzen Sie Ihren Text in Sternchen **, z. B. **Hallo**. Beispiel:
+
+\Group(Stack() [
+		Phrase(`Möchten Sie Ihren Text hervorheben mit*deutlich*?`)
+		Phrase(`Es ist perfekt, wenn Sie*etwas laut schreien*.`)
+		Phrase(`Setzen Sie einfach einzelne Sternchen (**) um Ihre Wörter, wie*Hey!*, und sehen Sie, wie es anders wirkt.`)
+	])\
+
+@Phrase Sie können Text auch EXTRA fett formatieren. Setzen Sie dazu Zirkumflexe ^^ ein, z. B. ^^Hallo^^. Beispiel:
+
+\Group(Stack() [
+		Phrase(`Besonders fett ist die^ZIEGE^wenn Sie die Stimmung auf das Maximum drehen müssen.`)
+		Phrase(`Es ist wie fett, aber mehr^Feuer^, normalerweise mit einzelnen Karotten drumherum (^^)`)
+		Phrase(`Verwenden Sie es, um sich zu beugen^Überschriften^ oder ^große Ideen^.`)
+	])\
+
+Endlich,  @Phrase Sie können Text unterstreichen. Setzen Sie dazu Unterstriche ein, z. B. __Hallo__. Beispiel:
+
+\Group(Stack() [
+		Phrase(`Unterstreichen ist_leises Feuer_wenn Sie den Text schlank halten, aber dennoch hervorstechen möchten.`)
+		Phrase(`Fügen Sie vor und nach Ihrem Text einen einzelnen Unterstrich (__) ein._so was_, und es verleiht klare Betonung.`)
+		Phrase(`Es ist _perfekt_dafür, dass Sie Ihren Standpunkt vertreten, ohne zu_Extra_.`)
+	])\
+
+custom-characters

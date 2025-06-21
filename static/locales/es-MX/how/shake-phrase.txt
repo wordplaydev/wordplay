@@ -1,0 +1,17 @@
+Hacer temblar a un personaje
+
+A veces es útil que parezca que un personaje está temblando.Hay algunas maneras en las que podemos lograr que esto suceda.
+
+Podemos utilizar@Phrase/offset con @Random y @Timepara que esto suceda.
+
+\offset:0m…∆Time()…Random(-0.1m0.1m)Phrase('Hola'offset:Place(offset0m))\
+
+Esto crea un valor llamado\offset\que cambia a un nuevo valor aleatorio cada vez que el reloj avanza.Luego, utiliza ese desplazamiento para mostrar el@Phrasecompensado por esa cantidad.
+
+Si quisiéramos controlar el temblor con más precisión, podríamos utilizar un@Sequencepara hacer una animación de temblor aleatorio que se repite.
+
+\Phrase('Hola'resting:Sequence({0%:Pose(offset:Place(Random(-.2m.2m)))15%:Pose(offset:Place(Random(-.2m.2m)))60%:Pose(offset:Place(Random(-.2m.2m)))75%:Pose(offset:Place(Random(-.2m.2m)))}0.1s))\
+
+Este ejemplo solo selecciona valores aleatorios una vez, pero los convierte en una secuencia repetida.
+
+move-phrase

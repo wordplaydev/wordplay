@@ -1,0 +1,31 @@
+Skapa en animerad serie scener
+
+Ibland vill vi berätta historier, visa sångtexter eller ge liv åt poesi.För att göra det kan vi använda @Scene och @Phrase tillsammans, för att visa en sekvens.
+
+Tänk dig till exempel att vi vill animera den korta barnramsan "Jack be Nimble".Vi skulle kunna göra en @Scene som har varje rad som en @Phrase , och genom att ställa in @Phrase/duration av varje rad, den @Scene skulle gå vidare när varje fras är klar.
+
+\Scene([
+		Phrase('Jack, var smidig' duration: 1s)
+		Phrase('Jack, var snabb' duration: 1s)
+		Phrase('Jack hoppar över ljusstaken' duration: 1s)
+	])\
+
+@Scene kommer att vänta på en @Sequence måste också göras. Låt oss få ljuskön att hoppa!
+
+\Scene([
+		Phrase('Jack, var smidig' duration: 1s)
+		Phrase('Jack, var snabb' duration: 1s)
+		Phrase('Jack hoppar över ljusstaken' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene kan också ta en @Group av text också, och den kommer att vänta på att allt dess innehåll ska vara klart med animeringen.
+
+\Scene([
+		Group(Stack() [
+				Phrase('Jack, var smidig')
+				Phrase('Jack, var snabb')
+			] duration: 2s)
+		Phrase('Jack hoppar över ljusstaken' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

@@ -1,0 +1,21 @@
+कॅमेऱ्यातून व्हिडिओ तयार करा
+
+द @Camera जगातून रंगांचा ग्रिड मिळविण्यासाठी स्ट्रीम हा एक उत्तम मार्ग आहे.जर आपल्याला ते रंग पहायचे असतील, तर प्रतिमा पुन्हा तयार करून @Camera पाहतो?
+
+आपण वापरू शकतो @Grid साठी लेआउट @Group , आणि @List/combine रंगांना यादीत रूपांतरित करण्याचे कार्य @Phrase जे आपण देतो @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+हे उदाहरण वाक्यांशांची यादी तयार करते, प्रत्येक रंगाला विशिष्ट रंगाने वर्तुळात कव्हर करते.
+
+काळजी घ्या @Camera स्ट्रीम: ते खूप इनपुट देतात! तुम्हाला इमेजची रुंदी आणि उंची लहान ठेवायची असेल.
+
+interactive-scene

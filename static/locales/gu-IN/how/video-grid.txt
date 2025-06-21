@@ -1,0 +1,21 @@
+કેમેરામાંથી વિડિઓ બનાવો
+
+આ @Camera સ્ટ્રીમ એ દુનિયામાંથી રંગોનો ગ્રીડ મેળવવાનો એક શ્રેષ્ઠ માર્ગ છે.જો આપણે તે રંગો જોવા માંગતા હોઈએ, તો છબીને ફરીથી બનાવીને શું? @Camera જુએ છે?
+
+આપણે ઉપયોગ કરી શકીએ છીએ @Grid માટે લેઆઉટ @Group , અને @List/combine રંગોને યાદીમાં રૂપાંતરિત કરવાનું કાર્ય @Phrase જે આપણે આપીએ છીએ @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+આ ઉદાહરણ શબ્દસમૂહોની યાદી બનાવે છે, જે દરેક રંગને ચોક્કસ રંગ સાથે વર્તુળમાં આવરી લે છે.
+
+સાવચેત રહો @Camera સ્ટ્રીમ્સ: તેઓ ઘણો ઇનપુટ ઉત્પન્ન કરે છે! તમારે છબીની પહોળાઈ અને ઊંચાઈ નાની રાખવાની જરૂર પડશે.
+
+interactive-scene

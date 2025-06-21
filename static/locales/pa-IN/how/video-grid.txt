@@ -1,0 +1,21 @@
+ਕੈਮਰੇ ਤੋਂ ਵੀਡੀਓ ਬਣਾਓ
+
+ਦ @Camera ਸਟ੍ਰੀਮ ਦੁਨੀਆ ਤੋਂ ਰੰਗਾਂ ਦਾ ਗਰਿੱਡ ਪ੍ਰਾਪਤ ਕਰਨ ਦਾ ਇੱਕ ਵਧੀਆ ਤਰੀਕਾ ਹੈ।ਕੀ ਹੋਵੇਗਾ ਜੇਕਰ ਅਸੀਂ ਉਨ੍ਹਾਂ ਰੰਗਾਂ ਨੂੰ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹਾਂ, ਚਿੱਤਰ ਨੂੰ ਦੁਬਾਰਾ ਬਣਾਉਂਦੇ ਹੋਏ @Camera ਦੇਖਦਾ ਹੈ?
+
+ਅਸੀਂ ਵਰਤ ਸਕਦੇ ਹਾਂ @Grid ਲਈ ਖਾਕਾ @Group , ਅਤੇ @List/combine ਰੰਗਾਂ ਨੂੰ ਸੂਚੀ ਵਿੱਚ ਬਦਲਣ ਲਈ ਫੰਕਸ਼ਨ @Phrase ਜੋ ਅਸੀਂ ਦਿੰਦੇ ਹਾਂ @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+ਇਹ ਉਦਾਹਰਣ ਵਾਕਾਂਸ਼ਾਂ ਦੀ ਇੱਕ ਸੂਚੀ ਬਣਾਉਂਦੀ ਹੈ, ਹਰੇਕ ਰੰਗ ਨੂੰ ਖਾਸ ਰੰਗ ਨਾਲ ਇੱਕ ਚੱਕਰ ਵਿੱਚ ਢੱਕਦੀ ਹੈ।
+
+ਸਾਵਧਾਨ ਰਹੋ @Camera ਸਟ੍ਰੀਮਸ: ਉਹ ਬਹੁਤ ਸਾਰਾ ਇਨਪੁਟ ਪੈਦਾ ਕਰਦੇ ਹਨ! ਤੁਸੀਂ ਚਿੱਤਰ ਦੀ ਚੌੜਾਈ ਅਤੇ ਉਚਾਈ ਛੋਟੀ ਰੱਖਣਾ ਚਾਹੋਗੇ।
+
+interactive-scene

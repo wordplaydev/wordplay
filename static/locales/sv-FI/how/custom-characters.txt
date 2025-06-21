@@ -1,0 +1,15 @@
+Visa ett anpassat tecken
+
+Emojis, bokstäver och symboler är fantastiska! Men ibland vill man skapa sina egna karaktärer.Hur kan du skapa och visa dina egna?
+
+Börja först med att skapa en karaktär på<Tecken@://characters>sida.Du kan använda pixlar, rektanglar, cirklar och banor.Ge det ett namn, beskriv det, och sedan kan du använda ditt användarnamn och karaktärsnamnet så här:
+
+\Phrase(`Titta på min fantasi @username/charactername !`)\
+
+Det användarnamnet och karaktärsnamnet finns inte, så det kommer att visas som en tom rektangel.Se till att använda ditt faktiska användarnamn och karaktärsnamn
+
+Ser du hur texten använder backtick istället för ett citationstecken? Det är viktigt.Det visar att du använder RTF-läge, och att det krävs för att referera till ett anpassat tecken.
+
+Du kan lära dig mer om att formatera text från @Phrase .
+
+animate-phrase

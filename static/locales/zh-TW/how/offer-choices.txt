@@ -1,0 +1,32 @@
+顯示可選的選項
+
+有時你想在螢幕上顯示一系列選項，並根據觀眾的選擇執行相應的操作。為此，我們需要做兩件事：
+
+• 一個或多個 @Phrase 標記為可選，並具有唯一名稱（例如，\Phrase('選項 1' selectable: ⊤ name: '一')\)• A @Choice ，這將變為 @Phrase 最近選擇的名稱。
+
+例如，這裡我們顯示三個選項，每個選項都有一個唯一的名稱。
+
+\option: Choice()
+Group(Stack() [
+		Phrase('選項 1' selectable: ⊤ name: '一')
+		Phrase('選項 2' selectable: ⊤ name: '二')
+		Phrase('選項 3' selectable: ⊤ name: '三')
+		Phrase(option)
+	])\
+
+每次選一個，最後 @Phrase 顯示所選的名稱。
+
+你可以使用這個模式來響應使用者選擇。例如，我們可以修改上面的項目，讓它根據使用者選擇顯示一個秘密表情符號：
+
+\option: Choice()
+option = '' ? Group(Stack() [
+			Phrase('選項 1' selectable: ⊤ name: '一')
+			Phrase('選項 2' selectable: ⊤ name: '二')
+			Phrase('選項 3' selectable: ⊤ name: '三')
+		]) Phrase({'一': '😡' '二': '🏀' '三': '❤️'}{option} ?? '？')\
+
+這 @Choice 以空開始 @Text ，因此當項目開始時，我們會檢查這一點，並顯示三個選項。一旦做出選擇，它就成為三個之一 @Phrase 名字。
+
+為了根據選擇顯示表情符號，我們可以使用 @Map 將名稱轉換為秘密表情符號。當我們從 @Map ，如果沒有匹配，則計算結果為\ø\，所以我們使用\??\預設\'？'\如果該選項不在地圖中。在這種情況下，這種情況永遠不會發生，但我們不夠聰明，不知道這一點！
+
+move-phrase

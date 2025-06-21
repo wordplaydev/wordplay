@@ -1,0 +1,31 @@
+Skapa ett textäventyr
+
+En rolig sorts spel är en/välj ditt eget äventyr/ett spel där spelaren gör en rad olika val och försöker hitta ett lyckligt slut.
+
+För att skapa en av dessa kan vi använda @Structure , @Key , @Reaction och @List tillsammans för att fatta en samling beslut, vart och ett med en uppsättning alternativ, så här:
+
+\¶Detta skapar en datastruktur som lagrar ett val och vilket beslut den kommer att navigera till¶•Option(text•'' decision•#)
+¶Denna datastruktur lagrar en lista med valmöjligheter¶•Decision(options: [Option])
+¶Detta är spelinnehållet! Ändra texten i alternativen för att skapa atmosfär och svåra val.Lägg till alternativ för att skapa ett nätverk av knepiga val.¶
+decisions: [
+		Decision([Option('start' 2)])
+		Decision([
+				Option('vänster' 3)
+				Option('rakt' 4)
+				Option('rätt' 4)
+			])
+		Decision([Option('vinna' 1)])
+		Decision([Option('förlora' 1)])
+	]
+¶Konvertera nyckeln till ett tal, om det är ett¶
+key: Key()
+choice: key → #
+¶Detta värde representerar det aktuella beslutet i listan ovan.När tangenten trycks ner gör vi ett av följande.Om det bara finns ett alternativ för detta beslut, ändrar vi det nuvarande beslutet.till alternativets målbeslut oavsett vilken tangent som trycktes ner.Om den nedtryckta tangenten är mellan 1 och antalet alternativ, går vi till det alternativets målbeslut.Annars behåller vi bara det nuvarande beslutet.¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶Detta visar bara alternativen som en stapel fraser. Du kan ändra detta för att lägga till instruktioner, animationer och andra kryddor!¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+Det här mönstret ser komplext ut, men allt det egentligen gör är att visa den aktuella uppsättningen alternativ och varje gång en nyckel ändras, går det till beslutet för det valda alternativet. Att designa ett spel handlar om att ändra innehållet högst upp!
+
+offer-choices

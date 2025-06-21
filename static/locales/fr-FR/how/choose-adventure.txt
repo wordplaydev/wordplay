@@ -1,0 +1,31 @@
+Créer une aventure textuelle
+
+Un type de jeu amusant est un/choisissez votre propre aventure/jeu dans lequel un joueur navigue dans une série de choix et essaie de trouver un chemin vers une fin heureuse.
+
+Pour en fabriquer un, nous pouvons utiliser @Structure , @Key , @Reaction , et  @List ensemble pour prendre une série de décisions, chacune avec un ensemble d'options, comme ceci :
+
+\¶Cela crée une structure de données qui stocke un choix et la décision vers laquelle elle va naviguer.¶•Option(text•'' decision•#)
+¶Cette structure de données stocke une liste de choix¶•Decision(options: [Option])
+¶Voici le contenu du jeu ! Modifiez le texte dans les options pour créer une atmosphère et des choix difficiles.Ajoutez des options pour créer un réseau de choix délicats.¶
+decisions: [
+		Decision([Option('commencer' 2)])
+		Decision([
+				Option('gauche' 3)
+				Option('droit' 4)
+				Option('droite' 4)
+			])
+		Decision([Option('gagner' 1)])
+		Decision([Option('perdre' 1)])
+	]
+¶Convertir la clé en un nombre, si c'est un¶
+key: Key()
+choice: key → #
+¶Cette valeur représente la décision actuelle dans la liste ci-dessus.Lorsque la touche est enfoncée, nous effectuons l’une des actions suivantes.S'il n'y a qu'un seul choix pour cette décision, alors nous modifions la décision actuelleà la décision cible de l'option, quelle que soit la touche enfoncée.Si la touche enfoncée est comprise entre 1 et le nombre d'options, alors nous passons à la décision cible de cette option.Sinon, nous maintenons simplement la décision actuelle telle quelle.¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶Ceci affiche simplement les options sous forme de phrases. Vous pouvez modifier ce paramètre pour ajouter des instructions, des animations et d'autres éléments intéressants !¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+Ce modèle paraît complexe, mais il ne fait en réalité qu'afficher les options actuelles et, à chaque changement de touche, indiquer l'option choisie. Concevoir un jeu, c'est avant tout modifier le contenu en haut de la page !
+
+offer-choices

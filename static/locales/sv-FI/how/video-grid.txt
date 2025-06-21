@@ -1,0 +1,21 @@
+Skapa en video från kameran
+
+Den @Camera ström är ett bra sätt att få ett rutnät av färger från världen.Tänk om vi vill se de färgerna och återskapa bilden? @Camera ser?
+
+Vi kan använda @Grid upplägg för en @Group och @List/combine funktion för att konvertera färgerna till en lista med @Phrase som vi ger till @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+Det här exemplet bygger en lista med fraser och täcker varje färg in i en cirkel med den specifika färgen.
+
+Var försiktig med @Camera strömmar: de producerar mycket indata! Du bör hålla bildens bredd och höjd liten.
+
+interactive-scene

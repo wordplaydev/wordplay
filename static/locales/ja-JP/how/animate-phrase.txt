@@ -1,0 +1,19 @@
+キャラクターをアニメ化する
+
+キャラクターは、動いていないときに繰り返される休憩アニメーションを持つことができます。
+
+たとえば、この猫を回転させたり移動させたりして、少し踊らせてみましょう。
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+この例では、 @Sequence 異なる @Pose 。
+
+move-phrase, shake-phrase

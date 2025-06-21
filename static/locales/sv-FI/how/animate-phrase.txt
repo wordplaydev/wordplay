@@ -1,0 +1,19 @@
+Få en karaktär att animeras
+
+Karaktärer kan ha en viloanimation som upprepas även om de inte rör sig.
+
+Låt oss till exempel få den här katten att dansa lite genom att få den att rotera och flytta sig:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+Det här exemplet använder en @Sequence av olika @Pose .
+
+move-phrase, shake-phrase

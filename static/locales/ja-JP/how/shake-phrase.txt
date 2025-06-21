@@ -1,0 +1,23 @@
+キャラクターを揺らす
+
+キャラクターが震えているように見えると便利な場合があります。それを実現するにはいくつかの方法があります。
+
+使える @Phrase/offset  と  @Random  そして  @Time それを実現するために。
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('こんにちは' offset: Place(offset 0m))\
+
+これにより、\offset\時計が進むたびに新しいランダムな値に変わります。そして、そのオフセットを使って @Phrase その金額を相殺します。
+
+振動をより正確に制御したい場合は、 @Sequence ランダムに揺れるアニメーションを繰り返すことができます。
+
+\Phrase('こんにちは' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+この例では、ランダムな値を 1 回だけ選択しますが、それを繰り返しシーケンスに変換します。
+
+move-phrase

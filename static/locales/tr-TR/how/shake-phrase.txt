@@ -1,0 +1,23 @@
+Bir karakteri sallayın
+
+Bazen karakterin titriyormuş gibi görünmesi faydalı olabilir.Bunu gerçekleştirmenin birkaç yolu var.
+
+Kullanabiliriz @Phrase/offset  ile  @Random  Ve  @Time Bunu gerçekleştirmek için.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('MERHABA' offset: Place(offset 0m))\
+
+Bu, adı verilen bir değer yaratır\offset\her saat tik tak ettiğinde yeni bir rastgele değere dönüşen.Daha sonra, bu ofseti kullanarak şunu gösterir: @Phrase bu miktarla telafi edilir.
+
+Sarsıntıyı daha hassas bir şekilde kontrol etmek isteseydik, bir @Sequence Tekrarlanan rastgele bir sallanma animasyonu yapmak için.
+
+\Phrase('MERHABA' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+Bu örnekte rastgele değerler yalnızca bir kez seçiliyor, ancak bunlar tekrar eden bir diziye dönüştürülüyor.
+
+move-phrase

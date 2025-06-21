@@ -1,0 +1,21 @@
+Dale estilo a tu texto
+
+A veces queremos que nuestro texto destaque. Podemos lograrlocursiva,negrita¡Y mucho más!
+
+Por ejemplo, para poner texto en cursiva, puedes encerrarlo entre barras diagonales //, como //Hola//. Por ejemplo:
+
+\Group(Stack()[Phrase(`¿Quieres flexionar un poco?/cursiva/¿en tu texto?`)Phrase(`Es bueno para enfatizar o dar a tus palabras ese.../jazz adicional/.`)Phrase(`Simplemente coloque una barra (//) antes y después de la palabra o frase,/como esto/.`)])\
+
+@PhraseTambién puedes poner texto en negrita. Puedes hacerlo encerrando el texto entre asteriscos **, como **Hola**. Por ejemplo:
+
+\Group(Stack()[Phrase(`¿Quieres que tu texto destaque?*atrevido*?`)Phrase(`Es perfecto para cuando necesitas*gritar algo fuerte*.`)Phrase(`Simplemente coloca asteriscos simples (**) alrededor de tus palabras, como*¡ey!*, y observa cómo golpea diferente.`)])\
+
+@PhraseTambién puedes poner el texto en negrita extra. Para ello, encierra el texto con signos de intercalación ^^, como ^^Hola^^. Por ejemplo:
+
+\Group(Stack()[Phrase(`Extra atrevido es el^CABRA^Cuando necesitas llevar la vibración al máximo.`)Phrase(`Es como Bold pero más^fuego^, generalmente hecho con zanahorias individuales alrededor (^^)`)Phrase(`Úsalo para flexionar^encabezados^ o ^grandes ideas^.`)])\
+
+Finalmente, @PhrasePuedes subrayar el texto. Para ello, encierra el texto entre guiones bajos __, como __Hola__. Por ejemplo:
+
+\Group(Stack()[Phrase(`El subrayado es_fuego discreto_para cuando quieres mantener un texto elegante pero que a la vez destaque.`)Phrase(`Coloque un guión bajo (__) antes y después del texto._como esto_Y está dando un énfasis claro.`)Phrase(`Es _perfecto_Para dejar claro tu punto sin ser demasiado_extra_.`)])\
+
+custom-characters

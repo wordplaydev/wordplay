@@ -1,0 +1,19 @@
+Gardez une trace des points
+
+Parfois, dans un jeu, il est utile de suivre les points lorsqu'un événement se produit. Si Wordplay ne permet pas de donner de nouvelles valeurs aux variables, comment faire ?
+
+L'astuce consiste à utiliser un @Reaction définir un @Bind la valeur de , et de réfléchir attentivement à l'événement qui devrait entraîner une nouvelle valeur pour le @Bind .
+
+Par exemple, imaginez un jeu très simple dans lequel un joueur obtient plus de points à chaque fois qu'il tape une touche secrète sur le clavier.
+
+\points: 0 … ['un' 'et' 'je' 'l'' 'toi'].has(Key()) … points + 1\
+
+Cet exemple dit,/Les points commencent à 0, puis chaque fois qu'une touche est enfoncée, si la touche est dans la liste des voyelles, les points deviennent les points actuels plus un./Chaque fois que le\Key()\  @Stream changements, le programme réévalue, vérifie la condition et, si elle est vraie, donne\points\une nouvelle valeur.
+
+Une réaction se compose de trois parties :
+
+• La valeur initiale des points (\0\)• La condition qui, lorsqu'elle est vraie, produit une nouvelle valeur (\['un' 'et' 'je' 'l'' 'toi'].has(Key())\)• La nouvelle valeur, si la condition devient vraie (\points + 1\)
+
+Pour un suivi de points plus sophistiqué, il suffit de créer des conditions plus sophistiquées ou de nouvelles valeurs. Prenez le temps de réfléchir aux règles de ces conditions et de ces nouvelles valeurs, puis essayez de les exprimer dans le code.
+
+track-points

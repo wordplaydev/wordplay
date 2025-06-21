@@ -1,0 +1,23 @@
+Gör en karaktärsskakning
+
+Ibland är det bra att en karaktär ser ut som om den skakar.Det finns några sätt vi kan få det att hända.
+
+Vi kan använda @Phrase/offset med @Random och @Time för att få det att hända.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('Hej' offset: Place(offset 0m))\
+
+Detta skapar ett värde som kallas\offset\som ändras till ett nytt slumpmässigt värde varje gång klockan tickar.Sedan använder den den offseten för att visa @Phrase uppvägas med det beloppet.
+
+Om vi ville kontrollera skakningarna mer exakt skulle vi kunna använda en @Sequence för att skapa en slumpmässig skakanimation som upprepas.
+
+\Phrase('Hej' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+Det här exemplet väljer bara slumpmässiga värden en gång, men omvandlar dem till en upprepande sekvens.
+
+move-phrase

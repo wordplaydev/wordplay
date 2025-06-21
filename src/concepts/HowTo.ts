@@ -3,6 +3,7 @@
 // This is the data structure that defines a how to's content and metadata.
 import { parseLocaleDoc } from '@locale/LocaleText';
 import type Markup from '@nodes/Markup';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 // How to category IDs. (The text to describe them live in locale definitions.
 // The order of these categories is the order they appear in the interface.
@@ -128,6 +129,16 @@ export function parseHowTo(
         },
         error: null,
     };
+}
+
+export function howToToString(howTo: HowTo): string {
+    return (
+        howTo.title +
+        '\n\n' +
+        howTo.content.toWordplay(getPreferredSpaces(howTo.content)) +
+        '\n\n' +
+        howTo.related.join(', ')
+    );
 }
 
 export type { HowTo as default };

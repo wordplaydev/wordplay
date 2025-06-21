@@ -1,0 +1,23 @@
+Spraw, aby postać się potrząsnęła
+
+Czasami pomocne jest pokazanie postaci, która wygląda, jakby się trzęsła.Jest kilka sposobów, aby to osiągnąć.
+
+Możemy użyć @Phrase/offset  z  @Random  I  @Time aby to się stało.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('Cześć' offset: Place(offset 0m))\
+
+Tworzy to wartość zwaną\offset\która zmienia się na nową losową wartość za każdym razem, gdy zegar tyka.Następnie używa tego przesunięcia, aby pokazać @Phrase zrekompensowane tą kwotą.
+
+Gdybyśmy chcieli kontrolować wstrząsanie dokładniej, moglibyśmy użyć @Sequence aby utworzyć losową animację potrząsania, która się powtarza.
+
+\Phrase('Cześć' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+W tym przykładzie losowe wartości są wybierane tylko raz, a następnie zamieniane na powtarzającą się sekwencję.
+
+move-phrase

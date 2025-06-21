@@ -1,0 +1,28 @@
+アニメーション化された一連のシーンを作成する
+
+時には、物語を語ったり、歌詞を見せたり、詩をアニメ化したりしたいことがあります。それには、 @Scene  そして  @Phrase 一緒に、シーケンスを表示します。
+
+たとえば、短い童謡「ジャックは敏捷だ」をアニメ化したいとします。私たちは @Scene 各行が @Phrase を設定し、 @Phrase/duration 各行の @Scene 各フレーズが完了するたびに進みます。
+
+\Scene([
+		Phrase('ジャックは機敏だ' duration: 1s)
+		Phrase('ジャック、早く' duration: 1s)
+		Phrase('ジャックはろうそくの棒を飛び越える' duration: 1s)
+	])\
+
+@Scene 待つだろう @Sequence やるべきことも。ローソク足ラインをジャンプさせましょう！
+
+\Scene([
+		Phrase('ジャックは機敏だ' duration: 1s)
+		Phrase('ジャック、早く' duration: 1s)
+		Phrase('ジャックはろうそくの棒を飛び越える' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene 取ることもできます @Group テキストも同様に、そのすべてのコンテンツのアニメーションが完了するまで待機します。
+
+\Scene([
+		Group(Stack() [Phrase('ジャックは機敏だ') Phrase('ジャック、早く')] duration: 2s)
+		Phrase('ジャックはろうそくの棒を飛び越える' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

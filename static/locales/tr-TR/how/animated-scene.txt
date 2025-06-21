@@ -1,0 +1,31 @@
+Animasyonlu sahneler dizisi oluşturun
+
+Bazen hikayeler anlatmak, şarkı sözleri göstermek veya şiiri canlandırmak isteriz.Bunu yapmak için şunu kullanabiliriz: @Scene  Ve  @Phrase birlikte, bir sırayı göstermek için.
+
+Örneğin, "Jack be Nimble" adlı kısa çocuk şarkısını canlandırmak istediğimizi varsayalım.Bir tane yapabiliriz @Scene her satırı bir @Phrase ve ayarlayarak @Phrase/duration her satırın @Scene her cümle bittiğinde ilerleyecekti.
+
+\Scene([
+		Phrase('Jack çevik ol' duration: 1s)
+		Phrase('Jack çabuk ol' duration: 1s)
+		Phrase('Jack mum çubuğunun üzerinden atladı' duration: 1s)
+	])\
+
+@Scene bekleyeceğim @Sequence yapılacak da. Mum çizgisini zıplatalım!
+
+\Scene([
+		Phrase('Jack çevik ol' duration: 1s)
+		Phrase('Jack çabuk ol' duration: 1s)
+		Phrase('Jack mum çubuğunun üzerinden atladı' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene ayrıca alabilir @Group metnin de animasyonu tamamlanacak ve tüm içeriğin animasyonunun bitmesini bekleyecektir.
+
+\Scene([
+		Group(Stack() [
+				Phrase('Jack çevik ol')
+				Phrase('Jack çabuk ol')
+			] duration: 2s)
+		Phrase('Jack mum çubuğunun üzerinden atladı' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

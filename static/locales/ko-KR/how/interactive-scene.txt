@@ -1,0 +1,31 @@
+대화형 장면 시리즈 만들기
+
+가끔은 시청자가 다음 콘텐츠로 넘어가기 전에 뭔가를 해야 하는 스토리를 전달하고 싶을 때가 있습니다.
+
+이를 위해 다음을 사용할 수 있습니다. @Scene , 하지만 넣어 @Boolean 표시하려는 콘텐츠 사이의 값입니다. 예를 들어, 여기를 클릭하면 다음 콘텐츠로 이동합니다. @Button :
+
+\Scene([
+		Phrase('나를 클릭해')
+		Button()
+		Phrase('다시 클릭해줘' duration: 1s)
+		Button()
+		Phrase('아니, 정말이에요, 최대한 세게 클릭해 주세요!!' duration: 1s)
+		Button()
+		Phrase('아직 나를 클릭하지 않았나요?' duration: 1s)
+	])\
+
+그 @Scene 첫 번째를 보여줍니다 @Phrase , 그런 다음 기다립니다 @Button 사실이라면, 그것이 사실이라면 다음으로 넘어갑니다. @Phrase .
+
+진실이든 거짓이든, 원하는 대로 무엇이든 제시할 수 있습니다.예를 들어, 우리는 목소리를 사용할 수 있습니다!우리가 충분히 큰 소리로 외치면 장면이 진행됩니다.
+
+\Scene([
+		Phrase('거기 누구 있어요?')
+		Volume() > .5
+		Phrase("들리지 않아요. 다시 말씀해 주시겠어요?" duration: 1s)
+		Volume() > .7
+		Phrase('더 크게 말해주세요...' duration: 1s)
+		Volume() > .9
+		Phrase('오, 안녕하세요!' duration: 1s)
+	])\
+
+animated-scene

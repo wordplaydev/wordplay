@@ -1,0 +1,31 @@
+Utwórz interaktywną serię scen
+
+Czasami chcemy opowiedzieć historię, która czeka, aż widz wykona jakieś działanie, zanim przejdzie do kolejnej treści.
+
+Aby to zrobić, możemy użyć @Scene , ale połóż @Boolean wartości pomiędzy treścią, którą chcemy pokazać. Na przykład, oto kliknięcie, które przeniesie Cię do każdej następnej treści, używając @Button :
+
+\Scene([
+		Phrase('kliknij mnie')
+		Button()
+		Phrase('kliknij mnie ponownie' duration: 1s)
+		Button()
+		Phrase('nie, serio, kliknij mnie tak mocno jak potrafisz!!' duration: 1s)
+		Button()
+		Phrase('kliknąłeś już na mnie?' duration: 1s)
+	])\
+
+Ten @Scene pokazuje pierwszy @Phrase , a następnie czeka na @Button być prawdą, a gdy już nią jest, przechodzi do następnej @Phrase .
+
+Możesz wykorzystać cokolwiek chcesz, byleby było to prawdą lub fałszem.Na przykład moglibyśmy użyć naszego głosu!Jeśli krzykniemy wystarczająco głośno, scena się rozwinie:
+
+\Scene([
+		Phrase('jest tam ktoś?')
+		Volume() > .5
+		Phrase("Nie słyszę Cię. Powiedz jeszcze raz?" duration: 1s)
+		Volume() > .7
+		Phrase('głośniej proszę...' duration: 1s)
+		Volume() > .9
+		Phrase('O, cześć!' duration: 1s)
+	])\
+
+animated-scene

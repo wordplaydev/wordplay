@@ -1,0 +1,19 @@
+画像を重ねる
+
+時には、画像を重ねて楽しいシーンや創造的な形を作りたいと思うことがあります。
+
+たとえば、プロジェクトに複数のレイヤーを使用できます @Stage 好きなように画像を積み重ねたり配置したりできます。
+
+見て！形だけを使って作ったカメだよ！それぞれの図形の数字を変えてみましょう。図形を移動したり、サイズを変更したり、回転させたりすることもできます。いろいろ試して、何が作れるか見てみましょう！
+
+\¶注: 別のプロジェクトについてはギャラリーをご覧ください<例@https://wordplay.dev/project/example-Layers?play>画像を重ねる方法。¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+レイヤーを使えば、すごくかっこいいものが作れますよ！ぜひ試してみてください！
+
+custom-characters

@@ -1,0 +1,30 @@
+Śledź stan gry
+
+Większość gier śledzi postępy rozgrywki na wielu płaszczyznach: zdobywanie punktów, pozycje graczy i inne szczegóły.Za każdym razem, gdy pojawiają się jakieś dane wejściowe, stan ten ulega zmianie i wówczas chcemy wyświetlić nowe dane wyjściowe w odpowiedzi.
+
+Ogólny schemat każdej gry obejmuje trzy rzeczy:
+
+• Zdefiniuj strukturę danych stanu gry, aby przechowywać wszystkie dane stanu gry• Zdefiniuj reakcję, która tworzy nowy stan gry na podstawie poprzedniego stanu gry, gdy tylko pojawi się nowy sygnał wejściowy.• Zrób @Stage  z  @Group  I  @Phrase aby pokazać stan gry
+
+Wyobraźmy sobie na przykład prostą grę polegającą na wpisywaniu tajnych słów do pola tekstowego i zdobywaniu punktu za każdym razem, gdy ktoś odgadnie tajne słowo:
+
+\•Game(secrets•[''] points•#)
+state: Game(['kot' 'pies'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("wygrywasz!")] [
+			Group(Stack() [
+					Phrase("zgadnij moje tajne słowa")
+					Phrase(`\state.secrets.length() - state.points\więcej sekretów`)
+				])
+		])\
+
+Przyjrzyjmy się temu bliżej.
+
+• Pierwsza linia,\•Game(secrets•[''] points•#)\mówi,/Utwórz strukturę danych o nazwie\Game\który przechowuje listę sekretów i punktów/• Druga linijka mówi/Stan gry zaczyna się od listy sekretów i zerowych punktów. Za każdym razem, gdy\Chat\zmiany, jeśli wprowadzone słowo znajduje się na liście sekretów, to utwórz nowy stan gry ze zwiększonymi punktami o jeden/.• Za każdym razem, gdy program dokonuje ponownej oceny (gdy\Chat\zmiany), pokaż etap. Jeśli liczba punktów jest równa liczbie sekretów, pokaż zwycięski etap. Jeśli nie, pokaż monit i liczbę pozostałych sekretów.
+
+W tym przykładzie występują pewne problemy:
+
+• Jeśli odgadną tajne słowo wiele razy, dostaną więcej punktów! Nasz stan gry może również wymagać zapamiętania, co zostało odgadnięte, więc każde słowo jest liczone tylko dwa razy.• Jeśli gracz wpisze więcej niż jedno słowo, czy powinno to zostać policzone?
+
+Bardziej zaawansowane stany gry i aktualizacje gry pomogłyby nam poradzić sobie z takimi przypadkami.
+
+track-points

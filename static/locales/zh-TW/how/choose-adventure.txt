@@ -1,0 +1,27 @@
+進行文字冒險
+
+一個有趣的遊戲是/選擇你自己的冒險/遊戲中，玩家需要做出一系列選擇，並嘗試找到通往幸福結局的方法。
+
+為了製作其中之一，我們可以使用 @Structure ， @Key ， @Reaction ， 和 @List 共同做出一系列決定，每個決定都有一組選項，如下所示：
+
+\¶這就形成了一個資料結構，用於儲存選擇以及它將導航到哪個決策。¶•Option(text•'' decision•#)
+¶此資料結構儲存了選擇列表¶•Decision(options: [Option])
+¶這就是遊戲內容！更改選項中的文本，營造氛圍，並做出艱難的選擇。新增選項來建立一個棘手的選擇網路。¶
+decisions: [
+		Decision([Option('開始' 2)])
+		Decision([Option('左邊' 3) Option('直的' 4) Option('正確的' 4)])
+		Decision([Option('贏' 1)])
+		Decision([Option('失去' 1)])
+	]
+¶如果密鑰是數字，則將其轉換為數字¶
+key: Key()
+choice: key → #
+¶該值代表上述列表中的當前決策。當按下該鍵時，我們會執行以下操作之一。如果這個決定只有一個選擇，那麼我們改變目前的決定無論按下什麼鍵，都會做出選項的目標決定。如果按下的鍵介於 1 和選項數量之間，那麼我們將轉到該選項的目標決策。否則，我們就維持目前的決定。¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶這只是將選項顯示為一堆短語。您可以更改它以添加說明、動畫和其他趣味內容！¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+這個模式看起來很複雜，但它實際上的作用是顯示當前的選項集，並且每次按鍵改變時，都會跳到所選選項的決策。遊戲設計的關鍵在於改變頂部的內容！
+
+offer-choices

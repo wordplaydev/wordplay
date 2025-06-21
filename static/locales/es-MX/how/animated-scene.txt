@@ -1,0 +1,17 @@
+Crea una serie animada de escenas.
+
+A veces queremos contar historias, mostrar letras o animar poesía.Para ello podemos utilizar@Scene y @Phrasejuntos, para mostrar una secuencia.
+
+Por ejemplo, imaginemos que queremos animar la canción infantil corta "Jack be Nimble".Podríamos hacer una@Sceneque tiene cada línea como una@Phrase, y estableciendo el@Phrase/durationde cada línea, la@Sceneavanzaría cuando cada frase esté hecha.
+
+\Scene([Phrase('Jack sea ágil'duration:1s)Phrase('Jack, date prisa'duration:1s)Phrase('Jack salta sobre el candelabro'duration:1s)])\
+
+@SceneEsperaré un@SequencePor terminar también. ¡Hagamos que la línea de velas salte!
+
+\Scene([Phrase('Jack sea ágil'duration:1s)Phrase('Jack, date prisa'duration:1s)Phrase('Jack salta sobre el candelabro'entering:Sequence(bounce()1s))])\
+
+@SceneTambién puede tomar una@Groupde texto también, y esperará a que todo su contenido termine de animarse.
+
+\Scene([Group(Stack()[Phrase('Jack sea ágil')Phrase('Jack, date prisa')]duration:2s)Phrase('Jack salta sobre el candelabro'entering:Sequence(bounce()1s))])\
+
+interactive-scene

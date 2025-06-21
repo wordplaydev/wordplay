@@ -1,0 +1,28 @@
+創建一系列動畫場景
+
+有時我們想講述故事、展示歌詞或使詩歌生動。為此，我們可以使用 @Scene  和 @Phrase 一起來展現一個序列。
+
+例如，假設我們想要將短小的童謠「Jack be Nimble」製作成動畫。我們可以做一個 @Scene 每一行都是 @Phrase ，並透過設定 @Phrase/duration 每行， @Scene 每完成一個短語就會前進。
+
+\Scene([
+		Phrase('傑克很敏捷' duration: 1s)
+		Phrase('傑克快點' duration: 1s)
+		Phrase('傑克跳過蠟燭桿' duration: 1s)
+	])\
+
+@Scene 將等待 @Sequence 也要做。讓我們讓蠟燭線跳起來！
+
+\Scene([
+		Phrase('傑克很敏捷' duration: 1s)
+		Phrase('傑克快點' duration: 1s)
+		Phrase('傑克跳過蠟燭桿' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene 還可以 @Group 文字也是如此，它將等待所有內容完成動畫。
+
+\Scene([
+		Group(Stack() [Phrase('傑克很敏捷') Phrase('傑克快點')] duration: 2s)
+		Phrase('傑克跳過蠟燭桿' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

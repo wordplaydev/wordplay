@@ -1,0 +1,27 @@
+テキストアドベンチャーを作る
+
+楽しいゲームの一つは/自分の冒険を選ぶ/プレイヤーが一連の選択肢をナビゲートし、ハッピーエンドへの道を見つけようとするゲームです。
+
+これを作るには、 @Structure 、 @Key 、 @Reaction 、 そして  @List これらを組み合わせて一連の決定を下します。各決定には、次の図のような一連のオプションがあります。
+
+\¶これにより、選択肢とそれがどの決定に移動するのかを格納するデータ構造が作成されます。¶•Option(text•'' decision•#)
+¶このデータ構造は選択肢のリストを格納します¶•Decision(options: [Option])
+¶これがゲームコンテンツです！オプションのテキストを変更して、雰囲気や難しい選択肢を作りましょう。オプションを追加して、複雑な選択肢の網を作りましょう。¶
+decisions: [
+		Decision([Option('始める' 2)])
+		Decision([Option('左' 3) Option('真っ直ぐ' 4) Option('右' 4)])
+		Decision([Option('勝つ' 1)])
+		Decision([Option('失う' 1)])
+	]
+¶キーが1の場合、キーを数値に変換します¶
+key: Key()
+choice: key → #
+¶この値は、上記のリストの現在の決定を表します。キーが押されると、次のいずれかを実行します。この決定に選択肢が1つしかない場合は、現在の決定を変更しますどのキーを押しても、オプションのターゲット決定に影響はありません。押されたキーが 1 からオプションの数までの範囲内にある場合、そのオプションのターゲット決定に進みます。それ以外の場合は、現在の決定をそのまま維持します。¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶選択肢はフレーズの羅列として表示されるだけです。これを変更して、説明やアニメーションなど、様々な機能を追加できます。¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+このパターンは複雑に見えますが、実際には現在の選択肢を表示し、キーが変更されるたびに選択された選択肢の決定に進むだけです。ゲームのデザインは、画面上部のコンテンツを変更することに集中するのです。
+
+offer-choices

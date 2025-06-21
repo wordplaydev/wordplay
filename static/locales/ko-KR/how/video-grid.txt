@@ -1,0 +1,21 @@
+카메라로 비디오 만들기
+
+그 @Camera 스트림은 세상의 색상 그리드를 얻는 좋은 방법입니다.우리가 그 색상을 보고 이미지를 다시 만들고 싶다면 어떻게 해야 할까요? @Camera 보시나요?
+
+우리는 사용할 수 있습니다 @Grid 레이아웃 @Group , 그리고  @List/combine 색상을 목록으로 변환하는 기능 @Phrase 우리가 주는 것 @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+이 예제는 각 색상을 특정 색상의 원으로 변환하여 구문 목록을 작성합니다.
+
+조심하세요 @Camera 스트림: 입력이 많기 때문에 이미지의 너비와 높이를 작게 유지하는 것이 좋습니다.
+
+interactive-scene

@@ -1,0 +1,15 @@
+Zeigen Sie einen benutzerdefinierten Charakter
+
+Emojis, Buchstaben und Symbole sind toll! Aber manchmal möchte man seine eigenen Charaktere erstellen.Wie können Sie Ihre eigenen erstellen und zeigen?
+
+Erstellen Sie zunächst einen Charakter auf dem<Charaktere@://characters> Seite. Sie können Pixel, Rechtecke, Kreise und Pfade verwenden.Geben Sie ihm einen Namen, beschreiben Sie es und verwenden Sie dann Ihren Benutzernamen und den Charakternamen wie folgt:
+
+\Phrase(`Schau dir meine Fantasie an @username/charactername !`)\
+
+Dieser Benutzername und Charaktername existieren nicht und werden daher als leeres Rechteck angezeigt.Stellen Sie sicher, dass Sie Ihren tatsächlichen Benutzernamen und Charakternamen verwenden
+
+Sehen Sie, dass im Text anstelle eines Anführungszeichens das Backtick verwendet wird? Das ist wichtig.Das sagt uns, dass Sie den Rich-Text-Modus verwenden, und dieser ist erforderlich, um auf ein benutzerdefiniertes Zeichen zu verweisen.
+
+Weitere Informationen zur Textformatierung finden Sie unter @Phrase .
+
+animate-phrase

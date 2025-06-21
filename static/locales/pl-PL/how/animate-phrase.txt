@@ -1,0 +1,19 @@
+Stwórz animację postaci
+
+Postacie mogą mieć animację odpoczynku, która powtarza się, gdy się nie poruszają.
+
+Na przykład, sprawmy, aby ten kot trochę zatańczył, obracając go i przesuwając:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+W tym przykładzie użyto @Sequence różnego @Pose .
+
+move-phrase, shake-phrase

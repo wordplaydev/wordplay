@@ -1,0 +1,37 @@
+Metninizi biçimlendirin
+
+Bazen metnimizin öne çıkmasını isteriz. Bunu şu şekilde yapabiliriz:/italik yazıyla/,*kalınlaştırma*ve daha fazlası!
+
+Örneğin, metni italik yapmak için, //Merhaba// gibi ileri eğik çizgilerle // sarabilirsiniz. Örneğin:
+
+\Group(Stack() [
+		Phrase(`Biraz esnemek ister misin?/italik/Metninizde mi?`)
+		Phrase(`Vurgu yapmak veya kelimelerinize anlam katmak için iyidir/ekstra caz/.`)
+		Phrase(`Kelime veya ifadenin önüne ve arkasına eğik çizgi (//) koymanız yeterli./bunun gibi/.`)
+	])\
+
+@Phrase metni kalınlaştırabilirsiniz. Bunu metninizi yıldız işaretleriyle **, **Merhaba** gibi sararak yapabilirsiniz. Örneğin:
+
+\Group(Stack() [
+		Phrase(`Metninizin dikkat çekmesini mi istiyorsunuz?*gözü pek*?`)
+		Phrase(`İhtiyacınız olduğunda mükemmeldir*yüksek sesle bir şeyler bağırmak*.`)
+		Phrase(`Kelimelerinizin etrafına tek yıldız işareti (**) koyun, şöyle ki*Hey!*ve farklı şekilde çarptığını izleyin.`)
+	])\
+
+@Phrase metni EKSTRA kalın da yapabilirsiniz. Bunun için metninizi şapka işaretleri ^^ ile sarın, ^^Merhaba^^ gibi. Örneğin:
+
+\Group(Stack() [
+		Phrase(`Ekstra kalın olan^KEÇİ^titreşimi en üst seviyeye çıkarmanız gerektiğinde.`)
+		Phrase(`Cesur ama daha fazlası gibi^ateş^, genellikle tek havuçlarla yapılır (^^)`)
+		Phrase(`Bunu esnetmek için kullan^başlıklar^ veya ^büyük fikirler^.`)
+	])\
+
+Nihayet,  @Phrase metni altı çizili yapabilir. Bunun için metninizi __Merhaba__ gibi alt çizgilerle __ sarın. Örneğin:
+
+\Group(Stack() [
+		Phrase(`Altı çizili_düşük anahtarlı ateş_Metninizin şık ama aynı zamanda dikkat çekici olmasını istediğiniz zamanlar için.`)
+		Phrase(`Metninizin başına ve sonuna tek bir alt çizgi (__) koyun,_bunun gibi_ve temiz bir vurgu yapıyor.`)
+		Phrase(`Onun _mükemmel_çok abartmadan anlatmak istediğini dile getirdiğin için_ekstra_.`)
+	])\
+
+custom-characters

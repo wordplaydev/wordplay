@@ -1,0 +1,13 @@
+Superponer imágenes unas sobre otras
+
+A veces queremos superponer imágenes para crear escenas divertidas o formas creativas.
+
+Por ejemplo, puedes utilizar varias capas en tu proyecto.@Stagepara apilar y organizar imágenes como quieras.
+
+¡Mira! ¡Aquí hay una tortuga que hice usando solo formas!Prueba a cambiar los números de cada figura. Puedes moverlas, redimensionarlas e incluso rotarlas.¡Juega y mira lo que puedes crear!
+
+\¶Nota: Consulte la galería para ver otro proyecto.<ejemplo@https://wordplay.dev/project/example-Layers?play>de superposición de imágenes.¶Stage([Shape(Circle(3m0m1m0m))Shape(Polygon(2m30m-12m0m)rotation:-30°)Shape(Polygon(7m60m-6m0m))Shape(Rectangle(-11m-9m11m-12m10m)rotation:25°)Shape(Rectangle(-11m-9m11m-12m10m)rotation:-25°)]place:Place(0m10m-30m))\
+
+¡Podrías crear cosas geniales con capas! ¡Pruébalo!
+
+custom-characters
