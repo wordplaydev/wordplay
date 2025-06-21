@@ -31,6 +31,8 @@ type EditTexts = {
     bind: string;
     /** Show elided data structure $1 count */
     show: Template;
+    /** A label for the textarea in which text is typed */
+    area: string;
 };
 
 export { type EditTexts as default };

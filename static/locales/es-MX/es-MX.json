@@ -5404,7 +5404,8 @@
             "unwrap": "desenvolver",
             "bind": "nombrar esta expresión",
             "range": "$~Selección desde $1 a $2",
-            "show": "$~… mostrar más"
+            "show": "$~… mostrar más",
+            "area": "$~código de tipo"
         },
         "template": {
             "unwritten": "Por determinar",

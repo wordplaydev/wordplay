@@ -5484,7 +5484,8 @@
             "unwrap": "$~odwijać się",
             "bind": "$~nazwij to wyrażenie",
             "range": "$~wybór od $1 do $2 dolarów",
-            "show": "$~… pokaż więcej"
+            "show": "$~… pokaż więcej",
+            "area": "$~wpisz kod"
         },
         "template": {
             "unwritten": "$~Do ustalenia",

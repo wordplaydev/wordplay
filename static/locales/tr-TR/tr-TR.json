@@ -5474,7 +5474,8 @@
             "unwrap": "$~açmak",
             "bind": "$~bu ifadeyi adlandırın",
             "range": "$~1$'dan $2'a kadar seçim",
-            "show": "$~… daha fazlasını göster"
+            "show": "$~… daha fazlasını göster",
+            "area": "$~tip kodu"
         },
         "template": {
             "unwritten": "$~Belirsiz",

@@ -5479,7 +5479,8 @@
             "unwrap": "$~packa upp",
             "bind": "$~namnge detta uttryck",
             "range": "$~urval från $1 till $2",
-            "show": "$~… visa mer"
+            "show": "$~… visa mer",
+            "area": "$~typkod"
         },
         "template": {
             "unwritten": "$~TBD",

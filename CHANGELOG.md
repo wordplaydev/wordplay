@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #803: Adjusted behavior of code examples in standalone guide.
 - Fixed name of Noto Korean font file.
 - Fixed #746: Typo in Korean tutorial.
+- Fixed #688: Added aria-label to editor textarea.
 
 ## Maintenance
 

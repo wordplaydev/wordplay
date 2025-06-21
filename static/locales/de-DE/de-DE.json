@@ -5424,7 +5424,8 @@
             "unwrap": "$~auspacken",
             "bind": "$~Nennen Sie diesen Ausdruck",
             "range": "$~Auswahl von $1 bis $2",
-            "show": "$~… mehr anzeigen"
+            "show": "$~… mehr anzeigen",
+            "area": "$~Typenschlüssel"
         },
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",

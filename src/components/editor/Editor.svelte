@@ -1668,6 +1668,7 @@
         id={getInputID()}
         data-defaultfocus
         aria-autocomplete="none"
+        aria-label={$locales.get((l) => l.ui.edit.area)}
         autocomplete="off"
         autocapitalize="none"
         spellcheck="false"

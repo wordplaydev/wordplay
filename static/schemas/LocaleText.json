@@ -9574,6 +9574,10 @@
                   "$ref": "#/definitions/Template",
                   "description": "$1: node description"
                 },
+                "area": {
+                  "description": "A label for the textarea in which text is typed",
+                  "type": "string"
+                },
                 "assign": {
                   "$ref": "#/definitions/Template",
                   "description": "$1: node description"
@@ -9646,7 +9650,8 @@
                 "wrap",
                 "unwrap",
                 "bind",
-                "show"
+                "show",
+                "area"
               ],
               "type": "object"
             },
