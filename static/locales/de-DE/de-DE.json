@@ -5518,7 +5518,12 @@
             "skip": {
                 "tip": "$~Dieses Projekt überspringen",
                 "label": "$~überspringen"
-            }
+            },
+            "property": "$~Ob das Projekt diese Eigenschaft hat"
+        },
+        "done": "$~Sonst nichts zu moderieren!",
+        "error": {
+            "notmod": "$~Offenbar bist du kein Moderator. Falls du erst kürzlich Moderatorrechte erhalten hast, musst du dich möglicherweise erneut anmelden. Falls nicht, findest du im Wiki Informationen zum Beantragen von Moderationsrechten."
         }
     },
     "gallery": {

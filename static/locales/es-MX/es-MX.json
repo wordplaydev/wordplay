@@ -5498,7 +5498,12 @@
             "skip": {
                 "tip": "Omitir este proyecto",
                 "label": "omitir"
-            }
+            },
+            "property": "$~Si el proyecto tiene esta propiedad"
+        },
+        "done": "$~¡Nada más que moderar!",
+        "error": {
+            "notmod": "$~Parece que no eres moderador. Si recientemente te dieron privilegios de moderador, quizás tengas que volver a iniciar sesión. De lo contrario, consulta la wiki para saber cómo solicitarlos."
         }
     },
     "gallery": {

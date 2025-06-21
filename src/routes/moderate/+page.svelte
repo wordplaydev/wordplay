@@ -4,6 +4,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Markup from '@nodes/Markup';
     import {
         FieldPath,
@@ -134,13 +135,9 @@
             {#if lastBatch === null}
                 <Spinning />
             {:else if moderator === false}
-                <p
-                    >It looks like you're not a moderator. If you were recently
-                    given moderator privileges, you may need to login again. If
-                    not, see the wiki for how to request moderation privileges.</p
-                >
+                <p><LocalizedText path={(l) => l.moderation.error.notmod} /></p>
             {:else if lastBatch === undefined}
-                <p>Nothing else to moderate!</p>
+                <p><LocalizedText path={(l) => l.moderation.done} /></p>
             {:else if project === undefined}
                 <Spinning />
             {:else}
@@ -160,8 +157,7 @@
                 {#each Object.entries(project.getFlags()) as [flag, state]}
                     <div class="flag">
                         <Checkbox
-                            label={() =>
-                                'Whether the project has this property'}
+                            label={(l) => l.moderation.button.property}
                             on={state === null ? undefined : state}
                             id={flag}
                             changed={(value) =>

@@ -1,4 +1,3 @@
-import type { FlagDescriptions } from '../db/projects/Moderation';
 import type Markup from '../nodes/Markup';
 import type Sym from '../nodes/Sym';
 import parseDoc from '../parser/parseDoc';
@@ -10,13 +9,13 @@ import type InputTexts from './InputTexts';
 import type LanguageCode from './LanguageCode';
 import { Languages } from './LanguageCode';
 import type Locale from './Locale';
+import type { ModerationTexts } from './ModerationTexts';
 import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';
 import { Regions, type RegionCode } from './Regions';
 import { DraftLocales } from './SupportedLocales';
 import type TermTexts from './TermTexts';
 import type UITexts from './UITexts';
-import type { ButtonText, DialogText } from './UITexts';
 import { withoutAnnotations } from './withoutAnnotations';
 
 /** Placeholders in the locale template language */
@@ -55,22 +54,7 @@ export type LocaleText = {
     /** Default gallery text  */
     gallery: GalleryTexts;
     /** Text related to content moderation */
-    moderation: {
-        /** What to say to warn viewers before showing content with warnings. */
-        warning: DialogText;
-        /** What to say when content is blocked */
-        blocked: DialogText;
-        /** What to sa when content has not yet been moderated */
-        unmoderated: DialogText;
-        /** Moderation view text */
-        moderate: DialogText;
-        /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
-        flags: FlagDescriptions;
-        /** Progress message */
-        progress: Template;
-        /** Buttons on the moderation page */
-        button: { submit: ButtonText; skip: ButtonText };
-    };
+    moderation: ModerationTexts;
 };
 
 export { type LocaleText as default };

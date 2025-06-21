@@ -5524,7 +5524,12 @@
             "skip": {
                 "tip": "$~Pomiń ten projekt",
                 "label": "$~pominąć"
-            }
+            },
+            "property": "$~Czy projekt ma tę właściwość"
+        },
+        "done": "$~Nic więcej do moderowania!",
+        "error": {
+            "notmod": "$~Wygląda na to, że nie jesteś moderatorem. Jeśli niedawno przyznano Ci uprawnienia moderatora, być może będziesz musiał się ponownie zalogować. Jeśli nie, zobacz wiki, jak poprosić o uprawnienia moderatora."
         }
     },
     "gallery": {

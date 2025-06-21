@@ -5514,7 +5514,12 @@
             "skip": {
                 "tip": "$~Bu projeyi atla",
                 "label": "$~atlamak"
-            }
+            },
+            "property": "$~Projenin bu özelliğe sahip olup olmadığı"
+        },
+        "done": "$~Başka ölçülecek bir şey yok!",
+        "error": {
+            "notmod": "$~Moderatör olmadığınız anlaşılıyor. Yakın zamanda moderatör ayrıcalıkları verildiyse, tekrar oturum açmanız gerekebilir. Verilmediyse, moderasyon ayrıcalıklarının nasıl talep edileceğine dair wiki'ye bakın."
         }
     },
     "gallery": {

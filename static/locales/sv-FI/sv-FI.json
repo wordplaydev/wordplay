@@ -5519,7 +5519,12 @@
             "skip": {
                 "tip": "$~Hoppa över det här projektet",
                 "label": "$~hoppa"
-            }
+            },
+            "property": "$~Om projektet har den här egenskapen"
+        },
+        "done": "$~Inget annat att moderera!",
+        "error": {
+            "notmod": "$~Det verkar som att du inte är moderator. Om du nyligen har fått moderatorbehörighet kan du behöva logga in igen. Om inte, se wikin för information om hur du begär modereringsbehörighet."
         }
     },
     "gallery": {

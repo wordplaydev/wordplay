@@ -5509,6 +5509,7 @@
             "misinformation": "Contain false, misleading, deceptive, or manipulative information"
         },
         "progress": "*$1* moderated, *$2* remaining",
+        "done": "Nothing else to moderate!",
         "button": {
             "submit": {
                 "tip": "Save these moderation settings",
@@ -5517,7 +5518,11 @@
             "skip": {
                 "tip": "Skip this project",
                 "label": "skip"
-            }
+            },
+            "property": "Whether the project has this property"
+        },
+        "error": {
+            "notmod": "It looks like you're not a moderator. If you were recently given moderator privileges, you may need to login again. If not, see the wiki for how to request moderation privileges."
         }
     },
     "gallery": {

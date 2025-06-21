@@ -19,6 +19,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #688: Added aria-label to editor textarea.
 - Fixed concept link font size in Safari.
 - Fixed #338: Reference formatted literals in `Phrase` docs.
+- Fixed #328: Finished localizing moderation page.
 
 ## Maintenance
 

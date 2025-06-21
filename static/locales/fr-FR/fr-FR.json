@@ -5519,7 +5519,12 @@
             "skip": {
                 "tip": "$~Ignorer ce projet",
                 "label": "$~sauter"
-            }
+            },
+            "property": "$~Si le projet possède cette propriété"
+        },
+        "done": "$~Rien d'autre à modérer !",
+        "error": {
+            "notmod": "$~Il semble que vous n'êtes pas modérateur. Si vous avez récemment obtenu des privilèges de modérateur, vous devrez peut-être vous reconnecter. Sinon, consultez le wiki pour savoir comment demander des privilèges de modération."
         }
     },
     "gallery": {
