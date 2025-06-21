@@ -20,6 +20,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed concept link font size in Safari.
 - Fixed #338: Reference formatted literals in `Phrase` docs.
 - Fixed #328: Finished localizing moderation page.
+- Fixed #744: Clarifying output locale drop down.
 
 ## Maintenance
 

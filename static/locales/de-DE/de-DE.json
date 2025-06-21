@@ -4504,7 +4504,8 @@
                 "submit": "$~diese Chat-Nachricht senden"
             },
             "options": {
-                "locale": "$~Wählen Sie die Sprache für die Ausgabe"
+                "locale": "$~Wählen Sie die Sprache für die Ausgabe",
+                "default": "$~Standard"
             }
         },
         "timeline": {

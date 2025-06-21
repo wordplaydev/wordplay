@@ -4487,7 +4487,8 @@
                 "submit": "enviar este mensaje de chat"
             },
             "options": {
-                "locale": "$~elegir el idioma de salida"
+                "locale": "$~elegir el idioma de salida",
+                "default": "$~por defecto"
             }
         },
         "timeline": {

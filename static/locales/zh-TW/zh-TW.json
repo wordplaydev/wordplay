@@ -4463,7 +4463,8 @@
                 "submit": "提交此聊天訊息"
             },
             "options": {
-                "locale": "選擇輸出語言"
+                "locale": "選擇輸出語言",
+                "default": "$~預設"
             }
         },
         "timeline": {

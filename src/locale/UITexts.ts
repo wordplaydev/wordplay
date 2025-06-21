@@ -412,6 +412,8 @@ type UITexts = {
         options: {
             /** The label for the locale chooser in output */
             locale: string;
+            /** The default locale for the output */
+            default: string;
         };
     };
     /** The documentation browser */

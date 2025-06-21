@@ -4467,7 +4467,8 @@
                 "submit": "提交此聊天消息"
             },
             "options": {
-                "locale": "$~选择输出语言"
+                "locale": "$~选择输出语言",
+                "default": "$~默认"
             }
         },
         "timeline": {

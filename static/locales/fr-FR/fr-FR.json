@@ -4505,7 +4505,8 @@
                 "submit": "$~soumettre ce message de discussion"
             },
             "options": {
-                "locale": "$~choisir la langue de sortie"
+                "locale": "$~choisir la langue de sortie",
+                "default": "$~défaut"
             }
         },
         "timeline": {

@@ -4522,7 +4522,8 @@
                 "submit": "$~skicka detta chattmeddelande"
             },
             "options": {
-                "locale": "$~välj språk för utmatning"
+                "locale": "$~välj språk för utmatning",
+                "default": "$~standard"
             }
         },
         "timeline": {

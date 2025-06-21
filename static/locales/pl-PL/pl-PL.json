@@ -4527,7 +4527,8 @@
                 "submit": "$~wyślij tę wiadomość czatu"
             },
             "options": {
-                "locale": "$~wybierz język wyjścia"
+                "locale": "$~wybierz język wyjścia",
+                "default": "$~domyślny"
             }
         },
         "timeline": {

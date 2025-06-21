@@ -4522,7 +4522,8 @@
                 "submit": "$~bu sohbet mesajını gönder"
             },
             "options": {
-                "locale": "$~çıktı için dili seçin"
+                "locale": "$~çıktı için dili seçin",
+                "default": "$~varsayılan"
             }
         },
         "timeline": {

@@ -9756,13 +9756,18 @@
                 "options": {
                   "additionalProperties": false,
                   "properties": {
+                    "default": {
+                      "description": "The default locale for the output",
+                      "type": "string"
+                    },
                     "locale": {
                       "description": "The label for the locale chooser in output",
                       "type": "string"
                     }
                   },
                   "required": [
-                    "locale"
+                    "locale",
+                    "default"
                   ],
                   "type": "object"
                 },

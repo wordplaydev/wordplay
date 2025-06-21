@@ -4524,7 +4524,8 @@
                 "submit": "submit this chat message"
             },
             "options": {
-                "locale": "preferred language for output"
+                "locale": "preferred language for output",
+                "default": "default"
             }
         },
         "timeline": {
