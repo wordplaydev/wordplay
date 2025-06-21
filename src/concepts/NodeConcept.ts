@@ -87,10 +87,14 @@ export default class NodeConcept extends Concept {
     }
 
     getCharacterName(locales: Locales): CharacterName | undefined {
+        // Get the locale strings for the template for this node.
         const text = locales.get(this.template.getLocalePath());
+        // Find the corresponding node text in the locales.
         const match = locales
             .getLocales()
-            .map((l) => Object.entries(l.node).find(([, t]) => t === text))
+            .map((l) =>
+                Object.entries(l.node).find(([, t]) => t.name === text.name),
+            )
             .find((n) => n !== undefined);
         return match ? (match[0] as CharacterName) : undefined;
     }

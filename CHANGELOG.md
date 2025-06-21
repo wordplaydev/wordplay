@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.19
 
+## Fixed
+
+- Fixed #792: Broken links to node concepts in guide.
+
 ## Maintenance
 
 - Updated Playwright, Svelte, SvleteKit, eslint, firebase, tsx, vitest, zod, nodemailer, firebase admin, Google Translate.
