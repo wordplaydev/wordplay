@@ -9,11 +9,12 @@
     import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import Evaluator from '@runtime/Evaluator';
     import { onMount } from 'svelte';
+    import { writable } from 'svelte/store';
     import { DB, locales } from '../../db/Database';
     import Stage, { NameGenerator, toStage } from '../../output/Stage';
     import type Value from '../../values/Value';
     import OutputView from '../output/OutputView.svelte';
-    import { getConceptIndex } from '../project/Contexts';
+    import { getConceptIndex, setProject } from '../project/Contexts';
     import ValueView from '../values/ValueView.svelte';
     import CodeView from './CodeView.svelte';
 
@@ -69,6 +70,13 @@
             $locales.getLocales(),
         ),
     );
+
+    // Set a project context so we can do analysis and localization in the code example.
+    let projectStore = writable<Project | undefined>(undefined);
+    setProject(projectStore);
+    $effect(() => {
+        projectStore.set(project);
+    });
 
     function reset(hard: boolean) {
         // Don't create a new evaluator if the project is the same.

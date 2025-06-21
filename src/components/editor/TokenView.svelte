@@ -44,9 +44,11 @@
     let editable = $derived($caret !== undefined);
 
     let context = $derived(
-        root === undefined || $project === undefined
+        root === undefined
             ? undefined
-            : $project.getNodeContext(root.root),
+            : $project !== undefined
+              ? $project.getNodeContext(root.root)
+              : undefined,
     );
 
     // See if this is a placeholder that should be rendered differently.
