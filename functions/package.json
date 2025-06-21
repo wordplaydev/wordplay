@@ -20,7 +20,7 @@
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^13",
         "firebase-functions": "^6",
-        "nodemailer": "^6.10.0",
+        "nodemailer": "^7",
         "shared-types": "file:./src/shared"
     },
     "devDependencies": {
