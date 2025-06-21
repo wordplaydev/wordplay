@@ -31,20 +31,22 @@
         </div>
     {/each}
     <!-- Show standard emojis -->
-    {#each getEmoji() as code}
-        <div
-            class="emoji"
-            class:selected={String.fromCodePoint(code.hex) === emoji}
-            ><Button
-                padding={false}
-                tip={() => code.name}
-                action={() => pick(String.fromCodePoint(code.hex))}
-                ><span class="emoji"
-                    >{withColorEmoji(String.fromCodePoint(code.hex))}</span
-                ></Button
-            ></div
-        >
-    {/each}
+    {#await getEmoji() then emojis}
+        {#each emojis as code}
+            <div
+                class="emoji"
+                class:selected={String.fromCodePoint(code.hex) === emoji}
+                ><Button
+                    padding={false}
+                    tip={() => code.name}
+                    action={() => pick(String.fromCodePoint(code.hex))}
+                    ><span class="emoji"
+                        >{withColorEmoji(String.fromCodePoint(code.hex))}</span
+                    ></Button
+                ></div
+            >
+        {/each}
+    {/await}
 </div>
 
 <style>

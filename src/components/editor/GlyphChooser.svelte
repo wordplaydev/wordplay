@@ -1,17 +1,19 @@
 <script lang="ts">
     import Toggle from '@components/widgets/Toggle.svelte';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
+    import { onMount } from 'svelte';
     import {
-        type Character,
         characterToSVG,
+        type Character,
     } from '../../db/characters/Character';
     import { CharactersDB, locales } from '../../db/Database';
     import { tokenize } from '../../parser/Tokenizer';
     import NewCharacterButton from '../../routes/characters/NewCharacterButton.svelte';
     import { isEmoji, withColorEmoji } from '../../unicode/emoji';
     import {
+        getCodepoints,
         getEmoji,
-        getUnicodeNamed as getUnicodeWithNameText,
+        type Codepoint,
     } from '../../unicode/Unicode';
     import { IdleKind, getEditors } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
@@ -35,6 +37,14 @@
 
     let customCharacters = $derived(CharactersDB.getAvailableCharacters());
 
+    let codepoints: Codepoint[] = $state([]);
+    onMount(() => {
+        // Load the codepoints from the database.
+        getCodepoints().then((cp) => {
+            codepoints = cp;
+        });
+    });
+
     let query = $state('');
     let emoji = $state(false);
     let expanded = $derived(emoji || query.length > 0);
@@ -42,9 +52,9 @@
         query.length < 3
             ? []
             : [
-                  ...getUnicodeWithNameText(query).map((entry) =>
-                      String.fromCodePoint(entry.hex),
-                  ),
+                  ...codepoints
+                      .filter((c) => c.name.includes(query))
+                      .map((entry) => String.fromCodePoint(entry.hex)),
                   ...customCharacters,
               ].toSorted((a, b) => {
                   if (typeof a !== 'string') {
@@ -124,9 +134,11 @@
                 {#each customCharacters as glyph}
                     {@render character(glyph)}
                 {/each}
-                {#each getEmoji() as glyph}
-                    {@render option(String.fromCodePoint(glyph.hex), false)}
-                {/each}
+                {#await getEmoji() then emojis}
+                    {#each emojis as glyph}
+                        {@render option(String.fromCodePoint(glyph.hex), false)}
+                    {/each}
+                {/await}
             {:else}
                 {#each Defaults as command}<CommandButton
                         {sourceID}
