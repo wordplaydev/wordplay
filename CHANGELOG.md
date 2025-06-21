@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #751: Corrected inconsistency in simplified Chinese locale login screen.
 - Fixed #803: Adjusted behavior of code examples in standalone guide.
 - Fixed name of Noto Korean font file.
+- Fixed #746: Typo in Korean tutorial.
 
 ## Maintenance
 
