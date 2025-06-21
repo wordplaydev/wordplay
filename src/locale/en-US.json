@@ -3488,12 +3488,13 @@
                 "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
                 "Just make me like this, and I'll appear on @Stage:",
                 "\\Phrase('magnificient!')\\",
-                "I need some @Text, obviously, but otherwise, I can do everything a @Output can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
+                "I need @TextLiteral or @FormattedLiteral to show. With @FormattedLiteral, I can use things like \\`*bold* and /italic/`\\ or refer to custom @ConceptLink you create.",
+                "You can also optionally give me everything an @Output can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
                 "You can also select me on @Stage and edit me on the palette next door."
             ],
             "names": ["💬", "Phrase"],
             "text": {
-                "doc": "The characters to show on @Stage, in plain text or @FormattedLiteral.",
+                "doc": "The characters to show on @Stage, a @TextLiteral or @FormattedLiteral.",
                 "names": "text"
             },
             "size": {
