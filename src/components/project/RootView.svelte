@@ -65,7 +65,6 @@
     setRoot(rootContext);
 
     $effect(() => {
-        console.log('Updating root context to ' + root.root.toWordplay());
         rootContext.root = root;
     });
 
