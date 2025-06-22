@@ -82,7 +82,7 @@
             }}>{CANCEL_SYMBOL}</ConfirmButton
         >
         <Button
-            tip={(l) => l.ui.checkpoints.button.forward}
+            tip={(l) => l.ui.checkpoints.button.back}
             active={checkpoint < history.length - 1}
             action={() => {
                 checkpoint++;
@@ -91,7 +91,7 @@
             icon="⏴"
         ></Button>
         <Button
-            tip={(l) => l.ui.checkpoints.button.back}
+            tip={(l) => l.ui.checkpoints.button.forward}
             active={checkpoint > -1}
             action={() => {
                 checkpoint--;

@@ -4627,7 +4627,7 @@
                 "button": {
                     "submit": "Share the project with this email address",
                     "sensitive": {
-                        "tip": "Mark this text as sensitive again",
+                        "tip": "mark this text as sensitive again",
                         "label": "sensitive"
                     }
                 },
@@ -4728,7 +4728,7 @@
                 "button": {
                     "show": "Show the feedback form.",
                     "submit": {
-                        "tip": "Submit your feeback.",
+                        "tip": "submit your feeback",
                         "label": "submit"
                     },
                     "delete": {
@@ -4738,11 +4738,11 @@
                     "like": "Like this feedback",
                     "close": {
                         "label": "close",
-                        "tip": "Close this feedback as a moderator"
+                        "tip": "close this feedback as a moderator"
                     },
                     "comment": {
                         "label": "submit",
-                        "tip": "Submit comment on this feedback."
+                        "tip": "submit comment on this feedback."
                     }
                 },
                 "mode": {
@@ -4805,11 +4805,11 @@
             "button": {
                 "submit": {
                     "label": "send",
-                    "tip": "Send a message to your collaborators"
+                    "tip": "send a message to your collaborators"
                 },
                 "start": {
                     "label": "start a chat",
-                    "tip": "Begin a discussion with yourself or others."
+                    "tip": "begin a discussion with yourself or others."
                 },
                 "delete": "delete this message"
             },
@@ -5005,7 +5005,7 @@
                     },
                     "generate": {
                         "label": "generate",
-                        "tip": "Create usernames and passwords based on the information above."
+                        "tip": "create usernames and passwords based on the information above."
                     },
                     "edit": {
                         "label": "edit",
@@ -5013,7 +5013,7 @@
                     },
                     "submit": {
                         "label": "create class",
-                        "tip": "Create a new class with this information."
+                        "tip": "create a new class with this information."
                     }
                 },
                 "error": {
@@ -5054,7 +5054,7 @@
                     },
                     "addteacher": "Add a teacher to this class",
                     "delete": {
-                        "tip": "Delete this class forever.",
+                        "tip": "delete this class forever",
                         "label": "Delete this class"
                     }
                 },
@@ -5113,7 +5113,7 @@
                 "button": {
                     "more": {
                         "label": "more...",
-                        "tip": "Load more galleries"
+                        "tip": "load more galleries"
                     }
                 }
             },
@@ -5124,7 +5124,7 @@
                     "new": "Create a new character",
                     "copy": "Copy this character",
                     "remove": {
-                        "tip": "Delete this character",
+                        "tip": "delete this character",
                         "prompt": "delete?"
                     }
                 },
@@ -5235,59 +5235,59 @@
                 "button": {
                     "back": {
                         "label": "back",
-                        "tip": "Move selected shapes behind."
+                        "tip": "move selected shapes behind."
                     },
                     "toBack": {
                         "label": "to back",
-                        "tip": "Move selected shapes to the back."
+                        "tip": "move selected shapes to the back."
                     },
                     "forward": {
                         "label": "forward",
-                        "tip": "Move selected shapes in front."
+                        "tip": "move selected shapes in front."
                     },
                     "toFront": {
                         "label": "to front",
-                        "tip": "Move selected shapes to the front."
+                        "tip": "move selected shapes to the front."
                     },
                     "copy": {
                         "label": "copy",
-                        "tip": "Copy selected shapes to clipboard."
+                        "tip": "copy selected shapes to clipboard."
                     },
                     "paste": {
                         "label": "paste",
-                        "tip": "Paste copied shapes from clipboard."
+                        "tip": "paste copied shapes from clipboard."
                     },
                     "clear": {
                         "label": "all",
-                        "tip": "Remove all shapes."
+                        "tip": "remove all shapes."
                     },
                     "clearPixels": {
                         "label": "pixels",
-                        "tip": "Remove all pixels."
+                        "tip": "remove all pixels."
                     },
                     "undo": {
                         "label": "undo",
-                        "tip": "Undo to the previous design"
+                        "tip": "undo to the previous design"
                     },
                     "redo": {
                         "label": "redo",
-                        "tip": "Redo to the next design"
+                        "tip": "redo to the next design"
                     },
                     "all": {
                         "label": "select all",
-                        "tip": "Select all shapes and pixels"
+                        "tip": "select all shapes and pixels"
                     },
                     "end": {
                         "label": "finish shape",
-                        "tip": "End the current path"
+                        "tip": "end the current path"
                     },
                     "horizontal": {
                         "label": "flip horizontal",
-                        "tip": "flip the points horizontally around the center "
+                        "tip": "flip the points horizontally around the center"
                     },
                     "vertical": {
                         "label": "flip vertical",
-                        "tip": "flip the points vertically around the center "
+                        "tip": "flip the points vertically around the center"
                     },
                     "fit": {
                         "label": "fit",
@@ -5513,11 +5513,11 @@
         "done": "Nothing else to moderate!",
         "button": {
             "submit": {
-                "tip": "Save these moderation settings",
+                "tip": "save these moderation settings",
                 "label": "save"
             },
             "skip": {
-                "tip": "Skip this project",
+                "tip": "skip this project",
                 "label": "skip"
             },
             "property": "Whether the project has this property"

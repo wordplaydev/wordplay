@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getTip } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type {
@@ -53,6 +54,14 @@
         await tick();
         if (view) setKeyboardFocus(view, 'Restoring focus after slider edit.');
     }
+
+    let hint = getTip();
+    function showTip() {
+        if (view) hint.show(tooltip, view);
+    }
+    function hideTip() {
+        hint.hide();
+    }
 </script>
 
 <div class="component">
@@ -80,6 +89,10 @@
         oninput={handleChange}
         onpointerup={() => release?.(value)}
         disabled={!editable}
+        onpointerenter={showTip}
+        onpointerleave={hideTip}
+        onfocus={showTip}
+        onblur={hideTip}
     />
     <div class="text">
         {#if value === undefined}

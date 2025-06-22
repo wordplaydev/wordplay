@@ -1,3 +1,4 @@
+import type { ActiveHint } from '@components/widgets/Hint.svelte';
 import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type Conflict from '@conflicts/Conflict';
@@ -340,4 +341,12 @@ export function setInteractive(context: InteractiveContext) {
 }
 export function getInteractive() {
     return getContext<InteractiveContext>(InteractiveSymbol);
+}
+
+const TipSymbol = Symbol('tip');
+export function setTip(newTip: ActiveHint) {
+    setContext(TipSymbol, newTip);
+}
+export function getTip() {
+    return getContext<ActiveHint>(TipSymbol);
 }

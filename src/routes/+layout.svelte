@@ -1,7 +1,11 @@
+<script module lang="ts">
+</script>
+
 <script lang="ts">
     import { browser } from '$app/environment';
     import Loading from '@components/app/Loading.svelte';
     import Announcer from '@components/project/Announcer.svelte';
+    import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
@@ -9,6 +13,7 @@
     import Fonts from '../basis/Fonts';
     import {
         setAnnouncer,
+        setTip,
         setUser,
         type AnnouncerContext,
     } from '../components/project/Contexts';
@@ -127,6 +132,9 @@
         });
         return () => unsub();
     });
+
+    /** Create a global state for a tip to show at the top level */
+    setTip(new ActiveHint());
 </script>
 
 <div
@@ -147,6 +155,7 @@
 <Announcer
     bind:announcer={() => $announcerStore, (fn) => announcerStore.set(fn)}
 />
+<Hint></Hint>
 
 <style>
     .root {

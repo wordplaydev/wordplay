@@ -4,6 +4,7 @@
 </script>
 
 <script lang="ts">
+    import { getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { withMonoEmoji } from '../../unicode/emoji';
@@ -79,6 +80,14 @@
         : $locales.concretize($locales.get(tip)).toText();
     let pressed = $state(false);
 
+    let hint = getTip();
+    function showTip() {
+        if (_) hint.show(tooltip, _);
+    }
+    function hideTip() {
+        hint.hide();
+    }
+
     async function doAction(event: Event) {
         if (active) {
             const result = action();
@@ -112,7 +121,6 @@
     bind:clientWidth={width}
     style:--characters={width / 20}
     type={submit ? 'submit' : 'button'}
-    title={tooltip}
     aria-label={tooltip}
     aria-disabled={!active}
     aria-keyshortcuts={shortcut}
@@ -120,6 +128,10 @@
         event.preventDefault();
         event.stopPropagation();
     }}
+    onpointerenter={showTip}
+    onpointerleave={hideTip}
+    onfocus={showTip}
+    onblur={hideTip}
     bind:this={_}
     ondblclick={(event) => event.stopPropagation()}
     onclick={loading
@@ -232,7 +244,7 @@
 
     button:hover:not(.pressed)[aria-disabled='false'],
     button:focus {
-        transform: rotate(calc(-15deg / var(--characters)));
+        transform: rotate(calc(-5deg / var(--characters)));
     }
 
     button.background:hover[aria-disabled='false'] {

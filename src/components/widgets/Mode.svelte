@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '../../locale/UITexts';
@@ -23,6 +24,14 @@
     }: Props = $props();
 
     let descriptionText = $derived($locales.get(descriptions));
+
+    let hint = getTip();
+    function showTip(view: HTMLButtonElement, tip: string) {
+        hint.show(tip, view);
+    }
+    function hideTip() {
+        hint.hide();
+    }
 </script>
 
 <div class="mode">
@@ -45,13 +54,24 @@
                 aria-checked={index === choice}
                 class:selected={index === choice}
                 aria-label={descriptionText.modes[index]}
-                title={descriptionText.modes[index]}
                 aria-disabled={!active || index === choice}
                 ondblclick={(event) => event.stopPropagation()}
                 onpointerdown={(event) =>
                     index !== choice && event.button === 0 && active
                         ? select(index)
                         : undefined}
+                onpointerenter={(event) =>
+                    showTip(
+                        event.target as HTMLButtonElement,
+                        descriptionText.modes[index],
+                    )}
+                onpointerleave={hideTip}
+                onfocus={(event) =>
+                    showTip(
+                        event.target as HTMLButtonElement,
+                        descriptionText.modes[index],
+                    )}
+                onblur={hideTip}
                 onkeydown={(event) =>
                     (event.key === 'Enter' || event.key === ' ') &&
                     // Only activate with no modifiers down. Enter is used for other shortcuts.

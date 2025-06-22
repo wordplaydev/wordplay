@@ -9,6 +9,7 @@
     import Header from '../app/Header.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Button from './Button.svelte';
+    import Hint from './Hint.svelte';
     import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
@@ -87,6 +88,7 @@
             {@render children?.()}
         </div>
     </div>
+    <Hint></Hint>
 </dialog>
 
 <style>

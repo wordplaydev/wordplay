@@ -1,10 +1,10 @@
 <script lang="ts">
+    import { getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import { type Snippet } from 'svelte';
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
-    import CommandHint from './CommandHint.svelte';
 
     interface Props {
         tips: (locale: LocaleText) => ToggleText;
@@ -46,6 +46,16 @@
             command ? ' (' + toShortcut(command) + ')' : ''
         }`,
     );
+
+    let view = $state<HTMLButtonElement | undefined>(undefined);
+
+    let hint = getTip();
+    function showTip() {
+        if (view) hint.show(title, view);
+    }
+    function hideTip() {
+        hint.hide();
+    }
 </script>
 
 <!-- 
@@ -59,16 +69,19 @@
     data-uiid={uiid}
     data-testid={testid}
     class:on
-    {title}
     aria-label={title}
     aria-disabled={!active}
     aria-pressed={on}
     ondblclick={(event) => event.stopPropagation()}
     onmousedown={(event) => event.preventDefault()}
+    bind:this={view}
+    onpointerenter={showTip}
+    onpointerleave={hideTip}
+    onfocus={showTip}
+    onblur={hideTip}
     onclick={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
 >
-    {#if command}<CommandHint {command} />{/if}
     <div class="icon">
         {@render children()}
     </div>
