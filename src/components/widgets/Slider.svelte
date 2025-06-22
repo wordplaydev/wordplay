@@ -93,6 +93,9 @@
         onpointerleave={hideTip}
         onfocus={showTip}
         onblur={hideTip}
+        ontouchstart={showTip}
+        ontouchend={hideTip}
+        ontouchcancel={hideTip}
     />
     <div class="text">
         {#if value === undefined}

@@ -79,6 +79,9 @@
     onpointerleave={hideTip}
     onfocus={showTip}
     onblur={hideTip}
+    ontouchstart={showTip}
+    ontouchend={hideTip}
+    ontouchcancel={hideTip}
     onclick={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
 >

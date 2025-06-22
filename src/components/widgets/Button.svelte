@@ -130,6 +130,9 @@
     }}
     onpointerenter={showTip}
     onpointerleave={hideTip}
+    ontouchstart={showTip}
+    ontouchend={hideTip}
+    ontouchcancel={hideTip}
     onfocus={showTip}
     onblur={hideTip}
     bind:this={_}

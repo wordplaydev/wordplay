@@ -54,6 +54,10 @@
         onfocus={(event) =>
             showTip(event.target as HTMLSpanElement, offTipText)}
         onblur={hideTip}
+        ontouchstart={(event) =>
+            showTip(event.target as HTMLSpanElement, offTipText)}
+        ontouchend={hideTip}
+        ontouchcancel={hideTip}
         onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)

@@ -72,6 +72,13 @@
                         descriptionText.modes[index],
                     )}
                 onblur={hideTip}
+                ontouchstart={(event) =>
+                    showTip(
+                        event.target as HTMLButtonElement,
+                        descriptionText.modes[index],
+                    )}
+                ontouchend={hideTip}
+                ontouchcancel={hideTip}
                 onkeydown={(event) =>
                     (event.key === 'Enter' || event.key === ' ') &&
                     // Only activate with no modifiers down. Enter is used for other shortcuts.
