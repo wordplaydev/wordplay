@@ -67,7 +67,7 @@
             let newLeft = 0;
             let newTop = 0;
 
-            newTop = rect.bottom;
+            newTop = rect.top - height;
             newLeft = rect.left + (rect.width - width) / 2;
 
             // If it's a dialog, account for the relative positioning.
@@ -78,11 +78,16 @@
             }
 
             if (newLeft < 0) newLeft = 0;
-            if (newTop < 0) newTop = 0;
-            if (newTop + height + 5 > containerHeight)
-                newTop = containerHeight - height - 5;
             if (newLeft + width + 5 > containerWidth)
                 newLeft = containerWidth - width - 5;
+            if (newTop < 0) {
+                newTop = rect.top;
+                newLeft = rect.right;
+            }
+            if (newTop + height + 5 > containerHeight)
+                newTop = containerHeight - height - 5;
+
+            console.log(newLeft, newTop);
 
             bounds.top = newTop;
             bounds.left = newLeft;
@@ -99,8 +104,8 @@
         bind:this={view}
         bind:clientWidth={width}
         bind:clientHeight={height}
-        style:left={bounds.left ? `${bounds.left}px` : undefined}
-        style:top={bounds.top ? `${bounds.top}px` : undefined}
+        style:left={bounds.left !== undefined ? `${bounds.left}px` : undefined}
+        style:top={bounds.top !== undefined ? `${bounds.top}px` : undefined}
         >{tip.getText()}</div
     >
 {/if}
