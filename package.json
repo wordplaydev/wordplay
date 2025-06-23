@@ -67,7 +67,6 @@
         "npm-watch": "^0",
         "prettier": "^3",
         "prettier-plugin-svelte": "^3",
-        "rollup-plugin-visualizer": "^6.0.3",
         "run-script-os": "^1",
         "svelte": "^5",
         "svelte-check": "^4",
@@ -103,9 +102,6 @@
     "browserslist": [
         "defaults",
         "not op_mini all"
-    ],
-    "bundledDependencies": [
-        "shared-types"
     ],
     "bundleDependencies": [
         "shared-types"

@@ -29,9 +29,6 @@
         "typescript": "^5"
     },
     "private": true,
-    "bundledDependencies": [
-        "shared-types"
-    ],
     "bundleDependencies": [
         "shared-types"
     ]
