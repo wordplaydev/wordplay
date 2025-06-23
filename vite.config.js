@@ -1,5 +1,4 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { visualizer } from 'rollup-plugin-visualizer';
 
 /**
  * Make a little plugin that checks for locale file changes and fires an event.
@@ -20,14 +19,7 @@ function LocaleHotReload() {
 
 /** @type {import('vite').UserConfig} */
 const config = {
-    plugins: [
-        sveltekit(),
-        LocaleHotReload(),
-        visualizer({
-            emitFile: true,
-            filename: 'stats.html',
-        }),
-    ],
+    plugins: [sveltekit(), LocaleHotReload()],
     build: {
         chunkSizeWarningLimit: 1600,
         rollupOptions: {
