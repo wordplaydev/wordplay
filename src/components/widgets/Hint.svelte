@@ -87,8 +87,6 @@
             if (newTop + height + 5 > containerHeight)
                 newTop = containerHeight - height - 5;
 
-            console.log(newLeft, newTop);
-
             bounds.top = newTop;
             bounds.left = newLeft;
         }
