@@ -4280,7 +4280,9 @@
                 "history": {
                     "on": "$~pokaż ostatni kod projektu",
                     "off": "$~pokaż aktualny kod projektu"
-                }
+                },
+                "savedLocally": "$~projekty są zapisywane lokalnie, ale nie online",
+                "savedOnline": "$~projekty są zapisywane online"
             },
             "field": {
                 "name": {

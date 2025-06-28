@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.20
 
+## Fixed
+
+- Clarified tooltips for save status.
+
 ## Maintenance
 
 - Updated Svelte, SvelteKit, vite, prettier

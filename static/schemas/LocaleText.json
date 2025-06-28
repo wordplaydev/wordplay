@@ -11983,6 +11983,14 @@
                       "description": "Revert project to original code",
                       "type": "string"
                     },
+                    "savedLocally": {
+                      "description": "Tooltip for saved or saving status locally",
+                      "type": "string"
+                    },
+                    "savedOnline": {
+                      "description": "Tooltip for saved or saving status online",
+                      "type": "string"
+                    },
                     "share": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Shows the sharing dialog"
@@ -12008,6 +12016,8 @@
                     "focusDocs",
                     "focusPalette",
                     "focusCycle",
+                    "savedLocally",
+                    "savedOnline",
                     "unsaved",
                     "translate",
                     "primary",

@@ -4268,6 +4268,8 @@
                 "focusDocs": "focus on the documentation",
                 "focusPalette": "focus on the palette",
                 "focusCycle": "focus on the next tile",
+                "savedLocally": "projects are saved locally, but not online",
+                "savedOnline": "projects are saved online",
                 "unsaved": "show save error",
                 "translate": {
                     "tip": "edit this project's languages and translate it into other languages.",

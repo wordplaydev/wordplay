@@ -4275,7 +4275,9 @@
                 "history": {
                     "on": "$~visa senaste projektkod",
                     "off": "$~visa aktuell projektkod"
-                }
+                },
+                "savedLocally": "$~projekt sparas lokalt, men inte online",
+                "savedOnline": "$~projekten sparas online"
             },
             "field": {
                 "name": {

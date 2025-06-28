@@ -155,6 +155,10 @@ type UITexts = {
             focusPalette: string;
             /** Keyboard shortcut to cycle between tiles */
             focusCycle: string;
+            /** Tooltip for saved or saving status locally */
+            savedLocally: string;
+            /** Tooltip for saved or saving status online */
+            savedOnline: string;
             /** Show save error button */
             unsaved: string;
             /** Show translation button */

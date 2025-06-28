@@ -4274,7 +4274,9 @@
                 "history": {
                     "on": "$~Aktuellen Projektcode anzeigen",
                     "off": "$~aktuellen Projektcode anzeigen"
-                }
+                },
+                "savedLocally": "$~Projekte werden lokal, aber nicht online gespeichert",
+                "savedOnline": "$~Projekte werden online gespeichert"
             },
             "field": {
                 "name": {

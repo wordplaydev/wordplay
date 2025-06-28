@@ -31,7 +31,12 @@
 </script>
 
 <Button
-    tip={(l) => l.ui.project.button.unsaved}
+    tip={$status.status === SaveStatus.Error
+        ? (l) => l.ui.project.button.unsaved
+        : (l) =>
+              device
+                  ? l.ui.project.button.savedLocally
+                  : l.ui.project.button.savedOnline}
     action={() => (showError = true)}
     active={$status.message !== undefined}
 >

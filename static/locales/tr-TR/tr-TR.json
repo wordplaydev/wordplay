@@ -4275,7 +4275,9 @@
                 "history": {
                     "on": "$~son proje kodunu göster",
                     "off": "$~mevcut proje kodunu göster"
-                }
+                },
+                "savedLocally": "$~projeler yerel olarak kaydedilir, ancak çevrimiçi olarak kaydedilmez",
+                "savedOnline": "$~projeler çevrimiçi olarak kaydedilir"
             },
             "field": {
                 "name": {
