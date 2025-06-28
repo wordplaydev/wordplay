@@ -173,7 +173,7 @@
             top ease-out,
             width ease-out,
             height ease-out;
-        transition-duration: calc(var(--animation-factor) * 200ms);
+        transition-duration: calc(var(--animation-factor) * 100ms);
     }
 
     div:hover {

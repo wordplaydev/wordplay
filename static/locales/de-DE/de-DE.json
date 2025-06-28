@@ -4627,10 +4627,12 @@
                     "layout": {
                         "label": "$~Layout",
                         "modes": [
-                            "$~automatisch",
-                            "$~horizontal",
-                            "$~Vertikale",
-                            "$~frei"
+                            "$~Kacheln automatisch auslegen",
+                            "$~ein horizontales Bildschirmlayout",
+                            "$~ein vertikales Bildschirmlayout",
+                            "$~die beiden aktuellsten Kacheln nebeneinander",
+                            "$~nur die aktuellste Kachel",
+                            "$~verschiebbare und in der Größe veränderbare Kacheln auf einer Leinwand"
                         ]
                     },
                     "animate": {

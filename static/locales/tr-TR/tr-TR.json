@@ -4644,7 +4644,14 @@
                 "mode": {
                     "layout": {
                         "label": "$~düzen",
-                        "modes": ["$~otomatik", "$~yatay", "$~dikey", "$~özgür"]
+                        "modes": [
+                            "$~fayansları otomatik olarak yerleştir",
+                            "$~yatay ekran düzeni",
+                            "$~dikey ekran düzeni",
+                            "$~en son iki fayans, yan yana",
+                            "$~sadece en son fayans",
+                            "$~bir tuval üzerinde taşınabilir ve yeniden boyutlandırılabilir fayanslar"
+                        ]
                     },
                     "animate": {
                         "label": "$~animasyonlar",

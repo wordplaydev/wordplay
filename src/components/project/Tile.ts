@@ -68,6 +68,10 @@ export default class Tile {
         return this.mode === TileMode.Expanded;
     }
 
+    isInvisible() {
+        return this.bounds?.width === 0 || this.bounds?.height === 0;
+    }
+
     isSource() {
         return this.kind === TileKind.Source;
     }

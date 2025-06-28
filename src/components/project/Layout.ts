@@ -3,6 +3,22 @@ import type Bounds from './Bounds';
 import Tile, { TileKind, TileMode } from './Tile';
 import TileKinds from './TileKinds';
 
+export const LAYOUT_ICON_RESPONSIVE = '📐';
+export const LAYOUT_ICON_HORIZONTAL = '↔️';
+export const LAYOUT_ICON_VERTICAL = '↕';
+export const LAYOUT_ICON_SPLIT = '⏹️⏹️';
+export const LAYOUT_ICON_SINGLE = '⏹️';
+export const LAYOUT_ICON_FREE = '✣';
+
+export const LayoutIcons = {
+    [Arrangement.Responsive]: LAYOUT_ICON_RESPONSIVE,
+    [Arrangement.Horizontal]: LAYOUT_ICON_HORIZONTAL,
+    [Arrangement.Vertical]: LAYOUT_ICON_VERTICAL,
+    [Arrangement.Split]: LAYOUT_ICON_SPLIT,
+    [Arrangement.Single]: LAYOUT_ICON_SINGLE,
+    [Arrangement.Free]: LAYOUT_ICON_FREE,
+};
+
 export type Position = {
     /** A set of tile kinds or a source numbers that this is laying out. */
     id: TileKind[];
@@ -215,7 +231,7 @@ export default class Layout {
     }
 
     getTilesInReadingOrder() {
-        return this.tiles.sort((a, b) => a.getOrder() - b.getOrder());
+        return this.tiles.toSorted((a, b) => a.getOrder() - b.getOrder());
     }
 
     getTileWithID(id: string) {
@@ -266,24 +282,21 @@ export default class Layout {
 
     replace(tile: Tile, newTile: Tile) {
         const index = this.tiles.indexOf(tile);
-        return index < 0
-            ? this
-            : new Layout(
-                  this.projectID,
-                  [
-                      ...this.tiles.slice(0, index),
-                      newTile,
-                      ...this.tiles.slice(index + 1),
-                  ],
-                  this.fullscreenID,
-                  this.splits,
-              );
+        if (index < 0) return this;
+        const newTiles = [...this.tiles];
+        newTiles[index] = newTile;
+        return new Layout(
+            this.projectID,
+            newTiles,
+            this.fullscreenID,
+            this.splits,
+        );
     }
 
     withTiles(tiles: Tile[]) {
         return new Layout(
             this.projectID,
-            tiles,
+            [...tiles],
             this.fullscreenID,
             this.splits,
         );
@@ -301,16 +314,10 @@ export default class Layout {
         const index = this.tiles.findIndex((t) => t.id === tile.id);
         return index < 0
             ? this
-            : new Layout(
-                  this.projectID,
-                  [
-                      ...this.tiles.slice(0, index),
-                      ...this.tiles.slice(index + 1),
-                      tile,
-                  ],
-                  this.fullscreenID,
-                  this.splits,
-              );
+            : this.withTiles([
+                  ...this.tiles.filter((t) => t.id !== tile.id),
+                  tile,
+              ]);
     }
 
     withTileBounds(tile: Tile, bounds: Bounds) {
@@ -360,16 +367,39 @@ export default class Layout {
         return this.tiles.filter((tile) => tile.mode !== TileMode.Collapsed);
     }
 
-    resized(arrangement: Arrangement, width: number, height: number) {
+    static getComputedLayout(
+        arrangement: Arrangement,
+        width: number,
+        height: number,
+    ) {
+        // If the arrangement is responsible, choose the appropriate layout;
         return arrangement === Arrangement.Responsive
-            ? width > height
-                ? this.horizontal(width, height)
-                : this.vertical(width, height)
-            : arrangement === Arrangement.Vertical
-              ? this.vertical(width, height)
-              : arrangement === Arrangement.Horizontal
-                ? this.horizontal(width, height)
-                : this.positioned();
+            ? // Mobile size? Single only.
+              (width < height ? height < 768 : width < 768)
+                ? Arrangement.Single
+                : // Tablet size? Split view.
+                  (width < height ? height < 1024 : width < 1024)
+                  ? Arrangement.Split
+                  : width > height
+                    ? Arrangement.Horizontal
+                    : Arrangement.Vertical
+            : arrangement;
+    }
+
+    resized(arrangement: Arrangement, width: number, height: number) {
+        arrangement = Layout.getComputedLayout(arrangement, width, height);
+
+        return arrangement === Arrangement.Vertical
+            ? this.vertical(width, height)
+            : arrangement === Arrangement.Horizontal
+              ? this.horizontal(width, height)
+              : arrangement === Arrangement.Split
+                ? this.split(width, height)
+                : arrangement === Arrangement.Single
+                  ? this.single(width, height)
+                  : arrangement === Arrangement.Free
+                    ? this.positioned()
+                    : this;
     }
 
     /** Take a generic specification for a layout on axes, determining the position and size of each tile. */
@@ -501,6 +531,81 @@ export default class Layout {
             width,
             height,
         );
+    }
+
+    /** Only two visible at a time, whichever two are first in the list of tiles */
+    split(width: number, height: number) {
+        // Find the last two visible tiles
+        const visibleTiles = this.tiles
+            .filter((tile) => tile.isExpanded())
+            .slice(-2);
+
+        let newLayout: Layout = this;
+
+        // Make the tile take up all the space
+        for (const tile of visibleTiles) {
+            const first = visibleTiles[0] === tile;
+            newLayout = newLayout.withTileBounds(
+                tile,
+                width < height
+                    ? {
+                          left: 0,
+                          top: first ? 0 : height / visibleTiles.length,
+                          width,
+                          height: height / visibleTiles.length,
+                      }
+                    : {
+                          left: first ? 0 : width / visibleTiles.length,
+                          top: 0,
+                          width: width / visibleTiles.length,
+                          height,
+                      },
+            );
+        }
+
+        // Make up all the other tiles take up no space.
+        for (const tile of this.tiles) {
+            if (!visibleTiles.includes(tile)) {
+                newLayout = newLayout.withTileBounds(tile, {
+                    left: 0,
+                    top: 0,
+                    width: 0,
+                    height: 0,
+                });
+            }
+        }
+
+        return newLayout;
+    }
+
+    /** Only one visible at a time, whichever is first */
+    single(width: number, height: number) {
+        // Visible tile
+        const visibleTile = this.tiles.findLast((tile) => tile.isExpanded());
+
+        if (visibleTile === undefined) return this;
+
+        // Make the tile take up all the space
+        let newLayout = this.withTileBounds(visibleTile, {
+            left: 0,
+            top: 0,
+            width,
+            height,
+        });
+
+        // Make up all the other tiles take up no space.
+        for (const tile of this.tiles) {
+            if (tile.id !== visibleTile.id) {
+                newLayout = newLayout.withTileBounds(tile, {
+                    left: 0,
+                    top: 0,
+                    width: 0,
+                    height: 0,
+                });
+            }
+        }
+
+        return newLayout;
     }
 
     positioned() {

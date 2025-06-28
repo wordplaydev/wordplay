@@ -4650,10 +4650,12 @@
                     "layout": {
                         "label": "$~układ",
                         "modes": [
-                            "$~automatyczny",
-                            "$~poziomy",
-                            "$~pionowy",
-                            "$~bezpłatny"
+                            "$~układaj kafelki automatycznie",
+                            "$~układ ekranu poziomy",
+                            "$~układ ekranu pionowy",
+                            "$~dwa najnowsze kafelki obok siebie",
+                            "$~tylko najnowszy kafelek",
+                            "$~ruchome i skalowalne kafelki na płótnie"
                         ]
                     },
                     "animate": {

@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.20
 
+## Added
+
+- Fixed #810, implementing responsive layout for mobile and tablets.
+
 ## Fixed
 
 - Clarified tooltips for save status.

@@ -710,7 +710,9 @@ type UITexts = {
             };
             mode: {
                 /** The project tile layout mode */
-                layout: ModeText<[string, string, string, string]>;
+                layout: ModeText<
+                    [string, string, string, string, string, string]
+                >;
                 /** The animation on/off/slowdown mode */
                 animate: ModeText<
                     [

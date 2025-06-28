@@ -4645,10 +4645,12 @@
                     "layout": {
                         "label": "$~layout",
                         "modes": [
-                            "$~automatisk",
-                            "$~horisontell",
-                            "$~vertikal",
-                            "$~gratis"
+                            "$~lägga ut kakel automatiskt",
+                            "$~en horisontell skärmlayout",
+                            "$~en vertikal skärmlayout",
+                            "$~två senaste plattorna, sida vid sida",
+                            "$~bara den senaste plattan",
+                            "$~flyttbara och storleksanpassade plattor på en duk"
                         ]
                     },
                     "animate": {

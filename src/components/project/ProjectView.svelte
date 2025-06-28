@@ -115,6 +115,7 @@
         type KeyModifierState,
     } from './Contexts';
     import CopyButton from './CopyButton.svelte';
+    import CurrentLayout from './CurrentLayout.svelte';
     import FullscreenIcon from './FullscreenIcon.svelte';
     import Layout from './Layout';
     import Moderation from './Moderation.svelte';
@@ -571,7 +572,7 @@
     }
 
     /** The current layout of the tile windows, starting with a serialized layout or a default. */
-    let layout = $state<Layout>(getInitialLayout());
+    let layout = $state.raw<Layout>(getInitialLayout());
 
     /** If project changes, create a new layout based on the new project */
     $effect(() => {
@@ -1114,9 +1115,8 @@
         }
     }
 
+    /** Update the mode and move the tile last to bring it to the front. */
     function setMode(tile: Tile, mode: TileMode) {
-        if (layout.getTileWithID(tile.id)?.mode === mode) return;
-
         // Special case selected output and the palette, removing the selection of collapsing.
         if (tile === layout.getPalette()) {
             if (tile.mode === TileMode.Expanded)
@@ -1369,7 +1369,7 @@
     function toggleTile(tile: Tile) {
         setMode(
             tile,
-            tile.mode === TileMode.Expanded
+            tile.mode === TileMode.Expanded && !tile.isInvisible()
                 ? TileMode.Collapsed
                 : TileMode.Expanded,
         );
@@ -1820,16 +1820,17 @@
                         />
                     {:else}{project.getName()}{/if}
                 </Subheader>
-                {#each sources as source, index}
+                {#each sources as source, index (index)}
                     {@const tile = layout.getTileWithID(
                         Layout.getSourceID(index),
                     )}
                     {#if tile}
-                        <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
+                        <!-- Source toggle is expanded if it's mode is expanded and it's not empty -->
                         <SourceTileToggle
                             {project}
                             {source}
-                            expanded={tile.mode === TileMode.Expanded}
+                            expanded={tile.mode === TileMode.Expanded &&
+                                !tile.isInvisible()}
                             toggle={() => toggleTile(tile)}
                         />
                     {/if}
@@ -1844,13 +1845,13 @@
                         action={addSource}
                         icon="+{Characters.Program.symbols}"
                     ></Button>{/if}
-                {#each layout.getNonSources() as tile}
+                {#each layout.getNonSources() as tile (tile.id)}
                     <!-- No need to show the tile if not visible when not editable. -->
                     {#if tile.isVisibleCollapsed(editable)}
                         <NonSourceTileToggle
                             {project}
                             {tile}
-                            on:toggle={() => toggleTile(tile)}
+                            toggle={() => toggleTile(tile)}
                             notification={tile.kind === TileKind.Collaborate &&
                                 !!chat &&
                                 $user !== null &&
@@ -1867,6 +1868,11 @@
                             icon: ShowKeyboardHelp.symbol,
                         }}><Shortcuts /></Dialog
                     >
+                    <CurrentLayout
+                        arrangement={$arrangement}
+                        {canvasWidth}
+                        {canvasHeight}
+                    />
                     <Toggle
                         tips={(l) => l.ui.tile.toggle.fullscreen}
                         on={browserFullscreen}

@@ -9124,7 +9124,7 @@
                           "description": "The dark on/off/automatic mode"
                         },
                         "layout": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The project tile layout mode"
                         },
                         "lines": {
@@ -12998,7 +12998,7 @@
       ],
       "type": "object"
     },
-    "ModeText<[string,string,string,string]>": {
+    "ModeText<[string,string,string,string,string,string]>": {
       "additionalProperties": false,
       "properties": {
         "label": {
@@ -13010,8 +13010,8 @@
           "items": {
             "type": "string"
           },
-          "maxItems": 4,
-          "minItems": 4,
+          "maxItems": 6,
+          "minItems": 6,
           "type": "array"
         }
       },

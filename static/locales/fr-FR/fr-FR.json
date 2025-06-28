@@ -4628,10 +4628,12 @@
                     "layout": {
                         "label": "$~mise en page",
                         "modes": [
-                            "$~automatique",
-                            "$~horizontal",
-                            "$~verticale",
-                            "$~gratuit"
+                            "$~disposer les tuiles automatiquement",
+                            "$~une disposition d'écran horizontale",
+                            "$~une disposition d'écran verticale",
+                            "$~les deux tuiles les plus récentes, côte à côte",
+                            "$~seulement la tuile la plus récente",
+                            "$~tuiles mobiles et redimensionnables sur une toile"
                         ]
                     },
                     "animate": {

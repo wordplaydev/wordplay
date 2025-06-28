@@ -4646,7 +4646,14 @@
                 "mode": {
                     "layout": {
                         "label": "layout",
-                        "modes": ["automatic", "horizontal", "vertical", "free"]
+                        "modes": [
+                            "lay out tiles automatically",
+                            "a horizontal screen layout",
+                            "a vertical screen layout",
+                            "two most recent tiles, side by side",
+                            "only the most recent tile",
+                            "moveable and resizable tiles on a canvas"
+                        ]
                     },
                     "animate": {
                         "label": "animations",

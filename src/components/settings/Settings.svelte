@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Faces, getFaceDescription } from '@basis/Fonts';
     import Feedback from '@components/app/Feedback.svelte';
+    import { LayoutIcons } from '@components/project/Layout';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         AnimationFactorIcons,
@@ -121,7 +122,11 @@
                       ? 1
                       : $arrangement === Arrangement.Vertical
                         ? 2
-                        : 3}
+                        : $arrangement === Arrangement.Split
+                          ? 3
+                          : $arrangement === Arrangement.Single
+                            ? 4
+                            : 5}
                 select={(choice) =>
                     Settings.setArrangement(
                         choice == 0
@@ -130,9 +135,13 @@
                               ? Arrangement.Horizontal
                               : choice === 2
                                 ? Arrangement.Vertical
-                                : Arrangement.Free,
+                                : choice === 3
+                                  ? Arrangement.Split
+                                  : choice === 4
+                                    ? Arrangement.Single
+                                    : Arrangement.Free,
                     )}
-                modes={['📐', '↔️', '↕', '⏹️']}
+                modes={Object.values(LayoutIcons)}
             />
             <Mode
                 descriptions={(l) => l.ui.dialog.settings.mode.animate}

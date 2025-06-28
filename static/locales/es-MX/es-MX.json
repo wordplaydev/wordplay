@@ -4610,10 +4610,12 @@
                     "layout": {
                         "label": "diseño",
                         "modes": [
-                            "automático",
-                            "horizontal",
-                            "vertical",
-                            "libre"
+                            "$~disponer los mosaicos automáticamente",
+                            "$~un diseño de pantalla horizontal",
+                            "$~un diseño de pantalla vertical",
+                            "$~Los dos mosaicos más recientes, uno al lado del otro",
+                            "$~solo el mosaico más reciente",
+                            "$~mosaicos móviles y redimensionables en un lienzo"
                         ]
                     },
                     "animate": {
