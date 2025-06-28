@@ -1565,9 +1565,6 @@
                                             locale={evaluationLocale}
                                             change={(locale) => {
                                                 evaluationLocale = locale;
-                                                console.log(
-                                                    'Updating evaluator: locale change.',
-                                                );
                                                 updateEvaluator(project);
                                             }}
                                         />{/if}
