@@ -26,5 +26,5 @@
     toggle={() => dispatch('toggle')}
     highlight={notification}
     ><Emoji>{TileKinds[tile.kind].symbol}</Emoji>
-    {#if tile.isCollapsed()}{tile.getName(project, $locales)}{/if}</Toggle
+    {tile.getName(project, $locales)}</Toggle
 >
