@@ -375,10 +375,10 @@ export default class Layout {
         // If the arrangement is responsible, choose the appropriate layout;
         return arrangement === Arrangement.Responsive
             ? // Mobile size? Single only.
-              (width < height ? height < 768 : width < 768)
+              height < 500 || width < 500
                 ? Arrangement.Single
                 : // Tablet size? Split view.
-                  (width < height ? height < 1024 : width < 1024)
+                  height < 700 || width < 700
                   ? Arrangement.Split
                   : width > height
                     ? Arrangement.Horizontal

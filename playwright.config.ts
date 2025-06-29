@@ -27,7 +27,6 @@ export default defineConfig({
         baseURL: 'http://localhost:4173',
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
-        /* Set a minimum viewport size so that all elements appear */
         viewport: { width: 1280, height: 720 },
     },
 
@@ -40,7 +39,13 @@ export default defineConfig({
         { name: 'webkit', use: { ...devices['Desktop Safari'] } },
 
         /* Test against mobile viewports. */
-        { name: 'Mobile Chrome', use: { ...devices['Pixel 5'] } },
+        {
+            name: 'Mobile Chrome',
+            use: {
+                ...devices['Pixel 5'],
+                viewport: { width: 1280, height: 720 },
+            },
+        },
 
         // Disable Mobile Safari due to slowness in Github Test bot.
         // See: https://github.com/wordplaydev/wordplay/issues/408

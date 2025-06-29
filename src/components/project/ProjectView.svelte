@@ -214,9 +214,9 @@
     /** Whether to show the keyboard help dialog */
     let showHelpDialog = $state(false);
 
-    /** The current canvas dimensions */
-    let canvasWidth = $state(1024);
-    let canvasHeight = $state(768);
+    /** The current canvas dimensions. Default to a value. */
+    let canvasWidth = $state(1280);
+    let canvasHeight = $state(800);
 
     /** The background color of the output, so we can make the tile match. */
     let outputBackground = $state<Color | string | null>(null);
@@ -520,13 +520,6 @@
                     Tile.randomPosition(1024, 768),
                 ),
                 new Tile(
-                    TileKind.Output,
-                    TileKind.Output,
-                    TileMode.Expanded,
-                    undefined,
-                    Tile.randomPosition(1024, 768),
-                ),
-                new Tile(
                     TileKind.Documentation,
                     TileKind.Documentation,
                     // If we're not supposed to show the guide, or there's code, don't show the guide by default.
@@ -542,6 +535,14 @@
                     TileKind.Collaborate,
                     TileKind.Collaborate,
                     TileMode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                // Put output just before source so it appears in split view with editor on smaller screens.
+                new Tile(
+                    TileKind.Output,
+                    TileKind.Output,
+                    TileMode.Expanded,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
