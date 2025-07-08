@@ -1,3 +1,5 @@
+import { withMonoEmoji } from '../unicode/emoji';
+
 export const TYPE_SYMBOL = '•';
 export const LITERAL_SYMBOL = '!';
 export const LITERAL_SYMBOL_FULL = '！';
@@ -127,7 +129,7 @@ export const REDO_SYMBOL = '⟳';
 
 export const DRAFT_SYMBOL = '🚧';
 
-export const LOCALE_SYMBOL = GLOBE1_SYMBOL;
+export const LOCALE_SYMBOL = withMonoEmoji(GLOBE1_SYMBOL);
 
 export const IDEA_SYMBOL = '💡';
 export const DEFECT_SYMBOL = '🪲';

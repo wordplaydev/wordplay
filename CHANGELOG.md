@@ -13,6 +13,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Clarified tooltips for save status.
 - More robust node replacement when source isn't found.
+- Consistent mono locale emojis.
+- Unset locale after translating project.
 
 ## Maintenance
 

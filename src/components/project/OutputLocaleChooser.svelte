@@ -8,7 +8,6 @@
         getLocaleRegionNames,
     } from '@locale/LocaleText';
     import { LOCALE_SYMBOL } from '@parser/Symbols';
-    import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         localesUsed?: Locale[];
@@ -21,7 +20,7 @@
 
 <!-- svelte-ignore a11y_label_has_associated_control -->
 <label class="output-locale"
-    >{withMonoEmoji(LOCALE_SYMBOL)}
+    >{LOCALE_SYMBOL}
     <Options
         id="output-locale"
         value={locale === undefined ? undefined : localeToString(locale)}
