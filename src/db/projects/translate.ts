@@ -4,13 +4,16 @@ import { localeToString } from '@locale/Locale';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Doc from '@nodes/Doc';
 import Docs from '@nodes/Docs';
+import Evaluate from '@nodes/Evaluate';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
+import Input from '@nodes/Input';
 import Language from '@nodes/Language';
 import Names from '@nodes/Names';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import TextLiteral from '@nodes/TextLiteral';
+import TextType from '@nodes/TextType';
 import Token from '@nodes/Token';
 import Translation from '@nodes/Translation';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
@@ -123,6 +126,43 @@ export default async function translateProject(
                 ],
                 [],
             )
+            // Filter out values that are input to evaluate binds that are literal text types, since they won't permit arbritrary text.
+            .filter((markup) => {
+                if (markup instanceof TextLiteral) {
+                    const root = project.getRoot(markup);
+                    if (root) {
+                        const evaluates = root
+                            .getAncestors(markup)
+                            .filter((node) => node instanceof Evaluate);
+                        for (const evaluate of evaluates) {
+                            const source = project.getSourceOf(evaluate);
+                            if (source === undefined) continue;
+                            const inputs = evaluate.getInputMapping(
+                                project.getContext(source),
+                            );
+                            const input = inputs?.inputs.find(
+                                (mapping) =>
+                                    mapping.given === markup ||
+                                    (mapping.given instanceof Input &&
+                                        mapping.given.value === markup),
+                            );
+                            const types = input?.expected
+                                .getType(project.getContext(source))
+                                .getTypeSet(project.getContext(source))
+                                .list();
+                            if (
+                                types !== undefined &&
+                                types.some(
+                                    (t) =>
+                                        t instanceof TextType && t.isLiteral(),
+                                )
+                            )
+                                return false;
+                        }
+                    }
+                }
+                return true;
+            })
             .map((markups) => {
                 const docToTranslate =
                     markups.getLanguage(sourceLocale.language) ??
