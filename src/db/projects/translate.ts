@@ -101,7 +101,7 @@ export default async function translateProject(
                 } => text !== undefined,
             );
 
-        // Find all the docs in the program needing translation.
+        // Find all the docs and text literals in the program needing translation.
         const textToTranslate = project
             .getSources()
             .reduce(

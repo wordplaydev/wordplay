@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 - Clarified tooltips for save status.
+- More robust node replacement when source isn't found.
 
 ## Maintenance
 

@@ -68,6 +68,8 @@
                 showAll();
                 // Hide the dialog.
                 show = false;
+                // Reset the target locale.
+                targetLocale = undefined;
             } else {
                 error = true;
             }
