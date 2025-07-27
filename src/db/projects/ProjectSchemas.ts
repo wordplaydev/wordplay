@@ -77,19 +77,20 @@ const ProjectSchemaV1 = z.object({
 });
 
 /** v2 adds a PII approved list */
-const ProjectSchemaV2 = ProjectSchemaV1.omit({ v: true }).merge(
+const ProjectSchemaV2 = ProjectSchemaV1.omit({ v: true }).extend(
     /** A list of strings that are not considered personally identifiable by a creator */
-    z.object({ v: z.literal(2), nonPII: z.array(z.string()) }),
+    z.object({ v: z.literal(2), nonPII: z.array(z.string()) }).shape,
 );
 /** v3 adds a nullable chat ID */
-const ProjectSchemaV3 = ProjectSchemaV2.omit({ v: true }).merge(
+const ProjectSchemaV3 = ProjectSchemaV2.omit({ v: true }).extend(
     /** The chat that corresponds to this project */
-    z.object({ v: z.literal(3), chat: z.nullable(z.string()) }),
+    z.object({ v: z.literal(3), chat: z.nullable(z.string()) }).shape,
 );
 /** v2 adds a source file history */
-const ProjectSchemaV4 = ProjectSchemaV3.omit({ v: true }).merge(
+const ProjectSchemaV4 = ProjectSchemaV3.omit({ v: true }).extend(
     /** A list of source files in the project */
-    z.object({ v: z.literal(4), history: z.array(SourceCheckpointSchema) }),
+    z.object({ v: z.literal(4), history: z.array(SourceCheckpointSchema) })
+        .shape,
 );
 
 /** The latest version of a project.  */

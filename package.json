@@ -89,7 +89,7 @@
         "recoverable-random": "^1.0.5",
         "shared-types": "file:./functions/src/shared",
         "uuid": "^11",
-        "zod": "^3.23.8"
+        "zod": "^4"
     },
     "browserslist": [
         "defaults",

@@ -45,13 +45,13 @@ const CommentSchemaV1 = z.object({
 });
 
 /** v2 adds an optional GitHub URL, comments */
-const FeedbackSchemaV2 = FeedbackSchemaV1.merge(
+const FeedbackSchemaV2 = FeedbackSchemaV1.extend(
     /** A list of strings that are not considered personally identifiable by a creator */
     z.object({
         v: z.literal(2),
         github: z.nullable(z.string()),
         comments: z.array(CommentSchemaV1),
-    }),
+    }).shape,
 );
 
 export type UnknownFeedbackVersion =

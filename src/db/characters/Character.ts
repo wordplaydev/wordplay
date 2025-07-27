@@ -42,7 +42,7 @@ const RectangleSchema = z
         corner: z.number().optional(),
     })
     // The width and height of the rectange.
-    .merge(SizeSchema);
+    .extend(SizeSchema.shape);
 
 export type CharacterRectangle = z.infer<typeof RectangleSchema>;
 
@@ -62,7 +62,7 @@ const EllipseSchema = z
         angle: z.number().optional(), // degrees
     })
     // The radius on each dimension
-    .merge(SizeSchema);
+    .extend(SizeSchema.shape);
 
 export type CharacterEllipse = z.infer<typeof EllipseSchema>;
 
