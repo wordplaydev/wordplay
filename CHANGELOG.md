@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.21
 
+### Added
+
+- #815: Added coordinates to axes when grid is on.
+
 ### Fixed
 
 - Save characters even without name and description to prevent data loss.

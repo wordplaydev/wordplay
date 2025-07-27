@@ -437,24 +437,34 @@
                 {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
                 <!-- Render a grid if this is the root and the grid is on. Apply the same transform that we do the the verse. -->
                 {#each range(left, right) as number}
+                    {@const left =
+                        number * PX_PER_METER - HalfGridlineThickness}
                     <div
                         class="gridline vertical"
-                        style:left="{number * PX_PER_METER -
-                            HalfGridlineThickness}px"
+                        style:left="{left}px"
                         style:top="{-top * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                     ></div>
+                    {#if number !== 0}
+                        <div class="coordinate vertical" style:left="{left}px"
+                            >{number}</div
+                        >
+                    {/if}
                 {/each}
                 {#each range(bottom, top) as number}
+                    {@const top =
+                        -number * PX_PER_METER - HalfGridlineThickness}
                     <div
                         class="gridline horizontal"
-                        style:top="{-number * PX_PER_METER -
-                            HalfGridlineThickness}px"
+                        style:top="{top}px"
                         style:left="{left * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
                     ></div>
+                    <div class="coordinate horizontal" style:top="{top}px"
+                        >{number}</div
+                    >
                 {/each}
                 <div
                     class="gridline horizontal axis"
@@ -553,8 +563,26 @@
         border-left: 1px;
     }
 
+    .coordinate {
+        position: absolute;
+        font-size: 0.25em;
+        color: var(--grid-color);
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .coordinate.horizontal {
+        text-align: right;
+        transform: translate(50%, -50%);
+    }
+
+    .coordinate.vertical {
+        transform: translate(50%, 0%);
+        text-align: right;
+    }
+
     .axis {
         background-color: var(--grid-color);
-        opacity: 0.4;
+        opacity: 0.5;
     }
 </style>
