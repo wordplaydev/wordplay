@@ -30,7 +30,11 @@
     import { getTeachData } from '../../+layout.svelte';
 
     let teach = getTeachData();
-    let classData = $derived(teach.getClass(page.params.classid));
+    let classData = $derived(
+        page.params.classid === undefined
+            ? undefined
+            : teach.getClass(page.params.classid),
+    );
     let newGalleryError = $state(false);
     let user = getUser();
     let editable = $derived(

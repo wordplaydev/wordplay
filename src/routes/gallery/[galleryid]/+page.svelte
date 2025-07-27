@@ -38,6 +38,10 @@
 
     // When the page changes, get the gallery store corresponding to the requested ID.
     $effect(() => {
+        if (page.params.galleryid === undefined) {
+            gallery = undefined;
+            return;
+        }
         const galleryID = decodeURI(page.params.galleryid);
         Galleries.get(galleryID).then((gal) => {
             // Found a store? Subscribe to it, updating the gallery when it changes.

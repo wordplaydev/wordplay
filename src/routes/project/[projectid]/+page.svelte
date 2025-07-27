@@ -25,7 +25,11 @@
     /** The project is set either by an effect on load or changes to the project history map in the database. **/
     let project: Project | undefined = $state(undefined);
 
-    let projectID = $derived(decodeURI(page.params.projectid));
+    let projectID = $derived(
+        page.params.projectid === undefined
+            ? undefined
+            : decodeURI(page.params.projectid),
+    );
 
     // If the page params change, load the project explicitly, rather than waiting for the database to load it.
     $effect(() => {
@@ -55,7 +59,9 @@
     // Whenever the project history changes, update the project. This relies
     // on Svelte 5's deep reactivity, as the history map and history state are reactive.
 
-    let history = $derived(Projects.getHistory(projectID));
+    let history = $derived(
+        projectID ? Projects.getHistory(projectID) : undefined,
+    );
 
     // When history's current value changes, update the project. This is super important: it enables feedback
     // after each edit of a project!

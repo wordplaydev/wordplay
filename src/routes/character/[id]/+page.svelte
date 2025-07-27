@@ -290,6 +290,8 @@
 
     /** When the page loads or its id changes or the local store of characters changes, load the persisted character */
     $effect(() => {
+        if (page.params.id === undefined) return;
+
         // We get this first so there's a dependency on it.
         const charPromise = CharactersDB.getByID(page.params.id);
 
