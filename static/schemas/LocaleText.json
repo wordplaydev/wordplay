@@ -9964,10 +9964,6 @@
                         "unauthenticated": {
                           "description": "Not logged in",
                           "type": "string"
-                        },
-                        "unsaved": {
-                          "description": "Not saving because not authenticated, invalid name or description.",
-                          "type": "string"
                         }
                       },
                       "required": [
@@ -9977,8 +9973,7 @@
                         "loadfail",
                         "notfound",
                         "unauthenticated",
-                        "taken",
-                        "unsaved"
+                        "taken"
                       ],
                       "type": "object"
                     },

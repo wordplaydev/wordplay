@@ -108,8 +108,6 @@ type PageText = {
         unauthenticated: string;
         /** Not saving because name is taken */
         taken: string;
-        /** Not saving because not authenticated, invalid name or description. */
-        unsaved: string;
     };
     announce: {
         /** When cursor position changes $1 x, $2: y. */

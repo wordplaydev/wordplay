@@ -5441,8 +5441,7 @@
                     "loadfail": "$~Bu karakter yüklenirken bir sorun oluştu.",
                     "notfound": "$~Bu karakter mevcut değil.",
                     "unauthenticated": "$~Bir karakteri düzenlemek için giriş yapmış olmanız gerekir.",
-                    "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
-                    "unsaved": "$~Bu karaktere bir açıklama ve kaydedilecek geçerli, benzersiz bir ad verin."
+                    "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor."
                 },
                 "announce": {
                     "position": "$~1$'dan 2$'a",

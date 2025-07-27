@@ -5387,8 +5387,7 @@
                     "loadfail": "$~Il y a eu un problème lors du chargement de ce personnage.",
                     "notfound": "$~Ce personnage n'existe pas.",
                     "unauthenticated": "$~Vous devez être connecté pour modifier un personnage.",
-                    "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas.",
-                    "unsaved": "$~Donnez à ce personnage une description et un nom valide et unique à sauvegarder."
+                    "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas."
                 },
                 "announce": {
                     "position": "$~à $1 $2",

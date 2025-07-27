@@ -5386,8 +5386,7 @@
                     "loadfail": "$~Beim Laden dieses Zeichens ist ein Problem aufgetreten.",
                     "notfound": "$~Dieses Zeichen existiert nicht.",
                     "unauthenticated": "$~Sie müssen angemeldet sein, um einen Charakter bearbeiten zu können.",
-                    "taken": "$~Sie haben bereits einen Charakter mit diesem Namen; wird nicht gespeichert.",
-                    "unsaved": "$~Geben Sie diesem Charakter eine Beschreibung und einen gültigen, eindeutigen Namen zum Speichern."
+                    "taken": "$~Sie haben bereits einen Charakter mit diesem Namen; wird nicht gespeichert."
                 },
                 "announce": {
                     "position": "$~bei $1 $2",

@@ -237,13 +237,8 @@
         );
     });
 
-    let savable = $derived(
-        $user !== null &&
-            $user.email !== null &&
-            isValidName(name) === true &&
-            nameAvailable &&
-            isValidDescription(description) === true,
-    );
+    /** Don't save if the name is not avaialble*/
+    let savable = $derived($user !== null && $user.email !== null);
 
     let saving: number | undefined = undefined;
     function save() {
@@ -2271,8 +2266,6 @@
             </div>
             {#if !nameAvailable}
                 <Notice text={(l) => l.ui.page.character.feedback.taken} />
-            {:else if !savable}
-                <Notice text={(l) => l.ui.page.character.feedback.unsaved} />
             {/if}
 
             <div class="editor">

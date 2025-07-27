@@ -5441,8 +5441,7 @@
                     "loadfail": "$~Det gick inte att läsa in den här karaktären.",
                     "notfound": "$~Den här karaktären finns inte.",
                     "unauthenticated": "$~Du måste vara inloggad för att redigera en karaktär.",
-                    "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
-                    "unsaved": "$~Ge detta tecken en beskrivning och ett giltigt, unikt namn att spara."
+                    "taken": "$~Du har redan en karaktär med detta namn; inte sparar."
                 },
                 "announce": {
                     "position": "$~för $1 $2",

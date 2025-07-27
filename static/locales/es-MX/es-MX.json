@@ -5366,8 +5366,7 @@
                     "loadfail": "$~Hubo un problema al cargar este personaje.",
                     "notfound": "$~Este personaje no existe.",
                     "unauthenticated": "$~Debes iniciar sesión para editar un personaje.",
-                    "taken": "$~Ya tienes un personaje con este nombre; no se guarda.",
-                    "unsaved": "$~Dale a este personaje una descripción y un nombre válido y único para guardarlo."
+                    "taken": "$~Ya tienes un personaje con este nombre; no se guarda."
                 },
                 "announce": {
                     "position": "$~a $1 $2",

@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.21
 
+### Fixed
+
+- Save characters even without name and description to prevent data loss.
+
 ### Maintenance
 
 - Updated minor versions of Google Translate, Playwright, Svelte, SvelteKit, Firebase.

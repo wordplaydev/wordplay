@@ -5446,8 +5446,7 @@
                     "loadfail": "$~Wystąpił problem podczas ładowania tej postaci.",
                     "notfound": "$~Ta postać nie istnieje.",
                     "unauthenticated": "$~Musisz być zalogowany, aby edytować postać.",
-                    "taken": "$~Masz już postać o tej nazwie, nie zapisujesz.",
-                    "unsaved": "$~Podaj opis tej postaci i prawidłową, unikalną nazwę, aby ją zapisać."
+                    "taken": "$~Masz już postać o tej nazwie, nie zapisujesz."
                 },
                 "announce": {
                     "position": "$~za $1$2",
