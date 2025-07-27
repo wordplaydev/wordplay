@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.16.18",
+    "version": "0.16.21",
     "scripts": {
         "postinstall": "run-script-os",
         "postinstall:default": "svelte-kit sync && cp .env.template .env",
@@ -51,7 +51,7 @@
         "@playwright/test": "^1",
         "@sveltejs/adapter-static": "^3",
         "@sveltejs/kit": "^2.20.6",
-        "@sveltejs/vite-plugin-svelte": "^5",
+        "@sveltejs/vite-plugin-svelte": "^6",
         "@types/matter-js": "^0",
         "@types/node": "^24",
         "@types/uuid": "^10",
@@ -70,7 +70,7 @@
         "tslib": "^2",
         "tsx": "^4",
         "typescript": "^5",
-        "vite": "^6",
+        "vite": "^7",
         "vitest": "^3"
     },
     "type": "module",

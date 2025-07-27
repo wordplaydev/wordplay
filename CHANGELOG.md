@@ -3,6 +3,13 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.21
+
+### Maintenance
+
+- Updated minor versions of Google Translate, Playwright, Svelte, SvelteKit, Firebase.
+- Update major versions of vite and vite-plugin-svelte.
+
 ## 0.6.20
 
 ## Added
