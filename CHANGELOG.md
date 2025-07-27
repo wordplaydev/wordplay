@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Updated minor versions of Google Translate, Playwright, Svelte, SvelteKit, Firebase.
 - Update major versions of vite and vite-plugin-svelte.
+- Updated to Firebase 12.
 
 ## 0.6.20
 

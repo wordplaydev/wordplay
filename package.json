@@ -79,7 +79,7 @@
         "colorjs.io": "^0.5.2",
         "decimal.js": "^10",
         "dexie": "^4.0",
-        "firebase": "^11",
+        "firebase": "^12",
         "firebase-admin": "^13",
         "firebase-functions": "^6",
         "firebase-functions-test": "^3",
