@@ -572,13 +572,11 @@
     }
 
     .coordinate.horizontal {
-        text-align: right;
-        transform: translate(50%, -50%);
+        transform: translate(25%, -50%);
     }
 
     .coordinate.vertical {
         transform: translate(50%, 0%);
-        text-align: right;
     }
 
     .axis {
