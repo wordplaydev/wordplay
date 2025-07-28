@@ -448,7 +448,7 @@
                     ></div>
                     {#if number !== 0}
                         <div class="coordinate vertical" style:left="{left}px"
-                            >{number}</div
+                            >{number}m</div
                         >
                     {/if}
                 {/each}
@@ -463,7 +463,7 @@
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
                     ></div>
                     <div class="coordinate horizontal" style:top="{top}px"
-                        >{number}</div
+                        >{number}m</div
                     >
                 {/each}
                 <div
