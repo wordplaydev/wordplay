@@ -3887,7 +3887,7 @@
                 "names": ["chroma", "c"]
             },
             "hue": {
-                "doc": "What color I should be, on a color wheel, from megenta \\0\\, red \\30\\, green \\120\\, to blue \\270\\.",
+                "doc": "What color I should be, on a color wheel, from magenta \\0\\, red \\30\\, green \\120\\, to blue \\270\\.",
                 "names": ["hue", "h"]
             }
         },

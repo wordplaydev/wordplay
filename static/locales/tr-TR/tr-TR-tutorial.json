@@ -3359,7 +3359,7 @@
                             "Phrase",
                             "sad",
                             "$~Aman Tanrım, aman Tanrım, rengi unuttuğuma İNANAMIYORUM. Tamam, yani herhangi bir @Pose'un bir rengi olabilir, değil mi? Ama @Color üç bölümden oluşur. İlk olarak, 0 ile 100% arasında bir @Pose, bunu bir odanın ne kadar parlak olduğu olarak düşünebilirsiniz, siyahtan beyaza ve ortada %50'de renk.",
-                            "$~Daha sonra 0 ile 100 arasında bir @Color/chroma değeri, hiç renk olmayan griden tam renkliye kadar ne kadar renk olduğunu ifade eder.",
+                            "$~Daha sonra 0 ile ∞ arasında bir @Color/chroma değeri, hiç renk olmayan griden tam renkliye kadar ne kadar renk olduğunu ifade eder.",
                             "$~Ve son olarak, bir renk tekerleği gibi düşünebileceğiniz, kırmızıdan yeşile ve maviye dereceler halinde bir @Color/hue. Yani parlak kırmızı olmamı mı istiyorsunuz? Dinlenme poz rengimi \\Color(50% 300 30°)\\ olarak ayarlayın."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],

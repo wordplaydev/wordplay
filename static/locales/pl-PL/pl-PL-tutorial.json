@@ -3335,7 +3335,7 @@
                             "Phrase",
                             "sad",
                             "$~O mój Boże, o mój Boże, o mój Boże, NIE MOGĘ uwierzyć, że zapomniałem o kolorze. Okej, więc każdy @Pose może mieć kolor, prawda? Ale @Color składa się z trzech części. Po pierwsze, @Pose między 0 a 100%, co można sobie wyobrazić jako jasność pomieszczenia, od czerni do bieli z kolorem pośrodku na poziomie 50%.",
-                            "$~Następnie @Color/chroma pomiędzy 0 a 100, co oznacza, że jest tam dużo koloru – od braku szarości do pełnego koloru.",
+                            "$~Następnie @Color/chroma pomiędzy 0 a ∞, co oznacza, że jest tam dużo koloru – od braku szarości do pełnego koloru.",
                             "$~I na koniec @Color/hue, który możesz sobie wyobrazić jako koło kolorów, od czerwonego do zielonego i niebieskiego w stopniach. Więc chcesz, żebym był jasnoczerwony? Ustaw kolor mojej pozy odpoczynku na \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],

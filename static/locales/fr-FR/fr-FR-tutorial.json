@@ -3347,7 +3347,7 @@
                             "Phrase",
                             "sad",
                             "$~Oh mon Dieu, mon Dieu, mon Dieu, je ne peux pas croire que j'ai oublié la couleur. Ok, donc n'importe quelle @Pose peut avoir une couleur, n'est-ce pas ? Mais @Color se compose de trois parties. Tout d'abord, une @Pose entre 0 et 100 %, que vous pouvez considérer comme la luminosité d'une pièce, du noir au blanc avec une couleur au milieu à 50 %.",
-                            "$~Ensuite, un @Color/chroma entre 0 et 100, qui vous permet de penser à la quantité de couleur qu'il y a, depuis aucune couleur grise jusqu'à la couleur complète.",
+                            "$~Ensuite, un @Color/chroma entre 0 et ∞, qui vous permet de penser à la quantité de couleur qu'il y a, depuis aucune couleur grise jusqu'à la couleur complète.",
                             "$~Et enfin, une @Color/hue, que vous pouvez considérer comme une roue chromatique, du rouge au vert au bleu en degrés. Vous voulez donc que je sois rouge vif ? Réglez ma couleur de pose de repos sur \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],

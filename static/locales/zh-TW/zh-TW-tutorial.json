@@ -333,12 +333,7 @@
                             "neutral",
                             "那你覺得呢，導演？我們繼續去和其他字符聊聊吧？"
                         ],
-                        [
-                            "ExpressionPlaceholder",
-                            "excited",
-                            "很高興認識你！"
-
-                        ],
+                        ["ExpressionPlaceholder", "excited", "很高興認識你！"],
                         ["ExpressionPlaceholder", "excited", "很高興認識你！"],
                         null,
                         ["use", "fit", "DarkVoid"],
@@ -360,11 +355,7 @@
                             "eager",
                             "嘿！無法理解（Unparsable） @UnparsableExpression ？是你嗎？"
                         ],
-                        [
-                            "UnparsableExpression",
-                            "neutral",
-                            "ㄐ%ㄓ$ㄜ|"
-                        ],
+                        ["UnparsableExpression", "neutral", "ㄐ%ㄓ$ㄜ|"],
                         ["UnparsableExpression", "neutral", "ㄐ%ㄓ$ㄜ|"],
                         null,
                         ["use", "fit", "Symbol", "c iise we dvk"],
@@ -513,14 +504,13 @@
                             "我好期待讓你見到評估（Evaluate） @Evaluate 喔！它真的是我最好的朋友，我們幾乎什麼事都一起做。我定什麼規則，它就來玩什麼規則，我們簡直就是天生一對。不過他比我強大多了... @Evaluate？"
                         ],
 
-                        ["Evaluate", "shy", "函式（Function）@FunctionDefinition ？"],
-                        null,
                         [
-                            "FunctionDefinition",
-                            "curious",
-                            "是我！你在哪裡？"
-
+                            "Evaluate",
+                            "shy",
+                            "函式（Function）@FunctionDefinition ？"
                         ],
+                        null,
+                        ["FunctionDefinition", "curious", "是我！你在哪裡？"],
                         null,
                         ["FunctionDefinition", "curious", "是我！你在哪裡？"],
                         [
@@ -612,7 +602,11 @@
                             "而且，函式（Function） @FunctionDefinition ，就是那個可以定義他們的人。"
                         ],
                         null,
-                        ["FunctionDefinition", "happy", "...評估（Evaluate） @Evaluate"],
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "...評估（Evaluate） @Evaluate"
+                        ],
 
                         [
                             "Evaluate",
@@ -3308,7 +3302,7 @@
                             "Phrase",
                             "sad",
                             "$~天哪，天哪，天哪，我真不敢相信我忘了顏色。好的，那麼任何@Pose 都可以有顏色，對嗎？但@Color 分為三個部分。首先，@Color/lightness 介於 0 到 100% 之間，您可以將其視為房間的亮度，從黑色到白色，中間的顏色為 50%。",
-                            "$~然後，@Color/chroma 介於 0 到 100 之間，你可以認為它有多少顏色，從無色灰色到全彩色。",
+                            "$~然後，@Color/chroma 介於 0 到 ∞ 之間，你可以認為它有多少顏色，從無色灰色到全彩色。",
                             "$~最後，@Color/hue，你可以把它想像成一個色輪，從紅色到綠色再到藍色。所以你想讓我變成鮮紅色？將我的休息姿勢顏色設定為\\Color(50% 300 30°)\\。"
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],

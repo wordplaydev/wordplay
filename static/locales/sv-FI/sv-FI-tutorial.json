@@ -3347,7 +3347,7 @@
                             "Phrase",
                             "sad",
                             "$~Omigod omigod omigod, jag kan inte tro att jag glömde färgen. Okej, så vilken @Pose som helst kan ha en färg, eller hur? Men @Color finns i tre delar. Först en @Color/lightness mellan 0 och 100%, vilket man kan tänka sig som hur ljust ett rum är, från svart till vitt med färg i mitten på 50%.",
-                            "$~Sedan har en @Color/chroma mellan 0 och 100, som du kan tänka dig, hur mycket färg det finns, från ingen färg grå till fullfärg.",
+                            "$~Sedan har en @Color/chroma mellan 0 och ∞, som du kan tänka dig, hur mycket färg det finns, från ingen färg grå till fullfärg.",
                             "$~Och slutligen en @Color/hue, som du kan tänka dig som ett färghjul, från rött till grönt till blått i grader. Så du vill att jag ska vara knallröd? Ställ in min viloställningsfärg på \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
