@@ -1,3 +1,4 @@
+import Changed from '@nodes/Changed';
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
 import type Locales from '../locale/Locales';
@@ -46,8 +47,11 @@ export function start(evaluator: Evaluator, expr: Expression) {
 export function shouldSkip(evaluator: Evaluator, expr: Expression) {
     return (
         !expr.isInternal() &&
-        // !evaluator.isInPast() &&
+        // Never skip a Changed expression, they always need to be evaluated.
+        !(expr instanceof Changed) &&
+        // Don't reevaluate constants
         (evaluator.project.isConstant(expr) ||
+            // Don't reevaluate reactions that are not currently reacting
             (evaluator.isReacting() &&
                 !evaluator.isEvaluatingReaction() &&
                 !evaluator.isDependentOnReactingStream(expr)))

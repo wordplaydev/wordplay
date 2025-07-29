@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Save characters even without name and description to prevent data loss.
 - Typos in documentation and tutorial.
+- Fixed infinite recursion in Scenes.
 
 ### Maintenance
 
