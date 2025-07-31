@@ -2,6 +2,8 @@
 // CACHE
 ////////////////////////////////
 
+import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
+import type Node from '@nodes/Node';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
 import {
@@ -193,7 +195,46 @@ export class CharactersDatabase {
             character.updated > existingCharacter.updated
         ) {
             this.byID.set(character.id, character);
-            if (existingCharacter) this.byName.delete(existingCharacter.name);
+
+            if (existingCharacter) {
+                this.byName.delete(existingCharacter.name);
+
+                this.db.Projects.allEditableProjects.forEach((project) => {
+                    const revisions: [Node, Node | undefined][] = [];
+
+                    // Look through each source in the project
+                    for (const source of project.getSources()) {
+                        // If the source has a character that references the old Character, update it.
+                        source.nodes()
+                            .filter((node) => node instanceof ConceptLink)
+                            .map((node) => {
+                                const parsed = ConceptLink.parse(
+                                    node.getName(),
+                                );
+
+                                if (
+                                    parsed instanceof CharacterName &&
+                                    // TODO: Do we need to check the username / ownership as well here?
+                                    parsed.name ===
+                                    character.name
+                                ) {
+                                    revisions.push([
+                                        node,
+                                        ConceptLink.make(
+                                            `${parsed.username}/${character.name}`
+                                        ),
+                                    ])
+                                }
+                            });
+                    }
+
+                    this.db.Projects.revise(
+                        project,
+                        revisions
+                    );
+                })
+            }
+
             this.byName.set(character.name, character);
         }
 
