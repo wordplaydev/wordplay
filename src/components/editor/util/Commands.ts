@@ -632,12 +632,13 @@ export const FocusCycle: Command = {
 export const ToggleBlocks: Command = {
     symbol: '⧠',
     description: (l) => l.ui.source.toggle.blocks.on,
-    visible: Visibility.Invisible,
+    visible: Visibility.Visible,
     category: Category.Modify,
     shift: false,
     alt: false,
     control: true,
     key: 'Backslash',
+    important: true,
     execute: ({ toggleBlocks }) => {
         if (toggleBlocks) {
             toggleBlocks(!Settings.getBlocks());
@@ -899,7 +900,7 @@ const Commands: Command[] = [
     {
         symbol: '⬉',
         description: (l) => l.ui.source.cursor.priorNode,
-        visible: Visibility.Visible,
+        visible: Visibility.Invisible,
         category: Category.Cursor,
         alt: false,
         shift: true,
@@ -911,7 +912,7 @@ const Commands: Command[] = [
     {
         symbol: '⬈',
         description: (l) => l.ui.source.cursor.nextNode,
-        visible: Visibility.Visible,
+        visible: Visibility.Invisible,
         category: Category.Cursor,
         alt: false,
         control: false,
@@ -1293,7 +1294,7 @@ const Commands: Command[] = [
     {
         symbol: '↲',
         description: (l) => l.ui.source.cursor.insertLine,
-        visible: Visibility.Touch,
+        visible: Visibility.Visible,
         category: Category.Modify,
         shift: false,
         alt: false,
