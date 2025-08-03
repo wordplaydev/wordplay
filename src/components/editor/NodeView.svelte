@@ -162,7 +162,7 @@
         id={`node-${node.id}`}
         aria-hidden={hide ? 'true' : null}
         aria-label={description}
-        ><!--Render the value if there's a value ot render, or the node view otherwise -->
+        ><!--Render the value if there's a value to render, or the node view otherwise -->
         {#if value && node.isUndelimited()}<span class="eval"
                 >{EVAL_OPEN_SYMBOL}</span
             >{/if}<NodeView {node} />{#if value}{#if node.isUndelimited()}<span
