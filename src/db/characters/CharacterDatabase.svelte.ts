@@ -202,26 +202,26 @@ export class CharactersDatabase {
                 this.db.Projects.allEditableProjects.forEach((project) => {
                     const revisions: [Node, Node | undefined][] = [];
 
-                    // Look through each source in the project
+                    // Look through each source file in the project
                     for (const source of project.getSources()) {
-                        // If the source has a character that references the old Character, update it.
+                        // If the source contains a ConceptLink node that references the old character name,
+                        // update it with the new character name.
                         source.nodes()
                             .filter((node) => node instanceof ConceptLink)
                             .map((node) => {
                                 const parsed = ConceptLink.parse(
                                     node.getName(),
                                 );
-
                                 if (
                                     parsed instanceof CharacterName &&
-                                    // TODO: Do we need to check the username / ownership as well here?
-                                    parsed.name ===
-                                    character.name
+
+                                    existingCharacter.name === `${parsed.username}/${parsed.name}`
                                 ) {
+                                    // Revise the ConceptLink node with the new character name.
                                     revisions.push([
                                         node,
                                         ConceptLink.make(
-                                            `${parsed.username}/${character.name}`
+                                            `${character.name}`
                                         ),
                                     ])
                                 }
