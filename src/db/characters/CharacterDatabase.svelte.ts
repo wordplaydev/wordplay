@@ -214,7 +214,6 @@ export class CharactersDatabase {
                                 );
                                 if (
                                     parsed instanceof CharacterName &&
-
                                     existingCharacter.name === `${parsed.username}/${parsed.name}`
                                 ) {
                                     // Revise the ConceptLink node with the new character name.
