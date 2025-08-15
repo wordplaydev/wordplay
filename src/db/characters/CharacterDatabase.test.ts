@@ -21,7 +21,7 @@ describe('CharactersDatabase', () => {
             setStatus: vi.fn(),
             Projects: {
                 allEditableProjects: [],
-                revise: vi.fn(),
+                reviseProject: vi.fn(),
             },
         };
 
@@ -29,7 +29,7 @@ describe('CharactersDatabase', () => {
     });
 
     describe('updateCharacter', () => {
-        it('should handle character name changes and update projects', () => {
+        it('should handle character name changes and update projects', async () => {
             const oldCharacter: Character = {
                 id: 'char1',
                 owner: 'user',
@@ -62,6 +62,7 @@ describe('CharactersDatabase', () => {
                         oldConceptLink,
                     ]),
                 }]),
+                withRevisedNodes: vi.fn(),
             };
 
             // Mock the Projects.allEditableProjects to return our mock project
@@ -71,7 +72,7 @@ describe('CharactersDatabase', () => {
             charactersDb.byID.set('char1', oldCharacter);
             charactersDb.byName.set('user/OldName', oldCharacter);
 
-            charactersDb.updateCharacter(newCharacter, false);
+            await charactersDb.updateCharacter(newCharacter, false);
 
             expect(charactersDb.byID.get('char1')).toEqual(newCharacter);
             expect(charactersDb.byName.get('user/NewName')).toEqual(newCharacter);
@@ -79,8 +80,7 @@ describe('CharactersDatabase', () => {
 
             // Assert that the project would have been revised
             expect(mockProject.getSources).toHaveBeenCalled();
-            expect(mockDatabase.Projects.revise).toHaveBeenCalledWith(
-                mockProject,
+            expect(mockProject.withRevisedNodes).toHaveBeenCalledWith(
                 // Array of revision tuples: [oldNode, newNode]
                 expect.arrayContaining([
                     expect.arrayContaining([
