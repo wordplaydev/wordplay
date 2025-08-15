@@ -243,7 +243,7 @@ export class CharactersDatabase {
                 // Wait for all revision attempts to complete
                 await Promise.all(revisionPromises);
 
-                // If there were failures, return a compiled error message
+                // If there were failures, return a list of the failed projects
                 if (failedProjects.length > 0) {
                     return failedProjects;
                 }

@@ -281,11 +281,9 @@
         );
 
         if (result !== undefined) {
-            // There was a project edit failure - warn the user
             failedProjects = result;
             showError = true;
         } else {
-            // Clear any previous errors on successful save
             showError = false;
             failedProjects = [];
         }
