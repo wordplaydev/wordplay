@@ -3,6 +3,7 @@
     import { page } from '$app/state';
     import { Basis } from '@basis/Basis';
     import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -26,6 +27,7 @@
     import Title from '@components/widgets/Title.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { CharactersDB, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
     import Locales from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
@@ -237,11 +239,16 @@
         );
     });
 
+    /** Track an error message to show the user if a project edit fails. */
+    let errorMessage = $state('');
+    let failedProjects = $state<Project[]>([]);
+    let showError = $state(false);
+
     /** Don't save if the name is not avaialble*/
     let savable = $derived($user !== null && $user.email !== null);
 
     let saving: number | undefined = undefined;
-    function save() {
+    async function save() {
         // Not loaded yet? Don't save.
         if (typeof persisted === 'string') return;
         // Not changed? Don't save.
@@ -266,13 +273,37 @@
         removeEmpty(raw);
 
         // Save the character.
-        CharactersDB.updateCharacter(
+        const result = await CharactersDB.updateCharacter(
             {
                 ...raw,
                 updated: saving,
             },
             true,
         );
+
+        if (result !== undefined) {
+            // There was a project edit failure - warn the user
+            errorMessage = calculateErrorMessage(result);
+            failedProjects = result;
+            showError = true;
+        } else {
+            // Clear any previous errors on successful save
+            showError = false;
+            failedProjects = [];
+            errorMessage = '';
+        }
+    }
+
+    function calculateErrorMessage(projects: Array<Project>) {
+        if (projects.length === 0) return '';
+        return projects.length === 1
+            ? `Failed to update character references in `
+            : `Failed to update character references in the following projects: `;
+    }
+
+    function dismissError() {
+        showError = false;
+        errorMessage = '';
     }
 
     /**
@@ -2160,6 +2191,27 @@
             <Header block={false} text={(l) => l.ui.page.character.header} />
             <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
         </div>
+
+        {#if showError && errorMessage}
+            <Notice>
+                <div>
+                    <span>{errorMessage}</span>
+                    {#each failedProjects as project}
+                        <Link to={project.getLink(false)}>
+                            <span>
+                                {project.getName() || 'untitled project'}
+                            </span>
+                        </Link>
+                    {/each}
+                    <Button
+                        tip={(l) => l.ui.page.character.button.end.tip}
+                        action={dismissError}
+                        icon="✕"
+                    />
+                </div>
+            </Notice>
+        {/if}
+
         {#if $user === null}
             <Notice
                 text={(l) => l.ui.page.character.feedback.unauthenticated}

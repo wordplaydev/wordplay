@@ -2,6 +2,7 @@
 // CACHE
 ////////////////////////////////
 
+import type Project from '@db/projects/Project';
 import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
 import { FirebaseError } from 'firebase/app';
@@ -179,7 +180,7 @@ export class CharactersDatabase {
     }
 
     /** Update the local store's version of this character, and defer a save to the database later. */
-    updateCharacter(character: Character, persist: boolean) {
+    async updateCharacter(character: Character, persist: boolean): Promise<Array<Project> | undefined> {
         const existingCharacter = this.byID.get(character.id);
 
         // Are they equivalent? Don't bother. This prevents cycles.
@@ -199,7 +200,11 @@ export class CharactersDatabase {
             if (existingCharacter) {
                 this.byName.delete(existingCharacter.name);
 
-                this.db.Projects.allEditableProjects.forEach((project) => {
+                // Collect failures from project updates
+                const failedProjects: Project[] = [];
+
+                // Collect all revision promises
+                const revisionPromises = this.db.Projects.allEditableProjects.map(async (project) => {
                     const revisions: [Node, Node | undefined][] = [];
 
                     // Look through each source file in the project
@@ -219,23 +224,34 @@ export class CharactersDatabase {
                                     // Revise the ConceptLink node with the new character name.
                                     revisions.push([
                                         node,
-                                        ConceptLink.make(
-                                            `${character.name}`
-                                        ),
-                                    ])
+                                        ConceptLink.make(`${character.name}`)
+                                    ]);
                                 }
                             });
                     }
 
-                    this.db.Projects.revise(
-                        project,
-                        revisions
-                    );
-                })
+                    if (revisions.length > 0) {
+                        const newProject = project.withRevisedNodes(revisions);
+                        const failure = await this.db.Projects.reviseProject(newProject);
+
+                        if (failure !== undefined) {
+                            failedProjects.push(project);
+                        }
+                    }
+                });
+
+                // Wait for all revision attempts to complete
+                await Promise.all(revisionPromises);
+
+                // If there were failures, return a compiled error message
+                if (failedProjects.length > 0) {
+                    return failedProjects;
+                }
             }
 
             this.byName.set(character.name, character);
         }
+
 
         // Are we to persist? Defer a save.
         if (persist) {
