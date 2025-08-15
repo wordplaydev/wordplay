@@ -252,7 +252,6 @@ export class CharactersDatabase {
             this.byName.set(character.name, character);
         }
 
-
         // Are we to persist? Defer a save.
         if (persist) {
             this.unsaved.set(character.id, character);

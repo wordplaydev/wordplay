@@ -5301,6 +5301,10 @@
                     "fit": {
                         "label": "fit",
                         "tip": "fit the shapes to the canvas"
+                    },
+                    "dismissError": {
+                        "label": "dismiss",
+                        "tip": "dismiss the error message"
                     }
                 },
                 "feedback": {
@@ -5310,7 +5314,9 @@
                     "loadfail": "There was a problem loading this character.",
                     "notfound": "This character doesn't exist or isn't visible to you.",
                     "unauthenticated": "You must be logged in to edit a character.",
-                    "taken": "You already have a character with this name; not saving."
+                    "taken": "You already have a character with this name; not saving.",
+                    "projecteditfail": "There was a problem updating projects that use this character. The following projects need fixing: ",
+                    "untitledproject": "Untitled Project"
                 },
                 "announce": {
                     "position": "at $1 $2",

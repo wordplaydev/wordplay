@@ -240,7 +240,6 @@
     });
 
     /** Track an error message to show the user if a project edit fails. */
-    let errorMessage = $state('');
     let failedProjects = $state<Project[]>([]);
     let showError = $state(false);
 
@@ -283,27 +282,18 @@
 
         if (result !== undefined) {
             // There was a project edit failure - warn the user
-            errorMessage = calculateErrorMessage(result);
             failedProjects = result;
             showError = true;
         } else {
             // Clear any previous errors on successful save
             showError = false;
             failedProjects = [];
-            errorMessage = '';
         }
-    }
-
-    function calculateErrorMessage(projects: Array<Project>) {
-        if (projects.length === 0) return '';
-        return projects.length === 1
-            ? `Failed to update character references in `
-            : `Failed to update character references in the following projects: `;
     }
 
     function dismissError() {
         showError = false;
-        errorMessage = '';
+        failedProjects = [];
     }
 
     /**
@@ -2192,19 +2182,34 @@
             <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
         </div>
 
-        {#if showError && errorMessage}
+        {#if showError && failedProjects}
             <Notice>
                 <div>
-                    <span>{errorMessage}</span>
-                    {#each failedProjects as project}
+                    <span
+                        ><LocalizedText
+                            path={(l) =>
+                                l.ui.page.character.feedback.projecteditfail}
+                        /></span
+                    >
+                    {#each failedProjects as project, index}
                         <Link to={project.getLink(false)}>
                             <span>
-                                {project.getName() || 'untitled project'}
+                                {#if project.getName()}
+                                    {project.getName()}
+                                {:else}
+                                    <LocalizedText
+                                        path={(l) =>
+                                            l.ui.page.character.feedback
+                                                .untitledproject}
+                                    />
+                                {/if}
                             </span>
                         </Link>
+                        {#if index < failedProjects.length - 1}{', '}
+                        {/if}
                     {/each}
                     <Button
-                        tip={(l) => l.ui.page.character.button.end.tip}
+                        tip={(l) => l.ui.page.character.button.dismissError.tip}
                         action={dismissError}
                         icon="✕"
                     />
