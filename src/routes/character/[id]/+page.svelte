@@ -2180,7 +2180,7 @@
             <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
         </div>
 
-        {#if showError && failedProjects}
+        {#if showError && failedProjects.length > 0}
             <Notice>
                 <div>
                     <span
