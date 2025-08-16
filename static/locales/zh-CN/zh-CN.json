@@ -5333,6 +5333,10 @@
                     "fit": {
                         "label": "$~合身",
                         "tip": "$~将形状适合画布"
+                    },
+                    "dismissError": {
+                        "label": "$~解雇",
+                        "tip": "$~忽略错误信息"
                     }
                 },
                 "feedback": {
@@ -5342,7 +5346,9 @@
                     "loadfail": "$~加载此角色时出现问题。",
                     "notfound": "$~该角色不存在。",
                     "unauthenticated": "$~您必须登录才能编辑角色。",
-                    "taken": "$~您已有一个同名的角色；未保存。"
+                    "taken": "$~您已有一个同名的角色；未保存。",
+                    "projecteditfail": "$~更新使用此字符的项目时出现问题。以下项目需要修复：",
+                    "untitledproject": "$~未命名项目"
                 },
                 "announce": {
                     "position": "$~价格为 1 美元 2 美元",

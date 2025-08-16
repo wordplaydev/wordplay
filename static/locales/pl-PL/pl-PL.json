@@ -5437,6 +5437,10 @@
                     "fit": {
                         "label": "$~pasować",
                         "tip": "$~dopasuj kształty do płótna"
+                    },
+                    "dismissError": {
+                        "label": "$~odrzucać",
+                        "tip": "$~odrzuć komunikat o błędzie"
                     }
                 },
                 "feedback": {
@@ -5446,7 +5450,9 @@
                     "loadfail": "$~Wystąpił problem podczas ładowania tej postaci.",
                     "notfound": "$~Ta postać nie istnieje.",
                     "unauthenticated": "$~Musisz być zalogowany, aby edytować postać.",
-                    "taken": "$~Masz już postać o tej nazwie, nie zapisujesz."
+                    "taken": "$~Masz już postać o tej nazwie, nie zapisujesz.",
+                    "projecteditfail": "$~Wystąpił problem z aktualizacją projektów korzystających z tej postaci. Następujące projekty wymagają naprawy:",
+                    "untitledproject": "$~Projekt bez tytułu"
                 },
                 "announce": {
                     "position": "$~za $1$2",

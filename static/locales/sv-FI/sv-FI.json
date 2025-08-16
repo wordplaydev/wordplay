@@ -5432,6 +5432,10 @@
                     "fit": {
                         "label": "$~färdig",
                         "tip": "$~anpassa formerna till duken"
+                    },
+                    "dismissError": {
+                        "label": "$~avfärda",
+                        "tip": "$~ignorera felmeddelandet"
                     }
                 },
                 "feedback": {
@@ -5441,7 +5445,9 @@
                     "loadfail": "$~Det gick inte att läsa in den här karaktären.",
                     "notfound": "$~Den här karaktären finns inte.",
                     "unauthenticated": "$~Du måste vara inloggad för att redigera en karaktär.",
-                    "taken": "$~Du har redan en karaktär med detta namn; inte sparar."
+                    "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
+                    "projecteditfail": "$~Det uppstod ett problem när projekt som använder det här tecknet uppdaterades. Följande projekt behöver åtgärdas:",
+                    "untitledproject": "$~Namnlöst projekt"
                 },
                 "announce": {
                     "position": "$~för $1 $2",

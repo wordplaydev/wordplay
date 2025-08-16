@@ -5378,6 +5378,10 @@
                     "fit": {
                         "label": "$~ajuster",
                         "tip": "$~adapter les formes à la toile"
+                    },
+                    "dismissError": {
+                        "label": "$~rejeter",
+                        "tip": "$~ignorer le message d'erreur"
                     }
                 },
                 "feedback": {
@@ -5387,7 +5391,9 @@
                     "loadfail": "$~Il y a eu un problème lors du chargement de ce personnage.",
                     "notfound": "$~Ce personnage n'existe pas.",
                     "unauthenticated": "$~Vous devez être connecté pour modifier un personnage.",
-                    "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas."
+                    "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas.",
+                    "projecteditfail": "$~Un problème est survenu lors de la mise à jour des projets utilisant ce personnage. Les projets suivants doivent être corrigés :",
+                    "untitledproject": "$~Projet sans titre"
                 },
                 "announce": {
                     "position": "$~à $1 $2",

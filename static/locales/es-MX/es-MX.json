@@ -5357,6 +5357,10 @@
                     "fit": {
                         "label": "$~adaptar",
                         "tip": "$~Ajustar las formas al lienzo"
+                    },
+                    "dismissError": {
+                        "label": "$~despedir",
+                        "tip": "$~descartar el mensaje de error"
                     }
                 },
                 "feedback": {
@@ -5366,7 +5370,9 @@
                     "loadfail": "$~Hubo un problema al cargar este personaje.",
                     "notfound": "$~Este personaje no existe.",
                     "unauthenticated": "$~Debes iniciar sesión para editar un personaje.",
-                    "taken": "$~Ya tienes un personaje con este nombre; no se guarda."
+                    "taken": "$~Ya tienes un personaje con este nombre; no se guarda.",
+                    "projecteditfail": "$~Hubo un problema al actualizar los proyectos que usan este personaje. Los siguientes proyectos necesitan solución:",
+                    "untitledproject": "$~Proyecto sin título"
                 },
                 "announce": {
                     "position": "$~a $1 $2",
