@@ -9874,6 +9874,10 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "Copy button text"
                         },
+                        "dismissError": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Dismiss the error message"
+                        },
                         "end": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "End path button"
@@ -9930,7 +9934,8 @@
                         "end",
                         "horizontal",
                         "vertical",
-                        "fit"
+                        "fit",
+                        "dismissError"
                       ],
                       "type": "object"
                     },
@@ -9957,12 +9962,20 @@
                           "description": "The character doesn't exist",
                           "type": "string"
                         },
+                        "projecteditfail": {
+                          "description": "When an edit failure occurs when updating projects after a character name change.",
+                          "type": "string"
+                        },
                         "taken": {
                           "description": "Not saving because name is taken",
                           "type": "string"
                         },
                         "unauthenticated": {
                           "description": "Not logged in",
+                          "type": "string"
+                        },
+                        "untitledproject": {
+                          "description": "Placeholder name for a project that has no name.",
                           "type": "string"
                         }
                       },
@@ -9973,7 +9986,9 @@
                         "loadfail",
                         "notfound",
                         "unauthenticated",
-                        "taken"
+                        "taken",
+                        "projecteditfail",
+                        "untitledproject"
                       ],
                       "type": "object"
                     },

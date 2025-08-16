@@ -2,6 +2,9 @@
 // CACHE
 ////////////////////////////////
 
+import type Project from '@db/projects/Project';
+import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
+import type Node from '@nodes/Node';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
 import {
@@ -177,7 +180,10 @@ export class CharactersDatabase {
     }
 
     /** Update the local store's version of this character, and defer a save to the database later. */
-    updateCharacter(character: Character, persist: boolean) {
+    async updateCharacter(
+        character: Character,
+        persist: boolean,
+    ): Promise<Array<Project> | undefined> {
         const existingCharacter = this.byID.get(character.id);
 
         // Are they equivalent? Don't bother. This prevents cycles.
@@ -193,7 +199,71 @@ export class CharactersDatabase {
             character.updated > existingCharacter.updated
         ) {
             this.byID.set(character.id, character);
-            if (existingCharacter) this.byName.delete(existingCharacter.name);
+
+            if (existingCharacter) {
+                this.byName.delete(existingCharacter.name);
+
+                // Collect failures from project updates
+                const failedProjects: Project[] = [];
+
+                // Collect all revision promises
+                const revisionPromises =
+                    this.db.Projects.allEditableProjects.map(
+                        async (project) => {
+                            const revisions: [Node, Node | undefined][] = [];
+
+                            // Look through each source file in the project
+                            for (const source of project.getSources()) {
+                                // If the source contains a ConceptLink node that references the old character name,
+                                // update it with the new character name.
+                                source
+                                    .nodes()
+                                    .filter(
+                                        (node) => node instanceof ConceptLink,
+                                    )
+                                    .map((node) => {
+                                        const parsed = ConceptLink.parse(
+                                            node.getName(),
+                                        );
+                                        if (
+                                            parsed instanceof CharacterName &&
+                                            existingCharacter.name ===
+                                                `${parsed.username}/${parsed.name}`
+                                        ) {
+                                            // Revise the ConceptLink node with the new character name.
+                                            revisions.push([
+                                                node,
+                                                ConceptLink.make(
+                                                    `${character.name}`,
+                                                ),
+                                            ]);
+                                        }
+                                    });
+                            }
+
+                            if (revisions.length > 0) {
+                                const newProject =
+                                    project.withRevisedNodes(revisions);
+                                const failure =
+                                    await this.db.Projects.reviseProject(
+                                        newProject,
+                                    );
+
+                                if (failure !== undefined)
+                                    failedProjects.push(project);
+                            }
+                        },
+                    );
+
+                // Wait for all revision attempts to complete
+                await Promise.all(revisionPromises);
+
+                // If there were failures, return a list of the failed projects
+                if (failedProjects.length > 0) {
+                    return failedProjects;
+                }
+            }
+
             this.byName.set(character.name, character);
         }
 

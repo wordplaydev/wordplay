@@ -5432,6 +5432,10 @@
                     "fit": {
                         "label": "$~yerleştirmek",
                         "tip": "$~şekilleri tuvale uydur"
+                    },
+                    "dismissError": {
+                        "label": "$~azletmek",
+                        "tip": "$~hata mesajını kapat"
                     }
                 },
                 "feedback": {
@@ -5441,7 +5445,9 @@
                     "loadfail": "$~Bu karakter yüklenirken bir sorun oluştu.",
                     "notfound": "$~Bu karakter mevcut değil.",
                     "unauthenticated": "$~Bir karakteri düzenlemek için giriş yapmış olmanız gerekir.",
-                    "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor."
+                    "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
+                    "projecteditfail": "$~Bu karakteri kullanan projeler güncellenirken bir sorun oluştu. Aşağıdaki projelerin düzeltilmesi gerekiyor:",
+                    "untitledproject": "$~Başlıksız Proje"
                 },
                 "announce": {
                     "position": "$~1$'dan 2$'a",

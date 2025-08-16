@@ -92,6 +92,8 @@ type PageText = {
         vertical: ButtonText;
         /** Fit shapes to grid */
         fit: ButtonText;
+        /** Dismiss the error message */
+        dismissError: ButtonText;
     };
     feedback: {
         /** When the name isn't a valid Wordplay name */
@@ -108,6 +110,10 @@ type PageText = {
         unauthenticated: string;
         /** Not saving because name is taken */
         taken: string;
+        /** When an edit failure occurs when updating projects after a character name change. */
+        projecteditfail: string;
+        /** Placeholder name for a project that has no name. */
+        untitledproject: string;
     };
     announce: {
         /** When cursor position changes $1 x, $2: y. */

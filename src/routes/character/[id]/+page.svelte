@@ -3,6 +3,7 @@
     import { page } from '$app/state';
     import { Basis } from '@basis/Basis';
     import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -26,6 +27,7 @@
     import Title from '@components/widgets/Title.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { CharactersDB, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
     import Locales from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
@@ -237,11 +239,15 @@
         );
     });
 
+    /** Track an error message to show the user if a project edit fails. */
+    let failedProjects = $state<Project[]>([]);
+    let showError = $state(false);
+
     /** Don't save if the name is not avaialble*/
     let savable = $derived($user !== null && $user.email !== null);
 
     let saving: number | undefined = undefined;
-    function save() {
+    async function save() {
         // Not loaded yet? Don't save.
         if (typeof persisted === 'string') return;
         // Not changed? Don't save.
@@ -266,13 +272,26 @@
         removeEmpty(raw);
 
         // Save the character.
-        CharactersDB.updateCharacter(
+        const result = await CharactersDB.updateCharacter(
             {
                 ...raw,
                 updated: saving,
             },
             true,
         );
+
+        if (result !== undefined) {
+            failedProjects = result;
+            showError = true;
+        } else {
+            showError = false;
+            failedProjects = [];
+        }
+    }
+
+    function dismissError() {
+        showError = false;
+        failedProjects = [];
     }
 
     /**
@@ -2160,6 +2179,42 @@
             <Header block={false} text={(l) => l.ui.page.character.header} />
             <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
         </div>
+
+        {#if showError && failedProjects.length > 0}
+            <Notice>
+                <div>
+                    <span
+                        ><LocalizedText
+                            path={(l) =>
+                                l.ui.page.character.feedback.projecteditfail}
+                        /></span
+                    >
+                    {#each failedProjects as project, index}
+                        <Link to={project.getLink(false)}>
+                            <span>
+                                {#if project.getName()}
+                                    {project.getName()}
+                                {:else}
+                                    <LocalizedText
+                                        path={(l) =>
+                                            l.ui.page.character.feedback
+                                                .untitledproject}
+                                    />
+                                {/if}
+                            </span>
+                        </Link>
+                        {#if index < failedProjects.length - 1}{', '}
+                        {/if}
+                    {/each}
+                    <Button
+                        tip={(l) => l.ui.page.character.button.dismissError.tip}
+                        action={dismissError}
+                        icon="✕"
+                    />
+                </div>
+            </Notice>
+        {/if}
+
         {#if $user === null}
             <Notice
                 text={(l) => l.ui.page.character.feedback.unauthenticated}
