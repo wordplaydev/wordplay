@@ -6,6 +6,8 @@
     import { getCaret, getIsBlocks, getProject } from '../project/Contexts';
     import PlaceholderView from './MenuTrigger.svelte';
     import NodeView from './NodeView.svelte';
+    import Block from './blocks/Block.svelte';
+    import Delimiter from './blocks/Delimiter.svelte';
 
     interface Props {
         node: Evaluate;
@@ -77,10 +79,10 @@
 </script>
 
 {#if $blocks}
-    <div class="evaluate">
-        <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
-            node={node.open}
-        />
+    <Block style="evaluate" inline>
+        <NodeView node={node.fun} />
+        <NodeView node={node.types} />
+        <Delimiter token={node.open} />
         {#each node.inputs as input}<NodeView node={input} /><PlaceholderView
                 position={input instanceof Input ? input.value : input}
             />{/each}<!-- {#if nextBind}
@@ -97,8 +99,9 @@
                 ></div
             >{/if} -->{#if nextBind && menuPosition}
             &nbsp;<PlaceholderView position={menuPosition} />
-        {/if}<NodeView node={node.close} />
-    </div>
+        {/if}
+        <Delimiter token={node.close} />
+    </Block>
 {:else}
     <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
         node={node.open}
@@ -146,11 +149,4 @@
         font-style: italic;
         font-size: small;
     } */
-
-    .evaluate {
-        display: flex;
-        flex-direction: row;
-        align-items: baseline;
-        gap: var(--wordplay-border-width);
-    }
 </style>

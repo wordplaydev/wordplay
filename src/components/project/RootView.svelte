@@ -236,7 +236,7 @@
         class="root"
         style="--line-count: {lineDigits}"
         class:inert
-        class:elide><NodeView {node} direction="column" /></code
+        class:elide><NodeView {node} /></code
     >
 {/if}
 

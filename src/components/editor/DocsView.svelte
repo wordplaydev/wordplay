@@ -9,4 +9,4 @@
     let { node }: Props = $props();
 </script>
 
-<NodeSequenceView nodes={node.docs} direction="column" />
+<NodeSequenceView nodes={node.docs} block />

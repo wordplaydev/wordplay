@@ -26,7 +26,7 @@
             /><NodeSequenceView nodes={node.inputs} /><NodeView
                 node={node.close}
             /></div
-        ><NodeView node={node.expression} direction="column" />
+        ><NodeView node={node.expression} />
     </div>
 {:else}
     <NodeView node={node.docs} /><NodeView node={node.share} /><NodeView

@@ -22,10 +22,9 @@
     interface Props {
         node: Node | undefined;
         small?: boolean;
-        direction?: 'row' | 'column';
     }
 
-    let { node, small = false, direction = 'row' }: Props = $props();
+    let { node, small = false }: Props = $props();
 
     const evaluation = getEvaluation();
     const rootContext = getRoot();
@@ -127,9 +126,7 @@
 {#if node !== undefined}
     <!-- Render space preceding this node if not hidden, if there's a first token, and this node is the root of the preceding space. -->
     {#if !hide && firstToken && spaceRoot === node}
-        {#if $blocks}
-            {@render blockSpace(firstToken)}
-        {:else}
+        {#if !$blocks}
             <Space
                 token={firstToken}
                 first={$spaces.isFirst(firstToken)}
@@ -143,7 +140,6 @@
     {/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
         class={[
             'node-view',
-            direction,
             node.getDescriptor(),
             ...(highlight ? highlight.values() : []),
             {
@@ -226,43 +222,8 @@
         font-size: 80%;
     }
 
-    .block {
-        display: flex;
-        gap: var(--wordplay-border-width);
-        width: fit-content;
-    }
-
     .Block {
         min-height: var(--wordplay-min-line-height) !important;
-    }
-
-    .evaluate:not(:global(.Program, .ProgramBlock)),
-    .definition:not(:global(.Program, .ProgramBlock)) {
-        padding: calc(var(--wordplay-spacing) / 3);
-        padding: calc(var(--wordplay-spacing) / 3)
-            calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 3)
-            calc(var(--wordplay-spacing) / 2);
-        box-shadow: var(--color-shadow) 0px 0px 4px;
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    .block.definition {
-        border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
-    }
-
-    .block.evaluate:not(:global(.Program, .ProgramBlock)) {
-        border-bottom: calc(2 * var(--wordplay-border-width)) solid
-            var(--wordplay-inactive-color);
-    }
-
-    .row {
-        flex-direction: row;
-        align-items: baseline;
-    }
-
-    .column {
-        flex-direction: column;
-        align-items: inline-start;
     }
 
     .break {

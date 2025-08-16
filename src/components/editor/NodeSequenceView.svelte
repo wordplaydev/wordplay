@@ -12,13 +12,16 @@
     interface Props {
         nodes: Node[];
         elide?: boolean;
-        direction?: 'row' | 'column';
+        /** Block layout if true, inline otherwise */
+        block?: boolean;
+        indent?: boolean;
     }
 
     let {
         nodes,
         elide = $bindable(false),
-        direction = 'row',
+        block = false,
+        indent = false,
     }: Props = $props();
 
     let caret = getCaret();
@@ -88,7 +91,7 @@
 </script>
 
 {#if $blocks}
-    <div class="node-list {direction}">
+    <div class="node-list" class:block class:indent>
         {#each nodes as node}
             <NodeView {node} />{/each}
     </div>
@@ -121,18 +124,16 @@
 
     .node-list {
         display: flex;
-        /* max-width: 40em; */
-        /* flex-wrap: wrap; */
-    }
-
-    .row {
         flex-direction: row;
         gap: var(--wordplay-border-width);
         align-items: baseline;
     }
-
-    .node-list.column {
+    .node-list.block {
         flex-direction: column;
         gap: var(--wordplay-focus-width);
+    }
+
+    .node-list.indent {
+        margin-inline-start: var(--wordplay-spacing);
     }
 </style>

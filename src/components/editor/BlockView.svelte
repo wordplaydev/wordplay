@@ -3,6 +3,8 @@
     import type Block from '@nodes/Block';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView from './NodeView.svelte';
+    import BlockUI from './blocks/Block.svelte';
+    import Delimiter from './blocks/Delimiter.svelte';
 
     interface Props {
         node: Block;
@@ -14,21 +16,21 @@
 </script>
 
 {#if $blocks}
-    <NodeView node={node.docs} /><NodeView node={node.open} /><div
-        class="indent"
-        ><NodeSequenceView
+    <BlockUI
+        inline={node.statements.length === 1}
+        style={node.open === undefined ? 'none' : 'back'}
+    >
+        <NodeView node={node.docs} />
+        <Delimiter token={node.open} />
+        <NodeSequenceView
             nodes={node.statements}
-            direction={node.statements.length > 1 ? 'column' : 'row'}
-        /></div
-    ><NodeView node={node.close} />
+            block={node.statements.length > 1}
+            indent
+        />
+        <Delimiter token={node.close} />
+    </BlockUI>
 {:else}
     <NodeView node={node.docs} /><NodeView node={node.open} /><NodeSequenceView
         nodes={node.statements}
     /><NodeView node={node.close} />
 {/if}
-
-<style>
-    .indent {
-        margin-left: var(--wordplay-spacing);
-    }
-</style>
