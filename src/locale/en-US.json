@@ -4550,7 +4550,7 @@
         },
         "docs": {
             "label": "docuemntation browser",
-            "link": "show character $1 in documentation",
+            "link": "show \"$1\" in documentation",
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",
             "button": {
