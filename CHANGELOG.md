@@ -9,6 +9,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Improved tooltip on concept links.
 
+### Maintenance
+
+- Updated minor versions of zod, vite, Typescript, Svelte, Firebase, Firebase Admin, Dexie, Playwright.
+
 ## 0.6.21
 
 ### Added
