@@ -24,7 +24,7 @@
         "shared-types": "file:./src/shared"
     },
     "devDependencies": {
-        "@types/nodemailer": "^6.4.17",
+        "@types/nodemailer": "^7",
         "firebase-functions-test": "^3",
         "typescript": "^5"
     },
