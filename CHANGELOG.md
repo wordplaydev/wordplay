@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Improved tooltip on concept links.
+- Fixed type error on Volume.
 
 ### Maintenance
 

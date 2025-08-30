@@ -18,7 +18,7 @@ const FFT_SIZE = 32;
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
 export default class Volume extends AudioStream {
-    frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
+    frequencies: Uint8Array<ArrayBuffer> = new Uint8Array(FFT_SIZE);
 
     constructor(evaluation: Evaluation, frequency: number | undefined) {
         super(evaluation, frequency, undefined, FFT_SIZE);
