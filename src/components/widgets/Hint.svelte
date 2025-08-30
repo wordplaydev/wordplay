@@ -29,12 +29,13 @@
 
 <script lang="ts">
     import { getTip } from '@components/project/Contexts';
+    import { onDestroy } from 'svelte';
 
     const tip = getTip();
 
     const bounds = $state<{
-        top: number;
-        left: number;
+        top: number | undefined;
+        left: number | undefined;
     }>({
         top: 0,
         left: 0,
@@ -45,10 +46,27 @@
 
     let view = $state<HTMLDivElement | undefined>(undefined);
 
+    function update() {
+        // If there's a target and it's not in the document anymore, hide the tooltip.
+        if (target && !document.contains(target)) tip.hide();
+    }
+
+    let observer = $state.raw(new MutationObserver(update));
+
     const target = $derived(tip.getView());
+
+    onDestroy(() => {
+        observer.disconnect();
+    });
 
     $effect(() => {
         if (target) {
+            // Listen to the document children changes so we hear about the target being removed.
+            observer.observe(document.body, {
+                subtree: true,
+                childList: true,
+            });
+
             const dialog =
                 view?.parentElement instanceof HTMLDialogElement
                     ? view.parentElement

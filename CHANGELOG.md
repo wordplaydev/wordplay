@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Improved tooltip on concept links.
 - Fixed type error on Volume.
+- Hide tooltip if target is removed from DOM.
 
 ### Maintenance
 
@@ -181,7 +182,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #750 only handle keyboard shortcuts when editor is focused.
 - Added choose your own adventure how to.
 
-## Maintennace
+## Maintenace
 
 - Updated minor versions of Playwright, SvelteKit, Eslint, Firebase, Svelte, Vite, Vitest, and Zod.
 
