@@ -28,6 +28,7 @@
 </script>
 
 <script lang="ts">
+    import { browser } from '$app/environment';
     import { getTip } from '@components/project/Contexts';
     import { onDestroy } from 'svelte';
 
@@ -51,18 +52,20 @@
         if (target && !document.contains(target)) tip.hide();
     }
 
-    let observer = $state.raw(new MutationObserver(update));
+    let observer = $state.raw(
+        browser ? new MutationObserver(update) : undefined,
+    );
 
     const target = $derived(tip.getView());
 
     onDestroy(() => {
-        observer.disconnect();
+        observer?.disconnect();
     });
 
     $effect(() => {
         if (target) {
             // Listen to the document children changes so we hear about the target being removed.
-            observer.observe(document.body, {
+            observer?.observe(document.body, {
                 subtree: true,
                 childList: true,
             });
