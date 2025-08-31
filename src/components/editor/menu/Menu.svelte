@@ -232,6 +232,9 @@
         /* Max size */
         max-width: 100vw;
         max-height: 30vh;
+
+        /** Position above tiles */
+        z-index: 2;
     }
 
     .revisions {
