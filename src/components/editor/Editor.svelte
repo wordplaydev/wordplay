@@ -64,24 +64,24 @@
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import Button from '../widgets/Button.svelte';
-    import CaretView, { type CaretBounds } from './CaretView.svelte';
-    import Highlight from './Highlight.svelte';
-    import PlaceholderView from './MenuTrigger.svelte';
+    import CaretView, { type CaretBounds } from './caret/CaretView.svelte';
     import {
         type Edit,
         type ProjectRevision,
         InsertSymbol,
         handleKeyCommand,
-    } from './util/Commands';
+    } from './commands/Commands';
+    import Highlight from './highlights/Highlight.svelte';
     import {
         type HighlightSpec,
         type Highlights,
         getHighlights,
         getRangeOutline,
         updateOutlines,
-    } from './util/Highlights';
-    import Menu, { RevisionSet } from './util/Menu';
-    import { type Outline, OutlinePadding } from './util/outline';
+    } from './highlights/Highlights';
+    import { type Outline, OutlinePadding } from './highlights/outline';
+    import Menu, { RevisionSet } from './menu/Menu';
+    import PlaceholderView from './menu/MenuTrigger.svelte';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */

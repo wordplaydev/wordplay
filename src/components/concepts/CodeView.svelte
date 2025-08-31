@@ -6,7 +6,7 @@
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Type from '../../nodes/Type';
     import Spaces from '../../parser/Spaces';
-    import { copyNode } from '../editor/util/Clipboard';
+    import { copyNode } from '../editor/commands/Clipboard';
     import { getConceptIndex, getDragged } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';

@@ -18,7 +18,7 @@
         IncrementLiteral,
         ShowMenu,
         toShortcut,
-    } from '@components/editor/util/Commands';
+    } from '@components/editor/commands/Commands';
     import Speech from '@components/lore/Speech.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Expander from '@components/widgets/Expander.svelte';

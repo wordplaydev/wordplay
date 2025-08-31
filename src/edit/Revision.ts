@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
-import type { Edit } from '../components/editor/util/Commands';
+import type { Edit } from '../components/editor/commands/Commands';
 import type Locales from '../locale/Locales';
 import type Markup from '../nodes/Markup';
 

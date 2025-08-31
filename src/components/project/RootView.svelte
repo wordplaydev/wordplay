@@ -1,5 +1,5 @@
 <script lang="ts">
-    import NodeView from '@components/editor/NodeView.svelte';
+    import NodeView from '@components/editor/nodes/NodeView.svelte';
     import type Caret from '@edit/Caret';
     import type Locale from '@locale/Locale';
     import Docs from '@nodes/Docs';
@@ -229,14 +229,14 @@
         class="root"
         style="--line-count: {lineDigits}"
         class:inert
-        class:elide><NodeView {node} /></span
+        class:elide><NodeView {node} format={{ block: $isBlocks }} /></span
     >
 {:else}
     <code
         class="root"
         style="--line-count: {lineDigits}"
         class:inert
-        class:elide><NodeView {node} /></code
+        class:elide><NodeView {node} format={{ block: $isBlocks }} /></code
     >
 {/if}
 

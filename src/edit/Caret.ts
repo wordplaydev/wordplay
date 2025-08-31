@@ -37,7 +37,7 @@ import type {
     Edit,
     ProjectRevision,
     Revision,
-} from '../components/editor/util/Commands';
+} from '../components/editor/commands/Commands';
 import type Conflict from '../conflicts/Conflict';
 import type Project from '../db/projects/Project';
 import type LanguageCode from '../locale/LanguageCode';

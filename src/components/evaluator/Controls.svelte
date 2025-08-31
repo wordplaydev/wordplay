@@ -13,7 +13,7 @@
         StepOut,
         StepToPresent,
         StepToStart,
-    } from '../editor/util/Commands';
+    } from '../editor/commands/Commands';
     import { getEvaluation } from '../project/Contexts';
     import CommandButton from '../widgets/CommandButton.svelte';
     import Switch from '../widgets/Switch.svelte';

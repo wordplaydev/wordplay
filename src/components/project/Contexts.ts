@@ -22,8 +22,8 @@ import type {
     CommandContext,
     Edit,
     ProjectRevision,
-} from '../editor/util/Commands';
-import type { Highlights } from '../editor/util/Highlights';
+} from '../editor/commands/Commands';
+import type { Highlights } from '../editor/highlights/Highlights';
 import type SelectedOutput from './SelectedOutput.svelte';
 
 // Authentication related contexts

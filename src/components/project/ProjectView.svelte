@@ -11,6 +11,10 @@
     import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
+    import CharacterChooser from '@components/editor/commands/GlyphChooser.svelte';
+    import EditorToolbar from '@components/editor/commands/Toolbar.svelte';
+    import Highlight from '@components/editor/highlights/Highlight.svelte';
+    import Menu from '@components/editor/menu/Menu.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -64,11 +68,6 @@
     import Annotations from '../annotations/Annotations.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Emoji from '../app/Emoji.svelte';
-    import Editor from '../editor/Editor.svelte';
-    import EditorToolbar from '../editor/EditorToolbar.svelte';
-    import CharacterChooser from '../editor/GlyphChooser.svelte';
-    import Highlight from '../editor/Highlight.svelte';
-    import Menu from '../editor/Menu.svelte';
     import {
         EnterFullscreen,
         ExitFullscreen,
@@ -78,10 +77,11 @@
         VisibleModifyCommands,
         VisibleNavigateCommands,
         type CommandContext,
-    } from '../editor/util/Commands';
-    import type { HighlightSpec } from '../editor/util/Highlights';
-    import type MenuInfo from '../editor/util/Menu';
-    import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
+    } from '../editor/commands/Commands';
+    import Editor from '../editor/Editor.svelte';
+    import type { HighlightSpec } from '../editor/highlights/Highlights';
+    import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
+    import type MenuInfo from '../editor/menu/Menu';
     import Timeline from '../evaluator/Timeline.svelte';
     import OutputView from '../output/OutputView.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';

@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '../components/editor/util/Commands';
+import type { Edit } from '../components/editor/commands/Commands';
 import type Locales from '../locale/Locales';
 import Bind from '../nodes/Bind';
 import Caret from './Caret';

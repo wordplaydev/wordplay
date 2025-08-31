@@ -16,8 +16,8 @@
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import NodeView from '../editor/NodeView.svelte';
-    import { getConceptIndex } from '../project/Contexts';
+    import NodeView from '../editor/nodes/NodeView.svelte';
+    import { getConceptIndex, getIsBlocks } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
     import AuraEditor from './AuraEditor.svelte';
@@ -53,6 +53,8 @@
     let propertyID = $derived(`property-${property.getName($locales)}`);
 
     let toggleView: HTMLButtonElement | undefined = $state();
+
+    const isBlocks = getIsBlocks();
 
     async function toggleValues(set: boolean) {
         if (set) values.set(DB, project, $locales);
@@ -98,6 +100,7 @@
                         path={(l) => l.ui.palette.labels.inherited}
                     />{:else if values.areDefault() && expression !== undefined}<NodeView
                         node={expression}
+                        format={{ block: $isBlocks }}
                     />
                     <LocalizedText
                         path={(l) => l.ui.palette.labels.default}

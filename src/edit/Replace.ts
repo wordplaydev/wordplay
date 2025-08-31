@@ -2,7 +2,7 @@ import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '../components/editor/util/Commands';
+import type { Edit } from '../components/editor/commands/Commands';
 import type Locales from '../locale/Locales';
 import Markup from '../nodes/Markup';
 import Reference from '../nodes/Reference';
