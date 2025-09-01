@@ -12,19 +12,15 @@
     let { node, format }: ProgramProps = $props();
 </script>
 
+{#snippet children()}
+    <NodeView node={node.docs} {format} />
+    <NodeSequenceView nodes={node.borrows} {format} />
+    <NodeView node={node.expression} {format} />
+    <NodeView node={node.end} {format} />
+{/snippet}
+
 {#if format.block}
-    <Block style="none">
-        <NodeView node={node.docs} {format} />
-        <NodeSequenceView nodes={node.borrows} {format} />
-        <NodeView node={node.expression} {format} />
-        <NodeView node={node.end} {format} />
-    </Block>
+    <Block style="none" {children}></Block>
 {:else}
-    <NodeView node={node.docs} {format} /><NodeSequenceView
-        nodes={node.borrows}
-        {format}
-    /><NodeView node={node.expression} {format} /><NodeView
-        node={node.end}
-        {format}
-    />
+    {@render children()}
 {/if}

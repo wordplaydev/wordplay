@@ -13,17 +13,7 @@
     const blocks = getIsBlocks();
 </script>
 
-{#if $blocks}
-    <Block inline>
-        <NodeView node={node.list} {format} /><NodeView
-            node={node.open}
-            {format}
-        /><NodeView node={node.index} {format} /><NodeView
-            node={node.close}
-            {format}
-        />
-    </Block>
-{:else}
+{#snippet children()}
     <NodeView node={node.list} {format} /><NodeView
         node={node.open}
         {format}
@@ -31,4 +21,10 @@
         node={node.close}
         {format}
     />
+{/snippet}
+
+{#if $blocks}
+    <Block {children}></Block>
+{:else}
+    {@render children()}
 {/if}

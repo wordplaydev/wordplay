@@ -15,7 +15,7 @@
 {#if format.block}
     <Block style="none">
         <NodeView node={node.docs} {format} />
-        <Block inline style="definition">
+        <Block style="definition">
             <NodeView node={node.share} {format} />
             <NodeView node={node.names} {format} />
             <NodeView node={node.etc} {format} />

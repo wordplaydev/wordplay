@@ -15,7 +15,7 @@
 
 {#if format.block}
     <BlockUI
-        inline={node.statements.length === 1}
+        block={node.statements.length > 1}
         style={node.open === undefined ? 'none' : 'back'}
     >
         <NodeView node={node.docs} {format} />

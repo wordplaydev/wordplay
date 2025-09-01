@@ -79,7 +79,7 @@
 </script>
 
 {#if format.block}
-    <Block style="evaluate" inline>
+    <Block style="evaluate">
         <NodeView node={node.fun} {format} />
         <NodeView node={node.types} {format} />
         <Delimiter token={node.open} {format} />

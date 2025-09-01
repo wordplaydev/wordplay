@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { getIsBlocks } from '@components/project/Contexts';
     import type Translation from '../../../nodes/Translation';
     import Block from '../blocks/Block.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
@@ -11,21 +10,9 @@
     }
 
     let { node, format }: Props = $props();
-
-    const blocks = getIsBlocks();
 </script>
 
-{#if $blocks}
-    <Block inline style="none">
-        <NodeView node={node.open} {format} /><NodeSequenceView
-            nodes={node.segments}
-            {format}
-        /><NodeView node={node.close} {format} /><NodeView
-            node={node.language}
-            {format}
-        /><NodeView node={node.separator} {format} />
-    </Block>
-{:else}
+{#snippet view()}
     <NodeView node={node.open} {format} /><NodeSequenceView
         nodes={node.segments}
         {format}
@@ -33,4 +20,10 @@
         node={node.language}
         {format}
     /><NodeView node={node.separator} {format} />
+{/snippet}
+
+{#if format.block}
+    <Block style="none" children={view}></Block>
+{:else}
+    {@render view()}
 {/if}

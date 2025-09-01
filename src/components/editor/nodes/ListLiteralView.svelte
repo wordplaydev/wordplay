@@ -14,7 +14,7 @@
 </script>
 
 {#if format.block}
-    <Block inline>
+    <Block>
         <Delimiter token={node.open} {format} />
         <NodeSequenceView
             nodes={node.values}

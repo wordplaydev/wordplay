@@ -4,7 +4,7 @@
     interface Props {
         children: Snippet;
         /** If true, an inline layout instead of block */
-        inline?: boolean;
+        block?: boolean;
         /** If true and not inline, indentation */
         indent?: boolean;
         /** The kind of style to render for the block */
@@ -13,13 +13,15 @@
 
     let {
         children,
-        inline = false,
+        block = false,
         indent = false,
         style = 'back',
     }: Props = $props();
 </script>
 
-<div class="block {style}" class:inline class:indent>{@render children()}</div>
+<div class="block {style}" class:inline={!block} class:indent
+    >{@render children()}</div
+>
 
 <style>
     .block {
