@@ -14,7 +14,7 @@ export default class RenderContext {
         size: number,
         locales: Locales,
         fonts: Set<SupportedFace>,
-        animationFactor: number
+        animationFactor: number,
     ) {
         this.face = face;
         this.size = size;
@@ -29,7 +29,7 @@ export default class RenderContext {
             size ?? this.size,
             this.locales,
             this.fonts,
-            this.animationFactor
+            this.animationFactor,
         );
     }
 }

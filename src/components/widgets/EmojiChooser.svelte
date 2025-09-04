@@ -1,20 +1,46 @@
 <script lang="ts">
+    import { characterToSVG } from '@db/characters/Character';
+    import { CharactersDB } from '@db/Database';
+    import { withColorEmoji } from '../../unicode/emoji';
     import { getEmoji } from '../../unicode/Unicode';
     import Button from './Button.svelte';
 
-    export let pick: (emoij: string) => void;
-    export let emoji: string;
+    interface Props {
+        pick: (emoij: string) => void;
+        emoji: string;
+    }
+
+    let { pick, emoji }: Props = $props();
+
+    let publicCharacters = $derived(
+        CharactersDB.getEditableCharacters().filter((c) => c.public),
+    );
 </script>
 
 <div class="picker">
+    <!-- Show the public custom characters -->
+    {#each publicCharacters as character}
+        <div class="emoji" class:selected={`@${character.name}` === emoji}>
+            <Button
+                tip={() => character.description}
+                padding={false}
+                action={() => pick(`@${character.name}`)}
+            >
+                {@html characterToSVG(character, '1.25em')}
+            </Button>
+        </div>
+    {/each}
+    <!-- Show standard emojis -->
     {#each getEmoji() as code}
         <div
             class="emoji"
             class:selected={String.fromCodePoint(code.hex) === emoji}
             ><Button
-                tip={code.name}
+                padding={false}
+                tip={() => code.name}
                 action={() => pick(String.fromCodePoint(code.hex))}
-                ><span class="emoji">{String.fromCodePoint(code.hex)}</span
+                ><span class="emoji"
+                    >{withColorEmoji(String.fromCodePoint(code.hex))}</span
                 ></Button
             ></div
         >
@@ -34,10 +60,12 @@
     }
 
     .emoji {
-        font-family: 'Noto Color Emoji';
+        font-family: 'Noto Color Emoji', 'Noto Emoji';
+        font-size: 1em;
     }
 
     .selected {
-        transform: scale(2);
+        background: var(--wordplay-highlight-color);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

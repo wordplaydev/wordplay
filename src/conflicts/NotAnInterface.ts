@@ -1,8 +1,7 @@
-import Conflict from './Conflict';
-import type Reference from '@nodes/Reference';
 import type Definition from '@nodes/Definition';
-import concretize from '../locale/concretize';
+import type Reference from '@nodes/Reference';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class NotAnInterface extends Conflict {
     readonly def: Definition;
@@ -19,13 +18,9 @@ export default class NotAnInterface extends Conflict {
             primary: {
                 node: this.ref,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.StructureDefinition.conflict
-                                    .NotAnInterface
-                        )
+                    locales.concretize(
+                        (l) =>
+                            l.node.StructureDefinition.conflict.NotAnInterface,
                     ),
             },
         };

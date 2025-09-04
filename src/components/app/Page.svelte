@@ -1,81 +1,121 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
-    import Settings from '../settings/Settings.svelte';
-    import { locales } from '../../db/Database';
-    import Link from './Link.svelte';
+    import { page } from '$app/state';
+    import {
+        setFullscreen,
+        type FullscreenContext,
+    } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { LOGO_SYMBOL } from '@parser/Symbols';
+    import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
-    import { setContext } from 'svelte';
     import Color from '../../output/Color';
+    import Settings from '../settings/Settings.svelte';
     import Emoji from './Emoji.svelte';
+    import Link from './Link.svelte';
+
+    interface Props {
+        children: Snippet;
+        footer?: boolean;
+    }
+
+    let { children, footer = true }: Props = $props();
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
     // It's primarily ProjectView that does this.
-    let fullscreen = writable<{
-        on: boolean;
-        background: Color | string | null;
-    }>({ on: false, background: null });
-    setContext('fullscreen', fullscreen);
+    let fullscreen: FullscreenContext = writable({
+        on: false,
+        background: null,
+    });
+    setFullscreen(fullscreen);
 
-    $: if (typeof document !== 'undefined' && $fullscreen) {
-        document.body.style.background = $fullscreen.on
-            ? $fullscreen.background instanceof Color
-                ? $fullscreen.background.toCSS()
-                : $fullscreen.background ?? ''
-            : '';
-        document.body.style.color = $fullscreen.on
-            ? $fullscreen.background instanceof Color
-                ? $fullscreen.background.complement().toCSS()
-                : ''
-            : '';
-    }
+    $effect(() => {
+        if (typeof document !== 'undefined' && $fullscreen) {
+            document.body.style.background = $fullscreen.on
+                ? $fullscreen.background instanceof Color
+                    ? $fullscreen.background.toCSS()
+                    : ($fullscreen.background ?? '')
+                : '';
+            document.body.style.color = $fullscreen.on
+                ? $fullscreen.background instanceof Color
+                    ? $fullscreen.background.contrasting().toCSS()
+                    : ''
+                : '';
+        }
+    });
 
     function handleKey(event: KeyboardEvent) {
         if (
             (event.ctrlKey || event.metaKey) &&
             event.key === 'Escape' &&
-            $page.route.id !== null
+            page.route.id !== null
         ) {
             goto('/');
         }
     }
 </script>
 
-<svelte:window on:keydown={handleKey} />
+<svelte:window onkeydown={handleKey} />
 
 <div class="page">
     <main>
-        <slot />
+        {@render children()}
     </main>
     <footer class:fullscreen={$fullscreen.on}>
-        <Link nowrap tip={$locales.get((l) => l.ui.widget.home)} to="/"
-            ><Emoji>💬</Emoji></Link
-        >
-        <Link nowrap to="/learn"
-            >{$locales.get((l) => l.ui.page.learn.header)}</Link
-        >
-        <Link nowrap to="/projects"
-            >{$locales.get((l) => l.ui.page.projects.header)}</Link
-        >
-        <Link nowrap to="/galleries"
-            >{$locales.get((l) => l.ui.page.galleries.header)}</Link
-        >
-        <Link nowrap to="/donate"
-            >{$locales.get((l) => l.ui.page.donate.header)}</Link
-        >
-        <Settings />
+        <nav>
+            {#if footer}
+                <Link nowrap tip={(l) => l.ui.widget.home} to="/"
+                    ><Emoji
+                        ><span style:font-size="150%">{LOGO_SYMBOL}</span
+                        ></Emoji
+                    ></Link
+                >
+                <Link nowrap to="/projects"
+                    ><LocalizedText
+                        path={(l) => l.ui.page.projects.header}
+                    /></Link
+                >
+                <Link nowrap to="/galleries"
+                    ><LocalizedText
+                        path={(l) => l.ui.page.galleries.header}
+                    /></Link
+                >
+                <Link nowrap to="/characters"
+                    ><LocalizedText
+                        path={(l) => l.ui.page.characters.header}
+                    /></Link
+                >
+                <Link nowrap to="/learn"
+                    ><LocalizedText
+                        path={(l) => l.ui.page.learn.header}
+                    /></Link
+                >
+                <Link nowrap to="/guide"
+                    ><LocalizedText
+                        path={(l) => l.ui.page.guide.header}
+                    /></Link
+                >
+                <Link nowrap to="/teach"
+                    ><LocalizedText
+                        path={(l) => l.ui.page.teach.header}
+                    /></Link
+                >
+                <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
+                    ><LocalizedText path={(l) => l.term.help} /></Link
+                >
+            {/if}
+            <Settings />
+        </nav>
     </footer>
 </div>
 
 <style>
     .page {
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
+        width: 100vw;
+        height: calc(100vh - 1px);
+        max-width: 100%;
+        max-height: 100%;
         display: flex;
         flex-direction: column;
     }
@@ -94,18 +134,24 @@
     }
 
     footer {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
         width: 100%;
         max-width: 100%;
         overflow: auto;
-        padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         border-top: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         z-index: 1;
-        gap: var(--wordplay-spacing);
+        color: var(--wordplay-foreground);
         background: var(--wordplay-background);
+    }
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
+        font-size: var(--wordplay-small-font-size);
     }
 </style>

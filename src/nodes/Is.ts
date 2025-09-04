@@ -1,29 +1,30 @@
-import BoolValue from '@values/BoolValue';
+import type Conflict from '@conflicts/Conflict';
+import { ImpossibleType } from '@conflicts/ImpossibleType';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
+import BoolValue from '@values/BoolValue';
 import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { TYPE_SYMBOL } from '../parser/Symbols';
 import BooleanType from './BooleanType';
-import Expression, { type GuardContext } from './Expression';
 import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
 import Token from './Token';
 import Type from './Type';
-import { ImpossibleType } from '@conflicts/ImpossibleType';
-import UnionType from './UnionType';
-import TypeSet from './TypeSet';
-import Start from '@runtime/Start';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import Sym from './Sym';
-import { TYPE_SYMBOL } from '../parser/Symbols';
-import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
-import type Node from './Node';
-import type Locales from '../locale/Locales';
-import type Conflict from '@conflicts/Conflict';
+import TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -44,20 +45,19 @@ export default class Is extends Expression {
         return new Is(left, new Token(TYPE_SYMBOL, Sym.TypeOperator), right);
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [Is.make(node, TypePlaceholder.make())]
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
         return [
-            Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
-            ...(node instanceof Expression && selected
-                ? [Is.make(node, TypePlaceholder.make())]
-                : []),
+            Is.make(ExpressionPlaceholder.make(type), TypePlaceholder.make()),
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Is';
     }
 
@@ -146,14 +146,14 @@ export default class Is extends Expression {
         return this.type;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Is);
+    static readonly LocalePath = (l: LocaleText) => l.node.Is;
+    getLocalePath() {
+        return Is.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Is.start),
+        return locales.concretize(
+            (l) => l.node.Is.start,
             new NodeRef(this.expression, locales, context),
         );
     }
@@ -164,16 +164,15 @@ export default class Is extends Expression {
         evaluator: Evaluator,
     ) {
         const result = evaluator.peekValue();
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Is.finish),
+        return locales.concretize(
+            (l) => l.node.Is.finish,
             result instanceof BoolValue && result.bool,
             new NodeRef(this.type, locales, context),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

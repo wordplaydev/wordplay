@@ -1,8 +1,13 @@
 <script lang="ts">
-    export let color = false;
+    interface Props {
+        color?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let { color = false, children }: Props = $props();
 </script>
 
-<span class="emoji" class:color><slot /></span>
+<span class="emoji" class:color>{@render children?.()}</span>
 
 <style>
     .emoji {

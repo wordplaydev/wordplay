@@ -1,37 +1,39 @@
-import Node, { node, type Grammar, type Replacement } from './Node';
-import Token from './Token';
-import Program from './Program';
-import type Conflict from '@conflicts/Conflict';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { parseNames } from '@parser/parseBind';
 import parseProgram from '@parser/parseProgram';
+import type Spaces from '@parser/Spaces';
 import {
     DelimiterCloseByOpen,
     DelimiterOpenByClose,
     tokenize,
 } from '@parser/Tokenizer';
-import UnicodeString from '../models/UnicodeString';
+import { toTokens } from '@parser/toTokens';
+import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
-import type Context from './Context';
-import Names from './Names';
-import type Borrow from './Borrow';
-import Expression from './Expression';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
+import Tokens from '../parser/Tokens';
+import UnicodeString from '../unicode/UnicodeString';
 import Bind from './Bind';
+import type Borrow from './Borrow';
+import type { SharedDefinition } from './Borrow';
+import type Context from './Context';
+import type Definition from './Definition';
+import Expression from './Expression';
+import FunctionDefinition from './FunctionDefinition';
+import Markup from './Markup';
+import Names from './Names';
+import Node, { node, type Grammar, type Replacement } from './Node';
+import Program from './Program';
+import Root from './Root';
+import StructureDefinition from './StructureDefinition';
+import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Step from '@runtime/Step';
-import type { SharedDefinition } from './Borrow';
-import FunctionDefinition from './FunctionDefinition';
-import StructureDefinition from './StructureDefinition';
-import type Spaces from '@parser/Spaces';
-import NoneValue from '@values/NoneValue';
-import type Locale from '@locale/Locale';
-import Glyphs from '../lore/Glyphs';
-import Root from './Root';
-import Markup from './Markup';
-import Purpose from '../concepts/Purpose';
-import Tokens from '../parser/Tokens';
-import type Definition from './Definition';
-import type Locales from '../locale/Locales';
-import type Evaluator from '@runtime/Evaluator';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -43,7 +45,7 @@ export default class Source extends Expression {
     /** The program this source can evaluate. */
     readonly expression: Program;
 
-    /** The tokens of this program */
+    /** The tokens of this program, in order */
     readonly tokens: Token[];
 
     /** The spaces preceding each token in the program. */
@@ -64,7 +66,8 @@ export default class Source extends Expression {
     ) {
         super();
 
-        this.names = names instanceof Names ? names : Names.make([names]);
+        this.names =
+            names instanceof Names ? names : parseNames(toTokens(names));
 
         if (typeof code === 'string' || code instanceof UnicodeString) {
             // Generate the AST from the provided code.
@@ -95,7 +98,7 @@ export default class Source extends Expression {
             (n): n is Token => n instanceof Token,
         )) {
             // Increment by the amount of space
-            index += this.spaces.getSpace(token).length;
+            index += new UnicodeString(this.spaces.getSpace(token)).getLength();
             // Remember the position.
             this.tokenPositions.set(token, index);
             // Increment by the amount of text.
@@ -112,7 +115,7 @@ export default class Source extends Expression {
         return this.expression.compile(evaluator, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Source';
     }
 
@@ -242,7 +245,7 @@ export default class Source extends Expression {
         return undefined;
     }
 
-    withName(name: string, locale: Locale) {
+    withName(name: string, locale: LocaleText) {
         return new Source(this.names.withName(name, locale.language), [
             this.expression,
             this.spaces,
@@ -283,6 +286,10 @@ export default class Source extends Expression {
 
     getGraphemeAt(index: number) {
         return this.code.at(index);
+    }
+
+    getGraphemesBetween(start: number, end: number) {
+        return this.code.substring(Math.min(start, end), Math.max(start, end));
     }
 
     /**
@@ -432,9 +439,9 @@ export default class Source extends Expression {
             return (
                 replace.replacement
                     ? newSource.withSpaces(
-                          newSource.spaces.withPreferredSpaceForNode(
-                              newSource.root,
+                          getPreferredSpaces(
                               replace.replacement,
+                              newSource.spaces,
                           ),
                       )
                     : newSource
@@ -535,16 +542,11 @@ export default class Source extends Expression {
             const token = tokens[index];
             const tokenLength = token.getTextLength();
 
-            // Get rendered space prior to the token.
-            const renderedSpace = this.spaces.getPreferredTokenSpace(
-                this.root,
-                token,
-            );
             // Get the physical space prior to the token.
             const actualSpace = this.spaces.getSpace(token);
 
             // Get the space before each line break.
-            const lineSpaces = renderedSpace.split('\n');
+            const lineSpaces = actualSpace.split('\n');
             // Compute the number of lines in the preceding rendered space.
             const lineCount = lineSpaces.length - 1;
             // Compute the space on the final line prior to the token text.
@@ -556,15 +558,13 @@ export default class Source extends Expression {
                 column,
                 physical,
                 actualSpace,
-                renderedSpace,
+                actualSpace,
                 token.getText(),
                 tokenLength,
                 // Last on line if the last token
                 index + 1 === tokens.length ||
                     // Or the next token has a line break before it.
-                    this.spaces
-                        .getPreferredTokenSpace(this.root, tokens[index + 1])
-                        .includes('\n'),
+                    this.spaces.getSpace(tokens[index + 1]).includes('\n'),
             );
             if (result !== undefined) return result;
 
@@ -575,7 +575,7 @@ export default class Source extends Expression {
                     ? // Set the column to the length of the last line of space plus the token's length.
                       lastLineSpace.length + tokenLength
                     : // Increment the column by the rendered length of space and text.
-                      column + renderedSpace.length + tokenLength;
+                      column + actualSpace.length + tokenLength;
 
             // Increment the physical position based on actual space and token.
             physical += actualSpace.length + tokenLength;
@@ -792,10 +792,10 @@ export default class Source extends Expression {
     }
 
     getTokenBeforeNode(node: Node): Token | undefined {
-        let lastToken = undefined;
-        for (const next of this.nodes()) {
-            if (next instanceof Token) lastToken = next;
-            if (next === node) return lastToken;
+        let found = false;
+        for (const next of this.nodes().reverse()) {
+            if (found && next instanceof Token) return next;
+            if (next === node) found = true;
         }
         return undefined;
     }
@@ -830,22 +830,14 @@ export default class Source extends Expression {
     }
 
     getFirstToken(node: Node): Token | undefined {
-        let next = node;
-        do {
-            if (next instanceof Token) return next;
-            next = next.getChildren()[0];
-        } while (next !== undefined);
-        return undefined;
+        return node.nodes().filter((n): n is Token => n instanceof Token)[0];
     }
 
     getLastToken(node: Node): Token | undefined {
-        let next = node;
-        do {
-            if (next instanceof Token) return next;
-            const children = next.getChildren();
-            next = children[children.length - 1];
-        } while (next !== undefined);
-        return undefined;
+        return node
+            .nodes()
+            .filter((n): n is Token => n instanceof Token)
+            .at(-1);
     }
 
     getTokens() {
@@ -889,14 +881,14 @@ export default class Source extends Expression {
 
     withPreferredSpace() {
         // Pretty print and get the column
-        return this.withSpaces(this.spaces.withPreferredSpace(this));
+        return this.withSpaces(getPreferredSpaces(this));
     }
 
     toWordplay(spaces?: Spaces) {
         return super.toWordplay(spaces ?? this.spaces);
     }
 
-    getPreferredName(locales: Locale | Locale[]) {
+    getPreferredName(locales: LocaleText | LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 
@@ -910,7 +902,7 @@ export default class Source extends Expression {
         return current;
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts() {
         return [];
     }
 
@@ -929,8 +921,9 @@ export default class Source extends Expression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Source);
+    static readonly LocalePath = (l: LocaleText) => l.node.Source;
+    getLocalePath() {
+        return Source.LocalePath;
     }
 
     getStartExplanations() {
@@ -941,8 +934,8 @@ export default class Source extends Expression {
         return new Markup([]);
     }
 
-    getGlyphs() {
-        return Glyphs.Source;
+    getCharacter() {
+        return Characters.Source;
     }
 
     getPurpose() {

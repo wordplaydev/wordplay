@@ -1,14 +1,14 @@
 import type Expression from '@nodes/Expression';
+import type Input from '@nodes/Input';
 import type TableType from '@nodes/TableType';
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class UnknownColumn extends Conflict {
     readonly type: TableType;
-    readonly cell: Expression;
+    readonly cell: Expression | Input;
 
-    constructor(type: TableType, cell: Expression) {
+    constructor(type: TableType, cell: Expression | Input) {
         super(false);
         this.type = type;
         this.cell = cell;
@@ -19,9 +19,8 @@ export default class UnknownColumn extends Conflict {
             primary: {
                 node: this.cell,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get((l) => l.node.Row.conflict.UnknownColumn)
+                    locales.concretize(
+                        (l) => l.node.Row.conflict.UnknownColumn,
                     ),
             },
         };

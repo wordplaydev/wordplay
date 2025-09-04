@@ -1,20 +1,14 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Doc from '@nodes/Doc';
     import NodeView from './NodeView.svelte';
 
-    export let node: Doc;
+    interface Props {
+        node: Doc;
+    }
+
+    let { node }: Props = $props();
 </script>
 
-<span class="doc"
-    ><NodeView node={node.open} /><NodeView node={node.markup} /><NodeView
-        node={node.close}
-    /><NodeView node={node.language} /></span
->
-
-<style>
-    .doc {
-        color: var(--wordplay-doc-color);
-    }
-</style>
+<NodeView node={node.open} /><NodeView node={node.markup} /><NodeView
+    node={node.close}
+/><NodeView node={node.language} /><NodeView node={node.separator} />

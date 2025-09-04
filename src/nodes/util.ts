@@ -1,13 +1,13 @@
-import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
+import DuplicateName from '@conflicts/DuplicateName';
 import InputListMustBeLast from '@conflicts/InputListMustBeLast';
+import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
 import Bind from './Bind';
 import type Node from './Node';
-import Token from './Token';
 import Sym from './Sym';
-import DuplicateName from '@conflicts/DuplicateName';
+import Token from './Token';
 
 export function requiredBindAfterOptional(
-    inputs: Bind[]
+    inputs: Bind[],
 ): RequiredAfterOptional | undefined {
     const binds = inputs.filter((i) => i instanceof Bind) as Bind[];
     let foundOptional = false;
@@ -29,7 +29,7 @@ export function requiredBindAfterOptional(
 
 export function restIsNotLast(inputs: Bind[]) {
     const rest = inputs.find(
-        (i) => i instanceof Bind && i.isVariableLength()
+        (i) => i instanceof Bind && i.isVariableLength(),
     ) as Bind | undefined;
     return rest !== undefined && inputs.indexOf(rest) !== inputs.length - 1
         ? new InputListMustBeLast(rest)
@@ -47,7 +47,7 @@ export function getEvaluationInputConflicts(inputs: Bind[]) {
             const sharedName = dupe.names.getSharedName(input.names);
             if (sharedName) {
                 const thisName = input.names.names.find(
-                    (name) => name.getName() === sharedName?.getName()
+                    (name) => name.getName() === sharedName?.getName(),
                 );
                 if (thisName)
                     conflicts.push(new DuplicateName(input, sharedName));

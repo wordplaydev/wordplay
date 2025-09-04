@@ -18,50 +18,53 @@ import TypePlaceholder from '../nodes/TypePlaceholder';
 import UnionType from '../nodes/UnionType';
 import UnparsableType from '../nodes/UnparsableType';
 import parseBind, { nextIsBind } from './parseBind';
-import type Tokens from './Tokens';
 import {
     parseTypeInputs,
     parseTypeVariables,
     parseUnit,
 } from './parseExpression';
 import parseLanguage from './parseLanguage';
+import type Tokens from './Tokens';
 
 export default function parseType(tokens: Tokens, isExpression = false): Type {
     let left: Type = tokens.nextIs(Sym.Placeholder)
         ? new TypePlaceholder(tokens.read(Sym.Placeholder))
         : tokens.nextIs(Sym.Name)
-        ? parseNameType(tokens)
-        : tokens.nextIs(Sym.BooleanType)
-        ? new BooleanType(tokens.read(Sym.BooleanType))
-        : tokens.nextIs(Sym.Operator, '%') ||
-          tokens.nextIsOneOf(Sym.Number, Sym.NumberType)
-        ? parseNumberType(tokens)
-        : tokens.nextIs(Sym.Text)
-        ? parseTextType(tokens)
-        : tokens.nextIs(Sym.None)
-        ? parseNoneType(tokens)
-        : tokens.nextIs(Sym.ListOpen)
-        ? parseListType(tokens)
-        : tokens.nextIs(Sym.SetOpen)
-        ? parseSetOrMapType(tokens)
-        : tokens.nextIs(Sym.TableOpen)
-        ? parseTableType(tokens)
-        : tokens.nextIs(Sym.Function)
-        ? parseFunctionType(tokens)
-        : tokens.nextIs(Sym.Stream)
-        ? parseStreamType(tokens)
-        : // We use the doc symbol because it looks like an empty formatted
-        tokens.nextIs(Sym.FormattedType)
-        ? parseFormattedType(tokens)
-        : new UnparsableType(tokens.readLine());
+          ? parseNameType(tokens)
+          : tokens.nextIs(Sym.BooleanType)
+            ? new BooleanType(tokens.read(Sym.BooleanType))
+            : tokens.nextIs(Sym.Operator, '%') ||
+                tokens.nextIsOneOf(Sym.Number, Sym.NumberType)
+              ? parseNumberType(tokens)
+              : tokens.nextIs(Sym.Text)
+                ? parseTextType(tokens)
+                : tokens.nextIs(Sym.None)
+                  ? parseNoneType(tokens)
+                  : tokens.nextIs(Sym.ListOpen)
+                    ? parseListType(tokens)
+                    : tokens.nextIs(Sym.SetOpen)
+                      ? parseSetOrMapType(tokens)
+                      : tokens.nextIs(Sym.TableOpen)
+                        ? parseTableType(tokens)
+                        : tokens.nextIs(Sym.Function)
+                          ? parseFunctionType(tokens)
+                          : tokens.nextIs(Sym.Stream)
+                            ? parseStreamType(tokens)
+                            : // We use the doc symbol because it looks like an empty formatted
+                              tokens.nextIs(Sym.FormattedType)
+                              ? parseFormattedType(tokens)
+                              : new UnparsableType(tokens.readLine());
 
     if (!isExpression && tokens.nextIs(Sym.Convert))
         left = parseConversionType(left, tokens);
 
-    while (tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace()) {
-        const or = tokens.read(Sym.Union);
-        left = new UnionType(left, or, parseType(tokens));
-    }
+    tokens.whileDo(
+        () => tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace(),
+        () => {
+            const or = tokens.read(Sym.Union);
+            left = new UnionType(left, or, parseType(tokens));
+        },
+    );
 
     return left;
 }
@@ -143,15 +146,19 @@ export function parseTableType(tokens: Tokens): TableType {
     const open = tokens.read(Sym.TableOpen);
 
     const columns: Bind[] = [];
-    while (
-        tokens.hasNext() &&
-        tokens.nextIsnt(Sym.Code) &&
-        !tokens.nextIs(Sym.TableClose)
-    ) {
-        const bind = nextIsBind(tokens, false) ? parseBind(tokens) : undefined;
-        if (bind === undefined) break;
-        else columns.push(bind);
-    }
+    tokens.whileDo(
+        () =>
+            tokens.hasNext() &&
+            tokens.nextIsnt(Sym.Code) &&
+            !tokens.nextIs(Sym.TableClose),
+        () => {
+            const bind = nextIsBind(tokens, false)
+                ? parseBind(tokens)
+                : undefined;
+            if (bind === undefined) return false;
+            else columns.push(bind);
+        },
+    );
     const close = tokens.readIf(Sym.TableClose);
     return new TableType(open, columns, close);
 }
@@ -169,7 +176,10 @@ function parseFunctionType(tokens: Tokens): FunctionType {
     tokens.pushReactionAllowed(false);
 
     const inputs: Bind[] = [];
-    while (nextIsBind(tokens, false)) inputs.push(parseBind(tokens));
+    tokens.whileDo(
+        () => nextIsBind(tokens, false),
+        () => inputs.push(parseBind(tokens)),
+    );
 
     // Restore previous allowed.
     tokens.popReactionAllowed();

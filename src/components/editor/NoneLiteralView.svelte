@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type NoneLiteral from '@nodes/NoneLiteral';
     import NodeView from './NodeView.svelte';
 
-    export let node: NoneLiteral;
+    interface Props {
+        node: NoneLiteral;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.none} />

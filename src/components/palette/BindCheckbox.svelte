@@ -1,14 +1,19 @@
 <script lang="ts">
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
-    import Checkbox from '../widgets/Checkbox.svelte';
-    import BooleanLiteral from '@nodes/BooleanLiteral';
     import type OutputProperty from '@edit/OutputProperty';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import BooleanLiteral from '@nodes/BooleanLiteral';
+    import { locales, Projects } from '../../db/Database';
     import { getProject } from '../project/Contexts';
-    import { Projects } from '../../db/Database';
+    import Checkbox from '../widgets/Checkbox.svelte';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValues;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValues;
+        editable: boolean;
+        id?: string | undefined;
+    }
+
+    let { property, values, editable, id = undefined }: Props = $props();
 
     const project = getProject();
 
@@ -19,7 +24,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 newValue !== undefined
                     ? BooleanLiteral.make(newValue)
                     : undefined,
@@ -29,9 +34,9 @@
 </script>
 
 <Checkbox
-    label={property.getName()}
+    label={property.name}
     on={values.getBool()}
     changed={handleChange}
     {editable}
-    id={property.getName()}
+    {id}
 />

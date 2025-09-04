@@ -1,29 +1,43 @@
 <script lang="ts">
-    import TextField from '../widgets/TextField.svelte';
-    import Evaluate from '../../nodes/Evaluate';
-    import type Project from '@models/Project';
-    import NumberValue from '@values/NumberValue';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type Project from '@db/projects/Project';
+    import type LocaleText from '@locale/LocaleText';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
-    import Note from '../widgets/Note.svelte';
-    import { getNumber } from './editOutput';
-    import Expression from '../../nodes/Expression';
-    import { Projects, locales } from '../../db/Database';
+    import NumberValue from '@values/NumberValue';
     import { tick } from 'svelte';
-    import Button from '../widgets/Button.svelte';
+    import { Projects, locales } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
+    import Evaluate from '../../nodes/Evaluate';
+    import Expression from '../../nodes/Expression';
     import NumberType from '../../nodes/NumberType';
+    import Button from '../widgets/Button.svelte';
+    import Note from '../widgets/Note.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import { getNumber } from './editOutput';
 
-    export let project: Project;
-    export let place: Evaluate;
-    export let editable: boolean;
-    export let convertable: boolean;
+    interface Props {
+        project: Project;
+        place: Evaluate;
+        editable: boolean;
+        convertable: boolean;
+        id?: string | undefined;
+    }
 
-    let views: HTMLInputElement[] = [];
+    let {
+        project,
+        place,
+        editable,
+        convertable,
+        id = undefined,
+    }: Props = $props();
+
+    let views: HTMLInputElement[] = $state([]);
 
     function valid(val: string) {
-        const [num] = NumberValue.fromUnknown(val, false);
-        return !num.isNaN();
+        const [num] = NumberValue.fromUnknown(val);
+        return num.isNaN() ? (l: LocaleText) => l.ui.palette.error.nan : true;
     }
 
     async function handleChange(dimension: Bind, value: string) {
@@ -31,7 +45,7 @@
         if (value.length > 0 && !valid(value)) return;
 
         const focusIndex = views.findIndex(
-            (view) => document.activeElement === view
+            (view) => document.activeElement === view,
         );
 
         Projects.revise(project, [
@@ -41,9 +55,9 @@
                     dimension,
                     NumberLiteral.make(
                         value.length === 0 ? 0 : value,
-                        getUnit(dimension)
+                        getUnit(dimension),
                     ),
-                    project.getNodeContext(place)
+                    project.getNodeContext(place),
                 ),
             ],
         ]);
@@ -51,7 +65,11 @@
         if (focusIndex >= 0) {
             await tick();
             const view = views[focusIndex];
-            view?.focus();
+            if (view)
+                setKeyboardFocus(
+                    view,
+                    'Restoring focus after place editor edit.',
+                );
         }
     }
 
@@ -61,18 +79,18 @@
                 ? []
                 : bind.type.getPossibleTypes(project.getNodeContext(place));
         const unit = types.find(
-            (type): type is NumberType => type instanceof NumberType
+            (type): type is NumberType => type instanceof NumberType,
         )?.unit;
         return unit instanceof Unit ? unit.clone() : undefined;
     }
 </script>
 
 {project.shares.output.Place.names.getSymbolicName()}
-<div class="place">
+<div class="place" {id}>
     {#each project.shares.output.Place.inputs as dimension, index}
         {@const given = place?.getInput(
             dimension,
-            project.getNodeContext(place)
+            project.getNodeContext(place),
         )}
         <!-- Get the measurement literal, if there is one -->
         {@const value =
@@ -80,22 +98,21 @@
         <div class="dimension">
             {#if value !== undefined || given == undefined}
                 <TextField
+                    id="place-editor-{index}"
                     text={`${value ?? 0}`}
                     validator={valid}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
-                    description={$locales.get(
-                        (l) => l.ui.palette.field.coordinate
-                    )}
+                    description={(l) => l.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
                 />
                 <Note>{getUnit(dimension)?.toWordplay() ?? ''}</Note>
             {:else}
                 <Note
-                    >{$locales.get(
-                        (locale) => locale.ui.palette.labels.computed
-                    )}</Note
+                    ><LocalizedText
+                        path={(locale) => locale.ui.palette.labels.computed}
+                    /></Note
                 >
             {/if}
         </div>
@@ -103,9 +120,9 @@
 </div>
 {#if convertable}
     <Button
-        tip={$locales.get((l) => l.ui.palette.button.addMotion)}
+        tip={(l) => l.ui.palette.button.addMotion}
         active={editable}
-        action={() =>
+        action={() => {
             Projects.revise(project, [
                 [
                     place,
@@ -115,41 +132,45 @@
                             place,
                             Evaluate.make(
                                 project.shares.output.Velocity.getReference(
-                                    $locales
+                                    $locales,
                                 ),
                                 [
                                     NumberLiteral.make(
                                         0,
-                                        Unit.create(['m'], ['s'])
+                                        Unit.create(['m'], ['s']),
                                     ),
                                     NumberLiteral.make(
                                         0,
-                                        Unit.create(['m'], ['s'])
+                                        Unit.create(['m'], ['s']),
                                     ),
                                     NumberLiteral.make(
                                         0,
-                                        Unit.create(['°'], ['s'])
+                                        Unit.create(['°'], ['s']),
                                     ),
-                                ]
+                                ],
                             ),
-                        ]
+                        ],
                     ),
                 ],
-            ])}>→{project.shares.input.Motion.getNames()[0]}</Button
+            ]);
+        }}
+        icon="→">{project.shares.input.Motion.getNames()[0]}</Button
     >
     <Button
-        tip={$locales.get((l) => l.ui.palette.button.addPlacement)}
+        tip={(l) => l.ui.palette.button.addPlacement}
         active={editable}
-        action={() =>
+        action={() => {
             Projects.revise(project, [
                 [
                     place,
                     Evaluate.make(
                         project.shares.input.Placement.getReference($locales),
-                        [place]
+                        [place],
                     ),
                 ],
-            ])}>→{project.shares.input.Placement.getNames()[0]}</Button
+            ]);
+        }}
+        icon="→">{project.shares.input.Placement.getNames()[0]}</Button
     >
 {/if}
 

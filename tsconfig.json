@@ -10,6 +10,8 @@
         "skipLibCheck": true,
         "sourceMap": true,
         "noEmit": true,
-        "strict": true
+        "strict": true,
+        "noErrorTruncation": true,
+        "exactOptionalPropertyTypes": true
     }
 }

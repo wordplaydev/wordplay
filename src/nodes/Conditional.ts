@@ -1,29 +1,31 @@
-import BooleanType from './BooleanType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { QUESTION_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Jump from '@runtime/Jump';
+import JumpIfEqual from '@runtime/JumpIf';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BooleanLiteral from './BooleanLiteral';
+import BooleanType from './BooleanType';
+import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import type Step from '@runtime/Step';
-import JumpIf from '@runtime/JumpIf';
-import Jump from '@runtime/Jump';
-import type Context from './Context';
-import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import Start from '@runtime/Start';
-import { QUESTION_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import Finish from '@runtime/Finish';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Node from './Node';
-import type Locales from '../locale/Locales';
+import UnionType from './UnionType';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -56,30 +58,32 @@ export default class Conditional extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-        context: Context,
-    ) {
-        return [
-            node instanceof Expression &&
-            selected &&
-            BooleanType.make().accepts(node.getType(context), context)
-                ? Conditional.make(
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof Expression &&
+            (type === undefined || type instanceof BooleanType)
+            ? [
+                  Conditional.make(
                       node,
                       ExpressionPlaceholder.make(),
                       ExpressionPlaceholder.make(),
-                  )
-                : Conditional.make(
-                      ExpressionPlaceholder.make(BooleanType.make()),
-                      ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make(),
                   ),
-        ];
+              ]
+            : [];
     }
 
-    getDescriptor() {
+    static getPossibleAppends({ type }: EditContext) {
+        return Conditional.make(
+            BooleanLiteral.make(true),
+            ExpressionPlaceholder.make(type),
+            ExpressionPlaceholder.make(type),
+        );
+    }
+
+    isUndelimited() {
+        return true;
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'Conditional';
     }
 
@@ -88,29 +92,22 @@ export default class Conditional extends Expression {
             {
                 name: 'condition',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Conditional.condition),
+                label: () => (l) => l.node.Conditional.condition,
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
-            {
-                name: 'question',
-                kind: node(Sym.Conditional),
-                space: true,
-            },
+            { name: 'question', kind: node(Sym.Conditional), space: true },
             {
                 name: 'yes',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Conditional.yes),
+                label: () => (l) => l.node.Conditional.yes,
                 space: true,
                 indent: true,
             },
             {
                 name: 'no',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Conditional.no),
+                label: () => (l) => l.node.Conditional.no,
                 space: true,
                 indent: true,
             },
@@ -124,6 +121,10 @@ export default class Conditional extends Expression {
             this.replaceChild<Expression>('yes', this.yes, replace),
             this.replaceChild<Expression>('no', this.no, replace),
         ) as this;
+    }
+
+    hasBranch(expr: Expression) {
+        return this.condition === expr;
     }
 
     getPurpose() {
@@ -159,7 +160,7 @@ export default class Conditional extends Expression {
         return [
             new Start(this),
             ...this.condition.compile(evaluator, context),
-            new JumpIf(yes.length + 1, false, false, this),
+            new JumpIfEqual(yes.length + 1, false, false, this),
             ...yes,
             new Jump(no.length, this),
             ...no,
@@ -211,14 +212,14 @@ export default class Conditional extends Expression {
         return this.question;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Conditional);
+    static readonly LocalePath = (l: LocaleText) => l.node.Conditional;
+    getLocalePath() {
+        return Conditional.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Conditional.start),
+        return locales.concretize(
+            (l) => l.node.Conditional.start,
             new NodeRef(this.condition, locales, context),
         );
     }
@@ -228,14 +229,13 @@ export default class Conditional extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Conditional.finish),
+        return locales.concretize(
+            (l) => l.node.Conditional.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Conditional;
+    getCharacter() {
+        return Characters.Conditional;
     }
 }

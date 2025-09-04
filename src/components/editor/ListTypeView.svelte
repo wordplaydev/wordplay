@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type ListType from '@nodes/ListType';
     import NodeView from './NodeView.svelte';
 
-    export let node: ListType;
+    interface Props {
+        node: ListType;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.open} /><NodeView node={node.type} /><NodeView

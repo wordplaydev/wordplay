@@ -1,20 +1,20 @@
-import { expect } from 'vitest';
 import Block from '@nodes/Block';
-import Expression from '@nodes/Expression';
 import Context from '@nodes/Context';
+import Expression from '@nodes/Expression';
 import Source from '@nodes/Source';
-import Project from '../models/Project';
-import type Node from '../nodes/Node';
-import type Conflict from './Conflict';
-import type Type from '../nodes/Type';
+import { expect } from 'vitest';
+import Project from '../db/projects/Project';
 import DefaultLocale from '../locale/DefaultLocale';
+import type Node from '../nodes/Node';
+import type Type from '../nodes/Type';
+import type Conflict from './Conflict';
 
 export function testConflict(
     goodCode: string,
     badCode: string,
     nodeType: new (...params: never[]) => Node,
     conflictType: new (...params: never[]) => Conflict,
-    nodeIndex = 0
+    nodeIndex = 0,
 ) {
     const goodSource = new Source('test', goodCode);
     const goodProject = Project.make(
@@ -22,7 +22,7 @@ export function testConflict(
         'good',
         goodSource,
         [],
-        DefaultLocale
+        DefaultLocale,
     );
     const goodProgram = goodSource.expression;
     const goodOp = goodProgram.nodes().filter((n) => n instanceof nodeType)[
@@ -32,7 +32,7 @@ export function testConflict(
     expect(
         goodOp
             ?.getConflicts(new Context(goodProject, goodSource))
-            .filter((n) => n instanceof conflictType)[0]
+            .filter((n) => n instanceof conflictType)[0],
     ).toBeUndefined();
 
     const badSource = new Source('test', badCode);
@@ -44,14 +44,14 @@ export function testConflict(
     expect(badOp).toBeInstanceOf(nodeType);
     const conflicts = badOp?.getConflicts(new Context(badProject, badSource));
     expect(conflicts?.find((c) => c instanceof conflictType)).toBeInstanceOf(
-        conflictType
+        conflictType,
     );
 }
 
 /** Given some code, verify that the type of the last expression in the program's block is of the expected type. */
 export function testTypes(
     code: string,
-    typeExpected: new (...params: never[]) => Type
+    typeExpected: new (...params: never[]) => Type,
 ) {
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);

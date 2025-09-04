@@ -1,12 +1,11 @@
-import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
-import type Evaluation from '@runtime/Evaluation';
-import SimpleValue from './SimpleValue';
-import Value from '../values/Value';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
+import type Evaluation from '@runtime/Evaluation';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Concretizer from '../nodes/Concretizer';
-import type Locales from '../locale/Locales';
+import Value from '../values/Value';
+import SimpleValue from './SimpleValue';
 
 export default class ConversionDefinitionValue extends SimpleValue {
     /** The definition from the AST. */
@@ -44,11 +43,8 @@ export default class ConversionDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.function)
-        );
+    getDescription() {
+        return (l: LocaleText) => l.term.function;
     }
 
     getRepresentativeText() {

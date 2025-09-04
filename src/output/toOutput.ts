@@ -1,36 +1,36 @@
 import ListValue from '@values/ListValue';
+import NoneValue from '@values/NoneValue';
+import type { SupportedFace } from '../basis/Fonts';
+import type Project from '../db/projects/Project';
+import type Evaluator from '../runtime/Evaluator';
 import StructureValue from '../values/StructureValue';
+import TextValue from '../values/TextValue';
 import type Value from '../values/Value';
 import type Arrangement from './Arrangement';
-import { toGroup } from './Group';
-import { toPhrase } from './Phrase';
-import { toRow } from './Row';
-import { toStack } from './Stack';
-import type Output from './Output';
-import { NameGenerator, toStage } from './Stage';
-import { toGrid } from './Grid';
-import NoneValue from '@values/NoneValue';
-import { toFree } from './Free';
-import type Project from '../models/Project';
-import { toBoolean, toNumber } from './Stage';
-import { toFont as toFace, toText } from './Phrase';
-import Place, { toPlace } from './Place';
+import type Aura from './Aura';
+import { toAura } from './Aura';
 import Color, { toColor } from './Color';
-import type TextLang from './TextLang';
-import { DefinitePose, toPose } from './Pose';
+import { toFree } from './Free';
+import { toGrid } from './Grid';
+import { toGroup } from './Group';
+import type Output from './Output';
+import { toFont as toFace, toPhrase, toText } from './Phrase';
+import Place, { toPlace } from './Place';
 import type Pose from './Pose';
+import { DefinitePose, toPose } from './Pose';
+import { toRow } from './Row';
 import type Sequence from './Sequence';
-import { getOutputInputs } from './Valued';
 import { toSequence } from './Sequence';
-import TextValue from '../values/TextValue';
-import type { SupportedFace } from '../basis/Fonts';
 import { toShape } from './Shape';
-import type Evaluator from '../runtime/Evaluator';
+import { toStack } from './Stack';
+import { NameGenerator, toBoolean, toNumber, toStage } from './Stage';
+import type TextLang from './TextLang';
+import { getOutputInputs } from './Valued';
 
 export function toOutput(
     evaluator: Evaluator,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): Output | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     const project = evaluator.project;
@@ -50,11 +50,12 @@ export function toOutput(
 export function toOutputList(
     evaluator: Evaluator,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): (Output | null)[] | undefined {
     if (value === undefined || !(value instanceof ListValue)) return undefined;
 
     const phrases: (Output | null)[] = [];
+
     for (const val of value.values) {
         if (!(val instanceof StructureValue || val instanceof NoneValue))
             return undefined;
@@ -68,7 +69,7 @@ export function toOutputList(
 
 export function toArrangement(
     project: Project,
-    value: Value | undefined
+    value: Value | undefined,
 ): Arrangement | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     switch (value.type) {
@@ -87,11 +88,12 @@ export function toArrangement(
 export function getTypeStyle(
     project: Project,
     value: StructureValue,
-    index: number
+    index: number,
 ): {
     size: number | undefined;
     face: SupportedFace | undefined;
     name: TextLang | undefined;
+    description: TextLang | undefined;
     selectable: boolean | undefined;
     place: Place | undefined;
     background: Color | undefined;
@@ -102,6 +104,7 @@ export function getTypeStyle(
     exiting: Pose | Sequence | undefined;
     duration: number | undefined;
     style: string | undefined;
+    shadow: Aura | undefined;
 } {
     const [sizeVal, faceVal, placeVal] = getOutputInputs(value, index);
 
@@ -116,6 +119,7 @@ export function getTypeStyle(
         face,
         place,
         name: style.name,
+        description: style.description,
         selectable: style.selectable,
         background: style.background,
         pose: style.pose,
@@ -125,6 +129,7 @@ export function getTypeStyle(
         exiting: style.exiting,
         duration: style.duration,
         style: style.style,
+        shadow: style.shadow,
     };
 }
 
@@ -132,10 +137,11 @@ export function getStyle(
     project: Project,
     value: StructureValue,
     index: number,
-    place?: Place | undefined
+    place?: Place | undefined,
 ) {
     const [
         nameVal,
+        descriptionVal,
         selectableVal,
         colorVal,
         backgroundVal,
@@ -151,9 +157,11 @@ export function getStyle(
         exitVal,
         durationVal,
         styleVal,
+        shadowVal,
     ] = getOutputInputs(value, index);
 
     const name = toText(nameVal);
+    const description = toText(descriptionVal);
     const selectable = toBoolean(selectableVal);
     const background = toColor(backgroundVal);
     const color = toColor(colorVal);
@@ -173,7 +181,7 @@ export function getStyle(
         place?.rotation ?? rotation,
         scale,
         flipx,
-        flipy
+        flipy,
     );
 
     const rest = toPose(project, restVal) ?? toSequence(project, restVal);
@@ -181,9 +189,11 @@ export function getStyle(
     const move = toPose(project, moveVal) ?? toSequence(project, moveVal);
     const exit = toPose(project, exitVal) ?? toSequence(project, exitVal);
     const duration = toNumber(durationVal);
+    const shadow = toAura(project, shadowVal);
 
     return {
         name,
+        description,
         selectable,
         background,
         pose,
@@ -193,5 +203,6 @@ export function getStyle(
         exiting: exit,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
+        shadow: shadow,
     };
 }

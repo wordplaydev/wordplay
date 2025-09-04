@@ -1,39 +1,40 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownConversion } from '@conflicts/UnknownConversion';
-import Expression, { type GuardContext } from './Expression';
-import Type from './Type';
-import Token from './Token';
-import Finish from '@runtime/Finish';
-import type Step from '@runtime/Step';
-import Start from '@runtime/Start';
-import Evaluation from '@runtime/Evaluation';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import ExceptionValue from '@values/ExceptionValue';
-import ConversionDefinition from './ConversionDefinition';
-import Halt from '@runtime/Halt';
-import Block from './Block';
-import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import Names from './Names';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import { node, type Grammar, type Replacement } from './Node';
-import StartConversion from '@runtime/StartConversion';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import { NotAType } from './NotAType';
-import ConversionType from './ConversionType';
-import NeverType from './NeverType';
-import concretize from '../locale/concretize';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Halt from '@runtime/Halt';
+import Start from '@runtime/Start';
+import StartConversion from '@runtime/StartConversion';
+import type Step from '@runtime/Step';
 import ConversionException from '@values/ConversionException';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import TypePlaceholder from './TypePlaceholder';
-import type Node from './Node';
+import ExceptionValue from '@values/ExceptionValue';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
-import NameType from './NameType';
-import { getConcreteConversionTypeVariable } from './Generics';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import Block from './Block';
+import type Context from './Context';
+import ConversionDefinition from './ConversionDefinition';
+import ConversionType from './ConversionType';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { getConcreteConversionTypeVariable } from './Generics';
+import Names from './Names';
+import NameType from './NameType';
+import NeverType from './NeverType';
+import { node, type Grammar, type Replacement } from './Node';
+import { NotAType } from './NotAType';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
+import TypePlaceholder from './TypePlaceholder';
+import type TypeSet from './TypeSet';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -58,22 +59,22 @@ export default class Convert extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof Expression
+            ? [Convert.make(node, type ?? TypePlaceholder.make())]
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
         return [
-            node instanceof Expression && selected
-                ? Convert.make(node, TypePlaceholder.make())
-                : Convert.make(
-                      ExpressionPlaceholder.make(),
-                      TypePlaceholder.make(),
-                  ),
+            Convert.make(
+                ExpressionPlaceholder.make(),
+                type ?? TypePlaceholder.make(),
+            ),
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Convert';
     }
 
@@ -264,14 +265,14 @@ export default class Convert extends Expression {
         return this.convert;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Convert);
+    static readonly LocalePath = (l: LocaleText) => l.node.Convert;
+    getLocalePath() {
+        return Convert.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Convert.start),
+        return locales.concretize(
+            (l) => l.node.Convert.start,
             new NodeRef(this.expression, locales, context),
         );
     }
@@ -281,15 +282,14 @@ export default class Convert extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Convert.finish),
+        return locales.concretize(
+            (l) => l.node.Convert.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Conversion;
+    getCharacter() {
+        return Characters.Conversion;
     }
 }
 

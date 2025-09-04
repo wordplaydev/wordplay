@@ -1,34 +1,43 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
-    import type Reference from '@nodes/Reference';
-    import NodeView from './NodeView.svelte';
-    import { getEvaluation } from '../project/Contexts';
     import Evaluate from '@nodes/Evaluate';
+    import type Reference from '@nodes/Reference';
+    import Source from '@nodes/Source';
     import type StreamValue from '@values/StreamValue';
-    import type Value from '../../values/Value';
     import { animationFactor } from '../../db/Database';
+    import type Value from '../../values/Value';
+    import { getEvaluation } from '../project/Contexts';
+    import NodeView from './NodeView.svelte';
 
-    export let node: Reference;
+    interface Props {
+        node: Reference;
+    }
+
+    let { node }: Props = $props();
 
     let evaluation = getEvaluation();
 
-    let stream: StreamValue<Value, unknown> | undefined;
-    $: {
+    let project = $derived($evaluation?.evaluator.project);
+    let root = $derived(project?.getRoot(node));
+    let context = $derived(
+        root?.root instanceof Source
+            ? project?.getContext(root.root)
+            : undefined,
+    );
+    let definition = $derived(node.resolve(context));
+
+    let stream: StreamValue<Value, unknown> | undefined = $derived.by(() => {
         if ($evaluation) {
-            const parent = $evaluation.evaluator.project
-                .getRoot(node)
-                ?.getParent(node);
-            stream =
-                parent instanceof Evaluate
-                    ? $evaluation.evaluator.getStreamFor(parent)
-                    : undefined;
+            const parent = root?.getParent(node);
+            return parent instanceof Evaluate
+                ? $evaluation.evaluator.getStreamFor(parent)
+                : undefined;
         }
-    }
+        return undefined;
+    });
 
     // If this evaluated to the stream that recently changed, style it.
-    let animating = false;
-    $: {
+    let animating = $state(false);
+    $effect(() => {
         // Evaluated if...
         if (
             // There's evluation in this context
@@ -46,16 +55,15 @@
             // Reset after the animation is done.
             setTimeout(() => (animating = false), $animationFactor * 200);
         }
-    }
+    });
 </script>
 
-{#if animating}
-    <span class="changed">
-        <NodeView node={node.name} />
-    </span>
-{:else}
+<span
+    class:changed={animating}
+    class={definition ? definition.getDescriptor() : ''}
+>
     <NodeView node={node.name} />
-{/if}
+</span>
 
 <style>
     .changed {
@@ -80,5 +88,14 @@
         100% {
             transform: scale(1);
         }
+    }
+
+    .StructureDefinition,
+    .StreamDefinition {
+        font-style: italic;
+    }
+
+    .StreamDefinition {
+        text-decoration: underline dotted;
     }
 </style>

@@ -1,11 +1,11 @@
-import { test, expect } from 'vitest';
-import { testConflict } from '@conflicts/TestUtilities';
-import UnusedBind from '@conflicts/UnusedBind';
 import IncompatibleType from '@conflicts/IncompatibleType';
-import Bind from './Bind';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
+import { testConflict } from '@conflicts/TestUtilities';
+import UnusedBind from '@conflicts/UnusedBind';
+import { expect, test } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
+import Bind from './Bind';
 
 test.each([
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleType],
@@ -18,7 +18,7 @@ test.each([
     'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict, number?) => {
         testConflict(good, bad, node, conflict, number);
-    }
+    },
 );
 
 test.each([['a: 5\na', '5']])('Expect %s to be %s', (code, value) => {

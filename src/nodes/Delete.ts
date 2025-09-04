@@ -1,36 +1,38 @@
-import type Node from './Node';
-import Token from './Token';
-import Expression, { type GuardContext } from './Expression';
 import type Conflict from '@conflicts/Conflict';
-import type Type from './Type';
-import BooleanType from './BooleanType';
-import TableType from './TableType';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
-import type Value from '@values/Value';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
-import type Step from '@runtime/Step';
 import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import BoolValue from '@values/BoolValue';
+import type Value from '@values/Value';
+import { getIteration, getIterationResult } from '../basis/Iteration';
+import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { DELETE_SYMBOL } from '../parser/Symbols';
+import type StructureValue from '../values/StructureValue';
+import TableValue from '../values/TableValue';
+import BooleanType from './BooleanType';
 import type Context from './Context';
 import type Definition from './Definition';
-import type TypeSet from './TypeSet';
-import type Evaluator from '@runtime/Evaluator';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
-import Sym from './Sym';
-import Purpose from '../concepts/Purpose';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
-import TableValue from '../values/TableValue';
-import type StructureValue from '../values/StructureValue';
-import Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import { getIteration, getIterationResult } from '../basis/Iteration';
-import { DELETE_SYMBOL } from '../parser/Symbols';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import TableType from './TableType';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 type DeleteState = { index: number; list: StructureValue[]; table: TableValue };
 
@@ -53,7 +55,7 @@ export default class Delete extends Expression {
         return new Delete(table, new Token(DELETE_SYMBOL, Sym.Delete), query);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Delete';
     }
 
@@ -62,13 +64,13 @@ export default class Delete extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.table),
+                label: () => (l) => l.term.table,
             },
             { name: 'del', kind: node(Sym.Delete), space: true },
             {
                 name: 'query',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.query),
+                label: () => (l) => l.term.query,
                 // Must be a boolean
                 getType: () => BooleanType.make(),
                 space: true,
@@ -76,28 +78,28 @@ export default class Delete extends Expression {
         ];
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context,
-    ) {
-        const anchorType =
-            anchor instanceof Expression ? anchor.getType(context) : undefined;
-        const tableType =
-            anchorType instanceof TableType ? anchorType : undefined;
-        return anchor instanceof Expression && tableType && selected
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof Expression && type instanceof TableType
             ? [
                   Delete.make(
-                      anchor,
+                      node,
                       ExpressionPlaceholder.make(BooleanType.make()),
                   ),
               ]
             : [];
     }
 
+    static getPossibleAppends() {
+        return [
+            Delete.make(
+                ExpressionPlaceholder.make(TableType.make()),
+                ExpressionPlaceholder.make(BooleanType.make()),
+            ),
+        ];
+    }
+
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     clone(replace?: Replacement) {
@@ -245,14 +247,14 @@ export default class Delete extends Expression {
         return this.del;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Delete);
+    static readonly LocalePath = (l: LocaleText) => l.node.Delete;
+    getLocalePath() {
+        return Delete.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Delete.start),
+        return locales.concretize(
+            (l) => l.node.Delete.start,
             new NodeRef(this.table, locales, context),
         );
     }
@@ -262,14 +264,13 @@ export default class Delete extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Delete.finish),
+        return locales.concretize(
+            (l) => l.node.Delete.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Delete;
+    getCharacter() {
+        return Characters.Delete;
     }
 }

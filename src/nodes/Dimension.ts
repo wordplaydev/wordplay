@@ -1,15 +1,15 @@
-import Node, { none, type Replacement, node, any, type Grammar } from './Node';
-import type Concretizer from './Concretizer';
-import Token from './Token';
-import { EXPONENT_SYMBOL } from '@parser/Symbols';
-import { PRODUCT_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import NameToken from './NameToken';
-import Glyphs from '../lore/Glyphs';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from '@parser/Symbols';
 import Purpose from '../concepts/Purpose';
-import Markup from './Markup';
-import type Type from './Type';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import Markup from './Markup';
+import NameToken from './NameToken';
+import Node, { any, node, none, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -21,7 +21,7 @@ export default class Dimension extends Node {
         product: Token | undefined,
         name: Token | undefined,
         caret: Token | undefined,
-        exponent: Token | undefined
+        exponent: Token | undefined,
     ) {
         super();
 
@@ -41,29 +41,24 @@ export default class Dimension extends Node {
             subsequent ? new Token(PRODUCT_SYMBOL, Sym.Operator) : undefined,
             new NameToken(unit),
             exponent > 1 ? new Token(EXPONENT_SYMBOL, Sym.Operator) : undefined,
-            exponent > 1 ? new Token('' + exponent, Sym.Number) : undefined
+            exponent > 1 ? new Token('' + exponent, Sym.Number) : undefined,
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean
-    ): Dimension[] {
-        // If we've selected this anchor for replacement, offer to replace it with...
-        if (anchor && selected && anchor instanceof Dimension) {
-            return [
-                // An empty exponent, if it doesn't have one
-                ...(anchor.caret === undefined ? [anchor.asPower()] : []),
-                // A power of two
-                ...(anchor.exponent === undefined ? [anchor.withPower(2)] : []),
-            ];
-        }
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof Dimension && type === undefined
+            ? [
+                  // A power of two
+                  ...(node.exponent === undefined ? [node.withPower(2)] : []),
+              ]
+            : [];
+    }
 
+    static getPossibleAppends() {
         return [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Dimension';
     }
 
@@ -73,11 +68,20 @@ export default class Dimension extends Node {
             { name: 'name', kind: node(Sym.Name), uncompletable: true },
             {
                 name: 'caret',
-                kind: any(node(Sym.Operator), none('exponent')),
+                kind: any(
+                    node(Sym.Operator),
+                    none(['exponent', () => new Token('1', Sym.Number)]),
+                ),
             },
             {
                 name: 'exponent',
-                kind: any(node(Sym.Number), none('caret')),
+                kind: any(
+                    node(Sym.Number),
+                    none([
+                        'caret',
+                        () => new Token(EXPONENT_SYMBOL, Sym.Operator),
+                    ]),
+                ),
             },
         ];
     }
@@ -87,7 +91,7 @@ export default class Dimension extends Node {
             this.replaceChild('product', this.product, replace),
             this.replaceChild('name', this.name, replace),
             this.replaceChild('caret', this.caret, replace),
-            this.replaceChild('exponent', this.exponent, replace)
+            this.replaceChild('exponent', this.exponent, replace),
         ) as this;
     }
 
@@ -98,7 +102,7 @@ export default class Dimension extends Node {
                   new Token(PRODUCT_SYMBOL, Sym.Operator),
                   this.name?.clone(),
                   this.caret,
-                  this.exponent
+                  this.exponent,
               );
     }
 
@@ -109,7 +113,7 @@ export default class Dimension extends Node {
                   this.product,
                   this.name,
                   new Token(EXPONENT_SYMBOL, Sym.Operator),
-                  this.exponent
+                  this.exponent,
               );
     }
 
@@ -120,7 +124,7 @@ export default class Dimension extends Node {
                   this.product,
                   this.name,
                   new Token(EXPONENT_SYMBOL, Sym.Operator),
-                  new Token(power.toString(), [Sym.Number, Sym.Decimal])
+                  new Token(power.toString(), [Sym.Number, Sym.Decimal]),
               );
     }
 
@@ -137,20 +141,21 @@ export default class Dimension extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Dimension);
+    static readonly LocalePath = (l: LocaleText) => l.node.Dimension;
+    getLocalePath() {
+        return Dimension.LocalePath;
     }
 
-    getDescription(_: Concretizer, locales: Locales) {
+    getDescription(locales: Locales) {
         const dim = this.getName();
 
         return Markup.words(
             dim === undefined
                 ? ''
-                : {
+                : ({
                       pm: 'picometers',
                       nm: 'nanometers',
                       µm: 'micrometers',
@@ -178,11 +183,11 @@ export default class Dimension extends Node {
                       oz: 'ounces',
                       lb: 'pounds',
                       pt: 'font size',
-                  }[dim] ?? locales.get((l) => l.node.Dimension.description)
+                  }[dim] ?? locales.get((l) => l.node.Dimension.description)),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Dimension;
+    getCharacter() {
+        return Characters.Dimension;
     }
 }

@@ -1,7 +1,6 @@
 import Sym from '../nodes/Sym';
 import Token from '../nodes/Token';
 import type Spaces from './Spaces';
-import type Node from '../nodes/Node';
 
 export default class Tokens {
     /** The tokens that have yet to be read. */
@@ -45,8 +44,12 @@ export default class Tokens {
         return this.#spaces;
     }
 
+    remaining() {
+        return this.#unread.length;
+    }
+
     peekUnread() {
-        return this.#unread;
+        return this.#unread.slice();
     }
 
     /** Returns true if the token list isn't empty. */
@@ -77,7 +80,7 @@ export default class Tokens {
         return types.every(
             (type, index) =>
                 index < this.#unread.length &&
-                this.#unread[index].isSymbol(type)
+                this.#unread[index].isSymbol(type),
         );
     }
 
@@ -109,7 +112,7 @@ export default class Tokens {
         return types.find((type) => this.nextIs(type)) !== undefined;
     }
 
-    /** Returns true if and only if the next token is the specified type. */
+    /** Returns true if and only if the next token has no preceding space. */
     nextLacksPrecedingSpace(): boolean {
         return this.hasNext() && !this.#spaces.hasSpace(this.#unread[0]);
     }
@@ -122,6 +125,11 @@ export default class Tokens {
             !after.isSymbol(Sym.End) &&
             !this.#spaces.hasSpace(after)
         );
+    }
+
+    afterNextIs(type: Sym) {
+        const after = this.#unread[1];
+        return after !== undefined && after.isSymbol(type);
     }
 
     hasAfter(): boolean {
@@ -167,7 +175,7 @@ export default class Tokens {
                         .map((t) => t.toWordplay())
                         .join('')}; expected ${expectedType}, received ${
                         next.types
-                    }`
+                    }`,
                 );
             }
             this.#read.push(next);
@@ -179,21 +187,53 @@ export default class Tokens {
         return this.nextIs(type) ? this.read() : undefined;
     }
 
-    /** Used to read the remainder of a line, and at least one token, unless there are no more tokens. */
+    /** Used to read the remainder of a line, unless there are no more tokens, or we reach the end of a code example. */
     readLine() {
-        const nodes: Node[] = [];
+        const nodes: Token[] = [];
+        let onFirst = true;
 
         if (!this.hasNext()) return nodes;
-        // Read at least one token, then keep going until we reach a token with a line break.
-        do {
-            const next = this.read();
-            nodes.push(next);
-        } while (
-            this.hasNext() &&
-            this.nextHasPrecedingLineBreak() === false &&
-            this.nextIsnt(Sym.Code)
+        // If there are more tokens, and and it's not the end of a code block in markup, and we're either on the first token, or the next token has a line break, read another token.
+        this.whileDo(
+            () =>
+                this.hasNext() &&
+                (onFirst === true ||
+                    this.nextHasPrecedingLineBreak() === false) &&
+                this.nextIsnt(Sym.Code),
+            () => {
+                const next = this.read();
+                onFirst = false;
+                nodes.push(next);
+            },
         );
         return nodes;
+    }
+
+    /**
+     * Checks a condition, if if true, does something, then checks again.
+     * If the action returns false, we stop.
+     * If the action doesn't consume a token, we stop, to prevent infinite loops.
+     **/
+    whileDo(condition: () => boolean, action: () => unknown) {
+        while (condition()) {
+            const currentToken = this.peek();
+            if (action() === false) break;
+            // If we didn't advance, then we're stuck in an infinite loop. Break.
+            if (currentToken === this.peek()) break;
+        }
+    }
+
+    /**
+     * Completes an action, then checks a condition, and stops if false, otherwise repeats. If the action returns false, we stop.
+     * If the action doesn't consume a token, we stop, to prevent infinite loops.
+     **/
+    doWhile(action: () => unknown, condition: () => boolean) {
+        do {
+            const currentToken = this.peek();
+            if (action() === false) break;
+            // If we didn't advance, then we're stuck in an infinite loop. Break.
+            if (currentToken === this.peek()) break;
+        } while (condition());
     }
 
     /** Rollback to the given token. */

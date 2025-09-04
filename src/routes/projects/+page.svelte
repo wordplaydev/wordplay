@@ -1,36 +1,28 @@
 <script lang="ts">
-    import Writing from '@components/app/Writing.svelte';
-    import Header from '@components/app/Header.svelte';
-    import {
-        Galleries,
-        Projects,
-        archivedProjects,
-        editableProjects,
-        locales,
-    } from '@db/Database';
-    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import { goto } from '$app/navigation';
-    import Button from '@components/widgets/Button.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
+    import AddProject from '@components/app/AddProject.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import Feedback from '@components/app/Feedback.svelte';
-    import { get } from 'svelte/store';
+    import Header from '@components/app/Header.svelte';
+    import Notice from '@components/app/Notice.svelte';
+    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
-    import { EDIT_SYMBOL } from '../../parser/Symbols';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
+    import Title from '@components/widgets/Title.svelte';
+    import { Galleries, Projects, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import {
+        CANCEL_SYMBOL,
+        COPY_SYMBOL,
+        EDIT_SYMBOL,
+    } from '../../parser/Symbols';
 
     const user = getUser();
 
-    function newProject() {
-        const newProjectID = Projects.create(
-            $locales.getLocales(),
-            $locales.get((l) => l.newProject)
-        );
-        goto(`/project/${newProjectID}`);
-    }
-
-    let newGalleryError = false;
+    let newGalleryError = $state(false);
     async function newGallery() {
         newGalleryError = false;
         try {
@@ -42,90 +34,118 @@
         }
     }
 
-    const status = Galleries.status;
-    const galleries = Galleries.creatorGalleries;
-
     // Whether to show an error
-    let deleteError = false;
+    let deleteError = $state(false);
+
+    let owned: Project[] = $derived(
+        Projects.allEditableProjects.filter(
+            (p) => p.getOwner() === $user?.uid || !p.hasOwner(),
+        ),
+    );
+
+    let shared: Project[] = $derived(
+        $user === null
+            ? []
+            : Projects.allEditableProjects.filter(
+                  (p) => p.hasOwner() && p.getOwner() !== $user.uid,
+              ),
+    );
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.projects.header)}</title>
+    <Title text={(l) => l.ui.page.projects.header} />
 </svelte:head>
 
 <Writing>
-    <Header>{$locales.get((l) => l.ui.page.projects.header)}</Header>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.projects.projectprompt)}
+    <Header text={(l) => l.ui.page.projects.header} />
+    <MarkupHTMLView markup={(l) => l.ui.page.projects.projectprompt} />
+    <AddProject
+        add={(template) => {
+            const newProjectID = Projects.copy(
+                template,
+                $user?.uid ?? null,
+                null,
+            );
+            goto(`/project/${newProjectID}`);
+        }}
     />
-    <p class="add">
-        <Button
-            tip={$locales.get((l) => l.ui.page.projects.button.newproject)}
-            action={newProject}
-            ><span style:font-size="xxx-large">+</span>
-        </Button></p
-    >
+
     <ProjectPreviewSet
-        set={$editableProjects}
+        set={owned}
         edit={{
-            description: $locales.get(
-                (l) => l.ui.page.projects.button.editproject
-            ),
+            description: (l) => l.ui.page.projects.button.editproject,
             action: (project) => goto(project.getLink(false)),
             label: EDIT_SYMBOL,
         }}
+        copy={{
+            description: (l) => l.ui.project.button.duplicate,
+            action: (project) =>
+                goto(Projects.duplicate(project).getLink(false)),
+            label: COPY_SYMBOL,
+        }}
         remove={(project) => {
             return {
-                prompt: $locales.get(
-                    (l) => l.ui.page.projects.confirm.archive.prompt
-                ),
-                description: $locales.get(
-                    (l) => l.ui.page.projects.confirm.archive.description
-                ),
+                prompt: (l) => l.ui.page.projects.confirm.archive.prompt,
+                description: (l) =>
+                    l.ui.page.projects.confirm.archive.description,
                 action: () => Projects.archiveProject(project.getID(), true),
                 label: '🗑️',
             };
         }}
+        anonymize={false}
+        showCollaborators={true}
     />
-    <!-- If there are any archived projects, make an archived section. -->
-    {#if $archivedProjects.length > 0}
-        <Subheader
-            >{$locales.get((l) => l.ui.page.projects.archiveheader)}</Subheader
-        >
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.projects.archiveprompt)}
+
+    <!-- If there are any shared projects, make a shared section. -->
+    {#if shared.length > 0}
+        <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
+        <ProjectPreviewSet
+            set={shared}
+            edit={{
+                description: (l) => l.ui.page.projects.button.editproject,
+                action: (project) => goto(project.getLink(false)),
+                label: EDIT_SYMBOL,
+            }}
+            copy={{
+                description: (l) => l.ui.project.button.duplicate,
+                action: (project) =>
+                    goto(Projects.duplicate(project).getLink(false)),
+                label: COPY_SYMBOL,
+            }}
+            remove={() => false}
+            anonymize={false}
+            showCollaborators={true}
         />
-        {#if $user === null}<Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.nodeletes
-                )}</Feedback
-            >{/if}
+    {/if}
+
+    <!-- If there are any archived projects, make an archived section. -->
+    {#if Projects.allArchivedProjects.length > 0}
+        <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
+        <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
+        {#if $user === null}<Notice
+                text={(l) => l.ui.page.projects.error.nodeletes}
+            />{/if}
         {#if deleteError}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.delete
-                )}</Feedback
-            >
+            <Notice text={(l) => l.ui.page.projects.error.delete} />
         {/if}
         <ProjectPreviewSet
-            set={$archivedProjects}
+            set={Projects.allArchivedProjects}
             edit={{
-                description: $locales.get(
-                    (l) => l.ui.page.projects.button.unarchive
-                ),
+                description: (l) => l.ui.page.projects.button.unarchive,
                 action: (project) =>
                     Projects.archiveProject(project.getID(), false),
                 label: '↑🗑️',
             }}
+            copy={false}
+            anonymize={false}
+            showCollaborators={true}
             remove={(project) =>
                 $user && project.getOwner() === $user.uid
                     ? {
-                          prompt: $locales.get(
-                              (l) => l.ui.page.projects.confirm.delete
-                          ).prompt,
-                          description: $locales.get(
-                              (l) => l.ui.page.projects.confirm.delete
-                          ).description,
+                          prompt: (l) =>
+                              l.ui.page.projects.confirm.delete.prompt,
+                          description: (l) =>
+                              l.ui.page.projects.confirm.delete.description,
                           action: () => {
                               deleteError = false;
                               try {
@@ -135,59 +155,39 @@
                                   console.error(error);
                               }
                           },
-                          label: '⨉',
+                          label: CANCEL_SYMBOL,
                       }
                     : false}
         />
     {/if}
 
-    <Header>{$locales.get((l) => l.ui.page.projects.galleriesheader)}</Header>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.projects.galleryprompt)}
-    />
+    <Header text={(l) => l.ui.page.projects.galleriesheader} />
+    <MarkupHTMLView markup={(l) => l.ui.page.projects.galleryprompt} />
     {#if $user}
         <p class="add">
             <Button
-                tip={$locales.get((l) => l.ui.page.projects.button.newgallery)}
+                tip={(l) => l.ui.page.projects.button.newgallery}
                 action={newGallery}
-                ><span style:font-size="xxx-large">+</span>
-            </Button></p
+                icon="+"
+                large
+            ></Button></p
         >
         {#if newGalleryError}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.newgallery
-                )}</Feedback
-            >
+            <Notice text={(l) => l.ui.page.projects.error.newgallery} />
         {/if}
-        {#if $status === 'loading'}
-            <Spinning
-                label={$locales.get((l) => l.ui.widget.loading.message)}
-                large
-            />
-        {:else if $status === 'noaccess'}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.noaccess
-                )}</Feedback
-            >
-        {:else if $status === 'loggedout'}
-            <Feedback
-                >{$locales.get(
-                    (l) => l.ui.page.projects.error.nogalleryedits
-                )}</Feedback
-            >
+        {#if Galleries.getStatus() === 'loading'}
+            <Spinning label={(l) => l.ui.widget.loading.message} large />
+        {:else if Galleries.getStatus() === 'noaccess'}
+            <Notice text={(l) => l.ui.page.projects.error.noaccess} />
+        {:else if Galleries.getStatus() === 'loggedout'}
+            <Notice text={(l) => l.ui.page.projects.error.nogalleryedits} />
         {:else}
-            {#each $galleries.values() as gallery, index}
-                <GalleryPreview gallery={get(gallery)} delay={index * 1000} />
+            {#each Galleries.accessibleGalleries.values() as gallery, index}
+                <GalleryPreview {gallery} delay={index * 1000} />
             {/each}
         {/if}
     {:else}
-        <Feedback
-            >{$locales.get(
-                (l) => l.ui.page.projects.error.nogalleryedits
-            )}</Feedback
-        >
+        <Notice text={(l) => l.ui.page.projects.error.nogalleryedits} />
     {/if}
 </Writing>
 

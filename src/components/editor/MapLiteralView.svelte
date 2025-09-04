@@ -1,11 +1,13 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type MapLiteral from '@nodes/MapLiteral';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView from './NodeView.svelte';
 
-    export let node: MapLiteral;
+    interface Props {
+        node: MapLiteral;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.open} /><NodeView node={node.bind} /><NodeSequenceView

@@ -1,8 +1,14 @@
 <script lang="ts">
-    export let center = false;
+    interface Props {
+        center?: boolean;
+        children?: import('svelte').Snippet;
+        id?: string | undefined;
+    }
+
+    let { center = false, id = undefined, children }: Props = $props();
 </script>
 
-<div class="note" class:center><slot /></div>
+<div class="note" {id} class:center>{@render children?.()}</div>
 
 <style>
     div {

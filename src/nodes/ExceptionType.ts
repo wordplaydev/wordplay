@@ -1,10 +1,11 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type ExceptionValue from '@values/ExceptionValue';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
+import { EXCEPTION_SYMBOL } from '../parser/Symbols';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import { EXCEPTION_SYMBOL } from '../parser/Symbols';
-import Glyphs from '../lore/Glyphs';
-import type Locales from '../locale/Locales';
 
 export default class ExceptionType extends Type {
     readonly exception: ExceptionValue;
@@ -15,7 +16,7 @@ export default class ExceptionType extends Type {
         this.exception = exception;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ExceptionType';
     }
 
@@ -24,7 +25,7 @@ export default class ExceptionType extends Type {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet): boolean {
@@ -33,7 +34,7 @@ export default class ExceptionType extends Type {
             .every(
                 (type) =>
                     type instanceof ExceptionType &&
-                    this.exception.constructor === type.exception.constructor
+                    this.exception.constructor === type.exception.constructor,
             );
     }
 
@@ -53,11 +54,12 @@ export default class ExceptionType extends Type {
         return new ExceptionType(this.exception) as this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ExceptionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.ExceptionType;
+    getLocalePath() {
+        return ExceptionType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Exception;
+    getCharacter() {
+        return Characters.Exception;
     }
 }

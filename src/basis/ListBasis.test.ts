@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
 
 test.each([
@@ -10,7 +10,7 @@ test.each([
     ['[1 2 3].length()', '3'],
     ['[1 2 3].first()', '1'],
     ['[1 2 3].last()', '3'],
-    ['[1 2 3].reverse()', '[3 2 1]'],
+    ['[1 2 3].reversed()', '[3 2 1]'],
     ['[1 2 3].sansFirst()', '[2 3]'],
     ['[1 2 3].sansLast()', '[1 2]'],
     ['[1 2 3].sans(2)', '[1 3]'],
@@ -32,6 +32,8 @@ test.each([
     ['[5 2 3 4 1].sorted()', '[1 2 3 4 5]'],
     ['["e" "d" "c" "b" "a"].sorted()', '["a" "b" "c" "d" "e"]'],
     ['["e" "b" "a" "c" "d"].sorted()', '["a" "b" "c" "d" "e"]'],
+    ['["zzz" "yy" "x"].sorted()', '["x" "yy" "zzz"]'],
+    ['["zzz" "π" "yy" "x"].sorted()', '["x" "yy" "zzz" "π"]'],
     ['[ø ø ø].sorted()', '[ø ø ø]'],
     ['[ø "hi" ø].sorted()', '[ø ø "hi"]'],
     ['[{3 2 1} {} {1 2}].sorted()', '!ConversionException'],

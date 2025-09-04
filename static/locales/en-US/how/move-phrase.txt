@@ -1,0 +1,33 @@
+Make a character moveable
+
+Sometimes its helpful to make a @Phrase moveable with a keyboard, mouse, or finger.
+
+Do do this, we can combine @Phrase with @Placement:
+
+\
+Stage(
+	[Phrase('move me' place: Placement())]
+	place: Place(0m 0m -10m)
+)
+\
+
+Using the keyboard arrows or clicking on the @Stage will update the @Placement, causing the @Phrase to move in that direction.
+
+Did you know, though, that @Placement can be used with /anything/ that takes a @Place? 
+For example a @Stage has a @Place that determmines where it's camera is pointing.
+Let's try setting a @Placement for a @Stage's place, and see what happens.
+
+\
+Stage(
+  [
+	Phrase('🐈' place: Place(-2m 2m))
+	Phrase('🐈' place: Place(2m -2m))
+	Phrase('🐈' place: Place(-1m 3m))
+  ]
+  place: Placement(Place(0m 0m -10m))
+)
+\
+
+That makes the camera move! (Note: we start the @Placement with a \z\ value of \10m\ so that the camera is set back from everything.)
+
+animated-scene

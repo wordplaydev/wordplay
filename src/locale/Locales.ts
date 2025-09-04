@@ -1,16 +1,51 @@
+import type Markup from '@nodes/Markup';
+import { DRAFT_SYMBOL } from '@parser/Symbols';
 import type Names from '../nodes/Names';
-import { getLanguageDirection } from './LanguageCode';
-import type Locale from './Locale';
+import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
+import type ConceptRef from './ConceptRef';
+import type { Concretizer } from './concretize';
+import type LanguageCode from './LanguageCode';
+import { getLanguageDirection, getLanguageScripts } from './LanguageCode';
+import { localeToString } from './Locale';
+import type LocaleText from './LocaleText';
+import { isUnwritten, MachineTranslated, toLocale } from './LocaleText';
+import type NodeRef from './NodeRef';
+import type { Script } from './Scripts';
+import type ValueRef from './ValueRef';
+
+export type TemplateInput =
+    | number
+    | boolean
+    | string
+    | undefined
+    | NodeRef
+    | ValueRef
+    | ConceptRef;
+
+/**
+ * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path
+ * as we use the source code of these to extract the path for inline localization contributions from creators.
+ */
+export type LocaleTextAccessor = (locale: LocaleText) => string;
+export type LocaleTextsAccessor = (locale: LocaleText) => string | string[];
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
+    /** The function that concretizes. We take this to avoid circular imports, since this class is deeply nested in the Node hierarchy. */
+    private readonly concretizer: Concretizer;
+
     /** The list of preferred locales */
-    private readonly locales: Locale[];
+    private readonly locales: LocaleText[];
 
     /** The fallback locale when none of the preferred locales have suitable strings. */
-    private readonly fallback: Locale;
+    private readonly fallback: LocaleText;
 
-    constructor(locales: Locale[], fallback: Locale) {
+    constructor(
+        concretizer: Concretizer,
+        locales: LocaleText[],
+        fallback: LocaleText,
+    ) {
+        this.concretizer = concretizer;
         this.locales = locales.slice();
         this.fallback = fallback;
     }
@@ -20,16 +55,34 @@ export default class Locales {
         return this.locales[0] ?? this.fallback;
     }
 
-    /** Get all preferred locales */
+    getLocaleString() {
+        return toLocale(this.getLocale());
+    }
+
+    /** Get all preferred locales, but with the fallback at the end if not included. */
     getLocales() {
         return [
-            ...this.locales.filter((l) => l !== this.fallback),
-            this.fallback,
+            ...this.locales,
+            ...(this.locales.includes(this.fallback) ? [] : [this.fallback]),
         ];
     }
 
+    getLocaleByString(localeString: string) {
+        return this.locales.find(
+            (locale) => localeToString(locale) === localeString,
+        );
+    }
+
+    /** Get preferred locales, in order of preference */
     getPreferredLocales() {
         return [...this.locales];
+    }
+
+    /** True if one of the locales uses the given script */
+    usesScript(script: Script) {
+        return this.locales.some((locale) =>
+            getLanguageScripts(locale.language).includes(script),
+        );
     }
 
     /** Get the language codes for the preferred locales */
@@ -42,46 +95,127 @@ export default class Locales {
         return getLanguageDirection(this.getLocale().language);
     }
 
+    hasLanguage(lang: LanguageCode) {
+        return this.getLanguages().includes(lang);
+    }
+
     /**
      * Get the most preferred non-placeholder string given the accessor.
      * If we resort the fallback, annotate the text with a signal that it's a placeholder.
      * */
-    get<Kind>(accessor: (locale: Locale) => Kind): Kind {
-        const preferredResult = this.locales
+    get<Kind>(accessor: (locale: LocaleText) => Kind): Kind {
+        let fallback = false;
+        let match = this.locales
             .map((l) => accessor(l))
             .find((text) => {
                 // Placeholder string? Don't choose this one.
-                if (typeof text === 'string') return !text.startsWith('$?');
+                if (typeof text === 'string') return !isUnwritten(text);
                 // Array of strings that starts with a placeholder string?
                 else if (
                     Array.isArray(text) &&
                     typeof text[0] === 'string' &&
-                    !text[0].startsWith('$?')
+                    !isUnwritten(text[0])
                 )
                     return true;
-                // Object of strings by key? See if any of the values have placeholders
+                // Object of strings by key? See if any of the values have placeholders (other than emotions, which don't count as unwritten).
                 else if (text !== null && typeof text === 'object')
-                    return !Object.values(text).some(
-                        (t) => typeof t === 'string' && t.startsWith('$?')
+                    return !Object.entries(text).some(
+                        ([key, t]) =>
+                            typeof t === 'string' &&
+                            isUnwritten(t) &&
+                            key !== 'emotion',
                     );
                 // Otherwise, just choose it
                 else return true;
             });
-        // If we found a preferred result, return it.
-        if (preferredResult) return preferredResult;
 
-        const fallbackResult = accessor(this.fallback);
+        // If we found a preferred result, return it. Strip the automation marker if present.
+        if (match === undefined) {
+            fallback = true;
+            match = accessor(this.fallback);
+        }
 
-        // Are we getting a string? Prepend a construction symbol.
+        // If the thing we got is a nested object, clean all the objects.
+        if (typeof match === 'object' && match !== null) {
+            const cleaned = JSON.parse(JSON.stringify(match)) as Record<
+                any,
+                any
+            >;
+            const pairs = getKeyTemplatePairs(cleaned);
+            for (const pair of pairs)
+                if (typeof pair.value === 'string')
+                    pair.repair(cleaned, this.clean(pair.value, fallback));
+            match = cleaned;
+        }
+
         return (
-            typeof fallbackResult === 'string'
-                ? `🚧${fallbackResult}🚧`
-                : // Is it a list of strings? Prepend a construction symbol to the first string.
-                Array.isArray(fallbackResult) &&
-                  typeof fallbackResult[0] === 'string'
-                ? [`🚧${fallbackResult[0]}`, ...fallbackResult.slice(1)]
-                : fallbackResult
-        ) as Kind;
+            // Is the match a string? Clean it.
+            (
+                typeof match === 'string'
+                    ? this.clean(match, fallback)
+                    : // Is it an array? Clean each one.
+                      Array.isArray(match) &&
+                        match.every((s) => typeof s === 'string')
+                      ? match.map((s) => this.clean(s, fallback))
+                      : match
+            ) as Kind
+        );
+    }
+
+    /** Annotates the text as unwritten or machine translated while also replacing any terminology */
+    clean(text: string, unwritten: boolean) {
+        return `${unwritten ? DRAFT_SYMBOL : ''}${text.replace(MachineTranslated, '')}`;
+    }
+
+    /**
+     * Takes a localization templae and converts it to a concrete string.
+     * The syntax is as follows.
+     * To indicate that the string has not yet been written, write an empty string or "$?":
+     *
+     *      ""
+     *      "$?"
+     *
+     * To refer to an input, use a $, followed by the number of the input desired,
+     * starting from 1.
+     *
+     *      "Hello, my name is $1"
+     *
+     * To indicate that you want to reuse a common phrase defined in a locale's "terminology" dictionary,
+     * use a $ followed by any number of word characters (in regex, /\$\w/). This allows
+     * for terminology to be changed globally without search and replace.
+     *
+     *      "To create a new $program, click here."
+     *
+     * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,
+     * and true and false cases
+     *
+     *      "I received $1 ?? [$1 | nothing]"
+     *      "I received $1 ?? [$2 ?? [$1 | $2] | nothinge]"
+     *
+     * To indicate that you want a literal reserved symbol, use two of them:
+     *
+     *      "$$"
+     *      "[["
+     *      "]]"
+     *      "||"
+     */
+    concretize(
+        /** The string to localize */
+        textOrQuery: string | ((locale: LocaleText) => string),
+        /** The inputs to use to concretize */
+        ...inputs: TemplateInput[]
+    ): Markup {
+        const template =
+            typeof textOrQuery === 'string'
+                ? textOrQuery
+                : this.get(textOrQuery);
+        return this.concretizer(this, template, ...inputs);
+    }
+
+    getTermByID(id: string) {
+        const locale = this.getLocale();
+        const term = id as keyof LocaleText['term'];
+        return Object.hasOwn(locale.term, term) ? locale.term[term] : undefined;
     }
 
     getName(names: Names, symbolic = true) {

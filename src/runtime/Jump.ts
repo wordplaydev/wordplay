@@ -1,9 +1,8 @@
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
-import Step from './Step';
-import type Value from '../values/Value';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import type Value from '../values/Value';
+import Step from './Step';
 
 export default class Jump extends Step {
     readonly count: number;
@@ -24,9 +23,6 @@ export default class Jump extends Step {
     }
 
     getExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Conditional.afterthen)
-        );
+        return locales.concretize((l) => l.node.Conditional.afterthen);
     }
 }

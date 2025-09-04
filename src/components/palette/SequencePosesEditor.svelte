@@ -1,36 +1,44 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { Projects, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import OutputExpression from '@edit/OutputExpression';
+    import Evaluate from '@nodes/Evaluate';
+    import type Expression from '@nodes/Expression';
     import KeyValue from '@nodes/KeyValue';
-    import TextField from '../widgets/TextField.svelte';
-    import PoseEditor from './PoseEditor.svelte';
-    import type Project from '@models/Project';
     import MapLiteral from '@nodes/MapLiteral';
     import NumberLiteral from '@nodes/NumberLiteral';
-    import { createPoseLiteral } from '@output/Pose';
-    import Evaluate from '@nodes/Evaluate';
-    import OutputExpression from '@edit/OutputExpression';
     import Unit from '@nodes/Unit';
-    import type Expression from '@nodes/Expression';
+    import { createPoseLiteral } from '@output/Pose';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { Projects, locales } from '@db/Database';
+    import TextField from '../widgets/TextField.svelte';
+    import PoseEditor from './PoseEditor.svelte';
 
-    export let project: Project;
-    export let map: MapLiteral | undefined;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        map: MapLiteral | undefined;
+        editable: boolean;
+        id?: string | undefined;
+    }
+
+    let { project, map, editable, id = undefined }: Props = $props();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
-    $: valid =
+    let valid = $derived(
         map !== undefined &&
-        map.values.every(
-            (kv) =>
-                kv instanceof KeyValue &&
-                kv.key instanceof NumberLiteral &&
-                kv.value instanceof Evaluate &&
-                kv.value.is(
-                    project.shares.output.Pose,
-                    project.getNodeContext(kv.value)
-                )
-        );
+            map.values.every(
+                (kv) =>
+                    kv instanceof KeyValue &&
+                    kv.key instanceof NumberLiteral &&
+                    kv.value instanceof Evaluate &&
+                    kv.value.is(
+                        project.shares.output.Pose,
+                        project.getNodeContext(kv.value),
+                    ),
+            ),
+    );
 
     function revisePercent(kv: KeyValue | Expression, percent: string) {
         let text = percent.replace('%', '');
@@ -48,9 +56,9 @@
                 NumberLiteral.make(
                     kv instanceof KeyValue && kv.key instanceof NumberLiteral
                         ? kv.key.number.getText().replace('%', '')
-                        : 0
+                        : 0,
                 ),
-                createPoseLiteral(project, $locales)
+                createPoseLiteral(project, $locales),
             ),
             ...map.values.slice(index + 1),
         ] as KeyValue[]);
@@ -85,22 +93,25 @@
     }
 </script>
 
-<div class="pairs">
+<div class="pairs" {id}>
     {#if map && valid}
         {#each map.values as pair, index}
             {#if pair instanceof KeyValue && pair.value instanceof Evaluate}
                 <div class="pair">
                     <div class="percent"
                         ><TextField
+                            id="percent-editor-{id}-{index}"
                             text={pair.key.toWordplay()}
-                            description={$locales.get(
-                                (l) => l.ui.palette.sequence.field
-                            ).percent}
-                            placeholder="%"
+                            description={(l) =>
+                                l.ui.palette.sequence.field.percent}
+                            placeholder={(l) =>
+                                l.ui.palette.sequence.field.percent}
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
-                                if (isNaN(number)) return false;
-                                if (number < 0 || number > 100) return false;
+                                if (isNaN(number))
+                                    return (l) => l.ui.palette.error.nan;
+                                if (number < 0 || number > 100)
+                                    return (l) => l.ui.palette.error.percent;
                                 const previous = map?.values[index - 1];
                                 const next = map?.values[index + 1];
                                 if (
@@ -110,7 +121,8 @@
                                     number / 100 <
                                         previous.key.getValue().num.toNumber()
                                 )
-                                    return false;
+                                    return (l) =>
+                                        l.ui.palette.error.moreThanPrevious;
                                 if (
                                     next &&
                                     next instanceof KeyValue &&
@@ -118,7 +130,8 @@
                                     number / 100 >
                                         next.key.getValue().num.toNumber()
                                 )
-                                    return false;
+                                    return (l) =>
+                                        l.ui.palette.error.lessThanNext;
 
                                 return true;
                             }}
@@ -126,36 +139,31 @@
                             {editable}
                         />
                         <Button
-                            tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.add
-                            )}
+                            tip={(l) => l.ui.palette.sequence.button.add}
                             active={editable}
-                            action={() => addPose(index)}>+</Button
-                        >
+                            action={() => addPose(index)}
+                            icon="+"
+                        ></Button>
                         <Button
-                            tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.remove
-                            )}
+                            tip={(l) => l.ui.palette.sequence.button.remove}
                             action={() => removePose(index)}
                             active={editable &&
                                 map !== undefined &&
-                                map.values.length > 1}>⨉</Button
-                        >
+                                map.values.length > 1}
+                            icon={CANCEL_SYMBOL}
+                        ></Button>
                         <Button
-                            tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.up
-                            )}
+                            tip={(l) => l.ui.palette.sequence.button.up}
                             action={() => movePose(index, -1)}
-                            active={editable && index > 0}>↑</Button
-                        >
+                            active={editable && index > 0}
+                            icon="↑"
+                        ></Button>
                         <Button
-                            tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.down
-                            )}
+                            tip={(l) => l.ui.palette.sequence.button.down}
                             action={() => movePose(index, 1)}
                             active={editable && index < map.values.length - 1}
-                            >↓</Button
-                        >
+                            icon="↓"
+                        ></Button>
                     </div>
                     <div class="pose"
                         ><PoseEditor
@@ -164,7 +172,7 @@
                                 new OutputExpression(
                                     project,
                                     pair.value,
-                                    $locales
+                                    $locales,
                                 ),
                             ]}
                             sequence
@@ -175,7 +183,11 @@
             {/if}
         {/each}
     {:else}
-        <Note>{$locales.get((l) => l.ui.palette.labels.notSequence)}</Note>
+        <Note
+            ><LocalizedText
+                path={(l) => l.ui.palette.labels.notSequence}
+            /></Note
+        >
     {/if}
 </div>
 

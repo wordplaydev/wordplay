@@ -1,9 +1,9 @@
 Madlib
 === start
-``This keeps track of the kinds of words we need, and their counts``
+¶This keeps track of the kinds of words we need, and their counts¶
 •PartOfSpeech(label•"" count•#)
 
-``These are the words we need for the madlib below.``
+¶These are the words we need for the madlib below.¶
 turns: [
 		PartOfSpeech('adjectives' 4)
 		PartOfSpeech('nouns' 3)
@@ -12,12 +12,12 @@ turns: [
 	]
 
 chat: Chat()
-``Every time a chat is submitted, step to the next part of speech``
+¶Every time a chat is submitted, step to the next part of speech¶
 turn: 1 … ∆ chat … turn + 1
-``Every time a chat is submitted, split the chat by spaces and add to the responses``
+¶Every time a chat is submitted, split the chat by spaces and add to the responses¶
 responses•[['']]: [] … ∆ chat … [:responses chat ÷ ' ']
 
-``We give these indices numbers to make the madlib easier to read``
+¶We give these indices numbers to make the madlib easier to read¶
 adjectives: 1
 nouns: 2
 adverbs: 4
@@ -26,15 +26,15 @@ verbs: 3
 ask: responses.length() < 4
 
 Stage([
-		``Before we have the responses, ask for responses``
+		¶Before we have the responses, ask for responses¶
 		ask ? 
 			Group(Stack('|' 0.25m) [
 					Phrase(`\turns[turn].count\ \turns[turn].label\ please!`)
 					Phrase('(separated by spaces)' 0.5m)
 				])
-			``After we have the responses, show the madlib``
+			¶After we have the responses, show the madlib¶
 			(
-				``Make a list of sentences with the responses``
+				¶Make a list of sentences with the responses¶
 				sentences: [
 						`Today I went to the zoo.`
 						`I saw a(n) *\responses[nouns][1]\* *\responses[adverbs][1]\* jumping up and down in its tree.`
@@ -46,7 +46,7 @@ Stage([
 						`Afterwards I *\responses[verbs][2]\* *\responses[adverbs][2]\* to catch our bus.`
 						`When I got home I *\responses[verbs][3]\* my mom for a *\responses[adjectives][4]\* day at the zoo.`
 					]
-				``Translate them into phrases``
+				¶Translate them into phrases¶
 				Group(Stack('<') sentences.translate(ƒ (sentence) Phrase(sentence)))
 			)
 	] 

@@ -1,74 +1,93 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { test, expect } from 'vitest';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
+import BooleanLiteral from '@nodes/BooleanLiteral';
 import BooleanType from '@nodes/BooleanType';
 import Borrow from '@nodes/Borrow';
+import Conditional from '@nodes/Conditional';
+import ConversionDefinition from '@nodes/ConversionDefinition';
+import Convert from '@nodes/Convert';
 import Doc from '@nodes/Doc';
+import DocumentedExpression from '@nodes/DocumentedExpression';
+import Evaluate from '@nodes/Evaluate';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
+import Input from '@nodes/Input';
+import Insert from '@nodes/Insert';
+import Is from '@nodes/Is';
+import ListAccess from '@nodes/ListAccess';
+import ListLiteral from '@nodes/ListLiteral';
 import ListType from '@nodes/ListType';
+import MapLiteral from '@nodes/MapLiteral';
+import MapType from '@nodes/MapType';
+import NameType from '@nodes/NameType';
+import NoneLiteral from '@nodes/NoneLiteral';
+import NoneType from '@nodes/NoneType';
 import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
-import NameType from '@nodes/NameType';
-import NoneType from '@nodes/NoneType';
-import { toProgram } from './parseProgram';
+import Otherwise from '@nodes/Otherwise';
+import Paragraph from '@nodes/Paragraph';
+import Previous from '@nodes/Previous';
 import Program from '@nodes/Program';
+import PropertyReference from '@nodes/PropertyReference';
+import Reaction from '@nodes/Reaction';
+import Reference from '@nodes/Reference';
+import Select from '@nodes/Select';
+import SetLiteral from '@nodes/SetLiteral';
+import SetOrMapAccess from '@nodes/SetOrMapAccess';
+import SetType from '@nodes/SetType';
 import StreamType from '@nodes/StreamType';
+import StructureDefinition from '@nodes/StructureDefinition';
+import TableLiteral from '@nodes/TableLiteral';
 import TableType from '@nodes/TableType';
+import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import Token from '@nodes/Token';
-import UnionType from '@nodes/UnionType';
-import TextLiteral from '@nodes/TextLiteral';
-import NoneLiteral from '@nodes/NoneLiteral';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import ListLiteral from '@nodes/ListLiteral';
-import ListAccess from '@nodes/ListAccess';
-import SetOrMapAccess from '@nodes/SetOrMapAccess';
-import Reaction from '@nodes/Reaction';
-import Conditional from '@nodes/Conditional';
-import TableLiteral from '@nodes/TableLiteral';
-import Select from '@nodes/Select';
-import Insert from '@nodes/Insert';
-import Update from '@nodes/Update';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Evaluate from '@nodes/Evaluate';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import Convert from '@nodes/Convert';
-import Is from '@nodes/Is';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import Previous from '@nodes/Previous';
-import SetLiteral from '@nodes/SetLiteral';
-import MapLiteral from '@nodes/MapLiteral';
-import SetType from '@nodes/SetType';
-import MapType from '@nodes/MapType';
-import { NONE_SYMBOL, PLACEHOLDER_SYMBOL, TRUE_SYMBOL } from './Symbols';
-import UnparsableType from '@nodes/UnparsableType';
-import DocumentedExpression from '@nodes/DocumentedExpression';
 import TypeInputs from '@nodes/TypeInputs';
-import Paragraph from '@nodes/Paragraph';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import UnionType from '@nodes/UnionType';
+import UnparsableExpression from '@nodes/UnparsableExpression';
+import UnparsableType from '@nodes/UnparsableType';
+import Update from '@nodes/Update';
 import WebLink from '@nodes/WebLink';
-import Example from '../nodes/Example';
-import FormattedType from '../nodes/FormattedType';
-import FormattedLiteral from '../nodes/FormattedLiteral';
-import Unit from '../nodes/Unit';
-import Translation from '../nodes/Translation';
-import Row from '../nodes/Row';
-import Names from '../nodes/Names';
+import { expect, test } from 'vitest';
+import Delete from '../nodes/Delete';
 import Docs from '../nodes/Docs';
-import TypeVariables from '../nodes/TypeVariables';
+import Example from '../nodes/Example';
+import FormattedLiteral from '../nodes/FormattedLiteral';
 import FormattedTranslation from '../nodes/FormattedTranslation';
+import FormattedType from '../nodes/FormattedType';
 import IsLocale from '../nodes/IsLocale';
 import Language from '../nodes/Language';
-import Delete from '../nodes/Delete';
-import { toTokens } from './toTokens';
+import Names from '../nodes/Names';
+import Row from '../nodes/Row';
+import Translation from '../nodes/Translation';
+import TypeVariables from '../nodes/TypeVariables';
+import Unit from '../nodes/Unit';
+import getPreferredSpaces from './getPreferredSpaces';
 import parseDoc from './parseDoc';
 import { parseBlock } from './parseExpression';
-import Otherwise from '@nodes/Otherwise';
+import parseProgram, { toProgram } from './parseProgram';
+import { NONE_SYMBOL, PLACEHOLDER_SYMBOL, TRUE_SYMBOL } from './Symbols';
+import { toTokens } from './toTokens';
+
+export const everything = `
+¶Testing *the /way/*¶
+•Cat() (
+	ƒ num() [1 2 3][1]
+)
+
+d/en: ⎡a•# b•# c•#⎦
+	⎡1 2 3⎦
+	⎡4 5 6⎦ ⎡+1 2 3⎦
+a,o: (
+		b•#: Cat().num()
+		c: {1: b}{1}
+		c ?? 1s^2
+	)
+(a + (d ⎡?a⎦ ⊤) → [][1].a) → "" + 'hi' + (1 … ∆ Time(1000ms) & 🌏/en … ⊤ ? 1 2) → ""`;
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -94,13 +113,25 @@ test('Parse shares', () => {
     expect((good.expression as Block).statements[0]).toBeInstanceOf(Bind);
 });
 
+test('Unparsable runaways', () => {
+    const program = toProgram('a:\nb: [\n] 1');
+    expect(program.expression.statements.length).toBe(3);
+    expect(program.expression.statements[0]).toBeInstanceOf(Bind);
+    expect(program.expression.statements[1]).toBeInstanceOf(
+        UnparsableExpression,
+    );
+    expect(program.expression.statements[2]).toBeInstanceOf(
+        UnparsableExpression,
+    );
+});
+
 test.each([
     ['(\nhi\n)', Block],
-    ['``Nothing``\n(hi)', Block],
+    ['¶Nothing¶\n(hi)', Block],
     ['a: 1', Bind, 'value', NumberLiteral, '1'],
     ['a•#: 1', Bind, 'type', NumberType, '#'],
     ['a/en, b/es•#: 1', Bind, 'names', Names],
-    ['``program``\n\n``Some letters``/en a/en, b/es: 1', Bind, 'docs', Docs],
+    ['¶program¶\n\n¶Some letters¶/en a/en, b/es: 1', Bind, 'docs', Docs],
     [PLACEHOLDER_SYMBOL, ExpressionPlaceholder],
     ['boomy', Reference],
     [NONE_SYMBOL, NoneLiteral],
@@ -161,13 +192,13 @@ test.each([
         'a + b',
     ],
     [
-        '``program``\n\n``Add things``/en\nƒ(a b) a = b',
+        '¶program¶\n\n¶Add things¶/en\nƒ(a b) a = b',
         FunctionDefinition,
         'docs',
         Docs,
     ],
     [
-        '``Program``\n\n``Number one``/en ``Numero uno``/es ƒ(a b) a = b',
+        '¶Program¶\n\n¶Number one¶/en ¶Numero uno¶/es ƒ(a b) a = b',
         FunctionDefinition,
         'docs',
         Docs,
@@ -175,12 +206,12 @@ test.each([
     ['ƒ⸨T⸩(a: T b: T) a + b', FunctionDefinition, 'types', TypeVariables],
     ['a()', Evaluate, 'fun', Reference, 'a'],
     ['a(1 2)', Evaluate, 'inputs', Array, 2],
-    ['a(b:2 c:2)', Evaluate, 'inputs', Array, Bind],
+    ['a(b:2 c:2)', Evaluate, 'inputs', Array, Input],
     ['a⸨Cat⸩(b c)', Evaluate, 'types', TypeInputs],
     ['a⸨Cat #⸩(b c)', Evaluate, 'types', TypeInputs],
     ["→ # '' meow()", ConversionDefinition, 'output', TextType],
     [
-        "``Program``\n\n``numtotext``/en → # '' meow()",
+        "¶Program¶\n\n¶numtotext¶/en → # '' meow()",
         ConversionDefinition,
         'docs',
         Docs,
@@ -216,7 +247,7 @@ test.each([
     ['a.b', PropertyReference, 'name', Reference, 'b'],
     ['a.b.c()[d]{f}', SetOrMapAccess, 'setOrMap', ListAccess],
     [
-        "``Program``\n\n``let's see it``/en\na",
+        "¶Program¶\n\n¶let's see it¶/en\na",
         DocumentedExpression,
         'expression',
         Reference,
@@ -253,7 +284,7 @@ test.each([
         kind: Function,
         property?: string,
         propertyKind?: Function,
-        propertyValue?: string | number | boolean | Function
+        propertyValue?: string | number | boolean | Function,
     ) => {
         const block = toProgram(code).expression;
         expect(block.statements.length).toBe(1);
@@ -270,12 +301,14 @@ test.each([
                     expect(field.length).toBe(propertyValue);
             } else {
                 if (typeof propertyValue === 'string')
-                    expect(field?.toWordplay()).toBe(propertyValue);
+                    expect(field?.toWordplay(getPreferredSpaces(field))).toBe(
+                        propertyValue,
+                    );
                 else if (propertyValue !== undefined)
                     expect(field).toBe(propertyValue);
             }
         }
-    }
+    },
 );
 
 test('Blocks and binds', () => {
@@ -287,7 +320,7 @@ test('Blocks and binds', () => {
     expect(bindMap).toBeInstanceOf(Block);
     expect((bindMap as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(
-        MapLiteral
+        MapLiteral,
     );
 
     const table = parseBlock(toTokens('⎡a•# b•#⎦\n⎡1 2⎦'));
@@ -298,22 +331,22 @@ test('Blocks and binds', () => {
     expect(bindTable).toBeInstanceOf(Block);
     expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(
-        TableLiteral
+        TableLiteral,
     );
 
     const bindTypedTable = parseBlock(toTokens('table•⎡a•# b•#⎦: ⎡a•# b•#⎦'));
     expect(bindTypedTable).toBeInstanceOf(Block);
     expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(
-        ((bindTypedTable as Block).statements[0] as Bind).type
+        ((bindTypedTable as Block).statements[0] as Bind).type,
     ).toBeInstanceOf(TableType);
     expect(
-        ((bindTypedTable as Block).statements[0] as Bind).value
+        ((bindTypedTable as Block).statements[0] as Bind).value,
     ).toBeInstanceOf(TableLiteral);
 });
 
 test('plain docs', () => {
-    const doc = parseDoc(toTokens('``this is what I am.``'));
+    const doc = parseDoc(toTokens('¶this is what I am.¶'));
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
     expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Token);
@@ -322,7 +355,7 @@ test('plain docs', () => {
 
 test('multi-paragraph docs', () => {
     const doc = parseDoc(
-        toTokens('``this is what I am.\n\nthis is another point.``')
+        toTokens('¶this is what I am.\n\nthis is another point.¶'),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
@@ -332,19 +365,19 @@ test('multi-paragraph docs', () => {
 
 test('linked docs', () => {
     const doc = parseDoc(
-        toTokens('``go see more at <wikipedia@https://wikipedia.org>.``')
+        toTokens('¶go see more at <wikipedia@https://wikipedia.org>.¶'),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
     expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(WebLink);
     expect(
-        (doc.markup.paragraphs[0].segments[1] as WebLink).url?.getText()
+        (doc.markup.paragraphs[0].segments[1] as WebLink).url?.getText(),
     ).toBe('https://wikipedia.org');
 });
 
 test('docs in docs', () => {
     const doc = parseDoc(
-        toTokens("``This is a doc: \\``my doc``\\. Don't you see it?``")
+        toTokens("¶This is a doc: \\¶my doc¶\\. Don't you see it?¶"),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
@@ -352,4 +385,28 @@ test('docs in docs', () => {
     expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(Example);
     expect(doc.markup.paragraphs[0].segments[2]).toBeInstanceOf(Token);
     expect(doc.markup.paragraphs[0].segments.length).toBe(3);
+});
+
+test('unparsables in docs', () => {
+    const doc = parseDoc(
+        toTokens(
+            "¶This is a broken example ina doc: \\∆\\. Don't you see it?¶",
+        ),
+    );
+    expect(doc).toBeInstanceOf(Doc);
+    expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Token);
+    expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(Example);
+    expect(doc.markup.paragraphs[0].segments[2]).toBeInstanceOf(Token);
+    expect(doc.markup.paragraphs[0].segments.length).toBe(3);
+});
+
+test('unparsables in blocks', () => {
+    const program = parseProgram(toTokens('test: Phrase(\\\\)\ntest'));
+    expect(program).toBeInstanceOf(Program);
+    expect(program.expression).toBeInstanceOf(Block);
+    expect(program.expression.statements[0]).toBeInstanceOf(Bind);
+    expect(program.expression.statements[1]).toBeInstanceOf(
+        UnparsableExpression,
+    );
 });

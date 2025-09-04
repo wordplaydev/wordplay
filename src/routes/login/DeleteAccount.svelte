@@ -1,27 +1,35 @@
 <script lang="ts">
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import { Creator } from '@db/CreatorDatabase';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import { DB } from '@db/Database';
+    import { auth } from '@db/firebase';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
     import TextField from '../../components/widgets/TextField.svelte';
-    import validEmail from '../../db/isValidEmail';
-    import { DB, locales } from '@db/Database';
-    import Feedback from '@components/app/Feedback.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import { auth } from '@db/firebase';
-    import isValidEmail from '../../db/isValidEmail';
+    import {
+        default as isValidEmail,
+        default as validEmail,
+    } from '../../db/creators/isValidEmail';
     import isValidPassword from './IsValidPassword';
 
-    export let user: User;
+    interface Props {
+        user: User;
+    }
 
-    $: creator = Creator.from(user);
+    let { user }: Props = $props();
 
-    let deleteRequested = false;
-    let confirmEmail: string;
-    let password = '';
-    let deleteSubmitted = false;
-    let successfullyDeleted: boolean | undefined = undefined;
-    let deleteFeedback: string | undefined = undefined;
+    let creator = $derived(Creator.from(user));
+
+    let deleteRequested = $state(false);
+    let confirmEmail: string = $state('');
+    let password = $state('');
+    let deleteSubmitted = $state(false);
+    let successfullyDeleted: boolean | undefined = $state(undefined);
+    let deleteFeedback: LocaleTextAccessor | undefined = $state(undefined);
 
     async function deleteAccount() {
         if (auth === undefined) return;
@@ -35,9 +43,7 @@
             await signInWithEmailAndPassword(auth, email, password);
             successfullyDeleted = await DB.deleteAccount();
         } catch (error) {
-            deleteFeedback = $locales.get(
-                (l) => l.ui.page.login.error.wrongPassword,
-            );
+            deleteFeedback = (l) => l.ui.page.login.error.wrongPassword;
         }
         deleteSubmitted = false;
     }
@@ -55,92 +61,80 @@
 </script>
 
 {#if !deleteSubmitted}
-    <p>{$locales.get((l) => l.ui.page.login.prompt.delete)}</p>
+    <p><LocalizedText path={(l) => l.ui.page.login.prompt.delete} /></p>
     <p
         ><Button
             background
-            tip={$locales.get((l) => l.ui.page.login.button.delete.tip)}
+            tip={(l) => l.ui.page.login.button.delete.tip}
             action={() => (deleteRequested = !deleteRequested)}
             active={!deleteRequested}
-            >{$locales.get((l) => l.ui.page.login.button.delete.label)}</Button
-        >
+            label={(l) => l.ui.page.login.button.delete.label}
+        />
     </p>
     {#if deleteRequested}
         <p aria-live="assertive">
-            {$locales.get((l) => l.ui.page.login.prompt.reallyDelete)}
+            <LocalizedText path={(l) => l.ui.page.login.prompt.reallyDelete} />
         </p>
 
         <form
-            on:submit={() =>
+            onsubmit={() =>
                 readyToDeleteAccount(confirmEmail, password)
                     ? deleteAccount()
                     : undefined}
         >
             <TextField
-                description={$locales.get((l) =>
-                    creator.isUsername()
-                        ? l.ui.page.login.field.username.description
-                        : l.ui.page.login.field.email.description,
-                )}
-                placeholder={$locales.get((l) =>
-                    creator.isUsername()
-                        ? l.ui.page.login.field.username.placeholder
-                        : l.ui.page.login.field.email.placeholder,
-                )}
+                id="delete-account-username"
+                description={creator.isUsername()
+                    ? (l) => l.ui.page.login.field.username.description
+                    : (l) => l.ui.page.login.field.email.description}
+                placeholder={creator.isUsername()
+                    ? (l) => l.ui.page.login.field.username.placeholder
+                    : (l) => l.ui.page.login.field.email.placeholder}
                 kind={creator.isUsername() ? undefined : 'email'}
                 bind:text={confirmEmail}
                 editable={!deleteSubmitted}
             />
             <TextField
                 kind="password"
-                description={$locales.get(
-                    (l) => l.ui.page.login.field.password.description,
-                )}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.login.field.password.placeholder,
-                )}
+                id="delete-account-password"
+                description={(l) => l.ui.page.login.field.password.description}
+                placeholder={(l) => l.ui.page.login.field.password.placeholder}
                 bind:text={password}
                 editable={!deleteSubmitted}
-                validator={(pass) => isValidPassword(pass)}
+                validator={(pass) =>
+                    isValidPassword(pass)
+                        ? true
+                        : (l) => l.ui.page.login.error.invalidPassword}
             />
             <Button
                 background
                 submit
-                tip={$locales.get(
-                    (l) => l.ui.page.login.button.reallyDelete.tip,
-                )}
+                tip={(l) => l.ui.page.login.button.reallyDelete.tip}
                 active={readyToDeleteAccount(confirmEmail, password)}
                 action={deleteAccount}
-                >{$locales.get(
-                    (l) => l.ui.page.login.button.reallyDelete.label,
-                )}</Button
-            >
+                label={(l) => l.ui.page.login.button.reallyDelete.label}
+            />
             {#if confirmEmail?.length >= 5 && !readyToDeleteAccount(confirmEmail, password)}
-                <Feedback inline
-                    ><MarkupHtmlView
+                <Notice inline
+                    ><MarkupHTMLView
                         inline
-                        markup={$locales.get(
-                            (l) => l.ui.page.login.feedback.match,
-                        )}
-                    /></Feedback
+                        markup={(l) => l.ui.page.login.feedback.match}
+                    /></Notice
                 >
             {/if}
         </form>
     {/if}
 {:else if successfullyDeleted === undefined}
-    <p>{$locales.get((l) => l.ui.page.login.feedback.deleting)}</p>
-    <p
-        ><Spinning
-            label={$locales.get((l) => l.ui.page.login.feedback.deleting)}
-        /></p
+    <p><LocalizedText path={(l) => l.ui.page.login.feedback.deleting} /></p>
+    <p><Spinning label={(l) => l.ui.page.login.feedback.deleting} /></p
     >{:else if successfullyDeleted === false}
     <p aria-live="assertive"
-        >{$locales.get((l) => l.ui.page.login.error.delete)}</p
+        ><LocalizedText path={(l) => l.ui.page.login.error.delete} /></p
     >
 {/if}
 
 {#if deleteFeedback}
-    <Feedback>{deleteFeedback}</Feedback>
+    <Notice text={deleteFeedback} />
 {/if}
 
 <style>

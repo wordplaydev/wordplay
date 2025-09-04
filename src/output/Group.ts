@@ -1,26 +1,25 @@
+import StructureValue from '@values/StructureValue';
+import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import toStructure from '../basis/toStructure';
-import type Value from '../values/Value';
 import { getBind } from '../locale/getBind';
+import type Locales from '../locale/Locales';
+import { getFirstText } from '../locale/LocaleText';
+import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../values/Value';
 import type Arrangement from './Arrangement';
 import type Color from './Color';
+import Matter, { toMatter } from './Matter';
+import Output, { DefaultStyle } from './Output';
 import type Place from './Place';
 import type Pose from './Pose';
+import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
-import TextLang from './TextLang';
-import Output, { DefaultStyle } from './Output';
-import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
-import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
-import type { DefinitePose } from './Pose';
-import StructureValue from '@values/StructureValue';
+import TextLang from './TextLang';
+import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
 import { getOutputInput } from './Valued';
-import concretize from '../locale/concretize';
-import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import Matter, { toMatter } from './Matter';
-import type Evaluator from '../runtime/Evaluator';
-import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/Locale';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`
@@ -28,20 +27,21 @@ export function createGroupType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
         ${getBind(
             locales,
-            (locale) => locale.output.Group.content
+            (locale) => locale.output.Group.content,
         )}•[Phrase|Group|ø]
         ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
     ${getBind(
         locales,
-        (locale) => locale.output.Group.face
+        (locale) => locale.output.Group.face,
     )}•${SupportedFontsFamiliesType}${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.place)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Group.name)}•""|ø: ø
+    ${getBind(locales, (locale) => locale.output.Group.description)}•""|ø: ø
     ${getBind(locales, (locale) => locale.output.Group.selectable)}•?: ⊥
     ${getBind(locales, (locale) => locale.output.Group.color)}•🌈${'|ø: ø'}
     ${getBind(
         locales,
-        (locale) => locale.output.Group.background
+        (locale) => locale.output.Group.background,
     )}•Color${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.opacity)}•%${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.offset)}•📍|ø: ø
@@ -57,7 +57,7 @@ export function createGroupType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Group.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
+            Object.values(locale.output.Easing).map((id) => `"${id}"`),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
@@ -81,6 +81,7 @@ export default class Group extends Output {
         face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
+        description: TextLang | undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -89,7 +90,7 @@ export default class Group extends Output {
         moving: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
-        style: string
+        style: string,
     ) {
         super(
             value,
@@ -97,6 +98,7 @@ export default class Group extends Output {
             face,
             place,
             name,
+            description,
             selectable,
             background,
             pose,
@@ -105,7 +107,7 @@ export default class Group extends Output {
             moving,
             exiting,
             duration,
-            style
+            style,
         );
 
         this.content = content;
@@ -149,18 +151,20 @@ export default class Group extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : locales.get((l) => getFirstName(l.output.Group.names));
+            : locales.get((l) => getFirstText(l.output.Group.names));
     }
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Group.description),
-                this.name instanceof TextLang ? this.name.text : undefined,
-                this.layout.getDescription(this.content, locales),
-                this.pose.getDescription(locales)
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Group.defaultDescription,
+                    this.name instanceof TextLang ? this.name.text : undefined,
+                    this.layout.getDescription(this.content, locales),
+                    this.pose.getDescription(locales),
+                )
+                .toText()
+                .trim();
         }
         return this._description;
     }
@@ -179,25 +183,45 @@ export default class Group extends Output {
     isEmpty() {
         return this.content.every((c) => c === null || c.isEmpty());
     }
+
+    getEntryAnimated(): Output[] {
+        return [
+            ...(this.entering !== undefined ? [this] : []),
+            ...this.content.reduce((list: Output[], out) => {
+                return [...list, ...(out ? out.getEntryAnimated() : [])];
+            }, []),
+        ];
+    }
+
+    gatherFaces(set: Set<SupportedFace>): Set<SupportedFace> {
+        for (const output of this.content) {
+            if (output !== null) {
+                output.gatherFaces(set);
+            }
+        }
+        return set;
+    }
 }
 
 export function toGroup(
     evaluator: Evaluator,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): Group | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
     const project = evaluator.project;
     const layout = toArrangement(project, getOutputInput(value, 0));
     const content = toOutputList(evaluator, getOutputInput(value, 1), namer);
-    const matter = toMatter(getOutputInput(value, 21));
+    const AfterStyleIndex = 22;
+    const matter = toMatter(getOutputInput(value, AfterStyleIndex));
 
     const {
         size,
         face: font,
         place,
         name,
+        description,
         selectable,
         background,
         pose,
@@ -224,6 +248,7 @@ export function toGroup(
               font,
               place,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
+              description,
               selectable,
               background,
               pose,
@@ -232,7 +257,7 @@ export function toGroup(
               move,
               exit,
               duration,
-              style
+              style,
           )
         : undefined;
 }

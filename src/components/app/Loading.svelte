@@ -1,18 +1,19 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition';
+    import Text from '@components/widgets/LocalizedText.svelte';
     import Spinning from './Spinning.svelte';
-    import { animationDuration, locales } from '@db/Database';
 </script>
 
-<div class="container" out:fade={{ duration: $animationDuration }}>
-    <Spinning label={$locales.get((l) => l.ui.widget.loading.message)} large />
-    <p>{$locales.get((l) => l.ui.widget.loading.message)}</p>
+<div class="container">
+    <Spinning label={(l) => l.ui.widget.loading.message} large />
+    <p><Text path={(l) => l.ui.widget.loading.message} /></p>
 </div>
 
 <style>
     .container {
         width: 100vw;
         height: 100vh;
+        max-width: 100%;
+        max-height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;

@@ -1,17 +1,17 @@
-import type Conflict from '@conflicts/Conflict';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import type { TemplateInput } from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import {
     LINK_SYMBOL,
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
 } from '../parser/Symbols';
-import { node, type Grammar, type Replacement } from './Node';
-import Token from './Token';
-import Sym from './Sym';
-import type { TemplateInput } from '../locale/concretize';
 import Content from './Content';
-import type Locales from '../locale/Locales';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class WebLink extends Content {
     readonly open: Token;
@@ -25,7 +25,7 @@ export default class WebLink extends Content {
         description: Token | undefined,
         at: Token | undefined,
         url: Token | undefined,
-        close: Token | undefined
+        close: Token | undefined,
     ) {
         super();
 
@@ -42,15 +42,19 @@ export default class WebLink extends Content {
             new Token(description, Sym.Words),
             new Token(LINK_SYMBOL, Sym.Link),
             new Token(url, Sym.URL),
-            new Token(TAG_CLOSE_SYMBOL, Sym.TagClose)
+            new Token(TAG_CLOSE_SYMBOL, Sym.TagClose),
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [WebLink.make('...', 'https://')];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [WebLink.make('...', 'https://')];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'WebLink';
     }
 
@@ -64,7 +68,7 @@ export default class WebLink extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts() {
         return [];
     }
 
@@ -74,7 +78,7 @@ export default class WebLink extends Content {
             this.replaceChild('description', this.description, replace),
             this.replaceChild('at', this.at, replace),
             this.replaceChild('url', this.url, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -82,12 +86,13 @@ export default class WebLink extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.WebLink);
+    static readonly LocalePath = (l: LocaleText) => l.node.WebLink;
+    getLocalePath() {
+        return WebLink.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Link;
+    getCharacter() {
+        return Characters.Link;
     }
 
     getDescriptionInputs(): TemplateInput[] {

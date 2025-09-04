@@ -1,30 +1,31 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { TEXT_SYMBOL } from '@parser/Symbols';
-import Language from './Language';
-import BasisType from './BasisType';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import Token from './Token';
-import Sym from './Sym';
-import type TypeSet from './TypeSet';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import Emotion from '../lore/Emotion';
-import UnionType from './UnionType';
+import BasisType from './BasisType';
 import type Context from './Context';
-import type Type from './Type';
+import Language from './Language';
+import { node, optional, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
 import TextLiteral from './TextLiteral';
-import type Locales from '../locale/Locales';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends BasisType {
     readonly open: Token;
     readonly text: Token | undefined;
     readonly close: Token | undefined;
-    readonly language?: Language;
+    readonly language: Language | undefined;
 
     constructor(
         open: Token,
         text: Token | undefined,
         close: Token | undefined,
-        language?: Language
+        language?: Language,
     ) {
         super();
 
@@ -41,15 +42,19 @@ export default class TextType extends BasisType {
             new Token(TEXT_SYMBOL, Sym.Text),
             text ? new Token(text, Sym.Words) : undefined,
             new Token(TEXT_SYMBOL, Sym.Text),
-            format
+            format,
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [TextType.make()];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [TextType.make()];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'TextType';
     }
 
@@ -67,12 +72,12 @@ export default class TextType extends BasisType {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('text', this.text, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('language', this.language, replace)
+            this.replaceChild('language', this.language, replace),
         ) as this;
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
@@ -114,17 +119,19 @@ export default class TextType extends BasisType {
         return 'text';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TextType);
+    static readonly LocalePath = (l: LocaleText) => l.node.TextType;
+    getLocalePath() {
+        return TextType.LocalePath;
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.open.getDelimiters(),
-            emotion: Emotion.excited,
-        };
+    getCharacter() {
+        return { symbols: this.open.getDelimiters(), emotion: Emotion.excited };
     }
     getDescriptionInputs() {
         return [this.isLiteral() ? this.open.getText() : undefined];
+    }
+
+    getDefaultExpression() {
+        return TextLiteral.make(this.text ? this.text.getText() : '');
     }
 }

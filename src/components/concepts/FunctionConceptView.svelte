@@ -1,14 +1,18 @@
 <script lang="ts">
     import type FunctionConcept from '@concepts/FunctionConcept';
-    import ConceptView from './ConceptView.svelte';
-    import BindConceptView from './BindConceptView.svelte';
-    import type BindConcept from '../../concepts/BindConcept';
     import { onMount } from 'svelte';
+    import type BindConcept from '../../concepts/BindConcept';
+    import BindConceptView from './BindConceptView.svelte';
+    import ConceptView from './ConceptView.svelte';
 
-    export let concept: FunctionConcept;
-    export let subconcept: BindConcept | undefined = undefined;
+    interface Props {
+        concept: FunctionConcept;
+        subconcept?: BindConcept | undefined;
+    }
 
-    $: type = concept.definition.getOutputType(concept.context);
+    let { concept, subconcept = undefined }: Props = $props();
+
+    let type = $derived(concept.definition.getOutputType(concept.context));
 
     onMount(() => {
         if (subconcept) {

@@ -1,79 +1,85 @@
-import Node, { ListOf, type Field, type NodeKind, Empty } from '@nodes/Node';
-import type Caret from './Caret';
-import type Project from '../models/Project';
-import type Revision from '@edit/Revision';
-import type Context from '@nodes/Context';
-import Replace from '@edit/Replace';
-import Refer from '@edit/Refer';
 import Append from '@edit/Append';
 import Assign from '@edit/Assign';
+import Refer from '@edit/Refer';
+import Replace from '@edit/Replace';
+import type Revision from '@edit/Revision';
 import BooleanLiteral from '@nodes/BooleanLiteral';
-import NumberLiteral from '../nodes/NumberLiteral';
-import Token from '../nodes/Token';
-import type Type from '../nodes/Type';
-import Expression from '../nodes/Expression';
-import NoneLiteral from '../nodes/NoneLiteral';
-import ListLiteral from '../nodes/ListLiteral';
-import MapLiteral from '../nodes/MapLiteral';
-import SetLiteral from '../nodes/SetLiteral';
-import FunctionDefinition from '../nodes/FunctionDefinition';
+import type Context from '@nodes/Context';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import Input from '@nodes/Input';
+import Match from '@nodes/Match';
+import Node, { Empty, ListOf, type Field, type NodeKind } from '@nodes/Node';
+import Otherwise from '@nodes/Otherwise';
+import SetOrMapAccess from '@nodes/SetOrMapAccess';
+import Spread from '@nodes/Spread';
+import TableType from '@nodes/TableType';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import BinaryEvaluate from '../nodes/BinaryEvaluate';
 import Bind from '../nodes/Bind';
 import Block from '../nodes/Block';
+import BooleanType from '../nodes/BooleanType';
+import Changed from '../nodes/Changed';
 import Conditional from '../nodes/Conditional';
+import ConversionDefinition from '../nodes/ConversionDefinition';
 import Convert from '../nodes/Convert';
-import BinaryEvaluate from '../nodes/BinaryEvaluate';
-import UnaryEvaluate from '../nodes/UnaryEvaluate';
+import Delete from '../nodes/Delete';
+import Dimension from '../nodes/Dimension';
+import Doc from '../nodes/Doc';
+import Docs from '../nodes/Docs';
 import Evaluate from '../nodes/Evaluate';
+import Example from '../nodes/Example';
+import Expression from '../nodes/Expression';
+import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
+import FunctionDefinition from '../nodes/FunctionDefinition';
+import FunctionType from '../nodes/FunctionType';
+import Initial from '../nodes/Initial';
+import Insert from '../nodes/Insert';
 import Is from '../nodes/Is';
+import IsLocale from '../nodes/IsLocale';
+import KeyValue from '../nodes/KeyValue';
+import Language from '../nodes/Language';
 import ListAccess from '../nodes/ListAccess';
+import ListLiteral from '../nodes/ListLiteral';
+import ListType from '../nodes/ListType';
+import MapLiteral from '../nodes/MapLiteral';
+import MapType from '../nodes/MapType';
+import Markup from '../nodes/Markup';
+import Mention from '../nodes/Mention';
+import NoneLiteral from '../nodes/NoneLiteral';
+import NoneType from '../nodes/NoneType';
+import NumberLiteral from '../nodes/NumberLiteral';
+import NumberType from '../nodes/NumberType';
+import Paragraph from '../nodes/Paragraph';
 import Previous from '../nodes/Previous';
+import Program from '../nodes/Program';
 import PropertyBind from '../nodes/PropertyBind';
 import PropertyReference from '../nodes/PropertyReference';
 import Reaction from '../nodes/Reaction';
-import TextLiteral from '../nodes/TextLiteral';
-import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import StructureDefinition from '../nodes/StructureDefinition';
-import ConversionDefinition from '../nodes/ConversionDefinition';
-import Initial from '../nodes/Initial';
 import Reference from '../nodes/Reference';
+import Select from '../nodes/Select';
+import SetLiteral from '../nodes/SetLiteral';
+import SetType from '../nodes/SetType';
+import StructureDefinition from '../nodes/StructureDefinition';
+import { WildcardSymbols } from '../nodes/Sym';
+import TableLiteral from '../nodes/TableLiteral';
+import TextLiteral from '../nodes/TextLiteral';
+import TextType from '../nodes/TextType';
 import This from '../nodes/This';
-import Docs from '../nodes/Docs';
-import KeyValue from '../nodes/KeyValue';
-import Language from '../nodes/Language';
-import Doc from '../nodes/Doc';
+import Token from '../nodes/Token';
+import type Type from '../nodes/Type';
 import TypeInputs from '../nodes/TypeInputs';
-import TypeVariables from '../nodes/TypeVariables';
-import FunctionType from '../nodes/FunctionType';
 import TypePlaceholder from '../nodes/TypePlaceholder';
+import TypeVariables from '../nodes/TypeVariables';
+import UnaryEvaluate from '../nodes/UnaryEvaluate';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
-import MapType from '../nodes/MapType';
-import NoneType from '../nodes/NoneType';
-import NumberType from '../nodes/NumberType';
-import SetType from '../nodes/SetType';
-import TextType from '../nodes/TextType';
-import ListType from '../nodes/ListType';
-import BooleanType from '../nodes/BooleanType';
-import Example from '../nodes/Example';
-import Markup from '../nodes/Markup';
-import Mention from '../nodes/Mention';
-import Paragraph from '../nodes/Paragraph';
-import WebLink from '../nodes/WebLink';
-import Remove from './Remove';
 import UnknownType from '../nodes/UnknownType';
-import Program from '../nodes/Program';
-import Dimension from '../nodes/Dimension';
 import UnparsableExpression from '../nodes/UnparsableExpression';
-import { WildcardSymbols } from '../nodes/Sym';
-import IsLocale from '../nodes/IsLocale';
-import TableLiteral from '../nodes/TableLiteral';
-import Insert from '../nodes/Insert';
-import Select from '../nodes/Select';
-import Delete from '../nodes/Delete';
 import Update from '../nodes/Update';
-import Changed from '../nodes/Changed';
-import type Locales from '../locale/Locales';
-import Otherwise from '@nodes/Otherwise';
+import WebLink from '../nodes/WebLink';
+import type Caret from './Caret';
+import Remove from './Remove';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
 const LOG = false;
@@ -85,7 +91,7 @@ function note(message: string, level: number) {
 export function getEditsAt(
     project: Project,
     caret: Caret,
-    locales: Locales
+    locales: Locales,
 ): Revision[] {
     const source = caret.source;
     const context = project.getContext(source);
@@ -98,20 +104,20 @@ export function getEditsAt(
     if (caret.position instanceof Node) {
         note(
             `Getting possible field edits for node selection ${caret.position.toWordplay()}`,
-            1
+            1,
         );
 
         edits = getNodeEdits(caret.position, context);
     }
     // If the token is a position rather than a node, find edits for the nodes between.
-    else {
+    else if (caret.isPosition()) {
         note(`Caret is position, finding nodes before and after.`, 0);
 
         // If there are no nodes between (because the caret is in the middle of a token)
         if (caret.insideToken() && caret.tokenExcludingSpace) {
             note(
                 `Inside token, getting possible replacements for it ${caret.tokenExcludingSpace.toWordplay()}`,
-                1
+                1,
             );
 
             edits = getNodeEdits(caret.tokenExcludingSpace, context);
@@ -132,7 +138,7 @@ export function getEditsAt(
                     adjacent,
                     isEmptyLine,
                     context,
-                    locales
+                    locales,
                 ),
             ];
         }
@@ -149,7 +155,7 @@ export function getEditsAt(
                     adjacent,
                     isEmptyLine,
                     context,
-                    locales
+                    locales,
                 ),
             ];
         }
@@ -174,11 +180,11 @@ export function getEditsAt(
                                 undefined,
                                 source.expression.expression,
                                 false,
-                                context
+                                context,
                             )
                                 .filter(
                                     (kind): kind is Node | Refer =>
-                                        kind !== undefined
+                                        kind !== undefined,
                                 )
                                 .map(
                                     (insertion) =>
@@ -188,9 +194,9 @@ export function getEditsAt(
                                             source.expression.expression,
                                             source.expression.expression.statements,
                                             0,
-                                            insertion
-                                        )
-                                )
+                                            insertion,
+                                        ),
+                                ),
                         )
                         .flat(),
                 ];
@@ -203,8 +209,8 @@ export function getEditsAt(
     return edits.filter(
         (edit1, index1) =>
             !edits.some(
-                (edit2, index2) => index2 > index1 && edit1.equals(edit2)
-            )
+                (edit2, index2) => index2 > index1 && edit1.equals(edit2),
+            ),
     );
 }
 
@@ -225,7 +231,7 @@ function getNodeEdits(anchor: Node, context: Context) {
             `Finding possible replacement nodes for "${
                 field.name
             }" with type ${expectedType?.toWordplay()}`,
-            2
+            2,
         );
 
         return [
@@ -239,11 +245,11 @@ function getNodeEdits(anchor: Node, context: Context) {
                         expectedType,
                         node,
                         true,
-                        context
+                        context,
                     ).map(
                         (replacement) =>
-                            new Replace(context, parent, node, replacement)
-                    )
+                            new Replace(context, parent, node, replacement),
+                    ),
                 )
                 .flat(),
             // Is this node in a list field? Offer to remove it if it can be empty or can't but has more than one element.
@@ -271,10 +277,12 @@ function getNodeEdits(anchor: Node, context: Context) {
                     context,
                     parent,
                     selection,
+                    // When removing this field, we also have to remove any dependencies it has,
+                    // as specified by any empty fields.
                     ...(field.kind
                         .enumerateFieldKinds()
                         .find((kind): kind is Empty => kind instanceof Empty)
-                        ?.getDependencies(parent, context) ?? [])
+                        ?.getDependencies(parent, context) ?? []),
                 ),
             ];
         }
@@ -287,7 +295,7 @@ function getNodeEdits(anchor: Node, context: Context) {
 function getFieldEdits(
     node: Node,
     context: Context,
-    handler: (field: Field, parent: Node, node: Node) => Revision[]
+    handler: (field: Field, parent: Node, node: Node) => Revision[],
 ): Revision[] {
     let parent = node.getParent(context);
     let current = node;
@@ -318,7 +326,7 @@ function getRelativeFieldEdits(
     /** True if the line the caret is on is empty */
     empty: boolean,
     context: Context,
-    locales: Locales
+    locales: Locales,
 ): Revision[] {
     let edits: Revision[] = [];
 
@@ -346,7 +354,7 @@ function getRelativeFieldEdits(
 
         note(
             `Getting replacements that would "complete" ${anchorNode.toWordplay()} of type ${expectedType?.toWordplay()}`,
-            2
+            2,
         );
 
         edits = [
@@ -362,7 +370,7 @@ function getRelativeFieldEdits(
                             : expectedType,
                         anchorNode,
                         true,
-                        context
+                        context,
                     )
                         // If not on an empty line, only include recommendations that "complete" the selection
                         .filter(
@@ -373,8 +381,8 @@ function getRelativeFieldEdits(
                                         anchorNode,
                                         replacement instanceof Node
                                             ? replacement
-                                            : replacement.getNode(locales)
-                                    ))
+                                            : replacement.getNode(locales),
+                                    )),
                         )
                         // Convert the matching nodes to replacements.
                         .map(
@@ -383,9 +391,9 @@ function getRelativeFieldEdits(
                                     context,
                                     parent,
                                     anchorNode,
-                                    replacement
-                                )
-                        )
+                                    replacement,
+                                ),
+                        ),
                 )
                 .flat(),
         ];
@@ -402,7 +410,7 @@ function getRelativeFieldEdits(
     for (const relativeField of relativeFields) {
         note(
             `Checking field "${relativeField.name}" for possible insertions or field sets`,
-            2
+            2,
         );
 
         const fieldValue = parent.getField(relativeField.name);
@@ -446,12 +454,12 @@ function getRelativeFieldEdits(
                                     expectedType,
                                     anchorNode,
                                     false,
-                                    context
+                                    context,
                                 )
                                     // Some nodes will suggest removals. We filter those here.
                                     .filter(
                                         (kind): kind is Node | Refer =>
-                                            kind !== undefined
+                                            kind !== undefined,
                                     )
                                     .map(
                                         (insertion) =>
@@ -461,9 +469,9 @@ function getRelativeFieldEdits(
                                                 parent,
                                                 list,
                                                 index + 1,
-                                                insertion
-                                            )
-                                    )
+                                                insertion,
+                                            ),
+                                    ),
                             )
                             .flat(),
                     ];
@@ -491,20 +499,49 @@ function getRelativeFieldEdits(
                                 expectedType,
                                 anchorNode,
                                 false,
-                                context
+                                context,
                             )
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)
-                                .map(
-                                    (addition) =>
-                                        new Assign(
-                                            context,
-                                            position,
-                                            parent,
-                                            relativeField.name,
-                                            addition
+                                .map((addition) => {
+                                    // Are there any other fields required to be set when this one is set?
+                                    // Include it in the proposed assignment.
+                                    const otherNodes = relativeField.kind
+                                        .enumerateFieldKinds()
+                                        .filter(
+                                            (kind): kind is Empty =>
+                                                kind instanceof Empty &&
+                                                kind.dependency !== undefined &&
+                                                parent.getField(
+                                                    kind.dependency.name,
+                                                ) === undefined,
                                         )
-                                )
+                                        .map((kind) => {
+                                            if (kind.dependency) {
+                                                return {
+                                                    field: kind.dependency.name,
+                                                    node: kind.dependency.createDefault(),
+                                                };
+                                            } else return undefined;
+                                        })
+                                        .filter(
+                                            (addition) =>
+                                                addition !== undefined,
+                                        );
+
+                                    return new Assign(
+                                        context,
+                                        position,
+                                        parent,
+                                        [
+                                            {
+                                                field: relativeField.name,
+                                                node: addition,
+                                            },
+                                            ...otherNodes,
+                                        ],
+                                    );
+                                }),
                         )
                         .flat(),
                 ];
@@ -540,28 +577,35 @@ function completes(original: Node, replacement: Node): boolean {
                     n1.getText().startsWith(n2.getText())) ||
                 (!n1isToken && !n2isToken && n1.isEqualTo(n2))
             );
-        })
+        }),
     );
 }
 
-/** A list of node types from which we can generate replacements. */
+/** A list of node types from which we can generate replacements. Order affects where they appear in autocomplete menus. */
 const PossibleNodes = [
+    // Put references first.
+    Reference,
     // Literals
     NumberLiteral,
     BooleanLiteral,
     TextLiteral,
+    FormattedLiteral,
     NoneLiteral,
     ListLiteral,
     ListAccess,
+    Spread,
     KeyValue,
     SetLiteral,
     MapLiteral,
-    TableLiteral,
+    SetOrMapAccess,
     ExpressionPlaceholder,
+    // Define
+    FunctionDefinition,
+    StructureDefinition,
+    ConversionDefinition,
     // Binds and blocks
     Bind,
     Block,
-    Reference,
     PropertyReference,
     PropertyBind,
     Language,
@@ -569,26 +613,20 @@ const PossibleNodes = [
     BinaryEvaluate,
     UnaryEvaluate,
     Evaluate,
+    Input,
     Convert,
-    Insert,
-    Select,
-    Delete,
-    Update,
     // Conditions
     Conditional,
     Is,
     IsLocale,
     Otherwise,
-    // Define
-    FunctionDefinition,
-    StructureDefinition,
-    ConversionDefinition,
+    Match,
     This,
     // Streams
+    Reaction,
     Initial,
     Previous,
     Changed,
-    Reaction,
     // Docs,
     Doc,
     Docs,
@@ -597,6 +635,12 @@ const PossibleNodes = [
     Mention,
     Paragraph,
     WebLink,
+    // Tables
+    TableLiteral,
+    Insert,
+    Select,
+    Delete,
+    Update,
     // Types
     TypeInputs,
     TypeVariables,
@@ -612,15 +656,16 @@ const PossibleNodes = [
     NumberType,
     SetType,
     TextType,
+    TableType,
 ];
 
 function getPossibleNodes(
     field: Field,
     kind: NodeKind,
-    type: Type | undefined,
+    expectedType: Type | undefined,
     anchor: Node,
     selected: boolean,
-    context: Context
+    context: Context,
 ): (Node | Refer | undefined)[] {
     // Undefined? That's just undefined,
     if (kind === undefined) return [undefined];
@@ -634,27 +679,32 @@ function getPossibleNodes(
             ? []
             : [newToken];
     }
+
+    const menuContext = { node: anchor, context, type: expectedType };
+
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.
     return (
         // Filter nodes by the kind provided.
         PossibleNodes.filter(
             (possibleKind) =>
-                possibleKind.prototype instanceof kind || kind === possibleKind
+                possibleKind.prototype instanceof kind || kind === possibleKind,
         )
             // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
             // from the context given.
             .map((possibleKind) =>
-                possibleKind.getPossibleNodes(type, anchor, selected, context)
+                selected
+                    ? possibleKind.getPossibleReplacements(menuContext)
+                    : possibleKind.getPossibleAppends(menuContext),
             )
             // Flatten the list of possible nodes.
             .flat()
             .filter(
                 (node) =>
                     // Filter out nodes that don't match the given type, if provided.
-                    (type === undefined ||
+                    (expectedType === undefined ||
                         !(node instanceof Expression) ||
-                        type.accepts(node.getType(context), context)) &&
+                        expectedType.accepts(node.getType(context), context)) &&
                     // Filter out nodes that are equivalent to the selection node
                     (anchor === undefined ||
                         (node instanceof Refer &&
@@ -662,7 +712,7 @@ function getPossibleNodes(
                                 (anchor instanceof Reference &&
                                     node.definition !==
                                         anchor.resolve(context)))) ||
-                        (node instanceof Node && !anchor.isEqualTo(node)))
+                        (node instanceof Node && !anchor.isEqualTo(node))),
             )
     );
 }

@@ -1,4 +1,4 @@
-import type { NameAndDoc } from './Locale';
+import type { NameAndDoc } from './LocaleText';
 
 type InputTexts = {
     /** The Random function, which generates random numbers */
@@ -44,6 +44,11 @@ type InputTexts = {
         height: NameAndDoc;
         /** The frequdncy with which color matrices should be sensed */
         frequency: NameAndDoc;
+    };
+    /** A stream of animated outputs */
+    Scene: NameAndDoc & {
+        /** A list of outputs to show in sequence */
+        outputs: NameAndDoc;
     };
     /** A stream of phrases in places and rotations simulating physics */
     Motion: NameAndDoc & {

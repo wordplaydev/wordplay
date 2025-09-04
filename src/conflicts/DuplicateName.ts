@@ -1,10 +1,9 @@
-import Conflict from './Conflict';
-import type Name from '@nodes/Name';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import concretize from '../locale/concretize';
-import type Bind from '../nodes/Bind';
+import type Name from '@nodes/Name';
 import type Locales from '../locale/Locales';
+import type Bind from '../nodes/Bind';
+import Conflict from './Conflict';
 
 export default class DuplicateName extends Conflict {
     readonly bind: Bind;
@@ -22,35 +21,55 @@ export default class DuplicateName extends Conflict {
             primary: {
                 node: this.bind,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Bind.conflict.DuplicateName.primary
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.Bind.conflict.DuplicateName.conflict.primary,
                         new NodeRef(
-                            this.duplicate,
+                            this.duplicate.name ?? this.duplicate,
                             locales,
                             context,
-                            this.duplicate.getName()
-                        )
+                            this.duplicate.getName(),
+                        ),
                     ),
             },
             secondary: {
                 node: this.duplicate,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Bind.conflict.DuplicateName.secondary
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.Bind.conflict.DuplicateName.conflict
+                                .secondary,
                         new NodeRef(
-                            this.bind,
+                            this.bind.names.names.find(
+                                (name) =>
+                                    name.getName() === this.duplicate.getName(),
+                            ) ?? this.bind.names.names[0],
                             locales,
                             context,
-                            this.duplicate.getName()
-                        )
+                            this.duplicate.getName(),
+                        ),
                     ),
             },
+            // If declarations are not on one line, do not show resolutions
+            resolutions: this.duplicate.separator
+                ? [
+                      {
+                          description: (locales: Locales) =>
+                              locales.concretize(
+                                  (l) =>
+                                      l.node.Bind.conflict.DuplicateName
+                                          .resolution,
+                              ),
+                          mediator: (context: Context) => {
+                              return {
+                                  newProject: context.project.withRevisedNodes([
+                                      [this.duplicate, undefined],
+                                  ]),
+                              };
+                          },
+                      },
+                  ]
+                : [],
         };
     }
 }

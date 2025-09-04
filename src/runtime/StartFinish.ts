@@ -1,10 +1,10 @@
-import Step from './Step';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
+import type Evaluator from '@runtime/Evaluator';
+import type Locales from '../locale/Locales';
+import type Value from '../values/Value';
 import { finish } from './Finish';
 import { start } from './Start';
-import type Locales from '../locale/Locales';
+import Step from './Step';
 
 export default class StartFinish extends Step {
     constructor(node: Expression) {
@@ -20,7 +20,7 @@ export default class StartFinish extends Step {
         return this.node.getStartExplanations(
             locales,
             evaluator.project.getNodeContext(this.node),
-            evaluator
+            evaluator,
         );
     }
 }

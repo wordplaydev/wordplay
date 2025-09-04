@@ -1,12 +1,14 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
-import Token from './Token';
+import NoneLiteral from './NoneLiteral';
 import Sym from './Sym';
+import Token from './Token';
 import type TypeSet from './TypeSet';
-import Glyphs from '../lore/Glyphs';
-import type Locales from '../locale/Locales';
 
 export default class NoneType extends BasisType {
     readonly none: Token;
@@ -25,11 +27,15 @@ export default class NoneType extends BasisType {
         return new NoneType(new Token(NONE_SYMBOL, Sym.None));
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [NoneType.make()];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [NoneType.make()];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'NoneType';
     }
 
@@ -38,12 +44,12 @@ export default class NoneType extends BasisType {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     clone(replace?: Replacement) {
         return new NoneType(
-            this.replaceChild('none', this.none, replace)
+            this.replaceChild('none', this.none, replace),
         ) as this;
     }
 
@@ -55,11 +61,16 @@ export default class NoneType extends BasisType {
         return 'none';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NoneType);
+    static readonly LocalePath = (l: LocaleText) => l.node.NoneType;
+    getLocalePath() {
+        return NoneType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.None;
+    getCharacter() {
+        return Characters.None;
+    }
+
+    getDefaultExpression() {
+        return NoneLiteral.make();
     }
 }

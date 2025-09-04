@@ -1,38 +1,40 @@
+import type { SupportedFace } from '@basis/Fonts';
 import toStructure from '../basis/toStructure';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import { getBind } from '../locale/getBind';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import StructureValue from '../values/StructureValue';
-import { getBind } from '../locale/getBind';
-import type Color from './Color';
-import Output, { DefaultStyle } from './Output';
-import type TextLang from './TextLang';
-import type { DefinitePose } from './Pose';
-import type Pose from './Pose';
-import type Sequence from './Sequence';
-import { Form, toRectangle } from './Form';
-import type Project from '../models/Project';
 import type Value from '../values/Value';
+import type Color from './Color';
+import { Form, toForm } from './Form';
+import Output, { DefaultStyle } from './Output';
+import Place from './Place';
+import type Pose from './Pose';
+import type { DefinitePose } from './Pose';
+import type Sequence from './Sequence';
 import type { NameGenerator } from './Stage';
+import type TextLang from './TextLang';
 import { getOutputInput } from './Valued';
 import { getStyle } from './toOutput';
-import Place from './Place';
-import type Locales from '../locale/Locales';
 
 export function createShapeType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)} Output(
-        ${getBind(locales, (locale) => locale.output.Shape.form)}•Rectangle
+        ${getBind(locales, (locale) => locale.output.Shape.form)}•Form
         ${getBind(locales, (locale) => locale.output.Shape.name)}•""|ø: ø
+        ${getBind(locales, (locale) => locale.output.Shape.description)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Shape.selectable)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Shape.color)}•🌈${'|ø: ø'}
         ${getBind(
             locales,
-            (locale) => locale.output.Shape.background
+            (locale) => locale.output.Shape.background,
         )}•Color${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.opacity)}•%${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.offset)}•📍|ø: ø
         ${getBind(
             locales,
-            (locale) => locale.output.Phrase.rotation
+            (locale) => locale.output.Phrase.rotation,
         )}•#°${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.scale)}•#${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.flipx)}•?${'|ø: ø'}
@@ -43,24 +45,12 @@ export function createShapeType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Shape.exiting)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Shape.duration)}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Shape.style)}•${locales
-        .getLocales()
-        .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
-        )
-        .flat()
-        .join('|')}: "${DefaultStyle}"
-    )
-`);
-}
-
-export function createRectangleType(locales: Locales) {
-    return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Rectangle, TYPE_SYMBOL)}(
-        ${getBind(locales, (locale) => locale.output.Rectangle.left)}•#m
-        ${getBind(locales, (locale) => locale.output.Rectangle.top)}•#m
-        ${getBind(locales, (locale) => locale.output.Rectangle.right)}•#m
-        ${getBind(locales, (locale) => locale.output.Rectangle.bottom)}•#m
-        ${getBind(locales, (locale) => locale.output.Rectangle.z)}•#m: 0m
+            .getLocales()
+            .map((locale) =>
+                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            )
+            .flat()
+            .join('|')}: "${DefaultStyle}"
     )
 `);
 }
@@ -72,6 +62,7 @@ export default class Shape extends Output {
         value: StructureValue,
         form: Form,
         name: TextLang | string,
+        description: TextLang | undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -80,7 +71,7 @@ export default class Shape extends Output {
         moving: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
-        style: string
+        style: string,
     ) {
         super(
             value,
@@ -91,9 +82,10 @@ export default class Shape extends Output {
                 form.getLeft(),
                 // We render all output from the baseline
                 form.getTop() - form.getHeight(),
-                form.getZ()
+                form.getZ(),
             ),
             name,
+            description,
             selectable,
             background,
             pose,
@@ -102,7 +94,7 @@ export default class Shape extends Output {
             moving,
             exiting,
             duration,
-            style
+            style,
         );
 
         this.form = form;
@@ -155,19 +147,28 @@ export default class Shape extends Output {
     isEmpty() {
         return false;
     }
+
+    getEntryAnimated() {
+        return this.entering !== undefined ? [this] : [];
+    }
+
+    gatherFaces(set: Set<SupportedFace>): Set<SupportedFace> {
+        return set;
+    }
 }
 
 export function toShape(
     project: Project,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const form = toRectangle(getOutputInput(value, 0));
+    const form = toForm(project, getOutputInput(value, 0));
 
     const {
         name,
+        description,
         selectable,
         background,
         pose,
@@ -188,6 +189,7 @@ export function toShape(
               value,
               form,
               namer.getName(name?.text, value),
+              description,
               selectable,
               background,
               pose,
@@ -196,7 +198,7 @@ export function toShape(
               move,
               exit,
               duration,
-              style
+              style,
           )
         : undefined;
 }

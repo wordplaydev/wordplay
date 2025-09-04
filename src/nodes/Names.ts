@@ -1,17 +1,19 @@
-import type { Grammar, Replacement } from './Node';
 import type LanguageCode from '@locale/LanguageCode';
-import Name from './Name';
-import Token from './Token';
-import { COMMA_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import NameToken from './NameToken';
-import Language from './Language';
 import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { COMMA_SYMBOL } from '@parser/Symbols';
 import Purpose from '../concepts/Purpose';
-import Emotion from '../lore/Emotion';
-import Node, { list, node } from './Node';
-import { getPreferred as getPreferredName } from './LanguageTagged';
 import type Locales from '../locale/Locales';
+import Emotion from '../lore/Emotion';
+import Language from './Language';
+import { getPreferred as getPreferredName } from './LanguageTagged';
+import Name from './Name';
+import NameToken from './NameToken';
+import type { Grammar, Replacement } from './Node';
+import Node, { list, node } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -21,9 +23,9 @@ export default class Names extends Node {
 
         // Add name separators if lacking
         this.names = names.map((name, index) =>
-            index > 0 && name.separator === undefined
+            index < names.length - 1 && name.separator === undefined
                 ? name.withSeparator()
-                : name
+                : name,
         );
 
         this.computeChildren();
@@ -31,20 +33,23 @@ export default class Names extends Node {
 
     static make(names: string[] = []) {
         const list: Name[] = [];
-        let first = true;
+        let count = 0;
         for (const name of names) {
+            count++;
             list.push(
                 new Name(
-                    first ? undefined : new Token(COMMA_SYMBOL, Sym.Separator),
-                    new NameToken(name)
-                )
+                    new NameToken(name),
+                    undefined,
+                    count === names.length
+                        ? undefined
+                        : new Token(COMMA_SYMBOL, Sym.Separator),
+                ),
             );
-            first = false;
         }
         return new Names(list);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Names';
     }
 
@@ -54,7 +59,7 @@ export default class Names extends Node {
 
     clone(replace?: Replacement) {
         return new Names(
-            this.replaceChild<Name[]>('names', this.names, replace)
+            this.replaceChild<Name[]>('names', this.names, replace),
         ) as this;
     }
 
@@ -70,7 +75,7 @@ export default class Names extends Node {
         return [];
     }
 
-    getTags(): Name[] {
+    getTagged(): Name[] {
         return this.names;
     }
 
@@ -80,13 +85,23 @@ export default class Names extends Node {
             .filter((lang): lang is LanguageCode => lang !== undefined);
     }
 
-    hasLanguage() {
+    hasALanguageTag() {
         return this.names.some((name) => name.hasLanguage());
+    }
+
+    getLocaleOf(name: string) {
+        return this.names
+            .find((n) => n.getName() === name)
+            ?.language?.getLocaleID();
+    }
+
+    containsLanguage(lang: LanguageCode) {
+        return this.names.some((name) => name.getLanguage() === lang);
     }
 
     getSharedName(names: Names) {
         return this.names.find(
-            (name) => name.name && names.hasName(name.name.getText())
+            (name) => name.name && names.hasName(name.name.getText()),
         );
     }
 
@@ -103,14 +118,25 @@ export default class Names extends Node {
         return this.names.find((name) => !name.isSymbolic())?.getName();
     }
 
-    getPreferredNameString(preferred: Locale | Locale[], symbolic = true) {
+    hasSymbolicName() {
+        return this.getSymbolicName() !== undefined;
+    }
+
+    getPreferredNameString(
+        preferred: LocaleText | LocaleText[] | Locale | Locale[],
+        symbolic = true,
+    ) {
         preferred = Array.isArray(preferred) ? preferred : [preferred];
-        return this.getPreferredName(preferred, symbolic)?.getName() ?? '-';
+        return (
+            this.getPreferredName(preferred, symbolic)?.getName() ??
+            this.names[0]?.getName() ??
+            '-'
+        );
     }
 
     getPreferredName(
-        preferred: Locale | Locale[],
-        symbolic = true
+        preferred: LocaleText | LocaleText[] | Locale | Locale[],
+        symbolic = true,
     ): Name | undefined {
         if (symbolic) {
             const symbolicMatch = symbolic
@@ -124,14 +150,37 @@ export default class Names extends Node {
         // Find the first preferred locale with an exact match.
         return getPreferredName(
             locales,
-            this.names.filter((name) => !name.isSymbolic())
+            this.names.filter((name) => !name.isSymbolic()),
         );
     }
 
-    hasLocale(lang: LanguageCode) {
-        return (
-            this.names.find((name) => name.getLanguage() === lang) !== undefined
+    getFirst(): string | undefined {
+        return this.names[0]?.getName();
+    }
+
+    getNameInLanguage(lang: LanguageCode, symbolic: boolean | undefined) {
+        return this.names.find(
+            (name) =>
+                name.getLanguage() === lang &&
+                (symbolic === undefined || name.isSymbolic() === symbolic),
         );
+    }
+
+    getLocaleNames(locales: Locales) {
+        return this.names
+            .filter(
+                (name) =>
+                    name.isSymbolic() ||
+                    name.language === undefined ||
+                    locales
+                        .getLocales()
+                        .some(
+                            (l) =>
+                                name.language !== undefined &&
+                                name.language.isLocaleLanguage(l),
+                        ),
+            )
+            .map((n) => n.getName());
     }
 
     getNames() {
@@ -143,7 +192,9 @@ export default class Names extends Node {
     getLowerCaseNames() {
         return this.names
             .map((a) =>
-                a.getName()?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2))
+                a
+                    .getName()
+                    ?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2)),
             )
             .filter((n): n is string => n !== undefined);
     }
@@ -156,19 +207,15 @@ export default class Names extends Node {
         return this.names.find((name) => name.startsWith(prefix));
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Names);
+    static readonly LocalePath = (l: LocaleText) => l.node.Names;
+    getLocalePath() {
+        return Names.LocalePath;
     }
 
     withName(name: string, language: LanguageCode) {
-        const languageMatchIndex = this.names.findIndex(
-            (name) => name.getLanguage() === language
+        const index = this.names.findIndex(
+            (name) => name.getLanguage() === language,
         );
-        const untaggedMatchIndex = this.names.findIndex(
-            (name) => name.getLanguage() === undefined
-        );
-        const index =
-            languageMatchIndex >= 0 ? languageMatchIndex : untaggedMatchIndex;
 
         const newName = Name.make(name, Language.make(language));
         return new Names(
@@ -178,14 +225,11 @@ export default class Names extends Node {
                       ...this.names.slice(0, index),
                       newName,
                       ...this.names.slice(index + 1),
-                  ]
+                  ],
         );
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.getNames()[0],
-            emotion: Emotion.kind,
-        };
+    getCharacter() {
+        return { symbols: this.getNames()[0], emotion: Emotion.kind };
     }
 }

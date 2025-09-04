@@ -1,13 +1,13 @@
-import Concept from './Concept';
-import type Node from '@nodes/Node';
+import { docToMarkup } from '@locale/LocaleText';
 import type Context from '@nodes/Context';
-import type Purpose from './Purpose';
+import type Node from '@nodes/Node';
 import type StructureDefinition from '@nodes/StructureDefinition';
+import type Locales from '../locale/Locales';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
-import { docToMarkup } from '@locale/Locale';
-import type { Character } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
+import type { CharacterName } from '../tutorial/Tutorial';
+import Concept from './Concept';
+import type Purpose from './Purpose';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;
@@ -16,49 +16,58 @@ export default class NodeConcept extends Concept {
         purpose: Purpose,
         type: StructureDefinition | undefined,
         template: Node,
-        context: Context
+        context: Context,
     ) {
         super(purpose, type, context);
 
         this.template = template;
     }
 
-    getGlyphs() {
-        return this.template.getGlyphs();
+    getCharacter(locales: Locales) {
+        return this.template.getCharacter(locales);
     }
 
-    /** Returns the emotions for the glyphs */
+    /** Returns the emotions for the characters */
     getEmotion(locales: Locales) {
-        return this.template.getNodeLocale(locales).emotion as Emotion;
+        return locales.get(this.template.getLocalePath()).emotion as Emotion;
     }
 
     /** Nodes can be matched by two names: the locale-specific one or the key in the locale
      * (e.g., FunctionDefinition, Evaluate).
      */
     hasName(name: string, locales: Locales): boolean {
-        const nodeLocale = this.template.getNodeLocale(locales);
+        if (this.template.getDescriptor() === name) return true;
+
         const match = locales
             .getLocales()
             .map((locale) =>
                 Object.entries(locale.node).find(
-                    ([, value]) => value === nodeLocale
-                )
+                    ([key]) => key === this.template.getDescriptor(),
+                ),
             )
             .find((node) => node !== undefined);
+
         return match ? match[0] === name || match[1].name === name : false;
     }
 
-    getDocs(locales: Locales): Markup | undefined {
-        return docToMarkup(this.template.getDoc(locales)).concretize(
-            locales,
-            []
-        );
+    getDocs(locales: Locales): Markup[] {
+        return locales
+            .getLocales()
+            .map((l) => this.template.getLocalePath()(l))
+            .map((text) => docToMarkup(text.doc).concretize(locales, []))
+            .filter((m) => m !== undefined);
     }
 
     getName(locales: Locales, symbolic: boolean) {
         return symbolic
-            ? this.template.getGlyphs().symbols
+            ? this.template.getCharacter(locales).symbols
             : this.template.getLabel(locales);
+    }
+
+    getNames(locales: Locales, symbolic: boolean) {
+        return symbolic
+            ? [this.template.getCharacter(locales).symbols]
+            : [this.template.getLabel(locales)];
     }
 
     getRepresentation() {
@@ -77,13 +86,13 @@ export default class NodeConcept extends Concept {
         return new Set();
     }
 
-    getCharacter(locales: Locales): Character | undefined {
-        const text = this.template.getNodeLocale(locales);
+    getCharacterName(locales: Locales): CharacterName | undefined {
+        const text = locales.get(this.template.getLocalePath());
         const match = locales
             .getLocales()
             .map((l) => Object.entries(l.node).find(([, t]) => t === text))
             .find((n) => n !== undefined);
-        return match ? (match[0] as Character) : undefined;
+        return match ? (match[0] as CharacterName) : undefined;
     }
 
     isEqualTo(concept: Concept) {

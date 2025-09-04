@@ -1,35 +1,3 @@
-import type Pose from './Pose';
-import type Value from '@values/Value';
-import type Color from './Color';
-import Fonts, {
-    SupportedFontsFamiliesType,
-    type FontWeight,
-    type SupportedFace,
-} from '../basis/Fonts';
-import TextValue from '@values/TextValue';
-import Output, { DefaultStyle } from './Output';
-import type RenderContext from './RenderContext';
-import type Place from './Place';
-import ListValue from '@values/ListValue';
-import TextLang from './TextLang';
-import toStructure from '../basis/toStructure';
-import getTextMetrics from './getTextMetrics';
-import type Sequence from './Sequence';
-import { PX_PER_METER, sizeToPx } from './outputToCSS';
-import { getBind } from '@locale/getBind';
-import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
-import type Project from '../models/Project';
-import type { DefinitePose } from './Pose';
-import StructureValue from '../values/StructureValue';
-import { getOutputInput } from './Valued';
-import { getTypeStyle } from './toOutput';
-import MarkupValue from '@values/MarkupValue';
-import concretize from '../locale/concretize';
-import Markup from '../nodes/Markup';
-import segmentWraps from './segmentWraps';
-import type Matter from './Matter';
-import { toMatter } from './Matter';
-import type Locales from '../locale/Locales';
 import {
     HorizontalLayout,
     VerticalLeftRightLayout,
@@ -37,11 +5,44 @@ import {
     layoutToCSS,
     type WritingLayoutSymbol,
 } from '@locale/Scripts';
+import { getBind } from '@locale/getBind';
+import { LINK_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+import MarkupValue from '@values/MarkupValue';
+import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
+import Fonts, {
+    SupportedFontsFamiliesType,
+    type FontWeight,
+    type SupportedFace,
+} from '../basis/Fonts';
+import toStructure from '../basis/toStructure';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import Markup from '../nodes/Markup';
+import StructureValue from '../values/StructureValue';
+import type Aura from './Aura';
+import { toAura } from './Aura';
+import type Color from './Color';
+import type Matter from './Matter';
+import { toMatter } from './Matter';
+import Output, { DefaultStyle } from './Output';
+import type Place from './Place';
+import type { DefinitePose } from './Pose';
+import Pose from './Pose';
+import type RenderContext from './RenderContext';
+import type Sequence from './Sequence';
+import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
+import TextLang from './TextLang';
+import { getOutputInput } from './Valued';
+import getTextMetrics from './getTextMetrics';
+import { PX_PER_METER, sizeToPx } from './outputToCSS';
+import segmentWraps from './segmentWraps';
+import { getTypeStyle } from './toOutput';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Phrase, '•')} Output(
-        ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
+    ${getBind(locales, (locale) => locale.output.Phrase, TYPE_SYMBOL)} Output(
+        ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|\`…\`
         ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
         ${getBind(
             locales,
@@ -49,6 +50,10 @@ export function createPhraseType(locales: Locales) {
         )}•${SupportedFontsFamiliesType}${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Phrase.place)}•📍|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.name)}•""|ø: ø
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.description,
+        )}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.selectable)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Phrase.color)}•🌈${'|ø: ø'}
         ${getBind(
@@ -92,6 +97,7 @@ export function createPhraseType(locales: Locales) {
             (locale) => locale.output.Phrase.direction,
         )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}': '${HorizontalLayout}'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.aura)}•ø|🔮: ø
     )`);
 }
 
@@ -107,11 +113,12 @@ export type Metrics = {
 };
 
 export default class Phrase extends Output {
-    readonly text: TextLang[] | MarkupValue;
+    readonly text: TextLang | MarkupValue;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
     readonly direction: WritingLayoutSymbol;
     readonly matter: Matter | undefined;
+    readonly aura: Aura | undefined;
 
     private _metrics: Metrics | undefined = undefined;
 
@@ -119,11 +126,12 @@ export default class Phrase extends Output {
 
     constructor(
         value: StructureValue,
-        text: TextLang[] | MarkupValue,
+        text: TextLang | MarkupValue,
         size: number | undefined = undefined,
         face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
+        description: TextLang | undefined = undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -137,6 +145,7 @@ export default class Phrase extends Output {
         alignment: string | undefined,
         direction: WritingLayoutSymbol,
         matter: Matter | undefined,
+        aura: Aura | undefined,
     ) {
         super(
             value,
@@ -144,6 +153,7 @@ export default class Phrase extends Output {
             face,
             place,
             name,
+            description,
             selectable,
             background,
             pose,
@@ -160,10 +170,7 @@ export default class Phrase extends Output {
         this.alignment = alignment;
         this.direction = direction;
         this.matter = matter;
-
-        // Make sure this font is loaded. This is a little late -- we could do some static analysis
-        // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
-        if (this.face) Fonts.loadFace(this.face);
+        this.aura = aura;
     }
 
     find(check: (output: Output) => boolean): Output | undefined {
@@ -196,7 +203,7 @@ export default class Phrase extends Output {
         const renderedSize = this.size ?? context.size;
 
         // Get the text that will be rendered.
-        const text = this.getLocalizedTextOrDoc(context.locales);
+        const text = this.getLocalizedTextOrDoc();
 
         // Tracking metrics
         let width = 0;
@@ -222,8 +229,12 @@ export default class Phrase extends Output {
 
         // Go through each formatted text,
         for (const formatted of formats) {
+            // If the text is a character name, it will be the width of an m in the current font.
+            const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
+            // If it is a custom character, treat it like the letter 'e' for measurement purposes.
+            const textToMeasure = isCharacter ? '@' : formatted.text;
             // Split the text by spaces and measure each space separated chunk.
-            for (const segment of segmentWraps(formatted.text)) {
+            for (const segment of segmentWraps(textToMeasure)) {
                 const metrics = getTextMetrics(
                     // Choose the description with the preferred language.
                     segment,
@@ -239,11 +250,13 @@ export default class Phrase extends Output {
                 if (metrics) {
                     ascent = metrics.fontBoundingBoxAscent;
                     descent = metrics.fontBoundingBoxDescent;
-                    height = Math.max(
-                        metrics.actualBoundingBoxAscent +
-                            metrics.actualBoundingBoxDescent,
-                        height,
-                    );
+                    height = isCharacter
+                        ? ascent
+                        : Math.max(
+                              metrics.actualBoundingBoxAscent +
+                                  metrics.actualBoundingBoxDescent,
+                              height,
+                          );
                     // If we're not wrapping, just accumulate the width.
                     if (maxWidth === undefined) {
                         width += metrics.width;
@@ -278,12 +291,7 @@ export default class Phrase extends Output {
             height = temp;
         }
 
-        const dimensions = {
-            width,
-            height,
-            ascent,
-            descent,
-        };
+        const dimensions = { width, height, ascent, descent };
         // If the font is loaded, these metrics can be trusted, so we cache them.
         if (height !== undefined && ascent !== undefined && faceLoaded) {
             this._metrics = dimensions;
@@ -317,63 +325,64 @@ export default class Phrase extends Output {
         return undefined;
     }
 
-    getLocalizedTextOrDoc(locales: Locales): TextLang | Markup {
+    getLocalizedTextOrDoc(): TextLang | Markup {
         // Get the list of text lang and doc and find the one with the best matching language.
-        if (Array.isArray(this.text)) {
-            const options = this.text;
-            // Convert the preferred languages into matching text, filtering unmatched languages, and choosing the
-            // first match. If no match, default to the first text.
-            return (
-                locales
-                    .getLocales()
-                    .map((locale) =>
-                        options.find((text) => locale.language === text.lang),
-                    )
-                    .filter(
-                        (text): text is TextLang => text !== undefined,
-                    )[0] ?? this.text[0]
-            );
+        if (this.text instanceof TextLang) {
+            return this.text;
         } else return this.text.markup;
     }
 
-    getShortDescription(locales: Locales) {
-        const textOrDoc = this.getLocalizedTextOrDoc(locales);
+    getShortDescription() {
+        const textOrDoc = this.getLocalizedTextOrDoc();
         return textOrDoc instanceof TextLang
             ? textOrDoc.text
-            : textOrDoc?.toText() ?? '';
+            : (textOrDoc?.toText() ?? '');
     }
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            const text = this.getShortDescription(locales);
+            const text = this.getShortDescription();
 
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Phrase.description),
-                text,
-                this.name instanceof TextLang ? this.name.text : undefined,
-                this.size,
-                this.face,
-                this.pose.getDescription(locales),
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Phrase.defaultDescription,
+                    text,
+                    this.name instanceof TextLang ? this.name.text : undefined,
+                    this.size,
+                    this.face,
+                    this.resting instanceof Pose
+                        ? this.resting.getDescription(locales)
+                        : this.pose.getDescription(locales),
+                )
+                .toText()
+                .trim();
         }
         return this._description;
+    }
+
+    getEntryAnimated() {
+        return this.entering !== undefined ? [this] : [];
     }
 
     isEmpty() {
         return false;
     }
 
-    getRepresentativeText(locales: Locales) {
-        const preferred = this.getLocalizedTextOrDoc(locales);
+    getRepresentativeText() {
+        const preferred = this.getLocalizedTextOrDoc();
         return preferred instanceof Markup
             ? preferred.getRepresentativeText()
             : preferred.text;
     }
 
+    gatherFaces(set: Set<SupportedFace>): Set<SupportedFace> {
+        if (this.face) set.add(this.face);
+        return set;
+    }
+
     toString() {
-        return Array.isArray(this.text)
-            ? this.text.map((text) => text.text).join(', ')
+        return this.text instanceof TextLang
+            ? this.text
             : this.text.markup.toText();
     }
 }
@@ -396,6 +405,7 @@ export function toPhrase(
         face: font,
         place,
         name,
+        description,
         selectable,
         background,
         pose,
@@ -407,12 +417,16 @@ export function toPhrase(
         style,
     } = getTypeStyle(project, value, 1);
 
-    const wrap = toNumber(getOutputInput(value, 20));
-    const alignment = toText(getOutputInput(value, 21));
-    const direction = toText(getOutputInput(value, 22));
-    const matter = toMatter(getOutputInput(value, 23));
+    const AfterStyleOffset = 21;
+
+    const wrap = toNumber(getOutputInput(value, AfterStyleOffset));
+    const alignment = toText(getOutputInput(value, AfterStyleOffset + 1));
+    const direction = toText(getOutputInput(value, AfterStyleOffset + 2));
+    const matter = toMatter(getOutputInput(value, AfterStyleOffset + 3));
+    const shadow = toAura(project, getOutputInput(value, AfterStyleOffset + 4));
 
     return texts !== undefined &&
+        (!Array.isArray(texts) || texts.length > 0) &&
         duration !== undefined &&
         style !== undefined &&
         direction !== undefined &&
@@ -425,6 +439,7 @@ export function toPhrase(
               font,
               place,
               namer.getName(name?.text, value),
+              description,
               selectable,
               background,
               pose,
@@ -438,6 +453,7 @@ export function toPhrase(
               alignment?.text,
               direction.text as WritingLayoutSymbol,
               matter,
+              shadow,
           )
         : undefined;
 }
@@ -451,15 +467,10 @@ export function toText(value: Value | undefined) {
 export function toTextLang(value: Value | undefined) {
     const texts =
         value instanceof TextValue
-            ? [new TextLang(value, value.text, value.format)]
-            : value instanceof ListValue &&
-                value.values.every((t) => t instanceof TextValue)
-              ? (value.values as TextValue[]).map(
-                    (val) => new TextLang(val, val.text, val.format),
-                )
-              : value instanceof MarkupValue
-                ? value
-                : undefined;
+            ? new TextLang(value, value.text, value.format)
+            : value instanceof MarkupValue
+              ? value
+              : undefined;
 
     return texts;
 }

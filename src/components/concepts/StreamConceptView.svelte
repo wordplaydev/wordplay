@@ -1,12 +1,16 @@
 <script lang="ts">
-    import ConceptView from './ConceptView.svelte';
     import type StreamConcept from '@concepts/StreamConcept';
-    import BindConceptView from './BindConceptView.svelte';
     import { onMount } from 'svelte';
     import type BindConcept from '../../concepts/BindConcept';
+    import BindConceptView from './BindConceptView.svelte';
+    import ConceptView from './ConceptView.svelte';
 
-    export let concept: StreamConcept;
-    export let subconcept: BindConcept | undefined = undefined;
+    interface Props {
+        concept: StreamConcept;
+        subconcept?: BindConcept | undefined;
+    }
+
+    let { concept, subconcept = undefined }: Props = $props();
 
     onMount(() => {
         if (subconcept) {

@@ -1,22 +1,24 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import Names from '@nodes/Names';
     import Sym from '@nodes/Sym';
     import {
         BIND_SYMBOL,
         EVAL_CLOSE_SYMBOL,
         EVAL_OPEN_SYMBOL,
     } from '@parser/Symbols';
-    import NoneValue from '@values/NoneValue';
     import type StructureValue from '@values/StructureValue';
-    import SymbolView from './SymbolView.svelte';
-    import ValueView from './ValueView.svelte';
+    import { locales } from '../../db/Database';
     import { toColor } from '../../output/Color';
     import Expandable from './Expandable.svelte';
-    import { locales } from '../../db/Database';
+    import SymbolView from './SymbolView.svelte';
+    import ValueView from './ValueView.svelte';
 
-    export let value: StructureValue;
-    export let inline = true;
+    interface Props {
+        value: StructureValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 </script>
 
 <!-- Inline structures show the name and binds -->
@@ -25,59 +27,55 @@
         symbol={$locales.getName(value.type.names)}
         type={Sym.Name}
     /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Sym.EvalOpen} /><Expandable
-        ><svelte:fragment slot="expanded">
-            {#each value.type.inputs as input, index}<SymbolView
-                    symbol={$locales.getName(input.names)}
+        >{#snippet expanded()}
+            {#each [...value.context.getBindingsByNames()] as [name, val], index}<SymbolView
+                    symbol={$locales.getName(name)}
                     type={Sym.Name}
                 /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
-                    value={value.resolve(input.getNames()[0]) ??
-                        new NoneValue(value.type)}
+                    value={val}
                     {inline}
-                />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}</svelte:fragment
-        ><svelte:fragment slot="collapsed"
-            >{#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
+                />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}{/snippet}
+        {#snippet collapsed()}
+            {#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
                     class="color"
                     style:background-color={toColor(value)?.toCSS()}
                     >&ZeroWidthSpace;</span
-                >{:else}…{/if}</svelte:fragment
-        ></Expandable
+                >{:else}…{/if}{/snippet}</Expandable
     ><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Sym.EvalClose} />
 
     <!-- Block structures are HTML tables -->
 {:else}
     {@const color = value.is(
-        value.context.getEvaluator().project.shares.output.Color
+        value.context.getEvaluator().project.shares.output.Color,
     )}
     <table>
-        <tr
-            ><th colspan={color ? 1 : 2}
-                ><SymbolView
-                    symbol={$locales.getName(value.type.names)}
-                    type={Sym.Name}
-                /></th
-            >{#if color}
-                <th
-                    ><span
-                        class="color"
-                        style:background-color={toColor(value)?.toCSS()}
-                        >&ZeroWidthSpace;</span
-                    ></th
-                >{/if}</tr
-        >
-        {#each value.type.inputs as input}<tr
-                ><td
+        <tbody>
+            <tr
+                ><th colspan={color ? 1 : 2}
                     ><SymbolView
-                        symbol={$locales.getName(input.names)}
+                        symbol={$locales.getName(value.type.names)}
                         type={Sym.Name}
-                    /></td
-                ><td
-                    ><ValueView
-                        value={value.resolve(input.getNames()[0]) ??
-                            new NoneValue(value.type)}
-                        {inline}
-                    /></td
-                ></tr
-            >{/each}
+                    /></th
+                >{#if color}
+                    <th
+                        ><span
+                            class="color"
+                            style:background-color={toColor(value)?.toCSS()}
+                            >&ZeroWidthSpace;</span
+                        ></th
+                    >{/if}</tr
+            >
+            {#each [...value.context.getBindingsByNames()] as [name, val]}<tr
+                    ><td
+                        ><SymbolView
+                            symbol={name instanceof Names
+                                ? $locales.getName(name)
+                                : name}
+                            type={Sym.Name}
+                        /></td
+                    ><td><ValueView value={val} {inline} /></td></tr
+                >{/each}
+        </tbody>
     </table>
 {/if}
 

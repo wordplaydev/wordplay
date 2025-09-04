@@ -1,22 +1,22 @@
-import type Evaluator from '@runtime/Evaluator';
-import TemporalStreamValue from '../values/TemporalStreamValue';
-import type Expression from '../nodes/Expression';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import BooleanType from '@nodes/BooleanType';
+import type Evaluation from '@runtime/Evaluation';
+import BoolValue from '@values/BoolValue';
+import NumberValue from '@values/NumberValue';
+import { getDocLocales } from '../locale/getDocLocales';
+import { getNameLocales } from '../locale/getNameLocales';
+import type Locales from '../locale/Locales';
 import Bind from '../nodes/Bind';
-import NumberType from '../nodes/NumberType';
+import type Expression from '../nodes/Expression';
 import NoneLiteral from '../nodes/NoneLiteral';
 import NoneType from '../nodes/NoneType';
+import NumberType from '../nodes/NumberType';
 import StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
-import NumberValue from '@values/NumberValue';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
+import TemporalStreamValue from '../values/TemporalStreamValue';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locales from '../locale/Locales';
-import BooleanType from '@nodes/BooleanType';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import BoolValue from '@values/BoolValue';
 
 const DEFAULT_FREQUENCY = 33;
 
@@ -27,15 +27,15 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
     lastTime: DOMHighResTimeStamp | undefined = undefined;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         frequency: number = DEFAULT_FREQUENCY,
-        relative: boolean
+        relative: boolean,
     ) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Time,
-            new NumberValue(evaluator.getMain(), 0, Unit.reuse(['ms'])),
-            0
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Time,
+            new NumberValue(evaluation.getCreator(), 0, Unit.reuse(['ms'])),
+            0,
         );
         this.frequency = frequency;
         this.relative = relative;
@@ -45,6 +45,7 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
     start() {
         return;
     }
+
     stop() {
         return;
     }
@@ -100,7 +101,7 @@ export function createTimeType(locale: Locales) {
         getNameLocales(locale, (locale) => locale.input.Time.frequency.names),
         UnionType.make(NumberType.make(Unit.reuse(['ms'])), NoneType.make()),
         // Default to nothing
-        NoneLiteral.make()
+        NoneLiteral.make(),
     );
 
     const RelativeBind = Bind.make(
@@ -108,7 +109,7 @@ export function createTimeType(locale: Locales) {
         getNameLocales(locale, (locale) => locale.input.Time.relative.names),
         BooleanType.make(),
         // Default to nothing
-        BooleanLiteral.make(true)
+        BooleanLiteral.make(true),
     );
 
     return StreamDefinition.make(
@@ -120,22 +121,24 @@ export function createTimeType(locale: Locales) {
             Time,
             (evaluation) =>
                 new Time(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     evaluation
                         .get(FrequencyBind.names, NumberValue)
                         ?.toNumber(),
-                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true
+                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true,
                 ),
             (stream, evaluation) => {
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
                 );
                 stream.setRelative(
-                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true
+                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true,
                 );
-            }
+            },
         ),
 
-        TimeType.clone()
+        TimeType.clone(),
     );
 }

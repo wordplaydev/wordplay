@@ -1,27 +1,32 @@
 <script lang="ts">
+    import Notice from '@components/app/Notice.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { locales } from '@db/Database';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { auth } from '@db/firebase';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { FirebaseError } from 'firebase/app';
     import {
         signInWithEmailAndPassword,
         updatePassword,
         type User,
     } from 'firebase/auth';
-    import isValidPassword from './IsValidPassword';
-    import { FirebaseError } from 'firebase/app';
     import getLoginErrorDescription from './getAuthErrorDescription';
-    import Button from '@components/widgets/Button.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { auth } from '@db/firebase';
+    import isValidPassword from './IsValidPassword';
 
-    export let user: User;
+    interface Props {
+        user: User;
+    }
 
-    let currentpassword = '';
-    let password1 = '';
-    let password2 = '';
-    let submitted = false;
-    let feedback: string | undefined = undefined;
-    let reveal = false;
+    let { user }: Props = $props();
+
+    let currentpassword = $state('');
+    let password1 = $state('');
+    let password2 = $state('');
+    let submitted = $state(false);
+    let feedback: LocaleTextAccessor | undefined = $state(undefined);
+    let reveal = $state(false);
 
     async function update() {
         if (auth === undefined || user === null || user.email === null) return;
@@ -37,83 +42,79 @@
                     await updatePassword(user, password2);
                 } catch (error) {
                     if (error instanceof FirebaseError) {
-                        feedback = getLoginErrorDescription($locales, error);
+                        feedback = getLoginErrorDescription(error);
                     }
                 } finally {
                     submitted = false;
-                    feedback = $locales.get(
-                        (l) => l.ui.page.login.feedback.updatedPassword,
-                    );
+                    feedback = (l) => l.ui.page.login.feedback.updatedPassword;
                     currentpassword = '';
                     password1 = '';
                     password2 = '';
                 }
             }
         } catch (error) {
-            feedback = $locales.get((l) => l.ui.page.login.error.wrongPassword);
+            feedback = (l) => l.ui.page.login.error.wrongPassword;
         }
     }
 </script>
 
-<p>{$locales.get((l) => l.ui.page.login.prompt.changePassword)}</p>
+<p><LocalizedText path={(l) => l.ui.page.login.prompt.changePassword} /></p>
 
-<form on:submit={update}>
+<form onsubmit={update}>
     <TextField
+        id="currentpassword"
         kind={reveal ? undefined : 'password'}
-        description={$locales.get(
-            (l) => l.ui.page.login.field.currentPassword.description,
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.currentPassword.placeholder,
-        )}
+        description={(l) => l.ui.page.login.field.currentPassword.description}
+        placeholder={(l) => l.ui.page.login.field.currentPassword.placeholder}
         bind:text={currentpassword}
         editable={!submitted}
-        validator={(pass) => isValidPassword(pass)}
+        validator={(pass) =>
+            !isValidPassword(pass)
+                ? (l) => l.ui.page.login.error.invalidPassword
+                : true}
     />
     <TextField
+        id="repeatpassword"
         kind={reveal ? undefined : 'password'}
-        description={$locales.get(
-            (l) => l.ui.page.login.field.newPassword.description,
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.newPassword.placeholder,
-        )}
+        description={(l) => l.ui.page.login.field.newPassword.description}
+        placeholder={(l) => l.ui.page.login.field.newPassword.placeholder}
         bind:text={password1}
         editable={!submitted}
-        validator={(pass) => isValidPassword(pass)}
+        validator={(pass) =>
+            !isValidPassword(pass)
+                ? (l) => l.ui.page.login.error.invalidPassword
+                : true}
     />
     <TextField
+        id="newpassword"
         kind={reveal ? undefined : 'password'}
-        description={$locales.get(
-            (l) => l.ui.page.login.field.newPassword.description,
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.newPassword.placeholder,
-        )}
+        description={(l) => l.ui.page.login.field.newPassword.description}
+        placeholder={(l) => l.ui.page.login.field.newPassword.placeholder}
         bind:text={password2}
         editable={!submitted}
-        validator={(pass) => pass === password1 && isValidPassword(pass)}
+        validator={(pass) =>
+            !isValidPassword(pass)
+                ? (l) => l.ui.page.login.error.invalidPassword
+                : pass !== password1
+                  ? (l) => l.ui.page.login.error.mismatched
+                  : true}
     />
     <Toggle
-        tips={$locales.get((l) => l.ui.page.login.toggle.reveal)}
+        tips={(l) => l.ui.page.login.toggle.reveal}
         on={reveal}
         toggle={() => (reveal = !reveal)}>🔎</Toggle
     >
     <Button
         submit
         background
-        tip={$locales.get((l) => l.ui.page.login.button.updatePassword)}
+        tip={(l) => l.ui.page.login.button.updatePassword}
         active={!submitted && isValidPassword(password2)}
         action={() => undefined}>&gt;</Button
     >
     {#if password2.length > 0 && !isValidPassword(password2)}
-        <Feedback
-            >{$locales.get(
-                (l) => l.ui.page.login.prompt.passwordrule,
-            )}</Feedback
-        >
+        <Notice text={(l) => l.ui.page.login.prompt.passwordrule} />
     {:else if feedback}
-        <Feedback>{feedback}</Feedback>
+        <Notice text={feedback} />
     {/if}
 </form>
 

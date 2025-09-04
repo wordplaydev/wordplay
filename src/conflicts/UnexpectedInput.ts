@@ -1,25 +1,24 @@
-import type Evaluate from '@nodes/Evaluate';
-import Conflict from './Conflict';
-import type Expression from '@nodes/Expression';
-import type Bind from '@nodes/Bind';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
 import NodeRef from '@locale/NodeRef';
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Context from '@nodes/Context';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import concretize from '../locale/concretize';
+import type Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type Input from '@nodes/Input';
+import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locales from '../locale/Locales';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import Conflict from './Conflict';
 
 export default class UnexpectedInputs extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
     readonly evaluate: Evaluate | BinaryEvaluate;
-    readonly input: Expression | Bind;
+    readonly input: Expression | Input;
 
     constructor(
         func: FunctionDefinition | StructureDefinition | StreamDefinition,
         evaluate: Evaluate | BinaryEvaluate,
-        input: Expression | Bind
+        input: Expression | Input,
     ) {
         super(false);
         this.func = func;
@@ -30,28 +29,20 @@ export default class UnexpectedInputs extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.evaluate,
+                node: this.input,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.UnexpectedInput.primary
-                        ),
-                        new NodeRef(this.input, locales, context)
+                    locales.concretize(
+                        (l) => l.node.Evaluate.conflict.UnexpectedInput.primary,
+                        new NodeRef(this.input, locales, context),
                     ),
             },
             secondary: {
-                node: this.input,
+                node: this.func.names,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.UnexpectedInput
-                                    .secondary
-                        ),
-                        new NodeRef(this.input, locales, context)
+                    locales.concretize(
+                        (l) =>
+                            l.node.Evaluate.conflict.UnexpectedInput.secondary,
+                        new NodeRef(this.input, locales, context),
                     ),
             },
         };

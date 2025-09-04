@@ -1,7 +1,8 @@
-import type Evaluator from '@runtime/Evaluator';
-import TemporalStreamValue from '../values/TemporalStreamValue';
-import NumberType from '../nodes/NumberType';
+import type Unit from '@nodes/Unit';
+import type Evaluation from '@runtime/Evaluation';
 import NumberValue from '@values/NumberValue';
+import NumberType from '../nodes/NumberType';
+import TemporalStreamValue from '../values/TemporalStreamValue';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 export const DEFAULT_FREQUENCY = 33;
@@ -24,15 +25,16 @@ export default abstract class AudioStream extends TemporalStreamValue<
     frequency: number;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         frequency: number | undefined,
-        fftSize: number
+        unit: Unit | undefined,
+        fftSize: number,
     ) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Volume,
-            new NumberValue(evaluator.getMain(), 0),
-            0
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Volume,
+            new NumberValue(evaluation.getCreator(), 0, unit),
+            0,
         );
         this.fftSize = fftSize;
         this.frequency = Math.max(15, frequency ?? DEFAULT_FREQUENCY);
@@ -40,7 +42,7 @@ export default abstract class AudioStream extends TemporalStreamValue<
 
     abstract valueFromFrequencies(
         sampleRate: number,
-        analyzer: AnalyserNode
+        analyzer: AnalyserNode,
     ): number;
 
     tick(time: DOMHighResTimeStamp) {
@@ -59,8 +61,8 @@ export default abstract class AudioStream extends TemporalStreamValue<
             this.react(
                 this.valueFromFrequencies(
                     this.context.sampleRate,
-                    this.analyzer
-                )
+                    this.analyzer,
+                ),
             );
         }
     }

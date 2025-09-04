@@ -1,34 +1,37 @@
 import type Conflict from '@conflicts/Conflict';
-import type Expression from './Expression';
-import type Token from './Token';
-import Type from './Type';
-import type Node from './Node';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
 import Placeholder from '@conflicts/Placeholder';
-import Halt from '@runtime/Halt';
-import Bind from './Bind';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
+import type EditContext from '@edit/EditContext';
+import type { LocaleText } from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
+import Halt from '@runtime/Halt';
+import type Step from '@runtime/Step';
 import UnimplementedException from '@values/UnimplementedException';
-import PlaceholderToken from './PlaceholderToken';
-import UnimplementedType from './UnimplementedType';
-import TypeToken from './TypeToken';
-import { node, type Grammar, type Replacement, none, any } from './Node';
-import SimpleExpression from './SimpleExpression';
-import type { Template } from '@locale/Locale';
-import Glyphs from '../lore/Glyphs';
-import type Root from './Root';
-import concretize from '../locale/concretize';
-import NodeRef from '../locale/NodeRef';
-import Evaluate from './Evaluate';
-import getConcreteExpectedType from './Generics';
-import BinaryEvaluate from './BinaryEvaluate';
-import FunctionDefinition from './FunctionDefinition';
-import Sym from './Sym';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
+import BinaryEvaluate from './BinaryEvaluate';
+import Bind from './Bind';
+import type Context from './Context';
+import Evaluate from './Evaluate';
+import type Expression from './Expression';
+import FunctionDefinition from './FunctionDefinition';
+import getConcreteExpectedType from './Generics';
+import Input from './Input';
+import type Node from './Node';
+import { any, node, none, type Grammar, type Replacement } from './Node';
+import PlaceholderToken from './PlaceholderToken';
+import type Root from './Root';
+import SimpleExpression from './SimpleExpression';
+import Sym from './Sym';
+import type Token from './Token';
+import Type from './Type';
+import TypePlaceholder from './TypePlaceholder';
+import type TypeSet from './TypeSet';
+import TypeToken from './TypeToken';
+import UnimplementedType from './UnimplementedType';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -58,12 +61,15 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         );
     }
 
-    static getPossibleNodes() {
-        // Don't pass the type, since we don't want it to be actual text in the program.
-        return [ExpressionPlaceholder.make(undefined)];
+    static getPossibleReplacements({ type }: EditContext) {
+        return [ExpressionPlaceholder.make(type)];
     }
 
-    getDescriptor() {
+    static getPossibleAppends({ type }: EditContext) {
+        return [ExpressionPlaceholder.make(type)];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'ExpressionPlaceholder';
     }
 
@@ -77,7 +83,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                     _: Node,
                     context: Context,
                     root: Root,
-                ): Template => {
+                ) => {
                     const parent: Node | undefined = root.getParent(this);
                     // See if the parent has a label.
                     return (
@@ -87,16 +93,21 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                             context,
                             root,
                         ) ??
-                        locales.get(
-                            (l) => l.node.ExpressionPlaceholder.placeholder,
-                        )
+                        ((l: LocaleText) =>
+                            l.node.ExpressionPlaceholder.placeholder)
                     );
                 },
             },
-            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['type', () => TypePlaceholder.make()]),
+                ),
+            },
             {
                 name: 'type',
-                kind: any(node(Type), none('dot')),
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
             },
         ];
     }
@@ -124,9 +135,21 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         // Try to infer from surroundings.
         const parent = context.getRoot(this)?.getParent(this);
 
+        const evaluate =
+            parent instanceof Evaluate
+                ? parent
+                : parent instanceof BinaryEvaluate
+                  ? parent
+                  : parent && parent instanceof Input
+                    ? context.getRoot(this)?.getParent(parent)
+                    : undefined;
+
         // In an evaluate? Infer from the function's bind type.
-        if (parent instanceof Evaluate || parent instanceof BinaryEvaluate) {
-            const fun = parent.getFunction(context);
+        if (
+            evaluate instanceof Evaluate ||
+            evaluate instanceof BinaryEvaluate
+        ) {
+            const fun = evaluate.getFunction(context);
             if (fun) {
                 const bind =
                     parent instanceof Evaluate
@@ -136,7 +159,12 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                               ?.expected
                         : fun.inputs[0];
                 if (bind) {
-                    return getConcreteExpectedType(fun, bind, parent, context);
+                    return getConcreteExpectedType(
+                        fun,
+                        bind,
+                        evaluate,
+                        context,
+                    );
                 }
             }
         } else if (parent instanceof Bind) return parent.getType(context);
@@ -181,8 +209,10 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return this.placeholder ?? this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ExpressionPlaceholder);
+    static readonly LocalePath = (l: LocaleText) =>
+        l.node.ExpressionPlaceholder;
+    getLocalePath() {
+        return ExpressionPlaceholder.LocalePath;
     }
 
     getDescriptionInput(locales: Locales, context: Context) {
@@ -192,13 +222,10 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ExpressionPlaceholder.start),
-        );
+        return locales.concretize((l) => l.node.ExpressionPlaceholder.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Placeholder;
+    getCharacter() {
+        return Characters.Placeholder;
     }
 }

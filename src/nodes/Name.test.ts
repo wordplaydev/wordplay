@@ -1,7 +1,7 @@
-import { test } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '@conflicts/UnknownName';
+import { test } from 'vitest';
 import Reference from './Reference';
 
 test('Test name conflicts', () => {
@@ -11,26 +11,26 @@ test('Test name conflicts', () => {
         'ƒ(a•# b•#) a + c',
         Reference,
         UnknownName,
-        2
+        2,
     );
     testConflict(
         '•Math(a b) (z: a + b)',
         '•Math(a b) (z: a + c)',
         Reference,
         UnknownName,
-        2
+        2,
     );
     testConflict(
         'table: ⎡a•#⎦\ntable ⎡- a = 0',
         'table: ⎡a•#⎦\ntable ⎡- b = 0',
         Reference,
         UnknownName,
-        1
+        1,
     );
     testConflict(
         'ƒ⸨T⸩(a) a + 2',
         'ƒ⸨T⸩() T + 1',
         Reference,
-        UnexpectedTypeVariable
+        UnexpectedTypeVariable,
     );
 });

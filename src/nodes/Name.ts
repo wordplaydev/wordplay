@@ -1,63 +1,66 @@
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
 import type Conflict from '@conflicts/Conflict';
-import Language from './Language';
-import NameToken from './NameToken';
+import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
+import Emotion from '../lore/Emotion';
+import ReservedSymbols from '../parser/ReservedSymbols';
 import type Context from './Context';
 import type Definition from './Definition';
 import Evaluate from './Evaluate';
-import ReservedSymbols from '../parser/ReservedSymbols';
-import Node, { node, optional } from './Node';
+import Language from './Language';
 import { LanguageTagged } from './LanguageTagged';
-import type Locales from '../locale/Locales';
+import NameToken from './NameToken';
+import type { Grammar, Replacement } from './Node';
+import Node, { node, optional } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class Name extends LanguageTagged {
+    readonly name: Token;
     readonly separator: Token | undefined;
-    readonly name: Token | undefined;
 
     constructor(
-        separator: Token | undefined,
-        name: Token | undefined,
-        language?: Language
+        name: Token,
+        language: Language | undefined = undefined,
+        separator: Token | undefined = undefined,
     ) {
         super(language);
 
-        this.separator = separator;
         this.name = name;
+        this.separator = separator;
 
         this.computeChildren();
     }
 
     static make(name?: string, lang?: Language) {
-        return new Name(undefined, new NameToken(name ?? '_'), lang);
+        return new Name(new NameToken(name ?? '_'), lang, undefined);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Name';
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'separator', kind: optional(node(Sym.Separator)) },
-            { name: 'name', kind: optional(node(Sym.Name)) },
+            { name: 'name', kind: node(Sym.Name) },
             { name: 'language', kind: optional(node(Language)) },
+            { name: 'separator', kind: optional(node(Sym.Separator)) },
         ];
     }
 
     clone(replace?: Replacement) {
         return new Name(
-            this.replaceChild('separator', this.separator, replace),
             this.replaceChild('name', this.name, replace),
-            this.replaceChild('language', this.language, replace)
+            this.replaceChild('language', this.language, replace),
+            this.replaceChild('separator', this.separator, replace),
         ) as this;
     }
 
     simplify() {
-        return new Name(this.separator, this.name, undefined);
+        return this;
     }
 
     getCorrespondingDefinition(context: Context): Definition | undefined {
@@ -86,36 +89,41 @@ export default class Name extends LanguageTagged {
         return this.language !== undefined && this.language.slash !== undefined;
     }
 
+    isLanguage(lang: LanguageCode) {
+        return this.language?.getLanguageCode() === lang;
+    }
+
+    isLocale(locale: Locale) {
+        return this.language !== undefined && this.language.isLocale(locale);
+    }
+
     withSeparator(): Name {
         return this.separator !== undefined
             ? this
             : new Name(
-                  new Token(COMMA_SYMBOL, Sym.Separator),
                   this.name,
-                  this.language
+                  this.language,
+                  new Token(COMMA_SYMBOL, Sym.Separator),
               );
     }
 
     /** Symbolic if it matches the binary op regex  */
     isSymbolic() {
         return (
-            this.name !== undefined &&
-            (this.name.text.getLength() === 1 ||
-                this.name.text
-                    .getText()
-                    .split('')
-                    .every((c) => ReservedSymbols.includes(c)))
+            this.name.text.getLength() === 1 ||
+            this.name.text
+                .getText()
+                .split('')
+                .every((c) => ReservedSymbols.includes(c))
         );
     }
 
-    getName(): string | undefined {
-        return this.name instanceof Token
-            ? this.name.text.toString()
-            : this.name;
+    getName(): string {
+        return this.name.getText();
     }
 
     withName(name: string) {
-        return new Name(this.separator, new NameToken(name), this.language);
+        return new Name(new NameToken(name), this.language, this.separator);
     }
 
     startsWith(prefix: string) {
@@ -123,7 +131,7 @@ export default class Name extends LanguageTagged {
     }
 
     withoutLanguage() {
-        return new Name(this.separator, this.name, undefined);
+        return new Name(this.name, undefined, this.separator);
     }
 
     getLowerCaseName(): string | undefined {
@@ -148,18 +156,16 @@ export default class Name extends LanguageTagged {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Name);
+    static readonly LocalePath = (l: LocaleText) => l.node.Name;
+    getLocalePath() {
+        return Name.LocalePath;
     }
 
     getDescriptionInputs() {
-        return [this.name?.getText()];
+        return [this.name.getText()];
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.name?.getText() ?? '',
-            emotion: Emotion.kind,
-        };
+    getCharacter() {
+        return { symbols: this.name.getText(), emotion: Emotion.kind };
     }
 }

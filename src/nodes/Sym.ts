@@ -15,7 +15,7 @@ enum Sym {
     Convert = '→',
     Placeholder = '_',
 
-    Doc = '``',
+    Doc = '¶',
     Formatted = '`',
     FormattedType = '`…`',
     Words = 'words',
@@ -62,8 +62,9 @@ enum Sym {
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We’ve included them for consistency with math notation and readability.
     Operator = 'operator',
-    Otherwise = '??',
     Conditional = '?',
+    Otherwise = '??',
+    Match = '???',
 
     // Also supports escapes with \to encode various characters
     // The trailing text at the end encodes the format.

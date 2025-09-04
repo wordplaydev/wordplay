@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     const Squint: `${Emotion}`[] = [
         'angry',
         'confused',
@@ -27,15 +27,18 @@
 
 <script lang="ts">
     import { onDestroy } from 'svelte';
-
     import { animationFactor } from '../../db/Database';
     import type Emotion from '../../lore/Emotion';
 
-    export let invert: boolean;
-    export let emotion: Emotion;
+    interface Props {
+        invert: boolean;
+        emotion: Emotion;
+    }
 
-    let left: HTMLElement | null;
-    let right: HTMLElement | null;
+    let { invert, emotion }: Props = $props();
+
+    let left: HTMLElement | null = $state(null);
+    let right: HTMLElement | null = $state(null);
 
     let animationLeft: Animation | undefined = undefined;
     let animationRight: Animation | undefined = undefined;
@@ -50,7 +53,7 @@
                     { transform: 'scaleY(0.1)' },
                     { transform: 'scaleY(1)' },
                 ],
-                { duration: 500, iterations: 1, delay }
+                { duration: 500, iterations: 1, delay },
             );
         else return undefined;
     }
@@ -86,17 +89,19 @@
         if (animationRight) animationRight.cancel();
     }
 
-    let offset = 0;
-    let gaze = 25;
-    $: if (left && right && $animationFactor > 0) animateEyes();
+    let offset = $state(0);
+    let gaze = $state(25);
+    $effect(() => {
+        if (left && right && $animationFactor > 0) animateEyes();
+    });
 
     let eyes = Squint.includes(emotion)
         ? 'squint'
         : Half.includes(emotion)
-        ? 'half'
-        : Wide.includes(emotion)
-        ? 'wide'
-        : 'half';
+          ? 'half'
+          : Wide.includes(emotion)
+            ? 'wide'
+            : 'half';
 </script>
 
 <div
@@ -105,8 +110,10 @@
     class:invert
     style:--offset="{offset}px"
     style:--gaze="{gaze}%"
-    ><div bind:this={left} class="eye left {eyes}"><div class="pupil" /></div
-    ><div bind:this={right} class="eye right {eyes}"><div class="pupil" /></div
+    ><div bind:this={left} class="eye left {eyes}"
+        ><div class="pupil"></div></div
+    ><div bind:this={right} class="eye right {eyes}"
+        ><div class="pupil"></div></div
     ></div
 >
 
@@ -157,7 +164,8 @@
     }
 
     .pupil {
-        transition: left calc(var(--animation-factor) * 100ms),
+        transition:
+            left calc(var(--animation-factor) * 100ms),
             top calc(var(--animation-factor) * 100ms);
     }
 

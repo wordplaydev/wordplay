@@ -1,22 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import NoneValue from '@values/NoneValue';
-import SimpleValue from './SimpleValue';
-import type Value from '@values/Value';
+import type LocaleText from '@locale/LocaleText';
+import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import type { StepNumber } from '@runtime/Evaluator';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import type Expression from '../nodes/Expression';
 import ListValue from '@values/ListValue';
-import type Concretizer from '../nodes/Concretizer';
+import NoneValue from '@values/NoneValue';
+import type Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import SimpleValue from './SimpleValue';
 
 export const MAX_STREAM_LENGTH = 256;
 
 export default abstract class StreamValue<
     ValueType extends Value = Value,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Raw = any
+    Raw = any,
 > extends SimpleValue {
     /** The evaluator that processes this stream */
     readonly evaluator: Evaluator;
@@ -31,36 +32,32 @@ export default abstract class StreamValue<
     reactors: ((
         stream: StreamValue<Value, any>,
         raw: Raw,
-        silent: boolean
+        silent: boolean,
     ) => void)[] = [];
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         definition: StreamDefinition,
         initalValue: ValueType,
-        initialRaw: Raw
+        initialRaw: Raw,
     ) {
-        super(evaluator.getMain());
+        super(evaluation.getCreator());
 
-        this.evaluator = evaluator;
+        this.evaluator = evaluation.getEvaluator();
         this.definition = definition;
 
         this.add(initalValue, initialRaw);
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            this.definition.docs
-                ?.getPreferredLocale(locales)
-                ?.getFirstParagraph() ?? locales.get((l) => l.term.stream)
-        );
+    getDescription() {
+        return (l: LocaleText) => l.term.stream;
     }
 
     isEqualTo(value: Value): boolean {
         return value === this;
     }
 
+    /** Defines how the stream should process a raw input value from the past */
     abstract react(raw: Raw): void;
 
     add(value: ValueType, raw: Raw, silent = false) {
@@ -69,10 +66,7 @@ export default abstract class StreamValue<
             return;
 
         // Update the time.
-        this.values.push({
-            value,
-            stepIndex: this.evaluator.getStepIndex(),
-        });
+        this.values.push({ value, stepIndex: this.evaluator.getStepIndex() });
 
         // Limit the array length to avoid leaking memory.
         const oldest = Math.max(0, this.values.length - MAX_STREAM_LENGTH);
@@ -129,7 +123,7 @@ export default abstract class StreamValue<
             requestor,
             this.values
                 .slice(this.values.length - count, this.values.length)
-                .map((val) => val.value)
+                .map((val) => val.value),
         );
     }
 
@@ -137,8 +131,8 @@ export default abstract class StreamValue<
         listener: (
             stream: StreamValue<Value, unknown>,
             raw: Raw,
-            silent: boolean
-        ) => void
+            silent: boolean,
+        ) => void,
     ) {
         this.reactors.push(listener);
     }
@@ -147,8 +141,8 @@ export default abstract class StreamValue<
         listener: (
             stream: StreamValue<Value, unknown>,
             raw: Raw,
-            silent: boolean
-        ) => void
+            silent: boolean,
+        ) => void,
     ) {
         this.reactors = this.reactors.filter((l) => l !== listener);
     }

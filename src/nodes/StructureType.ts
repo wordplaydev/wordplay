@@ -1,19 +1,22 @@
-import type Type from './Type';
-import type ConversionDefinition from './ConversionDefinition';
-import type Context from './Context';
-import type StructureDefinition from './StructureDefinition';
-import NameType from './NameType';
-import type TypeSet from './TypeSet';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Definition from './Definition';
-import type Node from './Node';
-import type Locale from '@locale/Locale';
-import Glyphs from '../lore/Glyphs';
-import type { Grammar } from './Node';
-import BasisType from './BasisType';
-import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type Spaces from '../parser/Spaces';
+import BasisType from './BasisType';
 import type Bind from './Bind';
+import type Context from './Context';
+import type ConversionDefinition from './ConversionDefinition';
+import type Definition from './Definition';
+import type Expression from './Expression';
+import NameType from './NameType';
+import type Node from './Node';
+import type { Grammar } from './Node';
+import StructureDefinition from './StructureDefinition';
+import StructureDefinitionType from './StructureDefinitionType';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -43,7 +46,7 @@ export default class StructureType extends BasisType {
                     this.refinements.set(name, refinements[index]);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StructureType';
     }
 
@@ -90,12 +93,17 @@ export default class StructureType extends BasisType {
             // If the given type is a name type, is does it refer to this type's structure definition?
             if (type instanceof NameType) type = type.getType(context);
 
+            if (type instanceof StructureDefinitionType) type = type.type;
             if (!(type instanceof StructureType)) return false;
             if (type.definition === this.definition) return true;
             // Are any of the given type's interfaces compatible with this?
             return (
                 type.definition.interfaces.find((int) => {
-                    return this.accepts(int.getType(context), context);
+                    const interfaceType = int.getType(context);
+                    return (
+                        interfaceType instanceof StructureDefinitionType &&
+                        this.accepts(interfaceType.type, context)
+                    );
                 }) !== undefined
             );
         });
@@ -144,19 +152,39 @@ export default class StructureType extends BasisType {
         return this;
     }
 
-    toWordplay(_?: Spaces, locale?: Locale) {
+    toWordplay(_?: Spaces, locale?: LocaleText) {
         return this.definition.getPreferredName(locale ? [locale] : []);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StructureType);
+    static readonly LocalePath = (l: LocaleText) => l.node.StructureType;
+    getLocalePath() {
+        return StructureType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getDescriptionInputs(locales: Locales) {
         return [locales.getName(this.definition.names)];
+    }
+
+    getDefaultExpression(context: Context): Expression | undefined {
+        const def = context
+            .getBasis()
+            .shares.all.find(
+                (share) =>
+                    share instanceof StructureDefinition &&
+                    !share.isInterface() &&
+                    this.accepts(share.getType(context), context),
+            );
+
+        if (def === undefined) return undefined;
+        else
+            return def.getEvaluateTemplate(
+                context.getBasis().locales,
+                context,
+                this,
+            );
     }
 }

@@ -1,84 +1,190 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
-    import type Token from '@nodes/Token';
-    import {
-        getProject,
-        getCaret,
-        getRoot,
-        getHidden,
-        getLocalize,
-    } from '../project/Contexts';
-    import TokenCategories from './TokenCategories';
-    import { locales } from '../../db/Database';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import BinaryEvaluate from '@nodes/BinaryEvaluate';
+    import Name from '@nodes/Name';
+    import Reference from '@nodes/Reference';
     import Sym from '@nodes/Sym';
+    import Token from '@nodes/Token';
+    import UnaryEvaluate from '@nodes/UnaryEvaluate';
+    import { locales } from '../../db/Database';
+    import { withColorEmoji } from '../../unicode/emoji';
+    import {
+        getCaret,
+        getHidden,
+        getIsBlocks,
+        getLocalize,
+        getProject,
+        getRoot,
+    } from '../project/Contexts';
+    import BooleanTokenEditor from './BooleanTokenEditor.svelte';
+    import NameTokenEditor from './NameTokenEditor.svelte';
+    import NumberTokenEditor from './NumberTokenEditor.svelte';
+    import OperatorEditor from './OperatorEditor.svelte';
+    import ReferenceTokenEditor from './ReferenceTokenEditor.svelte';
+    import TextOrPlaceholder from './TextOrPlaceholder.svelte';
+    import TokenCategories from './TokenCategories';
+    import WordsTokenEditor from './WordsTokenEditor.svelte';
 
-    export let node: Token;
+    interface Props {
+        node: Token;
+    }
+
+    let { node }: Props = $props();
 
     let caret = getCaret();
     let project = getProject();
-    let root = getRoot();
+
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
+
     let localize = getLocalize();
     let hidden = getHidden();
+    let blocks = getIsBlocks();
 
-    $: hide = node ? $hidden?.has(node) : false;
+    let hide = $derived(node ? $hidden?.has(node) : false);
+    let editable = $derived($caret !== undefined);
 
-    $: context =
-        $root === undefined || $project === undefined
+    let context = $derived(
+        root === undefined || $project === undefined
             ? undefined
-            : $project.getNodeContext($root.root);
+            : $project.getNodeContext(root.root),
+    );
 
     // See if this is a placeholder that should be rendered differently.
-    $: placeholder =
-        $project && $root && context
-            ? node.getPlaceholder($root, context, $locales)
-            : undefined;
+    let placeholder = $derived(
+        $project && root && context
+            ? node.getPlaceholder(root, context, $locales)
+            : undefined,
+    );
+
+    let isInCaret = $derived(
+        $caret !== undefined &&
+            node.getTextLength() > 0 &&
+            ($caret.getTokenExcludingSpace() === node ||
+                ($caret.tokenPrior === node &&
+                    $caret.atBeginningOfTokenSpace())),
+    );
 
     // True if the caret is "on" this token.
-    $: active =
-        node.getTextLength() > 0 &&
-        ($caret?.getTokenExcludingSpace() === node ||
-            ($caret?.tokenPrior === node &&
-                $caret.atBeginningOfTokenSpace() &&
-                $caret.tokenIncludingSpace &&
-                $caret.tokenAtHasPrecedingSpace()));
+    let active = $derived(
+        $caret &&
+            node.getTextLength() > 0 &&
+            ($caret.getTokenExcludingSpace() === node ||
+                ($caret.tokenPrior === node &&
+                    $caret.atBeginningOfTokenSpace() &&
+                    $caret.tokenIncludingSpace &&
+                    $caret.tokenAtHasPrecedingSpace())),
+    );
 
     // True if this is the recently added token.
-    $: added = $caret?.addition?.contains(node) ?? false;
+    let added = $derived($caret?.addition?.contains(node) ?? false);
 
-    // Localize the token's text using the preferred translation.
+    // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
-    $: text =
-        context && $root && localize && $localize
-            ? node.localized($locales.getLocales(), $root, context)
-            : node.getText();
+    let text = $derived(
+        context && root && localize && $localize
+            ? node.localized(
+                  isInCaret,
+                  node.isSymbol(Sym.Operator),
+                  $localize,
+                  root,
+                  context,
+              )
+            : node.getText(),
+    );
 
     // Prepare the text for rendering by replacing spaces with non-breaking spaces
     // and adding variation selectors after emoji to guarantee the correct emoji font is chosen.
-    $: renderedText =
+    let renderedText = $derived(
         node.isSymbol(Sym.Name) ||
-        node.isSymbol(Sym.Text) ||
-        node.isSymbol(Sym.Words)
-            ? withVariationSelector(text.replaceAll(' ', '\xa0'))
-            : text.replaceAll(' ', '\xa0');
+            node.isSymbol(Sym.Text) ||
+            node.isSymbol(Sym.Words)
+            ? withColorEmoji(text.replaceAll(' ', '\xa0'))
+            : text.replaceAll(' ', '\xa0'),
+    );
 </script>
 
-<span
-    class="token-view token-category-{TokenCategories.get(
-        Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types
-    )}"
-    class:hide
-    class:active
-    class:editable={$caret !== undefined}
-    class:placeholder={placeholder !== undefined}
-    class:added
-    data-id={node.id}
-    role="presentation"
-    >{#if placeholder !== undefined}<span class="placeholder"
-            >{placeholder}</span
-        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{renderedText}{/if}</span
->
+{#if $blocks && root}
+    <div
+        class="token-view blocks token-category-{TokenCategories.get(
+            Array.isArray(node.types)
+                ? (node.types[0] ?? 'default')
+                : node.types,
+        )}"
+        class:hide
+        class:active
+        class:editable
+        class:placeholder={placeholder !== undefined}
+        class:added
+        data-id={node.id}
+    >
+        {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number) || node.isSymbol(Sym.Boolean))}
+            {#if node.isSymbol(Sym.Words)}<WordsTokenEditor
+                    words={node}
+                    {text}
+                    project={$project}
+                    description={(l) => l.token.Words}
+                    placeholder={placeholder ?? ((l) => l.token.Words)}
+                />
+            {:else if node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
+                    {node}
+                    project={$project}
+                />
+            {:else if node.isSymbol(Sym.Number)}<NumberTokenEditor
+                    number={node}
+                    {text}
+                    project={$project}
+                    description={(l) => l.token.Number}
+                    placeholder={placeholder ?? ((l) => l.token.Number)}
+                />{:else}
+                {@const parent = root.getParent(node)}
+                <!-- Names can be any text that parses as a name -->
+                {#if parent instanceof Name}
+                    <NameTokenEditor
+                        {text}
+                        project={$project}
+                        name={parent.name}
+                        description={(l) => l.token.Name}
+                        placeholder={placeholder ?? ((l) => l.token.Name)}
+                    />
+                {:else if parent instanceof Reference}
+                    {@const grandparent = root.getParent(parent)}
+                    <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
+                    {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
+                        <OperatorEditor evaluate={grandparent} />
+                    {:else}
+                        <ReferenceTokenEditor reference={parent}
+                        ></ReferenceTokenEditor>
+                    {/if}
+                {:else}<TextOrPlaceholder
+                        {placeholder}
+                        {text}
+                        rendered={renderedText}
+                    />{/if}
+            {/if}
+        {:else}<TextOrPlaceholder
+                {placeholder}
+                {text}
+                rendered={renderedText}
+            />{/if}
+    </div>
+{:else}
+    <span
+        class="token-view text token-category-{TokenCategories.get(
+            Array.isArray(node.types)
+                ? (node.types[0] ?? 'default')
+                : node.types,
+        )}"
+        class:hide
+        class:active
+        class:editable
+        class:placeholder={placeholder !== undefined}
+        class:added
+        data-id={node.id}
+        role="presentation"
+    >
+        <TextOrPlaceholder {placeholder} {text} rendered={renderedText} />
+    </span>
+{/if}
 
 <style>
     .token-view {
@@ -115,53 +221,74 @@
         cursor: grabbing;
     }
 
-    .token-category-delimiter {
-        color: var(--color-dark-grey);
-    }
-    .token-category-relation {
-        color: var(--wordplay-relation-color);
-    }
-    .token-category-share {
-        color: var(--color-orange);
-    }
-    .token-category-eval {
-        color: var(--color-blue);
-    }
-    .token-category-docs {
+    /* Give all tokens in side a .Doc the doc color except those inside an .Example */
+    :global(.Doc) .token-view {
         color: var(--wordplay-doc-color);
     }
-    .token-category-literal {
+
+    .token-category-docs {
+        font-size: small;
+        color: var(--wordplay-doc-color);
+    }
+
+    .token-category-delimiter,
+    :global(.Example) .token-category-delimiter {
+        color: var(--color-dark-grey);
+    }
+    .token-category-relation,
+    :global(.Example) .token-category-relation {
+        color: var(--wordplay-relation-color);
+    }
+    .token-category-share,
+    :global(.Example) .token-category-share {
+        color: var(--color-orange);
+    }
+    .token-category-eval,
+    :global(.Example) .token-category-eval {
         color: var(--color-blue);
     }
-    .token-category-name {
+
+    .token-category-name,
+    :global(.Example) .token-category-name {
         color: var(--wordplay-foreground);
     }
-    .token-category-type {
+
+    .token-category-type,
+    :global(.Example) .token-category-type {
         color: var(--wordplay-type-color);
     }
-    .token-category-operator {
+    .token-category-operator,
+    :global(.Example) .token-category-operator {
         color: var(--wordplay-operator-color);
     }
-    .token-category-unknown {
+    .token-category-unknown,
+    :global(.Example) .token-category-unknown {
         color: var(--color-pink);
     }
-    .token-category-placeholder {
+    .token-category-placeholder,
+    :global(.Example) .token-category-placeholder {
         color: var(--wordplay-inactive-color);
+    }
+
+    .token-category-literal,
+    :global(.Example) .token-category-literal {
+        color: var(--color-blue);
+    }
+
+    .token-category-docs:first-child {
+        margin-inline-end: var(--wordplay-spacing);
+    }
+
+    .token-category-docs:last-child {
+        margin-inline-start: var(--wordplay-spacing);
     }
 
     .token-view.newline {
         display: block;
     }
 
-    .editable:hover,
+    .text.editable:hover,
     .active {
         outline: 1px solid var(--wordplay-border-color);
-    }
-
-    .placeholder {
-        font-family: var(--wordplay-app-font);
-        font-style: italic;
-        font-size: var(--wordplay-font-size);
-        text-decoration: underline;
     }
 </style>

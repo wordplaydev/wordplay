@@ -1,37 +1,50 @@
 <!-- Renders output, and output only -->
 <script lang="ts">
-    import type Project from '@models/Project';
     import OutputView from '@components/output/OutputView.svelte';
+    import type Project from '@db/projects/Project';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
-    import { onMount } from 'svelte';
+    import { untrack } from 'svelte';
     import { DB, locales } from '../../db/Database';
 
-    export let project: Project;
-    export let fit = true;
+    interface Props {
+        project: Project;
+        fit?: boolean;
+    }
+
+    let { project, fit = true }: Props = $props();
 
     function update() {
-        latest = evaluator.getLatestSourceValue(project.getMain());
+        if (evaluator)
+            latest = evaluator.getLatestSourceValue(project.getMain());
     }
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let evaluator: Evaluator = new Evaluator(project, DB, $locales);
-    let latest: Value | undefined = undefined;
-
-    onMount(() => {
-        evaluator.observe(update);
-        evaluator.start();
-        return () => {
-            evaluator.stop();
-            evaluator.ignore(update);
-        };
+    let evaluator = $state<Evaluator | undefined>();
+    let latest: Value | undefined = $state(undefined);
+    $effect(() => {
+        untrack(() => {
+            if (evaluator) {
+                evaluator.stop();
+                evaluator.ignore(update);
+            }
+        });
+        evaluator = new Evaluator(project, DB, $locales.getLocales());
+        untrack(() => {
+            if (evaluator) {
+                evaluator.observe(update);
+                evaluator.start();
+            }
+        });
     });
 </script>
 
-<OutputView
-    {project}
-    {evaluator}
-    value={latest}
-    {fit}
-    grid={false}
-    editable={false}
-/>
+{#if evaluator}
+    <OutputView
+        {project}
+        {evaluator}
+        value={latest}
+        {fit}
+        grid={false}
+        editable={false}
+    />
+{/if}

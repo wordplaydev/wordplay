@@ -1,9 +1,6 @@
 import en from '../locale/en-US.json';
-import type Locale from './Locale';
-import Locales from './Locales';
+import type LocaleText from './LocaleText';
 
-const DefaultLocale = en as unknown as Locale;
-
-export const DefaultLocales = new Locales([DefaultLocale], DefaultLocale);
+const DefaultLocale = en as unknown as LocaleText;
 
 export default DefaultLocale;

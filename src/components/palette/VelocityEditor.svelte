@@ -1,25 +1,31 @@
 <script lang="ts">
-    import TextField from '../widgets/TextField.svelte';
-    import type Evaluate from '../../nodes/Evaluate';
-    import type Project from '@models/Project';
-    import NumberValue from '@values/NumberValue';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type Project from '@db/projects/Project';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
-    import Note from '../widgets/Note.svelte';
-    import { getNumber } from './editOutput';
-    import Expression from '../../nodes/Expression';
-    import { Projects, locales } from '../../db/Database';
+    import NumberValue from '@values/NumberValue';
     import { tick } from 'svelte';
+    import { Projects } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
+    import type Evaluate from '../../nodes/Evaluate';
+    import Expression from '../../nodes/Expression';
+    import Note from '../widgets/Note.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import { getNumber } from './editOutput';
 
-    export let project: Project;
-    export let velocity: Evaluate;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        velocity: Evaluate;
+        editable: boolean;
+    }
 
-    let views: HTMLInputElement[] = [];
+    let { project, velocity, editable }: Props = $props();
+
+    let views: HTMLInputElement[] = $state([]);
 
     function valid(val: string) {
-        const [num] = NumberValue.fromUnknown(val, false);
+        const [num] = NumberValue.fromUnknown(val);
         return !num.isNaN();
     }
 
@@ -28,7 +34,7 @@
         if (value.length > 0 && !valid(value)) return;
 
         const focusIndex = views.findIndex(
-            (view) => document.activeElement === view
+            (view) => document.activeElement === view,
         );
 
         Projects.revise(project, [
@@ -38,9 +44,9 @@
                     dimension,
                     NumberLiteral.make(
                         value.length === 0 ? 0 : value,
-                        Unit.create([index < 2 ? 'm' : '°'], ['s'])
+                        Unit.create([index < 2 ? 'm' : '°'], ['s']),
                     ),
-                    project.getNodeContext(velocity)
+                    project.getNodeContext(velocity),
                 ),
             ],
         ]);
@@ -48,7 +54,11 @@
         if (focusIndex >= 0) {
             await tick();
             const view = views[focusIndex];
-            view?.focus();
+            if (view)
+                setKeyboardFocus(
+                    view,
+                    'Restoring focus after velocity editor edit.',
+                );
         }
     }
 </script>
@@ -57,7 +67,7 @@
     {project.shares.output.Velocity.names.getSymbolicName()}{#each project.shares.output.Velocity.inputs as dimension, index}
         {@const given = velocity?.getInput(
             dimension,
-            project.getNodeContext(velocity)
+            project.getNodeContext(velocity),
         )}
         <!-- Get the measurement literal, if there is one -->
         {@const value =
@@ -65,13 +75,13 @@
         <div class="dimension">
             {#if value !== undefined}
                 <TextField
+                    id={`velocity-${index}`}
                     text={`${value}`}
-                    validator={valid}
+                    validator={(text) =>
+                        !valid(text) ? (l) => l.ui.palette.error.nan : true}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
-                    description={$locales.get(
-                        (l) => l.ui.palette.field.coordinate
-                    )}
+                    description={(l) => l.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, index, value)}
                     bind:view={views[index]}
                 />
@@ -80,9 +90,9 @@
                 >
             {:else}
                 <Note
-                    >{$locales.get(
-                        (locale) => locale.ui.palette.labels.computed
-                    )}</Note
+                    ><LocalizedText
+                        path={(locale) => locale.ui.palette.labels.computed}
+                    /></Note
                 >
             {/if}
         </div>

@@ -1,13 +1,13 @@
-import toStructure from '../basis/toStructure';
-import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
-import Valued from './Valued';
+import type { EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
-import type { EvaluationNode } from '@runtime/Evaluation';
-import StructureValue from '../values/StructureValue';
-import Unit from '../nodes/Unit';
+import type Value from '@values/Value';
+import toStructure from '../basis/toStructure';
 import type Locales from '../locale/Locales';
+import Unit from '../nodes/Unit';
+import StructureValue from '../values/StructureValue';
+import Valued from './Valued';
 
 export function createDirectionType(locales: Locales) {
     return toStructure(`
@@ -34,13 +34,13 @@ export function createDirectionStructure(
     evaluator: Evaluator,
     creator: EvaluationNode,
     x: number,
-    y: number
+    y: number,
 ): StructureValue {
     return StructureValue.make(
         evaluator,
         creator,
         evaluator.project.shares.output.Direction,
         new NumberValue(creator, x, Unit.reuse(['m'])),
-        new NumberValue(creator, y, Unit.reuse(['m']))
+        new NumberValue(creator, y, Unit.reuse(['m'])),
     );
 }

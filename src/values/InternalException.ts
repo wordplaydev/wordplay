@@ -1,5 +1,5 @@
-import ExceptionValue from '@values/ExceptionValue';
 import type Evaluator from '@runtime/Evaluator';
+import ExceptionValue from '@values/ExceptionValue';
 import type Expression from '../nodes/Expression';
 import Markup from '../nodes/Markup';
 

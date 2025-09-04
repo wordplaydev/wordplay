@@ -1,39 +1,42 @@
-import type Node from './Node';
-import Expression, { type GuardContext } from './Expression';
-import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
-import TableType from './TableType';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
-import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import TableValue from '@values/TableValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
+import Halt from '@runtime/Halt';
 import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import ExceptionValue from '@values/ExceptionValue';
+import TableValue from '@values/TableValue';
+import TypeException from '@values/TypeException';
+import UnimplementedException from '@values/UnimplementedException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import InvalidRow from '../conflicts/InvalidRow';
+import MissingCell from '../conflicts/MissingCell';
+import UnknownColumn from '../conflicts/UnknownColumn';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
+import StructureValue from '../values/StructureValue';
 import type Context from './Context';
 import type Definition from './Definition';
-import type TypeSet from './TypeSet';
-import Halt from '@runtime/Halt';
-import ExceptionValue from '@values/ExceptionValue';
-import TypeException from '@values/TypeException';
-import { node, type Grammar, type Replacement } from './Node';
-import UnimplementedException from '@values/UnimplementedException';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
-import Purpose from '../concepts/Purpose';
-import StructureValue from '../values/StructureValue';
-import MissingCell from '../conflicts/MissingCell';
-import IncompatibleCellType from '../conflicts/IncompatibleCellType';
-import UnknownColumn from '../conflicts/UnknownColumn';
-import InvalidRow from '../conflicts/InvalidRow';
-import Token from './Token';
-import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
-import Sym from './Sym';
+import Expression, { type GuardContext } from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
+import Input from './Input';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
+import Row, { getRowFromValues } from './Row';
+import Sym from './Sym';
+import TableType from './TableType';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -59,7 +62,7 @@ export default class Insert extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Insert';
     }
 
@@ -68,31 +71,26 @@ export default class Insert extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.table),
+                label: () => (l) => l.term.table,
             },
             {
                 name: 'row',
                 kind: node(Row),
-                label: (locales: Locales) => locales.get((l) => l.term.row),
+                label: () => (l) => l.term.row,
                 space: true,
             },
         ];
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ node, context }: EditContext) {
         const anchorType =
-            anchor instanceof Expression ? anchor.getType(context) : undefined;
+            node instanceof Expression ? node.getType(context) : undefined;
         const tableType =
             anchorType instanceof TableType ? anchorType : undefined;
-        return anchor instanceof Expression && tableType && selected
+        return node instanceof Expression && tableType
             ? [
                   Insert.make(
-                      anchor,
+                      node,
                       tableType.columns.map((c) =>
                           ExpressionPlaceholder.make(c.getType(context)),
                       ),
@@ -101,8 +99,12 @@ export default class Insert extends Expression {
             : [];
     }
 
+    static getPossibleAppends() {
+        return [Insert.make(ExpressionPlaceholder.make(TableType.make()))];
+    }
+
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     clone(replace?: Replacement) {
@@ -132,12 +134,12 @@ export default class Insert extends Expression {
         // Rows can either be all unnamed and provide values for every column or they can be selectively named,
         // but must provide a value for all non-default columns. No other format is allowed.
         // Additionally, all values must match their column's types.
-        if (this.row.allBinds()) {
+        if (this.row.cells.every((c) => c instanceof Input)) {
             // Ensure every bind is a valid column.
             const matchedColumns = [];
             for (const cell of this.row.cells) {
-                if (cell instanceof Bind) {
-                    const column = tableType.getColumnNamed(cell.getNames()[0]);
+                if (cell instanceof Input) {
+                    const column = tableType.getColumnNamed(cell.getName());
                     if (column === undefined)
                         conflicts.push(new UnknownColumn(tableType, cell));
                     else {
@@ -208,7 +210,12 @@ export default class Insert extends Expression {
     }
 
     getDependencies(): Expression[] {
-        return [this.table, ...this.row.cells.map((cell) => cell)];
+        return [
+            this.table,
+            ...this.row.cells.map((cell) =>
+                cell instanceof Input ? cell.value : cell,
+            ),
+        ];
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {
@@ -235,7 +242,10 @@ export default class Insert extends Expression {
                     this.row.cells.reduce(
                         (steps: Step[], cell) => [
                             ...steps,
-                            ...cell.compile(evaluator, context),
+                            ...(cell instanceof Input
+                                ? cell.value
+                                : cell
+                            ).compile(evaluator, context),
                         ],
                         [],
                     )
@@ -307,14 +317,14 @@ export default class Insert extends Expression {
         return this.row.close ?? this.row.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Insert);
+    static readonly LocalePath = (l: LocaleText) => l.node.Insert;
+    getLocalePath() {
+        return Insert.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Insert.start),
+        return locales.concretize(
+            (l) => l.node.Insert.start,
             new NodeRef(this.table, locales, context),
         );
     }
@@ -324,14 +334,13 @@ export default class Insert extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Insert.finish),
+        return locales.concretize(
+            (l) => l.node.Insert.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Insert;
+    getCharacter() {
+        return Characters.Insert;
     }
 }

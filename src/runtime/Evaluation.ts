@@ -1,43 +1,43 @@
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Block, { BlockKind } from '@nodes/Block';
+import type Borrow from '@nodes/Borrow';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type Convert from '@nodes/Convert';
+import type Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
+import Names from '@nodes/Names';
+import type Node from '@nodes/Node';
+import type Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
+import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type Evaluator from '@runtime/Evaluator';
+import type { StepNumber } from '@runtime/Evaluator';
+import BlankException from '@values/BlankException';
+import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 import ExceptionValue from '@values/ExceptionValue';
-import type Step from './Step';
+import NoneValue from '@values/NoneValue';
+import NumberValue from '@values/NumberValue';
+import type { Iteration } from '../basis/Iteration';
+import type Context from '../nodes/Context';
+import type Delete from '../nodes/Delete';
+import type Insert from '../nodes/Insert';
+import type PropertyBind from '../nodes/PropertyBind';
+import StreamDefinition from '../nodes/StreamDefinition';
+import type TableLiteral from '../nodes/TableLiteral';
+import FunctionValue from '../values/FunctionValue';
+import SimpleValue from '../values/SimpleValue';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import StreamValue from '../values/StreamValue';
+import StructureDefinitionValue from '../values/StructureDefinitionValue';
+import StructureValue from '../values/StructureValue';
+import TypeException from '../values/TypeException';
 import Value from '../values/Value';
 import ValueException from '../values/ValueException';
-import TypeException from '../values/TypeException';
-import StructureValue from '../values/StructureValue';
-import SimpleValue from '../values/SimpleValue';
-import NumberValue from '@values/NumberValue';
-import type Node from '@nodes/Node';
-import Names from '@nodes/Names';
-import type Expression from '@nodes/Expression';
 import Finish from './Finish';
-import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Evaluate from '@nodes/Evaluate';
-import type Source from '@nodes/Source';
-import type Convert from '@nodes/Convert';
-import type Borrow from '@nodes/Borrow';
-import StructureDefinitionValue from '../values/StructureDefinitionValue';
-import type { StepNumber } from '@runtime/Evaluator';
-import FunctionValue from '../values/FunctionValue';
-import StreamDefinition from '../nodes/StreamDefinition';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import type PropertyBind from '../nodes/PropertyBind';
-import type Context from '../nodes/Context';
 import StartFinish from './StartFinish';
-import type TableLiteral from '../nodes/TableLiteral';
-import type Insert from '../nodes/Insert';
-import type Delete from '../nodes/Delete';
-import type { Iteration } from '../basis/Iteration';
-import Block, { BlockKind } from '@nodes/Block';
-import BlankException from '@values/BlankException';
-import NoneValue from '@values/NoneValue';
+import type Step from './Step';
 
 export type EvaluationNode =
     | UnaryEvaluate
@@ -107,7 +107,7 @@ export default class Evaluation {
         evaluation: EvaluationNode,
         definition: DefinitionNode,
         closure?: Evaluation | Value,
-        bindings?: Map<Names | string, Value>
+        bindings?: Map<Names | string, Value>,
     ) {
         this.#evaluator = evaluator;
         this.#evaluation = evaluation;
@@ -120,7 +120,7 @@ export default class Evaluation {
         // Derive some state
         this.#source = evaluator.project.getSourceOf(definition);
         this.#context = evaluator.project.getContext(
-            this.#source ?? evaluator.project.getMain()
+            this.#source ?? evaluator.project.getMain(),
         );
 
         // Ask the evaluator to compile (and optionally cache) steps for this definition.
@@ -134,6 +134,10 @@ export default class Evaluation {
 
     getSource() {
         return this.#source;
+    }
+
+    getStepThat(predicate: (step: Step) => boolean) {
+        return this.#steps.find(predicate);
     }
 
     getCreator() {
@@ -152,6 +156,13 @@ export default class Evaluation {
         return this.#definition;
     }
 
+    isFunction() {
+        return (
+            this.#definition instanceof FunctionDefinition ||
+            this.#definition instanceof StructureDefinition
+        );
+    }
+
     getClosure() {
         return this.#closure;
     }
@@ -168,7 +179,7 @@ export default class Evaluation {
     getValueOrTypeException(
         expression: Expression,
         expected: Type,
-        value: Value | Evaluation | undefined
+        value: Value | Evaluation | undefined,
     ) {
         return value === undefined || value instanceof Evaluation
             ? new ValueException(this.getEvaluator(), expression)
@@ -176,7 +187,7 @@ export default class Evaluation {
                   expression,
                   this.getEvaluator(),
                   expected,
-                  value
+                  value,
               );
     }
 
@@ -233,7 +244,7 @@ export default class Evaluation {
             if (this.#definition.kind === BlockKind.Root)
                 return new BlankException(
                     this.#evaluator,
-                    this.#evaluator.getMain().expression
+                    this.#evaluator.getMain().expression,
                 );
             else if (this.#definition.kind === BlockKind.Structure)
                 return new NoneValue(this.#definition);
@@ -280,8 +291,14 @@ export default class Evaluation {
         return this.#values.length > 0;
     }
 
-    getBindings() {
-        return this.#bindings.map((b) => new Map(b));
+    getBindingsByNames(): Map<Names, Value> {
+        const bindings = new Map<Names, Value>();
+        for (const binding of this.#bindings) {
+            for (const [key, value] of binding) {
+                if (key instanceof Names) bindings.set(key, value);
+            }
+        }
+        return bindings;
     }
 
     getValues() {
@@ -290,7 +307,7 @@ export default class Evaluation {
 
     binds(value: Value) {
         return this.#bindings.some((bindings) =>
-            Array.from(bindings.values()).includes(value)
+            Array.from(bindings.values()).includes(value),
         );
     }
 
@@ -302,7 +319,7 @@ export default class Evaluation {
         this.#bindings.shift();
         if (this.#bindings.length === 0)
             console.error(
-                'Error in evaluation, no bindings remaining in evaluation'
+                'Error in evaluation, no bindings remaining in evaluation',
             );
     }
 
@@ -326,7 +343,7 @@ export default class Evaluation {
                 requestor,
                 this.#evaluator,
                 expected,
-                value
+                value,
             );
         else return value;
     }
@@ -346,7 +363,7 @@ export default class Evaluation {
     /** A convience function for getting a value by name, but only if it is a certain type */
     get<Kind>(
         name: string | Names,
-        type: new (...params: never[]) => Kind
+        type: new (...params: never[]) => Kind,
     ): Kind | undefined {
         const value = this.resolve(name);
         return value instanceof type ? value : undefined;
@@ -368,7 +385,7 @@ export default class Evaluation {
 
     resolveDefault(name: string): Value | undefined {
         const def = this.#evaluator.project.shares.all.find((def) =>
-            def.hasName(name)
+            def.hasName(name),
         );
 
         // Any of the defaults match? Wrap them in values.
@@ -392,7 +409,7 @@ export default class Evaluation {
     getConversion(input: Type, output: Type) {
         // Do any of the conversions in scope do the requested conversion?
         return this.#conversions.find((c) =>
-            c.definition.convertsTypeTo(input, output, this.#context)
+            c.definition.convertsTypeTo(input, output, this.#context),
         );
     }
 
@@ -425,7 +442,7 @@ export default class Evaluation {
     withValue(
         creator: EvaluationNode,
         property: string,
-        value: Value
+        value: Value,
     ): Evaluation | undefined {
         const bindings = this.#bindings[0];
 
@@ -436,12 +453,12 @@ export default class Evaluation {
             creator,
             this.#definition,
             this.#closure,
-            this.#bindings[0]
+            this.#bindings[0],
         );
 
         // Find the corresponding name.
         const names = Array.from(newEvaluation.#bindings[0].keys()).find(
-            (name) => name instanceof Names && name.hasName(property)
+            (name) => name instanceof Names && name.hasName(property),
         );
 
         // Otherwise, set the bindings.

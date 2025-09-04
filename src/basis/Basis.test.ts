@@ -1,14 +1,16 @@
-import { test, expect } from 'vitest';
-import Source from '@nodes/Source';
+import Templates from '@concepts/Templates';
+import UnusedBind from '@conflicts/UnusedBind';
+import DefaultLocales from '@locale/DefaultLocales';
 import Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import UnusedBind from '@conflicts/UnusedBind';
-import UnparsableType from '@nodes/UnparsableType';
+import Source from '@nodes/Source';
 import UnparsableExpression from '@nodes/UnparsableExpression';
-import Project from '../models/Project';
+import UnparsableType from '@nodes/UnparsableType';
+import { expect, test } from 'vitest';
+import Project from '../db/projects/Project';
+import DefaultLocale from '../locale/DefaultLocale';
 import Example from '../nodes/Example';
 import { Basis } from './Basis';
-import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
 
@@ -28,7 +30,13 @@ function checkBasisNodes(node: Node) {
 
     expect(
         unparsables,
-        unparsables.map((unp) => unp.toWordplay()).join(),
+        'Unparsable at: `' +
+            node.toWordplay().substring(0, 30) +
+            '...' +
+            unparsables
+                .map((unp) => unp.unparsables.map((t) => t.toWordplay()).join())
+                .join() +
+            '`',
     ).toHaveLength(0);
 
     // Check for conflicts, ignoring unused binds.
@@ -37,7 +45,10 @@ function checkBasisNodes(node: Node) {
             !(conflict instanceof UnusedBind) &&
             !context
                 .getRoot(node)
-                ?.getAncestors(conflict.getConflictingNodes().primary.node)
+                ?.getAncestors(
+                    conflict.getConflictingNodes(context, Templates).primary
+                        .node,
+                )
                 .some((n) => n instanceof Example),
     );
 
@@ -46,7 +57,7 @@ function checkBasisNodes(node: Node) {
         conflicts
             .map((c) =>
                 c
-                    .getConflictingNodes()
+                    .getConflictingNodes(context, Templates)
                     .primary.explanation(DefaultLocales, context)
                     .toText(),
             )

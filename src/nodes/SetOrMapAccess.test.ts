@@ -1,10 +1,10 @@
-import { test, expect } from 'vitest';
-import { testConflict } from '@conflicts/TestUtilities';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
-import SetOrMapAccess from './SetOrMapAccess';
+import { testConflict } from '@conflicts/TestUtilities';
+import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
 import BinaryEvaluate from './BinaryEvaluate';
+import SetOrMapAccess from './SetOrMapAccess';
 
 test.each([
     [

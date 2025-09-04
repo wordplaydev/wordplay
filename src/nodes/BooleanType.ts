@@ -1,12 +1,14 @@
-import Token from './Token';
-import Sym from './Sym';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
-import BasisType from './BasisType';
-import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
+import BasisType from './BasisType';
+import BooleanLiteral from './BooleanLiteral';
 import { node, type Grammar, type Replacement } from './Node';
-import Glyphs from '../lore/Glyphs';
-import type Locales from '../locale/Locales';
+import Sym from './Sym';
+import Token from './Token';
+import type TypeSet from './TypeSet';
 
 export default class BooleanType extends BasisType {
     readonly type: Token;
@@ -23,11 +25,15 @@ export default class BooleanType extends BasisType {
         return new BooleanType(new Token(QUESTION_SYMBOL, Sym.BooleanType));
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [BooleanType.make()];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [BooleanType.make()];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'BooleanType';
     }
 
@@ -37,12 +43,12 @@ export default class BooleanType extends BasisType {
 
     clone(replace?: Replacement) {
         return new BooleanType(
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet) {
@@ -53,11 +59,16 @@ export default class BooleanType extends BasisType {
         return 'boolean';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.BooleanType);
+    static readonly LocalePath = (l: LocaleText) => l.node.BooleanType;
+    getLocalePath() {
+        return BooleanType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.BooleanType;
+    getCharacter() {
+        return Characters.BooleanType;
+    }
+
+    getDefaultExpression() {
+        return BooleanLiteral.make(true);
     }
 }

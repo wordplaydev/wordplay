@@ -1,32 +1,33 @@
 import type Conflict from '@conflicts/Conflict';
-import type Type from './Type';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import type Value from '@values/Value';
+import type Context from './Context';
 import type Expression from './Expression';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
-import Token from './Token';
-import StructureDefinition from './StructureDefinition';
 import { MisplacedThis } from '@conflicts/MisplacedThis';
-import StructureType from './StructureType';
-import NameException from '@values/NameException';
-import ConversionDefinition from './ConversionDefinition';
-import NumberType from './NumberType';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import StartFinish from '@runtime/StartFinish';
-import Reaction from './Reaction';
+import NameException from '@values/NameException';
 import ValueException from '@values/ValueException';
-import { node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './SimpleExpression';
-import { UnenclosedType } from './UnenclosedType';
-import Glyphs from '../lore/Glyphs';
-import { PROPERTY_SYMBOL } from '../parser/Symbols';
-import Sym from './Sym';
-import concretize from '../locale/concretize';
-import type Node from './Node';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { PROPERTY_SYMBOL } from '../parser/Symbols';
+import ConversionDefinition from './ConversionDefinition';
+import { node, type Grammar, type Replacement } from './Node';
+import NumberType from './NumberType';
+import Reaction from './Reaction';
+import SimpleExpression from './SimpleExpression';
+import StructureDefinition from './StructureDefinition';
+import StructureType from './StructureType';
+import Sym from './Sym';
+import Token from './Token';
+import { UnenclosedType } from './UnenclosedType';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -44,12 +45,7 @@ export default class This extends SimpleExpression {
         return new This(new Token(PROPERTY_SYMBOL, Sym.Access));
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ node, context }: EditContext) {
         return context
             .getRoot(node)
             ?.getAncestors(node)
@@ -63,7 +59,11 @@ export default class This extends SimpleExpression {
             : [];
     }
 
-    getDescriptor() {
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'This';
     }
 
@@ -163,8 +163,9 @@ export default class This extends SimpleExpression {
         return this.dis;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.This);
+    static readonly LocalePath = (l: LocaleText) => l.node.This;
+    getLocalePath() {
+        return This.LocalePath;
     }
 
     getStartExplanations(
@@ -172,14 +173,13 @@ export default class This extends SimpleExpression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.This.start),
+        return locales.concretize(
+            (l) => l.node.This.start,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.This;
+    getCharacter() {
+        return Characters.This;
     }
 }

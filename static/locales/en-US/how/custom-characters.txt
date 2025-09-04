@@ -1,0 +1,22 @@
+Show a custom character
+
+Emojis, letters, and symbols are great! But sometimes you want to make your own characters.
+How can you create and show your own?
+
+First, start by creating a character on the <Characters@://characters> page. 
+You can use pixels, rectangles, circles, and paths. 
+Give it a name, describe it, and then you can use your user name and the character name like this:
+
+\
+Phrase(`Look at my fancy @username/charactername!`)
+\
+
+That username and character name doesn't exist, so it will show as an empty rectangle.
+Be sure to use your actual user name and character name
+
+See how the text uses the backtick instead of a quote symbol? That's important. 
+That's telling us that you're using rich text mode, and that's required to refer to a custom character.
+
+You can learn more about formatting text from @Phrase.
+
+animate-phrase

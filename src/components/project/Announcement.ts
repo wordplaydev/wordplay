@@ -8,7 +8,7 @@ export default class Announcement {
     constructor(
         kind: string,
         language: LanguageCode | undefined,
-        text: string
+        text: string,
     ) {
         this.kind = kind;
         this.language = language;

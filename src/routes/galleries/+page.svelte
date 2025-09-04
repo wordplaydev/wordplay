@@ -1,34 +1,35 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import { Galleries, locales } from '@db/Database';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { onMount } from 'svelte';
+    import Title from '@components/widgets/Title.svelte';
+    import { Galleries } from '@db/Database';
     import {
         collection,
         getDocs,
         limit,
         orderBy,
         query,
+        startAfter,
         where,
         type DocumentData,
         type QueryDocumentSnapshot,
-        startAfter,
     } from 'firebase/firestore';
-    import { firestore } from '../../db/firebase';
-    import type { SerializedGallery } from '../../models/Gallery';
-    import Gallery, { upgradeGallery } from '../../models/Gallery';
+    import { onMount } from 'svelte';
     import GalleryPreview from '../../components/app/GalleryPreview.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
+    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
     import Button from '../../components/widgets/Button.svelte';
-    import { GalleriesCollection } from '../../db/GalleryDatabase';
+    import { firestore } from '../../db/firebase';
+    import type { SerializedGallery } from '../../db/galleries/Gallery';
+    import Gallery, { upgradeGallery } from '../../db/galleries/Gallery';
+    import { GalleriesCollection } from '../../db/galleries/GalleryDatabase.svelte';
 
-    let lastBatch: QueryDocumentSnapshot<DocumentData>;
-
-    const examples = Galleries.exampleGalleries;
+    let lastBatch = $state<QueryDocumentSnapshot<DocumentData> | undefined>(
+        undefined,
+    );
 
     /** Start the list of galleries with the example galleries. */
-    let loadedGalleries: Gallery[] = [];
+    let loadedGalleries: Gallery[] = $state([]);
 
     onMount(async () => {
         nextBatch();
@@ -43,14 +44,14 @@
                   orderBy('featured'),
                   orderBy('id'),
                   startAfter(lastBatch),
-                  limit(5)
+                  limit(5),
               )
             : query(
                   collection(firestore, GalleriesCollection),
                   where('public', '==', true),
                   orderBy('featured'),
                   orderBy('id'),
-                  limit(5)
+                  limit(5),
               );
         const documentSnapshots = await getDocs(first);
 
@@ -63,22 +64,25 @@
             ...documentSnapshots.docs.map(
                 (snap) =>
                     new Gallery(
-                        upgradeGallery(snap.data() as SerializedGallery)
-                    )
+                        upgradeGallery(snap.data() as SerializedGallery),
+                    ),
             ),
         ];
     }
 
-    $: galleries = [...$examples, ...loadedGalleries];
+    let galleries = $derived([
+        ...Galleries.getExampleGalleries(),
+        ...loadedGalleries,
+    ]);
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.galleries.header)}</title>
+    <Title text={(l) => l.ui.page.galleries.header} />
 </svelte:head>
 
 <Writing>
-    <Header>{$locales.get((l) => l.ui.page.galleries.header)}</Header>
-    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.galleries.prompt)} />
+    <Header text={(l) => l.ui.page.galleries.header} />
+    <MarkupHTMLView markup={(l) => l.ui.page.galleries.prompt} />
 
     {#if galleries === undefined}
         <Spinning large />
@@ -93,7 +97,12 @@
     {/if}
 
     {#if lastBatch}
-        <Button background tip="more" action={nextBatch}>more!</Button>
+        <Button
+            background
+            tip={(l) => l.ui.page.galleries.button.more.tip}
+            action={nextBatch}
+            label={(l) => l.ui.page.galleries.button.more.label}
+        />
     {/if}
 </Writing>
 

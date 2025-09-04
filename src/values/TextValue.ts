@@ -1,15 +1,14 @@
+import type LocaleText from '@locale/LocaleText';
 import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
+import BoolValue from '@values/BoolValue';
+import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
-import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
-import ListValue from '@values/ListValue';
-import BoolValue from '@values/BoolValue';
-import UnicodeString from '../models/UnicodeString';
-import type Concretizer from '../nodes/Concretizer';
-import type Locales from '../locale/Locales';
+import UnicodeString from '../unicode/UnicodeString';
+import SimpleValue from './SimpleValue';
 
 export default class TextValue extends SimpleValue {
     readonly text: string;
@@ -27,7 +26,7 @@ export default class TextValue extends SimpleValue {
     getType() {
         return TextType.make(
             undefined,
-            this.format === undefined ? undefined : Language.make(this.format)
+            this.format === undefined ? undefined : Language.make(this.format),
         );
     }
 
@@ -44,12 +43,14 @@ export default class TextValue extends SimpleValue {
         return new TextValue(requestor, this.text.repeat(count), this.format);
     }
 
-    segment(requestor: Expression, delimiter: TextValue) {
+    segment(requestor: Expression, delimiter: TextValue | string) {
         return new ListValue(
             requestor,
             new UnicodeString(this.text)
-                .split(delimiter.text)
-                .map((s) => new TextValue(requestor, s))
+                .split(
+                    typeof delimiter === 'string' ? delimiter : delimiter.text,
+                )
+                .map((s) => new TextValue(requestor, s)),
         );
     }
 
@@ -93,16 +94,13 @@ export default class TextValue extends SimpleValue {
         let sum = 0;
         for (let i = 0; i < this.text.length; i++) {
             const codepoint = this.text.codePointAt(i) ?? 0;
-            sum += codepoint * Math.pow(10, 3 - this.text.length - 1);
+            sum += codepoint * Math.pow(10, -i);
         }
         return new NumberValue(requestor, sum);
     }
 
-    getDescription(concretizer: Concretizer, locales: Locales) {
-        return concretizer(
-            locales,
-            locales.get((l) => l.term.text)
-        );
+    getDescription() {
+        return (l: LocaleText) => l.term.text;
     }
 
     getRepresentativeText() {

@@ -25,14 +25,14 @@ export default function generalize(types: Type, context: Context) {
                                     (type.language !== undefined &&
                                         type2.language !== undefined &&
                                         type.language.isEqualTo(
-                                            type2.language
-                                        ))))
-                    )
+                                            type2.language,
+                                        )))),
+                    ),
             )
         )
             types = TextType.make(
                 undefined,
-                (possible[0] as TextType).language
+                (possible[0] as TextType).language,
             );
         // All numbers with equivalent units? Generalize to a number with the unit.
         else if (possible.every((type) => type instanceof NumberType)) {
@@ -44,7 +44,7 @@ export default function generalize(types: Type, context: Context) {
                             type instanceof NumberType &&
                             type.unit instanceof Unit &&
                             first.unit instanceof Unit &&
-                            type.unit.isEqualTo(first.unit)
+                            type.unit.isEqualTo(first.unit),
                     )
                 )
                     types = NumberType.make(first.unit);
@@ -56,9 +56,9 @@ export default function generalize(types: Type, context: Context) {
                     (possible as ListType[]).reduce(
                         (all: Type[], type) =>
                             type.type ? [...all, type.type] : all,
-                        []
-                    )
-                )
+                        [],
+                    ),
+                ),
             );
         }
     }

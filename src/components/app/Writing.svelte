@@ -1,10 +1,18 @@
 <script lang="ts">
+    import { type Snippet } from 'svelte';
     import Page from './Page.svelte';
+
+    interface Props {
+        children: Snippet;
+        footer?: boolean;
+    }
+
+    let { children, footer = true }: Props = $props();
 </script>
 
-<Page>
+<Page {footer}>
     <div class="writing">
-        <slot />
+        {@render children()}
     </div>
 </Page>
 

@@ -1,17 +1,17 @@
-import type Evaluator from '@runtime/Evaluator';
-import StreamDefinition from '../nodes/StreamDefinition';
+import type Evaluation from '@runtime/Evaluation';
+import NumberValue from '@values/NumberValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import NumberType from '../nodes/NumberType';
+import type Locales from '../locale/Locales';
 import Bind from '../nodes/Bind';
-import UnionType from '../nodes/UnionType';
-import Unit from '../nodes/Unit';
 import NoneType from '../nodes/NoneType';
 import NumberLiteral from '../nodes/NumberLiteral';
-import NumberValue from '@values/NumberValue';
-import createStreamEvaluator from './createStreamEvaluator';
+import NumberType from '../nodes/NumberType';
+import StreamDefinition from '../nodes/StreamDefinition';
+import UnionType from '../nodes/UnionType';
+import Unit from '../nodes/Unit';
 import AudioStream, { DEFAULT_FREQUENCY } from './AudioStream';
-import type Locales from '../locale/Locales';
+import createStreamEvaluator from './createStreamEvaluator';
 
 const FFT_SIZE = 32;
 
@@ -20,8 +20,8 @@ const FFT_SIZE = 32;
 export default class Volume extends AudioStream {
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
 
-    constructor(evaluator: Evaluator, frequency: number | undefined) {
-        super(evaluator, frequency, FFT_SIZE);
+    constructor(evaluation: Evaluation, frequency: number | undefined) {
+        super(evaluation, frequency, undefined, FFT_SIZE);
     }
 
     react(percent: number) {
@@ -63,10 +63,10 @@ export function createVolumeDefinition(locales: Locales) {
         getDocLocales(locales, (locale) => locale.input.Volume.frequency.doc),
         getNameLocales(
             locales,
-            (locale) => locale.input.Volume.frequency.names
+            (locale) => locale.input.Volume.frequency.names,
         ),
         UnionType.make(NumberType.make(Unit.reuse(['ms'])), NoneType.make()),
-        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.reuse(['ms']))
+        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.reuse(['ms'])),
     );
 
     return StreamDefinition.make(
@@ -78,14 +78,18 @@ export function createVolumeDefinition(locales: Locales) {
             Volume,
             (evaluation) =>
                 new Volume(
-                    evaluation.getEvaluator(),
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
+                    evaluation,
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
                 ),
             (stream, evaluation) =>
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
-                )
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
+                ),
         ),
-        NumberType.make()
+        NumberType.make(),
     );
 }

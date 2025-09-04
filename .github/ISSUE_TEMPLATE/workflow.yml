@@ -1,0 +1,25 @@
+name: Workflow
+description: Share an idea for improving how we collaborate.
+labels: ['needs triage', 'needs design']
+type: 'workflow'
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Thanks for sharing your idea!
+    - type: textarea
+      id: problem
+      attributes:
+          label: What's hard about contributing and collaborating?
+          description: In as much detail as possible, describe the task you're trying to do and what could be easier about it.
+          placeholder: Problem
+      validations:
+          required: true
+    - type: textarea
+      id: idea
+      attributes:
+          label: What is your idea?
+          description: What workflow change might make it easier, whether new process, tools, or configurations?
+          placeholder: Ideas
+      validations:
+          required: true

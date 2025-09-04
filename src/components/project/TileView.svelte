@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export type ResizeDirection =
         | 'top'
         | 'top-left'
@@ -8,49 +8,101 @@
         | 'bottom-right'
         | 'right'
         | 'top-right';
+    const AUTO_SCROLL_THRESHOLD = 20;
 </script>
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
-    import Button from '../widgets/Button.svelte';
-    import type Tile from './Tile';
-    import { Mode } from './Tile';
-    import type Layout from './Layout';
-    import TextField from '../widgets/TextField.svelte';
-    import { isName } from '../../parser/Tokenizer';
-    import { locales } from '../../db/Database';
-    import { onMount } from 'svelte';
-    import Arrangement from '../../db/Arrangement';
-    import Glyphs from '../../lore/Glyphs';
-    import Color from '../../output/Color';
-    import Toggle from '../widgets/Toggle.svelte';
-    import type Project from '../../models/Project';
     import Emoji from '@components/app/Emoji.svelte';
-    import TileSymbols from './TileSymbols';
+    import Subheader from '@components/app/Subheader.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import type { Snippet } from 'svelte';
+    import { onMount } from 'svelte';
+    import { animationDuration, locales } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
+    import Arrangement from '../../db/settings/Arrangement';
+    import Characters from '../../lore/BasisCharacters';
+    import Color from '../../output/Color';
+    import { isName } from '../../parser/Tokenizer';
+    import Button from '../widgets/Button.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import Toggle from '../widgets/Toggle.svelte';
+    import type Bounds from './Bounds';
     import FullscreenIcon from './FullscreenIcon.svelte';
+    import type Layout from './Layout';
+    import type Tile from './Tile';
+    import { TileMode } from './Tile';
+    import TileKinds from './TileKinds';
+    import TileMessage from './TileMessage.svelte';
 
-    export let project: Project;
-    export let tile: Tile;
-    export let layout: Layout;
-    export let arrangement: Arrangement;
-    export let dragging: boolean;
-    export let fullscreenID: string | undefined;
-    export let background: Color | string | null = null;
-    export let focuscontent = false;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        tile: Tile;
+        layout: Layout;
+        arrangement: Arrangement;
+        dragging: boolean;
+        fullscreenID: string | undefined;
+        background?: Color | string | null;
+        focuscontent?: boolean;
+        editable: boolean;
+        animated: boolean;
+        title: Snippet;
+        content: Snippet;
+        extra?: Snippet;
+        margin?: Snippet;
+        footer?: Snippet;
+        position: (position: Bounds) => void;
+        resize: (
+            id: string,
+            direction: ResizeDirection,
+            x: number,
+            y: number,
+        ) => void;
+        rename: (id: string, name: string) => void;
+        scroll: () => void;
+        setMode: (mode: TileMode) => void;
+        setFullscreen: (fullscreen: boolean) => void;
+    }
 
-    $: fullscreen = tile.id === fullscreenID;
+    let {
+        project,
+        tile,
+        layout,
+        arrangement,
+        dragging,
+        fullscreenID,
+        background = null,
+        focuscontent = false,
+        editable,
+        animated,
+        title,
+        extra,
+        content,
+        margin,
+        footer,
+        position,
+        resize,
+        rename,
+        scroll,
+        setMode: mode,
+        setFullscreen,
+    }: Props = $props();
 
-    let view: HTMLElement | undefined;
-    let resizeDirection: ResizeDirection | null = null;
-    let mounted = false;
-    onMount(() => (mounted = true));
+    let fullscreen = $derived(tile.id === fullscreenID);
 
-    $: foreground =
-        background instanceof Color ? background.complement().toCSS() : null;
+    let view: HTMLElement | undefined = $state();
+    let resizeDirection: ResizeDirection | null = $state(null);
+    let mounted = $state(false);
+    onMount(() => setTimeout(() => (mounted = true), $animationDuration));
 
-    const dispatch = createEventDispatcher();
+    let foreground = $derived(
+        background instanceof Color ? background.contrasting().toCSS() : null,
+    );
+
+    let contentView = $state<HTMLElement | null>(null);
+    let tileWidth = $state(0);
+    let tileHeight = $state(0);
 
     function handleKeyDown(event: KeyboardEvent) {
         // Move or resize on command-arrow
@@ -65,58 +117,58 @@
                 event.key === 'ArrowLeft'
                     ? -1
                     : event.key === 'ArrowRight'
-                    ? 1
-                    : 0;
+                      ? 1
+                      : 0;
             const vertical =
                 event.key === 'ArrowUp'
                     ? -1
                     : event.key === 'ArrowDown'
-                    ? 1
-                    : 0;
+                      ? 1
+                      : 0;
             if (horizontal !== 0)
-                dispatch('position', {
-                    position: resize
+                position(
+                    resize
                         ? {
                               left: tile.position.left,
                               top: tile.position.top,
                               width: Math.max(
                                   100,
-                                  tile.position.width + increment * horizontal
+                                  tile.position.width + increment * horizontal,
                               ),
                               height: tile.position.height,
                           }
                         : {
                               left: Math.max(
                                   0,
-                                  tile.position.left + increment * horizontal
+                                  tile.position.left + increment * horizontal,
                               ),
                               top: tile.position.top,
                               width: tile.position.width,
                               height: tile.position.height,
                           },
-                });
+                );
             if (vertical !== 0)
-                dispatch('position', {
-                    position: resize
+                position(
+                    resize
                         ? {
                               left: tile.position.left,
                               top: tile.position.top,
                               width: tile.position.width,
                               height: Math.max(
                                   100,
-                                  tile.position.height + increment * vertical
+                                  tile.position.height + increment * vertical,
                               ),
                           }
                         : {
                               left: tile.position.left,
                               top: Math.max(
                                   0,
-                                  tile.position.top + increment * vertical
+                                  tile.position.top + increment * vertical,
                               ),
                               width: tile.position.width,
                               height: tile.position.height,
                           },
-                });
+                );
             return;
         }
     }
@@ -124,12 +176,12 @@
     function handlePointerDown(event: PointerEvent) {
         if (resizeDirection !== null && view) {
             const rect = view.getBoundingClientRect();
-            dispatch('resize', {
-                id: tile.id,
-                direction: resizeDirection,
-                left: event.clientX - rect.left,
-                top: event.clientY - rect.top,
-            });
+            resize(
+                tile.id,
+                resizeDirection,
+                event.clientX - rect.left,
+                event.clientY - rect.top,
+            );
             event.stopPropagation();
         }
     }
@@ -151,120 +203,204 @@
                 containsLeft && containsTop
                     ? 'top-left'
                     : containsLeft && containsBottom
-                    ? 'bottom-left'
-                    : containsRight && containsTop
-                    ? 'top-right'
-                    : containsRight && containsBottom
-                    ? 'bottom-right'
-                    : containsLeft
-                    ? 'left'
-                    : containsRight
-                    ? 'right'
-                    : containsTop
-                    ? 'top'
-                    : containsBottom
-                    ? 'bottom'
-                    : null;
+                      ? 'bottom-left'
+                      : containsRight && containsTop
+                        ? 'top-right'
+                        : containsRight && containsBottom
+                          ? 'bottom-right'
+                          : containsLeft
+                            ? 'left'
+                            : containsRight
+                              ? 'right'
+                              : containsTop
+                                ? 'top'
+                                : containsBottom
+                                  ? 'bottom'
+                                  : null;
+        }
+    }
+
+    function handleContentPointerMove(event: PointerEvent) {
+        if (event.buttons === 1 && contentView) {
+            const rect = contentView.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            if (x < AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollLeft -= -AUTO_SCROLL_THRESHOLD;
+            } else if (x > tileWidth - AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollLeft += AUTO_SCROLL_THRESHOLD;
+            } else if (y < AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollTop -= AUTO_SCROLL_THRESHOLD;
+            } else if (y > tileHeight - AUTO_SCROLL_THRESHOLD) {
+                contentView.scrollTop += AUTO_SCROLL_THRESHOLD;
+            }
         }
     }
 
     function handleRename(name: string) {
-        dispatch('rename', { id: tile.id, name });
+        rename(tile.id, name);
     }
 </script>
 
-<div
-    role="presentation"
-    on:pointermove={handlePointerMove}
-    on:pointerleave={() => (resizeDirection = null)}
-    on:pointerdown={handlePointerDown}
-    on:keydown={handleKeyDown}
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<section
+    class="tile {resizeDirection
+        ? `resize-${resizeDirection}`
+        : ''} {arrangement} {tile.id} {tile.id.startsWith('source')
+        ? 'editor-viewport'
+        : ''}"
+    class:arrangement
+    onpointermove={handlePointerMove}
+    onpointerleave={() => (resizeDirection = null)}
+    onpointerdown={handlePointerDown}
+    onkeydown={handleKeyDown}
+    class:fullscreen
+    class:dragging
+    class:focuscontent
+    class:animated={mounted && animated && !dragging}
+    data-id={tile.id}
+    data-testid="tile-{tile.id}"
+    style:background={background instanceof Color
+        ? background.toCSS()
+        : background}
+    style:left={fullscreen
+        ? null
+        : `${
+              arrangement === 'free'
+                  ? tile.position.left
+                  : (tile.bounds?.left ?? 0)
+          }px`}
+    style:top={fullscreen
+        ? null
+        : `${
+              arrangement === 'free'
+                  ? tile.position.top
+                  : (tile.bounds?.top ?? 0)
+          }px`}
+    style:width={fullscreen
+        ? null
+        : `${
+              arrangement === 'free'
+                  ? tile.position.width
+                  : (tile.bounds?.width ?? 0)
+          }px`}
+    style:height={fullscreen
+        ? null
+        : `${
+              arrangement === 'free'
+                  ? tile.position.height
+                  : (tile.bounds?.height ?? 0)
+          }px`}
+    bind:this={view}
 >
-    <section
-        class="tile {resizeDirection
-            ? `resize-${resizeDirection}`
-            : ''} {arrangement} {tile.id} {tile.id.startsWith('source')
-            ? 'editor-viewport'
-            : ''}"
-        class:fullscreen
-        class:dragging
-        class:focuscontent
-        class:animated={mounted}
-        data-id={tile.id}
-        style:background={background instanceof Color
-            ? background.toCSS()
-            : background}
-        style:left={fullscreen ? null : `${tile.bounds?.left ?? 0}px`}
-        style:top={fullscreen ? null : `${tile.bounds?.top ?? 0}px`}
-        style:width={fullscreen ? null : `${tile.bounds?.width ?? 0}px`}
-        style:height={fullscreen ? null : `${tile.bounds?.height ?? 0}px`}
-        bind:this={view}
-    >
+    <svelte:boundary>
+        {#snippet failed(error, reset)}
+            <TileMessage error>
+                <h2><LocalizedText path={(l) => l.ui.project.error.tile} /></h2>
+                <p
+                    ><Button
+                        tip={(l) => l.ui.project.error.reset}
+                        action={reset}
+                        background
+                        ><LocalizedText
+                            path={(l) => l.ui.project.error.reset}
+                        /></Button
+                    ></p
+                >
+                <Note>{'' + error}</Note>
+            </TileMessage>
+        {/snippet}
+
         <!-- Render the toolbar -->
         <div class="header" style:color={foreground} style:fill={foreground}>
-            <div class="name" class:source={tile.isSource()}>
-                {#if editable && tile.isSource()}
-                    <Emoji>{Glyphs.Program.symbols}</Emoji>
-                    <TextField
-                        text={tile
-                            .getSource(project)
-                            ?.getPreferredName($locales.getLocales())}
-                        description={$locales.get(
-                            (l) => l.ui.source.field.name.description
-                        )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.source.field.name.placeholder
-                        )}
-                        validator={(text) => isName(text)}
-                        changed={handleRename}
-                    />
-                {:else}
-                    <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
-                        project,
-                        $locales
-                    )}
-                {/if}
-                <slot name="name" />
+            {#if !layout.isFullscreen()}
+                <Button
+                    background={background !== null}
+                    padding={false}
+                    tip={(l) => l.ui.tile.button.collapse}
+                    action={() => mode(TileMode.Collapsed)}
+                    icon="–"
+                ></Button>
+            {/if}
+            <Toggle
+                tips={(l) => l.ui.tile.toggle.fullscreen}
+                on={fullscreen}
+                background={background !== null}
+                toggle={() => setFullscreen(!fullscreen)}
+            >
+                <FullscreenIcon />
+            </Toggle>
+            <!-- This goes above the toolbar because we need the feedback to be visible. -->
+            <div style="z-index:2">
+                <Subheader compact>
+                    <div class="name" class:source={tile.isSource()}>
+                        {#if editable && tile.isSource()}
+                            <Emoji>{Characters.Program.symbols}</Emoji>
+                            {#if project.getSources().length > 1}
+                                <!-- Only show the source name editor if there's more than one source, to simplify. -->
+                                <TextField
+                                    id="source-name-editor-{tile.id}"
+                                    text={tile
+                                        .getSource(project)
+                                        ?.getPreferredName(
+                                            $locales.getLocales(),
+                                        ) ?? ''}
+                                    description={(l) =>
+                                        l.ui.source.field.name.description}
+                                    placeholder={(l) =>
+                                        l.ui.source.field.name.placeholder}
+                                    validator={(text) =>
+                                        !isName(text)
+                                            ? (l) =>
+                                                  l.ui.source.error.invalidName
+                                            : true}
+                                    inlineValidation
+                                    changed={handleRename}
+                                />
+                            {/if}
+                        {:else}
+                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                            >{tile.getName(project, $locales)}
+                        {/if}
+                        {@render title()}
+                    </div>
+                </Subheader>
             </div>
             <div class="toolbar">
-                <slot name="extra" />
-                <Toggle
-                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
-                    on={fullscreen}
-                    toggle={() =>
-                        dispatch('fullscreen', {
-                            fullscreen: !fullscreen,
-                        })}
-                >
-                    <FullscreenIcon />
-                </Toggle>
-                {#if !layout.isFullscreen()}
-                    <Button
-                        tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                        action={() =>
-                            dispatch('mode', { mode: Mode.Collapsed })}
-                        >–</Button
-                    >
-                {/if}
+                {@render extra?.()}
             </div>
         </div>
         <!-- Render the content -->
         <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-            <div class="content" on:scroll={() => dispatch('scroll')}>
-                <slot name="content" />
+            <div
+                class="content"
+                onscroll={() => scroll()}
+                bind:this={contentView}
+                bind:clientWidth={tileWidth}
+                bind:clientHeight={tileHeight}
+                onpointermove={handleContentPointerMove}
+            >
+                {@render content()}
             </div>
-            <div class="margin"><slot name="margin" /></div>
+            {#if margin}
+                <div class="margin">{@render margin()}</div>
+            {/if}
         </div>
         <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
         {#if focuscontent}
-            <div class="focus-indicator" />
+            <div class="focus-indicator"></div>
         {/if}
         <!-- Render the footer -->
-        <div class="footer"><slot name="footer" /></div>
-    </section>
-</div>
+        <div class="footer">{@render footer?.()}</div>
+    </svelte:boundary>
+</section>
 
 <style>
+    .container.free {
+        position: relative;
+        display: block;
+    }
+
     .tile {
         position: absolute;
         background: var(--wordplay-background);
@@ -282,12 +418,6 @@
         flex-direction: row;
         flex-wrap: nowrap;
         flex-grow: 1;
-        gap: var(--wordplay-spacing);
-    }
-
-    /** Dim the header a bit so that they don't demand so much attention */
-    .header {
-        opacity: 0.8;
     }
 
     .toolbar {
@@ -296,7 +426,7 @@
         flex-wrap: nowrap;
         align-items: center;
         min-width: max-content;
-        gap: calc(var(--wordplay-spacing));
+        gap: var(--wordplay-spacing);
     }
 
     .footer {
@@ -345,9 +475,11 @@
             var(--wordplay-border-color);
     }
 
-    .tile:not(.output).responsive,
-    .tile:not(.output).horizontal {
+    .tile.responsive,
+    .tile.horizontal {
         border-right: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }
 
@@ -357,7 +489,11 @@
     }
 
     .tile.animated {
-        transition: left ease-out, top ease-out, width ease-out, height ease-out;
+        transition:
+            left ease-out,
+            top ease-out,
+            width ease-out,
+            height ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
@@ -404,10 +540,13 @@
         flex-wrap: nowrap;
         align-items: center;
         padding: var(--wordplay-spacing);
-        gap: var(--wordplay-spacing);
+        gap: calc(var(--wordplay-spacing) / 2);
         width: 100%;
         overflow-x: auto;
+        overflow-y: visible;
         flex-shrink: 0;
+        /** Dim the header a bit so that they don't demand so much attention */
+        opacity: 0.8;
     }
 
     .focus-indicator {

@@ -1,25 +1,25 @@
-import { getApp, getApps, initializeApp } from 'firebase/app';
-import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
-import {
-    Firestore,
-    connectFirestoreEmulator,
-    getFirestore,
-} from 'firebase/firestore';
 import {
     PUBLIC_CONTEXT,
     PUBLIC_FIREBASE_API_KEY,
-    PUBLIC_FIREBASE_AUTH_DOMAIN,
-    PUBLIC_FIREBASE_PROJECT_ID,
-    PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     PUBLIC_FIREBASE_APP_ID,
+    PUBLIC_FIREBASE_AUTH_DOMAIN,
     PUBLIC_FIREBASE_MEASUREMENT_ID,
+    PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    PUBLIC_FIREBASE_PROJECT_ID,
 } from '$env/static/public';
+import { getAnalytics, setConsent, type Analytics } from 'firebase/analytics';
+import { getApp, getApps, initializeApp } from 'firebase/app';
+import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
+import {
+    connectFirestoreEmulator,
+    initializeFirestore,
+    type Firestore,
+} from 'firebase/firestore';
 import {
     connectFunctionsEmulator,
     getFunctions,
     type Functions,
 } from 'firebase/functions';
-import { getAnalytics, type Analytics, setConsent } from 'firebase/analytics';
 
 let auth: Auth | undefined = undefined;
 let firestore: Firestore | undefined = undefined;
@@ -46,7 +46,13 @@ if (typeof process === 'undefined') {
 
         auth = getAuth(app);
 
-        firestore = getFirestore(app);
+        firestore = initializeFirestore(app, {
+            // There are some network proxies and anti-virus software that require long polling to correctly
+            // transmit data. This slows down the entire persistence layer, but may be necessary for some school settings.
+            // See https://github.com/firebase/firebase-js-sdk/issues/1674
+            experimentalForceLongPolling: true,
+        });
+        // firestore = getFirestore(app);
         functions = getFunctions(app);
         analytics = emulating ? undefined : getAnalytics(app);
 
@@ -60,7 +66,9 @@ if (typeof process === 'undefined') {
         // Initialize emulator if environment is local.
         if (emulating) {
             connectFirestoreEmulator(firestore, 'localhost', 8080);
-            connectAuthEmulator(auth, 'http://localhost:9099');
+            connectAuthEmulator(auth, 'http://localhost:9099', {
+                disableWarnings: true,
+            });
             connectFunctionsEmulator(functions, 'localhost', 5001);
         }
     } catch (err) {
@@ -69,7 +77,4 @@ if (typeof process === 'undefined') {
     }
 }
 
-export { auth };
-export { firestore };
-export { functions };
-export { analytics };
+export { analytics, auth, firestore, functions };

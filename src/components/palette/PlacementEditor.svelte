@@ -1,19 +1,26 @@
 <script lang="ts">
+    import type Project from '@db/projects/Project';
     import Evaluate from '../../nodes/Evaluate';
-    import type Project from '@models/Project';
     import PlaceEditor from './PlaceEditor.svelte';
 
-    export let project: Project;
-    export let placement: Evaluate;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        placement: Evaluate;
+        editable: boolean;
+        id?: string | undefined;
+    }
 
-    $: place = placement.getInput(
-        project.shares.input.Placement.inputs[0],
-        project.getNodeContext(placement)
+    let { project, placement, editable, id = undefined }: Props = $props();
+
+    let place = $derived(
+        placement.getInput(
+            project.shares.input.Placement.inputs[0],
+            project.getNodeContext(placement),
+        ),
     );
 </script>
 
-<div class="motion">
+<div class="motion" {id}>
     {project.shares.input.Placement.names.getPreferredNameString([], true)}
     {#if place instanceof Evaluate}
         <div class="field"

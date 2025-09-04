@@ -1,29 +1,29 @@
-import StructureDefinition from '@nodes/StructureDefinition';
-import TextValue from '@values/TextValue';
-import BoolValue from '@values/BoolValue';
-import NoneValue from '@values/NoneValue';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import NoneType from '@nodes/NoneType';
+import StructureDefinition from '@nodes/StructureDefinition';
+import BoolValue from '@values/BoolValue';
+import NoneValue from '@values/NoneValue';
+import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import { createBasisConversion, createBasisFunction } from './Basis';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Expression from '../nodes/Expression';
-import type Locale from '../locale/Locale';
-import type { FunctionText, NameAndDoc } from '../locale/Locale';
-import TextType from '../nodes/TextType';
 import type Locales from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
+import type Expression from '../nodes/Expression';
+import TextType from '../nodes/TextType';
+import { createBasisConversion, createBasisFunction } from './Basis';
 
 export default function bootstrapNone(locales: Locales) {
     function createNoneFunction(
         locales: Locales,
-        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
         expression: (
             requestor: Expression,
             left: NoneValue,
-            right: Value
-        ) => Value
+            right: Value,
+        ) => Value,
     ) {
         return createBasisFunction(
             locales,
@@ -39,17 +39,17 @@ export default function bootstrapNone(locales: Locales) {
                     return evaluation.getValueOrTypeException(
                         requestor,
                         NoneType.None,
-                        left
+                        left,
                     );
 
                 if (right === undefined)
                     return evaluation.getValueOrTypeException(
                         requestor,
                         NoneType.None,
-                        right
+                        right,
                     );
                 return expression(requestor, left, right);
-            }
+            },
         );
     }
 
@@ -64,27 +64,27 @@ export default function bootstrapNone(locales: Locales) {
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.None.conversion.text
+                        (locale) => locale.basis.None.conversion.text,
                     ),
                     NoneType.make(),
                     TextType.make(),
                     (requestor, val: NoneValue) =>
-                        new TextValue(requestor, val.toString())
+                        new TextValue(requestor, val.toString()),
                 ),
                 createNoneFunction(
                     locales,
                     (locale) => locale.basis.None.function.equals,
                     (requestor: Expression, left: NoneValue, right: Value) =>
-                        new BoolValue(requestor, left.isEqualTo(right))
+                        new BoolValue(requestor, left.isEqualTo(right)),
                 ),
                 createNoneFunction(
                     locales,
                     (locale) => locale.basis.None.function.notequals,
                     (requestor: Expression, left: NoneValue, right: Value) =>
-                        new BoolValue(requestor, !left.isEqualTo(right))
+                        new BoolValue(requestor, !left.isEqualTo(right)),
                 ),
             ],
-            BlockKind.Structure
-        )
+            BlockKind.Structure,
+        ),
     );
 }

@@ -1,20 +1,20 @@
-import type { Edit } from '../components/editor/util/Commands';
-import Revision from './Revision';
-import Node from '@nodes/Node';
-import Caret from './Caret';
-import Refer from './Refer';
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
-import type Locale from '@locale/Locale';
-import concretize from '../locale/concretize';
+import Node from '@nodes/Node';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type { Edit } from '../components/editor/util/Commands';
+import type Locales from '../locale/Locales';
 import Markup from '../nodes/Markup';
 import Reference from '../nodes/Reference';
-import type Locales from '../locale/Locales';
+import Caret from './Caret';
+import Refer from './Refer';
+import Revision from './Revision';
 
 export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly node: Node;
     readonly replacement: NodeType | Refer | undefined;
-    readonly description: ((translation: Locale) => string) | undefined;
+    readonly description: ((translation: LocaleText) => string) | undefined;
 
     constructor(
         context: Context,
@@ -22,7 +22,9 @@ export default class Replace<NodeType extends Node> extends Revision {
         node: Node,
         replacement: NodeType | Refer | undefined,
         /** True if this replacement completes an existing node */
-        description: ((translation: Locale) => string) | undefined = undefined
+        description:
+            | ((translation: LocaleText) => string)
+            | undefined = undefined,
     ) {
         super(context);
 
@@ -57,8 +59,8 @@ export default class Replace<NodeType extends Node> extends Revision {
             replacement.some(
                 (ref2) =>
                     ref1.getName() !== ref2.getName() &&
-                    ref2.getName().startsWith(ref2.getName())
-            )
+                    ref2.getName().startsWith(ref2.getName()),
+            ),
         );
     }
 
@@ -78,23 +80,20 @@ export default class Replace<NodeType extends Node> extends Revision {
                 .withSpaces(
                     this.context.source.spaces.withReplacement(
                         this.node,
-                        replacement
-                    )
+                        replacement,
+                    ),
                 );
 
         // Give the replacement it's preferred space to make space-sensitive parsing happy.
         if (replacement)
             newSource = newSource.withSpaces(
-                newSource.spaces.withPreferredSpaceForNode(
-                    newSource.root,
-                    replacement
-                )
+                getPreferredSpaces(replacement, newSource.spaces),
             );
 
         const newCaretPosition =
             replacement !== undefined
-                ? replacement.getFirstPlaceholder() ??
-                  newSource.getNodeLastPosition(replacement)
+                ? (replacement.getFirstPlaceholder() ??
+                  newSource.getNodeLastPosition(replacement))
                 : position;
         if (newCaretPosition === undefined) return;
 
@@ -106,7 +105,7 @@ export default class Replace<NodeType extends Node> extends Revision {
                 newCaretPosition ?? position,
                 undefined,
                 undefined,
-                replacement
+                replacement,
             ),
         ];
     }
@@ -131,10 +130,9 @@ export default class Replace<NodeType extends Node> extends Revision {
             this.replacement instanceof Refer
                 ? this.replacement.getNode(locales)
                 : this.getNewNode(locales);
-        return concretize(
-            locales,
-            locales.get((l) => l.ui.edit.replace),
-            node?.getLabel(locales)
+        return locales.concretize(
+            (l) => l.ui.edit.replace,
+            node?.getLabel(locales),
         );
     }
 

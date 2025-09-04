@@ -50,10 +50,10 @@ export default class TypeSet {
                     set
                         .list()
                         .find((thatType) =>
-                            thatType.accepts(thisType, context)
-                        ) === undefined
+                            thatType.accepts(thisType, context),
+                        ) === undefined,
             ),
-            context
+            context,
         );
     }
 
@@ -64,10 +64,10 @@ export default class TypeSet {
                     set
                         .list()
                         .find((thatType) =>
-                            thatType.accepts(thisType, context)
-                        ) !== undefined
+                            thatType.accepts(thisType, context),
+                        ) !== undefined,
             ),
-            context
+            context,
         );
     }
 }

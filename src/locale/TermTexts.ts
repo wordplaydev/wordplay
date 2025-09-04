@@ -17,6 +17,8 @@ type TermTexts = {
     output: string;
     /** The verb for converting data from one type to another */
     convert: string;
+    /** The phrase for describing a how to concept */
+    how: string;
     /** The word for the top level organizational scheme of the tutorial, as in a dramatic play */
     act: string;
     /** The word for the a comoponent of an act in a dramatic play */

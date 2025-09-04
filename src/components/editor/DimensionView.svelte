@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Dimension from '@nodes/Dimension';
     import NodeView from './NodeView.svelte';
 
-    export let node: Dimension;
+    interface Props {
+        node: Dimension;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.product} /><NodeView node={node.name} /><NodeView

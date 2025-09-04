@@ -1,0 +1,24 @@
+Create a video from the camera
+
+The @Camera stream is a great way to get a grid of colors from the world. 
+What if we want to see those colors, recreating the image the @Camera sees?
+
+We can use the @Grid layout for a @Group, and @List/combine function to convert the colors into a list of @Phrase that we give to the @Grid.
+
+\
+width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])
+\
+
+This example builds a list of phrases, coverting each color into a circle with the specific color.
+
+Be careful with @Camera streams: they produce a lot of input! You'll want to keep the width and height of the image small.
+
+interactive-scene

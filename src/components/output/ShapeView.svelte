@@ -1,47 +1,74 @@
 <script lang="ts">
-    import type Place from '@output/Place';
     import {
         getColorCSS,
-        getFaceCSS as getFaceCSS,
-        getSizeCSS as getSizeCSS,
+        getFaceCSS,
         getOpacityCSS,
-        toOutputTransform,
+        getSizeCSS,
         PX_PER_METER,
+        toOutputTransform,
     } from '@output/outputToCSS';
+    import type Place from '@output/Place';
     import type RenderContext from '@output/RenderContext';
+    import { untrack } from 'svelte';
     import { locales } from '../../db/Database';
+    import { Circle, Polygon, Rectangle } from '../../output/Form';
     import type Shape from '../../output/Shape';
-    import { Rectangle } from '../../output/Form';
 
-    export let shape: Shape;
-    export let place: Place;
-    export let focus: Place;
-    export let interactive: boolean;
-    export let parentAscent: number;
-    export let context: RenderContext;
-    export let editing: boolean;
-    export let still: boolean;
+    interface Props {
+        shape: Shape;
+        place: Place;
+        focus: Place;
+        interactive: boolean;
+        parentAscent: number;
+        context: RenderContext;
+        editing: boolean;
+        frame: number;
+    }
+
+    let {
+        shape,
+        place,
+        focus,
+        interactive,
+        parentAscent,
+        context,
+        editing,
+        frame,
+    }: Props = $props();
 
     // Visible if z is ahead of focus and font size is greater than 0.
-    $: visible = place.z > focus.z;
+    let visible = $derived(place.z > focus.z);
 
-    $: selectable = shape.selectable;
+    let selectable = $derived(shape.selectable);
 
-    $: width = shape.form.getWidth() * PX_PER_METER;
-    $: height = shape.form.getHeight() * PX_PER_METER;
+    let width = $derived(shape.form.getWidth() * PX_PER_METER);
+    let height = $derived(shape.form.getHeight() * PX_PER_METER);
+
+    let description: string | null = $state(null);
+    let lastFrame = $state(0);
+    // Only update the description if the frame has changed.
+    $effect(() => {
+        if (frame > untrack(() => lastFrame))
+            description = shape.getDescription($locales);
+        lastFrame = frame;
+    });
 </script>
 
 {#if visible}
     <div
-        role={selectable ? 'button' : 'presentation'}
+        role={selectable ? 'button' : null}
         aria-disabled={!selectable}
-        aria-label={still ? shape.getDescription($locales) : null}
+        aria-label={description}
         aria-roledescription={!selectable
             ? $locales.get((l) => l.term.phrase)
             : null}
         class="output shape {shape.form instanceof Rectangle
             ? 'rectangle'
-            : ''}"
+            : shape.form instanceof Circle
+              ? 'circle'
+              : shape.form instanceof Polygon
+                ? 'polygon'
+                : ''}"
         tabIndex={interactive && (selectable || editing) ? 0 : null}
         data-id={shape.getHTMLID()}
         data-node-id={shape.value.creator.id}
@@ -66,9 +93,23 @@
                 height,
                 ascent: height,
                 descent: 0,
-            }
+            },
         )}
-    />
+    >
+        <svg
+            class="form"
+            role="presentation"
+            width={shape.form.getWidth() * PX_PER_METER}
+            height={shape.form.getHeight() * PX_PER_METER}
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                class="border"
+                d={shape.form.toSVGPath(0, 0)}
+                fill={shape.background?.toCSS() ?? null}
+            />
+        </svg>
+    </div>
 {/if}
 
 <style>
@@ -78,13 +119,21 @@
         top: 0;
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
-    }
 
-    .shape.rectangle {
-        background: var(--wordplay-inactive-color);
-        border-radius: calc(2 * var(--wordplay-border-radius));
         border-width: calc(2 * var(--wordplay-border-width));
         border-style: solid;
         border-color: transparent;
+    }
+
+    .form {
+        fill: var(--wordplay-inactive-color);
+    }
+
+    .shape.rectangle {
+        border-radius: calc(2 * var(--wordplay-border-radius));
+    }
+
+    .shape.circle {
+        border-radius: 50%;
     }
 </style>

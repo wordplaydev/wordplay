@@ -1,13 +1,15 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import Sym from '@nodes/Sym';
     import { CONVERT_SYMBOL } from '@parser/Symbols';
     import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
     import SymbolView from './SymbolView.svelte';
 
-    export let value: ConversionDefinitionValue;
-    export let inline = true;
+    interface Props {
+        value: ConversionDefinitionValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 </script>
 
 {#if inline || !inline}

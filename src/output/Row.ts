@@ -1,27 +1,26 @@
-import toStructure from '../basis/toStructure';
-import type Value from '@values/Value';
-import type Color from './Color';
-import type Output from './Output';
-import type RenderContext from './RenderContext';
-import Place from './Place';
 import { getBind } from '@locale/getBind';
 import NumberValue from '@values/NumberValue';
-import Arrangement from './Arrangement';
-import Group from './Group';
-import Phrase from './Phrase';
-import concretize from '../locale/concretize';
-import { getOutputInput } from './Valued';
-import StructureValue from '../values/StructureValue';
-import type Locales from '../locale/Locales';
 import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
+import toStructure from '../basis/toStructure';
+import type Locales from '../locale/Locales';
+import StructureValue from '../values/StructureValue';
 import type Alignment from './Alignment';
+import Arrangement from './Arrangement';
+import type Color from './Color';
+import Group from './Group';
+import type Output from './Output';
+import Phrase from './Phrase';
+import Place from './Place';
+import type RenderContext from './RenderContext';
+import { getOutputInput } from './Valued';
 
 export function createRowType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Row, '•')} Arrangement(
         ${getBind(
             locales,
-            (locale) => locale.output.Row.alignment
+            (locale) => locale.output.Row.alignment,
         )}•'<'|'|'|'>': '|'
         ${getBind(locales, (locale) => locale.output.Row.padding)}•#m: 1m
     )
@@ -42,21 +41,21 @@ export class Row extends Arrangement {
     getLayout(children: (Output | null)[], context: RenderContext) {
         // Layout the children.
         const layouts = children.map((child) =>
-            child === null ? null : child.getLayout(context)
+            child === null ? null : child.getLayout(context),
         );
 
         // Width is the some of the child widths plus padding between
         const width =
             layouts.reduce(
                 (width, layout) => width + (layout === null ? 0 : layout.width),
-                0
+                0,
             ) +
             this.padding * (layouts.length - 1);
 
         // Get the height of the container so we can center each phrase vertically.
         const height = layouts.reduce(
             (max, layout) => Math.max(max, layout === null ? 0 : layout.height),
-            0
+            0,
         );
 
         let x = 0;
@@ -76,17 +75,17 @@ export class Row extends Arrangement {
                     child.output.place && child.output.place.y !== undefined
                         ? child.output.place.y
                         : // If vertical alignment is centered, center y.
-                        this.alignment === '|'
-                        ? (height - child.height) / 2
-                        : // If alignment is top, 0.
-                        this.alignment === '<'
-                        ? 0
-                        : // If alignment is bottom
-                          height - child.height,
+                          this.alignment === '|'
+                          ? (height - child.height) / 2
+                          : // If alignment is top, 0.
+                            this.alignment === '<'
+                            ? 0
+                            : // If alignment is bottom
+                              height - child.height,
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
                     child.output.place && child.output.place.z !== undefined
                         ? child.output.place.z
-                        : 0
+                        : 0,
                 );
                 positions.push([child.output, place]);
                 x = x + child.width;
@@ -100,15 +99,7 @@ export class Row extends Arrangement {
             }
         }
 
-        return {
-            left,
-            right,
-            top,
-            bottom,
-            width,
-            height,
-            places: positions,
-        };
+        return { left, right, top, bottom, width, height, places: positions };
     }
 
     getBackground(): Color | undefined {
@@ -116,13 +107,14 @@ export class Row extends Arrangement {
     }
 
     getDescription(output: Output[], locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.output.Row.description),
-            output.length,
-            output.filter((o) => o instanceof Phrase).length,
-            output.filter((o) => o instanceof Group).length
-        ).toText();
+        return locales
+            .concretize(
+                (l) => l.output.Row.description,
+                output.length,
+                output.filter((o) => o instanceof Phrase).length,
+                output.filter((o) => o instanceof Group).length,
+            )
+            .toText();
     }
 }
 

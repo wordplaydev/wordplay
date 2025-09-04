@@ -1,44 +1,47 @@
-import type Node from './Node';
-import Expression, { type GuardContext } from './Expression';
-import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
-import UnknownColumn from '@conflicts/UnknownColumn';
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
-import type Type from './Type';
+import IncompatibleCellType from '@conflicts/IncompatibleCellType';
+import UnknownColumn from '@conflicts/UnknownColumn';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
-import TableType from './TableType';
-import BooleanType from './BooleanType';
-import type Step from '@runtime/Step';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import type Definition from './Definition';
-import type TypeSet from './TypeSet';
-import type Evaluator from '@runtime/Evaluator';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
-import Purpose from '../concepts/Purpose';
-import FunctionDefinition from './FunctionDefinition';
-import Names from './Names';
-import { getIteration, getIterationResult } from '../basis/Iteration';
-import TableValue from '../values/TableValue';
-import Evaluation from '@runtime/Evaluation';
-import StructureValue from '../values/StructureValue';
-import InternalExpression from '../basis/InternalExpression';
-import AnyType from './AnyType';
+import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
 import ExceptionValue from '@values/ExceptionValue';
-import ValueException from '../values/ValueException';
-import type Value from '../values/Value';
-import Token from './Token';
-import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
-import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
+import InternalExpression from '../basis/InternalExpression';
+import { getIteration, getIterationResult } from '../basis/Iteration';
+import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
+import StructureValue from '../values/StructureValue';
+import TableValue from '../values/TableValue';
+import type Value from '../values/Value';
+import ValueException from '../values/ValueException';
+import AnyType from './AnyType';
+import BooleanType from './BooleanType';
+import type Context from './Context';
+import type Definition from './Definition';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionDefinition from './FunctionDefinition';
+import Input from './Input';
+import Names from './Names';
+import type Node from './Node';
+import { node, type Grammar, type Replacement } from './Node';
+import Row from './Row';
+import Sym from './Sym';
+import TableType from './TableType';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };
 
@@ -69,7 +72,7 @@ export default class Update extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Update';
     }
 
@@ -78,41 +81,45 @@ export default class Update extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.table),
+                label: () => (l) => l.term.table,
             },
             {
                 name: 'row',
                 kind: node(Row),
-                label: (locales: Locales) => locales.get((l) => l.term.row),
+                label: () => (l) => l.term.row,
                 space: true,
             },
             {
                 name: 'query',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.query),
+                label: () => (l) => l.term.query,
                 space: true,
             },
         ];
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ node, context }: EditContext) {
         const anchorType =
-            anchor instanceof Expression ? anchor.getType(context) : undefined;
+            node instanceof Expression ? node.getType(context) : undefined;
         const tableType =
             anchorType instanceof TableType ? anchorType : undefined;
-        return anchor instanceof Expression && tableType && selected
+        return node instanceof Expression && tableType
             ? [
                   Update.make(
-                      anchor,
+                      node,
                       ExpressionPlaceholder.make(BooleanType.make()),
                   ),
               ]
             : [];
+    }
+
+    static getPossibleAppends() {
+        return [
+            Update.make(
+                ExpressionPlaceholder.make(TableType.make()),
+                ExpressionPlaceholder.make(BooleanType.make()),
+            ),
+        ];
     }
 
     clone(replace?: Replacement) {
@@ -124,7 +131,7 @@ export default class Update extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
@@ -147,25 +154,12 @@ export default class Update extends Expression {
         }
 
         this.row.cells.forEach((cell) => {
-            // The columns in an update must be binds with expressions.
-            if (
-                !(
-                    cell instanceof Bind &&
-                    cell.value !== undefined &&
-                    cell.names.names.length === 1
-                )
-            )
+            // The columns in an update must be inputs
+            if (!(cell instanceof Input))
                 conflicts.push(new ExpectedColumnBind(this, cell));
             else if (tableType instanceof TableType) {
-                const alias =
-                    cell instanceof Bind && cell.names.names.length > 0
-                        ? cell.names.names[0]
-                        : undefined;
-                const name = alias === undefined ? undefined : alias.getName();
-                const columnType =
-                    name === undefined
-                        ? undefined
-                        : tableType.getColumnNamed(name);
+                const name = cell.getName();
+                const columnType = tableType.getColumnNamed(name);
                 // The named table column must exist.
                 if (columnType === undefined)
                     conflicts.push(new UnknownColumn(tableType, cell));
@@ -208,18 +202,23 @@ export default class Update extends Expression {
         return this.table.getType(context);
     }
 
-    getDefinitions(node: Node, context: Context): Definition[] {
-        node;
+    getDefinitions(_: Node, context: Context): Definition[] {
         const type = this.table.getType(context);
         if (type instanceof TableType)
             return type.columns
                 .filter((col) => col instanceof Bind)
-                .map((col) => col) as Bind[];
+                .map((col) => col);
         else return [];
     }
 
     getDependencies(): Expression[] {
-        return [this.table, ...this.row.cells.map((cell) => cell), this.query];
+        return [
+            this.table,
+            ...this.row.cells.map((cell) =>
+                cell instanceof Input ? cell.value : cell,
+            ),
+            this.query,
+        ];
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {
@@ -231,15 +230,13 @@ export default class Update extends Expression {
                 : new AnyType();
 
         // Get the binds
-        const binds = this.row.cells;
+        const inputs = this.row.cells.filter(
+            (c): c is Input => c instanceof Input,
+        );
 
         // Get the update steps
-        const updates = binds
-            .map((bind) =>
-                bind instanceof Bind && bind.value
-                    ? bind.value.compile(evaluator, context)
-                    : [],
-            )
+        const updates = inputs
+            .map((input) => input.value.compile(evaluator, context))
             .flat();
 
         /** A derived function based on the query, used to evaluate each row of the table. */
@@ -267,12 +264,10 @@ export default class Update extends Expression {
                         );
                     // Get the values computed
                     const values: Value[] = [];
-                    for (const bind of binds) {
-                        if (bind instanceof Bind && bind.value) {
-                            const value = evaluation.popValue(this, undefined);
-                            if (value instanceof ExceptionValue) return value;
-                            values.unshift(value);
-                        }
+                    for (let count = 0; count < inputs.length; count++) {
+                        const value = evaluation.popValue(this, undefined);
+                        if (value instanceof ExceptionValue) return value;
+                        values.unshift(value);
                     }
                     // Get the query result
                     const match = evaluation.popValue(
@@ -282,17 +277,17 @@ export default class Update extends Expression {
                     if (!(match instanceof BoolValue)) return match;
                     // Not a query match? Don't modify the row.
                     if (match.bool === false) return row;
-                    // Otherwise, refine the row with the updtes
+                    // Otherwise, refine the row with the updates
                     else {
                         let newRow: StructureValue = row;
-                        for (const bind of binds) {
-                            if (bind instanceof Bind && bind.value) {
+                        for (const input of inputs) {
+                            if (input instanceof Input) {
                                 const value = values.shift();
                                 const revised: StructureValue | undefined =
                                     value
                                         ? newRow.withValue(
                                               this,
-                                              bind.names.getNames()[0],
+                                              input.getName(),
                                               value,
                                           )
                                         : undefined;
@@ -381,14 +376,14 @@ export default class Update extends Expression {
         return this.row.close ?? this.row.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Update);
+    static readonly LocalePath = (l: LocaleText) => l.node.Update;
+    getLocalePath() {
+        return Update.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Update.start),
+        return locales.concretize(
+            (l) => l.node.Update.start,
             new NodeRef(this.table, locales, context),
         );
     }
@@ -398,14 +393,13 @@ export default class Update extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Update.finish),
+        return locales.concretize(
+            (l) => l.node.Update.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Update;
+    getCharacter() {
+        return Characters.Update;
     }
 }

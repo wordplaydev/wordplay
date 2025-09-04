@@ -1,5 +1,5 @@
-import type { DocText, Template } from './Locale';
 import type Emotion from '../lore/Emotion';
+import type { DocText, Template } from './LocaleText';
 
 export type NodeText = {
     /** The name that should be used to refer to the node type */
@@ -55,13 +55,13 @@ export interface ExceptionText {
 type NodeTexts = {
     /** A part of a number's unit, such as the `m` in `1m`, or the `s` in `1m/s^2` */
     Dimension: DescriptiveNodeText;
-    /** A single language tagged documentation text, ` ``I am documentation``/en` */
+    /** A single language tagged documentation text, ` ¶I am documentation¶/en` */
     Doc: NodeText;
-    /** Multiple language tagged documentation texts, ` ``Hi docs``/en``Hola docs``/es`  */
+    /** Multiple language tagged documentation texts, ` ¶Hi docs¶/en¶Hola docs¶/es`  */
     Docs: NodeText & SimpleExpressionText;
     /** A key value pair in a map, such as `a: 1` in `{ a: 1 b: 2}`  */
     KeyValue: NodeText;
-    /** A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ``My doc``/en` */
+    /** A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ¶My doc¶/en` */
     Language: DescriptiveNodeText &
         Conflicts<{
             UnknownLanguage: InternalConflictText;
@@ -111,36 +111,36 @@ type NodeTexts = {
     /** A list of type variables in a function or structure definition, e.g. `⸨T⸩` in `ƒ⸨T⸩(a: T b: T)` */
     TypeVariables: NodeText;
     /**
-     * Markup text used in documentation or phrase text, e.g., ` ``Hello, I am *bold*`` `
+     * Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ `
      * Description inputs: $1 = paragraph count
      */
     Markup: DescriptiveNodeText;
     /**
-     * A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ``Paragraph 1\n\nParagraph 2`` `
+     * A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ¶Paragraph 1\n\nParagraph 2¶ `
      * Description inputs: $1 = number, $2 = unit
      */
     Paragraph: NodeText;
     /**
-     * A link in `Markup`, e.g., ` ``<wordplay@https://wordplay.div>`` `
+     * A link in `Markup`, e.g., ` ¶<wordplay@https://wordplay.div>¶ `
      * Description inputs: $1 = the url
      */
     WebLink: DescriptiveNodeText;
     /**
-     * A link to a Wordplay concept in `Markup`, e.g., ` ``Check out @WebLink`` `
+     * A link to a Wordplay concept in `Markup`, e.g., ` ¶Check out @WebLink¶ `
      * Description inputs: $1: the concept name
      */
     ConceptLink: DescriptiveNodeText;
-    /** A sequence of glyphs in `Markup` that aren't other markup content, e.g., ` ``These are just words.`` ` */
+    /** A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ ` */
     Words: NodeText;
-    /** Code inside `Markup`, e.g., ` ``This is how you add: \1 + 1\`` ` */
+    /** Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ ` */
     Example: NodeText;
     /**
-     * A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ``My value is $1`` or `$bind` in ` ``I am a $bind`` `
+     * A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ¶My value is $1¶ or `$bind` in ` ¶I am a $bind¶ `
      * Description inputs: $1 = the name or number mentioned
      */
     Mention: DescriptiveNodeText;
     /**
-     * A branch in `Markup` that renders different text depending on an input, e.g., ` ``$1[I am $1|I am nothing]`` `
+     * A branch in `Markup` that renders different text depending on an input, e.g., ` ¶$1[I am $1|I am nothing]¶ `
      */
     Branch: NodeText;
     /**
@@ -167,7 +167,7 @@ type NodeTexts = {
         ExpressionText &
         Conflicts<{
             /** When a bind has duplicate names. Description inputs: $1: The name that shadowed this one */
-            DuplicateName: ConflictText;
+            DuplicateName: { conflict: ConflictText; resolution: Template };
             /** When a shared bind has a duplicate name that's shared. Description inputs: $1: The duplicate */
             DuplicateShare: ConflictText;
             /**
@@ -202,7 +202,12 @@ type NodeTexts = {
             /** When there's no ending expression */
             ExpectedEndingExpression: InternalConflictText;
             /** When a statement is ignored because it's not last and not a bind */
-            IgnoredExpression: ConflictText;
+            IgnoredExpression: ConflictText & {
+                resolution: {
+                    binary: Template;
+                    evaluate: Template;
+                };
+            };
         }>;
     /**
      * A single boolean literal, e.g., `⊤` or `⊥`
@@ -261,7 +266,23 @@ type NodeTexts = {
              */
             ExpectedBooleanCondition: ConflictText;
         }>;
+    /**
+     * A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.
+     */
     Otherwise: NodeText & ExpressionText;
+    /**
+     * A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other'
+     * Start inputs: $1 = description of value expression
+     */
+    Match: NodeText &
+        ExpressionText & {
+            /** The label for the value to be compared against. */
+            value: Template;
+            /** The label for the default value if none of the cases match */
+            other: Template;
+            /** How to describe when a case is checked */
+            case: Template;
+        };
     /** A definition of a conversion, e.g. `→ # #m 5` */
     ConversionDefinition: DescriptiveNodeText &
         SimpleExpressionText &
@@ -296,7 +317,7 @@ type NodeTexts = {
      * Finish inputs: $1 = resulting value
      */
     Delete: NodeText & ExpressionText;
-    /** A expression with a doc, e.g., ` ``my doc``1 + 1 `` */
+    /** A expression with a doc, e.g., ` ¶my doc¶1 + 1 ¶ */
     DocumentedExpression: NodeText & SimpleExpressionText;
     /**
      * An evaluation of a function with inputs, e.g., `myfun(1 2 3)`
@@ -324,10 +345,6 @@ type NodeTexts = {
              * */
             UnexpectedTypeInput: ConflictText;
             /**
-             * When an input is given, but in the wrong order.
-             */
-            MisplacedInput: InternalConflictText;
-            /**
              * When an input is expected, but not given.
              * Description inputs: $1 = missing input, $2: evaluate that is missing input
              * */
@@ -349,6 +366,10 @@ type NodeTexts = {
              * When a list of inputs is given but isn't last.
              */
             InputListMustBeLast: InternalConflictText;
+            /**
+             * When something looks like an Evaluate with space
+             */
+            SeparatedEvaluate: InternalConflictText;
         }> &
         Exceptions<{
             /**
@@ -357,14 +378,15 @@ type NodeTexts = {
              */
             FunctionException: ExceptionText;
         }>;
+    Input: DescriptiveNodeText & SimpleExpressionText;
     /**
      * An expression placeholder, e.g., `1 + _`
      * Description inputs: $1: type or undefined
      */
     ExpressionPlaceholder: DescriptiveNodeText &
-        SimpleExpressionText & {
-            placeholder: Template;
-        } & Conflicts<{ Placeholder: InternalConflictText }> &
+        SimpleExpressionText & { placeholder: Template } & Conflicts<{
+            Placeholder: InternalConflictText;
+        }> &
         Exceptions<{
             /** No inputs */
             UnimplementedException: ExceptionText;
@@ -506,15 +528,15 @@ type NodeTexts = {
      * Description input: $1 = the name being refined
      * Finish inputs: $1: revised property, $2: revised value
      */
-    PropertyBind: DescriptiveNodeText & ExpressionText;
+    PropertyBind: DescriptiveNodeText &
+        ExpressionText &
+        Conflicts<{ InvalidProperty: ConflictText }>;
     /**
      * Getting a structure property, e.g., `mammal.name`
      * Finish inputs: $1: property name, $2: value
      */
     PropertyReference: DescriptiveNodeText &
-        ExpressionText & {
-            property: Template;
-        };
+        ExpressionText & { property: Template };
     /**
      * Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1`
      * Finish inputs: $1 = resulting value
@@ -546,7 +568,10 @@ type NodeTexts = {
              * When the name does not correspond to a bind in scope
              * Description inputs: $1 = Scope
              * */
-            UnknownName: InternalConflictText;
+            UnknownName: {
+                conflict: InternalConflictText;
+                resolution: Template;
+            };
             /** When a name refers to itself outside a reaction */
             ReferenceCycle: InternalConflictText;
             /** When a reference refers to a type variable */
@@ -615,6 +640,7 @@ type NodeTexts = {
              */
             UnimplementedInterface: InternalConflictText;
         }>;
+    StructureDefinitionType: DescriptiveNodeText;
     /**
      * A table literal, e.g., `⎡a•# b•#⎦⎡1 2⎦`
      * Description inputs: $1 = the number of rows
@@ -639,6 +665,9 @@ type NodeTexts = {
             handle: InternalConflictText;
             /** How to describe the resolution of the sensitive information conflict. */
             resolution: Template;
+            /** Note to remind users where they can manage sensitive information for their project. */
+            reminder: Template;
+            character: InternalConflictText;
         }>;
     /**
      * A formatted text literal, e.g., ` `hello *wordplay*` `
@@ -672,7 +701,10 @@ type NodeTexts = {
              * When an unparsable expression or type is used.
              * Description inputs: $1: true if expression, false if type
              */
-            UnparsableConflict: InternalConflictText;
+            UnparsableConflict: {
+                conflict: InternalConflictText;
+                resolution: Template;
+            };
             /**
              * When a delimiter is unclosed.
              * Description inputs: $1: unclosed token, $2: opening delimiter
@@ -705,7 +737,7 @@ type NodeTexts = {
     BooleanType: NodeText;
     /** A conversion type, e.g., `? → ''` */
     ConversionType: NodeText;
-    /** A formatted type, e.g., ` `` ` */
+    /** A formatted type, e.g., ` ¶ ` */
     FormattedType: NodeText;
     /** An exception type, e.g., `!` */
     ExceptionType: NodeText;
@@ -830,5 +862,7 @@ type NodeTexts = {
      * */
     NonFunctionType: DescriptiveNodeText;
 };
+
+export type NodeDescriptor = keyof NodeTexts;
 
 export { type NodeTexts as default };

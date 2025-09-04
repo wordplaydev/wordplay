@@ -1,23 +1,23 @@
-import Block, { BlockKind } from '@nodes/Block';
-import StructureDefinition from '@nodes/StructureDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import TableType from '../nodes/TableType';
-import type TableValue from '../values/TableValue';
-import type Expression from '../nodes/Expression';
-import { createBasisConversion, createEqualsFunction } from './Basis';
+import Block, { BlockKind } from '@nodes/Block';
+import StructureDefinition from '@nodes/StructureDefinition';
 import ListValue from '@values/ListValue';
-import ListType from '../nodes/ListType';
-import TextType from '../nodes/TextType';
-import TextValue from '../values/TextValue';
-import TypeVariables from '../nodes/TypeVariables';
-import TypeVariable from '../nodes/TypeVariable';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import ListType from '../nodes/ListType';
+import TableType from '../nodes/TableType';
+import TextType from '../nodes/TextType';
+import TypeVariable from '../nodes/TypeVariable';
+import TypeVariables from '../nodes/TypeVariables';
+import type TableValue from '../values/TableValue';
+import TextValue from '../values/TextValue';
+import { createBasisConversion, createEqualsFunction } from './Basis';
 
 export default function bootstrapTable(locales: Locales) {
     /** This type variable represents the StructureDefinition of a row. */
     const RowTypeVariable = new TypeVariable(
-        getNameLocales(locales, (locale) => locale.basis.Table.row)
+        getNameLocales(locales, (locale) => locale.basis.Table.row),
     );
 
     return StructureDefinition.make(
@@ -31,35 +31,35 @@ export default function bootstrapTable(locales: Locales) {
                 createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Table.function.equals,
-                    true
+                    true,
                 ),
                 createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Table.function.notequal,
-                    false
+                    false,
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.Table.conversion.list
+                        (locale) => locale.basis.Table.conversion.list,
                     ),
                     TableType.make(),
                     ListType.make(RowTypeVariable.getReference()),
                     (requestor: Expression, table: TableValue) =>
-                        new ListValue(requestor, table.rows)
+                        new ListValue(requestor, table.rows),
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.Table.conversion.text
+                        (locale) => locale.basis.Table.conversion.text,
                     ),
                     TableType.make(),
                     TextType.make(),
                     (requestor: Expression, table: TableValue) =>
-                        new TextValue(requestor, table.toWordplay(locales))
+                        new TextValue(requestor, table.toWordplay(locales)),
                 ),
             ],
-            BlockKind.Structure
-        )
+            BlockKind.Structure,
+        ),
     );
 }

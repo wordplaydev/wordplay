@@ -10,6 +10,7 @@ enum Purpose {
     Project = 'project',
     Document = 'document',
     Source = 'source',
+    How = 'how',
 }
 
 export default Purpose;

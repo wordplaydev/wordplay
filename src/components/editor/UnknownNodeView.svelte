@@ -1,9 +1,11 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Node from '@nodes/Node';
 
-    export let node: Node;
+    interface Props {
+        node: Node;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <span class="name">{node.getDescriptor()}</span>

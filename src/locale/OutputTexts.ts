@@ -1,7 +1,8 @@
-import type { NameAndDoc, Template, NameText } from './Locale';
+import type { NameAndDoc, NameText, Template } from './LocaleText';
+import type { ExceptionText } from './NodeTexts';
 
 export type TypeTexts = {
-    /** How tall glyphs in a phrase, group, or stage should be */
+    /** How tall characters in a phrase, group, or stage should be */
     size: NameAndDoc;
     /** The font face used in a phrase, group, or stage */
     face: NameAndDoc;
@@ -9,9 +10,11 @@ export type TypeTexts = {
     place: NameAndDoc;
     /** The name of a phrase, group, or stage, used in Choice, Collision, and animations */
     name: NameAndDoc;
+    /** An optional description of the phrase for screen readers */
+    description: NameAndDoc;
     /** Whether a phrase, group, or stage is selectable by Choice */
     selectable: NameAndDoc;
-    /** The color of glyphs in a phrase, group, or stage */
+    /** The color of characters in a phrase, group, or stage */
     color: NameAndDoc;
     /** The background color behind a phrase, group, or stage */
     background: NameAndDoc;
@@ -53,13 +56,24 @@ type OutputTexts = {
         /** The matter to use for the group if it's involved in collisions */
         matter: NameAndDoc;
         /** $1 = Layout description, $2 = pose description */
-        description: Template;
+        defaultDescription: Template;
     } & TypeTexts;
-    /** A sequence of glyphs */
+    /** A shadow */
+    Aura: NameAndDoc & {
+        /** The shadow's color */
+        color: NameAndDoc;
+        /** The horizontal offset of the shadow */
+        offsetX: NameAndDoc;
+        /** The vertical offset of the shadow */
+        offsetY: NameAndDoc;
+        /** The blurriness of the shadow */
+        blur: NameAndDoc;
+    };
+    /** A sequence of characters */
     Phrase: NameAndDoc & {
-        /** The glyphs to render */
+        /** The characters to render */
         text: NameAndDoc;
-        /** The boundary at which to wrap glyphs to another line */
+        /** The boundary at which to wrap characters to another line */
         wrap: NameAndDoc;
         /** The alignment to use when wrapped */
         alignment: NameAndDoc;
@@ -67,13 +81,15 @@ type OutputTexts = {
         direction: NameAndDoc;
         /** The matter properties for the phrase */
         matter: NameAndDoc;
+        /** The shadow properties for the phrase */
+        aura: NameAndDoc;
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
-        description: Template;
+        defaultDescription: Template;
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
     Stage: NameAndDoc & {
         /** A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
-        description: Template;
+        defaultDescription: Template;
         /** A list of content to show on stage */
         content: NameAndDoc;
         /** The shape of the frame to clip stage content */
@@ -88,9 +104,11 @@ type OutputTexts = {
         form: NameAndDoc;
         /** The name of a phrase, group, or stage, used in Choice, Collision, and animations */
         name: NameAndDoc;
+        /** The custom description of the shape */
+        description: NameAndDoc;
         /** Whether a phrase, group, or stage is selectable by Choice */
         selectable: NameAndDoc;
-        /** The color of glyphs in a phrase, group, or stage */
+        /** The color of characters in a phrase, group, or stage */
         color: NameAndDoc;
         /** The background color behind a phrase, group, or stage */
         background: NameAndDoc;
@@ -119,7 +137,9 @@ type OutputTexts = {
         /** The transition style of transitions */
         style: NameAndDoc;
     };
-    /** A rectangle shape, for Stage.frame */
+    /** The base form type */
+    Form: NameAndDoc;
+    /** A rectangle form */
     Rectangle: NameAndDoc & {
         /** Left of the rectangle */
         left: NameAndDoc;
@@ -132,9 +152,32 @@ type OutputTexts = {
         /** Depth of rectangle */
         z: NameAndDoc;
     };
+    /** A circle form */
+    Circle: NameAndDoc & {
+        /** Radius of the circle */
+        radius: NameAndDoc;
+        /** Horizontal center of the circle */
+        x: NameAndDoc;
+        /** Vertical center of the circle */
+        y: NameAndDoc;
+        /** Z coordinate the circle */
+        z: NameAndDoc;
+    };
+    /** A regular polygon form */
+    Polygon: NameAndDoc & {
+        /** Radius of the polygon */
+        radius: NameAndDoc;
+        /** Radius of the polygon */
+        sides: NameAndDoc;
+        /** Horizontal center of the polygon */
+        x: NameAndDoc;
+        /** Vertical center of the polygon */
+        y: NameAndDoc;
+        /** Z coordinate the polygon */
+        z: NameAndDoc;
+    };
     /** A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Pose: NameAndDoc & {
-        duration: NameAndDoc;
         style: NameAndDoc;
         color: NameAndDoc;
         opacity: NameAndDoc;
@@ -143,7 +186,7 @@ type OutputTexts = {
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;
-        /** all optional inputs: opacity, rotation, scale, flipx, flipy */
+        /** Templated description of the pose */
         description: Template;
     };
     /** A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states */
@@ -285,10 +328,27 @@ type OutputTexts = {
         spin: NameAndDoc;
         /** Fades in from purely transparent to purely opaque */
         fadein: NameAndDoc;
+        /** Fades out from purely opaque to purely transprent */
+        fadeout: NameAndDoc;
         /** Scales from 0 to larger than its size, then back to scale of 1 */
         popup: NameAndDoc;
         /** Offsets randomly in multiple directions */
         shake: NameAndDoc;
+    };
+    /** A data file structure */
+    Source: NameAndDoc & {
+        /** The name of the data file */
+        name: NameAndDoc;
+        /** The data value to persist */
+        value: NameAndDoc;
+        /** When a program persists data too many times in a row, too quickly */
+        DynamicEditLimitException: ExceptionText;
+        /** When a program persists data too many times in a row */
+        ReadOnlyEditException: ExceptionText;
+        /** When a source is created with an empty name */
+        EmptySourceNameException: ExceptionText;
+        /** When a project has become too large to save. */
+        ProjectSizeLimitException: ExceptionText;
     };
 };
 

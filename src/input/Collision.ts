@@ -1,32 +1,29 @@
-import type Evaluator from '@runtime/Evaluator';
-import StreamValue from '@values/StreamValue';
-import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import Bind from '@nodes/Bind';
-import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
+import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
+import UnionType from '@nodes/UnionType';
+import type Evaluation from '@runtime/Evaluation';
+import StreamValue from '@values/StreamValue';
+import type Locales from '../locale/Locales';
 import NoneLiteral from '../nodes/NoneLiteral';
-import type StructureValue from '../values/StructureValue';
-import TextType from '../nodes/TextType';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import TextType from '../nodes/TextType';
 import type Type from '../nodes/Type';
-import NoneValue from '../values/NoneValue';
-import TextValue from '../values/TextValue';
 import { createReboundStructure } from '../output/Rebound';
 import { PX_PER_METER } from '../output/outputToCSS';
-import type Locales from '../locale/Locales';
+import NoneValue from '../values/NoneValue';
+import type StructureValue from '../values/StructureValue';
+import TextValue from '../values/TextValue';
+import createStreamEvaluator from './createStreamEvaluator';
 
 export type ReboundEvent =
     | {
           subject: string;
           object: string;
-          direction: {
-              x: number;
-              y: number;
-          };
+          direction: { x: number; y: number };
           /** True if the collision is start, false if it just ended. */
           starting: boolean;
       }
@@ -40,15 +37,15 @@ export default class Collision extends StreamValue<
     object: string | undefined;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         subject: string | undefined,
-        object: string | undefined
+        object: string | undefined,
     ) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Button,
-            new NoneValue(evaluator.getMain()),
-            undefined
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Button,
+            new NoneValue(evaluation.getCreator()),
+            undefined,
         );
 
         this.subject = subject;
@@ -102,9 +99,9 @@ export default class Collision extends StreamValue<
                         this.evaluator.project.shares.input.Collision,
                         subject,
                         object,
-                        direction
+                        direction,
                     ),
-                    rebound
+                    rebound,
                 );
             // If ending, immediately add none, after processing the collision.
             else this.add(new NoneValue(this.creator), undefined);
@@ -120,35 +117,35 @@ export default class Collision extends StreamValue<
 
     getType(): Type {
         return StreamType.make(
-            this.evaluator.project.shares.output.Rebound.getTypeReference()
+            this.evaluator.project.shares.output.Rebound.getTypeReference(),
         );
     }
 }
 
 export function createCollisionDefinition(
     locales: Locales,
-    ReboundType: StructureDefinition
+    ReboundType: StructureDefinition,
 ) {
     const NameBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Collision.subject.doc),
         getNameLocales(
             locales,
-            (locale) => locale.input.Collision.subject.names
+            (locale) => locale.input.Collision.subject.names,
         ),
         UnionType.make(TextType.make(), NoneType.make()),
         // Default to none
-        NoneLiteral.make()
+        NoneLiteral.make(),
     );
 
     const OtherBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Collision.object.doc),
         getNameLocales(
             locales,
-            (locale) => locale.input.Collision.object.names
+            (locale) => locale.input.Collision.object.names,
         ),
         UnionType.make(TextType.make(), NoneType.make()),
         // Default to none
-        NoneLiteral.make()
+        NoneLiteral.make(),
     );
 
     return StreamDefinition.make(
@@ -160,16 +157,16 @@ export function createCollisionDefinition(
             Collision,
             (evaluation) =>
                 new Collision(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     evaluation.get(NameBind.names, TextValue)?.text,
-                    evaluation.get(OtherBind.names, TextValue)?.text
+                    evaluation.get(OtherBind.names, TextValue)?.text,
                 ),
             (stream, evaluation) =>
                 stream.update(
                     evaluation.get(NameBind.names, TextValue)?.text,
-                    evaluation.get(OtherBind.names, TextValue)?.text
-                )
+                    evaluation.get(OtherBind.names, TextValue)?.text,
+                ),
         ),
-        UnionType.make(ReboundType.getTypeReference(), NoneType.make())
+        UnionType.make(ReboundType.getTypeReference(), NoneType.make()),
     );
 }

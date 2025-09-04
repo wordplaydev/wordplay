@@ -1,16 +1,29 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import BigLink from '../components/app/BigLink.svelte';
-    import Background from '../components/app/Background.svelte';
-    import { locales } from '../db/Database';
-    import Writing from '../components/app/Writing.svelte';
-    // import Speech from '../components/lore/Speech.svelte';
-    // import Glyphs from '../lore/Glyphs';
-    // import Emotion from '../lore/Emotion';
-    import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
-    import Beta from './Beta.svelte';
-    import Lead from '@components/app/Lead.svelte';
+    import Action from '@components/app/Action.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import {
+        DOCUMENTATION_SYMBOL,
+        EDIT_SYMBOL,
+        LEARN_SYMBOL,
+        LOGO_SYMBOL,
+        STAGE_SYMBOL,
+        SYMBOL_SYMBOL,
+        TEACH_SYMBOL,
+    } from '@parser/Symbols';
+    import Background from '../components/app/Background.svelte';
+    import BigLink from '../components/app/BigLink.svelte';
+    import Writing from '../components/app/Writing.svelte';
+    import MarkupHTMLView from '../components/concepts/MarkupHTMLView.svelte';
+    import Characters from '../lore/BasisCharacters';
+    import Emotion from '../lore/Emotion';
+    import Beta from './Beta.svelte';
+    import Iconified from './Iconified.svelte';
+
+    const user = getUser();
 </script>
 
 <svelte:head>
@@ -20,70 +33,159 @@
 </svelte:head>
 
 <Background />
-<Writing>
+<Writing footer={false}>
     <Beta />
-    <Header><Emoji>💬</Emoji>{$locales.get((l) => l.wordplay)}</Header>
-    <Lead
-        ><MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.landing.value)}
-        /></Lead
+    <Header
+        ><Emoji>{LOGO_SYMBOL}</Emoji><LocalizedText
+            path={(l) => l.wordplay}
+        /></Header
     >
-    <!-- <div class="welcome">
-        <div style:width="10em" style:margin-inline-start="-2.5em">
-            <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
-                ><svelte:fragment slot="content"
-                    ><MarkupHtmlView
-                        markup={$locales.get((l) => l.ui.page.landing.call)}
-                    /></svelte:fragment
-                ></Speech
+    <div class="welcome">
+        <div style:margin-inline-start="-2.5em">
+            <Speech
+                character={Characters.FunctionDefinition}
+                emotion={Emotion.happy}
+                big
+                >{#snippet content()}
+                    <MarkupHTMLView markup={(l) => l.ui.page.landing.value} />
+                {/snippet}</Speech
             >
         </div>
-    </div> -->
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.landing.description)}
-    />
+    </div>
+    <MarkupHTMLView markup={(l) => l.ui.page.landing.description} />
+    {#if $user === null}
+        <br />
+        <BigLink to="/login" subtitle={(l) => l.ui.page.login.subtitle}
+            ><LocalizedText path={(l) => l.ui.page.login.header} /></BigLink
+        >
+    {/if}
     <br />
-    <BigLink
-        to="/learn"
-        subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
-        >{$locales.get((l) => l.ui.page.learn.header)}</BigLink
-    >
-    <BigLink
-        to="/projects"
-        subtitle={$locales.get((l) => l.ui.page.landing.link.projects)}
-        >{$locales.get((l) => l.ui.page.projects.header)}</BigLink
-    >
-    <BigLink
-        to="/galleries"
-        subtitle={$locales.get((l) => l.ui.page.landing.link.galleries)}
-        >{$locales.get((l) => l.ui.page.galleries.header)}</BigLink
-    >
-    <BigLink
-        to="/login"
-        subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
-        >{$locales.get((l) => l.ui.page.login.header)}</BigLink
-    >
-    <BigLink
-        smaller
-        to="/about"
-        subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
-        >{$locales.get((l) => l.ui.page.about.header)}</BigLink
-    >
-    <BigLink
-        smaller
-        to="/rights"
-        subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
-        >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
-    >
-    <BigLink
-        smaller
-        to="/donate"
-        subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
-        >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
-    >
+    <div class="actions">
+        <Action>
+            <BigLink
+                to="/projects"
+                smaller
+                subtitle={(l) => l.ui.page.landing.link.projects}
+                ><Iconified
+                    icon={EDIT_SYMBOL}
+                    text={(l) => l.ui.page.projects.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                smaller
+                to="/galleries"
+                subtitle={(l) => l.ui.page.landing.link.galleries}
+                ><Iconified
+                    icon={STAGE_SYMBOL}
+                    text={(l) => l.ui.page.galleries.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                smaller
+                to="/characters"
+                subtitle={(l) => l.ui.page.landing.link.characters}
+                ><Iconified
+                    icon={SYMBOL_SYMBOL}
+                    text={(l) => l.ui.page.characters.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                smaller
+                to="/learn"
+                subtitle={(l) => l.ui.page.landing.link.learn}
+                ><Iconified
+                    icon={LEARN_SYMBOL}
+                    text={(l) => l.ui.page.learn.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                to="/guide"
+                smaller
+                subtitle={(l) => l.ui.page.landing.link.guide}
+                ><Iconified
+                    icon={DOCUMENTATION_SYMBOL}
+                    text={(l) => l.ui.page.guide.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                smaller
+                to="/teach"
+                subtitle={(l) => l.ui.page.landing.link.teach}
+                ><Iconified
+                    icon={TEACH_SYMBOL}
+                    text={(l) => l.ui.page.teach.header}
+                /></BigLink
+            >
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/about"
+                subtitle={(l) => l.ui.page.landing.link.about}
+                ><Iconified
+                    icon="💭"
+                    text={(l) => l.ui.page.about.header}
+                /></BigLink
+            >
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/rights"
+                subtitle={(l) => l.ui.page.landing.link.rights}
+                ><Iconified
+                    icon="⚖️"
+                    text={(l) => l.ui.page.rights.header}
+                /></BigLink
+            ></Action
+        >
+        <Action meta>
+            <BigLink
+                smaller
+                external
+                to="https://discord.gg/Jh2Qq9husy"
+                subtitle={(l) => l.ui.page.landing.link.community.subtitle}
+                ><Iconified
+                    icon="🗣️"
+                    text={(l) => l.ui.page.landing.link.community.label}
+                /></BigLink
+            ></Action
+        >
+        <Action meta>
+            <BigLink
+                smaller
+                external
+                to="https://github.com/wordplaydev/wordplay/wiki/contribute"
+                subtitle={(l) => l.ui.page.landing.link.contribute.subtitle}
+                ><Iconified
+                    icon="🛠️"
+                    text={(l) => l.ui.page.landing.link.contribute.label}
+                />
+            </BigLink>
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/donate"
+                subtitle={(l) => l.ui.page.donate.prompt}
+            >
+                <Iconified icon="🤑" text={(l) => l.ui.page.donate.header} />
+            </BigLink>
+        </Action>
+    </div>
 </Writing>
 
-<!-- <style>
+<style>
     .welcome {
         display: flex;
         flex-direction: row;
@@ -92,4 +194,12 @@
         margin-bottom: 2em;
         max-width: 100%;
     }
-</style> -->
+
+    .actions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing);
+        align-items: stretch;
+    }
+</style>

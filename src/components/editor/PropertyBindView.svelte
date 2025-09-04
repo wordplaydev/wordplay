@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type PropertyBind from '@nodes/PropertyBind';
     import NodeView from './NodeView.svelte';
 
-    export let node: PropertyBind;
+    interface Props {
+        node: PropertyBind;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.reference} /><NodeView node={node.bind} /><NodeView

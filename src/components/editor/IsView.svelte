@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Is from '@nodes/Is';
     import NodeView from './NodeView.svelte';
 
-    export let node: Is;
+    interface Props {
+        node: Is;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.expression} /><NodeView node={node.operator} /><NodeView

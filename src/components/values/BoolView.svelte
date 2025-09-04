@@ -1,12 +1,14 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import Sym from '@nodes/Sym';
     import type BoolValue from '@values/BoolValue';
     import SymbolView from './SymbolView.svelte';
 
-    export let value: BoolValue;
-    export let inline = true;
+    interface Props {
+        value: BoolValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 </script>
 
 {#if inline || !inline}

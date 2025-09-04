@@ -1,0 +1,29 @@
+Make a character shake
+
+Sometimes it's helpful to have a character look like it's shaking.
+There are a few ways we can make that happen.
+
+We can use @Phrase/offset with @Random and @Time to make that happen.
+
+\
+offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('hi' offset: Place(offset 0m))
+\
+
+This creates a value called \offset\ that changes to a new random value each time the clock ticks.
+Then, it uses that offset to show the @Phrase offset by that amount.
+
+If we wanted to control the shaking more precisely, we could use a @Sequence to make a random shaking animation that repeats.
+
+\
+Phrase('hi' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))
+\
+
+This example just picks random values once, but turns them into a repeating sequence.
+
+move-phrase

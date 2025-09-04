@@ -1,32 +1,34 @@
-import StreamValue from '@values/StreamValue';
+import { createInputs } from '@locale/createInputs';
+import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import StreamDefinition from '../nodes/StreamDefinition';
+import BoolValue from '@values/BoolValue';
+import StreamValue from '@values/StreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import TextType from '../nodes/TextType';
+import type Locales from '../locale/Locales';
+import { getFirstText } from '../locale/LocaleText';
+import BooleanLiteral from '../nodes/BooleanLiteral';
 import BooleanType from '../nodes/BooleanType';
-import BoolValue from '@values/BoolValue';
-import StreamType from '../nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
-import StructureValue from '../values/StructureValue';
-import NumberValue from '../values/NumberValue';
-import { createInputs, getFirstName } from '../locale/Locale';
+import type Context from '../nodes/Context';
+import Evaluate from '../nodes/Evaluate';
 import NameType from '../nodes/NameType';
+import NumberLiteral from '../nodes/NumberLiteral';
 import NumberType from '../nodes/NumberType';
+import Reference from '../nodes/Reference';
+import StreamDefinition from '../nodes/StreamDefinition';
+import StreamType from '../nodes/StreamType';
+import type StructureDefinition from '../nodes/StructureDefinition';
+import StructureType from '../nodes/StructureType';
+import TextType from '../nodes/TextType';
+import type Type from '../nodes/Type';
 import Unit from '../nodes/Unit';
 import { createPlaceStructure } from '../output/Place';
-import NumberLiteral from '../nodes/NumberLiteral';
-import BooleanLiteral from '../nodes/BooleanLiteral';
-import Evaluate from '../nodes/Evaluate';
-import Reference from '../nodes/Reference';
-import type Context from '../nodes/Context';
-import type Type from '../nodes/Type';
-import StructureType from '../nodes/StructureType';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Locales from '../locale/Locales';
+import NumberValue from '../values/NumberValue';
+import StructureValue from '../values/StructureValue';
+import createStreamEvaluator from './createStreamEvaluator';
 
 type Direction = -1 | 0 | 1;
-type PlacementEvent = { x: Direction; y: Direction; z: Direction };
+export type PlacementEvent = { x: Direction; y: Direction; z: Direction };
 
 export default class Placement extends StreamValue<
     StructureValue,
@@ -45,20 +47,21 @@ export default class Placement extends StreamValue<
     depth: boolean;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         start: StructureValue,
         distance: number,
         horizontal: boolean,
         vertical: boolean,
-        depth: boolean
+        depth: boolean,
     ) {
-        super(evaluator, evaluator.project.shares.input.Placement, start, {
-            x: 0,
-            y: 0,
-            z: 0,
-        });
+        super(
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Placement,
+            start,
+            { x: 0, y: 0, z: 0 },
+        );
 
-        this.evaluator = evaluator;
+        this.evaluator = evaluation.getEvaluator();
         this.x = start.getNumber(0) ?? 0;
         this.y = start.getNumber(1) ?? 0;
         this.z = start.getNumber(2) ?? 0;
@@ -72,7 +75,7 @@ export default class Placement extends StreamValue<
         distance: number,
         horizontal: boolean,
         vertical: boolean,
-        depth: boolean
+        depth: boolean,
     ) {
         this.distance = distance;
         this.horizontal = horizontal;
@@ -89,7 +92,7 @@ export default class Placement extends StreamValue<
 
         this.add(
             createPlaceStructure(this.evaluator, this.x, this.y, this.z),
-            event
+            event,
         );
     }
 
@@ -103,17 +106,17 @@ export default class Placement extends StreamValue<
     getType(context: Context): Type {
         return StreamType.make(
             NameType.make(
-                context.project.shares.output.Place.names.getNames()[0]
-            )
+                context.project.shares.output.Place.names.getNames()[0],
+            ),
         );
     }
 }
 
 export function createPlacementDefinition(
     locales: Locales,
-    placeType: StructureDefinition
+    placeType: StructureDefinition,
 ) {
-    const PlaceName = locales.get((l) => getFirstName(l.output.Place.names));
+    const PlaceName = locales.get((l) => getFirstText(l.output.Place.names));
     const inputs = createInputs(locales, (l) => l.input.Placement.inputs, [
         [
             NameType.make(PlaceName),
@@ -138,19 +141,19 @@ export function createPlacementDefinition(
             Placement,
             (evaluation) =>
                 new Placement(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     evaluation.get(inputs[0].names, StructureValue) ??
                         createPlaceStructure(
                             evaluation.getEvaluator(),
                             0,
                             0,
-                            0
+                            0,
                         ),
                     evaluation.get(inputs[1].names, NumberValue)?.toNumber() ??
                         1,
                     evaluation.get(inputs[2].names, BoolValue)?.bool ?? true,
                     evaluation.get(inputs[3].names, BoolValue)?.bool ?? true,
-                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false
+                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false,
                 ),
             (stream, evaluation) =>
                 stream.configure(
@@ -158,9 +161,9 @@ export function createPlacementDefinition(
                         1,
                     evaluation.get(inputs[2].names, BoolValue)?.bool ?? true,
                     evaluation.get(inputs[3].names, BoolValue)?.bool ?? true,
-                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false
-                )
+                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false,
+                ),
         ),
-        new StructureType(placeType)
+        new StructureType(placeType),
     );
 }

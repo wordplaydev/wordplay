@@ -1,14 +1,14 @@
-import { parseNames } from '../parser/parseBind';
-import { toTokens } from '../parser/toTokens';
-import Gallery, { GallerySchemaLatestVersion } from '../models/Gallery';
-import { moderatedFlags } from '../models/Moderation';
-import type Locales from '../locale/Locales';
-import { toLocaleString } from '../locale/Locale';
-import type { GalleryText } from '../locale/GalleryTexts';
+import Gallery, { GallerySchemaLatestVersion } from '@db/galleries/Gallery';
+import type Locales from '@locale/Locales';
+import { moderatedFlags } from '../db/projects/Moderation';
 import {
     ProjectSchemaLatestVersion,
     type SerializedProject,
-} from '../models/ProjectSchemas';
+} from '../db/projects/ProjectSchemas';
+import type { GalleryText } from '../locale/GalleryTexts';
+import { localeToString } from '../locale/Locale';
+import { parseNames } from '../parser/parseBind';
+import { toTokens } from '../parser/toTokens';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
 export const ExamplePrefix = 'example-';
@@ -34,8 +34,10 @@ export function parseSerializedProject(
         const header = file.substring(0, EOL);
         const names = header.replace('===', '').trim();
         const code = file.substring(EOL);
-        for (const language of parseNames(toTokens(names)).getLanguages())
-            languages.add(language);
+        for (const name of parseNames(toTokens(names)).names) {
+            const locale = name.language?.getLocaleID();
+            if (locale) languages.add(localeToString(locale));
+        }
         return { names, code, caret: 0 };
     });
 
@@ -56,6 +58,8 @@ export function parseSerializedProject(
         gallery: null,
         flags: moderatedFlags(),
         nonPII: [],
+        chat: null,
+        history: [],
     };
 }
 
@@ -104,7 +108,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
         createGallery(
             'Games',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.games]),
+                locale.map((l) => [localeToString(l), l.gallery.games]),
             ),
             [
                 'Adventure',
@@ -114,13 +118,15 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Catch',
                 'Madlib',
                 'WheresWaldough',
+                'KatakanaGuess',
+                'FrenchNumbers',
             ],
         ),
         createGallery(
             'Visualizations',
             Object.fromEntries(
                 locale.map((l) => [
-                    toLocaleString(l),
+                    localeToString(l),
                     l.gallery.visualizations,
                 ]),
             ),
@@ -141,23 +147,38 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
         createGallery(
             'Motion',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.motion]),
+                locale.map((l) => [localeToString(l), l.gallery.motion]),
             ),
-            ['Hira', 'Layers', 'Pounce', 'FootBall', 'Christmas', 'Easing'],
+            [
+                'Hira',
+                'Layers',
+                'Pounce',
+                'FootBall',
+                'Christmas',
+                'Easing',
+                'Lyrics',
+            ],
         ),
         createGallery(
             'AV',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.av]),
+                locale.map((l) => [localeToString(l), l.gallery.av]),
             ),
             ['Listen', 'Talk', 'RainingLetters', 'Video', 'ASCII'],
         ),
         createGallery(
+            'Stories',
+            Object.fromEntries(
+                locale.map((l) => [localeToString(l), l.gallery.stories]),
+            ),
+            ['Pears', 'JapaneseClass'],
+        ),
+        createGallery(
             'Tools',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.tools]),
+                locale.map((l) => [localeToString(l), l.gallery.tools]),
             ),
-            ['Literacy', 'Timer', 'Headlines', 'SentenceLength'],
+            ['Calculator', 'Literacy', 'Timer', 'Headlines', 'SentenceLength'],
         ),
     ];
 }

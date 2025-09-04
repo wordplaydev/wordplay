@@ -1,22 +1,24 @@
 import type Conflict from '@conflicts/Conflict';
-import ConceptLink from './ConceptLink';
-import Example from './Example';
-import WebLink from './WebLink';
-import type { Grammar, Replacement } from './Node';
-import Words, { type Format } from './Words';
-import Glyphs from '../lore/Glyphs';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Node, { list, node } from '@nodes/Node';
 import Purpose from '../concepts/Purpose';
-import Content from './Content';
-import type { TemplateInput } from '../locale/concretize';
-import Token from './Token';
-import Mention from './Mention';
+import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
-import Branch from './Branch';
+import Characters from '../lore/BasisCharacters';
 import { unescapeMarkupSymbols } from '../parser/Tokenizer';
-import Node, { list, node } from '@nodes/Node';
+import Branch from './Branch';
+import ConceptLink from './ConceptLink';
+import Content from './Content';
+import Example from './Example';
+import Mention from './Mention';
+import type { Grammar, Replacement } from './Node';
 import Sym from './Sym';
-import type Locales from '../locale/Locales';
+import Token from './Token';
+import WebLink from './WebLink';
+import Words, { type Format } from './Words';
 
 export type NodeSegment =
     | Token
@@ -38,11 +40,15 @@ export default class Paragraph extends Content {
         this.segments = segments;
     }
 
-    static getPossibleNodes() {
-        return [];
+    static getPossibleReplacements() {
+        return [new Paragraph([])];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [new Paragraph([])];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'Paragraph';
     }
 
@@ -65,7 +71,7 @@ export default class Paragraph extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts(): Conflict[] {
         return [];
     }
 
@@ -79,16 +85,22 @@ export default class Paragraph extends Content {
         return this.segments.filter((s) => s instanceof Node) as NodeSegment[];
     }
 
+    withSegments(segments: Segment[]) {
+        return new Paragraph(segments);
+    }
+
     getPurpose() {
         return Purpose.Document;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Paragraph);
+    static readonly LocalePath = (l: LocaleText) => l.node.Paragraph;
+
+    getLocalePath() {
+        return Paragraph.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Paragraph;
+    getCharacter() {
+        return Characters.Paragraph;
     }
 
     concretize(
@@ -122,6 +134,31 @@ export default class Paragraph extends Content {
             (this.segments[0] instanceof Token &&
                 this.segments[0].getText().startsWith('•'))
         );
+    }
+
+    getBullets(): Paragraph[] {
+        if (this.isBulleted()) {
+            const bullets: Paragraph[] = [];
+            const remaining = this.segments.slice();
+            let current: Segment[] = [];
+            while (remaining.length > 0) {
+                const segment = remaining.shift();
+                if (segment === undefined) break;
+                if (
+                    (segment instanceof Words && segment.isBulleted()) ||
+                    (segment instanceof Token &&
+                        segment.getText().startsWith('•'))
+                ) {
+                    if (current.length > 0)
+                        bullets.push(new Paragraph(current));
+                    current = [segment];
+                } else current.push(segment);
+            }
+            if (current.length > 0) bullets.push(new Paragraph(current));
+
+            return bullets;
+        }
+        return [];
     }
 
     /** Finds all of the Words that wrap all of the content of this paragraph and gets all of their formats. */

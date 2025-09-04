@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type BooleanLiteral from '@nodes/BooleanLiteral';
     import NodeView from './NodeView.svelte';
 
-    export let node: BooleanLiteral;
+    interface Props {
+        node: BooleanLiteral;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.value} />

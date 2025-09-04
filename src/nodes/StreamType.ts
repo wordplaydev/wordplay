@@ -1,14 +1,15 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { STREAM_SYMBOL } from '@parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
 import AnyType from './AnyType';
 import type Context from './Context';
 import { node, type Grammar, type Replacement } from './Node';
-import Token from './Token';
 import Sym from './Sym';
+import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import Glyphs from '../lore/Glyphs';
-import type Locales from '../locale/Locales';
 
 export const STREAM_NATIVE_TYPE_NAME = 'stream';
 
@@ -28,11 +29,11 @@ export default class StreamType extends Type {
     static make(type?: Type) {
         return new StreamType(
             new Token(STREAM_SYMBOL, Sym.Stream),
-            type ?? new AnyType()
+            type ?? new AnyType(),
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamType';
     }
 
@@ -44,7 +45,7 @@ export default class StreamType extends Type {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
@@ -53,7 +54,7 @@ export default class StreamType extends Type {
             .every(
                 (type) =>
                     type instanceof StreamType &&
-                    this.type.accepts(type.type, context)
+                    this.type.accepts(type.type, context),
             );
     }
 
@@ -61,18 +62,23 @@ export default class StreamType extends Type {
         return 'stream';
     }
 
+    concretize(context: Context) {
+        return StreamType.make(this.type.concretize(context));
+    }
+
     clone(replace?: Replacement) {
         return new StreamType(
             this.replaceChild('stream', this.stream, replace),
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StreamType);
+    static readonly LocalePath = (l: LocaleText) => l.node.StreamType;
+    getLocalePath() {
+        return StreamType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

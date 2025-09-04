@@ -1,8 +1,11 @@
 import Expression from './Expression';
 import type Node from './Node';
-import { DefaultLocales } from '../locale/DefaultLocale';
 
 export type Path = { type: string; index: number }[];
+type Cache = {
+    parents: Map<Node, Node>;
+    ids: Map<number, Node>;
+};
 
 /**
  * Represents a node and everything in it, providing accessors for parents, accessors, children, and more.
@@ -12,29 +15,34 @@ export default class Root {
     readonly root: Node;
 
     /** A mapping from child to parent */
-    readonly parents: Map<Node, Node>;
-    readonly ids: Map<number, Node>;
+    private cache: undefined | Cache = undefined;
 
     constructor(node: Node) {
         this.root = node;
-
-        this.parents = new Map();
-        this.ids = new Map();
-
-        Root.walk(this.ids, this.parents, node);
     }
 
-    static walk(ids: Map<number, Node>, parents: Map<Node, Node>, node: Node) {
-        ids.set(node.id, node);
+    static walk(cache: Cache, node: Node) {
+        cache.ids.set(node.id, node);
         for (const child of node.getChildren()) {
-            parents.set(child, node);
-            Root.walk(ids, parents, child);
+            cache.parents.set(child, node);
+            Root.walk(cache, child);
         }
+    }
+
+    private getCache() {
+        if (this.cache) return this.cache;
+        const cache: Cache = {
+            parents: new Map<Node, Node>(),
+            ids: new Map<number, Node>(),
+        };
+        Root.walk(cache, this.root);
+        this.cache = cache;
+        return this.cache;
     }
 
     /** Returns true if this root contains the given node. */
     has(node: Node) {
-        return node === this.root || this.parents.has(node);
+        return node === this.root || this.getCache().parents.has(node);
     }
 
     hasID(id: number) {
@@ -42,12 +50,12 @@ export default class Root {
     }
 
     getID(id: number) {
-        return this.ids.get(id);
+        return this.getCache().ids.get(id);
     }
 
     /** Returns the parent of the given node, or undefined if it has none. */
     getParent(node: Node) {
-        return this.parents.get(node);
+        return this.getCache().parents.get(node);
     }
 
     /** Get the ancestors of the given node, from parent to root. */
@@ -85,7 +93,7 @@ export default class Root {
     getEvaluationRoot(node: Node) {
         return this.getAncestors(node).find(
             (ancestor) =>
-                ancestor instanceof Expression && ancestor.isEvaluationRoot()
+                ancestor instanceof Expression && ancestor.isEvaluationRoot(),
         ) as Expression | undefined;
     }
 
@@ -156,7 +164,7 @@ export default class Root {
             return [
                 ...this.getPath(parent),
                 {
-                    type: parent.getNodeLocale(DefaultLocales).name,
+                    type: parent.getDescriptor(),
                     index: parent.getChildren().indexOf(node),
                 },
             ];
@@ -175,8 +183,7 @@ export default class Root {
             node && index !== undefined ? node.getChildren()[index] : undefined;
 
         // If the type of node doesn't match, this path doesn't resolve.
-        return node.getNodeLocale(DefaultLocales).name !== type ||
-            child === undefined
+        return node.getDescriptor() !== type || child === undefined
             ? undefined
             : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
               // in which case the path doesn't resolve.

@@ -1,7 +1,12 @@
-import { writable } from 'svelte/store';
 import { OR_SYMBOL } from '@parser/Symbols';
-import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
-import type Locale from '../locale/Locale';
+import { writable } from 'svelte/store';
+import type LocaleText from '../locale/LocaleText';
+import {
+    Latin,
+    LatinCyrillicGreek,
+    Scripts,
+    type Script,
+} from '../locale/Scripts';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -121,20 +126,26 @@ const NotoSansMono: Face = {
 /**
  * A data structure that represents fonts that creators can use to style phrases.
  */
-const Faces: Record<string, Face> = {
+export const Faces: Record<string, Face> = {
     'Noto Sans': NotoSans,
     'Noto Sans Japanese': {
         weights: { min: 100, max: 900 },
         italic: false,
-        scripts: ['Jpan'],
+        scripts: ['Hira', 'Kana', 'Hani'],
         format: 'woff2',
+    },
+    'Noto Sans Korean': {
+        weights: { min: 100, max: 900 },
+        italic: false,
+        scripts: ['Hang'],
+        format: 'ttf',
     },
     'Noto Emoji': NotoEmoji,
     'Noto Color Emoji': NotoColorEmoji,
     'Noto Sans Simplified Chinese': {
         weights: [100, 300, 400, 500, 700, 900],
         italic: false,
-        scripts: ['Hani'],
+        scripts: ['Hani', 'Hans'],
         format: 'otf',
     },
     'Noto Sans Mono': NotoSansMono,
@@ -150,12 +161,7 @@ const Faces: Record<string, Face> = {
         scripts: ['Latn'],
         format: 'woff2',
     },
-    Borel: {
-        weights: [400],
-        italic: false,
-        scripts: Latin,
-        format: 'woff2',
-    },
+    Borel: { weights: [400], italic: false, scripts: Latin, format: 'woff2' },
     Roboto: {
         weights: [100, 300, 400, 500, 700, 900],
         italic: true,
@@ -252,12 +258,7 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
-    Monoton: {
-        weights: [400],
-        italic: false,
-        scripts: Latin,
-        format: 'woff2',
-    },
+    Monoton: { weights: [400], italic: false, scripts: Latin, format: 'woff2' },
     Aclonica: {
         weights: [400],
         italic: false,
@@ -276,6 +277,12 @@ const Faces: Record<string, Face> = {
         italic: false,
         scripts: Latin,
         format: 'woff2',
+    },
+    Delius: {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
     },
     'Short Stack': {
         weights: [400],
@@ -304,8 +311,14 @@ const Faces: Record<string, Face> = {
     Megrim: {
         weights: [400],
         italic: false,
-        scripts: Latin,
+        scripts: ['Latn', 'Cyrl'],
         format: 'woff2',
+    },
+    Merriweather: {
+        weights: { min: 300, max: 700 },
+        italic: true,
+        scripts: Latin,
+        format: 'ttf',
     },
     Modak: {
         weights: [400],
@@ -322,7 +335,7 @@ const Faces: Record<string, Face> = {
     'Rampart One': {
         weights: [400],
         italic: false,
-        scripts: ['Latn', 'Jpan'],
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani'],
         format: 'woff2',
     },
     Codystar: {
@@ -355,6 +368,84 @@ const Faces: Record<string, Face> = {
         scripts: Latin,
         format: 'woff2',
     },
+    'Comic Neue': {
+        weights: [300, 400, 700],
+        italic: true,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    Papyrus: {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    'Dreaming Outloud': {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'otf',
+    },
+    'Modern Love': {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    Broadway: {
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+        format: 'ttf',
+    },
+    'Black Han Sans': {
+        weights: [400],
+        italic: false,
+        scripts: ['Latn', 'Hang'],
+        format: 'ttf',
+    },
+    'Dot Gothic 16': {
+        weights: [400],
+        italic: false,
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani', 'Cyrl'],
+        format: 'ttf',
+    },
+    'Hi Melody': {
+        weights: [400],
+        italic: false,
+        scripts: ['Latn', 'Hira', 'Kana', 'Hani', 'Cyrl'],
+        format: 'ttf',
+    },
+    'Potta One': {
+        weights: [400],
+        italic: false,
+        scripts: ['Hira', 'Kana', 'Hani', 'Latn'],
+        format: 'ttf',
+    },
+    Stick: {
+        weights: [400],
+        italic: false,
+        scripts: ['Hira', 'Kana', 'Hani', 'Latn', 'Cyrl'],
+        format: 'ttf',
+    },
+    'ZCOOL KuaiLe': {
+        weights: [400],
+        italic: false,
+        scripts: ['Hani', 'Hans'],
+        format: 'ttf',
+    },
+    'ZCOOL QingKe HuangYou': {
+        weights: [400],
+        italic: false,
+        scripts: ['Hani', 'Hans'],
+        format: 'ttf',
+    },
+    'Zhi Mang Xing': {
+        weights: [400],
+        italic: false,
+        scripts: ['Hani', 'Hans'],
+        format: 'ttf',
+    },
 };
 
 /** The font face names supported. To add one, carefully add metadata to Faces and files to /static/fonts/. */
@@ -377,6 +468,9 @@ export class FontManager {
     ];
 
     facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();
+
+    /** A cache of font strings for which FontFaceSet.check() returned true */
+    facesChecked = new Set<string>();
 
     constructor() {
         // Mark these as loaded so we don't redundantly load them.
@@ -405,12 +499,19 @@ export class FontManager {
     }
 
     isFaceLoaded(face: SupportedFace) {
-        return (
-            this.isFaceRequested(face) && document.fonts.check(`12px "${face}"`)
-        );
+        const faceString = `12px "${face}"`;
+        const checked = this.facesChecked.has(faceString);
+
+        if (checked) return true;
+        if (!this.isFaceRequested(face)) return false;
+        const check = document.fonts.check(faceString);
+        if (check) {
+            this.facesChecked.add(faceString);
+            return true;
+        } else return false;
     }
 
-    loadLocales(locales: Locale[]) {
+    loadLocales(locales: LocaleText[]) {
         for (const locale of locales) {
             this.loadFace(locale.ui.font.app);
             this.loadFace(locale.ui.font.code);
@@ -421,7 +522,7 @@ export class FontManager {
         const face = Faces[name];
 
         // If preloaded, don't load it.
-        if (face.preloaded === true) return;
+        if (face !== undefined && face.preloaded === true) return;
 
         if (this.facesLoaded.get(name) === 'loaded') return;
 
@@ -435,8 +536,8 @@ export class FontManager {
                 face.ranges === undefined
                     ? undefined
                     : Array.isArray(face.ranges)
-                    ? face.ranges
-                    : [face.ranges];
+                      ? face.ranges
+                      : [face.ranges];
 
             // If the face has specific weights, load all of the individual ways, split by the ranges specified.
             if (Array.isArray(face.weights)) {
@@ -447,7 +548,7 @@ export class FontManager {
                         face.weights,
                         false,
                         ranges,
-                        face.format
+                        face.format,
                     ),
                 ];
                 if (face.italic)
@@ -458,7 +559,7 @@ export class FontManager {
                             face.weights,
                             true,
                             ranges,
-                            face.format
+                            face.format,
                         ),
                     ];
             }
@@ -472,7 +573,7 @@ export class FontManager {
                             italic: face.italic,
                             format: face.format,
                             range: undefined,
-                        })
+                        }),
                     );
                 else {
                     for (const range of ranges)
@@ -483,7 +584,7 @@ export class FontManager {
                                 italic: face.italic,
                                 format: face.format,
                                 range: range,
-                            })
+                            }),
                         );
                 }
             }
@@ -496,7 +597,7 @@ export class FontManager {
 
         this.facesLoaded.set(
             name,
-            loads.every((loaded) => loaded) ? 'loaded' : 'failed'
+            loads.every((loaded) => loaded) ? 'loaded' : 'failed',
         );
     }
 
@@ -505,7 +606,7 @@ export class FontManager {
         weights: FontWeight[],
         ital: boolean,
         ranges: string[] | undefined,
-        format: FontFormat
+        format: FontFormat,
     ): Promise<boolean>[] {
         const promises: Promise<boolean>[] = [];
         for (const weight of weights) {
@@ -517,7 +618,7 @@ export class FontManager {
                         italic: ital,
                         format: format,
                         range: undefined,
-                    })
+                    }),
                 );
             else {
                 for (const range of ranges) {
@@ -528,7 +629,7 @@ export class FontManager {
                             italic: ital,
                             format: format,
                             range: range,
-                        })
+                        }),
                     );
                 }
             }
@@ -570,12 +671,14 @@ export class FontManager {
                 supportedFace.format
             }`,
             {
-                style: font.italic ? 'italic' : 'normal',
-                weight: Array.isArray(supportedFace.weights)
-                    ? font.weight.toString()
-                    : `${supportedFace.weights.min} ${supportedFace.weights.max}`,
-                unicodeRange: font.range,
-            }
+                ...{
+                    style: font.italic ? 'italic' : 'normal',
+                    weight: Array.isArray(supportedFace.weights)
+                        ? font.weight.toString()
+                        : `${supportedFace.weights.min} ${supportedFace.weights.max}`,
+                },
+                ...(font.range ? { unicodeRange: font.range } : {}),
+            },
         );
         document.fonts.add(fontFace);
 
@@ -589,6 +692,11 @@ export class FontManager {
 const Fonts = new FontManager();
 export default Fonts;
 
+/** The Wordplay text union type representing all valid font face names. */
 export const SupportedFontsFamiliesType = SupportedFaces.map(
-    (font) => `"${font}"`
+    (font) => `"${font}"`,
 ).join(OR_SYMBOL);
+
+export function getFaceDescription(name: string, face: Face) {
+    return `${name} [${face.scripts.map((s) => Scripts[s]?.name ?? '?').join(' ')}]`;
+}

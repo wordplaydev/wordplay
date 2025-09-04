@@ -1,7 +1,6 @@
 import type NumberLiteral from '@nodes/NumberLiteral';
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class NotANumber extends Conflict {
     readonly measurement: NumberLiteral;
@@ -16,11 +15,8 @@ export class NotANumber extends Conflict {
             primary: {
                 node: this.measurement,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.NumberLiteral.conflict.NotANumber
-                        )
+                    locales.concretize(
+                        (l) => l.node.NumberLiteral.conflict.NotANumber,
                     ),
             },
         };

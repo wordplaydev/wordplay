@@ -1,87 +1,91 @@
-import Bind from '@nodes/Bind';
 import type Conflict from '@conflicts/Conflict';
-import MisplacedInput from '@conflicts/MisplacedInput';
-import MissingInput from '@conflicts/MissingInput';
-import UnexpectedInput from '@conflicts/UnexpectedInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
+import MissingInput from '@conflicts/MissingInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
-import StructureType from './StructureType';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import type Token from './Token';
-import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import Evaluation from '@runtime/Evaluation';
-import FunctionValue from '@values/FunctionValue';
-import type Step from '@runtime/Step';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import StructureDefinitionValue from '@values/StructureDefinitionValue';
-import type Context from './Context';
-import Halt from '@runtime/Halt';
-import ListValue from '@values/ListValue';
-import StructureDefinition from './StructureDefinition';
-import FunctionDefinition from './FunctionDefinition';
-import TypeInputs from './TypeInputs';
-import { getEvaluationInputConflicts } from './util';
-import ListType from './ListType';
-import type TypeSet from './TypeSet';
-import FunctionException from '@values/FunctionException';
-import ValueException from '@values/ValueException';
-import ExceptionValue from '@values/ExceptionValue';
-import UnknownInput from '@conflicts/UnknownInput';
-import getConcreteExpectedType from './Generics';
-import Names from './Names';
-import EvalOpenToken from './EvalOpenToken';
-import EvalCloseToken from './EvalCloseToken';
+import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import PropertyReference from './PropertyReference';
-import NeverType from './NeverType';
-import { node, type Grammar, type Replacement, any, none, list } from './Node';
-import type Node from './Node';
+import UnknownInput from '@conflicts/UnknownInput';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Bind from '@nodes/Bind';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Halt from '@runtime/Halt';
+import Start from '@runtime/Start';
 import StartEvaluation from '@runtime/StartEvaluation';
+import type Step from '@runtime/Step';
+import ExceptionValue from '@values/ExceptionValue';
+import FunctionException from '@values/FunctionException';
+import FunctionValue from '@values/FunctionValue';
+import ListValue from '@values/ListValue';
+import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import UnimplementedException from '@values/UnimplementedException';
+import type Value from '@values/Value';
+import ValueException from '@values/ValueException';
+import Purpose from '../concepts/Purpose';
+import Refer from '../edit/Refer';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
+import TypeException from '../values/TypeException';
+import AnyType from './AnyType';
+import BasisType from './BasisType';
+import Block from './Block';
+import type Context from './Context';
+import EvalCloseToken from './EvalCloseToken';
+import EvalOpenToken from './EvalOpenToken';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import FunctionDefinition from './FunctionDefinition';
+import FunctionType from './FunctionType';
+import getConcreteExpectedType from './Generics';
+import Input from './Input';
+import ListType from './ListType';
+import Names from './Names';
+import NameType from './NameType';
+import NeverType from './NeverType';
+import type Node from './Node';
+import { any, list, node, none, type Grammar, type Replacement } from './Node';
+import NoExpressionType from './NoExpressionType';
+import { NonFunctionType } from './NonFunctionType';
+import PropertyReference from './PropertyReference';
+import Reference from './Reference';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionType from './StreamDefinitionType';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import Glyphs from '../lore/Glyphs';
-import FunctionType from './FunctionType';
-import AnyType from './AnyType';
-import concretize from '../locale/concretize';
+import StructureDefinition from './StructureDefinition';
+import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import Sym from './Sym';
-import Refer from '../edit/Refer';
-import BasisType from './BasisType';
-import Purpose from '../concepts/Purpose';
-import TypeException from '../values/TypeException';
+import type Token from './Token';
+import type Type from './Type';
+import TypeInputs from './TypeInputs';
+import type TypeSet from './TypeSet';
 import TypeVariable from './TypeVariable';
-import NameType from './NameType';
-import { NonFunctionType } from './NonFunctionType';
-import type Locales from '../locale/Locales';
 import UnionType from './UnionType';
+import { getEvaluationInputConflicts } from './util';
 
 type Mapping = {
     expected: Bind;
-    given: undefined | Expression | Expression[];
+    given: undefined | Expression | Expression[] | Input;
 };
 
-type InputMapping = {
-    inputs: Mapping[];
-    extra: Expression[];
-};
+type InputMapping = { inputs: Mapping[]; extra: (Expression | Input)[] };
 
 export default class Evaluate extends Expression {
     readonly fun: Expression;
     readonly types: TypeInputs | undefined;
     readonly open: Token;
-    readonly inputs: Expression[];
-    readonly close?: Token;
+    readonly inputs: (Expression | Input)[];
+    readonly close: Token | undefined;
 
     constructor(
         func: Expression,
         types: TypeInputs | undefined,
         open: Token,
-        inputs: Expression[],
+        inputs: (Expression | Input)[],
         close?: Token,
     ) {
         super();
@@ -105,13 +109,13 @@ export default class Evaluate extends Expression {
         );
     }
 
-    static getPossibleNodes(
+    static getPossibleEvaluations(
         expectedType: Type | undefined,
-        anchor: Node,
-        isBeingReplaced: boolean,
+        node: Node,
+        replace: boolean,
         context: Context,
     ) {
-        const nodeBeingReplaced = isBeingReplaced ? anchor : undefined;
+        const nodeBeingReplaced = replace ? node : undefined;
 
         // Given the node the caret has selected or is after, find out
         // if there's an evaluate on it that we should complete.
@@ -134,9 +138,9 @@ export default class Evaluate extends Expression {
                       scopingType instanceof StructureType
                       ? scopingType.definition.getDefinitions(nodeBeingReplaced)
                       : // Otherwise, get definitions in scope of the anchor
-                        anchor.getDefinitionsInScope(context)
+                        node.getDefinitionsInScope(context)
                 : // If the node is not selected, get definitions in the anchor's scope
-                  anchor.getDefinitionsInScope(context);
+                  node.getDefinitionsInScope(context);
 
         // This probably doesn't belong here. The expected type is the expected type, and it should be correct.
         // if (!isBeingReplaced && structure) expectedType = undefined;
@@ -177,7 +181,7 @@ export default class Evaluate extends Expression {
                             def.getEvaluateTemplate(
                                 name,
                                 context,
-                                isBeingReplaced &&
+                                replace &&
                                     structure &&
                                     nodeBeingReplaced instanceof Expression
                                     ? nodeBeingReplaced
@@ -188,7 +192,15 @@ export default class Evaluate extends Expression {
             );
     }
 
-    getDescriptor() {
+    static getPossibleReplacements({ node, type, context }: EditContext) {
+        return this.getPossibleEvaluations(type, node, true, context);
+    }
+
+    static getPossibleAppends({ node, type, context }: EditContext) {
+        return this.getPossibleEvaluations(type, node, false, context);
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'Evaluate';
     }
 
@@ -209,20 +221,19 @@ export default class Evaluate extends Expression {
                         ),
                         new AnyType(),
                     ),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Evaluate.function),
+                label: () => (l) => l.node.Evaluate.function,
             },
             { name: 'types', kind: any(node(TypeInputs), none()) },
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
-                kind: list(true, node(Expression)),
+                kind: list(true, node(Input), node(Expression)),
                 label: (locales: Locales, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return locales.get((l) => l.node.Evaluate.input);
+                        return (l) => l.node.Evaluate.input;
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(context);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -234,8 +245,8 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child))),
                     );
                     return bind === undefined
-                        ? locales.get((l) => l.node.Evaluate.input)
-                        : locales.getName(bind.expected.names);
+                        ? (l) => l.node.Evaluate.input
+                        : () => locales.getName(bind.expected.names);
                 },
                 space: true,
                 indent: true,
@@ -287,10 +298,7 @@ export default class Evaluate extends Expression {
         const givenInputs = this.inputs.slice();
 
         // Prepare a list of mappings.
-        const mappings: InputMapping = {
-            inputs: [],
-            extra: [],
-        };
+        const mappings: InputMapping = { inputs: [], extra: [] };
 
         // Loop through each of the expected types and see if the given types match.
         for (const expectedInput of expectedInputs) {
@@ -300,7 +308,9 @@ export default class Evaluate extends Expression {
                 given: undefined,
             };
 
-            if (expectedInput.isRequired()) mapping.given = givenInputs.shift();
+            if (expectedInput.isRequired()) {
+                mapping.given = givenInputs.shift();
+            }
             // If it's optional, go through each input to see if it's provided in the remaining inputs.
             else {
                 // If it's variable length, check all of the remaining given inputs to see if they match this type.
@@ -308,24 +318,29 @@ export default class Evaluate extends Expression {
                     mapping.given = [];
                     while (givenInputs.length > 0) {
                         const given = givenInputs.shift();
-                        if (given) mapping.given.push(given);
+                        if (given)
+                            mapping.given.push(
+                                given instanceof Input ? given.value : given,
+                            );
                     }
                 }
                 // If it's just an optional input, see if any of the given inputs provide it by name.
                 else {
                     // Is there a named input that matches?
                     const bind = givenInputs.find(
-                        (i) => i instanceof Bind && i.sharesName(expectedInput),
+                        (i) =>
+                            i instanceof Input &&
+                            expectedInput.hasName(i.getName()),
                     );
-                    if (bind instanceof Bind) {
+                    if (bind instanceof Input) {
                         // Remove it from the given inputs list.
                         givenInputs.splice(givenInputs.indexOf(bind), 1);
                         mapping.given = bind;
                     }
-                    // If there wasn't a named input matching, see if the next non-bind expression matches the type.
+                    // If there wasn't a named input matching, see if the next non-input expression matches the type.
                     else if (
                         givenInputs.length > 0 &&
-                        !(givenInputs[0] instanceof Bind)
+                        !(givenInputs[0] instanceof Input)
                     ) {
                         mapping.given = givenInputs.shift();
                     }
@@ -349,12 +364,13 @@ export default class Evaluate extends Expression {
         context: Context,
     ): Expression | Expression[] | undefined {
         const mapping = this.getInputMapping(context);
-        const given = mapping?.inputs.find((input) => input.expected === bind)
-            ?.given;
-        return given instanceof Bind ? given.value : given;
+        const given = mapping?.inputs.find(
+            (input) => input.expected === bind,
+        )?.given;
+        return given instanceof Input ? given.value : given;
     }
 
-    getLastInput(): Expression | undefined {
+    getLastInput(): Expression | Input | undefined {
         return this.inputs[this.inputs.length - 1];
     }
 
@@ -371,10 +387,8 @@ export default class Evaluate extends Expression {
         const mapping = this.getMappingFor(bind, context);
         if (mapping === undefined) return this;
 
-        // If we'replacing with nothing
-
         // If it's already bound, replace the binding.
-        if (mapping.given instanceof Bind) {
+        if (mapping.given instanceof Input) {
             if (expression === undefined)
                 return this.replace(mapping.given, expression);
             else if (mapping.given.value)
@@ -386,14 +400,7 @@ export default class Evaluate extends Expression {
         else if (mapping.given === undefined && expression !== undefined) {
             return this.replace(this.inputs, [
                 ...this.inputs,
-                named
-                    ? Bind.make(
-                          undefined,
-                          Names.make([bind.getNames()[0]]),
-                          undefined,
-                          expression,
-                      )
-                    : expression,
+                named ? Input.make(bind.getNames()[0], expression) : expression,
             ]);
         }
 
@@ -411,6 +418,12 @@ export default class Evaluate extends Expression {
         );
     }
 
+    getInputDefinition(input: Expression, context: Context): Bind | undefined {
+        return this.getInputMapping(context)?.inputs.find(
+            (map) => map.given === input,
+        )?.expected;
+    }
+
     getMappingFor(bind: Bind, context: Context) {
         // Figure out what the current mapping is.
         const mappings = this.getInputMapping(context);
@@ -420,7 +433,7 @@ export default class Evaluate extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        const conflicts = [];
+        const conflicts: Conflict[] = [];
 
         if (this.close === undefined)
             conflicts.push(
@@ -438,11 +451,11 @@ export default class Evaluate extends Expression {
                 fun instanceof StructureDefinition ||
                 fun instanceof StreamDefinition
             )
-        )
+        ) {
             return [
                 new IncompatibleInput(
                     this.fun instanceof PropertyReference
-                        ? this.fun.name ?? this.fun
+                        ? (this.fun.name ?? this.fun)
                         : this.fun,
                     this.fun instanceof PropertyReference
                         ? this.fun.structure.getType(context)
@@ -450,6 +463,7 @@ export default class Evaluate extends Expression {
                     FunctionType.make(undefined, [], new AnyType()),
                 ),
             ];
+        }
 
         // If it's a structure definition, can we create it?
         if (fun instanceof StructureDefinition) {
@@ -487,9 +501,18 @@ export default class Evaluate extends Expression {
                         ),
                     ];
 
-                // Given a bind with an incompatible name? Conflict.
-                if (given instanceof Bind && !expected.sharesName(given))
-                    return [new MisplacedInput(fun, this, expected, given)];
+                // Given a named with an incompatible name? Conflict.
+                if (
+                    given instanceof Input &&
+                    !expected.hasName(given.getName())
+                )
+                    return [
+                        new UnexpectedInput(
+                            fun,
+                            this,
+                            given instanceof Input ? given.value : given,
+                        ),
+                    ];
 
                 // Concretize the expected type.
                 const expectedType = getConcreteExpectedType(
@@ -501,7 +524,12 @@ export default class Evaluate extends Expression {
 
                 // Figure out what type this expected input is. Resolve any type variables to concrete values.
                 if (given instanceof Expression) {
-                    const givenType = given.getType(context);
+                    // Don't rely on the bind's specified type, since it's not a reliable source of type information. Ask it's value directly.
+                    const givenType =
+                        given instanceof Input
+                            ? (given.value?.getType(context) ??
+                              new NoExpressionType(given))
+                            : given.getType(context);
                     if (!expectedType.accepts(givenType, context, given))
                         conflicts.push(
                             new IncompatibleInput(
@@ -551,16 +579,14 @@ export default class Evaluate extends Expression {
             // See if any of the remaining given inputs are bound to unknown names.
             for (const given of mapping.extra) {
                 if (
-                    given instanceof Bind &&
-                    !fun.inputs.some((expected) => expected.sharesName(given))
-                )
+                    given instanceof Input &&
+                    !fun.inputs.some((expected) =>
+                        expected.hasName(given.getName()),
+                    )
+                ) {
                     conflicts.push(new UnknownInput(fun, this, given));
+                } else conflicts.push(new UnexpectedInput(fun, this, given));
             }
-
-            // If there are remaining given inputs that didn't match anything, something's wrong.
-            if (mapping.extra.length > 0)
-                for (const extra of mapping.extra)
-                    conflicts.push(new UnexpectedInput(fun, this, extra));
 
             // Check type
             if (!(fun instanceof StreamDefinition)) {
@@ -587,6 +613,53 @@ export default class Evaluate extends Expression {
             }
         }
 
+        // If there are two consectutive IncompatibleInput conflicts, and the first is a StructureDefinitionType and the next is a block,
+        // offer to remove the space separating them.
+
+        const possibleEvaluates: [
+            Reference,
+            boolean,
+            Block,
+            Conflict,
+            Conflict,
+        ][] = [];
+        conflicts.find((conflict, index, conflicts) => {
+            const next = conflicts[index + 1];
+            if (
+                conflict instanceof IncompatibleInput &&
+                (conflict.givenType instanceof StructureDefinitionType ||
+                    conflict.givenType instanceof FunctionType) &&
+                next instanceof IncompatibleInput &&
+                next.givenNode instanceof Block
+            ) {
+                const ref = conflict.givenNode
+                    .nodes()
+                    .findLast((n): n is Reference => n instanceof Reference);
+                if (ref instanceof Reference)
+                    possibleEvaluates.push([
+                        ref,
+                        conflict.givenType instanceof StructureDefinitionType,
+                        next.givenNode,
+                        conflict,
+                        next,
+                    ]);
+            }
+        });
+
+        for (const [
+            ref,
+            structure,
+            block,
+            first,
+            second,
+        ] of possibleEvaluates) {
+            // Remove the two conflicts from the list.
+            conflicts.splice(conflicts.indexOf(first), 1);
+            conflicts.splice(conflicts.indexOf(second), 1);
+            // Add a new one.
+            conflicts.push(new SeparatedEvaluate(ref, block, structure));
+        }
+
         return conflicts;
     }
 
@@ -602,8 +675,8 @@ export default class Evaluate extends Expression {
 
         return type instanceof FunctionType && type.definition
             ? type.definition
-            : type instanceof StructureType
-              ? type.definition
+            : type instanceof StructureDefinitionType
+              ? type.type.definition
               : type instanceof StreamDefinitionType
                 ? type.definition
                 : undefined;
@@ -673,20 +746,14 @@ export default class Evaluate extends Expression {
 
     getDependencies(context: Context): Expression[] {
         const fun = this.getFunction(context);
-        const expression =
-            fun === undefined
-                ? undefined
-                : fun instanceof FunctionDefinition &&
-                    fun.expression !== undefined
-                  ? fun.expression
-                  : fun instanceof StructureDefinition
-                    ? fun.expression
-                    : undefined;
+        const expression = fun?.expression;
 
         // Evaluates depend on their function, their inputs, and the function's expression.
         return [
             this.fun,
-            ...this.inputs,
+            ...this.inputs.map((input) =>
+                input instanceof Input ? input.value : input,
+            ),
             ...(expression === undefined ? [] : [expression]),
         ];
     }
@@ -775,7 +842,10 @@ export default class Evaluate extends Expression {
                         expectedType.accepts(given.getType(context), context);
 
                     return [
-                        ...given.compile(evaluator, context),
+                        ...(given instanceof Input
+                            ? given.value
+                            : given
+                        ).compile(evaluator, context),
                         // Evaluate, but if the type was not acceptable, halt
                         ...(acceptable
                             ? []
@@ -841,10 +911,11 @@ export default class Evaluate extends Expression {
         const definition = definitionValue.definition;
 
         // Build the bindings using the definition's inputs and bail if there's an exception
-        const bindings = this.buildBindings(
+        const bindings = buildBindings(
             evaluator,
             definition.inputs,
             values,
+            this,
         );
         if (bindings instanceof ExceptionValue) return bindings;
 
@@ -904,36 +975,6 @@ export default class Evaluate extends Expression {
         return evaluator.popValue(this);
     }
 
-    buildBindings(
-        evaluator: Evaluator,
-        inputs: Bind[],
-        values: Value[],
-    ): Map<Names, Value> | ExceptionValue {
-        // Build the bindings, backwards because they are in reverse on the stack.
-        const bindings = new Map<Names, Value>();
-        for (let i = 0; i < inputs.length; i++) {
-            const bind = inputs[i];
-
-            // Are we missing an input? Throw an excpected value exception.
-            if (i >= values.length) return new ValueException(evaluator, this);
-
-            // If it's variable length, take the rest of the values and stop.
-            if (bind.isVariableLength()) {
-                // If there's only one more value and it's already a list, just set it to the list.
-                bindings.set(
-                    bind.names,
-                    values[i] instanceof ListValue
-                        ? values[i]
-                        : new ListValue(this, values.slice(i)),
-                );
-                break;
-            }
-            // Otherwise, just set this value.
-            bindings.set(bind.names, values[i]);
-        }
-        return bindings;
-    }
-
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.fun instanceof Expression)
             this.fun.evaluateTypeGuards(current, guard);
@@ -952,14 +993,14 @@ export default class Evaluate extends Expression {
         return this.close ?? this.fun;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Evaluate);
+    static readonly LocalePath = (l: LocaleText) => l.node.Evaluate;
+    getLocalePath() {
+        return Evaluate.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Evaluate.start),
+        return locales.concretize(
+            (l) => l.node.Evaluate.start,
             this.inputs.length > 0,
         );
     }
@@ -969,9 +1010,8 @@ export default class Evaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Evaluate.finish),
+        return locales.concretize(
+            (l) => l.node.Evaluate.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
@@ -981,11 +1021,42 @@ export default class Evaluate extends Expression {
         return [names ? locales.getName(names) : undefined];
     }
 
-    getGlyphs() {
-        return Glyphs.Evaluate;
+    getCharacter() {
+        return Characters.Evaluate;
     }
 
     getKind() {
         return ExpressionKind.Evaluate;
     }
+}
+
+export function buildBindings(
+    evaluator: Evaluator,
+    inputs: Bind[],
+    values: Value[],
+    creator: Expression,
+): Map<Names, Value> | ExceptionValue {
+    // Build the bindings, backwards because they are in reverse on the stack.
+    const bindings = new Map<Names, Value>();
+    for (let i = 0; i < inputs.length; i++) {
+        const bind = inputs[i];
+
+        // Are we missing an input? Throw an excpected value exception.
+        if (i >= values.length) return new ValueException(evaluator, creator);
+
+        // If it's variable length, take the rest of the values and stop.
+        if (bind.isVariableLength()) {
+            // If there's only one more value and it's already a list, just set it to the list.
+            bindings.set(
+                bind.names,
+                values[i] instanceof ListValue
+                    ? values[i]
+                    : new ListValue(creator, values.slice(i)),
+            );
+            break;
+        }
+        // Otherwise, just set this value.
+        bindings.set(bind.names, values[i]);
+    }
+    return bindings;
 }

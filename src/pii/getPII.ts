@@ -20,16 +20,19 @@ export type PII = { kind: PIIKind; text: string };
  * privacy laws too, like COPPA.
  **/
 export default function getPII(text: string): PII[] {
-    return [
-        ...matchestoPII(text, 'email', EmailRegex),
-        ...matchestoPII(text, 'phone', PhoneNumberRegex),
-        ...matchestoPII(text, 'tin', SSNRegex),
-        ...matchestoPII(text, 'handle', HandleRegex),
-        ...matchestoPII(text, 'address', AddressRegex),
-    ];
+    /** Avoid catastrophic backtracking on long strings */
+    return text.length > 100
+        ? []
+        : [
+              ...matchesToPII(text, 'email', EmailRegex),
+              ...matchesToPII(text, 'phone', PhoneNumberRegex),
+              ...matchesToPII(text, 'tin', SSNRegex),
+              ...matchesToPII(text, 'handle', HandleRegex),
+              ...matchesToPII(text, 'address', AddressRegex),
+          ];
 }
 
-function matchestoPII(text: string, kind: PIIKind, regex: RegExp): PII[] {
+function matchesToPII(text: string, kind: PIIKind, regex: RegExp): PII[] {
     return Array.from(text.matchAll(regex))
         .map((matches) =>
             matches.map((text) => {

@@ -1,18 +1,18 @@
-import StructureDefinition from '@nodes/StructureDefinition';
-import Block, { BlockKind } from '@nodes/Block';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import { createBasisConversion, createBasisFunction } from './Basis';
-import BoolValue from '@values/BoolValue';
-import BooleanType from '../nodes/BooleanType';
+import Block, { BlockKind } from '@nodes/Block';
+import StructureDefinition from '@nodes/StructureDefinition';
 import type Evaluation from '@runtime/Evaluation';
-import type Expression from '../nodes/Expression';
-import AnyType from '../nodes/AnyType';
-import Value from '../values/Value';
-import type StructureValue from '../values/StructureValue';
-import TextType from '../nodes/TextType';
-import TextValue from '../values/TextValue';
+import BoolValue from '@values/BoolValue';
 import type Locales from '../locale/Locales';
+import AnyType from '../nodes/AnyType';
+import BooleanType from '../nodes/BooleanType';
+import type Expression from '../nodes/Expression';
+import TextType from '../nodes/TextType';
+import type StructureValue from '../values/StructureValue';
+import TextValue from '../values/TextValue';
+import Value from '../values/Value';
+import { createBasisConversion, createBasisFunction } from './Basis';
 
 export default function bootstrapStructure(locales: Locales) {
     return StructureDefinition.make(
@@ -41,14 +41,14 @@ export default function bootstrapStructure(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 new AnyType(),
-                                other
+                                other,
                             );
                         else
                             return new BoolValue(
                                 requestor,
-                                structure.isEqualTo(other)
+                                structure.isEqualTo(other),
                             );
-                    }
+                    },
                 ),
                 createBasisFunction(
                     locales,
@@ -68,27 +68,27 @@ export default function bootstrapStructure(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 new AnyType(),
-                                other
+                                other,
                             );
                         else
                             return new BoolValue(
                                 requestor,
-                                !structure.isEqualTo(other)
+                                !structure.isEqualTo(other),
                             );
-                    }
+                    },
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (l) => l.basis.Structure.conversion.text
+                        (l) => l.basis.Structure.conversion.text,
                     ),
                     new AnyType(),
                     TextType.make(),
                     (requestor: Expression, value: StructureValue) =>
-                        new TextValue(requestor, value.toWordplay(locales))
+                        new TextValue(requestor, value.toWordplay(locales)),
                 ),
             ],
-            BlockKind.Structure
-        )
+            BlockKind.Structure,
+        ),
     );
 }

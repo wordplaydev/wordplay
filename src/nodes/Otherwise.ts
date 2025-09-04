@@ -1,58 +1,62 @@
+import type Conflict from '@conflicts/Conflict';
+import { ImpossibleType } from '@conflicts/ImpossibleType';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { COALESCE_SYMBOL } from '@parser/Symbols';
+import Check from '@runtime/Check';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import NoneValue from '@values/NoneValue';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import Expression, { ExpressionKind } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import NoneType from './NoneType';
+import SimpleExpression from './SimpleExpression';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './SimpleExpression';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
-import Expression from './Expression';
 import type TypeSet from './TypeSet';
-import type Node from './Node';
-import type Locales from '../locale/Locales';
-import { COALESCE_SYMBOL } from '@parser/Symbols';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Context from './Context';
-import NoneType from './NoneType';
 import UnionType from './UnionType';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import Check from '@runtime/Check';
-import NoneValue from '@values/NoneValue';
-import { ImpossibleType } from '@conflicts/ImpossibleType';
-import type Conflict from '@conflicts/Conflict';
 
 export default class Otherwise extends SimpleExpression {
     readonly left: Expression;
-    readonly coalesce: Token;
+    readonly question: Token;
     readonly right: Expression;
 
-    constructor(left: Expression, coalesce: Token, right: Expression) {
+    constructor(left: Expression, question: Token, right: Expression) {
         super();
 
         this.left = left;
-        this.coalesce = coalesce;
+        this.question = question;
         this.right = right;
 
         this.computeChildren();
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
-        return selected === false || !(node instanceof Expression)
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
             ? [
-                  Otherwise.make(
-                      ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make(),
-                  ),
+                  Otherwise.make(node, ExpressionPlaceholder.make()),
+                  Otherwise.make(ExpressionPlaceholder.make(), node),
               ]
-            : [Otherwise.make(node, ExpressionPlaceholder.make())];
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
+        return [
+            Otherwise.make(
+                ExpressionPlaceholder.make(type),
+                ExpressionPlaceholder.make(type),
+            ),
+        ];
     }
 
     static make(left: Expression, right: Expression) {
@@ -63,14 +67,14 @@ export default class Otherwise extends SimpleExpression {
         );
     }
 
-    getDescriptor() {
-        return 'NoneOr';
+    getDescriptor(): NodeDescriptor {
+        return 'Otherwise';
     }
 
     getGrammar(): Grammar {
         return [
             { name: 'left', kind: node(Expression) },
-            { name: 'coalesce', kind: node(Sym.Otherwise), space: true },
+            { name: 'question', kind: node(Sym.Otherwise), space: true },
             { name: 'right', kind: node(Expression), space: true },
         ];
     }
@@ -78,7 +82,7 @@ export default class Otherwise extends SimpleExpression {
     clone(replace?: Replacement) {
         return new Otherwise(
             this.replaceChild('left', this.left, replace),
-            this.replaceChild('coalesce', this.coalesce, replace),
+            this.replaceChild('question', this.question, replace),
             this.replaceChild('right', this.right, replace),
         ) as this;
     }
@@ -150,22 +154,20 @@ export default class Otherwise extends SimpleExpression {
     }
 
     getStart() {
-        return this.coalesce;
+        return this.question;
     }
 
     getFinish() {
-        return this.coalesce;
+        return this.question;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Otherwise);
+    static readonly LocalePath = (l: LocaleText) => l.node.Otherwise;
+    getLocalePath() {
+        return Otherwise.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Otherwise.start),
-        );
+        return locales.concretize((l) => l.node.Otherwise.start);
     }
 
     getFinishExplanations(
@@ -173,14 +175,17 @@ export default class Otherwise extends SimpleExpression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Otherwise.finish),
+        return locales.concretize(
+            (l) => l.node.Otherwise.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.NoneOr;
+    getCharacter() {
+        return Characters.NoneOr;
+    }
+
+    getKind(): ExpressionKind {
+        return ExpressionKind.Evaluate;
     }
 }

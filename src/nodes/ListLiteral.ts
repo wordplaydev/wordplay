@@ -1,36 +1,39 @@
-import Expression, { type GuardContext } from './Expression';
-import ListType from './ListType';
-import type Token from './Token';
-import type Type from './Type';
-import ListValue from '@values/ListValue';
+import type Conflict from '@conflicts/Conflict';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type Conflict from '@conflicts/Conflict';
-import ListOpenToken from './ListOpenToken';
-import ListCloseToken from './ListCloseToken';
-import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
+import type Step from '@runtime/Step';
+import ListValue from '@values/ListValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import concretize from '../locale/concretize';
-import Sym from './Sym';
-import AnyType from './AnyType';
-import Spread from './Spread';
-import TypeException from '../values/TypeException';
+import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import TypeException from '../values/TypeException';
+import AnyType from './AnyType';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import ListCloseToken from './ListCloseToken';
+import ListOpenToken from './ListOpenToken';
+import ListType from './ListType';
+import { list, node, type Grammar, type Replacement } from './Node';
+import Spread from './Spread';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
     readonly values: (Spread | Expression)[];
-    readonly close?: Token;
-    readonly literal?: Token;
+    readonly close: Token | undefined;
+    readonly literal: Token | undefined;
 
     constructor(
         open: Token,
@@ -56,11 +59,17 @@ export default class ListLiteral extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [ListLiteral.make(), ListLiteral.make([node])]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [ListLiteral.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ListLiteral';
     }
 
@@ -70,18 +79,31 @@ export default class ListLiteral extends Expression {
             {
                 name: 'values',
                 kind: list(true, node(Expression), node(Spread)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.ListLiteral.item),
+                label: () => (l) => l.node.ListLiteral.item,
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
                     this.getItemType(context)?.generalize(context) ??
                     new AnyType(),
                 space: true,
+                // Only add line breaks if greater than 40 characters long.
+                newline: this.wrap(),
+                // Include a newline before the first item in the list
+                initial: true,
+                // Include an indent before all items in the list
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose), newline: this.wrap() },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
+    }
+
+    wrap(): boolean {
+        return (
+            this.values.reduce(
+                (sum, value) => sum + value.toWordplay().length,
+                0,
+            ) > MAX_LINE_LENGTH
+        );
     }
 
     clone(replace?: Replacement) {
@@ -102,15 +124,17 @@ export default class ListLiteral extends Expression {
     }
 
     getItemType(context: Context): Type | undefined {
-        const expressions = this.values.filter(
-            (e) => e instanceof Expression,
-        ) as Expression[];
-        return expressions.length === 0
+        const types = this.values
+            .map((e) => {
+                if (e instanceof Spread) {
+                    const type = e.list?.getType(context);
+                    return type instanceof ListType ? type.type : undefined;
+                } else return e.getType(context);
+            })
+            .filter((type): type is Type => type !== undefined);
+        return types.length === 0
             ? undefined
-            : UnionType.getPossibleUnion(
-                  context,
-                  expressions.map((v) => v.getType(context)),
-              );
+            : UnionType.getPossibleUnion(context, types);
     }
 
     computeType(context: Context): Type {
@@ -209,15 +233,13 @@ export default class ListLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ListLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.ListLiteral;
+    getLocalePath() {
+        return ListLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ListLiteral.start),
-        );
+        return locales.concretize((l) => l.node.ListLiteral.start);
     }
 
     getFinishExplanations(
@@ -225,9 +247,8 @@ export default class ListLiteral extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ListLiteral.finish),
+        return locales.concretize(
+            (l) => l.node.ListLiteral.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
@@ -236,7 +257,7 @@ export default class ListLiteral extends Expression {
         return [this.values.length];
     }
 
-    getGlyphs() {
-        return Glyphs.List;
+    getCharacter() {
+        return Characters.List;
     }
 }

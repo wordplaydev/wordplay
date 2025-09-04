@@ -1,21 +1,24 @@
-import type ConversionDefinition from './ConversionDefinition';
-import type FunctionDefinition from './FunctionDefinition';
-import type Context from './Context';
-import Token from './Token';
-import type Node from './Node';
-import Sym from './Sym';
-import Type from './Type';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { OR_SYMBOL } from '@parser/Symbols';
-import type TypeSet from './TypeSet';
-import NeverType from './NeverType';
 import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import type ConversionDefinition from './ConversionDefinition';
+import type Definition from './Definition';
+import type FunctionDefinition from './FunctionDefinition';
+import NeverType from './NeverType';
+import type Node from './Node';
 import { node, type Grammar, type Replacement } from './Node';
 import NoneType from './NoneType';
-import Glyphs from '../lore/Glyphs';
-import NodeRef from '../locale/NodeRef';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
-import type Definition from './Definition';
-import type Locales from '../locale/Locales';
+import type TypeSet from './TypeSet';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -36,26 +39,21 @@ export default class UnionType extends Type {
         return new UnionType(left, new Token(OR_SYMBOL, Sym.Union), right);
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean
-    ) {
-        return [
-            node instanceof Type && selected
-                ? UnionType.make(node, TypePlaceholder.make())
-                : UnionType.make(
-                      TypePlaceholder.make(),
-                      TypePlaceholder.make()
-                  ),
-        ];
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Type
+            ? [UnionType.make(node, TypePlaceholder.make())]
+            : [];
+    }
+
+    static getPossibleAppends() {
+        return [UnionType.make(TypePlaceholder.make(), TypePlaceholder.make())];
     }
 
     static orNone(left: Type) {
         return this.make(left, NoneType.make());
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnionType';
     }
 
@@ -71,7 +69,7 @@ export default class UnionType extends Type {
         return new UnionType(
             this.replaceChild('left', this.left, replace),
             this.replaceChild('or', this.or, replace),
-            this.replaceChild('right', this.right, replace)
+            this.replaceChild('right', this.right, replace),
         ) as this;
     }
 
@@ -120,7 +118,7 @@ export default class UnionType extends Type {
     getConversion(
         context: Context,
         input: Type,
-        output: Type
+        output: Type,
     ): ConversionDefinition | undefined {
         const left = context
             .getBasis()
@@ -128,7 +126,7 @@ export default class UnionType extends Type {
                 this.left.getBasisTypeName(),
                 context,
                 input,
-                output
+                output,
             );
         if (left !== undefined) return left;
         return this.right instanceof Type
@@ -138,14 +136,14 @@ export default class UnionType extends Type {
                       this.right.getBasisTypeName(),
                       context,
                       input,
-                      output
+                      output,
                   )
             : undefined;
     }
 
     getFunction(
         context: Context,
-        name: string
+        name: string,
     ): FunctionDefinition | undefined {
         const left = context
             .getBasis()
@@ -189,13 +187,14 @@ export default class UnionType extends Type {
             ? first
             : first.filter((def1) =>
                   rest.every((definitions) =>
-                      definitions.some((def2) => def1.isEquivalentTo(def2))
-                  )
+                      definitions.some((def2) => def1.isEquivalentTo(def2)),
+                  ),
               );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnionType;
+    getLocalePath() {
+        return UnionType.LocalePath;
     }
 
     /**
@@ -233,8 +232,8 @@ export default class UnionType extends Type {
         return union;
     }
 
-    getGlyphs() {
-        return Glyphs.Union;
+    getCharacter() {
+        return Characters.Union;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
@@ -244,10 +243,17 @@ export default class UnionType extends Type {
         ];
     }
 
+    concretize(context: Context) {
+        return UnionType.make(
+            this.left.concretize(context),
+            this.right.concretize(context),
+        );
+    }
+
     generalize(context: Context): Type {
         // First, generalize all of the types in the union.
         const generalized = this.getPossibleTypes(context).map((type) =>
-            type.generalize(context)
+            type.generalize(context),
         );
 
         // Next, find the smallest subset of types to represent the set.
@@ -262,5 +268,12 @@ export default class UnionType extends Type {
 
         if (remaining.size === 0) return Array.from(remaining)[0];
         else return UnionType.getPossibleUnion(context, Array.from(remaining));
+    }
+
+    getDefaultExpression(context: Context) {
+        return (
+            this.left.getDefaultExpression(context) ??
+            this.right.getDefaultExpression(context)
+        );
     }
 }

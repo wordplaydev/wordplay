@@ -1,47 +1,48 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownBorrow } from '@conflicts/UnknownBorrow';
-import type Context from './Context';
-import Token from './Token';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import NumberValue from '@values/NumberValue';
-import Unit from './Unit';
-import Sym from './Sym';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { BORROW_SYMBOL } from '@parser/Symbols';
-import Expression from './Expression';
-import Bind from './Bind';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import type Value from '@values/Value';
-import Source from './Source';
 import Evaluation from '@runtime/Evaluation';
-import NameException from '@values/NameException';
-import FunctionDefinition from './FunctionDefinition';
-import StructureDefinition from './StructureDefinition';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
 import CycleException from '@values/CycleException';
 import FunctionValue from '@values/FunctionValue';
+import NameException from '@values/NameException';
+import NumberValue from '@values/NumberValue';
 import StructureDefinitionValue from '@values/StructureDefinitionValue';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import UnknownNameType from './UnknownNameType';
+import UnimplementedException from '@values/UnimplementedException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
+import Bind from './Bind';
+import type Context from './Context';
+import Expression from './Expression';
+import FunctionDefinition from './FunctionDefinition';
 import {
+    any,
     node,
+    none,
+    optional,
     type Grammar,
     type Replacement,
-    none,
-    any,
-    optional,
 } from './Node';
-import SimpleExpression from './SimpleExpression';
-import UnimplementedException from '@values/UnimplementedException';
-import NodeRef from '@locale/NodeRef';
-import StreamDefinition from './StreamDefinition';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/concretize';
-import Purpose from '../concepts/Purpose';
 import Reference from './Reference';
-import type Locales from '../locale/Locales';
+import SimpleExpression from './SimpleExpression';
+import Source from './Source';
+import StreamDefinition from './StreamDefinition';
+import StructureDefinition from './StructureDefinition';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import Unit from './Unit';
+import UnknownNameType from './UnknownNameType';
 
 export type SharedDefinition =
     | Source
@@ -52,10 +53,10 @@ export type SharedDefinition =
 
 export default class Borrow extends SimpleExpression {
     readonly borrow: Token;
-    readonly source?: Reference;
-    readonly dot?: Token;
-    readonly name?: Reference;
-    readonly version?: Token;
+    readonly source: Reference | undefined;
+    readonly dot: Token | undefined;
+    readonly name: Reference | undefined;
+    readonly version: Token | undefined;
 
     constructor(
         borrow?: Token,
@@ -75,7 +76,7 @@ export default class Borrow extends SimpleExpression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Borrow';
     }
 
@@ -86,21 +87,18 @@ export default class Borrow extends SimpleExpression {
                 name: 'source',
                 kind: any(node(Reference), none()),
                 space: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.source),
+                label: () => (l) => l.node.Borrow.source,
             },
             { name: 'dot', kind: optional(node(Sym.Access)) },
             {
                 name: 'name',
                 kind: optional(node(Reference)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.name),
+                label: () => (l) => l.node.Borrow.name,
             },
             {
                 name: 'version',
                 kind: optional(node(Sym.Number)),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Borrow.version),
+                label: () => (l) => l.node.Borrow.version,
             },
         ];
     }
@@ -272,14 +270,14 @@ export default class Borrow extends SimpleExpression {
         return this.source ?? this.borrow;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Borrow);
+    static readonly LocalePath = (l: LocaleText) => l.node.Borrow;
+    getLocalePath() {
+        return Borrow.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Borrow.start),
+        return locales.concretize(
+            (l) => l.node.Borrow.start,
             this.source
                 ? new NodeRef(
                       this.source,
@@ -294,8 +292,8 @@ export default class Borrow extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Borrow;
+    getCharacter() {
+        return Characters.Borrow;
     }
 
     getDescriptionInputs() {

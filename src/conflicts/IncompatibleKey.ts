@@ -1,10 +1,9 @@
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 import type Type from '@nodes/Type';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class IncompatibleKey extends Conflict {
     readonly access: SetOrMapAccess;
@@ -23,28 +22,22 @@ export class IncompatibleKey extends Conflict {
             primary: {
                 node: this.access,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.SetOrMapAccess.conflict.IncompatibleKey
-                                    .primary
-                        ),
-                        new NodeRef(this.expected, locales, context)
+                    locales.concretize(
+                        (l) =>
+                            l.node.SetOrMapAccess.conflict.IncompatibleKey
+                                .primary,
+                        new NodeRef(this.expected, locales, context),
                     ),
             },
             secondary: {
                 node: this.access.setOrMap,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.SetOrMapAccess.conflict.IncompatibleKey
-                                    .secondary
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.SetOrMapAccess.conflict.IncompatibleKey
+                                .secondary,
                         new NodeRef(this.received, locales, context),
-                        new NodeRef(this.expected, locales, context)
+                        new NodeRef(this.expected, locales, context),
                     ),
             },
         };

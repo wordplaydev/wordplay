@@ -1,21 +1,45 @@
 <script lang="ts">
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
-    export let to: string;
-    export let tip: string | undefined = undefined;
-    export let nowrap = false;
-    export let external = false;
+    interface Props {
+        to: string;
+        tip?: LocaleTextAccessor | undefined;
+        nowrap?: boolean;
+        external?: boolean;
+        label?: LocaleTextAccessor;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        to,
+        tip = undefined,
+        nowrap = false,
+        external = false,
+        label,
+        children,
+    }: Props = $props();
 </script>
 
-{#if to === '/' ? $page.route.id === '/' : $page.route.id?.startsWith(to)}
-    <slot />
+{#snippet labelOrChildren()}
+    {#if children}{@render children()}{:else if label}<LocalizedText
+            path={label}
+        />{/if}
+{/snippet}
+
+{#if to === '/' ? page.route.id === '/' : page.route.id?.endsWith(to)}
+    {@render labelOrChildren()}
 {:else}<a
         data-sveltekit-preload-data="tap"
-        title={tip}
+        title={tip ? $locales.get(tip) : undefined}
         href={to}
         target={external ? '_blank' : null}
         class:nowrap
-        ><slot />{#if external}<span class="external">↗</span>{/if}</a
+        >{@render labelOrChildren()}{#if external}<span class="external"
+                >↗</span
+            >{/if}</a
     >
 {/if}
 
@@ -23,6 +47,20 @@
     a {
         color: var(--wordplay-highlight-color);
         text-decoration: none;
+        /* In case a parent disables pointer events, we need to enable them here. */
+        pointer-events: auto;
+    }
+
+    /* Links in paragraphs should have underlines for visibility. */
+    :global(p) > a {
+        text-decoration: calc(var(--wordplay-focus-width) / 2) underline
+            var(--wordplay-highlight-color);
+    }
+
+    :global(.feedback) > a {
+        color: var(--wordplay-background);
+        text-decoration: var(--wordplay-focus-width) underline
+            var(--wordplay-background);
     }
 
     .nowrap {
@@ -38,6 +76,7 @@
     }
 
     .external {
+        font-family: 'Noto Emoji';
         font-size: calc(var(--wordplay-font-size) - 6pt);
         display: inline-block;
         margin-inline-start: 0.25em;

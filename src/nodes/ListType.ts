@@ -1,29 +1,32 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
-import type Context from './Context';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
-import Token from './Token';
+import type Context from './Context';
+import ListLiteral from './ListLiteral';
+import { node, optional, type Grammar, type Replacement } from './Node';
 import Sym from './Sym';
+import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import Glyphs from '../lore/Glyphs';
-import NodeRef from '../locale/NodeRef';
-import type Node from './Node';
-import type Locales from '../locale/Locales';
 
 export default class ListType extends BasisType {
     readonly open: Token;
     readonly type: Type | undefined;
     readonly close: Token | undefined;
     // In some cases we know the length of a list and the index in an accessor and can use this to narrow types.
-    readonly length?: number;
+    readonly length: number | undefined;
 
     constructor(
         open: Token,
         type: Type | undefined,
         close: Token | undefined,
-        length?: number
+        length?: number,
     ) {
         super();
 
@@ -40,22 +43,22 @@ export default class ListType extends BasisType {
             new Token(LIST_OPEN_SYMBOL, Sym.ListOpen),
             type,
             new Token(LIST_CLOSE_SYMBOL, Sym.ListClose),
-            length
+            length,
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean
-    ) {
+    static getPossibleReplacements({ node }: EditContext) {
         return [
             ListType.make(),
-            ...(node instanceof Type && selected ? [ListType.make(node)] : []),
+            ...(node instanceof Type ? [ListType.make(node)] : []),
         ];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [ListType.make()];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'ListType';
     }
 
@@ -71,12 +74,12 @@ export default class ListType extends BasisType {
         return new ListType(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('type', this.type, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
@@ -87,8 +90,12 @@ export default class ListType extends BasisType {
                 (this.type === undefined ||
                     // If the given type has no type specified, any will do
                     type.type === undefined ||
-                    this.type.accepts(type.type, context))
+                    this.type.accepts(type.type, context)),
         );
+    }
+
+    concretize(context: Context): Type {
+        return ListType.make(this.type?.concretize(context));
     }
 
     generalize(context: Context) {
@@ -107,17 +114,22 @@ export default class ListType extends BasisType {
             : undefined;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ListType);
+    static readonly LocalePath = (l: LocaleText) => l.node.ListType;
+    getLocalePath() {
+        return ListType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.List;
+    getCharacter() {
+        return Characters.List;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
         return [
             this.type ? new NodeRef(this.type, locales, context) : undefined,
         ];
+    }
+
+    getDefaultExpression() {
+        return ListLiteral.make([]);
     }
 }

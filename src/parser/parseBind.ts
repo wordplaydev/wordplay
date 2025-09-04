@@ -4,9 +4,9 @@ import Names from '../nodes/Names';
 import Sym from '../nodes/Sym';
 import { PairedCloseDelimiters } from './Tokenizer';
 import type Tokens from './Tokens';
-import parseType from './parseType';
 import parseExpression, { parseDocs } from './parseExpression';
 import parseLanguage from './parseLanguage';
+import parseType from './parseType';
 
 export default function parseBind(tokens: Tokens): Bind {
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
@@ -40,33 +40,27 @@ export default function parseBind(tokens: Tokens): Bind {
 export function parseNames(tokens: Tokens): Names {
     const names: Name[] = [];
 
-    while (
-        (tokens.hasNext() &&
-            names.length > 0 &&
-            tokens.nextIs(Sym.Separator)) ||
-        (names.length === 0 &&
-            tokens.nextIsOneOf(Sym.Name, Sym.Placeholder, Sym.Operator))
-    ) {
-        const comma = tokens.nextIs(Sym.Separator)
-            ? tokens.read(Sym.Separator)
-            : undefined;
-        if (names.length > 0 && comma === undefined) break;
-        const name = tokens.nextIs(Sym.Name)
-            ? tokens.read(Sym.Name)
-            : tokens.nextIs(Sym.Placeholder)
-            ? tokens.read(Sym.Placeholder)
-            : tokens.nextIs(Sym.Operator)
-            ? tokens.read(Sym.Operator)
-            : undefined;
-        const lang = tokens.nextIs(Sym.Language)
-            ? parseLanguage(tokens)
-            : undefined;
-        if (comma !== undefined || name !== undefined)
-            names.push(new Name(comma, name, lang));
-        else break;
-    }
+    tokens.whileDo(
+        () =>
+            tokens.nextIsOneOf(Sym.Name, Sym.Placeholder, Sym.Operator) &&
+            (names.length === 0 || names.at(-1)?.separator !== undefined),
+        () => {
+            names.push(parseName(tokens));
+        },
+    );
 
     return new Names(names);
+}
+
+export function parseName(tokens: Tokens): Name {
+    const name = tokens.read();
+    const lang = tokens.nextIs(Sym.Language)
+        ? parseLanguage(tokens)
+        : undefined;
+    const comma = tokens.nextIs(Sym.Separator)
+        ? tokens.read(Sym.Separator)
+        : undefined;
+    return new Name(name, lang, comma);
 }
 
 export function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
@@ -81,6 +75,15 @@ export function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
     // It's a bind if it has a name and either doesn't expect a value, or has one, or has a name with a language tag
     return (
         bind.names.names.length > 0 &&
-        (!expectValue || bind.colon !== undefined || bind.names.hasLanguage())
+        (!expectValue ||
+            bind.colon !== undefined ||
+            bind.names.hasALanguageTag())
+    );
+}
+
+export function nextIsInput(tokens: Tokens): boolean {
+    return (
+        tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
+        tokens.afterNextIs(Sym.Bind)
     );
 }

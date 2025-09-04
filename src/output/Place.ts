@@ -1,16 +1,16 @@
-import toStructure from '../basis/toStructure';
-import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
-import Valued, { getOutputInputs } from './Valued';
-import { toNumber } from './Stage';
-import type Evaluator from '@runtime/Evaluator';
-import type Names from '../nodes/Names';
-import NumberValue from '@values/NumberValue';
 import Evaluation from '@runtime/Evaluation';
-import StructureValue from '../values/StructureValue';
+import type Evaluator from '@runtime/Evaluator';
+import NumberValue from '@values/NumberValue';
+import type Value from '@values/Value';
+import toStructure from '../basis/toStructure';
+import type Locales from '../locale/Locales';
+import type Names from '../nodes/Names';
 import Unit from '../nodes/Unit';
 import NoneValue from '../values/NoneValue';
-import type Locales from '../locale/Locales';
+import StructureValue from '../values/StructureValue';
+import { toNumber } from './Stage';
+import Valued, { getOutputInputs } from './Valued';
 
 export function createPlaceType(locales: Locales) {
     return toStructure(`
@@ -34,7 +34,7 @@ export default class Place extends Valued {
         x: number,
         y: number,
         z: number,
-        rotation?: number | undefined
+        rotation?: number | undefined,
     ) {
         super(value);
 
@@ -51,7 +51,7 @@ export default class Place extends Valued {
             this.x + place.x,
             this.y - place.y,
             this.z,
-            this.rotation
+            this.rotation,
         );
     }
 
@@ -61,15 +61,19 @@ export default class Place extends Valued {
             this.x - place.x,
             this.y + place.y,
             this.z,
-            this.rotation
+            this.rotation,
         );
+    }
+
+    flipX() {
+        return new Place(this.value, -this.x, this.y, this.z, this.rotation);
     }
 
     distanceFrom(place: Place) {
         return Math.sqrt(
             Math.pow(place.x - this.x, 2) +
                 Math.pow(place.y - this.y, 2) +
-                Math.pow(place.z - this.z, 2)
+                Math.pow(place.z - this.z, 2),
         );
     }
 
@@ -99,7 +103,7 @@ export function createPlace(
     evaluator: Evaluator,
     x: number,
     y: number,
-    z: number
+    z: number,
 ): Place {
     return new Place(createPlaceStructure(evaluator, x, y, z), x, y, z, 0);
 }
@@ -109,7 +113,7 @@ export function createPlaceStructure(
     x: number,
     y: number,
     z: number,
-    rotation?: number | undefined
+    rotation?: number | undefined,
 ): StructureValue {
     const creator = evaluator.getMain();
 
@@ -117,21 +121,21 @@ export function createPlaceStructure(
     const PlaceType = evaluator.project.shares.output.Place;
     place.set(
         PlaceType.inputs[0].names,
-        new NumberValue(creator, x, Unit.reuse(['m']))
+        new NumberValue(creator, x, Unit.reuse(['m'])),
     );
     place.set(
         PlaceType.inputs[1].names,
-        new NumberValue(creator, y, Unit.reuse(['m']))
+        new NumberValue(creator, y, Unit.reuse(['m'])),
     );
     place.set(
         PlaceType.inputs[2].names,
-        new NumberValue(creator, z, Unit.reuse(['m']))
+        new NumberValue(creator, z, Unit.reuse(['m'])),
     );
     place.set(
         PlaceType.inputs[3].names,
         rotation !== undefined
             ? new NumberValue(creator, rotation, Unit.reuse(['°']))
-            : new NoneValue(creator)
+            : new NoneValue(creator),
     );
 
     const evaluation = new Evaluation(
@@ -139,7 +143,7 @@ export function createPlaceStructure(
         creator,
         PlaceType,
         undefined,
-        place
+        place,
     );
 
     const structure = new StructureValue(creator, evaluation);

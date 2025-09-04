@@ -1,0 +1,39 @@
+カタカナ推測
+=== start
+ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを' → []
+カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ' → []
+
+•ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
+選択/ja,selection/en: Choice()
+
+¶ランダムなひらがなと 0 ポイントでゲームを開始します。
+選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
+¶
+Start the game with a random hiragana and zero points.
+When a choice is made, create a new status that chooses a new 
+character and increments the score if it was correct.
+¶/en
+配置/ja,status/en: ゲーム(Random(1 46) 0) … ∆ 選択 …
+		ゲーム(
+			Random(1 46)
+			配置.秘密 → '' = 選択 ?
+				配置.スコア + 1
+				配置.スコア - 1
+		)
+
+Stage(
+	[
+		Group(Stack() [
+				Phrase(`/対応するひらがなは何ですか？/`/ja`/What is the matching hiragana?/`/en)
+				Phrase(`*\カタカナ[配置.secret]\*` 2m)
+				Group(
+					Grid(10 5 1m 1m 1m)
+					ひらがな.translate(
+						ƒ(シンボル•'' 指数/ja,index/en)
+							Phrase(シンボル name: 指数 → '' selectable: ⊤))
+				)
+				Phrase(`*\配置.score\* 正解です！`/ja`*\配置.score\* points!`/en)
+			]
+		)
+	]
+)

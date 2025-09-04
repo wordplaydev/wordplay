@@ -1,34 +1,37 @@
-import type Definition from './Definition';
-import Borrow from './Borrow';
+import { BorrowCycle } from '@conflicts/BorrowCycle';
+import type Locale from '@locale/Locale';
+import { localeToString } from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Block, { BlockKind } from '@nodes/Block';
 import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import Token from './Token';
+import type Step from '@runtime/Step';
+import BlankException from '@values/BlankException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import ValueRef from '../locale/ValueRef';
+import Characters from '../lore/BasisCharacters';
+import Borrow from './Borrow';
 import type Context from './Context';
-import type Node from './Node';
-import Language from './Language';
-import Unit from './Unit';
+import type Definition from './Definition';
 import Dimension from './Dimension';
 import Docs from './Docs';
-import { BorrowCycle } from '@conflicts/BorrowCycle';
 import Expression, { ExpressionKind } from './Expression';
+import Language from './Language';
+import type Node from './Node';
+import { list, node, optional, type Grammar, type Replacement } from './Node';
+import Reference from './Reference';
+import Sym from './Sym';
+import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Value from '@values/Value';
-import { node, type Grammar, type Replacement, optional, list } from './Node';
-import type LanguageCode from '@locale/LanguageCode';
-import Sym from './Sym';
-import Glyphs from '../lore/Glyphs';
-import BlankException from '@values/BlankException';
-import concretize from '../locale/concretize';
-import Purpose from '../concepts/Purpose';
-import ValueRef from '../locale/ValueRef';
-import type Locales from '../locale/Locales';
+import Unit from './Unit';
 
 export default class Program extends Expression {
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly borrows: Borrow[];
     readonly expression: Block;
     readonly end: Token | undefined;
@@ -58,7 +61,7 @@ export default class Program extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Program';
     }
 
@@ -98,6 +101,7 @@ export default class Program extends Expression {
     computeConflicts(context: Context) {
         const [borrow, cycle] = context.source.getCycle(context) ?? [];
         if (borrow && cycle) return [new BorrowCycle(this, borrow, cycle)];
+        return [];
     }
 
     /** A program's type is it's block's type. */
@@ -116,28 +120,41 @@ export default class Program extends Expression {
             const [source, definition] = borrow.getShare(context) ?? [];
             if (source === undefined) {
                 if (definition !== undefined) definitions.push(definition);
-            } else
+            } else {
                 definitions.push(
                     definition === undefined ? source : definition,
                 );
+                definitions.push(source);
+            }
         }
+        // Return all of the imported definitions and any sources that are part of a named import
         return definitions;
     }
 
-    getLanguagesUsed(): LanguageCode[] {
-        return Array.from(
-            new Set(
-                (
-                    this.nodes(
-                        (n): n is Language =>
-                            n instanceof Language &&
-                            n.getLanguageText() !== undefined,
-                    ) as Language[]
-                )
-                    .map((n) => n.getLanguageCode())
-                    .filter((l): l is LanguageCode => l !== undefined),
-            ),
-        );
+    getLocalesUsed(context: Context): Locale[] {
+        // The locales used include any explicit langage tags and locale of binds referred to in the program.
+        const locales: Record<string, Locale> = {};
+
+        for (const lang of this.nodes(
+            (n): n is Language =>
+                n instanceof Language && n.getLanguageText() !== undefined,
+        )) {
+            const locale = lang.getLocaleID();
+            if (locale !== undefined) locales[localeToString(locale)] = locale;
+        }
+
+        for (const bind of this.nodes(
+            (n): n is Reference => n instanceof Reference,
+        )) {
+            const def = bind.resolve(context);
+            if (def !== undefined) {
+                const locale = def.names.getLocaleOf(bind.getName());
+                if (locale !== undefined)
+                    locales[localeToString(locale)] = locale;
+            }
+        }
+
+        return Array.from(Object.values(locales));
     }
 
     getUnitsUsed(): Unit[] {
@@ -186,8 +203,9 @@ export default class Program extends Expression {
         return this.end ?? this.expression;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Program);
+    static readonly LocalePath = (l: LocaleText) => l.node.Program;
+    getLocalePath() {
+        return Program.LocalePath;
     }
 
     getStartExplanations(
@@ -198,9 +216,8 @@ export default class Program extends Expression {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
         const change = reaction && reaction.changes.length > 0;
 
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Program.start),
+        return locales.concretize(
+            (l) => l.node.Program.start,
             change
                 ? new ValueRef(reaction.changes[0].stream, locales, context)
                 : undefined,
@@ -215,18 +232,17 @@ export default class Program extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Program.finish),
+        return locales.concretize(
+            (l) => l.node.Program.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Program;
+    getCharacter() {
+        return Characters.Program;
     }
 
     getKind() {
-        return ExpressionKind.Simple;
+        return ExpressionKind.Evaluate;
     }
 }

@@ -1,11 +1,11 @@
-import { testConflict } from '@conflicts/TestUtilities';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
-import Block from './Block';
-import { test, expect } from 'vitest';
-import Evaluate from './Evaluate';
+import { testConflict } from '@conflicts/TestUtilities';
+import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
+import Block from './Block';
+import Evaluate from './Evaluate';
 
 test.each([
     ['(1)', '()', Block, ExpectedEndingExpression],
@@ -16,7 +16,7 @@ test.each([
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict, number?) => {
         testConflict(good, bad, node, conflict, number);
-    }
+    },
 );
 
 test.each([

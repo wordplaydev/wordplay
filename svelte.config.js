@@ -1,6 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
-import preprocess from 'svelte-preprocess';
 import path from 'path';
+import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -27,8 +27,20 @@ const config = {
             '@output': path.resolve('./src/output'),
             '@basis': path.resolve('./src/basis'),
             '@edit': path.resolve('./src/edit'),
-            '@models': path.resolve('./src/models'),
             '@db': path.resolve('./src/db'),
+        },
+        csp: {
+            directives: {
+                'script-src': [
+                    'self',
+                    'https://fonts.googleapis.com',
+                    'https://fonts.gstatic.com',
+                    'https://www.googletagmanager.com',
+                    'https://apis.google.com',
+                    'https://*.googleapis.com',
+                    'https://*.firebaseapp.com',
+                ],
+            },
         },
     },
 };

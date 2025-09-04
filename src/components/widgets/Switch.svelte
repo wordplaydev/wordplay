@@ -1,11 +1,30 @@
 <script lang="ts">
-    export let on: boolean;
-    export let toggle: (on: boolean) => void;
-    export let offLabel: string;
-    export let onLabel: string;
-    export let offTip: string;
-    export let onTip: string;
-    export let uiid: string | undefined = undefined;
+    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { withMonoEmoji } from '../../unicode/emoji';
+
+    interface Props {
+        on: boolean;
+        toggle: (on: boolean) => void;
+        offLabel: string;
+        onLabel: string;
+        offTip: LocaleTextAccessor;
+        onTip: LocaleTextAccessor;
+        uiid?: string | undefined;
+    }
+
+    let {
+        on,
+        toggle,
+        offLabel,
+        onLabel,
+        offTip,
+        onTip,
+        uiid = undefined,
+    }: Props = $props();
+
+    let onTipText = $derived($locales.get(onTip));
+    let offTipText = $derived($locales.get(offTip));
 </script>
 
 <span class="switch" data-uiid={uiid} class:on>
@@ -13,29 +32,34 @@
         class={`button off ${on ? 'inactive' : 'active'}`}
         role="button"
         aria-disabled={!on}
-        aria-label={offTip}
-        tabindex={on ? 0 : null}
-        title={offTip}
-        on:click|stopPropagation={() => toggle(false)}
-        on:keydown={(event) =>
+        aria-label={offTipText}
+        tabindex="0"
+        title={offTipText}
+        onclick={(event) => {
+            event.stopPropagation();
+            toggle(false);
+        }}
+        onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)
-                : undefined}>{offLabel}</span
-    ><span class="divider" role="presentation" /><span
+                : undefined}>{withMonoEmoji(offLabel)}</span
+    ><span
         class={`button on ${on ? 'active' : 'inactive'}`}
         role="button"
         aria-disabled={on}
-        aria-label={onTip}
-        tabindex={on ? null : 0}
-        title={onTip}
-        on:click|stopPropagation={(event) =>
-            event.button === 0 ? toggle(true) : undefined}
-        on:keydown={(event) =>
+        aria-label={onTipText}
+        tabindex="0"
+        title={onTipText}
+        onclick={(event) => {
+            event.stopPropagation();
+            event.button === 0 ? toggle(true) : undefined;
+        }}
+        onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(true)
                 : undefined}
     >
-        {onLabel}
+        {withMonoEmoji(onLabel)}
     </span>
 </span>
 
@@ -44,12 +68,11 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 4);
         user-select: none;
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-font-size);
         font-weight: var(--wordplay-font-weight);
-        color: currentColor;
+        color: var(--wordplay-foreground);
     }
 
     .button {
@@ -57,53 +80,52 @@
         position: relative;
         transform-origin: center;
         cursor: pointer;
+        border-radius: var(--wordplay-border-radius);
+        padding: calc(var(--wordplay-spacing) / 2);
+        border: 1px solid var(--wordplay-chrome);
+        background: var(--wordplay-background);
     }
 
     .button.off {
         transform-origin: right;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
 
     .button.on {
         transform-origin: left;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
 
     .button {
         transition: transform;
-        transition-duration: calc(var(--animation-factor) * 200ms);
-    }
-
-    .divider {
-        display: inline-block;
-        transform: translateX(-1px);
-        width: var(--wordplay-border-width);
-        border-right: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
-        height: 1.5em;
+        transition-duration: calc(var(--animation-factor) * 100ms);
     }
 
     .on .divider {
         transform: translateX(1px);
     }
 
-    .button.inactive:hover {
-        outline: none;
-        border-color: var(--wordplay-highlight-color);
+    .button.inactive {
         transform: scale(1);
+        color: var(--wordplay-foreground);
+        background-color: var(--wordplay-background);
+    }
+
+    .button.inactive:hover {
+        transform: scale(1.05);
         transform-origin: center;
         z-index: 1;
     }
 
-    .button:focus {
-        outline: none;
-        color: var(--wordplay-focus-color);
-    }
-
-    .button.inactive {
-        transform: scale(1);
-    }
-
     .button.active {
-        transform: scale(0.8);
-        color: var(--wordplay-inactive-color);
+        transform: scale(1.1);
+        color: var(--wordplay-background);
+        background: var(--wordplay-highlight-color);
+    }
+
+    .button:focus {
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
     }
 </style>

@@ -1,7 +1,6 @@
 import type Bind from '@nodes/Bind';
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export class MissingShareLanguages extends Conflict {
     readonly share: Bind;
@@ -16,11 +15,8 @@ export class MissingShareLanguages extends Conflict {
             primary: {
                 node: this.share,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Bind.conflict.MissingShareLanguages
-                        )
+                    locales.concretize(
+                        (l) => l.node.Bind.conflict.MissingShareLanguages,
                     ),
             },
         };

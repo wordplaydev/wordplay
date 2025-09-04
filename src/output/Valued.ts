@@ -20,7 +20,7 @@ export default class Valued {
 
 export function getOutputInputs(
     value: StructureValue,
-    start = 0
+    start = 0,
 ): (Value | undefined)[] {
     return value.type.inputs
         .slice(start)
@@ -29,7 +29,7 @@ export function getOutputInputs(
 
 export function getOutputInput(
     value: StructureValue,
-    index: number
+    index: number,
 ): Value | undefined {
     const input = value.type.inputs[index];
     return input ? value.resolve(input.names) : undefined;

@@ -1,15 +1,26 @@
 <script lang="ts">
-    import Options from '../widgets/Options.svelte';
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyOptions from '@edit/OutputPropertyOptions';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import { locales, Projects } from '../../db/Database';
     import { getProject } from '../project/Contexts';
-    import { Projects } from '../../db/Database';
+    import Options from '../widgets/Options.svelte';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValues;
-    export let options: OutputPropertyOptions;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValues;
+        options: OutputPropertyOptions;
+        editable: boolean;
+        id?: string | undefined;
+    }
+
+    let {
+        property,
+        values,
+        options,
+        editable,
+        id = undefined,
+    }: Props = $props();
 
     let project = getProject();
 
@@ -20,7 +31,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.getName(),
+                property.getName($locales),
                 newValue ? options.fromText(newValue) : undefined,
             ),
         );
@@ -28,14 +39,14 @@
 </script>
 
 <Options
-    id={property.getName()}
-    label={property.getName()}
+    {id}
+    label={property.name}
     value={options.toText(values.getExpression())}
     width="7em"
     options={[
         ...(options.allowNone ? [{ value: undefined, label: '—' }] : []),
-        ...options.values.map((value) => {
-            return { value, label: value };
+        ...options.values.map((option) => {
+            return { value: option.value, label: option.label };
         }),
     ]}
     change={handleChange}

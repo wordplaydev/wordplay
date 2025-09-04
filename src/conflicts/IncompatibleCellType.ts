@@ -1,23 +1,23 @@
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
+import type Input from '@nodes/Input';
 import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class IncompatibleCellType extends Conflict {
     readonly type: TableType;
-    readonly cell: Expression;
+    readonly cell: Expression | Input;
     readonly expected: Type;
     readonly received: Type;
 
     constructor(
         type: TableType,
-        cell: Expression,
+        cell: Expression | Input,
         expected: Type,
-        received: Type
+        received: Type,
     ) {
         super(false);
 
@@ -32,27 +32,20 @@ export default class IncompatibleCellType extends Conflict {
             primary: {
                 node: this.cell,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Update.conflict.IncompatibleCellType
-                                    .primary
-                        ),
-                        new NodeRef(this.expected, locales, context)
+                    locales.concretize(
+                        (l) =>
+                            l.node.Update.conflict.IncompatibleCellType.primary,
+                        new NodeRef(this.expected, locales, context),
                     ),
             },
             secondary: {
                 node: this.type,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Update.conflict.IncompatibleCellType
-                                    .secondary
-                        ),
-                        new NodeRef(this.received, locales, context)
+                    locales.concretize(
+                        (l) =>
+                            l.node.Update.conflict.IncompatibleCellType
+                                .secondary,
+                        new NodeRef(this.received, locales, context),
                     ),
             },
         };

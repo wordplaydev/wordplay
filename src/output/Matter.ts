@@ -1,11 +1,11 @@
-import toStructure from '../basis/toStructure';
-import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
-import Valued, { getOutputInputs } from './Valued';
-import { toBoolean, toNumber } from './Stage';
-import StructureValue from '../values/StructureValue';
-import { TRUE_SYMBOL } from '../parser/Symbols';
+import type Value from '@values/Value';
+import toStructure from '../basis/toStructure';
 import type Locales from '../locale/Locales';
+import { TRUE_SYMBOL } from '../parser/Symbols';
+import StructureValue from '../values/StructureValue';
+import { toBoolean, toNumber } from './Stage';
+import Valued, { getOutputInputs } from './Valued';
 
 export const DefaultBounciness = 0.5;
 
@@ -18,11 +18,11 @@ export function createMatterType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Matter.roundedness)}•#: 0.1
         ${getBind(
             locales,
-            (locale) => locale.output.Matter.text
+            (locale) => locale.output.Matter.text,
         )}•?: ${TRUE_SYMBOL}
         ${getBind(
             locales,
-            (locale) => locale.output.Matter.shapes
+            (locale) => locale.output.Matter.shapes,
         )}•?: ${TRUE_SYMBOL}
     )
 `);
@@ -43,7 +43,7 @@ export default class Matter extends Valued {
         friction: number,
         roundedness: number,
         text: boolean,
-        shapes: boolean
+        shapes: boolean,
     ) {
         super(value);
 
@@ -84,7 +84,7 @@ export function toMatter(value: Value | undefined): Matter | undefined {
               friction,
               roundedness,
               text ?? true,
-              shapes ?? true
+              shapes ?? true,
           )
         : undefined;
 }

@@ -1,31 +1,35 @@
-import Language from './Language';
-import { node, optional } from './Node';
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import type Paragraph from './Paragraph';
-import Words from './Words';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Markup from './Markup';
-import { LanguageTagged } from './LanguageTagged';
-import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
+import type LanguageCode from '@locale/LanguageCode';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
+import Language from './Language';
+import { LanguageTagged } from './LanguageTagged';
+import Markup from './Markup';
+import type { Grammar, Replacement } from './Node';
+import { node, optional } from './Node';
+import type Paragraph from './Paragraph';
+import Sym from './Sym';
+import Token from './Token';
+import Words from './Words';
 
 export default class Doc extends LanguageTagged {
     readonly open: Token;
     readonly markup: Markup;
     readonly close: Token | undefined;
-    readonly language?: Language;
+    readonly language: Language | undefined;
+    readonly separator: Token | undefined;
 
     constructor(
         open: Token,
         markup: Markup,
         close: Token | undefined,
-        lang: Language | undefined,
+        lang: Language | undefined = undefined,
+        separator: Token | undefined = undefined,
     ) {
         super();
 
@@ -33,24 +37,30 @@ export default class Doc extends LanguageTagged {
         this.markup = markup;
         this.close = close;
         this.language = lang;
+        this.separator = separator;
 
         this.computeChildren();
     }
 
-    static make(content?: Paragraph[]) {
+    static make(content?: Paragraph[], lang: Language | undefined = undefined) {
         return new Doc(
             new Token(DOCS_SYMBOL, Sym.Doc),
             new Markup(content ?? []),
             new Token(DOCS_SYMBOL, Sym.Doc),
+            lang,
             undefined,
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [Doc.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Doc';
     }
 
@@ -60,6 +70,7 @@ export default class Doc extends LanguageTagged {
             { name: 'markup', kind: node(Markup) },
             { name: 'close', kind: node(Sym.Doc) },
             { name: 'language', kind: optional(node(Language)) },
+            { name: 'separator', kind: optional(node(Sym.Separator)) },
         ];
     }
 
@@ -69,6 +80,7 @@ export default class Doc extends LanguageTagged {
             this.replaceChild('markup', this.markup, replace),
             this.replaceChild('close', this.close, replace),
             this.replaceChild('language', this.language, replace),
+            this.replaceChild('separator', this.separator, replace),
         ) as this;
     }
 
@@ -78,6 +90,14 @@ export default class Doc extends LanguageTagged {
 
     withLanguage(language: Language) {
         return new Doc(this.open, this.markup, this.close, language);
+    }
+
+    hasLanguage() {
+        return this.language !== undefined;
+    }
+
+    isLanguage(language: LanguageCode) {
+        return this.language?.getLanguageCode() === language;
     }
 
     getFirstParagraph(): string {
@@ -94,11 +114,12 @@ export default class Doc extends LanguageTagged {
         return PossiblePII.analyze(this, context);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Doc);
+    static readonly LocalePath = (l: LocaleText) => l.node.Doc;
+    getLocalePath() {
+        return Doc.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Doc;
+    getCharacter() {
+        return Characters.Doc;
     }
 }

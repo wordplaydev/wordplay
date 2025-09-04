@@ -1,35 +1,49 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import Link from './Link.svelte';
 
-    export let to: string;
-    export let subtitle: string | undefined = undefined;
-    export let external = false;
-    export let smaller = false;
+    interface Props {
+        to: string;
+        subtitle?: LocaleTextAccessor | undefined;
+        external?: boolean;
+        smaller?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        to,
+        subtitle = undefined,
+        external = false,
+        smaller = false,
+        children,
+    }: Props = $props();
 </script>
 
-<p class="link" class:smaller
-    ><Link nowrap {to} {external}><slot /></Link>{#if subtitle}<span
-            class="subtitle"><br />{subtitle}</span
-        >{/if}</p
+<div class="biglink" class:smaller>
+    <div class="link"
+        ><Link nowrap {to} {external}>{@render children?.()}</Link></div
+    >
+    {#if subtitle}<div class="subtitle"><LocalizedText path={subtitle} /></div
+        >{/if}</div
 >
 
 <style>
+    .biglink {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
     .link {
-        font-size: min(6vw, 32pt);
-        margin-block-end: 1em;
-        line-height: 0.85;
+        font-size: min(24pt, max(18pt, 6vw));
     }
 
-    .link.smaller {
-        font-size: min(3vw, 24pt);
+    .biglink.smaller .link {
+        font-size: min(24pt, max(14pt, 3vw));
     }
 
     .subtitle {
         color: var(--wordplay-header);
-        font-size: min(4vw, 16pt);
-    }
-
-    .smaller .subtitle {
-        font-size: min(2vw, 14pt);
+        font-size: var(--wordplay-font-size);
     }
 </style>

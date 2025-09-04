@@ -3,8 +3,12 @@
     import type Spaces from '../../parser/Spaces';
     import Link from '../app/Link.svelte';
 
-    export let link: WebLink;
-    export let spaces: Spaces;
+    interface Props {
+        link: WebLink;
+        spaces: Spaces;
+    }
+
+    let { link, spaces }: Props = $props();
 
     let url = link.url
         ? link.url.getText().startsWith('://')

@@ -3,11 +3,11 @@ import type Value from '@values/Value';
 
 export default abstract class TemporalStreamValue<
     Kind extends Value,
-    Raw
+    Raw,
 > extends StreamValue<Kind, Raw> {
     abstract tick(
         time: DOMHighResTimeStamp,
         delta: number,
-        multiplier: number
+        multiplier: number,
     ): void;
 }

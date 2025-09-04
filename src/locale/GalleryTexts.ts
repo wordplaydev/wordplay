@@ -9,4 +9,5 @@ export type GalleryTexts = {
     motion: GalleryText;
     av: GalleryText;
     tools: GalleryText;
+    stories: GalleryText;
 };

@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
 import evaluateCode from '../runtime/evaluate';
 
