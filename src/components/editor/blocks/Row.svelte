@@ -16,7 +16,7 @@
     .row {
         display: flex;
         flex-direction: row;
-        gap: 2px;
+        gap: 0;
         align-items: baseline;
     }
 </style>

@@ -354,7 +354,7 @@ map(TextLiteral, TextLiteralView, {
     size: 'normal',
 });
 map(Translation, TranslationView, {
-    kind: 'plain',
+    kind: 'none',
     direction: 'inline',
     size: 'normal',
 });

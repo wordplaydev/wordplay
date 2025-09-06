@@ -256,9 +256,8 @@
         width: fit-content;
         height: fit-content;
 
-        padding: calc(var(--wordplay-spacing) / 4)
-            calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 4)
-            calc(var(--wordplay-spacing) / 2);
+        padding: calc(var(--wordplay-spacing) / 3) calc(var(--wordplay-spacing))
+            calc(var(--wordplay-spacing) / 3) calc(var(--wordplay-spacing));
         box-shadow: var(--color-shadow) 0px 0px 4px;
         border-radius: var(--wordplay-border-radius);
 
@@ -270,10 +269,10 @@
             transform: scale(1);
         }
         40% {
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
         70% {
-            transform: scale(0.98);
+            transform: scale(0.99);
         }
         100% {
             transform: scale(1);
