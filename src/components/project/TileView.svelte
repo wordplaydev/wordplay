@@ -15,8 +15,6 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import Subheader from '@components/app/Subheader.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
     import type { Snippet } from 'svelte';
     import { onMount } from 'svelte';
     import { animationDuration, locales } from '../../db/Database';
@@ -34,7 +32,6 @@
     import type Tile from './Tile';
     import { TileMode } from './Tile';
     import TileKinds from './TileKinds';
-    import TileMessage from './TileMessage.svelte';
 
     interface Props {
         project: Project;
@@ -293,7 +290,7 @@
           }px`}
     bind:this={view}
 >
-    <svelte:boundary
+    <!-- <svelte:boundary
         onerror={(error) => {
             if (error instanceof Error) console.error(error.stack);
         }}
@@ -313,97 +310,92 @@
                 >
                 <Note>{'' + error}</Note>
             </TileMessage>
-        {/snippet}
+        {/snippet} -->
 
-        {#if !tile.isInvisible()}
-            <!-- Render the toolbar -->
-            <div
-                class="header"
-                style:color={foreground}
-                style:fill={foreground}
-            >
-                {#if !layout.isFullscreen()}
-                    <Button
-                        background={background !== null}
-                        padding={false}
-                        tip={(l) => l.ui.tile.button.collapse}
-                        action={() => mode(TileMode.Collapsed)}
-                        icon="–"
-                    ></Button>
-                {/if}
-                <Toggle
-                    tips={(l) => l.ui.tile.toggle.fullscreen}
-                    on={fullscreen}
+    {#if !tile.isInvisible()}
+        <!-- Render the toolbar -->
+        <div class="header" style:color={foreground} style:fill={foreground}>
+            {#if !layout.isFullscreen()}
+                <Button
                     background={background !== null}
-                    toggle={() => setFullscreen(!fullscreen)}
-                >
-                    <FullscreenIcon />
-                </Toggle>
-                <!-- This goes above the toolbar because we need the feedback to be visible. -->
-                <div style="z-index:2">
-                    <Subheader compact>
-                        <div class="name" class:source={tile.isSource()}>
-                            {#if editable && tile.isSource()}
-                                <Emoji>{Characters.Program.symbols}</Emoji>
-                                {#if project.getSources().length > 1}
-                                    <!-- Only show the source name editor if there's more than one source, to simplify. -->
-                                    <TextField
-                                        id="source-name-editor-{tile.id}"
-                                        text={tile
-                                            .getSource(project)
-                                            ?.getPreferredName(
-                                                $locales.getLocales(),
-                                            ) ?? ''}
-                                        description={(l) =>
-                                            l.ui.source.field.name.description}
-                                        placeholder={(l) =>
-                                            l.ui.source.field.name.placeholder}
-                                        validator={(text) =>
-                                            !isName(text)
-                                                ? (l) =>
-                                                      l.ui.source.error
-                                                          .invalidName
-                                                : true}
-                                        inlineValidation
-                                        changed={handleRename}
-                                    />
-                                {/if}
-                            {:else}
-                                <Emoji>{TileKinds[tile.kind].symbol}</Emoji
-                                >{tile.getName(project, $locales)}
-                            {/if}
-                            {@render title()}
-                        </div>
-                    </Subheader>
-                </div>
-                <div class="toolbar">
-                    {@render extra?.()}
-                </div>
-            </div>
-            <!-- Render the content -->
-            <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-                <div
-                    class="content"
-                    onscroll={() => scroll()}
-                    bind:this={contentView}
-                    bind:clientWidth={tileWidth}
-                    bind:clientHeight={tileHeight}
-                    onpointermove={handleContentPointerMove}
-                >
-                    {@render content()}
-                </div>
-                {#if margin}
-                    <div class="margin">{@render margin()}</div>
-                {/if}
-            </div>
-            <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
-            {#if focuscontent}
-                <div class="focus-indicator"></div>
+                    padding={false}
+                    tip={(l) => l.ui.tile.button.collapse}
+                    action={() => mode(TileMode.Collapsed)}
+                    icon="–"
+                ></Button>
             {/if}
-            <!-- Render the footer -->
-            <div class="footer">{@render footer?.()}</div>
+            <Toggle
+                tips={(l) => l.ui.tile.toggle.fullscreen}
+                on={fullscreen}
+                background={background !== null}
+                toggle={() => setFullscreen(!fullscreen)}
+            >
+                <FullscreenIcon />
+            </Toggle>
+            <!-- This goes above the toolbar because we need the feedback to be visible. -->
+            <div style="z-index:2">
+                <Subheader compact>
+                    <div class="name" class:source={tile.isSource()}>
+                        {#if editable && tile.isSource()}
+                            <Emoji>{Characters.Program.symbols}</Emoji>
+                            {#if project.getSources().length > 1}
+                                <!-- Only show the source name editor if there's more than one source, to simplify. -->
+                                <TextField
+                                    id="source-name-editor-{tile.id}"
+                                    text={tile
+                                        .getSource(project)
+                                        ?.getPreferredName(
+                                            $locales.getLocales(),
+                                        ) ?? ''}
+                                    description={(l) =>
+                                        l.ui.source.field.name.description}
+                                    placeholder={(l) =>
+                                        l.ui.source.field.name.placeholder}
+                                    validator={(text) =>
+                                        !isName(text)
+                                            ? (l) =>
+                                                  l.ui.source.error.invalidName
+                                            : true}
+                                    inlineValidation
+                                    changed={handleRename}
+                                />
+                            {/if}
+                        {:else}
+                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                            >{tile.getName(project, $locales)}
+                        {/if}
+                        {@render title()}
+                    </div>
+                </Subheader>
+            </div>
+            <div class="toolbar">
+                {@render extra?.()}
+            </div>
+        </div>
+        <!-- Render the content -->
+        <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+            <div
+                class="content"
+                onscroll={() => scroll()}
+                bind:this={contentView}
+                bind:clientWidth={tileWidth}
+                bind:clientHeight={tileHeight}
+                onpointermove={handleContentPointerMove}
+            >
+                {@render content()}
+            </div>
+            {#if margin}
+                <div class="margin">{@render margin()}</div>
+            {/if}
+        </div>
+        <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
+        {#if focuscontent}
+            <div class="focus-indicator"></div>
         {/if}
-    </svelte:boundary>
+        <!-- Render the footer -->
+        <div class="footer">{@render footer?.()}</div>
+    {/if}
+    <!-- </svelte:boundary> -->
 </section>
 
 <style>
