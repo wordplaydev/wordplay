@@ -10,6 +10,7 @@
     import type Node from '@nodes/Node';
     import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
     import { locales } from '../../../db/Database';
+    import Token from '../../../nodes/Token';
     import {
         getEvaluation,
         getHidden,
@@ -107,6 +108,7 @@
                 block: format.block,
                 hide,
                 inline: style?.direction === 'inline',
+                Token: node instanceof Token,
                 highlighted: highlight,
             },
             style?.kind,
