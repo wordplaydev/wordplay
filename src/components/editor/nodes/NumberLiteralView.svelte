@@ -10,8 +10,4 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.number} {format} /><NodeView
-    node={node.unit}
-    {format}
-    small
-/>
+<NodeView node={node.number} {format} /><NodeView node={node.unit} {format} />

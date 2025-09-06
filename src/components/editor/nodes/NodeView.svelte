@@ -10,7 +10,6 @@
     import type Node from '@nodes/Node';
     import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
     import { locales } from '../../../db/Database';
-    import Token from '../../../nodes/Token';
     import {
         getEvaluation,
         getHidden,
@@ -25,10 +24,9 @@
     interface Props {
         node: Node | undefined;
         format: Format;
-        small?: boolean;
     }
 
-    let { node, format, small = false }: Props = $props();
+    let { node, format }: Props = $props();
 
     const evaluation = getEvaluation();
     const rootContext = getRoot();
@@ -108,9 +106,7 @@
             {
                 block: format.block,
                 hide,
-                small: small || style?.size === 'small',
                 inline: style?.direction === 'inline',
-                Token: node instanceof Token,
                 highlighted: highlight,
             },
             style?.kind,

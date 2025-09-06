@@ -210,7 +210,7 @@ function map<Kind extends Node>(
     component: NodeViewComponent,
     style: BlockStyle,
 ) {
-    nodeToView.set(node, { component: component, style });
+    nodeToView.set(node, { component, style });
 }
 
 map(Token, TokenView, { kind: 'none', direction: 'inline', size: 'normal' });
@@ -441,7 +441,7 @@ map(NumberType, NumberTypeView, {
     direction: 'inline',
     size: 'small',
 });
-map(Unit, UnitView, { kind: 'none', direction: 'inline', size: 'small' });
+map(Unit, UnitView, { kind: 'type', direction: 'inline', size: 'small' });
 map(Dimension, DimensionView, {
     kind: 'none',
     direction: 'inline',
