@@ -6,6 +6,7 @@
     import type { LocaleTextsAccessor } from '@locale/Locales';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
+    import { untrack } from 'svelte';
     import {
         animationDuration,
         animationFactor,
@@ -27,8 +28,8 @@
             const text = $locales.get(markup);
             return Markup.words(Array.isArray(text) ? text.join('\n\n') : text);
         }
-        return Markup.words(
-            Array.isArray(markup) ? markup.join('\n\n') : markup,
+        return untrack(() =>
+            Markup.words(Array.isArray(markup) ? markup.join('\n\n') : markup),
         );
     });
 

@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.23
 
+### Fixed
+
+- Eliminated hidden dependency crashing editor.
+
 ### Maintenance
 
 - Updated minor versions of Svelte, SvelteKit, Vite.
