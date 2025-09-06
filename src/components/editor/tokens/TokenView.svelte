@@ -15,6 +15,7 @@
         getProject,
         getRoot,
     } from '../../project/Contexts';
+    import type { Format } from '../nodes/NodeView.svelte';
     import BooleanTokenEditor from './BooleanTokenEditor.svelte';
     import NameTokenEditor from './NameTokenEditor.svelte';
     import NumberTokenEditor from './NumberTokenEditor.svelte';
@@ -26,6 +27,7 @@
 
     interface TokenProps {
         node: Token;
+        format: Format;
     }
 
     let { node }: TokenProps = $props();

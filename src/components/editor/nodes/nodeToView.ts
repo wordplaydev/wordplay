@@ -205,11 +205,11 @@ type BlockConfig = { component: NodeViewComponent; style: BlockStyle };
 const nodeToView = new Map<Function & { prototype: Node }, BlockConfig>();
 
 function map<Kind extends Node>(
-    node: Function & { prototype: Kind },
+    nodeType: Function & { prototype: Kind },
     component: NodeViewComponent,
     style: BlockStyle,
 ) {
-    nodeToView.set(node, { component, style });
+    nodeToView.set(nodeType, { component, style });
 }
 
 map(Token, TokenView, { kind: 'none', direction: 'inline', size: 'normal' });

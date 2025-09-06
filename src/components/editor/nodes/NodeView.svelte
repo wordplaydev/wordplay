@@ -85,7 +85,7 @@
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
-{#if node !== undefined}
+{#if node !== undefined && ComponentView !== undefined}
     <!-- Render space preceding this node if not hidden, if there's a first token, and this node is the root of the preceding space. -->
     {#if !hide && firstToken && spaceRoot === node}
         {#if !format.block}

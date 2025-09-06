@@ -10,4 +10,8 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.number} {format} /><NodeView node={node.unit} {format} />
+{#if node === undefined}undefined{:else}
+    <NodeView node={node.number} {format} /><NodeView
+        node={node.unit}
+        {format}
+    />{/if}
