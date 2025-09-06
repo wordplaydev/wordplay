@@ -83,46 +83,7 @@
     let view = $derived(node ? getNodeView(node) : undefined);
     let ComponentView = $derived(view ? view.component : undefined);
     let style = $derived(view ? view.style : undefined);
-
-    // If the format is block, get the block formmatting based on the component.
-
-    // function symbolOccurs(text: string, symbol: string) {
-    //     for (let i = 0; i < text.length; i++)
-    //         if (text.charAt(i) === symbol) return true;
-    //     return false;
-    // }
-
-    // function countSymbolOccurences(text: string, symbol: string) {
-    //     let count = 0;
-    //     for (let i = 0; i < text.length; i++)
-    //         if (text.charAt(i) === symbol) count++;
-    //     return count;
-    // }
 </script>
-
-<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->
-<!-- {#snippet blockSpace(firstToken: Token)}
-    {@const hasSpace = symbolOccurs(space, ' ') || symbolOccurs(space, '\t')}
-    {@const lines = Array.from(
-        Array(Math.max(0, countSymbolOccurences(space, '\n'))).keys(),
-    )}{#if hasSpace || lines.length > 0}{#key $insertion}<span
-                class="space"
-                role="none"
-                data-id={firstToken.id}
-                data-uiid="space"
-            >
-                {#if hasSpace}<div data-id={firstToken.id}
-                        >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
-                            ></InsertionPointView>{/if}<span
-                            class="space-text"
-                            data-uiid="space-text">&nbsp;</span
-                        ></div
-                    >{:else}{#each lines as line}<div class="break"
-                            >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
-                                />{/if}</div
-                        >{/each}{/if}</span
-            >{/key}{/if}
-{/snippet} -->
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
@@ -282,7 +243,7 @@
     .block.inline {
         flex-direction: row;
         align-items: baseline;
-        gap: 0;
+        gap: calc(var(--wordplay-spacing) / 2);
     }
 
     .block.definition {
