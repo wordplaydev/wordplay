@@ -303,9 +303,23 @@
 
             :root {
                 --color-blue: #648fff;
+                --color-blue-transparent: color-mix(
+                    in srgb,
+                    var(--color-blue) 10%,
+                    transparent
+                );
                 --color-purple: #785ef0;
+                --color-purple-transparent: color-mix(
+                    in srgb,
+                    var(--color-purple) 10%,
+                    transparent
+                );
                 --color-pink: #dc267f;
-                --color-light-pink: #f7d3e4;
+                --color-pink-transparent: color-mix(
+                    in srgb,
+                    var(--color-pink) 2%,
+                    transparent
+                );
                 --color-orange: #fe6100;
                 --color-yellow: #ffb000;
                 --color-white: #ffffff;
@@ -368,7 +382,7 @@
                 --color-purple: #5b3ce6;
                 --color-purple-transparent: #261862;
                 --color-pink: #ee68a9;
-                --color-light-pink: rgb(77, 15, 45);
+                --color-pink-transparent: rgb(77, 15, 45);
                 --color-orange: #993800;
                 --color-yellow: #d69600;
                 --color-white: #ffffff;

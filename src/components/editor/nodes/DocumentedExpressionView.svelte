@@ -11,22 +11,13 @@
 </script>
 
 {#if format.block}
-    <div class="column">
-        <NodeView node={node.docs} {format} /><NodeView
-            node={node.expression}
-            {format}
-        />
-    </div>
+    <NodeView node={node.docs} {format} /><NodeView
+        node={node.expression}
+        {format}
+    />
 {:else}
     <NodeView node={node.docs} {format} /><NodeView
         node={node.expression}
         {format}
     />
 {/if}
-
-<style>
-    .column {
-        display: flex;
-        flex-direction: row;
-    }
-</style>

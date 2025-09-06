@@ -91,10 +91,12 @@
 </script>
 
 {#if format.block}
-    <div class="node-list" class:block class:indent>
-        {#each nodes as node}
-            <NodeView {node} {format} />{/each}
-    </div>
+    {#if nodes.length > 0}
+        <div class="node-list" class:block class:indent>
+            {#each nodes as node}
+                <NodeView {node} {format} />{/each}
+        </div>
+    {/if}
 {:else}
     {#if hiddenBefore > 0}
         <Button
@@ -126,12 +128,12 @@
     .node-list {
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-border-width);
+        gap: var(--wordplay-spacing);
         align-items: baseline;
     }
     .node-list.block {
         flex-direction: column;
-        gap: var(--wordplay-focus-width);
+        gap: var(--wordplay-spacing);
     }
 
     .node-list.indent {

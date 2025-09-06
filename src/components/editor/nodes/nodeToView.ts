@@ -83,7 +83,7 @@ import UnknownNodeView from './UnknownNodeView.svelte';
 import UnparsableExpressionView from './UnparsableExpressionView.svelte';
 import UnparsableTypeView from './UnparsableTypeView.svelte';
 import UpdateView from './UpdateView.svelte';
-import LinkView from './WebLinkView.svelte';
+import WebLinkView from './WebLinkView.svelte';
 import WordsView from './WordsView.svelte';
 
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
@@ -181,124 +181,464 @@ type NodeViewComponent = Component<{
     format: Format;
 }>;
 
-const nodeToView = new Map<Function & { prototype: Node }, NodeViewComponent>();
+// Block styling for each view
+type BlockKind =
+    | 'plain'
+    | 'definition'
+    | 'data'
+    | 'evaluate'
+    | 'type'
+    | 'predicate'
+    | 'none';
+
+type BlockStyle = {
+    /** The visual appearance of the block. */
+    kind: BlockKind;
+    /** Whether the layout is block or inline */
+    direction: 'block' | 'inline';
+    /** Whether the font size is small */
+    size: 'normal' | 'small';
+};
+
+const nodeToView = new Map<
+    Function & { prototype: Node },
+    { component: NodeViewComponent; style: BlockStyle }
+>();
 
 function map<Kind extends Node>(
     node: Function & { prototype: Kind },
-    view: NodeViewComponent,
+    component: NodeViewComponent,
+    style: BlockStyle,
 ) {
-    nodeToView.set(node, view);
+    nodeToView.set(node, { component: component, style });
 }
 
-map(Token, TokenView);
-map(Source, SourceView);
-map(Program, ProgramView);
-map(Doc, DocView);
-map(Docs, DocsView);
-map(Paragraph, ParagraphView);
-map(WebLink, LinkView);
-map(ConceptLink, ConceptLinkView);
-map(Words, WordsView);
-map(DocumentedExpression, DocumentedExpressionView);
-map(Example, ExampleView);
-map(Markup, MarkupView);
-map(FormattedLiteral, FormattedLiteralView);
-map(FormattedTranslation, FormattedTranslationView);
+map(Token, TokenView, { kind: 'none', direction: 'inline', size: 'normal' });
+map(Source, SourceView, { kind: 'none', direction: 'block', size: 'normal' });
+map(Program, ProgramView, {
+    kind: 'none',
+    direction: 'block',
+    size: 'normal',
+});
+map(Doc, DocView, { kind: 'plain', direction: 'inline', size: 'normal' });
+map(Docs, DocsView, { kind: 'none', direction: 'inline', size: 'normal' });
+map(Paragraph, ParagraphView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(WebLink, WebLinkView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(ConceptLink, ConceptLinkView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Words, WordsView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(DocumentedExpression, DocumentedExpressionView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Example, ExampleView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Markup, MarkupView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(FormattedLiteral, FormattedLiteralView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(FormattedTranslation, FormattedTranslationView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(Borrow, BorrowView);
+map(Borrow, BorrowView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(Block, BlockView);
+map(Block, BlockView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(Bind, BindView);
-map(Name, NameView);
-map(Names, NamesView);
-map(Language, LanguageView);
-map(Reference, ReferenceView);
+map(Bind, BindView, {
+    kind: 'plain',
+    direction: 'block',
+    size: 'normal',
+});
+map(Name, NameView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Names, NamesView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Language, LanguageView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'small',
+});
+map(Reference, ReferenceView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(StructureDefinition, StructureDefinitionView);
-map(PropertyReference, PropertyReferenceView);
-map(PropertyBind, PropertyBindView);
-map(NameType, NameTypeView);
+map(StructureDefinition, StructureDefinitionView, {
+    kind: 'definition',
+    direction: 'block',
+    size: 'normal',
+});
+map(PropertyReference, PropertyReferenceView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PropertyBind, PropertyBindView, {
+    kind: 'definition',
+    direction: 'inline',
+    size: 'normal',
+});
+map(NameType, NameTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
 
-map(TypeVariables, TypeVariablesView);
-map(TypeVariable, TypeVariableView);
-map(TypeInputs, TypeInputsView);
-map(VariableType, VariableTypeView);
+map(TypeVariables, TypeVariablesView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'normal',
+});
+map(TypeVariable, TypeVariableView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(TypeInputs, TypeInputsView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(VariableType, VariableTypeView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(TextLiteral, TextLiteralView);
-map(Translation, TranslationView);
-map(TextType, TextTypeView);
+map(TextLiteral, TextLiteralView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Translation, TranslationView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(TextType, TextTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
 
-map(FunctionDefinition, FunctionDefinitionView);
-map(FunctionType, FunctionTypeView);
-map(Evaluate, EvaluateView);
-map(Input, InputView);
+map(FunctionDefinition, FunctionDefinitionView, {
+    kind: 'plain',
+    direction: 'block',
+    size: 'normal',
+});
+map(FunctionType, FunctionTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(Evaluate, EvaluateView, {
+    kind: 'evaluate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Input, InputView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(ExpressionPlaceholder, ExpressionPlaceholderView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(BinaryEvaluate, BinaryEvaluateView, {
+    kind: 'evaluate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(UnaryEvaluate, UnaryEvaluateView, {
+    kind: 'evaluate',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(ExpressionPlaceholder, ExpressionPlaceholderView);
-map(BinaryEvaluate, BinaryEvaluateView);
-map(UnaryEvaluate, UnaryEvaluateView);
+map(Convert, ConvertView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(ConversionDefinition, ConversionDefinitionView, {
+    kind: 'definition',
+    direction: 'inline',
+    size: 'normal',
+});
+map(ConversionType, ConversionTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(Conditional, ConditionalView, {
+    kind: 'predicate',
+    direction: 'block',
+    size: 'normal',
+});
+map(Otherwise, NoneOrView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Match, MatchView, {
+    kind: 'predicate',
+    direction: 'block',
+    size: 'normal',
+});
 
-map(Convert, ConvertView);
-map(ConversionDefinition, ConversionDefinitionView);
-map(ConversionType, ConversionTypeView);
+map(NumberLiteral, NumberLiteralView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(NumberType, NumberTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(Unit, UnitView, { kind: 'none', direction: 'inline', size: 'small' });
+map(Dimension, DimensionView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(Conditional, ConditionalView);
-map(Otherwise, NoneOrView);
-map(Match, MatchView);
+map(BooleanLiteral, BooleanLiteralView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(BooleanType, BooleanTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
 
-map(NumberLiteral, NumberLiteralView);
-map(NumberType, NumberTypeView);
-map(Unit, UnitView);
-map(Dimension, DimensionView);
+map(NoneLiteral, NoneLiteralView, {
+    kind: 'none',
+    direction: 'inline',
+    size: 'normal',
+});
+map(NoneType, NoneTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
 
-map(BooleanLiteral, BooleanLiteralView);
-map(BooleanType, BooleanTypeView);
+map(SetLiteral, SetLiteralView, {
+    kind: 'data',
+    direction: 'inline',
+    size: 'normal',
+});
+map(MapLiteral, MapLiteralView, {
+    kind: 'data',
+    direction: 'inline',
+    size: 'normal',
+});
+map(KeyValue, KeyValueView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(SetOrMapAccess, SetOrMapAccessView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(SetType, SetTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(MapType, MapTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(ListLiteral, ListLiteralView, {
+    kind: 'data',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Spread, SpreadView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(ListAccess, ListAccessView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(ListType, ListTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(FormattedType, FormattedTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
 
-map(NoneLiteral, NoneLiteralView);
-map(NoneType, NoneTypeView);
+map(TableLiteral, TableLiteralView, {
+    kind: 'data',
+    direction: 'inline',
+    size: 'normal',
+});
+map(TableType, TableTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(Row, RowView, {
+    kind: 'data',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Insert, InsertView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Delete, DeleteView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Update, UpdateView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Select, SelectView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(SetLiteral, SetLiteralView);
-map(MapLiteral, MapLiteralView);
-map(KeyValue, KeyValueView);
-map(SetOrMapAccess, SetOrMapAccessView);
-map(SetType, SetTypeView);
-map(MapType, MapTypeView);
+map(Reaction, ReactionView, {
+    kind: 'evaluate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Previous, PreviousView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Changed, ChangedView, {
+    kind: 'predicate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Initial, InitialView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(StreamType, StreamTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(UnparsableType, UnparsableTypeView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(UnparsableExpression, UnparsableExpressionView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
 
-map(ListLiteral, ListLiteralView);
-map(Spread, SpreadView);
-map(ListAccess, ListAccessView);
-map(ListType, ListTypeView);
+map(UnionType, UnionTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(TypePlaceholder, TypePlaceholderView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(Is, IsView, {
+    kind: 'predicate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(IsLocale, IsLocaleView, {
+    kind: 'predicate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(This, ThisView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Type, TypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
 
-map(FormattedType, FormattedTypeView);
+map(StructureType, StructureTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
 
-map(TableLiteral, TableLiteralView);
-map(TableType, TableTypeView);
-map(Row, RowView);
-map(Insert, InsertView);
-map(Delete, DeleteView);
-map(Update, UpdateView);
-map(Select, SelectView);
-
-map(Reaction, ReactionView);
-map(Previous, PreviousView);
-map(Changed, ChangedView);
-map(Initial, InitialView);
-map(StreamType, StreamTypeView);
-map(UnparsableType, UnparsableTypeView);
-map(UnparsableExpression, UnparsableExpressionView);
-
-map(UnionType, UnionTypeView);
-map(TypePlaceholder, TypePlaceholderView);
-map(Is, IsView);
-map(IsLocale, IsLocaleView);
-
-map(This, ThisView);
-
-map(Type, TypeView);
-
-map(StructureType, StructureTypeView);
-
-export default function getNodeView(node: Node): NodeViewComponent {
+export default function getNodeView(node: Node): {
+    component: NodeViewComponent;
+    style: BlockStyle;
+} {
     // Climb the class hierarchy until finding a satisfactory view of the node.
     let constructor = node.constructor;
     do {
@@ -306,5 +646,8 @@ export default function getNodeView(node: Node): NodeViewComponent {
         if (view !== undefined) return view;
         constructor = Object.getPrototypeOf(constructor);
     } while (constructor);
-    return UnknownNodeView;
+    return {
+        component: UnknownNodeView,
+        style: { kind: 'plain', direction: 'inline', size: 'normal' },
+    };
 }

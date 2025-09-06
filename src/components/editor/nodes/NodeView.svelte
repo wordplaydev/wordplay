@@ -6,8 +6,7 @@
 
 <script lang="ts">
     import ValueView from '@components/values/ValueView.svelte';
-    import Block from '@nodes/Block';
-    import Expression, { ExpressionKind } from '@nodes/Expression';
+    import Expression from '@nodes/Expression';
     import type Node from '@nodes/Node';
     import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
     import { locales } from '../../../db/Database';
@@ -80,12 +79,12 @@
     let highlights = getHighlights();
     let highlight = $derived(node ? $highlights?.get(node) : undefined);
 
-    let kind = $derived(
-        format.block && node instanceof Expression ? node.getKind() : undefined,
-    );
-
     // Get the Svelte component with which to render this node.
-    let ComponentView = $derived(node ? getNodeView(node) : undefined);
+    let view = $derived(node ? getNodeView(node) : undefined);
+    let ComponentView = $derived(view ? view.component : undefined);
+    let style = $derived(view ? view.style : undefined);
+
+    // If the format is block, get the block formmatting based on the component.
 
     // function symbolOccurs(text: string, symbol: string) {
     //     for (let i = 0; i < text.length; i++)
@@ -148,13 +147,12 @@
             {
                 block: format.block,
                 hide,
-                small,
-                evaluate: kind === ExpressionKind.Evaluate,
-                definition: kind === ExpressionKind.Definition,
+                small: small || style?.size === 'small',
+                inline: style?.direction === 'inline',
                 Token: node instanceof Token,
-                ProgramBlock: node instanceof Block && node.isRoot(),
                 highlighted: highlight,
             },
+            style?.kind,
         ]}
         data-uiid={node.getDescriptor()}
         data-id={node.id}
@@ -248,5 +246,84 @@
 
     .eval {
         color: var(--wordplay-evaluation-color);
+    }
+
+    .block {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        align-items: start;
+        width: fit-content;
+        height: fit-content;
+
+        padding: calc(var(--wordplay-spacing) / 4)
+            calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 4)
+            calc(var(--wordplay-spacing) / 2);
+        box-shadow: var(--color-shadow) 0px 0px 4px;
+        border-radius: var(--wordplay-border-radius);
+
+        animation: calc(var(--animation-factor) * 200ms) ease-out 0s 1 entry;
+    }
+
+    @keyframes entry {
+        0% {
+            transform: scale(1);
+        }
+        40% {
+            transform: scale(1.05);
+        }
+        70% {
+            transform: scale(0.98);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .block.inline {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 0;
+    }
+
+    .block.definition {
+        border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .block.evaluate {
+        border-block-end: var(--wordplay-focus-width) solid var(--color-purple);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .block.type {
+        font-size: var(--wordplay-small-font-size);
+        background: var(--wordplay-alternating-color);
+        box-shadow: inset var(--color-shadow) 0px 0px 4px;
+    }
+
+    .block.predicate {
+        border-inline-start: var(--wordplay-focus-width) solid var(--color-pink);
+        border-radius: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .block.data {
+        background: var(--wordplay-alternating-color);
+        box-shadow: inset var(--color-shadow) 0px 0px 4px;
+        border-radius: 0 var(--wordplay-border-radius) 0
+            var(--wordplay-border-radius);
+    }
+
+    .block.none {
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .small {
+        font-size: var(--wordplay-small-font-size);
     }
 </style>

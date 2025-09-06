@@ -4,7 +4,6 @@
     import type Bind from '../../../nodes/Bind';
     import Token from '../../../nodes/Token';
     import { getCaret, getProject } from '../../project/Contexts';
-    import Block from '../blocks/Block.svelte';
     import Delimiter from '../blocks/Delimiter.svelte';
     import PlaceholderView from '../menu/MenuTrigger.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
@@ -79,16 +78,15 @@
 </script>
 
 {#if format.block}
-    <Block style="evaluate">
-        <NodeView node={node.fun} {format} />
-        <NodeView node={node.types} {format} />
-        <Delimiter token={node.open} {format} />
-        {#each node.inputs as input}<NodeView
-                node={input}
-                {format}
-            /><PlaceholderView
-                position={input instanceof Input ? input.value : input}
-            />{/each}<!-- {#if nextBind}
+    <NodeView node={node.fun} {format} />
+    <NodeView node={node.types} {format} />
+    <Delimiter token={node.open} {format} />
+    {#each node.inputs as input}<NodeView
+            node={input}
+            {format}
+        /><PlaceholderView
+            position={input instanceof Input ? input.value : input}
+        />{/each}<!-- {#if nextBind}
             <div class="hint"
                 ><div class="name"
                     ><RootView
@@ -101,10 +99,9 @@
                     /></div
                 ></div
             >{/if} -->{#if nextBind && menuPosition}
-            &nbsp;<PlaceholderView position={menuPosition} />
-        {/if}
-        <Delimiter token={node.close} {format} />
-    </Block>
+        &nbsp;<PlaceholderView position={menuPosition} />
+    {/if}
+    <Delimiter token={node.close} {format} />
 {:else}
     <NodeView node={node.fun} {format} /><NodeView
         node={node.types}

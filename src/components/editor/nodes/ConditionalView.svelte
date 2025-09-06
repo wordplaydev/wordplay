@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { getIsBlocks } from '@components/project/Contexts';
     import type Conditional from '@nodes/Conditional';
+    import Column from '../blocks/Column.svelte';
+    import Row from '../blocks/Row.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
     interface Props {
@@ -9,21 +10,24 @@
     }
 
     let { node, format }: Props = $props();
-
-    const blocks = getIsBlocks();
 </script>
 
-{#if $blocks}
+{#if format.block}
+    <Row>
+        <NodeView node={node.condition} {format} /><NodeView
+            node={node.question}
+            {format}
+        />
+    </Row>
+    <Column indent>
+        <NodeView node={node.yes} {format} /><NodeView
+            node={node.no}
+            {format}
+        /></Column
+    >
+{:else}
     <NodeView node={node.condition} {format} /><NodeView
         node={node.question}
         {format}
-    />
-    <NodeView node={node.yes} {format} /><NodeView node={node.no} {format} />
-{:else}
-    <span class="condition"
-        ><NodeView node={node.condition} {format} /><NodeView
-            node={node.question}
-            {format}
-        /></span
-    ><NodeView node={node.yes} {format} /><NodeView node={node.no} {format} />
+    /><NodeView node={node.yes} {format} /><NodeView node={node.no} {format} />
 {/if}
