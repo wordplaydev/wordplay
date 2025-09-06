@@ -200,10 +200,9 @@ type BlockStyle = {
     size: 'normal' | 'small';
 };
 
-const nodeToView = new Map<
-    Function & { prototype: Node },
-    { component: NodeViewComponent; style: BlockStyle }
->();
+type BlockConfig = { component: NodeViewComponent; style: BlockStyle };
+
+const nodeToView = new Map<Function & { prototype: Node }, BlockConfig>();
 
 function map<Kind extends Node>(
     node: Function & { prototype: Kind },
@@ -635,10 +634,7 @@ map(StructureType, StructureTypeView, {
     size: 'small',
 });
 
-export default function getNodeView(node: Node): {
-    component: NodeViewComponent;
-    style: BlockStyle;
-} {
+export default function getNodeView(node: Node): BlockConfig {
     // Climb the class hierarchy until finding a satisfactory view of the node.
     let constructor = node.constructor;
     do {
