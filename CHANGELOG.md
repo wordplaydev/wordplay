@@ -8,6 +8,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Maintenance
 
 - Updated minor versions of Svelte, SvelteKit, Vite.
+- Updated uuid to 12.
+- Error reporting on TileView failure.
 
 ## 0.6.22
 

@@ -293,7 +293,11 @@
           }px`}
     bind:this={view}
 >
-    <svelte:boundary>
+    <svelte:boundary
+        onerror={(error) => {
+            if (error instanceof Error) console.error(error.stack);
+        }}
+    >
         {#snippet failed(error, reset)}
             <TileMessage error>
                 <h2><LocalizedText path={(l) => l.ui.project.error.tile} /></h2>
