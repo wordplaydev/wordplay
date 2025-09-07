@@ -3,12 +3,11 @@
     import { type Snippet } from 'svelte';
     import { locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
-    import Button from '../widgets/Button.svelte';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import ProjectPreview from './ProjectPreview.svelte';
+    import ProjectPreviewWithHighlight from './ProjectPreviewWithHighlight.svelte';
 
     interface Props {
         set: Project[];
+        searchTerm: string;
         edit:
             | {
                   description: LocaleTextAccessor;
@@ -34,18 +33,17 @@
         children?: Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
-        searchTerm?: string;
     }
 
     let {
         set,
+        searchTerm,
         edit,
         remove,
         copy,
         children,
         anonymize = true,
         showCollaborators = false,
-        searchTerm = '',
     }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
@@ -59,31 +57,17 @@
 
 <div class="projects">
     {#each listed as project (project.getID())}
-        {@const removeMeta = remove(project)}
-        <ProjectPreview
+        <ProjectPreviewWithHighlight
             {project}
-            link={project.getLink(true)}
+            {searchTerm}
+            {edit}
+            {remove}
+            {copy}
             {anonymize}
             {showCollaborators}
-            {searchTerm}
-            ><div class="controls">
-                {#if edit}<Button
-                        tip={edit.description}
-                        action={() => (edit ? edit.action(project) : undefined)}
-                        icon={edit.label}
-                    ></Button>{/if}{#if copy}<Button
-                        tip={copy.description}
-                        action={() => copy.action(project)}
-                        icon={copy.label}
-                    ></Button>{/if}{#if removeMeta}<ConfirmButton
-                        prompt={removeMeta.prompt}
-                        tip={removeMeta.description}
-                        action={() =>
-                            removeMeta ? removeMeta.action() : undefined}
-                        icon={removeMeta.label}
-                    ></ConfirmButton>{/if}</div
-            >{@render children?.()}</ProjectPreview
         >
+            {@render children?.()}
+        </ProjectPreviewWithHighlight>
     {/each}
 </div>
 
@@ -96,10 +80,4 @@
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
     }
-
-    .controls {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-    }
-</style>
+</style> 

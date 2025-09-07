@@ -35,6 +35,8 @@
         children?: import('svelte').Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
+        /** Search term for highlighting matches in project names */
+        searchTerm?: string;
     }
 
     function findCharacterName(value: Value): string | null {
@@ -71,6 +73,7 @@
         children,
         anonymize = true,
         showCollaborators = false,
+        searchTerm = '',
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
@@ -166,6 +169,26 @@
     const user = getUser();
 
     let path = $derived(link ?? project.getLink(true));
+    
+    // Highlight matching text in search results
+    function highlightText(text: string, searchTerm: string): string {
+        if (!searchTerm.trim()) return text;
+        
+        const searchLower = searchTerm.toLowerCase();
+        const textLower = text.toLowerCase();
+        
+        // First try exact substring match for highlighting
+        const index = textLower.indexOf(searchLower);
+        if (index !== -1) {
+            const before = text.substring(0, index);
+            const match = text.substring(index, index + searchTerm.length);
+            const after = text.substring(index + searchTerm.length);
+            return `${before}<mark class="search-highlight">${match}</mark>${after}`;
+        }
+        
+        // If no exact match, don't highlight (fuzzy matches are found but not highlighted)
+        return text;
+    }
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
 
@@ -223,14 +246,14 @@
     {#if name}
         <div class="name">
             {#if action}
-                {project.getName()}
+                {@html highlightText(project.getName(), searchTerm)}
             {:else}
                 <Link to={path}>
                     {#if project.getName().length === 0}<em class="untitled"
                             >&mdash;</em
                         >
                     {:else}
-                        {project.getName()}{/if}</Link
+                        {@html highlightText(project.getName(), searchTerm)}{/if}</Link
                 >
                 {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}
@@ -352,5 +375,13 @@
         margin-block-start: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
+    }
+    
+    :global(.search-highlight) {
+        background-color: #ffffff;
+        color: #1f2937;
+        padding: 0 2px;
+        border-radius: 2px;
+        font-weight: 600;
     }
 </style>

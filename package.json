@@ -9,6 +9,8 @@
         "lint": "eslint src",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
+        "test:search": "node scripts/test-search.js",
+        "test:search:interactive": "node scripts/test-search.js -i",
         "end2end": "npx playwright test",
         "dev": "vite dev",
         "emu": "npm run env && (cd functions && npm run build) && firebase emulators:start --project=demo-wordplay",
@@ -49,10 +51,6 @@
     "devDependencies": {
         "@google-cloud/translate": "^9",
         "@playwright/test": "^1",
-        "svelte": "^5",
-        "svelte-check": "^4",
-        "svelte-jester": "^5",
-        "svelte-preprocess": "^6.0",
         "@sveltejs/adapter-static": "^3",
         "@sveltejs/kit": "^2.20.6",
         "@sveltejs/vite-plugin-svelte": "^5",
@@ -71,6 +69,10 @@
         "prettier": "^3",
         "prettier-plugin-svelte": "^3",
         "run-script-os": "^1",
+        "svelte": "^5",
+        "svelte-check": "^4",
+        "svelte-jester": "^5",
+        "svelte-preprocess": "^6.0",
         "ts-jest": "^29",
         "ts-json-schema-generator": "^2",
         "tslib": "^2",
@@ -90,19 +92,23 @@
         "firebase-admin": "^13",
         "firebase-functions": "^6",
         "firebase-functions-test": "^3",
+        "fuse.js": "^7.1.0",
         "graphemer": "^1.4.0",
         "matter-js": "^0.20",
         "pitchy": "^4.1.0",
         "recoverable-random": "^1.0.5",
+        "shared-types": "file:./functions/src/shared",
         "uuid": "^11",
-        "zod": "^3.23.8",
-        "shared-types": "file:./functions/src/shared"
+        "zod": "^3.23.8"
     },
     "browserslist": [
         "defaults",
         "not op_mini all"
     ],
     "bundledDependencies": [
+        "shared-types"
+    ],
+    "bundleDependencies": [
         "shared-types"
     ]
 }
