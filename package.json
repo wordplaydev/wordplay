@@ -10,6 +10,8 @@
         "check": "svelte-check --tsconfig ./tsconfig.json --watch .svelte-kit",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
+        "test:search": "node scripts/test-search.js",
+        "test:search:interactive": "node scripts/test-search.js -i",
         "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay --log-verbosity QUIET",
         "dev": "vite dev",
         "emu": "firebase emulators:start --project=demo-wordplay",
@@ -86,6 +88,7 @@
         "dexie": "^4",
         "firebase": "^12",
         "firebase-admin": "^13",
+        "fuse.js": "^7.1.0",
         "graphemer": "^1",
         "matter-js": "^0",
         "picomatch": "^4",
@@ -100,6 +103,9 @@
     "browserslist": [
         "defaults",
         "not op_mini all"
+    ],
+    "bundleDependencies": [
+        "shared-types"
     ],
     "bundleDependencies": [
         "shared-types"

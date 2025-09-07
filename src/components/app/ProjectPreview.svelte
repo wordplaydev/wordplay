@@ -36,6 +36,8 @@
         children?: import('svelte').Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
+        /** Search term for highlighting matches in project names */
+        searchTerm?: string;
     }
 
     function findCharacterName(value: Value): string | null {
@@ -72,6 +74,7 @@
         children,
         anonymize = true,
         showCollaborators = false,
+        searchTerm = '',
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
@@ -171,6 +174,7 @@
     const user = getUser();
 
     let path = $derived(link ?? project.getLink(true));
+
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
 
@@ -227,17 +231,30 @@
             {/if}
         </div>
     </a>
+    {#snippet highlighted(text: string)}
+        {#if searchTerm.trim()}
+            {@const index = text.toLowerCase().indexOf(searchTerm.toLowerCase())}
+            {#if index !== -1}
+                {text.slice(0, index)}<mark class="search-highlight">{text.slice(index, index + searchTerm.length)}</mark>{text.slice(index + searchTerm.length)}
+            {:else}
+                {text}
+            {/if}
+        {:else}
+            {text}
+        {/if}
+    {/snippet}
+
     {#if name}
         <div class="name">
             {#if action}
-                {project.getName()}
+                {@render highlighted(project.getName())}
             {:else}
                 <Link to={path}>
                     {#if project.getName().length === 0}<em class="untitled"
                             >&mdash;</em
                         >
                     {:else}
-                        {project.getName()}{/if}</Link
+                        {@render highlighted(project.getName())}{/if}</Link
                 >
                 {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}
@@ -359,5 +376,13 @@
         margin-block-start: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
+    }
+
+    .search-highlight {
+        background-color: #ffffff;
+        color: #1f2937;
+        padding: 0 2px;
+        border-radius: 2px;
+        font-weight: 600;
     }
 </style>
