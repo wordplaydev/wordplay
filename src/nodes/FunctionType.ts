@@ -1,30 +1,27 @@
-import Token from './Token';
-import Sym from './Sym';
-import Type from './Type';
-import type Context from './Context';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
 import Bind from './Bind';
-import { getEvaluationInputConflicts } from './util';
+import type Context from './Context';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
-import TypeVariables from './TypeVariables';
-import type TypeSet from './TypeSet';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import {
-    node,
-    type Grammar,
-    type Replacement,
-    optional as optional,
-    list,
-} from './Node';
-import Glyphs from '../lore/Glyphs';
+import type Expression from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { list, node, optional, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
-import type { TemplateInput } from '../locale/concretize';
-import NodeRef from '../locale/NodeRef';
-import type Locales from '../locale/Locales';
+import type TypeSet from './TypeSet';
+import TypeVariables from './TypeVariables';
+import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -44,7 +41,7 @@ export default class FunctionType extends Type {
         inputs: Bind[],
         close: Token | undefined,
         output: Type,
-        definition?: FunctionDefinition
+        definition?: FunctionDefinition,
     ) {
         super();
 
@@ -63,7 +60,7 @@ export default class FunctionType extends Type {
         typeVars: TypeVariables | undefined,
         inputs: Bind[],
         output: Type,
-        definition?: FunctionDefinition
+        definition?: FunctionDefinition,
     ) {
         return new FunctionType(
             new Token(FUNCTION_SYMBOL, Sym.Function),
@@ -72,15 +69,19 @@ export default class FunctionType extends Type {
             inputs,
             new EvalCloseToken(),
             output,
-            definition
+            definition,
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [FunctionType.make(undefined, [], TypePlaceholder.make())];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return this.getPossibleReplacements();
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'FunctionType';
     }
 
@@ -92,18 +93,14 @@ export default class FunctionType extends Type {
             this.inputs
                 .filter((input) => input.isRequired())
                 .map((input) => input.simplify(context).withoutType()),
-            ExpressionPlaceholder.make()
+            ExpressionPlaceholder.make(),
         );
     }
 
     getGrammar(): Grammar {
         return [
             { name: 'fun', kind: node(Sym.Function) },
-            {
-                name: 'types',
-                kind: optional(node(TypeVariables)),
-                space: true,
-            },
+            { name: 'types', kind: optional(node(TypeVariables)), space: true },
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
@@ -123,7 +120,7 @@ export default class FunctionType extends Type {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('inputs', this.inputs, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('output', this.output, replace)
+            this.replaceChild('output', this.output, replace),
         ) as this;
     }
 
@@ -134,7 +131,12 @@ export default class FunctionType extends Type {
             const outputToCheck = type.output;
 
             if (!(outputToCheck instanceof Type)) return false;
-            if (!this.output.accepts(outputToCheck, context)) return false;
+            if (
+                !this.output
+                    .generalize(context)
+                    .accepts(outputToCheck.generalize(context), context)
+            )
+                return false;
             // If this function takes fewer than the number of inputs that the given function expects,
             // then the given function will not function correctly. But it is okay if the given
             // function takes fewer inputs then this function, since it just means it's ignoring some of the inputs.
@@ -162,6 +164,16 @@ export default class FunctionType extends Type {
         });
     }
 
+    concretize(context: Context) {
+        return FunctionType.make(
+            this.types,
+            this.inputs.map((i) =>
+                i.type ? i.withType(i.type.concretize(context)) : i,
+            ),
+            this.output.concretize(context),
+        );
+    }
+
     simplify(context: Context) {
         // Simplify all of the binds
         return new FunctionType(
@@ -171,7 +183,7 @@ export default class FunctionType extends Type {
             this.inputs.map((i) => i.simplify(context)),
             this.close,
             this.output.simplify(context),
-            this.definition
+            this.definition,
         );
     }
 
@@ -188,11 +200,16 @@ export default class FunctionType extends Type {
         return [this.inputs.length, new NodeRef(this.output, locales, context)];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FunctionType);
+    static readonly LocalePath = (l: LocaleText) => l.node.FunctionType;
+    getLocalePath() {
+        return FunctionType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Function;
+    getCharacter() {
+        return Characters.FunctionDefinition;
+    }
+
+    getDefaultExpression(context: Context): Expression {
+        return this.getTemplate(context);
     }
 }

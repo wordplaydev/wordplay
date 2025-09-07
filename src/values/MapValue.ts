@@ -1,22 +1,23 @@
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import MapType from '@nodes/MapType';
 import UnionType from '@nodes/UnionType';
-import NumberValue from '@values/NumberValue';
-import NoneValue from '@values/NoneValue';
-import SimpleValue from './SimpleValue';
-import type Value from '@values/Value';
 import {
     BIND_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
 } from '@parser/Symbols';
+import NoneValue from '@values/NoneValue';
+import NumberValue from '@values/NumberValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import SimpleValue from './SimpleValue';
 
 export default class MapValue extends SimpleValue {
     readonly values: [Value, Value][];
+    private _type: MapType | undefined = undefined;
 
     /** Later values with equivalent keys override earlier values in the list. */
     constructor(creator: Expression, values: [Value, Value][]) {
@@ -98,16 +99,18 @@ export default class MapValue extends SimpleValue {
     }
 
     getType(context: Context) {
-        return MapType.make(
-            UnionType.getPossibleUnion(
-                context,
-                this.values.map((v) => v[0].getType(context)),
-            ),
-            UnionType.getPossibleUnion(
-                context,
-                this.values.map((v) => v[1].getType(context)),
-            ),
-        );
+        if (this._type === undefined)
+            this._type = MapType.make(
+                UnionType.getPossibleUnion(
+                    context,
+                    this.values.map((v) => v[0].getType(context)),
+                ),
+                UnionType.getPossibleUnion(
+                    context,
+                    this.values.map((v) => v[1].getType(context)),
+                ),
+            );
+        return this._type;
     }
 
     getBasisTypeName(): BasisTypeName {
@@ -125,11 +128,8 @@ export default class MapValue extends SimpleValue {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.map),
-        );
+    getDescription() {
+        return (l: LocaleText) => l.term.map;
     }
 
     getRepresentativeText() {

@@ -1,6 +1,17 @@
+<script lang="ts">
+    import { type Snippet } from 'svelte';
+
+    interface Props {
+        name: Snippet;
+        control: Snippet;
+    }
+
+    let { name, control }: Props = $props();
+</script>
+
 <div class="property">
-    <h3 class="name"><slot name="name" /></h3>
-    <div class="control"><slot name="control" /> </div>
+    <h3 class="name">{@render name()}</h3>
+    <div class="control">{@render control()} </div>
 </div>
 
 <style>

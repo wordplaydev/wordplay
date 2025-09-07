@@ -1,64 +1,65 @@
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import type Conflict from '@conflicts/Conflict';
+import DuplicateName from '@conflicts/DuplicateName';
+import { DuplicateShare } from '@conflicts/DuplicateShare';
+import IncompatibleType from '@conflicts/IncompatibleType';
+import { MisplacedShare } from '@conflicts/MisplacedShare';
+import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
+import UnexpectedEtc from '@conflicts/UnexpectedEtc';
+import UnusedBind from '@conflicts/UnusedBind';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import type { StreamCreator } from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Halt from '@runtime/Halt';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import ExceptionValue from '@values/ExceptionValue';
+import type Value from '@values/Value';
+import ValueException from '@values/ValueException';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
+import BindToken from './BindToken';
+import Block from './Block';
 import type Context from './Context';
+import type Definition from './Definition';
+import Docs from './Docs';
+import DocumentedExpression from './DocumentedExpression';
+import Evaluate from './Evaluate';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionDefinition from './FunctionDefinition';
+import FunctionType from './FunctionType';
+import getConcreteExpectedType from './Generics';
+import ListType from './ListType';
+import type Name from './Name';
+import Names from './Names';
+import NameType from './NameType';
+import type Node from './Node';
+import { any, node, none, type Grammar, type Replacement } from './Node';
+import StructureDefinition from './StructureDefinition';
+import Sym from './Sym';
 import Token from './Token';
 import Type from './Type';
-import type Conflict from '@conflicts/Conflict';
-import UnusedBind from '@conflicts/UnusedBind';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import UnexpectedEtc from '@conflicts/UnexpectedEtc';
-import NameType from './NameType';
-import StructureType from './StructureType';
-import StructureDefinition from './StructureDefinition';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import Start from '@runtime/Start';
-import Halt from '@runtime/Halt';
-import Finish from '@runtime/Finish';
-import Block from './Block';
-import ListType from './ListType';
-import ValueException from '@values/ValueException';
-import ExceptionValue from '@values/ExceptionValue';
-import type Definition from './Definition';
-import AnyType from './AnyType';
-import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
-import FunctionDefinition from './FunctionDefinition';
-import BindToken from './BindToken';
-import TypeToken from './TypeToken';
-import Docs from './Docs';
-import Names from './Names';
-import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
-import { MisplacedShare } from '@conflicts/MisplacedShare';
-import { DuplicateShare } from '@conflicts/DuplicateShare';
+import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
-import type Value from '@values/Value';
-import Sym from './Sym';
-import type Name from './Name';
-import DuplicateName from '@conflicts/DuplicateName';
-import { node, none, type Grammar, type Replacement, any } from './Node';
-import type Locale from '@locale/Locale';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Reaction from './Reaction';
-import Evaluate from './Evaluate';
-import FunctionType from './FunctionType';
-import concretize from '../locale/concretize';
-import getConcreteExpectedType from './Generics';
-import type Node from './Node';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Refer from '../edit/Refer';
+import TypeToken from './TypeToken';
 import UnknownType from './UnknownType';
-import type Locales from '../locale/Locales';
 
 export default class Bind extends Expression {
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly share: Token | undefined;
     readonly names: Names;
     readonly etc: Token | undefined;
-    readonly dot?: Token;
-    readonly type?: Type;
-    readonly colon?: Token;
-    readonly value?: Expression;
+    readonly dot: Token | undefined;
+    readonly type: Type | undefined;
+    readonly colon: Token | undefined;
+    readonly value: Expression | undefined;
 
     constructor(
         docs: Docs | undefined,
@@ -88,7 +89,7 @@ export default class Bind extends Expression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Bind';
     }
 
@@ -111,88 +112,64 @@ export default class Bind extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        expectedType: Type | undefined,
-        anchor: Node,
-        isBeingReplaced: boolean,
-        context: Context,
-    ) {
-        if (anchor instanceof Expression && isBeingReplaced) {
-            if (
-                expectedType === undefined ||
-                anchor.getParent(context) instanceof Block
-            )
+    static getPossibleReplacements({ node, context, type }: EditContext) {
+        if (node instanceof Expression) {
+            if (type === undefined || node.getParent(context) instanceof Block)
                 return [
-                    Bind.make(undefined, Names.make(['_']), undefined, anchor),
+                    Bind.make(undefined, Names.make(['_']), undefined, node),
                 ];
         }
-        // If offer insertions under various conditions
-        else {
-            const parent = anchor.getParent(context);
-            // Block? Offer to insert a blank one.
-            if (parent instanceof Block) {
-                return [
-                    Bind.make(
-                        undefined,
-                        Names.make(['_']),
-                        undefined,
-                        ExpressionPlaceholder.make(),
-                    ),
-                ];
-            }
-            // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
-            else if (
-                parent instanceof Evaluate &&
-                (anchor === parent.open ||
-                    (anchor instanceof Expression &&
-                        parent.inputs.includes(anchor)))
-            ) {
-                const mapping = parent.getInputMapping(context);
-                return mapping?.inputs
-                    .filter((input) => input.given === undefined)
-                    .map(
-                        (input) =>
-                            new Refer(
-                                (name) =>
-                                    Bind.make(
-                                        undefined,
-                                        Names.make([name]),
-                                        undefined,
-                                        ExpressionPlaceholder.make(),
-                                    ),
-                                input.expected,
-                            ),
-                    );
-            } else return [];
-        }
+    }
+
+    static getPossibleAppends() {
+        return [
+            Bind.make(
+                undefined,
+                Names.make(['_']),
+                undefined,
+                ExpressionPlaceholder.make(),
+            ),
+        ];
     }
 
     getGrammar(): Grammar {
         return [
-            {
-                name: 'docs',
-                kind: any(node(Docs), none()),
-            },
+            { name: 'docs', kind: any(node(Docs), none()) },
             {
                 name: 'share',
                 kind: any(node(Sym.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
             },
-            {
-                name: 'names',
-                kind: node(Names),
-            },
+            { name: 'names', kind: node(Names), newline: true },
             {
                 name: 'etc',
                 kind: any(node(Sym.Etc), none()),
                 getToken: () => new Token(ETC_SYMBOL, Sym.Etc),
             },
-            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
-            { name: 'type', kind: any(node(Type), none('dot')) },
-            { name: 'colon', kind: any(node(Sym.Bind), none('value')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['type', () => TypePlaceholder.make()]),
+                ),
+            },
+            {
+                name: 'type',
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+            },
+            {
+                name: 'colon',
+                kind: any(
+                    node(Sym.Bind),
+                    none(['value', () => ExpressionPlaceholder.make()]),
+                ),
+            },
             {
                 name: 'value',
-                kind: any(node(Expression), none('colon')),
+                kind: any(
+                    node(Expression),
+                    none(['colon', () => new BindToken()]),
+                ),
                 space: true,
                 indent: true,
                 // The bind field should be whatever type is expected.
@@ -201,8 +178,8 @@ export default class Bind extends Expression {
                     if (child === this.value) {
                         const bind =
                             this.getCorrespondingBindDefinition(context);
-                        return bind ? locales.getName(bind.names) : '_';
-                    } else return '_';
+                        return () => (bind ? locales.getName(bind.names) : '_');
+                    } else return () => '_';
                 },
             },
         ];
@@ -228,6 +205,10 @@ export default class Bind extends Expression {
     /** Copy this bind, but with the given type */
     withType(type: Type) {
         return this.clone({ original: 'type', replacement: type });
+    }
+
+    withNames(names: Names) {
+        return this.clone({ original: 'names', replacement: names });
     }
 
     /** Used to help generate function and structure types without extraneous information */
@@ -302,11 +283,12 @@ export default class Bind extends Expression {
     sharesName(bind: Bind) {
         return this.names.sharesName(bind.names);
     }
+
     getNames(): string[] {
         return this.names.getNames();
     }
 
-    getPreferredName(locales: Locale[]) {
+    getPreferredName(locales: LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 
@@ -351,7 +333,22 @@ export default class Bind extends Expression {
                 );
         }
 
-        // It can't already be defined. Warn on similar casing.
+        // Warn on duplicate names. Find all the names that appear more than once.
+        for (const [, duplicate] of this.names.names.map((name1, index1) => {
+            return [
+                name1,
+                (name1.getName() ?? '').length > 0
+                    ? this.names.names.find(
+                          (name2, index2) =>
+                              index2 > index1 && name1.isEqualTo(name2),
+                      )
+                    : undefined,
+            ] as const;
+        })) {
+            if (duplicate) conflicts.push(new DuplicateName(this, duplicate));
+        }
+
+        // It can't already be defined by another bind. Warn on similar casing.
         // Check for duplicate names, unless this is an input in an evaluate, in which
         // case the name isn't actually a binding.
         if (!this.isEvaluationInput(context)) {
@@ -466,10 +463,9 @@ export default class Bind extends Expression {
 
         // If the type is a name, and it refers to a structure, resolve it.
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
-        if (type instanceof NameType) {
-            const nameType = type.getType(context);
-            if (nameType instanceof StructureType) return nameType;
-        }
+        type = type.nodes().some((t) => t instanceof NameType)
+            ? type.concretize(context)
+            : type;
 
         return type;
     }
@@ -588,16 +584,26 @@ export default class Bind extends Expression {
               ]
             : [
                   new Start(this, (evaluator) => {
-                      // Before evaluating the bind's value, see if the value expression previously evaluated to
-                      // a stream, and if so, bind this Bind's names to the previous value. This allows
-                      // for stream-based recurrence relations, where a stream or reaction's future values can be
+                      // Unrwap any wrapped expression from the bind's value expression.
+                      const value =
+                          this.value instanceof DocumentedExpression
+                              ? this.value.expression
+                              : this.value instanceof Block &&
+                                  this.value.statements.length === 1
+                                ? this.value.statements[0]
+                                : this.value;
+
+                      // If it's a reaction or evaluate, bind the names to the previous value.
+                      // This allows for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
+                      // Note, we can't use instanceof here to type guard because of circular dependencies.
                       if (
-                          this.value instanceof Evaluate ||
-                          this.value instanceof Reaction
+                          value !== undefined &&
+                          (value.getDescriptor() === 'Evaluate' ||
+                              value.getDescriptor() === 'Reaction')
                       ) {
                           const stream = evaluator.getStreamFor(
-                              this.value,
+                              value as StreamCreator,
                               true,
                           );
                           const latest = stream?.latest();
@@ -643,14 +649,14 @@ export default class Bind extends Expression {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Bind);
+    static readonly LocalePath = (l: LocaleText) => l.node.Bind;
+    getLocalePath() {
+        return Bind.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Bind.start),
+        return locales.concretize(
+            (l) => l.node.Bind.start,
             this.value === undefined
                 ? undefined
                 : new NodeRef(this.value, locales, context),
@@ -662,9 +668,8 @@ export default class Bind extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Bind.finish),
+        return locales.concretize(
+            (l) => l.node.Bind.finish,
             this.getValueIfDefined(locales, context, evaluator),
             new NodeRef(
                 this.names,
@@ -679,11 +684,14 @@ export default class Bind extends Expression {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs() {
-        return Glyphs.Bind;
+    getCharacter(locales: Locales) {
+        const preferredName =
+            this.names.getPreferredName(locales.getLocales())?.getName() ??
+            this.names.getNames()[0];
+        return preferredName ? { symbols: preferredName } : Characters.Bind;
     }
 
     getKind() {
-        return ExpressionKind.Simple;
+        return ExpressionKind.Definition;
     }
 }

@@ -1,70 +1,91 @@
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
-    import { locales } from '../../db/Database';
-    import Button from './Button.svelte';
-    import type { DialogText } from '../../locale/UITexts';
+    import { clickOutside } from '@components/app/clickOutside';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { tick } from 'svelte';
     import Header from '../app/Header.svelte';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import Button from './Button.svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
-    export let show = false;
-    export let description: DialogText;
-    export let closeable = true;
-    export let button:
-        | { tip: string; icon?: string; label: string }
-        | undefined = undefined;
+    interface Props {
+        show?: boolean;
+        header: LocaleTextAccessor;
+        explanation: LocaleTextsAccessor;
+        closeable?: boolean;
+        button?:
+            | {
+                  tip: LocaleTextAccessor;
+                  icon?: string;
+                  label?: string | LocaleTextAccessor;
+              }
+            | undefined;
+        children?: import('svelte').Snippet;
+    }
 
-    let view: HTMLDialogElement | undefined = undefined;
+    let {
+        show = $bindable(false),
+        header,
+        explanation,
+        closeable = true,
+        button = undefined,
+        children,
+    }: Props = $props();
 
-    $: {
+    let view: HTMLDialogElement | undefined = $state(undefined);
+
+    /** Show and focus dialog when shown, hide when not. */
+    $effect(() => {
         if (view) {
             if (show) {
                 view.showModal();
-                tick().then(() => view?.focus());
+                tick().then(() =>
+                    view
+                        ? setKeyboardFocus(view, 'Focusing dialog')
+                        : undefined,
+                );
             } else {
                 view.close();
             }
-        }
-    }
-
-    function outclick(event: PointerEvent) {
-        if (view && event.target === view) show = false;
-    }
-
-    onMount(() => {
-        if (closeable) {
-            document.addEventListener('pointerdown', outclick);
-            return () => document.removeEventListener('pointerdown', outclick);
         }
     });
 </script>
 
 {#if button}
-    <Button tip={button.tip} action={() => (show = true)}
-        >{#if button.icon}<Emoji>{button.icon}</Emoji>
-        {/if}{button.label}</Button
+    <Button tip={button.tip} action={() => (show = true)} icon={button.icon}>
+        {#if button.label}{#if typeof button.label === 'string'}{button.label}{:else}<LocalizedText
+                    path={button.label}
+                />{/if}{/if}</Button
     >
 {/if}
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
     bind:this={view}
+    use:clickOutside={() => (show = false)}
     tabindex="-1"
-    on:keydown={closeable
+    onkeydown={closeable
         ? (event) => (event.key === 'Escape' ? (show = false) : undefined)
         : undefined}
 >
-    <div class="content">
-        <Header>{description.header}</Header>
-        <MarkupHtmlView markup={description.explanation} />
-        <slot />
+    <div class="container">
         {#if closeable}
             <div class="close">
                 <Button
-                    tip={$locales.get((l) => l.ui.widget.dialog.close)}
-                    action={() => (show = false)}>❌</Button
-                >
+                    tip={(l) => l.ui.widget.dialog.close}
+                    action={() => (show = false)}
+                    icon="❌"
+                ></Button>
             </div>
         {/if}
+
+        <div class="content">
+            <Header text={header} />
+            <MarkupHTMLView markup={explanation} />
+            {@render children?.()}
+        </div>
     </div>
 </dialog>
 
@@ -72,28 +93,43 @@
     dialog {
         position: relative;
         border-radius: var(--wordplay-border-radius);
-        padding: 2em;
+        padding: 0;
         margin-left: auto;
         margin-right: auto;
-        max-width: 40em;
+        max-width: 95vw;
         height: max-content;
         background-color: var(--wordplay-background);
         color: var(--wordplay-foreground);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        font-size: var(--wordplay-font-size);
     }
 
     dialog::backdrop {
         transition: backdrop-filter;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(2px);
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        padding: 1em;
     }
 
     .close {
-        position: absolute;
-        top: calc(2 * var(--wordplay-spacing));
-        right: calc(2 * var(--wordplay-spacing));
+        position: sticky;
+        top: 1em;
+        width: 100%;
+        text-align: right;
+        z-index: 2;
     }
 
     .content {
         min-height: 100%;
+        padding: 1em;
+        padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 </style>

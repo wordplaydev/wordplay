@@ -1,21 +1,22 @@
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Type from '@nodes/Type';
-import type Step from '@runtime/Step';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Expression from '@nodes/Expression';
-import type Evaluation from '@runtime/Evaluation';
-import type TypeSet from '@nodes/TypeSet';
-import StartFinish from '@runtime/StartFinish';
 import SimpleExpression from '@nodes/SimpleExpression';
-import InternalException from '@values/InternalException';
-import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/concretize';
-import Purpose from '../concepts/Purpose';
-import Start from '@runtime/Start';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import type Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
-import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/parseType';
+import Start from '@runtime/Start';
+import StartFinish from '@runtime/StartFinish';
+import type Step from '@runtime/Step';
+import InternalException from '@values/InternalException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import parseType from '../parser/parseType';
+import { toTokens } from '../parser/toTokens';
 
 export default class InternalExpression extends SimpleExpression {
     readonly type: Type;
@@ -38,12 +39,12 @@ export default class InternalExpression extends SimpleExpression {
         this.evaluator = evaluator;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'InternalExpression';
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getGrammar() {
@@ -64,6 +65,10 @@ export default class InternalExpression extends SimpleExpression {
 
     isConstant() {
         return false;
+    }
+
+    isInternal() {
+        return true;
     }
 
     compile(): Step[] {
@@ -100,18 +105,16 @@ export default class InternalExpression extends SimpleExpression {
         return this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.InternalExpression);
+    static readonly LocalePath = (l: LocaleText) => l.node.InternalExpression;
+    getLocalePath() {
+        return InternalExpression.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.InternalExpression.start),
-        );
+        return locales.concretize((l) => l.node.InternalExpression.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Basis;
+    getCharacter() {
+        return Characters.Basis;
     }
 }

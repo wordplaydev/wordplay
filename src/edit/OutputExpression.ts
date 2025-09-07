@@ -1,18 +1,19 @@
-import type Project from '../models/Project';
-import Evaluate from '../nodes/Evaluate';
-import StructureDefinition from '@nodes/StructureDefinition';
-import Expression from '@nodes/Expression';
-import type Value from '@values/Value';
 import Bind from '@nodes/Bind';
+import Expression from '@nodes/Expression';
+import Input from '@nodes/Input';
 import Literal from '@nodes/Literal';
+import StructureDefinition from '@nodes/StructureDefinition';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
-import type OutputProperty from './OutputProperty';
-import getStageProperties from './StageProperties';
-import getGroupProperties from './GroupProperties';
-import getPhraseProperties from './PhraseProperties';
-import getShapeProperties from './getShapeProperties';
+import type Value from '@values/Value';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
+import Evaluate from '../nodes/Evaluate';
+import getGroupProperties from './GroupProperties';
+import type OutputProperty from './OutputProperty';
+import getPhraseProperties from './PhraseProperties';
+import getStageProperties from './StageProperties';
+import getShapeProperties from './getShapeProperties';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
@@ -57,6 +58,7 @@ export default class OutputExpression {
     getType(): StructureDefinition | undefined {
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
+
         return fun instanceof StructureDefinition &&
             (fun === this.project.shares.output.Stage ||
                 fun === this.project.shares.output.Group ||
@@ -118,7 +120,7 @@ export default class OutputExpression {
         const expression =
             binding.given === undefined
                 ? binding.expected.value
-                : binding.given instanceof Bind
+                : binding.given instanceof Input
                   ? binding.given.value
                   : binding.given;
 
@@ -134,7 +136,7 @@ export default class OutputExpression {
                 expression instanceof Expression ? expression : undefined,
             value:
                 expression instanceof Literal
-                    ? expression.getValue(this.locales)
+                    ? expression.getValue(this.locales.getLocales())
                     : undefined,
         };
     }

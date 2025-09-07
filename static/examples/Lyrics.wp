@@ -1,0 +1,43 @@
+Lyrics
+=== start/en
+Stage([
+    Scene([        
+		Phrase('In the next world war' duration: 3s)
+		Phrase('In a jackknifed juggernaut' duration: 3s rotation: 5° entering: Pose(opacity: 0 rotation: 0°))
+        Phrase('I am born again' duration: 3s entering: Pose(scale: 2))
+        Phrase('In the neon sign scrolling up and down' 
+            color: 🌈(50% 136 337°)  
+            entering: Sequence({
+                0%: Pose(offset: Place(0m -2m)) 
+                50%: Pose(offset: Place(0m 2m)) 
+                100%: Pose(offset: Place(0m -2m))} 
+                duration: 3s
+            )
+        )
+        Phrase('I am born again' duration: 3s entering: Pose(scale: 2))
+        Phrase('In an interstellar burst' entering: Sequence(shake() 0.75s count: 5x))
+        Phrase('I am back to save the universe' duration: 2s)
+        Phrase('In a deep, deep sleep of the innocent' duration: 2s)
+        Phrase('I am born again' duration: 2s entering: Pose(scale: 2))
+        Phrase('In a fast German car' 
+            entering: Sequence({
+                0%: Pose(offset: Place(-10m 0m)) 
+                50%: Pose(offset: Place(1m 0m)) 
+                100%: Pose(offset: Place(0m 0m))} 
+                duration: 3s)
+            )
+        Phrase("I'm amazed that I survived" duration: 3s)
+        Phrase('An airbag saved my life' duration: 3s scale: 0.5)
+        Phrase('In an interstellar burst' entering: Sequence(shake() 0.75s count: 5x))
+        Phrase('I am back to save the universe' duration: 3s)
+        Phrase('In an interstellar burst' entering: Sequence(shake() 0.75s count: 5x))
+        Phrase('I am back to save the universe' duration: 3s)
+        Phrase('In an interstellar burst' entering: Sequence(shake() 0.75s count: 5x))
+        Phrase('I am back to save the universe' duration: 3s)
+				Phrase('Radiohead - Airbag')
+    	]
+		)]
+	face: 'Phudu'
+	background: Color(0 0 0°)
+	color: Color(100 0 0°)
+)

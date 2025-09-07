@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type ConversionDefinition from './ConversionDefinition';
-import type FunctionDefinition from './FunctionDefinition';
-import Node from './Node';
-import type Context from './Context';
-import type Expression from './Expression';
-import TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
+import type Context from './Context';
+import type ConversionDefinition from './ConversionDefinition';
+import type Expression from './Expression';
+import type FunctionDefinition from './FunctionDefinition';
+import Node from './Node';
+import TypeSet from './TypeSet';
 
 export default abstract class Type extends Node {
     constructor() {
@@ -25,17 +25,22 @@ export default abstract class Type extends Node {
         return this.acceptsAll(
             new TypeSet(type.getPossibleTypes(context), context),
             context,
-            expression
+            expression,
         );
     }
 
     abstract acceptsAll(
         types: TypeSet,
         context: Context,
-        expression?: Expression
+        expression?: Expression,
     ): boolean;
 
     abstract getBasisTypeName(): BasisTypeName;
+
+    /** Subclasses can optionally resolve names. Mainly used to resolve name types into concrete structure types. */
+    concretize(_: Context): Type {
+        return this;
+    }
 
     /** Subclasses override to abstract away from any literal types specified inside the type. */
     generalize(_: Context): Type {
@@ -72,7 +77,7 @@ export default abstract class Type extends Node {
     getConversion(
         context: Context,
         input: Type,
-        output: Type
+        output: Type,
     ): ConversionDefinition | undefined {
         return context
             .getBasis()
@@ -87,12 +92,17 @@ export default abstract class Type extends Node {
 
     getFunction(
         context: Context,
-        name: string
+        name: string,
     ): FunctionDefinition | undefined {
         return context.getBasis().getFunction(this.getBasisTypeName(), name);
     }
 
     resolveTypeVariable(_: string, __: Context): Type | undefined {
+        return undefined;
+    }
+
+    /** Return a reasonable default expression for the type, if one exists. Subclasses can override. */
+    getDefaultExpression(_: Context): Expression | undefined {
         return undefined;
     }
 }

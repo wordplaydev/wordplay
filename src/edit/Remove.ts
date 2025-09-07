@@ -1,10 +1,10 @@
-import type { Edit } from '../components/editor/util/Commands';
-import Revision from './Revision';
-import type Node from '@nodes/Node';
-import Caret from './Caret';
 import type Context from '@nodes/Context';
-import concretize from '../locale/concretize';
+import type Node from '@nodes/Node';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type { Edit } from '../components/editor/util/Commands';
 import type Locales from '../locale/Locales';
+import Caret from './Caret';
+import Revision from './Revision';
 
 /**
  * Remove one or more nodes from sequence of nodes in a parent.
@@ -48,15 +48,15 @@ export default class Remove extends Revision {
         let newSource = this.context.source.withProgram(
             this.context.source.expression.replace(this.parent, newParent),
             // Preserve the space before the removed node.
-            this.context.source.spaces.withReplacement(this.nodes[0], undefined)
+            this.context.source.spaces.withReplacement(
+                this.nodes[0],
+                undefined,
+            ),
         );
 
         // Ensure new parent has preferred space
         newSource = newSource.withSpaces(
-            newSource.spaces.withPreferredSpaceForNode(
-                newSource.root,
-                newParent
-            )
+            getPreferredSpaces(newParent, newSource.spaces),
         );
 
         // Return the new source and place the caret after the replacement.
@@ -91,7 +91,7 @@ export default class Remove extends Revision {
         // Verify that this is a valid replacement.
         if (!indicies.every((index) => index >= 0))
             throw Error(
-                "Uh oh, someone passed children that aren't in the given parent."
+                "Uh oh, someone passed children that aren't in the given parent.",
             );
 
         // Remove each child.
@@ -109,10 +109,9 @@ export default class Remove extends Revision {
     }
 
     getDescription(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.ui.edit.remove),
-            this.getNewNode().getLabel(locales)
+        return locales.concretize(
+            (l) => l.ui.edit.remove,
+            this.getNewNode().getLabel(locales),
         );
     }
 
@@ -122,7 +121,7 @@ export default class Remove extends Revision {
             this.nodes.every(
                 (node, index) =>
                     transform.nodes[index] !== undefined &&
-                    node.isEqualTo(transform.nodes[index])
+                    node.isEqualTo(transform.nodes[index]),
             )
         );
     }

@@ -1,17 +1,17 @@
-import toStructure from '../basis/toStructure';
-import type Value from '@values/Value';
-import type Color from './Color';
-import Valued from './Valued';
-import type Place from './Place';
 import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import Sequence from './Sequence';
-import TextLang from './TextLang';
+import type Value from '@values/Value';
+import { type SupportedFace } from '../basis/Fonts';
+import toStructure from '../basis/toStructure';
+import type Locales from '../locale/Locales';
+import type Color from './Color';
+import type Place from './Place';
 import type Pose from './Pose';
 import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
-import Fonts, { type SupportedFace } from '../basis/Fonts';
-import type Locales from '../locale/Locales';
+import Sequence from './Sequence';
+import TextLang from './TextLang';
+import Valued from './Valued';
 
 export function createOutputType(locales: Locales) {
     return toStructure(`
@@ -27,6 +27,7 @@ export default abstract class Output extends Valued {
     readonly face: SupportedFace | undefined;
     readonly place: Place | undefined;
     readonly name: TextLang | string;
+    readonly description: TextLang | undefined;
     readonly selectable: boolean;
     readonly background: Color | undefined;
     readonly pose: DefinitePose;
@@ -43,6 +44,7 @@ export default abstract class Output extends Valued {
         font: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
+        description: TextLang | undefined = undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -51,7 +53,7 @@ export default abstract class Output extends Valued {
         moving: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
-        style: string
+        style: string,
     ) {
         super(value);
 
@@ -59,6 +61,7 @@ export default abstract class Output extends Valued {
         this.face = font;
         this.place = place;
         this.name = name;
+        this.description = description;
         this.selectable = selectable;
         this.background = background;
         this.pose = pose;
@@ -68,8 +71,6 @@ export default abstract class Output extends Valued {
         this.exiting = exiting;
         this.duration = duration;
         this.style = style;
-
-        if (this.face) Fonts.loadFace(this.face);
     }
 
     abstract getLayout(context: RenderContext): {
@@ -90,11 +91,15 @@ export default abstract class Output extends Valued {
     abstract getShortDescription(locales: Locales): string;
     abstract getDescription(locales: Locales): string;
 
+    abstract getEntryAnimated(): Output[];
+
     /* 
     Given a predict function that takes a type input, recursively scans
     outputs for a match.
     */
     abstract find(check: (output: Output) => boolean): Output | undefined;
+
+    abstract gatherFaces(set: Set<SupportedFace>): Set<SupportedFace>;
 
     getRestOrDefaultPose(): Pose | Sequence {
         return this.resting ?? this.pose;
@@ -102,8 +107,8 @@ export default abstract class Output extends Valued {
 
     getFirstRestPose(): Pose {
         return this.resting instanceof Sequence
-            ? this.resting.getFirstPose() ?? this.pose
-            : this.resting ?? this.pose;
+            ? (this.resting.getFirstPose() ?? this.pose)
+            : (this.resting ?? this.pose);
     }
 
     getDefaultPose(): DefinitePose {

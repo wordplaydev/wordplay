@@ -1,18 +1,22 @@
-import Paragraph from './Paragraph';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Content from './Content';
-import type { TemplateInput } from '../locale/concretize';
-import { list, node, type Grammar, type Replacement } from './Node';
-import type Spaces from '../parser/Spaces';
-import { toMarkup } from '../parser/toMarkup';
-import Token from './Token';
-import Sym from './Sym';
-import type Node from './Node';
-import Words from './Words';
-import type { FormattedText } from '../output/Phrase';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { FontWeight } from '../basis/Fonts';
+import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type { FormattedText } from '../output/Phrase';
+import Spaces from '../parser/Spaces';
+import { toMarkup } from '../parser/toMarkup';
+import { getCodepointFromString } from '../unicode/getCodepoint';
+import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
+import Content from './Content';
+import Example from './Example';
+import Node, { list, node, type Grammar, type Replacement } from './Node';
+import Paragraph, { type Segment } from './Paragraph';
+import Sym from './Sym';
+import Token from './Token';
+import Words from './Words';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -38,11 +42,15 @@ export default class Markup extends Content {
         return markup;
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [new Markup([new Paragraph([])])];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [new Markup([new Paragraph([])])];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'Markup';
     }
 
@@ -69,19 +77,33 @@ export default class Markup extends Content {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Markup);
+    static readonly LocalePath = (l: LocaleText) => l.node.Markup;
+
+    getLocalePath() {
+        return Markup.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Markup;
+    getCharacter() {
+        return Characters.Markup;
     }
 
     getDescriptionInputs() {
         return [this.paragraphs.length];
+    }
+
+    getExamples(): Example[] {
+        return this.paragraphs
+            .map((p) => p.segments.filter((e) => e instanceof Example))
+            .flat();
+    }
+
+    getNodeSegments() {
+        return this.paragraphs
+            .map((p) => p.segments.filter((e) => e instanceof Node))
+            .flat();
     }
 
     concretize(locales: Locales, inputs: TemplateInput[]): Markup | undefined {
@@ -138,22 +160,32 @@ export default class Markup extends Content {
         const formats: FormattedText[] = [];
         const words: Words[] = [];
         for (const node of this.traverseTopDownWithEnterAndExit()) {
+            const italic = words.some((word) => word.getFormat() === 'italic');
+            const weight =
+                words
+                    .map((word) => word.getWeight())
+                    .filter((word): word is FontWeight => word !== undefined)
+                    .at(-1) ?? 400;
             if (node instanceof Words) {
                 if (words[0] === node) words.shift();
                 else words.unshift(node);
-            } else if (node instanceof Token && node.isSymbol(Sym.Words)) {
-                formats.push({
-                    text: node.getText(),
-                    italic: words.some((word) => word.getFormat() === 'italic'),
-                    weight:
-                        words
-                            .map((word) => word.getWeight())
-                            .filter(
-                                (word): word is FontWeight =>
-                                    word !== undefined,
-                            )
-                            .at(-1) ?? 400,
-                });
+            } else if (node instanceof Token) {
+                if (node.isSymbol(Sym.Words)) {
+                    formats.push({ text: node.getText(), italic, weight });
+                } else if (node.isSymbol(Sym.Concept)) {
+                    const match = ConceptLink.parse(node.getText().slice(1));
+                    if (match instanceof CodepointName)
+                        formats.push({
+                            text:
+                                getCodepointFromString(
+                                    node.getText().slice(1),
+                                ) ?? node.getText(),
+                            italic,
+                            weight,
+                        });
+                    else if (match instanceof CharacterName)
+                        formats.push({ text: node.getText(), italic, weight });
+                }
             }
         }
         return formats;
@@ -172,6 +204,32 @@ export default class Markup extends Content {
                 (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
             )[0]
             ?.getText();
+    }
+
+    append(markups: (Markup | Token)[]): Markup {
+        let segments: Segment[] = [];
+        const tokens: Token[] = [];
+        let spaces: Spaces | undefined = this.spaces;
+        for (const markup of [this, ...markups]) {
+            if (markup instanceof Markup) {
+                const markupSegments = markup.paragraphs
+                    .map((p) => p.segments)
+                    .flat();
+                segments = [...segments, ...markupSegments];
+                if (markup.spaces) {
+                    spaces = spaces
+                        ? spaces.withSpaces(markup.spaces)
+                        : markup.spaces
+                          ? markup.spaces
+                          : undefined;
+                }
+            } else if (markup instanceof Token) {
+                segments.push(markup);
+                tokens.push(markup);
+            }
+        }
+
+        return new Markup([new Paragraph(segments)], spaces);
     }
 
     toString() {

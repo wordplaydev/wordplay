@@ -1,14 +1,16 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import Sym from '@nodes/Sym';
+    import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import type FunctionValue from '@values/FunctionValue';
     import SymbolView from './SymbolView.svelte';
-    import { FUNCTION_SYMBOL } from '@parser/Symbols';
-    import Sym from '@nodes/Sym';
-    import { locales } from '@db/Database';
 
-    export let value: FunctionValue;
-    export let inline = true;
+    interface Props {
+        value: FunctionValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 </script>
 
 {#if inline || !inline}

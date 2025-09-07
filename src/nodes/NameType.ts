@@ -1,24 +1,26 @@
 import type Conflict from '@conflicts/Conflict';
+import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
+import { UnknownName } from '@conflicts/UnknownName';
 import { UnknownTypeName } from '@conflicts/UnknownTypeName';
-import type Token from './Token';
-import Type from './Type';
-import TypeVariable from './TypeVariable';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Emotion from '../lore/Emotion';
 import type Context from './Context';
 import type Definition from './Definition';
-import StructureDefinition from './StructureDefinition';
-import VariableType from './VariableType';
 import NameToken from './NameToken';
-import TypeInputs from './TypeInputs';
-import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import type TypeSet from './TypeSet';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import UnknownNameType from './UnknownNameType';
 import type Node from './Node';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import { UnknownName } from '@conflicts/UnknownName';
-import Emotion from '../lore/Emotion';
+import { node, optional, type Grammar, type Replacement } from './Node';
+import StructureDefinition from './StructureDefinition';
+import StructureType from './StructureType';
 import Sym from './Sym';
-import type Locales from '../locale/Locales';
+import type Token from './Token';
+import Type from './Type';
+import TypeInputs from './TypeInputs';
+import type TypeSet from './TypeSet';
+import TypeVariable from './TypeVariable';
+import UnknownNameType from './UnknownNameType';
+import VariableType from './VariableType';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -28,7 +30,7 @@ export default class NameType extends Type {
     constructor(
         type: Token | string,
         types?: TypeInputs,
-        definition?: Definition
+        definition?: Definition,
     ) {
         super();
 
@@ -43,7 +45,7 @@ export default class NameType extends Type {
         return new NameType(new NameToken(name), undefined, definition);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NameType';
     }
 
@@ -57,7 +59,7 @@ export default class NameType extends Type {
     clone(replace?: Replacement) {
         return new NameType(
             this.replaceChild('name', this.name, replace),
-            this.replaceChild('types', this.types, replace)
+            this.replaceChild('types', this.types, replace),
         ) as this;
     }
 
@@ -105,8 +107,8 @@ export default class NameType extends Type {
                             new UnexpectedTypeInput(
                                 this,
                                 this.types.types[index],
-                                def
-                            )
+                                def,
+                            ),
                         );
                         break;
                     }
@@ -125,6 +127,12 @@ export default class NameType extends Type {
 
     getPossibleTypes(context: Context): Type[] {
         return [this.getType(context)];
+    }
+
+    concretize(context: Context): Type {
+        const concrete = this.getType(context);
+        // If it's a structure type, return it, otherwise leave it as a type variable.
+        return concrete instanceof StructureType ? concrete : this;
     }
 
     resolve(context?: Context): Definition | undefined {
@@ -161,8 +169,11 @@ export default class NameType extends Type {
         // Type variable? If it has a constraint, return that type. Otherwise return a variable type.
         else if (definition instanceof TypeVariable) {
             if (definition.type) return definition.type;
-            else return new VariableType(definition);
-        }
+            else {
+                return new VariableType(definition);
+            }
+        } else if (definition instanceof StructureDefinition)
+            return new StructureType(definition, this.types?.types ?? []);
         // Some other type? Get the definition's type.
         else return definition.getType(context);
     }
@@ -171,18 +182,23 @@ export default class NameType extends Type {
         return 'name';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NameType);
+    static readonly LocalePath = (l: LocaleText) => l.node.NameType;
+    getLocalePath() {
+        return NameType.LocalePath;
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.name.getText(),
-            emotion: Emotion.kind,
-        };
+    getCharacter() {
+        return { symbols: this.name.getText(), emotion: Emotion.kind };
     }
 
     getDescriptionInputs() {
         return [this.name.getText()];
+    }
+
+    getDefaultExpression(context: Context) {
+        const type = this.resolve(context);
+        if (type instanceof StructureDefinition)
+            return type.getType(context).getDefaultExpression(context);
+        return undefined;
     }
 }

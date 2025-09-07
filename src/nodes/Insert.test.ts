@@ -1,12 +1,12 @@
-import { test, expect } from 'vitest';
-import { testConflict } from '@conflicts/TestUtilities';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import Insert from './Insert';
-import MissingCell from '@conflicts/MissingCell';
 import InvalidRow from '@conflicts/InvalidRow';
+import MissingCell from '@conflicts/MissingCell';
+import { testConflict } from '@conflicts/TestUtilities';
+import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import DefaultLocales from '../locale/DefaultLocales';
 import evaluateCode from '../runtime/evaluate';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import Insert from './Insert';
 
 test.each([
     [
@@ -37,7 +37,7 @@ test.each([
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {
         testConflict(good, bad, node, conflict);
-    }
+    },
 );
 
 test.each([

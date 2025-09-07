@@ -1,28 +1,57 @@
 <script lang="ts">
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { locales } from '@db/Database';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { getFirstText } from '@locale/LocaleText';
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
-    export let value: number | undefined;
-    export let min: number;
-    export let max: number;
-    export let unit: string;
-    export let increment: number;
-    export let tip: string;
-    export let change: (value: Decimal) => void;
-    export let precision = 0;
-    export let editable: boolean;
+    interface Props {
+        value: number | undefined;
+        min: number;
+        max: number;
+        unit: string;
+        increment: number;
+        label?: LocaleTextAccessor | undefined;
+        tip: LocaleTextAccessor | LocaleTextsAccessor;
+        change?: (value: Decimal) => void;
+        release?: (value: number | undefined) => void;
+        precision?: number;
+        editable?: boolean;
+        id?: string | undefined;
+    }
 
-    let view: HTMLInputElement | undefined = undefined;
+    let {
+        value = $bindable(),
+        min,
+        max,
+        unit,
+        increment,
+        label = undefined,
+        tip,
+        change = undefined,
+        release = undefined,
+        precision = 0,
+        editable = true,
+        id = undefined,
+    }: Props = $props();
+
+    let view: HTMLInputElement | undefined = $state(undefined);
+    let tooltip = $derived(getFirstText($locales.get(tip)));
 
     async function handleChange() {
-        if (value !== undefined)
+        if (value !== undefined && change !== undefined)
             change(
                 new Decimal(value)
                     // Add two digits of precision to percent units
-                    .toDecimalPlaces(precision + (unit === '%' ? 2 : 0))
+                    .toDecimalPlaces(precision + (unit === '%' ? 2 : 0)),
             );
         await tick();
-        view?.focus();
+        if (view) setKeyboardFocus(view, 'Restoring focus after slider edit.');
     }
 </script>
 
@@ -34,17 +63,22 @@
         makes it vertically off center.
     -->
     &#8203;
+    {#if label}
+        <label for={id ?? 'label'}><LocalizedText path={label} /></label>
+    {/if}
     <input
         class="slider"
         type="range"
-        aria-label={tip}
-        title={tip}
+        aria-label={tooltip}
+        title={tooltip}
+        id={id ?? 'label'}
         {min}
         {max}
         step={increment}
         bind:value
         bind:this={view}
-        on:input={handleChange}
+        oninput={handleChange}
+        onpointerup={() => release?.(value)}
         disabled={!editable}
     />
     <div class="text">
@@ -52,7 +86,7 @@
             ø
         {:else}
             {(value * (unit === '%' ? 100 : 1)).toFixed(
-                Math.max(0, precision)
+                Math.max(0, precision),
             ) + unit}
         {/if}
     </div>
@@ -66,11 +100,16 @@
         gap: var(--wordplay-spacing);
         align-items: center;
         height: 1em;
-        width: 100%;
+        flex: 1;
     }
 
     .slider {
         flex: 1;
+    }
+
+    label {
+        font-style: italic;
+        font-size: var(--wordplay-small-font-size);
     }
 
     .text {
@@ -86,11 +125,11 @@
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
         margin: 0 0;
-        /* width: 5em; */
         background: none;
         appearance: none;
         -webkit-appearance: none;
         /* Allow for it to be tiny */
+        width: auto;
         min-width: 2em;
     }
 

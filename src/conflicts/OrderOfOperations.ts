@@ -1,7 +1,6 @@
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class OrderOfOperations extends Conflict {
     readonly operation: BinaryEvaluate;
@@ -19,12 +18,8 @@ export default class OrderOfOperations extends Conflict {
             primary: {
                 node: this.operation,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.BinaryEvaluate.conflict.OrderOfOperations
-                        )
+                    locales.concretize(
+                        (l) => l.node.BinaryEvaluate.conflict.OrderOfOperations,
                     ),
             },
         };

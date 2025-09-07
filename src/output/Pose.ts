@@ -1,18 +1,17 @@
 import toStructure from '@basis/toStructure';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import type Color from './Color';
-import Valued, { getOutputInputs } from './Valued';
-import type Place from './Place';
-import { toPlace } from './Place';
-import { toBoolean, toNumber } from './Stage';
-import { toColor } from './Color';
 import { getBind } from '@locale/getBind';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
-import type Project from '../models/Project';
-import concretize from '../locale/concretize';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
+import type Color from './Color';
+import { toColor } from './Color';
+import type Place from './Place';
+import { toPlace } from './Place';
+import { toBoolean, toNumber } from './Stage';
+import Valued, { getOutputInputs } from './Valued';
 
 export function createPoseType(locales: Locales) {
     return toStructure(`
@@ -29,13 +28,14 @@ export function createPoseType(locales: Locales) {
 }
 
 export default class Pose extends Valued {
-    readonly color?: Color;
-    readonly opacity?: number;
-    readonly offset?: Place;
-    readonly rotation?: number;
-    readonly scale?: number;
-    readonly flipx?: boolean;
-    readonly flipy?: boolean;
+    readonly color: Color | undefined;
+    readonly opacity: number | undefined;
+    readonly offset: Place | undefined;
+    readonly rotation: number | undefined;
+    readonly scale: number | undefined;
+    readonly flipx: boolean | undefined;
+    readonly flipy: boolean | undefined;
+    readonly blur: number | undefined;
 
     private _description: string | undefined = undefined;
 
@@ -47,7 +47,7 @@ export default class Pose extends Valued {
         rotation?: number,
         scale?: number,
         flipx?: boolean,
-        flipy?: boolean
+        flipy?: boolean,
     ) {
         super(value);
 
@@ -70,27 +70,28 @@ export default class Pose extends Valued {
             pose.rotation ?? this.rotation,
             pose.scale ?? this.scale,
             pose.flipx ?? this.flipx,
-            pose.flipy ?? this.flipy
+            pose.flipy ?? this.flipy,
         );
     }
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Pose.description),
-                this.opacity !== undefined && this.opacity !== 1
-                    ? Math.round(this.opacity)
-                    : undefined,
-                this.rotation !== undefined && this.rotation % 360
-                    ? Math.round(this.rotation)
-                    : undefined,
-                this.scale !== undefined && this.scale !== 1
-                    ? Math.round(this.scale)
-                    : undefined,
-                this.flipx,
-                this.flipy
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Pose.description,
+                    this.opacity !== undefined && this.opacity !== 1
+                        ? Math.round(this.opacity)
+                        : undefined,
+                    this.rotation !== undefined && this.rotation % 360
+                        ? Math.round(this.rotation)
+                        : undefined,
+                    this.scale !== undefined && this.scale !== 1
+                        ? Math.round(this.scale)
+                        : undefined,
+                    this.flipx,
+                    this.flipy,
+                )
+                .toText();
         }
         return this._description;
     }
@@ -124,7 +125,7 @@ export class DefinitePose extends Pose {
         rotation: number | undefined,
         scale: number | undefined,
         flipx: boolean | undefined,
-        flipy: boolean | undefined
+        flipy: boolean | undefined,
     ) {
         super(value, color, opacity, offset, rotation, scale, flipx, flipy);
     }
@@ -132,7 +133,7 @@ export class DefinitePose extends Pose {
 
 export function toPose(
     project: Project,
-    value: Value | undefined
+    value: Value | undefined,
 ): Pose | undefined {
     if (
         !(
@@ -153,7 +154,7 @@ export function toPose(
         toNumber(tilt),
         toNumber(scale),
         toBoolean(flipx),
-        toBoolean(flipy)
+        toBoolean(flipy),
     );
 }
 
@@ -161,6 +162,6 @@ export function createPoseLiteral(project: Project, locales: Locales) {
     const PoseType = project.shares.output.Pose;
     return Evaluate.make(
         Reference.make(locales.getName(PoseType.names), PoseType),
-        []
+        [],
     );
 }

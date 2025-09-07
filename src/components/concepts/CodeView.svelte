@@ -1,74 +1,123 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
-    import RootView from '../project/RootView.svelte';
-    import { getDragged } from '../project/Contexts';
+    import { blocks, locales } from '@db/Database';
+    import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
-    import TypeView from './TypeView.svelte';
-    import { copyNode } from '../editor/util/Clipboard';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Type from '../../nodes/Type';
     import Spaces from '../../parser/Spaces';
+    import { copyNode } from '../editor/util/Clipboard';
+    import { getDragged } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
+    import TypeView from './TypeView.svelte';
 
-    export let node: Node;
-    export let concept: Concept | undefined = undefined;
-    export let spaces: Spaces | undefined = undefined;
-    export let type: Type | undefined = undefined;
-    export let describe = true;
-    export let inline = false;
-    export let outline = true;
+    interface Props {
+        node: Node;
+        concept?: Concept | undefined;
+        spaces?: Spaces | undefined;
+        type?: Type | undefined;
+        describe?: boolean;
+        inline?: boolean;
+        outline?: boolean;
+        elide?: boolean;
+        flip?: boolean;
+    }
+
+    let {
+        node,
+        concept = undefined,
+        spaces = undefined,
+        type = undefined,
+        describe = true,
+        inline = false,
+        outline = true,
+        elide = false,
+        flip = false,
+    }: Props = $props();
 
     let dragged = getDragged();
 
     function handlePointerDown(event: PointerEvent) {
+        event.stopPropagation();
         // Release the implicit pointer capture so events can travel to other components.
         if (event.target instanceof Element)
             event.target.releasePointerCapture(event.pointerId);
 
         // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
-        dragged.set(node.clone());
+        if (dragged) dragged.set(node.clone());
     }
 
     function copy() {
         // Copy node needs a source to manage spacing, so we make one.
-        copyNode(node, Spaces.withPreferredSpace(node));
+        copyNode(node, getPreferredSpaces(node));
     }
 </script>
 
-<div class="view">
+{#snippet code()}
     <div class="code">
         <div
             role="textbox"
             aria-readonly="true"
-            class="draggable node"
+            class:blocks={$blocks}
+            class="node"
+            class:draggable={dragged !== undefined}
             class:outline
+            class:elide
+            class:evaluate={node instanceof Expression &&
+                node.getKind() === ExpressionKind.Evaluate}
+            class:definition={node instanceof Expression &&
+                node.getKind() === ExpressionKind.Definition}
             tabindex="0"
-            on:pointerdown|stopPropagation={handlePointerDown}
-            on:keydown={(event) =>
+            onpointerdown={handlePointerDown}
+            onkeydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
-                    : undefined}><RootView {node} {inline} {spaces} /></div
+                    : undefined}
+            ><RootView
+                {node}
+                {inline}
+                {spaces}
+                blocks={false}
+                {elide}
+                locale={$locales.getLocale()}
+            /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}
             />
         {/if}
     </div>
+{/snippet}
+
+{#snippet link()}
     {#if describe && concept}
         <div class="link">
             <ConceptLinkUI link={concept} symbolic={false} />
         </div>
     {/if}
+{/snippet}
+
+<div class="view">
+    {#if flip}
+        {@render link()}
+        {@render code()}
+    {:else}
+        {@render code()}
+        {@render link()}
+    {/if}
 </div>
 
 <style>
     .view {
-        display: inline-block;
+        display: inline-flex;
+        flex-direction: column;
         touch-action: none;
+        gap: var(--wordplay-spacing);
     }
 
     .node {
         display: inline-block;
-        cursor: grab;
         user-select: none;
         display: inline-block;
         vertical-align: middle;
@@ -77,13 +126,20 @@
         touch-action: none;
     }
 
+    .draggable {
+        cursor: grab;
+    }
+
     .node.outline {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius)
-            calc(3 * var(--wordplay-border-radius))
-            calc(3 * var(--wordplay-border-radius))
-            var(--wordplay-border-radius);
+        border-radius: 1px calc(3 * var(--wordplay-border-radius))
+            calc(3 * var(--wordplay-border-radius)) 1px;
+    }
+
+    .node.elide {
+        max-height: 5em;
+        overflow: hidden;
     }
 
     .code {
@@ -98,12 +154,7 @@
         background: var(--wordplay-hover);
     }
 
-    .node:not(.outline) {
+    .node:not(:global(.outline)) {
         border-radius: var(--wordplay-border-radius);
-    }
-
-    .link {
-        margin-left: var(--wordplay-spacing);
-        margin-top: calc(var(--wordplay-spacing) / 2);
     }
 </style>

@@ -1,26 +1,26 @@
+import type Evaluation from '@runtime/Evaluation';
 import StreamValue from '@values/StreamValue';
-import type Evaluator from '@runtime/Evaluator';
-import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import Bind from '../nodes/Bind';
-import TextType from '../nodes/TextType';
-import TextValue from '../values/TextValue';
-import StreamType from '../nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
-import ListValue from '../values/ListValue';
-import ListType from '../nodes/ListType';
-import TextLiteral from '../nodes/TextLiteral';
-import NumberType from '../nodes/NumberType';
-import Unit from '../nodes/Unit';
-import NumberLiteral from '../nodes/NumberLiteral';
-import NumberValue from '../values/NumberValue';
-import UnionType from '../nodes/UnionType';
-import NoneType from '../nodes/NoneType';
-import MessageException from '../values/MessageException';
-import type ExceptionValue from '../values/ExceptionValue';
 import type Locales from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
+import Bind from '../nodes/Bind';
+import ListType from '../nodes/ListType';
+import NoneType from '../nodes/NoneType';
+import NumberLiteral from '../nodes/NumberLiteral';
+import NumberType from '../nodes/NumberType';
+import StreamDefinition from '../nodes/StreamDefinition';
+import StreamType from '../nodes/StreamType';
+import TextLiteral from '../nodes/TextLiteral';
+import TextType from '../nodes/TextType';
+import UnionType from '../nodes/UnionType';
+import Unit from '../nodes/Unit';
+import type ExceptionValue from '../values/ExceptionValue';
+import ListValue from '../values/ListValue';
+import MessageException from '../values/MessageException';
+import NumberValue from '../values/NumberValue';
+import TextValue from '../values/TextValue';
+import createStreamEvaluator from './createStreamEvaluator';
 
 /**
  * Webpage stream values can be one of three things:
@@ -46,12 +46,13 @@ type FetchResponse = {
 type FetchResponseValue = string | number | { error: string };
 
 const FetchErrors = {
-    'invalid-url': (locale: Locale) => locale.input.Webpage.error.invalid,
-    'not-available': (locale: Locale) => locale.input.Webpage.error.unvailable,
-    'not-html': (locale: Locale) => locale.input.Webpage.error.notHTML,
-    'no-connection': (locale: Locale) =>
+    'invalid-url': (locale: LocaleText) => locale.input.Webpage.error.invalid,
+    'not-available': (locale: LocaleText) =>
+        locale.input.Webpage.error.unvailable,
+    'not-html': (locale: LocaleText) => locale.input.Webpage.error.notHTML,
+    'no-connection': (locale: LocaleText) =>
         locale.input.Webpage.error.noConnection,
-    'reached-limit': (locale: Locale) => locale.input.Webpage.error.limit,
+    'reached-limit': (locale: LocaleText) => locale.input.Webpage.error.limit,
 };
 
 export type FetchError = keyof typeof FetchErrors;
@@ -67,17 +68,17 @@ export default class Webpage extends StreamValue<
     timeout: NodeJS.Timeout | undefined = undefined;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         url: string,
         query: string,
-        frequency: number
+        frequency: number,
     ) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Webpage,
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Webpage,
             // Percent loaded starts at 0
-            new NumberValue(evaluator.project.shares.input.Webpage, 0),
-            { url, response: 0 }
+            new NumberValue(evaluation.getCreator(), 0),
+            { url, response: 0 },
         );
 
         this.url = url.trim();
@@ -92,6 +93,9 @@ export default class Webpage extends StreamValue<
     }
 
     react(event: FetchResponse) {
+        // If we're mirroring, and the input was a different URL, then don't replay it, since it's not relevant.
+        if (event.url !== this.url) return;
+
         // Cache the response
         URLResponseCache.set(event.url, { response: event, time: Date.now() });
 
@@ -99,7 +103,7 @@ export default class Webpage extends StreamValue<
         if (typeof event.response === 'number') {
             return this.add(
                 new NumberValue(this.creator, `${event.response}%`),
-                event
+                event,
             );
         }
         // Is it a string
@@ -107,18 +111,18 @@ export default class Webpage extends StreamValue<
             try {
                 const doc = new DOMParser().parseFromString(
                     event.response,
-                    'text/html'
+                    'text/html',
                 );
                 const text = (
                     this.query === ''
                         ? getTextInNode(doc.body)
                         : Array.from(doc.querySelectorAll(this.query)).map(
                               (n) =>
-                                  n instanceof HTMLElement ? n.innerText : ''
+                                  n instanceof HTMLElement ? n.innerText : '',
                           )
                 )
                     .map((t) =>
-                        t.replaceAll('\\n', '').replaceAll('\\t', '').trim()
+                        t.replaceAll('\\n', '').replaceAll('\\t', '').trim(),
                     )
                     .filter((t) => t !== '')
                     .map((t) => new TextValue(this.creator, t));
@@ -130,17 +134,17 @@ export default class Webpage extends StreamValue<
                         'message' in error &&
                         typeof error.message === 'string'
                         ? error.message
-                        : '?'
+                        : '?',
                 );
                 this.add(
                     new MessageException(
                         this.creator,
                         this.evaluator,
                         FetchErrors['unparsable' as FetchError](
-                            this.evaluator.getLocales()[0]
-                        )
+                            this.evaluator.getLocales()[0],
+                        ),
                     ),
-                    event
+                    event,
                 );
             }
         }
@@ -152,24 +156,29 @@ export default class Webpage extends StreamValue<
                     new MessageException(
                         this.evaluator.project.shares.input.Webpage,
                         this.evaluator,
-                        error(this.evaluator.getLocales()[0])
+                        error(this.evaluator.getLocales()[0]),
                     ),
-                    event
+                    event,
                 );
         }
     }
 
     start() {
-        this.get();
+        this.resetTimeout(true, true);
     }
 
     stop() {
-        this.resetTimeout();
+        this.resetTimeout(false, false);
         return;
     }
 
-    resetTimeout() {
+    resetTimeout(again: boolean, soon: boolean) {
         if (this.timeout) clearTimeout(this.timeout);
+        if (again)
+            this.timeout = setTimeout(
+                () => this.get(),
+                soon ? 50 : Math.max(1, this.frequency) * 60 * 1000,
+            );
     }
 
     async get() {
@@ -184,7 +193,7 @@ export default class Webpage extends StreamValue<
             // Not a valid URL?
             if (
                 !/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})? /.test(
-                    this.url
+                    this.url,
                 )
             ) {
                 response = 'no-connection';
@@ -210,7 +219,7 @@ export default class Webpage extends StreamValue<
             if (typeof localStorage !== 'undefined')
                 localStorage.setItem(
                     'domainRequests',
-                    JSON.stringify(DomainCounts)
+                    JSON.stringify(DomainCounts),
                 );
 
             // console.error(
@@ -232,7 +241,7 @@ export default class Webpage extends StreamValue<
             } else {
                 // Get the response object from the fetch.
                 const fetchResponse = await this.evaluator.database.getHTML(
-                    this.url
+                    this.url,
                 );
 
                 // Get a reader from the response
@@ -288,7 +297,7 @@ export default class Webpage extends StreamValue<
 
                     // Decode into a UTF-8 string, then parse it as a JSON string, then set it as the response.
                     response = JSON.parse(
-                        new TextDecoder('utf-8').decode(chunksAll)
+                        new TextDecoder('utf-8').decode(chunksAll),
                     );
                 }
             }
@@ -304,16 +313,12 @@ export default class Webpage extends StreamValue<
         });
 
         // Get it again in the next period.
-        this.resetTimeout();
-        this.timeout = setTimeout(
-            () => this.get(),
-            Math.max(1, this.frequency) * 60 * 1000
-        );
+        this.resetTimeout(true, false);
     }
 
     getType() {
         return StreamType.make(
-            UnionType.make(ListType.make(TextType.make()), NoneType.make())
+            UnionType.make(ListType.make(TextType.make()), NoneType.make()),
         );
     }
 }
@@ -322,24 +327,24 @@ export function createWebpageDefinition(locales: Locales) {
     const url = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Webpage.url.doc),
         getNameLocales(locales, (locale) => locale.input.Webpage.url.names),
-        TextType.make()
+        TextType.make(),
     );
 
     const query = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Webpage.query.doc),
         getNameLocales(locales, (locale) => locale.input.Webpage.query.names),
         TextType.make(),
-        TextLiteral.make('')
+        TextLiteral.make(''),
     );
 
     const frequency = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Webpage.frequency.doc),
         getNameLocales(
             locales,
-            (locale) => locale.input.Webpage.frequency.names
+            (locale) => locale.input.Webpage.frequency.names,
         ),
         NumberType.make(Unit.create(['min'])),
-        NumberLiteral.make('1', Unit.create(['min']))
+        NumberLiteral.make('1', Unit.create(['min'])),
     );
 
     return StreamDefinition.make(
@@ -347,25 +352,25 @@ export function createWebpageDefinition(locales: Locales) {
         getNameLocales(locales, (locale) => locale.input.Webpage.names),
         [url, query, frequency],
         createStreamEvaluator(
-            UnionType.make(ListType.make(TextType.make()), NoneType.make()),
+            UnionType.make(ListType.make(TextType.make()), NumberType.make()),
             Webpage,
             (evaluation) =>
                 new Webpage(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     evaluation.get(url.names, TextValue)?.text ?? '',
                     evaluation.get(query.names, TextValue)?.text ?? '',
                     evaluation.get(frequency.names, NumberValue)?.toNumber() ??
-                        1
+                        1,
                 ),
             (stream, evaluation) =>
                 stream.configure(
                     evaluation.get(url.names, TextValue)?.text ?? '',
                     evaluation.get(query.names, TextValue)?.text ?? '',
                     evaluation.get(frequency.names, NumberValue)?.toNumber() ??
-                        1
-                )
+                        1,
+                ),
         ),
-        UnionType.make(ListType.make(TextType.make()), NoneType.make())
+        UnionType.make(ListType.make(TextType.make()), NumberType.make()),
     );
 }
 
@@ -398,8 +403,8 @@ function getTextInNode(node: HTMLElement) {
         return n.nodeName === 'SCRIPT' || n.nodeName === 'STYLE'
             ? NodeFilter.FILTER_REJECT
             : n.nodeType === Node.TEXT_NODE
-            ? NodeFilter.FILTER_ACCEPT
-            : NodeFilter.FILTER_SKIP;
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_SKIP;
     });
     do {
         child = walk.nextNode();

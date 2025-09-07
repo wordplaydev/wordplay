@@ -1,15 +1,19 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
-    import { toShortcut, type Command } from '../editor/util/Commands';
     import Emoji from '@components/app/Emoji.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { toShortcut, type Command } from '../editor/util/Commands';
 
-    export let command: Command;
+    interface Props {
+        command: Command;
+    }
+
+    let { command }: Props = $props();
 </script>
 
 <tr class="command">
     <td class="symbol"><Emoji>{command.symbol}</Emoji></td>
     <td class="shortcut"><em>{toShortcut(command)}</em></td>
-    <td class="description">{$locales.get(command.description)}</td>
+    <td class="description"><LocalizedText path={command.description} /></td>
 </tr>
 
 <style>

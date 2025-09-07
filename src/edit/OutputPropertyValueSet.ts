@@ -1,22 +1,22 @@
-import type Project from '../models/Project';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import BoolValue from '@values/BoolValue';
+import MarkupValue from '@values/MarkupValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import OutputExpression from './OutputExpression';
-import type { OutputPropertyValue } from './OutputExpression';
-import type OutputProperty from './OutputProperty';
-import MapLiteral from '../nodes/MapLiteral';
-import ListLiteral from '../nodes/ListLiteral';
-import type Bind from '../nodes/Bind';
 import type { Database } from '../db/Database';
-import MarkupValue from '@values/MarkupValue';
-import type Locale from '../locale/Locale';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type StreamDefinition from '../nodes/StreamDefinition';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
+import type Bind from '../nodes/Bind';
+import ListLiteral from '../nodes/ListLiteral';
+import MapLiteral from '../nodes/MapLiteral';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import type StructureDefinition from '../nodes/StructureDefinition';
+import type { OutputPropertyValue } from './OutputExpression';
+import OutputExpression from './OutputExpression';
+import type OutputProperty from './OutputProperty';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -28,12 +28,16 @@ export default class OutputPropertyValueSet {
     readonly values: OutputPropertyValue[];
 
     /** Constructs a set of values given a set of expressions and a name on them. */
-    constructor(property: OutputProperty, outputs: OutputExpression[]) {
+    constructor(
+        property: OutputProperty,
+        outputs: OutputExpression[],
+        locales: Locales,
+    ) {
         this.property = property;
         this.outputs = outputs;
         this.values = [];
         for (const out of outputs) {
-            const value = out.getPropertyValue(property.getName());
+            const value = out.getPropertyValue(property.getName(locales));
             if (value) this.values.push(value);
         }
     }
@@ -42,7 +46,7 @@ export default class OutputPropertyValueSet {
         return this.values[0]?.bind;
     }
 
-    getPreferredName(locales: Locale[]): string | undefined {
+    getPreferredName(locales: LocaleText[]): string | undefined {
         return this.getBind()?.getPreferredName(locales);
     }
 
@@ -89,19 +93,19 @@ export default class OutputPropertyValueSet {
 
     getOutputExpressions(
         project: Project,
-        locales: Locales
+        locales: Locales,
     ): OutputExpression[] {
         return this.values
             .filter(
-                (value) => value.given && value.expression instanceof Evaluate
+                (value) => value.given && value.expression instanceof Evaluate,
             )
             .map(
                 (value) =>
                     new OutputExpression(
                         project,
                         value.expression as Evaluate,
-                        locales
-                    )
+                        locales,
+                    ),
             );
     }
 
@@ -115,8 +119,8 @@ export default class OutputPropertyValueSet {
         return value instanceof TextValue
             ? value.text
             : value instanceof MarkupValue
-            ? value.toWordplay()
-            : undefined;
+              ? value.toWordplay()
+              : undefined;
     }
 
     getBool() {
@@ -136,7 +140,7 @@ export default class OutputPropertyValueSet {
 
     getEvaluationOf(
         project: Project,
-        definition: StructureDefinition | StreamDefinition
+        definition: StructureDefinition | StreamDefinition,
     ) {
         const expr = this.getExpression();
         return expr instanceof Evaluate &&
@@ -176,11 +180,11 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => value.given)
                     .map((value) => value.evaluate),
-                this.property.getName(),
+                this.property.getName(locales),
                 this.property.required
                     ? this.property.create(locales)
-                    : undefined
-            )
+                    : undefined,
+            ),
         );
     }
 
@@ -192,9 +196,9 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => !value.given)
                     .map((value) => value.evaluate),
-                this.property.getName(),
-                this.property.create(locales)
-            )
+                this.property.getName(locales),
+                this.property.create(locales),
+            ),
         );
     }
 }

@@ -1,11 +1,13 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import type MarkupValue from '@values/MarkupValue';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
 
-    export let value: MarkupValue;
-    export let inline = true;
+    interface Props {
+        value: MarkupValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = false }: Props = $props();
 </script>
 
-<MarkupHTMLView markup={value.markup} {inline} />
+<MarkupHtmlView {inline} markup={value.markup} />

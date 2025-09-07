@@ -1,20 +1,30 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { getIsBlocks } from '@components/project/Contexts';
     import type Words from '@nodes/Words';
-    import NodeView from './NodeView.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
+    import NodeView from './NodeView.svelte';
 
-    export let node: Words;
+    interface Props {
+        node: Words;
+    }
+
+    let { node }: Props = $props();
+
+    const blocks = getIsBlocks();
 </script>
 
-<span class={node.getFormat()}
+<span class="words {$blocks ? 'blocks' : ''} {node.getFormat()}"
     ><NodeView node={node.open} /><NodeSequenceView
         nodes={node.getNodeSegments()}
     /><NodeView node={node.close} />
 </span>
 
 <style>
+    .words.blocks {
+        display: flex;
+        flex-direction: row;
+    }
+
     .italic {
         font-style: italic;
     }

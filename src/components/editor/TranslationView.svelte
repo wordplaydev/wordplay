@@ -1,13 +1,28 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
-    import NodeView from './NodeView.svelte';
+    import { getIsBlocks } from '@components/project/Contexts';
     import type Translation from '../../nodes/Translation';
     import NodeSequenceView from './NodeSequenceView.svelte';
+    import NodeView from './NodeView.svelte';
 
-    export let node: Translation;
+    interface Props {
+        node: Translation;
+    }
+
+    let { node }: Props = $props();
+
+    const blocks = getIsBlocks();
 </script>
 
-<NodeView node={node.open} /><NodeSequenceView nodes={node.segments} /><NodeView
-    node={node.close}
-/><NodeView node={node.language} />
+{#if $blocks}
+    <NodeView node={node.open} /><NodeSequenceView
+        nodes={node.segments}
+    /><NodeView node={node.close} /><NodeView node={node.language} /><NodeView
+        node={node.separator}
+    />
+{:else}
+    <NodeView node={node.open} /><NodeSequenceView
+        nodes={node.segments}
+    /><NodeView node={node.close} /><NodeView node={node.language} /><NodeView
+        node={node.separator}
+    />
+{/if}

@@ -1,35 +1,39 @@
+import type Conflict from '@conflicts/Conflict';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Context from './Context';
+import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
+import BindToken from './BindToken';
+import type Context from './Context';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import MapLiteral from './MapLiteral';
+import { any, node, none, type Grammar, type Replacement } from './Node';
+import SetCloseToken from './SetCloseToken';
+import SetOpenToken from './SetOpenToken';
+import Sym from './Sym';
 import type Token from './Token';
 import Type from './Type';
-import BindToken from './BindToken';
-import SetOpenToken from './SetOpenToken';
-import SetCloseToken from './SetCloseToken';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type Conflict from '@conflicts/Conflict';
-import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement, any, none } from './Node';
-import Glyphs from '../lore/Glyphs';
-import NodeRef from '../locale/NodeRef';
-import Sym from './Sym';
 import TypePlaceholder from './TypePlaceholder';
-import type Node from './Node';
-import type Locales from '../locale/Locales';
+import type TypeSet from './TypeSet';
 
 export default class MapType extends BasisType {
     readonly open: Token;
-    readonly key?: Type;
+    readonly key: Type | undefined;
     readonly bind: Token;
-    readonly value?: Type;
-    readonly close?: Token;
+    readonly value: Type | undefined;
+    readonly close: Token | undefined;
 
     constructor(
         open: Token,
         key: Type | undefined,
         bind: Token,
         value: Type | undefined,
-        close?: Token
+        close?: Token,
     ) {
         super();
 
@@ -48,33 +52,48 @@ export default class MapType extends BasisType {
             key,
             new BindToken(),
             value,
-            new SetCloseToken()
+            new SetCloseToken(),
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean
-    ) {
+    static getPossibleReplacements({ node }: EditContext) {
         return [
             MapType.make(),
-            ...(node instanceof Type && selected
-                ? [MapType.make(node, TypePlaceholder.make())]
+            ...(node instanceof Type && node
+                ? [
+                      MapType.make(node, TypePlaceholder.make()),
+                      MapType.make(TypePlaceholder.make(), node),
+                  ]
                 : []),
         ];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [MapType.make()];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'MapType';
     }
 
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },
-            { name: 'key', kind: any(node(Type), none('value')) },
+            {
+                name: 'key',
+                kind: any(
+                    node(Type),
+                    none(['value', () => ExpressionPlaceholder.make()]),
+                ),
+            },
             { name: 'bind', kind: node(Sym.Bind) },
-            { name: 'value', kind: any(node(Type), none('key')) },
+            {
+                name: 'value',
+                kind: any(
+                    node(Type),
+                    none(['key', () => ExpressionPlaceholder.make()]),
+                ),
+            },
             { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
@@ -85,7 +104,7 @@ export default class MapType extends BasisType {
             this.replaceChild('key', this.key, replace),
             this.replaceChild('bind', this.bind, replace),
             this.replaceChild('value', this.value, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -111,14 +130,21 @@ export default class MapType extends BasisType {
                 (this.value === undefined ||
                     type.key === undefined ||
                     (type.value instanceof Type &&
-                        this.value.accepts(type.value, context)))
+                        this.value.accepts(type.value, context))),
+        );
+    }
+
+    concretize(context: Context) {
+        return MapType.make(
+            this.key?.concretize(context),
+            this.value?.concretize(context),
         );
     }
 
     generalize(context: Context) {
         return MapType.make(
             this.key?.generalize(context),
-            this.value?.generalize(context)
+            this.value?.generalize(context),
         );
     }
 
@@ -133,18 +159,19 @@ export default class MapType extends BasisType {
             this.key instanceof Type
             ? this.key
             : mapDef.types !== undefined &&
-              mapDef.types.variables[1].hasName(name) &&
-              this.value instanceof Type
-            ? this.value
-            : undefined;
+                mapDef.types.variables[1].hasName(name) &&
+                this.value instanceof Type
+              ? this.value
+              : undefined;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.MapType);
+    static readonly LocalePath = (l: LocaleText) => l.node.MapType;
+    getLocalePath() {
+        return MapType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Map;
+    getCharacter() {
+        return Characters.Map;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
@@ -152,5 +179,9 @@ export default class MapType extends BasisType {
             this.key ? new NodeRef(this.key, locales, context) : undefined,
             this.value ? new NodeRef(this.value, locales, context) : undefined,
         ];
+    }
+
+    getDefaultExpression() {
+        return MapLiteral.make();
     }
 }

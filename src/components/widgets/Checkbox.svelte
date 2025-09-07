@@ -1,11 +1,29 @@
 <script lang="ts">
-    export let on: boolean | undefined;
-    export let label: string;
-    export let changed: undefined | ((value: boolean | undefined) => void) =
-        undefined;
-    export let editable = true;
-    /** Mandatory id for label */
-    export let id: string | null;
+    import { locales } from '@db/Database';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { getFirstText } from '@locale/LocaleText';
+
+    interface Props {
+        on: boolean | undefined;
+        label: LocaleTextAccessor | LocaleTextsAccessor;
+        changed?: undefined | ((value: boolean | undefined) => void);
+        editable?: boolean;
+        /** Mandatory id for label */
+        id: string | undefined;
+    }
+
+    let {
+        on = $bindable(),
+        label,
+        changed = undefined,
+        editable = true,
+        id,
+    }: Props = $props();
+
+    let labelText = $derived(getFirstText($locales.get(label)));
 
     function handleInput() {
         if (changed) changed(on);
@@ -14,12 +32,13 @@
 
 <input
     type="checkbox"
-    aria-label={label}
-    title={label}
+    aria-label={labelText}
+    title={labelText}
     {id}
     disabled={!editable}
     bind:checked={on}
-    on:change={handleInput}
+    indeterminate={on === undefined}
+    onchange={handleInput}
 />
 
 <style>
@@ -35,5 +54,9 @@
 
     [type='checkbox']:checked {
         background: var(--wordplay-foreground);
+    }
+
+    input:indeterminate {
+        transform: rotate(45deg);
     }
 </style>

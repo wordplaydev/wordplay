@@ -1,41 +1,56 @@
-<svelte:options immutable />
-
-<script context="module" lang="ts">
+<script module lang="ts">
     type ParagraphOrList = Paragraph | { items: Paragraph[] };
 </script>
 
 <script lang="ts">
-    import { animationDuration, animationFactor } from '../../db/Database';
+    import type { LocaleTextsAccessor } from '@locale/Locales';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
+    import {
+        animationDuration,
+        animationFactor,
+        locales,
+    } from '../../db/Database';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
-    export let markup: Markup | string[] | string;
-    export let inline = false;
+    interface Props {
+        markup: Markup | string[] | string | LocaleTextsAccessor;
+        inline?: boolean;
+        note?: boolean;
+    }
 
-    $: parsed =
-        markup instanceof Markup
-            ? markup
-            : Markup.words(
-                  Array.isArray(markup) ? markup.join('\n\n') : markup
-              );
+    let { markup, inline = false, note = false }: Props = $props();
 
-    $: spaces = parsed.spaces;
+    let parsed = $derived.by(() => {
+        if (markup instanceof Markup) return markup;
+        if (markup instanceof Function) {
+            const text = $locales.get(markup);
+            return Markup.words(Array.isArray(text) ? text.join('\n\n') : text);
+        }
+        return Markup.words(
+            Array.isArray(markup) ? markup.join('\n\n') : markup,
+        );
+    });
+
+    let spaces = $derived(parsed.spaces);
 
     // Convert sequences of paragraphs that start with bullets into an HTML list.
-    $: paragraphsAndLists = parsed.paragraphs.reduce(
-        (stuff: ParagraphOrList[], next: Paragraph) => {
-            if (next.isBulleted()) {
-                const previous = stuff.at(-1);
-                if (previous instanceof Paragraph)
-                    return [...stuff, { items: [next] }];
-                else if (previous !== undefined) {
-                    previous.items.push(next);
-                    return stuff;
-                } else return [{ items: [next] }];
-            } else return [...stuff, next];
-        },
-        []
+    let paragraphsAndLists = $derived(
+        parsed.paragraphs.reduce(
+            (stuff: ParagraphOrList[], next: Paragraph) => {
+                if (next.isBulleted()) {
+                    const items = next.getBullets();
+                    const previous = stuff.at(-1);
+                    if (previous instanceof Paragraph)
+                        return [...stuff, { items }];
+                    else if (previous !== undefined) {
+                        previous.items.push(next);
+                        return stuff;
+                    } else return [{ items }];
+                } else return [...stuff, next];
+            },
+            [],
+        ),
     );
 </script>
 
@@ -44,31 +59,43 @@
         {#each parsed.asLine().paragraphs[0].segments as segment}
             <SegmentHTMLView {segment} {spaces} alone={false} />
         {/each}
-    {:else}{#each paragraphsAndLists as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}
-                <p
-                    class="paragraph"
-                    class:animated={$animationFactor > 0}
-                    style="--delay:{$animationDuration * index * 0.1}ms"
-                    >{#each paragraphOrList.segments as segment}<SegmentHTMLView
-                            {segment}
-                            {spaces}
-                            alone={paragraphOrList.segments.length === 1}
-                        />{/each}</p
-                >{:else}<ul
-                    class:animated={$animationFactor > 0}
-                    style="--delay:{$animationDuration * index * 0.1}ms"
-                    >{#each paragraphOrList.items as paragraph}<li
-                            >{#each paragraph.segments as segment}<SegmentHTMLView
-                                    {segment}
-                                    {spaces}
-                                    alone={paragraph.segments.length === 1}
-                                />{/each}</li
-                        >{/each}</ul
-                >{/if}{/each}
-    {/if}
+    {:else}<div class="markup" class:note
+            >{#each paragraphsAndLists as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}
+                    <p
+                        class="paragraph"
+                        class:animated={$animationFactor > 0}
+                        style="--delay:{$animationDuration * index * 0.1}ms"
+                        >{#each paragraphOrList.segments as segment, index}<SegmentHTMLView
+                                {segment}
+                                {spaces}
+                                alone={paragraphOrList.segments.length === 1}
+                                first={index === 0}
+                            />{/each}</p
+                    >{:else}<ul
+                        class:animated={$animationFactor > 0}
+                        style="--delay:{$animationDuration * index * 0.1}ms"
+                        >{#each paragraphOrList.items as paragraph}<li
+                                >{#each paragraph.segments as segment}<SegmentHTMLView
+                                        {segment}
+                                        {spaces}
+                                        alone={paragraph.segments.length === 1}
+                                    />{/each}</li
+                            >{/each}</ul
+                    >{/if}{/each}
+        </div>{/if}
 {:else}no spaces{/if}
 
 <style>
+    .markup {
+        display: flex;
+        flex-direction: column;
+        font-size: var(--wordplay-font-size);
+    }
+
+    .markup:not(:last-child) {
+        margin-block-end: 1em;
+    }
+
     .paragraph.animated {
         transform: scaleY(0);
         animation-name: pop;
@@ -97,11 +124,21 @@
         margin-inline-start: 0;
     }
 
-    p:last-of-type {
+    .note {
+        font-size: var(--wordplay-small-font-size);
+    }
+
+    p {
+        margin-block-start: 0em;
         margin-block-end: 0em;
     }
 
-    p:not(:first-child) {
-        margin-block-start: 1em;
+    ul {
+        margin-block-start: 0em;
+        margin-block-end: 1em;
+    }
+
+    p:last-child {
+        margin-block-end: 0;
     }
 </style>

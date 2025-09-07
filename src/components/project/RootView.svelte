@@ -1,100 +1,122 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
-    import { setContext } from 'svelte';
-    import { writable } from 'svelte/store';
+    import NodeView from '@components/editor/NodeView.svelte';
+    import type Caret from '@edit/Caret';
+    import type Locale from '@locale/Locale';
     import Docs from '@nodes/Docs';
+    import type { LanguageTagged } from '@nodes/LanguageTagged';
+    import Name from '@nodes/Name';
     import Names from '@nodes/Names';
     import type Node from '@nodes/Node';
-    import type Token from '@nodes/Token';
-    import Spaces from '@parser/Spaces';
-    import NodeView from '@components/editor/NodeView.svelte';
-    import {
-        HiddenSymbol,
-        RootSymbol,
-        SpaceSymbol,
-        type SpaceContext,
-        CaretSymbol,
-        LocalizeSymbol,
-    } from './Contexts';
+    import Program from '@nodes/Program';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
-    import Name from '@nodes/Name';
-    import Program from '@nodes/Program';
-    import { locales } from '../../db/Database';
-    import TextLiteral from '../../nodes/TextLiteral';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import Spaces from '@parser/Spaces';
+    import { EMOJI_SYMBOL } from '@parser/Symbols';
+    import { writable } from 'svelte/store';
     import FormattedLiteral from '../../nodes/FormattedLiteral';
-    import type Caret from '@edit/Caret';
+    import TextLiteral from '../../nodes/TextLiteral';
+    import {
+        setCaret,
+        setHidden,
+        setIsBlocks,
+        setLocalize,
+        setRoot,
+        setShowLines,
+        setSpaces,
+    } from './Contexts';
 
-    export let node: Node;
-    /** Optional space; if not provided, all nodes are rendered with preferred space. */
-    export let spaces: Spaces | undefined = undefined;
-    export let inert = false;
-    export let inline = false;
-    /** If inline, and true, this will be a maximum width */
-    export let elide = false;
-    /** If true, hides names and docs not in a selected locale */
-    export let localized = false;
-    export let caret: Caret | undefined = undefined;
+    interface Props {
+        node: Node;
+        /** Optional space. To enable preferred space, set flag below. */
+        spaces?: Spaces | undefined;
+        /** Whether to render as blocks */
+        blocks: boolean;
+        /** Whether to be read only */
+        inert?: boolean;
+        /** Whether to render inline */
+        inline?: boolean;
+        /** If inline, and true, this will be a maximum width */
+        elide?: boolean;
+        /** If true, hides names and docs not in a selected locale */
+        locale?: Locale | null | 'symbolic';
+        caret?: Caret | undefined;
+        /** Whether to show line numbers */
+        lines?: boolean;
+    }
+
+    let {
+        node,
+        spaces = undefined,
+        blocks,
+        inert = false,
+        inline = false,
+        elide = false,
+        locale = null,
+        caret = undefined,
+        lines = false,
+    }: Props = $props();
 
     /** Get the root, or make one if it's not a source. */
-    $: root = node instanceof Source ? node.root : new Root(node);
+    let root = $derived(node instanceof Source ? node.root : new Root(node));
 
     // Expose the root in a store context for quick access to it.
-    let rootStore = writable(root);
-    $: rootStore.set(root);
-    setContext(RootSymbol, rootStore);
+    let rootContext = $state<{ root: Root | undefined }>({ root: undefined });
+    setRoot(rootContext);
+
+    $effect(() => {
+        rootContext.root = root;
+    });
 
     // When the spaces change, update the rendered spaces
-    let renderedSpace: SpaceContext = writable(new Map());
-    setContext(SpaceSymbol, renderedSpace);
+    let renderedSpace = writable(spaces ?? getPreferredSpaces(node));
+    setSpaces(renderedSpace);
 
-    $: if (inert) setContext(CaretSymbol, undefined);
+    $effect(() => {
+        renderedSpace.set(spaces ?? getPreferredSpaces(node));
+    });
 
-    $: {
-        // Reset the space.
-        const newSpace = new Map();
-
-        // Compute the space for every node
-        for (const n of node.nodes()) {
-            // Get the first leaf of this node.
-            const firstLeaf = n.getFirstLeaf() as Token | undefined;
-            if (firstLeaf === undefined) continue;
-            // Determine if the first leaf is the leaf's space root.
-            if (root.getSpaceRoot(firstLeaf) !== n) continue;
-            // What's the given space?
-            let space = spaces ? spaces.getSpace(firstLeaf) : '';
-            // What is the leaf's preferred space?
-            let preferred = Spaces.getPreferredPrecedingSpace(
-                root,
-                space,
-                firstLeaf
-            );
-            // Compute the additional space for rendering.
-            let additional = spaces
-                ? spaces.getAdditionalSpace(firstLeaf, preferred)
-                : preferred;
-            // Save what we computed
-            newSpace.set(n, { token: firstLeaf, space, additional });
-        }
-
-        renderedSpace.set(newSpace);
-    }
+    $effect(() => {
+        if (inert) setCaret(undefined);
+    });
 
     // A set of hidden nodes, such as hidden translations.
     let hidden = writable<Set<Node>>(new Set());
-    setContext(HiddenSymbol, hidden);
+    setHidden(hidden);
 
-    let localize = writable<boolean>(localized);
-    setContext(LocalizeSymbol, localize);
-    $: localize.set(localized);
+    function possiblySymbolicToLocale(
+        localized: Locale | null | 'symbolic',
+    ): Locale | null {
+        return localized === 'symbolic'
+            ? { language: EMOJI_SYMBOL, regions: [] }
+            : localized;
+    }
 
-    // Update what's hidden.
-    $: {
+    let localize = writable<Locale | null>(possiblySymbolicToLocale(locale));
+    setLocalize(localize);
+    $effect(() => {
+        localize.set(possiblySymbolicToLocale(locale));
+    });
+
+    let showLines = writable<boolean>(lines);
+    setShowLines(showLines);
+    $effect(() => {
+        showLines.set(lines);
+    });
+
+    let isBlocks = writable<boolean>(blocks);
+    setIsBlocks(isBlocks);
+    $effect(() => {
+        isBlocks.set(blocks);
+    });
+
+    // Update what's hidden when locales or localized changes.
+    $effect(() => {
         const newHidden = new Set<Node>();
 
-        if ($localize) {
-            // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
+        // If the locale is not null, hide non-preferred locales
+        if ($localize !== null) {
+            // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't the selected locale.
             // Also hide any name separators if the first visible name has one.
             for (const tagged of node
                 .nodes()
@@ -103,10 +125,10 @@
                         n instanceof Names ||
                         n instanceof Docs ||
                         n instanceof TextLiteral ||
-                        n instanceof FormattedLiteral
+                        n instanceof FormattedLiteral,
                 )) {
                 // Get the language tags on the nodes.
-                const tags = tagged.getTags();
+                const tags = tagged.getTagged();
 
                 // Is this caret inside this node?
                 const inside =
@@ -114,41 +136,62 @@
 
                 // If the caret is not inside the node, decide whether to hide.
                 if (!inside) {
-                    // If at least one is visible, hide all those not in a preferred language.
+                    // Keep track of visible
+                    let visible: LanguageTagged[] = [];
+                    const hasMatchingLanguage = tags.some(
+                        (l) => l.getLanguage() === $localize.language,
+                    );
+                    const hasUntagged = tags.some(
+                        (l) => l.getLanguage() === undefined,
+                    );
+                    const hasSymbolic =
+                        $localize.language === EMOJI_SYMBOL &&
+                        tagged instanceof Names &&
+                        tagged.names.some((l) => l.isSymbolic());
+                    // If one of the tags is the preferred locale, or none are and one has no language, hide all those that are not preferred or tagged.
                     if (
-                        $locales
-                            .getLanguages()
-                            .some((lang) =>
-                                tags.some((l) => l.getLanguage() === lang)
-                            )
+                        // One of the languages matches?
+                        hasMatchingLanguage ||
+                        // One of the elements is untagged
+                        hasUntagged ||
+                        // One of the elements is a symbolic name and we want symbolic?
+                        hasSymbolic
                     ) {
-                        let first = false;
-                        for (const nameOrDoc of tags) {
-                            const selectedLocale = $locales
-                                .getLanguages()
-                                .some((t) => t === nameOrDoc.getLanguage());
-                            // Not a selected language and not in the node and has a language? Hide it.
-                            if (!selectedLocale && nameOrDoc.language)
-                                newHidden.add(nameOrDoc);
-                            // Is the selected language and inert? Hide the language tag.
-                            else if (selectedLocale && nameOrDoc.language)
-                                newHidden.add(nameOrDoc.language);
-                            // Not first? Hide the separator.
-                            if (!first) {
-                                first = true;
-                                if (
-                                    nameOrDoc instanceof Name &&
-                                    nameOrDoc.separator
-                                )
-                                    newHidden.add(nameOrDoc.separator);
+                        // Keep track of if there's a node that's visible so we know when to hide separators.
+                        let priorVisible = false;
+                        // Go through each language tagged node to see if we should hide it.
+                        for (const nameDocOrText of tags) {
+                            const language = nameDocOrText.getLanguage();
+                            const isSelected =
+                                $localize.language === language ||
+                                (language === undefined &&
+                                    !hasMatchingLanguage) ||
+                                ($localize.language === EMOJI_SYMBOL &&
+                                    nameDocOrText instanceof Name &&
+                                    nameDocOrText.isSymbolic());
+                            // Not a selected locale? Hide the whole name or doc.
+                            if (!isSelected) {
+                                newHidden.add(nameDocOrText);
+                            }
+                            // Is the selected language? Hide just the locale tag and any preceding separator.
+                            else {
+                                visible.push(nameDocOrText);
+                                if (nameDocOrText.language)
+                                    newHidden.add(nameDocOrText.language);
+                                // Hide the separator, if there is one.
+                                if (!priorVisible && nameDocOrText.separator)
+                                    newHidden.add(nameDocOrText.separator);
+                                priorVisible = true;
                             }
                         }
                     }
-                    // Otherwise, hide all but the first name
+                    // Not hiding? Add them all as visible.
                     else {
-                        for (const nameOrDoc of tags.slice(1))
-                            newHidden.add(nameOrDoc);
+                        for (const tag of tags) visible.push(tag);
                     }
+                    // If there's only one visible, hide its language, as its redundant.
+                    if (visible.length === 1 && visible[0].language)
+                        newHidden.add(visible[0].language);
                 }
 
                 // If this is a doc and we're not in a program, hide it unconditionally.
@@ -158,25 +201,39 @@
         }
 
         // If elided, hide all the tokens after the first five that aren't already hidden by parents
-        if (elide)
+        if (elide && inline)
             for (const token of node
                 .leaves()
                 .filter(
                     (token) =>
-                        !Array.from(newHidden).some((n) => n.contains(token))
+                        !Array.from(newHidden).some((n) => n.contains(token)),
                 )
                 .slice(5))
                 newHidden.add(token);
 
         // Update hidden nodes.
         hidden.set(newHidden);
-    }
+    });
+
+    let lineDigits = $derived(
+        spaces?.getLastLineNumber().toString().length ?? 3,
+    );
 </script>
 
 {#if inline}
-    <span class="root" class:inert class:elide><NodeView {node} /></span>
+    <span
+        class="root"
+        style="--line-count: {lineDigits}"
+        class:inert
+        class:elide><NodeView {node} /></span
+    >
 {:else}
-    <code class="root" class:inert><NodeView {node} /></code>
+    <code
+        class="root"
+        style="--line-count: {lineDigits}"
+        class:inert
+        class:elide><NodeView {node} direction="column" /></code
+    >
 {/if}
 
 <style>

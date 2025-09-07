@@ -1,13 +1,15 @@
 import type Conflict from '@conflicts/Conflict';
-import { node, type Replacement, type Grammar } from './Node';
-import Program from './Program';
-import Token from './Token';
-import Glyphs from '../lore/Glyphs';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import Sym from './Sym';
+import Characters from '../lore/BasisCharacters';
 import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
-import type Locales from '../locale/Locales';
+import { node, type Grammar, type Replacement } from './Node';
+import Program from './Program';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class Example extends Content {
     readonly open: Token;
@@ -26,15 +28,19 @@ export default class Example extends Content {
         return new Example(
             new Token(CODE_SYMBOL, Sym.Code),
             program,
-            new Token(CODE_SYMBOL, Sym.Code)
+            new Token(CODE_SYMBOL, Sym.Code),
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Content ? [Example.make(Program.make())] : [];
+    }
+
+    static getPossibleAppends() {
         return [Example.make(Program.make())];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Example';
     }
 
@@ -46,7 +52,7 @@ export default class Example extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts(): Conflict[] {
         return [];
     }
 
@@ -54,7 +60,7 @@ export default class Example extends Content {
         return new Example(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('program', this.program, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -62,12 +68,13 @@ export default class Example extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Example);
+    static readonly LocalePath = (l: LocaleText) => l.node.Example;
+    getLocalePath() {
+        return Example.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Example;
+    getCharacter() {
+        return Characters.Example;
     }
 
     concretize(): Example {

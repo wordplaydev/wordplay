@@ -1,8 +1,7 @@
+import NodeRef from '@locale/NodeRef';
+import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Expression from '@nodes/Expression';
-import NodeRef from '@locale/NodeRef';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class UnimplementedException extends ExceptionValue {
@@ -18,14 +17,13 @@ export default class UnimplementedException extends ExceptionValue {
     }
 
     getExplanation(locales: Locales) {
-        return concretize(
-            locales,
+        return locales.concretize(
             this.getExceptionText(locales).explanation,
             new NodeRef(
                 this.placeholder,
                 locales,
-                this.getNodeContext(this.placeholder)
-            )
+                this.getNodeContext(this.placeholder),
+            ),
         );
     }
 }

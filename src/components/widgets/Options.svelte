@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export type Option = {
         value: string | undefined;
         label: string;
@@ -10,34 +10,60 @@
 </script>
 
 <script lang="ts">
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { locales } from '@db/Database';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+    } from '@locale/Locales';
+    import { getFirstText } from '@locale/LocaleText';
+
     import { tick } from 'svelte';
 
-    export let value: string | undefined;
-    export let label: string;
-    export let options: Group[] | Option[];
-    export let change: (value: string | undefined) => void;
-    export let width = '10em';
-    export let id: string;
-    export let editable = true;
+    interface Props {
+        value: string | undefined;
+        label: LocaleTextAccessor | LocaleTextsAccessor;
+        options: Group[] | Option[];
+        change: (value: string | undefined) => void;
+        width?: string;
+        id?: string | undefined;
+        editable?: boolean;
+        code?: boolean;
+    }
 
-    let view: HTMLSelectElement | undefined = undefined;
+    let {
+        value = $bindable(),
+        label,
+        options,
+        change,
+        width = 'auto',
+        id = undefined,
+        editable = true,
+        code = false,
+    }: Props = $props();
+
+    let title = $derived(getFirstText($locales.get(label)));
+
+    let view: HTMLSelectElement | undefined = $state(undefined);
 
     async function commitChange(newValue: string | undefined) {
         change(newValue);
         await tick();
-        view?.focus();
+        if (view)
+            setKeyboardFocus(view, 'Restoring focus after options selection.');
     }
 </script>
 
 <select
-    aria-label={label}
-    title={label}
+    aria-label={title}
+    {title}
     bind:value
     {id}
-    on:change={() => commitChange(value)}
+    onchange={() => commitChange(value)}
     bind:this={view}
     style:width
     disabled={!editable}
+    class:code
 >
     {#each options as option}
         {#if 'options' in option}
@@ -61,10 +87,15 @@
         appearance: none;
         border: none;
         background: var(--wordplay-background);
+        color: var(--wordplay-foreground);
         padding-left: var(--wordplay-spacing);
         padding-right: var(--wordplay-spacing);
         font-family: var(--wordplay-app-font);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+    }
+
+    .code {
+        font-family: var;
     }
 </style>

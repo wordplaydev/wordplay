@@ -1,35 +1,38 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import type Token from './Token';
-import type Type from './Type';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Check from '@runtime/Check';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import Jump from '@runtime/Jump';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import ExceptionValue from '@values/ExceptionValue';
-import { node, type Grammar, type Replacement } from './Node';
-import BooleanType from './BooleanType';
-import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
-import Check from '@runtime/Check';
+import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
-import ValueException from '../values/ValueException';
-import TypeException from '../values/TypeException';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
+import ExceptionValue from '@values/ExceptionValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import StreamToken from './StreamToken';
-import concretize from '../locale/concretize';
+import Purpose from '../concepts/Purpose';
+import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Node from './Node';
-import UnknownType from './UnknownType';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import TypeException from '../values/TypeException';
+import ValueException from '../values/ValueException';
+import Bind from './Bind';
+import BooleanType from './BooleanType';
+import Changed from './Changed';
+import type Context from './Context';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import StreamToken from './StreamToken';
+import StreamType from './StreamType';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
+import UnknownType from './UnknownType';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -66,27 +69,33 @@ export default class Reaction extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node | undefined,
-        selected: boolean,
-    ) {
-        return [
-            node instanceof Expression && selected
-                ? Reaction.make(
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [
+                  Reaction.make(
                       node,
-                      ExpressionPlaceholder.make(BooleanType.make()),
-                      ExpressionPlaceholder.make(),
-                  )
-                : Reaction.make(
-                      ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make(BooleanType.make()),
+                      Changed.make(
+                          ExpressionPlaceholder.make(StreamType.make()),
+                      ),
                       ExpressionPlaceholder.make(),
                   ),
-        ];
+              ]
+            : [];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return Reaction.make(
+            ExpressionPlaceholder.make(),
+            Changed.make(ExpressionPlaceholder.make(StreamType.make())),
+            ExpressionPlaceholder.make(),
+        );
+    }
+
+    isUndelimited() {
+        return true;
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'Reaction';
     }
 
@@ -95,16 +104,14 @@ export default class Reaction extends Expression {
             {
                 name: 'initial',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.initial),
+                label: () => (l) => l.node.Reaction.initial,
             },
             { name: 'dots', kind: node(Sym.Stream), space: true },
             {
                 name: 'condition',
                 kind: node(Expression),
                 space: true,
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.condition),
+                label: () => (l) => l.node.Reaction.condition,
                 getType: () => BooleanType.make(),
             },
             {
@@ -116,8 +123,7 @@ export default class Reaction extends Expression {
             {
                 name: 'next',
                 kind: node(Expression),
-                label: (locales: Locales) =>
-                    locales.get((l) => l.node.Reaction.next),
+                label: () => (l) => l.node.Reaction.next,
                 space: true,
                 indent: true,
             },
@@ -190,7 +196,7 @@ export default class Reaction extends Expression {
         const nextSteps = this.next.compile(evaluator, context);
 
         return [
-            // Start by binding the previous value, if there is one.
+            // Start by setting up the reaction state and deciding whether to evaluate the initial value expression.
             new Start(this, (evaluator) => {
                 // Start tracking dependencies so that we can decide which value to use.
                 evaluator.reactionDependencies.push({
@@ -202,9 +208,50 @@ export default class Reaction extends Expression {
                 // track of the number of types the node has evaluated, identifying individual streams.
                 evaluator.incrementStreamEvaluationCount(this);
 
+                // Note that we're evaluating a reaction so we don't reuse memoized values.
+                evaluator.startEvaluatingReaction();
+
+                // If this wasn't the initial evaluation, then jump straight to the condition steps.
+                if (evaluator.getStreamFor(this) !== undefined)
+                    evaluator.jump(initialSteps.length + 1);
+
                 return undefined;
             }),
-            // Then evaluate the condition.
+            // If it has not, evaluate the initial value...
+            ...initialSteps,
+            new Check(this, (evaluator) => {
+                // What's the initial value we got? We need it in order to create the initial stream.
+                // We take it off the stack because after the condition check, we'll push it back on if there was no change,
+                // and if there was, we'll evaluate the next expression to get this reaction's value.
+                const initialValue = evaluator.popValue(this);
+                if (initialValue === undefined)
+                    return new ValueException(evaluator, this);
+
+                // Create the initial stream so we can refer to it by "." in the condition
+                evaluator.createReactionStream(this, initialValue);
+
+                // If this reaction is bound, bind the name to the initial value in the evaluation in which the bind is happening,
+                // so the condition to refer to it.
+                const bind = evaluator
+                    .getCurrentEvaluation()
+                    ?.getSource()
+                    ?.root.getAncestors(this)
+                    .find((ancestor) => ancestor instanceof Bind);
+                if (bind) {
+                    // Find the evaluation that has a step that evaluates this bind.
+                    const evaluation = evaluator
+                        .getEvaluations()
+                        .find((evaluation) =>
+                            evaluation.getStepThat(
+                                (step) => step.node === bind,
+                            ),
+                        );
+                    if (evaluation) evaluation.bind(bind.names, initialValue);
+                }
+
+                return undefined;
+            }),
+            // Now that we're done with the initial value, run the condition so we can capture the stream dependencies,
             ...conditionSteps,
             new Check(this, (evaluator) => {
                 // Get the result of the condition evaluation.
@@ -219,33 +266,28 @@ export default class Reaction extends Expression {
                         value,
                     );
 
-                // See if there's a stream created for this.
+                // There should be a stream created for this.
                 const stream = evaluator.getStreamFor(this);
 
                 // If this reaction already has a stream, see if the change expression was true, and if
                 // so evaluate the next step.
                 if (stream) {
-                    // if the condition was true and a dependency changed, jump to the next step.
-                    if (value.bool) evaluator.jump(initialSteps.length + 1);
-                    // If it was false, push the last reaction value and skip the rest.
-                    else {
+                    if (!value.bool) {
+                        // If the change condition was false, push the most recent reaction value onto the stack and skip the next value expression.
+
                         const latest = stream.latest();
                         if (latest === undefined)
                             return new ValueException(evaluator, this);
                         evaluator.pushValue(latest);
-                        evaluator.jump(
-                            initialSteps.length + 1 + nextSteps.length + 1,
-                        );
+                        evaluator.jump(nextSteps.length);
                     }
+                    // if the change condition was true, we just advance to the next step (which Evaluator does for us).
+                } else {
+                    console.error('Expected stream to exist');
                 }
-                // Otherwise, proceed to the initial steps.
 
                 return undefined;
             }),
-            // If it has not, evaluate the initial value...
-            ...initialSteps,
-            // ... then jump to finish to remember the stream value.
-            new Jump(nextSteps.length, this),
             // Otherwise, compute the new value.
             ...nextSteps,
             // Finish by getting the final value, adding it to the reaction stream, then push it back on the stack for others to use.
@@ -254,8 +296,11 @@ export default class Reaction extends Expression {
     }
 
     evaluate(evaluator: Evaluator, value: Value | undefined): Value {
-        // Get the new value.
+        // Get the new value, or if given a memoized value, use that.
         const streamValue = value ?? evaluator.popValue(this);
+
+        // Unset the reaction tracking.
+        evaluator.stopEvaluatingReaction();
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.
@@ -274,9 +319,12 @@ export default class Reaction extends Expression {
                 stream.add(streamValue, null, true);
             }
         }
-        // If we didn't find one, we'll create a reaction stream with the initial value.
+        // If we didn't find one, there's a defect in this whole thing, because we should have created a stream for this reaction
+        // after getting the initial value.
         else {
-            evaluator.createReactionStream(this, streamValue);
+            console.log(
+                "Why isn't there a stream alredy? It should have been created with the initial value.",
+            );
         }
 
         // Return the value we computed.
@@ -299,15 +347,13 @@ export default class Reaction extends Expression {
         return this.dots;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Reaction);
+    static readonly LocalePath = (l: LocaleText) => l.node.Reaction;
+    getLocalePath() {
+        return Reaction.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Reaction.start),
-        );
+        return locales.concretize((l) => l.node.Reaction.start);
     }
 
     getFinishExplanations(
@@ -315,15 +361,14 @@ export default class Reaction extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Reaction.finish),
+        return locales.concretize(
+            (l) => l.node.Reaction.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 
     getKind() {

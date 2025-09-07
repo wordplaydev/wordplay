@@ -1,53 +1,88 @@
 <script lang="ts">
-    import type Project from '../../models/Project';
-    import ProjectPreview from './ProjectPreview.svelte';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { type Snippet } from 'svelte';
     import { locales } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import ProjectPreview from './ProjectPreview.svelte';
 
-    export let set: Project[];
-    export let edit:
-        | {
-              description: string;
-              label: string;
-              action: (project: Project) => void;
-          }
-        | false;
-    export let remove: (project: Project) =>
-        | {
-              description: string;
-              prompt: string;
-              label: string;
-              action: () => void;
-          }
-        | false;
+    interface Props {
+        set: Project[];
+        edit:
+            | {
+                  description: LocaleTextAccessor;
+                  label: string;
+                  action: (project: Project) => void;
+              }
+            | false;
+        remove: (project: Project) =>
+            | {
+                  description: LocaleTextAccessor;
+                  prompt: LocaleTextAccessor;
+                  label: string;
+                  action: () => void;
+              }
+            | false;
+        copy:
+            | {
+                  description: LocaleTextAccessor;
+                  label: string;
+                  action: (project: Project) => void;
+              }
+            | false;
+        children?: Snippet;
+        anonymize?: boolean;
+        showCollaborators?: boolean;
+        searchTerm?: string;
+    }
+
+    let {
+        set,
+        edit,
+        remove,
+        copy,
+        children,
+        anonymize = true,
+        showCollaborators = false,
+        searchTerm = '',
+    }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
-        return projects.sort((a, b) =>
-            a.getName().localeCompare(b.getName(), $locales.getLanguages())
+        return [...projects].sort((a, b) =>
+            a.getName().localeCompare(b.getName(), $locales.getLanguages()),
         );
     }
 
-    $: listed = sortProjects(set).filter((p) => p.isListed());
+    let listed = $derived(sortProjects(set).filter((p) => p.isListed()));
 </script>
 
 <div class="projects">
     {#each listed as project (project.getID())}
         {@const removeMeta = remove(project)}
-        <ProjectPreview {project} link={project.getLink(true)}
+        <ProjectPreview
+            {project}
+            link={project.getLink(true)}
+            {anonymize}
+            {showCollaborators}
+            {searchTerm}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}
                         action={() => (edit ? edit.action(project) : undefined)}
-                        >{edit.label}</Button
-                    >{/if}{#if removeMeta}<ConfirmButton
+                        icon={edit.label}
+                    ></Button>{/if}{#if copy}<Button
+                        tip={copy.description}
+                        action={() => copy.action(project)}
+                        icon={copy.label}
+                    ></Button>{/if}{#if removeMeta}<ConfirmButton
                         prompt={removeMeta.prompt}
                         tip={removeMeta.description}
                         action={() =>
                             removeMeta ? removeMeta.action() : undefined}
-                        >{removeMeta.label}</ConfirmButton
-                    >{/if}</div
-            ><slot /></ProjectPreview
+                        icon={removeMeta.label}
+                    ></ConfirmButton>{/if}</div
+            >{@render children?.()}</ProjectPreview
         >
     {/each}
 </div>
@@ -56,12 +91,10 @@
     .projects {
         width: 100%;
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
+        flex-direction: column;
+        align-items: start;
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
-        justify-content: flex-start;
     }
 
     .controls {

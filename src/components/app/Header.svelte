@@ -1,13 +1,23 @@
 <script lang="ts">
-    import TiltedHeader from './Tilted.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { type Snippet } from 'svelte';
 
-    /** Whether the header is in a list of blocks of text, and therefore should be offset to the inline start and have a block margin. */
-    export let block = true;
-    export let wrap = false;
+    interface Props {
+        /** Whether the header is in a list of blocks of text, and therefore should be offset to the inline start and have a block margin. */
+        block?: boolean;
+        wrap?: boolean;
+        text?: LocaleTextAccessor;
+        children?: Snippet;
+    }
+
+    let { block = true, wrap = false, text, children }: Props = $props();
 </script>
 
 <h1 class:block class:wrap
-    ><TiltedHeader capitalized={false}><slot /></TiltedHeader></h1
+    >{#if children}{@render children()}{:else if text}<LocalizedText
+            path={text}
+        />{/if}</h1
 >
 
 <style>

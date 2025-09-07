@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     import ColorJS from 'colorjs.io';
     import Slider from './Slider.svelte';
 
@@ -10,8 +10,8 @@
             new ColorJS(
                 ColorJS.spaces.lch,
                 [lightness, chroma, hue],
-                1
-            ).display()
+                1,
+            ).display(),
         );
     }
 
@@ -37,7 +37,7 @@
     }
 
     const Bands = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0].map(
-        (val) => percentToChroma(val)
+        (val) => percentToChroma(val),
     );
 
     const Primary: [number, number, number][] = [
@@ -48,34 +48,47 @@
         [50, 109, 42], // red
         [50, 127, 174], // green
         [50, 117, 282], // blue
-        [85, 75, 88], // yellow
-        [85, 122, 49], // orange
+        // [91, 50, 196], // cyan
+        // [60, 115, 328], // magenta
+        // [97, 96, 102], // yellow
     ];
 </script>
 
 <script lang="ts">
-    import { locales } from '../../db/Database';
+    import { getFirstText } from '../../locale/LocaleText';
     import Button from './Button.svelte';
-    import { getFirstName } from '../../locale/Locale';
 
-    /** a degree (any number remainder 360) */
-    export let hue: number;
-    /** any positive value to infinity */
-    export let chroma: number;
-    /** 0-1 */
-    export let lightness: number;
-    /** A handler */
-    export let change: (l: number, c: number, h: number) => void;
-    export let editable = true;
+    interface Props {
+        /** a degree (any number remainder 360) */
+        hue: number;
+        /** any positive value to infinity */
+        chroma: number;
+        /** 0-1 */
+        lightness: number;
+        /** Called every time the color changes */
+        change: (l: number, c: number, h: number) => void;
+        editable?: boolean;
+        id?: string | undefined;
+        /** Additional colors to add to the palette */
+        palette?: [number, number, number][];
+    }
 
-    $: color = new ColorJS(
-        ColorJS.spaces.lch,
-        [lightness * 100, chroma, hue],
-        1
+    let {
+        hue = $bindable(),
+        chroma = $bindable(),
+        lightness = $bindable(),
+        change,
+        editable = true,
+        id = undefined,
+        palette = [],
+    }: Props = $props();
+
+    let color = $derived(
+        new ColorJS(ColorJS.spaces.lch, [lightness * 100, chroma, hue], 1),
     );
 
-    let hueWidth: number | undefined = undefined;
-    let hueHeight: number | undefined = undefined;
+    let hueWidth: number | undefined = $state(undefined);
+    let hueHeight: number | undefined = $state(undefined);
     function handleMouseMove(event: MouseEvent) {
         if (
             event.buttons !== 1 ||
@@ -93,12 +106,12 @@
     }
 </script>
 
-<div class="component">
-    <div class="preview" style:background-color={color.display()} />
+<div class="component" {id}>
+    <div class="preview" style:background-color={color.display()}></div>
     <div
         class="bands"
-        on:pointerdown={editable ? handleMouseMove : null}
-        on:pointermove={editable ? handleMouseMove : null}
+        onpointerdown={editable ? handleMouseMove : null}
+        onpointermove={editable ? handleMouseMove : null}
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
@@ -108,20 +121,21 @@
                 style:height="{100 / Bands.length}%"
                 style:background="linear-gradient(to right, {getColors(
                     lightness * 100,
-                    val
+                    val,
                 ).join(', ')})"
-            />
+            ></div>
         {/each}
 
         <div
             class="selection"
             style:left="{hueToPercent(hue) * hueWidth}px"
             style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
-        />
+        ></div>
     </div>
     <div class="primary">
-        {#each Primary as primary}<Button
-                tip="color"
+        {#each [...palette, ...Primary] as primary}<Button
+                tip={() => primary.join(',')}
+                padding={false}
                 action={() => {
                     lightness = primary[0] / 100;
                     chroma = primary[1];
@@ -132,20 +146,20 @@
                     class="color"
                     style:background={new ColorJS(
                         ColorJS.spaces.lch,
-                        primary
+                        primary,
                     ).display()}
-                /></Button
+                ></div></Button
             >{/each}
     </div>
+
     <div class="slider">
         <Slider
+            label={(l) => getFirstText(l.output.Color.lightness.names)}
             value={lightness}
             min={0}
             max={1}
             increment={0.01}
-            tip={$locales.get((l) =>
-                getFirstName(l.output.Color.lightness.names)
-            )}
+            tip={(l) => l.output.Color.lightness.names}
             unit={'%'}
             precision={0}
             change={(value) => {
@@ -155,12 +169,13 @@
             {editable}
         />
         <Slider
+            label={(l) => getFirstText(l.output.Color.chroma.names)}
             value={chroma}
             min={0}
             max={150}
             increment={1}
             unit=""
-            tip={$locales.get((l) => getFirstName(l.output.Color.chroma.names))}
+            tip={(l) => l.output.Color.chroma.names}
             change={(value) => {
                 chroma = value.round().toNumber();
                 broadcast();
@@ -168,12 +183,13 @@
             {editable}
         />
         <Slider
+            label={(l) => getFirstText(l.output.Color.hue.names)}
             value={hue}
             min={0}
             max={360}
             increment={1}
             unit={'°'}
-            tip={$locales.get((l) => getFirstName(l.output.Color.hue.names))}
+            tip={(l) => l.output.Color.hue.names}
             change={(value) => {
                 hue = value.round().toNumber();
                 broadcast();
@@ -190,11 +206,12 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
     }
 
     .bands {
-        width: 3.5rem;
-        height: 3.5rem;
+        min-width: 4em;
+        height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
         flex-direction: column;
@@ -204,11 +221,13 @@
 
     .slider {
         flex-grow: 1;
-        min-width: 30%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        row-gap: var(--wordplay-spacing);
     }
 
     .band {
-        width: 100%;
         pointer-events: none;
         touch-action: none;
     }
@@ -224,12 +243,11 @@
     }
 
     .primary {
-        width: 3em;
-        height: 2em;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 0;
+        row-gap: 0;
     }
 
     .color {
@@ -240,8 +258,8 @@
 
     .preview {
         width: auto;
-        min-width: 3.5rem;
-        height: 3.5rem;
+        min-width: 2rem;
+        height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 </style>

@@ -1,12 +1,11 @@
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
+import type Context from '@nodes/Context';
+import type { LanguageTagged } from '@nodes/LanguageTagged';
+import Sym from '@nodes/Sym';
+import Token from '@nodes/Token';
 import type Locales from '../locale/Locales';
 import type { PII } from '../pii/getPII';
-import type { LanguageTagged } from '@nodes/LanguageTagged';
-import Token from '@nodes/Token';
 import getPII from '../pii/getPII';
-import Sym from '@nodes/Sym';
-import type Context from '@nodes/Context';
+import Conflict from './Conflict';
 
 export class PossiblePII extends Conflict {
     /** The node containing text */
@@ -40,25 +39,26 @@ export class PossiblePII extends Conflict {
             primary: {
                 node: this.text,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Translation.conflict[this.pii.kind],
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Translation.conflict[this.pii.kind],
                         this.pii.text,
+                        locales.get(
+                            (l) => l.node.Translation.conflict.reminder,
+                        ),
                     ),
             },
             resolutions: [
                 {
                     description: (locales: Locales) =>
-                        concretize(
-                            locales,
-                            locales.get(
-                                (l) => l.node.Translation.conflict.resolution,
-                            ),
+                        locales.concretize(
+                            (l) => l.node.Translation.conflict.resolution,
                         ),
                     mediator: (context: Context) => {
-                        return context.project.withNonPII(this.pii.text);
+                        return {
+                            newProject: context.project.withNonPII(
+                                this.pii.text,
+                            ),
+                        };
                     },
                 },
             ],

@@ -1,16 +1,18 @@
-import { test, expect } from 'vitest';
-import Caret from './Caret';
-import Project from '@models/Project';
-import Source from '@nodes/Source';
-import { getEditsAt } from './Autocomplete';
+import Project from '@db/projects/Project';
+import DefaultLocales from '@locale/DefaultLocales';
 import type Node from '@nodes/Node';
-import Assign from './Assign';
-import Replace from './Replace';
+import Source from '@nodes/Source';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { expect, test } from 'vitest';
+import DefaultLocale from '../locale/DefaultLocale';
 import NumberLiteral from '../nodes/NumberLiteral';
-import Append from './Append';
 import Reference from '../nodes/Reference';
+import Append from './Append';
+import Assign from './Assign';
+import { getEditsAt } from './Autocomplete';
+import Caret from './Caret';
+import Replace from './Replace';
 import type Revision from './Revision';
-import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
 
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],
@@ -23,27 +25,27 @@ test.each([
         Replace,
         'b ? _ _',
     ],
-    ['suggest phrase on empty program', '**', undefined, Append, '💬(_)'],
+    ['suggest phrase on empty program', '**', undefined, Append, "💬('')"],
     [
         'complete phrase on empty program',
         'Ph**',
         undefined,
         Replace,
-        'Phrase(_)',
+        "Phrase('')",
     ],
     [
         'suggest matching evaluates',
         'Group(Row() [**])',
         undefined,
         Append,
-        '💬(_)',
+        "💬('')",
     ],
     [
         'suggest evaluate on function',
         `ƒ sum(a•? b•?) a & b\ns**`,
         undefined,
         Replace,
-        'sum(_ _)',
+        'sum(⊤ ⊤)',
     ],
     [
         'suggest evaluate wrap',
@@ -60,7 +62,7 @@ test.each([
         '"hi".📏()',
     ],
     ['suggest structure property', `"hi".**`, undefined, Replace, '"hi" = _'],
-    ['suggest binary evalute', `1**`, undefined, Replace, '1 + _'],
+    ['suggest binary evaluate', `1**`, undefined, Replace, '1 + _'],
     [
         'suggest property reference',
         `•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`,
@@ -95,7 +97,7 @@ test.each([
         code: string,
         position: ((node: Node) => boolean) | undefined,
         kind: new (...params: never[]) => Revision,
-        edit: string
+        edit: string,
     ) => {
         // See if there's a placeholder for the caret.
         const insertionPoint = code.indexOf('**');
@@ -117,15 +119,18 @@ test.each([
                 resolvedPosition,
                 undefined,
                 undefined,
-                undefined
+                undefined,
             );
             const transforms = getEditsAt(project, caret, DefaultLocales);
 
-            const match = transforms.find(
-                (transform) =>
+            const match = transforms.find((transform) => {
+                const newNode = transform.getNewNode(DefaultLocales);
+                return (
                     transform instanceof kind &&
-                    transform.getNewNode(DefaultLocales)?.toWordplay() === edit
-            );
+                    newNode &&
+                    newNode.toWordplay(getPreferredSpaces(newNode)) === edit
+                );
+            });
             if (match === undefined) {
                 console.error(
                     transforms
@@ -133,13 +138,15 @@ test.each([
                             (t) =>
                                 `${t.constructor.name}\t${t
                                     .getNewNode(DefaultLocales)
-                                    ?.toWordplay()}`
+                                    ?.toWordplay()}`,
                         )
-                        .join('\n')
+                        .join('\n'),
                 );
             }
 
-            expect(match?.getNewNode(DefaultLocales)?.toWordplay()).toBe(edit);
+            const newNode = match?.getNewNode(DefaultLocales);
+
+            expect(newNode?.toWordplay(getPreferredSpaces(newNode))).toBe(edit);
         }
-    }
+    },
 );

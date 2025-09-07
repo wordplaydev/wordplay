@@ -1,34 +1,37 @@
-import Expression, { type GuardContext } from './Expression';
-import Token from './Token';
-import type Type from './Type';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import SetValue from '@values/SetValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import SetType from './SetType';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import type Step from '@runtime/Step';
+import SetValue from '@values/SetValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
-import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
-import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
-import concretize from '../locale/concretize';
-import AnyType from './AnyType';
+import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import { list, node, type Grammar, type Replacement } from './Node';
+import SetCloseToken from './SetCloseToken';
+import SetType from './SetType';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
     readonly values: Expression[];
     readonly close: Token | undefined;
-    readonly literal?: Token;
+    readonly literal: Token | undefined;
 
     constructor(
         open: Token,
@@ -54,11 +57,17 @@ export default class SetLiteral extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [SetLiteral.make(), SetLiteral.make([node])]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [SetLiteral.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'SetLiteral';
     }
 
@@ -72,11 +81,22 @@ export default class SetLiteral extends Expression {
                 getType: (context) =>
                     this.getItemType(context) ?? new AnyType(),
                 space: true,
+                newline: this.wrap(),
+                initial: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
+    }
+
+    wrap(): boolean {
+        return (
+            this.values.reduce(
+                (sum, value) => sum + value.toWordplay().length,
+                0,
+            ) > MAX_LINE_LENGTH
+        );
     }
 
     clone(replace?: Replacement) {
@@ -164,15 +184,13 @@ export default class SetLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.SetLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.SetLiteral;
+    getLocalePath() {
+        return SetLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.SetLiteral.start),
-        );
+        return locales.concretize((l) => l.node.SetLiteral.start);
     }
 
     getFinishExplanations(
@@ -180,9 +198,8 @@ export default class SetLiteral extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.SetLiteral.finish),
+        return locales.concretize(
+            (l) => l.node.SetLiteral.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
@@ -191,7 +208,7 @@ export default class SetLiteral extends Expression {
         return [this.values.length];
     }
 
-    getGlyphs() {
-        return Glyphs.Set;
+    getCharacter() {
+        return Characters.Set;
     }
 }

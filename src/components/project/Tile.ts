@@ -1,9 +1,10 @@
+import type Project from '../../db/projects/Project';
 import type Locales from '../../locale/Locales';
-import type Project from '../../models/Project';
 import type Bounds from './Bounds';
 import Layout from './Layout';
+import TileKinds from './TileKinds';
 
-export enum Mode {
+export enum TileMode {
     Expanded = 'expanded',
     Collapsed = 'collapsed',
 }
@@ -13,6 +14,7 @@ export enum TileKind {
     Documentation = 'docs',
     Source = 'source',
     Palette = 'palette',
+    Collaborate = 'collaborate',
 }
 
 export default class Tile {
@@ -25,14 +27,14 @@ export default class Tile {
     /** The persisted position of the tile in free form layout */
     readonly position: Bounds;
     /** The layout mode the window is in */
-    readonly mode: Mode;
+    readonly mode: TileMode;
 
     constructor(
         id: string,
         kind: TileKind,
-        mode: Mode,
+        mode: TileMode,
         bounds: Bounds | undefined,
-        position: Bounds
+        position: Bounds,
     ) {
         this.id = id;
         this.kind = kind;
@@ -59,25 +61,29 @@ export default class Tile {
     }
 
     isCollapsed() {
-        return this.mode == Mode.Collapsed;
+        return this.mode == TileMode.Collapsed;
     }
 
     isExpanded() {
-        return this.mode === Mode.Expanded;
+        return this.mode === TileMode.Expanded;
     }
 
     isSource() {
         return this.kind === TileKind.Source;
     }
 
+    isVisibleCollapsed(editable: boolean) {
+        return (
+            editable ||
+            !(
+                this.kind === TileKind.Palette ||
+                this.kind === TileKind.Collaborate
+            )
+        );
+    }
+
     getOrder() {
-        return this.kind === TileKind.Palette
-            ? 0
-            : this.kind === TileKind.Output
-            ? 1
-            : this.kind === TileKind.Documentation
-            ? 2
-            : 3;
+        return TileKinds[this.kind].order;
     }
 
     withBounds(bounds: Bounds) {
@@ -88,7 +94,7 @@ export default class Tile {
         return new Tile(this.id, this.kind, this.mode, this.bounds, bounds);
     }
 
-    withMode(mode: Mode) {
+    withMode(mode: TileMode) {
         return new Tile(this.id, this.kind, mode, this.bounds, this.position);
     }
 

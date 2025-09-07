@@ -1,11 +1,11 @@
-import toStructure from '../basis/toStructure';
 import { getBind } from '@locale/getBind';
-import type Evaluator from '@runtime/Evaluator';
 import type { EvaluationNode } from '@runtime/Evaluation';
-import StructureValue from '../values/StructureValue';
-import { createDirectionStructure } from './Direction';
-import TextValue from '../values/TextValue';
+import type Evaluator from '@runtime/Evaluator';
+import toStructure from '../basis/toStructure';
 import type Locales from '../locale/Locales';
+import StructureValue from '../values/StructureValue';
+import TextValue from '../values/TextValue';
+import { createDirectionStructure } from './Direction';
 
 export function createReboundType(locales: Locales) {
     return toStructure(`
@@ -14,7 +14,7 @@ export function createReboundType(locales: Locales) {
         ${getBind(locales, (locale) => locale.input.Rebound.object)}•''
         ${getBind(
             locales,
-            (locale) => locale.input.Rebound.direction
+            (locale) => locale.input.Rebound.direction,
         )}•Direction
     )
 `);
@@ -25,7 +25,7 @@ export function createReboundStructure(
     creator: EvaluationNode,
     subject: string,
     object: string,
-    direction: { x: number; y: number }
+    direction: { x: number; y: number },
 ): StructureValue {
     return StructureValue.make(
         evaluator,
@@ -33,6 +33,6 @@ export function createReboundStructure(
         evaluator.project.shares.output.Rebound,
         new TextValue(creator, subject),
         new TextValue(creator, object),
-        createDirectionStructure(evaluator, creator, direction.x, direction.y)
+        createDirectionStructure(evaluator, creator, direction.x, direction.y),
     );
 }

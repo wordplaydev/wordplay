@@ -1,18 +1,20 @@
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
+import BoolValue from '@values/BoolValue';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import BooleanType from './BooleanType';
+import type Context from './Context';
+import Literal from './Literal';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import BoolValue from '@values/BoolValue';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import type Context from './Context';
 import type TypeSet from './TypeSet';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Literal from './Literal';
-import Glyphs from '../lore/Glyphs';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import concretize from '../locale/concretize';
-import type Locales from '../locale/Locales';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;
@@ -31,11 +33,18 @@ export default class BooleanLiteral extends Literal {
         );
     }
 
-    static getPossibleNodes() {
-        return [BooleanLiteral.make(true), BooleanLiteral.make(false)];
+    static getPossibleReplacements({ type }: EditContext) {
+        // Any type or a boolean? Offer the literals
+        return type === undefined || type instanceof BooleanType
+            ? [BooleanLiteral.make(true), BooleanLiteral.make(false)]
+            : [];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return BooleanLiteral.make(true);
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'BooleanLiteral';
     }
 
@@ -60,7 +69,7 @@ export default class BooleanLiteral extends Literal {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(): Type {
@@ -86,14 +95,14 @@ export default class BooleanLiteral extends Literal {
         return this.value;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.BooleanLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.BooleanLiteral;
+    getLocalePath() {
+        return BooleanLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.BooleanLiteral.start),
+        return locales.concretize(
+            (l) => l.node.BooleanLiteral.start,
             new NodeRef(this.value, locales, context, this.value.getText()),
         );
     }
@@ -102,8 +111,8 @@ export default class BooleanLiteral extends Literal {
         return [this.bool()];
     }
 
-    getGlyphs() {
-        return Glyphs.BooleanLiteral;
+    getCharacter() {
+        return Characters.BooleanLiteral;
     }
 
     adjust(): this | undefined {

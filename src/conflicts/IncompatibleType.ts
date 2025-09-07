@@ -1,11 +1,10 @@
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
-import NodeRef from '@locale/NodeRef';
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
-import type Node from '../nodes/Node';
 import type Locales from '../locale/Locales';
+import type Node from '../nodes/Node';
+import Conflict from './Conflict';
 
 export default class IncompatibleType extends Conflict {
     readonly receiver: Node;
@@ -17,7 +16,7 @@ export default class IncompatibleType extends Conflict {
         receiver: Node,
         expectedType: Type,
         expression: Expression,
-        givenType: Type
+        givenType: Type,
     ) {
         super(false);
 
@@ -32,26 +31,19 @@ export default class IncompatibleType extends Conflict {
             primary: {
                 node: this.receiver,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Bind.conflict.IncompatibleType.primary
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Bind.conflict.IncompatibleType.primary,
                         new NodeRef(this.givenType, locales, context),
-                        new NodeRef(this.expectedType, locales, context)
+                        new NodeRef(this.expectedType, locales, context),
                     ),
             },
             secondary: {
                 node: this.expression,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Bind.conflict.IncompatibleType.secondary
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Bind.conflict.IncompatibleType.secondary,
                         new NodeRef(this.givenType, locales, context),
-                        new NodeRef(this.expectedType, locales, context)
+                        new NodeRef(this.expectedType, locales, context),
                     ),
             },
         };

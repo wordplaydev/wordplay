@@ -1,46 +1,48 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { type GuardContext } from './Expression';
-import ListType from './ListType';
-import NumberType from './NumberType';
-import type Token from './Token';
-import type Type from './Type';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import Unit from './Unit';
-import Bind from './Bind';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import ListOpenToken from './ListOpenToken';
-import ListCloseToken from './ListCloseToken';
-import { node, type Grammar, type Replacement } from './Node';
-import { NotAType } from './NotAType';
-import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import type Step from '@runtime/Step';
+import ListValue from '@values/ListValue';
+import NoneValue from '@values/NoneValue';
+import NumberValue from '@values/NumberValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
-import NoneValue from '@values/NoneValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
-import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import AnyType from './AnyType';
+import Bind from './Bind';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 import getGuards from './getGuards';
-import Reference from './Reference';
+import ListCloseToken from './ListCloseToken';
+import ListOpenToken from './ListOpenToken';
+import ListType from './ListType';
+import { node, type Grammar, type Replacement } from './Node';
+import { NotAType } from './NotAType';
+import NumberType from './NumberType';
 import PropertyReference from './PropertyReference';
+import Reference from './Reference';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
+import Unit from './Unit';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
     readonly open: Token;
     readonly index: Expression;
-    readonly close?: Token;
+    readonly close: Token | undefined;
 
     constructor(
         list: Expression,
@@ -67,7 +69,26 @@ export default class ListAccess extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node, context }: EditContext) {
+        if (!(node instanceof Expression)) return [];
+        return node.getType(context).accepts(ListType.make(), context)
+            ? [
+                  ListAccess.make(
+                      node,
+                      ExpressionPlaceholder.make(NumberType.make()),
+                  ),
+              ]
+            : node.getType(context).accepts(NumberType.make(), context)
+              ? [
+                    ListAccess.make(
+                        ExpressionPlaceholder.make(ListType.make()),
+                        node,
+                    ),
+                ]
+              : [];
+    }
+
+    static getPossibleAppends() {
         return [
             ListAccess.make(
                 ExpressionPlaceholder.make(ListType.make()),
@@ -76,7 +97,7 @@ export default class ListAccess extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ListAccess';
     }
 
@@ -85,7 +106,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'list',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.list),
+                label: () => (l) => l.term.list,
                 // Must be a list
                 getType: () => ListType.make(),
             },
@@ -93,7 +114,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'index',
                 kind: node(Expression),
-                label: (locales: Locales) => locales.get((l) => l.term.index),
+                label: () => (l) => l.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),
             },
@@ -111,7 +132,7 @@ export default class ListAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {
@@ -273,14 +294,14 @@ export default class ListAccess extends Expression {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.ListAccess);
+    static readonly LocalePath = (l: LocaleText) => l.node.ListAccess;
+    getLocalePath() {
+        return ListAccess.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ListAccess.start),
+        return locales.concretize(
+            (l) => l.node.ListAccess.start,
             new NodeRef(this.list, locales, context),
         );
     }
@@ -290,14 +311,13 @@ export default class ListAccess extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ListAccess.finish),
+        return locales.concretize(
+            (l) => l.node.ListAccess.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.ListAccess;
+    getCharacter() {
+        return Characters.ListAccess;
     }
 }

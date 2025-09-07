@@ -1,32 +1,35 @@
-import Language from './Language';
-import { node, optional } from './Node';
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import { FORMATTED_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import type Paragraph from './Paragraph';
-import Words from './Words';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Markup from './Markup';
-import { LanguageTagged } from './LanguageTagged';
-import Example from './Example';
-import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { FORMATTED_SYMBOL } from '@parser/Symbols';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
+import Example from './Example';
+import Language from './Language';
+import { LanguageTagged } from './LanguageTagged';
+import Markup from './Markup';
+import type { Grammar, Replacement } from './Node';
+import { node, optional } from './Node';
+import type Paragraph from './Paragraph';
+import Sym from './Sym';
+import Token from './Token';
+import Words from './Words';
 
 export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;
     readonly markup: Markup;
     readonly close: Token | undefined;
-    readonly language?: Language;
+    readonly language: Language | undefined;
+    readonly separator: Token | undefined;
 
     constructor(
         open: Token,
         markup: Markup,
         close: Token | undefined,
         lang: Language | undefined,
+        separator: Token | undefined,
     ) {
         super();
 
@@ -34,6 +37,7 @@ export default class FormattedTranslation extends LanguageTagged {
         this.markup = markup;
         this.close = close;
         this.language = lang;
+        this.separator = separator;
 
         this.computeChildren();
     }
@@ -44,14 +48,19 @@ export default class FormattedTranslation extends LanguageTagged {
             new Markup(content ?? []),
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
             language,
+            undefined,
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [FormattedTranslation.make()];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return this.getPossibleReplacements();
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'FormattedTranslation';
     }
 
@@ -69,6 +78,7 @@ export default class FormattedTranslation extends LanguageTagged {
             { name: 'markup', kind: node(Markup) },
             { name: 'close', kind: node(Sym.Formatted) },
             { name: 'language', kind: optional(node(Language)) },
+            { name: 'separator', kind: optional(node(Sym.Separator)) },
         ];
     }
 
@@ -78,6 +88,7 @@ export default class FormattedTranslation extends LanguageTagged {
             this.replaceChild('markup', this.markup, replace),
             this.replaceChild('close', this.close, replace),
             this.replaceChild('language', this.language, replace),
+            this.replaceChild('separator', this.separator, replace),
         ) as this;
     }
 
@@ -91,6 +102,7 @@ export default class FormattedTranslation extends LanguageTagged {
             this.markup,
             this.close,
             language,
+            this.separator,
         );
     }
 
@@ -108,11 +120,12 @@ export default class FormattedTranslation extends LanguageTagged {
         return PossiblePII.analyze(this, context);
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FormattedTranslation);
+    static readonly LocalePath = (l: LocaleText) => l.node.FormattedTranslation;
+    getLocalePath() {
+        return FormattedTranslation.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Formatted;
+    getCharacter() {
+        return Characters.Formatted;
     }
 }

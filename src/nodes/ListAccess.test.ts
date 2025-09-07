@@ -1,9 +1,9 @@
-import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
-import ListAccess from './ListAccess';
+import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
 import BinaryEvaluate from './BinaryEvaluate';
+import ListAccess from './ListAccess';
 
 test.each([
     ['[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, IncompatibleInput],

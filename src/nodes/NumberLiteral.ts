@@ -1,21 +1,24 @@
-import NumberValue from '@values/NumberValue';
 import type Conflict from '@conflicts/Conflict';
+import { NotANumber } from '@conflicts/NotANumber';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import NumberValue from '@values/NumberValue';
+import type Decimal from 'decimal.js';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import { type TemplateInput } from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import Literal from './Literal';
+import { node, optional, type Grammar, type Replacement } from './Node';
 import NumberType from './NumberType';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import Unit from './Unit';
-import { NotANumber } from '@conflicts/NotANumber';
-import type Context from './Context';
 import type TypeSet from './TypeSet';
-import Sym from './Sym';
-import Node, { node, type Grammar, type Replacement, optional } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Literal from './Literal';
-import Glyphs from '../lore/Glyphs';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Decimal from 'decimal.js';
-import concretize, { type TemplateInput } from '../locale/concretize';
-import type Locales from '../locale/Locales';
+import Unit from './Unit';
 
 export default class NumberLiteral extends Literal {
     readonly number: Token;
@@ -47,12 +50,7 @@ export default class NumberLiteral extends Literal {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        _: Node,
-        __: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ type, context }: EditContext) {
         const possibleNumberTypes = type
             ?.getPossibleTypes(context)
             .filter(
@@ -81,7 +79,11 @@ export default class NumberLiteral extends Literal {
         }
     }
 
-    getDescriptor() {
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'NumberLiteral';
     }
 
@@ -147,20 +149,20 @@ export default class NumberLiteral extends Literal {
         return this.number;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NumberLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.NumberLiteral;
+    getLocalePath() {
+        return NumberLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.NumberLiteral.start),
+        return locales.concretize(
+            (l) => l.node.NumberLiteral.start,
             new NodeRef(this.number, locales, context),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Number;
+    getCharacter() {
+        return Characters.Number;
     }
 
     getDescriptionInputs(locales: Locales, context: Context): TemplateInput[] {

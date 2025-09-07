@@ -1,24 +1,30 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { getIsBlocks } from '@components/project/Contexts';
     import type Language from '@nodes/Language';
-    import { getHidden } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
 
-    export let node: Language;
+    interface Props {
+        node: Language;
+    }
 
-    let hidden = getHidden();
-    $: show = !$hidden?.has(node);
+    let { node }: Props = $props();
+
+    const blocks = getIsBlocks();
 </script>
 
-{#if show}<em
-        ><NodeView node={node.slash} /><NodeView
-            node={node.language}
-        /><NodeView node={node.dash} /><NodeView node={node.region} /></em
-    >{/if}
+<em class="language {$blocks ? 'blocks' : ''}"
+    ><NodeView node={node.slash} /><NodeView node={node.language} /><NodeView
+        node={node.dash}
+    /><NodeView node={node.region} /></em
+>
 
 <style>
-    em {
+    .language {
         font-size: small;
+    }
+
+    .language.blocks {
+        display: flex;
+        flex-direction: row;
     }
 </style>

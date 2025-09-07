@@ -1,38 +1,42 @@
-import Expression, { type GuardContext } from './Expression';
-import KeyValue from '@nodes/KeyValue';
-import type Token from './Token';
-import type Type from './Type';
 import type Conflict from '@conflicts/Conflict';
+import { NotAKeyValue } from '@conflicts/NotAKeyValue';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import KeyValue from '@nodes/KeyValue';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import MapValue from '@values/MapValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import UnionType from './UnionType';
-import type TypeSet from './TypeSet';
-import { NotAKeyValue } from '@conflicts/NotAKeyValue';
-import MapType from './MapType';
+import type Step from '@runtime/Step';
+import MapValue from '@values/MapValue';
+import type Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import ValueException from '../values/ValueException';
 import AnyType from './AnyType';
 import BindToken from './BindToken';
-import SetOpenToken from './SetOpenToken';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import MapType from './MapType';
+import { list, node, optional, type Grammar, type Replacement } from './Node';
 import SetCloseToken from './SetCloseToken';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import { node, type Grammar, type Replacement, optional, list } from './Node';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import concretize from '../locale/concretize';
-import ValueException from '../values/ValueException';
+import SetOpenToken from './SetOpenToken';
 import Sym from './Sym';
-import type Locales from '../locale/Locales';
+import type Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
     readonly values: (Expression | KeyValue)[];
-    readonly close?: Token;
-    readonly bind?: Token;
+    readonly close: Token | undefined;
+    readonly bind: Token | undefined;
     readonly literal: Token | undefined;
 
     constructor(
@@ -62,11 +66,25 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [
+                  MapLiteral.make(),
+                  MapLiteral.make([
+                      KeyValue.make(node, ExpressionPlaceholder.make()),
+                  ]),
+                  MapLiteral.make([
+                      KeyValue.make(ExpressionPlaceholder.make(), node),
+                  ]),
+              ]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [MapLiteral.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'MapLiteral';
     }
 
@@ -79,10 +97,21 @@ export default class MapLiteral extends Expression {
                 kind: list(true, node(KeyValue)),
                 space: true,
                 indent: true,
+                initial: true,
+                newline: this.wrap(),
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
+    }
+
+    wrap(): boolean {
+        return (
+            this.values.reduce(
+                (sum, value) => sum + value.toWordplay().length,
+                0,
+            ) > MAX_LINE_LENGTH
+        );
     }
 
     clone(replace?: Replacement) {
@@ -213,15 +242,13 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.MapLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.MapLiteral;
+    getLocalePath() {
+        return MapLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.MapLiteral.start),
-        );
+        return locales.concretize((l) => l.node.MapLiteral.start);
     }
 
     getFinishExplanations(
@@ -229,9 +256,8 @@ export default class MapLiteral extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.MapLiteral.finish),
+        return locales.concretize(
+            (l) => l.node.MapLiteral.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
@@ -240,7 +266,7 @@ export default class MapLiteral extends Expression {
         return [this.values.length];
     }
 
-    getGlyphs() {
-        return Glyphs.Set;
+    getCharacter() {
+        return Characters.Set;
     }
 }

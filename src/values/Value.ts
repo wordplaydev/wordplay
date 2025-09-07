@@ -2,10 +2,9 @@ import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import type Evaluator from '@runtime/Evaluator';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
-import type Markup from '../nodes/Markup';
-import type Concretizer from '@nodes/Concretizer';
 import type Locales from '../locale/Locales';
+import type { LocaleTextAccessor } from '../locale/Locales';
+import type Expression from '../nodes/Expression';
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;
@@ -35,7 +34,7 @@ export default abstract class Value {
 
     abstract isEqualTo(value: Value): boolean;
 
-    abstract getDescription(concretizer: Concretizer, locales: Locales): Markup;
+    abstract getDescription(): LocaleTextAccessor;
 
     /** Used to get a shorthand textual representation of the value, for previews and other summaries. */
     abstract getRepresentativeText(locales: Locales): string;

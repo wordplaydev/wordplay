@@ -1,39 +1,51 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import AnyType from '@nodes/AnyType';
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import NodeView from './NodeView.svelte';
-    import { getCaret, getProject, getRoot } from '../project/Contexts';
-    import RootView from '../project/RootView.svelte';
-    import UnknownType from '../../nodes/UnknownType';
-    import PlaceholderView from './PlaceholderView.svelte';
     import { locales } from '../../db/Database';
+    import UnknownType from '../../nodes/UnknownType';
+    import {
+        getCaret,
+        getIsBlocks,
+        getProject,
+        getRoot,
+    } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
+    import PlaceholderView from './MenuTrigger.svelte';
+    import NodeView from './NodeView.svelte';
 
-    export let node: ExpressionPlaceholder;
+    interface Props {
+        node: ExpressionPlaceholder;
+    }
+
+    let { node }: Props = $props();
 
     const project = getProject();
-    const root = getRoot();
-    const caret = getCaret();
 
-    $: inferredType = $project
-        ? node.getType($project.getNodeContext(node))
-        : undefined;
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
+
+    const caret = getCaret();
+    const blocks = getIsBlocks();
+
+    let inferredType = $derived(
+        $project ? node.getType($project.getNodeContext(node)) : undefined,
+    );
 
     /** If this has no placeholder token, then get the label for field it represents */
-    let placeholder: string | undefined;
-    $: {
-        if (node.placeholder === undefined && $root && $project) {
-            const context = $project.getNodeContext($root.root);
-            const parent = $root.getParent(node);
+    let placeholder = $derived.by(() => {
+        if (node.placeholder === undefined && root && $project) {
+            const context = $project.getNodeContext(root.root);
+            const parent = root.getParent(node);
             if (parent)
-                placeholder = parent.getChildPlaceholderLabel(
+                return parent.getChildPlaceholderLabel(
                     node,
                     $locales,
                     context,
-                    $root
+                    root,
                 );
-        } else placeholder = undefined;
-    }
+        }
+        return undefined;
+    });
 </script>
 
 <span class="placeholder"
@@ -45,42 +57,49 @@
     ><span class="type"
         >{#if node.type}<NodeView
                 node={node.type}
-            />{:else if inferredType && !(inferredType instanceof UnknownType)}<span
-                >•</span
-            ><div class:inferred={node.type === undefined && inferredType}
-                ><RootView elide inert localized node={inferredType} /></div
-            >{/if}{#if caret}<PlaceholderView position={node} />{/if}</span
+            />{:else if inferredType && !(inferredType instanceof UnknownType || inferredType instanceof AnyType)}•<div
+                class:inferred={node.type === undefined && inferredType}
+                ><RootView
+                    elide
+                    inert
+                    inline
+                    locale="symbolic"
+                    node={inferredType}
+                    blocks={$blocks}
+                /></div
+            >{/if}</span
     ></span
->
+>{#if caret}<PlaceholderView position={node} />{/if}
 
 <style>
-    .placeholder,
     .placeholder {
         color: var(--wordplay-inactive-color);
-        font-style: italic;
         font-size: small;
+    }
+
+    .type {
+        font-size: xx-small;
+    }
+
+    .type :global(.token-view) {
+        color: var(--wordplay-inactive-color);
     }
 
     .inferred {
         display: inline-block;
-        animation: bob infinite linear 1s;
-        transform-origin: left;
+        font-style: italic;
     }
 
     .inferred :global(.token-view) {
         color: var(--wordplay-inactive-color);
     }
 
-    @keyframes bob {
-        0% {
-            transform: rotate(-10deg);
-        }
-        50% {
-            transform: rotate(10deg);
-        }
-        100% {
-            transform: rotate(-10deg);
-        }
+    :global(.block) .placeholder,
+    :global(.block) .hidden,
+    :global(.block) .type,
+    :global(.block) .inferred {
+        display: flex;
+        flex-direction: row;
     }
 
     .label {

@@ -1,15 +1,13 @@
-<!-- A component that shows various flying glyphs -->
-
 <script lang="ts">
     import { onMount } from 'svelte';
-    import Eyes from '../lore/Eyes.svelte';
-    import UnicodeString from '../../models/UnicodeString';
     import { animationFactor } from '../../db/Database';
     import Emotion from '../../lore/Emotion';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
+    import UnicodeString from '../../unicode/UnicodeString';
+    import Eyes from '../lore/Eyes.svelte';
 
-    type Glyph = {
-        glyph: string;
+    type Character = {
+        symbol: string;
         index: number;
         size: number;
         x: number;
@@ -20,16 +18,17 @@
         va: number;
     };
 
-    let state: Glyph[] = [];
+    let scene: Character[] = $state([]);
 
-    let windowWidth: number, windowHeight: number;
+    let windowWidth: number = $state(0),
+        windowHeight: number = $state(0);
 
     const bounds = 0.2;
-    const glyphs = new UnicodeString(
-        '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ'
+    const symbols = new UnicodeString(
+        '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ',
     ).getGraphemes();
 
-    let mounted = false;
+    let mounted = $state(false);
     let previousTime: DOMHighResTimeStamp | undefined = undefined;
 
     function step(time: DOMHighResTimeStamp) {
@@ -38,49 +37,50 @@
         const elapsed =
             $animationFactor > 0 ? (time - previousTime) / $animationFactor : 0;
         if (previousTime) {
-            for (const glyph of state) {
-                glyph.x += glyph.vx * (elapsed / 1000);
-                glyph.y += glyph.vy * (elapsed / 1000);
-                glyph.angle += (glyph.va * (elapsed / 1000)) % 360;
+            for (const character of scene) {
+                character.x += character.vx * (elapsed / 1000);
+                character.y += character.vy * (elapsed / 1000);
+                character.angle += (character.va * (elapsed / 1000)) % 360;
 
-                if (glyph.x > windowWidth * (1 + bounds))
-                    glyph.x = -windowWidth * bounds;
-                if (glyph.x < -windowWidth * bounds)
-                    glyph.x = windowWidth * (1 + bounds);
-                if (glyph.y > windowHeight * (1 + bounds))
-                    glyph.y = -windowHeight * bounds;
-                if (glyph.y < -windowHeight * bounds)
-                    glyph.y = windowHeight * (1 + bounds);
+                if (character.x > windowWidth * (1 + bounds))
+                    character.x = -windowWidth * bounds;
+                if (character.x < -windowWidth * bounds)
+                    character.x = windowWidth * (1 + bounds);
+                if (character.y > windowHeight * (1 + bounds))
+                    character.y = -windowHeight * bounds;
+                if (character.y < -windowHeight * bounds)
+                    character.y = windowHeight * (1 + bounds);
 
                 const element = document.querySelector(
-                    `[data-id="${glyph.index}"]`
+                    `[data-id="${character.index}"]`,
                 );
                 if (element instanceof HTMLElement) {
-                    element.style.left = `${glyph.x}px`;
-                    element.style.top = `${glyph.y}px`;
-                    element.style.transform = `rotate(${glyph.angle}deg)`;
+                    element.style.left = `${character.x}px`;
+                    element.style.top = `${character.y}px`;
+                    element.style.transform = `rotate(${character.angle}deg)`;
                 }
             }
         }
 
         previousTime = time;
-        if (mounted && $animationFactor > 0) window.requestAnimationFrame(step);
+        // Disable background animation for speed.
+        // if (mounted && $animationFactor > 0) window.requestAnimationFrame(step);
     }
 
     onMount(() => {
         mounted = true;
         const random: string[] = [];
-        // Compute a number of glyphs roughly proportional to the window size.
+        // Compute a number of characters roughly proportional to the window size.
         const count = Math.min(
             20,
-            Math.round(windowWidth * windowHeight) / 100000
+            Math.round(windowWidth * windowHeight) / 100000,
         );
         for (let i = 0; i < count; i++)
-            random.push(glyphs[Math.floor(Math.random() * glyphs.length)]);
+            random.push(symbols[Math.floor(Math.random() * symbols.length)]);
 
-        state = random.map((glyph, index) => {
+        scene = random.map((symbol, index) => {
             return {
-                glyph,
+                symbol,
                 index,
                 size: Math.round(Math.random() * 128 + 16),
                 x: Math.random() * windowWidth,
@@ -106,12 +106,12 @@
 
 {#if mounted}
     <div class="background" aria-hidden="true">
-        {#each state as glyph}
+        {#each scene as character}
             <div
-                class="glyph"
-                data-id={glyph.index}
-                style:font-size="{glyph.size}pt"
-                >{withVariationSelector(glyph.glyph)}<Eyes
+                class="character"
+                data-id={character.index}
+                style:font-size="{character.size}pt"
+                >{withColorEmoji(character.symbol)}<Eyes
                     invert={false}
                     emotion={Emotion.neutral}
                 /></div
@@ -129,7 +129,8 @@
         overflow: hidden;
     }
 
-    .glyph {
+    .character {
+        font-family: 'Noto Emoji';
         font-size: 48pt;
         position: absolute;
         opacity: 0.05;

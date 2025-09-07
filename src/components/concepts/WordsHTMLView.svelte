@@ -3,8 +3,12 @@
     import type Spaces from '../../parser/Spaces';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
-    export let words: Words;
-    export let spaces: Spaces;
+    interface Props {
+        words: Words;
+        spaces: Spaces;
+    }
+
+    let { words, spaces }: Props = $props();
 </script>
 
 <span class={words.getFormat()}

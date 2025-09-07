@@ -1,19 +1,20 @@
-import MissingLanguage from '@conflicts/MissingLanguage';
-import Node, { node, optional } from './Node';
-import type { Grammar, Replacement } from './Node';
-import type Token from './Token';
-import NameToken from './NameToken';
-import LanguageToken from './LanguageToken';
 import type Conflict from '@conflicts/Conflict';
-import { Languages } from '@locale/LanguageCode';
+import MissingLanguage from '@conflicts/MissingLanguage';
 import UnknownLanguage from '@conflicts/UnknownLanguage';
-import type Locale from '@locale/Locale';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Sym from './Sym';
-import type Type from './Type';
 import type LanguageCode from '@locale/LanguageCode';
-import type Locales from '../locale/Locales';
+import { Languages } from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { RegionCode } from '@locale/Regions';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
+import LanguageToken from './LanguageToken';
+import NameToken from './NameToken';
+import type { Grammar, Replacement } from './Node';
+import Node, { node, optional } from './Node';
+import Sym from './Sym';
+import type Token from './Token';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -35,21 +36,27 @@ export default class Language extends Node {
     static make(lang: string | undefined) {
         return new Language(
             new LanguageToken(),
-            lang ? new NameToken(lang) : undefined
+            lang ? new NameToken(lang) : undefined,
         );
     }
 
-    static getPossibleNodes(type: Type | undefined, node: Node | undefined) {
-        const prefix =
-            node instanceof Language && node.language
-                ? node.language.getText()
-                : '';
-        return Object.keys(Languages)
-            .filter((lang) => lang.startsWith(prefix))
-            .map((language) => Language.make(language));
+    static getPossibleReplacements() {
+        // const prefix =
+        //     node instanceof Language && node.language
+        //         ? node.language.getText()
+        //         : '';
+        return Object.keys(Languages).map((language) =>
+            Language.make(language),
+        );
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return Object.keys(Languages).map((language) =>
+            Language.make(language),
+        );
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'Language';
     }
 
@@ -67,7 +74,7 @@ export default class Language extends Node {
             this.replaceChild('slash', this.slash, replace),
             this.replaceChild('language', this.language, replace),
             this.replaceChild('dash', this.dash, replace),
-            this.replaceChild('region', this.region, replace)
+            this.replaceChild('region', this.region, replace),
         ) as this;
     }
 
@@ -93,6 +100,10 @@ export default class Language extends Node {
         return this.language ? this.language.getText() : undefined;
     }
 
+    getRegionText(): string | undefined {
+        return this.language ? this.region?.getText() : undefined;
+    }
+
     getLanguageCode(): LanguageCode | undefined {
         const lang = this.getLanguageText();
         return lang && lang in Languages ? (lang as LanguageCode) : undefined;
@@ -109,10 +120,24 @@ export default class Language extends Node {
         );
     }
 
+    /** True if these this language and the given locale region match, where match means both are undefined or both are the same region. */
     isLocaleRegion(locale: Locale) {
         return (
-            this.region !== undefined && this.region.getText() === locale.region
+            (this.region === undefined && locale.regions.length === 0) ||
+            (this.region !== undefined &&
+                locale.regions.includes(this.region.getText()))
         );
+    }
+
+    getLocaleID(): Locale | undefined {
+        const language = this.getLanguageText();
+        const region = this.getRegionText();
+        return language
+            ? {
+                  language: language as LanguageCode,
+                  regions: region ? [region as RegionCode] : [],
+              }
+            : undefined;
     }
 
     isEqualTo(lang: Node) {
@@ -130,8 +155,9 @@ export default class Language extends Node {
         );
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Language);
+    static readonly LocalePath = (l: LocaleText) => l.node.Language;
+    getLocalePath() {
+        return Language.LocalePath;
     }
 
     getDescriptionInputs() {
@@ -143,7 +169,7 @@ export default class Language extends Node {
         ];
     }
 
-    getGlyphs() {
-        return Glyphs.Language;
+    getCharacter() {
+        return Characters.Language;
     }
 }

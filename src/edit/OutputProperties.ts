@@ -1,23 +1,27 @@
-import { SupportedFaces } from '@basis/Fonts';
+import { Faces, getFaceDescription } from '@basis/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
-import { createPoseLiteral } from '@output/Pose';
 import { DefaultStyle } from '@output/Output';
+import { createPoseLiteral } from '@output/Pose';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import type { LocaleTextsAccessor } from '../locale/Locales';
+import type { NameText } from '../locale/LocaleText';
+import BooleanLiteral from '../nodes/BooleanLiteral';
+import Reference from '../nodes/Reference';
 import OutputProperty from './OutputProperty';
-import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
-import Reference from '../nodes/Reference';
-import type Project from '../models/Project';
-import type { NameAndDoc, NameText } from '../locale/Locale';
+import OutputPropertyText from './OutputPropertyText';
 import getPoseProperties from './PoseProperties';
-import BooleanLiteral from '../nodes/BooleanLiteral';
-import type Locales from '../locale/Locales';
 
-function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
+function getPoseProperty(
+    project: Project,
+    name: LocaleTextsAccessor,
+): OutputProperty {
     return new OutputProperty(
         name,
         'pose',
@@ -27,78 +31,83 @@ function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
             expr instanceof Evaluate &&
             (expr.is(project.shares.output.Pose, context) ||
                 expr.is(project.shares.output.Sequence, context)),
-        (locales) => createPoseLiteral(project, locales)
+        (locales) => createPoseLiteral(project, locales),
     );
 }
 
 export function getDurationProperty(locales: Locales): OutputProperty {
     return new OutputProperty(
-        locales.get((l) => l.output.Phrase.duration),
+        (l) => l.output.Phrase.duration.names,
         new OutputPropertyRange(0, 2, 0.25, 's', 2),
         false,
         false,
         (expr) => expr instanceof NumberLiteral,
-        () => NumberLiteral.make(0.25, Unit.create(['s']))
+        () => NumberLiteral.make(0.25, Unit.create(['s'])),
     );
 }
 
 export function getStyleProperty(locales: Locales): OutputProperty {
     return new OutputProperty(
-        locales.get((l) => l.output.Phrase.style),
+        (l) => l.output.Phrase.style.names,
         new OutputPropertyOptions(
-            Object.values(locales.get((l) => l.output.Easing)).reduce(
-                (all: string[], next: NameText) => [
-                    ...all,
-                    ...(Array.isArray(next) ? next : [next]),
-                ],
-                []
-            ),
+            Object.values(locales.get((l) => l.output.Easing))
+                .reduce(
+                    (all: string[], next: NameText) => [
+                        ...all,
+                        ...(Array.isArray(next) ? next : [next]),
+                    ],
+                    [],
+                )
+                .map((name) => ({ value: name, label: name })),
             true,
             (text: string) => TextLiteral.make(text),
             (expression: Expression | undefined) =>
                 expression instanceof TextLiteral
-                    ? expression.getValue(locales).text
-                    : undefined
+                    ? expression.getValue(locales.getLocales()).text
+                    : undefined,
         ),
         false,
         false,
         (expr) => expr instanceof TextLiteral,
-        () => TextLiteral.make(DefaultStyle)
+        () => TextLiteral.make(DefaultStyle),
     );
 }
 
 // All type output has these properties.
 export function getTypeOutputProperties(
     project: Project,
-    locales: Locales
+    locales: Locales,
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.size),
+            (l) => l.output.Phrase.size.names,
             new OutputPropertyRange(0.25, 32, 0.25, 'm', 2),
             false,
             true,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(1, Unit.meters())
+            () => NumberLiteral.make(1, Unit.meters()),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.face),
+            (l) => l.output.Phrase.face.names,
             new OutputPropertyOptions(
-                [...SupportedFaces],
+                Object.entries(Faces).map(([name, face]) => ({
+                    value: name,
+                    label: getFaceDescription(name, face),
+                })),
                 true,
                 (text: string) => TextLiteral.make(text),
                 (expression: Expression | undefined) =>
                     expression instanceof TextLiteral
-                        ? expression.getValue(locales).text
-                        : undefined
+                        ? expression.getValue(locales.getLocales()).text
+                        : undefined,
             ),
             false,
             true,
             (expr) => expr instanceof TextLiteral,
-            () => TextLiteral.make(locales.get((l) => l.ui.font.app))
+            () => TextLiteral.make(locales.get((l) => l.ui.font.app)),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.place),
+            (l) => l.output.Phrase.place.names,
             'place',
             false,
             false,
@@ -111,14 +120,14 @@ export function getTypeOutputProperties(
                 Evaluate.make(
                     Reference.make(
                         locales.getName(project.shares.output.Place.names),
-                        project.shares.output.Place
+                        project.shares.output.Place,
                     ),
                     [
                         NumberLiteral.make(0, Unit.meters()),
                         NumberLiteral.make(0, Unit.meters()),
                         NumberLiteral.make(0, Unit.meters()),
-                    ]
-                )
+                    ],
+                ),
         ),
         ...getOutputProperties(project, locales),
     ];
@@ -128,42 +137,30 @@ export function getTypeOutputProperties(
 // All type output has these properties, in this order.
 export function getOutputProperties(
     project: Project,
-    locales: Locales
+    locales: Locales,
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.name),
+            (l) => l.output.Phrase.name.names,
             new OutputPropertyText(() => true),
             false,
             false,
             (expr) => expr instanceof TextLiteral,
-            () => TextLiteral.make('')
+            () => TextLiteral.make(''),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.selectable),
+            (l) => l.output.Phrase.selectable.names,
             'bool',
             false,
             false,
             (expr) => expr instanceof BooleanLiteral,
-            () => BooleanLiteral.make(false)
+            () => BooleanLiteral.make(false),
         ),
         ...getPoseProperties(project, locales, true),
-        getPoseProperty(
-            project,
-            locales.get((l) => l.output.Phrase.entering)
-        ),
-        getPoseProperty(
-            project,
-            locales.get((l) => l.output.Phrase.resting)
-        ),
-        getPoseProperty(
-            project,
-            locales.get((l) => l.output.Phrase.moving)
-        ),
-        getPoseProperty(
-            project,
-            locales.get((l) => l.output.Phrase.exiting)
-        ),
+        getPoseProperty(project, (l) => l.output.Phrase.entering.names),
+        getPoseProperty(project, (l) => l.output.Phrase.resting.names),
+        getPoseProperty(project, (l) => l.output.Phrase.moving.names),
+        getPoseProperty(project, (l) => l.output.Phrase.exiting.names),
         getDurationProperty(locales),
         getStyleProperty(locales),
     ];

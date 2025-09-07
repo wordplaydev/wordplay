@@ -1,11 +1,11 @@
-import SimpleValue from './SimpleValue';
-import type Value from '@values/Value';
+import type LocaleText from '@locale/LocaleText';
 import { STREAM_SYMBOL } from '@parser/Symbols';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
-import type Concretizer from '../nodes/Concretizer';
-import type Locales from '../locale/Locales';
+import SimpleValue from './SimpleValue';
 
 export default class StreamDefinitionValue extends SimpleValue {
     /** The definition from the AST. */
@@ -40,11 +40,8 @@ export default class StreamDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.function)
-        );
+    getDescription() {
+        return (l: LocaleText) => l.node.StructureDefinition.name;
     }
 
     getRepresentativeText(locales: Locales) {

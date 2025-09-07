@@ -1,10 +1,10 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 import {
-    getSegmentIntersect,
     getPolygonIntersect,
+    getSegmentIntersect,
     isPoint,
-    segment,
     polygon,
+    segment,
     type Point,
     type Polygon,
 } from './geometry';
@@ -38,7 +38,7 @@ test.each([
                 expect(intersection.x).toBe(point.y);
             }
         }
-    }
+    },
 );
 
 test.each([
@@ -75,9 +75,9 @@ test.each([
             const match = intersection.find(
                 (intersect) =>
                     intersect.point.x === point.x &&
-                    intersect.point.y === point.y
+                    intersect.point.y === point.y,
             );
             expect(match).toBeDefined();
         }
-    }
+    },
 );

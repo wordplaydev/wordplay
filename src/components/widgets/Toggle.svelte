@@ -1,16 +1,36 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
+    import { type Snippet } from 'svelte';
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
     import CommandHint from './CommandHint.svelte';
 
-    export let tips: ToggleText;
-    export let on: boolean;
-    export let toggle: () => void;
-    export let active = true;
-    export let uiid: string | undefined = undefined;
-    export let command: Command | undefined = undefined;
+    interface Props {
+        tips: (locale: LocaleText) => ToggleText;
+        on: boolean;
+        toggle: () => void;
+        active?: boolean;
+        uiid?: string | undefined;
+        testid?: string | undefined;
+        command?: Command | undefined;
+        background?: boolean;
+        highlight?: boolean;
+        children: Snippet;
+    }
+
+    let {
+        tips,
+        on,
+        toggle,
+        active = true,
+        uiid = undefined,
+        testid = undefined,
+        command = undefined,
+        background = false,
+        highlight = false,
+        children,
+    }: Props = $props();
 
     async function doToggle(event: Event) {
         if (active) {
@@ -19,27 +39,39 @@
         }
     }
 
-    $: title = `${on ? tips.on : tips.off}${
-        command ? ' (' + toShortcut(command) + ')' : ''
-    }`;
+    let text = $derived($locales.get(tips));
+
+    let title = $derived(
+        `${on ? text.on : text.off}${
+            command ? ' (' + toShortcut(command) + ')' : ''
+        }`,
+    );
 </script>
 
-<!-- Note that we don't make the button inactive using "disabled" because that makes
-    it invisible to screen readers. -->
+<!-- 
+    Note: we don't make the button inactive using "disabled" because that makes it invisible to screen readers. 
+    Note: we prevent mouse down default to avoid stealing keyboard focus. 
+-->
 <button
     type="button"
+    class:background
+    class:highlight
     data-uiid={uiid}
+    data-testid={testid}
     class:on
     {title}
     aria-label={title}
     aria-disabled={!active}
     aria-pressed={on}
-    on:dblclick|stopPropagation
-    on:click={(event) =>
+    ondblclick={(event) => event.stopPropagation()}
+    onmousedown={(event) => event.preventDefault()}
+    onclick={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
 >
     {#if command}<CommandHint {command} />{/if}
-    <slot />
+    <div class="icon">
+        {@render children()}
+    </div>
 </button>
 
 <style>
@@ -52,32 +84,54 @@
         user-select: none;
         border: none;
         border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-background);
-        color: var(--wordplay-foreground);
-        stroke: var(--wordplay-background);
+        background: var(--wordplay-alternating-color);
+        color: currentColor;
+        stroke: currentColor;
         fill: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 2);
         cursor: pointer;
         width: fit-content;
+        max-width: 10em;
+        height: var(--wordplay-widget-height);
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
         line-height: 1;
+        /* Don't let it shrink smaller than its width */
+        flex-shrink: 0;
 
         /** Allows for command hint layout */
         position: relative;
-        overflow: visible;
+    }
+
+    .background {
+        background: var(--wordplay-alternating-color);
+        color: var(--wordplay-foreground);
+    }
+
+    .highlight {
+        background: var(--wordplay-highlight-color);
+        color: var(--wordplay-background);
+
+        animation: bounce;
+        animation-duration: calc(var(--animation-factor) * 1000ms);
+        animation-delay: 0;
+        animation-iteration-count: infinite;
     }
 
     button.on {
-        background-color: var(--wordplay-alternating-color);
         color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
-        box-shadow: inset 0px 1px var(--wordplay-chrome);
+        box-shadow: inset 1px 2px var(--wordplay-chrome);
+    }
+
+    button.on .icon {
         transform: scale(0.9);
     }
 
-    button:hover {
+    button:not(:global(.on)):hover .icon {
         transform: scale(1.1);
     }
 

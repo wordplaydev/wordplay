@@ -1,26 +1,28 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
-import type Context from './Context';
-import Token from './Token';
-import Sym from './Sym';
-import Unit from './Unit';
-import BinaryEvaluate from './BinaryEvaluate';
-import BasisType from './BasisType';
-import UnaryEvaluate from './UnaryEvaluate';
-import NumberLiteral from './NumberLiteral';
 import NumberValue from '@values/NumberValue';
-import Evaluate from './Evaluate';
-import PropertyReference from './PropertyReference';
-import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement } from './Node';
-import Glyphs from '../lore/Glyphs';
-import NodeRef from '../locale/NodeRef';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
+import BasisType from './BasisType';
+import BinaryEvaluate from './BinaryEvaluate';
+import type Context from './Context';
+import Evaluate from './Evaluate';
+import { node, type Grammar, type Replacement } from './Node';
+import NumberLiteral from './NumberLiteral';
+import PropertyReference from './PropertyReference';
+import Sym from './Sym';
+import Token from './Token';
+import type TypeSet from './TypeSet';
+import UnaryEvaluate from './UnaryEvaluate';
+import Unit from './Unit';
 
 type UnitDeriver = (
     left: Unit,
     right: Unit | undefined,
-    constant: number | undefined
+    constant: number | undefined,
 ) => Unit;
 
 export default class NumberType extends BasisType {
@@ -32,7 +34,7 @@ export default class NumberType extends BasisType {
     constructor(
         number: Token,
         unit?: Unit | UnitDeriver,
-        op?: BinaryEvaluate | UnaryEvaluate | Evaluate
+        op?: BinaryEvaluate | UnaryEvaluate | Evaluate,
     ) {
         super();
 
@@ -45,20 +47,24 @@ export default class NumberType extends BasisType {
 
     static make(
         unit?: Unit | UnitDeriver,
-        op?: BinaryEvaluate | UnaryEvaluate | Evaluate
+        op?: BinaryEvaluate | UnaryEvaluate | Evaluate,
     ) {
         return new NumberType(
             new Token(NUMBER_SYMBOL, Sym.NumberType),
             unit ?? Unit.Empty,
-            op
+            op,
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [NumberType.make()];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [NumberType.make()];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'NumberType';
     }
 
@@ -79,7 +85,7 @@ export default class NumberType extends BasisType {
             this.replaceChild('number', this.number, replace),
             this.unit === undefined || this.unit instanceof Function
                 ? this.unit
-                : this.replaceChild('unit', this.unit, replace)
+                : this.replaceChild('unit', this.unit, replace),
         ) as this;
     }
 
@@ -143,7 +149,7 @@ export default class NumberType extends BasisType {
     getLiteral() {
         return new NumberLiteral(
             this.number.clone(),
-            this.unit instanceof Unit ? this.unit.clone() : undefined
+            this.unit instanceof Unit ? this.unit.clone() : undefined,
         );
     }
 
@@ -164,16 +170,16 @@ export default class NumberType extends BasisType {
             this.op instanceof BinaryEvaluate
                 ? this.op.left.getType(context)
                 : this.op instanceof UnaryEvaluate
-                ? this.op.input.getType(context)
-                : this.op.fun instanceof PropertyReference
-                ? this.op.fun.structure.getType(context)
-                : undefined;
+                  ? this.op.input.getType(context)
+                  : this.op.fun instanceof PropertyReference
+                    ? this.op.fun.structure.getType(context)
+                    : undefined;
         const rightType =
             this.op instanceof BinaryEvaluate
                 ? this.op.right.getType(context)
                 : this.op instanceof Evaluate && this.op.inputs.length > 0
-                ? this.op.inputs[0].getType(context)
-                : undefined;
+                  ? this.op.inputs[0].getType(context)
+                  : undefined;
 
         // If either type isn't a number type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.
         if (!(leftType instanceof NumberType)) return Unit.Empty;
@@ -189,7 +195,7 @@ export default class NumberType extends BasisType {
             this.op.right instanceof NumberLiteral
                 ? new NumberValue(
                       this.op.right,
-                      this.op.right.number
+                      this.op.right.number,
                   ).toNumber()
                 : undefined;
 
@@ -199,24 +205,25 @@ export default class NumberType extends BasisType {
             rightType instanceof NumberType
                 ? rightType.concreteUnit(context)
                 : undefined,
-            constant
+            constant,
         );
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getBasisTypeName(): BasisTypeName {
         return 'measurement';
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NumberType);
+    static readonly LocalePath = (l: LocaleText) => l.node.NumberType;
+    getLocalePath() {
+        return NumberType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Number;
+    getCharacter() {
+        return Characters.Number;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
@@ -225,5 +232,12 @@ export default class NumberType extends BasisType {
                 ? new NodeRef(this.unit, locales, context)
                 : undefined,
         ];
+    }
+
+    getDefaultExpression() {
+        return NumberLiteral.make(
+            1,
+            this.unit instanceof Unit ? this.unit : undefined,
+        );
     }
 }

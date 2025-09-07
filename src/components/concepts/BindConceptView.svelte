@@ -1,31 +1,38 @@
 <script lang="ts">
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type BindConcept from '@concepts/BindConcept';
+    import { blocks, locales } from '@db/Database';
     import Speech from '../lore/Speech.svelte';
-    import { locales } from '@db/Database';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
     import RootView from '../project/RootView.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
 
-    export let concept: BindConcept;
+    interface Props {
+        concept: BindConcept;
+    }
+
+    let { concept }: Props = $props();
 </script>
 
-<Speech glyph={concept.getGlyphs($locales)} below={true}>
-    <svelte:fragment slot="content">
-        {@const markup = concept.getDocs($locales)}
+<Speech character={concept.getCharacter($locales)} below={true}>
+    {#snippet content()}
+        {@const markup = concept.getDocs($locales)[0]}
         {#if markup}
             <MarkupHTMLView {markup} />
         {:else}
-            {$locales.get((l) => l.ui.docs.nodoc)}
+            <LocalizedText path={(l) => l.ui.docs.nodoc} />
         {/if}
-    </svelte:fragment>
-    <svelte:fragment slot="aside"
-        >{#if concept.bind.type}• <RootView
+    {/snippet}
+    {#snippet aside()}
+        {#if concept.bind.type}•<RootView
                 node={concept.bind.type}
                 inline
-                localized
-            />{#if concept.bind.value}: <RootView
-                    node={concept.bind.value}
-                    inline
-                    localized
-                />{/if}{/if}
-    </svelte:fragment>
+                locale="symbolic"
+                blocks={$blocks}
+            />{/if}{#if concept.bind.value}: <RootView
+                node={concept.bind.value}
+                inline
+                locale="symbolic"
+                blocks={$blocks}
+            />{/if}
+    {/snippet}
 </Speech>

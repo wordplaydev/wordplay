@@ -1,31 +1,36 @@
-import Names from '@nodes/Names';
+import { parseLocaleDoc } from '@locale/LocaleText';
 import Docs from '@nodes/Docs';
-import { localeToLanguage } from './localeToLanguage';
-import { toDocString, type NameAndDoc } from './Locale';
-import type Locale from './Locale';
-import { getLocaleNames } from './getInputLocales';
-import { parseLocaleDoc } from '@locale/Locale';
+import Names from '@nodes/Names';
+import { getFormattedWordplay } from '@parser/getPreferredSpaces';
+import { EMOJI_SYMBOL } from '@parser/Symbols';
 import type Doc from '../nodes/Doc';
-import Name from '../nodes/Name';
 import Language from '../nodes/Language';
+import Name from '../nodes/Name';
 import DefaultLocale from './DefaultLocale';
+import { getLocaleNames } from './getInputLocales';
 import type Locales from './Locales';
+import type LocaleText from './LocaleText';
+import { toDocString, type NameAndDoc } from './LocaleText';
+import { localeToLanguage } from './localeToLanguage';
 
 export function getBind(
     locales: Locales,
-    select: (locale: Locale) => NameAndDoc,
-    separator = ' '
+    select: (locale: LocaleText) => NameAndDoc,
+    separator = ' ',
 ): string {
     // Get the symbolic names from English (US), which we always include.
     const enNames = locales
         .getLocales()
-        .some((locale) => locale.language === 'en' && locale.region === 'US')
+        .some(
+            (locale) =>
+                locale.language === 'en' && locale.regions.includes('US'),
+        )
         ? undefined
         : select(DefaultLocale).names;
     const symbolic = enNames
         ? Name.make(
               (Array.isArray(enNames) ? enNames : [enNames])[0],
-              Language.make('😀')
+              Language.make(EMOJI_SYMBOL),
           )
         : undefined;
 
@@ -33,21 +38,25 @@ export function getBind(
         .getLocales()
         .map((locale) => [locale, select(locale)] as const);
     return (
-        new Docs(
-            names.map(([locale, input]) =>
-                parseLocaleDoc(toDocString(input.doc)).withLanguage(
-                    localeToLanguage(locale)
-                )
-            ) as [Doc, ...Doc[]]
-        ).toWordplay() +
+        getFormattedWordplay(
+            new Docs(
+                names.map(([locale, input]) =>
+                    parseLocaleDoc(toDocString(input.doc)).withLanguage(
+                        localeToLanguage(locale),
+                    ),
+                ) as [Doc, ...Doc[]],
+            ),
+        ) +
         separator +
-        new Names([
-            ...(symbolic ? [symbolic] : []),
-            ...names
-                .map(([locale, nameAndDoc]) =>
-                    getLocaleNames(nameAndDoc, locale)
-                )
-                .flat(),
-        ]).toWordplay()
+        getFormattedWordplay(
+            new Names([
+                ...(symbolic ? [symbolic] : []),
+                ...names
+                    .map(([locale, nameAndDoc]) =>
+                        getLocaleNames(nameAndDoc, locale),
+                    )
+                    .flat(),
+            ]),
+        )
     );
 }

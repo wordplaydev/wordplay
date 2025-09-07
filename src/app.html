@@ -28,20 +28,10 @@
         <link
             rel="preload"
             as="style"
-            href="https://fonts.googleapis.com/css2?family=Noto+Emoji&family=Noto+Color+Emoji&family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Noto+Emoji&family=Noto+Color+Emoji&family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
         />
         <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Emoji&family=Noto+Color+Emoji&family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
-            rel="stylesheet"
-        />
-
-        <link
-            rel="preload"
-            as="style"
-            href="%sveltekit.assets%/fonts/NotoEmoji/NotoEmoji-400.woff2"
-        />
-        <link
-            href="%sveltekit.assets%/fonts/NotoEmoji/NotoEmoji-400.woff2"
+            href="https://fonts.googleapis.com/css2?family=Noto+Emoji&family=Noto+Color+Emoji&family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
             rel="stylesheet"
         />
 
@@ -55,18 +45,16 @@
             }
             :root {
                 --color-blue: #648fff;
-                --color-blue-transparent: #648fff10;
                 --color-purple: #785ef0;
-                --color-purple-transparent: #785ef010;
                 --color-pink: #dc267f;
                 --color-light-pink: #f7d3e4;
                 --color-orange: #fe6100;
                 --color-yellow: #ffb000;
                 --color-white: #ffffff;
                 --color-black: #000000;
-                --color-light-grey: #bcbcbc;
-                --color-very-light-grey: #f0f0f0;
-                --color-dark-grey: #999999;
+                --color-light-grey: #9f9f9f;
+                --color-very-light-grey: #f3f3f3;
+                --color-dark-grey: #303030;
                 --color-shadow: rgb(0, 0, 0, 0.2);
 
                 /* Colors */
@@ -77,7 +65,7 @@
                 --wordplay-border-color: var(--color-light-grey);
                 --wordplay-evaluation-color: var(--color-pink);
                 --wordplay-highlight-color: var(--color-yellow);
-                --wordplay-focus-color: var(--color-orange);
+                --wordplay-focus-color: var(--color-blue);
                 --wordplay-hover: #feebc3;
                 --wordplay-error: var(--color-orange);
                 --wordplay-warning: var(--color-yellow);
@@ -90,43 +78,46 @@
                 --wordplay-type-color: var(--color-orange);
 
                 /* Fonts */
-                --wordplay-app-font: 'Noto Sans', 'Noto Emoji',
-                    'Noto Color Emoji', sans-serif;
-                --wordplay-code-font: 'Noto Sans Mono', 'Noto Sans',
-                    'Noto Emoji', 'Noto Color Emoji', monospace;
+                --wordplay-app-font:
+                    'Noto Sans', 'Noto Color Emoji', 'Noto Emoji', sans-serif;
+                --wordplay-code-font:
+                    'Noto Sans Mono', 'Noto Sans', 'Noto Emoji',
+                    'Noto Color Emoji', monospace;
 
                 /* Spacing */
                 --wordplay-editor-indent: 3em;
                 --wordplay-editor-radius: 3px;
                 --wordplay-spacing: 0.5em;
                 --wordplay-font-weight: 400;
-                --wordplay-font-size: 14pt;
-                --wordplay-small-font-size: 12pt;
+                --wordplay-font-size: 12pt;
+                --wordplay-small-font-size: 10pt;
                 --wordplay-border-width: 1px;
                 --wordplay-focus-width: 4px;
                 --wordplay-border-radius: 5px;
                 --wordplay-code-line-height: 1.6;
                 --wordplay-palette-min-width: 5em;
                 --wordplay-palette-max-width: 15em;
+                --wordplay-widget-height: 1.5em;
+                --wordplay-min-line-height: 3ex;
 
-                --bounce-height: 0.5em;
+                --bounce-height: 0.2em;
                 --wobble-rotation: 2deg;
             }
 
             :root .dark {
                 --color-blue: #3a72fe;
-                --color-blue-transparent: #0f1e4560;
+                --color-blue-transparent: #0f1e45;
                 --color-purple: #5b3ce6;
-                --color-purple-transparent: #26186260;
+                --color-purple-transparent: #261862;
                 --color-pink: #921a54;
                 --color-light-pink: rgb(77, 15, 45);
-                --color-orange: #722c00;
-                --color-yellow: #cb8b00;
+                --color-orange: #ff640a;
+                --color-yellow: #d69600;
                 --color-white: #ffffff;
                 --color-black: #000000;
-                --color-light-grey: #484848;
+                --color-light-grey: #b4b4b4;
                 --color-very-light-grey: #373636;
-                --color-dark-grey: #595256;
+                --color-dark-grey: #eaeaea;
                 --color-shadow: rgb(32, 32, 32, 0.2);
 
                 --wordplay-foreground: var(--color-white);
@@ -134,8 +125,19 @@
                 --wordplay-header: var(--color-dark-grey);
                 --wordplay-chrome: var(--color-dark-grey);
                 --wordplay-border-color: var(--color-dark-grey);
+                --wordplay-evaluation-color: var(--color-pink);
+                --wordplay-highlight-color: var(--color-yellow);
+                --wordplay-focus-color: var(--color-blue);
                 --wordplay-hover: #463000;
+                --wordplay-error: var(--color-orange);
+                --wordplay-warning: var(--color-yellow);
+                --wordplay-inactive-color: var(--color-light-grey);
                 --wordplay-alternating-color: var(--color-very-light-grey);
+                --wordplay-doc-color: var(--color-purple);
+                --wordplay-doc-color-light: var(--color-purple-transparent);
+                --wordplay-relation-color: var(--color-orange);
+                --wordplay-operator-color: var(--color-orange);
+                --wordplay-type-color: var(--color-orange);
             }
 
             @keyframes wobble {
@@ -285,10 +287,6 @@
                 background-color: var(--wordplay-background);
                 padding: 0;
                 margin: 0;
-                font-family: var(--wordplay-app-font);
-                font-weight: var(--wordplay-font-weight);
-                font-size: var(--wordplay-font-size);
-                color: var(--wordplay-foreground);
             }
 
             html {
@@ -304,11 +302,12 @@
             h3 {
                 margin-bottom: var(--wordplay-spacing);
                 margin-top: 0;
+                transform: rotate(-1deg);
             }
 
-            h1:not(:first-child),
-            h2:not(:first-child),
-            h3:not(:first-child) {
+            h1:not(:first-of-type),
+            h2:not(:first-of-type),
+            h3:not(:first-of-type) {
                 margin-top: calc(2 * var(--wordplay-spacing));
             }
 
@@ -331,6 +330,14 @@
             p {
                 margin-block-start: 0;
                 margin-block-end: 1.5em;
+            }
+
+            p:last-of-type {
+                margin-block-end: 0;
+            }
+
+            p,
+            li {
                 line-height: 1.5;
             }
 
@@ -359,19 +366,34 @@
                 text-align: start;
             }
 
+            th {
+                font-weight: normal;
+                font-style: italic;
+            }
+
             tr:nth-child(odd) {
                 background: var(--wordplay-alternating-color);
             }
 
-            .firebase-emulator-warning {
-                top: 0 !important;
-                right: 1% !important;
-                bottom: auto !important;
-                left: 99% !important;
-                font-family: var(--wordplay-app-font) !important;
-                font-size: 4pt;
-                color: var(--wordplay-error) !important;
-                background: var(--wordplay-error) !important;
+            noscript {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            noscript p {
+                margin-block-start: 20%;
+                margin-block-end: auto;
+                width: 50%;
+                text-align: center;
+            }
+
+            hr {
+                width: 100%;
+                height: var(--wordplay-border-width);
+                border: none;
+                border-bottom: var(--wordplay-border-width) solid
+                    var(--wordplay-border-color);
             }
         </style>
 
@@ -385,20 +407,13 @@
             >
         </noscript>
         <div>%sveltekit.body%</div>
+        <div id="unsupported" style="display: none; margin: 1em">
+            <h1>Unsupported Browser</h1>
+            <p>
+                Your browser doesn't support critical functionality. To use
+                Wordplay, you'll need to upgrade to a more recent version.</p
+            >
+        </div>
+        <script src="/scripts/unsupported.js"></script>
     </body>
 </html>
-
-<style>
-    noscript {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    noscript p {
-        margin-block-start: 20%;
-        margin-block-end: auto;
-        width: 50%;
-        text-align: center;
-    }
-</style>

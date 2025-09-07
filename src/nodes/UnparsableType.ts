@@ -1,21 +1,24 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Node, { list, type Grammar, type Replacement, node } from './Node';
+import Characters from '../lore/BasisCharacters';
+import type Context from './Context';
+import Node, { list, node, type Grammar, type Replacement } from './Node';
+import type Token from './Token';
 import Type from './Type';
-import Glyphs from '../lore/Glyphs';
-import type Locales from '../locale/Locales';
 
 export default class UnparsableType extends Type {
-    readonly unparsables: Node[];
+    readonly unparsables: Token[];
 
-    constructor(nodes: Node[]) {
+    constructor(nodes: Token[]) {
         super();
 
         this.unparsables = nodes;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnparsableType';
     }
 
@@ -31,21 +34,22 @@ export default class UnparsableType extends Type {
         return [{ name: 'unparsables', kind: list(true, node(Node)) }];
     }
 
-    computeConflicts(): void | Conflict[] {
-        return [new UnparsableConflict(this)];
+    computeConflicts(context: Context): Conflict[] {
+        return [new UnparsableConflict(this, context)];
     }
 
     clone(replace?: Replacement): this {
         return new UnparsableType(
-            this.replaceChild('unparsables', this.unparsables, replace)
+            this.replaceChild('unparsables', this.unparsables, replace),
         ) as this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnparsableType);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnparsableType;
+    getLocalePath() {
+        return UnparsableType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Unparsable;
+    getCharacter() {
+        return Characters.Unparsable;
     }
 }

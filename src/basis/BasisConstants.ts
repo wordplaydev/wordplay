@@ -17,6 +17,7 @@ export type BasisTypeName =
     | 'column'
     | 'stream'
     | 'streamdefinition'
+    | 'structuredefinition'
     | 'conversion'
     | 'function'
     | 'union'

@@ -1,40 +1,44 @@
-import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
-import Expression, { type GuardContext } from './Expression';
-import TableType from './TableType';
-import Bind from './Bind';
-import type Node from './Node';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import TableValue from '@values/TableValue';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import type Step from '@runtime/Step';
+import TableValue from '@values/TableValue';
+import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
-import StructureValue from '../values/StructureValue';
-import MissingCell from '../conflicts/MissingCell';
-import IncompatibleCellType from '../conflicts/IncompatibleCellType';
 import ExtraCell from '../conflicts/ExtraCell';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import MissingCell from '../conflicts/MissingCell';
 import UnexpectedColumnBind from '../conflicts/UnexpectedColumnBind';
-import type Type from './Type';
 import type Locales from '../locale/Locales';
-import Names from './Names';
+import Characters from '../lore/BasisCharacters';
 import { tokenize } from '../parser/Tokenizer';
-import Sym from './Sym';
-import NumberLiteral from './NumberLiteral';
-import TextLiteral from './TextLiteral';
+import StructureValue from '../values/StructureValue';
+import Bind from './Bind';
 import BooleanLiteral from './BooleanLiteral';
-import UnionType from './UnionType';
-import NumberType from './NumberType';
-import TextType from './TextType';
 import BooleanType from './BooleanType';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import Input from './Input';
+import Names from './Names';
+import type Node from './Node';
+import { list, node, type Grammar, type Replacement } from './Node';
 import NoneLiteral from './NoneLiteral';
 import NoneType from './NoneType';
+import NumberLiteral from './NumberLiteral';
+import NumberType from './NumberType';
+import Row, { getRowFromValues } from './Row';
+import Sym from './Sym';
+import TableType from './TableType';
+import TextLiteral from './TextLiteral';
+import TextType from './TextType';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnionType from './UnionType';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -49,8 +53,8 @@ export default class TableLiteral extends Expression {
         this.computeChildren();
     }
 
-    static make() {
-        return new TableLiteral(TableType.make(), [Row.make()]);
+    static make(type?: TableType, rows?: Row[]) {
+        return new TableLiteral(type ?? TableType.make(), rows ?? [Row.make()]);
     }
 
     static from(data: string[][]): TableLiteral | undefined {
@@ -147,7 +151,12 @@ export default class TableLiteral extends Expression {
                     undefined,
                     // Try to make a valid name
                     Names.make([name]),
-                    inferType(rows.map((row) => row.cells[index])),
+                    inferType(
+                        rows.map((row) => {
+                            const cell = row.cells[index];
+                            return cell instanceof Input ? cell.value : cell;
+                        }),
+                    ),
                     undefined,
                 );
             }),
@@ -156,7 +165,31 @@ export default class TableLiteral extends Expression {
         return new TableLiteral(type, rows);
     }
 
-    getDescriptor() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return [
+            TableLiteral.make(
+                TableType.make(),
+                node instanceof Expression ? [Row.make([node])] : undefined,
+            ),
+        ];
+    }
+
+    static getPossibleAppends() {
+        return [
+            TableLiteral.make(
+                TableType.make([
+                    Bind.make(
+                        undefined,
+                        Names.make([PLACEHOLDER_SYMBOL]),
+                        NumberType.make(),
+                    ),
+                ]),
+                [Row.make([NumberLiteral.make(1)])],
+            ),
+        ];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'TableLiteral';
     }
 
@@ -165,18 +198,10 @@ export default class TableLiteral extends Expression {
             {
                 name: 'type',
                 kind: node(TableType),
-                label: (locales: Locales) => locales.get((l) => l.term.table),
+                label: () => (l) => l.term.table,
             },
             { name: 'rows', kind: list(true, node(Row)), newline: true },
         ];
-    }
-
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-    ) {
-        return type === undefined && !selected ? [TableLiteral.make()] : [];
     }
 
     getPurpose() {
@@ -232,7 +257,8 @@ export default class TableLiteral extends Expression {
     getDependencies(): Expression[] {
         const dependencies = [];
         for (const row of this.rows)
-            for (const cell of row.cells) dependencies.push(cell);
+            for (const cell of row.cells)
+                dependencies.push(cell instanceof Input ? cell.value : cell);
         return dependencies;
     }
 
@@ -246,7 +272,10 @@ export default class TableLiteral extends Expression {
                     ...row.cells.reduce(
                         (cells: Step[], cell) => [
                             ...cells,
-                            ...cell.compile(evaluator, context),
+                            ...(cell instanceof Input
+                                ? cell.value
+                                : cell
+                            ).compile(evaluator, context),
                         ],
                         [],
                     ),
@@ -285,9 +314,11 @@ export default class TableLiteral extends Expression {
      * Is a binding enclosure of its columns and rows, because it defines columns.
      * */
     getScopeOfChild(child: Node, context: Context): Node | undefined {
-        return this.rows.includes(child as Row)
-            ? this.type
-            : this.getParent(context);
+        return child instanceof Row
+            ? this.rows.includes(child)
+                ? this.type
+                : this.getParent(context)
+            : undefined;
     }
 
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
@@ -306,15 +337,13 @@ export default class TableLiteral extends Expression {
         return this.rows[this.rows.length - 1] ?? this.type;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TableLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.TableLiteral;
+    getLocalePath() {
+        return TableLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.TableLiteral.start),
-        );
+        return locales.concretize((l) => l.node.TableLiteral.start);
     }
 
     getFinishExplanations(
@@ -322,15 +351,14 @@ export default class TableLiteral extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.TableLiteral.finish),
+        return locales.concretize(
+            (l) => l.node.TableLiteral.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 
     getDescriptionInputs() {

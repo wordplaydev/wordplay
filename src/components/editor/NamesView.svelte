@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Names from '@nodes/Names';
     import NodeSequenceView from './NodeSequenceView.svelte';
 
-    export let node: Names;
+    interface Props {
+        node: Names;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeSequenceView nodes={node.names} />

@@ -1,13 +1,13 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type LocaleText from '@locale/LocaleText';
 import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type ExceptionValue from '@values/ExceptionValue';
-import type Value from '@values/Value';
-import SimpleValue from './SimpleValue';
 import type StructureValue from '@values/StructureValue';
-import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
+import type Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import SimpleValue from './SimpleValue';
 
 export default class TableValue extends SimpleValue {
     readonly type: TableType;
@@ -22,7 +22,7 @@ export default class TableValue extends SimpleValue {
 
     insert(
         requestor: Expression,
-        row: StructureValue
+        row: StructureValue,
     ): TableValue | ExceptionValue {
         return new TableValue(requestor, this.type, [...this.rows, row]);
     }
@@ -40,7 +40,7 @@ export default class TableValue extends SimpleValue {
             table instanceof TableValue &&
             this.rows.length === table.rows.length &&
             this.rows.every((row, rowIndex) =>
-                row.isEqualTo(table.rows[rowIndex])
+                row.isEqualTo(table.rows[rowIndex]),
             )
         );
     }
@@ -57,11 +57,8 @@ export default class TableValue extends SimpleValue {
         return text.trim();
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.table)
-        );
+    getDescription() {
+        return (l: LocaleText) => l.term.table;
     }
 
     getRepresentativeText() {

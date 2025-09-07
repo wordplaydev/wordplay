@@ -1,20 +1,20 @@
+import NoneLiteral from '@nodes/NoneLiteral';
+import NoneType from '@nodes/NoneType';
 import NumberType from '@nodes/NumberType';
 import UnionType from '@nodes/UnionType';
-import NoneType from '@nodes/NoneType';
-import NoneLiteral from '@nodes/NoneLiteral';
 import NumberValue from '@values/NumberValue';
 import { createBasisFunction } from '../basis/Basis';
-import type Evaluation from '../runtime/Evaluation';
-import type Expression from '../nodes/Expression';
-import NoneValue from '../values/NoneValue';
-import TypeVariables from '../nodes/TypeVariables';
-import TypeVariable from '../nodes/TypeVariable';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import TypeVariable from '../nodes/TypeVariable';
+import TypeVariables from '../nodes/TypeVariables';
+import type Evaluation from '../runtime/Evaluation';
+import NoneValue from '../values/NoneValue';
 
 function getRandomInRange(
     random: number,
     min: NumberValue | undefined,
-    max: NumberValue | undefined
+    max: NumberValue | undefined,
 ) {
     // Swap if they're out of order.
     if (
@@ -36,8 +36,8 @@ function getRandomInRange(
                 ? undefined
                 : maxPrecision
             : maxPrecision === undefined
-            ? minPrecision
-            : Math.max(minPrecision, maxPrecision);
+              ? minPrecision
+              : Math.max(minPrecision, maxPrecision);
 
     // Get the raw numbers
     const minNumber = min?.toNumber();
@@ -59,7 +59,7 @@ function toPrecisionRange(
     min: number,
     max: number,
     random: number,
-    precision: number | undefined
+    precision: number | undefined,
 ) {
     const scaled = random * (max - min) + min;
     const pow = precision !== undefined ? Math.pow(10, precision) : undefined;
@@ -78,14 +78,14 @@ export function createRandomFunction(locales: Locales) {
             [
                 UnionType.make(
                     NumberTypeVariable.getReference(),
-                    NoneType.make()
+                    NoneType.make(),
                 ),
                 NoneLiteral.make(),
             ],
             [
                 UnionType.make(
                     NumberTypeVariable.getReference(),
-                    NoneType.make()
+                    NoneType.make(),
                 ),
                 NoneLiteral.make(),
             ],
@@ -98,27 +98,27 @@ export function createRandomFunction(locales: Locales) {
                 return evaluation.getValueOrTypeException(
                     evaluation.getCreator(),
                     NumberType.make(),
-                    min
+                    min,
                 );
             if (!(max instanceof NumberValue || max instanceof NoneValue))
                 return evaluation.getValueOrTypeException(
                     evaluation.getCreator(),
                     NumberType.make(),
-                    max
+                    max,
                 );
             return new NumberValue(
                 requestor,
                 getRandomInRange(
                     evaluation.getEvaluator().getRandom(),
                     min instanceof NoneValue ? undefined : min,
-                    max instanceof NoneValue ? undefined : max
+                    max instanceof NoneValue ? undefined : max,
                 ),
                 min instanceof NumberValue
                     ? min.unit
                     : max instanceof NumberValue
-                    ? max.unit
-                    : undefined
+                      ? max.unit
+                      : undefined,
             );
-        }
+        },
     );
 }

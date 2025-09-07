@@ -1,26 +1,36 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import Action from '@components/app/Action.svelte';
+    import CreatorCharacterView from '@components/app/CreatorCharacterView.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
-    import { locales, SaveStatus } from '../../db/Database';
     import Link from '../../components/app/Link.svelte';
-    import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
-    import { auth } from '../../db/firebase';
-    import { isModerator } from '../../models/Moderation';
-    import { Creator } from '../../db/CreatorDatabase';
+    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
     import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { status } from '../../db/Database';
+    import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
+    import { Creator } from '../../db/creators/CreatorDatabase';
+    import { SaveStatus, status } from '../../db/Database';
+    import { auth } from '../../db/firebase';
+    import { isModerator } from '../../db/projects/Moderation';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
-    import { goto } from '$app/navigation';
 
-    export let user: User;
+    interface Props {
+        user: User;
+    }
 
-    $: creator = Creator.from(user);
+    let { user }: Props = $props();
 
-    let moderator = false;
-    $: isModerator(user).then((mod) => (moderator = mod));
+    let creator = $derived(Creator.from(user));
+
+    let moderator = $state(false);
+
+    // When the user changes, check if they're a moderator.
+    $effect(() => {
+        isModerator(user).then((mod) => (moderator = mod));
+    });
 
     function rename(name: string) {
         // This should trigger an update to the user store, and therefore this view.
@@ -39,59 +49,51 @@
 </script>
 
 <Header wrap
-    ><span class="emoji">{user.displayName ?? '😃'}</span>
-    {creator.getUsername(false)}</Header
+    ><span class="emoji"
+        ><CreatorCharacterView character={user.displayName}
+        ></CreatorCharacterView></span
+    >{creator.getUsername(false)}</Header
 >
 
 <div class="actions">
-    <div class="action">
-        <p>{$locales.get((l) => l.ui.page.login.prompt.play)}</p>
-        <p
-            ><Link to="/projects"
-                >{$locales.get((l) => l.ui.page.projects.header)}</Link
-            ></p
-        >
-    </div>
-    <div class="action">
-        <p>{$locales.get((l) => l.ui.page.login.prompt.name)}</p>
+    <Action>
+        <LocalizedText path={(l) => l.ui.page.login.prompt.play} />
+        <Link to="/projects" label={(l) => l.ui.page.projects.header} />
+        <Link to="/characters" label={(l) => l.ui.page.characters.header} />
+        <Link to="/teach" label={(l) => l.ui.page.teach.header} />
+    </Action>
+    <Action>
+        <LocalizedText path={(l) => l.ui.page.login.prompt.name} />
         <EmojiChooser
             pick={(name) => rename(name)}
             emoji={user.displayName ?? ''}
         />
-    </div>
-    <div class="action">
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.login.prompt.logout)}
+    </Action>
+    <Action>
+        <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.logout} />
+        <ConfirmButton
+            background
+            tip={(l) => l.ui.page.login.button.logout.tip}
+            action={logout}
+            enabled={$status.status === SaveStatus.Saved}
+            prompt={(l) => l.ui.page.login.button.logout.label}
+            label={(l) => l.ui.page.login.button.logout.label}
         />
-        <p
-            ><ConfirmButton
-                background
-                tip={$locales.get((l) => l.ui.page.login.button.logout.tip)}
-                action={logout}
-                enabled={$status.status === SaveStatus.Saved}
-                prompt={`🗑️ ${$locales.get(
-                    (l) => l.ui.page.login.button.logout.label,
-                )}`}
-                >{$locales.get(
-                    (l) => l.ui.page.login.button.logout.label,
-                )}…</ConfirmButton
-            ></p
-        >
-    </div>
+    </Action>
     {#if !creator.isUsername()}
-        <div class="action">
+        <Action>
             <ChangeEmail {user} />
-        </div>
+        </Action>
     {:else}
-        <div class="action">
+        <Action>
             <ChangePassword {user} />
-        </div>
+        </Action>
     {/if}
-    <div class="action"><DeleteAccount {user} /></div>
+    <Action><DeleteAccount {user} /></Action>
     {#if moderator}
-        <div class="action">
+        <Action>
             You're a moderator. Go <Link to="/moderate">moderate</Link>?
-        </div>
+        </Action>
     {/if}
 </div>
 
@@ -101,14 +103,6 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-    }
-
-    .action {
-        min-width: 15em;
-        width: calc(50% - var(--wordplay-spacing));
-        padding: var(--wordplay-spacing);
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius);
     }
 
     .emoji {

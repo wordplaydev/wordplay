@@ -1,28 +1,27 @@
+import { getBind } from '@locale/getBind';
+import { STAGE_SYMBOL } from '@parser/Symbols';
+import BoolValue from '@values/BoolValue';
+import ListValue from '@values/ListValue';
+import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import Output, { DefaultStyle } from './Output';
-import type RenderContext from './RenderContext';
-import Color from './Color';
-import Place from './Place';
-import toStructure from '../basis/toStructure';
-import NumberValue from '@values/NumberValue';
 import Decimal from 'decimal.js';
-import ListValue from '@values/ListValue';
-import { getBind } from '@locale/getBind';
-import BoolValue from '@values/BoolValue';
-import { getTypeStyle, toOutput, toOutputList } from './toOutput';
-import TextLang from './TextLang';
-import Pose, { DefinitePose } from './Pose';
-import type Sequence from './Sequence';
-import concretize from '../locale/concretize';
-import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import { toRectangle, type Rectangle } from './Form';
-import Shape from './Shape';
-import type Evaluator from '../runtime/Evaluator';
+import toStructure from '../basis/toStructure';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/Locale';
-import { STAGE_SYMBOL } from '@parser/Symbols';
+import { getFirstText } from '../locale/LocaleText';
+import type Evaluator from '../runtime/Evaluator';
+import Color from './Color';
+import { Form, toForm } from './Form';
+import Output, { DefaultStyle } from './Output';
+import Place from './Place';
+import Pose, { DefinitePose } from './Pose';
+import type RenderContext from './RenderContext';
+import type Sequence from './Sequence';
+import Shape from './Shape';
+import TextLang from './TextLang';
+import { getTypeStyle, toOutput, toOutputList } from './toOutput';
+import { getOutputInput } from './Valued';
 
 export const DefaultGravity = 9.8;
 
@@ -34,24 +33,25 @@ export function createStageType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Stage, '•')} Output(
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.content
+        (locale) => locale.output.Stage.content,
     )}•[Phrase|Shape|Group]
-    ${getBind(locales, (locale) => locale.output.Stage.frame)}•Rectangle|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.frame)}•Form|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.face
+        (locale) => locale.output.Stage.face,
     )}•${SupportedFontsFamiliesType}: "${locales.getLocales()[0].ui.font.app}"
     ${getBind(locales, (locale) => locale.output.Stage.place)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.name)}•""|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.description)}•""|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.selectable)}•?: ⊥
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.color
+        (locale) => locale.output.Stage.color,
     )}•🌈${': Color(0% 0 0°)'}
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.background
+        (locale) => locale.output.Stage.background,
     )}•Color${': Color(100% 0 0°)'}
     ${getBind(locales, (locale) => locale.output.Stage.opacity)}•%${': 1'}
     ${getBind(locales, (locale) => locale.output.Stage.offset)}•📍|ø: ø
@@ -67,13 +67,13 @@ export function createStageType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Stage.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
+            Object.values(locale.output.Easing).map((id) => `"${id}"`),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.gravity
+        (locale) => locale.output.Stage.gravity,
     )}•#m/s^2: ${DefaultGravity}m/s^2
     )
 `);
@@ -83,7 +83,7 @@ export default class Stage extends Output {
     /** True if the stage was explicit in the program or generated to wrap some other content. */
     readonly explicit: boolean;
     readonly content: (Output | null)[];
-    readonly frame: Rectangle | undefined;
+    readonly frame: Form | undefined;
     readonly back: Color;
     readonly gravity: number;
 
@@ -94,11 +94,12 @@ export default class Stage extends Output {
         explicit: boolean,
         content: (Output | null)[],
         background: Color,
-        frame: Rectangle | undefined = undefined,
+        frame: Form | undefined = undefined,
         size: number,
         face: SupportedFace,
         place: Place | undefined = undefined,
         name: TextLang | string,
+        description: TextLang | undefined,
         selectable: boolean,
         pose: DefinitePose,
         entering: Pose | Sequence | undefined = undefined,
@@ -107,7 +108,7 @@ export default class Stage extends Output {
         exiting: Pose | Sequence | undefined = undefined,
         duration = 0,
         style: string | undefined = 'zippy',
-        gravity: number
+        gravity: number,
     ) {
         super(
             value,
@@ -115,6 +116,7 @@ export default class Stage extends Output {
             face,
             place,
             name,
+            description,
             selectable,
             background,
             pose,
@@ -123,7 +125,7 @@ export default class Stage extends Output {
             moving,
             exiting,
             duration,
-            style
+            style,
         );
 
         this.explicit = explicit;
@@ -139,7 +141,7 @@ export default class Stage extends Output {
 
     getShapes() {
         return this.content.filter(
-            (shape): shape is Shape => shape instanceof Shape
+            (shape): shape is Shape => shape instanceof Shape,
         );
     }
 
@@ -173,7 +175,7 @@ export default class Stage extends Output {
                               // We would normally not negate the y because its in math coordinates, but we want to move it
                               // down the y-axis by half, so we subtract.
                               -layout.height / 2,
-                              0
+                              0,
                           );
                 places.push([child, place]);
 
@@ -207,19 +209,21 @@ export default class Stage extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : locales.get((l) => getFirstName(l.output.Group.names));
+            : locales.get((l) => getFirstText(l.output.Group.names));
     }
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Stage.description),
-                this.content.length,
-                this.name instanceof TextLang ? this.name.text : undefined,
-                this.frame?.getDescription(locales),
-                this.pose.getDescription(locales)
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Stage.defaultDescription,
+                    this.content.length,
+                    this.name instanceof TextLang ? this.name.text : undefined,
+                    this.frame?.getDescription(locales),
+                    this.pose.getDescription(locales).trim(),
+                )
+                .toText()
+                .trim();
         }
         return this._description;
     }
@@ -237,6 +241,23 @@ export default class Stage extends Output {
 
     isEmpty() {
         return this.content.every((c) => c === null || c.isEmpty());
+    }
+
+    getEntryAnimated(): Output[] {
+        return [
+            ...(this.entering !== undefined ? [this] : []),
+            ...this.content.reduce((list: Output[], out) => {
+                return [...list, ...(out ? out.getEntryAnimated() : [])];
+            }, []),
+        ];
+    }
+
+    /** Scan all references to fonts and load them as necessary. */
+    gatherFaces(set: Set<SupportedFace>) {
+        if (this.face) set.add(this.face);
+        for (const content of this.content)
+            if (content) content.gatherFaces(set);
+        return set;
     }
 }
 
@@ -269,8 +290,16 @@ export class NameGenerator {
 export function toStage(
     evaluator: Evaluator,
     value: Value,
-    namer?: NameGenerator
+    namer?: NameGenerator,
 ): Stage | undefined {
+    // If it's a list, find the last stage in the list, if there is one.
+    if (value instanceof ListValue)
+        return value.values
+            .map((val) => toStage(evaluator, val, namer))
+            .filter((stage): stage is Stage => stage instanceof Stage)
+            .at(-1);
+
+    // Otherwise, we require a structure value.
     if (!(value instanceof StructureValue)) return undefined;
 
     const project = evaluator.project;
@@ -278,21 +307,23 @@ export function toStage(
     // Create a name generator to guarantee unique default names for all TypeOutput.
     if (namer === undefined) namer = new NameGenerator();
 
+    // If it's a stage, get outputs to show.
     if (value.type === project.shares.output.Stage) {
         const possibleGroups = getOutputInput(value, 0);
         const content =
             possibleGroups instanceof ListValue
                 ? toOutputList(evaluator, possibleGroups, namer)
                 : toOutput(evaluator, possibleGroups, namer);
-        const frame = toRectangle(getOutputInput(value, 1));
+        const frame = toForm(project, getOutputInput(value, 1));
 
-        const gravity = toNumber(getOutputInput(value, 21)) ?? DefaultGravity;
+        const gravity = toNumber(getOutputInput(value, 22)) ?? DefaultGravity;
 
         const {
             size,
             face: font,
             place,
             name,
+            description,
             selectable,
             background,
             pose,
@@ -320,6 +351,7 @@ export function toStage(
                   font ?? evaluator.getLocales()[0].ui.font.app,
                   place,
                   namer.getName(name?.text, value),
+                  description,
                   selectable,
                   pose,
                   enter,
@@ -328,7 +360,7 @@ export function toStage(
                   exit,
                   duration,
                   style,
-                  gravity
+                  gravity,
               )
             : undefined;
     }
@@ -346,13 +378,14 @@ export function toStage(
                       value,
                       new Decimal(100),
                       new Decimal(0),
-                      new Decimal(0)
+                      new Decimal(0),
                   ),
                   undefined,
                   DefaultSize,
                   evaluator.getLocales()[0].ui.font.app,
                   undefined,
                   namer.getName(undefined, value),
+                  undefined,
                   type.selectable,
                   new DefinitePose(
                       value,
@@ -360,14 +393,14 @@ export function toStage(
                           value,
                           new Decimal(0),
                           new Decimal(0),
-                          new Decimal(0)
+                          new Decimal(0),
                       ),
                       1,
                       new Place(value, 0, 0, 0),
                       0,
                       1,
                       false,
-                      false
+                      false,
                   ),
                   undefined,
                   undefined,
@@ -375,7 +408,7 @@ export function toStage(
                   undefined,
                   0,
                   DefaultStyle,
-                  DefaultGravity
+                  DefaultGravity,
               );
     }
 }

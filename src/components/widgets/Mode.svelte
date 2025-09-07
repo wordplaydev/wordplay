@@ -1,31 +1,58 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '../../locale/UITexts';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
-    export let descriptions: ModeText<string[]>;
-    export let modes: string[];
-    export let choice: number;
-    export let select: (choice: number) => void;
-    export let active = true;
+    interface Props {
+        descriptions: (locale: LocaleText) => ModeText<string[]>;
+        modes: string[];
+        choice: number;
+        select: (choice: number) => void;
+        active?: boolean;
+        labeled?: boolean;
+    }
+
+    let {
+        descriptions,
+        modes,
+        choice,
+        select,
+        active = true,
+        labeled = true,
+    }: Props = $props();
+
+    let descriptionText = $derived($locales.get(descriptions));
 </script>
 
 <div class="mode">
-    <span class="label" id={descriptions.label}>{descriptions.label}</span>
-    <div class="group" role="radiogroup" aria-labelledby={descriptions.label}>
+    {#if labeled}
+        <label class="label" for={descriptionText.label}
+            >{descriptionText.label}</label
+        >
+    {/if}
+    <div
+        class="group"
+        role="radiogroup"
+        id={descriptionText.label}
+        aria-labelledby={descriptionText.label}
+    >
         {#each modes as mode, index}
+            <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
             <button
                 type="button"
                 role="radio"
                 aria-checked={index === choice}
                 class:selected={index === choice}
-                aria-label={descriptions.modes[index]}
-                title={descriptions.modes[index]}
-                aria-disabled={!active}
-                on:dblclick|stopPropagation
-                on:pointerdown={(event) =>
-                    event.button === 0 && active ? select(index) : undefined}
-                on:keydown={(event) =>
+                aria-label={descriptionText.modes[index]}
+                title={descriptionText.modes[index]}
+                aria-disabled={!active || index === choice}
+                ondblclick={(event) => event.stopPropagation()}
+                onpointerdown={(event) =>
+                    index !== choice && event.button === 0 && active
+                        ? select(index)
+                        : undefined}
+                onkeydown={(event) =>
                     (event.key === 'Enter' || event.key === ' ') &&
                     // Only activate with no modifiers down. Enter is used for other shortcuts.
                     !event.shiftKey &&
@@ -35,7 +62,7 @@
                         ? select(index)
                         : undefined}
             >
-                {mode}
+                {withMonoEmoji(mode)}
             </button>
         {/each}
     </div>
@@ -56,47 +83,54 @@
     }
 
     button {
+        display: inline-block;
         font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
-        border: none;
+        border: 1px solid var(--wordplay-chrome);
         color: var(--wordplay-foreground);
-        background: none;
+        background-color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         transition: transform calc(var(--animation-factor) * 200ms);
         cursor: pointer;
     }
 
-    button:focus {
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
+    button.selected {
+        color: var(--wordplay-background);
+        background: var(--wordplay-highlight-color);
+        transform: scale(1.1);
+        cursor: default;
     }
 
-    button.selected {
-        background-color: var(--wordplay-alternating-color);
-        cursor: default;
+    button:focus {
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
     }
 
     button:first-child {
         border-top-left-radius: var(--wordplay-border-radius);
         border-bottom-left-radius: var(--wordplay-border-radius);
+        border-left: 1px solid var(--wordplay-chrome);
     }
 
     button:last-child {
         border-top-right-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
+        border-right: 1px solid var(--wordplay-chrome);
     }
 
-    button:not(.selected):hover {
-        transform: scale(1.1);
+    button:not(:global(.selected)):hover {
+        transform: scale(1.05);
     }
 
     .group {
+        display: flex;
+        flex-direction: row;
         border: none;
         padding: 0;
         white-space: nowrap;
-        border: 1px solid var(--wordplay-chrome);
+        /* border: 1px solid var(--wordplay-chrome); */
         border-radius: var(--wordplay-border-radius);
         user-select: none;
     }

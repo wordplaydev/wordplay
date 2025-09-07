@@ -1,25 +1,25 @@
 import type Locales from '../../locale/Locales';
 import Evaluate from '../../nodes/Evaluate';
 import Reference from '../../nodes/Reference';
+import type { Moved, OutputsByName } from '../../output/Animator';
 import Phrase from '../../output/Phrase';
-import type { Moved, OutputsByName } from '../../output/Scene';
 import Sequence from '../../output/Sequence';
 
 /** A description of phrases that have entered the scene, computed after still. */
 export function describeEnteredOutput(
     locales: Locales,
-    entered: OutputsByName
-) {
+    entered: OutputsByName,
+): string | undefined {
     return entered.size > 0
         ? locales.get((l) => l.term.entered) +
               ' ' +
               Array.from(entered.values())
                   .filter(
-                      (output): output is Phrase => output instanceof Phrase
+                      (output): output is Phrase => output instanceof Phrase,
                   )
                   .map((output) => output.getDescription(locales))
                   .join(', ')
-        : '';
+        : undefined;
 }
 
 /** A description of non-entering phrases that changed text, computed after still. */
@@ -27,9 +27,9 @@ export function describedChangedOutput(
     locales: Locales,
     entered: OutputsByName,
     present: OutputsByName,
-    previouslyPresent: OutputsByName | undefined
-) {
-    const changed: string[] = [];
+    previouslyPresent: OutputsByName | undefined,
+): string | undefined {
+    const changes: Record<string, number> = {};
     for (const [name, output] of present.entries()) {
         if (output instanceof Phrase) {
             const previous =
@@ -40,7 +40,7 @@ export function describedChangedOutput(
                 const previousText = previous
                     ?.getDescription(locales)
                     .toString();
-                const currentText = output.getDescription(locales).toString();
+                const currentText = output.getDescription(locales).trim();
                 if (
                     previousText !== currentText &&
                     typeof currentText === 'string'
@@ -58,17 +58,23 @@ export function describedChangedOutput(
                             ? sequence.value.creator.inputs[0].fun.getName()
                             : ''
                         : undefined;
-                    changed.push(
+
+                    const description =
                         currentText +
-                            (sequenceDescription
-                                ? ` ${sequenceDescription} animation`
-                                : '')
-                    );
+                        (sequenceDescription ? ` ${sequenceDescription}` : '');
+
+                    changes[description] = (changes[description] ?? 0) + 1;
                 }
             }
         }
     }
-    return changed;
+
+    return changes.size === 0
+        ? undefined
+        : [...Object.entries(changes)]
+              .sort((a, b) => b[1] - a[1])
+              .map(([desc, count]) => `${count} ${desc}`)
+              .join(', ');
 }
 
 export function describeMovedOutput(locales: Locales, moved: Moved) {

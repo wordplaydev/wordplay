@@ -1,23 +1,30 @@
 <script lang="ts">
+    import Emoji from '@components/app/Emoji.svelte';
+    import { locales } from '@db/Database';
     import { createEventDispatcher } from 'svelte';
+    import type Project from '../../db/projects/Project';
     import Toggle from '../widgets/Toggle.svelte';
     import type Tile from './Tile';
-    import { locales } from '@db/Database';
-    import type Project from '../../models/Project';
-    import Emoji from '@components/app/Emoji.svelte';
-    import TileSymbols from './TileSymbols';
+    import TileKinds from './TileKinds';
 
-    export let project: Project;
-    export let tile: Tile;
+    interface Props {
+        project: Project;
+        tile: Tile;
+        notification?: boolean;
+    }
+
+    let { project, tile, notification = false }: Props = $props();
 
     const dispatch = createEventDispatcher();
 </script>
 
 <Toggle
     uiid="{tile.id}Expand"
-    tips={$locales.get((l) => l.ui.tile.toggle.show)}
+    testid="{tile.id}-toggle"
+    tips={(l) => l.ui.tile.toggle.show}
     on={tile.isExpanded()}
     toggle={() => dispatch('toggle')}
-    ><Emoji>{TileSymbols[tile.kind]}</Emoji>
-    {tile.getName(project, $locales)}</Toggle
+    highlight={notification}
+    ><Emoji>{TileKinds[tile.kind].symbol}</Emoji>
+    {#if tile.isCollapsed()}{tile.getName(project, $locales)}{/if}</Toggle
 >

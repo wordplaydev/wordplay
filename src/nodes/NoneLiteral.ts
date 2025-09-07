@@ -1,17 +1,18 @@
-import Token from './Token';
-import NoneType from './NoneType';
-import type Type from './Type';
-import NoneValue from '@values/NoneValue';
-import type Context from './Context';
-import type TypeSet from './TypeSet';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import Node, { node, type Grammar, type Replacement } from './Node';
-import Literal from './Literal';
-import Glyphs from '../lore/Glyphs';
+import NoneValue from '@values/NoneValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import Literal from './Literal';
+import { node, type Grammar, type Replacement } from './Node';
+import NoneType from './NoneType';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;
@@ -24,7 +25,7 @@ export default class NoneLiteral extends Literal {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NoneLiteral';
     }
 
@@ -42,16 +43,14 @@ export default class NoneLiteral extends Literal {
         return new NoneLiteral(new Token(NONE_SYMBOL, Sym.None));
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        _: Node,
-        __: boolean,
-        context: Context,
-    ) {
-        return type === undefined ||
-            type.getPossibleTypes(context).some((t) => t instanceof NoneType)
+    static getPossibleReplacements({ type, context }: EditContext) {
+        return type === undefined || type.accepts(NoneType.make(), context)
             ? [NoneLiteral.make()]
             : [];
+    }
+
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
     }
 
     clone(replace?: Replacement) {
@@ -65,7 +64,7 @@ export default class NoneLiteral extends Literal {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(): Type {
@@ -87,18 +86,16 @@ export default class NoneLiteral extends Literal {
         return current;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NoneLiteral);
+    static readonly LocalePath = (l: LocaleText) => l.node.NoneLiteral;
+    getLocalePath() {
+        return NoneLiteral.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.NoneLiteral.start),
-        );
+        return locales.concretize((l) => l.node.NoneLiteral.start);
     }
 
-    getGlyphs() {
-        return Glyphs.None;
+    getCharacter() {
+        return Characters.None;
     }
 }

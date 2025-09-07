@@ -1,21 +1,22 @@
-import UnicodeString from '../models/UnicodeString';
-import type Spaces from '../parser/Spaces';
-import type Locale from '../locale/Locale';
-import Node, { type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
-import Emotion from '../lore/Emotion';
+import type Locale from '@locale/Locale';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import type { Template } from '../locale/Locale';
-import type Root from './Root';
-import { TextCloseByTextOpen } from '../parser/Tokenizer';
 import {
     getLanguageQuoteOpen,
     getLanguageSecondaryQuote,
 } from '../locale/LanguageCode';
-import type Definition from './Definition';
-import type Context from './Context';
-import type { TemplateInput } from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
+import Emotion from '../lore/Emotion';
+import type Spaces from '../parser/Spaces';
+import { TextCloseByTextOpen } from '../parser/Tokenizer';
+import UnicodeString from '../unicode/UnicodeString';
+import type Context from './Context';
+import type Definition from './Definition';
+import Node, { type Grammar, type Replacement } from './Node';
+import type Root from './Root';
+import Sym from './Sym';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -44,7 +45,7 @@ export default class Token extends Node {
 
     // NODE CONTRACT
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Token';
     }
 
@@ -52,16 +53,17 @@ export default class Token extends Node {
         return [];
     }
 
-    isLeaf() {
+    isLeaf(): this is Token {
         return true;
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Token);
+    static readonly LocalePath = (l: LocaleText) => l.node.Token;
+    getLocalePath() {
+        return Token.LocalePath;
     }
 
     getPurpose() {
@@ -141,7 +143,7 @@ export default class Token extends Node {
         root: Root,
         context: Context,
         locales: Locales,
-    ): Template | undefined {
+    ): LocaleTextAccessor | undefined {
         if (!this.isSymbol(Sym.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined
@@ -153,7 +155,14 @@ export default class Token extends Node {
         return [getTokenLabel(this, locales), this.getText()];
     }
 
-    localized(locales: Locale[], root: Root, context: Context) {
+    localized(
+        // If the caret is inside the token
+        inside: boolean,
+        symbolic: boolean,
+        locale: Locale,
+        root: Root,
+        context: Context,
+    ) {
         // Get this token's text
         let text = this.getText();
 
@@ -163,7 +172,9 @@ export default class Token extends Node {
             // Find the parent.
             const parent = root.getParent(this);
             if (parent) {
-                const leaves = parent.leaves();
+                const leaves = parent
+                    .leaves()
+                    .filter((t) => t.isSymbol(Sym.Text));
 
                 const open =
                     leaves[0] instanceof Token && leaves[0].isSymbol(Sym.Text)
@@ -176,10 +187,10 @@ export default class Token extends Node {
                         : undefined;
                 if (open) {
                     const preferredQuote = getLanguageQuoteOpen(
-                        locales[0].language,
+                        locale.language,
                     );
                     const preferredSecondaryQuote = getLanguageSecondaryQuote(
-                        locales[0].language,
+                        locale.language,
                     );
                     const preferredOpen =
                         open.getText() === preferredQuote
@@ -197,15 +208,16 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (this.isSymbol(Sym.Name)) {
+        if (
+            !inside &&
+            (this.isSymbol(Sym.Name) || this.isSymbol(Sym.Operator))
+        ) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {
                 def = parent.getCorrespondingDefinition(context);
                 if (def) {
-                    text =
-                        def.names.getSymbolicName() ??
-                        def.names.getPreferredNameString(locales);
+                    text = def.names.getPreferredNameString(locale, symbolic);
                 }
             }
         }
@@ -243,11 +255,8 @@ export default class Token extends Node {
             .replaceAll('\t', '\\t')}`;
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.getText(),
-            emotion: Emotion.cheerful,
-        };
+    getCharacter() {
+        return { symbols: this.getText(), emotion: Emotion.cheerful };
     }
 }
 

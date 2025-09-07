@@ -1,12 +1,22 @@
-import { onRequest, onCall } from 'firebase-functions/v2/https';
-import { onSchedule } from 'firebase-functions/v2/scheduler';
+import Translate from '@google-cloud/translate';
+import { PromisePool } from '@supercharge/promise-pool';
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
-import * as https from 'https';
-import * as http from 'http';
 import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
-import { PromisePool } from '@supercharge/promise-pool';
+import { defineString } from 'firebase-functions/params';
+import { onDocumentCreated } from 'firebase-functions/v2/firestore';
+import { onCall, onRequest } from 'firebase-functions/v2/https';
+import { onSchedule } from 'firebase-functions/v2/scheduler';
+import * as http from 'http';
+import * as https from 'https';
+import nodemailer from 'nodemailer';
+import {
+    CreateClassInputs,
+    CreateClassOutput,
+    type EmailExistsInputs,
+    type EmailExistsOutput,
+} from 'shared-types';
 
 initializeApp();
 const db = getFirestore();
@@ -28,17 +38,70 @@ export const getCreators = onCall<UserIdentifier[]>(
     },
 );
 
-export const emailExists = onCall<string>(async (request): Promise<boolean> => {
+/** Given a list of email addresses, return a map email => boolean indicating whether there is a corresponding account exists. Maximum of 100.*/
+export const emailExists = onCall<
+    EmailExistsInputs,
+    Promise<EmailExistsOutput>
+>(async (request) => {
+    const emails = request.data;
     return admin
         .auth()
-        .getUserByEmail(request.data)
-        .then(() => {
-            return true;
+        .getUsers(
+            emails.map((e) => {
+                return { email: e };
+            }),
+        )
+        .then(({ users }) => {
+            const found: Record<string, boolean> = {};
+            for (const email of emails)
+                found[email] = users.some((u) => u.email === email);
+            return found;
         })
         .catch(() => {
-            return false;
+            return undefined;
         });
 });
+
+/**
+ * Given a from to locale (using ll, where ll is a two character language code),
+ * and a list of strings, use Google Cloud Translate to translate the list of strings into the target language.)
+ */
+export const getTranslations = onCall<{
+    from: string;
+    to: string;
+    text: string[];
+}>(
+    // Permit local testing and calls from our two domains.
+    {
+        cors: [
+            '/firebase\.com$/',
+            '/127.0.0.1*/',
+            '/localhost*/',
+            'https://test.wordplay.dev',
+            'https://wordplay.dev',
+        ],
+    },
+    async (request): Promise<string[] | null> => {
+        const from = request.data.from;
+        const to = request.data.to;
+        const text = request.data.text;
+
+        try {
+            // Creates a Google Translate client
+            const translator = new Translate.v2.Translate();
+
+            const [translations] = await translator.translate(text, {
+                from,
+                to,
+            });
+
+            return translations;
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
+    },
+);
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */
 export const getWebpage = onRequest(
@@ -128,3 +191,188 @@ export const purgeArchivedProjects = onSchedule('every day 00:00', async () => {
             projectsRef.doc(id).delete();
         });
 });
+
+/**
+ * Given a teacher user ID, credential information for several students, and
+ * a name and description for a class, create a class and return it's ID
+ */
+export const createClass = onCall<
+    CreateClassInputs,
+    Promise<CreateClassOutput>
+>(async (request) => {
+    const auth = admin.auth();
+    const { teacher, name, description, students, existing } = request.data;
+
+    // Make sure there aren't too many students.
+    if (students.length > 50)
+        return { classid: undefined, error: { kind: 'limit', info: '' } };
+
+    // Ensure the teacher is a valid user ID.
+    try {
+        await auth.getUser(teacher);
+    } catch (error) {
+        console.error(JSON.stringify(error));
+        return {
+            classid: undefined,
+            undefined,
+            error: {
+                kind: 'generic',
+                info: "The teacher user id provided doesn't exist",
+            },
+        };
+    }
+
+    // Ensure each existing user is a valid user ID and get their usernames.
+    const existingEmails: Map<string, string> = new Map();
+    for (const uid of existing) {
+        try {
+            const user = await auth.getUser(uid);
+            existingEmails.set(uid, user.email ?? '');
+        } catch (error) {
+            console.error(JSON.stringify(error));
+            return {
+                classid: undefined,
+                error: {
+                    kind: 'generic',
+                    info: "One of the existing user ids provided doesn't exist",
+                },
+            };
+        }
+    }
+
+    // Ensure the students are the correct type
+    if (!Array.isArray(students)) {
+        console.error('Received', JSON.stringify(students));
+        return {
+            classid: undefined,
+            error: {
+                kind: 'generic',
+                info: `expected a list of students but received a ${typeof students}`,
+            },
+        };
+    }
+
+    const malformed = students.some(
+        (s) =>
+            typeof s.username !== 'string' ||
+            typeof s.password !== 'string' ||
+            !Array.isArray(s.meta),
+    );
+    if (malformed)
+        return {
+            classid: undefined,
+            error: {
+                kind: 'generic',
+                info: `expected students in the list to have a username, password, and list of text, received ${JSON.stringify(malformed)}`,
+            },
+        };
+
+    // Verify that none of the user accounts exist
+    try {
+        const result = await auth.getUsers(
+            students.map((s) => {
+                return { email: s.username };
+            }),
+        );
+        // If any users exist, then we bail.
+        if (result.users.length > 0)
+            return {
+                classid: undefined,
+                error: {
+                    kind: 'account',
+                    info: 'One or more students already have accounts',
+                },
+            };
+    } catch (err) {
+        return {
+            classid: undefined,
+            error: {
+                kind: 'generic',
+                info: `Unable to check for existing users: ${JSON.stringify(err)}`,
+            },
+        };
+    }
+
+    // Okay, we're ready to create the user accounts!
+    const users: { uid: string; username: string; meta: string[] }[] = [];
+    for (const student of students) {
+        try {
+            const user = await auth.createUser({
+                email: student.username,
+                password: student.password,
+            });
+            users.push({
+                uid: user.uid,
+                username: student.username,
+                meta: student.meta,
+            });
+        } catch (error) {
+            return {
+                classid: undefined,
+                error: {
+                    kind: 'generic',
+                    info: `Unable to create user: ${JSON.stringify(error)}`,
+                },
+            };
+        }
+    }
+
+    // Create the class
+    const classRef = db.collection('classes').doc();
+    await classRef.set({
+        id: classRef.id,
+        name,
+        description,
+        teachers: [teacher],
+        learners: [...existing, ...users.map((u) => u.uid)],
+        // Convert the email address back to a username
+        info: [
+            ...users.map((u) => {
+                return { ...u, username: u.username.split('@')[0] };
+            }),
+            // Ensure there's a row for each existing student
+            ...existing.map((uid) => {
+                return {
+                    uid,
+                    username: existingEmails.get(uid) ?? '',
+                    // Ensure the meta array is the same length as the new users
+                    meta: users[0]?.meta.map(() => '') ?? [],
+                };
+            }),
+        ],
+        galleries: [],
+    });
+
+    return { classid: classRef.id, error: undefined };
+});
+
+const emailPassword = defineString('SMTP_PASSWORD');
+
+/** When new feedback is created, post it to the GitHub repository. */
+export const postFeedback = onDocumentCreated(
+    'feedback/{id}',
+    async (event) => {
+        const feedback = event.data?.data();
+        if (feedback === undefined) return;
+        if (feedback.title === undefined || feedback.description === undefined)
+            return;
+
+        let authData = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'hi@wordplay.dev',
+                pass: emailPassword.value(),
+            },
+        });
+
+        return authData.sendMail({
+            from: 'hi@wordplay.dev',
+            to: 'hi@wordplay.dev',
+            subject: `New feedback`,
+            text: `New feedback from the app:\n\n${feedback.title}\n\n${feedback.description}`,
+            html: `<p>New feedback from the app!</p><h2>Title</h2><p>${feedback.title}</p><h2>Description</h2><p>${feedback.description}</p>`,
+        });
+    },
+);

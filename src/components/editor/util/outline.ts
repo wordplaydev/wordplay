@@ -1,3 +1,5 @@
+import { measureTokenSegment } from '../measureTokenSegment';
+
 type Rect = {
     l: number;
     t: number;
@@ -15,14 +17,14 @@ export type Outline = {
     maxy: number;
 };
 
-export const OutlinePadding = 5;
+export const OutlinePadding = 2;
 
 function leftmost(rects: Rect[], at?: number) {
     return Math.min.apply(
         undefined,
         rects
             .filter((rect) => at === undefined || (rect.t < at && at < rect.b))
-            .map((r) => r.l)
+            .map((r) => r.l),
     );
 }
 
@@ -31,7 +33,7 @@ function topmost(rects: Rect[], at?: number) {
         undefined,
         rects
             .filter((rect) => at === undefined || (rect.l < at && at < rect.r))
-            .map((r) => r.t)
+            .map((r) => r.t),
     );
 }
 
@@ -40,7 +42,7 @@ function rightmost(rects: Rect[], at?: number) {
         undefined,
         rects
             .filter((rect) => at === undefined || (rect.t < at && at < rect.b))
-            .map((r) => r.r)
+            .map((r) => r.r),
     );
 }
 
@@ -49,7 +51,7 @@ function bottommost(rects: Rect[], at?: number) {
         undefined,
         rects
             .filter((rect) => at === undefined || (rect.l < at && at < rect.r))
-            .map((r) => r.b)
+            .map((r) => r.b),
     );
 }
 
@@ -84,24 +86,121 @@ function getViewRect(offset: { left: number; top: number }, view: HTMLElement) {
     };
 }
 
-function getTokenRects(nodeView: HTMLElement) {
+/** Given a node view, get the bounding boxes of the space prior to it. */
+function getPrecedingSpaceRects(nodeView: HTMLElement): Rect[] {
     const rects: Rect[] = [];
 
-    // We do this instead of getBoundingClientRect() because the node view's position
-    const nodeViewportOffset = getEditorOffset(nodeView);
-
-    // Get the rectangles of all of the tokens's text (or if a value, it's symbols).
-    const tokenViews = nodeView.querySelectorAll('.token-view, .symbol');
-    for (const view of tokenViews) {
-        if (view.closest('.hide') === null)
-            rects.push(getViewRect(nodeViewportOffset, view as HTMLElement));
+    // Find the space view preceding the node view.
+    const spaceView = nodeView.previousElementSibling;
+    if (spaceView instanceof HTMLElement) {
+        const spaces = spaceView.querySelectorAll('.space-text');
+        for (const space of spaces)
+            if (space instanceof HTMLElement)
+                rects.push(getViewRect(getEditorOffset(nodeView), space));
     }
 
     return rects;
 }
 
+function getNodeTokenRects(nodeView: HTMLElement) {
+    // Get the rectangles of all of the tokens's text (or if a value, it's symbols).
+    const tokenViews = nodeView.querySelectorAll('.token-view, .symbol');
+
+    if (tokenViews.length === 0) {
+        console.warn('No tokens or symbols found in node view');
+        console.warn(nodeView);
+    }
+
+    return getTokenRects(Array.from(tokenViews) as HTMLElement[]);
+}
+
+export function getTokenRects(
+    tokenViews: HTMLElement[],
+    // The offset from the first view to render from, for partial rects
+    clip?: {
+        start: number;
+        // The offset from the last view to render from, for partial rects
+        end: number;
+    },
+): Rect[] {
+    if (tokenViews.length === 0) return [];
+    const offset = getEditorOffset(tokenViews[0]);
+
+    const rects: Rect[] = [];
+    for (const view of tokenViews) {
+        if (view instanceof HTMLElement) {
+            // If the view is not hidden, include it in the rects.
+            if (view.closest('.hide') === null) {
+                if (clip === undefined) {
+                    // Add rects for space prior to token
+                    const spaceViews = view.querySelectorAll(
+                        '.space[data-id="' +
+                            view.dataset.id +
+                            '"] [data-uiid="space-text"]',
+                    );
+                    for (const spaceView of spaceViews)
+                        if (spaceView instanceof HTMLElement)
+                            rects.push(getViewRect(offset, spaceView));
+                }
+
+                // Add rects for token
+                const tokenRect = getViewRect(offset, view);
+
+                if (clip) {
+                    const { start, end } = clip;
+                    // If the start and end are the same, clip both sides of the rect
+                    if (tokenViews[0] === view && view === tokenViews.at(-1)) {
+                        const tokenView = view.querySelector('.token-view');
+                        if (tokenView) {
+                            const [startWidth] = measureTokenSegment(
+                                tokenView,
+                                start,
+                            ) ?? [0];
+                            const [endWidth] = measureTokenSegment(
+                                tokenView,
+                                end,
+                            ) ?? [0];
+                            const initialLeft = tokenRect.l;
+                            tokenRect.l += startWidth;
+                            tokenRect.w = initialLeft + endWidth - startWidth;
+                            tokenRect.r = initialLeft + endWidth;
+                        }
+                    }
+                    // If there is a start offset, clip the left side of the rect
+                    else if (tokenViews[0] === view) {
+                        const tokenView = view.querySelector('.token-view');
+                        if (tokenView) {
+                            const [width] = measureTokenSegment(
+                                tokenView,
+                                start,
+                            ) ?? [0];
+                            tokenRect.l += width;
+                            tokenRect.w -= width;
+                        }
+                    }
+                    // If there is an end offset, and this is the end token, clip the right side of the rect.
+                    else if (tokenViews.at(-1) === view) {
+                        const tokenView = view.querySelector('.token-view');
+                        if (tokenView) {
+                            const [width] = measureTokenSegment(
+                                tokenView,
+                                end,
+                            ) ?? [0];
+                            tokenRect.r -= tokenRect.w - width;
+                            tokenRect.w -= tokenRect.r - tokenRect.l;
+                        }
+                    }
+                }
+
+                rects.push(tokenRect);
+            }
+        }
+    }
+    return rects;
+}
+
 export function createRectangleOutlineOf(nodeView: HTMLElement): string {
-    const rects: Rect[] = getTokenRects(nodeView);
+    const rects: Rect[] = getNodeTokenRects(nodeView);
 
     // Start on the top left
     const lm = leftmost(rects);
@@ -116,16 +215,30 @@ export function createRectangleOutlineOf(nodeView: HTMLElement): string {
     } L ${lm - OutlinePadding} ${bm + OutlinePadding} Z`;
 }
 
-function toRows(
+function nodeToRows(
     nodeView: HTMLElement,
     horizontal: boolean,
-    rtl: boolean
+    rtl: boolean,
 ): Rect[] {
-    const rects: Rect[] = getTokenRects(nodeView);
+    const rects: Rect[] = [
+        // If this is a program node, include the program's preceding space, since it will be deleted if the program is deleted.
+        ...(nodeView.dataset.uiid === 'Program'
+            ? getPrecedingSpaceRects(nodeView)
+            : []),
+        ...getNodeTokenRects(nodeView),
+    ];
 
     // The official way to render nothing...
     if (rects.length === 0) return [];
 
+    return rectsToRows(rects, horizontal, rtl);
+}
+
+export function rectsToRows(
+    rects: Rect[],
+    horizontal: boolean,
+    rtl: boolean,
+): Rect[] {
     // Segment the rectangles into rows. We rely on document order to segment.
     const rows: Rect[][] = [[]];
     for (const rect of rects) {
@@ -140,8 +253,8 @@ function toRows(
             (horizontal
                 ? rect.t + rect.h / 2 <= lastRect.b
                 : rtl
-                ? rect.r - rect.w / 2 >= lastRect.l
-                : rect.l + rect.w / 2 <= lastRect.r)
+                  ? rect.r - rect.w / 2 >= lastRect.l
+                  : rect.l + rect.w / 2 <= lastRect.r)
         )
             currentRow.push(rect);
         else rows.push([rect]);
@@ -164,9 +277,9 @@ export function getUnderlineOf(
     nodeView: HTMLElement,
     horizontal: boolean,
     rtl: boolean,
-    offset = 0
+    offset = 0,
 ) {
-    const rows = toRows(nodeView, horizontal, rtl);
+    const rows = nodeToRows(nodeView, horizontal, rtl);
 
     // If the rows are empty, draw an arrow where the element is
     if (rows.length === 0) {
@@ -209,10 +322,14 @@ export function getUnderlineOf(
 export default function getOutlineOf(
     nodeView: HTMLElement,
     horizontal: boolean,
-    rtl: boolean
+    rtl: boolean,
 ): Outline {
-    const lines = toRows(nodeView, horizontal, rtl);
+    const lines = nodeToRows(nodeView, horizontal, rtl);
 
+    return getOutlineOfRows(lines);
+}
+
+export function getOutlineOfRows(lines: Rect[]): Outline {
     if (lines.length === 0)
         return { path: '', minx: 0, miny: 0, maxx: 0, maxy: 0 };
 

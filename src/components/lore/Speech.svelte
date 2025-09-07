@@ -1,86 +1,117 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export const Limit = 10;
 </script>
 
 <script lang="ts">
+    import { locales } from '@db/Database';
+    import { type Snippet } from 'svelte';
     import Concept from '../../concepts/Concept';
-    import type Glyph from '../../lore/Glyph';
+    import type BasisCharacter from '../../lore/BasisCharacter';
+    import Emotion from '../../lore/Emotion';
+    import { withColorEmoji } from '../../unicode/emoji';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
-    import { locales } from '@db/Database';
-    import Emotion from '../../lore/Emotion';
-    import { withVariationSelector } from '../../unicode/emoji';
 
-    export let glyph: Glyph | Concept;
-    /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
-    export let below = false;
-    /** If true and speech is not below, reading order is flipped. */
-    export let flip = false;
-    /** If true and speech is not below, baseline aligns the glyph and speech */
-    export let baseline = false;
-    /** If true, uses foreground color for background, and background for foreground. */
-    export let invert = false;
-    /** If true, sets height of speech to 100% and scrolls it */
-    export let scroll = true;
-    /** Optional emotion */
-    export let emotion: Emotion | undefined = undefined;
-    /** Optionally turn off animation */
-    export let emote = true;
-    /** Optionally double size of text */
-    export let big = false;
+    interface Props {
+        character: BasisCharacter | Concept;
+        /** If true, speech is placed below character. If false, speech is placed to the right or left of character. */
+        below?: boolean;
+        /** If true and speech is not below, reading order is flipped. */
+        flip?: boolean;
+        /** If true and speech is not below, baseline aligns the character and speech */
+        baseline?: boolean;
+        /** If true, uses foreground color for background, and background for foreground. */
+        invert?: boolean;
+        /** If true, sets height of speech to 100% and scrolls it */
+        scroll?: boolean;
+        /** Optional emotion */
+        emotion?: Emotion | undefined;
+        /** Optionally turn off animation */
+        emote?: boolean;
+        /** Optionally double size of text */
+        big?: boolean;
+        aside?: Snippet;
+        content: Snippet;
+    }
 
-    $: renderedEmotion =
+    let {
+        character,
+        below = false,
+        flip = false,
+        baseline = false,
+        invert = false,
+        scroll = true,
+        emotion = undefined,
+        emote = true,
+        big = false,
+        aside,
+        content,
+    }: Props = $props();
+
+    let renderedEmotion = $derived(
         emotion ??
-        (glyph instanceof Concept ? glyph?.getEmotion($locales) : undefined);
+            (character instanceof Concept
+                ? character?.getEmotion($locales)
+                : undefined),
+    );
 
-    $: glyphs =
-        glyph instanceof Concept
-            ? glyph.getGlyphs($locales).symbols
-            : glyph.symbols;
+    let characters = $derived(
+        character instanceof Concept
+            ? character.getCharacter($locales).symbols
+            : character.symbols,
+    );
 
-    $: symbols = withVariationSelector(
-        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs
+    let symbols = $derived(
+        withColorEmoji(
+            characters.length > Limit
+                ? `${characters.substring(0, Limit)}…`
+                : characters,
+        ),
     );
 </script>
 
 <div
-    class="dialog {below ? 'column' : flip ? 'row reverse' : 'row'} {!below &&
-    baseline
-        ? 'baseline'
-        : ''}"
+    class="dialog {below
+        ? flip
+            ? 'column reverse'
+            : 'column'
+        : flip
+          ? 'row reverse'
+          : 'row'} {!below && baseline ? 'baseline' : ''}"
     class:big
     class:scroll
 >
-    <div>
+    <div class="speaker">
         <div
-            class="glyphs {symbols.length >= 3
+            class="characters {symbols.length >= 3
                 ? 'small'
                 : ''} {renderedEmotion && emote
                 ? `emotion-${renderedEmotion}`
                 : ''}"
         >
-            {#if glyph instanceof Concept}
-                <ConceptLinkUI link={glyph} label={symbols} />
+            {#if character instanceof Concept}
+                <ConceptLinkUI link={character} label={symbols} />
             {:else}
                 {symbols}
             {/if}
             <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
-        </div>
-        <slot name="aside" />
+        </div>{@render aside?.()}
     </div>
     <div
         class="message {below
-            ? 'below'
+            ? flip
+                ? 'below flip'
+                : 'below'
             : flip
-            ? 'flip'
-            : 'reading'} {typeof document !== 'undefined'
+              ? 'flip'
+              : 'reading'} {typeof document !== 'undefined'
             ? document.documentElement.dir
             : 'ltr'}"
     >
         {#if scroll}
-            <div class="scroller"><slot name="content" /></div>
+            <div class="scroller">{@render content()}</div>
         {:else}
-            <slot name="content" />
+            {@render content()}
         {/if}
     </div>
 </div>
@@ -117,6 +148,11 @@
         max-width: 100%;
     }
 
+    .dialog.column.reverse {
+        align-items: flex-end;
+        padding-inline-start: calc(2 * var(--wordplay-spacing));
+    }
+
     .dialog.row.reverse {
         flex-direction: row-reverse;
     }
@@ -125,7 +161,7 @@
         align-items: baseline;
     }
 
-    .glyphs {
+    .characters {
         display: inline-block;
         line-height: 100%;
         font-family: var(--wordplay-code-font);
@@ -134,11 +170,11 @@
         font-size: 2em;
     }
 
-    .glyphs.small {
+    .characters.small {
         font-size: 1em;
     }
 
-    .row .glyphs {
+    .row .characters {
         max-width: 4em;
         flex-shrink: 0;
         text-align: center;
@@ -227,23 +263,6 @@
         top: calc(2 * var(--wordplay-spacing));
     }
 
-    .message.flip:after {
-        content: '';
-        position: absolute;
-        border-style: solid;
-        border-width: var(--tail-width) 0 var(--tail-width) var(--tail-width);
-        border-color: transparent var(--wordplay-background);
-        display: block;
-        width: 0;
-        margin-top: calc(-1 * var(--tail-width));
-        inset-inline-end: calc(-1 * var(--direction) * var(--tail-width));
-        top: 50%;
-    }
-
-    .baseline .message.flip:after {
-        top: calc(2 * var(--wordplay-spacing));
-    }
-
     .message.flip:before {
         content: '';
         position: absolute;
@@ -264,20 +283,25 @@
         top: 50%;
     }
 
-    .baseline .message.flip:before {
-        top: calc(2 * var(--wordplay-spacing));
-    }
-
-    .message.below:after {
+    .message.flip:after {
         content: '';
         position: absolute;
         border-style: solid;
-        border-width: 0 var(--tail-width) var(--tail-width);
-        border-color: var(--wordplay-background) transparent;
+        border-width: var(--tail-width) 0 var(--tail-width) var(--tail-width);
+        border-color: transparent var(--wordplay-background);
         display: block;
         width: 0;
-        top: calc(-1 * var(--tail-width));
-        inset-inline-start: calc(2 * var(--tail-width));
+        margin-top: calc(-1 * var(--tail-width));
+        inset-inline-end: calc(-1 * var(--direction) * var(--tail-width));
+        top: 50%;
+    }
+
+    .baseline .message.flip:after {
+        top: calc(2 * var(--wordplay-spacing));
+    }
+
+    .baseline .message.flip:before {
+        top: calc(2 * var(--wordplay-spacing));
     }
 
     .message.below:before {
@@ -293,6 +317,45 @@
         inset-inline-start: calc(
             2 * var(--tail-width) - 1 * var(--wordplay-border-width)
         );
+    }
+
+    .message.below:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 var(--tail-width) var(--tail-width);
+        border-color: var(--wordplay-background) transparent;
+        display: block;
+        width: 0;
+        top: calc(-1 * var(--tail-width));
+        inset-inline-start: calc(2 * var(--tail-width));
+    }
+
+    .message.below.flip:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 calc(var(--tail-width) + var(--wordplay-border-width))
+            calc(var(--tail-width) + var(--wordplay-border-width));
+        border-color: var(--wordplay-border-color) transparent;
+        display: block;
+        width: 0;
+        top: 0;
+        inset-inline-start: calc(
+            100% - 5 * var(--tail-width) - 1 * var(--wordplay-border-width)
+        );
+    }
+
+    .message.below.flip:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 var(--tail-width) var(--tail-width);
+        border-color: var(--wordplay-background) transparent;
+        display: block;
+        width: 0;
+        top: 0;
+        inset-inline-start: calc(100% - 5 * var(--tail-width));
     }
 
     .emotion-kind {
@@ -722,5 +785,11 @@
         100% {
             transform: scale(0.75);
         }
+    }
+
+    .speaker {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
     }
 </style>

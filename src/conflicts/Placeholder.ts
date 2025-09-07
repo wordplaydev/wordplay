@@ -1,8 +1,7 @@
 import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type TypePlaceholder from '@nodes/TypePlaceholder';
-import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class Placeholder extends Conflict {
     readonly placeholder: ExpressionPlaceholder | TypePlaceholder;
@@ -17,13 +16,9 @@ export default class Placeholder extends Conflict {
             primary: {
                 node: this.placeholder,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.ExpressionPlaceholder.conflict
-                                    .Placeholder
-                        )
+                    locales.concretize(
+                        (l) =>
+                            l.node.ExpressionPlaceholder.conflict.Placeholder,
                     ),
             },
         };

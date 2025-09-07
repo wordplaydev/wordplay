@@ -1,17 +1,17 @@
 import MatterJS from 'matter-js';
-import { PX_PER_METER } from './outputToCSS';
-import type Matter from './Matter';
-import type { OutputInfo, OutputInfoSet, OutputsByName } from './Scene';
-import Phrase from './Phrase';
-import Group from './Group';
-import Stage, { DefaultGravity } from './Stage';
-import type Value from '../values/Value';
-import Motion from '../input/Motion';
-import type Evaluator from '../runtime/Evaluator';
 import type { ReboundEvent } from '../input/Collision';
 import Collision from '../input/Collision';
-import { Rectangle } from './Form';
+import Motion from '../input/Motion';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../values/Value';
+import type { OutputInfo, OutputInfoSet } from './Animator';
+import { Circle, Polygon, Rectangle } from './Form';
+import Group from './Group';
+import type Matter from './Matter';
+import { PX_PER_METER } from './outputToCSS';
+import Phrase from './Phrase';
 import type Shape from './Shape';
+import Stage, { DefaultGravity } from './Stage';
 
 const TextCategory = 0b0001;
 const ShapeCategory = 0b0010;
@@ -112,7 +112,7 @@ export default class Physics {
                             direction: pair.collision.penetration,
                             starting: true,
                         };
-                    })
+                    }),
                 );
             });
 
@@ -126,7 +126,7 @@ export default class Physics {
                             direction: pair.collision.penetration,
                             starting: false,
                         };
-                    })
+                    }),
                 );
             });
         }
@@ -134,6 +134,15 @@ export default class Physics {
         // Return the engine.
         return engine;
     }
+
+    readonly ShapeOptions = {
+        isStatic: true,
+        collisionFilter: {
+            group: 1,
+            category: ShapeCategory,
+            mask: TextCategory | ShapeCategory,
+        },
+    };
 
     /** Rotation is degrees */
     createRectangle(rectangle: Rectangle, rotation: number | undefined) {
@@ -151,14 +160,7 @@ export default class Physics {
             (top + bottom) / 2,
             Math.abs(right - left),
             Math.abs(bottom - top),
-            {
-                isStatic: true,
-                collisionFilter: {
-                    group: 1,
-                    category: ShapeCategory,
-                    mask: TextCategory | ShapeCategory,
-                },
-            }
+            this.ShapeOptions,
         );
 
         if (rotation !== undefined && rotation !== 0)
@@ -167,8 +169,40 @@ export default class Physics {
         return rect;
     }
 
+    /** Create a circle form */
+    createCircle(circle: Circle) {
+        // Compute rectangle boundaries in engine coordinates.
+        const x = circle.x * PX_PER_METER;
+        const y = -circle.y * PX_PER_METER;
+        const radius = circle.radius * PX_PER_METER;
+
+        // Place the rectangle at the center of bounds
+        return MatterJS.Bodies.circle(x, y, radius, this.ShapeOptions);
+    }
+
+    /** Create a circle form */
+    createPolygon(polygon: Polygon) {
+        // Compute rectangle boundaries in engine coordinates.
+        const x = polygon.x * PX_PER_METER;
+        const y = -polygon.y * PX_PER_METER;
+        const radius = polygon.radius * PX_PER_METER;
+
+        // Place the rectangle at the center of bounds
+        return MatterJS.Bodies.polygon(
+            x,
+            y,
+            polygon.sides,
+            radius,
+            this.ShapeOptions,
+        );
+    }
+
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */
-    sync(stage: Stage, current: OutputInfoSet, exiting: OutputsByName) {
+    sync(
+        stage: Stage,
+        current: OutputInfoSet,
+        exiting: Map<string, OutputInfo>,
+    ) {
         // Update the stage
         this.stage = stage;
 
@@ -248,16 +282,14 @@ export default class Physics {
 
                     // Does the output have no motion but does have matter? Move it to its latest position and apply a velocity.
                     if (motion === undefined) {
-                        // const previousPlace = shape.getPlace();
-
                         MatterJS.Body.setPosition(
                             shape.body,
                             shape.getPosition(
                                 info.global.x,
                                 info.global.y,
                                 info.width,
-                                info.height
-                            )
+                                info.height,
+                            ),
                         );
                         // const delta = {
                         //     x: PX_PER_METER * (info.global.x - previousPlace.x),
@@ -274,7 +306,7 @@ export default class Physics {
                     if (info.output.pose.rotation !== undefined)
                         MatterJS.Body.setAngle(
                             shape.body,
-                            (info.output.pose.rotation * Math.PI) / 180
+                            (info.output.pose.rotation * Math.PI) / 180,
                         );
 
                     // Set matter properties if available.
@@ -305,7 +337,7 @@ export default class Physics {
             if (
                 this.previousShapes.length !== shapes.length ||
                 !this.previousShapes.every((shape, index) =>
-                    shape.value.isEqualTo(shapes[index].value)
+                    shape.value.isEqualTo(shapes[index].value),
                 )
             ) {
                 // Remove the bodies previously added
@@ -315,13 +347,21 @@ export default class Physics {
                 // Add the revised bodies
                 this.currentShapeBodies = [];
                 for (const barrier of shapes) {
-                    if (barrier.form instanceof Rectangle) {
-                        const shape = this.createRectangle(
-                            barrier.form,
-                            barrier.pose.rotation
-                        );
+                    const shape =
+                        barrier.form instanceof Rectangle
+                            ? this.createRectangle(
+                                  barrier.form,
+                                  barrier.pose.rotation,
+                              )
+                            : barrier.form instanceof Circle
+                              ? this.createCircle(barrier.form)
+                              : barrier.form instanceof Polygon
+                                ? this.createPolygon(barrier.form)
+                                : undefined;
+
+                    if (shape) {
                         if (barrier.name) shape.label = barrier.getName();
-                        const engine = this.getEngineAtZ(barrier.form.z);
+                        const engine = this.getEngineAtZ(barrier.form.getZ());
                         MatterJS.Composite.add(engine.world, shape);
                         this.currentShapeBodies.push({
                             body: shape,
@@ -360,7 +400,7 @@ export default class Physics {
                         // Remove the body.
                         MatterJS.Composite.remove(
                             engine.world,
-                            outputBody.body
+                            outputBody.body,
                         );
                         this.bodyByName.delete(name);
 
@@ -390,7 +430,7 @@ export default class Physics {
             // Round corners by a fraction of their size
             (matter?.roundedness ?? 0.1) *
                 (info.output.size ?? info.context.size),
-            matter
+            matter,
         );
     }
 
@@ -436,7 +476,7 @@ export class OutputBody {
         ascent: number,
         angle: number,
         corner: number,
-        matter: Matter | undefined
+        matter: Matter | undefined,
     ) {
         const position = this.getPosition(left, bottom, width, height);
 
@@ -447,16 +487,14 @@ export class OutputBody {
             PX_PER_METER * ascent,
             // Round corners by a fraction of their size
             {
-                chamfer: {
-                    radius: corner * PX_PER_METER,
-                },
+                chamfer: { radius: corner * PX_PER_METER },
                 restitution: matter?.bounciness ?? 0,
                 friction: matter?.friction ?? 0,
                 mass: (matter?.mass ?? 1) * 10,
                 angle,
                 sleepThreshold: 500,
                 label: name,
-            }
+            },
         );
 
         this.body.collisionFilter = getCollisionFilter(matter);
@@ -500,9 +538,5 @@ function getCollisionFilter(matter: Matter | undefined) {
                   (matter.text ? TextCategory : 0) |
                   (matter.shapes ? ShapeCategory : 0),
           }
-        : {
-              group: -1,
-              category: TextCategory,
-              mask: 0,
-          };
+        : { group: -1, category: TextCategory, mask: 0 };
 }

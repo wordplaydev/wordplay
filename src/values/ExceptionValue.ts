@@ -1,18 +1,18 @@
+import type LocaleText from '@locale/LocaleText';
 import ExceptionType from '@nodes/ExceptionType';
-import SimpleValue from './SimpleValue';
-import type Step from '@runtime/Step';
-import type Evaluator from '@runtime/Evaluator';
-import type { BasisTypeName } from '../basis/BasisConstants';
 import type Node from '@nodes/Node';
-import type Expression from '../nodes/Expression';
-import type { ExceptionText } from '../locale/NodeTexts';
-import type Markup from '../nodes/Markup';
-import type Concretizer from '../nodes/Concretizer';
+import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import type { ExceptionText } from '../locale/NodeTexts';
+import type Expression from '../nodes/Expression';
+import type Markup from '../nodes/Markup';
+import SimpleValue from './SimpleValue';
 
 export default abstract class ExceptionValue extends SimpleValue {
     readonly evaluator: Evaluator;
-    readonly step?: Step;
+    readonly step: Step | undefined;
 
     constructor(creator: Expression, evaluator: Evaluator) {
         super(creator);
@@ -35,8 +35,8 @@ export default abstract class ExceptionValue extends SimpleValue {
 
     abstract getExceptionText(locales: Locales): ExceptionText;
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(locales, this.getExceptionText(locales).description);
+    getDescription() {
+        return (l: LocaleText) => l.term.exception;
     }
 
     abstract getExplanation(locales: Locales): Markup;

@@ -1,27 +1,32 @@
-import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import Bind from './Bind';
-import Expression from './Expression';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import Node, { any, list, node } from './Node';
-import Sym from './Sym';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
-import type TableType from './TableType';
 import ExceptionValue from '@values/ExceptionValue';
-import ValueException from '../values/ValueException';
-import StructureValue from '../values/StructureValue';
+import Purpose from '../concepts/Purpose';
+import Characters from '../lore/BasisCharacters';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
-import type Locales from '../locale/Locales';
+import StructureValue from '../values/StructureValue';
+import type Value from '../values/Value';
+import ValueException from '../values/ValueException';
+import Expression from './Expression';
+import Input from './Input';
+import type { Grammar, Replacement } from './Node';
+import Node, { any, list, node } from './Node';
+import Sym from './Sym';
+import type TableType from './TableType';
+import Token from './Token';
 
 export default class Row extends Node {
     readonly open: Token;
-    readonly cells: Expression[];
+    readonly cells: (Input | Expression)[];
     readonly close: Token | undefined;
 
-    constructor(open: Token, cells: Expression[], close: Token | undefined) {
+    constructor(
+        open: Token,
+        cells: (Input | Expression)[],
+        close: Token | undefined,
+    ) {
         super();
 
         this.open = open;
@@ -35,11 +40,11 @@ export default class Row extends Node {
         return new Row(
             new Token(TABLE_OPEN_SYMBOL, Sym.TableOpen),
             cells,
-            new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose)
+            new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose),
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Row';
     }
 
@@ -52,10 +57,14 @@ export default class Row extends Node {
                     node(Sym.Select),
                     node(Sym.Insert),
                     node(Sym.Delete),
-                    node(Sym.Update)
+                    node(Sym.Update),
                 ),
             },
-            { name: 'cells', kind: list(true, node(Expression)), space: true },
+            {
+                name: 'cells',
+                kind: list(true, node(Input), node(Expression)),
+                space: true,
+            },
             { name: 'close', kind: node(Sym.TableClose) },
         ];
     }
@@ -64,7 +73,7 @@ export default class Row extends Node {
         return new Row(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('cells', this.cells, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -72,24 +81,25 @@ export default class Row extends Node {
         return Purpose.Bind;
     }
 
-    allBinds() {
-        return this.cells.every((cell) => cell instanceof Bind);
+    getDependencies() {
+        return [...this.cells];
     }
 
     allExpressions() {
-        return this.cells.every((cell) => !(cell instanceof Bind));
+        return this.cells.every((cell) => !(cell instanceof Input));
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Row);
+    static readonly LocalePath = (l: LocaleText) => l.node.Row;
+    getLocalePath() {
+        return Row.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 }
 
@@ -98,13 +108,13 @@ export function getRowFromValues(
     evaluator: Evaluator,
     creator: EvaluationNode,
     table: TableType,
-    values: Value[]
+    values: Value[],
 ) {
     const evaluation = new Evaluation(
         evaluator,
         creator,
         table.definition,
-        evaluator.getCurrentEvaluation()
+        evaluator.getCurrentEvaluation(),
     );
 
     for (let c = 0; c < table.columns.length; c++) {

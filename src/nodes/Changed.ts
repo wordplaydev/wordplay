@@ -1,31 +1,33 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { type GuardContext } from './Expression';
-import Token from './Token';
-import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import Finish from '@runtime/Finish';
-import type Context from './Context';
-import StreamType from './StreamType';
-import type TypeSet from './TypeSet';
-import TypeException from '@values/TypeException';
-import AnyType from './AnyType';
-import Sym from './Sym';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CHANGE_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
+import TypeException from '@values/TypeException';
+import type Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
+import BooleanType from './BooleanType';
+import type Context from './Context';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
-import NodeRef from '@locale/NodeRef';
-import BooleanType from './BooleanType';
-import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
+import StreamType from './StreamType';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class Changed extends SimpleExpression {
     readonly change: Token;
@@ -44,7 +46,7 @@ export default class Changed extends SimpleExpression {
         return new Changed(new Token(CHANGE_SYMBOL, Sym.Change), stream);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Changed';
     }
 
@@ -61,8 +63,22 @@ export default class Changed extends SimpleExpression {
         ];
     }
 
-    static getPossibleNodes() {
-        return [Changed.make(ExpressionPlaceholder.make())];
+    static getPossibleReplacements({ node, type, context }: EditContext) {
+        return node instanceof Expression && type instanceof BooleanType
+            ? [
+                  Changed.make(
+                      node.getType(context) instanceof StreamType
+                          ? node
+                          : ExpressionPlaceholder.make(StreamType.make()),
+                  ),
+              ]
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
+        return type === undefined || type instanceof BooleanType
+            ? [Changed.make(ExpressionPlaceholder.make(StreamType.make()))]
+            : [];
     }
 
     clone(replace?: Replacement) {
@@ -141,19 +157,19 @@ export default class Changed extends SimpleExpression {
         return this.change;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.Changed);
+    static readonly LocalePath = (l: LocaleText) => l.node.Changed;
+    getLocalePath() {
+        return Changed.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Changed.start),
+        return locales.concretize(
+            (l) => l.node.Changed.start,
             new NodeRef(this.stream, locales, context),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Change;
+    getCharacter() {
+        return Characters.Change;
     }
 }

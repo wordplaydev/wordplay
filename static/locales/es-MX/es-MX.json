@@ -1,9 +1,8 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../schemas/LocaleText.json",
     "language": "es",
-    "region": "MX",
+    "regions": ["MX"],
     "wordplay": "Wordplay",
-    "newProject": "Frase('🐈' descansando:Sequencia(vaivén() 1s))",
     "term": {
         "evaluate": "evaluar",
         "bind": "unir",
@@ -43,13 +42,14 @@
         "set": "set",
         "key": "clave",
         "help": "ayuda",
-        "feedback": "feedback"
+        "feedback": "feedback",
+        "how": "$~Cómo"
     },
     "token": {
         "EvalOpen": "evaluación abierta",
         "EvalClose": "evaluación cerrada",
-        "SetOpen": "set abierta",
-        "SetClose": "set cerrada",
+        "SetOpen": "conjunto abierta",
+        "SetClose": "conjunto cerrada",
         "ListOpen": "lista abierta",
         "ListClose": "lista cerrada",
         "TagOpen": "etiqueta abierta",
@@ -75,6 +75,7 @@
         "Code": "codigo",
         "Mention": "mencionar",
         "Otherwise": "si no",
+        "Match": "$~fósforo",
         "None": "nada",
         "Type": "escribir",
         "Literal": "literal",
@@ -127,8 +128,7 @@
                 "Puedo combinar con \\/\\ para formar unidades de proporción, como \\17manzanas/día\\ y con \\^\\ para formar unidades exponenciales como \\9.8m/s^2\\.",
                 "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
                 "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
-                "También soy bastante bueno para encontrar inconsistencies entre unidades. Por ejemplo, !\\1gato + 1perro\\ no tiene ningún sentido!",
-                "Si alguna vez deseas convertir entre diferentes valores de unidades, hable con @Convert."
+                "También soy bastante bueno para encontrar inconsistencies entre unidades. Por ejemplo, !\\1gato + 1perro\\ no tiene ningún sentido!"
             ]
         },
         "Doc": {
@@ -137,17 +137,17 @@
             "doc": [
                 "Formateo ricamente las cosas con @Markup, como explicaciones de algunos de tus @Program, o incluso las palabras que pones en el escenario con @Phrase.",
                 "Por ejemplo, puedo ir antes de cualquier expresión:",
-                "\\``¿Se supone que esto realmente es 7?``\n7\\",
+                "\\¶¿Se supone que esto realmente es 7?¶\n7\\",
                 "Por ejemplo, puedes ponerme antes de @Bind:",
-                "\\``Mido la altura de alguien``\naltura: 5m\\",
+                "\\¶Mido la altura de alguien¶\naltura: 5m\\",
                 "O antes de una @FunctionDefinition:",
-                "\\``Sumo dos números``\nƒ suma(a•# b•#) a + b\\",
+                "\\¶Sumo dos números¶\nƒ suma(a•# b•#) a + b\\",
                 "O antes de una @StructureDefinition:",
-                "\\``Recuerdo el nombre y la fruta favorita de las personas``\n•Persona(nombre•'' fruta•'')\\",
+                "\\¶Recuerdo el nombre y la fruta favorita de las personas¶\n•Persona(nombre•'' fruta•'')\\",
                 "También puedes ponerme al principio de @Program para decir de qué trata toda la actuación",
-                "\\``Este programa saluda``\n\n'¡hola!'\\",
+                "\\¶Este programa saluda¶\n\n'¡hola!'\\",
                 "Puedes darme un @Language para ayudar a otros a saber en qué idioma estoy escrito:",
-                "\\``Soy un documento en inglés``/en\nduración: 5s\\",
+                "\\¶Soy un documento en inglés¶/en\nduración: 5s\\",
                 "¿Sabías que puedes hacer una lista de mí? Ve a hablar con @Docs."
             ]
         },
@@ -157,7 +157,7 @@
             "doc": [
                 "Soy una lista de @Doc, útil cuando tienes múltiples traducciones de @Doc en diferentes idiomas.",
                 "No tienes que hacer nada especial para hacer una lista. Solo pon un montón de @Doc uno al lado del otro, así:",
-                "\\``Hola``/es\n``Hello``/en\nsaludo: '…'\\"
+                "\\¶Hola¶/es\n¶Hello¶/en\nsaludo: '…'\\"
             ],
             "start": "¡Creando el valor de los documentos!"
         },
@@ -185,7 +185,7 @@
                 "O supongamos que quieres hacer esto para un @Name.",
                 "\\sonido/en: 'miau'\\",
                 "¡O incluso para @Doc!",
-                "\\``Onomatopeya``/en\nsonido/en: \"miau\"\\",
+                "\\¶Onomatopeya¶/en\nsonido/en: \"miau\"\\",
                 "Hay muchos <códigos de idioma de 2 letras@https://es.wikipedia.org/wiki/ISO_639-1> que entiendo. Si no usas uno de esos, te lo haré saber."
             ],
             "conflict": {
@@ -264,9 +264,9 @@
             "doc": [
                 "Soy una serie de @Words, @ConceptLink, @WebLink y @Example, separados por una línea en blanco, y dentro de @Doc.",
                 "Todo lo que necesitas hacer para escribirme es escribir un montón de palabras en un @Doc:",
-                "\\``Soy un párrafo en un documento.``'un párrafo'\\",
+                "\\¶Soy un párrafo en un documento.¶'un párrafo'\\",
                 "Si quieres varios párrafos, solo pon líneas en blanco.",
-                "\\``Párrafo 1.\n\nPárrafo 2.\n\nPárrafo 3.``'tres párrafos'\\"
+                "\\¶Párrafo 1.\n\nPárrafo 2.\n\nPárrafo 3.¶'tres párrafos'\\"
             ]
         },
         "WebLink": {
@@ -275,7 +275,7 @@
             "emotion": "serious",
             "doc": [
                 "Soy un enlace a algo en el internet. Solo necesito una descripción y una URL:",
-                "\\``Soy un <enlace@https://wordplay.dev> en un documento.``\n'enlace de ejemplo'\\",
+                "\\¶Soy un <enlace@https://wordplay.dev> en un documento.¶\n'enlace de ejemplo'\\",
                 "Si alguien me selecciona, se abrirá una nueva ventana con la URL."
             ]
         },
@@ -284,10 +284,14 @@
             "description": "concepto $1",
             "emotion": "serious",
             "doc": [
-                "Soy un enlace a un personaje del Verso. Soy útil cuando quieres escribir un @Doc y referirte a alguno de nosotros.",
-                "Por ejemplo, digamos que quieres hablar sobre @Evaluate y lo increíble que es. Podrías escribir:",
-                "\\``Sabes, @Evaluate es bastante increíble.``\n'mira, ¡un enlace de concepto!'\\",
-                "Cuando aparezca el @Doc que escribiste aquí, mostrará un enlace al concepto."
+                "$~Soy un enlace a un personaje de Verse. Soy útil cuando quieres escribir un @Doc y referirte a uno de nosotros.",
+                "$~Por ejemplo, digamos que quieres hablar de @Evaluate y lo genial que es. Podrías escribir:",
+                "$~\\¶Sabes, @Evaluate es genial.¶\n'¡Mira, un enlace de personaje!'\\",
+                "$~Los caracteres también tienen números que les corresponden. Por ejemplo, @FunctionDefinition es 192. Puedes referirte a ellos por número y aparecerán:",
+                "$~\\`92 es muy agradable!`\\",
+                "$~Y si creas tu propio personaje, puedes referirte a él por el nombre que le hayas dado.",
+                "$~@coolbeans",
+                "$~Ah... Supongo que ese personaje no existe, así que te toca un cuadradito. Pero si existiera, ¡aparecería aquí!"
             ]
         },
         "Words": {
@@ -295,9 +299,9 @@
             "emotion": "serious",
             "doc": [
                 "Soy cualquier palabra que desees en un @Doc. Por ejemplo:",
-                "\\``Que la Fuerza te acompañe.``\n'solo algunas palabras'\\",
+                "\\¶Que la Fuerza te acompañe.¶\n'solo algunas palabras'\\",
                 "Sin embargo, a veces puedes querer usar los caracteres especiales que @Doc usa /como/ palabras. Por ejemplo:",
-                "\\``Mis amigas usan @@, //, **, || y otros símbolos.``\n'usando caracteres especiales'\\",
+                "\\¶Mis amigas usan @@, //, **, || y otros símbolos.¶\n'usando caracteres especiales'\\",
                 "Si simplemente repites esos caracteres especiales, obtendrás el carácter en lugar de su significado especial."
             ]
         },
@@ -306,9 +310,9 @@
             "emotion": "serious",
             "doc": [
                 "Soy un rendimiento de ejemplo, ¡útil para escribir @Doc que explique cómo usar algo!",
-                "\\``Aquí tienes un ejemplo de suma: \\1 + 1\\``'código de ejemplo'\\",
+                "\\¶Aquí tienes un ejemplo de suma: \\1 + 1\\¶'código de ejemplo'\\",
                 "Si me pones en un párrafo completamente solo, apareceré en una caja elegante y mostraré el resultado de evaluarme.",
-                "\\``Aquí tienes un ejemplo de suma:\n\n\\1 + 1\\``\\"
+                "\\¶Aquí tienes un ejemplo de suma:\n\n\\1 + 1\\¶\\"
             ]
         },
         "Mention": {
@@ -386,8 +390,11 @@
             "finish": "¡Oh bien, obtuve $1! Vamos a llamarlo $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
-                    "secondary": "eh, $1 es mi nombre"
+                    "conflict": {
+                        "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
+                        "secondary": "eh, $1 es mi nombre"
+                    },
+                    "resolution": "$~Hay nombres duplicados, ¿quieres eliminar uno?"
                 },
                 "DuplicateShare": {
                     "primary": "tengo el mismo nombre que $1, lo que hace que lo compartido sea ambiguo",
@@ -401,7 +408,7 @@
                 "MissingShareLanguages": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
                 "RequiredAfterOptional": "No puedo estar aquí, hay un @Bind opcional antes que yo",
                 "UnexpectedEtc": "Solo puedo tener una longitud variable en un @FunctionDefinition",
-                "UnusedBind": "oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
+                "UnusedBind": "Oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
             }
         },
         "Block": {
@@ -429,8 +436,12 @@
             "conflict": {
                 "ExpectedEndingExpression": "Necesito una expresión.",
                 "IgnoredExpression": {
-                    "primary": "Voy a ignorar lo anterior.",
-                    "secondary": "@Block, ¡no me ignores a mí!"
+                    "primary": "$~Voy a ignorar $1, ya que no define nada y no es mi última expresión.",
+                    "secondary": "$~@Block, ¡no me ignores!",
+                    "resolution": {
+                        "binary": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir.",
+                        "evaluate": "$~¿Querías que esto fuera @Evaluate? Puedo quitar este espacio para que sea una sola expresión, en lugar de dos."
+                    }
                 }
             }
         },
@@ -553,7 +564,7 @@
             "doc": [
                 "Soy cualquier expresión, ¡pero con un @Doc!",
                 "Para hacerme, simplemente coloca un @Doc antes de una expresión, y obtendrás esto:",
-                "\\dobleplus: 1\n(2 · dobleplus) + \n``Hagámoslo un poco más grande``\n1\\",
+                "\\dobleplus: 1\n(2 · dobleplus) + \n¶Hagámoslo un poco más grande¶\n1\\",
                 "Soy útil para hacer un comentario sobre alguna parte de un programa."
             ],
             "start": "evaluemos la expresión"
@@ -587,10 +598,9 @@
                     "primary": "No esperaba este tipo de input",
                     "secondary": "oh, ¿no debería estar aquí?"
                 },
-                "MisplacedInput": "este input está fuera de lugar.",
                 "MissingInput": {
-                    "primary": "Me falta $1, ¿puedes agregarlo?",
-                    "secondary": "este input es necesario, pero $1 no lo proporcionó"
+                    "primary": "$~No puedo evaluar sin la entrada llamada $1 :(",
+                    "secondary": "$~Ah, vaya. ¿Puedes ayudarnos y agregarlo a mi lista de entradas?"
                 },
                 "NotInstantiable": "No puedo hacer esta @StructureDefinition, tiene funciones no implementadas.",
                 "UnexpectedInput": {
@@ -601,7 +611,8 @@
                     "primary": "No conozco un input con este nombre",
                     "secondary": "No creo que pertenezca aquí"
                 },
-                "InputListMustBeLast": "la lista de inputs debe ir al final"
+                "InputListMustBeLast": "la lista de inputs debe ir al final",
+                "SeparatedEvaluate": "$~¿Es $1 el nombre de una $2[$structure|$function] que estás intentando evaluar? Intente eliminar el espacio después de mí, para saber que es un @Evaluate y no un @Block separado."
             },
             "exception": {
                 "FunctionException": {
@@ -609,6 +620,18 @@
                     "explanation": "oh no, $1 no es una función en $2[$2|este @Block!"
                 }
             }
+        },
+        "Input": {
+            "name": "$~Aporte",
+            "description": "$~entrada nombrada",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy una entrada dada a un @Evaluate. Mi nombre corresponde al nombre de la entrada en @FunctionDefinition o @StructureDefinition que se está evaluando.",
+                "$~Soy útil con funciones que tienen muchos valores predeterminados, donde solo deseas anular una entrada específica, sin dar todo lo demás.",
+                "$~Por ejemplo, @Phrase tiene muchísimos valores predeterminados para controlar su estilo. Digamos que deseas agregar algo de @Text y @Color, pero nada más en su lista de entrada. Puedes usarme para hacer eso:",
+                "$~\\Phrase('¡Soy morado!' color: Color(50% 52 300°))\\"
+            ],
+            "start": "$~Evaluemos mi valor."
         },
         "ExpressionPlaceholder": {
             "name": "marcador de posición",
@@ -737,7 +760,7 @@
                 "\\lista: ['pájaro' 'pato' 'pez' 'serpiente']\nlista[2]\\"
             ],
             "start": "vamos a obtener la lista $1 primero",
-            "finish": "¡el elemento es $2!"
+            "finish": "¡el elemento es $1!"
         },
         "ListLiteral": {
             "name": "lista específica",
@@ -769,6 +792,23 @@
                     "secondary": "ups, ¿dónde está mi valor?"
                 }
             }
+        },
+        "Match": {
+            "name": "$~fósforo",
+            "emotion": "curious",
+            "doc": [
+                "$~¡Soy el más glorioso de todos los controles condicionales! Tomo un valor y lo comparo con cualquier número de casos, y evalúo la expresión correspondiente que coincide.",
+                "$~Por ejemplo, si tuviera un @Number y quisiera convertirlo en un @Text, podría hacer algo como esto:",
+                "$~\\Número 2\nnúmero ??? 1: 'uno' 2: 'dos' 3: 'tres' '¡más grande!'\\",
+                "$~Si ninguno coincide, evalúo la expresión predeterminada que me das.",
+                "$~Soy realmente útil para convertir uno de los muchos posibles @Number, @Text o valores más complejos en otra cosa.",
+                "$~Puedes usarlo para @Boolean o @None, pero en realidad no pueden ser tantas cosas, por lo que no soy tan útil para esos valores simples."
+            ],
+            "start": "$~Veamos qué es 1 dólar...",
+            "case": "$~Comprobemos esta condición.",
+            "finish": "$~Bien, ¡tenemos un valor final!",
+            "value": "$~valor",
+            "other": "$~por defecto"
         },
         "NumberLiteral": {
             "name": "número específico",
@@ -867,7 +907,13 @@
                 "¡Eso es mucho más fácil que hacer un nuevo \\Gato\\ con los mismos valores excepto por el pasatiempo, ¿verdad?"
             ],
             "start": "primero obtengamos el valor",
-            "finish": "Copié la estructura, pero con $1 como $2"
+            "finish": "Copié la estructura, pero con $1 como $2",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$~No soy un insumo de $1, por lo que no puedo ser refinado.",
+                    "secondary": "$~No tengo una entrada llamada $1"
+                }
+            }
         },
         "PropertyReference": {
             "name": "propiedad",
@@ -913,7 +959,10 @@
             ],
             "start": "¿qué valor tiene $1?",
             "conflict": {
-                "UnknownName": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                "UnknownName": {
+                    "conflict": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                    "resolution": "$~¿Quisiste decir *$1*?"
+                },
                 "ReferenceCycle": "um, el valor de $1 depende de sí mismo, ¿cómo sé qué valor darle?",
                 "UnexpectedTypeVariable": "No sé qué hacer con estos inputs de tipo"
             },
@@ -1004,6 +1053,14 @@
                 "UnimplementedInterface": "Implemento $1 pero no he implementado $2"
             }
         },
+        "StructureDefinitionType": {
+            "name": "$~definición de estructura",
+            "emotion": "kind",
+            "description": "$~definicion de $1",
+            "doc": [
+                "$~Me refiero a algún tipo de @StructureDefinition. La gente no suele referirse a mí directamente."
+            ]
+        },
         "TableLiteral": {
             "name": "tabla específica",
             "description": "tabla de $1 filas",
@@ -1025,12 +1082,14 @@
             "emotion": "serious",
             "doc": "Represento algún texto, con una etiqueta @Language. ¡Consulta @Text para aprender más!",
             "conflict": {
-                "phone": "$?",
-                "email": "$?",
-                "tin": "$?",
-                "address": "$?",
-                "handle": "$?",
-                "resolution": "$?"
+                "phone": "¿Es *$1* el número de teléfono de alguien? ¡No me compartas en línea si es así!\n\n$2",
+                "email": "¿Es *$1* el correo electrónico de alguien? ¡No me lo compartas aquí si es así!\n\n$2",
+                "tin": "¿Es *$1* un identificador fiscal? Si es así, ¡definitivamente no me compartas, soy información muy sensible!\n\n$2",
+                "address": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!\n\n$2",
+                "handle": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.\n\n$2",
+                "resolution": "Esto no es información sensible",
+                "reminder": "$~Nota: Puedes deshacer esta acción y ver otras cosas que hayas marcado como no confidenciales en el cuadro de diálogo para compartir.",
+                "character": "$~Parece el nombre de un personaje. Para mostrarlo, usa @FormattedLiteral en lugar de @TextLiteral."
             }
         },
         "FormattedLiteral": {
@@ -1106,7 +1165,10 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                    "resolution": "$~¿Quiso decir $1, $2?"
+                },
                 "UnclosedDelimiter": "Esperaba $2 en algún momento después de $1"
             },
             "exception": {
@@ -1386,7 +1448,10 @@
     "basis": {
         "Boolean": {
             "doc": [
-                "Nosotros somos \\T\\ y \\⊥\\. \\T\\ es verdadero. \\⊥\\ is falso. \\T\\ no es \\⊥\\; \\⊥\\ no es \\T\\. Asi funcionamos"
+                "$~Somos \\⊤\\ y \\⊥\\. \\⊤\\ es verdadero. \\⊥\\ es falso. \\⊤\\ no es \\⊥\\; \\⊥\\ no es \\⊤\\. Así es.",
+                "$~¿Cómo nos haces? Solo \\⊤\\ y \\⊥\\, nada más, nada menos.",
+                "$~Algunos usan el teclado (/ctrl+9/ para \\⊤\\ y /ctrl+0/ para \\⊥\\). Otros usan la búsqueda de caracteres en la parte inferior del editor. O puedes arrastrarnos desde aquí.",
+                "$~Consulta nuestra @FunctionDefinition a continuación. Son muy lógicas."
             ],
             "name": ["T⊥", "Booleano"],
             "function": {
@@ -1429,7 +1494,7 @@
                 },
                 "equals": {
                     "doc": "\\T\\ si los dos son \\T\\ or los dos son \\⊥\\.",
-                    "names": ["=", "igual "],
+                    "names": ["=", "igual"],
                     "inputs": [
                         {
                             "doc": "El otro valor para evaluar",
@@ -1486,17 +1551,20 @@
         },
         "Text": {
             "doc": [
-                "Yo puedo ser cualquier texto que tu quieras, en cualquier idioma, y usando cualquiera de estos simbolos de abrir y cerra: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
-                "Para ilustrar, considera una de estas bonitas frases.",
-                "\\“Solo hay dos maneras de vivir la vidad. Una es como si nada fuera un milagro. La otra es como si todo fuera un milagro.”\\",
-                "Solo recuerada de cerrarme si me abres, y usa el simbolo coincidente. Si no es asi, no sabre que has terminado con tus palabras.",
-                "\\'hola' /es-MX 'hello' /en\\",
-                "Tambine me puedes etiquetar con idiomas, y tambien me puedes pasar multiples traducciones. Yo evaluare a cualquier idioma que este actualmente seleccionado.",
-                "Si tu quieres crearme con otro tipo de valores, puedes utilizar un simbolo",
-                "Por ejemplo:",
-                "\\\"Mira estas sumas \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
-                "Mira que elegante yo evaluo esas sumas, y la pongo adentro del @Text",
-                "De cual quier manera, hay muchas funciones gloriosas que @FunctionDefinition a hecho para mi, para poder hacer todo tipo de cosas con palabras!"
+                "$~Puedo ser cualquier texto que quieras, de cualquier idioma, y usar cualquiera de estos símbolos de apertura y cierre: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, o \\『』\\.",
+                "$~Para ilustrarlo, considere estas hermosas frases:",
+                "$~“Solo hay dos maneras de vivir la vida. Una es como si nada fuera un milagro. La otra es como si todo fuera un milagro.”",
+                "$~\\\"El amor es una necesidad\"\\",
+                "$~Solo recuerda cerrarme si me abres y usar el símbolo correspondiente. Si no, no sabré que terminaste de escribir.",
+                "$~\\'hola'/en'hola'/es-MX\\",
+                "$~También puedes etiquetarme con idiomas e incluso proporcionar varias traducciones. Evaluaré los idiomas seleccionados, si hay alguno que coincida.",
+                "$~Si quieres hacerme con otros valores puedes hacer esto:",
+                "$~\"Aquí hay algunas sumas \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"",
+                "$~¿Ves con qué elegancia acabo de evaluar esas sumas y colocarlas dentro de @Text?",
+                "$~Tengo un último secretito: ¿sabías que todos tenemos un número único? ¡Es cierto! Puedes referirte a nosotros por nuestro número. Por ejemplo, @FunctionDefinition es 192:",
+                "$~\\'92'\\",
+                "$~¿Ves cómo 192 se convirtió en @FunctionDefinition? Me han dicho que a estos números los llamas «Unicode».",
+                "$~De lo contrario, ¡hay tantas funciones gloriosas que @FunctionDefinition creó para que pueda hacer todo tipo de cosas con palabras!"
             ],
             "name": ["''", "Texto"],
             "function": {
@@ -1511,7 +1579,7 @@
                 },
                 "equals": {
                     "doc": "\\T\\ so yo soy la misma sequencia de caracteres en el @Text dado",
-                    "names": ["=", "es igual"],
+                    "names": ["=", "igual"],
                     "inputs": [
                         {
                             "doc": "El @Text para comparar",
@@ -1531,12 +1599,13 @@
                 },
                 "repeat": {
                     "doc": [
-                        "Creo un nuevo @Text que soy yo, repetido el número de veces de \\count\\:",
-                        "\\('hola ' · 5\\)",
-                        "Si me das un @Number fraccionario, ignoro la fracción:",
-                        "\\('hola ' · 5.5\\)",
-                        "Si me das un @Number negativo o cero, doy un @Text vacío.",
-                        "\\('hola ' · -5\\)"
+                        "$~Creo un nuevo @Text que soy yo, repetido la cantidad de veces de \\count\\:",
+                        "$~Hola · 5",
+                        "$~Si me das un @Number fraccionario, ignoro la fracción:",
+                        "$~Hola · 5.5",
+                        "$~Si me das un @Number negativo o cero, doy un @Number vacío.",
+                        "$~\\'hola' · -5\\",
+                        "$~El texto más largo que puedo crear tiene 65.535 caracteres. Si intentas crear uno más largo, lo repetiré tantas veces como pueda."
                     ],
                     "names": ["·", "🔁", "repetir"],
                     "inputs": [
@@ -1641,13 +1710,14 @@
             "function": {
                 "add": {
                     "doc": [
-                        "Yo sumo un @Number con mi misma @Unit, creando un nuevo @Number de la misma @Unit",
-                        "Por ejemplo:",
-                        "\\1 + 1\\",
-                        "\\3gatos + 5gatos\\",
-                        "Si las unidads no coinciden, yo parare a mostrar \\3gatos + 5gaots\\"
+                        "$~Agrego un @Number con la misma @Unit a mí mismo, creando un nuevo @Number de la misma @Unit.",
+                        "$~Por ejemplo:",
+                        "$~\\1 + 1\\",
+                        "$~\\3gato + 5gato\\",
+                        "$~Si las unidades no coinciden, detengo el espectáculo.",
+                        "$~\\3 gatos + 5 perros\\"
                     ],
-                    "names": ["+", "add"],
+                    "names": ["+", "sumar"],
                     "inputs": [
                         {
                             "doc": "El @Number a sumar",
@@ -1709,7 +1779,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": ["%", "remainder"],
+                    "names": ["%", "resto"],
                     "inputs": [
                         {
                             "doc": "Ell @Number a dividir por",
@@ -1952,25 +2022,28 @@
         },
         "List": {
             "doc": [
-                "Yo soy una sequencia de valores, de cualquier tipo!",
-                "Puedes ponder lo que quieras adentro de mi: @Boolean, @Number, @Text, @None, incluso @List, @Set, @Map, or cualquier otra expresión. Asi seria una simple:",
-                "\\['manzana' 'platano' 'mango']\\",
-                "Lo que me hace espcial es que yo mantengo las cosas en orden, y yo enumero todo desde el 1 hasta la canditad de elementos que yo tenga",
-                "Mis elementos son enumerados, comenzando por el 1. Tu puedes obtener que to tengo con @ListAccess, usando su numero:",
-                "Por ejemplo, el segundo valor en esta lista es \\['platano']\\",
-                "\\['manzana' 'platano' 'mango'][2]\\",
-                "Puedo tener lo que sea adentro de mi. Mira a esta lista con @Text, @Number y @Time",
-                "\\['manzana' 10 + 10 Time()]\\",
-                "Yo puedo hacer un monton de cosas interesantes con mi @FunctionDefinition"
+                "$~¡Soy una secuencia de valores, de cualquier tipo!",
+                "$~Puedes poner cualquier cosa en mí: @Boolean, @Number, @Text, @None, incluso otras @List, @Set, @Map o cualquier expresión. Aquí tienes una sencilla:",
+                "$~\\['manzana' 'plátano' 'mango']\\",
+                "$~Lo que me hace especial es que mantengo las cosas en orden y numero todo del 1 al número de elementos que tenga dentro.",
+                "$~Mis artículos están numerados, comenzando desde 1. Puedes obtener los valores que estoy almacenando con @ListAccess, usando su número:",
+                "$~Por ejemplo, el segundo valor de esta lista es \\['banana']\\",
+                "$~\\['manzana' 'plátano' 'mango'][2]\\",
+                "$~Puedo tener cualquier cosa dentro de mí. ¡Mira esta lista, con @Text, @Number y @Time!",
+                "$~\\['manzana' 10 + 10 Tiempo()]\\",
+                "$~Cuando me das una lista de muchas cosas, las generalizaré si tienen un tipo en común. Pero a veces podrías referirte literalmente a esas cosas específicas. Si es así, simplemente añade un signo de interrogación (!) después de mí y me aseguraré de representar una lista de solo esos valores.",
+                "$~\\['manzana' 'plátano' 'mango']!\\",
+                "$~Eso es más o menos. ¡Pero puedo hacer llamadas a cosas interesantes con mi @FunctionDefinition!"
             ],
-            "name": ["[]", "lista"],
+            "name": ["[]", "Lista"],
             "kind": "Kind",
             "out": "Result",
             "outofbounds": "outofbounds",
             "function": {
                 "add": {
                     "doc": [
-                        "Yo puedo crear una nueva @List con el elemento dado"
+                        "$~Creo una nueva @List con el elemento dado al final.",
+                        "$~\\['manzana' 'plátano' 'mango'].with('sandía')\\"
                     ],
                     "names": "agregar",
                     "inputs": [
@@ -2023,6 +2096,14 @@
                         "\\['manzana' 'platano' 'mango'].azar()"
                     ],
                     "names": "azar",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "$~Haz una nueva lista con los elementos del último ordenados aleatoriamente.",
+                        "$~\\['manzana' 'plátano' 'mango'].shuffled()\\"
+                    ],
+                    "names": "$~barajado",
                     "inputs": []
                 },
                 "first": {
@@ -2199,9 +2280,9 @@
                     "doc": [
                         "Dame una @FunctionDefinition que reciva un valor y opcionalmente un indice come entradas y produce un @Boolean, Yo creare una nueva lista que solo incluye elementos con el resultado \\T\\.",
                         "Por ejemplo, imagina yo soy una @List de @Number y solo quieres los numeros positivos:",
-                        "\\[2 -4 8 -16].filtrar(ƒ(num•#) num ≥ 0)\\"
+                        "\\[2 -4 8 -16].filtro(ƒ(num•#) num ≥ 0)\\"
                     ],
-                    "names": "filtrar",
+                    "names": "filtro",
                     "inputs": [
                         {
                             "doc": "Una @FunctionDefinition que chequea cada elemento, produciendo \\T\\ si deberia ser conservado en la list",
@@ -2374,21 +2455,22 @@
         },
         "Set": {
             "doc": [
-                "Yo soy una conjunto de valores! Eso significa que yo cualquier valor de valores, incluyendo valores sin valor. Tu me puedes crear asi:",
-                "\\{1 2 3 }\\",
-                "Yo soy muy util si quieres tener una coleccion de cosas sin valores duplicados",
-                "Eso significa pasas valores que yo ya tengo, simplemente los ignorare.",
-                "Por ejempo, este conjunto tiene muchos duplicados:",
-                "\\{1 1 2 2 3 3}\\.",
-                "Si quieres ver si yo tengo una valor adentro de mi, @SetOrMapAccess puede ser de ayuda:",
-                "\\{'frasco' 'botella' 'vaso'}{'copa'}\\",
-                "Por lo general, si me das un montón de valores del mismo tipo, asumiré que son una lista de ese tipo. Como este conjunto es \\{''}\\, porque todos son @Text.",
-                "\\{'hey' 'hi' 'hello'}\\",
-                "Pero tal vez quieras indicar que soy un conjunto de /solo/ esos valores, para que pueda decirte cuando estás intentando usar uno que no está permitido. Si es así, solo agrega un ! al final de mí.",
-                "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
-                "¿Hay algo más que quieras hacer conmigo? ¡Mira todas las geniales @FunctionDefinition que tengo!"
+                "$~¡Soy un conjunto de valores! Eso significa que puedo contener cualquier número de valores, incluso ninguno. Puedes hacerme así:",
+                "$~\\{1 2 3}\\",
+                "$~Soy realmente bueno si quieres mantener una colección de cosas sin duplicados.",
+                "$~Eso significa que si me das valores que ya tengo, ignoraré los extras.",
+                "$~Por ejemplo, este conjunto tiene muchos duplicados:",
+                "$~\\{1 1 2 2 3 3}\\",
+                "$~Lo evalúo como simplemente \\{1 2 3}\\.",
+                "$~Si quieres ver si tengo un valor en mí, @SetOrMapAccess puede ayudarte:",
+                "$~\\{'tarro' 'botella' 'vaso'}{'taza'}\\",
+                "$~Normalmente, si me das un conjunto de valores de un tipo común, asumiré que son una lista de ese tipo. Por ejemplo, este conjunto es \\{''}\\, porque todo es @Text.",
+                "$~\\{'hey' 'hola' 'hola'}\\",
+                "$~Pero quizás quieras indicar que soy un conjunto de /solo/ esos valores, para que pueda avisarte cuando intentas usar uno no permitido. Si es así, simplemente añade un ! al final de \"me\".",
+                "$~\\{'hey' 'hola' 'hola'}!{'yo'}\\",
+                "$~¿Hay algo más que quieras hacer conmigo? ¡Mira todo lo genial que tengo en @FunctionDefinition!"
             ],
-            "name": ["{}", "conjunto"],
+            "name": ["{}", "Conjunto"],
             "kind": "Kind",
             "out": "Result",
             "function": {
@@ -2438,7 +2520,9 @@
                 },
                 "remove": {
                     "doc": [
-                        "Dame un elemento para remover y yo creare un nuevo @Set sin ese elemento"
+                        "$~Dame un elemento para eliminar y crearé un nuevo @Set sin el elemento.",
+                        "$~\\{1 2 3} - 2\\",
+                        "$~Si no tengo el artículo lo evaluaré yo mismo."
                     ],
                     "names": ["remove", "-"],
                     "inputs": [
@@ -2491,9 +2575,9 @@
                     "doc": [
                         "Dame una @FunctionDefinition  que recive un elemento y produce \\T\\ si deberia de ser convervado, y yo creare un @Set que solo contiene elementes que cumpla con tu criteria.",
                         "Por ejemplo, vamos a encontrar todos los numeros impares adentro de mi:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filtrar(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.filtro(ƒ(num•#) (num % 2) = 1)\\"
                     ],
-                    "names": "filtrar",
+                    "names": "filtro",
                     "inputs": [
                         {
                             "doc": "La @FunctionDefinition que verifica un elemento para ver si deberia ser conservado",
@@ -2543,17 +2627,21 @@
         },
         "Map": {
             "doc": [
-                "Yo emparejo valores, mapeando *llaves* a *valores*. Por ejemplo:",
-                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}\\",
-                "Mis llaves pueden ser de cualquier tipo de valor, y tambien mis valores",
-                "Personas piensan de mi como si yo fuera un indice o un diccionario, donde tu me das una llave, y yo te doy a lo que esta mapeado.",
-                "Si quieres ver a lo algo esta mapeado a. tu le puedes pasar a @SetOrMapAccess, una llave y ellos de daran el valor:",
-                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}{'tony'}\\",
-                "Si noy hay una llave que coincida, yo te dare @None.",
-                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}{'juan'}\\",
-                "Tu tambien puedes crear un mapa vacio asi:",
-                "\\{:}\\",
-                "Yo se hacer muchas cosas maravillosas con mis emparejamientos."
+                "$~Reúno valores, asignando *claves* a *valores*. Por ejemplo:",
+                "$~\\{'amy': 6 puntos 'tony': 3 puntos 'shiela': 8 puntos}\\",
+                "$~Mis claves pueden ser cualquier tipo de valor y mis valores pueden ser cualquier tipo de valor.",
+                "$~A algunas personas les gusta pensar en mí como un índice o un diccionario, donde tú me das algo y yo te doy su significado.",
+                "$~Si quieres comprobar a qué está asignado algo, puedes darle a @SetOrMapAccess una clave y te darán el valor:",
+                "$~\\{'amy': 6 puntos 'tony': 3 puntos 'shiela': 8 puntos}{'amy'}\\",
+                "$~Si no hay una clave coincidente, te daré @None.",
+                "$~\\{'amy': 6 puntos 'tony': 3 puntos 'shiela': 8 puntos}{'jen'}\\",
+                "$~También puedes hacer un mapa vacío como este:",
+                "$~\\{:}\\",
+                "$~Normalmente, veo cualquier tipo de claves y valores que me proporciones y creo un tipo que los represente todos. Así, se ve un mapa de números a números:",
+                "$~\\{1:1 2:2 3:3}\\",
+                "$~Pero digamos que quieres asegurarte de que solo se trate de esos valores; simplemente añade \"!\" al final de \"me\" y no generalizaré. Eso te ayudará a saber si intentas obtener un valor que no buscabas.",
+                "$~\\{1:1 2:2 3:3}!{4}\\",
+                "$~Sé hacer muchas cosas maravillosas con mis combinaciones."
             ],
             "name": ["{:}", "Mapa"],
             "key": "Key",
@@ -2638,9 +2726,9 @@
                     "doc": [
                         "Pasame una @FunctionDefinition  que recive una llave y un valor y evalua a \\T\\ si la pareja deberia de ser conservada. Yo creare un nuevo @Map que cumple tu criteria.",
                         "Por ejemplo, aqui queres mantener las parejas que tiene la llave 'juan' o tengo un valor de mas de cero puntos",
-                        "\\{'juan': 0points 'ana': 0points 'tony':3points}.filtrar(ƒ(llave•'' valor•#puntos) (llave = 'amy') | (valor > 0puntos))\\"
+                        "\\{'juan': 0points 'ana': 0points 'tony':3points}.filtro(ƒ(llave•'' valor•#puntos) (llave = 'amy') | (valor > 0puntos))\\"
                     ],
-                    "names": "filtrar",
+                    "names": "filtro",
                     "inputs": [
                         {
                             "doc": "La @FunctionDefinition que decide mantener una pareja o no",
@@ -2824,7 +2912,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Esto simplemente crea un @Phrase que es el valor del flujo como texto. Si lo copias en el editor y haces clic, verás que alterna entre \\⊥\\ y \\⊤\\."
             ],
-            "names": ["🖱️", "Button"],
+            "names": ["🖱️", "Botón"],
             "down": {
                 "names": "abajo",
                 "doc": "Si es @None, el flujo proporcionará tanto valores hacia arriba como hacia abajo. Si es @Boolean, solo proporcionará el valor dado por el valor @Boolean."
@@ -2941,6 +3029,28 @@
                 "doc": "El tiempo entre muestras de @Color."
             }
         },
+        "Scene": {
+            "doc": [
+                "$~/boop boop boop/",
+                "$~/¡Hola, @FunctionDefinition aquí! Veo que encontraste @Scene.",
+                "$~Creo que @Scene es particularmente interesante. La idea básica es que le proporciones una lista de @Phrase o @Group y luego los mostrará en secuencia y se detendrá en el último.",
+                "$~Para controlar el tiempo, puede configurar @Phrase/duration en cada salida, y la mostrará durante ese tiempo antes de pasar a la siguiente, y usar cualquier transición @Phrase/entering o @Phrase/exiting que haya configurado. . Si los configura en @Sequence, usará su duración.",
+                "$~Todo eso te permite hacer cosas como esta pequeña @Scene, que muestra estas tres frases en secuencia:",
+                "$~\\Escena([\n\tFrase (duración de 'Hola': 1 s)\n\tFrase('¿Cómo estás?' duración: 2s rotación: 5° entrando: Pose(rotación: 0°))\n\tFrase('Estoy bien')\n])\\",
+                "$~¿Ves cómo la primera salida se muestra durante un segundo, luego la siguiente durante dos segundos, pero animada con una rotación de cinco grados, y luego muestra la última?",
+                "$~Puedes crear secuencias muy elaboradas de resultados y animaciones con @Scene, e incluso hacer que partes de ellas sean dinámicas o interactivas, como con cualquier otro @Phrase o @Group.",
+                "$~Si tiene una salida animada anidada (un @Group con una @Phrase animada dentro), @Scene esperará a que finalice todo el contenido animado del @Group.",
+                "$~¡Ah, y un último pequeño secreto! Incluso puedes poner @Boolean en la lista, y si son \\⊥\\, @Scene se detendrá y esperará a que se haga realidad.",
+                "$~Por ejemplo, si quisieras hacer una secuencia de @Phrase y solo avanzar cuando @Button cambie, podrías hacer esto:",
+                "$~\\hacer clic: Botón ∆()\nEscena([\n\tFrase('Hola')\n\thacer clic\n\tFrase('¿Cómo estás?' duración: 0.25s rotación: 5° entrando: Pose(rotación: 0°))\n\thacer clic\n\tFrase('Estoy bien')\n])\\",
+                "$~¿Ves cómo se detiene después de cada @Phrase y espera a que @Button cambie antes de avanzar?"
+            ],
+            "names": ["$~🎬", "$~Escena"],
+            "outputs": {
+                "names": "$~salidas",
+                "doc": "$~La lista de salidas que se mostrarán en secuencia."
+            }
+        },
         "Motion": {
             "doc": [
                 "/boing boing boing/",
@@ -2977,7 +3087,7 @@
                 "\\Chat().tiene('hola') ? '¡hola!' '¿eh?'\\",
                 "¡Eso es todo! Puedes realizar todo tipo de actuaciones con esto, como chatbots, aventuras de texto o esquemas de control basados en texto para otros tipos de actuaciones."
             ],
-            "names": ["🗣️", "Chat"]
+            "names": ["🗣️", "Charlar"]
         },
         "Placement": {
             "doc": [
@@ -3046,7 +3156,7 @@
             }
         },
         "Collision": {
-            "names": "colisión",
+            "names": "Colisión",
             "doc": [
                 "/¡Hola! Soy @FunctionDefinition. Echa un vistazo a esta entrada genial./",
                 "¡Puede ayudarte a descubrir cuándo se encuentran @Output! Esta es una excelente manera de hacer algo cuando nos encontramos, además de simplemente rebotar entre sí como podría hacer @Output.",
@@ -3095,7 +3205,7 @@
     },
     "output": {
         "Output": {
-            "names": "Output",
+            "names": "Salida",
             "doc": [
                 "No soy una @StructureDefinition que puedas crear realmente. Pero soy uno muy importante, ya que inspiro los elementos más importantes de nuestra danza: @Phrase, @Group y @Stage.",
                 "Ve a conocerlos para aprender más sobre cómo usarlos."
@@ -3133,11 +3243,17 @@
             },
             "place": {
                 "doc": "El lugar que debo de estar. El contenido dentro de mí se organizará en relación con allí.",
-                "names": "place"
+                "names": "lugar"
             },
             "name": {
                 "doc": ["Lo mismo que @Phrase/name"],
                 "names": "nombre"
+            },
+            "description": {
+                "doc": [
+                    "$~Una descripción para utilizar por parte de los miembros de la audiencia que no pueden ver la salida visual."
+                ],
+                "names": "$~descripción"
             },
             "selectable": {
                 "doc": "Lo mismo que @Phrase/selectable",
@@ -3157,7 +3273,7 @@
             },
             "offset": {
                 "doc": "Un @Place que indica qué tan alejado debe estar de mi @Place normal, a menos que lo anule un @Pose diferente. Útil para moverse en su lugar.",
-                "names": "compensar"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "Qué tan inclinado debería estar alrededor de mi centro, mi @Pose tiene uno diferente.",
@@ -3181,7 +3297,7 @@
             },
             "resting": {
                 "doc": "¡Igual que @Group/resting!",
-                "names": "descansando"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "¡Igual que @Group/moving!",
@@ -3199,7 +3315,7 @@
                 "doc": "¡Igual queE @Phrase/style!",
                 "names": "estilo"
             },
-            "description": "$1[$1|] $2 $3"
+            "defaultDescription": "$1[$1|] $2 $3"
         },
         "Phrase": {
             "names": ["💬", "Frase"],
@@ -3210,7 +3326,7 @@
                 "Necesito @Text obviamente, pero de otro modo, yo puedo aser todo que un @Output puedo hacer, incluyendo cambiando mi tamaño, fuente, rotacion, y todo los bailes con @Pose y @Sequence.",
                 "Tambien puedes seleccionarme en el @Stage y editarme con la paleta cerca de la puerta."
             ],
-            "description": "$3[$3 metro |]frase $1 $2[llamdo $2|] $4[$4|] $5",
+            "defaultDescription": "$3[$3 metro |]frase $1 $2[llamdo $2|] $4[$4|] $5",
             "text": {
                 "doc": "Los personajes a mostrar en el @Stage",
                 "names": "texto"
@@ -3236,12 +3352,16 @@
                 "names": "alineación"
             },
             "direction": {
-                "doc": "$?",
+                "doc": "Si los símbolos se escriben horizontal o verticalmente, y si se establece vertical y @Phrase/wrap, si el texto se ajusta hacia la izquierda o hacia la derecha.",
                 "names": "dirección"
             },
             "matter": {
                 "doc": "¡Las propiedades a usar si choco con cosas!",
                 "names": "materia"
+            },
+            "aura": {
+                "doc": "$~El @Aura opcional para mostrar detrás de mí. ¡Hazme brillar!",
+                "names": "$~aura"
             },
             "name": {
                 "doc": [
@@ -3252,6 +3372,12 @@
                     "Puedes darme mucho nombres diferentes, cada uno en una idioma diferente, si es útil. Yo siempre usara el nombre en la idioma seleccionada primero."
                 ],
                 "names": "nombre"
+            },
+            "description": {
+                "doc": [
+                    "$~Una descripción personalizada para usar por parte de los miembros de la audiencia que no pueden ver la salida visual."
+                ],
+                "names": "$~descripción"
             },
             "selectable": {
                 "doc": "Si \\T\\, indica que yo puedo hacer seleccionabo usando un puntero o tecla",
@@ -3271,7 +3397,7 @@
             },
             "offset": {
                 "doc": "Un @Place indicando qué tan compensado debe estar de mi @Place, a menos que fuera anulado por una @Pose diferente.",
-                "names": "compensar"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "La cantidad en grados que debo rotar alrededor del centro, a menos que fuera anulado por una @Pose diferente.",
@@ -3295,7 +3421,7 @@
             },
             "resting": {
                 "doc": "La @Pose o @Sequence que debo de hacer después que entro en el escenario, antes que salgo, y cuando mi @Place no esta cambiando. Si no me quieres dar uno, usaré el predeterminado.",
-                "names": "descansando"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "La @Pose o @Sequence que debo de hacer cuando cambio de lugar en el escenario en lugar de mi defecto.",
@@ -3388,6 +3514,12 @@
                 "doc": "Soy el nombre que puedes usar, para animaciones y @Collision . Por ejemplo, si represento el suelo, es posible que desees llamarme 'suelo'.",
                 "names": "nombre"
             },
+            "description": {
+                "doc": [
+                    "$~Una descripción para utilizar por parte de los miembros de la audiencia que no pueden ver la salida visual."
+                ],
+                "names": "$~descripción"
+            },
             "selectable": {
                 "doc": "Si puedo ser seleccionado como parte de @Choice.",
                 "names": "seleccionable"
@@ -3430,7 +3562,7 @@
             },
             "resting": {
                 "doc": "La @Pose o @Sequence  que debería hacer después de entrar y mientras no me estoy moviendo.",
-                "names": "reposo"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "La @Pose o @Sequence  que debería hacer al moverme de lugar.",
@@ -3448,6 +3580,10 @@
                 "doc": "El estilo de animación que debería usar.",
                 "names": "estilo"
             }
+        },
+        "Form": {
+            "doc": "$~Soy una forma abstracta, como @Rectangle o @Circle.",
+            "names": ["$~Forma"]
         },
         "Rectangle": {
             "names": "Rectángulo",
@@ -3473,16 +3609,56 @@
                 "names": "z"
             }
         },
+        "Circle": {
+            "doc": "$~Soy un círculo, útil para hacer formas en @Stage.",
+            "names": ["$~Círculo"],
+            "radius": {
+                "doc": "$~El radio del circulo",
+                "names": "$~radio"
+            },
+            "x": {
+                "doc": "$~El centro horizontal del círculo.",
+                "names": "$~X"
+            },
+            "y": {
+                "doc": "$~El centro vertical del círculo.",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~La posición de profundidad del círculo.",
+                "names": "$~z"
+            }
+        },
+        "Polygon": {
+            "doc": "$~Soy un polígono 'regular' con lados y ángulos de igual longitud, útil para crear formas en @Stage.",
+            "names": ["$~Polígono"],
+            "radius": {
+                "doc": "$~El radio del polígono.",
+                "names": "$~radio"
+            },
+            "sides": {
+                "doc": "$~El número de lados del polígono.",
+                "names": "$~lados"
+            },
+            "x": {
+                "doc": "$~El centro horizontal del polígono.",
+                "names": "$~X"
+            },
+            "y": {
+                "doc": "$~El centro vertical del polígono.",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~La posición de profundidad del polígono.",
+                "names": "$~z"
+            }
+        },
         "Pose": {
             "names": ["🤪", "Pose"],
             "doc": [
                 "Sabes cuando alguien adopta la forma más maravilloso de pararse, hace una pausa y todos miran? Ese soy yo. Capturo una pose para @Output y soy el componente básico de sus movimientos.",
                 "Muchas cosas entran en una pose. ¡Mira mis muchas aportaciones para ver qué tipo de poses puedes hacer!"
             ],
-            "duration": {
-                "doc": "Cuánto tiempo debería tomar esta pose para entrar desde una pose anterior.",
-                "names": "duración"
-            },
             "style": {
                 "doc": "El estilo de animación que se utilizará al pasar a esta pose.",
                 "names": "estilo"
@@ -3497,7 +3673,7 @@
             },
             "offset": {
                 "doc": "Un @Place que indica qué tan alejado debe estar del lugar de un @Output, en lugar de su valor predeterminado. Útil para moverse en su lugar.",
-                "names": "offset"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "Qué tan girado debe estar un @Output, en lugar de su valor predeterminado.",
@@ -3572,7 +3748,7 @@
             },
             "count": {
                 "doc": "Cuántas veces debe repetirse la secuencia antes de que termine. Esto es realmente útil cuando entro en escena, me muevo en escena o salgo del escenario, pero cuando es una secuencia de descanso, se ignora, ¡ya que puedo descansar para siempre!",
-                "names": "conteo"
+                "names": "cuenta"
             }
         },
         "Place": {
@@ -3639,6 +3815,29 @@
                 "names": "formas"
             }
         },
+        "Aura": {
+            "doc": [
+                "$~Soy un AURA. ¡Hago que @Phrase BRILLAR! Como esto:",
+                "$~\\Frase(\n\t'¡Estoy BRILLANDO!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+            ],
+            "names": ["$~🔮", "$~Aura"],
+            "color": {
+                "doc": "$~El @Color que debería ser el @Aura.",
+                "names": "$~color"
+            },
+            "blur": {
+                "doc": "$~Qué borrosa debería estar la @Aura. \\0m\\ significa que no está nada borroso.",
+                "names": "$~difuminar"
+            },
+            "offsetX": {
+                "doc": "$~Qué tan lejos a la izquierda o a la derecha debería aparecer. \\0m\\ está directamente debajo.",
+                "names": "$~compensaciónX"
+            },
+            "offsetY": {
+                "doc": "How far down the @Aura should go",
+                "names": "$~compensaciónY"
+            }
+        },
         "Stage": {
             "doc": [
                 "HI. ESCENARIO AQUÍ. DIME QUÉ MOSTRAR Y LO MOSTRARÉ.",
@@ -3672,6 +3871,12 @@
             "name": {
                 "doc": ["IGUAL QUE @Phrase/name!"],
                 "names": "nombre"
+            },
+            "description": {
+                "doc": [
+                    "$~Una descripción para utilizar por parte de los miembros de la audiencia que no pueden ver la salida visual."
+                ],
+                "names": "$~descripción"
             },
             "selectable": {
                 "doc": "IGUAL QUE @Phrase/selectable!",
@@ -3715,7 +3920,7 @@
             },
             "resting": {
                 "doc": "IGUAL QUE @Group/resting!",
-                "names": "reposo"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "IGUAL QUE @Group/moving!",
@@ -3737,7 +3942,7 @@
                 "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
                 "names": "gravedad"
             },
-            "description": "escenario $1[$1|] de $2[$2|] frases $3[$3 marco|] $4"
+            "defaultDescription": "escenario $1[$1|] de $2[$2|] frases $3[$3 marco|] $4"
         },
         "Easing": {
             "straight": "recto",
@@ -3763,20 +3968,57 @@
                 }
             },
             "spin": {
-                "doc": "Creo una @Sequence  que rota un @Output alrededor de su centro.",
+                "doc": "Creo una @Sequence que rota un @Output alrededor de su centro.",
                 "names": ["girar"]
             },
             "fadein": {
-                "doc": "Creo una @Sequence  que hace que un @Output aparezca gradualmente de invisible a visible.",
+                "doc": "Creo una @Sequence que hace que un @Output aparezca gradualmente de invisible a visible.",
                 "names": ["aparecer"]
             },
+            "fadeout": {
+                "doc": "$~Creo una @Sequence que desvanece @Output de visible a invisible. ¡Pruébame en una @Sequence emocionante!",
+                "names": ["$~desvanecimiento"]
+            },
             "popup": {
-                "doc": "Creo una @Sequence  que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
+                "doc": "Creo una @Sequence que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
                 "names": ["aparecer"]
             },
             "shake": {
-                "doc": "Creo una @Sequence  que hace que parezca que un @Output está asustado.",
+                "doc": "Creo una @Sequence que hace que parezca que un @Output está asustado.",
                 "names": ["temblor"]
+            }
+        },
+        "Source": {
+            "names": "$~Fuente",
+            "doc": [
+                "$~¿Sabes que los proyectos pueden tener más de un archivo @Source? Te dejo crear un @Source basado en la lógica de tu proyecto. Esto es realmente útil si desea guardar algunos datos entre diferentes evaluaciones de su proyecto.",
+                "$~Por ejemplo, imagina que quieres hacer un contador simple que cuente de uno en uno cada vez que presionas un botón del mouse. Puedes usar esto para recordar cuántas veces hiciste algo.",
+                "$~\\↓ contar\n[\n\tFrase(`\\count\\ veces!`)\n\tFuente('cuenta' cuenta... ∆ Botón()... cuenta + 1)\n]\\",
+                "$~Intente copiarlo, cree un nuevo @Source llamado /count/ y escriba 0 en él para comenzar el conteo en 0. Este pequeño proyecto obtendrá el valor en el /count/ source y cada vez que se presione el botón del mouse, editará el /count/ @Source debe ser el valor actual de /count/ más /1/."
+            ],
+            "name": {
+                "names": "$~nombre",
+                "doc": "$~El nombre del archivo fuente que se creará o actualizará."
+            },
+            "value": {
+                "names": "$~valor",
+                "doc": "$~El valor de datos con el que se debe crear o actualizar el archivo de origen."
+            },
+            "DynamicEditLimitException": {
+                "description": "$~límite de edición de fuente dinámica",
+                "explanation": "$~Este proyecto guardó datos en archivos @Source demasiadas veces y demasiado rápido. Asegúrese de que solo actualice @Source en respuesta a una entrada y no demasiado rápido."
+            },
+            "ReadOnlyEditException": {
+                "description": "$~edición de fuente de solo lectura",
+                "explanation": "$~Este proyecto recuerda datos, pero no tienes derechos para editarlos. Cópialo si quieres probarlo."
+            },
+            "EmptySourceNameException": {
+                "description": "$~nombre de fuente vacío",
+                "explanation": "$~El @Source proporcionado tenía un nombre vacío, por lo que no pudimos guardarlo."
+            },
+            "ProjectSizeLimitException": {
+                "description": "$~límite de tamaño del proyecto",
+                "explanation": "$~Este proyecto tiene demasiado texto, por lo que no podemos guardarlo."
             }
         }
     },
@@ -3798,7 +4040,15 @@
             "loading": {
                 "message": "Cargando fuentes y texto, ¡gracias por esperar! "
             },
-            "home": "ir a la página de inicio"
+            "home": "ir a la página de inicio",
+            "table": {
+                "cell": {
+                    "description": "$~editar esta celda",
+                    "placeholder": "$~valor"
+                },
+                "addcolumn": "$~Añade una columna antes de esta columna.",
+                "removecolumn": "$~eliminar esta columna"
+            }
         },
         "tile": {
             "toggle": {
@@ -3815,7 +4065,8 @@
                 "output": "escenario",
                 "palette": "paleta",
                 "docs": "guía",
-                "source": "$source"
+                "source": "$source",
+                "collaborate": "$~colaborar"
             },
             "button": {
                 "collapse": "colapsar esta ventana"
@@ -3823,12 +4074,17 @@
         },
         "project": {
             "error": {
-                "unknown": "Esta actuación no existe o no es pública."
+                "unknown": "Esta actuación no existe o no es pública.",
+                "translate": "$~Hubo un problema al traducir tu proyecto.",
+                "tile": "$~Ups, hubo un error.",
+                "reset": "$~Intentar reiniciar..."
             },
             "button": {
-                "showCollaborators": "mostrar a los colaboradores el diálogo",
                 "removeCollaborator": "quitar colaboradora",
-                "copy": "copiar proyecto como texto",
+                "copy": {
+                    "tip": "$~Copiar el proyecto al portapapeles como texto",
+                    "label": "$~copiar como texto"
+                },
                 "addSource": "crear una nueva $source",
                 "duplicate": "copia este proyecto",
                 "revert": "volver al código original ",
@@ -3837,7 +4093,20 @@
                 "focusDocs": "enfoque en la documentación",
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja ",
-                "unsaved": "$?"
+                "unsaved": "mostrar error de guardado",
+                "translate": {
+                    "tip": "$~Editar los idiomas de este proyecto y traducirlo a otros idiomas.",
+                    "label": "$~traducir"
+                },
+                "primary": "$~establecido como la ubicación principal de este proyecto",
+                "share": {
+                    "tip": "$~Mostrar opciones para compartir proyectos",
+                    "label": "$~compartir"
+                },
+                "history": {
+                    "on": "$~mostrar código de proyecto reciente",
+                    "off": "$~mostrar el código del proyecto actual"
+                }
             },
             "field": {
                 "name": {
@@ -3846,20 +4115,34 @@
                 }
             },
             "help": "mostrar atajos de teclado",
+            "collapsed": "$~¡Todas tus ventanas están colapsadas! Puedes encontrarlos en la barra de herramientas a continuación.",
             "save": {
-                "projectsNotSavedLocally": "$?",
-                "projectsCannotNotSaveLocally": "$?",
-                "projectContainedPII": "$?",
-                "projectsNotLoadingOnline": "$?",
-                "projectNotSavedOnline": "$?",
-                "settingsUnsaved": "$?"
+                "projectsNotSavedLocally": "Hubo un problema al guardar proyectos en tu navegador.",
+                "projectsCannotNotSaveLocally": "Tu navegador no admite guardar proyectos.",
+                "projectContainedPII": "Para proteger tu privacidad, un proyecto con información potencialmente identificable personalmente no se guardó en línea. Verifica el proyecto para ver si la información es identificativa.",
+                "projectsNotLoadingOnline": "No se pueden cargar proyectos en línea.",
+                "projectNotSavedOnline": "No se pueden guardar proyectos en línea.",
+                "settingsUnsaved": "No se pueden guardar las configuraciones en línea."
             },
             "dialog": {
-                "unsaved": "$?"
+                "unsaved": "Trabajo no salvado...",
+                "translate": {
+                    "header": "$~Idiomas",
+                    "explanation": [
+                        "$~Estos son los idiomas que utiliza su proyecto.",
+                        "$~Para intentar traducir su proyecto a otros idiomas, elija un idioma de origen principal y luego elija un nuevo idioma.",
+                        "$~/No todos los idiomas son compatibles y las traducciones serán imperfectas, ¡así que revise los resultados!/"
+                    ]
+                }
+            },
+            "subheader": {
+                "source": "$~Fuente",
+                "destination": "$~Destino"
             }
         },
         "gallery": {
             "untitled": "Intitulada",
+            "undescribed": "$~Sin descripción",
             "subheader": {
                 "curators": {
                     "header": "Curadoras",
@@ -3872,6 +4155,10 @@
                 "delete": {
                     "header": "Borrar",
                     "explanation": "Borrar esta galería no borrará sus proyectos. La galería se borrará para siempre."
+                },
+                "classes": {
+                    "header": "$~Clases",
+                    "explanation": "$~Clases asociadas a esta galería."
                 }
             },
             "confirm": {
@@ -3920,11 +4207,7 @@
                     "on": "esconder los fondos de los bloques",
                     "off": "mostrar los fondos de los bloques"
                 },
-                "localized": {
-                    "on": "mostrar texto localizado",
-                    "off": "mostrar todo el texto"
-                },
-                "glyphs": {
+                "characters": {
                     "on": "colapsar los glifos coincidentes",
                     "off": "expandir los glifos coincidentes"
                 }
@@ -3951,6 +4234,8 @@
                 "nextInline": "mover el cursor a la posición después",
                 "lineStart": "mover el cursor al inicio de la línea",
                 "lineEnd": "mover el cursor al final de la línea",
+                "sourceStart": "$~mover el cursor al inicio de la fuente",
+                "sourceEnd": "$~mover el cursor al final de la fuente",
                 "priorNode": "seleccionar vecina antes",
                 "nextNode": "seleccionar vecina después",
                 "parent": "seleccionar contenedor",
@@ -3990,17 +4275,34 @@
                 "undo": "deshacer edición anterior",
                 "redo": "rehacer edición deshecha",
                 "search": "buscar caracteres especiales para insertar",
-                "tidy": "espaciado ordenado"
+                "tidy": "espaciado ordenado",
+                "elide": "$~alternar elisión",
+                "insertDocs": "$~Insertar símbolo de explicación",
+                "expandBeforeInline": "$~ampliar la selección antes",
+                "expandAfterInline": "$~ampliar la selección después",
+                "expandPriorLine": "$~ampliar la selección a la línea anterior",
+                "expandNextLine": "$~ampliar la selección a la siguiente línea"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$~idioma preferido para la fuente",
+                    "all": "$~todo"
+                }
+            },
+            "error": {
+                "invalidName": "$~Este debe ser un nombre de Wordplay válido.",
+                "invalidWords": "$~Las palabras no pueden estar vacías ni contener símbolos reservados."
             }
         },
         "annotations": {
-            "label": "$! conflictos",
-            "cursor": "$?",
-            "learn": "$?",
-            "evaluating": "$?",
-            "space": "$?",
+            "label": "conflictos y ayuda",
+            "cursor": "Esto es *$1*$2[ y son de tipo $2|].",
+            "cursorParent": "$~Están dentro de un *$1*$2[ de tipo $2|].",
+            "learn": "¿Quieres aprender más?",
+            "evaluating": "¡Oh, qué divertido, evaluemos!",
+            "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",
             "button": {
-                "resolution": "$?"
+                "resolution": "Resolver este conflicto"
             }
         },
         "output": {
@@ -4027,6 +4329,9 @@
             },
             "button": {
                 "submit": "enviar este mensaje de chat"
+            },
+            "options": {
+                "locale": "$~elegir el idioma de salida"
             }
         },
         "timeline": {
@@ -4065,6 +4370,24 @@
                 "properties": "Propiedades",
                 "functions": "Funciones",
                 "conversions": "Conversiones"
+            },
+            "modes": {
+                "label": "$~navegar",
+                "modes": ["$~Cómo", "$~conceptos"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~crear y controlar personajes",
+                    "styling": "$~Estilo de caracteres y texto",
+                    "animation": "$~animar personajes y texto",
+                    "layout": "$~organizar caracteres y texto",
+                    "randomization": "$~utilizar al azar",
+                    "remembering": "$~Seguimiento de cambios y elecciones",
+                    "stories": "$~contar una historia",
+                    "motion": "$~utilizar la física",
+                    "video": "$~usa una cámara"
+                },
+                "related": "$~¿No es lo que estás buscando?"
             }
         },
         "dialog": {
@@ -4072,10 +4395,6 @@
                 "header": "Compartir",
                 "explanation": "Controla quién puede editar y ver este proyecto.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "Colaboradores",
-                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Sólo los propietarios del proyecto pueden modificar a los colaboradores."
-                    },
                     "gallery": {
                         "header": "Galería",
                         "explanation": "Agrega este proyecto a una galería junto con otros creadores, o crea una galería en tu página de <projects@://projects>. Si añades un proyecto a una galería pública, tu proyecto se volverá público."
@@ -4083,6 +4402,14 @@
                     "public": {
                         "header": "Público/Privado",
                         "explanation": "Proyectos y galerías públicas pueden ser vistos por cualquier persona en el mundo. Nuestra meta es que este contenido traiga afirmación y alegría, y compartir públicamente es una manera de lograrlo. Pero también implica seguir algunas reglas. Prometes que tu proyecto no:"
+                    },
+                    "pii": {
+                        "header": "$~Informacion personal",
+                        "explanation": "$~Compartir información de identificación personal (PII) públicamente puede poner en riesgo a los creadores, por lo que detectamos posibles PII y advertimos a los creadores que eliminen los datos confidenciales o los marquen como no confidenciales.\n\nA continuación se muestra una lista de posibles PII en este proyecto que ha marcado como no confidencial. Puedes hacer clic en el botón al lado para volver a marcarlo como confidencial, pero hacerlo significa que tu proyecto ya no se guardará en línea."
+                    },
+                    "copy": {
+                        "header": "$~Copiar y pegar",
+                        "explanation": "$~Copia este proyecto a tu portapapeles como texto y compártelo en otro lugar."
                     }
                 },
                 "field": {
@@ -4099,13 +4426,18 @@
                 },
                 "error": {
                     "unknown": "No conocemos a una creadora con este correo electrónico.",
-                    "anonymous": "Debes iniciar sesión para compartir."
+                    "anonymous": "Debes iniciar sesión para compartir.",
+                    "self": "$~No puedes agregarte a ti mismo."
                 },
                 "button": {
-                    "submit": "Compartir el proyecto con esta dirección de correo electrónico"
+                    "submit": "Compartir el proyecto con esta dirección de correo electrónico",
+                    "sensitive": {
+                        "tip": "$~Marcar este texto como sensible nuevamente",
+                        "label": "$~sensible"
+                    }
                 },
                 "options": {
-                    "gallery": "$?"
+                    "gallery": "celector de la galería"
                 }
             },
             "settings": {
@@ -4142,6 +4474,10 @@
                             "usar configuración del dispositivo"
                         ]
                     },
+                    "space": {
+                        "label": "indicador de espacio",
+                        "modes": ["abierto", "cerrado"]
+                    },
                     "writing": {
                         "label": "diseño de escritura",
                         "modes": [
@@ -4149,11 +4485,19 @@
                             "vertical, de derecha a izquierda",
                             "vertical, de izquierda a derecha"
                         ]
+                    },
+                    "lines": {
+                        "label": "$~Línea de números",
+                        "modes": [
+                            "$~mostrar números de línea en modo texto",
+                            "$~no mostrar números de línea en modo texto"
+                        ]
                     }
                 },
                 "options": {
-                    "mic": "$?",
-                    "camera": "$?"
+                    "mic": "micrófono seleccionado",
+                    "camera": "cámara seleccionada ",
+                    "face": "$~tipo de fuente"
                 }
             },
             "locale": {
@@ -4162,7 +4506,6 @@
                 "subheader": {
                     "selected": "Seleccionado",
                     "supported": "Disponible",
-                    "coming": "Muy pronto",
                     "help": "Ayúdanos a traducir …"
                 },
                 "button": {
@@ -4181,6 +4524,58 @@
                     "insertCode": "Insertar",
                     "debug": "Depurar"
                 }
+            },
+            "feedback": {
+                "header": "$~Comentario",
+                "explanation": "$~¡Ayúdanos a mejorar Wordplay informando 🪲 *problemas* y compartiendo 💡 *ideas*!",
+                "button": {
+                    "show": "$~Mostrar el formulario de comentarios.",
+                    "submit": {
+                        "tip": "$~Envíanos tus comentarios.",
+                        "label": "$~entregar"
+                    },
+                    "delete": {
+                        "description": "$~Eliminar tus comentarios",
+                        "prompt": "$~borrar"
+                    },
+                    "like": "$~Me gusta este comentario",
+                    "close": {
+                        "label": "$~cerca",
+                        "tip": "$~Cerrar este comentario como moderador"
+                    }
+                },
+                "mode": {
+                    "label": "$~comentario",
+                    "modes": ["$~defectos", "$~ideas"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Título de su comentario",
+                        "placeholder": "$~título"
+                    },
+                    "defect": {
+                        "description": "$~descripción de su defecto",
+                        "placeholder": "$~¿Qué pasos diste? ¿Qué pasó después? Sé lo más preciso posible."
+                    },
+                    "idea": {
+                        "description": "$~descripción de su defecto",
+                        "placeholder": "$~¿Qué estás intentando hacer que no puedes hacer?"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~defecto",
+                    "idea": "$~idea"
+                },
+                "prompt": {
+                    "defect": "$~¿No viste el problema que tienes? Repórtalo aquí.",
+                    "idea": "$~¿No viste la idea que tienes en mente? Sugiérela."
+                },
+                "error": {
+                    "login": "$~Debe iniciar sesión para enviar comentarios.",
+                    "submit": "$~No es posible enviar comentarios.",
+                    "load": "$~No se pueden cargar los comentarios",
+                    "empty": "$~No hay comentarios para mostrar."
+                }
             }
         },
         "palette": {
@@ -4192,14 +4587,14 @@
                 "inherited": "heredado",
                 "notSequence": "no es una secuencia",
                 "notContent": "no es una lista de contenido",
-                "format": "$?",
-                "weight": "$?",
-                "light": "$?",
-                "normal": "$?",
-                "bold": "$?",
-                "extra": "$?",
-                "italic": "$?",
-                "underline": "$?"
+                "format": "formato",
+                "weight": "peso",
+                "light": "ligera",
+                "normal": "normal",
+                "bold": "negrita",
+                "extra": "extra",
+                "italic": "itálica",
+                "underline": "subrayar"
             },
             "button": {
                 "revert": "volver a por defecto",
@@ -4222,8 +4617,8 @@
                 "offerPhrase": "¡Qué valor tan hermoso has creado! ¿Debería mostrarlo en @Stage?",
                 "offerGroup": "¡Qué maravillosa @Phrase has creado! ¿Quieres juntarlas en un @Group para organizarlas?",
                 "offerStage": "MUY BIEN @Program. AGRÉGAME PARA CONTROLAR ILUMINACIÓN. COLORES. CUADROS.",
-                "pauseToEdit": "Si ⏸️ el escenario, puedes seleccionar una 💬, 🔳 o 🎭 para editar.",
-                "editing": "¡Edítame!"
+                "editing": "¡Edítame!",
+                "select": "$~Para editar, seleccione 💬, 🔳 o 🎭 en el código, o ⏸️ en el escenario y seleccione salida."
             },
             "field": {
                 "coordinate": "editar coordenada",
@@ -4239,6 +4634,12 @@
                 "field": {
                     "percent": "editar porcentaje"
                 }
+            },
+            "error": {
+                "nan": "$~Esto no es un número.",
+                "percent": "$~Debe ser un porcentaje entre 0 y 100.",
+                "lessThanNext": "$~Esto debe ser menor que la siguiente entrada.",
+                "moreThanPrevious": "$~Esto debe ser más que la entrada anterior."
             }
         },
         "save": {
@@ -4253,21 +4654,38 @@
                 "message": "¿Dónde estamos? ¿Podemos ir a casa?"
             },
             "landing": {
-                "call": [
-                    "¡Hola! ¿Quieres dar vida a las palabras con nosotras? 😊"
+                "value": "¡Crea historias interactivas con palabras, símbolos, emojis y codifica con nosotros!",
+                "description": [
+                    "Wordplay es un lenguaje de programación que te permite:",
+                    "• Anima palabras y emojis de forma divertida 🤪︎",
+                    "• Utilice el tiempo 🕦︎, el sonido 🎤︎, los sitios web 🔗︎ y la física 🌎︎",
+                    "• Comparte 🤝︎ con amigos, grupos o cualquier persona",
+                    "• Código en cualquier idioma del mundo 🌐︎",
+                    "• Edite con mouse 🖱︎️, toque 👆︎ y teclados ⌨︎️",
+                    "• Depurar hacia adelante ⏩︎ y hacia atrás ⏪︎",
+                    "• Ver con pantallas 🖥︎️ y lectores de pantalla 🔊",
+                    "• Gratis para siempre de la Universidad de Washington↗."
                 ],
-                "value": "$! Aprenda a codificar animando palabras, emojis y símbolos de los idiomas del mundo, sean cuales sean sus habilidades.",
-                "description": "$! Wordplay es un lenguaje de programación innovador 🖥︎️ con edición de bloques y texto 📝︎, entradas divertidas como tiempo 🕦︎, sonido 🎤︎, páginas web 🔗︎ y física 🌎︎, depuración instantánea de viajes en el tiempo ⏪︎ y documentación completa 🗂︎️. Todo en una lista cada vez mayor de idiomas del mundo 🌐︎, siguiendo los últimos estándares de accesibilidad web ♿︎️. Comparte con amigos, grupos privados o el mundo ↗︎️. Gratis para siempre de la <University of Washington Information School@https://ischool.uw.edu>.",
                 "beta": [
-                    "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
-                    "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
+                    "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera."
                 ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
-                    "learn": "$! ¿Qué es este lugar?",
+                    "learn": "Un tutorial dramático de elenco de personajes ",
+                    "guide": "$~Buscar y explorar la referencia del idioma.",
                     "projects": "Crea y comparte actuaciones",
                     "galleries": "Experimenta actuaciones de otros",
-                    "rights": "Responsabilidades, las nuestras y las tuyas"
+                    "rights": "Responsabilidades, las nuestras y las tuyas",
+                    "community": {
+                        "label": "Comunidad",
+                        "subtitle": "Chatea con nosotras en Discord."
+                    },
+                    "contribute": {
+                        "label": "Contribuir",
+                        "subtitle": "Ayúdanos a hacer Wordplay."
+                    },
+                    "teach": "$~Gestionar clases de estudiantes y sus proyectos",
+                    "characters": "$~Crea emojis y símbolos personalizados"
                 }
             },
             "learn": {
@@ -4278,19 +4696,27 @@
                     "previous": "anterior pausa en el diálogo"
                 },
                 "options": {
-                    "lesson": "$?"
+                    "lesson": "lección presente"
                 }
+            },
+            "guide": {
+                "header": "$~Guía",
+                "description": "$~Esta es una referencia para cada parte del lenguaje de programación Wordplay. Busque un concepto o explore la lista para obtener más información."
             },
             "projects": {
                 "header": "Proyectos",
                 "projectprompt": "¿Listo para decir algo? Crea un proyecto o trabaja en uno. Si te quedas atascado, sigue <learning@://learn>.",
-                "archiveheader": "Archivados",
                 "archiveprompt": "Estos son proyectos que has archivado. Solo los propietarios pueden eliminarlos permanentemente o desarchivarlos. Los proyectos archivados se eliminarán permanentemente 30 días después de su última edición.",
                 "galleriesheader": "Galerías",
                 "galleryprompt": "Crea y cura galerías para compartir una colección de proyectos con otros.",
+                "add": {
+                    "header": "$~Nuevo proyecto",
+                    "explanation": "$~Elija una plantilla para crear un nuevo proyecto."
+                },
                 "button": {
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",
+                    "viewcode": "$~ver el código de este proyecto",
                     "newgallery": "nueva galería",
                     "unarchive": "desarchivar este proyecto"
                 },
@@ -4310,12 +4736,22 @@
                     "newgallery": "No pudimos crear una nueva galería.",
                     "nodeletes": "Debes iniciar sesión para eliminar proyectos archivados.",
                     "delete": "Oops, no pudimos eliminar el proyecto."
+                },
+                "subheader": {
+                    "shared": "$~Compartido",
+                    "archived": "$~Archivado"
                 }
             },
             "galleries": {
                 "header": "Galerías",
                 "prompt": "Estas son actuaciones que otros han creado. Exprímentalas, estúdialas o adáptalas para hacer tu propia declaración.",
-                "examples": "Ejemplos"
+                "examples": "Ejemplos",
+                "button": {
+                    "more": {
+                        "label": "$~más...",
+                        "tip": "$~Cargar más galerías"
+                    }
+                }
             },
             "about": {
                 "header": "Acerca de",
@@ -4332,26 +4768,26 @@
             },
             "login": {
                 "header": "Iniciar sesión",
-                "subtitle": "$! Cree una cuenta o inicie sesión para guardar su trabajo en línea",
                 "anonymous": "iniciar sesión",
                 "prompt": {
-                    "login": "$! Tus actuaciones se están guardando en este dispositivo, pero no en línea. ¡Si este es tu dispositivo, está bien! Si no lo es, otros pueden ver o eliminar tus proyectos. Para guardarlos en línea y mantenerlos privados, inicia sesión.",
-                    "forgot": "$?",
-                    "email": "$?",
+                    "forgot": "*¿Olvidaste tu contraseña?* Desafortunadamente, no podemos recuperar tu cuenta ya que no recopilamos información de contacto.",
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
                     "tooyoung": "Debes tener 13 años o más para iniciar sesión con un correo electrónico.",
-                    "passwordrule": "Las contraseñas deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
+                    "passwordrule": "Las contraseñas deben tener al menos 6 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
-                    "sent": "$! Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
+                    "email": "¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
+                    "sent": "Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
                     "delete": "¿Quieres que olvidemos todo lo que has creado aquí? Esto no se puede deshacer.",
                     "reallyDelete": "¿Estás segura? Tu cuenta y configuraciones se eliminarán inmediatamente, y tus proyectos se programarán para su eliminación. Las colaboradoras en tus proyectos perderán de inmediato el acceso a ellos. Escribe tu correo electrónico o nombre de usuario para confirmar que esto es lo que deseas.",
-                    "name": "Elige un emoji para representarte a ti mismo ante los demás."
+                    "name": "Elige un emoji para representarte a ti mismo ante los demás.",
+                    "login": "$~Inicie sesión para guardar sus proyectos, colaborar y compartir:",
+                    "join": "$~O bien, <crear una cuenta@://unirse> para comenzar."
                 },
                 "error": {
                     "expired": "Este enlace ha expirado.",
@@ -4361,13 +4797,17 @@
                     "offline": "Pareces estar desconectada.",
                     "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
                     "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué.",
-                    "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario."
+                    "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
+                    "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo.",
+                    "invalidUsername": "$~Los nombres de usuario deben ser correos electrónicos o más de 5 letras sin espacios.",
+                    "invalidPassword": "$~Las contraseñas deben tener al menos 6 caracteres.",
+                    "mismatched": "$~Las contraseñas no coinciden."
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
                     "deleting": "Vale, borrando tus proyectos y configuraciones...",
                     "updatedPassword": "Tu contraseña se ha actualizada.",
-                    "match": "$! Esto debe coincidir con el nombre de usuario de su cuenta."
+                    "match": "Esto debe coincidir con el nombre de usuario de su cuenta."
                 },
                 "field": {
                     "email": {
@@ -4379,16 +4819,16 @@
                         "placeholder": "nombre de usuario"
                     },
                     "password": {
-                        "description": "contraseña para iniciar sesión, al menos 10 caracteres",
+                        "description": "contraseña para iniciar sesión, al menos 6 caracteres",
                         "placeholder": "contraseña"
                     },
                     "currentPassword": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "su contraseña de inicio de sesión actual",
+                        "placeholder": "contraseña actual"
                     },
                     "newPassword": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "tu nueva contraseña",
+                        "placeholder": "nueva contraseña"
                     }
                 },
                 "button": {
@@ -4410,16 +4850,18 @@
                 },
                 "toggle": {
                     "reveal": {
-                        "on": "$?",
-                        "off": "$?"
+                        "on": "Mostrar contraseña",
+                        "off": "Ocultar contraseña"
                     }
-                }
+                },
+                "subtitle": "$~Guardar, colaborar y compartir"
             },
             "join": {
-                "header": "$?",
+                "header": "Unirse",
                 "prompt": {
-                    "username": "$?",
-                    "password": "$?"
+                    "create": "$~Crea una cuenta para guardar tus proyectos, colaborar con otros y compartir tu trabajo.",
+                    "username": "$~Los nombres de usuario deben tener al menos /5 caracteres/, no pueden ser un correo electrónico y no deben contener su nombre u otra información de identificación.",
+                    "password": "$~Las contraseñas deben tener al menos 6 caracteres. Escríbalas dos veces y anótelas en un lugar seguro, como un administrador de contraseñas. *No hay forma de recuperar su cuenta* si la pierde, ya que no recopilamos información de contacto."
                 }
             },
             "rights": {
@@ -4463,12 +4905,319 @@
                     "Si 2,400 personas donaran $$25 USD al año, eso cubriría nuestros costos actuales, y cualquier excedente se destinaría a compensar a más estudiantes y profesores.",
                     "¿Puedes ser una de esas 2,400 personas? Si es así, aquí está nuestro enlace de donación de la Universidad de Washington:"
                 ]
+            },
+            "teach": {
+                "header": "$~Enseñar",
+                "prompt": {
+                    "none": "$~¡Bienvenido, profesor! Crea una clase para configurar y administrar cuentas de estudiantes y galerías de proyectos.",
+                    "some": "$~¡Bienvenido profesor! Gestiona tus clases o crea una nueva."
+                },
+                "error": {
+                    "offline": "$~No podemos verificar tu estado de profesor.",
+                    "login": "$~Debes iniciar sesión para administrar clases.",
+                    "teacher": "$~Necesitas privilegios de profesor para crear y administrar clases. ¡Completa este formulario y conozcámonos!"
+                },
+                "link": {
+                    "request": "$~Solicitar privilegios de profesor",
+                    "new": "$~Crear una clase"
+                }
+            },
+            "newclass": {
+                "header": "$~Nueva clase",
+                "subheader": {
+                    "class": "$~Tu clase",
+                    "students": "$~Tus estudiantes",
+                    "credentials": "$~Nombres de usuario y contraseñas",
+                    "submit": "$~Entregar"
+                },
+                "prompt": {
+                    "start": "$~Crea una clase con cuentas generadas para todos los estudiantes de tu clase y te permite crear galerías a las que todos tus estudiantes pueden agregar proyectos. Si los estudiantes tienen cuentas existentes, puedes agregarlas más tarde.",
+                    "review": "$~Revisa los nombres de usuario y las contraseñas que creamos. ¿Quieres *editarlos* antes de continuar? Si lo haces, no podrás editar la información del estudiante que aparece arriba.",
+                    "ready": "$~Avísanos cuando estés listo para generar las credenciales que aparecen arriba. Puedes editarlas después de hacerlo.",
+                    "pending": "$~Generando nombres de usuario y contraseñas...",
+                    "submit": "$~¿Está listo para enviar su solicitud? En cuanto la envíe correctamente, recibirá una descarga de esta información. Las contraseñas *no se pueden recuperar*, así que guárdelas en un lugar seguro.",
+                    "submitting": "$~Solicitando nuevas cuentas con los nombres de usuario y contraseñas anteriores...",
+                    "download": "$~¡Tu clase está lista! Deberías ver una descarga de los datos de tus estudiantes en tu carpeta de descargas. *Las contraseñas no se pueden recuperar*, así que guarda este archivo en un lugar seguro."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nombre de la clase",
+                        "placeholder": "$~un nombre corto"
+                    },
+                    "description": {
+                        "description": "$~descripción",
+                        "placeholder": "$~una descripción de tu clase, para ti y tus estudiantes."
+                    },
+                    "existing": {
+                        "label": "$~estudiantes con cuentas",
+                        "prompt": "$~¿Alguno de tus alumnos ya tiene cuenta en Wordplay? Inclúyelos aquí."
+                    },
+                    "metadata": {
+                        "description": "$~Información del estudiante",
+                        "placeholder": "$~p. ej., identificación de estudiante, apellido, nombre de pila",
+                        "prompt": "$~¿Quieres crear nuevas cuentas para estudiantes? Proporciona *cualquier información* sobre los estudiantes, una por línea, separada por comas. Puede tratarse de apellidos, nombres de pila, números de estudiante u otros detalles distintivos. Los utilizaremos para generar nombres de usuario que puedes editar a continuación, lo que te ayudará a asociar nombres de usuario con estudiantes."
+                    },
+                    "words": {
+                        "description": "$~Palabras para usar en contraseñas",
+                        "placeholder": "$~p. ej., gato punto rata...",
+                        "prompt": "$~Proporcione al menos *25 palabras* y genere contraseñas de 2 a 3 palabras que puedan recordarse al azar. Elija palabras que sus alumnos conozcan o pídales que hagan una lluvia de ideas. ¡Cuanto más aleatorias, más seguras!"
+                    },
+                    "generate": {
+                        "label": "$~generar",
+                        "tip": "$~Cree nombres de usuario y contraseñas basados en la información anterior."
+                    },
+                    "edit": {
+                        "label": "$~editar",
+                        "tip": "$~Editar la información del estudiante generada"
+                    },
+                    "submit": {
+                        "label": "$~crear clase",
+                        "tip": "$~Crea una nueva clase con esta información."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Hay entradas duplicadas en la información del estudiante.",
+                    "columns": "$~Asegúrese de que cada estudiante tenga el mismo número de columnas.",
+                    "generate": "$~No se pueden crear nombres de usuario únicos.",
+                    "taken": "$~Uno o más de los nombres de usuario anteriores ya están en uso",
+                    "limit": "$~No puedes crear una clase de más de 35 estudiantes a la vez.",
+                    "words": "$~Proporcionar al menos 25 palabras.",
+                    "account": "$~No se pueden crear algunas de las cuentas.",
+                    "generic": "$~No pudimos crear la clase. Aquí hay información para ayudar a los desarrolladores a descubrir qué salió mal."
+                }
+            },
+            "class": {
+                "header": "$~Clase",
+                "subheader": {
+                    "teachers": "$~Profesores",
+                    "students": "$~Estudiantes",
+                    "galleries": "$~Galerías"
+                },
+                "prompt": {
+                    "gallery": "$~Crea una galería para tu clase para organizar una tarea o un proyecto. Todos los profesores del proyecto serán los curadores de la galería y todos los estudiantes, los creadores de la galería.",
+                    "delete": "$~Eliminar esta clase eliminará permanentemente la información sobre la clase, pero también sus proyectos, galerías o cuentas de estudiantes."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nombre de la clase",
+                        "placeholder": "$~nombre"
+                    },
+                    "description": {
+                        "description": "$~Descripción de la clase",
+                        "placeholder": "$~descripción"
+                    },
+                    "newteacher": {
+                        "placeholder": "$~correo electrónico o nombre de usuario",
+                        "description": "$~Correo electrónico o nombre de usuario del creador a quien desea darle acceso docente a esta clase"
+                    },
+                    "addteacher": "$~Agregar un profesor a esta clase",
+                    "delete": {
+                        "tip": "$~Eliminar esta clase para siempre.",
+                        "label": "$~Eliminar esta clase"
+                    }
+                },
+                "error": {
+                    "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla.",
+                    "gallery": "$~No pudimos crear una galería para esta clase."
+                }
+            },
+            "characters": {
+                "header": "$~Personajes",
+                "prompt": "$~Crea emojis y símbolos personalizados para usar en tus proyectos y compartirlos con otros.",
+                "button": {
+                    "new": "$~Crea un nuevo personaje",
+                    "copy": "$~Copiar este personaje",
+                    "remove": {
+                        "tip": "$~Eliminar este personaje",
+                        "prompt": "$~¿borrar?"
+                    }
+                },
+                "error": {
+                    "offline": "$~No pudimos acceder a tus personajes almacenados en línea.",
+                    "noauth": "$~Debes iniciar sesión para ver tus personajes y crear otros nuevos.",
+                    "create": "$~No se puede crear un nuevo personaje."
+                },
+                "subheader": {
+                    "shared": "$~Compartido"
+                }
+            },
+            "character": {
+                "header": "$~Personaje",
+                "prompt": "$~Crea un emoji o símbolo con formas y píxeles.",
+                "instructions": {
+                    "empty": "$~Elija un modo de dibujo en la paleta para crear formas.",
+                    "unselected": "$~Elija un modo de dibujo o seleccione y edite formas.",
+                    "selected": "$~Utilice las teclas de flecha para mover las formas. Mantenga presionada la tecla Shift para agregar más formas a una selección. Utilice la tecla Delete para eliminar la selección. Utilice los controles que se encuentran a continuación para cambiar las formas seleccionadas.",
+                    "pixel": "$~Para dibujar píxeles, elige un color. Luego, haz clic en el lienzo o usa las *flechas* para mover el cursor y la *barra espaciadora* para crear un píxel. Haz *doble clic* para rellenar.",
+                    "rect": "$~Para dibujar rectángulos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
+                    "ellipse": "$~Para dibujar elipses y círculos, elija un color y un trazo. Luego, haga clic y arrastre, o use las teclas *flechas* y *espacio* para elegir un centro y un tamaño.",
+                    "path": "$~Las rutas pueden ser segmentos de línea, polígonos y curvas. Haga clic para comenzar a agregar puntos o use las teclas de *flecha* y *espacio*. Presione *escape* para finalizar la ruta. *delete* eliminará el último punto.",
+                    "eraser": "$~Para borrar formas, haz clic o tócalas. Arrastra para borrar píxeles. Usa las flechas para mover el borrador y la barra espaciadora para borrar.",
+                    "emoji": "$~Elige un emoji para importar como píxeles y luego modifícalo como quieras."
+                },
+                "shape": {
+                    "shape": "$~forma",
+                    "pixel": "$~píxel",
+                    "rect": "$~rectángulo",
+                    "ellipse": "$~elipse",
+                    "path": "$~camino",
+                    "eraser": "$~borrador",
+                    "emoji": "$~emoji"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nombre del personaje",
+                        "placeholder": "$~nombre"
+                    },
+                    "description": {
+                        "description": "$~Descripción del personaje",
+                        "placeholder": "$~descripción"
+                    },
+                    "mode": {
+                        "label": "$~modo",
+                        "modes": [
+                            "$~seleccionar",
+                            "$~borrador",
+                            "$~píxel",
+                            "$~rectángulo",
+                            "$~elipse",
+                            "$~camino",
+                            "$~emoji"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~llenar",
+                        "modes": ["$~ninguno", "$~inerte", "$~elegir"]
+                    },
+                    "stroke": {
+                        "label": "$~ataque",
+                        "modes": ["$~ninguno", "$~inerte", "$~elegir"]
+                    },
+                    "none": "$~ninguno",
+                    "inherit": "$~color del texto",
+                    "strokeWidth": {
+                        "label": "$~Ancho del trazo",
+                        "tip": "$~Qué tan ancho se representa el trazo"
+                    },
+                    "radius": {
+                        "label": "$~radio de esquina",
+                        "tip": "$~¿Qué tan redondas son las esquinas de un rectángulo?"
+                    },
+                    "angle": {
+                        "label": "$~ángulo",
+                        "tip": "$~¿Cuánto hay que girar la figura alrededor de su centro?"
+                    },
+                    "width": {
+                        "label": "$~ancho",
+                        "tip": "$~¿Qué tan ancha es la forma?"
+                    },
+                    "height": {
+                        "label": "$~altura",
+                        "tip": "$~¿Qué altura tiene la forma?"
+                    },
+                    "closed": "$~conectado"
+                },
+                "button": {
+                    "back": {
+                        "label": "$~atrás",
+                        "tip": "$~Mueva las formas seleccionadas hacia atrás."
+                    },
+                    "toBack": {
+                        "label": "$~Para atrás",
+                        "tip": "$~Mover las formas seleccionadas hacia atrás."
+                    },
+                    "forward": {
+                        "label": "$~adelante",
+                        "tip": "$~Mueva las formas seleccionadas al frente."
+                    },
+                    "toFront": {
+                        "label": "$~Al frente",
+                        "tip": "$~Mover las formas seleccionadas al frente."
+                    },
+                    "copy": {
+                        "label": "$~Copiar",
+                        "tip": "$~Copiar formas seleccionadas al portapapeles."
+                    },
+                    "paste": {
+                        "label": "$~pasta",
+                        "tip": "$~Pegar formas copiadas del portapapeles."
+                    },
+                    "clear": {
+                        "label": "$~todo",
+                        "tip": "$~Eliminar todas las formas."
+                    },
+                    "clearPixels": {
+                        "label": "$~píxeles",
+                        "tip": "$~Eliminar todos los píxeles."
+                    },
+                    "undo": {
+                        "label": "$~deshacer",
+                        "tip": "$~Deshacer el diseño anterior"
+                    },
+                    "redo": {
+                        "label": "$~rehacer",
+                        "tip": "$~Rehacer al siguiente diseño"
+                    },
+                    "all": {
+                        "label": "$~seleccionar todo",
+                        "tip": "$~Seleccionar todas las formas y píxeles"
+                    },
+                    "end": {
+                        "label": "$~forma final",
+                        "tip": "$~Finalizar la ruta actual"
+                    },
+                    "horizontal": {
+                        "label": "$~voltear horizontalmente",
+                        "tip": "$~Gira los puntos horizontalmente alrededor del centro."
+                    },
+                    "vertical": {
+                        "label": "$~voltear verticalmente",
+                        "tip": "$~Gira los puntos verticalmente alrededor del centro"
+                    },
+                    "fit": {
+                        "label": "$~adaptar",
+                        "tip": "$~Ajustar las formas al lienzo"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Lospersonajesdebentenerunnombredejuegodepalabrasválidodealmenosuncarácter.Nopuedeser\"UI\",unnúmerodecimalohexadecimal,nielnombredeunafuncióndelenguajeincorporada.",
+                    "description": "$~Los personajes necesitan una descripción para que aquellos que no pueden ver sepan qué representan.",
+                    "end": "$~o presione escape.",
+                    "loadfail": "$~Hubo un problema al cargar este personaje.",
+                    "notfound": "$~Este personaje no existe.",
+                    "unauthenticated": "$~Debes iniciar sesión para editar un personaje.",
+                    "taken": "$~Ya tienes un personaje con este nombre; no se guarda.",
+                    "unsaved": "$~Dale a este personaje una descripción y un nombre válido y único para guardarlo."
+                },
+                "announce": {
+                    "position": "$~a $1 $2",
+                    "selection": "$~$1[seleccionado $1|nada seleccionado]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Compartir",
+                        "explanation": "$~Agrega colaboradores para restringir quién puede ver este personaje."
+                    },
+                    "button": {
+                        "label": "$~compartir",
+                        "tip": "$~comparte este personaje"
+                    },
+                    "delete": {
+                        "label": "$~borrar",
+                        "tip": "$~eliminar este personaje"
+                    },
+                    "public": {
+                        "label": "$~visibilidad",
+                        "modes": ["$~público", "$~privado"]
+                    },
+                    "collaborators": "$~colaboradores"
+                }
             }
         },
         "edit": {
             "node": "$1$2[, tipo $2|]",
             "before": "antes de $1[$1|final]",
-            "inside": "dentro de $1, entre $2[$2|origen] y $3[$3|final]",
+            "inside": "dentro de $1, entre $2[$2|inicio] y $3[$3|final]",
             "between": "entre $1 y $2",
             "line": "línea vacía entre $1[$1|inicio] y $2[$2|final]",
             "conflicts": "$1 conflictos",
@@ -4478,11 +5227,67 @@
             "replace": "/Quiere intervenir…/",
             "wrap": "poner paréntesis",
             "unwrap": "desenvolver",
-            "bind": "nombrar esta expresión"
+            "bind": "nombrar esta expresión",
+            "range": "$~Selección desde $1 a $2",
+            "show": "$~… mostrar más"
         },
         "template": {
             "unwritten": "Por determinar",
             "unparsable": "Plantilla no analizable: $1"
+        },
+        "collaborate": {
+            "label": "$~colaborar",
+            "role": {
+                "owner": "$~dueño",
+                "collaborators": "$~colaboradores",
+                "curators": "$~curadores"
+            },
+            "field": {
+                "message": {
+                    "description": "$~El mensaje de chat para enviar",
+                    "placeholder": "$~Escribe un mensaje"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~Enviar",
+                    "tip": "$~Envía un mensaje a tus colaboradores"
+                },
+                "start": {
+                    "label": "$~Iniciar un chat",
+                    "tip": "$~Inicie una discusión con usted mismo o con otros."
+                },
+                "delete": "$~eliminar este mensaje"
+            },
+            "error": {
+                "unowned": "$~Este proyecto no tiene propietario, por lo que no puede tener un chat.",
+                "offline": "$~No se puede cargar este chat.",
+                "empty": "$~No hay mensajes.",
+                "deleted": "$~Este mensaje fue eliminado."
+            },
+            "prompt": {
+                "solo": "$~Chatea contigo mismo o agrega un colaborador, que pueda editar y chatear.",
+                "owner": "$~Los colaboradores pueden editar este proyecto y chatear sobre él.",
+                "collaborator": "$~Eres colaborador. Puedes editar este proyecto y conversar sobre él.",
+                "curator": "$~Eres el curador de la galería de este proyecto. Puedes editarlo y conversar sobre él."
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~ahora",
+                "history": "$~restaurar",
+                "restore": "$~Esta es una versión anterior de este proyecto.",
+                "ago": "$~Hace 1 $2 $"
+            },
+            "button": {
+                "clear": "$~borrar historial",
+                "select": "$~Ver esta versión",
+                "checkpoint": "$~guardar esta versión del proyecto",
+                "back": "$~volver a la versión anterior",
+                "forward": "$~volver a la siguiente versión",
+                "restore": "$~restaurar esta versión",
+                "now": "$~volver a la versión actual"
+            }
         }
     },
     "moderation": {
@@ -4508,7 +5313,7 @@
             "disclosure": "Revelar información privada sobre otras personas, como nombres, información de contacto o direcciones físicas",
             "misinformation": "Contener información falsa, engañosa, manipuladora o manipulativa"
         },
-        "progress": "$?",
+        "progress": "*$1* moderado, *$2* restante",
         "button": {
             "submit": {
                 "tip": "Guardar estas configuraciones de moderación",
@@ -4540,6 +5345,10 @@
         "tools": {
             "name": "Herramientas",
             "description": "Utilidades y aplicaciones simples."
+        },
+        "stories": {
+            "name": "$~Historias",
+            "description": "$~Historias y narraciones interactivas."
         }
     }
 }

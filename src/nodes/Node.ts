@@ -2,23 +2,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type Conflict from '@conflicts/Conflict';
-import type Definition from './Definition';
-import type Context from './Context';
+import type { DocText, LocaleText } from '@locale/LocaleText';
+import type {
+    DescriptiveNodeText,
+    NodeDescriptor,
+    NodeText,
+} from '@locale/NodeTexts';
 import type Spaces from '@parser/Spaces';
-import type Type from './Type';
-import type Token from './Token';
-import type Locale from '@locale/Locale';
-import type { Template, DocText } from '@locale/Locale';
-import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
-import type Glyph from '../lore/Glyph';
-import type Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Root from './Root';
-import type { TemplateInput } from '../locale/concretize';
-import type Markup from './Markup';
-import type Sym from './Sym';
-import type Concretizer from './Concretizer';
+import type Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
+import type BasisCharacter from '../lore/BasisCharacter';
+import type Context from './Context';
+import type Definition from './Definition';
+import type Markup from './Markup';
+import type Root from './Root';
+import type Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -31,7 +33,7 @@ export default abstract class Node {
     _children: undefined | Node[] = undefined;
 
     /** A cache of leaves in this node */
-    _leaves: Node[] | undefined = undefined;
+    _leaves: Token[] | undefined = undefined;
 
     constructor() {
         this.id = NODE_ID_COUNTER++;
@@ -39,10 +41,14 @@ export default abstract class Node {
 
     // PREDICTATES
 
-    isLeaf() {
+    isLeaf(): this is Token {
         return false;
     }
     isPlaceholder() {
+        return false;
+    }
+
+    isUndelimited() {
         return false;
     }
 
@@ -54,7 +60,7 @@ export default abstract class Node {
     abstract getGrammar(): Grammar;
 
     /** A stable name by which this kind of node can be referred to (since constructor.name is minified) */
-    abstract getDescriptor(): string;
+    abstract getDescriptor(): NodeDescriptor;
 
     /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied
@@ -89,7 +95,7 @@ export default abstract class Node {
         return children;
     }
 
-    getFirstLeaf(): Node | undefined {
+    getFirstLeaf(): Token | undefined {
         if (this.isLeaf()) return this;
         for (const child of this.getChildren()) {
             const leaf = child.getFirstLeaf();
@@ -133,7 +139,7 @@ export default abstract class Node {
         return sequence;
     }
 
-    leaves(): Node[] {
+    leaves(): Token[] {
         if (this._leaves === undefined) {
             this._leaves = [];
             if (this.isLeaf()) this._leaves.push(this);
@@ -262,7 +268,7 @@ export default abstract class Node {
     // CONFLICTS
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    abstract computeConflicts(context: Context): Conflict[] | void;
+    abstract computeConflicts(context: Context): Conflict[];
 
     /** Compute and store the conflicts. */
     getConflicts(context: Context): Conflict[] {
@@ -336,11 +342,11 @@ export default abstract class Node {
             // Order matters here: defintions close in the tree have precedent, so they should go first.
             if (additional)
                 definitions = definitions.concat(
-                    additional.getDefinitions(this, context)
+                    additional.getDefinitions(this, context),
                 );
             if (scope)
                 definitions = definitions.concat(
-                    scope.getDefinitions(this, context)
+                    scope.getDefinitions(this, context),
                 );
             // Before changing the scope, see if it has any additional basis scope to add.
             additional = scope?.getAdditionalBasisScope(context);
@@ -350,7 +356,7 @@ export default abstract class Node {
 
         // Finally, implicitly include standard libraries and definitions.
         definitions = definitions.concat(
-            context.project.getDefaultShares().all
+            context.project.getDefaultShares().all,
         );
 
         // Cache the definitions for later.
@@ -365,10 +371,10 @@ export default abstract class Node {
      **/
     getDefinitionOfNameInScope(
         name: string,
-        context: Context
+        context: Context,
     ): Definition | undefined {
         return this.getDefinitionsInScope(context).find((def) =>
-            def.hasName(name)
+            def.hasName(name),
         );
     }
 
@@ -393,7 +399,7 @@ export default abstract class Node {
     replaceChild<Child extends FieldValue>(
         field: keyof this,
         child: Child,
-        replace?: Replacement
+        replace?: Replacement,
     ): Child {
         // If there is no replacement, deep clone the child.
         if (replace === undefined)
@@ -401,8 +407,8 @@ export default abstract class Node {
                 child === undefined
                     ? undefined
                     : Array.isArray(child)
-                    ? child.map((c) => c.clone())
-                    : child.clone()
+                      ? child.map((c) => c.clone())
+                      : child.clone()
             ) as Child;
 
         // Otherwise, begin the search for the replacement by first destructuring the requested change.
@@ -415,8 +421,8 @@ export default abstract class Node {
         if (typeof field !== 'string' || kind === undefined)
             throw Error(
                 `Could not find field ${String(
-                    field
-                )} on ${this.getDescriptor()}`
+                    field,
+                )} on ${this.getDescriptor()}`,
             );
 
         // There are four types of originals to handle. Let's check each for validity.
@@ -435,8 +441,8 @@ export default abstract class Node {
                         Node.invalidReplacementToString(
                             field,
                             kind,
-                            replacement
-                        )
+                            replacement,
+                        ),
                     );
                     return child as Child;
                 }
@@ -454,8 +460,8 @@ export default abstract class Node {
                         Node.invalidReplacementToString(
                             field,
                             kind,
-                            replacement
-                        )
+                            replacement,
+                        ),
                     );
                     return child as Child;
                 }
@@ -478,8 +484,8 @@ export default abstract class Node {
                         Node.invalidReplacementToString(
                             field,
                             kind,
-                            replacement
-                        )
+                            replacement,
+                        ),
                     );
                     return child as Child;
                 }
@@ -493,8 +499,8 @@ export default abstract class Node {
                         Node.invalidReplacementToString(
                             field,
                             kind,
-                            replacement
-                        )
+                            replacement,
+                        ),
                     );
                     return child as Child;
                 }
@@ -519,7 +525,7 @@ export default abstract class Node {
                     return replacement as Child;
                 // Otherwise, create a new list with the replacement inside it.
                 return child.map((c) =>
-                    c === original ? replacement : c
+                    c === original ? replacement : c,
                 ) as Child;
             }
             // Otherwise, just return the replacement, whatever it is.
@@ -541,11 +547,11 @@ export default abstract class Node {
             const match = child.find(
                 (c) =>
                     (original instanceof Node && c.contains(original)) ||
-                    (Array.isArray(original) && c.hasList(original))
+                    (Array.isArray(original) && c.hasList(original)),
             );
             if (match)
                 return child.map((c) =>
-                    c === match ? c.clone(replace) : c
+                    c === match ? c.clone(replace) : c,
                 ) as Child;
             else return child;
         }
@@ -555,12 +561,12 @@ export default abstract class Node {
     static invalidReplacementToString(
         field: string,
         kind: FieldKind,
-        replacement: FieldValue
+        replacement: FieldValue,
     ) {
         return `Attempt to replace list field ${String(
-            field
+            field,
         )} failed because replacement list is not a list or contains invalid items; expected ${kind.toString()}, but received ${(Array.isArray(
-            replacement
+            replacement,
         )
             ? replacement
             : [replacement]
@@ -589,41 +595,6 @@ export default abstract class Node {
         return this.getFieldOfChild(child)?.indent === true;
     }
 
-    /** Get the preferred preceding space of this node's child. */
-    getPreferredPrecedingSpace(
-        child: Node,
-        space: string,
-        depth: number
-    ): string {
-        const field = this.getFieldOfChild(child);
-
-        if (field === undefined) return '';
-
-        // If the child should have a newline before it, and the field is a list, and it's not the first node in the list or we want a newline for the first item, return a newline (or two if it wants double, as in the case of Markup).
-        if (field.newline === true) {
-            const value = this.getField(field.name);
-            if (
-                !Array.isArray(value) ||
-                (Array.isArray(value) && (field.initial || child !== value[0]))
-            )
-                return field.double ? '\n\n' : '\n';
-        }
-
-        // If there's no newline before this child, and this node wants it to have a space before it,
-        // return a space.
-        if (
-            space.indexOf('\n') < 0 &&
-            (field.space === true ||
-                (typeof field.space === 'function' && field.space(this)))
-        ) {
-            // Get the field value of this child, and if it's not a list and it's not the first child, then
-            // return the space. Otherwise, no space.
-            const value = this.getField(field.name);
-            return !Array.isArray(value) || value[0] !== child ? ' ' : '';
-        }
-        return '';
-    }
-
     // EQUALITY
 
     /** A node equals another node if its of the same type and its children are equal */
@@ -640,31 +611,26 @@ export default abstract class Node {
     // DESCRIPTIONS
 
     /** Returns a sequence of symbols that represents the personified form of the node */
-    abstract getGlyphs(): Glyph;
+    abstract getCharacter(locales: Locales): BasisCharacter;
 
     /**
      * Given a locale, get the node's static label
      * */
     getLabel(locales: Locales): string {
-        return this.getNodeLocale(locales).name;
+        return locales.get(this.getLocalePath()).name;
     }
 
     /**
      * Given a locale and a context, generate a description of the node.
      * */
-    getDescription(
-        concretizer: Concretizer,
-        locales: Locales,
-        context: Context
-    ): Markup {
-        const text = this.getNodeLocale(locales);
-        return concretizer(
-            locales,
+    getDescription(locales: Locales, context: Context): Markup {
+        const text = locales.get(this.getLocalePath());
+        return locales.concretize(
             // Is there a description? Use that. Otherwise just use the name.
             'description' in text
                 ? (text as DescriptiveNodeText).description
                 : text.name,
-            ...this.getDescriptionInputs(locales, context)
+            ...this.getDescriptionInputs(locales, context),
         );
     }
 
@@ -676,7 +642,7 @@ export default abstract class Node {
     }
 
     getDoc(locales: Locales): DocText {
-        return this.getNodeLocale(locales).doc;
+        return locales.get(this.getLocalePath()).doc;
     }
 
     /**
@@ -688,35 +654,25 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText;
+    abstract getLocalePath(): (
+        locale: LocaleText,
+    ) => NodeText | DescriptiveNodeText;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(
         child: Node,
         locales: Locales,
         context: Context,
-        root: Root
-    ): Template | undefined {
+        root: Root,
+    ): LocaleTextAccessor | undefined {
         const label = this.getFieldOfChild(child)?.label;
         return label ? label(locales, child, context, root) : undefined;
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */
-    toWordplay(spaces?: Spaces, locale?: Locale, depth?: number): string {
+    toWordplay(spaces?: Spaces, locale?: LocaleText): string {
         return this.getChildren()
-            .map((child) => {
-                // If spaces were provided, just use those.
-                if (spaces) return child.toWordplay(spaces, locale);
-                // Otherwise, get the preferred space.
-                const childInBlock = this.isBlockFor(child);
-                const childDepth = (depth ?? 0) + (childInBlock ? 1 : 0);
-                const preferred = this.getPreferredPrecedingSpace(
-                    child,
-                    '',
-                    childDepth
-                );
-                return preferred + child.toWordplay(spaces, locale, childDepth);
-            })
+            .map((child) => child.toWordplay(spaces, locale))
             .join('');
     }
 
@@ -739,13 +695,13 @@ export type Field = {
         locales: Locales,
         child: Node,
         context: Context,
-        root: Root
-    ) => Template;
+        root: Root,
+    ) => LocaleTextAccessor;
     /** True if a preceding space is preferred the node */
     space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */
-    indent?: boolean | ((parent: Node, child: Node) => boolean);
-    /** True if the field should have newlines */
+    indent?: boolean;
+    /** True if the field prefers newlines */
     newline?: boolean;
     /** True if the field should have double newlines */
     double?: boolean;
@@ -846,7 +802,7 @@ export class ListOf extends FieldKind {
 
     allowsUnconditionalNone() {
         return this.kinds.some(
-            (kind) => kind instanceof Empty && kind.dependency === undefined
+            (kind) => kind instanceof Empty && kind.dependency === undefined,
         );
     }
 
@@ -857,7 +813,7 @@ export class ListOf extends FieldKind {
     enumerate(): NodeKind[] {
         return this.kinds.reduce(
             (list, kind) => [...list, ...kind.enumerate()],
-            [] as NodeKind[]
+            [] as NodeKind[],
         );
     }
 
@@ -872,10 +828,12 @@ export class ListOf extends FieldKind {
     }
 }
 
+type EmptyDefault = { name: string; createDefault: () => Node };
+
 // A field can be undefined, and if a dependency field name is specified, only if that field is also undefined.
 export class Empty extends FieldKind {
-    readonly dependency: string | undefined;
-    constructor(dependency?: string) {
+    readonly dependency: EmptyDefault | undefined;
+    constructor(dependency?: EmptyDefault) {
         super();
         this.dependency = dependency;
     }
@@ -904,14 +862,16 @@ export class Empty extends FieldKind {
     getDependencies(parent: Node, context: Context): Node[] {
         if (this.dependency === undefined) return [];
         const grammar = parent.getGrammar();
-        const field = grammar.find((field) => field.name === this.dependency);
+        const field = grammar.find(
+            (field) => field.name === this.dependency?.name,
+        );
         if (field === undefined) return [];
         const dependencies = parent.getField(field.name);
         return dependencies === undefined
             ? []
             : Array.isArray(dependencies)
-            ? dependencies
-            : [dependencies];
+              ? dependencies
+              : [dependencies];
     }
 
     toString() {
@@ -941,7 +901,7 @@ export class Any extends FieldKind {
     enumerate(): NodeKind[] {
         return this.kinds.reduce(
             (list, kind) => [...list, ...kind.enumerate()],
-            [] as NodeKind[]
+            [] as NodeKind[],
         );
     }
 
@@ -958,8 +918,12 @@ export class Any extends FieldKind {
 export function node(kind: Function | Sym) {
     return new IsA(kind);
 }
-export function none(dependency?: string) {
-    return new Empty(dependency);
+export function none(dependency?: [string, () => Node]) {
+    return new Empty(
+        dependency
+            ? { name: dependency[0], createDefault: dependency[1] }
+            : undefined,
+    );
 }
 export function list(allowsEmpty: boolean, ...kinds: IsA[]) {
     return new ListOf(allowsEmpty, ...kinds);

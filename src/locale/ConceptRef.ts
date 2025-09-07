@@ -8,4 +8,8 @@ export default class ConceptRef {
     getDescription() {
         return this.concept;
     }
+
+    toText() {
+        return this.concept;
+    }
 }

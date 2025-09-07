@@ -1,18 +1,19 @@
+import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import SetType from '@nodes/SetType';
 import UnionType from '@nodes/UnionType';
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import NumberValue from '@values/NumberValue';
-import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import SimpleValue from './SimpleValue';
 
 export default class SetValue extends SimpleValue {
     readonly values: Value[];
+    private _type: SetType | undefined = undefined;
 
     constructor(creator: Expression, values: Value[]) {
         super(creator);
@@ -30,7 +31,7 @@ export default class SetValue extends SimpleValue {
     has(requestor: Expression, key: Value) {
         return new BoolValue(
             requestor,
-            this.values.find((v) => key.isEqualTo(v)) !== undefined
+            this.values.find((v) => key.isEqualTo(v)) !== undefined,
         );
     }
 
@@ -41,7 +42,7 @@ export default class SetValue extends SimpleValue {
     remove(requestor: Expression, element: Value) {
         return new SetValue(
             requestor,
-            this.values.filter((v) => !v.isEqualTo(element))
+            this.values.filter((v) => !v.isEqualTo(element)),
         );
     }
 
@@ -68,8 +69,8 @@ export default class SetValue extends SimpleValue {
         return new SetValue(
             requestor,
             this.values.filter(
-                (v1) => set.values.find((v2) => v1.isEqualTo(v2)) === undefined
-            )
+                (v1) => set.values.find((v2) => v1.isEqualTo(v2)) === undefined,
+            ),
         );
     }
 
@@ -79,18 +80,21 @@ export default class SetValue extends SimpleValue {
             set.values.length === this.values.length &&
             this.values.every(
                 (val) =>
-                    set.values.find((val2) => val.isEqualTo(val2)) !== undefined
+                    set.values.find((val2) => val.isEqualTo(val2)) !==
+                    undefined,
             )
         );
     }
 
     getType(context: Context) {
-        return SetType.make(
-            UnionType.getPossibleUnion(
-                context,
-                this.values.map((v) => v.getType(context))
-            )
-        );
+        if (this._type === undefined)
+            this._type = SetType.make(
+                UnionType.getPossibleUnion(
+                    context,
+                    this.values.map((v) => v.getType(context)),
+                ),
+            );
+        return this._type;
     }
 
     getBasisTypeName(): BasisTypeName {
@@ -103,11 +107,8 @@ export default class SetValue extends SimpleValue {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.set)
-        );
+    getDescription() {
+        return (l: LocaleText) => l.term.set;
     }
 
     getRepresentativeText() {

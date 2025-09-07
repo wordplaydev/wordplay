@@ -1,17 +1,18 @@
 <script>
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import { locales } from '@db/Database';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 </script>
 
 <div class="beta">
-    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.landing.beta)} /></div
+    <MarkupHTMLView markup={(l) => l.ui.page.landing.beta} /></div
 >
 
 <style>
     .beta {
-        border: var(--wordplay-warning) solid var(--wordplay-focus-width);
-        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-warning) solid var(--wordplay-border-width);
+        width: 100%;
         background: var(--wordplay-background);
+        border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
+        white-space: break-spaces;
     }
 </style>

@@ -1,6 +1,7 @@
-import { writable, type Writable } from 'svelte/store';
-import { deleteDoc, doc, setDoc } from 'firebase/firestore';
-import { firestore, auth } from '@db/firebase';
+import { auth, firestore } from '@db/firebase';
+import concretize from '@locale/concretize';
+import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
+import { type SupportedLocale } from '@locale/SupportedLocales';
 import {
     deleteUser,
     onAuthStateChanged,
@@ -8,18 +9,30 @@ import {
     type Unsubscribe,
     type User,
 } from 'firebase/auth';
-import type Locale from '../locale/Locale';
-import {
-    type SupportedLocale,
-    getBestSupportedLocales,
-    type Template,
-} from '../locale/Locale';
-import ProjectsDatabase from './ProjectsDatabase';
-import LocalesDatabase from './LocalesDatabase';
-import SettingsDatabase from './SettingsDatabase';
-import GalleryDatabase from './GalleryDatabase';
-import CreatorDatabase, { CreatorCollection } from './CreatorDatabase';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { writable, type Writable } from 'svelte/store';
 import DefaultLocale from '../locale/DefaultLocale';
+import type LocaleText from '../locale/LocaleText';
+import { type Template } from '../locale/LocaleText';
+import { CharactersDatabase } from './characters/CharacterDatabase.svelte';
+import { ChatDatabase } from './chats/ChatDatabase.svelte';
+import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
+import GalleryDatabase from './galleries/GalleryDatabase.svelte';
+import LocalesDatabase from './locales/LocalesDatabase';
+import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
+import SettingsDatabase from './settings/SettingsDatabase';
+
+// Intercept console.log and console.error
+
+export const Logs: string[] = [];
+
+{
+    const log = console.log.bind(console);
+    console.log = (...args) => {
+        for (const arg of args) Logs.push(JSON.stringify(arg));
+        log(...args);
+    };
+}
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -43,14 +56,17 @@ export class Database {
     /** A collection of creators loaded from the database */
     readonly Creators: CreatorDatabase;
 
+    /** A collection of chats loaded from the database */
+    readonly Chats: ChatDatabase;
+
+    /** A collection of characters loaded from the database */
+    readonly Characters: CharactersDatabase;
+
     /** The status of persisting the projects. */
     readonly Status: Writable<{
         status: SaveStatus;
-        message: undefined | ((locale: Locale) => Template);
-    }> = writable({
-        status: SaveStatus.Saved,
-        message: undefined,
-    });
+        message: undefined | ((locale: LocaleText) => Template);
+    }> = writable({ status: SaveStatus.Saved, message: undefined });
 
     /** The current Firestore user ID */
     private user: User | null = null;
@@ -59,18 +75,21 @@ export class Database {
     private authUnsubscribe: Unsubscribe | undefined = undefined;
     private authRefreshUnsubscribe: Unsubscribe | undefined = undefined;
 
-    constructor(locales: SupportedLocale[], defaultLocale: Locale) {
+    constructor(locales: SupportedLocale[], defaultLocale: LocaleText) {
         // Set up in-memory stores of configuration settings and locale caches.
         this.Settings = new SettingsDatabase(this, locales);
         this.Locales = new LocalesDatabase(
             this,
             locales,
             defaultLocale,
+            concretize,
             this.Settings.settings.locales,
         );
         this.Projects = new ProjectsDatabase(this);
         this.Galleries = new GalleryDatabase(this);
         this.Creators = new CreatorDatabase(this);
+        this.Chats = new ChatDatabase(this);
+        this.Characters = new CharactersDatabase(this);
     }
 
     getUser() {
@@ -88,12 +107,12 @@ export class Database {
     /** Update the saving status and broadcast via the store. */
     setStatus(
         status: SaveStatus,
-        message: undefined | ((locale: Locale) => Template),
+        message: undefined | ((locale: LocaleText) => Template),
     ) {
         this.Status.set({ status, message });
     }
 
-    getLocales(): Locale[] {
+    getLocales(): LocaleText[] {
         return this.Locales.getLocales();
     }
 
@@ -129,7 +148,7 @@ export class Database {
             this.updateUser(newUser);
 
             // Update the galleries query with the new user.
-            this.Galleries.listen();
+            this.Galleries.registerRealtimeUpdates();
         });
         this.authRefreshUnsubscribe = onIdTokenChanged(
             auth,
@@ -158,6 +177,12 @@ export class Database {
 
         // Tell the settings cache.
         this.Settings.syncUser();
+
+        // Tell the chat cache.
+        this.Chats.syncUser();
+
+        // Tell the characters database.
+        this.Characters.syncUser();
     }
 
     /** Clean up listeners */
@@ -224,6 +249,8 @@ export const Projects = DB.Projects;
 export const Locales = DB.Locales;
 export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
+export const Chats = DB.Chats;
+export const CharactersDB = DB.Characters;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;
@@ -233,12 +260,12 @@ export const locales = DB.Locales.locales;
 export const writingLayout = Settings.settings.writingLayout.value;
 export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
+export const spaceIndicator = Settings.settings.space.value;
+export const showLines = Settings.settings.lines.value;
+export const showAnnotations = Settings.settings.annotations.value;
 export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
-export const localized = Settings.settings.localized.value;
 export const status = DB.Status;
-export const editableProjects = Projects.allEditableProjects;
-export const archivedProjects = Projects.allArchivedProjects;
 
 if (import.meta.hot) {
     import.meta.hot.on('locales-update', () => {

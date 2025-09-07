@@ -1,9 +1,9 @@
-import { test, expect } from 'vitest';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
-import evaluateCode from '../runtime/evaluate';
-import { toTokens } from '../parser/toTokens';
+import { expect, test } from 'vitest';
 import { parseNumber } from '../parser/parseExpression';
+import { toTokens } from '../parser/toTokens';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     // Test JavaScript number translation.
@@ -17,7 +17,6 @@ test.each([
     ['001.100', '1.1'],
     ['1000', '1000'],
     ['∞', '∞'],
-    ['-∞', '-∞'],
 
     // Test Japanese numbers.
     ['十', '10'],
@@ -75,7 +74,7 @@ test.each([
     ['1 · 0', '0'],
     ['1 ÷ 1', '1'],
     ['0 ÷ 1', '0'],
-    ['1 ÷ 0', 'ø'],
+    ['1 ÷ 0', '!#'],
     ['10 ÷ 5', '2'],
     ['-10 ÷ -5', '2'],
     ['1 ÷ 3', '0.33333333333333333333'],

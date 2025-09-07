@@ -1,16 +1,18 @@
-import type { Grammar, Replacement } from './Node';
-import Names from './Names';
-import type Locale from '@locale/Locale';
-import NameType from './NameType';
-import Glyphs from '../lore/Glyphs';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import Node, { any, node, none } from './Node';
-import Type from './Type';
-import Sym from './Sym';
-import Token from './Token';
+import Characters from '../lore/BasisCharacters';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type Definition from './Definition';
-import type Locales from '../locale/Locales';
+import Names from './Names';
+import NameType from './NameType';
+import type { Grammar, Replacement } from './Node';
+import Node, { any, node, none } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
+import TypePlaceholder from './TypePlaceholder';
+import TypeToken from './TypeToken';
 
 export default class TypeVariable extends Node {
     readonly names: Names;
@@ -20,7 +22,7 @@ export default class TypeVariable extends Node {
     constructor(
         names: Names,
         dot?: Token | undefined,
-        type?: Type | undefined
+        type?: Type | undefined,
     ) {
         super();
 
@@ -35,19 +37,28 @@ export default class TypeVariable extends Node {
         return new TypeVariable(
             names instanceof Names ? names : Names.make(names),
             type ? new Token(TYPE_SYMBOL, Sym.Type) : undefined,
-            type
+            type,
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TypeVariable';
     }
 
     getGrammar(): Grammar {
         return [
             { name: 'names', kind: node(Names) },
-            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
-            { name: 'type', kind: any(node(Type), none('dot')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['type', () => TypePlaceholder.make()]),
+                ),
+            },
+            {
+                name: 'type',
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+            },
         ];
     }
 
@@ -55,7 +66,7 @@ export default class TypeVariable extends Node {
         return new TypeVariable(
             this.replaceChild('names', this.names, replace),
             this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
@@ -79,12 +90,12 @@ export default class TypeVariable extends Node {
         return this.names.hasName(name);
     }
 
-    getPreferredName(locales: Locale | Locale[]) {
+    getPreferredName(locales: LocaleText | LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     /** No type variables are ever  */
@@ -92,11 +103,12 @@ export default class TypeVariable extends Node {
         return definition === this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.TypeVariable);
+    static readonly LocalePath = (l: LocaleText) => l.node.TypeVariable;
+    getLocalePath() {
+        return TypeVariable.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Name;
+    getCharacter() {
+        return Characters.Name;
     }
 }

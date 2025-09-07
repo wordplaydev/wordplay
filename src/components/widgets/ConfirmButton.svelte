@@ -1,34 +1,60 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Button, { type Action } from './Button.svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
-    export let tip: string;
-    export let action: Action;
-    export let enabled = true;
-    export let prompt: string;
-    export let background = false;
+    interface Props {
+        tip: LocaleTextAccessor;
+        action: Action;
+        enabled?: boolean;
+        prompt: LocaleTextAccessor;
+        background?: boolean;
+        icon?: string;
+        label?: LocaleTextAccessor;
+        children?: import('svelte').Snippet;
+    }
 
-    let confirming = false;
+    let {
+        tip,
+        action,
+        enabled = true,
+        prompt,
+        background = false,
+        icon,
+        label,
+        children,
+    }: Props = $props();
+
+    let confirming = $state(false);
 </script>
 
 <div class="prompt" class:confirming class:background>
     <Button
         {background}
-        tip={confirming ? $locales.get((l) => l.ui.widget.confirm.cancel) : tip}
+        icon={confirming ? undefined : icon}
+        tip={confirming ? (l) => l.ui.widget.confirm.cancel : tip}
         action={() => (confirming = !confirming)}
         active={enabled}
-        >{#if confirming}⨉{:else}<slot />{/if}</Button
+        {label}
+        >{#if confirming}{CANCEL_SYMBOL}{:else if children}{@render children()}{:else if label}<LocalizedText
+                path={label}
+            />{/if}</Button
     >
     {#if confirming}
-        <Button {background} stretch {tip} action={() => action()}
-            >{prompt}</Button
-        >
+        <Button
+            {background}
+            stretch
+            {tip}
+            action={() => action()}
+            label={prompt}
+        />
     {/if}
 </div>
 
 <style>
     .prompt.confirming {
-        display: flex;
+        display: inline-flex;
         flex-direction: row;
         width: max-content;
         gap: var(--wordplay-spacing);

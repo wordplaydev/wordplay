@@ -1,32 +1,35 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { type GuardContext } from './Expression';
-import type Type from './Type';
+import MissingInput from '@conflicts/MissingInput';
+import type LocaleText from '@locale/LocaleText';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
+import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Context from './Context';
-import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
-import type TypeSet from './TypeSet';
-import FunctionException from '@values/FunctionException';
-import FunctionDefinition from './FunctionDefinition';
-import Evaluation from '@runtime/Evaluation';
-import getConcreteExpectedType from './Generics';
-import type Value from '@values/Value';
-import UnknownNameType from './UnknownNameType';
-import { node, type Grammar, type Replacement } from './Node';
 import StartEvaluation from '@runtime/StartEvaluation';
-import NodeRef from '@locale/NodeRef';
+import type Step from '@runtime/Step';
+import FunctionException from '@values/FunctionException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../values/FunctionValue';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
 import AnyType from './AnyType';
+import type Context from './Context';
+import type Definition from './Definition';
+import Expression, { type GuardContext } from './Expression';
+import FunctionDefinition from './FunctionDefinition';
 import FunctionType from './FunctionType';
-import concretize from '../locale/concretize';
-import Reference from './Reference';
+import getConcreteExpectedType from './Generics';
 import type Node from './Node';
-import Purpose from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { node, type Grammar, type Replacement } from './Node';
+import Reference from './Reference';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import UnknownNameType from './UnknownNameType';
 
 export default class UnaryEvaluate extends Expression {
     readonly fun: Reference;
@@ -42,17 +45,27 @@ export default class UnaryEvaluate extends Expression {
     }
 
     /** Note: we don't generate any possibilities here because Evaluate generates them. */
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [];
     }
 
-    getDescriptor() {
+    static getPossibleAppends() {
+        return [];
+    }
+
+    getDescriptor(): NodeDescriptor {
         return 'UnaryEvaluate';
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'fun', kind: node(Reference) },
+            {
+                name: 'fun',
+                kind: node(Reference),
+                getDefinitions: (context: Context): Definition[] => {
+                    return this.getFunctions(context);
+                },
+            },
             { name: 'input', kind: node(Expression) },
         ];
     }
@@ -81,6 +94,15 @@ export default class UnaryEvaluate extends Expression {
         return this.input.getType(context);
     }
 
+    getFunctions(context: Context) {
+        return this.input
+            .getType(context)
+            .getDefinitions(this, context)
+            .filter(
+                (def) => def instanceof FunctionDefinition && def.isUnary(),
+            );
+    }
+
     getFunction(context: Context) {
         const fun = this.getInputType(context).getDefinitionOfNameInScope(
             this.getOperator(),
@@ -102,7 +124,7 @@ export default class UnaryEvaluate extends Expression {
         // Find the function on the left's type.
         const fun = this.getFunction(context);
 
-        // Did we find nothing?
+        // No match? Give a conflict.
         if (fun === undefined)
             conflicts.push(
                 new IncompatibleInput(
@@ -111,7 +133,11 @@ export default class UnaryEvaluate extends Expression {
                     FunctionType.make(undefined, [], new AnyType()),
                 ),
             );
-
+        else if (fun.getRequiredInputs().length > 0) {
+            conflicts.push(
+                new MissingInput(fun, this, this.input, fun.inputs[0]),
+            );
+        }
         return conflicts;
     }
 
@@ -192,14 +218,14 @@ export default class UnaryEvaluate extends Expression {
         return this.fun;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.UnaryEvaluate);
+    static readonly LocalePath = (l: LocaleText) => l.node.UnaryEvaluate;
+    getLocalePath() {
+        return UnaryEvaluate.LocalePath;
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.UnaryEvaluate.start),
+        return locales.concretize(
+            (l) => l.node.UnaryEvaluate.start,
             new NodeRef(this.input, locales, context),
         );
     }
@@ -209,17 +235,13 @@ export default class UnaryEvaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.UnaryEvaluate.finish),
+        return locales.concretize(
+            (l) => l.node.UnaryEvaluate.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
-    getGlyphs() {
-        return {
-            symbols: this.getOperator(),
-            emotion: Emotion.kind,
-        };
+    getCharacter() {
+        return { symbols: this.getOperator(), emotion: Emotion.kind };
     }
 }

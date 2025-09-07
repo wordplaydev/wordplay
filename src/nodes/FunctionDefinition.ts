@@ -1,51 +1,52 @@
-import type Node from './Node';
-import Bind from './Bind';
-import Expression, { type GuardContext } from './Expression';
-import Token from './Token';
-import Sym from './Sym';
-import Type from './Type';
 import type Conflict from '@conflicts/Conflict';
-import { getEvaluationInputConflicts } from './util';
+import NoExpression from '@conflicts/NoExpression';
+import type EditContext from '@edit/EditContext';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
+import { OperatorRegEx } from '@parser/Tokenizer';
 import type Evaluator from '@runtime/Evaluator';
-import FunctionValue from '@values/FunctionValue';
+import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
+import FunctionValue from '@values/FunctionValue';
+import InternalException from '@values/InternalException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import IncompatibleType from '../conflicts/IncompatibleType';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BinaryEvaluate from './BinaryEvaluate';
+import Bind from './Bind';
 import type Context from './Context';
 import type Definition from './Definition';
-import { OperatorRegEx } from '@parser/Tokenizer';
-import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
-import type TypeSet from './TypeSet';
+import DefinitionExpression from './DefinitionExpression';
+import Docs from './Docs';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
-import Docs from './Docs';
-import Names from './Names';
-import type Value from '@values/Value';
-import StartFinish from '@runtime/StartFinish';
-import TypeVariables from './TypeVariables';
-import NoExpression from '@conflicts/NoExpression';
-import UnimplementedType from './UnimplementedType';
-import TypeToken from './TypeToken';
-import { any, node, none, type Grammar, type Replacement, list } from './Node';
-import type Locale from '@locale/Locale';
-import InternalException from '@values/InternalException';
-import Glyphs from '../lore/Glyphs';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Block from './Block';
-import concretize from '../locale/concretize';
-import IncompatibleType from '../conflicts/IncompatibleType';
-import NameType from './NameType';
-import FunctionType from './FunctionType';
-import StructureDefinition from './StructureDefinition';
-import UnaryEvaluate from './UnaryEvaluate';
-import BinaryEvaluate from './BinaryEvaluate';
 import Evaluate from './Evaluate';
+import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionType from './FunctionType';
+import Names from './Names';
+import NameType from './NameType';
+import type Node from './Node';
+import { any, list, node, none, type Grammar, type Replacement } from './Node';
 import PropertyReference from './PropertyReference';
 import Reference from './Reference';
-import Purpose from '../concepts/Purpose';
-import DefinitionExpression from './DefinitionExpression';
-import type Locales from '../locale/Locales';
+import StructureDefinition from './StructureDefinition';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
+import TypePlaceholder from './TypePlaceholder';
+import type TypeSet from './TypeSet';
+import TypeToken from './TypeToken';
+import TypeVariables from './TypeVariables';
+import UnaryEvaluate from './UnaryEvaluate';
+import UnimplementedType from './UnimplementedType';
+import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionDefinition extends DefinitionExpression {
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly share: Token | undefined;
     readonly fun: Token;
     readonly names: Names;
@@ -111,7 +112,13 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ type, context }: EditContext) {
+        return type instanceof FunctionType
+            ? [type.getDefaultExpression(context)]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [
             FunctionDefinition.make(
                 undefined,
@@ -124,7 +131,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FunctionDefinition';
     }
 
@@ -174,11 +181,12 @@ export default class FunctionDefinition extends DefinitionExpression {
                         : reference,
                     this.inputs
                         .filter((input) => !input.hasDefault())
-                        .map((input) => {
-                            if (input.type instanceof FunctionType)
-                                return input.type.getTemplate(context);
-                            else return ExpressionPlaceholder.make();
-                        }),
+                        .map((input) =>
+                            input.type
+                                ? (input.type.getDefaultExpression(context) ??
+                                  ExpressionPlaceholder.make(input.type))
+                                : ExpressionPlaceholder.make(),
+                        ),
                 );
     }
 
@@ -201,13 +209,22 @@ export default class FunctionDefinition extends DefinitionExpression {
                 indent: true,
             },
             { name: 'close', kind: node(Sym.EvalClose) },
-            { name: 'dot', kind: any(node(Sym.Type), none('output')) },
-            { name: 'output', kind: any(node(Type), none('dot')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['output', () => TypePlaceholder.make()]),
+                ),
+            },
+            {
+                name: 'output',
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+            },
             {
                 name: 'expression',
                 kind: any(node(Expression), node(Sym.Etc), none()),
                 space: true,
-                indent: (_: Node, child: Node) => !(child instanceof Block),
+                indent: true,
                 // Must match output type if provided
                 getType: (context) => this.getOutputType(context),
             },
@@ -255,7 +272,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         return this.share !== undefined;
     }
 
-    getPreferredName(locales: Locale[]) {
+    getPreferredName(locales: LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 
@@ -290,9 +307,11 @@ export default class FunctionDefinition extends DefinitionExpression {
     isEvaluationInvolved() {
         return true;
     }
+
     isEvaluationRoot() {
         return true;
     }
+
     getScopeOfChild(child: Node, context: Context): Node | undefined {
         // A function definition is the scope for its expression (since it defines inputs the expression might use),
         // but also for its output type and inputs, since they may refer to type variables declared on the function.
@@ -366,7 +385,10 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     /** Functions have no dependencies; once they are defined, they cannot change what they evaluate to. */
     getDependencies(): Expression[] {
-        return this.expression !== undefined ? [this.expression] : [];
+        return [
+            ...this.inputs,
+            ...(this.expression !== undefined ? [this.expression] : []),
+        ];
     }
 
     /** Functions are not constant because they encapsulate a closure each time they are evaluated. */
@@ -429,28 +451,41 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
+    isBinary() {
+        return this.inputs.length === 1 && this.names.hasSymbolicName();
+    }
+
+    isUnary() {
+        return (
+            this.getRequiredInputs().length === 0 &&
+            this.names.hasSymbolicName()
+        );
+    }
+
+    getRequiredInputs() {
+        return this.inputs.filter((input) => !input.hasDefault());
+    }
+
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.expression !== undefined)
             this.expression.evaluateTypeGuards(current, guard);
         return current;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.FunctionDefinition);
+    static readonly LocalePath = (l: LocaleText) => l.node.FunctionDefinition;
+    getLocalePath() {
+        return FunctionDefinition.LocalePath;
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.FunctionDefinition.start),
-        );
+        return locales.concretize((l) => l.node.FunctionDefinition.start);
     }
 
     getDescriptionInputs(locales: Locales) {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs() {
-        return Glyphs.Function;
+    getCharacter() {
+        return Characters.FunctionDefinition;
     }
 }

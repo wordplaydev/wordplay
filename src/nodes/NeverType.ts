@@ -1,15 +1,16 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
-import Type from './Type';
-import Glyphs from '../lore/Glyphs';
+import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NEVER_SYMBOL } from '@parser/Symbols';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import Characters from '../lore/BasisCharacters';
+import Type from './Type';
 
 export default class NeverType extends Type {
     constructor() {
         super();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NeverType';
     }
 
@@ -24,7 +25,7 @@ export default class NeverType extends Type {
         return 'never';
     }
     computeConflicts() {
-        return;
+        return [];
     }
 
     toWordplay() {
@@ -35,11 +36,12 @@ export default class NeverType extends Type {
         return new NeverType() as this;
     }
 
-    getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.NeverType);
+    static readonly LocalePath = (l: LocaleText) => l.node.NeverType;
+    getLocalePath() {
+        return NeverType.LocalePath;
     }
 
-    getGlyphs() {
-        return Glyphs.Never;
+    getCharacter() {
+        return Characters.Never;
     }
 }

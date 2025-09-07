@@ -1,13 +1,13 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
+import parseExpression from '../parser/parseExpression';
+import { toTokens } from '../parser/toTokens';
 import Bind from './Bind';
 import Docs from './Docs';
 import Language from './Language';
+import type Node from './Node';
 import NumberLiteral from './NumberLiteral';
 import Reference from './Reference';
 import Token from './Token';
-import type Node from './Node';
-import { toTokens } from '../parser/toTokens';
-import parseExpression from '../parser/parseExpression';
 
 test.each([
     '1',
@@ -28,7 +28,7 @@ test.each([
     ['1 + 2 + 3', NumberLiteral, 2, '4', '1 + 2 + 4'],
     // Replace Node with undefined
     ['"Hi"/en', Language, 0, undefined, '"Hi"'],
-    ['``Hi``/en(1)', Docs, 0, undefined, '(1)'],
+    ['¶Hi¶/en(1)', Docs, 0, undefined, '(1)'],
     // Remove Node in list
     ['[ 1 2 3 ]', NumberLiteral, 0, undefined, '[ 2 3 ]'],
     // Replace Node in list
@@ -50,7 +50,7 @@ test.each([
         type: string | (new (...params: never[]) => Node),
         number,
         replacement,
-        result
+        result,
     ) => {
         const expr = parseExpression(toTokens(code));
         const newNode =
@@ -65,5 +65,5 @@ test.each([
                 : expr.nodes((s): s is Node => s instanceof type)[number];
         const newExpr = expr.replace(oldNode, newNode);
         expect(newExpr.isEqualTo(expected)).toBeTruthy();
-    }
+    },
 );

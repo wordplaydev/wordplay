@@ -1,9 +1,9 @@
-import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
-import Delete from './Delete';
+import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import DefaultLocales from '../locale/DefaultLocales';
 import evaluateCode from '../runtime/evaluate';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import Delete from './Delete';
 
 test.each([
     [
@@ -22,12 +22,12 @@ test.each([
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {
         testConflict(good, bad, node, conflict);
-    }
+    },
 );
 
 test.each([['⎡a•# b•#⎦⎡1 2⎦⎡1 3⎦ ⎡- b = 3', '⎡ 1 2 ⎦']])(
     '%s = %s',
     (code: string, value: string) => {
         expect(evaluateCode(code)?.toWordplay(DefaultLocales)).toBe(value);
-    }
+    },
 );

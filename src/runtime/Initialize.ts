@@ -1,16 +1,15 @@
-import Step from './Step';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
-import concretize from '../locale/concretize';
+import type Evaluator from '@runtime/Evaluator';
 import type Locales from '../locale/Locales';
+import type Value from '../values/Value';
+import Step from './Step';
 
 export default class Initialize extends Step {
-    action?: (evaluator: Evaluator) => Value | undefined;
+    action: (evaluator: Evaluator) => Value | undefined;
 
     constructor(
         node: Expression,
-        action?: (evaluator: Evaluator) => Value | undefined
+        action: (evaluator: Evaluator) => Value | undefined,
     ) {
         super(node);
         this.action = action;
@@ -21,9 +20,6 @@ export default class Initialize extends Step {
     }
 
     getExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Iteration.initialize)
-        );
+        return locales.concretize((l) => l.node.Iteration.initialize);
     }
 }

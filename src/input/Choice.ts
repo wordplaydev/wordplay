@@ -1,13 +1,14 @@
-import StreamValue from '@values/StreamValue';
+import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import StreamDefinition from '../nodes/StreamDefinition';
+import StreamValue from '@values/StreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
+import type Locales from '../locale/Locales';
+import StreamDefinition from '../nodes/StreamDefinition';
+import StreamType from '../nodes/StreamType';
 import TextType from '../nodes/TextType';
 import TextValue from '../values/TextValue';
-import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locales from '../locale/Locales';
 
 /** A series of selected output, chosen by mouse or keyboard, allowing for programs that work for both mouse and keyboard. */
 export default class Choice extends StreamValue<TextValue, string> {
@@ -15,15 +16,15 @@ export default class Choice extends StreamValue<TextValue, string> {
 
     on = true;
 
-    constructor(evaluator: Evaluator) {
+    constructor(evaluation: Evaluation) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Choice,
-            new TextValue(evaluator.getMain(), ''),
-            ''
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Choice,
+            new TextValue(evaluation.getCreator(), ''),
+            '',
         );
 
-        this.evaluator = evaluator;
+        this.evaluator = evaluation.getEvaluator();
     }
 
     configure() {
@@ -56,9 +57,9 @@ export function createChoiceDefinition(locales: Locales) {
         createStreamEvaluator(
             TextType.make(),
             Choice,
-            (evaluation) => new Choice(evaluation.getEvaluator()),
-            (stream) => stream.configure()
+            (evaluation) => new Choice(evaluation),
+            (stream) => stream.configure(),
         ),
-        TextType.make()
+        TextType.make(),
     );
 }
