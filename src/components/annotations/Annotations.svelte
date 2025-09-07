@@ -255,28 +255,6 @@
     class:expanded={$showAnnotations}
     data-uiid="conflict"
 >
-    <!-- <svelte:boundary
-        onerror={(error) => {
-            if (error instanceof Error) console.error(error.stack);
-        }}
-    >
-        {#snippet failed(error, reset)}
-            <TileMessage error>
-                <h2><LocalizedText path={(l) => l.ui.project.error.tile} /></h2>
-                <p
-                    ><Button
-                        tip={(l) => l.ui.project.error.reset}
-                        action={reset}
-                        background
-                        ><LocalizedText
-                            path={(l) => l.ui.project.error.reset}
-                        /></Button
-                    ></p
-                >
-                <Note>{'' + error}</Note>
-            </TileMessage>
-        {/snippet} -->
-
     <Expander
         expanded={$showAnnotations}
         toggle={() => Settings.setShowAnnotations(!$showAnnotations)}
@@ -438,7 +416,6 @@
             ></div>
         {/each}
     {/if}
-    <!-- </svelte:boundary> -->
 </section>
 
 <style>

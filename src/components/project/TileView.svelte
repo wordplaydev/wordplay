@@ -293,6 +293,7 @@
     <!-- <svelte:boundary
         onerror={(error) => {
             if (error instanceof Error) console.error(error.stack);
+            else console.error(error);
         }}
     >
         {#snippet failed(error, reset)}
