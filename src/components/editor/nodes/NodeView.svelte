@@ -223,6 +223,12 @@
         animation: calc(var(--animation-factor) * 200ms) ease-out 0s 1 entry;
     }
 
+    /** An empty block has different padding */
+    .block:empty {
+        padding: calc(var(--wordplay-spacing) / 3);
+        align-self: center;
+    }
+
     @keyframes entry {
         0% {
             transform: scale(1);
