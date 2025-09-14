@@ -264,8 +264,9 @@
 
     .block.type {
         font-size: var(--wordplay-small-font-size);
-        background: var(--wordplay-alternating-color);
         box-shadow: inset var(--color-shadow) 0px 0px 4px;
+        background: var(--color-shadow-transparent);
+        border-radius: 1em;
     }
 
     .block.predicate {
@@ -276,10 +277,10 @@
     }
 
     .block.data {
-        background: var(--wordplay-alternating-color);
-        box-shadow: inset var(--color-shadow) 0px 0px 4px;
-        border-radius: 0 var(--wordplay-border-radius) 0
-            var(--wordplay-border-radius);
+        box-shadow: inset var(--color-shadow) 0px 0px
+            var(--wordplay-focus-width);
+        border: dashed var(--wordplay-border-width) var(--wordplay-border-color);
+        border-radius: 0;
     }
 
     .block.none {
