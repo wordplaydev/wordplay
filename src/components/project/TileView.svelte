@@ -316,23 +316,6 @@
     {#if !tile.isInvisible()}
         <!-- Render the toolbar -->
         <div class="header" style:color={foreground} style:fill={foreground}>
-            {#if !layout.isFullscreen()}
-                <Button
-                    background={background !== null}
-                    padding={false}
-                    tip={(l) => l.ui.tile.button.collapse}
-                    action={() => mode(TileMode.Collapsed)}
-                    icon="–"
-                ></Button>
-            {/if}
-            <Toggle
-                tips={(l) => l.ui.tile.toggle.fullscreen}
-                on={fullscreen}
-                background={background !== null}
-                toggle={() => setFullscreen(!fullscreen)}
-            >
-                <FullscreenIcon />
-            </Toggle>
             <!-- This goes above the toolbar because we need the feedback to be visible. -->
             <div style="z-index:2">
                 <Subheader compact>
@@ -371,6 +354,25 @@
             </div>
             <div class="toolbar">
                 {@render extra?.()}
+            </div>
+            <div class="tile-controls">
+                {#if !layout.isFullscreen()}
+                    <Button
+                        background={background !== null}
+                        padding={false}
+                        tip={(l) => l.ui.tile.button.collapse}
+                        action={() => mode(TileMode.Collapsed)}
+                        icon="–"
+                    ></Button>
+                {/if}
+                <Toggle
+                    tips={(l) => l.ui.tile.toggle.fullscreen}
+                    on={fullscreen}
+                    background={background !== null}
+                    toggle={() => setFullscreen(!fullscreen)}
+                >
+                    <FullscreenIcon />
+                </Toggle>
             </div>
         </div>
         <!-- Render the content -->
@@ -587,5 +589,9 @@
 
     .name.source {
         color: var(--wordplay-foreground);
+    }
+
+    .tile-controls {
+        margin-inline-start: auto;
     }
 </style>
