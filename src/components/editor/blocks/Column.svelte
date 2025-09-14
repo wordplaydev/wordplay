@@ -22,6 +22,6 @@
     }
 
     .row.indent {
-        margin-inline-start: 2em;
+        margin-inline-start: 1em;
     }
 </style>

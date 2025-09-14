@@ -68,8 +68,8 @@
             aria-readonly="true"
             class:blocks={$blocks}
             class="node"
-            class:draggable={dragged !== undefined && draggable}
             class:outline
+            class:draggable={dragged !== undefined && draggable}
             class:elide
             class:evaluate={node instanceof Expression &&
                 node.getKind() === ExpressionKind.Evaluate}
@@ -85,7 +85,7 @@
                 {node}
                 {inline}
                 {spaces}
-                blocks={false}
+                blocks={$blocks}
                 {elide}
                 locale={$locales.getLocale()}
                 inert={!draggable}
@@ -133,15 +133,15 @@
         touch-action: none;
     }
 
-    .draggable {
-        cursor: grab;
-    }
-
     .node.outline {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: 1px calc(3 * var(--wordplay-border-radius))
             calc(3 * var(--wordplay-border-radius)) 1px;
+    }
+
+    .draggable {
+        cursor: grab;
     }
 
     .node.elide {
