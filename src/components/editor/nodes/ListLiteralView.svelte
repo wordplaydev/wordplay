@@ -17,7 +17,8 @@
         nodes={node.values}
         {format}
         elide
-        block={node.toWordplay().length > 32}
+        block={node.values.reduce((sum, v) => sum + v.toWordplay().length, 0) >
+            32}
     />
     <NodeView node={node.close} {format} />
     <NodeView node={node.literal} {format} />
