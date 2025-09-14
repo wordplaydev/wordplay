@@ -4682,6 +4682,13 @@
                             "$~Zeilennummern im Textmodus anzeigen",
                             "$~Zeilennummern im Textmodus nicht anzeigen"
                         ]
+                    },
+                    "blocks": {
+                        "label": "$~Bearbeitungsmodus",
+                        "modes": [
+                            "$~Code als Text bearbeiten",
+                            "$~Code als Blöcke bearbeiten"
+                        ]
                     }
                 },
                 "options": {

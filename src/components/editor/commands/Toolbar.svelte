@@ -1,6 +1,12 @@
 <script lang="ts">
+    import Switch from '@components/widgets/Switch.svelte';
+    import { blocks, Settings } from '@db/Database';
     import type Locale from '../../../locale/Locale';
-    import { LOCALE_SYMBOL } from '../../../parser/Symbols';
+    import {
+        BLOCK_EDITING_SYMBOL,
+        LOCALE_SYMBOL,
+        TEXT_EDITING_SYMBOL,
+    } from '../../../parser/Symbols';
     import EditorLocaleChooser from '../../project/EditorLocaleChooser.svelte';
     import Button from '../../widgets/Button.svelte';
     import CommandButton from '../../widgets/CommandButton.svelte';
@@ -67,6 +73,15 @@
 
 <!-- Make a Button for every modify command if editable -->
 {#if editable}
+    <Switch
+        offLabel={TEXT_EDITING_SYMBOL}
+        onLabel={BLOCK_EDITING_SYMBOL}
+        offTip={(l) => l.ui.dialog.settings.mode.blocks.modes[0]}
+        onTip={(l) => l.ui.dialog.settings.mode.blocks.modes[1]}
+        on={$blocks}
+        toggle={(on) => Settings.setBlocks(on)}
+    />
+
     <!-- Important modify commands are always visible -->
     {#each importantModifyCommands as command}
         <CommandButton {command} {sourceID} />

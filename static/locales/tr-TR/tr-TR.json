@@ -4700,6 +4700,13 @@
                             "$~dikey, sağdan sola",
                             "$~dikey, soldan sağa"
                         ]
+                    },
+                    "blocks": {
+                        "label": "$~düzenleme modu",
+                        "modes": [
+                            "$~kodu metin olarak düzenle",
+                            "$~kodu bloklar halinde düzenle"
+                        ]
                     }
                 },
                 "options": {

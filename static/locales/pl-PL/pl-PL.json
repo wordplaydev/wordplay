@@ -4705,6 +4705,13 @@
                             "$~pionowo, od prawej do lewej",
                             "$~pionowo, od lewej do prawej"
                         ]
+                    },
+                    "blocks": {
+                        "label": "$~tryb edycji",
+                        "modes": [
+                            "$~edytuj kod jako tekst",
+                            "$~edytuj kod jako bloki"
+                        ]
                     }
                 },
                 "options": {

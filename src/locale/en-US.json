@@ -4681,6 +4681,10 @@
                             "use device setting"
                         ]
                     },
+                    "blocks": {
+                        "label": "editing mode",
+                        "modes": ["edit code as text", "edit code as blocks"]
+                    },
                     "space": {
                         "label": "space indicator",
                         "modes": [

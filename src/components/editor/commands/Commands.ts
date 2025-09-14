@@ -632,7 +632,7 @@ export const FocusCycle: Command = {
 export const ToggleBlocks: Command = {
     symbol: '⧠',
     description: (l) => l.ui.source.toggle.blocks.on,
-    visible: Visibility.Visible,
+    visible: Visibility.Invisible,
     category: Category.Modify,
     shift: false,
     alt: false,

@@ -135,3 +135,6 @@ export const IDEA_SYMBOL = '💡';
 export const DEFECT_SYMBOL = '🪲';
 
 export const SEARCH_SYMBOL = '🔍';
+
+export const BLOCK_EDITING_SYMBOL = '▢';
+export const TEXT_EDITING_SYMBOL = 'a|b';

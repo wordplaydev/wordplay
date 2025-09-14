@@ -4662,6 +4662,13 @@
                             "$~mostrar números de línea en modo texto",
                             "$~no mostrar números de línea en modo texto"
                         ]
+                    },
+                    "blocks": {
+                        "label": "$~modo de edición",
+                        "modes": [
+                            "$~editar código como texto",
+                            "$~editar código como bloques"
+                        ]
                     }
                 },
                 "options": {

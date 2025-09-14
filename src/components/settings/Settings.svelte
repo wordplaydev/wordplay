@@ -8,12 +8,18 @@
         AnimationFactors,
     } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
-    import { CANCEL_SYMBOL, CONFIRM_SYMBOL } from '@parser/Symbols';
+    import {
+        BLOCK_EDITING_SYMBOL,
+        CANCEL_SYMBOL,
+        CONFIRM_SYMBOL,
+        TEXT_EDITING_SYMBOL,
+    } from '@parser/Symbols';
     import { onMount } from 'svelte';
     import { Creator } from '../../db/creators/CreatorDatabase';
     import {
         animationFactor,
         arrangement,
+        blocks,
         camera,
         dark,
         locales,
@@ -216,7 +222,13 @@
                     )}
                 modes={['☼', '☽', '☼/☽']}
             />
-
+            <Mode
+                descriptions={(l) => l.ui.dialog.settings.mode.blocks}
+                choice={$blocks ? 1 : 0}
+                select={(choice) =>
+                    Settings.setBlocks(choice === 1 ? true : false)}
+                modes={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+            />
             <Mode
                 descriptions={(l) => l.ui.dialog.settings.mode.space}
                 choice={$spaceIndicator ? 1 : 0}

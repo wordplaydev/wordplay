@@ -4683,6 +4683,13 @@
                             "$~afficher les numéros de ligne en mode texte",
                             "$~ne pas afficher les numéros de ligne en mode texte"
                         ]
+                    },
+                    "blocks": {
+                        "label": "$~mode d'édition",
+                        "modes": [
+                            "$~modifier le code sous forme de texte",
+                            "$~éditer le code sous forme de blocs"
+                        ]
                     }
                 },
                 "options": {

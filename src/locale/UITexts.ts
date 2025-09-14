@@ -737,6 +737,8 @@ type UITexts = {
                 dark: ModeText<[string, string, string]>;
                 /** The writing layout direction */
                 writing: ModeText<[string, string, string]>;
+                /** The blocks on/off mode */
+                blocks: ModeText<[string, string]>;
                 /** The space_indicator on/off mode */
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */

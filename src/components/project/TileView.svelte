@@ -551,6 +551,9 @@
         flex-shrink: 0;
         /** Dim the header a bit so that they don't demand so much attention */
         opacity: 0.8;
+
+        border-block-end: solid var(--wordplay-border-color)
+            var(--wordplay-border-width);
     }
 
     .focus-indicator {

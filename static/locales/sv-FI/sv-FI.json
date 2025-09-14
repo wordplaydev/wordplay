@@ -4700,6 +4700,13 @@
                             "$~vertikalt, höger till vänster",
                             "$~vertikalt, från vänster till höger"
                         ]
+                    },
+                    "blocks": {
+                        "label": "$~redigeringsläge",
+                        "modes": [
+                            "$~redigera kod som text",
+                            "$~redigera kod som block"
+                        ]
                     }
                 },
                 "options": {

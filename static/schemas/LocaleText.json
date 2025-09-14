@@ -9129,6 +9129,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The animation on/off/slowdown mode"
                         },
+                        "blocks": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "The blocks on/off mode"
+                        },
                         "dark": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                           "description": "The dark on/off/automatic mode"
@@ -9155,6 +9159,7 @@
                         "animate",
                         "dark",
                         "writing",
+                        "blocks",
                         "space",
                         "lines"
                       ],

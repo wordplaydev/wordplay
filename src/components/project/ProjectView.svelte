@@ -12,7 +12,6 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
     import CharacterChooser from '@components/editor/commands/GlyphChooser.svelte';
-    import EditorToolbar from '@components/editor/commands/Toolbar.svelte';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import Menu from '@components/editor/menu/Menu.svelte';
     import Speech from '@components/lore/Speech.svelte';
@@ -78,7 +77,9 @@
         VisibleNavigateCommands,
         type CommandContext,
     } from '../editor/commands/Commands';
-    import Editor from '../editor/Editor.svelte';
+
+    import Toolbar from '@components/editor/commands/Toolbar.svelte';
+    import Editor from '@components/editor/Editor.svelte';
     import type { HighlightSpec } from '../editor/highlights/Highlights';
     import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
     import type MenuInfo from '../editor/menu/Menu';
@@ -1622,7 +1623,7 @@
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    <EditorToolbar
+                                    <Toolbar
                                         sourceID={tile.id}
                                         navigateCommands={VisibleNavigateCommands}
                                         modifyCommands={VisibleModifyCommands}
