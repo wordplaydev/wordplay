@@ -54,6 +54,15 @@
     );
 </script>
 
+<Switch
+    offLabel={TEXT_EDITING_SYMBOL}
+    onLabel={BLOCK_EDITING_SYMBOL}
+    offTip={(l) => l.ui.dialog.settings.mode.blocks.modes[0]}
+    onTip={(l) => l.ui.dialog.settings.mode.blocks.modes[1]}
+    on={$blocks}
+    toggle={(on) => Settings.setBlocks(on)}
+/>
+
 <!-- Navigate commands are always visible -->
 {#each importantNavigateCommands as command}
     <CommandButton {command} {sourceID} />
@@ -73,15 +82,6 @@
 
 <!-- Make a Button for every modify command if editable -->
 {#if editable}
-    <Switch
-        offLabel={TEXT_EDITING_SYMBOL}
-        onLabel={BLOCK_EDITING_SYMBOL}
-        offTip={(l) => l.ui.dialog.settings.mode.blocks.modes[0]}
-        onTip={(l) => l.ui.dialog.settings.mode.blocks.modes[1]}
-        on={$blocks}
-        toggle={(on) => Settings.setBlocks(on)}
-    />
-
     <!-- Important modify commands are always visible -->
     {#each importantModifyCommands as command}
         <CommandButton {command} {sourceID} />
