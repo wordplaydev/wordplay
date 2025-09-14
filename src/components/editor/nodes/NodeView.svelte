@@ -264,9 +264,9 @@
 
     .block.type {
         font-size: var(--wordplay-small-font-size);
-        box-shadow: inset var(--color-shadow) 0px 0px 4px;
+        box-shadow: inset var(--color-shadow) 0px 0px
+            var(--wordplay-focus-width);
         background: var(--color-shadow-transparent);
-        border-radius: 1em;
     }
 
     .block.predicate {
