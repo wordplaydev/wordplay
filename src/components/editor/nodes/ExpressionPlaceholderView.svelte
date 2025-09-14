@@ -3,12 +3,7 @@
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import { locales } from '../../../db/Database';
     import UnknownType from '../../../nodes/UnknownType';
-    import {
-        getCaret,
-        getIsBlocks,
-        getProject,
-        getRoot,
-    } from '../../project/Contexts';
+    import { getCaret, getProject, getRoot } from '../../project/Contexts';
     import RootView from '../../project/RootView.svelte';
     import PlaceholderView from '../menu/MenuTrigger.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
@@ -26,7 +21,6 @@
     let root = $derived(rootContext?.root);
 
     const caret = getCaret();
-    const blocks = getIsBlocks();
 
     let inferredType = $derived(
         $project ? node.getType($project.getNodeContext(node)) : undefined,
@@ -68,7 +62,7 @@
                     inline
                     locale="symbolic"
                     node={inferredType}
-                    blocks={$blocks}
+                    blocks={format.block}
                 /></div
             >{/if}</span
     ></span

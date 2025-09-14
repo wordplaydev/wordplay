@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { getIsBlocks } from '@components/project/Contexts';
     import type Language from '@nodes/Language';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -9,11 +8,9 @@
     }
 
     let { node, format }: Props = $props();
-
-    const blocks = getIsBlocks();
 </script>
 
-<em class="language {$blocks ? 'blocks' : ''}"
+<em class="language {format.block ? 'blocks' : ''}"
     ><NodeView node={node.slash} {format} /><NodeView
         node={node.language}
         {format}

@@ -1,5 +1,6 @@
 <script lang="ts">
     import type FunctionDefinition from '@nodes/FunctionDefinition';
+    import Column from '../blocks/Column.svelte';
     import Row from '../blocks/Row.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
@@ -32,7 +33,9 @@
             {format}
         />
     </Row>
-    <NodeView node={node.expression} {format} />
+    <Column indent>
+        <NodeView node={node.expression} {format} />
+    </Column>
 {:else}
     <NodeView node={node.docs} {format} /><NodeView
         node={node.share}

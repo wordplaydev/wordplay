@@ -3,10 +3,10 @@
 
     interface Props {
         children: Snippet;
-        indent: boolean;
+        indent?: boolean;
     }
 
-    let { children, indent }: Props = $props();
+    let { children, indent = false }: Props = $props();
 </script>
 
 <div class="row" class:indent>
