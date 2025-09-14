@@ -196,10 +196,11 @@
     // Get the editor context from the parent
     const editor = getEditor();
 
-    // Whenever the caret changes, wait for rendering, then update it's location.
+    // Whenever the caret or blocks mode changes, wait for rendering, then update it's location.
     let animationDelayTimeout: NodeJS.Timeout | undefined = undefined;
     $effect(() => {
         caret;
+        blocks;
         // Not playing? Depend on evaluation $evaluation. Otherwise, only update when caret changes.
         // We do this because when stepping, things hide and show and we need to update the caret
         // position when they do. But we don't want to do it when playing, otherwise the editor
