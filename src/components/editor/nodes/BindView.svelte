@@ -1,6 +1,5 @@
 <script lang="ts">
     import type Bind from '@nodes/Bind';
-    import Delimiter from '../blocks/Delimiter.svelte';
     import Row from '../blocks/Row.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -20,7 +19,7 @@
         <NodeView node={node.etc} {format} />
         <NodeView node={node.dot} {format} />
         <NodeView node={node.type} {format} />
-        <Delimiter token={node.colon} {format} />
+        <NodeView node={node.colon} {format} />
         {#if node.value}<NodeView node={node.value} {format} />{/if}
     </Row>
 {:else}

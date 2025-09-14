@@ -4,7 +4,6 @@
     import type Bind from '../../../nodes/Bind';
     import Token from '../../../nodes/Token';
     import { getCaret, getProject } from '../../project/Contexts';
-    import Delimiter from '../blocks/Delimiter.svelte';
     import PlaceholderView from '../menu/MenuTrigger.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -80,7 +79,7 @@
 {#if format.block}
     <NodeView node={node.fun} {format} />
     <NodeView node={node.types} {format} />
-    <Delimiter token={node.open} {format} />
+    <NodeView node={node.open} {format} />
     {#each node.inputs as input}<NodeView
             node={input}
             {format}
@@ -101,7 +100,7 @@
             >{/if} -->{#if nextBind && menuPosition}
         &nbsp;<PlaceholderView position={menuPosition} />
     {/if}
-    <Delimiter token={node.close} {format} />
+    <NodeView node={node.close} {format} />
 {:else}
     <NodeView node={node.fun} {format} /><NodeView
         node={node.types}

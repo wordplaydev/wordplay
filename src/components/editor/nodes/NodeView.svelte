@@ -281,6 +281,7 @@
             var(--wordplay-focus-width);
         border: dashed var(--wordplay-border-width) var(--wordplay-border-color);
         border-radius: 0;
+        background: var(--color-shadow-transparent);
     }
 
     .block.none {

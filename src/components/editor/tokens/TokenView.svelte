@@ -10,7 +10,6 @@
     import {
         getCaret,
         getHidden,
-        getIsBlocks,
         getLocalize,
         getProject,
         getRoot,
@@ -30,7 +29,7 @@
         format: Format;
     }
 
-    let { node }: TokenProps = $props();
+    let { node, format }: TokenProps = $props();
 
     let caret = getCaret();
     let project = getProject();
@@ -40,7 +39,6 @@
 
     let localize = getLocalize();
     let hidden = getHidden();
-    let blocks = getIsBlocks();
 
     let hide = $derived(node ? $hidden?.has(node) : false);
     let editable = $derived($caret !== undefined);
@@ -107,7 +105,7 @@
     );
 </script>
 
-{#if $blocks && root}
+{#if format.block && root}
     <div
         class="token-view blocks token-category-{TokenCategories.get(
             Array.isArray(node.types)
