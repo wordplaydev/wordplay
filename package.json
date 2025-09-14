@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.16.23",
+    "version": "0.6.24",
     "scripts": {
         "postinstall": "run-script-os",
         "postinstall:default": "svelte-kit sync && cp .env.template .env",
@@ -89,7 +89,7 @@
         "pitchy": "^4",
         "recoverable-random": "^1",
         "shared-types": "file:./functions/src/shared",
-        "uuid": "^12",
+        "uuid": "^13",
         "zod": "^4"
     },
     "browserslist": [
