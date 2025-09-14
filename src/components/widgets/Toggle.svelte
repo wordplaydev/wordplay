@@ -104,7 +104,7 @@
         color: currentColor;
         stroke: currentColor;
         fill: var(--wordplay-background);
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing-half);
         cursor: pointer;
         width: fit-content;
         max-width: 10em;

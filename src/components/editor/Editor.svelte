@@ -1876,8 +1876,8 @@
         background: var(--wordplay-highlight-color);
         color: var(--wordplay-background);
         /* border:  var(--wordplay-border-width) solid var(--wordplay-border-color); */
-        padding-left: calc(var(--wordplay-spacing) / 2);
-        padding-right: calc(var(--wordplay-spacing) / 2);
+        padding-left: var(--wordplay-spacing-half);
+        padding-right: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
         opacity: 0;
     }

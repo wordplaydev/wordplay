@@ -35,8 +35,8 @@
         font-family: var(--wordplay-app-font);
         background-color: var(--wordplay-error);
         color: var(--wordplay-background);
-        padding-left: calc(var(--wordplay-spacing) / 2);
-        padding-right: calc(var(--wordplay-spacing) / 2);
+        padding-left: var(--wordplay-spacing-half);
+        padding-right: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
     }
 </style>

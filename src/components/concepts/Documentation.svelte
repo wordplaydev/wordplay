@@ -467,8 +467,8 @@
         position: sticky;
         top: 0;
         z-index: 1;
-        margin-left: calc(var(--wordplay-spacing) / 2);
-        margin-right: calc(var(--wordplay-spacing) / 2);
+        margin-left: var(--wordplay-spacing-half);
+        margin-right: var(--wordplay-spacing-half);
     }
 
     .path {

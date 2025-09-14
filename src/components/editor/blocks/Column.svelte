@@ -17,7 +17,7 @@
     .row {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing-half);
         align-items: start;
     }
 

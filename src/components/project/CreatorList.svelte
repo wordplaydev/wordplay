@@ -231,7 +231,7 @@
     .person {
         display: flex;
         flex-direction: row;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         align-items: center;
     }
 

@@ -544,7 +544,7 @@
         flex-wrap: nowrap;
         align-items: center;
         padding: var(--wordplay-spacing);
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         width: 100%;
         overflow-x: auto;
         overflow-y: visible;

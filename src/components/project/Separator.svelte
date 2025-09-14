@@ -2,8 +2,8 @@
 
 <style>
     .separator {
-        margin-inline-start: calc(var(--wordplay-spacing) / 2);
-        margin-inline-end: calc(var(--wordplay-spacing) / 2);
+        margin-inline-start: var(--wordplay-spacing-half);
+        margin-inline-end: var(--wordplay-spacing-half);
         width: 0;
         height: 100%;
         border-left: var(--wordplay-border-width) solid

@@ -150,7 +150,7 @@
     .value {
         display: inline-block;
         /* margin-inline-start: var(--wordplay-spacing); */
-        transform: translateY(calc(var(--wordplay-spacing) / 2));
+        transform: translateY(var(--wordplay-spacing-half));
     }
 
     .blockselected {
@@ -215,8 +215,8 @@
         width: fit-content;
         height: fit-content;
 
-        padding: calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing))
-            calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing));
+        padding: var(--wordplay-spacing-half) calc(var(--wordplay-spacing-half))
+            var(--wordplay-spacing-half) calc(var(--wordplay-spacing-half));
         box-shadow: var(--color-shadow) 0px 0px 4px;
         border-radius: var(--wordplay-border-radius);
 
@@ -225,7 +225,7 @@
 
     /** An empty block has different padding */
     .block:empty {
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing-half);
         align-self: center;
     }
 
@@ -247,7 +247,7 @@
     .block.inline {
         flex-direction: row;
         align-items: baseline;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
     }
 
     .block.definition {
