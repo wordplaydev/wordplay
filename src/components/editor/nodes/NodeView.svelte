@@ -215,8 +215,8 @@
         width: fit-content;
         height: fit-content;
 
-        padding: calc(var(--wordplay-spacing) / 3) calc(var(--wordplay-spacing))
-            calc(var(--wordplay-spacing) / 3) calc(var(--wordplay-spacing));
+        padding: calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing))
+            calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing));
         box-shadow: var(--color-shadow) 0px 0px 4px;
         border-radius: var(--wordplay-border-radius);
 
@@ -225,7 +225,7 @@
 
     /** An empty block has different padding */
     .block:empty {
-        padding: calc(var(--wordplay-spacing) / 3);
+        padding: calc(var(--wordplay-spacing) / 2);
         align-self: center;
     }
 
