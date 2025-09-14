@@ -7,7 +7,6 @@
     import Name from '@nodes/Name';
     import Names from '@nodes/Names';
     import type Node from '@nodes/Node';
-    import Program from '@nodes/Program';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
@@ -197,10 +196,6 @@
                     if (visible.length === 1 && visible[0].language)
                         newHidden.add(visible[0].language);
                 }
-
-                // If this is a doc and we're not in a program, hide it unconditionally.
-                if (tagged instanceof Docs && !(root.root instanceof Program))
-                    newHidden.add(tagged);
             }
         }
 

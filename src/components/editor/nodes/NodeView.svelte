@@ -69,7 +69,7 @@
 
     // Get the hidden context.
     let hidden = getHidden();
-    let hide = $derived(node ? $hidden?.has(node) : false);
+    let hide = $derived(node && $hidden && $hidden.has(node));
 
     // Get the insertion point
     let insertion = getInsertionPoint();
