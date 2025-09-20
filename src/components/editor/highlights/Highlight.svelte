@@ -66,7 +66,7 @@
 
     .highlight path {
         fill: none;
-        stroke-width: var(--wordplay-border-radius);
+        stroke-width: var(--wordplay-focus-width);
         stroke-linejoin: round;
     }
 
