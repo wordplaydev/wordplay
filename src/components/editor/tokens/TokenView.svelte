@@ -161,12 +161,14 @@
                         {placeholder}
                         {text}
                         rendered={renderedText}
+                        {format}
                     />{/if}
             {/if}
         {:else}<TextOrPlaceholder
                 {placeholder}
                 {text}
                 rendered={renderedText}
+                {format}
             />{/if}
     </div>
 {:else}
@@ -184,7 +186,12 @@
         data-id={node.id}
         role="presentation"
     >
-        <TextOrPlaceholder {placeholder} {text} rendered={renderedText} />
+        <TextOrPlaceholder
+            {placeholder}
+            {text}
+            rendered={renderedText}
+            {format}
+        />
     </span>
 {/if}
 
