@@ -85,19 +85,7 @@
             {format}
         /><PlaceholderView
             position={input instanceof Input ? input.value : input}
-        />{/each}<!-- {#if nextBind}
-            <div class="hint"
-                ><div class="name"
-                    ><RootView
-                        node={nextBind.withoutValue()}
-                        inline
-                        elide
-                        locale="symbolic"
-                        inert
-                        blocks={false}
-                    /></div
-                ></div
-            >{/if} -->{#if nextBind && menuPosition}
+        />{/each}{#if nextBind && menuPosition}
         &nbsp;<PlaceholderView position={menuPosition} />
     {/if}
     <NodeView node={node.close} {format} />
@@ -111,46 +99,7 @@
     />{#each node.inputs as input}<NodeView
             node={input}
             {format}
-        />{/each}<!-- {#if nextBind}
-        <div class="hint"
-            ><div class="name"
-                ><RootView
-                    node={nextBind.withoutValue()}
-                    inline
-                    elide
-                    locale="symbolic"
-                    inert
-                    blocks={$blocks}
-                /></div
-            ></div
-        >{/if} -->{#if nextBind && menuPosition}
+        />{/each}{#if nextBind && menuPosition}
         &nbsp;<PlaceholderView position={menuPosition} />
     {/if}<NodeView node={node.close} {format} />
 {/if}
-
-<style>
-    /* .hint {
-        display: inline-block;
-        position: relative;
-        width: 0;
-        height: 1em;
-        z-index: 2;
-    }
-    .name {
-        position: absolute;
-        left: 0;
-        top: 1em;
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
-        background: var(--wordplay-background);
-        border: var(--wordplay-border-width) solid
-            var(--wordplay-inactive-color);
-    }
-
-    .hint,
-    .hint :global(.token-view) {
-        color: var(--wordplay-inactive-color);
-        font-style: italic;
-        font-size: small;
-    } */
-</style>
