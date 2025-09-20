@@ -5,7 +5,7 @@
     import UnknownType from '../../../nodes/UnknownType';
     import { getCaret, getProject, getRoot } from '../../project/Contexts';
     import RootView from '../../project/RootView.svelte';
-    import PlaceholderView from '../menu/MenuTrigger.svelte';
+    import MenuTrigger from '../menu/MenuTrigger.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
     interface Props {
@@ -66,7 +66,7 @@
                 /></div
             >{/if}</span
     ></span
->{#if caret}<PlaceholderView position={node} />{/if}
+>{#if caret}<MenuTrigger position={node} />{/if}
 
 <style>
     .placeholder {

@@ -81,7 +81,7 @@
     } from './highlights/Highlights';
     import { type Outline, OutlinePadding } from './highlights/outline';
     import Menu, { RevisionSet } from './menu/Menu';
-    import PlaceholderView from './menu/MenuTrigger.svelte';
+    import MenuTrigger from './menu/MenuTrigger.svelte';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -1760,7 +1760,7 @@
                 {$caret.position.getLabel(
                     $locales,
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
-                <PlaceholderView position={$caret.position} />{/if}</div
+                <MenuTrigger position={$caret.position} />{/if}</div
         >
     {/key}
     {#if project.getSupplements().length > 0}

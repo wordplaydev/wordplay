@@ -4,7 +4,7 @@
     import type Bind from '../../../nodes/Bind';
     import Token from '../../../nodes/Token';
     import { getCaret, getProject } from '../../project/Contexts';
-    import PlaceholderView from '../menu/MenuTrigger.svelte';
+    import MenuTrigger from '../menu/MenuTrigger.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
     interface Props {
@@ -80,13 +80,10 @@
     <NodeView node={node.fun} {format} />
     <NodeView node={node.types} {format} />
     <NodeView node={node.open} {format} />
-    {#each node.inputs as input}<NodeView
-            node={input}
-            {format}
-        /><PlaceholderView
+    {#each node.inputs as input}<NodeView node={input} {format} /><MenuTrigger
             position={input instanceof Input ? input.value : input}
         />{/each}{#if nextBind && menuPosition}
-        &nbsp;<PlaceholderView position={menuPosition} />
+        &nbsp;<MenuTrigger position={menuPosition} />
     {/if}
     <NodeView node={node.close} {format} />
 {:else}
@@ -100,6 +97,6 @@
             node={input}
             {format}
         />{/each}{#if nextBind && menuPosition}
-        &nbsp;<PlaceholderView position={menuPosition} />
+        &nbsp;<MenuTrigger position={menuPosition} />
     {/if}<NodeView node={node.close} {format} />
 {/if}
