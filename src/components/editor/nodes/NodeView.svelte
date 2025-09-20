@@ -227,7 +227,7 @@
     }
 
     /** Hover background and scale for blocks without hovered children */
-    .block:not(:has(.block:hover)):hover {
+    .node-view.block:not(:has(.node-view.block:hover)):hover {
         background: var(--wordplay-hover);
         outline: var(--wordplay-border-width) solid var(--wordplay-border-color);
         box-shadow: var(--color-shadow) 2px 2px 4px;
