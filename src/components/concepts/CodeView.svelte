@@ -136,8 +136,8 @@
     .node.outline {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: 1px calc(3 * var(--wordplay-border-radius))
-            calc(3 * var(--wordplay-border-radius)) 1px;
+        border-radius: 1px var(--wordplay-border-radius)
+            var(--wordplay-border-radius) 1px;
     }
 
     .draggable {
