@@ -224,7 +224,7 @@
     }
 
     button:hover:not(:global(:focus))[aria-disabled='false'] {
-        background: var(--wordplay-alternating-color);
+        background: var(--wordplay-hover);
     }
 
     .button.active {

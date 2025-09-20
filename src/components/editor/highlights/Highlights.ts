@@ -107,7 +107,7 @@ export function getHighlights(
             source,
             newHighlights,
             caret.position,
-            tokensSelected ? 'selected' : 'blockselected',
+            !blocks ? 'selected' : 'blockselected',
         );
         if (tokensSelected)
             addHighlight(source, newHighlights, caret.position, 'hovered');
