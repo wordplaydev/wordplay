@@ -150,12 +150,6 @@
         transform: translateY(var(--wordplay-spacing-half));
     }
 
-    .blockselected {
-        outline: var(--wordplay-focus-width) solid
-            var(--wordplay-highlight-color);
-        background: var(--wordplay-hover);
-    }
-
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
     .dragged :global(.token-view) {
         opacity: 0.25;
@@ -214,7 +208,7 @@
         cursor: grab;
 
         /** Animate some of the visual distinctions that come and go*/
-        transition-property: padding, border-color, box-shadow;
+        transition-property: padding, border-color;
         transition-duration: calc(var(--animation-factor) * 200ms);
         transition-timing-function: ease-out;
 
@@ -229,8 +223,13 @@
     /** Hover background and scale for blocks without hovered children */
     .node-view.block:not(:has(.node-view.block:hover)):hover {
         background: var(--wordplay-hover);
-        outline: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        box-shadow: var(--color-shadow) 2px 2px 4px;
+        box-shadow: var(--color-shadow) 4px 4px 4px;
+    }
+
+    .blockselected {
+        outline: var(--wordplay-focus-width) solid
+            var(--wordplay-highlight-color);
+        background: var(--wordplay-hover);
     }
 
     /** An empty block has different padding */
