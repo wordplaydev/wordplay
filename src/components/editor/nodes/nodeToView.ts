@@ -215,7 +215,7 @@ function map<Kind extends Node>(
 map(Token, TokenView, { kind: 'none', direction: 'inline', size: 'normal' });
 map(Source, SourceView, { kind: 'none', direction: 'block', size: 'normal' });
 map(Program, ProgramView, {
-    kind: 'none',
+    kind: 'plain',
     direction: 'block',
     size: 'normal',
 });

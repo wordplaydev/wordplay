@@ -138,9 +138,6 @@
         position: relative;
         border-radius: var(--wordplay-editor-radius);
         padding: 0;
-        transition-property: background-color, padding, border-color;
-        transition-duration: calc(var(--animation-factor) * 200ms);
-        transition-timing-function: ease-out;
         border-color: transparent;
 
         /** This allows us to style things up the the tree. */
@@ -214,6 +211,12 @@
         align-items: start;
         width: fit-content;
         height: fit-content;
+        cursor: grab;
+
+        /** Animate some of the visual distinctions that come and go*/
+        transition-property: padding, border-color, box-shadow;
+        transition-duration: calc(var(--animation-factor) * 200ms);
+        transition-timing-function: ease-out;
 
         padding: var(--wordplay-spacing-half) calc(var(--wordplay-spacing-half))
             var(--wordplay-spacing-half) calc(var(--wordplay-spacing-half));
@@ -221,6 +224,13 @@
         border-radius: var(--wordplay-border-radius);
 
         animation: calc(var(--animation-factor) * 200ms) ease-out 0s 1 entry;
+    }
+
+    /** Hover background and scale for blocks without hovered children */
+    .block:not(:has(.block:hover)):hover {
+        background: var(--wordplay-hover);
+        outline: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        box-shadow: var(--color-shadow) 2px 2px 4px;
     }
 
     /** An empty block has different padding */
@@ -271,7 +281,6 @@
 
     .block.predicate {
         border-inline-start: var(--wordplay-focus-width) solid var(--color-pink);
-        border-radius: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
