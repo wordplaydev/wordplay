@@ -435,7 +435,11 @@
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
         dragPoint = { x: event.clientX, y: event.clientY };
-        if (editable && nonTokenNodeUnderPointer && event.shiftKey) {
+        if (
+            editable &&
+            nonTokenNodeUnderPointer &&
+            ($blocks || event.shiftKey)
+        ) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
