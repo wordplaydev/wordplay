@@ -138,3 +138,5 @@ export const SEARCH_SYMBOL = '🔍';
 
 export const BLOCK_EDITING_SYMBOL = '▢';
 export const TEXT_EDITING_SYMBOL = 'a|b';
+
+export const DROP_DOWN_SYMBOL = '▾';

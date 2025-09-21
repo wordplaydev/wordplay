@@ -18,7 +18,11 @@
         <NodeView node={node.names} {format} />
         <NodeView node={node.etc} {format} />
         <NodeView node={node.dot} {format} />
-        <NodeView node={node.type} {format} />
+        <NodeView
+            node={node.type}
+            {format}
+            drop={{ parent: node, field: 'type' }}
+        />
         <NodeView node={node.colon} {format} />
         {#if node.value}<NodeView node={node.value} {format} />{/if}
     </Row>

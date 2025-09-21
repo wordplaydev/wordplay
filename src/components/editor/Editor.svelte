@@ -1307,8 +1307,6 @@
     );
 
     let concepts = $derived(indexContext?.index);
-    // A shorthand for the current program.
-    let program = $derived(source.expression);
 
     /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
     $effect(() => {
@@ -1695,7 +1693,7 @@
     ></textarea>
     <!-- Render the program -->
     <RootView
-        node={program}
+        node={source}
         spaces={source.spaces}
         {locale}
         caret={$caret}

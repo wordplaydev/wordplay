@@ -19,15 +19,22 @@
         getRoot,
         getSpaces,
     } from '../../project/Contexts';
+    import MenuTrigger, {
+        type FieldPosition,
+    } from '../menu/MenuTrigger.svelte';
     import getNodeView from './nodeToView';
     import Space from './Space.svelte';
 
     interface Props {
+        /** The node to render, if there is one */
         node: Node | undefined;
+        /** The format to use when rendering */
         format: Format;
+        /** The optional drop down to show, based on the parent and field */
+        drop?: FieldPosition;
     }
 
-    let { node, format }: Props = $props();
+    let { node, format, drop }: Props = $props();
 
     const evaluation = getEvaluation();
     const rootContext = getRoot();
@@ -85,51 +92,57 @@
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
-{#if node !== undefined && ComponentView !== undefined}
-    <!-- Render space preceding this node if not hidden, if there's a first token, and this node is the root of the preceding space. -->
-    {#if !hide && firstToken && spaceRoot === node}
-        {#if !format.block}
-            <Space
-                token={firstToken}
-                first={$spaces.isFirst(firstToken)}
-                line={$spaces.getLineNumber(firstToken)}
-                {space}
-                insertion={$insertion?.token === firstToken
-                    ? $insertion
-                    : undefined}
-            />
-        {/if}
-    {/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
-        class={[
-            'node-view',
-            node.getDescriptor(),
-            ...(highlight ? highlight.values() : []),
-            {
-                block: format.block,
-                hide,
-                inline: style?.direction === 'inline',
-                Token: node instanceof Token,
-                highlighted: highlight,
-            },
-            style?.kind,
-        ]}
-        data-uiid={node.getDescriptor()}
-        data-id={node.id}
-        id={`node-${node.id}`}
-        aria-hidden={hide ? 'true' : null}
-        aria-label={description}
-        ><!--Render the value if there's a value to render, or the node view otherwise -->
-        {#if value && node.isUndelimited()}<span class="eval"
-                >{EVAL_OPEN_SYMBOL}</span
-            >{/if}<ComponentView
-            {node}
-            {format}
-        />{#if value}{#if node.isUndelimited()}<span class="eval"
-                    >{EVAL_CLOSE_SYMBOL}</span
-                >{/if}<div class="value"
-                ><ValueView {value} {node} interactive /></div
-            >{/if}
-    </div>
+{#if node !== undefined}
+    {#if ComponentView !== undefined}
+        <!-- Render space preceding this node if not hidden, if there's a first token, and this node is the root of the preceding space. -->
+        {#if !hide && firstToken && spaceRoot === node}
+            {#if !format.block}
+                <Space
+                    token={firstToken}
+                    first={$spaces.isFirst(firstToken)}
+                    line={$spaces.getLineNumber(firstToken)}
+                    {space}
+                    insertion={$insertion?.token === firstToken
+                        ? $insertion
+                        : undefined}
+                />
+            {/if}
+        {/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
+            class={[
+                'node-view',
+                node.getDescriptor(),
+                ...(highlight ? highlight.values() : []),
+                {
+                    block: format.block,
+                    hide,
+                    inline: style?.direction === 'inline',
+                    Token: node instanceof Token,
+                    highlighted: highlight,
+                },
+                style?.kind,
+            ]}
+            data-uiid={node.getDescriptor()}
+            data-id={node.id}
+            id={`node-${node.id}`}
+            aria-hidden={hide ? 'true' : null}
+            aria-label={description}
+            ><!--Render the value if there's a value to render, or the node view otherwise -->
+            {#if value && node.isUndelimited()}<span class="eval"
+                    >{EVAL_OPEN_SYMBOL}</span
+                >{/if}<ComponentView
+                {node}
+                {format}
+            />{#if value}{#if node.isUndelimited()}<span class="eval"
+                        >{EVAL_CLOSE_SYMBOL}</span
+                    >{/if}<div class="value"
+                    ><ValueView {value} {node} interactive /></div
+                >{/if}
+        </div>
+    {:else}
+        !
+    {/if}
+{:else if drop}
+    <MenuTrigger position={drop}></MenuTrigger>
 {/if}
 
 <style>
