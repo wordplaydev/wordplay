@@ -13093,6 +13093,20 @@
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Explanation for the project page"
                     },
+                    "search": {
+                      "additionalProperties": false,
+                      "description": "Search functionality",
+                      "properties": {
+                        "description": {
+                          "description": "Description for the search field",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ],
+                      "type": "object"
+                    },
                     "subheader": {
                       "additionalProperties": false,
                       "description": "Buttons on the project page",
@@ -13124,6 +13138,7 @@
                     "archiveprompt",
                     "add",
                     "subheader",
+                    "search",
                     "button",
                     "confirm",
                     "error"
