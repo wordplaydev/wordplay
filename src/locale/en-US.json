@@ -4904,6 +4904,9 @@
                     "shared": "Shared",
                     "archived": "Archived"
                 },
+                "search": {
+                    "description": "Search projects and files"
+                },
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",

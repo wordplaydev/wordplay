@@ -11375,6 +11375,20 @@
                       "description": "Explanation for the project page",
                       "type": "string"
                     },
+                    "search": {
+                      "additionalProperties": false,
+                      "description": "Search functionality",
+                      "properties": {
+                        "description": {
+                          "description": "Description for the search field",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "description"
+                      ],
+                      "type": "object"
+                    },
                     "subheader": {
                       "additionalProperties": false,
                       "description": "Buttons on the project page",
@@ -11403,6 +11417,7 @@
                     "galleryprompt",
                     "add",
                     "subheader",
+                    "search",
                     "button",
                     "confirm",
                     "error"

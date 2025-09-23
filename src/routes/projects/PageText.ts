@@ -20,6 +20,11 @@ type PageText = {
         /** Header for the unarchived project list */
         archived: string;
     };
+    /** Search functionality */
+    search: {
+        /** Description for the search field */
+        description: string;
+    };
     button: {
         /** Create a new project */
         newproject: string;

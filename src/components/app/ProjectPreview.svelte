@@ -170,25 +170,6 @@
 
     let path = $derived(link ?? project.getLink(true));
     
-    // Highlight matching text in search results
-    function highlightText(text: string, searchTerm: string): string {
-        if (!searchTerm.trim()) return text;
-        
-        const searchLower = searchTerm.toLowerCase();
-        const textLower = text.toLowerCase();
-        
-        // First try exact substring match for highlighting
-        const index = textLower.indexOf(searchLower);
-        if (index !== -1) {
-            const before = text.substring(0, index);
-            const match = text.substring(index, index + searchTerm.length);
-            const after = text.substring(index + searchTerm.length);
-            return `${before}<mark class="search-highlight">${match}</mark>${after}`;
-        }
-        
-        // If no exact match, don't highlight (fuzzy matches are found but not highlighted)
-        return text;
-    }
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
 
@@ -246,14 +227,38 @@
     {#if name}
         <div class="name">
             {#if action}
-                {@html highlightText(project.getName(), searchTerm)}
+                {#if searchTerm.trim()}
+                    {@const name = project.getName()}
+                    {@const searchLower = searchTerm.toLowerCase()}
+                    {@const textLower = name.toLowerCase()}
+                    {@const index = textLower.indexOf(searchLower)}
+                    {#if index !== -1}
+                        {name.substring(0, index)}<mark class="search-highlight">{name.substring(index, index + searchTerm.length)}</mark>{name.substring(index + searchTerm.length)}
+                    {:else}
+                        {name}
+                    {/if}
+                {:else}
+                    {project.getName()}
+                {/if}
             {:else}
                 <Link to={path}>
                     {#if project.getName().length === 0}<em class="untitled"
                             >&mdash;</em
                         >
                     {:else}
-                        {@html highlightText(project.getName(), searchTerm)}{/if}</Link
+                        {#if searchTerm.trim()}
+                            {@const name = project.getName()}
+                            {@const searchLower = searchTerm.toLowerCase()}
+                            {@const textLower = name.toLowerCase()}
+                            {@const index = textLower.indexOf(searchLower)}
+                            {#if index !== -1}
+                                {name.substring(0, index)}<mark class="search-highlight">{name.substring(index, index + searchTerm.length)}</mark>{name.substring(index + searchTerm.length)}
+                            {:else}
+                                {name}
+                            {/if}
+                        {:else}
+                            {project.getName()}
+                        {/if}{/if}</Link
                 >
                 {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}
@@ -377,7 +382,7 @@
         row-gap: var(--wordplay-spacing);
     }
     
-    :global(.search-highlight) {
+    .search-highlight {
         background-color: #ffffff;
         color: #1f2937;
         padding: 0 2px;

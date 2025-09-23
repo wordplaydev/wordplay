@@ -12,6 +12,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
     import { Galleries, Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
@@ -120,19 +121,15 @@
     
     <!-- Search Bar -->
     <div class="search-container">
-        <div class="search-input-wrapper">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-            </svg>
-            <input
-                type="text"
-                bind:value={searchTerm}
-                placeholder="Search projects and files"
-                class="search-input"
-            />
-        </div>
+        <TextField
+            id="project-search"
+            bind:text={searchTerm}
+            placeholder="🔍 Search projects and files"
+            description={(l) => l.ui.page.projects.search.description}
+            fill={true}
+        />
     </div>
+    
     
     <AddProject
         add={(template) => {
@@ -326,51 +323,6 @@
     .search-container {
         margin: var(--wordplay-spacing) 0;
         padding: 0 calc(2 * var(--wordplay-spacing));
-    
-    }
-    
-    .search-input-wrapper {
-        position: relative;
-        display: inline-block;
-        max-width: 400px;
-        width: 100%;
-    }
-    
-    .search-icon {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 20px;
-        height: 20px;
-        color: var(--wordplay-muted-color);
-        pointer-events: none;
-        z-index: 1;
-    }
-    
-    .search-input {
-        width: 110%;
-        padding: 12px 16px 12px 44px;
-        border: 2px solid var(--wordplay-border-color);
-        border-radius: 19px;
-        font-size: 16px;
-        background: var(--wordplay-background-color);
-        color: var(--wordplay-text-color);
-        transition: border-color 0.2s ease;
-    }
-    
-    .search-input:focus {
-        outline: none;
-        border-color: var(--wordplay-accent-color);
-    }
-    
-    .search-input:focus + .search-icon {
-        color: var(--wordplay-accent-color);
-    }
-    
-    .search-input::placeholder {
-        color: #9ca3af;
-        opacity: 0.8;
     }
     
     .no-results {

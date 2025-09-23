@@ -47,25 +47,6 @@
         showCollaborators = false,
     }: Props = $props();
 
-    // Highlight matching text in search results
-    function highlightText(text: string, searchTerm: string): string {
-        if (!searchTerm.trim()) return text;
-        
-        const searchLower = searchTerm.toLowerCase();
-        const textLower = text.toLowerCase();
-        const index = textLower.indexOf(searchLower);
-        
-        if (index === -1) return text;
-        
-        const before = text.substring(0, index);
-        const match = text.substring(index, index + searchTerm.length);
-        const after = text.substring(index + searchTerm.length);
-        
-        return `${before}<mark class="search-highlight">${match}</mark>${after}`;
-    }
-
-    // Get highlighted project name
-    let highlightedName = $derived(highlightText(project.getName(), searchTerm));
 </script>
 
 <div class="project-with-highlight">
@@ -110,7 +91,19 @@
             {#if project.getName().length === 0}
                 <em class="untitled">&mdash;</em>
             {:else}
-                {@html highlightedName}
+                {#if searchTerm.trim()}
+                    {@const name = project.getName()}
+                    {@const searchLower = searchTerm.toLowerCase()}
+                    {@const textLower = name.toLowerCase()}
+                    {@const index = textLower.indexOf(searchLower)}
+                    {#if index !== -1}
+                        {name.substring(0, index)}<mark class="search-highlight">{name.substring(index, index + searchTerm.length)}</mark>{name.substring(index + searchTerm.length)}
+                    {:else}
+                        {name}
+                    {/if}
+                {:else}
+                    {project.getName()}
+                {/if}
             {/if}
         </a>
     </div>
@@ -149,7 +142,7 @@
         gap: var(--wordplay-spacing);
     }
 
-    :global(.search-highlight) {
+    .search-highlight {
         background-color: #fbbf24;
         color: #1f2937;
         padding: 0 2px;
