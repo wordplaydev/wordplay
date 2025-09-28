@@ -1,10 +1,10 @@
 <script lang="ts">
     import Evaluate from '@nodes/Evaluate';
-    import Input from '@nodes/Input';
     import type Bind from '../../../nodes/Bind';
     import Token from '../../../nodes/Token';
     import { getCaret, getProject } from '../../project/Contexts';
     import MenuTrigger from '../menu/MenuTrigger.svelte';
+    import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
     interface Props {
@@ -80,9 +80,8 @@
     <NodeView node={node.fun} {format} />
     <NodeView node={node.types} {format} />
     <NodeView node={node.open} {format} />
-    {#each node.inputs as input}<NodeView node={input} {format} /><MenuTrigger
-            position={input instanceof Input ? input.value : input}
-        />{/each}{#if nextBind && menuPosition}
+    <NodeSequenceView {node} {format} field="inputs" />
+    {#if nextBind && menuPosition}
         &nbsp;<MenuTrigger position={menuPosition} />
     {/if}
     <NodeView node={node.close} {format} />
@@ -90,13 +89,11 @@
     <NodeView node={node.fun} {format} /><NodeView
         node={node.types}
         {format}
-    /><NodeView
-        node={node.open}
+    /><NodeView node={node.open} {format} /><NodeSequenceView
+        {node}
         {format}
-    />{#each node.inputs as input}<NodeView
-            node={input}
-            {format}
-        />{/each}{#if nextBind && menuPosition}
+        field="inputs"
+    />{#if nextBind && menuPosition}
         &nbsp;<MenuTrigger position={menuPosition} />
     {/if}<NodeView node={node.close} {format} />
 {/if}
