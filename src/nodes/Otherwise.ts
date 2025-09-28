@@ -73,9 +73,23 @@ export default class Otherwise extends SimpleExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'left', kind: node(Expression) },
-            { name: 'question', kind: node(Sym.Otherwise), space: true },
-            { name: 'right', kind: node(Expression), space: true },
+            {
+                name: 'left',
+                kind: node(Expression),
+                label: () => (l) => l.term.value,
+            },
+            {
+                name: 'question',
+                kind: node(Sym.Otherwise),
+                space: true,
+                label: undefined,
+            },
+            {
+                name: 'right',
+                kind: node(Expression),
+                space: true,
+                label: () => (l) => l.term.value,
+            },
         ];
     }
 

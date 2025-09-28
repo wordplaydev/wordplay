@@ -92,22 +92,27 @@ export default class Conditional extends Expression {
             {
                 name: 'condition',
                 kind: node(Expression),
-                label: () => (l) => l.node.Conditional.condition,
+                label: () => (l) => l.node.Conditional.label.condition,
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
-            { name: 'question', kind: node(Sym.Conditional), space: true },
+            {
+                name: 'question',
+                kind: node(Sym.Conditional),
+                space: true,
+                label: undefined,
+            },
             {
                 name: 'yes',
                 kind: node(Expression),
-                label: () => (l) => l.node.Conditional.yes,
+                label: () => (l) => l.node.Conditional.label.yes,
                 space: true,
                 indent: true,
             },
             {
                 name: 'no',
                 kind: node(Expression),
-                label: () => (l) => l.node.Conditional.no,
+                label: () => (l) => l.node.Conditional.label.no,
                 space: true,
                 indent: true,
             },

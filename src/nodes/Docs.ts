@@ -33,7 +33,14 @@ export default class Docs extends Node {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'docs', kind: list(false, node(Doc)), newline: true }];
+        return [
+            {
+                name: 'docs',
+                kind: list(false, node(Doc)),
+                newline: true,
+                label: () => (l) => l.term.documentation,
+            },
+        ];
     }
 
     clone(replace?: Replacement) {

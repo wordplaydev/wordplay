@@ -60,11 +60,15 @@ export default class WebLink extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.TagOpen) },
-            { name: 'description', kind: node(Sym.Words) },
-            { name: 'at', kind: node(Sym.Link) },
-            { name: 'url', kind: node(Sym.URL) },
-            { name: 'close', kind: node(Sym.TagClose) },
+            { name: 'open', kind: node(Sym.TagOpen), label: undefined },
+            {
+                name: 'description',
+                kind: node(Sym.Words),
+                label: () => (l) => l.term.markup,
+            },
+            { name: 'at', kind: node(Sym.Link), label: undefined },
+            { name: 'url', kind: node(Sym.URL), label: () => (l) => 'url' },
+            { name: 'close', kind: node(Sym.TagClose), label: undefined },
         ];
     }
 

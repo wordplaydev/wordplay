@@ -75,8 +75,8 @@ export default class NumberType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', kind: node(Sym.NumberType) },
-            { name: 'unit', kind: node(Unit) },
+            { name: 'number', kind: node(Sym.NumberType), label: undefined },
+            { name: 'unit', kind: node(Unit), label: undefined },
         ];
     }
 

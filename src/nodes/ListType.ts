@@ -64,9 +64,13 @@ export default class ListType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.ListOpen) },
-            { name: 'type', kind: optional(node(Type)) },
-            { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'open', kind: node(Sym.ListOpen), label: undefined },
+            {
+                name: 'type',
+                kind: optional(node(Type)),
+                label: () => (l) => l.term.type,
+            },
+            { name: 'close', kind: node(Sym.ListClose), label: undefined },
         ];
     }
 

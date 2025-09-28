@@ -80,9 +80,23 @@ export default class Convert extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'expression', kind: node(Expression) },
-            { name: 'convert', kind: node(Sym.Convert), space: true },
-            { name: 'type', kind: node(Type), space: true },
+            {
+                name: 'expression',
+                kind: node(Expression),
+                label: () => (l) => l.term.value,
+            },
+            {
+                name: 'convert',
+                kind: node(Sym.Convert),
+                space: true,
+                label: undefined,
+            },
+            {
+                name: 'type',
+                kind: node(Type),
+                space: true,
+                label: () => (l) => l.term.type,
+            },
         ];
     }
 

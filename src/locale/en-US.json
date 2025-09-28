@@ -31,20 +31,27 @@
         "boolean": "boolean",
         "map": "map",
         "number": "number",
+        "unit": "unit",
+        "markup": "markup",
         "function": "function",
         "exception": "exception",
         "table": "table",
+        "column": "column",
+        "row": "row",
+        "cell": "cell",
         "none": "none",
         "list": "list",
         "stream": "stream",
         "structure": "structure",
         "index": "index",
         "query": "query",
-        "row": "row",
         "set": "set",
         "key": "key",
         "help": "Help",
-        "feedback": "feedback"
+        "feedback": "feedback",
+        "documentation": "documentation",
+        "language": "language",
+        "region": "region"
     },
     "token": {
         "EvalOpen": "evaluation open",
@@ -221,6 +228,7 @@
         "Names": {
             "name": "name list",
             "emotion": "kind",
+            "label": { "names": "names" },
             "doc": [
                 "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
                 "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
@@ -274,6 +282,7 @@
         "TypeVariable": {
             "name": "type variable",
             "emotion": "curious",
+            "label": { "type": "type" },
             "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
@@ -292,6 +301,7 @@
             "name": "markup",
             "description": "$1 paragraphs",
             "emotion": "serious",
+            "label": { "paragraphs": "paragraphs" },
             "doc": [
                 "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
@@ -427,6 +437,11 @@
                 "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
+            "label": {
+                "value": "value",
+                "names": "names",
+                "type": "type"
+            },
             "start": "Let's see what value we get from $1!",
             "finish": "Oh nice, I got $1! Let's name it $2",
             "conflict": {
@@ -489,7 +504,9 @@
                 "So usually I'm just a bunch of @Bind and then an expression at the end.",
                 "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
             ],
-            "statement": "statement",
+            "label": {
+                "statements": "definitions and value"
+            },
             "start": "First expression",
             "finish": "Done, I got $1",
             "conflict": {
@@ -519,11 +536,13 @@
             "name": "borrow",
             "description": "borrow $1[$1|missing name]",
             "emotion": "excited",
+            "label": {
+                "source": "$source",
+                "bind": "name",
+                "version": "version"
+            },
             "doc": "If you create a performance with multiple @Source, you can use me to borrow @Bind that are shared in those other @Source. Just use their name and I'll bring in their name and value.",
             "start": "Borrowing $2 from $1",
-            "source": "$source",
-            "bind": "name",
-            "version": "version",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "unknown borrow",
@@ -544,6 +563,9 @@
         "Changed": {
             "name": "changed",
             "emotion": "serious",
+            "label": {
+                "stream": "stream"
+            },
             "doc": [
                 "I check if a stream caused @Program to reevaluate, and make a @Boolean. Like this",
                 "\\∆ Time()\\",
@@ -555,6 +577,11 @@
         "Conditional": {
             "name": "conditional",
             "emotion": "curious",
+            "label": {
+                "condition": "condition",
+                "yes": "yes",
+                "no": "no"
+            },
             "doc": [
                 "I think I'm supposed to make decisions? Like this?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
@@ -566,9 +593,6 @@
             "else": "$1[jumping over code | not jumping over code]",
             "afterthen": "done with yes, let's skip no?",
             "finish": "I guess it's $1?",
-            "condition": "condition",
-            "yes": "yes",
-            "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "expected boolean condition",
@@ -581,6 +605,11 @@
             "name": "conversion definition",
             "description": "$1 → $2",
             "emotion": "excited",
+            "label": {
+                "input": "input type",
+                "output": "output type",
+                "expression": "expression"
+            },
             "doc": [
                 "Dude, I define conversions from one type to another! I go in @Block, someting like this:",
                 "\\→ #kitty #cat . ÷ 2\n6kitty→#cat\\",
@@ -649,6 +678,11 @@
             "name": "evaluate",
             "description": "evaluate $1[$1|anonymous]",
             "emotion": "shy",
+            "label": {
+                "function": "function",
+                "types": "types",
+                "inputs": "input"
+            },
             "doc": [
                 "Hi. I evaluate my dearest @FunctionDefinition. Like this:",
                 "\\ƒ greeting(message•'')\ngreeting('kitty')\\",
@@ -663,8 +697,6 @@
             "start": "Let's evaluate the inputs first",
             "evaluate": "let's evaluate the function now",
             "finish": "I evaluated to $1",
-            "function": "function",
-            "input": "input",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "incompatible input",
@@ -727,6 +759,7 @@
             "name": "placeholder",
             "description": "$1[$1|placeholder]",
             "emotion": "scared",
+            "label": { "placeholder": "expression" },
             "doc": [
                 "I'm an *expression*, but not a real one… I just take the place of one.",
                 "I'm good if you don't know what to write yet. Like this:",
@@ -737,7 +770,6 @@
                 "I don't like being on @Stage!"
             ],
             "start": "I don't know what to do here. Can you fill me in?",
-            "placeholder": "expression",
             "conflict": {
                 "Placeholder": {
                     "name": "placeholder",
@@ -755,6 +787,10 @@
             "name": "function",
             "description": "function $1",
             "emotion": "kind",
+            "label": {
+                "inputs": "inputs",
+                "expression": "expression"
+            },
             "doc": [
                 "Hi again! I take some inputs, then evaluate an expression using them, producing an output.",
                 "Here's a simple example:",
@@ -867,8 +903,7 @@
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
             "start": "Let's evaluate the items first",
-            "finish": "I made a me! $1",
-            "item": "item"
+            "finish": "I made a me! $1"
         },
         "Spread": {
             "name": "spread",
@@ -882,6 +917,7 @@
             "name": "map literal",
             "description": "$1 pairing map",
             "emotion": "kind",
+            "label": { "values": "pair" },
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "Let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
@@ -896,6 +932,10 @@
         "Match": {
             "name": "match",
             "emotion": "curious",
+            "label": {
+                "case": "case",
+                "other": "default"
+            },
             "doc": [
                 "I am the most glorious of all conditional checks! I take a value and compares it against any number of cases, and evaluates the corresponding expression that matches.",
                 "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
@@ -906,9 +946,7 @@
             ],
             "start": "Let's see what $1 is...",
             "case": "Let's check this condition",
-            "finish": "Okay, we have a final value!",
-            "value": "value",
-            "other": "default"
+            "finish": "Okay, we have a final value!"
         },
         "NumberLiteral": {
             "name": "number literal",
@@ -975,6 +1013,10 @@
                 "If there's a problem during a performance, I'll show that problem.",
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
+            "label": {
+                "borrows": "borrows",
+                "expression": "block"
+            },
             "unevaluated": "the node you chose didn't evaluate",
             "start": "$1[$1 stream changed to $2!|It's my first evaluation]",
             "halt": "encountered exception, stopping",
@@ -1003,6 +1045,10 @@
             "name": "refine",
             "description": "refine $1[$1|missing name]",
             "emotion": "kind",
+            "label": {
+                "property": "property",
+                "value": "value"
+            },
             "doc": [
                 "Sometimes when you make a @StructureDefinition, you want to change the tiniest thing about it, without having to make a new one with all the same values.",
                 "For example, what if you were keeping a record of cats, but then wanted to create a copy of a cat with a different hobby? I can help you change it:",
@@ -1023,18 +1069,26 @@
             "name": "property",
             "description": "property $1[$1|missing name]",
             "emotion": "kind",
+            "label": {
+                "structure": "structure",
+                "property": "property"
+            },
             "doc": [
                 "When you make a @StructureDefinition, how do you get one of its inputs? I'm how",
                 "Like if you had a structure about cities, you could get its values with me like this:",
                 "\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "First let's get the value",
-            "finish": "Found property $1, it is $2",
-            "property": "property"
+            "finish": "Found property $1, it is $2"
         },
         "Reaction": {
             "name": "reaction",
             "emotion": "excited",
+            "label": {
+                "initial": "initial",
+                "condition": "condition",
+                "next": "next"
+            },
             "doc": [
                 "Streams are so awesome! I can make new ones based on when they change, which is super cool!",
                 "Like, if you wanted @Time to tick, but like, to show words instead of numbers, you could do something like this:",
@@ -1044,9 +1098,6 @@
             ],
             "start": "Let's see if we should update the stream",
             "finish": "The new stream value is $1",
-            "initial": "initial",
-            "condition": "condition",
-            "next": "next",
             "conflict": {
                 "ExpectedStream": {
                     "name": "expected stream",
@@ -1154,6 +1205,11 @@
             "name": "structure",
             "description": "structure $1",
             "emotion": "kind",
+            "label": {
+                "docs": "documentation",
+                "inputs": "inputs",
+                "expression": "values and functions"
+            },
             "doc": [
                 "Why hello, how are you? Me? I'm great. I love to define structures that store values and function, so as long as I get to do that all day, I'm happy.",
                 "I work like this:",
@@ -1205,6 +1261,7 @@
             "name": "text literal",
             "description": "text $1",
             "emotion": "serious",
+            "label": { "texts": "text" },
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "Let's make text in the current locale"
         },
@@ -1212,6 +1269,7 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
+            "label": { "segments": "text" },
             "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": {
@@ -1290,6 +1348,7 @@
             "name": "unary evaluate",
             "description": "$1",
             "emotion": "kind",
+            "label": { "input": "input" },
             "doc": [
                 "Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?",
                 "Like this:",
@@ -4554,7 +4613,7 @@
             }
         },
         "docs": {
-            "label": "docuemntation browser",
+            "label": "documentation browser",
             "link": "show \"$1\" in documentation",
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",

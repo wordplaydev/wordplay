@@ -140,33 +140,46 @@ export default class StructureDefinition extends DefinitionExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: optional(node(Docs)) },
+            {
+                name: 'docs',
+                kind: optional(node(Docs)),
+                label: () => (l) => l.node.StructureDefinition.label.docs,
+            },
             {
                 name: 'share',
                 kind: optional(node(Sym.Share)),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
+                label: undefined,
             },
-            { name: 'type', kind: node(Sym.Type) },
-            { name: 'names', kind: node(Names) },
+            { name: 'type', kind: node(Sym.Type), label: undefined },
+            { name: 'names', kind: node(Names), label: undefined },
             {
                 name: 'interfaces',
                 kind: list(true, node(Reference)),
                 space: true,
+                label: undefined,
             },
-            { name: 'types', kind: optional(node(TypeVariables)), space: true },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            {
+                name: 'types',
+                kind: optional(node(TypeVariables)),
+                space: true,
+                label: undefined,
+            },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
+                label: () => (l) => l.node.StructureDefinition.label.inputs,
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
             {
                 name: 'expression',
                 kind: optional(node(Block)),
                 space: true,
                 indent: !(this.expression instanceof Block),
+                label: () => (l) => l.node.StructureDefinition.label.expression,
             },
         ];
     }

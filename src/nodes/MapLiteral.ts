@@ -90,8 +90,8 @@ export default class MapLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.SetOpen) },
-            { name: 'bind', kind: optional(node(Sym.Bind)) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
+            { name: 'bind', kind: optional(node(Sym.Bind)), label: undefined },
             {
                 name: 'values',
                 kind: list(true, node(KeyValue)),
@@ -99,9 +99,15 @@ export default class MapLiteral extends Expression {
                 indent: true,
                 initial: true,
                 newline: this.wrap(),
+                label: () => (l) => l.node.MapLiteral.label.values,
             },
-            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
-            { name: 'literal', kind: node(Sym.Literal) },
+            {
+                name: 'close',
+                kind: node(Sym.SetClose),
+                newline: this.wrap(),
+                label: undefined,
+            },
+            { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
     }
 

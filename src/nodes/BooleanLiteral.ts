@@ -54,6 +54,7 @@ export default class BooleanLiteral extends Literal {
                 name: 'value',
                 kind: node(Sym.Boolean),
                 getType: () => BooleanType.make(),
+                label: undefined,
             },
         ];
     }

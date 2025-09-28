@@ -68,7 +68,7 @@ export default class This extends SimpleExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'dis', kind: node(Sym.This) }];
+        return [{ name: 'dis', kind: node(Sym.This), label: undefined }];
     }
 
     getPurpose() {

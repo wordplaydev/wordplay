@@ -20,7 +20,6 @@
 
     function resolvePosition(pos: FieldPosition): CaretPosition | undefined {
         const { parent, field } = pos;
-        console.log(root.root?.root.getDescriptor());
         if (root.root?.root instanceof Source)
             return root.root.root.getFieldPosition(parent, field);
         else return undefined;
@@ -35,7 +34,6 @@
             'field' in position
                 ? resolvePosition(position)
                 : position;
-        console.log(anchor);
         if (menuNode && anchor) $menuNode(anchor);
     }
 </script>

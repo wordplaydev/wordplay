@@ -52,13 +52,14 @@ export default class Changed extends SimpleExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'change', kind: node(Sym.Change) },
+            { name: 'change', kind: node(Sym.Change), label: undefined },
             {
                 name: 'stream',
                 kind: node(Expression),
                 space: true,
                 // Must be a stream with any type
                 getType: () => StreamType.make(new AnyType()),
+                label: () => (l) => l.node.Changed.label.stream,
             },
         ];
     }

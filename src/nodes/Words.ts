@@ -68,6 +68,7 @@ export default class Words extends Content {
                     node(Sym.Extra),
                     none(['close', () => new Token(Sym.Italic, Sym.Italic)]),
                 ),
+                label: undefined,
             },
             {
                 name: 'segments',
@@ -81,6 +82,7 @@ export default class Words extends Content {
                     node(Mention),
                     node(Branch),
                 ),
+                label: () => (l) => l.term.markup,
             },
             {
                 name: 'close',
@@ -92,6 +94,7 @@ export default class Words extends Content {
                     node(Sym.Extra),
                     none(['open', () => new Token(Sym.Italic, Sym.Italic)]),
                 ),
+                label: undefined,
             },
         ];
     }

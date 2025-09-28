@@ -12,6 +12,7 @@
 </script>
 
 <NodeView node={node.type} {format} /><NodeSequenceView
-    nodes={node.rows}
+    {node}
+    field="rows"
     {format}
 />

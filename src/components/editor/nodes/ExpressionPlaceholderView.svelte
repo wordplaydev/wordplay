@@ -71,7 +71,7 @@
 <style>
     .placeholder {
         color: var(--wordplay-inactive-color);
-        font-size: small;
+        font-size: var(--wordplay-small-font-size);
     }
 
     .type {
@@ -97,6 +97,7 @@
     :global(.block) .inferred {
         display: flex;
         flex-direction: row;
+        align-items: center;
     }
 
     .label {

@@ -11,6 +11,7 @@
 </script>
 
 <NodeView node={node.open} {format} /><NodeSequenceView
-    nodes={node.cells}
+    {node}
+    field="cells"
     {format}
 /><NodeView node={node.close} {format} />

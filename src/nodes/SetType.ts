@@ -54,9 +54,13 @@ export default class SetType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.SetOpen) },
-            { name: 'key', kind: optional(node(Type)) },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
+            {
+                name: 'key',
+                kind: optional(node(Type)),
+                label: () => (l) => l.term.type,
+            },
+            { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
     }
 

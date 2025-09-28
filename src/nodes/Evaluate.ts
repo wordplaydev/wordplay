@@ -221,10 +221,14 @@ export default class Evaluate extends Expression {
                         ),
                         new AnyType(),
                     ),
-                label: () => (l) => l.node.Evaluate.function,
+                label: () => (l) => l.node.Evaluate.label.function,
             },
-            { name: 'types', kind: any(node(TypeInputs), none()) },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            {
+                name: 'types',
+                kind: any(node(TypeInputs), none()),
+                label: () => (l) => l.node.Evaluate.label.types,
+            },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Input), node(Expression)),
@@ -233,7 +237,7 @@ export default class Evaluate extends Expression {
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return (l) => l.node.Evaluate.input;
+                        return (l) => l.node.Evaluate.label.inputs;
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(context);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -245,7 +249,7 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child))),
                     );
                     return bind === undefined
-                        ? (l) => l.node.Evaluate.input
+                        ? (l) => l.node.Evaluate.label.inputs
                         : () => locales.getName(bind.expected.names);
                 },
                 space: true,
@@ -265,7 +269,7 @@ export default class Evaluate extends Expression {
                     return fun.inputs[insertionIndex].getType(context);
                 },
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
         ];
     }
 

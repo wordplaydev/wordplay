@@ -110,27 +110,34 @@ export default class StreamDefinition extends DefinitionExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: optional(node(Docs)) },
-            { name: 'dots', kind: node(Sym.Stream) },
-            { name: 'names', kind: node(Names) },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            {
+                name: 'docs',
+                kind: optional(node(Docs)),
+                label: () => (l) => l.term.documentation,
+            },
+            { name: 'dots', kind: node(Sym.Stream), label: undefined },
+            { name: 'names', kind: node(Names), label: undefined },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
+                label: () => (l) => l.term.input,
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
             {
                 name: 'dot',
                 kind: any(
                     node(Sym.Type),
                     none(['output', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'output',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: () => (l) => l.term.type,
             },
         ];
     }

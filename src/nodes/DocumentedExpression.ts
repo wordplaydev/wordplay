@@ -33,8 +33,12 @@ export default class DocumentedExpression extends SimpleExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: node(Docs) },
-            { name: 'expression', kind: node(Expression) },
+            { name: 'docs', kind: node(Docs), label: undefined },
+            {
+                name: 'expression',
+                kind: node(Expression),
+                label: () => (l) => l.term.value,
+            },
         ];
     }
 

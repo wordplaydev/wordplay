@@ -55,7 +55,11 @@ export default class FormattedLiteral extends Literal {
 
     getGrammar(): Grammar {
         return [
-            { name: 'texts', kind: list(false, node(FormattedTranslation)) },
+            {
+                name: 'texts',
+                kind: list(false, node(FormattedTranslation)),
+                label: () => (l) => l.term.markup,
+            },
         ];
     }
 

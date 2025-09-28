@@ -148,13 +148,17 @@ export default class PropertyReference extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'structure', kind: node(Expression) },
-            { name: 'dot', kind: node(Sym.Access) },
+            {
+                name: 'structure',
+                kind: node(Expression),
+                label: () => (l) => l.node.PropertyReference.label.structure,
+            },
+            { name: 'dot', kind: node(Sym.Access), label: undefined },
             {
                 name: 'name',
                 kind: node(Reference),
                 // The label is
-                label: () => (l) => l.node.PropertyReference.property,
+                label: () => (l) => l.node.PropertyReference.label.property,
                 // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
                 getDefinitions: (context: Context) => {
                     let defs = this.getDefinitions(this, context);

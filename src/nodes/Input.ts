@@ -79,8 +79,8 @@ export default class Input extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'name', kind: node(Sym.Name) },
-            { name: 'bind', kind: node(Sym.Bind) },
+            { name: 'name', kind: node(Sym.Name), label: undefined },
+            { name: 'bind', kind: node(Sym.Bind), label: undefined },
             {
                 name: 'value',
                 kind: node(Expression),
@@ -97,6 +97,7 @@ export default class Input extends Node {
                     }
                     return new NoExpressionType(this.value);
                 },
+                label: () => (l) => l.term.value,
             },
         ];
     }

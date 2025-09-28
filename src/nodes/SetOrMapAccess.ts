@@ -102,13 +102,13 @@ export default class SetOrMapAccess extends Expression {
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
-            { name: 'open', kind: node(Sym.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
             {
                 name: 'key',
                 kind: node(Expression),
                 label: () => (l) => l.term.key,
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
     }
 

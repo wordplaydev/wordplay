@@ -12,7 +12,8 @@
 </script>
 
 <NodeView node={node.open} {format} /><NodeSequenceView
-    nodes={node.segments}
+    {node}
+    field="segments"
     {format}
 /><NodeView node={node.close} {format} /><NodeView
     node={node.language}

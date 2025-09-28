@@ -64,14 +64,24 @@ export default class Dimension extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'product', kind: any(node(Sym.Operator), none()) },
-            { name: 'name', kind: node(Sym.Name), uncompletable: true },
+            {
+                name: 'product',
+                kind: any(node(Sym.Operator), none()),
+                label: undefined,
+            },
+            {
+                name: 'name',
+                kind: node(Sym.Name),
+                uncompletable: true,
+                label: undefined,
+            },
             {
                 name: 'caret',
                 kind: any(
                     node(Sym.Operator),
                     none(['exponent', () => new Token('1', Sym.Number)]),
                 ),
+                label: undefined,
             },
             {
                 name: 'exponent',
@@ -82,6 +92,7 @@ export default class Dimension extends Node {
                         () => new Token(EXPONENT_SYMBOL, Sym.Operator),
                     ]),
                 ),
+                label: undefined,
             },
         ];
     }

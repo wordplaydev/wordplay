@@ -1057,7 +1057,6 @@ export default class Caret {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
-        console.log(text);
         if (validOnly && (text === ' ' || text === '\t' || text === '\n'))
             return;
 

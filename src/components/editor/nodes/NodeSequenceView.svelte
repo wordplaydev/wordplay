@@ -2,15 +2,32 @@
     const LIMIT = 20;
 </script>
 
-<script lang="ts">
+<script lang="ts" generics="NodeType extends Node">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { locales } from '@db/Database';
+    import type NodeRef from '@locale/NodeRef';
+    import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
-    import { getCaret } from '../../project/Contexts';
+    import { getCaret, getProject, getRoot } from '../../project/Contexts';
     import Button from '../../widgets/Button.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
+    /** Fields of type KT on T */
+    type KeysOfType<T, KT> = {
+        [K in keyof T]: K extends string
+            ? T[K] extends KT
+                ? K
+                : never
+            : never;
+    }[keyof T];
+
     interface Props {
-        nodes: Node[];
+        /** The node containing a list of nodes to render */
+        node: NodeType;
+        /** A named field of the node type that is a list of Nodes. We permit value and node refs because markup can use them, but filter them. */
+        field: KeysOfType<NodeType, (Node | ValueRef | NodeRef)[]>;
+        /** An optional override if the node list is custom */
+        filtered?: Node[];
         format: Format;
         block?: boolean;
         elide?: boolean;
@@ -18,7 +35,9 @@
     }
 
     let {
-        nodes,
+        node,
+        field,
+        filtered,
         format,
         elide = $bindable(false),
         block = false,
@@ -26,6 +45,10 @@
     }: Props = $props();
 
     let caret = getCaret();
+    let root = getRoot();
+    let project = getProject();
+
+    let nodes = $derived(filtered ?? (node[field] as Node[]));
 
     /**
      * To help scalability of the editor, only show the first few values.
@@ -91,12 +114,26 @@
 </script>
 
 {#if format.block}
-    {#if nodes.length > 0}
-        <div class="node-list" class:block class:indent>
-            {#each nodes as node}
-                <NodeView {node} {format} />{/each}
-        </div>
-    {/if}
+    {@const label = node.getFieldNamed(field)?.label}
+    <div class="node-list" class:block class:indent>
+        {#each nodes as node}
+            <NodeView {node} {format} />
+        {:else}
+            {#if label && $project && root?.root}
+                <span class="label">
+                    <LocalizedText
+                        path={label(
+                            $locales,
+                            /** This isn't actually correct, but it's an empty list, so it shouldn't matter */
+                            node,
+                            $project.getNodeContext(node),
+                            root.root,
+                        )}
+                    />
+                </span>
+            {/if}
+        {/each}
+    </div>
 {:else}
     {#if hiddenBefore > 0}
         <Button
@@ -130,6 +167,8 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         align-items: baseline;
+        min-width: 1em;
+        min-height: 1em;
     }
     .node-list.block {
         flex-direction: column;
@@ -138,5 +177,11 @@
 
     .node-list.indent {
         margin-inline-start: var(--wordplay-spacing);
+    }
+
+    .label {
+        font-style: italic;
+        color: var(--wordplay-inactive-color);
+        font-size: var(--wordplay-small-font-size);
     }
 </style>

@@ -11,4 +11,9 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeSequenceView nodes={node.getNodeSegments()} {format} />
+<NodeSequenceView
+    {node}
+    field="segments"
+    filtered={node.getNodeSegments()}
+    {format}
+/>

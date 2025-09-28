@@ -200,7 +200,12 @@ export default class TableLiteral extends Expression {
                 kind: node(TableType),
                 label: () => (l) => l.term.table,
             },
-            { name: 'rows', kind: list(true, node(Row)), newline: true },
+            {
+                name: 'rows',
+                kind: list(true, node(Row)),
+                newline: true,
+                label: () => (l) => l.term.row,
+            },
         ];
     }
 

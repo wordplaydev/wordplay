@@ -52,7 +52,7 @@ export default class Spread extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'dots', kind: node(Sym.Bind) },
+            { name: 'dots', kind: node(Sym.Bind), label: undefined },
             {
                 name: 'list',
                 kind: optional(node(Expression)),

@@ -15,7 +15,8 @@
     node={node.open}
     {format}
 /><NodeSequenceView
-    nodes={node.statements}
+    {node}
+    field="statements"
     {format}
     block={node.statements.length > 1}
 /><NodeView node={node.close} {format} />

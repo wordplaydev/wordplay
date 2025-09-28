@@ -12,7 +12,8 @@
 </script>
 
 <NodeView node={node.docs} {format} /><NodeSequenceView
-    nodes={node.borrows}
+    {node}
+    field="borrows"
     {format}
 /><NodeView node={node.expression} {format} /><NodeView
     node={node.end}

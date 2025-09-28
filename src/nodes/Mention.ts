@@ -47,7 +47,7 @@ export default class Mention extends Content {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'name', kind: node(Sym.Mention) }];
+        return [{ name: 'name', kind: node(Sym.Mention), label: undefined }];
     }
     computeConflicts() {
         return [];

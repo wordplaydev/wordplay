@@ -21,12 +21,13 @@
                 node={node.type}
                 {format}
             /><NodeView node={node.names} {format} /><NodeSequenceView
-                nodes={node.interfaces}
+                {node}
+                field="interfaces"
                 {format}
             /><NodeView node={node.types} {format} /><NodeView
                 node={node.open}
                 {format}
-            /><NodeSequenceView nodes={node.inputs} {format} /><NodeView
+            /><NodeSequenceView {node} field="inputs" {format} /><NodeView
                 node={node.close}
                 {format}
             />
@@ -40,11 +41,12 @@
     /><NodeView node={node.type} {format} /><NodeView
         node={node.names}
         {format}
-    /><NodeSequenceView nodes={node.interfaces} {format} /><NodeView
+    /><NodeSequenceView {node} field="interfaces" {format} /><NodeView
         node={node.types}
         {format}
     /><NodeView node={node.open} {format} /><NodeSequenceView
-        nodes={node.inputs}
+        {node}
+        field="inputs"
         {format}
     /><NodeView node={node.close} {format} /><NodeView
         node={node.expression}

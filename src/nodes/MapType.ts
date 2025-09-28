@@ -78,23 +78,25 @@ export default class MapType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
             {
                 name: 'key',
                 kind: any(
                     node(Type),
                     none(['value', () => ExpressionPlaceholder.make()]),
                 ),
+                label: () => (l) => l.term.type,
             },
-            { name: 'bind', kind: node(Sym.Bind) },
+            { name: 'bind', kind: node(Sym.Bind), label: undefined },
             {
                 name: 'value',
                 kind: any(
                     node(Type),
                     none(['key', () => ExpressionPlaceholder.make()]),
                 ),
+                label: () => (l) => l.term.type,
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
     }
 

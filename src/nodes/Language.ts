@@ -62,10 +62,22 @@ export default class Language extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'slash', kind: node(Sym.Language) },
-            { name: 'language', kind: optional(node(Sym.Name)) },
-            { name: 'dash', kind: optional(node(Sym.Region)) },
-            { name: 'region', kind: optional(node(Sym.Name)) },
+            { name: 'slash', kind: node(Sym.Language), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Sym.Name)),
+                label: undefined,
+            },
+            {
+                name: 'dash',
+                kind: optional(node(Sym.Region)),
+                label: undefined,
+            },
+            {
+                name: 'region',
+                kind: optional(node(Sym.Name)),
+                label: () => (l) => l.term.region,
+            },
         ];
     }
 

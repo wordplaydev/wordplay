@@ -45,9 +45,17 @@ export default class Name extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'name', kind: node(Sym.Name) },
-            { name: 'language', kind: optional(node(Language)) },
-            { name: 'separator', kind: optional(node(Sym.Separator)) },
+            { name: 'name', kind: node(Sym.Name), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
+            {
+                name: 'separator',
+                kind: optional(node(Sym.Separator)),
+                label: undefined,
+            },
         ];
     }
 

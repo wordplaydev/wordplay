@@ -94,7 +94,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                             root,
                         ) ??
                         ((l: LocaleText) =>
-                            l.node.ExpressionPlaceholder.placeholder)
+                            l.node.ExpressionPlaceholder.label.placeholder)
                     );
                 },
             },
@@ -104,10 +104,12 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                     node(Sym.Type),
                     none(['type', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'type',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: undefined,
             },
         ];
     }

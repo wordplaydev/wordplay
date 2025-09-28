@@ -76,9 +76,17 @@ export default class PropertyBind extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'reference', kind: node(PropertyReference) },
-            { name: 'bind', kind: node(Sym.Bind) },
-            { name: 'value', kind: node(Expression) },
+            {
+                name: 'reference',
+                kind: node(PropertyReference),
+                label: () => (l) => l.node.PropertyBind.label.property,
+            },
+            { name: 'bind', kind: node(Sym.Bind), label: undefined },
+            {
+                name: 'value',
+                kind: node(Expression),
+                label: () => (l) => l.node.PropertyBind.label.value,
+            },
         ];
     }
 

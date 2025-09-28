@@ -14,7 +14,8 @@
 {#if format.block}
     <NodeView node={node.open} {format} />
     <NodeSequenceView
-        nodes={node.values}
+        {node}
+        field="values"
         {format}
         elide
         block={node.values.reduce((sum, v) => sum + v.toWordplay().length, 0) >
@@ -24,7 +25,8 @@
     <NodeView node={node.literal} {format} />
 {:else}
     <NodeView node={node.open} {format} /><NodeSequenceView
-        nodes={node.values}
+        {node}
+        field="values"
         {format}
         elide
     /><NodeView node={node.close} {format} /><NodeView

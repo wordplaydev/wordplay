@@ -90,8 +90,12 @@ export default class Previous extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'previous', kind: node(Sym.Previous) },
-            { name: 'range', kind: optional(node(Sym.Previous)) },
+            { name: 'previous', kind: node(Sym.Previous), label: undefined },
+            {
+                name: 'range',
+                kind: optional(node(Sym.Previous)),
+                label: undefined,
+            },
             {
                 name: 'number',
                 kind: node(Expression),

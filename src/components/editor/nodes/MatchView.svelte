@@ -21,7 +21,7 @@
         />
     </Row>
     <Column indent>
-        <NodeSequenceView block nodes={node.cases} {format} /><NodeView
+        <NodeSequenceView block {node} field="cases" {format} /><NodeView
             node={node.other}
             {format}
         />
@@ -30,7 +30,7 @@
     <NodeView node={node.value} {format} /><NodeView
         node={node.question}
         {format}
-    /><NodeSequenceView nodes={node.cases} {format} /><NodeView
+    /><NodeSequenceView {node} field="cases" {format} /><NodeView
         node={node.other}
         {format}
     />

@@ -12,6 +12,7 @@
 </script>
 
 <NodeView node={node.open} {format} /><NodeSequenceView
-    nodes={node.columns}
+    {node}
+    field="columns"
     {format}
 /><NodeView node={node.close} {format} />

@@ -11,4 +11,4 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeSequenceView nodes={node.paragraphs} {format} />
+<NodeSequenceView {node} field="paragraphs" {format} />

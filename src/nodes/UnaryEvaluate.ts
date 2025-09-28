@@ -65,8 +65,13 @@ export default class UnaryEvaluate extends Expression {
                 getDefinitions: (context: Context): Definition[] => {
                     return this.getFunctions(context);
                 },
+                label: undefined,
             },
-            { name: 'input', kind: node(Expression) },
+            {
+                name: 'input',
+                kind: node(Expression),
+                label: () => (l) => l.node.UnaryEvaluate.label.input,
+            },
         ];
     }
 

@@ -93,8 +93,17 @@ export default class NumberLiteral extends Literal {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', kind: node(Sym.Number), uncompletable: true },
-            { name: 'unit', kind: optional(node(Unit)) },
+            {
+                name: 'number',
+                kind: node(Sym.Number),
+                uncompletable: true,
+                label: undefined,
+            },
+            {
+                name: 'unit',
+                kind: optional(node(Unit)),
+                label: () => (l) => l.term.unit,
+            },
         ];
     }
 

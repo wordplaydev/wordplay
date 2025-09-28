@@ -66,7 +66,12 @@ export default class Delete extends Expression {
                 kind: node(Expression),
                 label: () => (l) => l.term.table,
             },
-            { name: 'del', kind: node(Sym.Delete), space: true },
+            {
+                name: 'del',
+                kind: node(Sym.Delete),
+                space: true,
+                label: undefined,
+            },
             {
                 name: 'query',
                 kind: node(Expression),

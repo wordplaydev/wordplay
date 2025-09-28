@@ -99,17 +99,28 @@ export default class FunctionType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'fun', kind: node(Sym.Function) },
-            { name: 'types', kind: optional(node(TypeVariables)), space: true },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            { name: 'fun', kind: node(Sym.Function), label: undefined },
+            {
+                name: 'types',
+                kind: optional(node(TypeVariables)),
+                space: true,
+                label: undefined,
+            },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
+                label: () => (l) => l.term.input,
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
-            { name: 'output', kind: node(Type), space: true },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
+            {
+                name: 'output',
+                kind: node(Type),
+                space: true,
+                label: () => (l) => l.term.type,
+            },
         ];
     }
 

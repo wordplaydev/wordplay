@@ -35,6 +35,7 @@ export default class NoneLiteral extends Literal {
                 name: 'none',
                 kind: node(Sym.None),
                 getType: () => NoneType.make(),
+                label: undefined,
             },
         ];
     }

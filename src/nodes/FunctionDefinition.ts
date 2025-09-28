@@ -192,33 +192,45 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: any(node(Docs), none()) },
+            {
+                name: 'docs',
+                kind: any(node(Docs), none()),
+                label: () => (l) => l.term.documentation,
+            },
             {
                 name: 'share',
                 kind: any(node(Sym.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
+                label: undefined,
             },
-            { name: 'fun', kind: node(Sym.Function) },
-            { name: 'names', kind: node(Names), space: true },
-            { name: 'types', kind: any(node(TypeVariables), none()) },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            { name: 'fun', kind: node(Sym.Function), label: undefined },
+            { name: 'names', kind: node(Names), space: true, label: undefined },
+            {
+                name: 'types',
+                kind: any(node(TypeVariables), none()),
+                label: undefined,
+            },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
+                label: () => (l) => l.node.FunctionDefinition.label.inputs,
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
             {
                 name: 'dot',
                 kind: any(
                     node(Sym.Type),
                     none(['output', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'output',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: undefined,
             },
             {
                 name: 'expression',
@@ -227,6 +239,7 @@ export default class FunctionDefinition extends DefinitionExpression {
                 indent: true,
                 // Must match output type if provided
                 getType: (context) => this.getOutputType(context),
+                label: () => (l) => l.node.FunctionDefinition.label.expression,
             },
         ];
     }

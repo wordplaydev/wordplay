@@ -73,10 +73,11 @@ export default class SetLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
             {
                 name: 'values',
                 kind: list(true, node(Expression)),
+                label: () => (l) => l.term.value,
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
                     this.getItemType(context) ?? new AnyType(),
@@ -85,8 +86,13 @@ export default class SetLiteral extends Expression {
                 initial: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
-            { name: 'literal', kind: node(Sym.Literal) },
+            {
+                name: 'close',
+                kind: node(Sym.SetClose),
+                newline: this.wrap(),
+                label: undefined,
+            },
+            { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
     }
 

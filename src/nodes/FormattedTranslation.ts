@@ -74,11 +74,19 @@ export default class FormattedTranslation extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.Formatted) },
-            { name: 'markup', kind: node(Markup) },
-            { name: 'close', kind: node(Sym.Formatted) },
-            { name: 'language', kind: optional(node(Language)) },
-            { name: 'separator', kind: optional(node(Sym.Separator)) },
+            { name: 'open', kind: node(Sym.Formatted), label: undefined },
+            { name: 'markup', kind: node(Markup), label: undefined },
+            { name: 'close', kind: node(Sym.Formatted), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
+            {
+                name: 'separator',
+                kind: optional(node(Sym.Separator)),
+                label: undefined,
+            },
         ];
     }
 

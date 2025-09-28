@@ -134,17 +134,28 @@ export default class Bind extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: any(node(Docs), none()) },
+            {
+                name: 'docs',
+                kind: any(node(Docs), none()),
+                label: () => (l) => l.term.documentation,
+            },
             {
                 name: 'share',
                 kind: any(node(Sym.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
+                label: undefined,
             },
-            { name: 'names', kind: node(Names), newline: true },
+            {
+                name: 'names',
+                kind: node(Names),
+                newline: true,
+                label: () => (l) => l.node.Bind.label.names,
+            },
             {
                 name: 'etc',
                 kind: any(node(Sym.Etc), none()),
                 getToken: () => new Token(ETC_SYMBOL, Sym.Etc),
+                label: undefined,
             },
             {
                 name: 'dot',
@@ -152,10 +163,12 @@ export default class Bind extends Expression {
                     node(Sym.Type),
                     none(['type', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'type',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: () => (l) => l.node.Bind.label.type,
             },
             {
                 name: 'colon',
@@ -163,6 +176,7 @@ export default class Bind extends Expression {
                     node(Sym.Bind),
                     none(['value', () => ExpressionPlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'value',
@@ -174,12 +188,12 @@ export default class Bind extends Expression {
                 indent: true,
                 // The bind field should be whatever type is expected.
                 getType: (context: Context) => this.getExpectedType(context),
-                label: (locales: Locales, child: Node, context: Context) => {
-                    if (child === this.value) {
-                        const bind =
-                            this.getCorrespondingBindDefinition(context);
-                        return () => (bind ? locales.getName(bind.names) : '_');
-                    } else return () => '_';
+                label: (locales: Locales, _: Node, context: Context) => {
+                    const bind = this.getCorrespondingBindDefinition(context);
+                    return () =>
+                        bind
+                            ? locales.getName(bind.names)
+                            : locales.get((l) => l.node.Bind.label.value);
                 },
             },
         ];

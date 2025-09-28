@@ -50,8 +50,12 @@ export default class IsLocale extends SimpleExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'globe', kind: node(Sym.Locale) },
-            { name: 'locale', kind: optional(node(Language)) },
+            { name: 'globe', kind: node(Sym.Locale), label: undefined },
+            {
+                name: 'locale',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
         ];
     }
 

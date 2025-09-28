@@ -49,7 +49,7 @@ export default class Initial extends SimpleExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'diamond', kind: node(Sym.Initial) }];
+        return [{ name: 'diamond', kind: node(Sym.Initial), label: undefined }];
     }
 
     clone(replace?: Replacement) {

@@ -75,11 +75,11 @@ export default class ListLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen), label: undefined },
             {
                 name: 'values',
                 kind: list(true, node(Expression), node(Spread)),
-                label: () => (l) => l.node.ListLiteral.item,
+                label: () => (l) => l.term.value,
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
                     this.getItemType(context)?.generalize(context) ??
@@ -92,8 +92,13 @@ export default class ListLiteral extends Expression {
                 // Include an indent before all items in the list
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.ListClose), newline: this.wrap() },
-            { name: 'literal', kind: node(Sym.Literal) },
+            {
+                name: 'close',
+                kind: node(Sym.ListClose),
+                label: undefined,
+                newline: this.wrap(),
+            },
+            { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
     }
 

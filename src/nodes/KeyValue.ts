@@ -55,7 +55,7 @@ export default class KeyValue extends Node {
                 label: () => (l) => l.term.key,
                 space: true,
             },
-            { name: 'bind', kind: node(Sym.Bind) },
+            { name: 'bind', kind: node(Sym.Bind), label: undefined },
             {
                 name: 'value',
                 kind: node(Expression),

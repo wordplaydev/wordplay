@@ -25,7 +25,7 @@
         /><NodeView node={node.types} {format} /><NodeView
             node={node.open}
             {format}
-        /><NodeSequenceView nodes={node.inputs} {format} /><NodeView
+        /><NodeSequenceView {node} field="inputs" {format} /><NodeView
             node={node.close}
             {format}
         /><NodeView node={node.dot} {format} /><NodeView
@@ -46,7 +46,7 @@
     /><NodeView node={node.types} {format} /><NodeView
         node={node.open}
         {format}
-    /><NodeSequenceView nodes={node.inputs} {format} /><NodeView
+    /><NodeSequenceView {node} field="inputs" {format} /><NodeView
         node={node.close}
         {format}
     /><NodeView node={node.dot} {format} /><NodeView

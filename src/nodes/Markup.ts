@@ -59,6 +59,7 @@ export default class Markup extends Content {
             {
                 name: 'paragraphs',
                 kind: list(true, node(Paragraph)),
+                label: () => (l) => l.node.Markup.label.paragraphs,
                 newline: true,
                 double: true,
             },

@@ -19,9 +19,7 @@
 
 <style>
     .placeholder {
-        font-family: var(--wordplay-app-font);
         font-style: italic;
-        font-size: var(--wordplay-font-size);
-        text-decoration: underline;
+        font-size: var(--wordplay-small-font-size);
     }
 </style>

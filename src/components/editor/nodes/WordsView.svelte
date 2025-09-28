@@ -13,7 +13,9 @@
 
 <span class="words {format.block ? 'blocks' : ''} {node.getFormat()}"
     ><NodeView node={node.open} {format} /><NodeSequenceView
-        nodes={node.getNodeSegments()}
+        {node}
+        field="segments"
+        filtered={node.getNodeSegments()}
         {format}
     /><NodeView node={node.close} {format} />
 </span>

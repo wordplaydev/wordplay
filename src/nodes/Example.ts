@@ -46,9 +46,9 @@ export default class Example extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.Code) },
-            { name: 'program', kind: node(Program) },
-            { name: 'close', kind: node(Sym.Code) },
+            { name: 'open', kind: node(Sym.Code), label: undefined },
+            { name: 'program', kind: node(Program), label: undefined },
+            { name: 'close', kind: node(Sym.Code), label: undefined },
         ];
     }
 

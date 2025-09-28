@@ -64,14 +64,23 @@ export default class Translation extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.Text) },
+            { name: 'open', kind: node(Sym.Text), label: undefined },
             {
                 name: 'segments',
                 kind: list(true, node(Sym.Words), node(Example)),
+                label: () => (l) => l.node.Translation.label.segments,
             },
-            { name: 'close', kind: node(Sym.Text) },
-            { name: 'language', kind: optional(node(Language)) },
-            { name: 'separator', kind: optional(node(Sym.Separator)) },
+            { name: 'close', kind: node(Sym.Text), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
+            {
+                name: 'separator',
+                kind: optional(node(Sym.Separator)),
+                label: undefined,
+            },
         ];
     }
 

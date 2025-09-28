@@ -68,7 +68,13 @@ export default class TextLiteral extends Literal {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'texts', kind: list(false, node(Translation)) }];
+        return [
+            {
+                name: 'texts',
+                kind: list(false, node(Translation)),
+                label: () => (l) => l.node.TextLiteral.label.texts,
+            },
+        ];
     }
 
     clone(replace?: Replacement): this {

@@ -15,7 +15,8 @@
     node={node.types}
     {format}
 /><NodeView node={node.open} {format} /><NodeSequenceView
-    nodes={node.inputs}
+    {node}
+    field="inputs"
     {format}
 /><NodeView node={node.close} {format} /><NodeView
     node={node.output}

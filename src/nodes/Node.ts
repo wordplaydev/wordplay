@@ -685,18 +685,9 @@ export default abstract class Node {
     }
 }
 
-export type Field = {
+type BaseField = {
     /** The name of the field, corresponding to a name on the Node class. Redundant with the class, but no reflection in JavaScript. */
     name: string;
-    /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
-    kind: Any | Empty | ListOf | IsA;
-    /** A description of the field for the UI */
-    label?: (
-        locales: Locales,
-        child: Node,
-        context: Context,
-        root: Root,
-    ) => LocaleTextAccessor;
     /** True if a preceding space is preferred the node */
     space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */
@@ -716,6 +707,25 @@ export type Field = {
     /** Given a context and an optional prefix, determine definitions are available for this field. Used to populate autocomplete menus. */
     getDefinitions?: (context: Context) => Definition[];
 };
+
+type LabelAccessor = (
+    locales: Locales,
+    child: Node,
+    context: Context,
+    root: Root,
+) => LocaleTextAccessor;
+
+export type ListField = BaseField & {
+    kind: ListOf;
+    label: LabelAccessor;
+};
+
+export type OtherField = BaseField & {
+    kind: IsA | Empty | Any;
+    label: LabelAccessor | undefined;
+};
+
+export type Field = ListField | OtherField;
 
 /** These types help define a node's grammar at runtime, allowing for a range of rules to be specified about their structure.
  * This helps with edits, autocomplete, spacing rules, and more.

@@ -94,9 +94,14 @@ export default class Match extends Expression {
             {
                 name: 'value',
                 kind: node(Expression),
-                label: () => (l) => l.node.Match.value,
+                label: () => (l) => l.term.value,
             },
-            { name: 'question', kind: node(Sym.Match), space: true },
+            {
+                name: 'question',
+                kind: node(Sym.Match),
+                space: true,
+                label: undefined,
+            },
             {
                 name: 'cases',
                 kind: list(true, node(KeyValue)),
@@ -104,11 +109,12 @@ export default class Match extends Expression {
                 indent: true,
                 newline: true,
                 initial: true,
+                label: () => (l) => l.node.Match.label.case,
             },
             {
                 name: 'other',
                 kind: node(Expression),
-                label: () => (l) => l.node.Match.other,
+                label: () => (l) => l.node.Match.label.other,
                 space: true,
                 indent: true,
                 newline: true,

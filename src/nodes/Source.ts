@@ -125,6 +125,7 @@ export default class Source extends Expression {
             {
                 name: 'expression',
                 kind: node(Program),
+                label: undefined,
                 space: false,
                 indent: false,
             },

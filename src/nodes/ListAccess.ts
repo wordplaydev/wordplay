@@ -110,7 +110,7 @@ export default class ListAccess extends Expression {
                 // Must be a list
                 getType: () => ListType.make(),
             },
-            { name: 'open', kind: node(Sym.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen), label: undefined },
             {
                 name: 'index',
                 kind: node(Expression),
@@ -118,7 +118,7 @@ export default class ListAccess extends Expression {
                 // Must be a number
                 getType: () => NumberType.make(),
             },
-            { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose), label: undefined },
         ];
     }
 

@@ -47,17 +47,19 @@ export default class TypeVariable extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'names', kind: node(Names) },
+            { name: 'names', kind: node(Names), label: undefined },
             {
                 name: 'dot',
                 kind: any(
                     node(Sym.Type),
                     none(['type', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'type',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: () => (l) => l.node.TypeVariable.label.type,
             },
         ];
     }

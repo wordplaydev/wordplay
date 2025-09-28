@@ -101,16 +101,21 @@ export default class Block extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: any(node(Docs), none()) },
+            {
+                name: 'docs',
+                kind: any(node(Docs), none()),
+                label: () => (l) => l.term.documentation,
+            },
             {
                 name: 'open',
                 kind: any(node(Sym.EvalOpen), none()),
                 uncompletable: true,
+                label: undefined,
             },
             {
                 name: 'statements',
                 kind: list(true, node(Expression), node(Bind)),
-                label: () => (l) => l.node.Block.statement,
+                label: () => (l) => l.node.Block.label.statements,
                 indent: !this.isRoot(),
                 newline:
                     this.isRoot() ||
@@ -121,6 +126,7 @@ export default class Block extends Expression {
             {
                 name: 'close',
                 kind: any(node(Sym.EvalClose), none()),
+                label: undefined,
                 // If it's a structure with more than one definition, insert new line
                 newline: this.isStructure() && this.statements.length > 0,
                 uncompletable: true,

@@ -96,10 +96,24 @@ export default class ConversionDefinition extends DefinitionExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: any(node(Docs), none()) },
-            { name: 'arrow', kind: node(Sym.Convert) },
-            { name: 'input', kind: node(Type), space: true },
-            { name: 'output', kind: node(Type), space: true },
+            {
+                name: 'docs',
+                kind: any(node(Docs), none()),
+                label: () => (l) => l.term.documentation,
+            },
+            { name: 'arrow', kind: node(Sym.Convert), label: undefined },
+            {
+                name: 'input',
+                kind: node(Type),
+                space: true,
+                label: () => (l) => l.node.ConversionDefinition.label.input,
+            },
+            {
+                name: 'output',
+                kind: node(Type),
+                space: true,
+                label: () => (l) => l.node.ConversionDefinition.label.output,
+            },
             {
                 name: 'expression',
                 kind: node(Expression),
@@ -107,6 +121,8 @@ export default class ConversionDefinition extends DefinitionExpression {
                 indent: true,
                 // Must match the output type
                 getType: () => this.output,
+                label: () => (l) =>
+                    l.node.ConversionDefinition.label.expression,
             },
         ];
     }
