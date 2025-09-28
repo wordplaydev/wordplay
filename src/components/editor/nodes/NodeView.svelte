@@ -290,9 +290,9 @@
 
     .block.type {
         font-size: var(--wordplay-small-font-size);
-        box-shadow: inset var(--color-shadow) 0px 0px
-            var(--wordplay-focus-width);
-        background: var(--color-shadow-transparent);
+        box-shadow: inset var(--color-orange) 0px 0px
+            var(--wordplay-border-width);
+        background: var(--color-orange-transparent);
     }
 
     .block.predicate {
