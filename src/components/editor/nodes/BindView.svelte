@@ -12,32 +12,28 @@
 </script>
 
 {#if format.block}
-    <NodeView node={node.docs} {format} />
+    <NodeView node={[node, 'docs']} {format} empty="hide" />
     <Row>
-        <NodeView node={node.share} {format} />
-        <NodeView node={node.names} {format} />
-        <NodeView node={node.etc} {format} />
-        <NodeView node={node.dot} {format} />
-        <NodeView
-            node={node.type}
-            {format}
-            drop={{ parent: node, field: 'type' }}
-        />
-        <NodeView node={node.colon} {format} />
-        {#if node.value}<NodeView node={node.value} {format} />{/if}
+        <NodeView node={[node, 'share']} {format} empty="hide" />
+        <NodeView node={[node, 'names']} {format} />
+        <NodeView node={[node, 'etc']} {format} empty="hide" />
+        <NodeView node={[node, 'dot']} {format} empty="hide" />
+        <NodeView node={[node, 'type']} {format} empty="menu" />
+        <NodeView node={[node, 'colon']} {format} />
+        {#if node.value}<NodeView node={[node, 'value']} {format} />{/if}
     </Row>
 {:else}
-    <NodeView node={node.docs} {format} /><NodeView
-        node={node.share}
+    <NodeView node={[node, 'docs']} {format} /><NodeView
+        node={[node, 'share']}
         {format}
-    /><NodeView node={node.names} {format} /><NodeView
-        node={node.etc}
+    /><NodeView node={[node, 'names']} {format} /><NodeView
+        node={[node, 'etc']}
         {format}
     /><span class="type"
-        ><NodeView node={node.dot} {format} /><NodeView
-            node={node.type}
+        ><NodeView node={[node, 'dot']} {format} /><NodeView
+            node={[node, 'type']}
             {format}
         /></span
-    ><strong><NodeView node={node.colon} {format} /></strong
-    >{#if node.value}<NodeView node={node.value} {format} />{/if}
+    ><strong><NodeView node={[node, 'colon']} {format} /></strong
+    >{#if node.value}<NodeView node={[node, 'value']} {format} />{/if}
 {/if}

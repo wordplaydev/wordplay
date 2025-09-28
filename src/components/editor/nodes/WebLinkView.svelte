@@ -15,13 +15,13 @@
 </script>
 
 {#if editing}
-    <NodeView node={node.open} {format} /><NodeView
-        node={node.description}
+    <NodeView node={[node, 'open']} {format} /><NodeView
+        node={[node, 'description']}
         {format}
-    /><NodeView node={node.at} {format} /><NodeView
-        node={node.url}
+    /><NodeView node={[node, 'at']} {format} /><NodeView
+        node={[node, 'url']}
         {format}
-    /><NodeView node={node.close} {format} />
+    /><NodeView node={[node, 'close']} {format} />
 {:else}
     <a href={node.url?.getText()} target="_blank" rel="noreferrer"
         >{node.description?.getText() ?? ''}</a

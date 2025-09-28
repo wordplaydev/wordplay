@@ -15,45 +15,47 @@
 
 {#if format.block}
     <Column>
-        <NodeView node={node.docs} {format} />
+        <NodeView node={[node, 'docs']} {format} empty="hide" />
         <Row>
-            <NodeView node={node.share} {format} /><NodeView
-                node={node.type}
+            <NodeView node={[node, 'share']} {format} empty="hide" /><NodeView
+                node={[node, 'type']}
                 {format}
-            /><NodeView node={node.names} {format} /><NodeSequenceView
+                empty="hide"
+            /><NodeView node={[node, 'names']} {format} /><NodeSequenceView
                 {node}
                 field="interfaces"
                 {format}
                 empty="menu"
-            /><NodeView node={node.types} {format} /><NodeView
-                node={node.open}
+            /><NodeView node={[node, 'types']} {format} empty="hide" /><NodeView
+                node={[node, 'open']}
                 {format}
             /><NodeSequenceView
                 {node}
                 field="inputs"
                 {format}
                 empty="label"
-            /><NodeView node={node.close} {format} />
+            /><NodeView node={[node, 'close']} {format} />
         </Row>
-        <Column indent><NodeView node={node.expression} {format} /></Column>
+        <Column indent><NodeView node={[node, 'expression']} {format} /></Column
+        >
     </Column>
 {:else}
-    <NodeView node={node.docs} {format} /><NodeView
-        node={node.share}
+    <NodeView node={[node, 'docs']} {format} /><NodeView
+        node={[node, 'share']}
         {format}
-    /><NodeView node={node.type} {format} /><NodeView
-        node={node.names}
+    /><NodeView node={[node, 'type']} {format} /><NodeView
+        node={[node, 'names']}
         {format}
     /><NodeSequenceView
         {node}
         field="interfaces"
         {format}
         empty="menu"
-    /><NodeView node={node.types} {format} /><NodeView
-        node={node.open}
+    /><NodeView node={[node, 'types']} {format} /><NodeView
+        node={[node, 'open']}
         {format}
     /><NodeSequenceView {node} field="inputs" {format} empty="label" /><NodeView
-        node={node.close}
+        node={[node, 'close']}
         {format}
-    /><NodeView node={node.expression} {format} />
+    /><NodeView node={[node, 'expression']} {format} />
 {/if}

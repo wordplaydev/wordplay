@@ -77,24 +77,24 @@
 </script>
 
 {#if format.block}
-    <NodeView node={node.fun} {format} />
-    <NodeView node={node.types} {format} />
-    <NodeView node={node.open} {format} />
+    <NodeView node={[node, 'fun']} {format} />
+    <NodeView node={[node, 'types']} {format} empty="hide" />
+    <NodeView node={[node, 'open']} {format} />
     <NodeSequenceView {node} {format} field="inputs" empty="label" />
     {#if nextBind && menuPosition}
         &nbsp;<MenuTrigger position={menuPosition} />
     {/if}
-    <NodeView node={node.close} {format} />
+    <NodeView node={[node, 'close']} {format} />
 {:else}
-    <NodeView node={node.fun} {format} /><NodeView
-        node={node.types}
+    <NodeView node={[node, 'fun']} {format} /><NodeView
+        node={[node, 'types']}
         {format}
-    /><NodeView node={node.open} {format} /><NodeSequenceView
+    /><NodeView node={[node, 'open']} {format} /><NodeSequenceView
         {node}
         {format}
         field="inputs"
         empty="label"
     />{#if nextBind && menuPosition}
         &nbsp;<MenuTrigger position={menuPosition} />
-    {/if}<NodeView node={node.close} {format} />
+    {/if}<NodeView node={[node, 'close']} {format} />
 {/if}

@@ -11,12 +11,13 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.open} {format} /><NodeSequenceView
+<NodeView node={[node, 'open']} {format} /><NodeSequenceView
     {node}
     field="segments"
     {format}
     empty="label"
-/><NodeView node={node.close} {format} /><NodeView
-    node={node.language}
+/><NodeView node={[node, 'close']} {format} /><NodeView
+    node={[node, 'language']}
     {format}
-/><NodeView node={node.separator} {format} />
+    empty="menu"
+/><NodeView node={[node, 'separator']} {format} />

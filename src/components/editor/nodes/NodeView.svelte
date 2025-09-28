@@ -1,16 +1,20 @@
 <script module>
     export type Format = {
         block: boolean;
+        root: Root | undefined;
     };
 </script>
 
-<script lang="ts">
+<script lang="ts" generics="NodeType extends Node">
     import ValueView from '@components/values/ValueView.svelte';
     import Expression from '@nodes/Expression';
-    import type Node from '@nodes/Node';
+    import Node from '@nodes/Node';
+    import type { UnitDeriver } from '@nodes/NumberType';
+    import type Root from '@nodes/Root';
     import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
     import { locales } from '../../../db/Database';
     import Token from '../../../nodes/Token';
+    import type KeysOfType from '../../../util/KeysOfType';
     import {
         getEvaluation,
         getHidden,
@@ -19,22 +23,26 @@
         getRoot,
         getSpaces,
     } from '../../project/Contexts';
-    import MenuTrigger, {
-        type FieldPosition,
-    } from '../menu/MenuTrigger.svelte';
+    import EmptyView from '../blocks/EmptyView.svelte';
     import getNodeView from './nodeToView';
     import Space from './Space.svelte';
 
     interface Props {
-        /** The node to render, if there is one */
-        node: Node | undefined;
+        /** The parent node containing the field to render. We take this instead of the field value so we can render a placeholder for empty values in blocks mode. */
+        node:
+            | [NodeType, KeysOfType<NodeType, Node | UnitDeriver | undefined>]
+            | Node;
         /** The format to use when rendering */
         format: Format;
-        /** The optional drop down to show, based on the parent and field */
-        drop?: FieldPosition;
+        /** The style of the empty view, if empty. We default to labeled */
+        empty?: 'hide' | 'menu' | 'label';
     }
 
-    let { node, format, drop }: Props = $props();
+    let { node: path, format, empty = 'label' }: Props = $props();
+
+    let node = $derived(
+        path instanceof Node ? path : (path[0][path[1]] as Node),
+    );
 
     const evaluation = getEvaluation();
     const rootContext = getRoot();
@@ -141,8 +149,8 @@
     {:else}
         !
     {/if}
-{:else if drop}
-    <MenuTrigger position={drop}></MenuTrigger>
+{:else if node === undefined && format.block && Array.isArray(path)}
+    <EmptyView node={path[0]} field={path[1]} style={empty} {format} />
 {/if}
 
 <style>

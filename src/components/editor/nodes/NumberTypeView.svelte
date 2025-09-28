@@ -11,7 +11,10 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.number} {format} />{#if node.unit instanceof Node}<NodeView
-        node={node.unit}
+<NodeView
+    node={[node, 'number']}
+    {format}
+/>{#if node.unit instanceof Node}<NodeView
+        node={[node, 'unit']}
         {format}
     />{/if}

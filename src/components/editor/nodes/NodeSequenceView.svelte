@@ -4,24 +4,14 @@
 
 <script lang="ts" generics="NodeType extends Node">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
-    import Source from '@nodes/Source';
-    import { getCaret, getProject, getRoot } from '../../project/Contexts';
+    import type KeysOfType from '../../../util/KeysOfType';
+    import { getCaret } from '../../project/Contexts';
     import Button from '../../widgets/Button.svelte';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
+    import EmptyView from '../blocks/EmptyView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
-
-    /** Fields of type KT on T */
-    type KeysOfType<T, KT> = {
-        [K in keyof T]: K extends string
-            ? T[K] extends KT
-                ? K
-                : never
-            : never;
-    }[keyof T];
 
     interface Props {
         /** The node containing a list of nodes to render */
@@ -50,8 +40,6 @@
     }: Props = $props();
 
     let caret = getCaret();
-    let root = getRoot();
-    let project = getProject();
 
     let nodes = $derived(filtered ?? (node[field] as Node[]));
 
@@ -124,24 +112,7 @@
             {#each nodes as node}
                 <NodeView {node} {format} />
             {:else}
-                {@const label = node.getFieldNamed(field)?.label}
-                {#if empty === 'label' && label && $project && root?.root}
-                    <span class="label">
-                        <LocalizedText
-                            path={label(
-                                $locales,
-                                /** This isn't actually correct, but it's an empty list, so it shouldn't matter */
-                                node,
-                                $project.getNodeContext(node),
-                                root.root,
-                            )}
-                        />
-                    </span>
-                {/if}
-                {#if empty !== 'hide' && root.root?.root instanceof Source}
-                    <MenuTrigger position={{ parent: node, field }}
-                    ></MenuTrigger>
-                {/if}
+                <EmptyView {node} {field} style={empty} {format} />
             {/each}
         </div>
     {/if}
@@ -188,11 +159,5 @@
 
     .node-list.indent {
         margin-inline-start: var(--wordplay-spacing);
-    }
-
-    .label {
-        font-style: italic;
-        color: var(--wordplay-inactive-color);
-        font-size: var(--wordplay-small-font-size);
     }
 </style>

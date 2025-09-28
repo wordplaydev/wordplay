@@ -10,7 +10,7 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.input} {format} /><NodeView
-    node={node.convert}
+<NodeView node={[node, 'input']} {format} /><NodeView
+    node={[node, 'convert']}
     {format}
-/><NodeView node={node.output} {format} />
+/><NodeView node={[node, 'output']} {format} />

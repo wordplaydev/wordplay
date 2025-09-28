@@ -98,7 +98,7 @@
     }}
     >{#if token}<TokenView
             node={tokenize(command.symbol).getTokens()[0]}
-            format={{ block: false }}
+            format={{ block: false, root: undefined }}
         />{:else if /^\p{Extended_Pictographic}+$/u.test(command.symbol)}<Emoji
             >{command.symbol}</Emoji
         >{:else}{command.symbol}{/if}</Button

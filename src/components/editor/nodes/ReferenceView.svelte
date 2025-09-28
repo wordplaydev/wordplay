@@ -63,7 +63,7 @@
     class:changed={animating}
     class={definition ? definition.getDescriptor() : ''}
 >
-    <NodeView node={node.name} {format} />
+    <NodeView node={[node, 'name']} {format} />
 </span>
 
 <style>

@@ -10,4 +10,4 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.tick} {format} />
+<NodeView node={[node, 'tick']} {format} />

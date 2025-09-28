@@ -10,10 +10,10 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.initial} {format} /><NodeView
-    node={node.dots}
+<NodeView node={[node, 'initial']} {format} /><NodeView
+    node={[node, 'dots']}
     {format}
-/><NodeView node={node.condition} {format} /><NodeView
-    node={node.nextdots}
+/><NodeView node={[node, 'condition']} {format} /><NodeView
+    node={[node, 'nextdots']}
     {format}
-/><NodeView node={node.next} {format} />
+/><NodeView node={[node, 'next']} {format} />

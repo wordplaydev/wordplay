@@ -11,12 +11,13 @@
     let { node, format }: ProgramProps = $props();
 </script>
 
-<NodeView node={node.docs} {format} /><NodeSequenceView
+<NodeView node={[node, 'docs']} {format} empty="hide" /><NodeSequenceView
     {node}
     field="borrows"
     {format}
     empty="hide"
-/><NodeView node={node.expression} {format} /><NodeView
-    node={node.end}
+/><NodeView node={[node, 'expression']} {format} /><NodeView
+    node={[node, 'end']}
     {format}
+    empty="hide"
 />

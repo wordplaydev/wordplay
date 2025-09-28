@@ -11,13 +11,13 @@
 </script>
 
 {#if format.block}
-    <NodeView node={node.docs} {format} /><NodeView
-        node={node.expression}
+    <NodeView node={[node, 'docs']} {format} /><NodeView
+        node={[node, 'expression']}
         {format}
     />
 {:else}
-    <NodeView node={node.docs} {format} /><NodeView
-        node={node.expression}
+    <NodeView node={[node, 'docs']} {format} /><NodeView
+        node={[node, 'expression']}
         {format}
     />
 {/if}

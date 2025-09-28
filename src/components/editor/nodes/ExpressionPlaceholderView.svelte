@@ -46,13 +46,13 @@
 <span class="placeholder"
     ><span class={node.dot && node.type ? 'hidden' : ''}
         >{#if node.placeholder}<NodeView
-                node={node.placeholder}
+                node={[node, 'placeholder']}
                 {format}
             />{:else if placeholder}<span class="label">{placeholder}</span
-            >{/if}<NodeView node={node.dot} {format} /></span
+            >{/if}<NodeView node={[node, 'dot']} {format} /></span
     ><span class="type"
         >{#if node.type}<NodeView
-                node={node.type}
+                node={[node, 'type']}
                 {format}
             />{:else if inferredType && !(inferredType instanceof UnknownType || inferredType instanceof AnyType)}•<div
                 class:inferred={node.type === undefined && inferredType}

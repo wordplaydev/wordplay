@@ -10,4 +10,7 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.stream} {format} /><NodeView node={node.type} {format} />
+<NodeView node={[node, 'stream']} {format} /><NodeView
+    node={[node, 'type']}
+    {format}
+/>

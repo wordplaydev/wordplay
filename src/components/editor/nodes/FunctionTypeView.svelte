@@ -11,15 +11,15 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.fun} {format} /><NodeView
-    node={node.types}
+<NodeView node={[node, 'fun']} {format} /><NodeView
+    node={[node, 'types']}
     {format}
-/><NodeView node={node.open} {format} /><NodeSequenceView
+/><NodeView node={[node, 'open']} {format} /><NodeSequenceView
     {node}
     field="inputs"
     {format}
     empty="label"
-/><NodeView node={node.close} {format} /><NodeView
-    node={node.output}
+/><NodeView node={[node, 'close']} {format} /><NodeView
+    node={[node, 'output']}
     {format}
 />

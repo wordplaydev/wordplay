@@ -10,4 +10,7 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.globe} {format} /><NodeView node={node.locale} {format} />
+<NodeView node={[node, 'globe']} {format} /><NodeView
+    node={[node, 'locale']}
+    {format}
+/>

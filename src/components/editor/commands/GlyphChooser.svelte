@@ -101,7 +101,7 @@
         action={() => insert(glyph)}
         >{#if token}<TokenView
                 node={tokenize(glyph).getTokens()[0]}
-                format={{ block: false }}
+                format={{ block: false, root: undefined }}
             />{:else}{glyph}{/if}</Button
     >
 {/snippet}

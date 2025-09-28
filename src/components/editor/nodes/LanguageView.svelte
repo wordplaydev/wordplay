@@ -11,12 +11,13 @@
 </script>
 
 <em class="language {format.block ? 'blocks' : ''}"
-    ><NodeView node={node.slash} {format} /><NodeView
-        node={node.language}
+    ><NodeView node={[node, 'slash']} {format} /><NodeView
+        node={[node, 'language']}
         {format}
-    /><NodeView node={node.dash} {format} /><NodeView
-        node={node.region}
+    /><NodeView node={[node, 'dash']} {format} empty="hide" /><NodeView
+        node={[node, 'region']}
         {format}
+        empty="menu"
     /></em
 >
 

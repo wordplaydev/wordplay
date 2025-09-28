@@ -10,10 +10,10 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.previous} {format} /><NodeView
-    node={node.range}
+<NodeView node={[node, 'previous']} {format} /><NodeView
+    node={[node, 'range']}
     {format}
-/><NodeView node={node.number} {format} /><NodeView
-    node={node.stream}
+/><NodeView node={[node, 'number']} {format} /><NodeView
+    node={[node, 'stream']}
     {format}
 />

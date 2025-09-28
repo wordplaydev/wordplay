@@ -12,13 +12,13 @@
 </script>
 
 <span class="words {format.block ? 'blocks' : ''} {node.getFormat()}"
-    ><NodeView node={node.open} {format} /><NodeSequenceView
+    ><NodeView node={[node, 'open']} {format} /><NodeSequenceView
         {node}
         field="segments"
         filtered={node.getNodeSegments()}
         empty="label"
         {format}
-    /><NodeView node={node.close} {format} />
+    /><NodeView node={[node, 'close']} {format} />
 </span>
 
 <style>

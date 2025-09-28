@@ -98,7 +98,7 @@
                         path={(l) => l.ui.palette.labels.inherited}
                     />{:else if values.areDefault() && expression !== undefined}<NodeView
                         node={expression}
-                        format={{ block: $blocks }}
+                        format={{ block: $blocks, root: undefined }}
                     />
                     <LocalizedText
                         path={(l) => l.ui.palette.labels.default}

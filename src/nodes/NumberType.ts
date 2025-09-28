@@ -19,7 +19,7 @@ import type TypeSet from './TypeSet';
 import UnaryEvaluate from './UnaryEvaluate';
 import Unit from './Unit';
 
-type UnitDeriver = (
+export type UnitDeriver = (
     left: Unit,
     right: Unit | undefined,
     constant: number | undefined,

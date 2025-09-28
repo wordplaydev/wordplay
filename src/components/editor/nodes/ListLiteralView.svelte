@@ -12,7 +12,7 @@
 </script>
 
 {#if format.block}
-    <NodeView node={node.open} {format} />
+    <NodeView node={[node, 'open']} {format} />
     <NodeSequenceView
         {node}
         field="values"
@@ -22,17 +22,17 @@
         block={node.values.reduce((sum, v) => sum + v.toWordplay().length, 0) >
             32}
     />
-    <NodeView node={node.close} {format} />
-    <NodeView node={node.literal} {format} />
+    <NodeView node={[node, 'close']} {format} />
+    <NodeView node={[node, 'literal']} {format} />
 {:else}
-    <NodeView node={node.open} {format} /><NodeSequenceView
+    <NodeView node={[node, 'open']} {format} /><NodeSequenceView
         {node}
         field="values"
         {format}
         elide
         empty="label"
-    /><NodeView node={node.close} {format} /><NodeView
-        node={node.literal}
+    /><NodeView node={[node, 'close']} {format} /><NodeView
+        node={[node, 'literal']}
         {format}
     />
 {/if}

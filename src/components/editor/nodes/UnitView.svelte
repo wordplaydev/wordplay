@@ -12,6 +12,7 @@
 </script>
 
 <NodeSequenceView {node} field="numerator" {format} empty="menu" /><NodeView
-    node={node.slash}
+    node={[node, 'slash']}
     {format}
+    empty="hide"
 /><NodeSequenceView {node} field="denominator" {format} empty="hide" />

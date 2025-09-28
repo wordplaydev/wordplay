@@ -14,45 +14,46 @@
 </script>
 
 {#if format.block}
-    <NodeView node={node.docs} {format} /><NodeView
-        node={node.share}
+    <NodeView node={[node, 'docs']} {format} empty="hide" /><NodeView
+        node={[node, 'share']}
         {format}
+        empty="hide"
     />
     <Row
-        ><NodeView node={node.fun} {format} /><NodeView
-            node={node.names}
+        ><NodeView node={[node, 'fun']} {format} /><NodeView
+            node={[node, 'names']}
             {format}
-        /><NodeView node={node.types} {format} /><NodeView
-            node={node.open}
+        /><NodeView node={[node, 'types']} {format} empty="hide" /><NodeView
+            node={[node, 'open']}
             {format}
         /><NodeSequenceView
             {node}
             field="inputs"
             {format}
             empty="menu"
-        /><NodeView node={node.close} {format} /><NodeView
-            node={node.dot}
+        /><NodeView node={[node, 'close']} {format} /><NodeView
+            node={[node, 'dot']}
             {format}
-        /><NodeView node={node.output} {format} />
+        /><NodeView node={[node, 'output']} {format} empty="menu" />
     </Row>
     <Column indent>
-        <NodeView node={node.expression} {format} />
+        <NodeView node={[node, 'expression']} {format} />
     </Column>
 {:else}
-    <NodeView node={node.docs} {format} /><NodeView
-        node={node.share}
+    <NodeView node={[node, 'docs']} {format} /><NodeView
+        node={[node, 'share']}
         {format}
-    /><NodeView node={node.fun} {format} /><NodeView
-        node={node.names}
+    /><NodeView node={[node, 'fun']} {format} /><NodeView
+        node={[node, 'names']}
         {format}
-    /><NodeView node={node.types} {format} /><NodeView
-        node={node.open}
+    /><NodeView node={[node, 'types']} {format} /><NodeView
+        node={[node, 'open']}
         {format}
     /><NodeSequenceView {node} field="inputs" {format} empty="menu" /><NodeView
-        node={node.close}
+        node={[node, 'close']}
         {format}
-    /><NodeView node={node.dot} {format} /><NodeView
-        node={node.output}
+    /><NodeView node={[node, 'dot']} {format} /><NodeView
+        node={[node, 'output']}
         {format}
-    /><NodeView node={node.expression} {format} />
+    /><NodeView node={[node, 'expression']} {format} />
 {/if}

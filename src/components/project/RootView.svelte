@@ -224,14 +224,16 @@
         class="root"
         style="--line-count: {lineDigits}"
         class:inert
-        class:elide><NodeView {node} format={{ block: $isBlocks }} /></span
+        class:elide
+        ><NodeView {node} format={{ block: $isBlocks, root }} /></span
     >
 {:else}
     <code
         class="root"
         style="--line-count: {lineDigits}"
         class:inert
-        class:elide><NodeView {node} format={{ block: $isBlocks }} /></code
+        class:elide
+        ><NodeView {node} format={{ block: $isBlocks, root }} /></code
     >
 {/if}
 

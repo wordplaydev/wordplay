@@ -11,7 +11,7 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.type} {format} /><NodeSequenceView
+<NodeView node={[node, 'type']} {format} /><NodeSequenceView
     {node}
     block={node.rows.length > 1}
     field="rows"

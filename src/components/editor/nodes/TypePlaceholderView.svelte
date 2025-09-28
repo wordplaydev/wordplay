@@ -10,4 +10,4 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.placeholder} {format} />
+<NodeView node={[node, 'placeholder']} {format} />

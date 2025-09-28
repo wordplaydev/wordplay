@@ -10,4 +10,4 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={node.none} {format} />
+<NodeView node={[node, 'none']} {format} />

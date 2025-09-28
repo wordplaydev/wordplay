@@ -11,7 +11,8 @@
 </script>
 
 {#if node === undefined}undefined{:else}
-    <NodeView node={node.number} {format} /><NodeView
-        node={node.unit}
+    <NodeView node={[node, 'number']} {format} /><NodeView
+        node={[node, 'unit']}
         {format}
+        empty="menu"
     />{/if}

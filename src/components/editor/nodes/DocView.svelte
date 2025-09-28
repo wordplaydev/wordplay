@@ -10,10 +10,11 @@
     let { node, format }: DocProps = $props();
 </script>
 
-<NodeView node={node.open} {format} /><NodeView
-    node={node.markup}
+<NodeView node={[node, 'open']} {format} /><NodeView
+    node={[node, 'markup']}
     {format}
-/><NodeView node={node.close} {format} /><NodeView
-    node={node.language}
+/><NodeView node={[node, 'close']} {format} /><NodeView
+    node={[node, 'language']}
     {format}
-/><NodeView node={node.separator} {format} />
+    empty="menu"
+/><NodeView node={[node, 'separator']} {format} empty="hide" />

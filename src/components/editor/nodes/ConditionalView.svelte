@@ -14,20 +14,23 @@
 
 {#if format.block}
     <Row>
-        <NodeView node={node.condition} {format} /><NodeView
-            node={node.question}
+        <NodeView node={[node, 'condition']} {format} /><NodeView
+            node={[node, 'question']}
             {format}
         />
     </Row>
     <Column indent>
-        <NodeView node={node.yes} {format} /><NodeView
-            node={node.no}
+        <NodeView node={[node, 'yes']} {format} /><NodeView
+            node={[node, 'no']}
             {format}
         /></Column
     >
 {:else}
-    <NodeView node={node.condition} {format} /><NodeView
-        node={node.question}
+    <NodeView node={[node, 'condition']} {format} /><NodeView
+        node={[node, 'question']}
         {format}
-    /><NodeView node={node.yes} {format} /><NodeView node={node.no} {format} />
+    /><NodeView node={[node, 'yes']} {format} /><NodeView
+        node={[node, 'no']}
+        {format}
+    />
 {/if}
