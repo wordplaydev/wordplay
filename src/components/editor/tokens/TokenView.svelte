@@ -226,6 +226,10 @@
         cursor: text;
     }
 
+    .token-view.editable.blocks {
+        cursor: grab;
+    }
+
     :global(.dragging) .token-view.editable {
         cursor: grabbing;
     }
