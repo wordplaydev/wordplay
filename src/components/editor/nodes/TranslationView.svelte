@@ -15,6 +15,7 @@
     {node}
     field="segments"
     {format}
+    empty="label"
 /><NodeView node={node.close} {format} /><NodeView
     node={node.language}
     {format}

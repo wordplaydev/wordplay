@@ -11,4 +11,10 @@
     let { node, format }: DocsProps = $props();
 </script>
 
-<NodeSequenceView {node} field="docs" {format} block={format.block} />
+<NodeSequenceView
+    {node}
+    field="docs"
+    empty="label"
+    {format}
+    block={format.block}
+/>

@@ -16,6 +16,7 @@
         {node}
         field="segments"
         filtered={node.getNodeSegments()}
+        empty="label"
         {format}
     /><NodeView node={node.close} {format} />
 </span>

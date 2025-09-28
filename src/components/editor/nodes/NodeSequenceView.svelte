@@ -8,8 +8,10 @@
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
+    import Source from '@nodes/Source';
     import { getCaret, getProject, getRoot } from '../../project/Contexts';
     import Button from '../../widgets/Button.svelte';
+    import MenuTrigger from '../menu/MenuTrigger.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
     /** Fields of type KT on T */
@@ -28,6 +30,8 @@
         field: KeysOfType<NodeType, (Node | ValueRef | NodeRef)[]>;
         /** An optional override if the node list is custom */
         filtered?: Node[];
+        /** How to handle an empty list: hide (don't render anything), label (show a localized placeholder label), menu (show a compact trigger menu) */
+        empty: 'hide' | 'label' | 'menu';
         format: Format;
         block?: boolean;
         elide?: boolean;
@@ -38,6 +42,7 @@
         node,
         field,
         filtered,
+        empty,
         format,
         elide = $bindable(false),
         block = false,
@@ -114,26 +119,32 @@
 </script>
 
 {#if format.block}
-    {@const label = node.getFieldNamed(field)?.label}
-    <div class="node-list" class:block class:indent>
-        {#each nodes as node}
-            <NodeView {node} {format} />
-        {:else}
-            {#if label && $project && root?.root}
-                <span class="label">
-                    <LocalizedText
-                        path={label(
-                            $locales,
-                            /** This isn't actually correct, but it's an empty list, so it shouldn't matter */
-                            node,
-                            $project.getNodeContext(node),
-                            root.root,
-                        )}
-                    />
-                </span>
-            {/if}
-        {/each}
-    </div>
+    {#if nodes.length > 0 || empty !== 'hide'}
+        <div class="node-list" class:block class:indent>
+            {#each nodes as node}
+                <NodeView {node} {format} />
+            {:else}
+                {@const label = node.getFieldNamed(field)?.label}
+                {#if empty === 'label' && label && $project && root?.root}
+                    <span class="label">
+                        <LocalizedText
+                            path={label(
+                                $locales,
+                                /** This isn't actually correct, but it's an empty list, so it shouldn't matter */
+                                node,
+                                $project.getNodeContext(node),
+                                root.root,
+                            )}
+                        />
+                    </span>
+                {/if}
+                {#if empty !== 'hide' && root.root?.root instanceof Source}
+                    <MenuTrigger position={{ parent: node, field }}
+                    ></MenuTrigger>
+                {/if}
+            {/each}
+        </div>
+    {/if}
 {:else}
     {#if hiddenBefore > 0}
         <Button
@@ -167,8 +178,8 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         align-items: baseline;
-        min-width: 1em;
-        min-height: 1em;
+        min-width: var(--wordplay-spacing);
+        min-height: var(--wordplay-spacing);
     }
     .node-list.block {
         flex-direction: column;

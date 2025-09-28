@@ -15,5 +15,6 @@
     {node}
     field="segments"
     filtered={node.getNodeSegments()}
+    empty="menu"
     {format}
 />

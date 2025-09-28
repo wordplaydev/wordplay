@@ -18,6 +18,7 @@
     {node}
     field="inputs"
     {format}
+    empty="label"
 /><NodeView node={node.close} {format} /><NodeView
     node={node.output}
     {format}

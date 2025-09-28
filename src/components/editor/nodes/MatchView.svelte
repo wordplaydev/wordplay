@@ -21,16 +21,19 @@
         />
     </Row>
     <Column indent>
-        <NodeSequenceView block {node} field="cases" {format} /><NodeView
-            node={node.other}
+        <NodeSequenceView
+            block
+            {node}
+            field="cases"
             {format}
-        />
+            empty="label"
+        /><NodeView node={node.other} {format} />
     </Column>
 {:else}
     <NodeView node={node.value} {format} /><NodeView
         node={node.question}
         {format}
-    /><NodeSequenceView {node} field="cases" {format} /><NodeView
+    /><NodeSequenceView {node} field="cases" {format} empty="label" /><NodeView
         node={node.other}
         {format}
     />

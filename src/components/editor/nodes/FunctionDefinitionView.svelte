@@ -25,13 +25,15 @@
         /><NodeView node={node.types} {format} /><NodeView
             node={node.open}
             {format}
-        /><NodeSequenceView {node} field="inputs" {format} /><NodeView
-            node={node.close}
+        /><NodeSequenceView
+            {node}
+            field="inputs"
             {format}
-        /><NodeView node={node.dot} {format} /><NodeView
-            node={node.output}
+            empty="menu"
+        /><NodeView node={node.close} {format} /><NodeView
+            node={node.dot}
             {format}
-        />
+        /><NodeView node={node.output} {format} />
     </Row>
     <Column indent>
         <NodeView node={node.expression} {format} />
@@ -46,7 +48,7 @@
     /><NodeView node={node.types} {format} /><NodeView
         node={node.open}
         {format}
-    /><NodeSequenceView {node} field="inputs" {format} /><NodeView
+    /><NodeSequenceView {node} field="inputs" {format} empty="menu" /><NodeView
         node={node.close}
         {format}
     /><NodeView node={node.dot} {format} /><NodeView

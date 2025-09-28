@@ -14,4 +14,5 @@
     {node}
     field="cells"
     {format}
+    empty="label"
 /><NodeView node={node.close} {format} />

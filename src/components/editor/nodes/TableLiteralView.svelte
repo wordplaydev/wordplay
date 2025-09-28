@@ -13,6 +13,8 @@
 
 <NodeView node={node.type} {format} /><NodeSequenceView
     {node}
+    block={node.rows.length > 1}
     field="rows"
     {format}
+    empty="label"
 />

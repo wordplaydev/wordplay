@@ -15,4 +15,5 @@
     {node}
     field="types"
     {format}
+    empty="menu"
 /><NodeView node={node.close} {format} />

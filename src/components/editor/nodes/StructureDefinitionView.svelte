@@ -24,13 +24,16 @@
                 {node}
                 field="interfaces"
                 {format}
+                empty="menu"
             /><NodeView node={node.types} {format} /><NodeView
                 node={node.open}
                 {format}
-            /><NodeSequenceView {node} field="inputs" {format} /><NodeView
-                node={node.close}
+            /><NodeSequenceView
+                {node}
+                field="inputs"
                 {format}
-            />
+                empty="label"
+            /><NodeView node={node.close} {format} />
         </Row>
         <Column indent><NodeView node={node.expression} {format} /></Column>
     </Column>
@@ -41,15 +44,16 @@
     /><NodeView node={node.type} {format} /><NodeView
         node={node.names}
         {format}
-    /><NodeSequenceView {node} field="interfaces" {format} /><NodeView
-        node={node.types}
-        {format}
-    /><NodeView node={node.open} {format} /><NodeSequenceView
+    /><NodeSequenceView
         {node}
-        field="inputs"
+        field="interfaces"
         {format}
-    /><NodeView node={node.close} {format} /><NodeView
-        node={node.expression}
+        empty="menu"
+    /><NodeView node={node.types} {format} /><NodeView
+        node={node.open}
         {format}
-    />
+    /><NodeSequenceView {node} field="inputs" {format} empty="label" /><NodeView
+        node={node.close}
+        {format}
+    /><NodeView node={node.expression} {format} />
 {/if}

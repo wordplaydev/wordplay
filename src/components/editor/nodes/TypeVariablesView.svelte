@@ -15,4 +15,5 @@
     {node}
     field="variables"
     {format}
+    empty="menu"
 /><NodeView node={node.close} {format} />

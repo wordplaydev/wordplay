@@ -15,4 +15,5 @@
     {node}
     field="columns"
     {format}
+    empty="label"
 /><NodeView node={node.close} {format} />

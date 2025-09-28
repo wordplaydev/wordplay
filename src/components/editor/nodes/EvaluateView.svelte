@@ -80,7 +80,7 @@
     <NodeView node={node.fun} {format} />
     <NodeView node={node.types} {format} />
     <NodeView node={node.open} {format} />
-    <NodeSequenceView {node} {format} field="inputs" />
+    <NodeSequenceView {node} {format} field="inputs" empty="label" />
     {#if nextBind && menuPosition}
         &nbsp;<MenuTrigger position={menuPosition} />
     {/if}
@@ -93,6 +93,7 @@
         {node}
         {format}
         field="inputs"
+        empty="label"
     />{#if nextBind && menuPosition}
         &nbsp;<MenuTrigger position={menuPosition} />
     {/if}<NodeView node={node.close} {format} />

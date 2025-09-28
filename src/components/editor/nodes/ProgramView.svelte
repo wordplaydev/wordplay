@@ -15,6 +15,7 @@
     {node}
     field="borrows"
     {format}
+    empty="hide"
 /><NodeView node={node.expression} {format} /><NodeView
     node={node.end}
     {format}

@@ -18,6 +18,7 @@
         field="values"
         {format}
         elide
+        empty="label"
         block={node.values.reduce((sum, v) => sum + v.toWordplay().length, 0) >
             32}
     />
@@ -29,6 +30,7 @@
         field="values"
         {format}
         elide
+        empty="label"
     /><NodeView node={node.close} {format} /><NodeView
         node={node.literal}
         {format}
