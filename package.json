@@ -9,8 +9,6 @@
         "lint": "eslint src",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
-        "test:search": "node scripts/test-search.js",
-        "test:search:interactive": "node scripts/test-search.js -i",
         "end2end": "npx playwright test",
         "dev": "vite dev",
         "emu": "npm run env && (cd functions && npm run build) && firebase emulators:start --project=demo-wordplay",
