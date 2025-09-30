@@ -76,8 +76,7 @@
                 <ConfirmButton
                     prompt={removeMeta.prompt}
                     tip={removeMeta.description}
-                    action={() =>
-                        removeMeta ? removeMeta.action() : undefined}
+                    action={() => removeMeta.action()}
                     icon={removeMeta.label}
                 ></ConfirmButton>
             {/if}

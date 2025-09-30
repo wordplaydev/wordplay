@@ -27,7 +27,7 @@ test.describe('Project Search Feature', () => {
 
         // Check that filtered results are shown
         const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount.greaterThan(0);
+        await expect(projectCards).toHaveCount({ min: 1 });
     });
 
     test('should show no results message for non-matching search', async ({ page }) => {
@@ -70,7 +70,7 @@ test.describe('Project Search Feature', () => {
 
         // Should still find projects with "project" in the name
         const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount.greaterThan(0);
+        await expect(projectCards).toHaveCount({ min: 1 });
     });
 
     test('should find archived projects in search results', async ({ page }) => {
@@ -84,7 +84,7 @@ test.describe('Project Search Feature', () => {
 
         // Should find archived projects
         const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount.greaterThan(0);
+        await expect(projectCards).toHaveCount({ min: 1 });
 
         // Check that archived projects section is visible
         const archivedSection = page.locator('text=Archived');
@@ -104,7 +104,7 @@ test.describe('Project Search Feature', () => {
 
         // Should show all projects again
         const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount.greaterThan(0);
+        await expect(projectCards).toHaveCount({ min: 1 });
 
         // No results message should not be visible
         const noResultsMessage = page.locator('.no-results-message');
