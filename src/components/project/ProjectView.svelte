@@ -21,6 +21,7 @@
     } from '@concepts/ConceptParams';
     import type Conflict from '@conflicts/Conflict';
     import type Chat from '@db/chats/ChatDatabase.svelte';
+    import type { Creator } from '@db/creators/CreatorDatabase';
     import type Project from '@db/projects/Project';
     import {
         AnimationFactorIcons,
@@ -63,7 +64,6 @@
     import Annotations from '../annotations/Annotations.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Emoji from '../app/Emoji.svelte';
-    import Spinning from '../app/Spinning.svelte';
     import Editor from '../editor/Editor.svelte';
     import EditorToolbar from '../editor/EditorToolbar.svelte';
     import CharacterChooser from '../editor/GlyphChooser.svelte';
@@ -232,6 +232,16 @@
 
     /** Keep a source select, to decide what value is shown on stage */
     let selectedSourceIndex = $state(0);
+
+    /** Keep the owner of the project around */
+    let owner = $derived(project.getOwner());
+
+    /** Keep track of the creator of the project */
+    let creator = $state<Creator | null>(null);
+    $effect(() => {
+        if (owner) Creators.getCreator(owner).then((c) => (creator = c));
+        else creator = null;
+    });
 
     /** The current sources being viewed, either the project's source, or a checkpointed one */
     const sources = $derived(
@@ -1789,7 +1799,6 @@
     </div>
 
     {#if !layout.isFullscreen() && !requestedPlay}
-        {@const owner = project.getOwner()}
         <nav class="footer">
             <div class="footer-row">
                 {#if original}<Button
@@ -1799,12 +1808,8 @@
                         action={() => revert()}
                         icon="↺"
                     ></Button>{/if}
-                {#if owner}
-                    {#await Creators.getCreator(owner)}
-                        <Spinning />
-                    {:then creator}
-                        <CreatorView {creator} />
-                    {/await}
+                {#if creator}
+                    <CreatorView {creator} />
                 {/if}
                 <Subheader compact>
                     {#if editable}
