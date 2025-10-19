@@ -91,6 +91,7 @@
             howTos instanceof Promise ? [] : howTos,
         ),
     );
+
     // svelte-ignore state_referenced_locally
     let indexStore = $state({ index });
     setConceptIndex(indexStore);

@@ -676,11 +676,23 @@ export default class Project {
         return this.withSources([[oldSource, newSource]]);
     }
 
-    /** Copies this project, but with the new locale added if it's not already included. */
+    /** Copies this project, but with the new locale added if it's not already included, placing new locales in the front, and the remainder at the end. */
     withLocales(locales: LocaleText[]) {
         return new Project({
             ...this.data,
-            locales: Array.from(new Set([...this.data.locales, ...locales])),
+            locales: [
+                // New locales
+                ...locales,
+                // Locales that aren't the locales in the list above, in their current order.
+                ...this.data.locales.filter(
+                    (l1) =>
+                        !locales.some(
+                            (l2) =>
+                                l2.language === l1.language &&
+                                l2.regions.join() === l1.regions.join(),
+                        ),
+                ),
+            ],
         });
     }
 

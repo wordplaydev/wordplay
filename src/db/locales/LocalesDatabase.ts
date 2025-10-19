@@ -264,6 +264,9 @@ export default class LocalesDatabase {
         // Revise all projects to have the new locale
         this.database.Projects.localize(locales);
 
+        // Sync the locales store to update all uses of the current locales.
+        this.syncLocales();
+
         return locales;
     }
 

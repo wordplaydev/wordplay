@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Made undo, redo buttons important, other navigation commands unimportant.
 - Fixed #838: Consume enter/space after glyph insertion in editor.
 - Prevent jiggle of creator view in project footer after edits.
+- Fixed #839: Ensure correct locales in Project basis to match documentation to selected locale.
 
 ### Maintenance
 

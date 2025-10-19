@@ -45,7 +45,6 @@
 
     interface Props {
         project: Project;
-
         collapse?: boolean;
     }
 
