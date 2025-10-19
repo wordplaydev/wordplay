@@ -82,7 +82,7 @@
                     : l.ui.source.button.expandControls}
             active={true}
             action={toggleExpanded}
-            icon="⋯"
+            icon={expanded ? '⋮' : '⋯'}
         />
 
         <!-- Accordion content (expanded when clicked) -->
