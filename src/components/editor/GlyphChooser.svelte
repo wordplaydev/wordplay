@@ -86,7 +86,7 @@
                     editorState.project,
                 ),
                 IdleKind.Typed,
-                true,
+                false,
             );
         }
     }

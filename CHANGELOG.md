@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Made undo, redo buttons important, other navigation commands unimportant.
+- Fixed #838: Consume enter/space after glyph insertion in editor.
 
 ### Maintenance
 
