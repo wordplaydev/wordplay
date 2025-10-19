@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.27
 
+### Fixed
+
+- Made undo, redo buttons important, other navigation commands unimportant.
+
 ### Maintenance
 
 - Updated minor versions of Axe, Google Translate, Svelte, chalk, decimal.js, dexie, firebase, prettier, typescript, vite, vitest, zod.

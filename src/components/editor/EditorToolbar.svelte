@@ -33,16 +33,23 @@
     }
 
     // Separate important commands (to show always) from collapsed commands
-    const importantModifyCommands = modifyCommands.filter(
-        (cmd) => cmd.important,
+    const importantModifyCommands = $derived(
+        modifyCommands.filter((cmd) => cmd.important),
     );
-    const collapsedModifyCommands = modifyCommands.filter(
-        (cmd) => !cmd.important,
+    const collapsedModifyCommands = $derived(
+        modifyCommands.filter((cmd) => !cmd.important),
+    );
+
+    const importantNavigateCommands = $derived(
+        navigateCommands.filter((cmd) => cmd.important),
+    );
+    const collapsedNavigateCommands = $derived(
+        navigateCommands.filter((cmd) => !cmd.important),
     );
 </script>
 
 <!-- Navigate commands are always visible -->
-{#each navigateCommands as command}
+{#each importantNavigateCommands as command}
     <CommandButton {command} {sourceID} />
 {/each}
 
@@ -66,7 +73,7 @@
     {/each}
 
     <!-- Show accordion button only if there are collapsed commands -->
-    {#if collapsedModifyCommands.length > 0}
+    {#if collapsedModifyCommands.length > 0 || collapsedNavigateCommands.length > 0}
         <!-- Accordion control button -->
         <Button
             tip={(l) =>
@@ -81,6 +88,9 @@
         <!-- Accordion content (expanded when clicked) -->
         {#if expanded}
             <div class="accordion-content">
+                {#each collapsedNavigateCommands as command}
+                    <CommandButton {command} {sourceID} />
+                {/each}
                 {#each collapsedModifyCommands as command}
                     <CommandButton {command} {sourceID} />
                 {/each}
