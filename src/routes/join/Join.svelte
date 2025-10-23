@@ -70,7 +70,7 @@
 
 <Header text={(l) => l.ui.page.join.header} />
 
-<LoginForm submit={createAccount} {feedback}>
+<LoginForm {feedback}>
     <MarkupHTMLView markup={(l) => l.ui.page.join.prompt.create} />
 
     <MarkupHTMLView note markup={(l) => l.ui.page.join.prompt.username} />
@@ -147,7 +147,7 @@
                 active={isValidUsername(username) &&
                     isValidPassword(password) &&
                     password === password2}
-                action={() => undefined}
+                action={createAccount}
                 label={(l) => l.ui.page.join.header}
             />
         {/if}

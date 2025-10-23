@@ -3,15 +3,14 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
-        submit: () => void;
         feedback: LocaleTextAccessor | undefined;
         children?: import('svelte').Snippet;
     }
 
-    let { submit, feedback, children }: Props = $props();
+    let { feedback, children }: Props = $props();
 </script>
 
-<form class="login-form" onsubmit={submit}
+<form class="login-form"
     >{@render children?.()}{#if feedback}<Notice text={feedback} />{/if}</form
 >
 
