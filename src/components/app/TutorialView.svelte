@@ -185,11 +185,8 @@
     let initialProject = $derived(
         Project.make(
             progress.getProjectID(),
-            scene
-                ? scene.title
-                : act
-                  ? act.title
-                  : $locales.getLocale().wordplay,
+            // Don't give the project a name, in case the locale changes.
+            '',
             // Don't give the souce a name, otherwise it won't be localized on language change.
             new Source('', source),
             [],

@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #840: improved source tile toggle contrast and labels.
 - Fixed #841: improved concept group expand/collapse visual design.
 - Don't permit whitespace wrap in subheaders.
+- Fixed #843: Don't give tutorial projects a name, in case locale changes.
 
 ## 0.6.28
 
