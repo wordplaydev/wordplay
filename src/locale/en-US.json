@@ -4557,7 +4557,7 @@
             "button": {
                 "home": "return home",
                 "back": "return to previous",
-                "toggle": "show and hide this concept group"
+                "toggle": "expand and collapse this concept group"
             },
             "field": {
                 "search": "keywords"

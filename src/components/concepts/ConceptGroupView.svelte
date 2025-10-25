@@ -20,7 +20,7 @@
     }
 </script>
 
-<div class="concept-group">
+<div class="concepts">
     {#each concepts as concept, index}
         {#if !collapse || expanded || index < 3}
             <span
@@ -34,22 +34,24 @@
     {:else}
         <Note>&mdash;</Note>
     {/each}
-</div>
-{#if collapse}
-    {#if expanded || concepts.length > 3}
-        <Expander {expanded} {toggle} label={(l) => l.ui.docs.button.toggle}
+    {#if collapse && (expanded || concepts.length > 3)}
+        <Expander
+            {expanded}
+            {toggle}
+            label={(l) => l.ui.docs.button.toggle}
+            icons={['–', '+' + (concepts.length - 3)]}
         ></Expander>
     {/if}
-{/if}
+</div>
 
 <style>
-    .concept-group {
-        margin: var(--wordplay-spacing);
-        margin-left: 0;
+    .concepts {
+        margin: 0;
         display: flex;
         flex-wrap: wrap;
+        width: 100%;
         gap: calc(2 * var(--wordplay-spacing));
-        align-items: end;
+        align-items: center;
         border-top: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         border-bottom: var(--wordplay-border-color) dotted
