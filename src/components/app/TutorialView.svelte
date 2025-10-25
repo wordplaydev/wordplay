@@ -64,9 +64,11 @@
     const conceptPath = getConceptPath();
 
     // When navigating
-    function nav(progress: Progress) {
+    async function nav(progress: Progress) {
         // Reset the concept path after each navigation.
-        navigate(progress);
+        conceptPath.set([]);
+        // Navigate to the new progress.
+        await navigate(progress);
     }
 
     const user = getUser();

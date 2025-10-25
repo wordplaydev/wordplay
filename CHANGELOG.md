@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #841: improved concept group expand/collapse visual design.
 - Don't permit whitespace wrap in subheaders.
 - Fixed #843: Don't give tutorial projects a name, in case locale changes.
+- Fixed #845: Resolved sticky tutorial navigation when concept link clicked.
 
 ## 0.6.28
 
