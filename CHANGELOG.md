@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.29
+
+### Maintenance
+
+- Updated minor versions of Axe, Svelte, SvelteKit, firebase-functions, vite, vitest.
+
 ## 0.6.28
 
 ### Fixed
