@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Updated minor versions of Axe, Svelte, SvelteKit, firebase-functions, vite, vitest.
 - Fixed #840: improved source tile toggle contrast and labels.
 - Fixed #841: improved concept group expand/collapse visual design.
+- Don't permit whitespace wrap in subheaders.
 
 ## 0.6.28
 
