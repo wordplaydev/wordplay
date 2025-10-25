@@ -43,7 +43,8 @@
         "key": "키",
         "feedback": "의견",
         "help": "도움",
-        "how": "$~어떻게"
+        "how": "$~어떻게",
+        "code": "$~암호"
     },
     "token": {
         "EvalOpen": "평가열기",

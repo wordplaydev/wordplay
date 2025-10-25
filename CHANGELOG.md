@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Maintenance
 
 - Updated minor versions of Axe, Svelte, SvelteKit, firebase-functions, vite, vitest.
+- Fixed #840: improved source tile toggle contrast and labels.
 
 ## 0.6.28
 

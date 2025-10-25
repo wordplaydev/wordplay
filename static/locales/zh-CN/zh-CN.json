@@ -43,7 +43,8 @@
         "key": "钥匙",
         "help": "帮助",
         "feedback": "反馈",
-        "how": "$~如何"
+        "how": "$~如何",
+        "code": "$~代码"
     },
     "token": {
         "EvalOpen": "评估开放",

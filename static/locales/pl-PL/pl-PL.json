@@ -43,7 +43,8 @@
         "key": "$~klawisz",
         "help": "$~Pomoc",
         "feedback": "$~informacja zwrotna",
-        "how": "$~jak"
+        "how": "$~jak",
+        "code": "$~kod"
     },
     "token": {
         "EvalOpen": "$~ocena otwarta",

@@ -8007,6 +8007,10 @@
               "description": "How to describe output that has changed",
               "type": "string"
             },
+            "code": {
+              "description": "What to call code",
+              "type": "string"
+            },
             "convert": {
               "description": "The verb for converting data from one type to another",
               "type": "string"
@@ -8155,6 +8159,7 @@
             "decide",
             "document",
             "project",
+            "code",
             "source",
             "input",
             "output",

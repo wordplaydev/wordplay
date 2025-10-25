@@ -10,6 +10,7 @@
         "project": "project",
         "document": "explain",
         "source": "source",
+        "code": "code",
         "input": "input",
         "output": "output",
         "convert": "convert",

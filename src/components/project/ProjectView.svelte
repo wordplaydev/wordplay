@@ -1826,6 +1826,13 @@
                         />
                     {:else}{project.getName()}{/if}
                 </Subheader>
+                {#if editable}
+                    <Button
+                        uiid="addSource"
+                        tip={(l) => l.ui.project.button.addSource}
+                        action={addSource}
+                        icon="+{Characters.Program.symbols}"
+                    ></Button>{/if}
                 {#each sources as source, index (index)}
                     {@const tile = layout.getTileWithID(
                         Layout.getSourceID(index),
@@ -1841,16 +1848,6 @@
                         />
                     {/if}
                 {/each}
-                {#if editable && layout.hasVisibleCollapsedSource()}
-                    <Separator />
-                {/if}
-                {#if editable}
-                    <Button
-                        uiid="addSource"
-                        tip={(l) => l.ui.project.button.addSource}
-                        action={addSource}
-                        icon="+{Characters.Program.symbols}"
-                    ></Button>{/if}
                 {#each layout.getNonSources() as tile (tile.id)}
                     <!-- No need to show the tile if not visible when not editable. -->
                     {#if tile.isVisibleCollapsed(editable)}

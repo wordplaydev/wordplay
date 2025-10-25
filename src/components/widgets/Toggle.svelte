@@ -100,7 +100,7 @@
         user-select: none;
         border: none;
         border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-alternating-color);
+        background: none;
         color: currentColor;
         stroke: currentColor;
         fill: var(--wordplay-background);
@@ -140,7 +140,8 @@
         color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
-        box-shadow: inset 1px 2px var(--wordplay-chrome);
+        box-shadow: inset 2px 2px var(--wordplay-chrome);
+        background: var(--wordplay-alternating-color);
     }
 
     button.on .icon {
