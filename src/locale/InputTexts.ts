@@ -36,6 +36,8 @@ type InputTexts = {
         /** The frequency with which pitch should be sampled */
         frequency: NameAndDoc;
     };
+    /** A stream of recognized speech as text */
+    Speech: NameAndDoc;
     /** A stream of color matrices from a camera sensor */
     Camera: NameAndDoc & {
         /** An optional width of the color matrices */

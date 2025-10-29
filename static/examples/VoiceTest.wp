@@ -1,0 +1,5 @@
+VoiceTest
+=== start
+speech: Speech()
+Phrase("Say something: " + speech 3m)
+
