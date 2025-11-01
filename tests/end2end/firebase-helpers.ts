@@ -41,12 +41,15 @@ export async function signInTestUser(
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const idToken = await userCredential.user.getIdToken();
                 return { success: true, idToken, uid: userCredential.user.uid };
-            } catch (error: any) {
+            } catch (error: unknown) {
                 // If user doesn't exist, create it
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    const idToken = await userCredential.user.getIdToken();
-                    return { success: true, idToken, uid: userCredential.user.uid };
+                if (error instanceof Error && 'code' in error) {
+                    const firebaseError = error as { code: string };
+                    if (firebaseError.code === 'auth/user-not-found' || firebaseError.code === 'auth/invalid-credential') {
+                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                        const idToken = await userCredential.user.getIdToken();
+                        return { success: true, idToken, uid: userCredential.user.uid };
+                    }
                 }
                 throw error;
             }

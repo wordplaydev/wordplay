@@ -1,4 +1,4 @@
-import { chromium, type FullConfig } from '@playwright/test';
+import { type FullConfig } from '@playwright/test';
 import { spawn, type ChildProcess } from 'child_process';
 
 let emulatorProcess: ChildProcess | undefined;
@@ -25,13 +25,20 @@ async function globalSetup(config: FullConfig) {
         // Global teardown - stop emulators if we started them
         if (emulatorProcess) {
             console.log('Stopping Firebase emulators...');
-            emulatorProcess.kill();
-            // Also kill any child processes
-            if (emulatorProcess.pid) {
+            try {
+                // Try to kill the process group first (Unix-like systems)
+                if (emulatorProcess.pid && process.platform !== 'win32') {
+                    process.kill(-emulatorProcess.pid, 'SIGTERM');
+                } else {
+                    // Fallback to killing just the main process
+                    emulatorProcess.kill('SIGTERM');
+                }
+            } catch (e) {
+                // If that fails, try a regular kill
                 try {
-                    process.kill(-emulatorProcess.pid);
-                } catch (e) {
-                    // Ignore errors if process already stopped
+                    emulatorProcess.kill('SIGKILL');
+                } catch (finalError) {
+                    console.error('Failed to stop Firebase emulators:', finalError);
                 }
             }
         }
@@ -79,13 +86,20 @@ async function startFirebaseEmulators(): Promise<void> {
                 const line = data.toString();
                 output += line;
                 
-                // Show some output for debugging
-                if (line.includes('All emulators ready')) {
-                    console.log('Firebase emulators are ready!');
-                }
+                // Check multiple possible indicators that emulators are ready
+                // This handles different Firebase CLI versions
+                const readyIndicators = [
+                    'All emulators ready',
+                    'All emulators started',
+                    '✔  All emulators ready',
+                ];
                 
-                // Check if emulators are ready
-                if (line.includes('All emulators ready') || line.includes('All emulators started')) {
+                const isReady = readyIndicators.some(indicator => 
+                    line.includes(indicator)
+                );
+                
+                if (isReady) {
+                    console.log('Firebase emulators are ready!');
                     resolve();
                 }
             });
