@@ -7,6 +7,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Maintenance
 
+- Set up Playwright to use Firebase emulator configuration for authentication testing locally and in GitHub Actions.
 - Ensure types exist before Playwright tests.
 - Fixed font-size in footer. For some reason we made it small.
 - Updated minor versions of Svelte, SvelteKit, Firebase, vitest, nodemailer, firebase-functions.
