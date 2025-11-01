@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.6.28",
+    "version": "0.6.30",
     "scripts": {
         "sync": "svelte-kit sync",
         "postinstall": "run-script-os",
