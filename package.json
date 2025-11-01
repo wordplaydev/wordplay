@@ -2,9 +2,10 @@
     "name": "wordplay",
     "version": "0.6.28",
     "scripts": {
+        "sync": "svelte-kit sync",
         "postinstall": "run-script-os",
-        "postinstall:default": "svelte-kit sync && cp .env.template .env",
-        "postinstall:windows": "svelte-kit sync && copy .env.template .env",
+        "postinstall:default": "npm run sync && cp .env.template .env",
+        "postinstall:windows": "npm run sync && copy .env.template .env",
         "check": "svelte-check --tsconfig ./tsconfig.json --watch .svelte-kit",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
