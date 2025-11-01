@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Updated minor versions of Svelte, SvelteKit, Firebase, vitest, nodemailer, firebase-functions.
 - Improved styling of drop down size
 - Fixed settings label layout.
+- Consistent language descriptions in locale choosers.
 
 ## 0.6.29
 
