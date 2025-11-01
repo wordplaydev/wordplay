@@ -152,6 +152,5 @@
         align-items: center;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
-        font-size: var(--wordplay-small-font-size);
     }
 </style>

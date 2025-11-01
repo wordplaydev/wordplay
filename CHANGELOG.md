@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Maintenance
 
 - Ensure types exist before Playwright tests.
+- Fixed font-size in footer. For some reason we made it small.
 - Updated minor versions of Svelte, SvelteKit, Firebase, vitest, nodemailer, firebase-functions.
 
 ## 0.6.29
