@@ -88,14 +88,16 @@
         border: none;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        padding-top: calc(var(--wordplay-spacing) / 2);
+        padding-bottom: calc(var(--wordplay-spacing) / 2);
         font-family: var(--wordplay-app-font);
+        font-size: var(--wordplay-code-font);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
     }
 
     .code {
-        font-family: var;
+        font-family: var(--wordplay-code-font);
     }
 </style>
