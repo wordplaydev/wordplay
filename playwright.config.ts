@@ -30,6 +30,9 @@ export default defineConfig({
         viewport: { width: 1280, height: 720 },
     },
 
+    /* Global setup to configure Firebase emulator environment */
+    globalSetup: './tests/end2end/global-setup.ts',
+
     /* Configure projects for major browsers */
     projects: [
         { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
@@ -69,7 +72,7 @@ export default defineConfig({
 
     /* Run the vite dev server before starting the tests, so we can test against it */
     webServer: {
-        command: 'npm run sync && npm run build && npm run preview',
+        command: 'npm run sync && cd functions && npm run build && cd .. && npm run build && npm run preview',
         url: 'http://localhost:4173/',
         timeout: 180000,
         reuseExistingServer: !process.env.CI,
