@@ -23,7 +23,7 @@ jobs:
               run: npx playwright install --with-deps
             - name: Build project
               run: npm run build
-            - name: Start Emulator and run tests
+            - name: Start Emulator
               run: firebase emulators:start --project=demo-wordplay &
             - name: Run Playwright tests
               run: npx playwright test
