@@ -3,9 +3,9 @@ node_modules
 .DS_Store
 **/.DS_Store
 .env
-.env.emulator
 .env.wordplay-dev
 .env.wordplay-prod
+.env.demo
 build
 firebase-debug.log
 firestore-debug.log
@@ -15,3 +15,4 @@ firestore-debug.log
 /test-results/
 /playwright-report/
 /playwright/.cache/
+/playwright/.auth

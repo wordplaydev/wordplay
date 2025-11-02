@@ -52,10 +52,10 @@
     ><span class="emoji"
         ><CreatorCharacterView character={user.displayName}
         ></CreatorCharacterView></span
-    >{creator.getUsername(false)}</Header
+    ><span data-testid="username">{creator.getUsername(false)}</span></Header
 >
 
-<div class="actions">
+<div class="actions" data-testid="profile">
     <Action>
         <LocalizedText path={(l) => l.ui.page.login.prompt.play} />
         <Link to="/projects" label={(l) => l.ui.page.projects.header} />
@@ -78,6 +78,7 @@
             enabled={$status.status === SaveStatus.Saved}
             prompt={(l) => l.ui.page.login.button.logout.label}
             label={(l) => l.ui.page.login.button.logout.label}
+            testid="logout"
         />
     </Action>
     {#if !creator.isUsername()}

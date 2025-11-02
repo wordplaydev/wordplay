@@ -28,50 +28,24 @@ export default defineConfig({
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
         viewport: { width: 1280, height: 720 },
+        screenshot: 'only-on-failure',
     },
 
     /* Configure projects for major browsers */
     projects: [
         { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-
         { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-
-        { name: 'webkit', use: { ...devices['Desktop Safari'] } },
-
-        /* Test against mobile viewports. */
-        {
-            name: 'Mobile Chrome',
-            use: {
-                ...devices['Pixel 5'],
-                viewport: { width: 1280, height: 720 },
-            },
-        },
-
-        // Disable Mobile Safari due to slowness in Github Test bot.
-        // See: https://github.com/wordplaydev/wordplay/issues/408
-        /*
-        {
-            name: 'Mobile Safari',
-            use: { ...devices['iPhone 12'] },
-        },
-        */
-
-        /* Test against branded browsers. */
-        // {
-        //     name: 'Microsoft Edge',
-        //     use: { ...devices['Desktop Edge'], channel: 'msedge' },
-        // },
-        {
-            name: 'Google Chrome',
-            use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-        },
+        // Temporarily broken.
+        // { name: 'webkit', use: { ...devices['Desktop Safari'] } },
     ],
 
-    /* Run the vite dev server before starting the tests, so we can test against it */
+    /* Remove any lingering authentication state before starting the tests */
     webServer: {
-        command: 'npm run sync && npm run build && npm run preview',
+        command: 'rm -rf playwright/.auth && npm run preview',
         url: 'http://localhost:4173/',
         timeout: 180000,
         reuseExistingServer: !process.env.CI,
+        stdout: 'pipe',
+        stderr: 'pipe',
     },
 });

@@ -149,6 +149,7 @@
                     password === password2}
                 action={createAccount}
                 label={(l) => l.ui.page.join.header}
+                testid="join-button"
             />
         {/if}
     </p>

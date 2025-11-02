@@ -150,7 +150,7 @@
 
 <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.login} />
 
-<LoginForm feedback={usernameFeedback}>
+<LoginForm feedback={usernameFeedback} testid="username-login-form">
     <div class="form">
         <TextField
             id="login-username-field"
@@ -184,7 +184,8 @@
                 tip={(l) => l.ui.page.login.button.login}
                 active={isValidPassword(password) &&
                     (isValidUsername(username) || isValidEmail(username))}
-                action={usernameSignin}>&gt;</Button
+                action={usernameSignin}
+                testid="login-button">&gt;</Button
             >
         {/if}
     </div>
@@ -198,7 +199,7 @@
 
 <hr />
 
-<LoginForm feedback={emailFeedback}>
+<LoginForm feedback={emailFeedback} testid="email-login-form">
     <Note><MarkupHTMLView markup={(l) => l.ui.page.login.prompt.email} /></Note>
     <div class="form">
         <TextField

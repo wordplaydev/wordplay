@@ -5,12 +5,13 @@
     interface Props {
         feedback: LocaleTextAccessor | undefined;
         children?: import('svelte').Snippet;
+        testid?: string;
     }
 
-    let { feedback, children }: Props = $props();
+    let { feedback, children, testid }: Props = $props();
 </script>
 
-<form class="login-form"
+<form class="login-form" data-testid={testid}
     >{@render children?.()}{#if feedback}<Notice text={feedback} />{/if}</form
 >
 

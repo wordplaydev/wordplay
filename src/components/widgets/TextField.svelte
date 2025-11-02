@@ -158,6 +158,7 @@
         class:right
         {id}
         data-id={id}
+        data-testid={id}
         data-defaultfocus={defaultFocus ? '' : null}
         class:error={message !== undefined}
         aria-label={title}
