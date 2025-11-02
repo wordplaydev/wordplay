@@ -24,7 +24,9 @@ jobs:
             - name: Build project
               run: npm run build
             - name: Start Emulator and run tests
-              run: firebase emulators:exec "npx playwright test" --project=demo-wordplay
+              run: firebase emulators:start --project=demo-wordplay &
+            - name: Run Playwright tests
+              run: npx playwright test
             - uses: actions/upload-artifact@v4
               if: always()
               with:
