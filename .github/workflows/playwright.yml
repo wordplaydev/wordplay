@@ -25,6 +25,8 @@ jobs:
               run: npm run build
             - name: Start Emulator
               run: firebase emulators:start --project=demo-wordplay &
+            - name: Wait for emulator to start
+              run: sleep 10s
             - name: Run Playwright tests
               run: npx playwright test
             - uses: actions/upload-artifact@v4
