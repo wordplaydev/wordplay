@@ -21,8 +21,10 @@ jobs:
               run: npm install -g firebase-tools
             - name: Install Playwright Browsers
               run: npx playwright install --with-deps
-            - name: Run Playwright tests
-              run: npm run end2end
+            - name: Build project
+              run: npm run build
+            - name: Start Emulator and run tests
+              run: firebase emulators:exec "npx playwright test" --project=demo-wordplay
             - uses: actions/upload-artifact@v4
               if: always()
               with:

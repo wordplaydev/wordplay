@@ -9,7 +9,7 @@
         "check": "svelte-check --tsconfig ./tsconfig.json --watch .svelte-kit",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
-        "end2end": "npm run build && (firebase emulators:exec \"npx playwright test\" --project=demo-wordplay &)",
+        "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay",
         "dev": "vite dev",
         "emu": "firebase emulators:start --project=demo-wordplay",
         "env": "run-script-os",
