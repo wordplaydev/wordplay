@@ -168,7 +168,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Listen',
                 'Talk',
                 'VoiceTest',
-                'SimpleSpeech',
+                'SpokenWords',
                 'RainingLetters',
                 'Video',
                 'ASCII',
