@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.31
 
+### Fixed
+
+- Fixed #854, accounting for lack of COLRv1 support in Safari.
+
 ### Maintenance
 
 - Updated minor versions of firebase-admin, svelte, vite
