@@ -188,8 +188,26 @@ export default class Evaluate extends Expression {
                                     : undefined,
                             ),
                         def,
-                    ),
-            );
+                    )
+                )
+                .filter((refer) => {
+                // Filter out Refer objects when they represent optional parameters
+                // and there are unfilled required parameters
+                if (!replace && node instanceof Evaluate) {
+                    const mapping = node.getInputMapping(context);
+                    if (mapping) {
+                        const hasUnfilledRequired = mapping.inputs.some(
+                            ({ expected, given }) => 
+                                given === undefined && expected.value === undefined
+                        );
+                        // If there are unfilled required params, only show Refers that are required params
+                        if (hasUnfilledRequired && refer.definition instanceof Bind) {
+                            return refer.definition.value === undefined;
+                        }
+                    }
+                }
+                return true;    
+            });
     }
 
     static getPossibleReplacements({ node, type, context }: EditContext) {

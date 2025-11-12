@@ -81,6 +81,15 @@ export default class Append<NodeType extends Node> extends Revision {
         // Does the insertion have a placeholder token? If so, place the caret at it's first placeholder instead of the end.
         const firstPlaceholder = newChild.getFirstPlaceholder();
         if (firstPlaceholder) newCaretPosition = firstPlaceholder;
+        
+        // // Keep the caret at the original insertion position
+        // let newCaretPosition: Node | number | undefined = this.position;
+
+        // // Only move to placeholder if explicitly requested (e.g., for completions)
+        // if (this.isCompletion()) {
+        //     const firstPlaceholder = newChild.getFirstPlaceholder();
+        //     if (firstPlaceholder) newCaretPosition = firstPlaceholder;
+        // }
 
         // Return the new source and put the caret immediately after the inserted new child.
         return [

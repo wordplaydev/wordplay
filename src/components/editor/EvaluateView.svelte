@@ -1,6 +1,5 @@
 <script lang="ts">
     import Evaluate from '@nodes/Evaluate';
-    import Input from '@nodes/Input';
     import type Bind from '../../nodes/Bind';
     import Token from '../../nodes/Token';
     import { getCaret, getIsBlocks, getProject } from '../project/Contexts';
@@ -50,22 +49,13 @@
                     if (given === undefined) {
                         nextBind = expected;
                         if ($blocks) {
-                            const lastLeaf = node.getLastLeaf() ?? node.close;
-                            menuPosition =
-                                lastLeaf instanceof Token
-                                    ? $caret.source.getTokenTextPosition(
-                                          lastLeaf,
-                                      )
-                                    : undefined;
+                            menuPosition = typeof $caret.position === 'number' 
+                                ? $caret.position 
+                                : undefined;
                         } else {
-                            const lastLeaf = (
-                                node.getLastInput() ?? node.open
-                            ).getLastLeaf();
-                            menuPosition =
-                                lastLeaf instanceof Token
-                                    ? $caret.source.getTokenLastPosition(
-                                          lastLeaf,
-                                      )
+                                // Use the caret's current position instead of the last leaf
+                                menuPosition = typeof $caret.position === 'number' 
+                                    ? $caret.position 
                                     : undefined;
                         }
                         break;
@@ -81,9 +71,17 @@
         <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
             node={node.open}
         />
-        {#each node.inputs as input}<NodeView node={input} /><PlaceholderView
+        <!-- {#each node.inputs as input}<NodeView node={input} /><PlaceholderView
                 position={input instanceof Input ? input.value : input}
-            />{/each}<!-- {#if nextBind}
+            />{/each} -->
+        <!-- {#each node.inputs as input}<NodeView
+            node={input}
+        />{/each} -->
+        {#each node.inputs as input}<NodeView node={input} /><PlaceholderView
+                position={input}
+            />{/each}
+
+        <!-- {#if nextBind}
             <div class="hint"
                 ><div class="name"
                     ><RootView
@@ -102,9 +100,11 @@
 {:else}
     <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
         node={node.open}
-    />{#each node.inputs as input}<NodeView
-            node={input}
-        />{/each}<!-- {#if nextBind}
+    />{#each node.inputs as input}<NodeView node={input} /><PlaceholderView
+            position={input}
+        />{/each}
+
+    <!-- {#if nextBind}
         <div class="hint"
             ><div class="name"
                 ><RootView

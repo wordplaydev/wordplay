@@ -27,6 +27,8 @@ import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
 import Words from './Words';
+import TextType from './TextType';
+
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -40,10 +42,15 @@ export default class FormattedLiteral extends Literal {
     }
 
     static getPossibleReplacements({ type, context }: EditContext) {
-        return type !== undefined && type.accepts(FormattedType.make(), context)
+        const accepts =
+            type !== undefined &&
+            (type.accepts(new TextType(), context) ||
+            type.accepts(FormattedType.make(), context));
+        return accepts
             ? [new FormattedLiteral([FormattedTranslation.make()])]
             : [];
-    }
+        }
+
 
     static getPossibleAppends(context: EditContext) {
         return this.getPossibleReplacements(context);

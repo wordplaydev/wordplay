@@ -47,8 +47,8 @@ export default class Assign<NodeType extends Node> extends Revision {
         return node === undefined
             ? undefined
             : node instanceof Node
-              ? node
-              : node.getNode(locales);
+                ? node
+                : node.getNode(locales);
     }
 
     getEditedNode(locales: Locales): [Node, Node] {
@@ -68,10 +68,10 @@ export default class Assign<NodeType extends Node> extends Revision {
         const existingChild = this.parent.getField(this.additions[0].field);
         const originalPosition = existingChild
             ? this.context.source.getNodeFirstPosition(
-                  Array.isArray(existingChild)
-                      ? existingChild[0]
-                      : existingChild,
-              )
+                Array.isArray(existingChild)
+                    ? existingChild[0]
+                    : existingChild,
+            )
             : undefined;
 
         // Split the space using the position, defaulting to the original space.
@@ -79,10 +79,10 @@ export default class Assign<NodeType extends Node> extends Revision {
             newNode === undefined
                 ? this.context.source.spaces
                 : Revision.splitSpace(
-                      this.context.source,
-                      this.position,
-                      newNode,
-                  );
+                    this.context.source,
+                    this.position,
+                    newNode,
+                );
 
         let newSource = this.context.source
             .replace(this.parent, newParent)
@@ -94,26 +94,35 @@ export default class Assign<NodeType extends Node> extends Revision {
                 getPreferredSpaces(newParent, newSource.spaces),
             );
 
-        // Place the caret at first placeholder or the end of the node in the source.
+        // // Place the caret at first placeholder or the end of the node in the source.
+        // const newCaretPosition =
+        //     newNode === undefined
+        //         ? (originalPosition ?? this.position)
+        //         : (newParent.getFirstPlaceholder() ??
+        //           newSource.getNodeLastPosition(newNode));
+
+        // Keep caret at original position unless this is a completion
         const newCaretPosition =
             newNode === undefined
                 ? (originalPosition ?? this.position)
-                : (newParent.getFirstPlaceholder() ??
-                  newSource.getNodeLastPosition(newNode));
+                : this.isCompletion()
+                    ? (newParent.getFirstPlaceholder() ??
+                        newSource.getNodeLastPosition(newNode))
+                    : this.position;
 
         // If we didn't find a caret position, bail. Otherwise, return the edit.
         return newCaretPosition === undefined
             ? undefined
             : [
-                  newSource,
-                  new Caret(
-                      newSource,
-                      newCaretPosition,
-                      undefined,
-                      undefined,
-                      newNode,
-                  ),
-              ];
+                newSource,
+                new Caret(
+                    newSource,
+                    newCaretPosition,
+                    undefined,
+                    undefined,
+                    newNode,
+                ),
+            ];
     }
 
     getDescription(locales: Locales) {
@@ -141,9 +150,9 @@ export default class Assign<NodeType extends Node> extends Revision {
                     (node === undefined
                         ? otherNode === undefined
                         : node instanceof Node
-                          ? otherNode instanceof Node &&
+                            ? otherNode instanceof Node &&
                             node.isEqualTo(otherNode)
-                          : otherNode instanceof Refer &&
+                            : otherNode instanceof Refer &&
                             node.equals(otherNode))
                 );
             })

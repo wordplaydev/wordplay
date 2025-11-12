@@ -228,8 +228,7 @@ function getNodeEdits(anchor: Node, context: Context) {
         const fieldValue = parent.getField(field.name);
 
         note(
-            `Finding possible replacement nodes for "${
-                field.name
+            `Finding possible replacement nodes for "${field.name
             }" with type ${expectedType?.toWordplay()}`,
             2,
         );
@@ -254,8 +253,8 @@ function getNodeEdits(anchor: Node, context: Context) {
                 .flat(),
             // Is this node in a list field? Offer to remove it if it can be empty or can't but has more than one element.
             ...(field.kind instanceof ListOf &&
-            (field.kind.allowsEmpty ||
-                (Array.isArray(fieldValue) && fieldValue.length > 1))
+                (field.kind.allowsEmpty ||
+                    (Array.isArray(fieldValue) && fieldValue.length > 1))
                 ? [new Remove(context, parent, node)]
                 : []),
         ];
@@ -374,15 +373,33 @@ function getRelativeFieldEdits(
                     )
                         // If not on an empty line, only include recommendations that "complete" the selection
                         .filter(
-                            (replacement) =>
-                                empty ||
-                                (replacement !== undefined &&
-                                    completes(
-                                        anchorNode,
-                                        replacement instanceof Node
-                                            ? replacement
-                                            : replacement.getNode(locales),
-                                    )),
+                            (replacement) => {
+                                // Original filter: completion check
+                                const passesCompletion = empty ||
+                                    (replacement !== undefined &&
+                                        completes(
+                                            anchorNode,
+                                            replacement instanceof Node
+                                                ? replacement
+                                                : replacement.getNode(locales),
+                                        ));
+        
+                                if (!passesCompletion) return false;
+        
+                                // Additional filter: remove Refer in Evaluate with unfilled required params
+                                if (replacement instanceof Refer && parent instanceof Evaluate) {
+                                    const mapping = parent.getInputMapping(context);
+                                    if (mapping) {
+                                        const hasUnfilledRequired = mapping.inputs.some(
+                                            ({ expected, given }) => 
+                                                given === undefined && expected.value === undefined
+                                        );
+                                        if (hasUnfilledRequired) return false;
+                                    }
+                                }
+        
+                                return true;
+                            }           
                         )
                         // Convert the matching nodes to replacements.
                         .map(
@@ -405,7 +422,7 @@ function getRelativeFieldEdits(
     const relativeFields = isAfterAnchor
         ? grammar.slice(fieldIndex)
         : // We reverse this so we can from most proximal to anchor to the beginning of the node.
-          grammar.slice(0, fieldIndex + 1).reverse();
+        grammar.slice(0, fieldIndex + 1).reverse();
 
     for (const relativeField of relativeFields) {
         note(
@@ -431,11 +448,20 @@ function getRelativeFieldEdits(
                 // Account for empty lists, as the node might not be in the list, as its an opening delimiter.
                 // If it's not in the list, it's either an empty list, in which we're inserting at the beginning,
                 // or it's not empty, and we're before the end.
+                // const index =
+                //     list.length === 0
+                //         ? 0
+                //         : Math.max(list.length - 1, list.indexOf(anchorNode)) +
+                //           1;
+
+                const anchorIndex = list.indexOf(anchorNode);
                 const index =
                     list.length === 0
                         ? 0
-                        : Math.max(list.length - 1, list.indexOf(anchorNode)) +
-                          1;
+                        : anchorIndex >= 0
+                            ? (isAfterAnchor ? anchorIndex + 1 : anchorIndex)
+                            : list.length;
+
                 if (index >= 0) {
                     // Find the expected type of the position in the list.
                     // Some lists don't care, other lists do (e.g., Evaluate has very specific type expectations based on it's function definnition).
@@ -443,6 +469,22 @@ function getRelativeFieldEdits(
                     const expectedType = relativeField.getType
                         ? relativeField.getType(context, index)
                         : undefined;
+                    // Special handling for Evaluate inputs: filter optional params if required ones are missing
+                    let shouldFilterOptional = false;
+                    if (parent instanceof Evaluate && relativeField.name === 'inputs') {
+                        const mapping = parent.getInputMapping(context);
+                        if (mapping) {
+                            // Check if there are any unfilled required inputs
+                            const hasUnfilledRequired = mapping.inputs.some(
+                                ({ expected, given }) => 
+                                    given === undefined && expected.value === undefined
+                            );
+        
+                            // If there are unfilled required inputs, we'll filter optional ones
+                            shouldFilterOptional = hasUnfilledRequired;
+                        }
+                    }
+
                     edits = [
                         ...edits,
                         ...relativeField.kind
@@ -461,6 +503,29 @@ function getRelativeFieldEdits(
                                         (kind): kind is Node | Refer =>
                                             kind !== undefined,
                                     )
+                                    .filter((insertion) => {
+                                        if (!shouldFilterOptional) return true;
+                                        if (insertion instanceof Refer) return false;
+                                        let nextReqName: string | undefined;
+                                        if (parent instanceof Evaluate) {
+                                            const mapping = parent.getInputMapping(context);
+                                            const nextReq = mapping?.inputs.find(
+                                                ({ expected, given }) => given === undefined && expected.value === undefined
+                                            )?.expected as any;
+
+                                            nextReqName =
+                                                (nextReq?.getName?.()) ??
+                                                (nextReq?.name?.getText?.());
+                                            }
+
+                                            if (insertion instanceof Bind || insertion instanceof PropertyBind) {
+                                                const insName =
+                                                    (insertion as any)?.getName?.() ??
+                                                    ((insertion as any)?.name?.getText?.());
+                                                if (nextReqName && insName && insName !== nextReqName) return false;
+                                                }
+                                          return true;
+                                    })
                                     .map(
                                         (insertion) =>
                                             new Append(
@@ -468,7 +533,7 @@ function getRelativeFieldEdits(
                                                 position,
                                                 parent,
                                                 list,
-                                                index + 1,
+                                                index,
                                                 insertion,
                                             ),
                                     ),
@@ -699,20 +764,51 @@ function getPossibleNodes(
             )
             // Flatten the list of possible nodes.
             .flat()
+
             .filter(
-                (node) =>
+                (node) => {
                     // Filter out nodes that don't match the given type, if provided.
-                    (expectedType === undefined ||
-                        !(node instanceof Expression) ||
-                        expectedType.accepts(node.getType(context), context)) &&
+                    if (expectedType !== undefined &&
+                        node instanceof Expression &&
+                        !expectedType.accepts(node.getType(context), context)) {
+                        return false;
+                    }
+        
                     // Filter out nodes that are equivalent to the selection node
-                    (anchor === undefined ||
-                        (node instanceof Refer &&
-                            (!(anchor instanceof Reference) ||
-                                (anchor instanceof Reference &&
-                                    node.definition !==
-                                        anchor.resolve(context)))) ||
-                        (node instanceof Node && !anchor.isEqualTo(node))),
+                    if (anchor !== undefined) {
+                        if (node instanceof Refer) {
+                            if (anchor instanceof Reference &&
+                                node.definition === anchor.resolve(context)) {
+                                return false;
+                            }
+                        } else if (node instanceof Node && anchor.isEqualTo(node)) {
+                            return false;
+                        }
+                    }
+        
+                    // CRITICAL: Filter out ALL Refer when in Evaluate with unfilled required params
+                    if (!selected && node instanceof Refer) {
+                        const parent = anchor.getParent(context);
+                        // Check if we're in an Evaluate context
+                        if (parent instanceof Evaluate) {
+                            const mapping = parent.getInputMapping(context);
+                            if (mapping) {
+                                const hasUnfilledRequired = mapping.inputs.some(
+                                    ({ expected, given }) => 
+                                        given === undefined && expected.value === undefined
+                                );
+                    
+                                // If there are unfilled required params, hide ALL references
+                                if (hasUnfilledRequired) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+        
+                    return true;
+
+                }
             )
-    );
-}
+        ); 
+    } 
