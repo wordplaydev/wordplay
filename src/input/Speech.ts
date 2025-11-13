@@ -58,6 +58,10 @@ export default class Speech extends StreamValue<TextValue, string> {
     recognition: SpeechRecognition | undefined;
     isListening = false;
     languageCode: string;
+    retryCount = 0;
+    maxRetries = 3;
+    retryDelay = 1000; // Start with 1 second
+    retryTimeout: NodeJS.Timeout | number | undefined;
 
     constructor(evaluation: Evaluation, languageCode?: string) {
         super(
@@ -126,11 +130,12 @@ export default class Speech extends StreamValue<TextValue, string> {
 
             // Handle errors
             this.recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-                console.error('Speech recognition error:', event.error);
-                // React with error message so programs can handle it
-                if (event.error !== 'no-speech' && event.error !== 'aborted') {
-                    this.react(`error:${event.error}`);
-                }
+                console.error(
+                    'Speech recognition error:',
+                    event.error,
+                    event.message,
+                );
+                this.handleError(event.error, event.message);
             };
 
             // Handle end (restart if still on)
@@ -150,6 +155,9 @@ export default class Speech extends StreamValue<TextValue, string> {
             // Handle start
             this.recognition.onstart = () => {
                 this.isListening = true;
+                // Reset retry count on successful start
+                this.retryCount = 0;
+                this.retryDelay = 1000;
             };
         }
 
@@ -167,6 +175,11 @@ export default class Speech extends StreamValue<TextValue, string> {
     stop() {
         this.on = false;
         this.isListening = false;
+        // Clear any pending retry
+        if (this.retryTimeout) {
+            clearTimeout(this.retryTimeout as number);
+            this.retryTimeout = undefined;
+        }
         if (this.recognition) {
             try {
                 this.recognition.stop();
@@ -180,6 +193,95 @@ export default class Speech extends StreamValue<TextValue, string> {
         this.languageCode = languageCode;
         if (this.recognition) {
             this.recognition.lang = languageCode;
+        }
+    }
+
+    private handleError(error: string, message: string) {
+        // Handle specific error types with appropriate messages and retry logic
+        switch (error) {
+            case 'network':
+                // Network error - could be no internet or service unavailable
+                this.react(
+                    'Network error: Check your internet connection and try again.',
+                );
+                this.attemptRetry('network');
+                break;
+
+            case 'not-allowed':
+            case 'service-not-allowed':
+                // Permission denied - user needs to grant microphone access
+                this.react(
+                    'Permission denied: Please allow microphone access in your browser settings.',
+                );
+                // Don't retry permission errors
+                this.stop();
+                break;
+
+            case 'audio-capture':
+                // Microphone hardware error
+                this.react(
+                    'Microphone error: Check that your microphone is connected and working.',
+                );
+                this.attemptRetry('audio-capture');
+                break;
+
+            case 'language-not-supported':
+                // Language not supported by the browser
+                this.react(
+                    `Language not supported: ${this.languageCode} is not available for speech recognition.`,
+                );
+                // Don't retry language errors
+                this.stop();
+                break;
+
+            case 'no-speech':
+                // No speech detected - this is normal, don't show error
+                // Just continue listening
+                break;
+
+            case 'aborted':
+                // User or system aborted - don't show error
+                break;
+
+            case 'bad-grammar':
+                // Grammar compilation error (shouldn't happen in our case)
+                this.react('Speech recognition configuration error.');
+                break;
+
+            default:
+                // Unknown error - show generic message
+                this.react(
+                    `Other error: ${error}${message ? ' - ' + message : ''}`,
+                );
+                this.attemptRetry('unknown');
+                break;
+        }
+    }
+
+    private attemptRetry(errorType: string) {
+        // Only retry for transient errors, and only up to max retries
+        if (this.retryCount < this.maxRetries && this.on) {
+            this.retryCount++;
+            const delay = this.retryDelay * this.retryCount; // Exponential backoff
+            console.log(
+                `Attempting to restart speech recognition in ${delay}ms (attempt ${this.retryCount}/${this.maxRetries}) after ${errorType} error`,
+            );
+
+            this.retryTimeout = setTimeout(() => {
+                if (this.on && !this.isListening) {
+                    try {
+                        this.recognition?.start();
+                    } catch (e) {
+                        console.error('Failed to restart recognition:', e);
+                    }
+                }
+            }, delay);
+        } else if (this.retryCount >= this.maxRetries) {
+            // Max retries reached
+            this.react(
+                'Speech recognition failed after multiple attempts. Please try again later.',
+            );
+            this.stop();
         }
     }
 
