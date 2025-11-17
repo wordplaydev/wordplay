@@ -54,7 +54,7 @@
 {/each}
 
 <!-- If there are multiple locales, show the locale chooser -->
-{#if localesUsed.length > 1}
+{#if localesUsed.length > 0}
     {LOCALE_SYMBOL}
     <EditorLocaleChooser
         locale={editorLocales[sourceID]}

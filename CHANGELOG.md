@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.33
 
+### Fixed
+
+- Fixed #855: Show editor and output locale chooser when there is at least one explicit tag.
+
 ### Maintenance
 
 - Removed unused `firebase-functions`, `@types/npm`, and `@types/uuid` dependencies.

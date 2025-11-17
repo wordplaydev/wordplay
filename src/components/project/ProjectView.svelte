@@ -1571,7 +1571,7 @@
                                         background
                                         command={Restart}
                                     />
-                                    {#if localesUsed.length > 1}<OutputLocaleChooser
+                                    {#if localesUsed.length > 0}<OutputLocaleChooser
                                             {localesUsed}
                                             locale={evaluationLocale}
                                             change={(locale) => {
