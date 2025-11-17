@@ -3,6 +3,13 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.33
+
+### Maintenance
+
+- Removed unused `firebase-functions`, `@types/npm`, and `@types/uuid` dependencies.
+- Updated minor versions of Svelte, SvelteKit, svelte-check, vitest, Firebase.
+
 ## 0.6.32
 
 ### Maintenance
