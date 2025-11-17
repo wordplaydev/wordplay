@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Fixed #855: Show editor and output locale chooser when there is at least one explicit tag.
+- Fixed #856: Added standard tooltip and drop down arrow to options.
 
 ### Maintenance
 
