@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.6.33",
+    "version": "0.6.34",
     "scripts": {
         "sync": "svelte-kit sync",
         "postinstall": "run-script-os",
@@ -80,8 +80,6 @@
         "dexie": "^4",
         "firebase": "^12",
         "firebase-admin": "^13",
-        "firebase-functions": "^6",
-        "firebase-functions-test": "^3",
         "graphemer": "^1",
         "matter-js": "^0",
         "picomatch": "^4",

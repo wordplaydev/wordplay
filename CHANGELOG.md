@@ -3,6 +3,14 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.34
+
+### Maintenance
+
+- Updated minor versions of SvelteKit, Svelte, vite, vitest.
+- Removed unused `firebase-functions` and `firebase-functions-test` dependencies.
+- Updated functions dependencies: `@google-cloud/translate`, `@types/nodemailer`, `firebase-admin`, `firebase-functions`
+
 ## 0.6.33
 
 ### Fixed
@@ -13,7 +21,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Maintenance
 
-- Removed unused `firebase-functions`, `@types/npm`, and `@types/uuid` dependencies.
+- Removed unused `@types/npm`, and `@types/uuid` dependencies.
 - Updated minor versions of Svelte, SvelteKit, svelte-check, vitest, Firebase.
 
 ## 0.6.32
