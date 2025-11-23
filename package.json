@@ -1,6 +1,7 @@
 {
     "name": "wordplay",
     "version": "0.6.34",
+    "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
         "postinstall": "run-script-os",
@@ -72,7 +73,6 @@
         "vite": "^7",
         "vitest": "^4"
     },
-    "type": "module",
     "dependencies": {
         "@axe-core/playwright": "^4",
         "colorjs.io": "^0",
@@ -88,6 +88,9 @@
         "shared-types": "file:./functions/src/shared",
         "uuid": "^13",
         "zod": "^4"
+    },
+    "overrides": {
+        "cookie": "^0.7.0"
     },
     "browserslist": [
         "defaults",

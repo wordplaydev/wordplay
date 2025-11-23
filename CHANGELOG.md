@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Updated minor versions of SvelteKit, Svelte, vite, vitest.
 - Removed unused `firebase-functions` and `firebase-functions-test` dependencies.
 - Updated functions dependencies: `@google-cloud/translate`, `@types/nodemailer`, `firebase-admin`, `firebase-functions`
+- Override `cookie` package to resolve vulnerability.
 
 ## 0.6.33
 
