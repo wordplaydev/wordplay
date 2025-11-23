@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.34
 
+### Fixed
+
+- Removed extra space before bullets.
+
 ### Maintenance
 
 - Updated minor versions of SvelteKit, Svelte, vite, vitest.
