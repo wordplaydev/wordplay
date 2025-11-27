@@ -534,8 +534,8 @@
                     TileKind.Documentation,
                     // If we're not supposed to show the guide, or there's code, don't show the guide by default.
                     !guide ||
-                    project.getMain().expression.expression.statements.length >
-                        0
+                        project.getMain().expression.expression.statements
+                            .length > 0
                         ? TileMode.Collapsed
                         : TileMode.Expanded,
                     undefined,
@@ -1427,8 +1427,10 @@
     function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            requestedPlay = false;
-            setMode(main, TileMode.Expanded);
+            if (requestedPlay) {
+                requestedPlay = false;
+                setMode(main, TileMode.Expanded);
+            }
             layout = layout.withoutFullscreen();
         }
     }
