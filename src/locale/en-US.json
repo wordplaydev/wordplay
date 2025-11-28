@@ -4220,6 +4220,10 @@
                 },
                 "addcolumn": "add a column before this column",
                 "removecolumn": "remove this column"
+            },
+            "formatted": {
+                "edit": "edit formatted text",
+                "preview": "preview formatted text"
             }
         },
         "tile": {

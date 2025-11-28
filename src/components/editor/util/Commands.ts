@@ -136,7 +136,13 @@ export enum Category {
 }
 
 export function toShortcut(
-    command: Command,
+    command: {
+        control: boolean | undefined;
+        alt: boolean | undefined;
+        shift: boolean | undefined;
+        key?: string;
+        keySymbol?: string;
+    },
     hideControl = false,
     hideShift = false,
     hideAlt = false,
@@ -144,9 +150,9 @@ export function toShortcut(
     const mac =
         typeof navigator !== 'undefined' &&
         navigator.userAgent.indexOf('Mac') !== -1;
-    return `${command.control && !hideControl ? (mac ? '⌘ ' : 'Ctrl + ') : ''}${
-        command.alt && !hideAlt ? (mac ? '⎇ ' : 'Alt + ') : ''
-    }${command.shift && !hideShift ? (mac ? '⇧ ' : 'Shift + ') : ''}${
+    return `${command.control && !hideControl ? (mac ? '⌘' : 'Ctrl+') : ''}${
+        command.alt && !hideAlt ? (mac ? '⎇' : 'Alt + ') : ''
+    }${command.shift && !hideShift ? (mac ? '⇧' : 'Shift + ') : ''}${
         command.keySymbol ?? command.key ?? '-'
     }`;
 }
