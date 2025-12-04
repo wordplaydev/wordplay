@@ -3371,6 +3371,10 @@
                 "names": "$~y",
                 "doc": "$~Kierunek i wielkość kierunku wzdłuż osi y."
             }
+        },
+        "Speech": {
+            "doc": ["$?"],
+            "names": ["$?"]
         }
     },
     "output": {

@@ -381,8 +381,10 @@
             // Is the checkpoint not now? Use the old sources instead of the current ones.
             checkpoint >= 0 ? getCheckpointProject(newProject) : newProject,
             DB,
-            // Choose the selected evaluation locale or if not selected, currently selected IDE locale
-            evaluationLocale ? [evaluationLocale] : localesUsed,
+            // Choose the selected evaluation locale or if not selected, the user's preferred locales
+            evaluationLocale
+                ? [evaluationLocale]
+                : $locales.getPreferredLocales(),
             true,
             replayInputs ? $evaluator : undefined,
         );

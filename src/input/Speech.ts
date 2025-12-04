@@ -207,13 +207,20 @@ export default class Speech extends StreamValue<TextValue, string> {
                 this.attemptRetry('network');
                 break;
 
-            case 'not-allowed':
             case 'service-not-allowed':
+                // Service denied - API quota/rate limit or service unavailable
+                this.react(
+                    'Service temporarily unavailable: Rate limit or quota exceeded. Retrying...',
+                );
+                this.attemptRetry('service-not-allowed');
+                break;
+
+            case 'not-allowed':
                 // Permission denied - user needs to grant microphone access
                 this.react(
                     'Permission denied: Please allow microphone access in your browser settings.',
                 );
-                // Don't retry permission errors
+                // Don't retry permission errors - user action required
                 this.stop();
                 break;
 
@@ -226,7 +233,7 @@ export default class Speech extends StreamValue<TextValue, string> {
                 break;
 
             case 'language-not-supported':
-                // Language not supported by the browser
+                // Language not supported by the browser (unlikely but possible)
                 this.react(
                     `Language not supported: ${this.languageCode} is not available for speech recognition.`,
                 );
@@ -241,11 +248,6 @@ export default class Speech extends StreamValue<TextValue, string> {
 
             case 'aborted':
                 // User or system aborted - don't show error
-                break;
-
-            case 'bad-grammar':
-                // Grammar compilation error (shouldn't happen in our case)
-                this.react('Speech recognition configuration error.');
                 break;
 
             default:

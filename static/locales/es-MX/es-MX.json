@@ -3348,6 +3348,10 @@
                 "names": "y",
                 "doc": "La dirección y magnitud de la dirección a lo largo del eje y."
             }
+        },
+        "Speech": {
+            "doc": ["$?"],
+            "names": ["$?"]
         }
     },
     "output": {

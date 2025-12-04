@@ -2228,6 +2228,10 @@
               ],
               "type": "object"
             },
+            "Speech": {
+              "$ref": "#/definitions/NameAndDoc",
+              "description": "A stream of recognized speech as text"
+            },
             "Time": {
               "additionalProperties": false,
               "description": "A stream of times since evaluation began",
@@ -2360,6 +2364,7 @@
             "Time",
             "Volume",
             "Pitch",
+            "Speech",
             "Camera",
             "Scene",
             "Motion",
