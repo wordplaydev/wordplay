@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.36
 
+### Fixed
+
+- Fixed stale reference warnings.
+
 ### Maintenance
 
 - Updated minor versions of `svelte`, `@sveltejs/kit`, `prettier`, `tsx`, `vite`, `vitest`.

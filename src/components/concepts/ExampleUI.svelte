@@ -58,6 +58,7 @@
     let index = $derived(indexContext?.index);
 
     // Keep track of the last example so we can remove it when the example changes.
+    // svelte-ignore state_referenced_locally
     let lastExample = $state(example);
 
     // Derive a project from the example.

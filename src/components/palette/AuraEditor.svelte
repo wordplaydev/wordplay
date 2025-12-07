@@ -29,13 +29,13 @@
         id = undefined,
     }: Props = $props();
 
-    let blur = $state(
+    let blur = $derived(
         getNumberBind(project.shares.output.Aura.inputs[1], values) ?? 0.05,
     );
-    let offsetX = $state(
+    let offsetX = $derived(
         getNumberBind(project.shares.output.Aura.inputs[2], values) ?? 0,
     );
-    let offsetY = $state(
+    let offsetY = $derived(
         getNumberBind(project.shares.output.Aura.inputs[3], values) ?? 0,
     );
 

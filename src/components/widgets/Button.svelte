@@ -75,9 +75,11 @@
 
     let loading = $state(false);
     let width = $state(0);
-    let tooltip = isComputedTooltip(tip)
-        ? tip()
-        : $locales.concretize($locales.get(tip)).toText();
+    let tooltip = $derived(
+        isComputedTooltip(tip)
+            ? tip()
+            : $locales.concretize($locales.get(tip)).toText(),
+    );
     let pressed = $state(false);
 
     let hint = getTip();

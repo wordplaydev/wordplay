@@ -92,6 +92,7 @@
     let stage = $state<ReturnType<typeof StageView> | undefined>();
 
     // The place the output is focusing on. Bound to the stage's focus, unless set here.
+    // svelte-ignore state_referenced_locally
     let renderedFocus = $state<Place>(createPlace(evaluator, 0, 0, -12));
 
     /** A map from key string IDs to whether they are up or down */

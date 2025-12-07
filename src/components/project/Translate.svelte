@@ -42,7 +42,7 @@
             ),
     );
 
-    let sourceLocale = $state<Locale | undefined>(
+    let sourceLocale = $derived<Locale | undefined>(
         project.getLocales().getLocales()[0],
     );
 

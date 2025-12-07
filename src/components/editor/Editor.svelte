@@ -2,6 +2,7 @@
     const SHOW_OUTPUT_IN_PALETTE = false;
 </script>
 
+<!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
