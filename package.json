@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.6.35",
+    "version": "0.6.36",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -65,7 +65,6 @@
         "svelte-check": "^4",
         "svelte-jester": "^5",
         "svelte-preprocess": "^6.0",
-        "ts-jest": "^29",
         "ts-json-schema-generator": "^2",
         "tslib": "^2",
         "tsx": "^4",
