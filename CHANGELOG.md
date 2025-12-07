@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Fixed stale reference warnings.
+- Worked around Firebase functions regression.
 
 ### Maintenance
 
