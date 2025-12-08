@@ -107,5 +107,44 @@ service cloud.firestore {
       // Only the creator can read, update, or delete their feedback; anyone can vote on the feedback though
       allow update, delete: if request.auth != null && (request.auth.uid == resource.data.creator || ("mod" in request.auth.token && request.auth.token.mod) || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["votes"]));
     }
+    match /howtos/{gallery}/{id} {
+
+      function isInPublicGalleryOrIsCreator(uid, galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null && (gallery.public || uid in gallery.creators || uid in gallery.curators);
+      }
+
+      function isCuratorOfProjectInGallery(uid, galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null && (uid in gallery.curators);
+      }
+
+      allow create: if request.auth != null;
+      // How-tos are readable if:
+      // 1) They are public
+      // 2) The requestor is the owner or a collaborator
+      // 3) The requestor is a curator or creator of the gallery that the how-tos is in, so all gallery how-tos are readable.
+      // 4) The requestor is a viewer of the how-to
+      allow read: if 
+        (resource.data != null && 'public' in resource.data && resource.data.public) || 
+        (resource.data != null && request.auth != null && 
+          ( 
+            ("mod" in request.auth.token && request.auth.token.mod) ||
+            ('owner' in resource.data && resource.data.owner == request.auth.uid) || 
+            ('collaborators' in resource.data && request.auth.uid in resource.data.collaborators) || 
+            ('gallery' in resource.data && resource.data.gallery != null && isInPublicGalleryOrIsCreator(request.auth.uid, resource.data.gallery))
+            ('viewers' in resource.data && request.auth.uid in resource.data.viewers)
+          )
+        );
+      allow update: 
+        if request.auth != null && 
+          (
+            resource.data.owner == request.auth.uid || 
+            request.auth.uid in resource.data.collaborators || 
+            ("mod" in request.auth.token && request.auth.token.mod) ||
+            (resource.data.gallery != null && isCuratorOfProjectInGallery(request.auth.uid, resource.data.gallery))
+          );
+      allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
+    }
   }
 }
