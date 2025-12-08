@@ -21,6 +21,7 @@ import GalleryDatabase from './galleries/GalleryDatabase.svelte';
 import LocalesDatabase from './locales/LocalesDatabase';
 import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
 import SettingsDatabase from './settings/SettingsDatabase';
+import { HowToDatabase } from './howtos/HowToDatabase.svelte';
 
 // Intercept console.log and console.error
 
@@ -62,6 +63,9 @@ export class Database {
     /** A collection of characters loaded from the database */
     readonly Characters: CharactersDatabase;
 
+    /** A collection of how-tos loaded from the database */
+    readonly HowTos: HowToDatabase;
+
     /** The status of persisting the projects. */
     readonly Status: Writable<{
         status: SaveStatus;
@@ -90,6 +94,7 @@ export class Database {
         this.Creators = new CreatorDatabase(this);
         this.Chats = new ChatDatabase(this);
         this.Characters = new CharactersDatabase(this);
+        this.HowTos = new HowToDatabase(this);
     }
 
     getUser() {
@@ -183,6 +188,9 @@ export class Database {
 
         // Tell the characters database.
         this.Characters.syncUser();
+
+        // Tell the how-to database.
+        this.HowTos.syncUser();
     }
 
     /** Clean up listeners */
@@ -251,6 +259,7 @@ export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
 export const Chats = DB.Chats;
 export const CharactersDB = DB.Characters;
+export const HowTos = DB.HowTos;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;
