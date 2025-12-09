@@ -9725,6 +9725,54 @@
               ],
               "type": "object"
             },
+            "howto": {
+              "additionalProperties": false,
+              "description": "How-to space page labels",
+              "properties": {
+                "add": {
+                  "$ref": "#/definitions/ButtonText",
+                  "description": "Button text for the how-to addition button"
+                },
+                "draftsheader": {
+                  "description": "Header for the drafts area",
+                  "type": "string"
+                },
+                "draftsprompt": {
+                  "description": "Explanation for the drafts area",
+                  "type": "string"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "unknown": {
+                      "description": "When the how-to is not known or is not public",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unknown"
+                  ],
+                  "type": "object"
+                },
+                "header": {
+                  "description": "Header for the how-to space page",
+                  "type": "string"
+                },
+                "howtoprompt": {
+                  "description": "Explanation for the how-to space page",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "header",
+                "howtoprompt",
+                "draftsheader",
+                "draftsprompt",
+                "add",
+                "error"
+              ],
+              "type": "object"
+            },
             "output": {
               "additionalProperties": false,
               "properties": {
@@ -12950,6 +12998,7 @@
             "project",
             "checkpoints",
             "gallery",
+            "howto",
             "source",
             "annotations",
             "output",
