@@ -38,7 +38,7 @@ const HowToSchemaV1 = z.object({
     xcoord: z.number(),
     ycoord: z.number(),
 
-    /** Content and viewers */
+    /** Content and collaborators */
     /** The title of the how-to */
     title: z.string(),
     /** The guiding question(s) for the how-to */
@@ -49,8 +49,6 @@ const HowToSchemaV1 = z.object({
     creator: z.string(),
     /** The list of users who can collaborate with the creator on a how-to */
     collaborators: z.array(z.string()),
-    /** The list of users who can view the how-to */
-    viewers: z.array(z.string()),
     /** Locales that the how-to depends on All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: z.array(z.string()),
 
@@ -116,12 +114,8 @@ export default class HowTo {
         return this.data.collaborators;
     }
 
-    getViewers() {
-        return this.data.viewers;
-    }
-
-    isViewer(user: string) {
-        return this.data.viewers.includes(user);
+    isCollaborator(userId: string) {
+        return this.data.collaborators.includes(userId);
     }
 
     getLocales() {
@@ -249,13 +243,6 @@ export class HowToDatabase {
             text: text,
             creator: user as string,
             collaborators: collaborators,
-            viewers: Array.from(
-                new Set([
-                    ...(gallery ? gallery.getCurators() : []),
-                    ...(gallery ? gallery.getCreators() : []),
-                    ...collaborators,
-                ]),
-            ),
             locales: locales,
             reactions: new Map<string, string[]>(
                 reactionTypes.map((type) => [type, []])
@@ -284,24 +271,25 @@ export class HowToDatabase {
         return newHowTo.galleryId;
     }
 
+    // TODO(@mc): also need to sync collaborators
     /** Should be called when a gallery updates, to synchronize chat participants */
     async handleRevisedGallery(gallery: Gallery) {
         // Synchronize the participants of all the projects in the gallery if this person is a curator of the gallery.
         // The user doesn't have permissions otherwise.
         const uid = this.db.getUser()?.uid;
         if (uid !== undefined && gallery.getCurators().includes(uid)) {
-            this.syncViewers(gallery);
+            this.syncCollaborators(gallery);
         }
     }
 
-    /** Ensure how-to viewers include creator, collaborators, curators */
-    syncViewers(gallery: Gallery) {
+    /** Ensure how-to Collaborators include creator, collaborators, curators */
+    syncCollaborators(gallery: Gallery) {
         for (const howTo of this.howtos.get(gallery.getID()) || []) {
-            this.syncViewer(howTo.getHowToId(), gallery);
+            this.syncCollaborator(howTo.getHowToId(), gallery);
         }
     }
 
-    private syncViewer(howToId: string, gallery: Gallery) {
+    private syncCollaborator(howToId: string, gallery: Gallery) {
         const howTo = this.howtos.get(gallery.getID())?.find(ht => ht.getHowToId() === howToId);
 
         if (!howTo) {
@@ -309,8 +297,8 @@ export class HowToDatabase {
             return;
         }
 
-        // get the list of viewers as a sorted string to quickly compare
-        const currentViewersString = howTo.getViewers().sort().join();
+        // get the list of Collaborators as a sorted string to quickly compare
+        const currentCollaboratorsString = howTo.getCollaborators().sort().join();
 
         // get intended participants based on gallery
         const intendedParticipants = [
@@ -318,16 +306,15 @@ export class HowToDatabase {
                 ...gallery.getCurators(),
                 ...gallery.getCreators(),
                 ...howTo.getCollaborators(),
-                ...howTo.getViewers(),
             ]),
         ].sort();
 
-        if (currentViewersString !== intendedParticipants.join()) {
-            // update the how-to with the new list of viewers
+        if (currentCollaboratorsString !== intendedParticipants.join()) {
+            // update the how-to with the new list of Collaborators
             this.updateHowTo(
                 new HowTo({
                     ...howTo.getData(),
-                    viewers: intendedParticipants,
+                    collaborators: intendedParticipants,
                 }),
                 true,
             );
@@ -381,7 +368,7 @@ export class HowToDatabase {
         this.unsubscribe = onSnapshot(
             query(
                 collection(firestore, HowTosCollection),
-                where('viewers', 'array-contains', user.uid),
+                where('collaborators', 'array-contains', user.uid),
             ),
             async (snapshot) => {
                 // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
@@ -403,7 +390,6 @@ export class HowToDatabase {
                     }
                 });
 
-                // TODO(@mc): dunno if this is working
                 // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
                 snapshot.docChanges().forEach((change) => {
                     // Removed? Delete the local cache of the gallery.

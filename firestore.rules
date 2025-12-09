@@ -124,7 +124,6 @@ service cloud.firestore {
       // 1) They are public
       // 2) The requestor is the owner or a collaborator
       // 3) The requestor is a curator or creator of the gallery that the how-tos is in, so all gallery how-tos are readable.
-      // 4) The requestor is a viewer of the how-to
       allow read: if 
         (resource.data != null && 'public' in resource.data && resource.data.public) || 
         (resource.data != null && request.auth != null && 
@@ -133,7 +132,6 @@ service cloud.firestore {
             ('owner' in resource.data && resource.data.owner == request.auth.uid) || 
             ('collaborators' in resource.data && request.auth.uid in resource.data.collaborators) || 
             ('gallery' in resource.data && resource.data.gallery != null && isInPublicGalleryOrIsCreator(request.auth.uid, resource.data.gallery))
-            ('viewers' in resource.data && request.auth.uid in resource.data.viewers)
           )
         );
       allow update: 
