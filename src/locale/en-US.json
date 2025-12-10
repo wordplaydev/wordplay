@@ -4763,6 +4763,7 @@
             "howtoprompt": "Tell us the story of how you learned something to make your project.",
             "draftsheader": "How-to drafts",
             "draftsprompt": "This is a space for your drafts! Only you can see what is inside. To post your draft, use the post button in the editor or drag it outside of this space.",
+            "bookmarksheader": "Bookmarks",
             "add": {
                 "label": "Add new how-to",
                 "tip": "Add new how-to"

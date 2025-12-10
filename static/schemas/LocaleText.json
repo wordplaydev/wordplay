@@ -9731,7 +9731,11 @@
               "properties": {
                 "add": {
                   "$ref": "#/definitions/ButtonText",
-                  "description": "Button text for the how-to addition button"
+                  "description": "Dialog text for the how-to addition button"
+                },
+                "bookmarksheader": {
+                  "description": "Header for the bookmarks area",
+                  "type": "string"
                 },
                 "draftsheader": {
                   "description": "Header for the drafts area",
@@ -9768,6 +9772,7 @@
                 "howtoprompt",
                 "draftsheader",
                 "draftsprompt",
+                "bookmarksheader",
                 "add",
                 "error"
               ],

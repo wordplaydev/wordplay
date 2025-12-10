@@ -1,4 +1,4 @@
-import type { ButtonText } from "@locale/UITexts";
+import type { ButtonText, DialogText } from "@locale/UITexts";
 
 type PageText = {
     /** Header for the how-to space page */
@@ -9,7 +9,9 @@ type PageText = {
     draftsheader: string;
     /** Explanation for the drafts area */
     draftsprompt: string;
-    /** Button text for the how-to addition button */
+    /** Header for the bookmarks area */
+    bookmarksheader: string;
+    /** Dialog text for the how-to addition button */
     add: ButtonText;
     error: {
         /** When the how-to is not known or is not public */
