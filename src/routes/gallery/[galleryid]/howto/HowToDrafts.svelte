@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 </script>
