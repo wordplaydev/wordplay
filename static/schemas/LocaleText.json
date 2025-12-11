@@ -9729,21 +9729,39 @@
               "additionalProperties": false,
               "description": "How-to space page labels",
               "properties": {
-                "add": {
-                  "$ref": "#/definitions/ButtonText",
-                  "description": "Dialog text for the how-to addition button"
-                },
-                "bookmarksheader": {
-                  "description": "Header for the bookmarks area",
-                  "type": "string"
-                },
-                "draftsheader": {
-                  "description": "Header for the drafts area",
-                  "type": "string"
-                },
-                "draftsprompt": {
-                  "description": "Explanation for the drafts area",
-                  "type": "string"
+                "canvasView": {
+                  "additionalProperties": false,
+                  "description": "Headers on the how-to canvas page",
+                  "properties": {
+                    "bookmarksheader": {
+                      "description": "Header for the bookmarks area",
+                      "type": "string"
+                    },
+                    "draftsheader": {
+                      "description": "Header for the drafts area",
+                      "type": "string"
+                    },
+                    "draftsprompt": {
+                      "description": "Explanation for the drafts area",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "Header for the how-to space page",
+                      "type": "string"
+                    },
+                    "howtoprompt": {
+                      "description": "Explanation for the how-to space page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "howtoprompt",
+                    "draftsheader",
+                    "draftsprompt",
+                    "bookmarksheader"
+                  ],
+                  "type": "object"
                 },
                 "error": {
                   "additionalProperties": false,
@@ -9758,37 +9776,69 @@
                   ],
                   "type": "object"
                 },
-                "gallerySubtitle": {
-                  "description": "Subtitle for the how-to space in the gallery view",
-                  "type": "string"
+                "galleryView": {
+                  "additionalProperties": false,
+                  "description": "Headers on the gallery page",
+                  "properties": {
+                    "header": {
+                      "description": "Title of how-to space in the gallery view",
+                      "type": "string"
+                    },
+                    "subheader": {
+                      "description": "Subtitle for the how-to space in the gallery view",
+                      "type": "string"
+                    },
+                    "subheaderEmpty": {
+                      "description": "Subtitle for the how-to space in the gallery if no how-tos",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "subheader",
+                    "subheaderEmpty"
+                  ],
+                  "type": "object"
                 },
-                "gallerySubtitleEmpty": {
-                  "description": "Subtitle for the how-to space in the gallery if no how-tos",
-                  "type": "string"
-                },
-                "galleryTitle": {
-                  "description": "Title of how-to space in the gallery view",
-                  "type": "string"
-                },
-                "header": {
-                  "description": "Header for the how-to space page",
-                  "type": "string"
-                },
-                "howtoprompt": {
-                  "description": "Explanation for the how-to space page",
-                  "type": "string"
+                "newHowTo": {
+                  "additionalProperties": false,
+                  "description": "Buttons and dialogs for adding a new how-to",
+                  "properties": {
+                    "add": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for the how-to addition button"
+                    },
+                    "form": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "Dialog text for how-to form"
+                    },
+                    "notificationOptOut": {
+                      "description": "Checkbox text for opting out of notifying subscribers",
+                      "type": "string"
+                    },
+                    "post": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for submitting the how-to"
+                    },
+                    "save": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for saving a how-to draft"
+                    }
+                  },
+                  "required": [
+                    "add",
+                    "form",
+                    "post",
+                    "save",
+                    "notificationOptOut"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
-                "galleryTitle",
-                "gallerySubtitle",
-                "gallerySubtitleEmpty",
-                "header",
-                "howtoprompt",
-                "draftsheader",
-                "draftsprompt",
-                "bookmarksheader",
-                "add",
+                "galleryView",
+                "canvasView",
+                "newHowTo",
                 "error"
               ],
               "type": "object"

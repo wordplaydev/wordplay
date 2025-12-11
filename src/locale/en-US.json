@@ -4759,17 +4759,36 @@
             }
         },
         "howto": {
-            "galleryTitle": "How-tos",
-            "gallerySubtitle": "$1 how-tos, $2 new",
-            "gallerySubtitleEmpty": "0 how-tos (try creating a new one!)",
-            "header": "$1's how-tos",
-            "howtoprompt": "Tell us the story of how you learned something to make your project.",
-            "draftsheader": "How-to drafts",
-            "draftsprompt": "This is a space for your drafts! Only you can see what is inside. To post your draft, use the post button in the editor or drag it outside of this space.",
-            "bookmarksheader": "Bookmarks",
-            "add": {
-                "label": "Add new how-to",
-                "tip": "Add new how-to"
+            "galleryView": {
+                "header": "How-tos",
+                "subheader": "$1 how-tos, $2 new",
+                "subheaderEmpty": "0 how-tos (try creating a new one!)"
+            },
+            "canvasView": {
+                "header": "$1's how-tos",
+                "howtoprompt": "Tell us the story of how you learned something to make your project.",
+                "draftsheader": "How-to drafts",
+                "draftsprompt": "This is a space for your drafts! Only you can see what is inside. To post your draft, use the post button in the editor or drag it outside of this space.",
+                "bookmarksheader": "Bookmarks"
+            },
+            "newHowTo": {
+                "add": {
+                    "label": "Add new how-to",
+                    "tip": "Add new how-to"
+                },
+                "form": {
+                    "header": "Create a new how-to",
+                    "explanation": "Tell us the story of how you learned something."
+                },
+                "post": {
+                    "label": "Post",
+                    "tip": "Post your how-to to the space"
+                },
+                "save": {
+                    "label": "Save draft",
+                    "tip": "Save your how-to as a draft"
+                },
+                "notificationOptOut": "Notify subscribers that a new how-to has been posted"
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."

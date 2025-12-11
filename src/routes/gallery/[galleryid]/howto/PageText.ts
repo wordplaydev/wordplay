@@ -1,24 +1,41 @@
-import type { ButtonText } from "@locale/UITexts";
+import type { ButtonText, DialogText } from "@locale/UITexts";
 
 type PageText = {
-    /** Title of how-to space in the gallery view */
-    galleryTitle: string;
-    /** Subtitle for the how-to space in the gallery view */
-    gallerySubtitle: string;
-    /** Subtitle for the how-to space in the gallery if no how-tos */
-    gallerySubtitleEmpty: string;
-    /** Header for the how-to space page */
-    header: string;
-    /** Explanation for the how-to space page */
-    howtoprompt: string;
-    /** Header for the drafts area */
-    draftsheader: string;
-    /** Explanation for the drafts area */
-    draftsprompt: string;
-    /** Header for the bookmarks area */
-    bookmarksheader: string;
-    /** Dialog text for the how-to addition button */
-    add: ButtonText;
+    /** Headers on the gallery page */
+    galleryView: {
+        /** Title of how-to space in the gallery view */
+        header: string;
+        /** Subtitle for the how-to space in the gallery view */
+        subheader: string;
+        /** Subtitle for the how-to space in the gallery if no how-tos */
+        subheaderEmpty: string;
+    },
+    /** Headers on the how-to canvas page */
+    canvasView: {
+        /** Header for the how-to space page */
+        header: string;
+        /** Explanation for the how-to space page */
+        howtoprompt: string;
+        /** Header for the drafts area */
+        draftsheader: string;
+        /** Explanation for the drafts area */
+        draftsprompt: string;
+        /** Header for the bookmarks area */
+        bookmarksheader: string;
+    },
+    /** Buttons and dialogs for adding a new how-to */
+    newHowTo: {
+        /** Button text for the how-to addition button */
+        add: ButtonText;
+        /** Dialog text for how-to form */
+        form: DialogText;
+        /** Button text for submitting the how-to */
+        post: ButtonText;
+        /** Button text for saving a how-to draft */
+        save: ButtonText;
+        /** Checkbox text for opting out of notifying subscribers */
+        notificationOptOut: string;
+    },
     error: {
         /** When the how-to is not known or is not public */
         unknown: string;

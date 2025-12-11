@@ -4,12 +4,12 @@
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
     import { Galleries, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import { docToMarkup } from '@locale/LocaleText';
     import HowToCanvas from './HowToCanvas.svelte';
     import HowToDrafts from './HowToDrafts.svelte';
+    import HowToForm from './HowToForm.svelte';
 
     const user = getUser();
 
@@ -39,18 +39,12 @@
         <MarkupHTMLView
             inline
             markup={docToMarkup(
-                $locales.get((l) => l.ui.howto.header),
+                $locales.get((l) => l.ui.howto.canvasView.header),
             ).concretize($locales, [galleryName]) ?? ''}
         />
     </Header>
 
-    <Button
-        tip={(l) => l.ui.howto.add.tip}
-        action={() => {}}
-        testid="addhowto"
-        large
-        icon="+"
-    ></Button>
+    <HowToForm />
 
     <HowToDrafts />
 

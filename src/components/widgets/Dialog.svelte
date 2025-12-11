@@ -22,6 +22,7 @@
                   tip: LocaleTextAccessor;
                   icon?: string;
                   label?: string | LocaleTextAccessor;
+                  large?: boolean;
               }
             | undefined;
         children?: import('svelte').Snippet;
@@ -56,7 +57,12 @@
 </script>
 
 {#if button}
-    <Button tip={button.tip} action={() => (show = true)} icon={button.icon}>
+    <Button
+        tip={button.tip}
+        action={() => (show = true)}
+        large={button.large ?? false}
+        icon={button.icon}
+    >
         {#if button.label}{#if typeof button.label === 'string'}{button.label}{:else}<LocalizedText
                     path={button.label}
                 />{/if}{/if}</Button

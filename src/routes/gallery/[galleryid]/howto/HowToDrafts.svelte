@@ -4,8 +4,8 @@
 </script>
 
 <div class="draftspace">
-    <Subheader text={(l) => l.ui.howto.draftsheader} />
-    <MarkupHTMLView markup={(l) => l.ui.howto.draftsprompt} />
+    <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
+    <MarkupHTMLView markup={(l) => l.ui.howto.canvasView.draftsprompt} />
 </div>
 
 <style>

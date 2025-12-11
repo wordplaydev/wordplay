@@ -21,24 +21,23 @@
     <BigLink to={`/gallery/${galleryID}/howto`}
         ><Iconified
             icon={DOCUMENTATION_SYMBOL}
-            text={(l) => l.ui.howto.galleryTitle}
+            text={(l) => l.ui.howto.galleryView.header}
         /></BigLink
     >
 
     {#if totalHowTos > 0}
-    <MarkupHTMLView
-        inline
-        markup={docToMarkup(
-            $locales.get((l) => l.ui.howto.gallerySubtitle),
-        ).concretize($locales, [totalHowTos, newHowTos]) ?? ''}
-    />
+        <MarkupHTMLView
+            inline
+            markup={docToMarkup(
+                $locales.get((l) => l.ui.howto.galleryView.subheader),
+            ).concretize($locales, [totalHowTos, newHowTos]) ?? ''}
+        />
     {:else}
-    <MarkupHTMLView
-        inline
-        markup={docToMarkup(
-            $locales.get((l) => l.ui.howto.gallerySubtitleEmpty),
-        ) ?? ''}
-    />
+        <MarkupHTMLView
+            inline
+            markup={docToMarkup(
+                $locales.get((l) => l.ui.howto.galleryView.subheaderEmpty),
+            ) ?? ''}
+        />
     {/if}
-
 </Action>

@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import HowToPreview from './HowToPreview.svelte';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import HowToForm from './HowToForm.svelte';
 
     let canvas: HTMLDivElement;
 
