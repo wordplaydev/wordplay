@@ -9758,6 +9758,18 @@
                   ],
                   "type": "object"
                 },
+                "gallerySubtitle": {
+                  "description": "Subtitle for the how-to space in the gallery view",
+                  "type": "string"
+                },
+                "gallerySubtitleEmpty": {
+                  "description": "Subtitle for the how-to space in the gallery if no how-tos",
+                  "type": "string"
+                },
+                "galleryTitle": {
+                  "description": "Title of how-to space in the gallery view",
+                  "type": "string"
+                },
                 "header": {
                   "description": "Header for the how-to space page",
                   "type": "string"
@@ -9768,6 +9780,9 @@
                 }
               },
               "required": [
+                "galleryTitle",
+                "gallerySubtitle",
+                "gallerySubtitleEmpty",
                 "header",
                 "howtoprompt",
                 "draftsheader",

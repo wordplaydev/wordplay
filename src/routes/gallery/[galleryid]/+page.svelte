@@ -30,11 +30,13 @@
         COPY_SYMBOL,
         EDIT_SYMBOL,
     } from '../../../parser/Symbols';
+    import HowToGalleryView from './howto/HowToGalleryView.svelte';
 
     const user = getUser();
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
+    const galleryID = decodeURI(page.params.galleryid);
 
     // When the page changes, get the gallery store corresponding to the requested ID.
     $effect(() => {
@@ -42,7 +44,6 @@
             gallery = undefined;
             return;
         }
-        const galleryID = decodeURI(page.params.galleryid);
         Galleries.get(galleryID).then((gal) => {
             // Found a store? Subscribe to it, updating the gallery when it changes.
             if (gal) gallery = gal;
@@ -165,6 +166,8 @@
                                 : undefined}
                     />
                 {/if}
+
+                <HowToGalleryView galleryID={galleryID}/>
 
                 {#if editable || addable}
                     <AddProject

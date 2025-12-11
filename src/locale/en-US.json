@@ -4759,6 +4759,9 @@
             }
         },
         "howto": {
+            "galleryTitle": "How-tos",
+            "gallerySubtitle": "$1 how-tos, $2 new",
+            "gallerySubtitleEmpty": "0 how-tos (try creating a new one!)",
             "header": "$1's how-tos",
             "howtoprompt": "Tell us the story of how you learned something to make your project.",
             "draftsheader": "How-to drafts",

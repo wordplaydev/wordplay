@@ -1,6 +1,12 @@
-import type { ButtonText, DialogText } from "@locale/UITexts";
+import type { ButtonText } from "@locale/UITexts";
 
 type PageText = {
+    /** Title of how-to space in the gallery view */
+    galleryTitle: string;
+    /** Subtitle for the how-to space in the gallery view */
+    gallerySubtitle: string;
+    /** Subtitle for the how-to space in the gallery if no how-tos */
+    gallerySubtitleEmpty: string;
     /** Header for the how-to space page */
     header: string;
     /** Explanation for the how-to space page */
