@@ -10,6 +10,7 @@
     import HowToCanvas from './HowToCanvas.svelte';
     import HowToDrafts from './HowToDrafts.svelte';
     import HowToForm from './HowToForm.svelte';
+    import HowToView from './HowToView.svelte';
 
     const user = getUser();
 
@@ -45,6 +46,8 @@
     </Header>
 
     <HowToForm />
+
+    <HowToView howToId="testid" />
 
     <HowToDrafts />
 

@@ -8,6 +8,7 @@ import {
     collection,
     deleteDoc,
     doc,
+    getDoc,
     getDocs,
     onSnapshot,
     query,
@@ -354,6 +355,33 @@ export class HowToDatabase {
             } else {
                 return undefined;
             }
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /** Get a how-to from ID. Empty if none exist. Undefined if how-to doesn't exist, false if there was an error.*/
+    async getHowTo(howToId: string, galleryId: string): Promise<HowTo | undefined | false> {
+        // do we have the how-tos cached? return it.
+        const howtos = this.howtos.get(galleryId);
+        if (howtos) return howtos.filter((ht) => ht.getHowToId() === howToId)[0];
+
+        // if not, see if it's in the database
+        if (firestore === undefined) return undefined;
+        try {
+            const howToDoc = await getDoc(
+                doc(firestore, HowTosCollection, howToId),
+            );
+            if (howToDoc.exists()) {
+                const remoteHowTo = howToDoc.data();
+                if (remoteHowTo === undefined) return undefined;
+
+                const newHowTo = new HowTo(remoteHowTo as HowToDocument);
+                // Update the doc locally but do not persist, we already know it's in the database
+                this.updateHowTo(newHowTo, false);
+
+                return newHowTo;
+            } else return undefined;
         } catch (error) {
             return false;
         }

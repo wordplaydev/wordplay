@@ -1,10 +1,22 @@
 <script lang="ts">
+    import Subheader from '@components/app/Subheader.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     let show: boolean = false;
+    let notify: boolean = true;
+    let howToContent: string = '';
+
+    function saveDraft() {
+        console.log(howToContent);
+    }
+
+    function postHowTo() {
+        console.log(howToContent);
+    }
 </script>
 
 <Dialog
@@ -17,5 +29,59 @@
         large: true,
     }}
 >
+    <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
 
+    <FormattedEditor
+        placeholder={(l) => l.ui.howto.newHowTo.editorPlaceholder}
+        description={(l) => l.ui.howto.newHowTo.editorDescription}
+        bind:text={howToContent}
+        id="howto-prompt"
+    />
+
+    <div class="toolbar">
+        <label for="notify-checked">
+            <Checkbox
+                id="notify-checked"
+                on={notify}
+                changed={(value) => (notify = value ?? true)}
+                label={(l) => l.ui.howto.newHowTo.notificationOptOut}
+            />
+            <LocalizedText
+                path={(l) => l.ui.howto.newHowTo.notificationOptOut}
+            />
+        </label>
+        <Button
+            tip={(l) => l.ui.howto.newHowTo.save.tip}
+            label={(l) => l.ui.howto.newHowTo.save.label}
+            action={() => {
+                saveDraft();
+                show = false;
+            }}
+            active={true}
+        />
+        <Button
+            tip={(l) => l.ui.howto.newHowTo.post.tip}
+            label={(l) => l.ui.howto.newHowTo.post.label}
+            action={() => {
+                postHowTo();
+                show = false;
+            }}
+            active={true}
+            submit={true}
+        />
+    </div>
 </Dialog>
+
+<style>
+    .toolbar {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        padding-bottom: var(--wordplay-spacing);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        padding-top: var(--wordplay-spacing);
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+    }
+</style>

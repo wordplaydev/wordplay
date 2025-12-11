@@ -35,6 +35,10 @@ type PageText = {
         save: ButtonText;
         /** Checkbox text for opting out of notifying subscribers */
         notificationOptOut: string;
+        /** How-to prompt / editor placeholder and description text */
+        prompt: string;
+        editorPlaceholder: string;
+        editorDescription: string;
     },
     error: {
         /** When the how-to is not known or is not public */

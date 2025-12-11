@@ -9808,6 +9808,12 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for the how-to addition button"
                     },
+                    "editorDescription": {
+                      "type": "string"
+                    },
+                    "editorPlaceholder": {
+                      "type": "string"
+                    },
                     "form": {
                       "$ref": "#/definitions/DialogText",
                       "description": "Dialog text for how-to form"
@@ -9820,6 +9826,10 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for submitting the how-to"
                     },
+                    "prompt": {
+                      "description": "How-to prompt / editor placeholder and description text",
+                      "type": "string"
+                    },
                     "save": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for saving a how-to draft"
@@ -9830,7 +9840,10 @@
                     "form",
                     "post",
                     "save",
-                    "notificationOptOut"
+                    "notificationOptOut",
+                    "prompt",
+                    "editorPlaceholder",
+                    "editorDescription"
                   ],
                   "type": "object"
                 }

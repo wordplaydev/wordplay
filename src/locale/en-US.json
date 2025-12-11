@@ -4778,17 +4778,20 @@
                 },
                 "form": {
                     "header": "Create a new how-to",
-                    "explanation": "Tell us the story of how you learned something."
+                    "explanation": ""
                 },
                 "post": {
-                    "label": "Post",
+                    "label": "📣 Post",
                     "tip": "Post your how-to to the space"
                 },
                 "save": {
-                    "label": "Save draft",
+                    "label": "💾 Save draft",
                     "tip": "Save your how-to as a draft"
                 },
-                "notificationOptOut": "Notify subscribers that a new how-to has been posted"
+                "notificationOptOut": "Notify subscribers that a new how-to has been posted",
+                "prompt": "Tell us the story of how you discovered this",
+                "editorPlaceholder": "Write your how-to here",
+                "editorDescription": "A text box to write your how-to"
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."
