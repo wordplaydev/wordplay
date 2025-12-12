@@ -4716,7 +4716,8 @@
                     "show": "$~ändra språk",
                     "replace": "$~använd den här lokalen",
                     "add": "$~använd den här lokalen och de nuvarande",
-                    "remove": "$~ta bort den här lokalen"
+                    "remove": "$~ta bort den här lokalen",
+                    "menu": "$?"
                 }
             },
             "help": {
@@ -4909,7 +4910,8 @@
                 "message": "$~Var är det här stället? Kan vi gå hem?"
             },
             "landing": {
-                "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
+                "value": "$!Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
+                "chooseLocales": "$?",
                 "description": [
                     "$~Wordplay är ett programmeringsspråk som gör att du kan:",
                     "$~• Lekfullt animera ord och emojis 🤪",

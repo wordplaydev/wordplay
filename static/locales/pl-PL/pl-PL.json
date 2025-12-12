@@ -4721,7 +4721,8 @@
                     "show": "$~zmień ustawienia regionalne",
                     "replace": "$~użyj tej lokalizacji",
                     "add": "$~użyj tej lokalizacji i bieżących",
-                    "remove": "$~usuń tę lokalizację"
+                    "remove": "$~usuń tę lokalizację",
+                    "menu": "$?"
                 }
             },
             "help": {
@@ -4914,7 +4915,8 @@
                 "message": "$~Gdzie jest to miejsce? Czy możemy wrócić do domu?"
             },
             "landing": {
-                "value": "$~Twórz z nami interaktywne historie przy użyciu słów, symboli, emotikonów i kodu!",
+                "value": "$!Twórz z nami interaktywne historie przy użyciu słów, symboli, emotikonów i kodu!",
+                "chooseLocales": "$?",
                 "description": [
                     "$~Wordplay to język programowania umożliwiający:",
                     "$~• Zabawnie animowane słowa i emotikony 🤪",

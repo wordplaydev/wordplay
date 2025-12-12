@@ -4,6 +4,7 @@
     import Header from '@components/app/Header.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import { getUser } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         DOCUMENTATION_SYMBOL,
@@ -18,12 +19,54 @@
     import BigLink from '../components/app/BigLink.svelte';
     import Writing from '../components/app/Writing.svelte';
     import MarkupHTMLView from '../components/concepts/MarkupHTMLView.svelte';
+    import LocaleChooser from '../components/settings/LocaleChooser.svelte';
+    import { DB } from '../db/Database';
+    import { getLocaleLanguageName } from '../locale/LocaleText';
+    import { SupportedLocales } from '../locale/SupportedLocales';
     import Characters from '../lore/BasisCharacters';
     import Emotion from '../lore/Emotion';
     import Beta from './Beta.svelte';
     import Iconified from './Iconified.svelte';
 
     const user = getUser();
+
+    let index = $state(0);
+    let interval: ReturnType<typeof setInterval> | null = null;
+    let isHovering = $state(false);
+
+    const rotatingLocale = $derived(SupportedLocales[index]);
+    const rotatingLabel = $derived(getLocaleLanguageName(rotatingLocale));
+
+    function startRotation() {
+        if (interval || isHovering) return;
+        interval = setInterval(() => {
+            index = (index + 1) % SupportedLocales.length;
+        }, 4000);
+    }
+
+    function stopRotation() {
+        if (interval) {
+            clearInterval(interval);
+            interval = null;
+        }
+    }
+
+    $effect(() => {
+        if (isHovering) {
+            stopRotation();
+            return;
+        }
+        startRotation();
+    });
+
+    let showLocaleChooser = $state(false);
+    function openLocaleMenu() {
+        showLocaleChooser = true;
+    }
+
+    function switchToCurrentLocale() {
+        DB.Locales.setLocales([rotatingLocale]);
+    }
 </script>
 
 <svelte:head>
@@ -47,11 +90,44 @@
                 emotion={Emotion.happy}
                 big
                 >{#snippet content()}
-                    <MarkupHTMLView markup={(l) => l.ui.page.landing.value} />
-                {/snippet}</Speech
-            >
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.page.landing.value}
+                        inline
+                    />
+                    <!-- svelte-ignore a11y_no_static_element_interactions -->
+                    <span
+                        class="locale-button-wrapper"
+                        onmouseenter={() => (isHovering = true)}
+                        onmouseleave={() => (isHovering = false)}
+                    >
+                        {#key rotatingLabel}
+                            <Button
+                                tip={(l) => l.ui.dialog.locale.button.replace}
+                                action={switchToCurrentLocale}
+                                background
+                                classes="locale-picker"
+                            >
+                                <span class="locale-word">{rotatingLabel}</span>
+                            </Button>
+                        {/key}
+                    </span>
+                    <LocalizedText
+                        path={(l) => l.ui.page.landing.chooseLocales}
+                    />
+                    <Button
+                        tip={(l) => l.ui.dialog.locale.button.show}
+                        action={openLocaleMenu}
+                        background
+                        classes="locale-picker"
+                        label={(l) => l.ui.dialog.locale.button.menu}
+                    ></Button>.
+                {/snippet}
+            </Speech>
         </div>
     </div>
+
+    <LocaleChooser bind:show={showLocaleChooser} showButton={false} />
+
     <MarkupHTMLView markup={(l) => l.ui.page.landing.description} />
     {#if $user === null}
         <br />
@@ -193,6 +269,49 @@
         margin-top: 2em;
         margin-bottom: 2em;
         max-width: 100%;
+    }
+
+    .welcome :global(.scroller),
+    .welcome :global(.message) {
+        overflow: visible;
+    }
+
+    .welcome :global(.message) {
+        line-height: 1.7;
+    }
+
+    .locale-button-wrapper {
+        display: inline-block;
+    }
+
+    :global(button.locale-picker.background.padding) {
+        padding-top: calc(var(--wordplay-spacing) / 3);
+        padding-bottom: calc(var(--wordplay-spacing) / 3);
+    }
+
+    .locale-word {
+        display: inline-block;
+        animation: slideBounce 0.5s cubic-bezier(0.25, 1.2, 0.5, 1) forwards;
+    }
+
+    @keyframes slideBounce {
+        0% {
+            transform: translateY(-80%);
+            opacity: 0;
+        }
+        50% {
+            transform: translateY(5%);
+            opacity: 1;
+        }
+        70% {
+            transform: translateY(-2%);
+        }
+        85% {
+            transform: translateY(1%);
+        }
+        100% {
+            transform: translateY(0);
+        }
     }
 
     .actions {

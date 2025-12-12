@@ -7,6 +7,8 @@ type PageText = {
     description: Template | Template[];
     /** The landing page beta warning */
     beta: Template[];
+    /** Text between locale buttons - "or choose" */
+    chooseLocales: string;
     /** The subtitles below links */
     link: {
         /** What content is on the about page */
@@ -33,3 +35,4 @@ type PageText = {
 };
 
 export type { PageText as default };
+
