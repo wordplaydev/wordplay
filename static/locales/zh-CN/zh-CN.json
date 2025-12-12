@@ -4180,6 +4180,10 @@
                 },
                 "addcolumn": "$~在此列之前添加一列",
                 "removecolumn": "$~移除此列"
+            },
+            "formatted": {
+                "edit": "$~编辑格式化文本",
+                "preview": "$~预览格式化文本"
             }
         },
         "tile": {
@@ -4656,7 +4660,7 @@
                     "replace": "替换这个语言",
                     "add": "添加语言",
                     "remove": "删除语言",
-                    "menu": "$?"
+                    "menu": "$~其他语言"
                 }
             },
             "help": {
@@ -4813,7 +4817,7 @@
             },
             "landing": {
                 "value": "$!与我们一起用文字、符号、表情符号和代码创建互动故事！",
-                "chooseLocales": "$?",
+                "chooseLocales": "$~或选择",
                 "description": [
                     "Wordplay 是一种编程语言，它使你能够：",
                     "• 以有趣的方式为文字和表情符号制作动画 🤪︎",

@@ -4200,6 +4200,10 @@
                 },
                 "addcolumn": "$~Añade una columna antes de esta columna.",
                 "removecolumn": "$~eliminar esta columna"
+            },
+            "formatted": {
+                "edit": "$~editar texto formateado",
+                "preview": "$~vista previa del texto formateado"
             }
         },
         "tile": {
@@ -4680,7 +4684,7 @@
                     "replace": "reemplazar idomas",
                     "add": "añadir idioma",
                     "remove": "quitar idioma",
-                    "menu": "$?"
+                    "menu": "$~otros idiomas"
                 }
             },
             "help": {
@@ -4837,7 +4841,7 @@
             },
             "landing": {
                 "value": "$!¡Crea historias interactivas con palabras, símbolos, emojis y codifica con nosotros!",
-                "chooseLocales": "$?",
+                "chooseLocales": "$~o elige",
                 "description": [
                     "Wordplay es un lenguaje de programación que te permite:",
                     "• Anima palabras y emojis de forma divertida 🤪︎",

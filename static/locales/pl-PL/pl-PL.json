@@ -4223,6 +4223,10 @@
                 },
                 "addcolumn": "$~dodaj kolumnę przed tą kolumną",
                 "removecolumn": "$~usuń tę kolumnę"
+            },
+            "formatted": {
+                "edit": "$~edytuj sformatowany tekst",
+                "preview": "$~podgląd sformatowanego tekstu"
             }
         },
         "tile": {
@@ -4723,7 +4727,7 @@
                     "replace": "$~użyj tej lokalizacji",
                     "add": "$~użyj tej lokalizacji i bieżących",
                     "remove": "$~usuń tę lokalizację",
-                    "menu": "$?"
+                    "menu": "$~inne języki"
                 }
             },
             "help": {
@@ -4917,7 +4921,7 @@
             },
             "landing": {
                 "value": "$!Twórz z nami interaktywne historie przy użyciu słów, symboli, emotikonów i kodu!",
-                "chooseLocales": "$?",
+                "chooseLocales": "$~lub wybierz",
                 "description": [
                     "$~Wordplay to język programowania umożliwiający:",
                     "$~• Zabawnie animowane słowa i emotikony 🤪",

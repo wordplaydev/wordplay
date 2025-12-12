@@ -4176,6 +4176,10 @@
                 },
                 "addcolumn": "$~在此列之前新增一列",
                 "removecolumn": "$~刪除此列"
+            },
+            "formatted": {
+                "edit": "$~編輯格式化文字",
+                "preview": "$~預覽格式化文字"
             }
         },
         "tile": {
@@ -4652,7 +4656,7 @@
                     "replace": "替換這個語言",
                     "add": "新增語言",
                     "remove": "刪除語言",
-                    "menu": "$?"
+                    "menu": "$~其他語言"
                 }
             },
             "help": {
@@ -4809,7 +4813,7 @@
             },
             "landing": {
                 "value": "$!與我們一起使用文字、符號、表情符號和代碼來創建互動故事！",
-                "chooseLocales": "$?",
+                "chooseLocales": "$~或選擇",
                 "description": [
                     "Wordplay 是一種程式語言，讓您能夠：",
                     "• 有趣的動畫單字和表情符號🤪︎",
