@@ -10,6 +10,7 @@
         "project": "project",
         "document": "explain",
         "source": "source",
+        "code": "code",
         "input": "input",
         "output": "output",
         "convert": "convert",
@@ -4219,6 +4220,10 @@
                 },
                 "addcolumn": "add a column before this column",
                 "removecolumn": "remove this column"
+            },
+            "formatted": {
+                "edit": "edit formatted text",
+                "preview": "preview formatted text"
             }
         },
         "tile": {
@@ -4556,7 +4561,7 @@
             "button": {
                 "home": "return home",
                 "back": "return to previous",
-                "toggle": "show and hide this concept group"
+                "toggle": "expand and collapse this concept group"
             },
             "field": {
                 "search": "keywords"

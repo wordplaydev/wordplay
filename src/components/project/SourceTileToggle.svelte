@@ -1,5 +1,6 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Templates from '@concepts/Templates';
     import type Project from '@db/projects/Project';
     import Context from '@nodes/Context';
@@ -57,7 +58,13 @@
     {#if primaryCount === 0 && secondaryCount === 0}<Emoji
             >{Characters.Program.symbols}</Emoji
         >{/if}
-    {$locales.getName(source.names)}
+    <!-- Only one source? Use a label to indicate that this is where the code is. Otherwise, use the source names. -->
+    {#if project.getSources().length > 1}{$locales.getName(
+            source.names,
+        )}{:else}<em
+            ><LocalizedText path={(locale) => locale.term.code}
+            ></LocalizedText></em
+        >{/if}
 </Toggle>
 
 <style>

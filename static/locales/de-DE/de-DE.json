@@ -43,7 +43,8 @@
         "key": "Schlüssel",
         "help": "Hilfe",
         "feedback": "Bewertung",
-        "how": "$~Wie man"
+        "how": "$~Wie man",
+        "code": "$~Code"
     },
     "token": {
         "EvalOpen": "Auswertung öffnen",

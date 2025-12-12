@@ -3,10 +3,7 @@
     import { locales } from '@db/Database';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
-    import {
-        getLocaleLanguageName,
-        getLocaleRegionNames,
-    } from '@locale/LocaleText';
+    import { getLanguageLocalDescription } from '@locale/LocaleText';
     import { LOCALE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
@@ -32,12 +29,9 @@
                 label: $locales.get((l) => l.ui.output.options.default),
             },
             ...localesUsed.map((l) => {
-                const locale = localeToString(l);
-                const language = getLocaleLanguageName(locale);
-                const regions = getLocaleRegionNames(locale);
                 return {
-                    value: locale,
-                    label: `${language ?? '–'}${regions.length > 0 ? ` [${regions.join('|')}]` : ''}`,
+                    value: localeToString(l),
+                    label: getLanguageLocalDescription(l),
                 };
             }),
         ]}

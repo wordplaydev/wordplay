@@ -14,6 +14,7 @@
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         id: string;
         view?: HTMLTextAreaElement | undefined;
+        onkeydown?: (event: KeyboardEvent) => void;
     }
 
     let {
@@ -27,6 +28,7 @@
         dwelled = undefined,
         id,
         view = $bindable(undefined),
+        onkeydown = undefined,
     }: Props = $props();
 
     let focused = $state(false);
@@ -87,7 +89,10 @@
         }}
         onfocus={() => (focused = true)}
         oninput={handleInput}
-        onkeydown={(e) => e.stopPropagation()}
+        onkeydown={(e) => {
+            e.stopPropagation();
+            if (onkeydown) onkeydown(e);
+        }}
     ></textarea>
     {#if message !== undefined}
         <div class="message" id="id-{id}">{$locales.get(message)}</div>

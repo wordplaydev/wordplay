@@ -9,6 +9,8 @@ type TermTexts = {
     document: string;
     /** What to call a Wordplay project */
     project: string;
+    /** What to call code */
+    code: string;
     /** What to call a Wordplay project source file */
     source: string;
     /** What to call data that goes into a program */

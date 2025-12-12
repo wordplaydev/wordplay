@@ -169,28 +169,31 @@ const PurgeDayDelay = 30;
 const MillisecondsPerDay = 24 * 60 * 60 * 1000;
 
 /** Every day, delete projects that were archived more than 30 days ago. */
-export const purgeArchivedProjects = onSchedule('every day 00:00', async () => {
-    // Fetch all archived projects that were last modified more than 30 days ago
-    const projectsRef = db.collection('projects');
-    const purgeable = await projectsRef
-        .where('archived', '==', true)
-        .where(
-            'timestamp',
-            '<',
-            Date.now() - PurgeDayDelay * MillisecondsPerDay,
-        )
-        .get();
+export const purgeArchivedProjects = onSchedule(
+    { schedule: 'every day 00:00', timeZone: 'UTC' },
+    async () => {
+        // Fetch all archived projects that were last modified more than 30 days ago
+        const projectsRef = db.collection('projects');
+        const purgeable = await projectsRef
+            .where('archived', '==', true)
+            .where(
+                'timestamp',
+                '<',
+                Date.now() - PurgeDayDelay * MillisecondsPerDay,
+            )
+            .get();
 
-    const projectIDs: string[] = [];
-    purgeable.forEach((doc) => projectIDs.push(doc.id));
+        const projectIDs: string[] = [];
+        purgeable.forEach((doc) => projectIDs.push(doc.id));
 
-    // Don't delete all at once; we'll hit a request limit on large purges.
-    await PromisePool.for(projectIDs)
-        .withConcurrency(3)
-        .process(async (id) => {
-            projectsRef.doc(id).delete();
-        });
-});
+        // Don't delete all at once; we'll hit a request limit on large purges.
+        await PromisePool.for(projectIDs)
+            .withConcurrency(3)
+            .process(async (id) => {
+                projectsRef.doc(id).delete();
+            });
+    },
+);
 
 /**
  * Given a teacher user ID, credential information for several students, and

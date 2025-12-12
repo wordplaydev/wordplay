@@ -69,6 +69,7 @@
     });
 
     // When the spaces change, update the rendered spaces
+    // svelte-ignore state_referenced_locally
     let renderedSpace = writable(spaces ?? getPreferredSpaces(node));
     setSpaces(renderedSpace);
 
@@ -92,18 +93,21 @@
             : localized;
     }
 
+    // svelte-ignore state_referenced_locally
     let localize = writable<Locale | null>(possiblySymbolicToLocale(locale));
     setLocalize(localize);
     $effect(() => {
         localize.set(possiblySymbolicToLocale(locale));
     });
 
+    // svelte-ignore state_referenced_locally
     let showLines = writable<boolean>(lines);
     setShowLines(showLines);
     $effect(() => {
         showLines.set(lines);
     });
 
+    // svelte-ignore state_referenced_locally
     let isBlocks = writable<boolean>(blocks);
     setIsBlocks(isBlocks);
     $effect(() => {

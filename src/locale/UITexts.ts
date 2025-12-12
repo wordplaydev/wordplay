@@ -104,6 +104,13 @@ type UITexts = {
             /** The button to remove a row from the table */
             removecolumn: string;
         };
+        /** Formatted text editor */
+        formatted: {
+            /** The edit mode */
+            edit: string;
+            /** The preview mode */
+            preview: string;
+        };
     };
     /** Controls for the tiled windows in the project */
     tile: {

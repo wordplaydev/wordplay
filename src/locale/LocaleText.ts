@@ -128,13 +128,22 @@ export function getLocaleLanguageName(
     }
 }
 
-export function getLocaleRegions(locale: string): RegionCode[] {
-    const regions = locale.split('-');
-    regions.shift();
-    return regions as RegionCode[];
+export function getLanguageLocalDescription(locale: Locale) {
+    const localeString = toLocaleString(locale);
+    const language = getLocaleLanguageName(locale);
+    const regions = getLocaleRegionNames(locale);
+    return `${language ?? '–'}${regions.length > 0 ? ` [${regions.join('|')}]` : ''} (${localeString})`;
 }
 
-export function getLocaleRegionNames(locale: string): string[] {
+export function getLocaleRegions(locale: string | Locale): RegionCode[] {
+    if (typeof locale === 'string') {
+        const parts = locale.split('-');
+        parts.shift();
+        return parts.filter((part) => part in Regions) as RegionCode[];
+    } else return locale.regions;
+}
+
+export function getLocaleRegionNames(locale: string | Locale): string[] {
     const regions = getLocaleRegions(locale);
     return regions.map((r) => Regions[r]?.en).filter((r) => r !== undefined);
 }

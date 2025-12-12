@@ -43,7 +43,8 @@
         "key": "$~anahtar",
         "help": "$~Yardım",
         "feedback": "$~geri bildirim",
-        "how": "$~nasıl"
+        "how": "$~nasıl",
+        "code": "$~kod"
     },
     "token": {
         "EvalOpen": "$~değerlendirme açık",

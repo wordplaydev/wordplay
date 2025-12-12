@@ -3,6 +3,116 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.36
+
+### Fixed
+
+- Fixed stale reference warnings.
+- Worked around Firebase functions regression.
+
+### Maintenance
+
+- Updated minor versions of `svelte`, `@sveltejs/kit`, `prettier`, `tsx`, `vite`, `vitest`, `firebase-functions`.
+- Removed `ts-jest` dependency.
+
+## 0.6.35
+
+### Added
+
+- Fixed #865: Added formatted text editor with basic toolbar and keyboard shortcuts.
+
+### Fixed
+
+- Fixed #866: Inconsistent exit behavior when leaving output full screen mode.
+
+### Maintenance
+
+- Updated minor versions of `@playwright/test`, `prettier`, `svelte`, `vitest`, `zod`, `nodemailer`
+
+## 0.6.34
+
+### Fixed
+
+- Removed extra space before bullets.
+
+### Maintenance
+
+- Updated minor versions of SvelteKit, Svelte, vite, vitest.
+- Removed unused `firebase-functions` and `firebase-functions-test` dependencies.
+- Updated functions dependencies: `@google-cloud/translate`, `@types/nodemailer`, `firebase-admin`, `firebase-functions`
+- Override `cookie` package to resolve vulnerability.
+
+## 0.6.33
+
+### Fixed
+
+- Fixed #855: Show editor and output locale chooser when there is at least one explicit tag.
+- Fixed #856: Added standard tooltip and drop down arrow to options.
+- Fixed #852: Prefer full names over symbolic names in translation.
+
+### Maintenance
+
+- Removed unused `@types/npm`, and `@types/uuid` dependencies.
+- Updated minor versions of Svelte, SvelteKit, svelte-check, vitest, Firebase.
+
+## 0.6.32
+
+### Maintenance
+
+- Updated minor version of Svelte.
+
+## 0.6.31
+
+### Fixed
+
+- Fixed #854, accounting for lack of COLRv1 support in Safari.
+
+### Maintenance
+
+- Updated minor versions of firebase-admin, svelte, vite
+- Updated to vitest 4.
+
+## 0.6.30
+
+### Maintenance
+
+- Ensure types exist before Playwright tests.
+- Fixed font-size in footer. For some reason we made it small.
+- Updated minor versions of Svelte, SvelteKit, Firebase, vitest, nodemailer, firebase-functions.
+- Improved styling of drop down size
+- Fixed settings label layout.
+- Consistent language descriptions in locale choosers.
+
+## 0.6.29
+
+### Maintenance
+
+- Updated minor versions of Axe, Svelte, SvelteKit, firebase-functions, vite, vitest.
+- Fixed #840: improved source tile toggle contrast and labels.
+- Fixed #841: improved concept group expand/collapse visual design.
+- Don't permit whitespace wrap in subheaders.
+- Fixed #843: Don't give tutorial projects a name, in case locale changes.
+- Fixed #845: Resolved sticky tutorial navigation when concept link clicked.
+
+## 0.6.28
+
+### Fixed
+
+- Fixed login regression introduced by Svelte regression.
+
+## 0.6.27
+
+### Fixed
+
+- Made undo, redo buttons important, other navigation commands unimportant.
+- Fixed #838: Consume enter/space after glyph insertion in editor.
+- Prevent jiggle of creator view in project footer after edits.
+- Fixed #839: Ensure correct locales in Project basis to match documentation to selected locale.
+
+### Maintenance
+
+- Updated minor versions of Axe, Google Translate, Svelte, chalk, decimal.js, dexie, firebase, prettier, typescript, vite, vitest, zod.
+
 ## 0.6.26
 
 ### Maintenance

@@ -75,10 +75,11 @@
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
                         >{#each paragraphOrList.items as paragraph}<li
-                                >{#each paragraph.segments as segment}<SegmentHTMLView
+                                >{#each paragraph.segments as segment, index}<SegmentHTMLView
                                         {segment}
                                         {spaces}
                                         alone={paragraph.segments.length === 1}
+                                        first={index === 0}
                                     />{/each}</li
                             >{/each}</ul
                     >{/if}{/each}

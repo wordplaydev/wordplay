@@ -13,6 +13,7 @@
         icon?: string;
         label?: LocaleTextAccessor;
         children?: import('svelte').Snippet;
+        testid?: string;
     }
 
     let {
@@ -23,6 +24,7 @@
         background = false,
         icon,
         label,
+        testid,
         children,
     }: Props = $props();
 
@@ -37,6 +39,7 @@
         action={() => (confirming = !confirming)}
         active={enabled}
         {label}
+        {testid}
         >{#if confirming}{CANCEL_SYMBOL}{:else if children}{@render children()}{:else if label}<LocalizedText
                 path={label}
             />{/if}</Button
@@ -46,6 +49,7 @@
             {background}
             stretch
             {tip}
+            testid={testid + '-confirm'}
             action={() => action()}
             label={prompt}
         />

@@ -10,6 +10,8 @@
 </script>
 
 <script lang="ts">
+    import { getTip } from '@components/project/Contexts';
+
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type {
@@ -52,11 +54,18 @@
         if (view)
             setKeyboardFocus(view, 'Restoring focus after options selection.');
     }
+
+    let hint = getTip();
+    function showTip() {
+        if (view) hint.show(title, view);
+    }
+    function hideTip() {
+        hint.hide();
+    }
 </script>
 
 <select
     aria-label={title}
-    {title}
     bind:value
     {id}
     onchange={() => commitChange(value)}
@@ -64,6 +73,13 @@
     style:width
     disabled={!editable}
     class:code
+    onpointerenter={showTip}
+    onpointerleave={hideTip}
+    ontouchstart={showTip}
+    ontouchend={hideTip}
+    ontouchcancel={hideTip}
+    onfocus={showTip}
+    onblur={hideTip}
 >
     {#each options as option}
         {#if 'options' in option}
@@ -84,18 +100,23 @@
 
 <style>
     select {
-        appearance: none;
         border: none;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        padding-top: calc(var(--wordplay-spacing) / 2);
+        padding-bottom: calc(var(--wordplay-spacing) / 2);
         font-family: var(--wordplay-app-font);
+        font-size: var(--wordplay-code-font);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
     }
 
+    select:after {
+        content: 'wfdf';
+    }
+
     .code {
-        font-family: var;
+        font-family: var(--wordplay-code-font);
     }
 </style>

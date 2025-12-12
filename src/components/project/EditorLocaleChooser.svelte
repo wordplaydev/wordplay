@@ -3,7 +3,7 @@
     import { locales } from '@db/Database';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
-    import { getLocaleLanguageName } from '@locale/LocaleText';
+    import { getLanguageLocalDescription } from '@locale/LocaleText';
 
     let {
         locale,
@@ -27,12 +27,9 @@
             label: $locales.get((l) => l.ui.source.options.locale.all),
         },
         ...options.map((locale) => {
-            const localeString = localeToString(locale);
             return {
-                value: localeString,
-                label: localeString
-                    ? (getLocaleLanguageName(locale) ?? '—')
-                    : '—',
+                value: localeToString(locale),
+                label: getLanguageLocalDescription(locale),
             };
         }),
     ]}

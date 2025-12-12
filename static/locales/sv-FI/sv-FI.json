@@ -43,7 +43,8 @@
         "key": "$~nyckel",
         "help": "$~Hjälp",
         "feedback": "$~feed-back",
-        "how": "$~hur man"
+        "how": "$~hur man",
+        "code": "$~koda"
     },
     "token": {
         "EvalOpen": "$~utvärdering öppen",

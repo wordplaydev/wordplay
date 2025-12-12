@@ -136,7 +136,13 @@ export enum Category {
 }
 
 export function toShortcut(
-    command: Command,
+    command: {
+        control: boolean | undefined;
+        alt: boolean | undefined;
+        shift: boolean | undefined;
+        key?: string;
+        keySymbol?: string;
+    },
     hideControl = false,
     hideShift = false,
     hideAlt = false,
@@ -144,9 +150,9 @@ export function toShortcut(
     const mac =
         typeof navigator !== 'undefined' &&
         navigator.userAgent.indexOf('Mac') !== -1;
-    return `${command.control && !hideControl ? (mac ? '⌘ ' : 'Ctrl + ') : ''}${
-        command.alt && !hideAlt ? (mac ? '⎇ ' : 'Alt + ') : ''
-    }${command.shift && !hideShift ? (mac ? '⇧ ' : 'Shift + ') : ''}${
+    return `${command.control && !hideControl ? (mac ? '⌘' : 'Ctrl+') : ''}${
+        command.alt && !hideAlt ? (mac ? '⎇' : 'Alt + ') : ''
+    }${command.shift && !hideShift ? (mac ? '⇧' : 'Shift + ') : ''}${
         command.keySymbol ?? command.key ?? '-'
     }`;
 }
@@ -203,7 +209,7 @@ function handleInsert(context: CommandContext, symbol: string) {
 }
 
 export const ShowKeyboardHelp: Command = {
-    uiid:'1',
+    uiid: '1',
     symbol: '⌨️',
     description: (l) => l.ui.project.help,
     visible: Visibility.Invisible,
@@ -222,7 +228,7 @@ export const ShowKeyboardHelp: Command = {
 };
 
 export const IncrementLiteral: Command = {
-    uiid:'2',
+    uiid: '2',
     symbol: '+',
     description: (l) => l.ui.source.cursor.incrementLiteral,
     visible: Visibility.Touch,
@@ -235,12 +241,10 @@ export const IncrementLiteral: Command = {
     active: ({ caret }) =>
         caret ? caret.getAdjustableLiteral() !== undefined : false,
     execute: ({ caret }) => caret?.adjustLiteral(undefined, 1) ?? false,
-
-
 };
 
 export const DecrementLiteral: Command = {
-    uiid:'3',
+    uiid: '3',
     symbol: '–',
     description: (l) => l.ui.source.cursor.decrementLiteral,
     visible: Visibility.Touch,
@@ -256,7 +260,7 @@ export const DecrementLiteral: Command = {
 };
 
 export const StepBack: Command = {
-    uiid:'4',
+    uiid: '4',
     symbol: '←',
     description: (l) => l.ui.timeline.button.backStep,
     visible: Visibility.Visible,
@@ -276,7 +280,7 @@ export const StepBack: Command = {
 };
 
 export const StepForward: Command = {
-    uiid:'5',
+    uiid: '5',
     symbol: '→',
     description: (l) => l.ui.timeline.button.forwardStep,
     visible: Visibility.Visible,
@@ -296,7 +300,7 @@ export const StepForward: Command = {
 };
 
 export const StepBackInput: Command = {
-    uiid:'6',
+    uiid: '6',
     symbol: '⇠',
     description: (l) => l.ui.timeline.button.backInput,
     visible: Visibility.Visible,
@@ -311,7 +315,7 @@ export const StepBackInput: Command = {
 };
 
 export const StepForwardInput: Command = {
-    uiid:'7',
+    uiid: '7',
     symbol: '⇢',
     description: (l) => l.ui.timeline.button.forwardInput,
     visible: Visibility.Visible,
@@ -326,7 +330,7 @@ export const StepForwardInput: Command = {
 };
 
 export const StepBackNode: Command = {
-    uiid:'8', 
+    uiid: '8',
     symbol: '•←',
     description: (l) => l.ui.timeline.button.backNode,
     visible: Visibility.Visible,
@@ -348,7 +352,7 @@ export const StepBackNode: Command = {
 };
 
 export const StepForwardNode: Command = {
-    uiid:'9', 
+    uiid: '9',
     symbol: '⇢•',
     description: (l) => l.ui.timeline.button.forwardNode,
     visible: Visibility.Visible,
@@ -388,7 +392,7 @@ export const Restart: Command = {
 };
 
 export const StepToStart: Command = {
-    uiid:'11',
+    uiid: '11',
     symbol: '⇤',
     description: (l) => l.ui.timeline.button.start,
     visible: Visibility.Visible,
@@ -405,7 +409,7 @@ export const StepToStart: Command = {
 };
 
 export const StepToPresent: Command = {
-    uiid:'11',
+    uiid: '11',
     symbol: '⇥',
     description: (l) => l.ui.timeline.button.present,
     visible: Visibility.Visible,
@@ -422,7 +426,7 @@ export const StepToPresent: Command = {
 };
 
 export const StepOut: Command = {
-    uiid:'12',
+    uiid: '12',
     symbol: '↑',
     description: (l) => l.ui.timeline.button.out,
     visible: Visibility.Visible,
@@ -443,7 +447,7 @@ export const StepOut: Command = {
 };
 
 export const Play: Command = {
-    uiid:'13',
+    uiid: '13',
     symbol: '▶',
     description: (l) => l.ui.timeline.button.play,
     visible: Visibility.Visible,
@@ -460,7 +464,7 @@ export const Play: Command = {
 };
 
 export const Pause: Command = {
-    uiid:'14',
+    uiid: '14',
     symbol: '⏸',
     description: (l) => l.ui.timeline.button.pause,
     visible: Visibility.Visible,
@@ -477,7 +481,7 @@ export const Pause: Command = {
 };
 
 export const ShowMenu: Command = {
-    uiid:'15', 
+    uiid: '15',
     symbol: '▾',
     description: (l) => l.ui.source.menu.show,
     visible: Visibility.Visible,
@@ -496,7 +500,7 @@ export const ShowMenu: Command = {
 };
 
 export const EnterFullscreen: Command = {
-    uiid:'16',
+    uiid: '16',
     symbol: '▶️',
     description: (l) => l.ui.tile.toggle.fullscreen.off,
     visible: Visibility.Invisible,
@@ -514,7 +518,7 @@ export const EnterFullscreen: Command = {
 };
 
 export const ExitFullscreen: Command = {
-    uiid:'17', 
+    uiid: '17',
     symbol: EDIT_SYMBOL,
     description: (l) => l.ui.tile.toggle.fullscreen.on,
     visible: Visibility.Invisible,
@@ -533,7 +537,7 @@ export const ExitFullscreen: Command = {
 };
 
 export const FocusOutput: Command = {
-    uiid:'18',
+    uiid: '18',
     symbol: STAGE_SYMBOL,
     description: (l) => l.ui.project.button.focusOutput,
     visible: Visibility.Invisible,
@@ -551,7 +555,7 @@ export const FocusOutput: Command = {
 };
 
 export const FocusSource: Command = {
-    uiid:'19',
+    uiid: '19',
     symbol: SOURCE_SYMBOL,
     description: (l) => l.ui.project.button.focusSource,
     visible: Visibility.Invisible,
@@ -570,7 +574,7 @@ export const FocusSource: Command = {
 };
 
 export const FocusDocs: Command = {
-    uiid: '20', 
+    uiid: '20',
     symbol: DOCUMENTATION_SYMBOL,
     description: (l) => l.ui.project.button.focusDocs,
     visible: Visibility.Invisible,
@@ -645,7 +649,6 @@ export const ToggleBlocks: Command = {
 
 /** The command to rule them all... inserts things during text editing mode. */
 
-
 export const InsertSymbol: Command = {
     symbol: 'a',
     description: (l) => l.ui.source.cursor.type,
@@ -672,6 +675,7 @@ export const Undo: Command = {
     alt: false,
     key: 'KeyZ',
     keySymbol: 'Z',
+    important: true,
     active: ({ database, evaluator }) =>
         database.Projects.getHistory(
             evaluator.project.getID(),
@@ -680,6 +684,28 @@ export const Undo: Command = {
         database.Projects.undoRedo(evaluator.project.getID(), -1);
         // Clear large deletion notification when user undoes
         clearLargeDeletionNotification?.();
+        // Always swallow the shortcut to avoid the browser or OS from handling it.
+        return true;
+    },
+};
+
+export const Redo: Command = {
+    symbol: REDO_SYMBOL,
+    description: (l) => l.ui.source.cursor.redo,
+    visible: Visibility.Visible,
+    category: Category.Modify,
+    shift: true,
+    control: true,
+    alt: false,
+    key: 'KeyZ',
+    keySymbol: 'Z',
+    important: true,
+    active: ({ evaluator, database }) =>
+        database.Projects.getHistory(
+            evaluator.project.getID(),
+        )?.isRedoable() === true,
+    execute: ({ database, evaluator }) => {
+        database.Projects.undoRedo(evaluator.project.getID(), 1);
         // Always swallow the shortcut to avoid the browser or OS from handling it.
         return true;
     },
@@ -895,10 +921,11 @@ const Commands: Command[] = [
         execute: ({ caret }) => caret?.right(true) ?? false,
     },
     {
-        symbol: '▣',
+        symbol: '↑',
         description: (l) => l.ui.source.cursor.parent,
         visible: Visibility.Visible,
         category: Category.Cursor,
+        important: true,
         key: 'Escape',
         keySymbol: '␛',
         alt: undefined,
@@ -938,6 +965,7 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.selectAll,
         visible: Visibility.Visible,
         category: Category.Cursor,
+        important: true,
         alt: false,
         shift: false,
         control: true,
@@ -1260,26 +1288,7 @@ const Commands: Command[] = [
     // MODIFY
     ShowMenu,
     Undo,
-    {
-        symbol: REDO_SYMBOL,
-        description: (l) => l.ui.source.cursor.redo,
-        visible: Visibility.Visible,
-        category: Category.Modify,
-        shift: true,
-        control: true,
-        alt: false,
-        key: 'KeyZ',
-        keySymbol: 'Z',
-        active: ({ evaluator, database }) =>
-            database.Projects.getHistory(
-                evaluator.project.getID(),
-            )?.isRedoable() === true,
-        execute: ({ database, evaluator }) => {
-            database.Projects.undoRedo(evaluator.project.getID(), 1);
-            // Always swallow the shortcut to avoid the browser or OS from handling it.
-            return true;
-        },
-    },
+    Redo,
     ToggleBlocks,
     {
         symbol: '↲',

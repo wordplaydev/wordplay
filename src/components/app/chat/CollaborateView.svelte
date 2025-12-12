@@ -8,10 +8,10 @@
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
+    import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
@@ -27,7 +27,6 @@
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { tick, untrack } from 'svelte';
     import CreatorView from '../CreatorView.svelte';
-    import Link from '../Link.svelte';
     import Loading from '../Loading.svelte';
 
     const {
@@ -262,7 +261,7 @@
             </div>
             <form class="new" data-sveltekit-keepfocus>
                 <div class="controls">
-                    <TextBox
+                    <FormattedEditor
                         id="new-message"
                         placeholder={(l) =>
                             l.ui.collaborate.field.message.placeholder}
@@ -282,19 +281,6 @@
                         /></Button
                     >
                 </div>
-                <div class="formats"
-                    >/<em><LocalizedText path={(l) => l.token.Italic} /></em>/ *<strong
-                        ><LocalizedText path={(l) => l.token.Bold} /></strong
-                    >* ^<span style="font-weight: bolder"
-                        ><LocalizedText path={(l) => l.token.Extra} /></span
-                    >^ _&nbsp;<u
-                        ><LocalizedText path={(l) => l.token.Underline} /></u
-                    >&nbsp;_ \<code
-                        ><LocalizedText path={(l) => l.token.Code} /></code
-                    >\ &lt;<LocalizedText path={(l) => l.token.Link} />@<Link
-                        to=".">https://...</Link
-                    >&gt;</div
-                >
             </form>
         {/if}
     </section>
@@ -326,11 +312,6 @@
         flex-direction: column;
         padding-top: var(--wordplay-spacing);
         padding-bottom: var(--wordplay-spacing);
-    }
-
-    .formats {
-        color: var(--wordplay-header);
-        font-size: calc(0.75 * var(--wordplay-small-font-size));
     }
 
     .new {

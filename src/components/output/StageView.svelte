@@ -2,6 +2,7 @@
     const HalfGridlineThickness = 0.1;
 </script>
 
+<!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import { loadedFonts } from '@basis/Fonts';
     import type Project from '@db/projects/Project';
