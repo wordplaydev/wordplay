@@ -99,8 +99,8 @@
                         class="locale-button-wrapper"
                         onmouseenter={() => (isHovering = true)}
                         onmouseleave={() => (isHovering = false)}
-                        onfocus={() => (isHovering = true)}
-                        onblur={() => (isHovering = false)}
+                        onfocusin={() => (isHovering = true)}
+                        onfocusout={() => (isHovering = false)}
                     >
                         {#key rotatingLabel}
                             <Button
