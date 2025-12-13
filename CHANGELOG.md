@@ -9,6 +9,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Merged #875: Cycling language chooser on landing page.
 
+### Maintenance
+
+- Updated minor versions of Svelte, SvelteKit, vite.
+
 ## 0.6.36
 
 ### Fixed
