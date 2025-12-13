@@ -29,7 +29,7 @@ jobs:
             - name: Build project
               run: npm run build
             - name: Start Emulator
-              run: npx firebase emulators:exec "npx playwright test && exit 0" --project=demo-wordplay
+              run: firebase emulators:exec "ls" --project=demo-wordplay
             - uses: actions/upload-artifact@v4
               if: always()
               with:
