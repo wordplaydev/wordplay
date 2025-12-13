@@ -37,7 +37,7 @@ export default defineConfig({
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: 'http://localhost:4173',
+        baseURL: 'http://127.0.0.1:5002',
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
         viewport: { width: 1280, height: 720 },
@@ -55,11 +55,14 @@ export default defineConfig({
     /* Remove any lingering authentication state before starting the tests */
     webServer: {
         name: 'Vite build preview',
-        command: 'rm -rf playwright/.auth && npm run preview',
-        url: 'http://localhost:4173/',
+        command: '',
+        url: 'http://127.0.0.1:5002/',
         timeout: 180000,
         reuseExistingServer: !process.env.CI,
         stdout: 'pipe',
         stderr: 'pipe',
     },
+
+    /* Clean stuff up after tests */
+    globalTeardown: './tests/teardown.ts',
 });

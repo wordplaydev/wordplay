@@ -21,7 +21,7 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
 
             // Important: make sure we authenticate in a clean environment by unsetting storage state.
             const page = await browser.newPage({
-                baseURL: 'http://localhost:4173',
+                baseURL: 'http://127.0.0.1:5002',
             });
 
             // Acquire a unique account, for example create a new one.

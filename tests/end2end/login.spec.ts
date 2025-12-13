@@ -1,7 +1,9 @@
 import { expect, test } from '../../playwright/fixtures';
 
 test('verify default login, logout, and login form', async ({ page }) => {
-    // Go to the join page.
+    // fixtures.ts logins in the user prior to this.
+
+    // Go to the profile page and wait for the auth to load.
     await page.goto('/profile');
 
     // Verify that the profile username page is visible
