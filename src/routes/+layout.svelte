@@ -35,8 +35,8 @@
     let loaded = $state(false);
     let lag = $state(false);
 
-    /** Create a user store to share globally. */
-    const user = writable<User | null>(null);
+    /** Create a user store to share globally. Undefined means we don't know if the user is logged in yet. Null means not logged in. */
+    const user = writable<User | null | undefined>(undefined);
     setUser(user);
 
     // Create a store context for the announcer function.

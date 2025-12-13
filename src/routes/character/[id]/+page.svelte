@@ -8,7 +8,11 @@
     import Page from '@components/app/Page.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getAnnounce, getUser } from '@components/project/Contexts';
+    import {
+        getAnnounce,
+        getUser,
+        isAuthenticated,
+    } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -188,7 +192,9 @@
 
     /** Always have an up to date character to render and save */
     let editedCharacter: Character | null = $derived(
-        $user === null || $user.email === null || typeof persisted === 'string'
+        !isAuthenticated($user) ||
+            $user.email === null ||
+            typeof persisted === 'string'
             ? null
             : {
                   ...persisted,
@@ -243,8 +249,8 @@
     let failedProjects = $state<Project[]>([]);
     let showError = $state(false);
 
-    /** Don't save if the name is not avaialble*/
-    let savable = $derived($user !== null && $user.email !== null);
+    /** Don't save if the name is not available */
+    let savable = $derived(isAuthenticated($user) && $user.email !== null);
 
     let saving: number | undefined = undefined;
     async function save() {
@@ -2215,7 +2221,7 @@
             </Notice>
         {/if}
 
-        {#if $user === null}
+        {#if !isAuthenticated($user)}
             <Notice
                 text={(l) => l.ui.page.character.feedback.unauthenticated}
             />
@@ -2290,7 +2296,7 @@
                         />
                     </Labeled>
                 </Dialog>
-                {#if $user !== null && editedCharacter !== null && $user.uid === editedCharacter.owner}
+                {#if isAuthenticated($user) && editedCharacter !== null && $user.uid === editedCharacter.owner}
                     <ConfirmButton
                         tip={(l) => l.ui.page.character.share.delete.tip}
                         action={() => {

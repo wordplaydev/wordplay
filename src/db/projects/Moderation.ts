@@ -1,3 +1,4 @@
+import { isAuthenticated } from '@components/project/Contexts';
 import type { User } from 'firebase/auth';
 import type Locales from '../../locale/Locales';
 import type LocaleText from '../../locale/LocaleText';
@@ -96,10 +97,13 @@ export function isFlagged(flags: Moderation) {
     return Object.values(flags).some((state) => state === true);
 }
 
-export function isAudience(user: User | null, project: Project): boolean {
+export function isAudience(
+    user: User | null | undefined,
+    project: Project,
+): boolean {
     return (
         project.isPublic() &&
-        (user === null ||
+        (!isAuthenticated(user) ||
             (project.getOwner() !== user.uid &&
                 !project.hasCollaborator(user.uid)))
     );

@@ -1,6 +1,6 @@
 <script lang="ts">
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
@@ -73,7 +73,7 @@
     }
 
     async function submit() {
-        if ($user === null) return;
+        if (!isAuthenticated($user)) return;
         submitting = true;
 
         const newFeedback = await createFeedback(
@@ -298,7 +298,7 @@
                                     l.ui.dialog.feedback.field.idea.placeholder}
                                 id="new-comment-{feed.id}-{commentIndex}"
                                 done={(t) => {
-                                    if ($user === null) return;
+                                    if (!isAuthenticated($user)) return;
                                     updateFeedback({
                                         ...feed,
                                         comments: [

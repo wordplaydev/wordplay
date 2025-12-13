@@ -17,8 +17,6 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     /* Retry once on CI, never locally */
     retries: process.env.CI ? 1 : 0,
-    /* Opt out of parallel tests on CI. */
-    workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
         [
@@ -56,7 +54,7 @@ export default defineConfig({
     webServer: {
         name: 'Vite build preview',
         command: '',
-        url: 'http://127.0.0.1:5002/',
+        url: 'http://127.0.0.1:5002',
         timeout: 180000,
         reuseExistingServer: true,
         stdout: 'pipe',

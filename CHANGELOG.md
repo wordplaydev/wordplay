@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Less flaky authenticated end2end tests.
+- No redirect to login page prior to auth registration.
 
 ### Added
 
