@@ -20,7 +20,14 @@ export default defineConfig({
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-    reporter: 'html',
+    reporter: [
+        [
+            'html',
+            {
+                open: process.env.CI ? 'never' : 'always', // if on CI then "never" otherwise "always" show
+            },
+        ],
+    ],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
@@ -41,6 +48,7 @@ export default defineConfig({
 
     /* Remove any lingering authentication state before starting the tests */
     webServer: {
+        name: 'Vite build preview',
         command: 'rm -rf playwright/.auth && npm run preview',
         url: 'http://localhost:4173/',
         timeout: 180000,

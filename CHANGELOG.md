@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.37
 
+### Fixed
+
+- Less flaky authenticated end2end tests.
+
 ### Added
 
 - Merged #875: Cycling language chooser on landing page.
