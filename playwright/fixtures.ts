@@ -9,8 +9,6 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
     // Authenticate once per worker with a worker-scoped fixture.
     workerStorageState: [
         async ({ browser }, use) => {
-            console.log('Authenticating...');
-
             // Use parallelIndex as a unique identifier for each worker.
             const id = test.info().parallelIndex;
             const fileName = path.resolve('playwright', '.auth', `${id}.json`);
@@ -45,17 +43,6 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
                 .getByTestId('password-repeat-field')
                 .fill(account.password);
             await page.getByTestId('join-button').click();
-
-            const url = await page.evaluate(() => document.location.href);
-
-            console.log(
-                'Filled in ' +
-                    account.username +
-                    ' and ' +
-                    account.password +
-                    ' and arrived at ' +
-                    url,
-            );
 
             // Wait for the final redirect URL to ensure that the cookies are actually set.
             await page.waitForURL('/profile');
