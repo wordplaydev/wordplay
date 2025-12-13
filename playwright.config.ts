@@ -27,6 +27,12 @@ export default defineConfig({
                 open: process.env.CI ? 'never' : 'always', // if on CI then "never" otherwise "always" show
             },
         ],
+        [
+            'list',
+            {
+                printSteps: process.env.CI, // if on CI, print the steps
+            },
+        ],
     ],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
