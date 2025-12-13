@@ -774,6 +774,8 @@ type UITexts = {
                 replace: string;
                 /** Remove a locale */
                 remove: string;
+                /** Menu button label for "other languages" (landing page)*/
+                menu: string;
             };
         };
         /** The keyboard shortcut reference dialog */
@@ -896,3 +898,4 @@ type UITexts = {
 };
 
 export { type UITexts as default };
+

@@ -4218,6 +4218,10 @@
                 },
                 "addcolumn": "$~ajouter une colonne avant cette colonne",
                 "removecolumn": "$~supprimer cette colonne"
+            },
+            "formatted": {
+                "edit": "$~modifier le texte formaté",
+                "preview": "$~prévisualisation du texte formaté"
             }
         },
         "tile": {
@@ -4700,7 +4704,8 @@
                     "show": "$~changer de lieu",
                     "add": "$~ajouter ce lieu",
                     "remove": "$~supprimer ce paramètre régional",
-                    "replace": "$~remplacer par ces paramètres régionaux"
+                    "replace": "$~remplacer par ces paramètres régionaux",
+                    "menu": "$~autres langues"
                 }
             },
             "help": {
@@ -4856,7 +4861,8 @@
                 "message": "$~Où est cet endroit ? On peut rentrer à la maison ?"
             },
             "landing": {
-                "value": "$~Créez des histoires interactives avec des mots, des symboles, des émojis et du code avec nous!",
+                "value": "$!Créez des histoires interactives avec des mots, des symboles, des émojis et du code avec nous!",
+                "chooseLocales": "$~ou choisissez",
                 "description": [
                     "$~Wordplay est un langage de programmation qui vous permet de :",
                     "$~• Animez des mots et des émojis de manière ludique 🤪",

@@ -4217,6 +4217,10 @@
                 },
                 "addcolumn": "$~füge eine Spalte vor dieser Spalte hinzu",
                 "removecolumn": "$~diese Spalte entfernen"
+            },
+            "formatted": {
+                "edit": "$~formatierten Text bearbeiten",
+                "preview": "$~formatierten Text in Vorschau anzeigen"
             }
         },
         "tile": {
@@ -4699,7 +4703,8 @@
                     "show": "$~Gebietsschema ändern",
                     "add": "$~dieses Gebietsschema hinzufügen",
                     "remove": "$~Dieses Gebietsschema entfernen",
-                    "replace": "$~durch dieses Gebietsschema ersetzen"
+                    "replace": "$~durch dieses Gebietsschema ersetzen",
+                    "menu": "$~andere Sprachen"
                 }
             },
             "help": {
@@ -4855,7 +4860,8 @@
                 "message": "$~Wo ist dieser Ort? Können wir nach Hause gehen?"
             },
             "landing": {
-                "value": "$~Erstellen Sie mit uns interaktive Geschichten mit Wörtern, Symbolen, Emojis und Code!",
+                "value": "$!Erstellen Sie mit uns interaktive Geschichten mit Wörtern, Symbolen, Emojis und Code!",
+                "chooseLocales": "$~oder wählen Sie",
                 "description": [
                     "$~Wordplay ist eine Programmiersprache, die Ihnen Folgendes ermöglicht:",
                     "$~• Wörter und Emojis spielerisch animieren 🤪",
