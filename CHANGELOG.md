@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Added
 
 - Merged #875: Cycling language chooser on landing page.
+- Added Open Graph metadata for previews.
 
 ### Maintenance
 
