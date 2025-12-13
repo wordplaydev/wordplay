@@ -240,7 +240,8 @@
     }
 
     .background.padding {
-        padding: var(--wordplay-spacing);
+        padding-top: calc(var(--wordplay-spacing) / 3);
+        padding-bottom: calc(var(--wordplay-spacing) / 3);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 

@@ -99,6 +99,8 @@
                         class="locale-button-wrapper"
                         onmouseenter={() => (isHovering = true)}
                         onmouseleave={() => (isHovering = false)}
+                        onfocus={() => (isHovering = true)}
+                        onblur={() => (isHovering = false)}
                     >
                         {#key rotatingLabel}
                             <Button
@@ -269,24 +271,7 @@
         margin-top: 2em;
         margin-bottom: 2em;
         max-width: 100%;
-    }
-
-    .welcome :global(.scroller),
-    .welcome :global(.message) {
-        overflow: visible;
-    }
-
-    .welcome :global(.message) {
-        line-height: 1.7;
-    }
-
-    .locale-button-wrapper {
-        display: inline-block;
-    }
-
-    :global(button.locale-picker.background.padding) {
-        padding-top: calc(var(--wordplay-spacing) / 3);
-        padding-bottom: calc(var(--wordplay-spacing) / 3);
+        line-height: 1.8;
     }
 
     .locale-word {
