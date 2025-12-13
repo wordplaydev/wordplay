@@ -14,6 +14,7 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
             const fileName = path.resolve('playwright', '.auth', `${id}.json`);
 
             if (fs.existsSync(fileName)) {
+                if (process.env.CI) console.log(`Reusing: ${fileName}`);
                 // Reuse existing authentication state if any.
                 await use(fileName);
                 return;
@@ -33,6 +34,9 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
                 password: 'password',
             };
 
+            if (process.env.CI)
+                console.log(`Creating a new user: ${account.username}`);
+
             // Go to the join page.
             await page.goto('/join');
 
@@ -44,15 +48,15 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
                 .fill(account.password);
             await page.getByTestId('join-button').click();
 
-            // Wait for the final redirect URL to ensure that the cookies are actually set.
-            await page.waitForURL('/profile');
-
             // End of authentication steps. We need to explicitly ask Playwright to save the indexedDB data stored by Firebase.
             await page
                 .context()
                 .storageState({ path: fileName, indexedDB: true });
             await page.close();
             await use(fileName);
+
+            // Wait for the final redirect URL to ensure that the cookies are actually set.
+            await page.waitForURL('/profile');
         },
         { scope: 'worker' },
     ],
