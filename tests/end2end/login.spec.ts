@@ -9,5 +9,5 @@ test('verify default login, logout, and login form', async ({ page }) => {
     await page.goto('/profile', { waitUntil: 'domcontentloaded' });
 
     // Verify that the profile username page is visible
-    expect(page.getByTestId('username')).toBeVisible({ timeout: 5000 });
+    await expect(page.getByTestId('username')).toBeVisible();
 });
