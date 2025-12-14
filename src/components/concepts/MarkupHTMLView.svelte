@@ -131,7 +131,7 @@
 
     p {
         margin-block-start: 0em;
-        margin-block-end: 0em;
+        margin-block-end: 1em;
     }
 
     ul {
