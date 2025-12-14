@@ -29,7 +29,7 @@ jobs:
               run: npx playwright install --with-deps
             - name: Build project
               run: npm run build
-            - name: Start Emulator
+            - name: Run end-to-end tests with emulator
               run: firebase emulators:exec "npx playwright test --reporter=list" --project=demo-wordplay --log-verbosity QUIET
             - uses: actions/upload-artifact@v4
               if: always()
