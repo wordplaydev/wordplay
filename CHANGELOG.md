@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Less flaky authenticated end2end tests.
 - No redirect to login page prior to auth registration.
+- Fixed #873: Consistent color emoji usage in markup.
 
 ### Added
 

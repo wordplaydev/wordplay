@@ -21,6 +21,7 @@
 
     let { markup, inline = false, note = false }: Props = $props();
 
+    /* Convert the markup into a Markup node. */
     let parsed = $derived.by(() => {
         if (markup instanceof Markup) return markup;
         if (markup instanceof Function) {
