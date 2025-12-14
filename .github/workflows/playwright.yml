@@ -23,8 +23,6 @@ jobs:
               with:
                   java-version: '21'
                   distribution: 'temurin'
-            - name: Install Firebase CLI
-              run: npm install -g firebase-tools
             - name: Install Playwright Browsers
               run: npx playwright install --with-deps
             - name: Build project

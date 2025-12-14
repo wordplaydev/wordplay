@@ -58,6 +58,7 @@
         "@types/matter-js": "^0",
         "ajv": "^8",
         "chalk": "^5",
+        "firebase-tools": "^15",
         "npm-watch": "^0",
         "prettier": "^3",
         "prettier-plugin-svelte": "^3",
