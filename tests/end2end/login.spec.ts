@@ -8,9 +8,6 @@ test('verify default login, logout, and login form', async ({ page }) => {
     // Go to the profile page and wait for the auth to load.
     await page.goto('/profile', { waitUntil: 'domcontentloaded' });
 
-    const url = page.url();
-    console.log('Current URL:', url);
-
     // Verify that the profile username page is visible
     expect(page.getByTestId('username')).toBeVisible({ timeout: 5000 });
 });
