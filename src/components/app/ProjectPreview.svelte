@@ -9,19 +9,19 @@
     import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
     import Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
+    import StructureValue from '@values/StructureValue';
+    import type { Character } from '../../db/characters/Character';
+    import { characterToSVG } from '../../db/characters/Character';
     import { Chats, Creators, DB, locales } from '../../db/Database';
     import { isAudience, isFlagged } from '../../db/projects/Moderation';
+    import ConceptLink, { CharacterName } from '../../nodes/ConceptLink';
     import UnicodeString from '../../unicode/UnicodeString';
-    import { getUser } from '../project/Contexts';
+    import MarkupValue from '../../values/MarkupValue';
+    import Value from '../../values/Value';
+    import { getUser, isAuthenticated } from '../project/Contexts';
     import CreatorView from './CreatorView.svelte';
     import Link from './Link.svelte';
     import Spinning from './Spinning.svelte';
-    import type { Character } from '../../db/characters/Character';
-    import { characterToSVG } from '../../db/characters/Character';
-    import ConceptLink, { CharacterName } from '../../nodes/ConceptLink';
-    import MarkupValue from '../../values/MarkupValue';
-    import Value from '../../values/Value';
-    import StructureValue from '@values/StructureValue';
 
     interface Props {
         project: Project;
@@ -55,8 +55,8 @@
         if (value instanceof StructureValue) {
             const bindings = value.context.getBindingsByNames();
             for (const [, fieldValue] of bindings) {
-            const result = findCharacterName(fieldValue);
-            if (result) return result;
+                const result = findCharacterName(fieldValue);
+                if (result) return result;
             }
         }
         return null;
@@ -101,7 +101,7 @@
 
         // First, check if there's a character name in the value
         const foundCharacterName = value ? findCharacterName(value) : null;
-        
+
         if (foundCharacterName) {
             return {
                 representativeForeground: null,
@@ -158,7 +158,11 @@
                 }
             })
             .catch((error) => {
-                console.error('Failed to load character:', characterName, error);
+                console.error(
+                    'Failed to load character:',
+                    characterName,
+                    error,
+                );
                 character = null;
             });
     });
@@ -172,7 +176,7 @@
     const owner = $derived(project.getOwner());
     const collaborators = $derived(project.getCollaborators());
     const editable = $derived(
-        $user !== null &&
+        isAuthenticated($user) &&
             ($user.uid === owner || collaborators.includes($user.uid)),
     );
 
@@ -185,7 +189,9 @@
     });
 
     let unread = $derived(
-        chat !== undefined && $user !== null && chat.hasUnread($user.uid),
+        chat !== undefined &&
+            isAuthenticated($user) &&
+            chat.hasUnread($user.uid),
     );
 </script>
 

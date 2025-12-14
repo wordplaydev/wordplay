@@ -26,6 +26,14 @@
     import Dialog from '../widgets/Dialog.svelte';
     import LocaleName from './LocaleName.svelte';
 
+    interface Props {
+        /** Determines whether to show locale menu button (footer vs. speech bubble) */
+        show?: boolean;
+        showButton?: boolean;
+    }
+
+    let { show = $bindable(false), showButton = true }: Props = $props();
+
     let selectedLocales = $state<string[]>([]);
     $effect(() => {
         selectedLocales = $locales
@@ -63,17 +71,20 @@
 </script>
 
 <Dialog
+    bind:show
     header={(l) => l.ui.dialog.locale.header}
     explanation={(l) => l.ui.dialog.locale.explanation}
-    button={{
-        tip: (l) => l.ui.dialog.locale.button.show,
-        icon: selectedLocales.some((locale) => isLocaleDraft(locale))
-            ? DRAFT_SYMBOL
-            : LOCALE_SYMBOL,
-        label: selectedLocales
-            .map((code) => getLocaleLanguageName(code))
-            .join(' + '),
-    }}
+    button={showButton
+        ? {
+              tip: (l) => l.ui.dialog.locale.button.show,
+              icon: selectedLocales.some((locale) => isLocaleDraft(locale))
+                  ? DRAFT_SYMBOL
+                  : LOCALE_SYMBOL,
+              label: selectedLocales
+                  .map((code) => getLocaleLanguageName(code))
+                  .join(' + '),
+          }
+        : undefined}
 >
     <h2
         >{$locales

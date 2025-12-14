@@ -6,6 +6,7 @@
     import Page from '@components/app/Page.svelte';
     import {
         getUser,
+        isAuthenticated,
         setConceptPath,
         setProject,
     } from '@components/project/Contexts';
@@ -83,9 +84,9 @@
         const gallery = project.getGallery();
         return (
             // Locally editing
-            ($user === null && history !== undefined) ||
+            (!isAuthenticated($user) && history !== undefined) ||
             // Logged in and a contributor or curator
-            ($user !== null &&
+            (isAuthenticated($user) &&
                 history !== undefined &&
                 (project.hasContributor($user.uid) ||
                     (gallery !== null &&

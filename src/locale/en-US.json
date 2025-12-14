@@ -5146,7 +5146,8 @@
                     "show": "change locale",
                     "replace": "use this locale",
                     "add": "use this locale and the current ones",
-                    "remove": "remove this locale"
+                    "remove": "remove this locale",
+                    "menu": "other languages"
                 }
             },
             "help": {
@@ -5342,7 +5343,8 @@
                 "message": "Where is this place? Can we go home?"
             },
             "landing": {
-                "value": "Create interactive stories with words, symbols, emojis, and code with us!",
+                "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
+                "chooseLocales": " or choose ",
                 "description": [
                     "Wordplay is programming language that enables you to:",
                     "• Playfully animate words and emojis 🤪",

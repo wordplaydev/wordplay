@@ -13,7 +13,7 @@
     import Notice from '@components/app/Notice.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
@@ -140,7 +140,7 @@
     /** Submit the final student data, creating the accounts and class document. */
     async function submit() {
         if (functions === undefined) return;
-        if ($user === null) return;
+        if (!isAuthenticated($user)) return;
         if (!finalStudents) return;
 
         // Give some feedback about the async call.

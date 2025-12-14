@@ -4218,6 +4218,10 @@
                 },
                 "addcolumn": "$~bu sütundan önce bir sütun ekle",
                 "removecolumn": "$~bu sütunu kaldır"
+            },
+            "formatted": {
+                "edit": "$~Biçimlendirilmiş metni düzenle",
+                "preview": "$~Biçimlendirilmiş metni önizle"
             }
         },
         "tile": {
@@ -4717,7 +4721,8 @@
                     "show": "$~yerel ayarı değiştir",
                     "replace": "$~bu yerel ayarı kullan",
                     "add": "$~bu yerel ayarı ve mevcut olanları kullan",
-                    "remove": "$~bu yerel ayarı kaldır"
+                    "remove": "$~bu yerel ayarı kaldır",
+                    "menu": "$~diğer diller"
                 }
             },
             "help": {
@@ -4910,7 +4915,8 @@
                 "message": "$~Burası neresi? Eve gidebilir miyiz?"
             },
             "landing": {
-                "value": "$~Bizimle birlikte kelimeler, semboller, emojiler ve kodlarla etkileşimli hikayeler yaratın!",
+                "value": "$!Bizimle birlikte kelimeler, semboller, emojiler ve kodlarla etkileşimli hikayeler yaratın!",
+                "chooseLocales": "$~veya seçin",
                 "description": [
                     "$~Wordplay, şunları yapmanıza olanak sağlayan bir programlama dilidir:",
                     "$~• Kelimeleri ve emojileri eğlenceli bir şekilde canlandırın 🤪",

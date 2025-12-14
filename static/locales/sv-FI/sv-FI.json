@@ -4218,6 +4218,10 @@
                 },
                 "addcolumn": "$~lägg till en kolumn före denna kolumn",
                 "removecolumn": "$~ta bort den här kolumnen"
+            },
+            "formatted": {
+                "edit": "$~redigera formaterad text",
+                "preview": "$~förhandsgranska formaterad text"
             }
         },
         "tile": {
@@ -4717,7 +4721,8 @@
                     "show": "$~ändra språk",
                     "replace": "$~använd den här lokalen",
                     "add": "$~använd den här lokalen och de nuvarande",
-                    "remove": "$~ta bort den här lokalen"
+                    "remove": "$~ta bort den här lokalen",
+                    "menu": "$~andra språk"
                 }
             },
             "help": {
@@ -4910,7 +4915,8 @@
                 "message": "$~Var är det här stället? Kan vi gå hem?"
             },
             "landing": {
-                "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
+                "value": "$!Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
+                "chooseLocales": "$~eller välj",
                 "description": [
                     "$~Wordplay är ett programmeringsspråk som gör att du kan:",
                     "$~• Lekfullt animera ord och emojis 🤪",

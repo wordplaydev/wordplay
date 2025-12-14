@@ -9,7 +9,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Title from '@components/widgets/Title.svelte';
     import { Galleries, Projects, locales } from '@db/Database';
@@ -44,7 +44,7 @@
     );
 
     let shared: Project[] = $derived(
-        $user === null
+        !isAuthenticated($user)
             ? []
             : Projects.allEditableProjects.filter(
                   (p) => p.hasOwner() && p.getOwner() !== $user.uid,

@@ -3,7 +3,7 @@
  -->
 <script lang="ts">
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -98,9 +98,11 @@
         ).then((map) => (creators = map));
     });
 
-    let editable = $derived($user !== null && project.getOwner() === $user.uid);
+    let editable = $derived(
+        isAuthenticated($user) && project.getOwner() === $user.uid,
+    );
     let collaborator = $derived(
-        $user !== null && project.hasCollaborator($user.uid),
+        isAuthenticated($user) && project.hasCollaborator($user.uid),
     );
 
     function startChat() {
@@ -180,7 +182,7 @@
 
         <div class="everyone">
             <!-- If not the owner, show it -->
-            {#if $user !== null && owner !== $user.uid}
+            {#if isAuthenticated($user) && owner !== $user.uid}
                 <Labeled label={(l) => l.ui.collaborate.role.owner}>
                     <CreatorView
                         chrome

@@ -11,7 +11,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Public from '@components/project/Public.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
@@ -98,11 +98,12 @@
     let description = $derived(gallery?.getDescription($locales));
     let editable = $derived(
         gallery
-            ? $user !== null && gallery.getCurators().includes($user.uid)
+            ? isAuthenticated($user) &&
+                  gallery.getCurators().includes($user.uid)
             : false,
     );
     let projectsEditable = $derived(
-        $user !== null &&
+        isAuthenticated($user) &&
             !!gallery &&
             (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid)),
     );
@@ -258,6 +259,7 @@
                         gallery
                             ? gallery.getCurators().length > 0 &&
                               $user !== null &&
+                              $user !== undefined &&
                               $user.uid !== uid
                             : false}
                 />

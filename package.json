@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.6.36",
+    "version": "0.6.37",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -10,7 +10,7 @@
         "check": "svelte-check --tsconfig ./tsconfig.json --watch .svelte-kit",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
-        "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay",
+        "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay --log-verbosity QUIET",
         "dev": "vite dev",
         "emu": "firebase emulators:start --project=demo-wordplay",
         "env": "run-script-os",
@@ -27,7 +27,8 @@
         "translate": "npx tsx src/util/verify-locales/start.ts translate",
         "override": "npx tsx src/util/verify-locales/start.ts override",
         "schemas": "npm-watch create-schemas",
-        "merge": "git checkout main && git merge dev && git push origin main && git checkout dev"
+        "merge": "git checkout main && git merge dev && git push origin main && git checkout dev",
+        "outdated": "npx check-outdated --ignore-pre-releases --columns name,type,current,latest,changes"
     },
     "watch": {
         "verify-locales": {

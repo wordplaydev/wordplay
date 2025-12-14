@@ -29,10 +29,16 @@ import type SelectedOutput from './SelectedOutput.svelte';
 // Authentication related contexts
 
 const UserSymbol = Symbol('user');
-type UserContext = Writable<User | null>;
+type PossibleUser = User | null | undefined;
+type UserContext = Writable<PossibleUser>;
 export function setUser(context: UserContext) {
     setContext(UserSymbol, context);
 }
+
+export function isAuthenticated(user: PossibleUser): user is User {
+    return user !== null && user !== undefined;
+}
+
 export function getUser(): UserContext {
     return getContext(UserSymbol);
 }

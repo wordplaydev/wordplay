@@ -9010,6 +9010,10 @@
                           "description": "Add a locale",
                           "type": "string"
                         },
+                        "menu": {
+                          "description": "Menu button label for \"other languages\" (landing page)",
+                          "type": "string"
+                        },
                         "remove": {
                           "description": "Remove a locale",
                           "type": "string"
@@ -9027,7 +9031,8 @@
                         "show",
                         "add",
                         "replace",
-                        "remove"
+                        "remove",
+                        "menu"
                       ],
                       "type": "object"
                     },
@@ -10731,6 +10736,10 @@
                       },
                       "type": "array"
                     },
+                    "chooseLocales": {
+                      "description": "Text between locale buttons - \"or choose\"",
+                      "type": "string"
+                    },
                     "description": {
                       "anyOf": [
                         {
@@ -10839,6 +10848,7 @@
                     "value",
                     "description",
                     "beta",
+                    "chooseLocales",
                     "link"
                   ],
                   "type": "object"

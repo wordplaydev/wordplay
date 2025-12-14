@@ -100,6 +100,7 @@
         getFullscreen,
         getUser,
         IdleKind,
+        isAuthenticated,
         setAnimatingNodes,
         setConceptIndex,
         setConflicts,
@@ -1859,7 +1860,7 @@
                             toggle={() => toggleTile(tile)}
                             notification={tile.kind === TileKind.Collaborate &&
                                 !!chat &&
-                                $user !== null &&
+                                isAuthenticated($user) &&
                                 chat.hasUnread($user.uid)}
                         />
                     {/if}
