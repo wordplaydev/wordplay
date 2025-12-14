@@ -1,4 +1,4 @@
-import { expect, test } from '../../playwright/fixtures';
+import { expect, test } from '@playwright/test';
 import goHome from './goHome';
 
 test('has Wordplay window title', async ({ page }) => {
