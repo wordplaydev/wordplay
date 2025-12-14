@@ -70,6 +70,7 @@
                 childList: true,
             });
 
+            // See if it's in a dialog, so we can adjust positioning.
             const dialog =
                 view?.parentElement instanceof HTMLDialogElement
                     ? view.parentElement
@@ -94,8 +95,8 @@
             // If it's a dialog, account for the relative positioning.
             if (dialog) {
                 const parentRect = dialog.getBoundingClientRect();
-                newLeft = newLeft - parentRect.left;
-                newTop = newTop - parentRect.top;
+                newLeft = newLeft - parentRect.left + dialog.scrollLeft;
+                newTop = newTop - parentRect.top + dialog.scrollTop;
             }
 
             if (newLeft < 0) newLeft = 0;

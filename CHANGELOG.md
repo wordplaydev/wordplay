@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - No redirect to login page prior to auth registration.
 - Fixed #873: Consistent color emoji usage in markup.
 - Fixed #872: Inconsistent links across landing pages.
+- Fixed #874: Fixed tooltip positioning in scrolled dialogs.
 
 ### Added
 
