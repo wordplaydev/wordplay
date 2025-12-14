@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/fixtures';
 
 test('create project and check for command buttons and their functionalities ', async ({
     page,

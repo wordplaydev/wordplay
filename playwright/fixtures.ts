@@ -11,10 +11,7 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
         async ({ browser }, use) => {
             // Use parallelIndex as a unique identifier for each worker.
             const id = test.info().parallelIndex;
-            const fileName = path.resolve(
-                test.info().project.outputDir,
-                `.auth/${id}.json`,
-            );
+            const fileName = path.resolve('playwright', `.auth/${id}.json`);
 
             if (fs.existsSync(fileName)) {
                 // Reuse existing authentication state if any.
@@ -25,6 +22,7 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
             // Important: make sure we authenticate in a clean environment by unsetting storage state.
             const page = await browser.newPage({
                 baseURL: 'http://127.0.0.1:5002',
+                storageState: { cookies: [], origins: [] },
             });
 
             // Acquire a unique account, for example create a new one.
@@ -48,9 +46,11 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
             await page.getByTestId('join-button').click();
 
             // Wait for the final redirect URL to ensure that the cookies are actually set.
-            await page.waitForURL('/profile');
+            await page.waitForURL('/profile', {
+                waitUntil: 'domcontentloaded',
+            });
 
-            // End of authentication steps. We need to explicitly ask Playwright to save the indexedDB data stored by Firebase.
+            // Ask Playwright to save the indexedDB data stored by Firebase.
             await page
                 .context()
                 .storageState({ path: fileName, indexedDB: true });

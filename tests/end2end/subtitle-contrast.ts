@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
 import type { AxeResults } from 'axe-core';
+import { expect, test } from '../../playwright/fixtures';
 import goHome from './goHome';
 
 // Print out the accessibility scan results from AxeBuilder.
@@ -22,8 +22,8 @@ function printAccessibilityScanResults(axeBuilderScanResults: AxeResults) {
         });
     });
 
-    expect(violations.length).toEqual(0),
-        'See stderr Attachment in report for Errors!';
+    (expect(violations.length).toEqual(0),
+        'See stderr Attachment in report for Errors!');
 }
 
 test('Test Wordplay homepage subtitles for WCAG violations', async ({
