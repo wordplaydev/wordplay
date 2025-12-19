@@ -51,7 +51,7 @@
             .filter(
                 (node) =>
                     node.node instanceof Token &&
-                    Caret.isBlockEditable(node.node) &&
+                    Caret.isTokenBlockEditable(node.node) &&
                     // Filter out nodes in the wrong direction
                     (direction < 0 ? node.vertical < 0 : node.vertical > 0) &&
                     // Filter out nodes that are too close vertically
@@ -515,6 +515,7 @@
             const [widthAtCaret, heightAtCaret] = measureTokenSegment(
                 tokenView,
                 tokenOffset,
+                blocks,
             ) ?? [0, 0];
 
             return {

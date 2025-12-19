@@ -584,7 +584,15 @@ export default class Caret {
         else return this;
     }
 
-    static isBlockEditable(token: Token): boolean {
+    static isTokenTextBlockEditable(token: Token): boolean {
+        return (
+            token.isSymbol(Sym.Name) ||
+            token.isSymbol(Sym.Words) ||
+            token.isSymbol(Sym.Number)
+        );
+    }
+
+    static isTokenBlockEditable(token: Token): boolean {
         return (
             token.isSymbol(Sym.Name) ||
             token.isSymbol(Sym.Operator) ||
@@ -631,8 +639,17 @@ export default class Caret {
                         }
                     }
                 }
+                // If the token's individual symbols are editable, add them to the list.
+                if (Caret.isTokenTextBlockEditable(node)) {
+                    const start = this.source.getTokenTextPosition(node);
+                    const end = this.source.getTokenLastPosition(node);
+                    if (start !== undefined && end !== undefined) {
+                        for (let pos = start + 1; pos < end; pos++)
+                            points.push(pos);
+                    }
+                }
                 // If the token itself is editable, add it to the list.
-                if (Caret.isBlockEditable(node)) points.push(node);
+                else if (Caret.isTokenBlockEditable(node)) points.push(node);
             }
             // If it's not a token, check it's grammar for insertion points.
             else {
@@ -770,28 +787,35 @@ export default class Caret {
                 ? this.getSourceBlockPositions().reverse()
                 : this.getSourceBlockPositions();
         const onNode = this.isNode();
-        for (const position of positions) {
-            const isPosition = typeof position === 'number';
-            const thisPosition = isPosition
-                ? position
-                : this.source.getNodeFirstPosition(position);
+        for (const possible of positions) {
+            const possibleIsIndex = typeof possible === 'number';
+            const possibleIndex = possibleIsIndex
+                ? possible
+                : this.source.getNodeFirstPosition(possible);
             // Is this position after the current position, or at the same position, but moving from a node? This is the next position.
             if (
-                thisPosition !== undefined &&
+                possibleIndex !== undefined &&
+                // Moving next?
                 (direction > 0
-                    ? thisPosition > currentPosition ||
-                      (thisPosition === currentPosition &&
+                    ? // Is the possible index after the current index?
+                      possibleIndex > currentPosition ||
+                      // Is the possible index the same as the current index but we're currently on a node and the possible is an index?
+                      (possibleIndex === currentPosition &&
                           onNode &&
-                          isPosition) ||
+                          possibleIsIndex) ||
+                      // Are not on a node and the possible index is a node at the current position?
                       (!onNode &&
-                          !isPosition &&
-                          thisPosition === currentPosition)
-                    : thisPosition < currentPosition ||
-                      (this.position instanceof Node &&
-                          typeof position === 'number' &&
-                          thisPosition === currentPosition))
+                          !possibleIsIndex &&
+                          possibleIndex === currentPosition)
+                    : // Moving previous?
+                      // Is the possible index before the current position?
+                      possibleIndex < currentPosition ||
+                      // Is the current position a node and the possible index is at the node's first position?
+                      (onNode &&
+                          typeof possible === 'number' &&
+                          possibleIndex === currentPosition))
             ) {
-                return this.withPosition(position);
+                return this.withPosition(possible);
             }
         }
         return undefined;
