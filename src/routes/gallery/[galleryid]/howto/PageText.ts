@@ -43,7 +43,9 @@ type PageText = {
     error: {
         /** When the how-to is not known or is not public */
         unknown: string;
-    };
+    },
+    /** Default reaction options for viewing a how-to */
+    reactions: ButtonText[];
 }
 
 export type { PageText as default };

@@ -9851,13 +9851,21 @@
                     "editorDescription"
                   ],
                   "type": "object"
+                },
+                "reactions": {
+                  "description": "Default reaction options for viewing a how-to",
+                  "items": {
+                    "$ref": "#/definitions/ButtonText"
+                  },
+                  "type": "array"
                 }
               },
               "required": [
                 "galleryView",
                 "canvasView",
                 "newHowTo",
-                "error"
+                "error",
+                "reactions"
               ],
               "type": "object"
             },

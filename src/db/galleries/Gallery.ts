@@ -1,6 +1,7 @@
 import { localeToString } from '@locale/Locale';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
+import z from 'zod';
 
 export const GallerySchemaLatestVersion = 1;
 

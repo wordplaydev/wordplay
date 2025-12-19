@@ -10,7 +10,6 @@
     import HowToCanvas from './HowToCanvas.svelte';
     import HowToDrafts from './HowToDrafts.svelte';
     import HowToForm from './HowToForm.svelte';
-    import HowToView from './HowToView.svelte';
 
     const user = getUser();
 
@@ -45,9 +44,14 @@
         />
     </Header>
 
-    <HowToForm />
+    <HowToForm midpointX={50} midpointY={50}/>
 
     <HowToDrafts />
 
-    <HowToCanvas />
+    <HowToCanvas
+        currentViewLeft={0}
+        currentViewRight={100}
+        currentViewTop={0}
+        currentViewBottom={100}
+    />
 </Writing>

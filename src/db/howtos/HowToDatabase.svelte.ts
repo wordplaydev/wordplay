@@ -2,21 +2,8 @@
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
-import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe, User } from 'firebase/auth';
-import {
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    onSnapshot,
-    query,
-    setDoc,
-    updateDoc,
-    where,
-    type Firestore
-} from 'firebase/firestore';
+import { collection, deleteDoc, doc, Firestore, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
@@ -55,7 +42,7 @@ const HowToSchemaV1 = z.object({
 
     /** Social interactions */
     /** The list of users who reacted to the how-to using each reaction */
-    reactions: z.map(z.string(), z.array(z.string())),
+    reactions: z.record(z.string(), z.array(z.string())),
     /** The list of projects who used the how-to */
     usedByProjects: z.array(z.string()),
     /** The ID of the chat corresponding to the how-to */
@@ -153,10 +140,11 @@ const HowTosCollection = 'howtos';
 export class HowToDatabase {
     private readonly db: Database;
 
-    /** This is a global reactive map that stores how-tos obtained from Firestore 
-     * maps gallery IDs to an array of HowTos that are associated with that gallery
-    */
-    private readonly howtos = $state(new SvelteMap<string, HowTo[]>());
+    /** This is a global reactive map that stores howtos obtained from Firestore */
+    private readonly howtos = $state(new SvelteMap<string, HowTo>());
+
+    /** Maps gallery IDs to lists of how-to IDs */
+    private readonly galleryHowTos = $state(new SvelteMap<string, string[]>());
 
     private unsubscribe: Unsubscribe | undefined = undefined;
 
@@ -168,42 +156,33 @@ export class HowToDatabase {
     }
 
     async updateHowTo(howTo: HowTo, persist: boolean) {
-        const galleryId = howTo.getHowToGalleryId();
+        const galleryID = howTo.getHowToGalleryId();
+        const howToID = howTo.getHowToId();
 
-        // replace howTo in the cache
-        const cachedHowTos = this.howtos.get(galleryId) || [];
-        if (cachedHowTos.length === 0) {
-            this.howtos.set(galleryId, [howTo]);
-        } else {
-            const index = cachedHowTos.findIndex(
-                (ht) => ht.getHowToId() === howTo.getHowToId()
-            );
+        // set the revised how-to in the local state, propogating updates
+        this.howtos.set(howToID, howTo);
+        this.galleryHowTos.set(galleryID, [...(this.galleryHowTos.get(galleryID) || []), howToID]);
 
-            this.howtos.set(galleryId, [
-                ...cachedHowTos.slice(0, index),
-                howTo,
-                ...cachedHowTos.slice(index + 1),
-            ]);
-        }
-
-        // make sure we're listening to the gallery
-        this.db.Galleries.listen(howTo.getHowToGalleryId(), this.galleryListener);
+        // make sure we're listening to updates on this chat's gallery
+        // TODO(@mc): can we listen using the howtoid?
+        this.db.Galleries.listen(howToID, this.galleryListener);
 
         // if asked to persist, update remotely
         if (persist && firestore) {
             await updateDoc(
-                doc(firestore, HowTosCollection, galleryId, howTo.getHowToId()),
+                doc(firestore, HowTosCollection, howToID),
                 howTo.getData(),
             );
         }
     }
 
     async deleteHowTo(howToId: string, galleryId: string) {
-        this.howtos.set(galleryId, this.howtos.get(galleryId)?.filter((ht) => ht.getHowToId() !== howToId) ?? []);
+        this.howtos.delete(howToId);
+        this.galleryHowTos.set(galleryId, this.galleryHowTos.get(galleryId)?.filter((id) => id !== howToId) ?? []);
 
         if (firestore) {
             try {
-                await deleteDoc(doc(firestore, HowTosCollection, galleryId, howToId));
+                await deleteDoc(doc(firestore, HowTosCollection, howToId));
             } catch (err) {
                 console.error(err);
             }
@@ -217,7 +196,8 @@ export class HowToDatabase {
     }
 
     async addHowTo(
-        gallery: Gallery,
+        galleryId: string,
+        published: boolean,
         xcoord: number,
         ycoord: number,
         collaborators: string[],
@@ -235,8 +215,8 @@ export class HowToDatabase {
         const newHowTo: HowToDocument = {
             id: uuidv4(),
             timestamp: Date.now(),
-            galleryId: gallery.getID(),
-            published: false, // defaults to false
+            galleryId: galleryId,
+            published: published, // defaults to false
             xcoord: xcoord,
             ycoord: ycoord,
             title: title,
@@ -245,9 +225,9 @@ export class HowToDatabase {
             creator: user as string,
             collaborators: collaborators,
             locales: locales,
-            reactions: new Map<string, string[]>(
+            reactions: Object.fromEntries(new Map<string, string[]>(
                 reactionTypes.map((type) => [type, []])
-            ),
+            )),
             usedByProjects: [],
             chat: null,
         };
@@ -256,14 +236,12 @@ export class HowToDatabase {
         try {
             // create the document
             await setDoc(
-                doc(firestore, HowTosCollection, newHowTo.galleryId, newHowTo.id),
+                doc(firestore, HowTosCollection, newHowTo.id),
                 newHowTo
             );
 
             // add the how-to to the how-to cache, but not remotely; we just created it
             this.updateHowTo(new HowTo(newHowTo), false);
-
-            // TODO(@mc): assuming that we don't need to add it to the gallery b/c gallery will pull from ID
         } catch (error) {
             console.error(error);
             return undefined;
@@ -272,28 +250,22 @@ export class HowToDatabase {
         return newHowTo.galleryId;
     }
 
-    // TODO(@mc): also need to sync collaborators
-    /** Should be called when a gallery updates, to synchronize chat participants */
     async handleRevisedGallery(gallery: Gallery) {
-        // Synchronize the participants of all the projects in the gallery if this person is a curator of the gallery.
+        // Synchronize the participants of all the how-tos in the gallery if this person is a curator of the gallery.
         // The user doesn't have permissions otherwise.
         const uid = this.db.getUser()?.uid;
         if (uid !== undefined && gallery.getCurators().includes(uid)) {
-            this.syncCollaborators(gallery);
+            for (const howToId of this.galleryHowTos.get(gallery.getID()) || []) {
+                this.syncCollaborators(howToId, gallery);
+            }
         }
     }
 
-    /** Ensure how-to Collaborators include creator, collaborators, curators */
-    syncCollaborators(gallery: Gallery) {
-        for (const howTo of this.howtos.get(gallery.getID()) || []) {
-            this.syncCollaborator(howTo.getHowToId(), gallery);
-        }
-    }
+    syncCollaborators(howToId: string, gallery: Gallery) {
+        // ensure that the how-to Collaborators include creator, collaborators, curators
+        const howTo = this.howtos.get(howToId);
 
-    private syncCollaborator(howToId: string, gallery: Gallery) {
-        const howTo = this.howtos.get(gallery.getID())?.find(ht => ht.getHowToId() === howToId);
-
-        if (!howTo) {
+        if (howTo === undefined) {
             console.error(`No how-to with ID ${howToId} found in the cache. Maybe a defect?`);
             return;
         }
@@ -323,13 +295,23 @@ export class HowToDatabase {
     }
 
     /** Get a list of how-tos for a gallery. Empty if none exist. Undefined if gallery doesn't exist, false if there was an error.*/
-    async getHowTos(gallery: Gallery): Promise<HowTo[] | undefined | false> {
-        const galleryID = gallery.getID();
+    async getHowTos(galleryID: string): Promise<HowTo[] | undefined | false> {
         if (galleryID === null) return undefined;
 
-        // do we have the how-tos cached? return it.
-        const howtos = this.howtos.get(galleryID);
-        if (howtos) return howtos;
+        // do we have the list of how-tos cached? return it.
+        const howToIds = this.galleryHowTos.get(galleryID);
+        if (howToIds) {
+            let howTos: HowTo[] = [];
+
+            howToIds.forEach((id) => {
+                let howTo: HowTo | undefined = this.howtos.get(id);
+                if (howTo) {
+                    howTos.push(howTo);
+                }
+            })
+
+            return howTos;
+        }
 
         // if not, see if it's in the database
         if (firestore === undefined) return undefined;
@@ -340,6 +322,7 @@ export class HowToDatabase {
                     where('galleryId', '==', galleryID),
                 )
             );
+
             if (!howToDocs.empty) {
                 const newHowTos = howToDocs.docs.map((doc) => {
                     const remoteHowTo = doc.data();
@@ -360,11 +343,10 @@ export class HowToDatabase {
         }
     }
 
-    /** Get a how-to from ID. Empty if none exist. Undefined if how-to doesn't exist, false if there was an error.*/
-    async getHowTo(howToId: string, galleryId: string): Promise<HowTo | undefined | false> {
-        // do we have the how-tos cached? return it.
-        const howtos = this.howtos.get(galleryId);
-        if (howtos) return howtos.filter((ht) => ht.getHowToId() === howToId)[0];
+    async getHowTo(howToId: string): Promise<HowTo | undefined | false> {
+        // do we have the how-to cached? return it.
+        const howTo = this.howtos.get(howToId);
+        if (howTo) return howTo;
 
         // if not, see if it's in the database
         if (firestore === undefined) return undefined;
@@ -372,6 +354,7 @@ export class HowToDatabase {
             const howToDoc = await getDoc(
                 doc(firestore, HowTosCollection, howToId),
             );
+
             if (howToDoc.exists()) {
                 const remoteHowTo = howToDoc.data();
                 if (remoteHowTo === undefined) return undefined;
@@ -392,58 +375,63 @@ export class HowToDatabase {
     }
 
     listen(firestore: Firestore, user: User) {
-        this.ignore();
-        this.unsubscribe = onSnapshot(
-            query(
-                collection(firestore, HowTosCollection),
-                where('collaborators', 'array-contains', user.uid),
-            ),
-            async (snapshot) => {
-                // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
-                // so we can delete ones that are gone from the server.
-                snapshot.forEach((doc) => {
-                    const howto = doc.data();
 
-                    // try to parse the how-to and save on success.
-                    try {
-                        HowToSchema.parse(howto);
-                        // Update the how-to in the local cache, but do not persist; we just got it from the DB.
-                        this.updateHowTo(
-                            new HowTo(howto as HowToDocument),
-                            false,
-                        )
-                    } catch (error) {
-                        // If the how-to doesn't succeed, then we don't save it.
-                        console.error(error);
-                    }
-                });
 
-                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                snapshot.docChanges().forEach((change) => {
-                    // Removed? Delete the local cache of the gallery.
-                    // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
-                    if (change.type === 'removed') {
-                        const howToId = change.doc.id;
-                        const galleryId = change.doc.data().galleryId;
+        // old code that doesn't work
+        //         this.ignore();
+        //         this.unsubscribe = onSnapshot(
+        //             query(
+        //                 collection(firestore, HowTosCollection),
+        //                 where('collaborators', 'array-contains', user.uid),
+        //                 where('creator', '==', user.uid),
+        //             ),
+        //             async (snapshot) => {
+        //                 // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
+        //                 // so we can delete ones that are gone from the server.
+        //                 snapshot.forEach((doc) => {
+        //                     const howto = doc.data();
 
-                        this.howtos.set(galleryId, this.howtos.get(galleryId)?.filter((ht) => ht.getHowToId() !== howToId) ?? []);
+        //                     // try to parse the how-to and save on success.
+        //                     try {
+        //                         HowToSchema.parse(howto);
+        //                         // Update the how-to in the local cache, but do not persist; we just got it from the DB.
+        //                         this.updateHowTo(
+        //                             new HowTo(howto as HowToDocument),
+        //                             false,
+        //                         )
+        //                     } catch (error) {
+        //                         // If the how-to doesn't succeed, then we don't save it.
+        //                         console.error(error);
+        //                     }
+        //                 });
 
-                        if (this.howtos.get(galleryId)?.length === 0) {
-                            this.howtos.delete(galleryId);
+        //                 // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
+        //                 snapshot.docChanges().forEach((change) => {
+        //                     // Removed? Delete the local cache of the gallery.
+        //                     // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
+        //                     if (change.type === 'removed') {
+        //                         const howToId = change.doc.id;
+        //                         const galleryId = change.doc.data().galleryId;
 
-                            if (this.galleryListener) {
-                                this.db.Galleries.ignore(howToId, this.galleryListener);
-                            }
-                        }
-                    }
-                });
-            },
-            (error) => {
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
-                }
-            }
-        );
+        //                         this.howtos.set(galleryId, this.howtos.get(galleryId)?.filter((ht) => ht.getHowToId() !== howToId) ?? []);
+
+        //                         if (this.howtos.get(galleryId)?.length === 0) {
+        //                             this.howtos.delete(galleryId);
+
+        //                             if (this.galleryListener) {
+        //                                 this.db.Galleries.ignore(howToId, this.galleryListener);
+        //                             }
+        //                         }
+        //                     }
+        //                 });
+        //             },
+        //             (error) => {
+        //                 if (error instanceof FirebaseError) {
+        //                     console.error(error.code);
+        //                     console.error(error.message);
+        //                 }
+        //             }
+        //         );
+        //     }
     }
 }

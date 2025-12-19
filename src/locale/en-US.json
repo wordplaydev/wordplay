@@ -4795,7 +4795,33 @@
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."
-            }
+            },
+            "reactions": [
+                {
+                    "label": "👍",
+                    "tip": "I like this!"
+                },
+                {
+                    "label": "💭",
+                    "tip": "This inspires me!"
+                },
+                {
+                    "label": "🙏",
+                    "tip": "Thank you!"
+                },
+                {
+                    "label": "🎉",
+                    "tip": "Celebration!"
+                },
+                {
+                    "label": "🤩",
+                    "tip": "I want to try this!"
+                },
+                {
+                    "label": "😁",
+                    "tip": "This makes me happy!"
+                }
+            ]
         },
         "source": {
             "label": "program editor",

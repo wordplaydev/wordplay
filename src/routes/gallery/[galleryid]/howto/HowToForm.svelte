@@ -1,21 +1,58 @@
 <script lang="ts">
+    import { page } from '$app/state';
     import Subheader from '@components/app/Subheader.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { HowTos } from '@db/Database';
 
-    let show: boolean = false;
-    let notify: boolean = true;
-    let howToContent: string = '';
+    let show: boolean = $state(false);
+    let notify: boolean = $state(true);
+    let howToContent: string = $state('');
+
+    interface Props {
+        midpointX: number;
+        midpointY: number;
+    }
+
+    let { midpointX, midpointY }: Props = $props();
+
+    const galleryId: string = decodeURI(page.params.galleryid);
+    // const reactionOptions: string[] = $locales.ui.howto.reactions.map(
+    //     (r: ButtonText) => r.label,
+    // );
+    const reactionOptions: string[] = ['👍', '💭', '🙏', '🎉', '🤩', '😁'];
 
     function saveDraft() {
-        console.log(howToContent);
+        HowTos.addHowTo(
+            galleryId,
+            false,
+            midpointX,
+            midpointY,
+            [],
+            '',
+            [],
+            [howToContent],
+            ['en-US'],
+            reactionOptions,
+        );
     }
 
     function postHowTo() {
-        console.log(howToContent);
+        HowTos.addHowTo(
+            galleryId,
+            true,
+            midpointX,
+            midpointY,
+            [],
+            '',
+            [],
+            [howToContent],
+            ['en-US'],
+            reactionOptions,
+        );
     }
 </script>
 
