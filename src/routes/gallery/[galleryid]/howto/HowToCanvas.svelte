@@ -2,21 +2,15 @@
     import { page } from '$app/state';
     import { HowTos } from '@db/Database';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
+    import HowToDrafts from './HowToDrafts.svelte';
     import HowToPreview from './HowToPreview.svelte';
 
     interface Props {
         currentViewLeft: number;
-        currentViewRight: number;
         currentViewTop: number;
-        currentViewBottom: number;
     }
 
-    let {
-        currentViewLeft,
-        currentViewRight,
-        currentViewTop,
-        currentViewBottom,
-    }: Props = $props();
+    let { currentViewLeft, currentViewTop }: Props = $props();
 
     let galleryId = decodeURI(page.params.galleryid);
     let howTos: HowTo[] = $state([]);
@@ -31,19 +25,8 @@
     });
 </script>
 
-<div class="howtocanvas">
-    {#each howTos as howto, i (i)}
-        {#if howto.getCoordinates()[0] >= currentViewLeft - 100 && howto.getCoordinates()[0] <= currentViewRight + 100 && howto.getCoordinates()[1] >= currentViewTop - 100 && howto.getCoordinates()[1] <= currentViewBottom + 100}
-            <HowToPreview howTo={howto} />
-        {/if}
-    {/each}
-</div>
-
-<style>
-    .howtocanvas {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        border: 1px solid var(--wordplay-border-color);
-    }
-</style>
+{#each howTos as howto, i (i)}
+    <!-- {#if howto.getCoordinates()[0] >= currentViewLeft - 100 && howto.getCoordinates()[0] <= currentViewRight + 100 && howto.getCoordinates()[1] >= currentViewTop - 100 && howto.getCoordinates()[1] <= currentViewBottom + 100} -->
+    <HowToPreview howTo={howto} />
+    <!-- {/if} -->
+{/each}

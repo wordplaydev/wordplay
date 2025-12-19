@@ -4791,7 +4791,17 @@
                 "notificationOptOut": "Notify subscribers that a new how-to has been posted",
                 "prompt": "Tell us the story of how you discovered this",
                 "editorPlaceholder": "Write your how-to here",
-                "editorDescription": "A text box to write your how-to"
+                "editorDescription": "A text box to write your how-to",
+                "title": {
+                    "description": "The title of your how-to",
+                    "placeholder": "Title"
+                }
+            },
+            "viewHowTo": {
+                "view": {
+                    "label": "View how-to",
+                    "tip": "View how-to"
+                }
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."

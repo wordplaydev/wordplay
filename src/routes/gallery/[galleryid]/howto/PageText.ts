@@ -1,4 +1,4 @@
-import type { ButtonText, DialogText } from "@locale/UITexts";
+import type { ButtonText, DialogText, FieldText } from "@locale/UITexts";
 
 type PageText = {
     /** Headers on the gallery page */
@@ -39,6 +39,13 @@ type PageText = {
         prompt: string;
         editorPlaceholder: string;
         editorDescription: string;
+        /** Field text for how-to title */
+        title: FieldText;
+    },
+    /** Buttons and dialogs for viewing a new how-to */
+    viewHowTo: {
+        /** Button text for viewing the how-to */
+        view: ButtonText;
     },
     error: {
         /** When the how-to is not known or is not public */

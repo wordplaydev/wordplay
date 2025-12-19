@@ -53,22 +53,21 @@
     style="--xcoord: {xcoord}px; --ycoord: {ycoord}px;"
     onmousedown={onMouseDown}
 >
-    <p>{title}</p>
-    <div class="howtopreview">
-        <Dialog
-            bind:show
-            header={(l) => l.ui.howto.newHowTo.form.header}
-            explanation={(l) => l.ui.howto.newHowTo.form.explanation}
-            button={{
-                tip: (l) => l.ui.howto.newHowTo.add.tip,
-                icon: preview,
-                large: true,
-            }}
-        >
-            <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
+    <Dialog
+        bind:show
+        header={(l) => l.ui.howto.newHowTo.form.header}
+        explanation={(l) => l.ui.howto.newHowTo.form.explanation}
+        button={{
+            tip: (l) => l.ui.howto.viewHowTo.view.tip,
+            icon: title,
+        }}
+    >
+        <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
 
-            <MarkupHTMLView markup={(l) => text} />
-        </Dialog>
+        <MarkupHTMLView markup={(l) => text} />
+    </Dialog>
+    <div class="howtopreview">
+        <p>{preview}</p>
     </div>
 </div>
 
@@ -77,7 +76,7 @@
 <style>
     .howto {
         overflow: hidden;
-        position: absolute;
+        position: relative;
         left: var(--xcoord);
         top: var(--ycoord);
     }
@@ -86,5 +85,9 @@
         border: 1px solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
+        aspect-ratio: 1 / 1;
+        width: fit-content;
+        height: fit-content;
+        font-size: 2rem;
     }
 </style>

@@ -1,15 +1,18 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import Header from '@components/app/Header.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import { HowTos, locales } from '@db/Database';
 
     let show: boolean = $state(false);
     let notify: boolean = $state(true);
+    let howToTitle: string = $state('');
     let howToContent: string = $state('');
 
     interface Props {
@@ -24,14 +27,14 @@
         .get((l) => l.ui.howto.reactions)
         .map((b) => b.label);
 
-    function saveDraft() {
+    function writeNewHowTo(publish: boolean) {
         HowTos.addHowTo(
             galleryId,
-            false,
+            publish,
             midpointX,
             midpointY,
             [],
-            '',
+            howToTitle,
             [$locales.get((l) => l.ui.howto.newHowTo.prompt)],
             [howToContent],
             ['en-US'],
@@ -39,23 +42,9 @@
         );
 
         howToContent = '';
-    }
+        howToTitle = '';
 
-    function postHowTo() {
-        HowTos.addHowTo(
-            galleryId,
-            true,
-            midpointX,
-            midpointY,
-            [],
-            '',
-            [$locales.get((l) => l.ui.howto.newHowTo.prompt)],
-            [howToContent],
-            ['en-US'],
-            reactionOptions,
-        );
-
-        howToContent = '';
+        // TODO(@mc) -- need to refresh DB
     }
 </script>
 
@@ -69,6 +58,15 @@
         large: true,
     }}
 >
+    <Header>
+        <TextField
+            bind:text={howToTitle}
+            description={(l) => l.ui.howto.newHowTo.title.description}
+            placeholder={(l) => l.ui.howto.newHowTo.title.placeholder}
+            id="howto-title"
+        />
+    </Header>
+
     <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
 
     <FormattedEditor
@@ -94,7 +92,7 @@
             tip={(l) => l.ui.howto.newHowTo.save.tip}
             label={(l) => l.ui.howto.newHowTo.save.label}
             action={() => {
-                saveDraft();
+                writeNewHowTo(false);
                 show = false;
             }}
             active={true}
@@ -103,7 +101,7 @@
             tip={(l) => l.ui.howto.newHowTo.post.tip}
             label={(l) => l.ui.howto.newHowTo.post.label}
             action={() => {
-                postHowTo();
+                writeNewHowTo(true);
                 show = false;
             }}
             active={true}

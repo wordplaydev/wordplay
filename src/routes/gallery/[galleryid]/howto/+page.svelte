@@ -35,23 +35,30 @@
 </script>
 
 <Writing>
-    <Header>
-        <MarkupHTMLView
-            inline
-            markup={docToMarkup(
-                $locales.get((l) => l.ui.howto.canvasView.header),
-            ).concretize($locales, [galleryName]) ?? ''}
-        />
-    </Header>
+    <div class="sticky-items">
+        <Header>
+            <MarkupHTMLView
+                inline
+                markup={docToMarkup(
+                    $locales.get((l) => l.ui.howto.canvasView.header),
+                ).concretize($locales, [galleryName]) ?? ''}
+            />
+        </Header>
 
-    <HowToForm midpointX={50} midpointY={50}/>
+        <HowToForm midpointX={50} midpointY={50} />
 
-    <HowToDrafts />
+        <HowToDrafts />
+    </div>
 
-    <HowToCanvas
-        currentViewLeft={0}
-        currentViewRight={100}
-        currentViewTop={0}
-        currentViewBottom={100}
-    />
+    <HowToCanvas currentViewLeft={0} currentViewTop={0} />
 </Writing>
+
+<style>
+    .sticky-items {
+        position: sticky;
+        top: 0;
+        left: 0; /* TODO(@mc) -- horizontal sticky not working */
+        z-index: 100;
+        padding-bottom: 1rem;
+    }
+</style>

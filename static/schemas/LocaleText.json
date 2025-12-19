@@ -9838,6 +9838,10 @@
                     "save": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for saving a how-to draft"
+                    },
+                    "title": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "Field text for how-to title"
                     }
                   },
                   "required": [
@@ -9848,7 +9852,8 @@
                     "notificationOptOut",
                     "prompt",
                     "editorPlaceholder",
-                    "editorDescription"
+                    "editorDescription",
+                    "title"
                   ],
                   "type": "object"
                 },
@@ -9858,12 +9863,27 @@
                     "$ref": "#/definitions/ButtonText"
                   },
                   "type": "array"
+                },
+                "viewHowTo": {
+                  "additionalProperties": false,
+                  "description": "Buttons and dialogs for viewing a new how-to",
+                  "properties": {
+                    "view": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for viewing the how-to"
+                    }
+                  },
+                  "required": [
+                    "view"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
                 "galleryView",
                 "canvasView",
                 "newHowTo",
+                "viewHowTo",
                 "error",
                 "reactions"
               ],
