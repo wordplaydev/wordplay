@@ -6,7 +6,7 @@
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { HowTos } from '@db/Database';
+    import { HowTos, locales } from '@db/Database';
 
     let show: boolean = $state(false);
     let notify: boolean = $state(true);
@@ -20,10 +20,9 @@
     let { midpointX, midpointY }: Props = $props();
 
     const galleryId: string = decodeURI(page.params.galleryid);
-    // const reactionOptions: string[] = $locales.ui.howto.reactions.map(
-    //     (r: ButtonText) => r.label,
-    // );
-    const reactionOptions: string[] = ['👍', '💭', '🙏', '🎉', '🤩', '😁'];
+    const reactionOptions: string[] = $locales
+        .get((l) => l.ui.howto.reactions)
+        .map((b) => b.label);
 
     function saveDraft() {
         HowTos.addHowTo(
@@ -33,7 +32,7 @@
             midpointY,
             [],
             '',
-            [],
+            [$locales.get((l) => l.ui.howto.newHowTo.prompt)],
             [howToContent],
             ['en-US'],
             reactionOptions,
@@ -48,7 +47,7 @@
             midpointY,
             [],
             '',
-            [],
+            [$locales.get((l) => l.ui.howto.newHowTo.prompt)],
             [howToContent],
             ['en-US'],
             reactionOptions,

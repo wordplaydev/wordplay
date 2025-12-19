@@ -127,7 +127,7 @@ service cloud.firestore {
         return gallery != null && (uid in gallery.curators);
       }
 
-      allow create: if request.auth != null && isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId);
+      allow create: if request.auth != null && "galleryId" in request.resource.data && isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId);
       // How-tos are readable if:
       // 1) the gallery the how-to is in is public
       // 2) the requestor is the owner or a collaborator
@@ -144,11 +144,11 @@ service cloud.firestore {
       // How-tos can be updated if:
       // 1) owner or collaborator
       // 2) curator of the gallery the how-to is in
-        if request.auth != null && 'galleryId' in resource.data && 
+        if request.auth != null && 'galleryId' in request.resource.data && 
           (
             "mod" in request.auth.token && request.auth.token.mod ||
             isRequestorOwnerCollaborator(request.auth.uid) ||
-            isRequestorCurator(request.auth.uid, resource.data.galleryId)
+            isRequestorCurator(request.auth.uid, request.resource.data.galleryId)
           );
       allow delete: if request.auth != null && resource.data.creator == request.auth.uid;
     }

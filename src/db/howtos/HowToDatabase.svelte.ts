@@ -3,8 +3,8 @@ import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
-import type { Unsubscribe, User } from 'firebase/auth';
-import { collection, deleteDoc, doc, Firestore, getDocs, onSnapshot, or, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import type { Unsubscribe } from 'firebase/auth';
+import { collection, deleteDoc, doc, Firestore, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
@@ -191,9 +191,10 @@ export class HowToDatabase {
     }
 
     syncUser() {
-        if (firestore === undefined) return;
-        const user = this.db.getUser();
-        if (user) this.listen(firestore, user);
+        // TODO(@mc) -- this still needs to be implemented, even though we are changing the listen function
+        // if (firestore === undefined) return;
+        // const user = this.db.getUser();
+        // if (user) this.listen(firestore, user);
     }
 
     async addHowTo(
@@ -232,6 +233,8 @@ export class HowToDatabase {
             usedByProjects: [],
             chat: null,
         };
+
+        console.log(newHowTo);
 
         // Add the how-to to Firebase, relying on the realtime listener to update the local cache.
         try {
@@ -375,15 +378,12 @@ export class HowToDatabase {
         if (this.unsubscribe) this.unsubscribe();
     }
 
-    listen(firestore: Firestore, user: User) {
+    listen(firestore: Firestore, galleryID: string) {
         this.ignore();
         this.unsubscribe = onSnapshot(
             query(
                 collection(firestore, HowTosCollection),
-                or(
-                    where('collaborators', 'array-contains', user.uid),
-                    where('creator', '==', user.uid),
-                )
+                where('galleryId', '==', galleryID)
             ),
             async (snapshot) => {
                 // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
