@@ -47,8 +47,6 @@
 
     <HowToForm />
 
-    <HowToView howToId="testid" />
-
     <HowToDrafts />
 
     <HowToCanvas />
