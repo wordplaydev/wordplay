@@ -2,15 +2,19 @@
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
+    import { HowTos } from '@db/Database';
+    import HowTo from '@db/howtos/HowToDatabase.svelte';
 
     interface Props {
-        xcoord: number;
-        ycoord: number;
-        title: string;
-        preview: string;
+        howTo: HowTo;
     }
 
-    let { xcoord = 0, ycoord = 0, title = '', preview = '' }: Props = $props();
+    let { howTo }: Props = $props();
+    let title: string = $derived(howTo.getTitle());
+    let text: string[] = $derived(howTo.getText());
+    let xcoord: number = $derived(howTo.getCoordinates()[0]);
+    let ycoord: number = $derived(howTo.getCoordinates()[1]);
+    let preview: string = $derived(text.at(0)?.charAt(0) || '');
 
     let moving: boolean = false;
 
@@ -23,11 +27,21 @@
         if (moving) {
             xcoord += e.movementX;
             ycoord += e.movementY;
+            console.log(xcoord, ycoord);
         }
     }
 
     function onMouseUp() {
         moving = false;
+
+        HowTos.updateHowTo(
+            new HowTo({
+                ...howTo.getData(),
+                xcoord: xcoord,
+                ycoord: ycoord,
+            }),
+            true,
+        );
     }
 
     let show: boolean = $state(false);
@@ -53,7 +67,7 @@
         >
             <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
 
-            <MarkupHTMLView markup={(l) => 'hello world'} />
+            <MarkupHTMLView markup={(l) => text} />
         </Dialog>
     </div>
 </div>
@@ -66,15 +80,9 @@
         position: absolute;
         left: var(--xcoord);
         top: var(--ycoord);
-        min-width: 100px;
-        max-width: 100px;
     }
 
     .howtopreview {
-        min-width: 100px;
-        min-height: 100px;
-        max-width: 100px;
-        max-height: 100px;
         border: 1px solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);

@@ -157,12 +157,10 @@ export class HowToDatabase {
     }
 
     async updateHowTo(howTo: HowTo, persist: boolean) {
-        const galleryID = howTo.getHowToGalleryId();
         const howToID = howTo.getHowToId();
 
         // set the revised how-to in the local state, propogating updates
         this.howtos.set(howToID, howTo);
-        this.galleryHowTos.set(galleryID, [...(this.galleryHowTos.get(galleryID) || []), howToID]);
 
         // make sure we're listening to updates on this chat's gallery
         // TODO(@mc): can we listen using the howtoid?

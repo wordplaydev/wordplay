@@ -37,6 +37,8 @@
             ['en-US'],
             reactionOptions,
         );
+
+        howToContent = '';
     }
 
     function postHowTo() {
@@ -52,6 +54,8 @@
             ['en-US'],
             reactionOptions,
         );
+
+        howToContent = '';
     }
 </script>
 

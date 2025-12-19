@@ -34,12 +34,7 @@
 <div class="howtocanvas">
     {#each howTos as howto, i (i)}
         {#if howto.getCoordinates()[0] >= currentViewLeft - 100 && howto.getCoordinates()[0] <= currentViewRight + 100 && howto.getCoordinates()[1] >= currentViewTop - 100 && howto.getCoordinates()[1] <= currentViewBottom + 100}
-            <HowToPreview
-                title={howto.getTitle()}
-                preview={howto.getText()[0]}
-                xcoord={howto.getCoordinates()[0] - currentViewLeft}
-                ycoord={howto.getCoordinates()[1] - currentViewTop}
-            />
+            <HowToPreview howTo={howto} />
         {/if}
     {/each}
 </div>
