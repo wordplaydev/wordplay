@@ -1544,6 +1544,7 @@
                     $highlights,
                     true,
                     $locales.getDirection() === 'rtl',
+                    $blocks,
                     getNodeView,
                 );
             });
@@ -1559,6 +1560,7 @@
                   getNodeView,
                   true,
                   $locales.getDirection() === 'rtl',
+                  $blocks,
               )
             : undefined,
     );

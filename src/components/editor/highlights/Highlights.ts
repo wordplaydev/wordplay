@@ -319,6 +319,7 @@ export function updateOutlines(
     highlights: Highlights,
     horizontal: boolean,
     rtl: boolean,
+    blocks: boolean,
     getNodeView: (node: Node) => HTMLElement | undefined,
 ): HighlightSpec[] {
     const outlines = [];
@@ -329,8 +330,8 @@ export function updateOutlines(
         if (nodeView) {
             const outline = {
                 types: Array.from(types),
-                outline: getOutlineOf(nodeView, horizontal, rtl),
-                underline: getUnderlineOf(nodeView, horizontal, rtl),
+                outline: getOutlineOf(nodeView, horizontal, rtl, blocks),
+                underline: getUnderlineOf(nodeView, horizontal, rtl, blocks),
             };
             outlines.push(outline);
             nodeViews.set(outline, nodeView);
@@ -389,6 +390,7 @@ export function updateOutlines(
                     view,
                     horizontal,
                     rtl,
+                    blocks,
                     offset,
                 );
         }
@@ -405,6 +407,7 @@ export function getRangeOutline(
     getNodeView: (node: Node) => HTMLElement | undefined,
     horzontal: boolean,
     rtl: boolean,
+    blocks: boolean,
 ): Outline | undefined {
     if (start > end) {
         const temp = start;
@@ -435,7 +438,7 @@ export function getRangeOutline(
     if (nodeViews.length === 0) return undefined;
 
     // Convert the tokens into rectangles
-    const tokenRects = getTokenRects(nodeViews, {
+    const tokenRects = getTokenRects(nodeViews, blocks, {
         start: start - tokens[0].start,
         end: end - tokens[tokens.length - 1].start,
     });

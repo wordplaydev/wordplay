@@ -963,8 +963,18 @@
         if (nodeView instanceof HTMLElement)
             outline = {
                 types: ['dragging'],
-                outline: getOutlineOf(nodeView, true, direction === 'rtl'),
-                underline: getUnderlineOf(nodeView, true, direction === 'rtl'),
+                outline: getOutlineOf(
+                    nodeView,
+                    true,
+                    direction === 'rtl',
+                    $blocks,
+                ),
+                underline: getUnderlineOf(
+                    nodeView,
+                    true,
+                    direction === 'rtl',
+                    $blocks,
+                ),
             };
     });
 

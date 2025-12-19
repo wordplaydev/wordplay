@@ -21,7 +21,10 @@ export function measureTokenSegment(
             .substring(0, tokenOffset)
             .toString().length;
         return measureSubstringWidth(textNode, 0, codepointOffset);
-    } else return undefined;
+    } else {
+        console.error('Unable to find text node to measure segment.');
+        return undefined;
+    }
 }
 
 /** Given a text node, determine the dimensions of a substring of it. */

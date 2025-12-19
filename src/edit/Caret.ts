@@ -584,10 +584,14 @@ export default class Caret {
         else return this;
     }
 
-    static isTokenTextBlockEditable(token: Token): boolean {
+    static isTokenTextBlockEditable(
+        token: Token,
+        parent: Node | undefined,
+    ): boolean {
         return (
-            token.isSymbol(Sym.Name) ||
+            (token.isSymbol(Sym.Name) && parent instanceof Name) ||
             token.isSymbol(Sym.Words) ||
+            token.isSymbol(Sym.Text) ||
             token.isSymbol(Sym.Number)
         );
     }
@@ -598,6 +602,7 @@ export default class Caret {
             token.isSymbol(Sym.Operator) ||
             token.isSymbol(Sym.Words) ||
             token.isSymbol(Sym.Number) ||
+            token.isSymbol(Sym.Text) ||
             token.isSymbol(Sym.Boolean) ||
             token.isSymbol(Sym.Placeholder)
         );
@@ -640,7 +645,12 @@ export default class Caret {
                     }
                 }
                 // If the token's individual symbols are editable, add them to the list.
-                if (Caret.isTokenTextBlockEditable(node)) {
+                if (
+                    Caret.isTokenTextBlockEditable(
+                        node,
+                        this.source.root.getParent(node),
+                    )
+                ) {
                     const start = this.source.getTokenTextPosition(node);
                     const end = this.source.getTokenLastPosition(node);
                     if (start !== undefined && end !== undefined) {
