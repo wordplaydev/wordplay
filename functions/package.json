@@ -9,7 +9,8 @@
         "start": "npm run shell",
         "predeploy": "npm --prefix functions run build",
         "deploy": "firebase deploy --only functions",
-        "logs": "firebase functions:log"
+        "logs": "firebase functions:log",
+        "outdated": "npx check-outdated --ignore-pre-releases --columns name,type,current,latest,changes"
     },
     "engines": {
         "node": "20"
