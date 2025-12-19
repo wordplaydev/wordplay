@@ -2,8 +2,9 @@
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe, User } from 'firebase/auth';
-import { collection, deleteDoc, doc, Firestore, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, Firestore, getDocs, onSnapshot, or, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
@@ -375,63 +376,62 @@ export class HowToDatabase {
     }
 
     listen(firestore: Firestore, user: User) {
+        this.ignore();
+        this.unsubscribe = onSnapshot(
+            query(
+                collection(firestore, HowTosCollection),
+                or(
+                    where('collaborators', 'array-contains', user.uid),
+                    where('creator', '==', user.uid),
+                )
+            ),
+            async (snapshot) => {
+                // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
+                // so we can delete ones that are gone from the server.
+                snapshot.forEach((doc) => {
+                    const howto = doc.data();
 
+                    // try to parse the how-to and save on success.
+                    try {
+                        HowToSchema.parse(howto);
+                        // Update the how-to in the local cache, but do not persist; we just got it from the DB.
+                        this.updateHowTo(
+                            new HowTo(howto as HowToDocument),
+                            false,
+                        )
+                    } catch (error) {
+                        // If the how-to doesn't succeed, then we don't save it.
+                        console.error(error);
+                    }
+                });
 
-        // old code that doesn't work
-        //         this.ignore();
-        //         this.unsubscribe = onSnapshot(
-        //             query(
-        //                 collection(firestore, HowTosCollection),
-        //                 where('collaborators', 'array-contains', user.uid),
-        //                 where('creator', '==', user.uid),
-        //             ),
-        //             async (snapshot) => {
-        //                 // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
-        //                 // so we can delete ones that are gone from the server.
-        //                 snapshot.forEach((doc) => {
-        //                     const howto = doc.data();
+                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
+                snapshot.docChanges().forEach((change) => {
+                    // Removed? Delete the local cache of the gallery.
+                    // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
+                    if (change.type === 'removed') {
+                        const howToId = change.doc.id;
+                        const galleryId = change.doc.data().galleryId;
 
-        //                     // try to parse the how-to and save on success.
-        //                     try {
-        //                         HowToSchema.parse(howto);
-        //                         // Update the how-to in the local cache, but do not persist; we just got it from the DB.
-        //                         this.updateHowTo(
-        //                             new HowTo(howto as HowToDocument),
-        //                             false,
-        //                         )
-        //                     } catch (error) {
-        //                         // If the how-to doesn't succeed, then we don't save it.
-        //                         console.error(error);
-        //                     }
-        //                 });
+                        this.howtos.delete(howToId);
+                        this.galleryHowTos.set(galleryId, this.galleryHowTos.get(galleryId)?.filter((id) => id !== howToId) ?? []);
 
-        //                 // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-        //                 snapshot.docChanges().forEach((change) => {
-        //                     // Removed? Delete the local cache of the gallery.
-        //                     // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
-        //                     if (change.type === 'removed') {
-        //                         const howToId = change.doc.id;
-        //                         const galleryId = change.doc.data().galleryId;
+                        if (this.galleryHowTos.get(galleryId)?.length === 0) {
+                            this.galleryHowTos.delete(galleryId);
 
-        //                         this.howtos.set(galleryId, this.howtos.get(galleryId)?.filter((ht) => ht.getHowToId() !== howToId) ?? []);
-
-        //                         if (this.howtos.get(galleryId)?.length === 0) {
-        //                             this.howtos.delete(galleryId);
-
-        //                             if (this.galleryListener) {
-        //                                 this.db.Galleries.ignore(howToId, this.galleryListener);
-        //                             }
-        //                         }
-        //                     }
-        //                 });
-        //             },
-        //             (error) => {
-        //                 if (error instanceof FirebaseError) {
-        //                     console.error(error.code);
-        //                     console.error(error.message);
-        //                 }
-        //             }
-        //         );
-        //     }
+                            if (this.galleryListener) {
+                                this.db.Galleries.ignore(howToId, this.galleryListener);
+                            }
+                        }
+                    }
+                });
+            },
+            (error) => {
+                if (error instanceof FirebaseError) {
+                    console.error(error.code);
+                    console.error(error.message);
+                }
+            }
+        );
     }
 }
