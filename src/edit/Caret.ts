@@ -1084,15 +1084,14 @@ export default class Caret {
     insert(
         text: string,
         // Whether in blocks mode, meaning no syntax errors allowed.
-        validOnly: boolean,
+        blocks: boolean,
         project: Project,
         complete = true,
     ): Edit | ProjectRevision | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
-        if (validOnly && (text === ' ' || text === '\t' || text === '\n'))
-            return;
+        if (blocks && (text === '\t' || text === '\n')) return;
 
         // See if it's a rename.
         const renameEdit = project
@@ -1161,7 +1160,7 @@ export default class Caret {
             newSource,
             newPosition,
             project,
-            validOnly,
+            blocks,
         );
 
         // Keep track of whether we closed a delimiter.
@@ -1196,7 +1195,7 @@ export default class Caret {
             newPosition + (closed ? 1 : new UnicodeString(text).getLength());
 
         // Finally, if we're in blocks mode, verify that the insertion was valid.
-        if (validOnly) {
+        if (blocks) {
             const currentConflicts = project.getMajorConflictsNow().length;
             const conflicts = project
                 .withSource(this.source, newSource)
