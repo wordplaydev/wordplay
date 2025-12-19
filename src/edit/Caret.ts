@@ -591,7 +591,6 @@ export default class Caret {
         return (
             (token.isSymbol(Sym.Name) && parent instanceof Name) ||
             token.isSymbol(Sym.Words) ||
-            token.isSymbol(Sym.Text) ||
             token.isSymbol(Sym.Number)
         );
     }
@@ -1091,7 +1090,23 @@ export default class Caret {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
-        if (blocks && (text === '\t' || text === '\n')) return;
+        if (blocks) {
+            // Don't permit space unless inside a block editable token.
+            if (
+                text === ' ' &&
+                (this.tokenIncludingSpace === undefined ||
+                    !Caret.isTokenTextBlockEditable(
+                        this.tokenIncludingSpace,
+                        this.source.root.getParent(this.tokenIncludingSpace),
+                    ))
+            )
+                return;
+
+            console.log(this.tokenIncludingSpace?.getText());
+
+            // Don't permit space insertion.
+            if (text === '\t' || text === '\n') return;
+        }
 
         // See if it's a rename.
         const renameEdit = project
