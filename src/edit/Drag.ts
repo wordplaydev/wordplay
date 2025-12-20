@@ -1,8 +1,8 @@
 import type Project from '@db/projects/Project';
-import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import Literal from '@nodes/Literal';
 import Node, { ListOf } from '@nodes/Node';
 import Program from '@nodes/Program';
 import Source from '@nodes/Source';
@@ -19,14 +19,14 @@ import getPreferredSpaces from '@parser/getPreferredSpaces';
 export class InsertionPoint {
     /** The node before the insertion point. */
     readonly node: Node;
-    /** The token before the insertion point. */
-    readonly token: Token;
+    /** The optional token before the insertion point, if in text mode. */
+    readonly token: Token | undefined;
     /** The field the insertion point corresponds to. */
     readonly field: string;
     /** The list being inserted into */
     readonly list: Node[];
     /** The local line index in the space prior the node, from 0 to n */
-    readonly line: number;
+    readonly line: number | undefined;
     /** The index into the list being inserted into. */
     readonly index: number;
 
@@ -34,8 +34,8 @@ export class InsertionPoint {
         node: Node,
         field: string,
         list: Node[],
-        token: Token,
-        line: number,
+        token: Token | undefined,
+        line: number | undefined,
         index: number,
     ) {
         this.node = node;
@@ -162,7 +162,7 @@ export function dropNodeOnSource(
         let count = 0;
         for (; index < space.length; index++) {
             if (space.charAt(index) === '\n') count++;
-            if (count > insertion.line) break;
+            if (insertion.line !== undefined && count > insertion.line) break;
         }
 
         // Split it based on the line number in the preceding space.
@@ -286,7 +286,9 @@ export function isValidDropTarget(
     // If the field permits the dragged node's kind, and either isn't typed or the dragged node's type is accepted by the field's type, allow the drop.
     if (
         // Don't permit drops on binds, unless the dragged is a bind
-        (!(target instanceof Bind) || dragged instanceof Bind) &&
+        (target instanceof Literal ||
+            target instanceof ExpressionPlaceholder ||
+            target instanceof TypePlaceholder) &&
         field.kind.allowsKind(dragged.constructor) &&
         (field.getType === undefined ||
             !(dragged instanceof Expression) ||

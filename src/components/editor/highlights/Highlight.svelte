@@ -147,19 +147,15 @@
     }
 
     /* Drop targets animate stroke */
-    .outline.target path {
+    .outline.target path,
+    .outline.empty path {
         stroke: var(--wordplay-highlight-color);
         animation: pulse infinite;
-        animation-duration: calc(var(--animation-factor) * 2s);
+        animation-duration: calc(var(--animation-factor) * 1s);
     }
 
     .outline.match path {
         stroke: var(--wordplay-highlight-color);
-    }
-
-    .outline.target path {
-        animation: pulse infinite;
-        animation-duration: calc(var(--animation-factor) * 1s);
     }
 
     /* Conflicts layer on top of everything else */

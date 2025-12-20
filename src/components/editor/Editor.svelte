@@ -76,7 +76,7 @@
     import Highlight from './highlights/Highlight.svelte';
     import {
         type HighlightSpec,
-        type Highlights,
+        Highlights,
         getHighlights,
         getRangeOutline,
         updateOutlines,
@@ -209,7 +209,7 @@
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
-    const highlights = writable<Highlights>(new Map());
+    const highlights = writable<Highlights>(new Highlights());
     setHighlights(highlights);
 
     // A store of what node is hovered over, excluding tokens, used in drag and drop.
@@ -366,8 +366,9 @@
         // Is the creator hovering over a valid drop target? If so, execute the edit.
         if (
             $dragged &&
-            $hovered &&
-            isValidDropTarget(project, $dragged, $hovered, $insertion)
+            (($hovered &&
+                isValidDropTarget(project, $dragged, $hovered, $insertion)) ||
+                $insertion)
         )
             drop();
 
@@ -384,12 +385,15 @@
         if ($dragged === undefined) return;
         if ($hovered === undefined && $insertion === undefined) return;
 
-        const [newProject, newSource, droppedNode] = dropNodeOnSource(
-            project,
-            source,
-            $dragged,
-            $hovered ?? ($insertion as Node | InsertionPoint),
-        ) ?? [undefined, undefined];
+        const target = $hovered ?? $insertion;
+
+        const [newProject, newSource, droppedNode] =
+            target === undefined
+                ? [undefined, undefined]
+                : (dropNodeOnSource(project, source, $dragged, target) ?? [
+                      undefined,
+                      undefined,
+                  ]);
 
         if (newProject === undefined || droppedNode === undefined) return;
 
@@ -750,7 +754,38 @@
         return source.getCode().getLength();
     }
 
-    function getInsertionPointsAt(event: PointerEvent) {
+    /** Given a pointer event, find the insertion points in blocks mode. */
+    function getBlockInsertionPointsAt(
+        event: PointerEvent,
+    ): InsertionPoint | undefined {
+        // Find the node under the pointer.
+        const nodeUnderPointer = getNodeAt(event, false);
+        if (nodeUnderPointer === undefined) return undefined;
+
+        // Does the node under the pointer have an empty inside it?
+        const el = document.elementFromPoint(event.clientX, event.clientY);
+
+        // Only return a node if hovering over its text. Space isn't eligible.
+        if (el instanceof HTMLElement) {
+            const node = el.closest(`.node-view`);
+            const emptyView = node?.querySelector(`.empty`);
+            if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
+                const list = nodeUnderPointer.getField(emptyView.dataset.field);
+                if (Array.isArray(list))
+                    return new InsertionPoint(
+                        nodeUnderPointer,
+                        emptyView.dataset.field,
+                        list,
+                        undefined,
+                        undefined,
+                        0,
+                    );
+            }
+        }
+    }
+
+    /** Given a pointer event, find the insertion points in text mode. */
+    function getTextInsertionPointsAt(event: PointerEvent) {
         // Is the caret position between tokens?
         // If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
@@ -871,25 +906,34 @@
 
         // Update insertion points if something is dragged and hovered isn't a placeholder.
         if (
-            !$blocks &&
             $dragged &&
             !($hovered instanceof ExpressionPlaceholder) &&
             !($hovered instanceof TypePlaceholder)
         ) {
-            // Get the insertion points at the current mouse position
+            let insertionPoint: InsertionPoint | undefined = undefined;
+
+            // In blocks mode? Handle the case of empty and insert.
+            if ($blocks) {
+                insertionPoint = getBlockInsertionPointsAt(event);
+            }
+            // Get the insertion points at the current pointer position
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
-            const insertionPoint = getInsertionPointsAt(event).filter(
-                (insertion) => {
-                    const kind = insertion.node.getFieldKind(insertion.field);
-                    return (
-                        kind &&
-                        $dragged &&
-                        (kind.allows($dragged) || kind.allows([$dragged]))
-                    );
-                },
-            )[0];
+            else {
+                insertionPoint = getTextInsertionPointsAt(event).filter(
+                    (insertion) => {
+                        const kind = insertion.node.getFieldKind(
+                            insertion.field,
+                        );
+                        return (
+                            kind &&
+                            $dragged &&
+                            (kind.allows($dragged) || kind.allows([$dragged]))
+                        );
+                    },
+                )[0];
+            }
 
             // Set the insertion, whatever we found.
             insertion.set(insertionPoint);

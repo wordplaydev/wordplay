@@ -6,7 +6,7 @@ import Expression, { ExpressionKind } from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Name from '@nodes/Name';
 import NameType from '@nodes/NameType';
-import Node from '@nodes/Node';
+import Node, { ListOf } from '@nodes/Node';
 import Program from '@nodes/Program';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
@@ -26,41 +26,76 @@ import getOutlineOf, {
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
+    // A node selected by the caret
     selected: true,
+    // A node being evaluated
     evaluating: false,
+    // A node with an evaluation exeception
     exception: true,
+    // A node the pointer is hovered over
     hovered: false,
+    // A node that is being dragged
     dragged: false,
+    // A node being dragged
     dragging: false,
+    // A possible drop target for a dragged node
     target: true,
+    // Drag and drop target hovered over
     match: true,
+    // Major conflict, primary
     primary: true,
+    // Minor conflict, secondary
     secondary: true,
+    // Minor conflict
     minor: true,
+    // A node that is animated
     animating: false,
+    // Output that is active on stage
     output: true,
+    // Highlight of a block-level node when blocks are enabled
     blockselected: true,
+    // Highlight of a matching delimiter
     delimiter: false,
+    // Highlight of an empty list to be dragged upon
+    empty: true,
 };
+
+export class Highlights {
+    private map: Map<Node, Set<HighlightType>> = new Map();
+    private empty: Map<Node, Set<string>> = new Map();
+
+    add(source: Source, node: Node, type: HighlightType) {
+        if (source.has(node)) {
+            if (!this.map.has(node))
+                this.map.set(node, new Set<HighlightType>());
+            this.map.get(node)?.add(type);
+        }
+    }
+
+    addEmpty(node: Node, field: string) {
+        if (!this.empty.has(node)) this.empty.set(node, new Set<string>());
+        this.empty.get(node)?.add(field);
+    }
+
+    entries() {
+        return this.map.entries();
+    }
+
+    get(node: Node): Set<HighlightType> | undefined {
+        return this.map.get(node);
+    }
+
+    getEmpty(node: Node): Set<string> | undefined {
+        return this.empty.get(node);
+    }
+}
+
 export type HighlightType = keyof typeof HighlightTypes;
-export type Highlights = Map<Node, Set<HighlightType>>;
 export type HighlightSpec = {
     types: HighlightType[];
     outline: Outline;
     underline: Outline;
 };
-
-function addHighlight(
-    source: Source,
-    map: Highlights,
-    node: Node,
-    type: HighlightType,
-) {
-    if (source.has(node)) {
-        if (!map.has(node)) map.set(node, new Set<HighlightType>());
-        map.get(node)?.add(type);
-    }
-}
 
 export function getHighlights(
     source: Source,
@@ -73,18 +108,17 @@ export function getHighlights(
     selectedOutput: Evaluate[] | undefined,
     blocks: boolean,
 ): Highlights {
+    let highlights = new Highlights();
+
     const project = evaluator.project;
     const context = project.getContext(source);
 
     const latestValue = evaluator.getLatestSourceValue(source);
 
-    // Build a set of highlights to render.
-    const newHighlights = new Map<Node, Set<HighlightType>>();
-
     // Is there a step we're actively evaluating? Highlight it!
     const stepNode = evaluator.getStepNode();
     if (stepNode) {
-        addHighlight(source, newHighlights, stepNode, 'evaluating');
+        highlights.add(source, stepNode, 'evaluating');
     }
 
     // Is there an exception on the last step? Highlight the node that created it!
@@ -93,7 +127,7 @@ export function getHighlights(
         latestValue.step !== undefined &&
         latestValue.step.node instanceof Node
     )
-        addHighlight(source, newHighlights, latestValue.step.node, 'exception');
+        highlights.add(source, latestValue.step.node, 'exception');
 
     // Is the caret selecting a non-placeholder node? Highlight it.
     if (caret.position instanceof Node && !caret.isPlaceholderNode()) {
@@ -101,20 +135,18 @@ export function getHighlights(
             !blocks ||
             !(caret.position instanceof Expression) ||
             caret.position.getKind() === ExpressionKind.Simple;
-        addHighlight(
+        highlights.add(
             source,
-            newHighlights,
             caret.position,
             !blocks ? 'selected' : 'blockselected',
         );
-        if (tokensSelected)
-            addHighlight(source, newHighlights, caret.position, 'hovered');
+        if (tokensSelected) highlights.add(source, caret.position, 'hovered');
     }
 
     // Is a node being dragged?
     if (dragged !== undefined) {
         // Highlight the node.
-        addHighlight(source, newHighlights, dragged, 'dragged');
+        highlights.add(source, dragged, 'dragged');
 
         // If there's something hovered or an insertion point, show targets and matches.
         // If we're hovered over a valid drop target, highlight the hovered node.
@@ -123,16 +155,31 @@ export function getHighlights(
             isValidDropTarget(project, dragged, hovered, insertion)
         ) {
             // Highlight the matching drop target being hovered.
-            addHighlight(source, newHighlights, hovered, 'match');
-            addHighlight(source, newHighlights, hovered, 'hovered');
+            highlights.add(source, hovered, 'match');
+            highlights.add(source, hovered, 'hovered');
         }
         // No valid hover target? Highlight valid drop targets.
-        else {
-            // Find all of the expressions with compatible types and highlight them as drop targets,
-            // unless they are dragged or contained in the dragged node
+        else if (insertion === undefined) {
+            // Search the source file for targets to highlight.
             for (const target of source.expression.nodes()) {
+                // Is this target a valid drop target? Highlight it!
                 if (isValidDropTarget(project, dragged, target, insertion)) {
-                    addHighlight(source, newHighlights, target, 'target');
+                    highlights.add(source, target, 'target');
+                }
+                // Does this target have an empty field we can insert into?
+                const elgibleFields = target.getGrammar().filter((field) => {
+                    if (!(field.kind instanceof ListOf)) return false;
+                    if (!field.kind.allowsKind(target.constructor))
+                        return false;
+                    const value = target.getField(field.name);
+                    const empty = Array.isArray(value) && value.length === 0;
+                    return empty;
+                });
+                if (elgibleFields.length > 0) {
+                    highlights.add(source, target, 'empty');
+                    for (const field of elgibleFields) {
+                        highlights.addEmpty(target, field.name);
+                    }
                 }
             }
         }
@@ -145,47 +192,45 @@ export function getHighlights(
             hovered.getKind() !== ExpressionKind.Simple
         )
     )
-        addHighlight(source, newHighlights, hovered, 'hovered');
+        highlights.add(source, hovered, 'hovered');
 
     // Inserting? Highlight the parent we're inserting into.
     if (insertion) {
-        const parent = project
-            .getRoot(insertion.node)
-            ?.getParent(insertion.node);
-        if (parent) addHighlight(source, newHighlights, parent, 'hovered');
+        highlights.add(source, insertion.node, 'match');
+        highlights.add(source, insertion.node, 'hovered');
+        highlights.addEmpty(insertion.node, insertion.field);
     }
 
     // Tag all nodes with primary conflicts as primary
     for (const [primary, conflicts] of project.getPrimaryConflicts())
-        addHighlight(
+        highlights.add(
             source,
-            newHighlights,
             primary,
             conflicts.every((c) => !c.isMinor()) ? 'primary' : 'minor',
         );
 
     // Tag all nodes with secondary conflicts as primary
     for (const secondary of project.getSecondaryConflicts().keys())
-        addHighlight(source, newHighlights, secondary, 'secondary');
+        highlights.add(source, secondary, 'secondary');
 
     // Are there any poses in this file being animated?
     if (animatingNodes)
         for (const animating of animatingNodes) {
             if (source.has(animating))
-                addHighlight(source, newHighlights, animating, 'animating');
+                highlights.add(source, animating, 'animating');
         }
 
     // Is any output selected?
     if (selectedOutput) {
         for (const node of selectedOutput)
-            addHighlight(source, newHighlights, node, 'output');
+            highlights.add(source, node, 'output');
     }
 
     // Does the selected node have a matching delimiter?
     if (caret.position instanceof Token) {
         const match = source.getMatchedDelimiter(caret.position);
         if (match) {
-            addHighlight(source, newHighlights, match, 'delimiter');
+            highlights.add(source, match, 'delimiter');
         }
     }
 
@@ -210,7 +255,7 @@ export function getHighlights(
         !(caretParent instanceof Program) &&
         !(caretParent instanceof Block && caretParent.isRoot())
     )
-        addHighlight(source, newHighlights, caretParent, 'hovered');
+        highlights.add(source, caretParent, 'hovered');
 
     // Highlight definitions and uses
     const reference =
@@ -242,9 +287,8 @@ export function getHighlights(
     if (definition) {
         if (reference) {
             if (definition !== undefined)
-                addHighlight(
+                highlights.add(
                     source,
-                    newHighlights,
                     definition instanceof FunctionDefinition ||
                         definition instanceof StructureDefinition ||
                         definition instanceof Bind
@@ -254,12 +298,7 @@ export function getHighlights(
                 );
         } else {
             if ('names' in definition)
-                addHighlight(
-                    source,
-                    newHighlights,
-                    definition.names,
-                    'hovered',
-                );
+                highlights.add(source, definition.names, 'hovered');
             for (const ref of source
                 .nodes()
                 .filter(
@@ -267,12 +306,12 @@ export function getHighlights(
                         (def instanceof Reference || def instanceof NameType) &&
                         def.resolve(context) === definition,
                 ))
-                addHighlight(source, newHighlights, ref, 'hovered');
+                highlights.add(source, ref, 'hovered');
         }
     }
 
     // Update the store, broadcasting the highlights to all node views for rendering.
-    return newHighlights;
+    return highlights;
 }
 
 /** Populate the given Set with nodes to highlight. */
@@ -283,19 +322,55 @@ export function updateOutlines(
     blocks: boolean,
     getNodeView: (node: Node) => HTMLElement | undefined,
 ): HighlightSpec[] {
-    const outlines = [];
+    const outlines: HighlightSpec[] = [];
     const nodeViews = new Map<HighlightSpec, HTMLElement>();
     // Convert all of the highlighted views into outlines of the nodes.
     for (const [node, types] of highlights.entries()) {
         const nodeView = getNodeView(node);
         if (nodeView) {
-            const outline = {
-                types: Array.from(types),
-                outline: getOutlineOf(nodeView, horizontal, rtl, blocks),
-                underline: getUnderlineOf(nodeView, horizontal, rtl, blocks),
-            };
-            outlines.push(outline);
-            nodeViews.set(outline, nodeView);
+            // If this node has empty fields to highlight, add outlines for those too.
+            const emptyFields = highlights.getEmpty(node);
+            if (emptyFields && emptyFields.size > 0) {
+                for (const fieldName of emptyFields) {
+                    const fieldView = nodeView.querySelector(
+                        `[data-field="${fieldName}"]`,
+                    );
+                    if (fieldView) {
+                        const emptyOutline = {
+                            types: Array.from(types),
+                            outline: getOutlineOf(
+                                fieldView as HTMLElement,
+                                horizontal,
+                                rtl,
+                                blocks,
+                            ),
+                            underline: getUnderlineOf(
+                                fieldView as HTMLElement,
+                                horizontal,
+                                rtl,
+                                blocks,
+                            ),
+                        };
+                        outlines.push(emptyOutline);
+                        nodeViews.set(emptyOutline, fieldView as HTMLElement);
+                    }
+                }
+            }
+            // No empty highlight? Just highlight the node.
+            else {
+                const outline = {
+                    types: Array.from(types),
+                    outline: getOutlineOf(nodeView, horizontal, rtl, blocks),
+                    underline: getUnderlineOf(
+                        nodeView,
+                        horizontal,
+                        rtl,
+                        blocks,
+                    ),
+                };
+                outlines.push(outline);
+                nodeViews.set(outline, nodeView);
+            }
         }
     }
 

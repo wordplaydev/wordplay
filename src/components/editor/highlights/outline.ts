@@ -224,7 +224,7 @@ function nodeToRows(
     rtl: boolean,
     blocks: boolean,
 ): Rect[] {
-    const rects: Rect[] = [
+    let rects: Rect[] = [
         // If this is a program node, include the program's preceding space, since it will be deleted if the program is deleted.
         ...(nodeView.dataset.uiid === 'Program'
             ? getPrecedingSpaceRects(nodeView)
@@ -232,8 +232,10 @@ function nodeToRows(
         ...getNodeTokenRects(nodeView, blocks),
     ];
 
-    // The official way to render nothing...
-    if (rects.length === 0) return [];
+    // If we didn't get any rectangles, that means the node has no tokens.
+    // Let's get the rectangle of the node itself instead.
+    if (rects.length === 0)
+        rects = [getViewRect(getEditorOffset(nodeView), nodeView)];
 
     return rectsToRows(rects, horizontal, rtl);
 }

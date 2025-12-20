@@ -25,7 +25,7 @@
 </script>
 
 {#if style !== 'hide'}
-    <div class="empty">
+    <div class="empty" data-field={field}>
         {#if style === 'label' && label && $project && format.root}
             <LocalizedText
                 path={label(

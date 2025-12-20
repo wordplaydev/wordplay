@@ -52,7 +52,7 @@ test.each([
                 node,
                 'values',
                 node.values,
-                node.find(Token, 2),
+                node.find<Token>(Token, 2),
                 0,
                 1,
             );
@@ -69,7 +69,7 @@ test.each([
                 node,
                 'values',
                 node.values,
-                node.find(Token, 2),
+                node.find<Token>(Token, 2),
                 0,
                 1,
             );
@@ -86,7 +86,7 @@ test.each([
                 node,
                 'values',
                 node.values,
-                node.find(Token, 2),
+                node.find<Token>(Token, 2),
                 0,
                 1,
             );
