@@ -285,8 +285,8 @@ export function isValidDropTarget(
 
     // If the field permits the dragged node's kind, and either isn't typed or the dragged node's type is accepted by the field's type, allow the drop.
     if (
-        // Don't permit drops on binds
-        !(target instanceof Bind) &&
+        // Don't permit drops on binds, unless the dragged is a bind
+        (!(target instanceof Bind) || dragged instanceof Bind) &&
         field.kind.allowsKind(dragged.constructor) &&
         (field.getType === undefined ||
             !(dragged instanceof Expression) ||

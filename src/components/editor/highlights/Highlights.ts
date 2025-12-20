@@ -12,8 +12,6 @@ import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Caret from '../../../edit/Caret';
@@ -128,43 +126,15 @@ export function getHighlights(
             addHighlight(source, newHighlights, hovered, 'match');
             addHighlight(source, newHighlights, hovered, 'hovered');
         }
-        // Otherwise, highlight targets.
+        // No valid hover target? Highlight valid drop targets.
         else {
             // Find all of the expressions with compatible types and highlight them as drop targets,
             // unless they are dragged or contained in the dragged node
-            if (dragged instanceof Expression)
-                for (const target of source.expression.nodes(
-                    (candidate): candidate is Expression =>
-                        candidate instanceof Expression,
-                )) {
-                    if (
-                        !dragged.contains(target) &&
-                        isValidDropTarget(project, dragged, target, insertion)
-                    ) {
-                        addHighlight(source, newHighlights, target, 'target');
-                    }
+            for (const target of source.expression.nodes()) {
+                if (isValidDropTarget(project, dragged, target, insertion)) {
+                    addHighlight(source, newHighlights, target, 'target');
                 }
-
-            // Find all of the type placeholders and highlight them sa drop target
-            if (dragged instanceof Type)
-                for (const placeholder of source.expression.nodes<TypePlaceholder>(
-                    (n): n is TypePlaceholder => n instanceof TypePlaceholder,
-                ))
-                    if (
-                        !dragged.contains(placeholder) &&
-                        isValidDropTarget(
-                            project,
-                            dragged,
-                            placeholder,
-                            insertion,
-                        )
-                    )
-                        addHighlight(
-                            source,
-                            newHighlights,
-                            placeholder,
-                            'target',
-                        );
+            }
         }
     }
     // Otherwise, is a node hovered over? Highlight it.
