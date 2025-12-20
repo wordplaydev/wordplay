@@ -866,6 +866,7 @@
 
         // Update insertion points if something is dragged and hovered isn't a placeholder.
         if (
+            !$blocks &&
             $dragged &&
             !($hovered instanceof ExpressionPlaceholder) &&
             !($hovered instanceof TypePlaceholder)
@@ -898,7 +899,7 @@
 
         const node = getNodeAt(event, false);
 
-        // if the node is associated with a step, set it, otherwise unset it.
+        // If the node is associated with a step, set it, otherwise unset it.
         hovered.set(
             evaluator.isDone() || node === undefined
                 ? undefined

@@ -267,8 +267,7 @@ export function isValidDropTarget(
 ): boolean {
     if (dragged === undefined) return false;
 
-    // Allow expressions to be dropped on expressions.
-    // Find the field the hovered node corresponds to.
+    // If there's a target, see if the dragged node is valid for the field the target is in.
     if (target) {
         const field = project
             .getRoot(target)

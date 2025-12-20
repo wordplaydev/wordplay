@@ -1,8 +1,14 @@
+import Bind from '@nodes/Bind';
+import Block from '@nodes/Block';
+import DefinitionExpression from '@nodes/DefinitionExpression';
 import type Evaluate from '@nodes/Evaluate';
 import Expression, { ExpressionKind } from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
+import Name from '@nodes/Name';
+import NameType from '@nodes/NameType';
 import Node from '@nodes/Node';
+import Program from '@nodes/Program';
+import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Token from '@nodes/Token';
@@ -12,13 +18,6 @@ import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Caret from '../../../edit/Caret';
 import { isValidDropTarget, type InsertionPoint } from '../../../edit/Drag';
-import Bind from '../../../nodes/Bind';
-import Block from '../../../nodes/Block';
-import DefinitionExpression from '../../../nodes/DefinitionExpression';
-import Name from '../../../nodes/Name';
-import NameType from '../../../nodes/NameType';
-import Program from '../../../nodes/Program';
-import Reference from '../../../nodes/Reference';
 import getOutlineOf, {
     getOutlineOfRows,
     getTokenRects,
@@ -77,6 +76,7 @@ export function getHighlights(
     blocks: boolean,
 ): Highlights {
     const project = evaluator.project;
+    const context = project.getContext(source);
 
     const latestValue = evaluator.getLatestSourceValue(source);
 
@@ -124,34 +124,26 @@ export function getHighlights(
             hovered &&
             isValidDropTarget(project, dragged, hovered, insertion)
         ) {
+            // Highlight the matching drop target being hovered.
             addHighlight(source, newHighlights, hovered, 'match');
-            const parent = project.getRoot(hovered)?.getParent(hovered);
-            if (parent) addHighlight(source, newHighlights, parent, 'hovered');
+            addHighlight(source, newHighlights, hovered, 'hovered');
         }
         // Otherwise, highlight targets.
         else {
-            // Find all of the expression placeholders and highlight them as drop targets,
+            // Find all of the expressions with compatible types and highlight them as drop targets,
             // unless they are dragged or contained in the dragged node
             if (dragged instanceof Expression)
-                for (const placeholder of source.expression.nodes(
-                    (n): n is ExpressionPlaceholder =>
-                        n instanceof ExpressionPlaceholder,
-                ))
+                for (const target of source.expression.nodes(
+                    (candidate): candidate is Expression =>
+                        candidate instanceof Expression,
+                )) {
                     if (
-                        !dragged.contains(placeholder) &&
-                        isValidDropTarget(
-                            project,
-                            dragged,
-                            placeholder,
-                            insertion,
-                        )
-                    )
-                        addHighlight(
-                            source,
-                            newHighlights,
-                            placeholder,
-                            'target',
-                        );
+                        !dragged.contains(target) &&
+                        isValidDropTarget(project, dragged, target, insertion)
+                    ) {
+                        addHighlight(source, newHighlights, target, 'target');
+                    }
+                }
 
             // Find all of the type placeholders and highlight them sa drop target
             if (dragged instanceof Type)
@@ -267,7 +259,7 @@ export function getHighlights(
               ? caretParent
               : undefined;
     const definition = reference
-        ? reference.resolve(project.getContext(source))
+        ? reference.resolve(context)
         : name
           ? source.root
                 .getAncestors(name)
@@ -298,7 +290,6 @@ export function getHighlights(
                     definition.names,
                     'hovered',
                 );
-            const context = project.getContext(source);
             for (const ref of source
                 .nodes()
                 .filter(

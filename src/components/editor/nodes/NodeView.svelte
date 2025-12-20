@@ -280,7 +280,7 @@
 
     .block.inline {
         flex-direction: row;
-        align-items: baseline;
+        align-items: center;
         gap: var(--wordplay-spacing-half);
     }
 

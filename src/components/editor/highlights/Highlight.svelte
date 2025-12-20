@@ -149,10 +149,6 @@
     /* Drop targets animate stroke */
     .outline.target path {
         stroke: var(--wordplay-highlight-color);
-        opacity: 1;
-    }
-
-    .outline.target path {
         animation: pulse infinite;
         animation-duration: calc(var(--animation-factor) * 2s);
     }

@@ -2041,7 +2041,7 @@
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        opacity: 0.8;
+        opacity: 0.9;
     }
 
     /* A fancy dragon cursor for dragon drop! Get it? */
