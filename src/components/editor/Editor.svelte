@@ -6,9 +6,11 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Conflict from '@conflicts/Conflict';
     import Project from '@db/projects/Project';
     import type Locale from '@locale/Locale';
+    import { type LocaleTextAccessor } from '@locale/Locales';
     import Evaluate from '@nodes/Evaluate';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Node from '@nodes/Node';
@@ -236,6 +238,7 @@
 
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = $state(false);
+    let keyIgnoredReason = $state<undefined | LocaleTextAccessor>(undefined);
 
     // Caret location comes from the caret
     let caretLocation: CaretBounds | undefined = $state(undefined);
@@ -302,15 +305,16 @@
         }
     }
 
-    function setIgnored(ignored: boolean) {
-        if (ignored) {
-            lastKeyDownIgnored = true;
-            // Flip back to unignored after the animation so we can give more feedback.
-            setTimeout(
-                () => (lastKeyDownIgnored = false),
-                $animationFactor * 250,
-            );
-        } else lastKeyDownIgnored = false;
+    function resetIgnored(resetReason: boolean) {
+        lastKeyDownIgnored = false;
+        if (resetReason) keyIgnoredReason = undefined;
+    }
+
+    function setIgnored(reason: LocaleTextAccessor) {
+        lastKeyDownIgnored = true;
+        keyIgnoredReason = reason;
+        // Flip back to unignored after the animation so we can give more feedback.
+        setTimeout(() => resetIgnored(false), $animationFactor * 250);
     }
 
     /**
@@ -976,11 +980,15 @@
      *      But there are other things that edit, and they may not want the editor grabbing focus.
      **/
     async function handleEdit(
-        edit: Edit | ProjectRevision | undefined,
+        edit: Edit | ProjectRevision | LocaleTextAccessor,
         idle: IdleKind,
         focusAfter: boolean,
     ) {
-        if (edit === undefined) return;
+        // Received a reason to ignore the edit? Set ignored.
+        if (typeof edit === 'function') {
+            setIgnored(edit);
+            return;
+        }
 
         // Clear any existing large deletion notification since a new edit has started
         setLargeDeletionNotification?.(null);
@@ -1041,10 +1049,11 @@
                         ? newCaret
                         : newCaret.withSource(newSource),
                 );
-            } else setIgnored(true);
+            } else setIgnored((l) => l.ui.source.cursor.ignored.readOnly);
         } else {
             // Remove the addition, since the caret moved since being added.
             caret.set(newCaret.withoutAddition());
+            resetIgnored(true);
         }
 
         // After processing the edit, if it was a deletion, check if a large deletion occurred
@@ -1088,9 +1097,9 @@
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
 
-        setIgnored(false);
+        resetIgnored(true);
 
-        let edit: Edit | ProjectRevision | undefined = undefined;
+        let edit: Edit | ProjectRevision | LocaleTextAccessor | undefined;
 
         // Somehow no reference to the input? Bail.
         if (input === null) return;
@@ -1145,7 +1154,7 @@
                             newSource.getTokenAt(newCaret.position),
                         ),
                     ];
-                }
+                } else edit = undefined;
             }
             // Otherwise, just insert the grapheme and limit the input field to the last character.
             else if (!composing) {
@@ -1175,8 +1184,9 @@
         if (!composing) event.preventDefault();
 
         // Did we make an update?
-        if (edit) handleEdit(edit, IdleKind.Typing, true);
-        else setIgnored(true);
+        if (edit instanceof Caret || Array.isArray(edit))
+            handleEdit(edit, IdleKind.Typing, true);
+        else if (edit !== undefined) setIgnored(edit);
     }
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -1194,7 +1204,7 @@
         if (editor === null) return;
 
         // Assume we'll handle it.
-        setIgnored(false);
+        resetIgnored(true);
 
         // If it was a dead key, don't handle it as a command, just remember that it was
         // a dead key, then let the input event above insert it.
@@ -1229,10 +1239,12 @@
         const idle =
             command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
 
-        if (result !== false) {
+        if (typeof result === 'function') {
+            setIgnored(result);
+        } else if (result !== false) {
             if (result instanceof Promise) {
                 result.then((edit) => {
-                    if (edit === undefined) setIgnored(true);
+                    if (typeof edit === 'function') setIgnored(edit);
                     else if (edit !== true) handleEdit(edit, idle, true);
                 });
             } else if (result !== undefined && result !== true) {
@@ -1244,8 +1256,8 @@
             event.stopPropagation();
         }
         // Give feedback that we didn't execute a command.
-        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
-            setIgnored(true);
+        // else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
+        // setIgnored((l) => l.ui.source.cursor.ignored.noShortcut);
     }
 
     function handleCompositionStart() {
@@ -1267,7 +1279,8 @@
                 project,
                 !keyWasDead,
             );
-            if (edit) handleEdit(edit, IdleKind.Typing, true);
+            if (typeof edit === 'function') setIgnored(edit);
+            else handleEdit(edit, IdleKind.Typing, true);
             input.value = '';
         }
     }
@@ -1744,7 +1757,7 @@
         <div
             class="caret-description"
             class:ignored={shakeCaret}
-            class:node={$caret.isNode()}
+            class:visible={$caret.isNode() || keyIgnoredReason !== undefined}
             onpointerdown={(event) => event.stopPropagation()}
             style:left={caretLocation
                 ? `calc(${caretLocation.left}px - ${OutlinePadding}px)`
@@ -1763,7 +1776,11 @@
                 {$caret.position.getLabel(
                     $locales,
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
-                <MenuTrigger position={$caret.position} />{/if}</div
+                <MenuTrigger
+                    position={$caret.position}
+                />{/if}{#if keyIgnoredReason}<em>
+                    &nbsp;<LocalizedText path={keyIgnoredReason} /></em
+                >{/if}</div
         >
     {/key}
     {#if project.getSupplements().length > 0}
@@ -1796,6 +1813,7 @@
         </div>
     {/if}
 </div>
+.
 
 <style>
     .editor {
@@ -1885,7 +1903,7 @@
         opacity: 0;
     }
 
-    .caret-description.node {
+    .caret-description.visible {
         opacity: 1;
     }
 

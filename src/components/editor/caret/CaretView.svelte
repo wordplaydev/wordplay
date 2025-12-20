@@ -20,13 +20,15 @@
         editor: HTMLElement,
         caret: Caret,
         getTokenViews: () => HTMLElement[],
-    ): Caret | undefined {
+    ): Caret | LocaleTextAccessor {
         // Find the token view that the caret is in.
         const currentToken =
             caret.position instanceof Node ? caret.position : caret.getToken();
-        if (currentToken === undefined) return undefined;
+        if (currentToken === undefined)
+            return (l) => l.ui.source.cursor.ignored.noMove;
         const currentTokenView = getNodeView(editor, currentToken);
-        if (currentTokenView === null) return undefined;
+        if (currentTokenView === null)
+            return (l) => l.ui.source.cursor.ignored.noMove;
         const bounds = currentTokenView.getBoundingClientRect();
         const vertical = getVerticalCenterOfBounds(bounds);
         const horizontal = getHorizontalCenterOfBounds(bounds);
@@ -68,7 +70,7 @@
         const closest = nearest[0];
 
         if (closest && closest.node) return caret.withPosition(closest.node);
-        else return undefined;
+        else return (l) => l.ui.source.cursor.ignored.noMove;
     }
 
     export function getTokenView(
@@ -87,6 +89,7 @@
 </script>
 
 <script lang="ts">
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';

@@ -33,7 +33,7 @@ import {
 import type Caret from '../../../edit/Caret';
 
 import { Settings, type Database } from '@db/Database';
-import type LocaleText from '@locale/LocaleText';
+import type { LocaleTextAccessor } from '@locale/Locales';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
@@ -52,7 +52,7 @@ export type Command = {
     /** The iconographic text symbol to use */
     symbol: string;
     /** Gets the locale string from a locale for use in title and aria-label of UI  */
-    description: (locale: LocaleText) => string;
+    description: LocaleTextAccessor;
     /** True if it should be a control in the toolbar */
     visible: Visibility;
     /** The category of command, used to decide where to display controls if visible */
@@ -86,11 +86,13 @@ type CommandResult =
     // An edit to a whole project
     | ProjectRevision
     // An eventual edit to a source file or project
-    | Promise<Edit | ProjectRevision | true | undefined>
+    | Promise<Edit | ProjectRevision | true | LocaleTextAccessor>
     // Handled, but no side effect
     | true
     // Not handled
-    | false;
+    | false
+    // Not handled for a reason that should be communicated.
+    | LocaleTextAccessor;
 
 export type CommandContext = {
     /** The caret for the focused editor */
@@ -661,7 +663,7 @@ export const InsertSymbol: Command = {
     typing: true,
     execute: ({ caret, project, editor, blocks }, key) => {
         if (editor && caret && key.length === 1)
-            return caret.insert(key, blocks, project) ?? false;
+            return caret.insert(key, blocks, project);
         else return false;
     },
 };
@@ -1371,7 +1373,7 @@ const Commands: Command[] = [
                 ).then(() => {
                     return caret.delete(project, false, blocks) ?? true;
                 });
-            } else return false;
+            } else return (l) => l.ui.source.cursor.ignored.noSelection;
         },
     },
     {
@@ -1390,11 +1392,9 @@ const Commands: Command[] = [
         execute: ({ caret }) => {
             if (caret === undefined) return false;
             if (caret.isNode())
-                return (
-                    copyNode(
-                        caret.position,
-                        getPreferredSpaces(caret.source),
-                    ) ?? false
+                return copyNode(
+                    caret.position,
+                    getPreferredSpaces(caret.source),
                 );
             else if (caret.isRange()) {
                 return toClipboard(
@@ -1405,7 +1405,7 @@ const Commands: Command[] = [
                         )
                         .toString(),
                 );
-            } else return false;
+            } else return (l) => l.ui.source.cursor.ignored.noSelection;
         },
     },
     {
@@ -1424,14 +1424,14 @@ const Commands: Command[] = [
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
         execute: async ({ editor, caret, blocks, project }) => {
-            if (!editor) return undefined;
+            if (!editor) return (l) => l.ui.source.cursor.ignored.noEditor;
             // Make sure clipboard is supported.
             if (
                 navigator.clipboard === undefined ||
                 caret === undefined ||
                 navigator.clipboard.read === undefined
             )
-                return undefined;
+                return (l) => l.ui.source.cursor.ignored.noClipboard;
 
             const items = await navigator.clipboard.read();
             for (const item of items) {
@@ -1443,7 +1443,7 @@ const Commands: Command[] = [
                     }
                 }
             }
-            return undefined;
+            return (l) => l.ui.source.cursor.ignored.noClipboardItem;
         },
     },
     {

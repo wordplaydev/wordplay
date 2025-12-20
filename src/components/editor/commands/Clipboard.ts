@@ -1,24 +1,25 @@
+import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
 import type Spaces from '../../../parser/Spaces';
 
 export function copyNode(
     node: Node,
     spaces: Spaces,
-): Promise<true | undefined> {
+): Promise<true | LocaleTextAccessor> {
     return toClipboard(node.toWordplay(spaces).trim());
 }
 
-export async function toClipboard(text: string): Promise<true | undefined> {
+export async function toClipboard(
+    text: string,
+): Promise<true | LocaleTextAccessor> {
     if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
             navigator.clipboard.writeText(text);
             return true;
         } catch (err) {
-            console.error(err, 'Failed to copy to clipboard');
-            return undefined;
+            return (l) => l.ui.source.cursor.ignored.noClipboard;
         }
     } else {
-        console.error('Clipboard API not supported');
-        return undefined;
+        return (l) => l.ui.source.cursor.ignored.noClipboard;
     }
 }

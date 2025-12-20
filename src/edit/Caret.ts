@@ -1,4 +1,5 @@
 import { UnknownName } from '@conflicts/UnknownName';
+import type { LocaleTextAccessor } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
 import Evaluate from '@nodes/Evaluate';
@@ -777,7 +778,7 @@ export default class Caret {
     }
 
     /** Move to the next node or position in blocks mode. */
-    moveInlineSemantic(direction: -1 | 1): Caret | undefined {
+    moveInlineSemantic(direction: -1 | 1): Caret | LocaleTextAccessor {
         // Find the current position.
         const currentPosition = isPosition(this.position)
             ? this.position
@@ -788,7 +789,8 @@ export default class Caret {
                 : this.source.getNodeLastPosition(this.position);
 
         // No current position for some reason? No change;
-        if (currentPosition === undefined) return undefined;
+        if (currentPosition === undefined)
+            return (l) => l.ui.source.cursor.ignored.noMove;
 
         // Get all eligible caret positions in blocks mode, in the order in which we'll search for the next position.
         const positions =
@@ -827,7 +829,7 @@ export default class Caret {
                 return this.withPosition(possible);
             }
         }
-        return undefined;
+        return (l) => l.ui.source.cursor.ignored.noMove;
     }
 
     expandInline(amount: number) {
@@ -1086,7 +1088,7 @@ export default class Caret {
         blocks: boolean,
         project: Project,
         complete = true,
-    ): Edit | ProjectRevision | undefined {
+    ): Edit | ProjectRevision | LocaleTextAccessor {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
@@ -1100,12 +1102,11 @@ export default class Caret {
                         this.source.root.getParent(this.tokenIncludingSpace),
                     ))
             )
-                return;
-
-            console.log(this.tokenIncludingSpace?.getText());
+                return (l) => l.ui.source.cursor.ignored.blockSpace;
 
             // Don't permit space insertion.
-            if (text === '\t' || text === '\n') return;
+            if (text === '\t' || text === '\n')
+                return (l) => l.ui.source.cursor.ignored.blockSpace;
         }
 
         // See if it's a rename.
@@ -1131,9 +1132,11 @@ export default class Caret {
             // If that didn't do anything, try deleting the node.
             const edit = this.deleteNode(this.position, false, project);
             // If that didn't do anything, do nothing; it's not removeable.
-            if (edit === undefined) return;
+            if (edit === undefined)
+                return (l) => l.ui.source.cursor.ignored.noDelete;
             const [source, caret] = edit;
-            if (!isPosition(caret.position)) return;
+            if (!isPosition(caret.position))
+                return (l) => l.ui.source.cursor.ignored.noDelete;
 
             // Otherwise, we deleted it! Update the source and position.
             newSource = source;
@@ -1161,7 +1164,8 @@ export default class Caret {
                 originalPosition = start;
             } else {
                 const edit = this.source.withoutGraphemesBetween(start, end);
-                if (edit === undefined) return;
+                if (edit === undefined)
+                    return (l) => l.ui.source.cursor.ignored.noDelete;
                 newSource = edit;
                 newPosition = start;
                 originalPosition = start;
@@ -1186,7 +1190,8 @@ export default class Caret {
             [text, newSource, newPosition, closed] = autocompletion;
 
         // Did we somehow get no source?
-        if (newSource === undefined) return undefined;
+        if (newSource === undefined)
+            return (l) => l.ui.source.cursor.ignored.noInsert;
 
         // After the autcomplete, are we no longer inserting text, as indicated by empty text insertion?
         // Return what autocomplete returned.
@@ -1200,7 +1205,8 @@ export default class Caret {
         newSource = newSource.withGraphemesAt(text, newPosition);
 
         // Did we somehow get no source? Bail.
-        if (newSource === undefined) return undefined;
+        if (newSource === undefined)
+            return (l) => l.ui.source.cursor.ignored.noInsert;
 
         // What's the new token we added?
         const newToken = newSource.getTokenAt(originalPosition, false);
@@ -1216,7 +1222,8 @@ export default class Caret {
                 .withSource(this.source, newSource)
                 .getMajorConflictsNow()
                 .filter((conflict) => !(conflict instanceof UnknownName));
-            if (conflicts.length > currentConflicts) return undefined;
+            if (conflicts.length > currentConflicts)
+                return (l) => l.ui.source.cursor.ignored.noError;
         }
 
         return [

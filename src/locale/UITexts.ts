@@ -370,6 +370,31 @@ type UITexts = {
             elide: string;
             /** Large deletion notification */
             largeDelete: string;
+            /** Explanations for why something isn't editable */
+            ignored: {
+                /** The source is not editable */
+                readOnly: string;
+                /** No spaces in block mode unless in editable */
+                blockSpace: string;
+                /** No keyboard shortcut for this key */
+                noShortcut: string;
+                /** A node couldn't be deleted */
+                noDelete: string;
+                /** An insertion failed */
+                noInsert: string;
+                /** No errors allowed */
+                noError: string;
+                /** No editor active */
+                noEditor: string;
+                /** No clipboard */
+                noClipboard: string;
+                /** No clipboard item */
+                noClipboardItem: string;
+                /** No selection */
+                noSelection: string;
+                /** No where to go */
+                noMove: string;
+            };
         };
         error: {
             /** An invalid source name */
@@ -900,4 +925,3 @@ type UITexts = {
 };
 
 export { type UITexts as default };
-

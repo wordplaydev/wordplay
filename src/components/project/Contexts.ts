@@ -4,6 +4,7 @@ import type ConceptIndex from '@concepts/ConceptIndex';
 import type Conflict from '@conflicts/Conflict';
 import type Project from '@db/projects/Project';
 import type Locale from '@locale/Locale';
+import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
 import type Root from '@nodes/Root';
 import type Color from '@output/Color';
@@ -134,7 +135,7 @@ export function getCaret() {
 }
 
 export type EditHandler = (
-    edit: Edit | ProjectRevision | undefined,
+    edit: Edit | ProjectRevision | LocaleTextAccessor,
     idle: IdleKind,
     focus: boolean,
 ) => Promise<void>;

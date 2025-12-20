@@ -4544,7 +4544,20 @@
                 "search": "search for special characters to insert",
                 "tidy": "tidy spacing",
                 "elide": "toggle elision",
-                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind."
+                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
+                "ignored": {
+                    "readOnly": "Source is read only",
+                    "blockSpace": "No space allowed here",
+                    "noShortcut": "",
+                    "noDelete": "Can't delete this",
+                    "noInsert": "Unable to insert here",
+                    "noError": "This edit would create a conflict",
+                    "noEditor": "No editor active",
+                    "noClipboard": "No clipboard not available",
+                    "noClipboardItem": "Nothing on the clipboard",
+                    "noSelection": "Nothing selected",
+                    "noMove": "Can't move any further"
+                }
             },
             "error": {
                 "invalidName": "This must be a valid Wordplay name.",
