@@ -161,7 +161,15 @@ export function getHighlights(
             highlights.add(source, hovered, 'match');
             highlights.add(source, hovered, 'hovered');
         }
-        // No valid hover target? Highlight valid drop targets.
+        // No valid hover target? Highlight the insertion point if there is one.
+        else if (insertion) {
+            if (insertion.list.length === 0) {
+                highlights.add(source, insertion.node, 'match');
+                highlights.add(source, insertion.node, 'hovered');
+                highlights.addEmpty(insertion.node, insertion.field);
+            }
+        }
+        // No insert? Highlight valid drop targets.
         else if (insertion === undefined) {
             // Search the source file for targets to highlight.
             for (const target of source.expression.nodes()) {
@@ -204,13 +212,6 @@ export function getHighlights(
         )
     )
         highlights.add(source, hovered, 'hovered');
-
-    // Inserting? Highlight the parent we're inserting into.
-    if (insertion) {
-        highlights.add(source, insertion.node, 'match');
-        highlights.add(source, insertion.node, 'hovered');
-        highlights.addEmpty(insertion.node, insertion.field);
-    }
 
     // Tag all nodes with primary conflicts as primary
     for (const [primary, conflicts] of project.getPrimaryConflicts())

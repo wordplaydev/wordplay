@@ -385,6 +385,7 @@
         if ($dragged === undefined) return;
         if ($hovered === undefined && $insertion === undefined) return;
 
+        // If there's a hovered node, prioritize that. Otherwise, choose the insertion point.
         const target = $hovered ?? $insertion;
 
         const [newProject, newSource, droppedNode] =
@@ -755,31 +756,88 @@
     }
 
     /** Given a pointer event, find the insertion points in blocks mode. */
-    function getBlockInsertionPointsAt(
+    function getBlockInsertionPoint(
         event: PointerEvent,
     ): InsertionPoint | undefined {
         // Find the node under the pointer.
         const nodeUnderPointer = getNodeAt(event, false);
         if (nodeUnderPointer === undefined) return undefined;
 
-        // Does the node under the pointer have an empty inside it?
+        // Does the node under the pointer have an empty or node-list inside it?
         const el = document.elementFromPoint(event.clientX, event.clientY);
+        if (!(el instanceof HTMLElement)) return undefined;
 
-        // Only return a node if hovering over its text. Space isn't eligible.
-        if (el instanceof HTMLElement) {
-            const node = el.closest(`.node-view`);
-            const emptyView = node?.querySelector(`.empty`);
-            if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
-                const list = nodeUnderPointer.getField(emptyView.dataset.field);
-                if (Array.isArray(list))
-                    return new InsertionPoint(
-                        nodeUnderPointer,
-                        emptyView.dataset.field,
-                        list,
-                        undefined,
-                        undefined,
-                        0,
-                    );
+        const node = el.closest(`.node-view`);
+        if (!(node instanceof HTMLElement)) return undefined;
+        const emptyView = node.querySelector(`.empty`);
+        if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
+            const list = nodeUnderPointer.getField(emptyView.dataset.field);
+            if (Array.isArray(list))
+                return new InsertionPoint(
+                    nodeUnderPointer,
+                    emptyView.dataset.field,
+                    list,
+                    undefined,
+                    undefined,
+                    0,
+                );
+        }
+
+        const list = node.querySelector('.node-list');
+        if (
+            list instanceof HTMLElement &&
+            list.dataset.field &&
+            list.dataset.direction
+        ) {
+            const field = list.dataset.field;
+            const inline = list.dataset.direction === 'inline';
+
+            // Find the closest child in the list to the pointer.
+            const children = Array.from(list.childNodes).filter(
+                (node): node is HTMLElement =>
+                    node instanceof HTMLElement &&
+                    node.classList.contains('node-view'),
+            ) as HTMLElement[];
+            const closestChild = children
+                .map((child) => {
+                    const rect = child.getBoundingClientRect();
+                    return {
+                        child,
+                        distance: Math.abs(
+                            inline
+                                ? event.clientX - (rect.left + rect.width / 2)
+                                : event.clientY - (rect.top + rect.height / 2),
+                        ),
+                    };
+                })
+                .sort((a, b) => a.distance - b.distance)[0];
+
+            // Find the index of the closest child.
+            let index = 0;
+            if (closestChild === undefined) return;
+
+            index = children.indexOf(closestChild.child);
+            if (index === -1) return;
+
+            // If the pointer is past the center of the closest child, insert after it.
+            const rect = closestChild.child.getBoundingClientRect();
+            if (
+                inline
+                    ? event.clientX > rect.left + rect.width / 2
+                    : event.clientY > rect.top + rect.height / 2
+            )
+                index += 1;
+
+            const nodeList = nodeUnderPointer.getField(field);
+            if (Array.isArray(nodeList)) {
+                return new InsertionPoint(
+                    nodeUnderPointer,
+                    field,
+                    nodeList,
+                    undefined,
+                    undefined,
+                    index,
+                );
             }
         }
     }
@@ -914,7 +972,7 @@
 
             // In blocks mode? Handle the case of empty and insert.
             if ($blocks) {
-                insertionPoint = getBlockInsertionPointsAt(event);
+                insertionPoint = getBlockInsertionPoint(event);
             }
             // Get the insertion points at the current pointer position
             // And filter them by kinds that match, getting the field's allowed types,

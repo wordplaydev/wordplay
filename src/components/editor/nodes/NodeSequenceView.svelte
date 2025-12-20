@@ -8,7 +8,7 @@
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
     import type KeysOfType from '../../../util/KeysOfType';
-    import { getCaret } from '../../project/Contexts';
+    import { getCaret, getInsertionPoint } from '../../project/Contexts';
     import Button from '../../widgets/Button.svelte';
     import EmptyView from '../blocks/EmptyView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
@@ -23,6 +23,7 @@
         /** How to handle an empty list: hide (don't render anything), label (show a localized placeholder label), menu (show a compact trigger menu) */
         empty: 'hide' | 'label' | 'menu';
         format: Format;
+        /** Whether to lay out the list inline or block */
         block?: boolean;
         elide?: boolean;
         indent?: boolean;
@@ -40,6 +41,14 @@
     }: Props = $props();
 
     let caret = getCaret();
+    let insertionPoint = getInsertionPoint();
+    let insertionFeedback = $derived(
+        $insertionPoint !== undefined &&
+            $insertionPoint.node === node &&
+            $insertionPoint.field === field
+            ? $insertionPoint
+            : undefined,
+    );
 
     let nodes = $derived(filtered ?? (node[field] as Node[]));
 
@@ -108,12 +117,24 @@
 
 {#if format.block}
     {#if nodes.length > 0 || empty !== 'hide'}
-        <div class="node-list" class:block class:indent>
-            {#each nodes as node}
+        <!-- These data attributes are used by Editor.svelte:getBlockInsertionPoint() -->
+        <div
+            class="node-list"
+            class:indent
+            data-field={field}
+            data-direction={block ? 'block' : 'inline'}
+        >
+            {#each nodes as node, index}
+                {#if insertionFeedback?.index === index}
+                    <div class="insertion-feedback"></div>
+                {/if}
                 <NodeView {node} {format} />
             {:else}
                 <EmptyView {node} {field} style={empty} {format} />
             {/each}
+            {#if nodes.length > 0 && insertionFeedback?.index === nodes.length}
+                <div class="insertion-feedback"></div>
+            {/if}
         </div>
     {/if}
 {:else}
@@ -152,12 +173,26 @@
         min-width: var(--wordplay-spacing);
         min-height: var(--wordplay-spacing);
     }
-    .node-list.block {
+
+    [data-direction='block'].node-list {
         flex-direction: column;
         gap: var(--wordplay-spacing);
     }
 
     .node-list.indent {
         margin-inline-start: var(--wordplay-spacing);
+    }
+
+    .insertion-feedback {
+        align-self: stretch;
+        background-color: var(--wordplay-highlight-color);
+    }
+
+    [data-direction='inline'].node-list .insertion-feedback {
+        width: var(--wordplay-focus-width);
+    }
+    [data-direction='block'].node-list .insertion-feedback {
+        width: 100%;
+        height: var(--wordplay-focus-width);
     }
 </style>
