@@ -364,7 +364,12 @@
 
     function handleRelease() {
         // Is the creator hovering over a valid drop target? If so, execute the edit.
-        if (isValidDropTarget(project, $dragged, $hovered, $insertion)) drop();
+        if (
+            $dragged &&
+            $hovered &&
+            isValidDropTarget(project, $dragged, $hovered, $insertion)
+        )
+            drop();
 
         // Release the dragged node.
         if (dragged) dragged.set(undefined);

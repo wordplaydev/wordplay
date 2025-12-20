@@ -1,4 +1,5 @@
 import type Project from '@db/projects/Project';
+import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -10,7 +11,6 @@ import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import Bind from '../nodes/Bind';
 
 /**
  * Represents a node, list on the node, and index in the list at which to insert a node.
@@ -259,46 +259,46 @@ export function getInsertionPoint(
     );
 }
 
+/** Given a project, a  */
 export function isValidDropTarget(
     project: Project,
-    dragged: Node | undefined,
-    target: Node | undefined,
+    dragged: Node,
+    target: Node,
     insertion: InsertionPoint | undefined,
 ): boolean {
-    if (dragged === undefined) return false;
+    // Is the target inside the dragged node? If so, we can't drop it there.
+    if (dragged.contains(target)) return false;
 
-    // If there's a target, see if the dragged node is valid for the field the target is in.
-    if (target) {
-        const field = project
-            .getRoot(target)
-            ?.getParent(target)
-            ?.getFieldOfChild(target);
+    // What field is the target currently set on?
+    const field = project
+        .getRoot(target)
+        ?.getParent(target)
+        ?.getFieldOfChild(target);
 
-        // If we found a field and the dragged node is an instanceof one of the allowed types, it's a valid drop target.
-        if (
-            field &&
-            field.kind.allowsKind(dragged.constructor) &&
-            // Don't allow drops on nodes that are children of the dragged node.
-            !dragged.contains(target)
-        )
-            return true;
-    }
+    // No field? Not valid.
+    if (field === undefined) return false;
 
-    // Allow binds to be dropped on children of blocks.
-    if (target && dragged instanceof Bind) {
-        const hoverParent = project.getRoot(target)?.getParent(target);
-        if (
-            hoverParent instanceof Block &&
-            hoverParent.statements.includes(target as Expression)
-        )
-            return true;
-    }
+    // What's the type context of the target?
+    const source = project.getSourceOf(target);
+    if (source === undefined) return false;
+    const context = project.getContext(source);
 
-    // Allow types to be dropped on types.
-    if (dragged instanceof Type && target instanceof Type) return true;
+    // If the field permits the dragged node's kind, and either isn't typed or the dragged node's type is accepted by the field's type, allow the drop.
+    if (
+        // Don't permit drops on binds
+        !(target instanceof Bind) &&
+        field.kind.allowsKind(dragged.constructor) &&
+        (field.getType === undefined ||
+            !(dragged instanceof Expression) ||
+            field
+                .getType(context, insertion ? insertion.index : undefined)
+                .accepts(dragged.getType(context), context))
+    )
+        return true;
 
     // Allow inserts to be inserted.
     if (insertion) return true;
 
+    // Otherwise, not a valid match.
     return false;
 }
