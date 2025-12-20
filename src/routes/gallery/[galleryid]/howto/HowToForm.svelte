@@ -9,19 +9,37 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { HowTos, locales } from '@db/Database';
-
-    let show: boolean = $state(false);
-    let notify: boolean = $state(true);
-    let howToTitle: string = $state('');
-    let howToContent: string = $state('');
+    import HowTo from '@db/howtos/HowToDatabase.svelte';
 
     interface Props {
-        midpointX: number;
-        midpointY: number;
+        howToId?: string; // provided only if editing an existing HowTo
         addedNew: boolean;
     }
 
-    let { midpointX, midpointY, addedNew = $bindable() }: Props = $props();
+    let { howToId, addedNew = $bindable() }: Props = $props();
+
+    let dropX: number = $state(0);
+    let dropY: number = $state(0);
+
+    let existingHowTo: HowTo | undefined = $state();
+
+    $effect(() => {
+        if (howToId) {
+            HowTos.getHowTo(howToId).then((ht) => {
+                if (ht) existingHowTo = ht;
+                else existingHowTo = undefined;
+            });
+        } else {
+            existingHowTo = undefined;
+        }
+    });
+
+    let howToContent: string = $derived(
+        existingHowTo ? (existingHowTo.getText()[0] ?? '') : '',
+    );
+    let howToTitle: string = $derived(
+        existingHowTo ? existingHowTo.getTitle() : '',
+    );
 
     const galleryId: string = decodeURI(page.params.galleryid);
     const reactionOptions: string[] = $locales
@@ -29,35 +47,59 @@
         .map((b) => b.label);
 
     function writeNewHowTo(publish: boolean) {
-        HowTos.addHowTo(
-            galleryId,
-            publish,
-            midpointX,
-            midpointY,
-            [],
-            howToTitle,
-            [$locales.get((l) => l.ui.howto.newHowTo.prompt)],
-            [howToContent],
-            ['en-US'],
-            reactionOptions,
-        );
+        if (existingHowTo) {
+            HowTos.updateHowTo(
+                new HowTo({
+                    ...existingHowTo.getData(),
+                    published: publish,
+                    title: howToTitle,
+                    text: [howToContent],
+                }),
+                true,
+            );
+        } else {
+            HowTos.addHowTo(
+                galleryId,
+                publish,
+                dropX,
+                dropY,
+                [],
+                howToTitle,
+                [$locales.get((l) => l.ui.howto.newHowTo.prompt)],
+                [howToContent],
+                ['en-US'],
+                reactionOptions,
+            );
+
+            // TODO(@mc) -- need to refresh DB
+            addedNew = true;
+        }
 
         howToContent = '';
         howToTitle = '';
-
-        // TODO(@mc) -- need to refresh DB
-        addedNew = true;
     }
+
+    let show: boolean = $state(false);
+    let notify: boolean = $state(true);
 </script>
 
 <Dialog
     bind:show
-    header={(l) => l.ui.howto.newHowTo.form.header}
-    explanation={(l) => l.ui.howto.newHowTo.form.explanation}
+    header={(l) =>
+        existingHowTo
+            ? l.ui.howto.newHowTo.editForm.header
+            : l.ui.howto.newHowTo.newForm.header}
+    explanation={(l) =>
+        existingHowTo
+            ? l.ui.howto.newHowTo.editForm.explanation
+            : l.ui.howto.newHowTo.newForm.explanation}
     button={{
-        tip: (l) => l.ui.howto.newHowTo.add.tip,
-        icon: '+',
-        large: true,
+        tip: (l) =>
+            existingHowTo
+                ? l.ui.howto.newHowTo.editForm.header
+                : l.ui.howto.newHowTo.add.tip,
+        icon: existingHowTo ? '✏️' : '+',
+        large: existingHowTo ? false : true,
     }}
 >
     <Header>
@@ -79,26 +121,30 @@
     />
 
     <div class="toolbar">
-        <label for="notify-checked">
-            <Checkbox
-                id="notify-checked"
-                bind:on={notify}
-                changed={(value) => (notify = value ?? true)}
-                label={(l) => l.ui.howto.newHowTo.notificationOptOut}
+        {#if !existingHowTo}
+            <label for="notify-checked">
+                <Checkbox
+                    id="notify-checked"
+                    bind:on={notify}
+                    changed={(value) => (notify = value ?? true)}
+                    label={(l) => l.ui.howto.newHowTo.notificationOptOut}
+                />
+                <LocalizedText
+                    path={(l) => l.ui.howto.newHowTo.notificationOptOut}
+                />
+            </label>
+        {/if}
+        {#if !existingHowTo?.isPublished()}
+            <Button
+                tip={(l) => l.ui.howto.newHowTo.save.tip}
+                label={(l) => l.ui.howto.newHowTo.save.label}
+                action={() => {
+                    writeNewHowTo(false);
+                    show = false;
+                }}
+                active={true}
             />
-            <LocalizedText
-                path={(l) => l.ui.howto.newHowTo.notificationOptOut}
-            />
-        </label>
-        <Button
-            tip={(l) => l.ui.howto.newHowTo.save.tip}
-            label={(l) => l.ui.howto.newHowTo.save.label}
-            action={() => {
-                writeNewHowTo(false);
-                show = false;
-            }}
-            active={true}
-        />
+        {/if}
         <Button
             tip={(l) => l.ui.howto.newHowTo.post.tip}
             label={(l) => l.ui.howto.newHowTo.post.label}

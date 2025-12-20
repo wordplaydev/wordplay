@@ -27,8 +27,9 @@ type PageText = {
     newHowTo: {
         /** Button text for the how-to addition button */
         add: ButtonText;
-        /** Dialog text for how-to form */
-        form: DialogText;
+        /** Dialog text for how-to form (new how-to or edit existing) */
+        newForm: DialogText;
+        editForm: DialogText;
         /** Button text for submitting the how-to */
         post: ButtonText;
         /** Button text for saving a how-to draft */
@@ -46,8 +47,6 @@ type PageText = {
     viewHowTo: {
         /** Button text for viewing the how-to */
         view: ButtonText;
-        /** Button text for editing the how-to */
-        edit: ButtonText;
         /** Button text for bookmarking the how-to */
         canBookmark: ButtonText;
         alreadyBookmarked: ButtonText;

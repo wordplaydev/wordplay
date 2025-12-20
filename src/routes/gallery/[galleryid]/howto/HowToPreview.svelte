@@ -7,6 +7,7 @@
     import { HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
+    import HowToForm from './HowToForm.svelte';
 
     interface Props {
         howToId: string;
@@ -139,7 +140,7 @@
         <Dialog
             bind:show
             header={(l) => title}
-            explanation={(l) => l.ui.howto.newHowTo.form.explanation}
+            explanation={(l) => l.ui.howto.newHowTo.editForm.explanation}
             button={{
                 tip: (l) => l.ui.howto.viewHowTo.view.tip,
                 icon: title,
@@ -149,11 +150,9 @@
                 <div>
                     <div class="toolbar">
                         {#if $user && howTo.isCreatorCollaborator($user.uid)}
-                            <Button
-                                tip={(l) => l.ui.howto.viewHowTo.edit.tip}
-                                label={(l) => l.ui.howto.viewHowTo.edit.label}
-                                active={true}
-                                action={() => {}}
+                            <HowToForm
+                                howToId={howTo.getHowToId()}
+                                addedNew={false}
                             />
                             <Button
                                 tip={(l) => l.ui.howto.viewHowTo.submit.tip}

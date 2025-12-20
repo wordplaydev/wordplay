@@ -9813,15 +9813,18 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for the how-to addition button"
                     },
+                    "editForm": {
+                      "$ref": "#/definitions/DialogText"
+                    },
                     "editorDescription": {
                       "type": "string"
                     },
                     "editorPlaceholder": {
                       "type": "string"
                     },
-                    "form": {
+                    "newForm": {
                       "$ref": "#/definitions/DialogText",
-                      "description": "Dialog text for how-to form"
+                      "description": "Dialog text for how-to form (new how-to or edit existing)"
                     },
                     "notificationOptOut": {
                       "description": "Checkbox text for opting out of notifying subscribers",
@@ -9846,7 +9849,8 @@
                   },
                   "required": [
                     "add",
-                    "form",
+                    "newForm",
+                    "editForm",
                     "post",
                     "save",
                     "notificationOptOut",
@@ -9879,10 +9883,6 @@
                       "description": "Text for prompting users to chat",
                       "type": "string"
                     },
-                    "edit": {
-                      "$ref": "#/definitions/ButtonText",
-                      "description": "Button text for editing the how-to"
-                    },
                     "reactionPrompt": {
                       "description": "Text for prompting reactions",
                       "type": "string"
@@ -9906,7 +9906,6 @@
                   },
                   "required": [
                     "view",
-                    "edit",
                     "canBookmark",
                     "alreadyBookmarked",
                     "submit",

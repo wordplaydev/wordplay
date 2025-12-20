@@ -4776,8 +4776,12 @@
                     "label": "Add new how-to",
                     "tip": "Add new how-to"
                 },
-                "form": {
+                "newForm": {
                     "header": "Create a new how-to",
+                    "explanation": ""
+                },
+                "editForm": {
+                    "header": "Edit how-to",
                     "explanation": ""
                 },
                 "post": {
@@ -4801,10 +4805,6 @@
                 "view": {
                     "label": "View how-to",
                     "tip": "View how-to"
-                },
-                "edit": {
-                    "label": "📝 Edit how-to",
-                    "tip": "Edit how-to"
                 },
                 "submit": {
                     "label": "📨 Submit to Wordplay Guide",

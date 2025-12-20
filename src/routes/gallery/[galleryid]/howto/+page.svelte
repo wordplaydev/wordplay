@@ -96,7 +96,7 @@
         </Header>
 
         {#if canUserEdit}
-            <HowToForm midpointX={50} midpointY={50} bind:addedNew />
+            <HowToForm bind:addedNew />
         {/if}
 
         <div class="bookmarks">
