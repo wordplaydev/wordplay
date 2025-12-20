@@ -12767,10 +12767,6 @@
                           "description": "No selection",
                           "type": "string"
                         },
-                        "noShortcut": {
-                          "description": "No keyboard shortcut for this key",
-                          "type": "string"
-                        },
                         "readOnly": {
                           "description": "The source is not editable",
                           "type": "string"
@@ -12779,7 +12775,6 @@
                       "required": [
                         "readOnly",
                         "blockSpace",
-                        "noShortcut",
                         "noDelete",
                         "noInsert",
                         "noError",

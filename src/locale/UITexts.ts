@@ -376,8 +376,6 @@ type UITexts = {
                 readOnly: string;
                 /** No spaces in block mode unless in editable */
                 blockSpace: string;
-                /** No keyboard shortcut for this key */
-                noShortcut: string;
                 /** A node couldn't be deleted */
                 noDelete: string;
                 /** An insertion failed */

@@ -1308,7 +1308,7 @@ const Commands: Command[] = [
                 ? false
                 : caret.isNode()
                   ? caret.enter()
-                  : (caret.insert('\n', blocks, project) ?? false),
+                  : caret.insert('\n', blocks, project),
     },
     {
         symbol: '⌫',

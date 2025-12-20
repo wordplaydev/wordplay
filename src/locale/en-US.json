@@ -4548,7 +4548,6 @@
                 "ignored": {
                     "readOnly": "Source is read only",
                     "blockSpace": "No space allowed here",
-                    "noShortcut": "",
                     "noDelete": "Can't delete this",
                     "noInsert": "Unable to insert here",
                     "noError": "This edit would create a conflict",

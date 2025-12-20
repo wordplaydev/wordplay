@@ -310,7 +310,7 @@
         if (resetReason) keyIgnoredReason = undefined;
     }
 
-    function setIgnored(reason: LocaleTextAccessor) {
+    function setIgnored(reason: LocaleTextAccessor | undefined) {
         lastKeyDownIgnored = true;
         keyIgnoredReason = reason;
         // Flip back to unignored after the animation so we can give more feedback.
@@ -1256,8 +1256,8 @@
             event.stopPropagation();
         }
         // Give feedback that we didn't execute a command.
-        // else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
-        // setIgnored((l) => l.ui.source.cursor.ignored.noShortcut);
+        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
+            setIgnored(undefined);
     }
 
     function handleCompositionStart() {
