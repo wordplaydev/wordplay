@@ -2,7 +2,6 @@ import type Project from '@db/projects/Project';
 import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Literal from '@nodes/Literal';
 import Node, { ListOf } from '@nodes/Node';
 import Program from '@nodes/Program';
 import Source from '@nodes/Source';
@@ -285,10 +284,6 @@ export function isValidDropTarget(
 
     // If the field permits the dragged node's kind, and either isn't typed or the dragged node's type is accepted by the field's type, allow the drop.
     if (
-        // Don't permit drops on binds, unless the dragged is a bind
-        (target instanceof Literal ||
-            target instanceof ExpressionPlaceholder ||
-            target instanceof TypePlaceholder) &&
         field.kind.allowsKind(dragged.constructor) &&
         (field.getType === undefined ||
             !(dragged instanceof Expression) ||

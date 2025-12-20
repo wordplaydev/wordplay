@@ -3,7 +3,9 @@ import Block from '@nodes/Block';
 import DefinitionExpression from '@nodes/DefinitionExpression';
 import type Evaluate from '@nodes/Evaluate';
 import Expression, { ExpressionKind } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
+import Literal from '@nodes/Literal';
 import Name from '@nodes/Name';
 import NameType from '@nodes/NameType';
 import Node, { ListOf } from '@nodes/Node';
@@ -12,6 +14,7 @@ import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Token from '@nodes/Token';
+import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Caret from '../../../edit/Caret';
@@ -145,7 +148,7 @@ export function getHighlights(
 
     // Is a node being dragged?
     if (dragged !== undefined) {
-        // Highlight the node.
+        // Highlight the dragged node.
         highlights.add(source, dragged, 'dragged');
 
         // If there's something hovered or an insertion point, show targets and matches.
@@ -162,9 +165,17 @@ export function getHighlights(
         else if (insertion === undefined) {
             // Search the source file for targets to highlight.
             for (const target of source.expression.nodes()) {
-                // Is this target a valid drop target? Highlight it!
+                // Is this target a valid drop target?
+                // Is it a literal or placeholder?
+                // Highlight it!
+                // We don't highlight expressions that have more structure, because it's confusing, but we do permit valid drops.
                 if (isValidDropTarget(project, dragged, target, insertion)) {
-                    highlights.add(source, target, 'target');
+                    if (
+                        target instanceof Literal ||
+                        target instanceof ExpressionPlaceholder ||
+                        target instanceof TypePlaceholder
+                    )
+                        highlights.add(source, target, 'target');
                 }
                 // Does this target have an empty field we can insert into?
                 const elgibleFields = target.getGrammar().filter((field) => {
