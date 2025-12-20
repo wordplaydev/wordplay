@@ -1307,7 +1307,7 @@ const Commands: Command[] = [
             !editor || caret === undefined
                 ? false
                 : caret.isNode()
-                  ? caret.enter()
+                  ? caret.enter(blocks)
                   : caret.insert('\n', blocks, project),
     },
     {

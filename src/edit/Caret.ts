@@ -1454,10 +1454,19 @@ export default class Caret {
     }
 
     /** If the caret is a node, set the position to its first index */
-    enter() {
+    enter(blocks: boolean) {
         if (this.position instanceof Node) {
             // Token? Set a position.
             if (this.position instanceof Token) {
+                if (
+                    blocks &&
+                    !Caret.isTokenTextBlockEditable(
+                        this.position,
+                        this.source.root.getParent(this.position),
+                    )
+                )
+                    return false;
+
                 const index = this.source.getTokenTextPosition(this.position);
                 return index !== undefined
                     ? this.withPosition(index + 1)
@@ -1470,6 +1479,14 @@ export default class Caret {
                 const first = children[0];
                 if (first === undefined) return this;
                 if (first instanceof Token && leaves.length === 1) {
+                    if (
+                        blocks &&
+                        !Caret.isTokenTextBlockEditable(
+                            first,
+                            this.source.root.getParent(first),
+                        )
+                    )
+                        return false;
                     const index = this.source.getTokenTextPosition(first);
                     return index !== undefined
                         ? this.withPosition(index + 1)
