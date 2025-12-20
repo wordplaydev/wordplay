@@ -72,7 +72,7 @@
 
         let newReactions;
 
-        if (userHasBookmarked) {
+        if (reactions[reactionLabel]?.includes($user.uid)) {
             // remove reaction
 
             newReactions = {
@@ -104,7 +104,7 @@
 
         let newBookmarkers;
 
-        if (howTo.getBookmarkers().includes($user.uid)) {
+        if (userHasBookmarked) {
             // remove bookmark
 
             newBookmarkers = howTo
