@@ -6,6 +6,7 @@
     import Dialog from '@components/widgets/Dialog.svelte';
     import { HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import { docToMarkup } from '@locale/LocaleText';
 
     interface Props {
         howToId: string;
@@ -31,6 +32,9 @@
     let preview: string = $derived(text.at(0)?.charAt(0) || '');
     let reactions: Record<string, string[]> = $derived(
         howTo ? howTo.getUserReactions() : {},
+    );
+    let userHasBookmarked: boolean = $derived(
+        $user && howTo ? howTo.getBookmarkers().includes($user.uid) : false,
     );
 
     let moving: boolean = false;
@@ -68,7 +72,7 @@
 
         let newReactions;
 
-        if (reactions[reactionLabel].includes($user.uid)) {
+        if (userHasBookmarked) {
             // remove reaction
 
             newReactions = {
@@ -95,6 +99,32 @@
         );
     }
 
+    function addRemoveBookmark() {
+        if (!$user || !howTo) return;
+
+        let newBookmarkers;
+
+        if (howTo.getBookmarkers().includes($user.uid)) {
+            // remove bookmark
+
+            newBookmarkers = howTo
+                .getBookmarkers()
+                .filter((uid) => uid !== $user.uid);
+        } else {
+            // add bookmark
+
+            newBookmarkers = [...howTo.getBookmarkers(), $user.uid];
+        }
+
+        HowTos.updateHowTo(
+            new HowTo({
+                ...howTo.getData(),
+                bookmarkers: newBookmarkers,
+            }),
+            true,
+        );
+    }
+
     let show: boolean = $state(false);
     let reactionButtons = $locales.get((l) => l.ui.howto.reactions);
 </script>
@@ -106,10 +136,9 @@
         style="--xcoord: {xcoord}px; --ycoord: {ycoord}px;"
         onmousedown={onMouseDown}
     >
-        <!-- todo: fix header and explanation -->
         <Dialog
             bind:show
-            header={(l) => l.ui.howto.newHowTo.form.header}
+            header={(l) => title}
             explanation={(l) => l.ui.howto.newHowTo.form.explanation}
             button={{
                 tip: (l) => l.ui.howto.viewHowTo.view.tip,
@@ -118,10 +147,8 @@
         >
             <div class="howtosplitview">
                 <div>
-                    <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
-
-                    {#if $user && howTo.isCreatorCollaborator($user.uid)}
-                        <div class="toolbar">
+                    <div class="toolbar">
+                        {#if $user && howTo.isCreatorCollaborator($user.uid)}
                             <Button
                                 tip={(l) => l.ui.howto.viewHowTo.edit.tip}
                                 label={(l) => l.ui.howto.viewHowTo.edit.label}
@@ -134,8 +161,25 @@
                                 active={true}
                                 action={() => {}}
                             />
-                        </div>
-                    {/if}
+                        {/if}
+                        <Button
+                            tip={(l) =>
+                                userHasBookmarked
+                                    ? l.ui.howto.viewHowTo.alreadyBookmarked.tip
+                                    : l.ui.howto.viewHowTo.canBookmark.tip}
+                            label={(l) =>
+                                userHasBookmarked
+                                    ? l.ui.howto.viewHowTo.alreadyBookmarked
+                                          .label
+                                    : l.ui.howto.viewHowTo.canBookmark.label}
+                            active={true}
+                            background={userHasBookmarked}
+                            action={() => {
+                                addRemoveBookmark();
+                            }}
+                        />
+                    </div>
+                    <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
 
                     <MarkupHTMLView markup={(l) => text} />
                 </div>
@@ -160,6 +204,16 @@
                         />
                     {/each}
                     <Subheader text={(l) => l.ui.howto.viewHowTo.usedPrompt} />
+                    <MarkupHTMLView
+                        inline
+                        markup={docToMarkup(
+                            $locales.get(
+                                (l) => l.ui.howto.viewHowTo.usedCountDisplay,
+                            ),
+                        ).concretize($locales, [
+                            howTo.getUsedByProjects().length,
+                        ]) ?? ''}
+                    />
                     <Subheader text={(l) => l.ui.howto.viewHowTo.chatPrompt} />
                 </div>
             </div>
@@ -205,5 +259,6 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
+        width: 50%;
     }
 </style>

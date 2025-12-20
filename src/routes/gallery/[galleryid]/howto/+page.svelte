@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -47,6 +48,13 @@
 
     // load the how tos for this gallery
     let howTos: HowTo[] = $state([]);
+    let bookmarks: HowTo[] = $derived(
+        $user
+            ? howTos.filter((ht) =>
+                  user ? ht.getBookmarkers().includes($user.uid) : false,
+              )
+            : [],
+    );
 
     function loadHowTos() {
         const galleryID = decodeURI(page.params.galleryid);
@@ -91,6 +99,16 @@
             <HowToForm midpointX={50} midpointY={50} bind:addedNew />
         {/if}
 
+        <div class="bookmarks">
+            <Subheader text={(l) => l.ui.howto.canvasView.bookmarksheader} />
+
+            <ul>
+                {#each bookmarks as howto, i (i)}
+                    <li>{howto.getTitle()}</li>
+                {/each}
+            </ul>
+        </div>
+
         <HowToDrafts />
     </div>
 
@@ -108,5 +126,11 @@
         left: 0; /* TODO(@mc) -- horizontal sticky not working */
         z-index: 100;
         padding-bottom: 1rem;
+    }
+
+    .bookmarks {
+        border: var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        border-style: dashed;
     }
 </style>

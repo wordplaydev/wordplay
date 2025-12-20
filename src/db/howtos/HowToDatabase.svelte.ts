@@ -48,6 +48,8 @@ const HowToSchemaV1 = z.object({
     usedByProjects: z.array(z.string()),
     /** The ID of the chat corresponding to the how-to */
     chat: z.string().nullable(),
+    /** The list of users who bookmarked the how-to */
+    bookmarkers: z.array(z.string()),
 });
 
 const HowToSchema = HowToSchemaV1;
@@ -121,6 +123,10 @@ export default class HowTo {
 
     getChatId() {
         return this.data.chat;
+    }
+
+    getBookmarkers() {
+        return this.data.bookmarkers;
     }
 
     getData() {
@@ -226,6 +232,7 @@ export class HowToDatabase {
             )),
             usedByProjects: [],
             chat: null,
+            bookmarkers: [],
         };
 
         console.log(newHowTo);

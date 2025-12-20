@@ -48,12 +48,17 @@ type PageText = {
         view: ButtonText;
         /** Button text for editing the how-to */
         edit: ButtonText;
+        /** Button text for bookmarking the how-to */
+        canBookmark: ButtonText;
+        alreadyBookmarked: ButtonText;
         /** Button text for submitting the how-to to be included in the public guide */
         submit: ButtonText;
         /** Text for prompting reactions */
         reactionPrompt: string;
         /** Text for asking if the user used this how-to in their project or another how-to */
         usedPrompt: string;
+        /** Text displaying the number of users who have used this how-to */
+        usedCountDisplay: string;
         /** Text for prompting users to chat */
         chatPrompt: string;
     },

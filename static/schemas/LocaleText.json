@@ -9868,6 +9868,13 @@
                   "additionalProperties": false,
                   "description": "Buttons and dialogs for viewing a new how-to",
                   "properties": {
+                    "alreadyBookmarked": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
+                    "canBookmark": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for bookmarking the how-to"
+                    },
                     "chatPrompt": {
                       "description": "Text for prompting users to chat",
                       "type": "string"
@@ -9884,6 +9891,10 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for submitting the how-to to be included in the public guide"
                     },
+                    "usedCountDisplay": {
+                      "description": "Text displaying the number of users who have used this how-to",
+                      "type": "string"
+                    },
                     "usedPrompt": {
                       "description": "Text for asking if the user used this how-to in their project or another how-to",
                       "type": "string"
@@ -9896,9 +9907,12 @@
                   "required": [
                     "view",
                     "edit",
+                    "canBookmark",
+                    "alreadyBookmarked",
                     "submit",
                     "reactionPrompt",
                     "usedPrompt",
+                    "usedCountDisplay",
                     "chatPrompt"
                   ],
                   "type": "object"

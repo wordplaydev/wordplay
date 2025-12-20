@@ -4810,8 +4810,17 @@
                     "label": "📨 Submit to Wordplay Guide",
                     "tip": "Submit this how-to to be considered for inclusion in the Wordplay Guide!"
                 },
+                "canBookmark": {
+                    "label": "🔖 Bookmark how-to",
+                    "tip": "Bookmark this how-to to find it later"
+                },
+                "alreadyBookmarked": {
+                    "label": "🔖 Remove bookmark",
+                    "tip": "Remove this how-to from your bookmarks"
+                },
                 "reactionPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
                 "usedPrompt": "Did you use this how-to in your project or another how-to? Check this box to let the creator know!",
+                "usedCountDisplay": "$1 Wordplayers have used this how-to",
                 "chatPrompt": "Leave a comment or question for the creator!"
             },
             "error": {
