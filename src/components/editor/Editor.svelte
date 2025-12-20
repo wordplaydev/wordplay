@@ -1157,6 +1157,7 @@
                         ? newCaret
                         : newCaret.withSource(newSource),
                 );
+                resetIgnored(true);
             } else setIgnored((l) => l.ui.source.cursor.ignored.readOnly);
         } else {
             // Remove the addition, since the caret moved since being added.
