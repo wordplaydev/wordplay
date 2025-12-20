@@ -37,8 +37,8 @@
     <path d={outline.path} />
 </svg><svg
     class={`highlight underline ${filteredClasses}`}
-    class:ignored
     aria-hidden="true"
+    class:ignored
     style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
         outline.minx - HIGHLIGHT_PADDING
     }px; `}
@@ -54,6 +54,27 @@
 </svg>
 
 <style>
+    @keyframes wave {
+        0% {
+            transform: translateY(-2px);
+        }
+        50% {
+            transform: translateY(2px);
+        }
+        100% {
+            transform: translateY(-2px);
+        }
+    }
+
+    @keyframes exception {
+        0% {
+            stroke-dashoffset: 0;
+        }
+        100% {
+            stroke-dashoffset: calc(4 * var(--wordplay-border-width));
+        }
+    }
+
     /* Position selections relative to the node view */
     .highlight {
         position: absolute;
@@ -89,19 +110,6 @@
         fill: var(--wordplay-hover);
         transform-origin: center;
     }
-
-    @keyframes wave {
-        0% {
-            transform: translateY(-2px);
-        }
-        50% {
-            transform: translateY(2px);
-        }
-        100% {
-            transform: translateY(-2px);
-        }
-    }
-
     .outline.dragged path {
         fill: var(--wordplay-hover);
         stroke: var(--wordplay-hover);
@@ -180,19 +188,10 @@
         animation-duration: calc(var(--animation-factor) * 0.5s);
     }
 
-    @keyframes exception {
-        0% {
-            stroke-dashoffset: 0;
-        }
-        100% {
-            stroke-dashoffset: calc(4 * var(--wordplay-border-width));
-        }
-    }
-
     .ignored {
-        animation-name: shake;
-        animation-duration: calc(var(--animation-factor) * 250ms);
-        animation-iteration-count: 1;
+        transform-origin: 50% 50%;
+        transform-box: fill-box;
+        animation: shake calc(var(--animation-factor) * 250ms) linear;
     }
 
     .outline.output path {

@@ -1659,9 +1659,7 @@
             {...outline}
             above={false}
             types={outline.types}
-            ignored={$evaluation !== undefined &&
-                $evaluation.playing === true &&
-                lastKeyDownIgnored}
+            ignored={shakeCaret}
         />
     {/each}
     <!--
@@ -1745,6 +1743,7 @@
     {#key $caret.position}
         <div
             class="caret-description"
+            class:ignored={shakeCaret}
             class:node={$caret.isNode()}
             onpointerdown={(event) => event.stopPropagation()}
             style:left={caretLocation
@@ -1888,6 +1887,10 @@
 
     .caret-description.node {
         opacity: 1;
+    }
+
+    .caret-description.ignored {
+        animation: shake calc(var(--animation-factor) * 250ms) linear;
     }
 
     .output-preview-container {
