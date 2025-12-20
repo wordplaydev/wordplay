@@ -505,7 +505,7 @@
                 "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
             ],
             "label": {
-                "statements": "definitions and value"
+                "statements": "expressions"
             },
             "start": "First expression",
             "finish": "Done, I got $1",

@@ -1327,7 +1327,7 @@
         const [, result] = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event, and reset the modifier state.
-        if (typeof result !== 'function') {
+        if (typeof result !== 'function' && result !== false) {
             event.stopPropagation();
             event.preventDefault();
 

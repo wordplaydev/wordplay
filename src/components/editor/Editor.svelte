@@ -1241,6 +1241,7 @@
 
         if (typeof result === 'function') {
             setIgnored(result);
+            return;
         } else if (result !== false) {
             if (result instanceof Promise) {
                 result.then((edit) => {
@@ -1254,10 +1255,14 @@
             // Prevent default keyboard commands from being otherwise handled, since they were handled here.
             event.preventDefault();
             event.stopPropagation();
+            return;
         }
-        // Give feedback that we didn't execute a command.
-        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
+        // Give feedback that we didn't execute a command if it's not a modifier key.
+        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key)) {
             setIgnored(undefined);
+            return;
+        }
+        // Return undefined and let the event bubble.
     }
 
     function handleCompositionStart() {
