@@ -168,7 +168,7 @@
                     />
                 {/if}
 
-                <HowToGalleryView galleryID={galleryID}/>
+                <HowToGalleryView {galleryID} {projectsEditable} />
 
                 {#if editable || addable}
                     <AddProject

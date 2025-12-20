@@ -1,20 +1,37 @@
 <script lang="ts">
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import { HowTos } from '@db/Database';
+    import { HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
 
     interface Props {
-        howTo: HowTo;
+        howToId: string;
     }
 
-    let { howTo }: Props = $props();
-    let title: string = $derived(howTo.getTitle());
-    let text: string[] = $derived(howTo.getText());
-    let xcoord: number = $derived(howTo.getCoordinates()[0]);
-    let ycoord: number = $derived(howTo.getCoordinates()[1]);
+    let { howToId }: Props = $props();
+
+    const user = getUser();
+
+    let howTo: HowTo | undefined = $state();
+
+    $effect(() => {
+        HowTos.getHowTo(howToId).then((ht) => {
+            if (ht) howTo = ht;
+            else howTo = undefined;
+        });
+    });
+
+    let title: string = $derived(howTo?.getTitle() ?? '');
+    let text: string[] = $derived(howTo?.getText() ?? []);
+    let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
+    let ycoord: number = $derived(howTo?.getCoordinates()[1] ?? 0);
     let preview: string = $derived(text.at(0)?.charAt(0) || '');
+    let reactions: Record<string, string[]> = $derived(
+        howTo ? howTo.getUserReactions() : {},
+    );
 
     let moving: boolean = false;
 
@@ -34,6 +51,8 @@
     function onMouseUp() {
         moving = false;
 
+        if (!howTo) return;
+
         HowTos.updateHowTo(
             new HowTo({
                 ...howTo.getData(),
@@ -44,32 +63,112 @@
         );
     }
 
+    function addRemoveReaction(reactionLabel: string) {
+        if (!$user || !howTo) return;
+
+        let newReactions;
+
+        if (reactions[reactionLabel].includes($user.uid)) {
+            // remove reaction
+
+            newReactions = {
+                ...reactions,
+                [reactionLabel]: reactions[reactionLabel].filter(
+                    (uid) => uid !== $user.uid,
+                ),
+            };
+        } else {
+            // add reaction
+
+            newReactions = {
+                ...reactions,
+                [reactionLabel]: [...reactions[reactionLabel], $user.uid],
+            };
+        }
+
+        HowTos.updateHowTo(
+            new HowTo({
+                ...howTo.getData(),
+                reactions: newReactions,
+            }),
+            true,
+        );
+    }
+
     let show: boolean = $state(false);
+    let reactionButtons = $locales.get((l) => l.ui.howto.reactions);
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-    class="howto"
-    style="--xcoord: {xcoord}px; --ycoord: {ycoord}px;"
-    onmousedown={onMouseDown}
->
-    <Dialog
-        bind:show
-        header={(l) => l.ui.howto.newHowTo.form.header}
-        explanation={(l) => l.ui.howto.newHowTo.form.explanation}
-        button={{
-            tip: (l) => l.ui.howto.viewHowTo.view.tip,
-            icon: title,
-        }}
+{#if howTo}
+    <div
+        class="howto"
+        style="--xcoord: {xcoord}px; --ycoord: {ycoord}px;"
+        onmousedown={onMouseDown}
     >
-        <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
+        <!-- todo: fix header and explanation -->
+        <Dialog
+            bind:show
+            header={(l) => l.ui.howto.newHowTo.form.header}
+            explanation={(l) => l.ui.howto.newHowTo.form.explanation}
+            button={{
+                tip: (l) => l.ui.howto.viewHowTo.view.tip,
+                icon: title,
+            }}
+        >
+            <div class="howtosplitview">
+                <div>
+                    <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
 
-        <MarkupHTMLView markup={(l) => text} />
-    </Dialog>
-    <div class="howtopreview">
-        <p>{preview}</p>
+                    {#if $user && howTo.isCreatorCollaborator($user.uid)}
+                        <div class="toolbar">
+                            <Button
+                                tip={(l) => l.ui.howto.viewHowTo.edit.tip}
+                                label={(l) => l.ui.howto.viewHowTo.edit.label}
+                                active={true}
+                                action={() => {}}
+                            />
+                            <Button
+                                tip={(l) => l.ui.howto.viewHowTo.submit.tip}
+                                label={(l) => l.ui.howto.viewHowTo.submit.label}
+                                active={true}
+                                action={() => {}}
+                            />
+                        </div>
+                    {/if}
+
+                    <MarkupHTMLView markup={(l) => text} />
+                </div>
+                <div>
+                    <Subheader
+                        text={(l) => l.ui.howto.viewHowTo.reactionPrompt}
+                    />
+                    {#each reactionButtons as reaction, i (i)}
+                        <Button
+                            tip={(l) => reaction.tip}
+                            label={(l) =>
+                                reaction.label +
+                                ' ' +
+                                reactions[reaction.label].length}
+                            active={true}
+                            background={$user
+                                ? reactions[reaction.label].includes($user.uid)
+                                : false}
+                            action={() => {
+                                addRemoveReaction(reaction.label);
+                            }}
+                        />
+                    {/each}
+                    <Subheader text={(l) => l.ui.howto.viewHowTo.usedPrompt} />
+                    <Subheader text={(l) => l.ui.howto.viewHowTo.chatPrompt} />
+                </div>
+            </div>
+        </Dialog>
+        <div class="howtopreview">
+            <p>{preview}</p>
+        </div>
     </div>
-</div>
+{/if}
 
 <svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
@@ -79,8 +178,9 @@
         position: relative;
         left: var(--xcoord);
         top: var(--ycoord);
+        width: fit-content;
+        height: fit-content;
     }
-
     .howtopreview {
         border: 1px solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
@@ -89,5 +189,21 @@
         width: fit-content;
         height: fit-content;
         font-size: 2rem;
+    }
+    .toolbar {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        padding-bottom: var(--wordplay-spacing);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        padding-top: var(--wordplay-spacing);
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+    }
+    .howtosplitview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
     }
 </style>

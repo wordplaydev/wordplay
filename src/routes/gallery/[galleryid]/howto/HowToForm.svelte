@@ -18,9 +18,10 @@
     interface Props {
         midpointX: number;
         midpointY: number;
+        addedNew: boolean;
     }
 
-    let { midpointX, midpointY }: Props = $props();
+    let { midpointX, midpointY, addedNew = $bindable() }: Props = $props();
 
     const galleryId: string = decodeURI(page.params.galleryid);
     const reactionOptions: string[] = $locales
@@ -45,6 +46,7 @@
         howToTitle = '';
 
         // TODO(@mc) -- need to refresh DB
+        addedNew = true;
     }
 </script>
 
@@ -80,7 +82,7 @@
         <label for="notify-checked">
             <Checkbox
                 id="notify-checked"
-                on={notify}
+                bind:on={notify}
                 changed={(value) => (notify = value ?? true)}
                 label={(l) => l.ui.howto.newHowTo.notificationOptOut}
             />

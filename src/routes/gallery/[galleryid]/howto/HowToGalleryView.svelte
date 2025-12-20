@@ -2,19 +2,27 @@
     import Action from '@components/app/Action.svelte';
     import BigLink from '@components/app/BigLink.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { locales } from '@db/Database';
+    import { HowTos, locales } from '@db/Database';
     import { docToMarkup } from '@locale/LocaleText';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import Iconified from '../../../Iconified.svelte';
 
     interface Props {
         galleryID: string;
+        projectsEditable: boolean;
     }
 
-    let { galleryID }: Props = $props();
+    let { galleryID, projectsEditable }: Props = $props();
 
-    const totalHowTos = 0;
-    const newHowTos = 5;
+    let totalHowTos = $state(0);
+
+    $effect(() => {
+        HowTos.getHowTos(galleryID).then(
+            (hts) => (totalHowTos = hts ? hts.length : 0),
+        );
+    });
+
+    const newHowTos = 5; // TODO(@mc) -- fix this hardcoded value
 </script>
 
 <Action>
@@ -25,7 +33,7 @@
         /></BigLink
     >
 
-    {#if totalHowTos > 0}
+    {#if totalHowTos > 0 || !projectsEditable}
         <MarkupHTMLView
             inline
             markup={docToMarkup(

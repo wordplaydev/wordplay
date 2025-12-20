@@ -46,6 +46,16 @@ type PageText = {
     viewHowTo: {
         /** Button text for viewing the how-to */
         view: ButtonText;
+        /** Button text for editing the how-to */
+        edit: ButtonText;
+        /** Button text for submitting the how-to to be included in the public guide */
+        submit: ButtonText;
+        /** Text for prompting reactions */
+        reactionPrompt: string;
+        /** Text for asking if the user used this how-to in their project or another how-to */
+        usedPrompt: string;
+        /** Text for prompting users to chat */
+        chatPrompt: string;
     },
     error: {
         /** When the how-to is not known or is not public */

@@ -4,7 +4,7 @@ import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe } from 'firebase/auth';
-import { collection, deleteDoc, doc, Firestore, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
@@ -103,16 +103,12 @@ export default class HowTo {
         return this.data.collaborators;
     }
 
-    isCollaborator(userId: string) {
-        return this.data.collaborators.includes(userId);
+    isCreatorCollaborator(userId: string) {
+        return this.data.creator === userId || this.data.collaborators.includes(userId);
     }
 
     getLocales() {
         return this.data.locales;
-    }
-
-    getAllowedReactions() {
-        return this.data.reactions.keys();
     }
 
     getUserReactions() {

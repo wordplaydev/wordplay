@@ -17,5 +17,6 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+        min-height: 20em;
     }
 </style>

@@ -4,14 +4,13 @@
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
-    import { Galleries, locales } from '@db/Database';
+    import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
+    import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
-    import HowToCanvas from './HowToCanvas.svelte';
     import HowToDrafts from './HowToDrafts.svelte';
     import HowToForm from './HowToForm.svelte';
-
-    const user = getUser();
+    import HowToPreview from './HowToPreview.svelte';
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
@@ -31,7 +30,50 @@
         });
     });
 
+    // determine if the user can add a new how-to
+    const user = getUser();
+    // TODO(@mc) -- i think this might be broken cuz firebase auth
+    // let canUserEdit = $derived(
+    //     gallery
+    //         ? isAuthenticated($user) &&
+    //               (gallery.hasCreator($user.uid) ||
+    //                   gallery.hasCreator($user.uid))
+    //         : false,
+    // );
+    let canUserEdit = true;
+
+    // get the gallery name for display
     let galleryName = $derived(gallery?.getName($locales));
+
+    // load the how tos for this gallery
+    let howTos: HowTo[] = $state([]);
+
+    function loadHowTos() {
+        const galleryID = decodeURI(page.params.galleryid);
+        HowTos.getHowTos(galleryID).then((hts) => {
+            if (hts) howTos = hts;
+            else howTos = [];
+        });
+    }
+
+    $effect(() => {
+        if (page.params.galleryid === undefined) {
+            howTos = [];
+            return;
+        }
+
+        loadHowTos();
+    });
+
+    // flag to indicate that a new how-to was added
+    let addedNew: boolean = $state(false);
+
+    $effect(() => {
+        if (addedNew) {
+            loadHowTos();
+            addedNew = false;
+        }
+    });
 </script>
 
 <Writing>
@@ -45,12 +87,18 @@
             />
         </Header>
 
-        <HowToForm midpointX={50} midpointY={50} />
+        {#if canUserEdit}
+            <HowToForm midpointX={50} midpointY={50} bind:addedNew />
+        {/if}
 
         <HowToDrafts />
     </div>
 
-    <HowToCanvas currentViewLeft={0} currentViewTop={0} />
+    {#each howTos as howto, i (i)}
+        <!-- {#if howto.getCoordinates()[0] >= currentViewLeft - 100 && howto.getCoordinates()[0] <= currentViewRight + 100 && howto.getCoordinates()[1] >= currentViewTop - 100 && howto.getCoordinates()[1] <= currentViewBottom + 100} -->
+        <HowToPreview howToId={howto.getHowToId()} />
+        <!-- {/if} -->
+    {/each}
 </Writing>
 
 <style>

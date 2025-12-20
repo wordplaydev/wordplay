@@ -9868,13 +9868,38 @@
                   "additionalProperties": false,
                   "description": "Buttons and dialogs for viewing a new how-to",
                   "properties": {
+                    "chatPrompt": {
+                      "description": "Text for prompting users to chat",
+                      "type": "string"
+                    },
+                    "edit": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for editing the how-to"
+                    },
+                    "reactionPrompt": {
+                      "description": "Text for prompting reactions",
+                      "type": "string"
+                    },
+                    "submit": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for submitting the how-to to be included in the public guide"
+                    },
+                    "usedPrompt": {
+                      "description": "Text for asking if the user used this how-to in their project or another how-to",
+                      "type": "string"
+                    },
                     "view": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for viewing the how-to"
                     }
                   },
                   "required": [
-                    "view"
+                    "view",
+                    "edit",
+                    "submit",
+                    "reactionPrompt",
+                    "usedPrompt",
+                    "chatPrompt"
                   ],
                   "type": "object"
                 }

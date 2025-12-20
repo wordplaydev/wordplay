@@ -4801,7 +4801,18 @@
                 "view": {
                     "label": "View how-to",
                     "tip": "View how-to"
-                }
+                },
+                "edit": {
+                    "label": "📝 Edit how-to",
+                    "tip": "Edit how-to"
+                },
+                "submit": {
+                    "label": "📨 Submit to Wordplay Guide",
+                    "tip": "Submit this how-to to be considered for inclusion in the Wordplay Guide!"
+                },
+                "reactionPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
+                "usedPrompt": "Did you use this how-to in your project or another how-to? Check this box to let the creator know!",
+                "chatPrompt": "Leave a comment or question for the creator!"
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."
