@@ -7,9 +7,8 @@
     import { getUser } from '@components/project/Contexts';
     import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
-    import type HowTo from '@db/howtos/HowToDatabase.svelte';
+    import HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
-    import HowToDrafts from './HowToDrafts.svelte';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
 
@@ -55,6 +54,8 @@
               )
             : [],
     );
+    let published: HowTo[] = $derived(howTos.filter((ht) => ht.isPublished()));
+    let drafts: HowTo[] = $derived(howTos.filter((ht) => !ht.isPublished()));
 
     function loadHowTos() {
         const galleryID = decodeURI(page.params.galleryid);
@@ -82,6 +83,35 @@
             addedNew = false;
         }
     });
+
+    // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
+    // and https://svelte.dev/playground/f0823379afef4d249358cf969519c1b8?version=5.46.0
+    function dropInCanvas(event: DragEvent) {
+        event.preventDefault();
+
+        // let draggedHowToID: string | undefined =
+        //     event.dataTransfer?.getData('howto');
+
+        // if (!draggedHowToID) return;
+
+        // let howTo: HowTo | undefined = howTos.find(
+        //     (ht) => ht.getHowToId() === draggedHowToID,
+        // );
+
+        // if (!howTo) return;
+
+        // console.log(event);
+
+        // HowTos.updateHowTo(
+        //     new HowTo({
+        //         ...howTo?.getData(),
+        //         published: true,
+        //         xcoord: event.clientX,
+        //         ycoord: event.clientY,
+        //     }),
+        //     true,
+        // );
+    }
 </script>
 
 <Writing>
@@ -99,7 +129,7 @@
             <HowToForm bind:addedNew />
         {/if}
 
-        <div class="bookmarks">
+        <div class="dottedarea">
             <Subheader text={(l) => l.ui.howto.canvasView.bookmarksheader} />
 
             <ul>
@@ -109,14 +139,30 @@
             </ul>
         </div>
 
-        <HowToDrafts />
+        <div class="dottedarea">
+            <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
+            <MarkupHTMLView
+                markup={(l) => l.ui.howto.canvasView.draftsprompt}
+            />
+            {#each drafts as howto, i (i)}
+                <HowToPreview howToId={howto.getHowToId()} />
+            {/each}
+        </div>
     </div>
-
-    {#each howTos as howto, i (i)}
-        <!-- {#if howto.getCoordinates()[0] >= currentViewLeft - 100 && howto.getCoordinates()[0] <= currentViewRight + 100 && howto.getCoordinates()[1] >= currentViewTop - 100 && howto.getCoordinates()[1] <= currentViewBottom + 100} -->
-        <HowToPreview howToId={howto.getHowToId()} />
-        <!-- {/if} -->
-    {/each}
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div
+        ondrop={(ev) => dropInCanvas(ev)}
+        ondragover={(ev) => {
+            ev.preventDefault();
+        }}
+        class="dottedarea"
+    >
+        {#each published as howto, i (i)}
+            <!-- {#if howto.getCoordinates()[0] >= currentViewLeft - 100 && howto.getCoordinates()[0] <= currentViewRight + 100 && howto.getCoordinates()[1] >= currentViewTop - 100 && howto.getCoordinates()[1] <= currentViewBottom + 100} -->
+            <HowToPreview howToId={howto.getHowToId()} />
+            <!-- {/if} -->
+        {/each}
+    </div>
 </Writing>
 
 <style>
@@ -128,7 +174,7 @@
         padding-bottom: 1rem;
     }
 
-    .bookmarks {
+    .dottedarea {
         border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         border-style: dashed;

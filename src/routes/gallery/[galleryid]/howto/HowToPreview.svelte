@@ -38,6 +38,7 @@
         $user && howTo ? howTo.getBookmarkers().includes($user.uid) : false,
     );
 
+    let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
     let moving: boolean = false;
 
     // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
@@ -45,7 +46,7 @@
         moving = true;
     }
 
-    function onMouseMove(e) {
+    function onMouseMove(e: DragEvent) {
         if (moving) {
             xcoord += e.movementX;
             ycoord += e.movementY;
@@ -135,7 +136,10 @@
     <div
         class="howto"
         style="--xcoord: {xcoord}px; --ycoord: {ycoord}px;"
-        onmousedown={onMouseDown}
+        draggable={true}
+        ondragstart={onMouseDown}
+        ondrag={(e) => onMouseMove(e)}
+        ondragend={onMouseUp}
     >
         <Dialog
             bind:show
@@ -154,67 +158,89 @@
                                 howToId={howTo.getHowToId()}
                                 addedNew={false}
                             />
-                            <Button
-                                tip={(l) => l.ui.howto.viewHowTo.submit.tip}
-                                label={(l) => l.ui.howto.viewHowTo.submit.label}
-                                active={true}
-                                action={() => {}}
-                            />
+                            {#if isPublished}
+                                <Button
+                                    tip={(l) => l.ui.howto.viewHowTo.submit.tip}
+                                    label={(l) =>
+                                        l.ui.howto.viewHowTo.submit.label}
+                                    active={true}
+                                    action={() => {}}
+                                />
+                            {/if}
                         {/if}
-                        <Button
-                            tip={(l) =>
-                                userHasBookmarked
-                                    ? l.ui.howto.viewHowTo.alreadyBookmarked.tip
-                                    : l.ui.howto.viewHowTo.canBookmark.tip}
-                            label={(l) =>
-                                userHasBookmarked
-                                    ? l.ui.howto.viewHowTo.alreadyBookmarked
-                                          .label
-                                    : l.ui.howto.viewHowTo.canBookmark.label}
-                            active={true}
-                            background={userHasBookmarked}
-                            action={() => {
-                                addRemoveBookmark();
-                            }}
-                        />
+                        {#if isPublished}
+                            <Button
+                                tip={(l) =>
+                                    userHasBookmarked
+                                        ? l.ui.howto.viewHowTo.alreadyBookmarked
+                                              .tip
+                                        : l.ui.howto.viewHowTo.canBookmark.tip}
+                                label={(l) =>
+                                    userHasBookmarked
+                                        ? l.ui.howto.viewHowTo.alreadyBookmarked
+                                              .label
+                                        : l.ui.howto.viewHowTo.canBookmark
+                                              .label}
+                                active={true}
+                                background={userHasBookmarked}
+                                action={() => {
+                                    addRemoveBookmark();
+                                }}
+                            />
+                        {:else}
+                            <p
+                                >{$locales.get(
+                                    (l) => l.ui.howto.viewHowTo.draftNote,
+                                )}</p
+                            >
+                        {/if}
                     </div>
                     <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
 
                     <MarkupHTMLView markup={(l) => text} />
                 </div>
-                <div>
-                    <Subheader
-                        text={(l) => l.ui.howto.viewHowTo.reactionPrompt}
-                    />
-                    {#each reactionButtons as reaction, i (i)}
-                        <Button
-                            tip={(l) => reaction.tip}
-                            label={(l) =>
-                                reaction.label +
-                                ' ' +
-                                reactions[reaction.label].length}
-                            active={true}
-                            background={$user
-                                ? reactions[reaction.label].includes($user.uid)
-                                : false}
-                            action={() => {
-                                addRemoveReaction(reaction.label);
-                            }}
+                {#if isPublished}
+                    <div>
+                        <Subheader
+                            text={(l) => l.ui.howto.viewHowTo.reactionPrompt}
                         />
-                    {/each}
-                    <Subheader text={(l) => l.ui.howto.viewHowTo.usedPrompt} />
-                    <MarkupHTMLView
-                        inline
-                        markup={docToMarkup(
-                            $locales.get(
-                                (l) => l.ui.howto.viewHowTo.usedCountDisplay,
-                            ),
-                        ).concretize($locales, [
-                            howTo.getUsedByProjects().length,
-                        ]) ?? ''}
-                    />
-                    <Subheader text={(l) => l.ui.howto.viewHowTo.chatPrompt} />
-                </div>
+                        {#each reactionButtons as reaction, i (i)}
+                            <Button
+                                tip={(l) => reaction.tip}
+                                label={(l) =>
+                                    reaction.label +
+                                    ' ' +
+                                    reactions[reaction.label].length}
+                                active={true}
+                                background={$user
+                                    ? reactions[reaction.label].includes(
+                                          $user.uid,
+                                      )
+                                    : false}
+                                action={() => {
+                                    addRemoveReaction(reaction.label);
+                                }}
+                            />
+                        {/each}
+                        <Subheader
+                            text={(l) => l.ui.howto.viewHowTo.usedPrompt}
+                        />
+                        <MarkupHTMLView
+                            inline
+                            markup={docToMarkup(
+                                $locales.get(
+                                    (l) =>
+                                        l.ui.howto.viewHowTo.usedCountDisplay,
+                                ),
+                            ).concretize($locales, [
+                                howTo.getUsedByProjects().length,
+                            ]) ?? ''}
+                        />
+                        <Subheader
+                            text={(l) => l.ui.howto.viewHowTo.chatPrompt}
+                        />
+                    </div>
+                {/if}
             </div>
         </Dialog>
         <div class="howtopreview">
@@ -222,8 +248,6 @@
         </div>
     </div>
 {/if}
-
-<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
 <style>
     .howto {

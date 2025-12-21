@@ -9883,6 +9883,10 @@
                       "description": "Text for prompting users to chat",
                       "type": "string"
                     },
+                    "draftNote": {
+                      "description": "Text indicating that the how-to is currently a draft",
+                      "type": "string"
+                    },
                     "reactionPrompt": {
                       "description": "Text for prompting reactions",
                       "type": "string"
@@ -9912,7 +9916,8 @@
                     "reactionPrompt",
                     "usedPrompt",
                     "usedCountDisplay",
-                    "chatPrompt"
+                    "chatPrompt",
+                    "draftNote"
                   ],
                   "type": "object"
                 }

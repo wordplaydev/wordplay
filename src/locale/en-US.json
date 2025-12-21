@@ -4821,7 +4821,8 @@
                 "reactionPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
                 "usedPrompt": "Did you use this how-to in your project or another how-to? Check this box to let the creator know!",
                 "usedCountDisplay": "$1 Wordplayers have used this how-to",
-                "chatPrompt": "Leave a comment or question for the creator!"
+                "chatPrompt": "Leave a comment or question for the creator!",
+                "draftNote": "This is a draft how-to. Only you can see it."
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."

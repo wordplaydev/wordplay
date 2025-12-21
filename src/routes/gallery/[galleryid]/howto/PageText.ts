@@ -60,6 +60,8 @@ type PageText = {
         usedCountDisplay: string;
         /** Text for prompting users to chat */
         chatPrompt: string;
+        /** Text indicating that the how-to is currently a draft */
+        draftNote: string;
     },
     error: {
         /** When the how-to is not known or is not public */
