@@ -1543,7 +1543,7 @@
                                             (l) =>
                                                 l.ui.dialog.settings.mode
                                                     .animate,
-                                        ).modes[$animationFactor]}
+                                        ).labels[$animationFactor]}
                                     >
                                         <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
                                     </span>
@@ -1613,7 +1613,7 @@
                                         ></Toggle
                                     >
                                     <Mode
-                                        descriptions={(l) =>
+                                        modes={(l) =>
                                             l.ui.dialog.settings.mode.animate}
                                         choice={AnimationFactors.indexOf(
                                             $animationFactor,
@@ -1622,14 +1622,15 @@
                                             Settings.setAnimationFactor(
                                                 AnimationFactors[choice],
                                             )}
-                                        modes={AnimationFactorIcons}
+                                        icons={AnimationFactorIcons}
+                                        modeLabels={false}
                                         labeled={false}
                                     />
                                     {#if $animationFactor === 0}{$locales.get(
                                             (l) =>
                                                 l.ui.dialog.settings.mode
                                                     .animate,
-                                        ).modes[0]}{/if}
+                                        ).labels[0]}{/if}
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}

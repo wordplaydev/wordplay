@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Switch from '@components/widgets/Switch.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import { blocks, Settings } from '@db/Database';
     import type Locale from '../../../locale/Locale';
     import {
@@ -54,13 +54,13 @@
     );
 </script>
 
-<Switch
-    offLabel={TEXT_EDITING_SYMBOL}
-    onLabel={BLOCK_EDITING_SYMBOL}
-    offTip={(l) => l.ui.dialog.settings.mode.blocks.modes[0]}
-    onTip={(l) => l.ui.dialog.settings.mode.blocks.modes[1]}
-    on={$blocks}
-    toggle={(on) => Settings.setBlocks(on)}
+<Mode
+    icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+    modes={(l) => l.ui.dialog.settings.mode.blocks}
+    choice={$blocks ? 1 : 0}
+    select={(mode) => Settings.setBlocks(mode === 1)}
+    labeled={false}
+    modeLabels={false}
 />
 
 <!-- Navigate commands are always visible -->

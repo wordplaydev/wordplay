@@ -4646,7 +4646,11 @@
             },
             "modes": {
                 "label": "browse",
-                "modes": ["how to", "concepts"]
+                "labels": ["how to", "programming language"],
+                "tips": [
+                    "reusable patterns for making projects",
+                    "programming language concepts"
+                ]
             },
             "how": {
                 "category": {
@@ -4694,7 +4698,11 @@
                 "mode": {
                     "public": {
                         "label": "visibility",
-                        "modes": ["private", "public"]
+                        "labels": ["private", "public"],
+                        "tips": [
+                            "only you and collaborators can see this project",
+                            "anyone can see this project"
+                        ]
                     }
                 },
                 "error": {
@@ -4722,7 +4730,15 @@
                 "mode": {
                     "layout": {
                         "label": "layout",
-                        "modes": [
+                        "labels": [
+                            "auto",
+                            "row",
+                            "stack",
+                            "two",
+                            "one",
+                            "free"
+                        ],
+                        "tips": [
                             "lay out tiles automatically",
                             "a horizontal screen layout",
                             "a vertical screen layout",
@@ -4733,7 +4749,17 @@
                     },
                     "animate": {
                         "label": "animations",
-                        "modes": [
+                        "labels": [
+                            "off",
+                            "1/4",
+                            "1/3x",
+                            "1/2x",
+                            "1x",
+                            "2x",
+                            "5x",
+                            "10x"
+                        ],
+                        "tips": [
                             "animations off",
                             "quarter speed",
                             "third speed",
@@ -4746,36 +4772,45 @@
                     },
                     "dark": {
                         "label": "theme",
-                        "modes": [
-                            "light colors",
-                            "dark colors",
-                            "use device setting"
+                        "labels": ["light", "dark", "auto"],
+                        "tips": [
+                            "lighter colors",
+                            "darker colors",
+                            "use the current device setting"
                         ]
                     },
                     "blocks": {
-                        "label": "editing mode",
-                        "modes": ["edit code as text", "edit code as blocks"]
+                        "label": "editor",
+                        "labels": ["text", "blocks"],
+                        "tips": ["edit code as text", "edit code as blocks"]
                     },
                     "space": {
                         "label": "space indicator",
-                        "modes": [
-                            "show space and tab indicators explicitly",
-                            "do not show space and tab indicators"
+                        "labels": ["hide", "show"],
+                        "tips": [
+                            "do not show space and tab indicators",
+                            "show space and tab indicators explicitly"
                         ]
                     },
                     "lines": {
                         "label": "line numbers",
-                        "modes": [
-                            "show line numbers in text mode",
-                            "do not show line numbers in text mode"
+                        "labels": ["hide", "show"],
+                        "tips": [
+                            "do not show line numbers in text mode",
+                            "show line numbers in text mode"
                         ]
                     },
                     "writing": {
                         "label": "writing layout",
-                        "modes": [
-                            "horizontal, left to right",
-                            "vertical, right to left",
-                            "vertical, left to right"
+                        "labels": [
+                            "horizontal",
+                            "vertical rtl",
+                            "vertical ltr"
+                        ],
+                        "tips": [
+                            "horizontal text, read left to right",
+                            "vertical text, read right to left",
+                            "vertical text, read left to right"
                         ]
                     }
                 },
@@ -4836,8 +4871,12 @@
                     }
                 },
                 "mode": {
-                    "label": "feedback ",
-                    "modes": ["defects", "idesa"]
+                    "label": "feedback",
+                    "labels": ["defects", "ideas"],
+                    "tips": [
+                        "report something that seems broken",
+                        "suggest new features or improvements"
+                    ]
                 },
                 "field": {
                     "title": {
@@ -5266,7 +5305,11 @@
                     },
                     "public": {
                         "label": "visibility",
-                        "modes": ["public", "private"]
+                        "labels": ["public", "private"],
+                        "tips": [
+                            "anyone can see this character",
+                            "only you and collaborators can see this character"
+                        ]
                     },
                     "collaborators": "collaborators"
                 },
@@ -5281,7 +5324,7 @@
                     },
                     "mode": {
                         "label": "mode",
-                        "modes": [
+                        "labels": [
                             "select",
                             "eraser",
                             "pixel",
@@ -5289,15 +5332,34 @@
                             "ellipse",
                             "path",
                             "emoji"
+                        ],
+                        "tips": [
+                            "select shapes and pixels",
+                            "erase shapes and pixels",
+                            "draw pixels",
+                            "draw rectangles",
+                            "draw ellipses",
+                            "draw paths",
+                            "import an emoji as pixels"
                         ]
                     },
                     "fill": {
                         "label": "fill",
-                        "modes": ["none", "inerit", "choose"]
+                        "labels": ["none", "inerit", "choose"],
+                        "tips": [
+                            "no fill",
+                            "inherit fill color from surrounding text",
+                            "choose a fill color"
+                        ]
                     },
                     "stroke": {
                         "label": "stroke",
-                        "modes": ["none", "inerit", "choose"]
+                        "labels": ["none", "inerit", "choose"],
+                        "tips": [
+                            "no stroke",
+                            "inherit stroke color from surrounding text",
+                            "choose a stroke color"
+                        ]
                     },
                     "none": "none",
                     "inherit": "text color",

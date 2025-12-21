@@ -2,28 +2,30 @@
     import { getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
-    import type { ModeText } from '../../locale/UITexts';
+    import type { ModeText } from '@locale/UITexts';
     import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
-        descriptions: (locale: LocaleText) => ModeText<string[]>;
-        modes: string[];
+        modes: (locale: LocaleText) => ModeText<readonly string[]>;
         choice: number;
         select: (choice: number) => void;
+        icons?: readonly string[];
         active?: boolean;
         labeled?: boolean;
+        modeLabels?: boolean;
     }
 
     let {
-        descriptions,
         modes,
+        icons,
         choice,
         select,
         active = true,
         labeled = true,
+        modeLabels = true,
     }: Props = $props();
 
-    let descriptionText = $derived($locales.get(descriptions));
+    let modeText = $derived($locales.get(modes));
 
     let hint = getTip();
     function showTip(view: HTMLButtonElement, tip: string) {
@@ -36,24 +38,22 @@
 
 <div class="mode">
     {#if labeled}
-        <label class="label" for={descriptionText.label}
-            >{descriptionText.label}</label
-        >
+        <label class="label" for={modeText.label}>{modeText.label}</label>
     {/if}
     <div
         class="group"
         role="radiogroup"
-        id={descriptionText.label}
-        aria-labelledby={descriptionText.label}
+        id={modeText.label}
+        aria-labelledby={modeText.label}
     >
-        {#each modes as mode, index}
+        {#each modeText.labels as label, index}
             <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
             <button
                 type="button"
                 role="radio"
                 aria-checked={index === choice}
                 class:selected={index === choice}
-                aria-label={descriptionText.modes[index]}
+                aria-label={modeText.tips[index]}
                 aria-disabled={!active || index === choice}
                 ondblclick={(event) => event.stopPropagation()}
                 onpointerdown={(event) =>
@@ -63,19 +63,19 @@
                 onpointerenter={(event) =>
                     showTip(
                         event.target as HTMLButtonElement,
-                        descriptionText.modes[index],
+                        modeText.tips[index],
                     )}
                 onpointerleave={hideTip}
                 onfocus={(event) =>
                     showTip(
                         event.target as HTMLButtonElement,
-                        descriptionText.modes[index],
+                        modeText.tips[index],
                     )}
                 onblur={hideTip}
                 ontouchstart={(event) =>
                     showTip(
                         event.target as HTMLButtonElement,
-                        descriptionText.modes[index],
+                        modeText.tips[index],
                     )}
                 ontouchend={hideTip}
                 ontouchcancel={hideTip}
@@ -89,7 +89,8 @@
                         ? select(index)
                         : undefined}
             >
-                {withMonoEmoji(mode)}
+                {#if icons}{withMonoEmoji(icons[index])}{/if}
+                {#if modeLabels}{withMonoEmoji(label)}{/if}
             </button>
         {/each}
     </div>

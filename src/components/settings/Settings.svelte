@@ -121,7 +121,7 @@
                 ></Options>
             </label>
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.layout}
+                modes={(l) => l.ui.dialog.settings.mode.layout}
                 choice={$arrangement === Arrangement.Responsive
                     ? 0
                     : $arrangement === Arrangement.Horizontal
@@ -147,14 +147,15 @@
                                     ? Arrangement.Single
                                     : Arrangement.Free,
                     )}
-                modes={Object.values(LayoutIcons)}
+                icons={Object.values(LayoutIcons)}
             />
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.animate}
+                modes={(l) => l.ui.dialog.settings.mode.animate}
                 choice={AnimationFactors.indexOf($animationFactor)}
                 select={(choice) =>
                     Settings.setAnimationFactor(AnimationFactors[choice])}
-                modes={AnimationFactorIcons}
+                icons={AnimationFactorIcons}
+                modeLabels={false}
             />
             {#if devicesRetrieved}
                 <label for="camera-setting">
@@ -214,34 +215,34 @@
                 </label>
             {/if}
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.dark}
+                modes={(l) => l.ui.dialog.settings.mode.dark}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
                     Settings.setDark(
                         choice === 0 ? false : choice === 1 ? true : null,
                     )}
-                modes={['☼', '☽', '☼/☽']}
+                icons={['☼', '☽', '☼/☽']}
             />
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.blocks}
+                modes={(l) => l.ui.dialog.settings.mode.blocks}
                 choice={$blocks ? 1 : 0}
                 select={(choice) =>
                     Settings.setBlocks(choice === 1 ? true : false)}
-                modes={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+                icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
             />
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.space}
+                modes={(l) => l.ui.dialog.settings.mode.space}
                 choice={$spaceIndicator ? 1 : 0}
                 select={(choice) =>
                     Settings.setSpace(choice === 1 ? true : false)}
-                modes={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
             />
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.lines}
+                modes={(l) => l.ui.dialog.settings.mode.lines}
                 choice={$showLines ? 1 : 0}
                 select={(choice) =>
                     Settings.setLines(choice === 1 ? true : false)}
-                modes={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
             />
         </div>
     </Dialog>

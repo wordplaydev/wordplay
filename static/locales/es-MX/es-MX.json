@@ -44,7 +44,14 @@
         "help": "ayuda",
         "feedback": "feedback",
         "how": "$~Cómo",
-        "code": "$~código"
+        "code": "$~código",
+        "unit": "$~unidad",
+        "markup": "$~margen",
+        "column": "$~columna",
+        "cell": "$~celúla",
+        "documentation": "$~documentación",
+        "language": "$~idioma",
+        "region": "$~región"
     },
     "token": {
         "EvalOpen": "evaluación abierta",
@@ -225,7 +232,10 @@
                 "Soy una lista de @Name, útil cuando quieres darle varios nombres a un valor, muchas veces con diferentes @Language.",
                 "Los nombres están separados por símbolos \\,\\ . Por ejemplo, aquí está @Bind dando un valor a varios @Name",
                 "\\hi/en,hello/en,hola/es: 'bienvenido'\\"
-            ]
+            ],
+            "label": {
+                "names": "$~nombres"
+            }
         },
         "Row": {
             "name": "fila",
@@ -272,7 +282,10 @@
             "emotion": "serious",
             "doc": [
                 "Soy una lista de párrafos, utilizando los diversos tipos de marcado disponibles en explicaciones, como @Words, @WebLink, @ConceptLink y @Example."
-            ]
+            ],
+            "label": {
+                "paragraphs": "$~párrafos"
+            }
         },
         "Paragraph": {
             "name": "párrafo",
@@ -446,6 +459,11 @@
                     "primary": "Oye, le puse nombre a este valor, ¡pero nadie lo está usando!",
                     "name": "$~enlacenoutilizado"
                 }
+            },
+            "label": {
+                "value": "$~valor",
+                "names": "$~nombres",
+                "type": "$~tipo"
             }
         },
         "Block": {
@@ -467,7 +485,6 @@
                 "Así que normalmente soy solo un montón de @Bind y luego una expresión al final.",
                 "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
             ],
-            "statement": "declaración",
             "start": "primera expresión",
             "finish": "listo, obtuve $1",
             "conflict": {
@@ -484,6 +501,9 @@
                     },
                     "name": "$~expresiónignorada"
                 }
+            },
+            "label": {
+                "statements": "$~expresiones"
             }
         },
         "BooleanLiteral": {
@@ -499,9 +519,6 @@
             "emotion": "excited",
             "doc": "Si creas una actuación con múltiples @Source, puedes usarme para pedir prestados @Bind que se comparten en esas otras @Source. Simplemente usa su nombre y traeré su nombre y valor.",
             "start": "préstamo $2 de $1",
-            "source": "$source",
-            "bind": "nombre",
-            "version": "versión",
             "conflict": {
                 "UnknownBorrow": {
                     "primary": "No conozco una $source con este nombre",
@@ -517,6 +534,11 @@
                     "description": "ciclo de préstamo",
                     "explanation": "$1 depende de sí mismo"
                 }
+            },
+            "label": {
+                "source": "$~$source",
+                "bind": "$~nombre",
+                "version": "$~versión"
             }
         },
         "Changed": {
@@ -528,7 +550,10 @@
                 "Soy realmente útil cuando quieres que algo cambie solo si cambia un flujo.",
                 "Eso es todo."
             ],
-            "start": "veamos si $1 cambió…"
+            "start": "veamos si $1 cambió…",
+            "label": {
+                "stream": "$~arroyo"
+            }
         },
         "Conditional": {
             "name": "condicional",
@@ -544,15 +569,17 @@
             "else": "$1[saltando sobre código | no saltando sobre código]",
             "afterthen": "terminado con sí, ¿saltemos el no?",
             "finish": "Supongo que es $1?",
-            "condition": "condición",
-            "yes": "sí",
-            "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "¿Cómo puedo elegir sí y no con un $1? No en serio, ¿cómo?",
                     "secondary": "Creo que @Conditional quería que fuera un @Boolean, pero soy un $1.",
                     "name": "$~condiciónbooleanaesperada"
                 }
+            },
+            "label": {
+                "condition": "$~condición",
+                "yes": "$~Sí",
+                "no": "$~No"
             }
         },
         "ConversionDefinition": {
@@ -571,6 +598,11 @@
                     "primary": "¡guau, no puedo estar aquí, solo en @Block!",
                     "name": "$~conversiónfueradelugar"
                 }
+            },
+            "label": {
+                "input": "$~tipo de entrada",
+                "output": "$~tipo de salida",
+                "expression": "$~expresión"
             }
         },
         "Convert": {
@@ -641,8 +673,6 @@
             "start": "evaluemos los inputs primero",
             "evaluate": "vamos a evaluar la función ahora",
             "finish": "Evalué a $1",
-            "function": "función",
-            "input": "input",
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "Se supone que debo ser un $1, pero soy un $2",
@@ -687,6 +717,11 @@
                     "description": "función desconocida",
                     "explanation": "oh no, $1 no es una función en $2[$2|este @Block!"
                 }
+            },
+            "label": {
+                "function": "$~función",
+                "types": "$~tipos",
+                "inputs": "$~aporte"
             }
         },
         "Input": {
@@ -715,7 +750,6 @@
                 "¡No me gusta estar en @Stage!"
             ],
             "start": "¡ay!, no sé qué hacer",
-            "placeholder": "expresión",
             "conflict": {
                 "Placeholder": {
                     "primary": "¿alguien puede ocupar mi lugar?",
@@ -727,6 +761,9 @@
                     "description": "sin implementar",
                     "explanation": "¡No sé qué hacer!"
                 }
+            },
+            "label": {
+                "placeholder": "$~expresión"
             }
         },
         "FunctionDefinition": {
@@ -755,6 +792,10 @@
                     "primary": "Necesito una expresión para evaluar, ¿puedes agregar una?",
                     "name": "$~expresiónfaltante"
                 }
+            },
+            "label": {
+                "inputs": "$~entradas",
+                "expression": "$~expresión"
             }
         },
         "Iteration": {
@@ -845,8 +886,7 @@
             "emotion": "eager",
             "doc": "Soy una @List específica de valores. Consulta @List para aprender más sobre lo que puedes hacer conmigo.",
             "start": "evaluemos primero los elementos",
-            "finish": "¡Creé una lista! $1",
-            "item": "elemento"
+            "finish": "¡Creé una lista! $1"
         },
         "Spread": {
             "name": "expansión de lista",
@@ -869,6 +909,9 @@
                     "secondary": "ups, ¿dónde está mi valor?",
                     "name": "$~valorfaltante"
                 }
+            },
+            "label": {
+                "values": "$~par"
             }
         },
         "Match": {
@@ -885,8 +928,10 @@
             "start": "$~Veamos qué es 1 dólar...",
             "case": "$~Comprobemos esta condición.",
             "finish": "$~Bien, ¡tenemos un valor final!",
-            "value": "$~valor",
-            "other": "$~por defecto"
+            "label": {
+                "case": "$~caso",
+                "other": "$~por defecto"
+            }
         },
         "NumberLiteral": {
             "name": "número específico",
@@ -975,6 +1020,10 @@
                     "description": "valor faltante",
                     "explanation": "¡Esperaba un valor pero no obtuve ninguno!"
                 }
+            },
+            "label": {
+                "borrows": "$~toma prestado",
+                "expression": "$~bloquear"
             }
         },
         "PropertyBind": {
@@ -995,6 +1044,10 @@
                     "secondary": "$~No tengo una entrada llamada $1",
                     "name": "$~propiedaddesconocida"
                 }
+            },
+            "label": {
+                "property": "$~propiedad",
+                "value": "$~valor"
             }
         },
         "PropertyReference": {
@@ -1008,7 +1061,10 @@
             ],
             "start": "primero obtengamos el valor",
             "finish": "se encontró la propiedad $1, es $2",
-            "property": "propiedad"
+            "label": {
+                "structure": "$~estructura",
+                "property": "$~propiedad"
+            }
         },
         "Reaction": {
             "name": "reacción",
@@ -1022,14 +1078,16 @@
             ],
             "start": "veamos si debemos actualizar el stream",
             "finish": "el nuevo valor del stream es $1",
-            "initial": "inicial",
-            "condition": "condición",
-            "next": "siguiente",
             "conflict": {
                 "ExpectedStream": {
                     "primary": "$1 no referencia un stream, ¡así que nunca reaccionaré!",
                     "name": "$~flujoesperado"
                 }
+            },
+            "label": {
+                "initial": "$~inicial",
+                "condition": "$~condición",
+                "next": "$~próximo"
             }
         },
         "Reference": {
@@ -1161,6 +1219,11 @@
                     "primary": "Implemento $1 pero no he implementado $2",
                     "name": "$~noimplementado"
                 }
+            },
+            "label": {
+                "docs": "$~documentación",
+                "inputs": "$~entradas",
+                "expression": "$~valores y funciones"
             }
         },
         "StructureDefinitionType": {
@@ -1184,7 +1247,10 @@
             "description": "texto $1",
             "emotion": "serious",
             "doc": "Represento una o más traducciones específicas de texto. ¡Consulta @Text para aprender más sobre lo que puedo hacer!",
-            "start": "creemos texto en el idioma actual"
+            "start": "creemos texto en el idioma actual",
+            "label": {
+                "texts": "$~texto"
+            }
         },
         "Translation": {
             "name": "traducción",
@@ -1218,6 +1284,9 @@
                     "name": "$~posiblepersonajepersonalizado",
                     "primary": "$~Parece el nombre de un personaje. Para mostrarlo, usa @FormattedLiteral en lugar de @TextLiteral."
                 }
+            },
+            "label": {
+                "segments": "$~texto"
             }
         },
         "FormattedLiteral": {
@@ -1279,7 +1348,10 @@
                 "Solo hay una regla: no puedes poner ningún espacio entre el nombre y el valor. De lo contrario, podrías estar creando un @Reference o @BinaryEvaluate."
             ],
             "start": "¿cuál es el valor?",
-            "finish": "Lo hice $1"
+            "finish": "Lo hice $1",
+            "label": {
+                "input": "$~aporte"
+            }
         },
         "UnparsableExpression": {
             "name": "no parsable",
@@ -1531,6 +1603,9 @@
                     "secondary": "Tengo el mismo nombre que $1",
                     "name": "$~variabledetipoduplicado"
                 }
+            },
+            "label": {
+                "type": "$~tipo"
             }
         },
         "TypeVariables": {
@@ -4442,7 +4517,19 @@
                 "expandAfterInline": "$~ampliar la selección después",
                 "expandPriorLine": "$~ampliar la selección a la línea anterior",
                 "expandNextLine": "$~ampliar la selección a la siguiente línea",
-                "largeDelete": "$~¿Seguro que desea eliminar esta selección? Puede usar el botón deshacer (↺) si cambia de opinión."
+                "largeDelete": "$~¿Seguro que desea eliminar esta selección? Puede usar el botón deshacer (↺) si cambia de opinión.",
+                "ignored": {
+                    "readOnly": "$~La fuente es de solo lectura",
+                    "blockSpace": "$~No se permite espacio aquí",
+                    "noDelete": "$~No se puede eliminar esto",
+                    "noInsert": "$~No se puede insertar aquí",
+                    "noError": "$~Esta edición crearía un conflicto.",
+                    "noEditor": "$~No hay ningún editor activo",
+                    "noClipboard": "$~No hay portapapeles disponible",
+                    "noClipboardItem": "$~No hay nada en el portapapeles",
+                    "noSelection": "$~Nada seleccionado",
+                    "noMove": "$~No puedo moverme más"
+                }
             },
             "options": {
                 "locale": {
@@ -4538,7 +4625,11 @@
             },
             "modes": {
                 "label": "$~navegar",
-                "modes": ["$~Cómo", "$~conceptos"]
+                "labels": ["$~Cómo", "$~lenguaje de programación"],
+                "tips": [
+                    "$~Patrones reutilizables para realizar proyectos",
+                    "$~conceptos de lenguaje de programación"
+                ]
             },
             "how": {
                 "category": {
@@ -4586,7 +4677,11 @@
                 "mode": {
                     "public": {
                         "label": "visibilidad",
-                        "modes": ["privado", "público"]
+                        "labels": ["$~privado", "$~público"],
+                        "tips": [
+                            "$~Sólo tú y tus colaboradores podéis ver este proyecto.",
+                            "$~Cualquiera puede ver este proyecto"
+                        ]
                     }
                 },
                 "error": {
@@ -4614,8 +4709,16 @@
                 "mode": {
                     "layout": {
                         "label": "diseño",
-                        "modes": [
-                            "$~disponer los mosaicos automáticamente",
+                        "labels": [
+                            "$~auto",
+                            "$~fila",
+                            "$~pila",
+                            "$~dos",
+                            "$~uno",
+                            "$~gratis"
+                        ],
+                        "tips": [
+                            "$~disponer mosaicos automáticamente",
                             "$~un diseño de pantalla horizontal",
                             "$~un diseño de pantalla vertical",
                             "$~Los dos mosaicos más recientes, uno al lado del otro",
@@ -4625,7 +4728,17 @@
                     },
                     "animate": {
                         "label": "animaciones",
-                        "modes": [
+                        "labels": [
+                            "$~apagado",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10x"
+                        ],
+                        "tips": [
                             "$~animaciones desactivadas",
                             "$~cuarto de velocidad",
                             "$~tercera velocidad",
@@ -4638,34 +4751,46 @@
                     },
                     "dark": {
                         "label": "tema",
-                        "modes": [
-                            "colores claros",
-                            "colores oscuros",
-                            "usar configuración del dispositivo"
+                        "labels": ["$~luz", "$~oscuro", "$~auto"],
+                        "tips": [
+                            "$~colores más claros",
+                            "$~colores más oscuros",
+                            "$~utilizar la configuración actual del dispositivo"
                         ]
                     },
                     "space": {
                         "label": "indicador de espacio",
-                        "modes": ["abierto", "cerrado"]
+                        "labels": ["$~esconder", "$~espectáculo"],
+                        "tips": [
+                            "$~No mostrar indicadores de espacio y tabulación",
+                            "$~Mostrar indicadores de espacio y tabulación explícitamente"
+                        ]
                     },
                     "writing": {
                         "label": "diseño de escritura",
-                        "modes": [
-                            "horizontal, de izquierda a derecha",
-                            "vertical, de derecha a izquierda",
-                            "vertical, de izquierda a derecha"
+                        "labels": [
+                            "$~horizontal",
+                            "$~derecha vertical",
+                            "$~litros verticales"
+                        ],
+                        "tips": [
+                            "$~texto horizontal, leer de izquierda a derecha",
+                            "$~texto vertical, leer de derecha a izquierda",
+                            "$~texto vertical, leer de izquierda a derecha"
                         ]
                     },
                     "lines": {
                         "label": "$~Línea de números",
-                        "modes": [
-                            "$~mostrar números de línea en modo texto",
-                            "$~no mostrar números de línea en modo texto"
+                        "labels": ["$~esconder", "$~espectáculo"],
+                        "tips": [
+                            "$~no mostrar números de línea en modo texto",
+                            "$~mostrar números de línea en modo texto"
                         ]
                     },
                     "blocks": {
                         "label": "$~modo de edición",
-                        "modes": [
+                        "labels": ["$~texto", "$~bloques"],
+                        "tips": [
                             "$~editar código como texto",
                             "$~editar código como bloques"
                         ]
@@ -4729,7 +4854,11 @@
                 },
                 "mode": {
                     "label": "$~comentario",
-                    "modes": ["$~defectos", "$~ideas"]
+                    "labels": ["$~defectos", "$~ideas"],
+                    "tips": [
+                        "$~reportar algo que parece estar roto",
+                        "$~Sugerir nuevas características o mejoras"
+                    ]
                 },
                 "field": {
                     "title": {
@@ -5269,7 +5398,7 @@
                     },
                     "mode": {
                         "label": "$~modo",
-                        "modes": [
+                        "labels": [
                             "$~seleccionar",
                             "$~borrador",
                             "$~píxel",
@@ -5277,15 +5406,34 @@
                             "$~elipse",
                             "$~camino",
                             "$~emoji"
+                        ],
+                        "tips": [
+                            "$~seleccionar formas y píxeles",
+                            "$~borrar formas y píxeles",
+                            "$~dibujar píxeles",
+                            "$~dibujar rectángulos",
+                            "$~dibujar elipses",
+                            "$~dibujar rutas",
+                            "$~importar un emoji como píxeles"
                         ]
                     },
                     "fill": {
                         "label": "$~llenar",
-                        "modes": ["$~ninguno", "$~inerte", "$~elegir"]
+                        "labels": ["$~ninguno", "$~inerit", "$~elegir"],
+                        "tips": [
+                            "$~sin relleno",
+                            "$~heredar el color de relleno del texto circundante",
+                            "$~elige un color de relleno"
+                        ]
                     },
                     "stroke": {
                         "label": "$~ataque",
-                        "modes": ["$~ninguno", "$~inerte", "$~elegir"]
+                        "labels": ["$~ninguno", "$~inerit", "$~elegir"],
+                        "tips": [
+                            "$~sin accidente cerebrovascular",
+                            "$~heredar el color del trazo del texto circundante",
+                            "$~elige un color de trazo"
+                        ]
                     },
                     "none": "$~ninguno",
                     "inherit": "$~color del texto",
@@ -5407,7 +5555,11 @@
                     },
                     "public": {
                         "label": "$~visibilidad",
-                        "modes": ["$~público", "$~privado"]
+                        "labels": ["$~público", "$~privado"],
+                        "tips": [
+                            "$~Cualquiera puede ver este personaje",
+                            "$~Sólo tú y tus colaboradores podéis ver este personaje."
+                        ]
                     },
                     "collaborators": "$~colaboradores"
                 }

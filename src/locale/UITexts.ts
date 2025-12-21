@@ -37,11 +37,13 @@ export type ToggleText = {
     off: string;
 };
 
-export type ModeText<Modes extends readonly string[]> = {
+export type ModeText<Options extends readonly string[]> = {
     /** The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
-    /** The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance */
-    modes: Modes;
+    /** A list of modes */
+    labels: Options;
+    /** A list of tips/aria labels for each option */
+    tips: Options;
 };
 
 export type DialogText = {

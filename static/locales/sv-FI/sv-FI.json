@@ -44,7 +44,14 @@
         "help": "$~Hjälp",
         "feedback": "$~feed-back",
         "how": "$~hur man",
-        "code": "$~koda"
+        "code": "$~koda",
+        "unit": "$~enhet",
+        "markup": "$~pålägg",
+        "column": "$~kolumn",
+        "cell": "$~cell",
+        "documentation": "$~dokumentation",
+        "language": "$~språk",
+        "region": "$~område"
     },
     "token": {
         "EvalOpen": "$~utvärdering öppen",
@@ -225,7 +232,10 @@
                 "$~Jag är en lista med @Name, användbar när du vill ge ett värde flera namn, ofta med olika @Language.",
                 "$~Namn separeras med \\,\\-symboler. Här är till exempel @Bind som ger ett värde som är flera @Bind",
                 "$~\\hi/en,hello/en,hola/es: 'välkommen'\\"
-            ]
+            ],
+            "label": {
+                "names": "$~namn"
+            }
         },
         "Row": {
             "name": "$~rad",
@@ -281,6 +291,9 @@
                     "secondary": "$~Jag har samma namn som $1",
                     "name": "$~dupliceradtypvariabel"
                 }
+            },
+            "label": {
+                "type": "$~typ"
             }
         },
         "TypeVariables": {
@@ -294,7 +307,10 @@
             "emotion": "serious",
             "doc": [
                 "$~Jag är en lista med stycken som använder de många typer av uppmärkning som finns i förklaringar, som @Words, @WebLink, @ConceptLink och @Example."
-            ]
+            ],
+            "label": {
+                "paragraphs": "$~stycken"
+            }
         },
         "Paragraph": {
             "name": "$~stycke",
@@ -468,6 +484,11 @@
                     "name": "$~oanvändbindning",
                     "primary": "$~Jag heter $1, men ingen utnyttjar mig. Kanske behövs jag inte?"
                 }
+            },
+            "label": {
+                "value": "$~värde",
+                "names": "$~namn",
+                "type": "$~typ"
             }
         },
         "Block": {
@@ -489,7 +510,6 @@
                 "$~Så vanligtvis är jag bara ett gäng @Bind och sedan ett uttryck på slutet.",
                 "$~\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
             ],
-            "statement": "$~påstående",
             "start": "$~Första uttrycket",
             "finish": "$~Klart, jag fick $1",
             "conflict": {
@@ -506,6 +526,9 @@
                     },
                     "name": "$~ignoreratuttryck"
                 }
+            },
+            "label": {
+                "statements": "$~uttryck"
             }
         },
         "BooleanLiteral": {
@@ -521,9 +544,6 @@
             "emotion": "excited",
             "doc": "$~Om du skapar en föreställning med flera @Source, kan du använda mig för att låna @Bind som delas i de andra @Source. Använd bara deras namn så tar jag in deras namn och värde.",
             "start": "$~Lånar $2 från $1",
-            "source": "$~$source",
-            "bind": "$~namn",
-            "version": "$~version",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~okändlån",
@@ -539,6 +559,11 @@
                     "description": "$~lånecykel",
                     "explanation": "$~$1 beror på sig själv"
                 }
+            },
+            "label": {
+                "source": "$~$sourceälla",
+                "bind": "$~namn",
+                "version": "$~version"
             }
         },
         "Changed": {
@@ -550,7 +575,10 @@
                 "$~Jag är verkligen hjälpsam när du bara vill att något ska ändras om en ström ändras.",
                 "$~Det är allt."
             ],
-            "start": "$~Låt oss se om $1 ändrades..."
+            "start": "$~Låt oss se om $1 ändrades...",
+            "label": {
+                "stream": "$~strömma"
+            }
         },
         "Conditional": {
             "name": "$~villkorlig",
@@ -566,15 +594,17 @@
             "else": "$~$1[hoppa över kod | hoppar inte över koden]",
             "afterthen": "$~klar med ja, låt oss hoppa över nej?",
             "finish": "$~Jag antar att det är $1?",
-            "condition": "$~skick",
-            "yes": "$~ja",
-            "no": "$~inga",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "$~Hur kan jag välja ja och nej med en $1? Nej egentligen, hur?",
                     "secondary": "$~Jag tror att @Conditional ville att jag skulle vara en @Boolean, men jag är en $1.",
                     "name": "$~förväntatboolesktvillkor"
                 }
+            },
+            "label": {
+                "condition": "$~skick",
+                "yes": "$~ja",
+                "no": "$~inga"
             }
         },
         "ConversionDefinition": {
@@ -593,6 +623,11 @@
                     "name": "$~felplaceradkonvertering",
                     "primary": "$~Oj, jag kan inte vara här, bara i @Block."
                 }
+            },
+            "label": {
+                "input": "$~inmatningstyp",
+                "output": "$~utgångstyp",
+                "expression": "$~uttryck"
             }
         },
         "Convert": {
@@ -663,8 +698,6 @@
             "start": "$~Låt oss först utvärdera ingångarna",
             "evaluate": "$~låt oss utvärdera funktionen nu",
             "finish": "$~Jag värderade till $1",
-            "function": "$~fungera",
-            "input": "$~input",
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "$~Jag ska vara en $1, men jag är en $2",
@@ -709,6 +742,11 @@
                     "description": "$~okänd funktion",
                     "explanation": "$~åh nej, $1 är inte en funktion i $2[$2|det här @Block]!"
                 }
+            },
+            "label": {
+                "function": "$~fungera",
+                "types": "$~typer",
+                "inputs": "$~input"
             }
         },
         "Input": {
@@ -737,7 +775,6 @@
                 "$~Jag gillar inte att vara på @Stage!"
             ],
             "start": "$~Jag vet inte vad jag ska göra här. Kan du fylla i mig?",
-            "placeholder": "$~uttryck",
             "conflict": {
                 "Placeholder": {
                     "name": "$~platshållare",
@@ -749,6 +786,9 @@
                     "description": "$~oimplementerad",
                     "explanation": "$~Jag vet inte vad jag ska göra här. Kan du fylla i mig?"
                 }
+            },
+            "label": {
+                "placeholder": "$~uttryck"
             }
         },
         "FunctionDefinition": {
@@ -777,6 +817,10 @@
                     "name": "$~saknatuttryck",
                     "primary": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?"
                 }
+            },
+            "label": {
+                "inputs": "$~ingångar",
+                "expression": "$~uttryck"
             }
         },
         "Iteration": {
@@ -867,8 +911,7 @@
             "emotion": "eager",
             "doc": "$~Jag är en specifik @List! Se @List för att lära dig mer om vad du kan göra med mig.",
             "start": "$~Låt oss utvärdera föremålen först",
-            "finish": "$~Jag gjorde ett jag! $1",
-            "item": "$~punkt"
+            "finish": "$~Jag gjorde ett jag! $1"
         },
         "Spread": {
             "name": "$~sprida",
@@ -891,6 +934,9 @@
                     "secondary": "$~oj, var är mitt värde?",
                     "name": "$~saknatvärde"
                 }
+            },
+            "label": {
+                "values": "$~par"
             }
         },
         "Match": {
@@ -907,8 +953,10 @@
             "start": "$~Låt oss se vad $1 är...",
             "case": "$~Låt oss kontrollera detta tillstånd",
             "finish": "$~Okej, vi har ett slutvärde!",
-            "value": "$~värde",
-            "other": "$~standard"
+            "label": {
+                "case": "$~fall",
+                "other": "$~standard"
+            }
         },
         "NumberLiteral": {
             "name": "$~bokstavligttal",
@@ -997,6 +1045,10 @@
                     "description": "$~saknat värde",
                     "explanation": "$~Jag förväntade mig ett värde men fick inget!"
                 }
+            },
+            "label": {
+                "borrows": "$~lånar",
+                "expression": "$~blockera"
             }
         },
         "PropertyBind": {
@@ -1017,6 +1069,10 @@
                     "secondary": "$~Jag har ingen ingång som heter $1",
                     "name": "$~okändegendom"
                 }
+            },
+            "label": {
+                "property": "$~egendom",
+                "value": "$~värde"
             }
         },
         "PropertyReference": {
@@ -1030,7 +1086,10 @@
             ],
             "start": "$~Låt oss först ta reda på värdet",
             "finish": "$~Hittade egenskapen $1, den är $2",
-            "property": "$~egendom"
+            "label": {
+                "structure": "$~strukturera",
+                "property": "$~egendom"
+            }
         },
         "Reaction": {
             "name": "$~reaktion",
@@ -1044,14 +1103,16 @@
             ],
             "start": "$~Låt oss se om vi ska uppdatera strömmen",
             "finish": "$~Det nya streamvärdet är $1",
-            "initial": "$~första",
-            "condition": "$~skick",
-            "next": "$~nästa",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~förväntadström",
                     "primary": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
                 }
+            },
+            "label": {
+                "initial": "$~första",
+                "condition": "$~skick",
+                "next": "$~nästa"
             }
         },
         "Reference": {
@@ -1183,6 +1244,11 @@
                     "name": "$~oimplementerad",
                     "primary": "$~Jag implementerar $1 men har inte implementerat $2"
                 }
+            },
+            "label": {
+                "docs": "$~dokumentation",
+                "inputs": "$~ingångar",
+                "expression": "$~värden och funktioner"
             }
         },
         "StructureDefinitionType": {
@@ -1206,7 +1272,10 @@
             "description": "$~sms:a $1",
             "emotion": "serious",
             "doc": "$~Jag representerar en eller flera specifika @Translation av text. Se @Text för att lära dig mer om vad jag kan göra!",
-            "start": "$~Låt oss göra text i den aktuella lokalen"
+            "start": "$~Låt oss göra text i den aktuella lokalen",
+            "label": {
+                "texts": "$~text"
+            }
         },
         "Translation": {
             "name": "$~översättning",
@@ -1240,6 +1309,9 @@
                     "name": "$~möjliganpassadkaraktär",
                     "primary": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
                 }
+            },
+            "label": {
+                "segments": "$~text"
             }
         },
         "FormattedLiteral": {
@@ -1301,7 +1373,10 @@
                 "$~Det finns bara en regel: du kan inte sätta något mellanslag mellan namnet och värdet. Annars kanske du gör en @Reference eller @BinaryEvaluate."
             ],
             "start": "$~Vad är värdet?",
-            "finish": "$~Jag gjorde det $1"
+            "finish": "$~Jag gjorde det $1",
+            "label": {
+                "input": "$~input"
+            }
         },
         "UnparsableExpression": {
             "name": "$~omöjligatttolka",
@@ -4477,7 +4552,19 @@
                 "expandAfterInline": "$~utöka urvalet efter",
                 "expandPriorLine": "$~utöka urvalet till föregående rad",
                 "expandNextLine": "$~utöka urvalet till nästa rad",
-                "largeDelete": "$~Är du säker på att du vill ta bort det här valet? Du kan använda ångra-knappen (↺) om du ångrar dig."
+                "largeDelete": "$~Är du säker på att du vill ta bort det här valet? Du kan använda ångra-knappen (↺) om du ångrar dig.",
+                "ignored": {
+                    "readOnly": "$~Källan är skrivskyddad",
+                    "blockSpace": "$~Inget utrymme tillåtet här",
+                    "noDelete": "$~Kan inte radera detta",
+                    "noInsert": "$~Det går inte att infoga här",
+                    "noError": "$~Denna redigering skulle skapa en konflikt",
+                    "noEditor": "$~Ingen aktiv redigerare",
+                    "noClipboard": "$~Inget urklipp tillgängligt",
+                    "noClipboardItem": "$~Ingenting på urklippet",
+                    "noSelection": "$~Inget valt",
+                    "noMove": "$~Kan inte röra mig längre"
+                }
             },
             "options": {
                 "locale": {
@@ -4573,7 +4660,11 @@
             },
             "modes": {
                 "label": "$~bläddra",
-                "modes": ["$~hur man", "$~begrepp"]
+                "labels": ["$~hur man", "$~programmeringsspråk"],
+                "tips": [
+                    "$~återanvändbara mönster för att skapa projekt",
+                    "$~programmeringsspråkskoncept"
+                ]
             },
             "how": {
                 "category": {
@@ -4621,7 +4712,11 @@
                 "mode": {
                     "public": {
                         "label": "$~synlighet",
-                        "modes": ["$~privat", "$~offentlig"]
+                        "labels": ["$~privat", "$~offentlig"],
+                        "tips": [
+                            "$~bara du och dina medarbetare kan se det här projektet",
+                            "$~vem som helst kan se det här projektet"
+                        ]
                     }
                 },
                 "error": {
@@ -4649,7 +4744,15 @@
                 "mode": {
                     "layout": {
                         "label": "$~layout",
-                        "modes": [
+                        "labels": [
+                            "$~bil",
+                            "$~rad",
+                            "$~stack",
+                            "$~två",
+                            "$~en",
+                            "$~gratis"
+                        ],
+                        "tips": [
                             "$~lägga ut kakel automatiskt",
                             "$~en horisontell skärmlayout",
                             "$~en vertikal skärmlayout",
@@ -4660,7 +4763,17 @@
                     },
                     "animate": {
                         "label": "$~animationer",
-                        "modes": [
+                        "labels": [
+                            "$~av",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10 gånger"
+                        ],
+                        "tips": [
                             "$~animationer av",
                             "$~kvarts hastighet",
                             "$~tredje hastigheten",
@@ -4673,37 +4786,46 @@
                     },
                     "dark": {
                         "label": "$~tema",
-                        "modes": [
-                            "$~ljusa färger",
-                            "$~mörka färger",
-                            "$~använd enhetsinställning"
+                        "labels": ["$~ljus", "$~mörk", "$~bil"],
+                        "tips": [
+                            "$~ljusare färger",
+                            "$~mörkare färger",
+                            "$~använd den aktuella enhetsinställningen"
                         ]
                     },
                     "space": {
                         "label": "$~utrymmesindikator",
-                        "modes": [
-                            "$~visa mellanslags- och flikindikatorer explicit",
-                            "$~visa inte mellanslags- och flikindikatorer"
+                        "labels": ["$~dölja", "$~visa"],
+                        "tips": [
+                            "$~visa inte mellanslags- och tabbindikatorer",
+                            "$~visa mellanslags- och tabbindikatorer explicit"
                         ]
                     },
                     "lines": {
                         "label": "$~radnummer",
-                        "modes": [
-                            "$~visa radnummer i textläge",
-                            "$~visa inte radnummer i textläge"
+                        "labels": ["$~dölja", "$~visa"],
+                        "tips": [
+                            "$~visa inte radnummer i textläge",
+                            "$~visa radnummer i textläge"
                         ]
                     },
                     "writing": {
                         "label": "$~skrivlayout",
-                        "modes": [
-                            "$~horisontellt, från vänster till höger",
-                            "$~vertikalt, höger till vänster",
-                            "$~vertikalt, från vänster till höger"
+                        "labels": [
+                            "$~horisontell",
+                            "$~vertikal rtl",
+                            "$~vertikal ltr"
+                        ],
+                        "tips": [
+                            "$~horisontell text, läs från vänster till höger",
+                            "$~vertikal text, läs från höger till vänster",
+                            "$~vertikal text, läs från vänster till höger"
                         ]
                     },
                     "blocks": {
                         "label": "$~redigeringsläge",
-                        "modes": [
+                        "labels": ["$~text", "$~block"],
+                        "tips": [
                             "$~redigera kod som text",
                             "$~redigera kod som block"
                         ]
@@ -4767,7 +4889,11 @@
                 },
                 "mode": {
                     "label": "$~feed-back",
-                    "modes": ["$~defekter", "$~idéer"]
+                    "labels": ["$~defekter", "$~idéer"],
+                    "tips": [
+                        "$~rapportera något som verkar trasigt",
+                        "$~föreslå nya funktioner eller förbättringar"
+                    ]
                 },
                 "field": {
                     "title": {
@@ -5344,7 +5470,7 @@
                     },
                     "mode": {
                         "label": "$~läge",
-                        "modes": [
+                        "labels": [
                             "$~välja",
                             "$~suddgummi",
                             "$~pixel",
@@ -5352,15 +5478,34 @@
                             "$~ellips",
                             "$~väg",
                             "$~emoji"
+                        ],
+                        "tips": [
+                            "$~välj former och pixlar",
+                            "$~radera former och pixlar",
+                            "$~rita pixlar",
+                            "$~rita rektanglar",
+                            "$~rita ellipser",
+                            "$~rita banor",
+                            "$~importera en emoji som pixlar"
                         ]
                     },
                     "fill": {
                         "label": "$~fylla",
-                        "modes": ["$~ingen", "$~inerit", "$~välja"]
+                        "labels": ["$~ingen", "$~tröghet", "$~välja"],
+                        "tips": [
+                            "$~ingen fyllning",
+                            "$~ärva fyllningsfärg från omgivande text",
+                            "$~välj en fyllningsfärg"
+                        ]
                     },
                     "stroke": {
                         "label": "$~stroke",
-                        "modes": ["$~ingen", "$~inerit", "$~välja"]
+                        "labels": ["$~ingen", "$~tröghet", "$~välja"],
+                        "tips": [
+                            "$~ingen stroke",
+                            "$~ärva linjefärg från omgivande text",
+                            "$~välj en linjefärg"
+                        ]
                     },
                     "none": "$~ingen",
                     "inherit": "$~textfärg",
@@ -5482,7 +5627,11 @@
                     },
                     "public": {
                         "label": "$~synlighet",
-                        "modes": ["$~offentlig", "$~privat"]
+                        "labels": ["$~offentlig", "$~privat"],
+                        "tips": [
+                            "$~vem som helst kan se den här karaktären",
+                            "$~bara du och dina medarbetare kan se den här karaktären"
+                        ]
                     },
                     "collaborators": "$~kollaboratörer"
                 }

@@ -1,3 +1,8 @@
+<script module lang="ts">
+    /** The available documentation browsing modes */
+    export const Modes = ['howto', 'concepts'] as const;
+</script>
+
 <script lang="ts">
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -17,7 +22,11 @@
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import type Node from '@nodes/Node';
     import Source from '@nodes/Source';
-    import { SEARCH_SYMBOL } from '@parser/Symbols';
+    import {
+        DOCUMENTATION_SYMBOL,
+        IDEA_SYMBOL,
+        SEARCH_SYMBOL,
+    } from '@parser/Symbols';
     import { onDestroy, tick } from 'svelte';
     import { Locales, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
@@ -69,7 +78,7 @@
     let query = $state('');
 
     /** The browsing mode (programming language or how to) */
-    let mode = $state<'language' | 'how'>('how');
+    let mode = $state<(typeof Modes)[number]>('howto');
 
     /** The current concept is always the one at the end of the list. */
     let currentConcept = $derived($path[$path.length - 1]);
@@ -203,19 +212,16 @@
         fill
     />
     <Mode
-        descriptions={(l) => l.ui.docs.modes}
-        choice={mode === 'how' ? 0 : 1}
+        modes={(l) => l.ui.docs.modes}
+        icons={[IDEA_SYMBOL, DOCUMENTATION_SYMBOL]}
+        choice={Modes.indexOf(mode)}
         select={(choice) => {
-            const newMode = choice === 0 ? 'how' : 'language';
+            const newMode = Modes[choice];
             if (mode !== newMode) {
                 mode = newMode;
                 path.set([]);
             }
         }}
-        modes={[
-            $locales.get((l) => l.ui.docs.modes.modes[0]),
-            $locales.get((l) => l.ui.docs.modes.modes[1]),
-        ]}
     />
 
     {#if currentConcept}
@@ -312,7 +318,7 @@
                 {/if}
                 <!-- Home page is default. -->
             {:else if index}
-                {#if mode === 'how'}
+                {#if mode === 'howto'}
                     {#if howTos === undefined}
                         <Spinning></Spinning>
                     {:else}

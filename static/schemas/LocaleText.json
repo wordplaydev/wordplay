@@ -13484,8 +13484,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 8,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13496,7 +13505,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13507,8 +13517,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 7,
+          "minItems": 7,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13519,7 +13538,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13530,8 +13550,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13542,7 +13571,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13553,8 +13583,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13565,7 +13604,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13576,8 +13616,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13588,7 +13637,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13599,8 +13649,15 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13609,7 +13666,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },

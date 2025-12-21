@@ -44,7 +44,14 @@
         "help": "$~Pomoc",
         "feedback": "$~informacja zwrotna",
         "how": "$~jak",
-        "code": "$~kod"
+        "code": "$~kod",
+        "unit": "$~jednostka",
+        "markup": "$~znacznik",
+        "column": "$~kolumna",
+        "cell": "$~komórka",
+        "documentation": "$~dokumentacja",
+        "language": "$~język",
+        "region": "$~region"
     },
     "token": {
         "EvalOpen": "$~ocena otwarta",
@@ -225,7 +232,10 @@
                 "$~Jestem listą @Name, przydatną gdy chcesz nadać wartości wiele nazw, często z różnymi @Language.",
                 "$~Nazwy są rozdzielone symbolami \\,\\. Na przykład tutaj @Bind podaje wartość wielokrotną @Name",
                 "$~\\hi/en,hello/en,hola/es: 'witaj'\\"
-            ]
+            ],
+            "label": {
+                "names": "$~imiona"
+            }
         },
         "Row": {
             "name": "$~wiersz",
@@ -281,6 +291,9 @@
                     "secondary": "$~Mam takie samo imię jak $1",
                     "name": "$~zduplikowanazmiennatypu"
                 }
+            },
+            "label": {
+                "type": "$~typ"
             }
         },
         "TypeVariables": {
@@ -294,7 +307,10 @@
             "emotion": "serious",
             "doc": [
                 "$~Jestem listą akapitów, wykorzystującą wiele rodzajów znaczników dostępnych w wyjaśnieniach, takich jak @Words, @WebLink, @ConceptLink i @Example."
-            ]
+            ],
+            "label": {
+                "paragraphs": "$~akapity"
+            }
         },
         "Paragraph": {
             "name": "$~ustęp",
@@ -468,6 +484,11 @@
                     "name": "$~nieużywanepowiązanie",
                     "primary": "$~Jestem nazwany $1, ale nikt mnie nie wykorzystuje. Może nie jestem potrzebny?"
                 }
+            },
+            "label": {
+                "value": "$~wartość",
+                "names": "$~imiona",
+                "type": "$~typ"
             }
         },
         "Block": {
@@ -489,7 +510,6 @@
                 "$~Zazwyczaj jestem po prostu zbiorem @Bind i jakimś wyrażeniem na końcu.",
                 "$~\\(\na: 1\nb: 2\nc: 3\nd: 4\na + b + c + d\n)\\"
             ],
-            "statement": "$~oświadczenie",
             "start": "$~Pierwsze wyrażenie",
             "finish": "$~Zrobione, mam 1 dolara",
             "conflict": {
@@ -506,6 +526,9 @@
                     },
                     "name": "$~zignorowanewyrażenie"
                 }
+            },
+            "label": {
+                "statements": "$~wyrażenia"
             }
         },
         "BooleanLiteral": {
@@ -521,9 +544,6 @@
             "emotion": "excited",
             "doc": "$~Jeśli tworzysz występ z wieloma @Source, możesz użyć mnie do pożyczenia @Bind, które są współdzielone w tych innych @Source. Po prostu użyj ich nazwy, a ja wprowadzę ich nazwę i wartość.",
             "start": "$~Pożyczanie $2 z $1",
-            "source": "$~źródło",
-            "bind": "$~nazwa",
-            "version": "$~wersja",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~nieznanypożyczyć",
@@ -539,6 +559,11 @@
                     "description": "$~cykl pożyczkowy",
                     "explanation": "$~1 dolar zależy od siebie"
                 }
+            },
+            "label": {
+                "source": "$~źródło",
+                "bind": "$~nazwa",
+                "version": "$~wersja"
             }
         },
         "Changed": {
@@ -550,7 +575,10 @@
                 "$~Mogę być naprawdę pomocny, jeśli chcesz coś zmienić, ale tylko wtedy, gdy zmienił się strumień.",
                 "$~To wszystko."
             ],
-            "start": "$~Sprawdźmy, czy 1 dolar coś zmienił…"
+            "start": "$~Sprawdźmy, czy 1 dolar coś zmienił…",
+            "label": {
+                "stream": "$~strumień"
+            }
         },
         "Conditional": {
             "name": "$~warunkowy",
@@ -566,15 +594,17 @@
             "else": "$~$1[przeskakiwanie kodu | nie przeskakiwanie kodu]",
             "afterthen": "$~skoro już mowa o „tak”, to pomińmy „nie”?",
             "finish": "$~Chyba 1 dolar?",
-            "condition": "$~stan",
-            "yes": "$~Tak",
-            "no": "$~NIE",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "$~Jak mogę wybrać tak i nie za $1? Nie, naprawdę, jak?",
                     "secondary": "$~Myślę, że @Conditional chciał, abym był @Conditional, ale jestem $1.",
                     "name": "$~oczekiwanywarunekboolowski"
                 }
+            },
+            "label": {
+                "condition": "$~stan",
+                "yes": "$~Tak",
+                "no": "$~NIE"
             }
         },
         "ConversionDefinition": {
@@ -593,6 +623,11 @@
                     "name": "$~błędnakonwersja",
                     "primary": "$~ojej, nie mogę być tu, jestem tylko w @Block."
                 }
+            },
+            "label": {
+                "input": "$~typ wejścia",
+                "output": "$~typ wyjścia",
+                "expression": "$~wyrażenie"
             }
         },
         "Convert": {
@@ -663,8 +698,6 @@
             "start": "$~Najpierw oceńmy dane wejściowe",
             "evaluate": "$~Oceńmy teraz funkcję",
             "finish": "$~Oceniłem na 1",
-            "function": "$~funkcjonować",
-            "input": "$~wejście",
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "$~Powinienem być 1 dolarem, ale jestem 2 dolarem",
@@ -709,6 +742,11 @@
                     "description": "$~nieznana funkcja",
                     "explanation": "$~o nie, $1 nie jest funkcją w $2[$2|tym @Block]!"
                 }
+            },
+            "label": {
+                "function": "$~funkcjonować",
+                "types": "$~typy",
+                "inputs": "$~wejście"
             }
         },
         "Input": {
@@ -737,7 +775,6 @@
                 "$~Nie lubię występować na @Stage!"
             ],
             "start": "$~Nie wiem co tu zrobić. Czy możesz mi pomóc?",
-            "placeholder": "$~wyrażenie",
             "conflict": {
                 "Placeholder": {
                     "name": "$~symbolzastępczy",
@@ -749,6 +786,9 @@
                     "description": "$~niewdrożony",
                     "explanation": "$~Nie wiem co tu zrobić. Czy możesz mi pomóc?"
                 }
+            },
+            "label": {
+                "placeholder": "$~wyrażenie"
             }
         },
         "FunctionDefinition": {
@@ -777,6 +817,10 @@
                     "name": "$~brakującewyrażenie",
                     "primary": "$~Potrzebuję wyrażenia do oceny. Czy możesz je dodać?"
                 }
+            },
+            "label": {
+                "inputs": "$~wejścia",
+                "expression": "$~wyrażenie"
             }
         },
         "Iteration": {
@@ -867,8 +911,7 @@
             "emotion": "eager",
             "doc": "$~Jestem konkretną @List wartości! Zobacz @List, aby dowiedzieć się więcej o tym, co możesz ze mną zrobić.",
             "start": "$~Najpierw oceńmy przedmioty",
-            "finish": "$~Stworzyłem siebie! $1",
-            "item": "$~przedmiot"
+            "finish": "$~Stworzyłem siebie! $1"
         },
         "Spread": {
             "name": "$~rozpowszechnianiesię",
@@ -891,6 +934,9 @@
                     "secondary": "$~Ups, gdzie jest moja wartość?",
                     "name": "$~Brakwartości"
                 }
+            },
+            "label": {
+                "values": "$~para"
             }
         },
         "Match": {
@@ -907,8 +953,10 @@
             "start": "$~Zobaczmy, ile kosztuje 1 dolar...",
             "case": "$~Sprawdźmy ten warunek",
             "finish": "$~Ok, mamy wartość ostateczną!",
-            "value": "$~wartość",
-            "other": "$~domyślny"
+            "label": {
+                "case": "$~sprawa",
+                "other": "$~domyślny"
+            }
         },
         "NumberLiteral": {
             "name": "$~liczbadosłowna",
@@ -997,6 +1045,10 @@
                     "description": "$~Brak wartości",
                     "explanation": "$~Spodziewałem się czegoś wartościowego, ale nic nie dostałem!"
                 }
+            },
+            "label": {
+                "borrows": "$~pożycza",
+                "expression": "$~blok"
             }
         },
         "PropertyBind": {
@@ -1017,6 +1069,10 @@
                     "secondary": "$~Nie mam wejścia o nazwie $1",
                     "name": "$~nieznananieruchomość"
                 }
+            },
+            "label": {
+                "property": "$~nieruchomość",
+                "value": "$~wartość"
             }
         },
         "PropertyReference": {
@@ -1030,7 +1086,10 @@
             ],
             "start": "$~Najpierw ustalmy wartość",
             "finish": "$~Znaleziono nieruchomość o wartości 1, jest ona warta 2",
-            "property": "$~nieruchomość"
+            "label": {
+                "structure": "$~struktura",
+                "property": "$~nieruchomość"
+            }
         },
         "Reaction": {
             "name": "$~reakcja",
@@ -1044,14 +1103,16 @@
             ],
             "start": "$~Zobaczmy, czy powinniśmy zaktualizować strumień",
             "finish": "$~Nowa wartość strumienia wynosi 1 USD",
-            "initial": "$~wstępny",
-            "condition": "$~stan",
-            "next": "$~Następny",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~oczekiwanystrumień",
                     "primary": "$~$1 nie odnosi się do strumienia, więc nigdy nie zareaguję!"
                 }
+            },
+            "label": {
+                "initial": "$~wstępny",
+                "condition": "$~stan",
+                "next": "$~Następny"
             }
         },
         "Reference": {
@@ -1183,6 +1244,11 @@
                     "name": "$~niewdrożony",
                     "primary": "$~Wdrożyłem $1, ale nie wdrożyłem $2"
                 }
+            },
+            "label": {
+                "docs": "$~dokumentacja",
+                "inputs": "$~wejścia",
+                "expression": "$~wartości i funkcje"
             }
         },
         "StructureDefinitionType": {
@@ -1206,7 +1272,10 @@
             "description": "$~tekst $1",
             "emotion": "serious",
             "doc": "$~Reprezentuję jedno lub więcej konkretnych @Translation tekstu. Zobacz @Text, aby dowiedzieć się więcej o tym, co potrafię!",
-            "start": "$~Utwórzmy tekst w bieżącym położeniu"
+            "start": "$~Utwórzmy tekst w bieżącym położeniu",
+            "label": {
+                "texts": "$~tekst"
+            }
         },
         "Translation": {
             "name": "$~tłumaczenie",
@@ -1240,6 +1309,9 @@
                     "name": "$~możliwaniestandardowapostać",
                     "primary": "$~Wygląda to jak nazwa postaci. Aby je pokazać, użyj @FormattedLiteral zamiast @TextLiteral."
                 }
+            },
+            "label": {
+                "segments": "$~tekst"
             }
         },
         "FormattedLiteral": {
@@ -1301,7 +1373,10 @@
                 "$~Istnieje tylko jedna zasada: nie możesz wstawiać żadnej spacji między nazwą a wartością. W przeciwnym razie możesz utworzyć @Reference lub @BinaryEvaluate."
             ],
             "start": "$~Jaka jest wartość?",
-            "finish": "$~Zrobiłem to za $1"
+            "finish": "$~Zrobiłem to za $1",
+            "label": {
+                "input": "$~wejście"
+            }
         },
         "UnparsableExpression": {
             "name": "$~niemożliwydoprzeanalizowania",
@@ -4482,7 +4557,19 @@
                 "expandAfterInline": "$~rozwiń wybór po",
                 "expandPriorLine": "$~rozszerz zaznaczenie do poprzedniego wiersza",
                 "expandNextLine": "$~rozszerz zaznaczenie do następnego wiersza",
-                "largeDelete": "$~Czy na pewno chcesz usunąć ten wybór? Możesz użyć przycisku cofania (↺), jeśli zmienisz zdanie."
+                "largeDelete": "$~Czy na pewno chcesz usunąć ten wybór? Możesz użyć przycisku cofania (↺), jeśli zmienisz zdanie.",
+                "ignored": {
+                    "readOnly": "$~Źródło jest tylko do odczytu",
+                    "blockSpace": "$~Tutaj nie ma miejsca",
+                    "noDelete": "$~Nie można tego usunąć",
+                    "noInsert": "$~Nie można wstawić tutaj",
+                    "noError": "$~Ta edycja spowodowałaby konflikt",
+                    "noEditor": "$~Brak aktywnego edytora",
+                    "noClipboard": "$~Brak schowka",
+                    "noClipboardItem": "$~Nic w schowku",
+                    "noSelection": "$~Nic nie wybrano",
+                    "noMove": "$~Nie mogę się ruszyć dalej"
+                }
             },
             "options": {
                 "locale": {
@@ -4578,7 +4665,11 @@
             },
             "modes": {
                 "label": "$~przeglądać",
-                "modes": ["$~jak", "$~koncepcje"]
+                "labels": ["$~jak", "$~język programowania"],
+                "tips": [
+                    "$~wielokrotnego użytku wzory do tworzenia projektów",
+                    "$~koncepcje języka programowania"
+                ]
             },
             "how": {
                 "category": {
@@ -4626,7 +4717,11 @@
                 "mode": {
                     "public": {
                         "label": "$~widoczność",
-                        "modes": ["$~prywatny", "$~publiczny"]
+                        "labels": ["$~prywatny", "$~publiczny"],
+                        "tips": [
+                            "$~tylko Ty i współpracownicy możecie zobaczyć ten projekt",
+                            "$~każdy może zobaczyć ten projekt"
+                        ]
                     }
                 },
                 "error": {
@@ -4654,18 +4749,36 @@
                 "mode": {
                     "layout": {
                         "label": "$~układ",
-                        "modes": [
+                        "labels": [
+                            "$~automatyczny",
+                            "$~wiersz",
+                            "$~stos",
+                            "$~dwa",
+                            "$~jeden",
+                            "$~bezpłatny"
+                        ],
+                        "tips": [
                             "$~układaj kafelki automatycznie",
-                            "$~układ ekranu poziomy",
-                            "$~układ ekranu pionowy",
+                            "$~poziomy układ ekranu",
+                            "$~pionowy układ ekranu",
                             "$~dwa najnowsze kafelki obok siebie",
                             "$~tylko najnowszy kafelek",
-                            "$~ruchome i skalowalne kafelki na płótnie"
+                            "$~ruchome i zmieniające rozmiar kafelki na płótnie"
                         ]
                     },
                     "animate": {
                         "label": "$~animacje",
-                        "modes": [
+                        "labels": [
+                            "$~wyłączony",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10x"
+                        ],
+                        "tips": [
                             "$~animacje wyłączone",
                             "$~ćwierć prędkości",
                             "$~trzecia prędkość",
@@ -4678,37 +4791,46 @@
                     },
                     "dark": {
                         "label": "$~temat",
-                        "modes": [
-                            "$~jasne kolory",
-                            "$~ciemne kolory",
-                            "$~użyj ustawień urządzenia"
+                        "labels": ["$~światło", "$~ciemny", "$~automatyczny"],
+                        "tips": [
+                            "$~jaśniejsze kolory",
+                            "$~ciemniejsze kolory",
+                            "$~użyj bieżącego ustawienia urządzenia"
                         ]
                     },
                     "space": {
                         "label": "$~wskaźnik przestrzeni",
-                        "modes": [
-                            "$~pokaż wyraźnie wskaźniki spacji i tabulatorów",
-                            "$~nie pokazuj wskaźników spacji i tabulatorów"
+                        "labels": ["$~ukrywać", "$~pokazywać"],
+                        "tips": [
+                            "$~nie pokazuj wskaźników spacji i tabulatorów",
+                            "$~pokaż wyraźnie wskaźniki spacji i tabulatorów"
                         ]
                     },
                     "lines": {
                         "label": "$~numery linii",
-                        "modes": [
-                            "$~pokaż numery wierszy w trybie tekstowym",
-                            "$~nie pokazuj numerów wierszy w trybie tekstowym"
+                        "labels": ["$~ukrywać", "$~pokazywać"],
+                        "tips": [
+                            "$~nie pokazuj numerów wierszy w trybie tekstowym",
+                            "$~pokaż numery wierszy w trybie tekstowym"
                         ]
                     },
                     "writing": {
                         "label": "$~układ pisma",
-                        "modes": [
-                            "$~poziomo, od lewej do prawej",
-                            "$~pionowo, od prawej do lewej",
-                            "$~pionowo, od lewej do prawej"
+                        "labels": [
+                            "$~poziomy",
+                            "$~pionowy rtl",
+                            "$~pionowy ltr"
+                        ],
+                        "tips": [
+                            "$~tekst poziomy, czytany od lewej do prawej",
+                            "$~tekst pionowy, czytaj od prawej do lewej",
+                            "$~tekst pionowy, czytany od lewej do prawej"
                         ]
                     },
                     "blocks": {
                         "label": "$~tryb edycji",
-                        "modes": [
+                        "labels": ["$~tekst", "$~bloki"],
+                        "tips": [
                             "$~edytuj kod jako tekst",
                             "$~edytuj kod jako bloki"
                         ]
@@ -4772,7 +4894,11 @@
                 },
                 "mode": {
                     "label": "$~informacja zwrotna",
-                    "modes": ["$~wady", "$~pomysł"]
+                    "labels": ["$~wady", "$~pomysły"],
+                    "tips": [
+                        "$~zgłoś coś, co wydaje się zepsute",
+                        "$~zasugerować nowe funkcje lub ulepszenia"
+                    ]
                 },
                 "field": {
                     "title": {
@@ -5349,23 +5475,42 @@
                     },
                     "mode": {
                         "label": "$~tryb",
-                        "modes": [
+                        "labels": [
                             "$~wybierać",
                             "$~gumka do ścierania",
                             "$~piksel",
                             "$~prostokąt",
                             "$~elipsa",
                             "$~ścieżka",
-                            "$~emotikona"
+                            "$~emotikon"
+                        ],
+                        "tips": [
+                            "$~wybierz kształty i piksele",
+                            "$~wymaż kształty i piksele",
+                            "$~narysuj piksele",
+                            "$~narysuj prostokąty",
+                            "$~rysować elipsy",
+                            "$~rysować ścieżki",
+                            "$~importuj emoji jako piksele"
                         ]
                     },
                     "fill": {
                         "label": "$~wypełnić",
-                        "modes": ["$~nic", "$~nieaktywny", "$~wybierać"]
+                        "labels": ["$~nic", "$~bezwładny", "$~wybierać"],
+                        "tips": [
+                            "$~brak wypełnienia",
+                            "$~odziedzicz kolor wypełnienia z otaczającego tekstu",
+                            "$~wybierz kolor wypełnienia"
+                        ]
                     },
                     "stroke": {
                         "label": "$~udar",
-                        "modes": ["$~nic", "$~nieaktywny", "$~wybierać"]
+                        "labels": ["$~nic", "$~bezwładny", "$~wybierać"],
+                        "tips": [
+                            "$~bez udaru",
+                            "$~odziedzicz kolor obrysu z otaczającego tekstu",
+                            "$~wybierz kolor obrysu"
+                        ]
                     },
                     "none": "$~nic",
                     "inherit": "$~kolor tekstu",
@@ -5487,7 +5632,11 @@
                     },
                     "public": {
                         "label": "$~widoczność",
-                        "modes": ["$~publiczny", "$~prywatny"]
+                        "labels": ["$~publiczny", "$~prywatny"],
+                        "tips": [
+                            "$~każdy może zobaczyć tę postać",
+                            "$~tylko ty i współpracownicy możecie zobaczyć tę postać"
+                        ]
                     },
                     "collaborators": "$~współpracownicy"
                 }
