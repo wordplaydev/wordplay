@@ -83,35 +83,6 @@
             addedNew = false;
         }
     });
-
-    // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
-    // and https://svelte.dev/playground/f0823379afef4d249358cf969519c1b8?version=5.46.0
-    function dropInCanvas(event: DragEvent) {
-        event.preventDefault();
-
-        // let draggedHowToID: string | undefined =
-        //     event.dataTransfer?.getData('howto');
-
-        // if (!draggedHowToID) return;
-
-        // let howTo: HowTo | undefined = howTos.find(
-        //     (ht) => ht.getHowToId() === draggedHowToID,
-        // );
-
-        // if (!howTo) return;
-
-        // console.log(event);
-
-        // HowTos.updateHowTo(
-        //     new HowTo({
-        //         ...howTo?.getData(),
-        //         published: true,
-        //         xcoord: event.clientX,
-        //         ycoord: event.clientY,
-        //     }),
-        //     true,
-        // );
-    }
 </script>
 
 <Writing>
@@ -139,7 +110,7 @@
             </ul>
         </div>
 
-        <div class="dottedarea">
+        <div class="dottedarea" id="draftsarea">
             <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
             <MarkupHTMLView
                 markup={(l) => l.ui.howto.canvasView.draftsprompt}
@@ -149,14 +120,7 @@
             {/each}
         </div>
     </div>
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-        ondrop={(ev) => dropInCanvas(ev)}
-        ondragover={(ev) => {
-            ev.preventDefault();
-        }}
-        class="dottedarea"
-    >
+    <div class="dottedarea">
         {#each published as howto, i (i)}
             <!-- {#if howto.getCoordinates()[0] >= currentViewLeft - 100 && howto.getCoordinates()[0] <= currentViewRight + 100 && howto.getCoordinates()[1] >= currentViewTop - 100 && howto.getCoordinates()[1] <= currentViewBottom + 100} -->
             <HowToPreview howToId={howto.getHowToId()} />

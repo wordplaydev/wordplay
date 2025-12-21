@@ -46,11 +46,10 @@
         moving = true;
     }
 
-    function onMouseMove(e: DragEvent) {
+    function onMouseMove(e: MouseEvent) {
         if (moving) {
             xcoord += e.movementX;
             ycoord += e.movementY;
-            console.log(xcoord, ycoord);
         }
     }
 
@@ -136,10 +135,8 @@
     <div
         class="howto"
         style="--xcoord: {xcoord}px; --ycoord: {ycoord}px;"
-        draggable={true}
-        ondragstart={onMouseDown}
-        ondrag={(e) => onMouseMove(e)}
-        ondragend={onMouseUp}
+        onmousedown={onMouseDown}
+        id="howto-{howToId}"
     >
         <Dialog
             bind:show
@@ -248,6 +245,7 @@
         </div>
     </div>
 {/if}
+<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
 <style>
     .howto {
