@@ -4811,6 +4811,10 @@
                     "label": "📨 Submit to Wordplay Guide",
                     "tip": "Submit this how-to to be considered for inclusion in the Wordplay Guide!"
                 },
+                "alreadySubmitted": {
+                    "label": "✅ Submitted to Wordplay Guide",
+                    "tip": "This how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
+                },
                 "canBookmark": {
                     "label": "🔖 Bookmark how-to",
                     "tip": "Bookmark this how-to to find it later"

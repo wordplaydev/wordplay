@@ -180,6 +180,18 @@
         );
     }
 
+    function submitToGuide() {
+        if (!howTo) return;
+
+        HowTos.updateHowTo(
+            new HowTo({
+                ...howTo.getData(),
+                submittedToGuide: true,
+            }),
+            true,
+        );
+    }
+
     let show: boolean = $state(false);
     let reactionButtons = $locales.get((l) => l.ui.howto.reactions);
 </script>
@@ -213,11 +225,20 @@
                             />
                             {#if isPublished}
                                 <Button
-                                    tip={(l) => l.ui.howto.viewHowTo.submit.tip}
+                                    tip={(l) =>
+                                        howTo && howTo.getSubmittedToGuide()
+                                            ? l.ui.howto.viewHowTo
+                                                  .alreadySubmitted.tip
+                                            : l.ui.howto.viewHowTo.submit.tip}
                                     label={(l) =>
-                                        l.ui.howto.viewHowTo.submit.label}
-                                    active={true}
-                                    action={() => {}}
+                                        howTo && howTo.getSubmittedToGuide()
+                                            ? l.ui.howto.viewHowTo
+                                                  .alreadySubmitted.label
+                                            : l.ui.howto.viewHowTo.submit.label}
+                                    active={!howTo.getSubmittedToGuide()}
+                                    action={() => {
+                                        submitToGuide();
+                                    }}
                                 />
                             {/if}
                         {/if}

@@ -123,67 +123,83 @@
     let viewportWidth = $derived(window.innerWidth);
     let viewportHeight = $derived(window.innerHeight - 100);
 
-    // determine if we should render a how-to based on its coordinates (viewport + some buffer)
+    // determine if we should render a how-to based on its coordinates
+    // needs to be within the viewport as well as outside of the drafts / bookmarks areas
     function shouldRender(coordinates: number[]): boolean {
         const x = coordinates[0] + cameraX;
         const y = coordinates[1] + cameraY;
         const BUFFER = 0;
 
-        return (
+        let inBounds: boolean =
             x >= -BUFFER &&
             x <= viewportWidth + BUFFER &&
             y >= -BUFFER &&
-            y <= viewportHeight + BUFFER
-        );
+            y <= viewportHeight + BUFFER;
+
+        let infoArea: DOMRect | undefined = document
+            .getElementById('info')
+            ?.getBoundingClientRect();
+        let inStickies: boolean =
+            infoArea !== undefined &&
+            x >= infoArea.left &&
+            x <= infoArea.right &&
+            y >= infoArea.top &&
+            y <= infoArea.bottom;
+
+        return inBounds && !inStickies;
     }
 </script>
 
 <Writing>
-    <Header>
-        <MarkupHTMLView
-            inline
-            markup={docToMarkup(
-                $locales.get((l) => l.ui.howto.canvasView.header),
-            ).concretize($locales, [galleryName]) ?? ''}
-        />
-    </Header>
-
-    {#if canUserEdit}
-        <HowToForm bind:addedNew={shouldRefreshHowTos} />
-    {/if}
-
-    <div class="canvasstickyarea">
-        <div class="dottedarea" id="draftsarea">
-            <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
+    <div id="info">
+        <Header>
             <MarkupHTMLView
-                markup={(l) => l.ui.howto.canvasView.draftsprompt}
+                inline
+                markup={docToMarkup(
+                    $locales.get((l) => l.ui.howto.canvasView.header),
+                ).concretize($locales, [galleryName]) ?? ''}
             />
-            {#each drafts as howto, i (i)}
-                <!-- draft previews should not move when the infinite canvas is moved, so set camera vars to 0 -->
-                <HowToPreview
-                    howToId={howto.getHowToId()}
-                    {cameraX}
-                    {cameraY}
-                    bind:childMoving
-                    {draftsArea}
-                    bind:changedLocation={shouldRefreshHowTos}
-                />
-            {/each}
-        </div>
+        </Header>
 
-        <div class="dottedarea" id="bookmarksarea">
-            <Subheader text={(l) => l.ui.howto.canvasView.bookmarksheader} />
+        {#if canUserEdit}
+            <HowToForm bind:addedNew={shouldRefreshHowTos} />
+        {/if}
 
-            {#each bookmarks as howto, i (i)}
-                <Button
-                    tip={(l) => l.ui.howto.canvasView.bookmarkstooltip}
-                    label={(l) => howto.getTitle()}
-                    action={() => {
-                        let howToCoords = howto.getCoordinates();
-                        panTo(howToCoords[0], howToCoords[0]);
-                    }}
+        <div class="canvasstickyarea">
+            <div class="dottedarea" id="draftsarea">
+                <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
+                <MarkupHTMLView
+                    markup={(l) => l.ui.howto.canvasView.draftsprompt}
                 />
-            {/each}
+                {#each drafts as howto, i (i)}
+                    <!-- draft previews should not move when the infinite canvas is moved, so set camera vars to 0 -->
+                    <HowToPreview
+                        howToId={howto.getHowToId()}
+                        {cameraX}
+                        {cameraY}
+                        bind:childMoving
+                        {draftsArea}
+                        bind:changedLocation={shouldRefreshHowTos}
+                    />
+                {/each}
+            </div>
+
+            <div class="dottedarea" id="bookmarksarea">
+                <Subheader
+                    text={(l) => l.ui.howto.canvasView.bookmarksheader}
+                />
+
+                {#each bookmarks as howto, i (i)}
+                    <Button
+                        tip={(l) => l.ui.howto.canvasView.bookmarkstooltip}
+                        label={(l) => howto.getTitle()}
+                        action={() => {
+                            let howToCoords = howto.getCoordinates();
+                            panTo(howToCoords[0], howToCoords[0]);
+                        }}
+                    />
+                {/each}
+            </div>
         </div>
     </div>
     {#each published as howto, i (i)}

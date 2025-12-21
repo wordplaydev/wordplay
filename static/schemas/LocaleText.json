@@ -9880,6 +9880,9 @@
                     "alreadyBookmarked": {
                       "$ref": "#/definitions/ButtonText"
                     },
+                    "alreadySubmitted": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
                     "canBookmark": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for bookmarking the how-to"
@@ -9918,6 +9921,7 @@
                     "canBookmark",
                     "alreadyBookmarked",
                     "submit",
+                    "alreadySubmitted",
                     "reactionPrompt",
                     "usedPrompt",
                     "usedCountDisplay",

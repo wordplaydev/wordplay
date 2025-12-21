@@ -50,6 +50,8 @@ const HowToSchemaV1 = z.object({
     chat: z.string().nullable(),
     /** The list of users who bookmarked the how-to */
     bookmarkers: z.array(z.string()),
+    /** If the how-to was submitted for the team to review for inclusion in the global Guide */
+    submittedToGuide: z.boolean(),
 });
 
 const HowToSchema = HowToSchemaV1;
@@ -127,6 +129,10 @@ export default class HowTo {
 
     getBookmarkers() {
         return this.data.bookmarkers;
+    }
+
+    getSubmittedToGuide() {
+        return this.data.submittedToGuide;
     }
 
     getData() {
@@ -233,6 +239,7 @@ export class HowToDatabase {
             usedByProjects: [],
             chat: null,
             bookmarkers: [],
+            submittedToGuide: false,
         };
 
         console.log(newHowTo);

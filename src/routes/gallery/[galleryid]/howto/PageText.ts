@@ -54,6 +54,7 @@ type PageText = {
         alreadyBookmarked: ButtonText;
         /** Button text for submitting the how-to to be included in the public guide */
         submit: ButtonText;
+        alreadySubmitted: ButtonText;
         /** Text for prompting reactions */
         reactionPrompt: string;
         /** Text for asking if the user used this how-to in their project or another how-to */
