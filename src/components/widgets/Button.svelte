@@ -7,7 +7,7 @@
     import { getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import { withMonoEmoji } from '../../unicode/emoji';
+import { withMonoEmoji } from '../../unicode/emoji';
     import Spinning from '../app/Spinning.svelte';
     import LocalizedText from './LocalizedText.svelte';
 

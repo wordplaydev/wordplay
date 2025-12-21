@@ -5,6 +5,7 @@
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
     import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
@@ -75,12 +76,12 @@
     });
 
     // flag to indicate that a new how-to was added
-    let addedNew: boolean = $state(false);
+    let shouldRefreshHowTos: boolean = $state(false);
 
     $effect(() => {
-        if (addedNew) {
+        if (shouldRefreshHowTos) {
             loadHowTos();
-            addedNew = false;
+            shouldRefreshHowTos = false;
         }
     });
 
@@ -108,10 +109,28 @@
             canvasMoving = false;
         }
     }
+
+    function panTo(x: number, y: number) {
+        // logic isn't quite right here -- need to center the thing that is being panned to
+        cameraX = x;
+        cameraY = y;
+    }
+
+    let draftsArea: DOMRect | undefined = $derived(
+        document.getElementById('draftsarea')?.getBoundingClientRect(),
+    );
 </script>
 
 <Writing>
-    <div class="container">
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+
+    <div
+        class="infinitecanvas"
+        onmousedown={onMouseDown}
+        onmouseup={onMouseUp}
+        onmousemove={onMouseMove}
+        ondblclick={() => panTo(0, 0)}
+    >
         <Header>
             <MarkupHTMLView
                 inline
@@ -122,7 +141,7 @@
         </Header>
 
         {#if canUserEdit}
-            <HowToForm bind:addedNew />
+            <HowToForm bind:addedNew={shouldRefreshHowTos} />
         {/if}
 
         <div class="canvasstickyarea">
@@ -135,9 +154,11 @@
                     <!-- draft previews should not move when the infinite canvas is moved, so set camera vars to 0 -->
                     <HowToPreview
                         howToId={howto.getHowToId()}
-                        cameraX={0}
-                        cameraY={0}
+                        {cameraX}
+                        {cameraY}
                         bind:childMoving
+                        {draftsArea}
+                        bind:changedLocation={shouldRefreshHowTos}
                     />
                 {/each}
             </div>
@@ -147,29 +168,27 @@
                     text={(l) => l.ui.howto.canvasView.bookmarksheader}
                 />
 
-                <ul>
-                    {#each bookmarks as howto, i (i)}
-                        <li>{howto.getTitle()}</li>
-                    {/each}
-                </ul>
+                {#each bookmarks as howto, i (i)}
+                    <Button
+                        tip={(l) => l.ui.howto.canvasView.bookmarkstooltip}
+                        label={(l) => howto.getTitle()}
+                        action={() => {
+                            let howToCoords = howto.getCoordinates();
+                            panTo(howToCoords[0], howToCoords[0]);
+                        }}
+                    />
+                {/each}
             </div>
         </div>
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <div
-            class="infinitecanvas"
-            onmousedown={onMouseDown}
-            onmouseup={onMouseUp}
-            onmousemove={onMouseMove}
-        >
-            {#each published as howto, i (i)}
-                <HowToPreview
-                    howToId={howto.getHowToId()}
-                    {cameraX}
-                    {cameraY}
-                    bind:childMoving
-                />
-            {/each}
-        </div>
+        {#each published as howto, i (i)}
+            <HowToPreview
+                howToId={howto.getHowToId()}
+                {cameraX}
+                {cameraY}
+                bind:childMoving
+                bind:changedLocation={shouldRefreshHowTos}
+            />
+        {/each}
     </div>
 </Writing>
 
@@ -191,10 +210,5 @@
         cursor: grab;
         overflow: hidden;
         height: 100%;
-    }
-
-    .container {
-        display: grid;
-        grid-template-rows: auto 1fr;
     }
 </style>

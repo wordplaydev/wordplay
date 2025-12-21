@@ -14,6 +14,8 @@
         cameraX: number;
         cameraY: number;
         childMoving: boolean;
+        draftsArea?: DOMRect | undefined;
+        changedLocation: boolean;
     }
 
     let {
@@ -21,6 +23,8 @@
         cameraX,
         cameraY,
         childMoving = $bindable(),
+        draftsArea = undefined,
+        changedLocation = $bindable(),
     }: Props = $props();
 
     const user = getUser();
@@ -50,8 +54,8 @@
     childMoving = false;
     let thisChildMoving = false;
 
-    let renderX: number = $derived(xcoord + cameraX);
-    let renderY: number = $derived(ycoord + cameraY);
+    let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
+    let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
     // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
     function onMouseDown() {
@@ -66,7 +70,7 @@
         }
     }
 
-    function onMouseUp() {
+    function onMouseUp(event: MouseEvent) {
         childMoving = false;
 
         if (thisChildMoving) {
@@ -74,14 +78,47 @@
 
             if (!howTo) return;
 
+            let published = howTo.isPublished();
+
+            // if is a draft and moved outside of the drafts space, then publish it
+            if (!published) {
+                const selfArea = document
+                    .getElementById(`howto-${howToId}`)
+                    ?.getBoundingClientRect();
+
+                if (
+                    draftsArea &&
+                    selfArea &&
+                    // check all corners of the preview are outside of the drafts area
+                    (draftsArea.left > selfArea.right ||
+                        draftsArea.right < selfArea.left ||
+                        draftsArea.top > selfArea.bottom ||
+                        draftsArea.bottom < selfArea.top)
+                ) {
+                    published = true;
+                    console.log(
+                        'Publishing how-to as it was moved out of drafts area',
+                        event.clientX,
+                        event.clientY,
+                        cameraX,
+                        cameraY,
+                    );
+                    xcoord = event.clientX - cameraX;
+                    ycoord = event.clientY - cameraY;
+                }
+            }
+
             HowTos.updateHowTo(
                 new HowTo({
                     ...howTo.getData(),
                     xcoord: xcoord,
                     ycoord: ycoord,
+                    published: published,
                 }),
                 true,
             );
+
+            changedLocation = true;
         }
     }
 
@@ -151,7 +188,9 @@
 {#if howTo}
     <div
         class="howto"
-        style="--renderedX: {renderX}px; --renderedY: {renderY}px;"
+        style="--renderedX: {renderX}px; --renderedY: {renderY}px; --positioning: {isPublished
+            ? 'absolute'
+            : 'relative'};"
         onmousedown={onMouseDown}
         id="howto-{howToId}"
     >
@@ -267,7 +306,7 @@
 <style>
     .howto {
         overflow: hidden;
-        position: relative;
+        position: var(--positioning);
         left: var(--renderedX);
         top: var(--renderedY);
         width: fit-content;

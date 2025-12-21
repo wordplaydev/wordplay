@@ -22,6 +22,8 @@ type PageText = {
         draftsprompt: string;
         /** Header for the bookmarks area */
         bookmarksheader: string;
+        /** Bookmarks  tooltip */
+        bookmarkstooltip: string;
     },
     /** Buttons and dialogs for adding a new how-to */
     newHowTo: {

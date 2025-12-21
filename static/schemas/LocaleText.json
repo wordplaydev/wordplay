@@ -9742,6 +9742,10 @@
                       "description": "Header for the bookmarks area",
                       "type": "string"
                     },
+                    "bookmarkstooltip": {
+                      "description": "Bookmarks  tooltip",
+                      "type": "string"
+                    },
                     "draftsheader": {
                       "description": "Header for the drafts area",
                       "type": "string"
@@ -9764,7 +9768,8 @@
                     "howtoprompt",
                     "draftsheader",
                     "draftsprompt",
-                    "bookmarksheader"
+                    "bookmarksheader",
+                    "bookmarkstooltip"
                   ],
                   "type": "object"
                 },
