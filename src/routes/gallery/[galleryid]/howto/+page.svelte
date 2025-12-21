@@ -83,57 +83,93 @@
             addedNew = false;
         }
     });
+
+    // infinite canvas functionality
+    let cameraX = $state(0);
+    let cameraY = $state(0);
+    let canvasMoving = $state(false);
+    let childMoving = $state(false);
+
+    function onMouseDown() {
+        if (!childMoving) {
+            canvasMoving = true;
+        }
+    }
+
+    function onMouseMove(e: MouseEvent) {
+        if (canvasMoving && !childMoving) {
+            cameraX += e.movementX;
+            cameraY += e.movementY;
+        }
+    }
+
+    function onMouseUp() {
+        if (!childMoving) {
+            canvasMoving = false;
+        }
+    }
 </script>
 
 <Writing>
-    <div class="sticky-items">
-        <Header>
-            <MarkupHTMLView
-                inline
-                markup={docToMarkup(
-                    $locales.get((l) => l.ui.howto.canvasView.header),
-                ).concretize($locales, [galleryName]) ?? ''}
-            />
-        </Header>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div
+        class="infinitecanvas"
+        onmousedown={onMouseDown}
+        onmouseup={onMouseUp}
+        onmousemove={onMouseMove}
+    >
+        <div class="sticky-items">
+            <Header>
+                <MarkupHTMLView
+                    inline
+                    markup={docToMarkup(
+                        $locales.get((l) => l.ui.howto.canvasView.header),
+                    ).concretize($locales, [galleryName]) ?? ''}
+                />
+            </Header>
 
-        {#if canUserEdit}
-            <HowToForm bind:addedNew />
-        {/if}
+            {#if canUserEdit}
+                <HowToForm bind:addedNew />
+            {/if}
 
-        <div class="dottedarea">
-            <Subheader text={(l) => l.ui.howto.canvasView.bookmarksheader} />
+            <div class="dottedarea">
+                <Subheader
+                    text={(l) => l.ui.howto.canvasView.bookmarksheader}
+                />
 
-            <ul>
-                {#each bookmarks as howto, i (i)}
-                    <li>{howto.getTitle()}</li>
-                {/each}
-            </ul>
+                <ul>
+                    {#each bookmarks as howto, i (i)}
+                        <li>{howto.getTitle()}</li>
+                    {/each}
+                </ul>
+            </div>
+
+            <div class="dottedarea" id="draftsarea">
+                <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
+                <MarkupHTMLView
+                    markup={(l) => l.ui.howto.canvasView.draftsprompt}
+                />
+                <!-- {#each drafts as howto, i (i)}
+                    <HowToPreview howToId={howto.getHowToId()} />
+                {/each} -->
+            </div>
         </div>
-
-        <div class="dottedarea" id="draftsarea">
-            <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
-            <MarkupHTMLView
-                markup={(l) => l.ui.howto.canvasView.draftsprompt}
-            />
-            {#each drafts as howto, i (i)}
-                <HowToPreview howToId={howto.getHowToId()} />
-            {/each}
-        </div>
-    </div>
-    <div class="dottedarea">
         {#each published as howto, i (i)}
-            <!-- {#if howto.getCoordinates()[0] >= currentViewLeft - 100 && howto.getCoordinates()[0] <= currentViewRight + 100 && howto.getCoordinates()[1] >= currentViewTop - 100 && howto.getCoordinates()[1] <= currentViewBottom + 100} -->
-            <HowToPreview howToId={howto.getHowToId()} />
-            <!-- {/if} -->
+            <HowToPreview
+                howToId={howto.getHowToId()}
+                {cameraX}
+                {cameraY}
+                bind:childMoving
+            />
         {/each}
     </div>
 </Writing>
 
 <style>
     .sticky-items {
-        position: sticky;
+        /* position: sticky;
         top: 0;
-        left: 0; /* TODO(@mc) -- horizontal sticky not working */
+        left: 0; TODO(@mc) -- horizontal sticky not working */
         z-index: 100;
         padding-bottom: 1rem;
     }
@@ -142,5 +178,11 @@
         border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         border-style: dashed;
+    }
+
+    .infinitecanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
     }
 </style>

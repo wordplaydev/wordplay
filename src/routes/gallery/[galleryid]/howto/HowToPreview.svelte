@@ -11,9 +11,17 @@
 
     interface Props {
         howToId: string;
+        cameraX: number;
+        cameraY: number;
+        childMoving: boolean;
     }
 
-    let { howToId }: Props = $props();
+    let {
+        howToId,
+        cameraX,
+        cameraY,
+        childMoving = $bindable(),
+    }: Props = $props();
 
     const user = getUser();
 
@@ -39,33 +47,42 @@
     );
 
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
-    let moving: boolean = false;
+    childMoving = false;
+    let thisChildMoving = false;
+
+    let renderX: number = $derived(xcoord + cameraX);
+    let renderY: number = $derived(ycoord + cameraY);
 
     // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
     function onMouseDown() {
-        moving = true;
+        childMoving = true;
+        thisChildMoving = true;
     }
 
     function onMouseMove(e: MouseEvent) {
-        if (moving) {
+        if (thisChildMoving) {
             xcoord += e.movementX;
             ycoord += e.movementY;
         }
     }
 
     function onMouseUp() {
-        moving = false;
+        childMoving = false;
 
-        if (!howTo) return;
+        if (thisChildMoving) {
+            thisChildMoving = false;
 
-        HowTos.updateHowTo(
-            new HowTo({
-                ...howTo.getData(),
-                xcoord: xcoord,
-                ycoord: ycoord,
-            }),
-            true,
-        );
+            if (!howTo) return;
+
+            HowTos.updateHowTo(
+                new HowTo({
+                    ...howTo.getData(),
+                    xcoord: xcoord,
+                    ycoord: ycoord,
+                }),
+                true,
+            );
+        }
     }
 
     function addRemoveReaction(reactionLabel: string) {
@@ -134,7 +151,7 @@
 {#if howTo}
     <div
         class="howto"
-        style="--xcoord: {xcoord}px; --ycoord: {ycoord}px;"
+        style="--renderedX: {renderX}px; --renderedY: {renderY}px;"
         onmousedown={onMouseDown}
         id="howto-{howToId}"
     >
@@ -251,8 +268,8 @@
     .howto {
         overflow: hidden;
         position: relative;
-        left: var(--xcoord);
-        top: var(--ycoord);
+        left: var(--renderedX);
+        top: var(--renderedY);
         width: fit-content;
         height: fit-content;
     }
