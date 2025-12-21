@@ -161,6 +161,9 @@
                 ?.getBoundingClientRect();
 
             onDropHowTo(item?.left ?? 0, item?.top ?? 0);
+        } else {
+            thisChildMoving = false;
+            childMoving = false;
         }
     }
 
