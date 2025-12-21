@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** The available documentation browsing modes */
-    export const Modes = ['howto', 'concepts'] as const;
+    export const Modes = ['howto', 'language'] as const;
 </script>
 
 <script lang="ts">
@@ -28,7 +28,7 @@
         SEARCH_SYMBOL,
     } from '@parser/Symbols';
     import { onDestroy, tick } from 'svelte';
-    import { Locales, Projects, locales } from '../../db/Database';
+    import { Locales, Projects, blocks, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import ConceptLink from '../../nodes/ConceptLink';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
@@ -71,14 +71,13 @@
     let index = $derived(indexContext?.index);
 
     let path = getConceptPath();
-
     let dragged = getDragged();
 
     /** The current search string */
     let query = $state('');
 
     /** The browsing mode (programming language or how to) */
-    let mode = $state<(typeof Modes)[number]>('howto');
+    let mode = $state<(typeof Modes)[number]>($blocks ? 'language' : 'howto');
 
     /** The current concept is always the one at the end of the list. */
     let currentConcept = $derived($path[$path.length - 1]);
@@ -198,6 +197,13 @@
     function home() {
         path.set([]);
     }
+
+    // If blocks mode is on, switch language mode.
+    $effect(() => {
+        if ($blocks) {
+            mode = 'language';
+        }
+    });
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->

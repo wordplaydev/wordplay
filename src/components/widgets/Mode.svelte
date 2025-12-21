@@ -128,7 +128,7 @@
     button.selected {
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
-        transform: scale(1.1);
+        transform: scale(1.05);
         cursor: default;
     }
 
