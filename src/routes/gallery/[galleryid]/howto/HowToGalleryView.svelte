@@ -2,7 +2,9 @@
     import Action from '@components/app/Action.svelte';
     import BigLink from '@components/app/BigLink.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
     import { HowTos, locales } from '@db/Database';
+    import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import Iconified from '../../../Iconified.svelte';
@@ -13,16 +15,28 @@
     }
 
     let { galleryID, projectsEditable }: Props = $props();
+    const user = getUser();
 
-    let totalHowTos = $state(0);
-
+    let howTos: HowTo[] = $state([]);
     $effect(() => {
-        HowTos.getHowTos(galleryID).then(
-            (hts) => (totalHowTos = hts ? hts.length : 0),
-        );
+        if (!galleryID) {
+            howTos = [];
+            return;
+        }
+
+        HowTos.getHowTos(galleryID).then((hts) => {
+            if (hts) howTos = hts;
+            else howTos = [];
+        });
     });
 
-    const newHowTos = 5; // TODO(@mc) -- fix this hardcoded value
+    let totalHowTos: number = $derived(howTos.length);
+    let newHowTos: number = $derived(
+        howTos.filter((ht) => {
+            const seenBy = ht.getSeenByUsers();
+            return $user && seenBy && !seenBy.includes($user.uid);
+        }).length,
+    );
 </script>
 
 <Action>

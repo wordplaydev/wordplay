@@ -53,6 +53,7 @@
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
     childMoving = false;
     let thisChildMoving = false;
+    let thisChildMoved = false;
 
     let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
@@ -70,7 +71,40 @@
         }
     }
 
-    function onMouseUp(event: MouseEvent) {
+    function onKeyPress(event: KeyboardEvent) {
+        if (thisChildMoving) {
+            switch (event.key) {
+                case 'ArrowUp':
+                    ycoord -= 10;
+
+                    thisChildMoved = true;
+                    event.preventDefault();
+                    break;
+                case 'ArrowDown':
+                    ycoord += 10;
+
+                    thisChildMoved = true;
+                    event.preventDefault();
+                    break;
+                case 'ArrowLeft':
+                    xcoord -= 10;
+
+                    thisChildMoved = true;
+                    event.preventDefault();
+                    break;
+                case 'ArrowRight':
+                    xcoord += 10;
+
+                    thisChildMoved = true;
+                    event.preventDefault();
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+
+    function onDropHowTo(clientX: number, clientY: number) {
         childMoving = false;
 
         if (thisChildMoving) {
@@ -96,15 +130,8 @@
                         draftsArea.bottom < selfArea.top)
                 ) {
                     published = true;
-                    console.log(
-                        'Publishing how-to as it was moved out of drafts area',
-                        event.clientX,
-                        event.clientY,
-                        cameraX,
-                        cameraY,
-                    );
-                    xcoord = event.clientX - cameraX;
-                    ycoord = event.clientY - cameraY;
+                    xcoord = clientX - cameraX;
+                    ycoord = clientY - cameraY;
                 }
             }
 
@@ -119,6 +146,21 @@
             );
 
             changedLocation = true;
+        }
+    }
+
+    function onMouseUp(event: MouseEvent) {
+        onDropHowTo(event.clientX, event.clientY);
+    }
+
+    function onLoseFocus(event: FocusEvent) {
+        if (thisChildMoved) {
+            thisChildMoved = false;
+            let item = document
+                .getElementById(`howto-${howToId}`)
+                ?.getBoundingClientRect();
+
+            onDropHowTo(item?.left ?? 0, item?.top ?? 0);
         }
     }
 
@@ -198,6 +240,7 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 {#if howTo}
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <div
         class="howto"
         style="--renderedX: {renderX}px; --renderedY: {renderY}px; --positioning: {isPublished
@@ -205,6 +248,11 @@
             : 'relative'};"
         onmousedown={onMouseDown}
         id="howto-{howToId}"
+        tabindex="0"
+        aria-label="How-to preview for {title}"
+        onfocus={onMouseDown}
+        onblur={onLoseFocus}
+        onkeydown={onKeyPress}
     >
         <Dialog
             bind:show

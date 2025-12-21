@@ -116,6 +116,32 @@
         cameraY = y;
     }
 
+    function onKeyDown(event: KeyboardEvent) {
+        if (!childMoving) {
+            switch (event.key) {
+                case 'ArrowUp':
+                    cameraY += 10;
+                    event.preventDefault();
+                    break;
+                case 'ArrowDown':
+                    cameraY -= 10;
+                    event.preventDefault();
+                    break;
+                case 'ArrowLeft':
+                    cameraX += 10;
+                    event.preventDefault();
+                    break;
+                case 'ArrowRight':
+                    cameraX -= 10;
+                    event.preventDefault();
+                    break;
+                default:
+                    return;
+            }
+            return;
+        }
+    }
+
     let draftsArea: DOMRect | undefined = $derived(
         document.getElementById('draftsarea')?.getBoundingClientRect(),
     );
@@ -218,6 +244,7 @@
     onmouseup={onMouseUp}
     onmousedown={onMouseDown}
     onmousemove={onMouseMove}
+    onkeydown={(event) => onKeyDown(event)}
 />
 
 <style>

@@ -52,6 +52,9 @@ const HowToSchemaV1 = z.object({
     bookmarkers: z.array(z.string()),
     /** If the how-to was submitted for the team to review for inclusion in the global Guide */
     submittedToGuide: z.boolean(),
+    /** The list of users who have seen the how-to */
+    seenByUsers: z.array(z.string()),
+
 });
 
 const HowToSchema = HowToSchemaV1;
@@ -133,6 +136,10 @@ export default class HowTo {
 
     getSubmittedToGuide() {
         return this.data.submittedToGuide;
+    }
+
+    getSeenByUsers() {
+        return this.data.seenByUsers;
     }
 
     getData() {
@@ -240,6 +247,7 @@ export class HowToDatabase {
             chat: null,
             bookmarkers: [],
             submittedToGuide: false,
+            seenByUsers: [user as string],
         };
 
         console.log(newHowTo);
