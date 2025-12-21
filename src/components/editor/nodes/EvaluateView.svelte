@@ -80,7 +80,14 @@
     <NodeView node={[node, 'fun']} {format} />
     <NodeView node={[node, 'types']} {format} empty="hide" />
     <NodeView node={[node, 'open']} {format} />
-    <NodeSequenceView {node} {format} field="inputs" empty="label" />
+    <NodeSequenceView
+        {node}
+        {format}
+        field="inputs"
+        empty="label"
+        block={node.inputs.reduce((sum, v) => sum + v.toWordplay().length, 0) >
+            32}
+    />
     {#if nextBind && menuPosition}
         &nbsp;<MenuTrigger position={menuPosition} />
     {/if}
