@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
@@ -8,6 +7,7 @@
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import HowToForm from './HowToForm.svelte';
+    import HowToPrompt from './HowToPrompt.svelte';
 
     interface Props {
         howToId: string;
@@ -192,13 +192,13 @@
                             >
                         {/if}
                     </div>
-                    <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
+                    <HowToPrompt text={(l) => l.ui.howto.newHowTo.prompt} />
 
                     <MarkupHTMLView markup={(l) => text} />
                 </div>
                 {#if isPublished}
                     <div>
-                        <Subheader
+                        <HowToPrompt
                             text={(l) => l.ui.howto.viewHowTo.reactionPrompt}
                         />
                         {#each reactionButtons as reaction, i (i)}
@@ -219,7 +219,7 @@
                                 }}
                             />
                         {/each}
-                        <Subheader
+                        <HowToPrompt
                             text={(l) => l.ui.howto.viewHowTo.usedPrompt}
                         />
                         <MarkupHTMLView
@@ -233,7 +233,7 @@
                                 howTo.getUsedByProjects().length,
                             ]) ?? ''}
                         />
-                        <Subheader
+                        <HowToPrompt
                             text={(l) => l.ui.howto.viewHowTo.chatPrompt}
                         />
                     </div>
@@ -275,11 +275,12 @@
         padding-top: var(--wordplay-spacing);
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
+        width: 100%;
+        flex-wrap: wrap;
     }
     .howtosplitview {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
-        width: 50%;
     }
 </style>

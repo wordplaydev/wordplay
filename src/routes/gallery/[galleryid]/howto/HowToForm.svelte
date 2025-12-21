@@ -10,6 +10,7 @@
     import TextField from '@components/widgets/TextField.svelte';
     import { HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import HowToPrompt from './HowToPrompt.svelte';
 
     interface Props {
         howToId?: string; // provided only if editing an existing HowTo
@@ -111,7 +112,7 @@
         />
     </Header>
 
-    <Subheader text={(l) => l.ui.howto.newHowTo.prompt} />
+    <HowToPrompt text={(l) => l.ui.howto.newHowTo.prompt} />
 
     <FormattedEditor
         placeholder={(l) => l.ui.howto.newHowTo.editorPlaceholder}
