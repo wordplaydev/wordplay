@@ -44,10 +44,23 @@
     let canUserEdit = true;
 
     // get the gallery name for display
+    const galleryID = decodeURI(page.params.galleryid);
     let galleryName = $derived(gallery?.getName($locales));
 
     // load the how tos for this gallery
-    let howTos: HowTo[] = $state([]);
+    let howTos = $state<HowTo[]>([]);
+    $effect(() => {
+        if (galleryID === undefined) {
+            howTos = [];
+            return;
+        }
+
+        HowTos.getHowTos(galleryID).then((hts) => {
+            if (hts) howTos = hts;
+            else howTos = [];
+        });
+    });
+
     let bookmarks: HowTo[] = $derived(
         $user
             ? howTos.filter((ht) =>
@@ -57,33 +70,6 @@
     );
     let published: HowTo[] = $derived(howTos.filter((ht) => ht.isPublished()));
     let drafts: HowTo[] = $derived(howTos.filter((ht) => !ht.isPublished()));
-
-    function loadHowTos() {
-        const galleryID = decodeURI(page.params.galleryid);
-        HowTos.getHowTos(galleryID).then((hts) => {
-            if (hts) howTos = hts;
-            else howTos = [];
-        });
-    }
-
-    $effect(() => {
-        if (page.params.galleryid === undefined) {
-            howTos = [];
-            return;
-        }
-
-        loadHowTos();
-    });
-
-    // flag to indicate that a new how-to was added
-    let shouldRefreshHowTos: boolean = $state(false);
-
-    $effect(() => {
-        if (shouldRefreshHowTos) {
-            loadHowTos();
-            shouldRefreshHowTos = false;
-        }
-    });
 
     // infinite canvas functionality
     let cameraX = $state(0);
@@ -112,6 +98,7 @@
 
     function panTo(x: number, y: number) {
         // logic isn't quite right here -- need to center the thing that is being panned to
+        console.log('panning to', x, y);
         cameraX = x;
         cameraY = y;
     }
@@ -174,6 +161,9 @@
 
         return inBounds && !inStickies;
     }
+
+    // if a specific how-to was requested, pan to it and open its dialog
+    const requestedId: string | null = page.url.searchParams.get('id');
 </script>
 
 <Writing>
@@ -188,7 +178,7 @@
         </Header>
 
         {#if canUserEdit}
-            <HowToForm bind:addedNew={shouldRefreshHowTos} />
+            <HowToForm />
         {/if}
 
         <div class="canvasstickyarea">
@@ -200,12 +190,11 @@
                 {#each drafts as howto, i (i)}
                     <!-- draft previews should not move when the infinite canvas is moved, so set camera vars to 0 -->
                     <HowToPreview
-                        howToId={howto.getHowToId()}
+                        bind:howTo={drafts[i]}
                         {cameraX}
                         {cameraY}
                         bind:childMoving
                         {draftsArea}
-                        bind:changedLocation={shouldRefreshHowTos}
                     />
                 {/each}
             </div>
@@ -231,11 +220,11 @@
     {#each published as howto, i (i)}
         {#if shouldRender(howto.getCoordinates())}
             <HowToPreview
-                howToId={howto.getHowToId()}
+                bind:howTo={published[i]}
                 {cameraX}
                 {cameraY}
                 bind:childMoving
-                bind:changedLocation={shouldRefreshHowTos}
+                {requestedId}
             />
         {/if}
     {/each}

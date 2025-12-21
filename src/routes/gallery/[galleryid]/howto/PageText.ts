@@ -65,6 +65,8 @@ type PageText = {
         chatPrompt: string;
         /** Text indicating that the how-to is currently a draft */
         draftNote: string;
+        /** Button text for copying the direct link to this how-to */
+        copyLink: ButtonText;
     },
     error: {
         /** When the how-to is not known or is not public */

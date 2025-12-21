@@ -1,7 +1,6 @@
 <script lang="ts">
     import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
@@ -13,27 +12,24 @@
     import HowToPrompt from './HowToPrompt.svelte';
 
     interface Props {
-        howToId?: string; // provided only if editing an existing HowTo
-        addedNew: boolean;
+        existingHowTo?: HowTo; // provided only if editing an existing HowTo
     }
 
-    let { howToId, addedNew = $bindable() }: Props = $props();
+    let { existingHowTo = $bindable(undefined) }: Props = $props();
 
     let dropX: number = $state(0);
     let dropY: number = $state(0);
 
-    let existingHowTo: HowTo | undefined = $state();
-
-    $effect(() => {
-        if (howToId) {
-            HowTos.getHowTo(howToId).then((ht) => {
-                if (ht) existingHowTo = ht;
-                else existingHowTo = undefined;
-            });
-        } else {
-            existingHowTo = undefined;
-        }
-    });
+    // $effect(() => {
+    //     if (howToId) {
+    //         HowTos.getHowTo(howToId).then((ht) => {
+    //             if (ht) existingHowTo = ht;
+    //             else existingHowTo = undefined;
+    //         });
+    //     } else {
+    //         existingHowTo = undefined;
+    //     }
+    // });
 
     let howToContent: string = $derived(
         existingHowTo ? (existingHowTo.getText()[0] ?? '') : '',
@@ -71,9 +67,6 @@
                 ['en-US'],
                 reactionOptions,
             );
-
-            // TODO(@mc) -- need to refresh DB
-            addedNew = true;
         }
 
         howToContent = '';

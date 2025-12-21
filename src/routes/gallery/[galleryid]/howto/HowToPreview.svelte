@@ -10,39 +10,41 @@
     import HowToPrompt from './HowToPrompt.svelte';
 
     interface Props {
-        howToId: string;
+        howTo: HowTo;
         cameraX: number;
         cameraY: number;
         childMoving: boolean;
         draftsArea?: DOMRect | undefined;
-        changedLocation: boolean;
+        requestedId?: string | null;
     }
 
     let {
-        howToId,
+        howTo = $bindable(),
         cameraX,
         cameraY,
         childMoving = $bindable(),
         draftsArea = undefined,
-        changedLocation = $bindable(),
+        requestedId = null,
     }: Props = $props();
 
     const user = getUser();
 
-    let howTo: HowTo | undefined = $state();
+    // let howTo: HowTo | undefined = $state();
 
-    $effect(() => {
-        HowTos.getHowTo(howToId).then((ht) => {
-            if (ht) howTo = ht;
-            else howTo = undefined;
-        });
-    });
+    // $effect(() => {
+    //     HowTos.getHowTo(howToId).then((ht) => {
+    //         if (ht) howTo = ht;
+    //         else howTo = undefined;
+    //     });
+    // });
 
+    let howToId: string = $derived(howTo?.getHowToId() ?? '');
     let title: string = $derived(howTo?.getTitle() ?? '');
     let text: string[] = $derived(howTo?.getText() ?? []);
     let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
     let ycoord: number = $derived(howTo?.getCoordinates()[1] ?? 0);
     let preview: string = $derived(text.at(0)?.charAt(0) || '');
+    let galleryID: string = $derived(howTo?.getHowToGalleryId() ?? '');
     let reactions: Record<string, string[]> = $derived(
         howTo ? howTo.getUserReactions() : {},
     );
@@ -144,8 +146,6 @@
                 }),
                 true,
             );
-
-            changedLocation = true;
         }
     }
 
@@ -237,7 +237,7 @@
         );
     }
 
-    let show: boolean = $state(false);
+    let show: boolean = $derived(false || requestedId === howToId);
     let reactionButtons = $locales.get((l) => l.ui.howto.reactions);
 </script>
 
@@ -271,8 +271,7 @@
                     <div class="toolbar">
                         {#if $user && howTo.isCreatorCollaborator($user.uid)}
                             <HowToForm
-                                howToId={howTo.getHowToId()}
-                                addedNew={false}
+                                bind:existingHowTo={howTo}
                             />
                             {#if isPublished}
                                 <Button
@@ -294,6 +293,17 @@
                             {/if}
                         {/if}
                         {#if isPublished}
+                            <Button
+                                tip={(l) => l.ui.howto.viewHowTo.copyLink.tip}
+                                label={(l) =>
+                                    l.ui.howto.viewHowTo.copyLink.label}
+                                active={true}
+                                action={async () => {
+                                    await navigator.clipboard.writeText(
+                                        `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
+                                    );
+                                }}
+                            />
                             <Button
                                 tip={(l) =>
                                     userHasBookmarked

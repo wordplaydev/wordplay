@@ -9891,6 +9891,10 @@
                       "description": "Text for prompting users to chat",
                       "type": "string"
                     },
+                    "copyLink": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for copying the direct link to this how-to"
+                    },
                     "draftNote": {
                       "description": "Text indicating that the how-to is currently a draft",
                       "type": "string"
@@ -9926,7 +9930,8 @@
                     "usedPrompt",
                     "usedCountDisplay",
                     "chatPrompt",
-                    "draftNote"
+                    "draftNote",
+                    "copyLink"
                   ],
                   "type": "object"
                 }
