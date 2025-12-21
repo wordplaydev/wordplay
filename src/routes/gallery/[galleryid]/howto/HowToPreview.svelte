@@ -272,6 +272,7 @@
         top: var(--renderedY);
         width: fit-content;
         height: fit-content;
+        cursor: grab;
     }
     .howtopreview {
         border: 1px solid var(--wordplay-border-color);

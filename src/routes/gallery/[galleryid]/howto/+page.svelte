@@ -111,28 +111,38 @@
 </script>
 
 <Writing>
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-        class="infinitecanvas"
-        onmousedown={onMouseDown}
-        onmouseup={onMouseUp}
-        onmousemove={onMouseMove}
-    >
-        <div class="sticky-items">
-            <Header>
+    <div class="container">
+        <Header>
+            <MarkupHTMLView
+                inline
+                markup={docToMarkup(
+                    $locales.get((l) => l.ui.howto.canvasView.header),
+                ).concretize($locales, [galleryName]) ?? ''}
+            />
+        </Header>
+
+        {#if canUserEdit}
+            <HowToForm bind:addedNew />
+        {/if}
+
+        <div class="canvasstickyarea">
+            <div class="dottedarea" id="draftsarea">
+                <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
                 <MarkupHTMLView
-                    inline
-                    markup={docToMarkup(
-                        $locales.get((l) => l.ui.howto.canvasView.header),
-                    ).concretize($locales, [galleryName]) ?? ''}
+                    markup={(l) => l.ui.howto.canvasView.draftsprompt}
                 />
-            </Header>
+                {#each drafts as howto, i (i)}
+                    <!-- draft previews should not move when the infinite canvas is moved, so set camera vars to 0 -->
+                    <HowToPreview
+                        howToId={howto.getHowToId()}
+                        cameraX={0}
+                        cameraY={0}
+                        bind:childMoving
+                    />
+                {/each}
+            </div>
 
-            {#if canUserEdit}
-                <HowToForm bind:addedNew />
-            {/if}
-
-            <div class="dottedarea">
+            <div class="dottedarea" id="bookmarksarea">
                 <Subheader
                     text={(l) => l.ui.howto.canvasView.bookmarksheader}
                 />
@@ -143,46 +153,48 @@
                     {/each}
                 </ul>
             </div>
-
-            <div class="dottedarea" id="draftsarea">
-                <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
-                <MarkupHTMLView
-                    markup={(l) => l.ui.howto.canvasView.draftsprompt}
-                />
-                <!-- {#each drafts as howto, i (i)}
-                    <HowToPreview howToId={howto.getHowToId()} />
-                {/each} -->
-            </div>
         </div>
-        {#each published as howto, i (i)}
-            <HowToPreview
-                howToId={howto.getHowToId()}
-                {cameraX}
-                {cameraY}
-                bind:childMoving
-            />
-        {/each}
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+            class="infinitecanvas"
+            onmousedown={onMouseDown}
+            onmouseup={onMouseUp}
+            onmousemove={onMouseMove}
+        >
+            {#each published as howto, i (i)}
+                <HowToPreview
+                    howToId={howto.getHowToId()}
+                    {cameraX}
+                    {cameraY}
+                    bind:childMoving
+                />
+            {/each}
+        </div>
     </div>
 </Writing>
 
 <style>
-    .sticky-items {
-        /* position: sticky;
-        top: 0;
-        left: 0; TODO(@mc) -- horizontal sticky not working */
-        z-index: 100;
-        padding-bottom: 1rem;
-    }
-
     .dottedarea {
         border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         border-style: dashed;
+        cursor: default;
+        height: auto;
+    }
+
+    .canvasstickyarea {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
     }
 
     .infinitecanvas {
-        position: fixed;
-        top: 0;
-        left: 0;
+        cursor: grab;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .container {
+        display: grid;
+        grid-template-rows: auto 1fr;
     }
 </style>
