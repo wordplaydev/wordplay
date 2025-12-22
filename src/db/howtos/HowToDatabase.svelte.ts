@@ -221,7 +221,7 @@ export class HowToDatabase {
         text: string[],
         locales: string[],
         reactionTypes: string[]
-    ) {
+    ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
         if (user === null) return undefined;
@@ -267,7 +267,7 @@ export class HowToDatabase {
             return undefined;
         }
 
-        return newHowTo.galleryId;
+        return this.getHowTo(newHowTo.id);
     }
 
     async handleRevisedGallery(gallery: Gallery) {

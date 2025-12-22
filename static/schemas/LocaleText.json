@@ -9899,6 +9899,10 @@
                       "description": "Text indicating that the how-to is currently a draft",
                       "type": "string"
                     },
+                    "edit": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for editing the how-to"
+                    },
                     "reactionPrompt": {
                       "description": "Text for prompting reactions",
                       "type": "string"
@@ -9922,6 +9926,7 @@
                   },
                   "required": [
                     "view",
+                    "edit",
                     "canBookmark",
                     "alreadyBookmarked",
                     "submit",

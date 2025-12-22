@@ -49,6 +49,8 @@ type PageText = {
     viewHowTo: {
         /** Button text for viewing the how-to */
         view: ButtonText;
+        /** Button text for editing the how-to */
+        edit: ButtonText;
         /** Button text for bookmarking the how-to */
         canBookmark: ButtonText;
         alreadyBookmarked: ButtonText;

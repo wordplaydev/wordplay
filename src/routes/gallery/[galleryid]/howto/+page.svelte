@@ -49,6 +49,7 @@
 
     // load the how tos for this gallery
     let howTos = $state<HowTo[]>([]);
+
     $effect(() => {
         if (galleryID === undefined) {
             howTos = [];
@@ -60,16 +61,6 @@
             else howTos = [];
         });
     });
-
-    let bookmarks: HowTo[] = $derived(
-        $user
-            ? howTos.filter((ht) =>
-                  user ? ht.getBookmarkers().includes($user.uid) : false,
-              )
-            : [],
-    );
-    let published: HowTo[] = $derived(howTos.filter((ht) => ht.isPublished()));
-    let drafts: HowTo[] = $derived(howTos.filter((ht) => !ht.isPublished()));
 
     // infinite canvas functionality
     let cameraX = $state(0);
@@ -164,6 +155,18 @@
 
     // if a specific how-to was requested, pan to it and open its dialog
     const requestedId: string | null = page.url.searchParams.get('id');
+
+    let newHowTo: HowTo | undefined = $state(undefined);
+
+    $effect(() => {
+        if (newHowTo) {
+            newHowTo = undefined;
+            HowTos.getHowTos(galleryID).then((hts) => {
+                if (hts) howTos = hts;
+                else howTos = [];
+            });
+        }
+    });
 </script>
 
 <Writing>
@@ -178,53 +181,57 @@
         </Header>
 
         {#if canUserEdit}
-            <HowToForm />
+            <HowToForm editingMode={true} bind:howTo={newHowTo} />
         {/if}
 
         <div class="canvasstickyarea">
-            <div class="dottedarea" id="draftsarea">
+            <div class="drafts" id="draftsarea">
                 <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
                 <MarkupHTMLView
                     markup={(l) => l.ui.howto.canvasView.draftsprompt}
                 />
-                {#each drafts as howto, i (i)}
-                    <!-- draft previews should not move when the infinite canvas is moved, so set camera vars to 0 -->
-                    <HowToPreview
-                        bind:howTo={drafts[i]}
-                        {cameraX}
-                        {cameraY}
-                        bind:childMoving
-                        {draftsArea}
-                    />
+                {#each howTos as howTo, i (i)}
+                    {#if !howTo.isPublished()}
+                        <HowToPreview
+                            bind:howTo={howTos[i]}
+                            {cameraX}
+                            {cameraY}
+                            bind:childMoving
+                            {draftsArea}
+                        />
+                    {/if}
                 {/each}
             </div>
 
-            <div class="dottedarea" id="bookmarksarea">
+            <div class="bookmarks" id="bookmarksarea">
                 <Subheader
                     text={(l) => l.ui.howto.canvasView.bookmarksheader}
                 />
 
-                {#each bookmarks as howto, i (i)}
-                    <Button
-                        tip={(l) => l.ui.howto.canvasView.bookmarkstooltip}
-                        label={(l) => howto.getTitle()}
-                        action={() => {
-                            let howToCoords = howto.getCoordinates();
-                            panTo(howToCoords[0], howToCoords[0]);
-                        }}
-                    />
+                {#each howTos as howto, i (i)}
+                    {#if howto.getBookmarkers().includes($user?.uid ?? '')}
+                        <Button
+                            tip={(l) => l.ui.howto.canvasView.bookmarkstooltip}
+                            label={(l) => howto.getTitle()}
+                            action={() => {
+                                let howToCoords = howto.getCoordinates();
+                                // TODO(@mc) -- need to fix centering logic
+                                panTo(howToCoords[0], howToCoords[1]);
+                            }}
+                        />
+                    {/if}
                 {/each}
             </div>
         </div>
     </div>
-    {#each published as howto, i (i)}
-        {#if shouldRender(howto.getCoordinates())}
+    {#each howTos as howTo, i (i)}
+        {#if howTo.isPublished() && shouldRender(howTo.getCoordinates())}
             <HowToPreview
-                bind:howTo={published[i]}
+                bind:howTo={howTos[i]}
                 {cameraX}
                 {cameraY}
                 bind:childMoving
-                {requestedId}
+                {draftsArea}
             />
         {/if}
     {/each}
@@ -234,19 +241,33 @@
     onmousedown={onMouseDown}
     onmousemove={onMouseMove}
     onkeydown={(event) => onKeyDown(event)}
+    ondblclick={() => panTo(0, 0)}
 />
 
 <style>
-    .dottedarea {
+    .drafts {
         border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         border-style: dashed;
         cursor: default;
         height: auto;
+        width: 100%;
+        padding: var(--wordplay-spacing);
+    }
+
+    .bookmarks {
+        border: var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        border-style: dashed;
+        cursor: default;
+        height: auto;
+        width: 100%;
+        padding: var(--wordplay-spacing);
     }
 
     .canvasstickyarea {
         display: grid;
-        grid-template-columns: 3fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        padding: var(--wordplay-spacing);
     }
 </style>
