@@ -69,6 +69,17 @@ export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node | [number, number];
 export type Entry = 'previous' | 'next' | undefined;
 
+export function isCaretPosition(position: any): position is CaretPosition {
+    return (
+        typeof position === 'number' ||
+        position instanceof Node ||
+        (Array.isArray(position) &&
+            position.length === 2 &&
+            typeof position[0] === 'number' &&
+            typeof position[1] === 'number')
+    );
+}
+
 export function isPosition(position: CaretPosition): position is number {
     return typeof position === 'number';
 }

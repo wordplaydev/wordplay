@@ -66,7 +66,7 @@
                 /></div
             >{/if}</span
     ></span
->{#if caret}<MenuTrigger position={node} />{/if}
+>{#if caret}<MenuTrigger anchor={node} />{/if}
 
 <style>
     .placeholder {

@@ -21,7 +21,7 @@ export default class Docs extends Node {
     }
 
     static getPossibleReplacements() {
-        return [];
+        return [new Docs([Doc.make()])];
     }
 
     static getPossibleAppends() {

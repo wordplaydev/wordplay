@@ -6,6 +6,7 @@ import type Project from '@db/projects/Project';
 import type Locale from '@locale/Locale';
 import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
+import type { FieldPosition } from '@nodes/Node';
 import type Root from '@nodes/Root';
 import type Color from '@output/Color';
 import type Spaces from '@parser/Spaces';
@@ -271,13 +272,15 @@ export function getRoot() {
     return getContext<RootContext>(RootSymbol);
 }
 
-const MenuNodeSymbol = Symbol('menu');
-type MenuNodeContext = Writable<(position: CaretPosition | undefined) => void>;
-export function setSetMenuNode(context: MenuNodeContext) {
-    setContext(MenuNodeSymbol, context);
+const MenuAnchorSymbol = Symbol('menu');
+type MenuAnchorContext = Writable<
+    (position: CaretPosition | FieldPosition) => void
+>;
+export function setSetMenuAnchor(context: MenuAnchorContext) {
+    setContext(MenuAnchorSymbol, context);
 }
-export function getSetMenuNode() {
-    return getContext<MenuNodeContext>(MenuNodeSymbol);
+export function getSetMenuAnchor() {
+    return getContext<MenuAnchorContext>(MenuAnchorSymbol);
 }
 
 const ShowLinesSymbol = Symbol('lines');

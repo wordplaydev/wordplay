@@ -13,7 +13,7 @@
     import { type LocaleTextAccessor } from '@locale/Locales';
     import Evaluate from '@nodes/Evaluate';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Node from '@nodes/Node';
+    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
     import type Program from '@nodes/Program';
     import type Source from '@nodes/Source';
     import Sym from '@nodes/Sym';
@@ -32,7 +32,10 @@
         showLines,
     } from '../../db/Database';
     import { getEditsAt } from '../../edit/Autocomplete';
-    import Caret, { type CaretPosition } from '../../edit/Caret';
+    import Caret, {
+        type CaretPosition,
+        isCaretPosition,
+    } from '../../edit/Caret';
     import {
         InsertionPoint,
         dropNodeOnSource,
@@ -62,7 +65,7 @@
         setHighlights,
         setHovered,
         setInsertionPoint,
-        setSetMenuNode,
+        setSetMenuAnchor,
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -262,20 +265,22 @@
             lastKeyDownIgnored,
     );
 
-    function setMenuNode(position: CaretPosition | undefined) {
+    function setMenuAnchor(anchor: CaretPosition | FieldPosition) {
         if (
-            position !== undefined &&
-            (menu === undefined || $caret.position !== position)
+            anchor !== undefined &&
+            (menu === undefined || $caret.position !== anchor)
         ) {
-            caret.set($caret.withPosition(position));
-            showMenu();
+            if (isCaretPosition(anchor)) caret.set($caret.withPosition(anchor));
+            showMenu(anchor);
         } else hideMenu();
     }
 
     // A store of the currently requested node for which to show a menu.
-    const menuNode =
-        writable<(position: CaretPosition | undefined) => void>(setMenuNode);
-    setSetMenuNode(menuNode);
+    const menuAnchor =
+        writable<(position: CaretPosition | FieldPosition) => void>(
+            setMenuAnchor,
+        );
+    setSetMenuAnchor(menuAnchor);
 
     // Focus the editor on mount, if autofocus is on.
     onMount(() =>
@@ -1025,7 +1030,7 @@
             grabFocus('Restoring editor focus after menu is hidden.');
     });
 
-    async function showMenu(node: CaretPosition | undefined = undefined) {
+    async function showMenu(node: CaretPosition | FieldPosition) {
         if (!editable) return;
 
         wasFocusedBeforeMenu = focused;
@@ -1033,13 +1038,11 @@
         // Wait for everything to be updated so we have a fresh context
         await tick();
 
-        // Is the caret on a specific token or node?
-        const position = node ?? $caret.position;
-
         // Get the unique valid edits at the caret.
         const revisions = getEditsAt(
             project,
-            $caret.withPosition(position),
+            $caret,
+            isFieldPosition(node) ? node : undefined,
             $locales,
         );
 
@@ -1061,7 +1064,7 @@
     }
 
     function toggleMenu() {
-        return menu === undefined ? showMenu() : hideMenu();
+        return menu === undefined ? showMenu($caret.position) : hideMenu();
     }
 
     function handleMenuItem(
@@ -1891,7 +1894,7 @@
                     $locales,
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
                 <MenuTrigger
-                    position={$caret.position}
+                    anchor={$caret.position}
                 />{/if}{#if keyIgnoredReason}<em>
                     &nbsp;<LocalizedText path={keyIgnoredReason} /></em
                 >{/if}</div

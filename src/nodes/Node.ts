@@ -948,7 +948,22 @@ export function optional(kind: IsA) {
 
 export type Grammar = Field[];
 
+/** Represents a replacement of an original node or string with a new field value */
 export type Replacement = {
     original: Node | Node[] | string;
     replacement: FieldValue;
 };
+
+/** Represents a node and a field on the node, for representing unset fields on a node. */
+export type FieldPosition = { parent: Node; field: string };
+
+export function isFieldPosition(value: any): value is FieldPosition {
+    return (
+        value !== undefined &&
+        typeof value === 'object' &&
+        'parent' in value &&
+        value.parent instanceof Node &&
+        'field' in value &&
+        typeof value.field === 'string'
+    );
+}

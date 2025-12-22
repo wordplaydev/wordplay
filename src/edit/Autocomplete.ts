@@ -8,7 +8,13 @@ import type Context from '@nodes/Context';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import Input from '@nodes/Input';
 import Match from '@nodes/Match';
-import Node, { Empty, ListOf, type Field, type NodeKind } from '@nodes/Node';
+import Node, {
+    Empty,
+    ListOf,
+    type Field,
+    type FieldPosition,
+    type NodeKind,
+} from '@nodes/Node';
 import Otherwise from '@nodes/Otherwise';
 import SetOrMapAccess from '@nodes/SetOrMapAccess';
 import Spread from '@nodes/Spread';
@@ -87,10 +93,20 @@ function note(message: string, level: number) {
     if (LOG) console.log(`${'  '.repeat(level)}Autocomplete: ${message}`);
 }
 
+function removeDuplicates(edits: Revision[]): Revision[] {
+    return edits.filter(
+        (edit1, index1) =>
+            !edits.some(
+                (edit2, index2) => index2 > index1 && edit1.equals(edit2),
+            ),
+    );
+}
+
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(
     project: Project,
     caret: Caret,
+    field: FieldPosition | undefined,
     locales: Locales,
 ): Revision[] {
     const source = caret.source;
@@ -98,20 +114,29 @@ export function getEditsAt(
 
     const isEmptyLine = caret.isEmptyLine();
 
-    let edits: Revision[] = [];
+    // If we were given a field position, return edits that are reasonable for that field.
+    if (field !== undefined) {
+        note(
+            `Getting possible field edits for field position ${field.parent.getDescriptor()}.${field.field}`,
+            1,
+        );
 
+        return removeDuplicates(getFieldAssignmentEdits(field, context));
+    }
     // If the token is a node, find the allowable nodes to replace this node, or whether it's removable
-    if (caret.position instanceof Node) {
+    else if (caret.position instanceof Node) {
         note(
             `Getting possible field edits for node selection ${caret.position.toWordplay()}`,
             1,
         );
 
-        edits = getNodeEdits(caret.position, context);
+        return removeDuplicates(getNodeEdits(caret.position, context));
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else if (caret.isPosition()) {
         note(`Caret is position, finding nodes before and after.`, 0);
+
+        let edits: Revision[] = [];
 
         // If there are no nodes between (because the caret is in the middle of a token)
         if (caret.insideToken() && caret.tokenExcludingSpace) {
@@ -192,7 +217,8 @@ export function getEditsAt(
                                             context,
                                             caret.position as number,
                                             source.expression.expression,
-                                            source.expression.expression.statements,
+                                            source.expression.expression
+                                                .statements,
                                             0,
                                             insertion,
                                         ),
@@ -202,16 +228,61 @@ export function getEditsAt(
                 ];
             }
         }
+
+        return removeDuplicates(edits);
+    }
+    return [];
+}
+
+/** Given a field position, get possible values for the field */
+function getFieldAssignmentEdits(
+    fieldPosition: FieldPosition,
+    context: Context,
+) {
+    const { parent, field } = fieldPosition;
+    // Get the field of the parent node's grammar.
+    const fieldInfo = parent.getFieldNamed(field);
+    if (fieldInfo === undefined) return [];
+
+    // Get the current value of the field.
+    const fieldValue = parent.getField(field);
+
+    let edits: Revision[] = [];
+
+    // Is the field currently set? Add a removal.
+    if (fieldValue instanceof Node) {
+        edits.push(new Remove(context, parent, fieldValue));
     }
 
-    note(`Removing duplicates`, 0);
+    // Get possible assignments for this field.
+    if (fieldValue === undefined || !Array.isArray(fieldValue))
+        for (const kind of fieldInfo.kind.enumerate()) {
+            if (kind !== undefined)
+                edits = [
+                    ...edits,
+                    ...getPossibleNodes(
+                        fieldInfo,
+                        kind,
+                        undefined,
+                        parent,
+                        true,
+                        context,
+                    ).map((replacement) =>
+                        fieldValue
+                            ? new Replace(
+                                  context,
+                                  parent,
+                                  fieldValue,
+                                  replacement,
+                              )
+                            : new Assign(context, 1, parent, [
+                                  { field: field, node: replacement },
+                              ]),
+                    ),
+                ];
+        }
 
-    return edits.filter(
-        (edit1, index1) =>
-            !edits.some(
-                (edit2, index2) => index2 > index1 && edit1.equals(edit2),
-            ),
-    );
+    return edits;
 }
 
 /** Given a node, get possible replacements */
@@ -642,21 +713,21 @@ const PossibleNodes = [
     Delete,
     Update,
     // Types
-    TypeInputs,
-    TypeVariables,
-    FunctionType,
-    TypePlaceholder,
-    UnionType,
+    TextType,
+    NumberType,
     Unit,
     Dimension,
     BooleanType,
-    ListType,
-    MapType,
     NoneType,
-    NumberType,
+    ListType,
     SetType,
-    TextType,
+    MapType,
     TableType,
+    UnionType,
+    TypePlaceholder,
+    TypeInputs,
+    TypeVariables,
+    FunctionType,
 ];
 
 function getPossibleNodes(

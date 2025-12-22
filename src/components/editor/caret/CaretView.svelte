@@ -775,7 +775,7 @@
             : null}
         style:height={location ? `${location.height}px` : null}
     ></span>{#if !blocks}<div class="trigger"
-            ><MenuTrigger position={caret.position} /></div
+            ><MenuTrigger anchor={caret.position} /></div
         >{/if}</span
 >
 

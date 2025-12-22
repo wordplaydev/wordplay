@@ -57,7 +57,7 @@ export default class Assign<NodeType extends Node> extends Revision {
         for (const { field, node } of this.additions) {
             const newNode = this.realize(node, locales);
             if (firstNewNode === undefined) firstNewNode = newNode;
-            newParent = newParent.replace(field, this.realize(node, locales));
+            newParent = newParent.replace(field, newNode);
         }
         return [firstNewNode ?? newParent, newParent];
     }

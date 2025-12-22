@@ -16,7 +16,7 @@
 
 <div class="select">
     {current.getText()}
-    <MenuTrigger position={selection}></MenuTrigger>
+    <MenuTrigger anchor={selection}></MenuTrigger>
 </div>
 
 <style>

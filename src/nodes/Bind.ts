@@ -181,6 +181,7 @@ export default class Bind extends Expression {
             {
                 name: 'value',
                 kind: any(
+                    none(),
                     node(Expression),
                     none(['colon', () => new BindToken()]),
                 ),

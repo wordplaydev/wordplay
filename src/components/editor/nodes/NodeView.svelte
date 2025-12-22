@@ -38,7 +38,7 @@
         empty?: 'hide' | 'menu' | 'label';
     }
 
-    let { node: path, format, empty = 'label' }: Props = $props();
+    let { node: path, format, empty = 'menu' }: Props = $props();
 
     /** Get the value of the node, possibly undefined. */
     let node = $derived(

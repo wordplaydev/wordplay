@@ -12,15 +12,20 @@
 </script>
 
 {#if format.block}
-    <NodeView node={[node, 'docs']} {format} empty="hide" />
+    {#if node.docs}
+        <NodeView node={[node, 'docs']} {format} empty="menu" />
+    {/if}
     <Row>
+        {#if !node.docs}
+            <NodeView node={[node, 'docs']} {format} empty="menu" />
+        {/if}
         <NodeView node={[node, 'share']} {format} empty="hide" />
         <NodeView node={[node, 'names']} {format} />
         <NodeView node={[node, 'etc']} {format} empty="hide" />
         <NodeView node={[node, 'dot']} {format} empty="hide" />
         <NodeView node={[node, 'type']} {format} empty="menu" />
         <NodeView node={[node, 'colon']} {format} />
-        {#if node.value}<NodeView node={[node, 'value']} {format} />{/if}
+        <NodeView node={[node, 'value']} {format} />
     </Row>
 {:else}
     <NodeView node={[node, 'docs']} {format} /><NodeView

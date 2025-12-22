@@ -11,7 +11,7 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={[node, 'docs']} {format} empty="hide" /><NodeView
+<NodeView node={[node, 'docs']} {format} empty="menu" /><NodeView
     node={[node, 'open']}
     {format}
     empty="hide"

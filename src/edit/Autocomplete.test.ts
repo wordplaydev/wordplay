@@ -121,7 +121,12 @@ test.each([
                 undefined,
                 undefined,
             );
-            const transforms = getEditsAt(project, caret, DefaultLocales);
+            const transforms = getEditsAt(
+                project,
+                caret,
+                undefined,
+                DefaultLocales,
+            );
 
             const match = transforms.find((transform) => {
                 const newNode = transform.getNewNode(DefaultLocales);

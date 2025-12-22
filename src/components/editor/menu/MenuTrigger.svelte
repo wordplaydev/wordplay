@@ -1,42 +1,23 @@
-<script module lang="ts">
-    export type FieldPosition = { parent: Node; field: string };
-</script>
-
 <script lang="ts">
-    import type Node from '@nodes/Node';
-    import Source from '@nodes/Source';
+    import type { FieldPosition } from '@nodes/Node';
     import { DROP_DOWN_SYMBOL } from '@parser/Symbols';
     import type { CaretPosition } from '../../../edit/Caret';
-    import { getRoot, getSetMenuNode } from '../../project/Contexts';
+    import { getSetMenuAnchor } from '../../project/Contexts';
 
     interface Props {
-        position: CaretPosition | FieldPosition;
+        anchor: CaretPosition | FieldPosition;
     }
 
-    let { position }: Props = $props();
+    let { anchor: position }: Props = $props();
 
-    const menuNode = getSetMenuNode();
-    const root = getRoot();
-
-    function resolvePosition(pos: FieldPosition): CaretPosition | undefined {
-        const { parent, field } = pos;
-        if (root.root?.root instanceof Source)
-            return root.root.root.getFieldPosition(parent, field);
-    }
+    const menuNode = getSetMenuAnchor();
 
     function show(event: PointerEvent | KeyboardEvent) {
-        const anchor =
-            // Is the anchor a field position? Resolve it.
-            typeof position === 'object' &&
-            position !== null &&
-            'parent' in position &&
-            'field' in position
-                ? resolvePosition(position)
-                : // Otherwise, it's a node.
-                  position;
-        if (menuNode && anchor) {
+        if (event instanceof PointerEvent && event.button !== 0) return;
+
+        if (menuNode) {
             event.stopPropagation();
-            $menuNode(anchor);
+            $menuNode(position);
         }
     }
 </script>
@@ -56,6 +37,7 @@
         color: var(--wordplay-chrome);
         font-size: var(--wordplay-font-size);
         font-style: normal;
+        transition: transform calc(var(--animation-factor) * 0.1s);
     }
 
     .trigger:hover,
@@ -67,5 +49,6 @@
     .trigger:focus {
         outline: none;
         color: var(--wordplay-focus-color);
+        transform: scale(2);
     }
 </style>

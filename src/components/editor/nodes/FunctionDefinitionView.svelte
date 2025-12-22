@@ -13,20 +13,25 @@
     let { node, format }: Props = $props();
 </script>
 
-{#if format.block}
-    <NodeView node={[node, 'docs']} {format} empty="hide" /><NodeView
+{#snippet docs()}
+    <NodeView node={[node, 'docs']} {format} empty="menu" /><NodeView
         node={[node, 'share']}
         {format}
         empty="hide"
     />
+{/snippet}
+
+{#if format.block}
+    {#if node.docs}{@render docs()}{/if}
     <Row
-        ><NodeView node={[node, 'fun']} {format} /><NodeView
-            node={[node, 'names']}
+        >{#if node.docs === undefined}{@render docs()}{/if}<NodeView
+            node={[node, 'fun']}
             {format}
-        /><NodeView node={[node, 'types']} {format} empty="hide" /><NodeView
-            node={[node, 'open']}
+        /><NodeView node={[node, 'names']} {format} /><NodeView
+            node={[node, 'types']}
             {format}
-        /><NodeSequenceView
+            empty="hide"
+        /><NodeView node={[node, 'open']} {format} /><NodeSequenceView
             {node}
             field="inputs"
             {format}
@@ -37,7 +42,7 @@
         /><NodeView node={[node, 'output']} {format} empty="menu" />
     </Row>
     <Column indent>
-        <NodeView node={[node, 'expression']} {format} />
+        <NodeView node={[node, 'expression']} {format} empty="label" />
     </Column>
 {:else}
     <NodeView node={[node, 'docs']} {format} /><NodeView

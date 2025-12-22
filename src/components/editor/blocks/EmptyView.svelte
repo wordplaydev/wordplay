@@ -37,7 +37,7 @@
                 )}
             />
         {/if}
-        <MenuTrigger position={{ parent: node, field }}></MenuTrigger>
+        <MenuTrigger anchor={{ parent: node, field }}></MenuTrigger>
     </div>
 {/if}
 

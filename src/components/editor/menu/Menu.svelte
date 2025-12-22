@@ -157,6 +157,7 @@
                     class:show={menu.getSelectionIndex()[0] === itemIndex}
                     bind:this={revisionViews[itemIndex]}
                     onpointerdown={(event) => {
+                        if (event.button !== 0) return;
                         event.stopPropagation();
                         event.preventDefault();
                         handleItemClick(entry);
