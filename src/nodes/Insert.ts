@@ -104,7 +104,7 @@ export default class Insert extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Tables;
     }
 
     clone(replace?: Replacement) {

@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { UnknownName } from '@conflicts/UnknownName';
@@ -47,6 +48,10 @@ export default class NameType extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'NameType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Types;
     }
 
     getGrammar(): Grammar {

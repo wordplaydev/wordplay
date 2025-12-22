@@ -90,7 +90,7 @@ export default class Changed extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Inputs;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

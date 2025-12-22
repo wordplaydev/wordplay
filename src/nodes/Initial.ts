@@ -59,7 +59,7 @@ export default class Initial extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Advanced;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

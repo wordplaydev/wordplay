@@ -9819,8 +9819,24 @@
                 "header": {
                   "additionalProperties": false,
                   "properties": {
+                    "animation": {
+                      "description": "Animation header",
+                      "type": "string"
+                    },
+                    "appearance": {
+                      "description": "Appearance header",
+                      "type": "string"
+                    },
+                    "arrangements": {
+                      "description": "Arrangements header",
+                      "type": "string"
+                    },
                     "conversions": {
                       "description": "Documentation header in structure before conversions",
+                      "type": "string"
+                    },
+                    "forms": {
+                      "description": "Forms header",
                       "type": "string"
                     },
                     "functions": {
@@ -9835,8 +9851,16 @@
                       "description": "Documentation header in structure view before interfaces",
                       "type": "string"
                     },
+                    "location": {
+                      "description": "Location header",
+                      "type": "string"
+                    },
                     "properties": {
                       "description": "Documentation header in structure before properties",
+                      "type": "string"
+                    },
+                    "reactions": {
+                      "description": "Reactions header",
                       "type": "string"
                     }
                   },
@@ -9845,7 +9869,13 @@
                     "interfaces",
                     "properties",
                     "functions",
-                    "conversions"
+                    "conversions",
+                    "arrangements",
+                    "forms",
+                    "appearance",
+                    "animation",
+                    "location",
+                    "reactions"
                   ],
                   "type": "object"
                 },
@@ -9921,13 +9951,99 @@
                   "$ref": "#/definitions/Template",
                   "description": "A link to a concept in documentation"
                 },
-                "modes": {
-                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
-                  "description": "Labels for different sections of the guide"
+                "mode": {
+                  "additionalProperties": false,
+                  "description": "Modes in the guide",
+                  "properties": {
+                    "browse": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                    },
+                    "purpose": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "browse",
+                    "purpose"
+                  ],
+                  "type": "object"
                 },
                 "nodoc": {
                   "description": "Shown if documentation is missing for a concept",
                   "type": "string"
+                },
+                "purposes": {
+                  "additionalProperties": false,
+                  "description": "Labels for concept categories",
+                  "properties": {
+                    "Advanced": {
+                      "type": "string"
+                    },
+                    "Binds": {
+                      "type": "string"
+                    },
+                    "Decisions": {
+                      "type": "string"
+                    },
+                    "Documentation": {
+                      "type": "string"
+                    },
+                    "Hidden": {
+                      "type": "string"
+                    },
+                    "How": {
+                      "type": "string"
+                    },
+                    "Inputs": {
+                      "type": "string"
+                    },
+                    "Lists": {
+                      "type": "string"
+                    },
+                    "Maps": {
+                      "type": "string"
+                    },
+                    "Numbers": {
+                      "type": "string"
+                    },
+                    "Outputs": {
+                      "type": "string"
+                    },
+                    "Project": {
+                      "type": "string"
+                    },
+                    "Tables": {
+                      "type": "string"
+                    },
+                    "Text": {
+                      "type": "string"
+                    },
+                    "Truth": {
+                      "type": "string"
+                    },
+                    "Types": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "Project",
+                    "Outputs",
+                    "Inputs",
+                    "Decisions",
+                    "Binds",
+                    "Text",
+                    "Numbers",
+                    "Truth",
+                    "Lists",
+                    "Maps",
+                    "Tables",
+                    "Documentation",
+                    "Types",
+                    "Advanced",
+                    "Hidden",
+                    "How"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -9937,8 +10053,9 @@
                 "nodoc",
                 "button",
                 "field",
-                "modes",
+                "mode",
                 "header",
+                "purposes",
                 "how"
               ],
               "type": "object"
@@ -13474,6 +13591,39 @@
         "ui",
         "gallery",
         "moderation"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 14,
+          "minItems": 14,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 14,
+          "minItems": 14,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "labels",
+        "tips"
       ],
       "type": "object"
     },

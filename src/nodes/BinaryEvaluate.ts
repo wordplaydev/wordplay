@@ -135,7 +135,7 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {

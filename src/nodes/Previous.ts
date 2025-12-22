@@ -116,7 +116,7 @@ export default class Previous extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Input;
+        return Purpose.Inputs;
     }
 
     clone(replace?: Replacement) {

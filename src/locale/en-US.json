@@ -826,7 +826,7 @@
             "finish": "I evaluated to $1"
         },
         "Initial": {
-            "name": "Start",
+            "name": "start",
             "emotion": "curious",
             "doc": [
                 "I tell you whether the current evaluation of @Program is the first one, evaluating to a @Boolean. For example:",
@@ -4642,15 +4642,76 @@
                 "interfaces": "Interfaces",
                 "properties": "Properties",
                 "functions": "Functions",
-                "conversions": "Conversions"
+                "conversions": "Conversions",
+                "arrangements": "Arrangements",
+                "forms": "Forms",
+                "appearance": "Appearance",
+                "animation": "Animation",
+                "location": "Location",
+                "reactions": "Reactions"
             },
-            "modes": {
-                "label": "browse",
-                "labels": ["how to", "programming language"],
-                "tips": [
-                    "reusable patterns for making projects",
-                    "programming language concepts"
-                ]
+            "mode": {
+                "browse": {
+                    "label": "browse",
+                    "labels": ["code", "how to"],
+                    "tips": [
+                        "programming language concepts",
+                        "reusable patterns for making projects"
+                    ]
+                },
+                "purpose": {
+                    "label": "purpose",
+                    "labels": [
+                        "project",
+                        "output",
+                        "input",
+                        "decide",
+                        "name",
+                        "text",
+                        "numbers",
+                        "truth",
+                        "lists",
+                        "sets",
+                        "tables",
+                        "documentation",
+                        "types",
+                        "etc."
+                    ],
+                    "tips": [
+                        "project-level concepts",
+                        "phrases, groups, stages, layouts and more",
+                        "time, buttons, keys, scenes, and more",
+                        "choose values based on other values",
+                        "name values, functions, and data structures for later use",
+                        "true, false, and none values",
+                        "numbers and math operations",
+                        "plain and formatted text",
+                        "lists and list operations",
+                        "sets, maps, and operations",
+                        "tables and table operations",
+                        "data types, conversions, and type checks",
+                        "documentation and comments",
+                        "advanced language concepts"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": "project",
+                "Outputs": "output",
+                "Inputs": "input",
+                "Decisions": "decisions",
+                "Binds": "binds",
+                "Numbers": "numbers",
+                "Text": "text",
+                "Truth": "truth",
+                "Lists": "lists",
+                "Maps": "maps",
+                "Tables": "tables",
+                "Types": "types",
+                "Documentation": "documentation",
+                "Advanced": "advanced",
+                "Hidden": "hidden",
+                "How": "how to"
             },
             "how": {
                 "category": {

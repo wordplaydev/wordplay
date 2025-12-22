@@ -54,7 +54,7 @@ export default class Docs extends Node {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     computeConflicts() {

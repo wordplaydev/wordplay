@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
@@ -35,6 +36,10 @@ export default class ConversionType extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'ConversionType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Advanced;
     }
 
     getGrammar(): Grammar {

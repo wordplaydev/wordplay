@@ -102,7 +102,7 @@ export default class Otherwise extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Decisions;
     }
 
     computeConflicts(context: Context): Conflict[] {

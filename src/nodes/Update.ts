@@ -131,7 +131,7 @@ export default class Update extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Tables;
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {

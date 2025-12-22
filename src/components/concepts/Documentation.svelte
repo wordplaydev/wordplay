@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** The available documentation browsing modes */
-    export const Modes = ['howto', 'language'] as const;
+    export const Modes = ['language', 'howto'] as const;
 </script>
 
 <script lang="ts">
@@ -23,9 +23,22 @@
     import type Node from '@nodes/Node';
     import Source from '@nodes/Source';
     import {
+        BIND_SYMBOL,
         DOCUMENTATION_SYMBOL,
+        FORMATTED_SYMBOL,
         IDEA_SYMBOL,
+        LIST_CLOSE_SYMBOL,
+        LIST_OPEN_SYMBOL,
+        MEASUREMENT_SYMBOL,
+        NONE_SYMBOL,
         SEARCH_SYMBOL,
+        SET_CLOSE_SYMBOL,
+        SET_OPEN_SYMBOL,
+        TABLE_CLOSE_SYMBOL,
+        TABLE_OPEN_SYMBOL,
+        TEXT_SYMBOL,
+        TRUE_SYMBOL,
+        TYPE_SYMBOL,
     } from '@parser/Symbols';
     import { onDestroy, tick } from 'svelte';
     import { Locales, Projects, blocks, locales } from '../../db/Database';
@@ -43,6 +56,7 @@
     import Note from '../widgets/Note.svelte';
     import TextField from '../widgets/TextField.svelte';
     import CodeView from './CodeView.svelte';
+    import ConceptGroupView from './ConceptGroupView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
     import ConceptsView from './ConceptsView.svelte';
     import ConceptView from './ConceptView.svelte';
@@ -57,7 +71,7 @@
         collapse?: boolean;
     }
 
-    let { project, collapse = true }: Props = $props();
+    let { project, collapse = false }: Props = $props();
 
     let view: HTMLElement | undefined = $state();
 
@@ -79,8 +93,15 @@
     /** The browsing mode (programming language or how to) */
     let mode = $state<(typeof Modes)[number]>($blocks ? 'language' : 'howto');
 
+    /** The purpose selected for browsing */
+    let purpose = $state<Purpose>(Purpose.Outputs);
+
     /** The current concept is always the one at the end of the list. */
     let currentConcept = $derived($path[$path.length - 1]);
+
+    let viewWidth: number = $state(0);
+    let viewHeight: number = $state(0);
+    let row = $derived(viewWidth > viewHeight);
 
     async function scrollToTop() {
         // Wait for everything to render
@@ -218,9 +239,10 @@
         fill
     />
     <Mode
-        modes={(l) => l.ui.docs.modes}
-        icons={[IDEA_SYMBOL, DOCUMENTATION_SYMBOL]}
+        modes={(l) => l.ui.docs.mode.browse}
+        icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
         choice={Modes.indexOf(mode)}
+        labeled={false}
         select={(choice) => {
             const newMode = Modes[choice];
             if (mode !== newMode) {
@@ -229,6 +251,35 @@
             }
         }}
     />
+
+    {#if mode === 'language'}
+        <Mode
+            modes={(l) => l.ui.docs.mode.purpose}
+            choice={Object.keys(Purpose).indexOf(purpose)}
+            labeled={false}
+            select={(choice) => {
+                purpose = Object.values(Purpose)[choice];
+                path.set([]);
+            }}
+            icons={[
+                '👤',
+                '🖥️',
+                '🖱️',
+                '?',
+                BIND_SYMBOL,
+                TEXT_SYMBOL,
+                MEASUREMENT_SYMBOL,
+                `${TRUE_SYMBOL}${NONE_SYMBOL}`,
+                `${LIST_OPEN_SYMBOL}${LIST_CLOSE_SYMBOL}`,
+                `${SET_OPEN_SYMBOL}${SET_CLOSE_SYMBOL}`,
+                `${TABLE_OPEN_SYMBOL}${TABLE_CLOSE_SYMBOL}`,
+                FORMATTED_SYMBOL,
+                TYPE_SYMBOL,
+                '',
+            ]}
+            wrap
+        />
+    {/if}
 
     {#if currentConcept}
         <span class="path">
@@ -256,6 +307,8 @@
     aria-label={$locales.get((l) => l.ui.docs.label)}
     onpointerup={handleDrop}
     bind:this={view}
+    bind:clientWidth={viewWidth}
+    bind:clientHeight={viewHeight}
 >
     <div class="content">
         <!-- Search results are prioritized over a selected concept -->
@@ -355,7 +408,7 @@
                             {/if}
                         {/each}
                     {/if}
-                {:else}
+                {:else if purpose === Purpose.Project}
                     {@const projectConcepts =
                         index.getPrimaryConceptsWithPurpose(Purpose.Project)}
                     {#if projectConcepts.length > 0}
@@ -363,70 +416,99 @@
                             category={(l) => l.term.project}
                             concepts={projectConcepts}
                             {collapse}
+                            row={viewWidth > viewHeight}
                         />
                     {/if}
-                    <ConceptsView
-                        category={(l) => l.term.value}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Value,
-                        )}
+                {:else if purpose === Purpose.Outputs}
+                    {@const concepts =
+                        index.getPrimaryConceptsWithPurpose(purpose)}
+                    {@const sourceConcept = index.getStructureConcept(
+                        project.shares.output.Data,
+                    )}
+                    {@const outputs: Concept[] = [...index.getInterfaceImplementers(
+                        project.shares.output.Output,
+                    ), ...(sourceConcept ? [ sourceConcept] : [])]}
+                    {@const arrangements: Concept[] = index.getInterfaceImplementers(
+                        project.shares.output.Arrangement,
+                    )}
+                    {@const forms: Concept[] = index.getInterfaceImplementers(
+                        project.shares.output.Form,
+                    )}
+                    {@const styles: Concept[] = concepts.filter(
+                        (c) => c instanceof FunctionConcept || (c instanceof StructureConcept && c.definition === project.shares.output.Sequence)
+                    )}
+                    {@const appearance: Concept[] = concepts.filter((c) => c instanceof StructureConcept && (c.definition === project.shares.output.Color || c.definition === project.shares.output.Aura || c.definition === project.shares.output.Pose))}
+                    {@const other: Concept[] = concepts.filter(
+                        (c) =>
+                            !outputs.includes(c) &&
+                            !arrangements.includes(c) &&
+                            !forms.includes(c) &&
+                            !styles.includes(c) &&
+                            !appearance.includes(c) && !((c instanceof StructureConcept) && (c.definition === project.shares.output.Form || c.definition === project.shares.output.Arrangement))
+
+                    )}
+                    <ConceptGroupView concepts={outputs} {collapse} {row} />
+                    <Subheader text={(l) => l.ui.docs.header.arrangements} />
+                    <ConceptGroupView
+                        concepts={arrangements}
                         {collapse}
+                        {row}
                     />
-                    <ConceptsView
-                        category={(l) => l.term.evaluate}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Evaluate,
-                        )}
+                    <Subheader text={(l) => l.ui.docs.header.forms} />
+                    <ConceptGroupView concepts={forms} {collapse} {row} />
+                    <Subheader text={(l) => l.ui.docs.header.appearance} />
+                    <ConceptGroupView concepts={appearance} {collapse} {row} />
+                    <Subheader text={(l) => l.ui.docs.header.appearance} />
+                    <ConceptGroupView concepts={styles} {collapse} {row} />
+                    <Subheader text={(l) => l.ui.docs.header.location}
+                    ></Subheader>
+                    <ConceptGroupView concepts={other} {collapse} {row} />
+                {:else if purpose === Purpose.Inputs}
+                    {@const concepts =
+                        index.getPrimaryConceptsWithPurpose(purpose)}
+                    {@const controls: Concept[] = concepts.filter(
+                        (c) => c instanceof NodeConcept,
+                    )}
+                    {@const streams = concepts.filter(
+                        (c) => !controls.includes(c),
+                    )}
+                    <ConceptGroupView concepts={streams} {collapse} {row} />
+                    <Subheader text={(l) => l.ui.docs.header.reactions}
+                    ></Subheader>
+                    <ConceptGroupView concepts={controls} {collapse} {row} />
+                {:else if [Purpose.Text, Purpose.Numbers, Purpose.Truth, Purpose.Lists, Purpose.Maps, Purpose.Tables].includes(purpose)}
+                    {@const primary =
+                        index.getPrimaryConceptsWithPurpose(purpose)}
+                    {@const functions = primary
+                        .map((p) =>
+                            Array.from(p.getSubConcepts()).filter(
+                                (c) => c instanceof FunctionConcept,
+                            ),
+                        )
+                        .flat()}
+                    {@const conversions = primary
+                        .map((p) =>
+                            Array.from(p.getSubConcepts()).filter(
+                                (c) => c instanceof ConversionConcept,
+                            ),
+                        )
+                        .flat()}
+                    <ConceptGroupView
+                        concepts={[...primary]}
                         {collapse}
+                        {row}
                     />
-                    <ConceptsView
-                        category={(l) => l.term.bind}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Bind,
-                        )}
+                    <Subheader text={(l) => l.ui.docs.header.functions}
+                    ></Subheader>
+                    <ConceptGroupView concepts={functions} {collapse} {row} />
+                    <Subheader text={(l) => l.ui.docs.header.conversions}
+                    ></Subheader>
+                    <ConceptGroupView concepts={conversions} {collapse} {row} />
+                {:else}
+                    <ConceptGroupView
+                        concepts={index.getPrimaryConceptsWithPurpose(purpose)}
                         {collapse}
-                    />
-                    <ConceptsView
-                        category={(l) => l.term.decide}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Decide,
-                        )}
-                        {collapse}
-                    />
-                    <ConceptsView
-                        category={(l) => l.term.input}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Input,
-                        )}
-                        {collapse}
-                    />
-                    <ConceptsView
-                        category={(l) => l.term.output}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Output,
-                        )}
-                        {collapse}
-                    />
-                    <ConceptsView
-                        category={(l) => l.term.type}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Type,
-                        )}
-                        {collapse}
-                    />
-                    <ConceptsView
-                        category={(l) => l.term.document}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Document,
-                        )}
-                        {collapse}
-                    />
-                    <ConceptsView
-                        category={(l) => l.term.source}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Source,
-                        )}
-                        {collapse}
+                        row={viewWidth > viewHeight}
                     />
                 {/if}
             {:else}

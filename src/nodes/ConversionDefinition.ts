@@ -128,7 +128,7 @@ export default class ConversionDefinition extends DefinitionExpression {
     }
 
     getPurpose() {
-        return Purpose.Convert;
+        return Purpose.Types;
     }
 
     clone(replace?: Replacement) {

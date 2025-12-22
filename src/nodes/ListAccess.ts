@@ -132,7 +132,7 @@ export default class ListAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Lists;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

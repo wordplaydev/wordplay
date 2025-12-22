@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import type LocaleText from '@locale/LocaleText';
@@ -20,6 +21,10 @@ export default class UnparsableType extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'UnparsableType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Hidden;
     }
 
     acceptsAll(): boolean {

@@ -124,7 +124,7 @@ export default class Select extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Tables;
     }
 
     clone(replace?: Replacement) {

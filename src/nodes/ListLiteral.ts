@@ -121,7 +121,7 @@ export default class ListLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Lists;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

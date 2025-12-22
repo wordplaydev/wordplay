@@ -95,7 +95,7 @@ export default class Translation extends LanguageTagged {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Text;
     }
 
     static ConceptRegExPattern = new RegExp(ConceptRegExPattern, 'ug');

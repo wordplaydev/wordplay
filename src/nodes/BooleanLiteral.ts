@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
@@ -46,6 +47,10 @@ export default class BooleanLiteral extends Literal {
 
     getDescriptor(): NodeDescriptor {
         return 'BooleanLiteral';
+    }
+
+    getPurpose() {
+        return Purpose.Hidden;
     }
 
     getGrammar(): Grammar {

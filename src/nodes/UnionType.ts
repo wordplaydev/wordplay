@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -55,6 +56,10 @@ export default class UnionType extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'UnionType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Types;
     }
 
     getGrammar(): Grammar {

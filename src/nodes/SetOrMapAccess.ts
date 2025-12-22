@@ -122,7 +122,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Maps;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

@@ -49,6 +49,10 @@ export default class FormattedLiteral extends Literal {
         return this.getPossibleReplacements(context);
     }
 
+    static make(texts: FormattedTranslation[]) {
+        return new FormattedLiteral(texts);
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'FormattedLiteral';
     }
@@ -74,7 +78,7 @@ export default class FormattedLiteral extends Literal {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Text;
     }
 
     getOptions() {

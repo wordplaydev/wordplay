@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { NotANumber } from '@conflicts/NotANumber';
 import type EditContext from '@edit/EditContext';
@@ -85,6 +86,10 @@ export default class NumberLiteral extends Literal {
 
     getDescriptor(): NodeDescriptor {
         return 'NumberLiteral';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Numbers;
     }
 
     isPercent() {

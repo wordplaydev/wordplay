@@ -86,7 +86,7 @@ export default class Name extends LanguageTagged {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Hidden;
     }
 
     computeConflicts(): Conflict[] {

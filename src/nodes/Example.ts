@@ -65,7 +65,7 @@ export default class Example extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Example;

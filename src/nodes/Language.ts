@@ -91,7 +91,7 @@ export default class Language extends Node {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Text;
     }
 
     computeConflicts(): Conflict[] {

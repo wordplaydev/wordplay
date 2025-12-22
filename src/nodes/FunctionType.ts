@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
@@ -83,6 +84,10 @@ export default class FunctionType extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'FunctionType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Types;
     }
 
     getTemplate(context: Context): FunctionDefinition {

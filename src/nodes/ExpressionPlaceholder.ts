@@ -115,7 +115,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {

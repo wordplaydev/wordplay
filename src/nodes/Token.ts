@@ -67,7 +67,7 @@ export default class Token extends Node {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Hidden;
     }
 
     // TOKEN TYPES

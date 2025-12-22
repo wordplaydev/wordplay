@@ -166,7 +166,7 @@ export default class ConceptLink extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     computeConflicts(): Conflict[] {

@@ -136,7 +136,7 @@ export default class Match extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Decisions;
     }
 
     computeConflicts(context: Context): Conflict[] {

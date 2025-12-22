@@ -70,7 +70,7 @@ export default class Spread extends Node {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Lists;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

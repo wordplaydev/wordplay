@@ -52,7 +52,7 @@ export default class InternalExpression extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Hidden;
     }
 
     computeType(): Type {

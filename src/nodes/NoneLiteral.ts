@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -27,6 +28,10 @@ export default class NoneLiteral extends Literal {
 
     getDescriptor(): NodeDescriptor {
         return 'NoneLiteral';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Hidden;
     }
 
     getGrammar(): Grammar {

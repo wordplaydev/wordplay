@@ -44,7 +44,7 @@ export function getBasisConcepts(
 ): StructureConcept[] {
     return [
         new StructureConcept(
-            Purpose.Value,
+            Purpose.Text,
             basis.getSimpleDefinition('text'),
             basis.getSimpleDefinition('text'),
             TextType.make(),
@@ -53,7 +53,7 @@ export function getBasisConcepts(
             context,
         ),
         new StructureConcept(
-            Purpose.Value,
+            Purpose.Numbers,
             basis.getSimpleDefinition('measurement'),
             basis.getSimpleDefinition('measurement'),
             NumberType.make(),
@@ -66,7 +66,7 @@ export function getBasisConcepts(
             context,
         ),
         new StructureConcept(
-            Purpose.Value,
+            Purpose.Truth,
             basis.getSimpleDefinition('boolean'),
             basis.getSimpleDefinition('boolean'),
             BooleanType.make(),
@@ -75,7 +75,7 @@ export function getBasisConcepts(
             context,
         ),
         new StructureConcept(
-            Purpose.Value,
+            Purpose.Lists,
             basis.getSimpleDefinition('list'),
             basis.getSimpleDefinition('list'),
             ListType.make(),
@@ -84,7 +84,7 @@ export function getBasisConcepts(
             context,
         ),
         new StructureConcept(
-            Purpose.Value,
+            Purpose.Maps,
             basis.getSimpleDefinition('set'),
             basis.getSimpleDefinition('set'),
             SetType.make(),
@@ -93,7 +93,7 @@ export function getBasisConcepts(
             context,
         ),
         new StructureConcept(
-            Purpose.Value,
+            Purpose.Maps,
             basis.getSimpleDefinition('map'),
             basis.getSimpleDefinition('map'),
             MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
@@ -102,7 +102,7 @@ export function getBasisConcepts(
             context,
         ),
         new StructureConcept(
-            Purpose.Value,
+            Purpose.Truth,
             basis.getSimpleDefinition('none'),
             basis.getSimpleDefinition('none'),
             NoneType.make(),
@@ -111,7 +111,7 @@ export function getBasisConcepts(
             context,
         ),
         new StructureConcept(
-            Purpose.Value,
+            Purpose.Tables,
             basis.getSimpleDefinition('table'),
             basis.getSimpleDefinition('table'),
             TableType.make(),
@@ -157,7 +157,9 @@ export function getOutputConcepts(
         ...Object.values(context.project.shares.output).map((def) =>
             getStructureOrFunctionConcept(
                 def,
-                Purpose.Output,
+                def === context.project.shares.output.Output
+                    ? Purpose.Hidden
+                    : Purpose.Outputs,
                 undefined,
                 locales,
                 context,
@@ -166,7 +168,7 @@ export function getOutputConcepts(
         ...Object.values(context.project.shares.sequences).map((def) =>
             getStructureOrFunctionConcept(
                 def,
-                Purpose.Output,
+                Purpose.Outputs,
                 undefined,
                 locales,
                 context,

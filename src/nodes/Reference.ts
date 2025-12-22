@@ -205,7 +205,7 @@ export default class Reference extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {

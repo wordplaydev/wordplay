@@ -975,6 +975,6 @@ export default class Source extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Source;
+        return Purpose.Advanced;
     }
 }

@@ -26,7 +26,7 @@ export default class StreamConcept extends Concept {
     readonly inputs: BindConcept[];
 
     constructor(stream: StreamDefinition, locales: Locales, context: Context) {
-        super(Purpose.Input, undefined, context);
+        super(Purpose.Inputs, undefined, context);
 
         this.definition = stream;
         this.reference = Evaluate.make(
@@ -37,7 +37,7 @@ export default class StreamConcept extends Concept {
         );
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(Purpose.Input, bind, locales, context),
+            (bind) => new BindConcept(Purpose.Inputs, bind, locales, context),
         );
     }
 

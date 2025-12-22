@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type EditContext from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
@@ -65,6 +66,10 @@ export default class TextLiteral extends Literal {
 
     getDescriptor(): NodeDescriptor {
         return 'TextLiteral';
+    }
+
+    getPurpose() {
+        return Purpose.Hidden;
     }
 
     getGrammar(): Grammar {

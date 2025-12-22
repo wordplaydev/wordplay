@@ -101,7 +101,7 @@ export default class FormattedTranslation extends LanguageTagged {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Text;
     }
 
     withLanguage(language: Language) {

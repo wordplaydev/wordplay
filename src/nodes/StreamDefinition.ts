@@ -143,7 +143,7 @@ export default class StreamDefinition extends DefinitionExpression {
     }
 
     getPurpose() {
-        return Purpose.Input;
+        return Purpose.Hidden;
     }
 
     clone(replace?: Replacement) {

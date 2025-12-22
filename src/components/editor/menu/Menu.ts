@@ -12,18 +12,22 @@ export type MenuOrganization = (Revision | RevisionSet)[];
 // A relevance ordering of purposes.
 
 const PurposeRelevance: Record<Purpose, number> = {
-    project: 0,
-    value: 1,
-    how: 1,
-    input: 2,
-    bind: 3,
-    evaluate: 4,
-    output: 5,
-    decide: 6,
-    convert: 7,
-    type: 8,
-    document: 9,
-    source: 10,
+    Project: 0,
+    Outputs: 1,
+    Inputs: 2,
+    Decisions: 3,
+    Binds: 4,
+    Text: 5,
+    Numbers: 6,
+    Truth: 7,
+    Lists: 8,
+    Maps: 9,
+    Tables: 10,
+    Documentation: 13,
+    Types: 14,
+    Advanced: 15,
+    Hidden: 16,
+    How: 16,
 };
 
 /** An immutable container for menu state. */

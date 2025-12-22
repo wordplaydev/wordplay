@@ -67,7 +67,7 @@ export default class IsLocale extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Text;
     }
 
     computeConflicts() {

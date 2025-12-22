@@ -43,7 +43,7 @@ export default class DocumentedExpression extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     computeConflicts() {

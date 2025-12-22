@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -27,6 +28,10 @@ export default abstract class UnknownType<
 
     getDescriptor(): NodeDescriptor {
         return 'UnknownType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Hidden;
     }
 
     getGrammar(): Grammar {

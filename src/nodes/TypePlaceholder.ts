@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
 import type LocaleText from '@locale/LocaleText';
@@ -35,6 +36,10 @@ export default class TypePlaceholder extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'TypePlaceholder';
+    }
+
+    getPurpose() {
+        return Purpose.Advanced;
     }
 
     getGrammar(): Grammar {

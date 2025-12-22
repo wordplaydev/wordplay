@@ -9,9 +9,10 @@
     interface Props {
         concepts: Concept[];
         collapse?: boolean;
+        row?: boolean;
     }
 
-    let { concepts, collapse = true }: Props = $props();
+    let { concepts, collapse = true, row = true }: Props = $props();
 
     let expanded = $state(false);
 
@@ -20,7 +21,7 @@
     }
 </script>
 
-<div class="concepts">
+<div class="concepts" class:row>
     {#each concepts as concept, index}
         {#if !collapse || expanded || index < 3}
             <span
@@ -48,15 +49,21 @@
     .concepts {
         margin: 0;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: start;
         width: 100%;
         gap: calc(2 * var(--wordplay-spacing));
-        align-items: center;
         border-top: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         border-bottom: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         padding-top: var(--wordplay-spacing);
         padding-bottom: var(--wordplay-spacing);
+    }
+
+    .concepts.row {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-items: center;
     }
 </style>

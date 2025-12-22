@@ -135,7 +135,7 @@ export default class Block extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Binds;
     }
 
     isRoot() {

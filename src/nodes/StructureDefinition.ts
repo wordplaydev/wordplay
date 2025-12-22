@@ -200,7 +200,7 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Binds;
     }
 
     getNames() {

@@ -101,7 +101,7 @@
                                   node.getText().startsWith(event.key),
                           )
                     : $locales
-                          .get((l) => l.term[revision.purpose])
+                          .get((l) => l.ui.docs.purposes[revision.purpose])
                           .startsWith(event.key),
             );
             if (match)
@@ -145,7 +145,9 @@
                     id="menuitem-{itemIndex}"
                     aria-expanded={menu.getSelectionIndex()[0] === itemIndex &&
                         menu.getSelectionIndex()[1] !== undefined}
-                    aria-label={$locales.getLocale().term[entry.purpose]}
+                    aria-label={$locales.getLocale().ui.docs.purposes[
+                        entry.purpose
+                    ]}
                     class={`revisionset ${
                         menu.getSelection() === entry ? 'selected' : ''
                     }`}
@@ -168,7 +170,7 @@
                 >
                     <MarkupHTMLView
                         markup={$locales.concretize(
-                            `/${$locales.get((l) => l.term[entry.purpose])}…/`,
+                            `/${$locales.get((l) => l.ui.docs.purposes[entry.purpose])}…/`,
                         )}
                     />
                 </div>
@@ -176,7 +178,9 @@
                     class="submenu"
                     role="menu"
                     tabindex="-1"
-                    aria-label={$locales.getLocale().term[entry.purpose]}
+                    aria-label={$locales.getLocale().ui.docs.purposes[
+                        entry.purpose
+                    ]}
                 >
                     {#each entry.revisions as revision, subitemIndex}
                         <MenuItem

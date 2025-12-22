@@ -87,7 +87,7 @@ export default class Program extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Source;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {

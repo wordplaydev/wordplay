@@ -2,8 +2,8 @@ import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
 import type { DocText, Template } from './LocaleText';
 
+import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
-import { HowToCategories } from '@concepts/HowTo';
 import type ErrorText from '../routes/ErrorText';
 import type LandingPageText from '../routes/PageText';
 import type AboutPageText from '../routes/about/PageText';
@@ -12,7 +12,7 @@ import type CharactersPageText from '../routes/characters/PageText';
 import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
 import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
-import type GuidePageText from '../routes/guide/PageText';
+import type { default as GuidePageText } from '../routes/guide/PageText';
 import type JoinPageText from '../routes/join/PageText';
 import type LearnPageText from '../routes/learn/PageText';
 import type LoginPageText from '../routes/login/PageText';
@@ -453,49 +453,7 @@ type UITexts = {
         };
     };
     /** The documentation browser */
-    docs: {
-        /** The ARIA label for the palette section. */
-        label: string;
-        /** A link to a concept in documentation */
-        link: Template;
-        /** A link to the tutorial for a concept */
-        learn: string;
-        /** Shown if documentation is missing for a concept */
-        nodoc: string;
-        button: {
-            /** The home button in the docs tile */
-            home: string;
-            /** The back button in the docs tile */
-            back: string;
-            /** The toggle to expand and collapse concept groups */
-            toggle: string;
-        };
-        field: {
-            /** The search text field */
-            search: string;
-        };
-        /** Labels for different sections of the guide */
-        modes: ModeText<[string, string]>;
-        header: {
-            /** Documentation header in structure and functions before inputs */
-            inputs: string;
-            /** Documentation header in structure view before interfaces */
-            interfaces: string;
-            /** Documentation header in structure before properties */
-            properties: string;
-            /** Documentation header in structure before functions */
-            functions: string;
-            /** Documentation header in structure before conversions */
-            conversions: string;
-        };
-        /** Everything related to how to content */
-        how: {
-            /** The category names */
-            category: Record<keyof typeof HowToCategories, string>;
-            /** The subheader for related how to's */
-            related: string;
-        };
-    };
+    docs: DocumentationText;
     /** The project chat */
     collaborate: {
         /** The ARIA label for the chat section */

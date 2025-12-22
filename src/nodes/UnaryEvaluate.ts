@@ -76,7 +76,7 @@ export default class UnaryEvaluate extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {

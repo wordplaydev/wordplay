@@ -68,7 +68,7 @@ export default class StructureConcept extends Concept {
             .map(
                 (def) =>
                     new FunctionConcept(
-                        Purpose.Evaluate,
+                        purpose,
                         definition,
                         def,
                         this,

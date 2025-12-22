@@ -42,7 +42,7 @@ export default class UnparsableExpression extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Source;
+        return Purpose.Hidden;
     }
 
     computeConflicts(context: Context): Conflict[] {

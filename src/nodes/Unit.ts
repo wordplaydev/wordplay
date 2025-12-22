@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -151,6 +152,10 @@ export default class Unit extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'Unit';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Numbers;
     }
 
     getGrammar(): Grammar {

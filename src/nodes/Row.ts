@@ -80,7 +80,7 @@ export default class Row extends Node {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Tables;
     }
 
     getDependencies() {

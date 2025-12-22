@@ -82,7 +82,7 @@ export default class Is extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Decide;
+        return Purpose.Types;
     }
 
     computeType() {

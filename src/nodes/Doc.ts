@@ -97,7 +97,7 @@ export default class Doc extends LanguageTagged {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     withLanguage(language: Language) {

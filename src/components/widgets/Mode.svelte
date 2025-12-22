@@ -13,6 +13,7 @@
         active?: boolean;
         labeled?: boolean;
         modeLabels?: boolean;
+        wrap?: boolean;
     }
 
     let {
@@ -23,6 +24,7 @@
         active = true,
         labeled = true,
         modeLabels = true,
+        wrap = false,
     }: Props = $props();
 
     let modeText = $derived($locales.get(modes));
@@ -42,6 +44,7 @@
     {/if}
     <div
         class="group"
+        class:wrap
         role="radiogroup"
         id={modeText.label}
         aria-labelledby={modeText.label}
@@ -161,6 +164,12 @@
         /* border: 1px solid var(--wordplay-chrome); */
         border-radius: var(--wordplay-border-radius);
         user-select: none;
+    }
+
+    .group.wrap {
+        flex-wrap: wrap;
+        white-space: normal;
+        row-gap: var(--wordplay-focus-width);
     }
 
     [aria-disabled='true'] {

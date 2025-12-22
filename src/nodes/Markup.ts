@@ -74,7 +74,7 @@ export default class Markup extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     computeConflicts() {

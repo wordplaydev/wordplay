@@ -101,7 +101,7 @@ export default class Convert extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Convert;
+        return Purpose.Types;
     }
 
     clone(replace?: Replacement) {
