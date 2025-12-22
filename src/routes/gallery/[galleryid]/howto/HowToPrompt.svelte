@@ -1,3 +1,5 @@
+<!-- modified from Subheader, except it allows h2 to wrap -->
+
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';

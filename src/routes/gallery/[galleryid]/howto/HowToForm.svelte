@@ -283,7 +283,7 @@
         </div>
     {:else if howTo}
         <div class="howtosplitview">
-            <div>
+            <div class="splitside" id="howtoview">
                 <div class="toolbar">
                     {#if $user && howTo.isCreatorCollaborator($user.uid)}
                         <Button
@@ -354,12 +354,6 @@
                                 addRemoveBookmark();
                             }}
                         />
-                    {:else}
-                        <p
-                            >{$locales.get(
-                                (l) => l.ui.howto.viewHowTo.draftNote,
-                            )}</p
-                        >
                     {/if}
                 </div>
 
@@ -369,7 +363,7 @@
                 {/each}
             </div>
             {#if isPublished}
-                <div>
+                <div class="splitside" id="howtointeractions">
                     <HowToPrompt
                         text={(l) => l.ui.howto.viewHowTo.reactionPrompt}
                     />
@@ -398,6 +392,8 @@
 
                     <ChatView {chat} {creators} {gallery} {howTo} />
                 </div>
+            {:else}
+                <HowToPrompt text={(l) => l.ui.howto.viewHowTo.draftNote} />
             {/if}
         </div>
     {/if}
@@ -417,9 +413,20 @@
         flex-wrap: wrap;
     }
 
+    .splitside {
+        height: 100%;
+        max-height: 100%;
+        width: 100%;
+        padding: var(--wordplay-spacing);
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+    }
+
     .howtosplitview {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        gap: var(--wordplay-spacing);
+        height: 100%;
+        overflow: hidden;
     }
 </style>

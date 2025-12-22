@@ -12,6 +12,7 @@
     import { docToMarkup } from '@locale/LocaleText';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
+    import Loading from '@components/app/Loading.svelte';
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
@@ -197,75 +198,83 @@
     });
 </script>
 
-<Writing>
-    <div id="info">
-        <Header>
-            <MarkupHTMLView
-                inline
-                markup={docToMarkup(
-                    $locales.get((l) => l.ui.howto.canvasView.header),
-                ).concretize($locales, [galleryName]) ?? ''}
-            />
-        </Header>
-
-        {#if canUserEdit}
-            <HowToForm
-                editingMode={true}
-                bind:howTo={newHowTo}
-                {centerX}
-                {centerY}
-            />
-        {/if}
-
-        <div class="canvasstickyarea" id="stickyArea">
-            <div class="drafts">
-                <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
+{#if gallery == null}
+    <Loading />
+{:else}
+    <Writing>
+        <div id="info">
+            <Header>
                 <MarkupHTMLView
-                    markup={(l) => l.ui.howto.canvasView.draftsprompt}
+                    inline
+                    markup={docToMarkup(
+                        $locales.get((l) => l.ui.howto.canvasView.header),
+                    ).concretize($locales, [galleryName]) ?? ''}
                 />
-                {#each howTos as howTo, i (i)}
-                    {#if !howTo.isPublished()}
-                        <HowToPreview
-                            bind:howTo={howTos[i]}
-                            {cameraX}
-                            {cameraY}
-                            bind:childMoving
-                        />
-                    {/if}
-                {/each}
-            </div>
+            </Header>
 
-            <div class="bookmarks" id="bookmarksarea">
-                <Subheader
-                    text={(l) => l.ui.howto.canvasView.bookmarksheader}
+            {#if canUserEdit}
+                <HowToForm
+                    editingMode={true}
+                    bind:howTo={newHowTo}
+                    {centerX}
+                    {centerY}
                 />
+            {/if}
 
-                {#each howTos as howto, i (i)}
-                    {#if howto.getBookmarkers().includes($user?.uid ?? '')}
-                        <Button
-                            tip={(l) => l.ui.howto.canvasView.bookmarkstooltip}
-                            label={(l) => howto.getTitle()}
-                            action={() => {
-                                let coords = howto.getCoordinates();
-                                panTo(coords[0], coords[1]);
-                            }}
-                        />
-                    {/if}
-                {/each}
+            <div class="canvasstickyarea" id="stickyArea">
+                <div class="drafts">
+                    <Subheader
+                        text={(l) => l.ui.howto.canvasView.draftsheader}
+                    />
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.howto.canvasView.draftsprompt}
+                    />
+                    {#each howTos as howTo, i (i)}
+                        {#if !howTo.isPublished()}
+                            <HowToPreview
+                                bind:howTo={howTos[i]}
+                                {cameraX}
+                                {cameraY}
+                                bind:childMoving
+                            />
+                        {/if}
+                    {/each}
+                </div>
+
+                <div class="bookmarks" id="bookmarksarea">
+                    <Subheader
+                        text={(l) => l.ui.howto.canvasView.bookmarksheader}
+                    />
+
+                    {#each howTos as howto, i (i)}
+                        {#if howto.getBookmarkers().includes($user?.uid ?? '')}
+                            <Button
+                                tip={(l) =>
+                                    l.ui.howto.canvasView.bookmarkstooltip}
+                                label={(l) => howto.getTitle()}
+                                action={() => {
+                                    let coords = howto.getCoordinates();
+                                    panTo(coords[0], coords[1]);
+                                }}
+                            />
+                        {/if}
+                    {/each}
+                </div>
             </div>
         </div>
-    </div>
-    {#each howTos as howTo, i (i)}
-        {#if howTo.isPublished() && shouldRender(howTo.getCoordinates())}
-            <HowToPreview
-                bind:howTo={howTos[i]}
-                {cameraX}
-                {cameraY}
-                bind:childMoving
-            />
-        {/if}
-    {/each}
-</Writing>
+        {#each howTos as howTo, i (i)}
+            {#if howTo.isPublished() && shouldRender(howTo.getCoordinates())}
+                <HowToPreview
+                    bind:howTo={howTos[i]}
+                    {cameraX}
+                    {cameraY}
+                    bind:childMoving
+                />
+            {/if}
+        {/each}
+    </Writing>
+{/if}
+
 <svelte:window
     onmouseup={onMouseUp}
     onmousedown={onMouseDown}
