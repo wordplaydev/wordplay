@@ -139,6 +139,7 @@
                 {/if}
                 <MenuTrigger
                     anchor={{ parent: node, field, index: nodes.length }}
+                    insert
                 />
             {/if}
         </div>

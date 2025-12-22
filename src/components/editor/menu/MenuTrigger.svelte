@@ -6,9 +6,10 @@
 
     interface Props {
         anchor: CaretPosition | FieldPosition;
+        insert?: boolean;
     }
 
-    let { anchor: position }: Props = $props();
+    let { anchor, insert = false }: Props = $props();
 
     const menuNode = getSetMenuAnchor();
 
@@ -17,7 +18,7 @@
 
         if (menuNode) {
             event.stopPropagation();
-            $menuNode(position);
+            $menuNode(anchor);
         }
     }
 </script>
@@ -29,7 +30,7 @@
     onpointerdown={show}
     onkeydown={(event) =>
         event.key === 'Enter' || event.key === ' ' ? show(event) : undefined}
-    >{DROP_DOWN_SYMBOL}</span
+    >{insert ? '+' : DROP_DOWN_SYMBOL}</span
 >
 
 <style>
