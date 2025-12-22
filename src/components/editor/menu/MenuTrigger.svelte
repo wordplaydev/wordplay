@@ -22,19 +22,22 @@
         const { parent, field } = pos;
         if (root.root?.root instanceof Source)
             return root.root.root.getFieldPosition(parent, field);
-        else return undefined;
     }
 
     function show(event: PointerEvent | KeyboardEvent) {
-        event.stopPropagation();
         const anchor =
+            // Is the anchor a field position? Resolve it.
             typeof position === 'object' &&
             position !== null &&
             'parent' in position &&
             'field' in position
                 ? resolvePosition(position)
-                : position;
-        if (menuNode && anchor) $menuNode(anchor);
+                : // Otherwise, it's a node.
+                  position;
+        if (menuNode && anchor) {
+            event.stopPropagation();
+            $menuNode(anchor);
+        }
     }
 </script>
 

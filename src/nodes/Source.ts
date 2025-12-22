@@ -534,7 +534,7 @@ export default class Source extends Expression {
             const firstToken = parent.leaves()[0];
             return firstToken
                 ? this.getTokenTextPosition(firstToken)
-                : undefined;
+                : this.getNodeFirstPosition(parent);
         } else {
             for (let i = targetFieldIndex + 1; i < grammar.length; i++) {
                 const siblingOrList = parent.getField(grammar[i].name);

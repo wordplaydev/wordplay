@@ -40,8 +40,9 @@
 
     let { node: path, format, empty = 'label' }: Props = $props();
 
+    /** Get the value of the node, possibly undefined. */
     let node = $derived(
-        path instanceof Node ? path : (path[0][path[1]] as Node),
+        path instanceof Node ? path : (path[0][path[1]] as Node | undefined),
     );
 
     const evaluation = getEvaluation();
