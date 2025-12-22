@@ -20,5 +20,5 @@
     field="statements"
     {format}
     empty="label"
-    block={node.statements.length > 1}
+    block={node.isRoot()}
 /><NodeView node={[node, 'close']} {format} empty="hide" />

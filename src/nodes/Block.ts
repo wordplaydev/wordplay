@@ -138,6 +138,7 @@ export default class Block extends Expression {
         return Purpose.Binds;
     }
 
+    /** If its the root block of a program. */
     isRoot() {
         return this.kind === BlockKind.Root;
     }
