@@ -447,10 +447,10 @@ export default class ProjectsDatabase {
                             project,
                             // The project is editable if the user is the owner, or the user is a collaborator, or the user
                             user !== null &&
-                                (project.isOwner(user.uid) ||
-                                    project.hasCollaborator(user.uid) ||
-                                    (gallery !== undefined &&
-                                        gallery.hasCurator(user.uid))),
+                            (project.isOwner(user.uid) ||
+                                project.hasCollaborator(user.uid) ||
+                                (gallery !== undefined &&
+                                    gallery.hasCurator(user.uid))),
                             PersistenceType.Online,
                             false,
                         );

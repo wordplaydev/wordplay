@@ -63,21 +63,25 @@ type PageText = {
         reactionPrompt: string;
         /** Text for asking if the user used this how-to in their project or another how-to */
         usedPrompt: string;
-        /** Text displaying the number of users who have used this how-to */
+        /** Text for how many others projects or how-tos, other than the user's own, have used this how-to */
         usedCountDisplay: string;
+        /** Options text for selecting which projects and how-tos used this how-to */
+        usedBySelector: string;
+        usedByRemoveButton: string;
+        usedByAddButton: string;
         /** Text for prompting users to chat */
         chatPrompt: string;
         /** Text indicating that the how-to is currently a draft */
         draftNote: string;
         /** Button text for copying the direct link to this how-to */
         copyLink: ButtonText;
+        /** Default reaction options for viewing a how-to */
+        reactions: ButtonText[];
     },
     error: {
         /** When the how-to is not known or is not public */
         unknown: string;
     },
-    /** Default reaction options for viewing a how-to */
-    reactions: ButtonText[];
 }
 
 export type { PageText as default };

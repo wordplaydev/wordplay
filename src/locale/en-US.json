@@ -4832,44 +4832,47 @@
                     "tip": "Remove this how-to from your bookmarks"
                 },
                 "reactionPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
-                "usedPrompt": "Did you use this how-to in your project or another how-to? Check this box to let the creator know!",
-                "usedCountDisplay": "$1 Wordplayers have used this how-to",
+                "usedPrompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
+                "usedCountDisplay": "and $1 other projects or how-tos",
+                "usedBySelector": "Project and how-to selector",
+                "usedByRemoveButton": "Remove project or how-to from list",
+                "usedByAddButton": "Add project or how-to",
                 "chatPrompt": "Leave a comment or question for the creator!",
                 "draftNote": "This is a draft how-to. Only you can see it.",
                 "copyLink": {
                     "label": "🔗 Copy link",
                     "tip": "Copy the link to this how-to"
-                }
+                },
+                "reactions": [
+                    {
+                        "label": "👍",
+                        "tip": "I like this!"
+                    },
+                    {
+                        "label": "💭",
+                        "tip": "This inspires me!"
+                    },
+                    {
+                        "label": "🙏",
+                        "tip": "Thank you!"
+                    },
+                    {
+                        "label": "🎉",
+                        "tip": "Celebration!"
+                    },
+                    {
+                        "label": "🤩",
+                        "tip": "I want to try this!"
+                    },
+                    {
+                        "label": "😁",
+                        "tip": "This makes me happy!"
+                    }
+                ]
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."
-            },
-            "reactions": [
-                {
-                    "label": "👍",
-                    "tip": "I like this!"
-                },
-                {
-                    "label": "💭",
-                    "tip": "This inspires me!"
-                },
-                {
-                    "label": "🙏",
-                    "tip": "Thank you!"
-                },
-                {
-                    "label": "🎉",
-                    "tip": "Celebration!"
-                },
-                {
-                    "label": "🤩",
-                    "tip": "I want to try this!"
-                },
-                {
-                    "label": "😁",
-                    "tip": "This makes me happy!"
-                }
-            ]
+            }
         },
         "source": {
             "label": "program editor",

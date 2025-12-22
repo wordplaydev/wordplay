@@ -9866,13 +9866,6 @@
                   ],
                   "type": "object"
                 },
-                "reactions": {
-                  "description": "Default reaction options for viewing a how-to",
-                  "items": {
-                    "$ref": "#/definitions/ButtonText"
-                  },
-                  "type": "array"
-                },
                 "viewHowTo": {
                   "additionalProperties": false,
                   "description": "Buttons and dialogs for viewing a new how-to",
@@ -9911,12 +9904,29 @@
                       "description": "Text for prompting reactions",
                       "type": "string"
                     },
+                    "reactions": {
+                      "description": "Default reaction options for viewing a how-to",
+                      "items": {
+                        "$ref": "#/definitions/ButtonText"
+                      },
+                      "type": "array"
+                    },
                     "submit": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for submitting the how-to to be included in the public guide"
                     },
+                    "usedByAddButton": {
+                      "type": "string"
+                    },
+                    "usedByRemoveButton": {
+                      "type": "string"
+                    },
+                    "usedBySelector": {
+                      "description": "Options text for selecting which projects and how-tos used this how-to",
+                      "type": "string"
+                    },
                     "usedCountDisplay": {
-                      "description": "Text displaying the number of users who have used this how-to",
+                      "description": "Text for how many others projects or how-tos, other than the user's own, have used this how-to",
                       "type": "string"
                     },
                     "usedPrompt": {
@@ -9939,9 +9949,13 @@
                     "reactionPrompt",
                     "usedPrompt",
                     "usedCountDisplay",
+                    "usedBySelector",
+                    "usedByRemoveButton",
+                    "usedByAddButton",
                     "chatPrompt",
                     "draftNote",
-                    "copyLink"
+                    "copyLink",
+                    "reactions"
                   ],
                   "type": "object"
                 }
@@ -9951,8 +9965,7 @@
                 "canvasView",
                 "newHowTo",
                 "viewHowTo",
-                "error",
-                "reactions"
+                "error"
               ],
               "type": "object"
             },

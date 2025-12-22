@@ -12,8 +12,8 @@
     import TextField from '@components/widgets/TextField.svelte';
     import { HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
-    import { docToMarkup } from '@locale/LocaleText';
     import HowToPrompt from './HowToPrompt.svelte';
+    import HowToUsedBy from './HowToUsedBy.svelte';
 
     // defining props
     interface Props {
@@ -31,7 +31,7 @@
     }: Props = $props();
 
     // utility variables
-    let reactionButtons = $locales.get((l) => l.ui.howto.reactions);
+    let reactionButtons = $locales.get((l) => l.ui.howto.viewHowTo.reactions);
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
     const galleryID: string = decodeURI(page.params.galleryid);
 
@@ -342,19 +342,9 @@
                             }}
                         />
                     {/each}
-                    <HowToPrompt
-                        text={(l) => l.ui.howto.viewHowTo.usedPrompt}
-                    />
-                    <MarkupHTMLView
-                        inline
-                        markup={docToMarkup(
-                            $locales.get(
-                                (l) => l.ui.howto.viewHowTo.usedCountDisplay,
-                            ),
-                        ).concretize($locales, [
-                            howTo.getUsedByProjects().length,
-                        ]) ?? ''}
-                    />
+
+                    <HowToUsedBy bind:howTo />
+
                     <HowToPrompt
                         text={(l) => l.ui.howto.viewHowTo.chatPrompt}
                     />

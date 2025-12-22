@@ -162,6 +162,15 @@ export class HowToDatabase {
     /** Maps gallery IDs to lists of how-to IDs */
     private readonly galleryHowTos = $state(new SvelteMap<string, string[]>());
 
+    /** All of the how-tos that the user has write access to */
+    readonly allEditableHowTos: HowTo[] = $derived([...
+        this.howtos.values().filter((howto) => {
+            const user = this.db.getUser();
+            if (user === null) return false;
+            return howto.isCreatorCollaborator(user.uid);
+        })
+    ]);
+
     private unsubscribe: Unsubscribe | undefined = undefined;
 
     private galleryListener: (gallery: Gallery) => void;
@@ -204,13 +213,6 @@ export class HowToDatabase {
     }
 
     syncUser() {
-        // TODO(@mc) -- this still needs to be implemented, even though we are changing the listen function
-        // if (firestore === undefined) return;
-        // const user = this.db.getUser();
-        // if (user) this.listen(firestore, user);
-
-        console.log("sync user is being called");
-
         // if there is no firestore access, do nothing
         if (firestore === undefined) return;
 
@@ -302,6 +304,8 @@ export class HowToDatabase {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
         if (user === null) return undefined;
+
+        // create the chat corresponding to this how-to
 
         // create a new how-to
         const newHowTo: HowToDocument = {
