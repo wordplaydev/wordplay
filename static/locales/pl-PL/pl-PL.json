@@ -4657,19 +4657,50 @@
                 "search": "$~wyszukaj pojęcia za pomocą słów"
             },
             "header": {
-                "inputs": "$~Wejścia",
-                "interfaces": "$~Interfejsy",
-                "properties": "$~Właściwości",
-                "functions": "$~Funkcje",
-                "conversions": "$~Konwersje"
-            },
-            "modes": {
-                "label": "$~przeglądać",
-                "labels": ["$~jak", "$~język programowania"],
-                "tips": [
-                    "$~wielokrotnego użytku wzory do tworzenia projektów",
-                    "$~koncepcje języka programowania"
-                ]
+                "inputs": {
+                    "header": "$~Wejścia",
+                    "explanation": "$~/Wartości wymagane i opcjonalne./"
+                },
+                "interfaces": {
+                    "header": "$~Interfejsy",
+                    "explanation": "$~/Struktury, na których oparta jest ta struktura./"
+                },
+                "properties": {
+                    "header": "$~Właściwości",
+                    "explanation": "$~/Wartości przechowywane w tym koncepcie./"
+                },
+                "functions": {
+                    "header": "$~Funkcje",
+                    "explanation": "$~/Wartości, które ta koncepcja może obliczyć./"
+                },
+                "conversions": {
+                    "header": "$~Konwersje",
+                    "explanation": "$~/Sposoby konwersji tej wartości na wartości innych typów./"
+                },
+                "arrangements": {
+                    "header": "$~Ustalenia",
+                    "explanation": "$~/Sposoby układania fraz w grupie./"
+                },
+                "forms": {
+                    "header": "$~Formularze",
+                    "explanation": "$~/Kształty, które można umieścić na scenie./"
+                },
+                "appearance": {
+                    "header": "$~Wygląd",
+                    "explanation": "$~/Sposoby zmiany wyglądu wyjścia./"
+                },
+                "animation": {
+                    "header": "$~Ożywienie",
+                    "explanation": "$~/Sposoby animowania wyników na scenie./"
+                },
+                "location": {
+                    "header": "$~Lokalizacja",
+                    "explanation": "$~/Sposoby określania, gdzie na scenie znajduje się wyjście./"
+                },
+                "reactions": {
+                    "header": "$~Reakcje",
+                    "explanation": "$~/Sposoby reagowania na strumień wejściowy lub jego analizowania./"
+                }
             },
             "how": {
                 "category": {
@@ -4684,6 +4715,117 @@
                     "video": "$~użyj aparatu"
                 },
                 "related": "$~Nie znalazłeś tego, czego szukasz?"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~przeglądać",
+                    "labels": ["$~kod", "$~jak"],
+                    "tips": [
+                        "$~koncepcje języka programowania",
+                        "$~wielokrotnego użytku wzory do tworzenia projektów"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~zamiar",
+                    "labels": [
+                        "$~projekt",
+                        "$~wyjście",
+                        "$~wejście",
+                        "$~decydować",
+                        "$~nazwa",
+                        "$~tekst",
+                        "$~takty muzyczne",
+                        "$~prawda",
+                        "$~listy",
+                        "$~zestawy",
+                        "$~stoły",
+                        "$~dokumentacja",
+                        "$~typy",
+                        "$~itp."
+                    ],
+                    "tips": [
+                        "$~koncepcje na poziomie projektu",
+                        "$~frazy, grupy, etapy, układy i wiele więcej",
+                        "$~czas, przyciski, klawisze, sceny i wiele więcej",
+                        "$~wybierz wartości na podstawie innych wartości",
+                        "$~nazwij wartości, funkcje i struktury danych do późniejszego wykorzystania",
+                        "$~wartości prawda, fałsz i brak",
+                        "$~liczby i operacje matematyczne",
+                        "$~zwykły i sformatowany tekst",
+                        "$~listy i operacje na listach",
+                        "$~zestawy, mapy i operacje",
+                        "$~tabele i operacje tabelaryczne",
+                        "$~typy danych, konwersje i sprawdzanie typów",
+                        "$~dokumentacja i komentarze",
+                        "$~zaawansowane koncepcje językowe"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Projekt",
+                    "explanation": "$~/Pojęcia zdefiniowane w Twoim projekcie./"
+                },
+                "Outputs": {
+                    "header": "$~Wyjścia",
+                    "explanation": "$~/Różne typy wyjść, które można umieścić na scenie./"
+                },
+                "Inputs": {
+                    "header": "$~Strumienie",
+                    "explanation": "$~/Dane wejściowe ze świata, które zmieniają się z czasem, powodując ponowną ocenę programu./"
+                },
+                "Decisions": {
+                    "header": "$~Decyzje",
+                    "explanation": "$~/Sposoby wyboru pomiędzy różnymi wartościami w zależności od warunków./"
+                },
+                "Binds": {
+                    "header": "$~Wiąże",
+                    "explanation": "$~/Sposoby nadawania nazw wartościom, funkcjom i strukturom danych do późniejszego wykorzystania./"
+                },
+                "Numbers": {
+                    "header": "$~Takty muzyczne",
+                    "explanation": "$~/Liczby, jednostki i działania matematyczne./"
+                },
+                "Text": {
+                    "header": "$~Tekst",
+                    "explanation": "$~/Tekst prosty i sformatowany oraz sposoby jego przetwarzania./"
+                },
+                "Truth": {
+                    "header": "$~Prawda",
+                    "explanation": "$~/Wartości prawda, fałsz i brak oraz sposoby ich wykorzystania w logice./"
+                },
+                "Lists": {
+                    "header": "$~Listy",
+                    "explanation": "$~/Listy i operacje na listach, przydatne do przechowywania wartości w określonej kolejności./"
+                },
+                "Maps": {
+                    "header": "$~Mapy",
+                    "explanation": "$~/Zestawy, mapy i ich operacje, przydatne do przechowywania zbiorów wartości lub mapowań jednej wartości na inne./"
+                },
+                "Tables": {
+                    "header": "$~Tabele",
+                    "explanation": "$~/Tabele i operacje tabelaryczne, przydatne do przechowywania ustrukturyzowanych danych w wierszach i kolumnach./"
+                },
+                "Types": {
+                    "header": "$~Typy",
+                    "explanation": "$~/Sposoby deklarowania, że nazwane wartości powinny mieć określony typ danych i sprawdzania, czy tak jest./"
+                },
+                "Documentation": {
+                    "header": "$~Dokumentacja",
+                    "explanation": "$~/Sposoby dodawania komentarzy i wyjaśnień do kodu./"
+                },
+                "Advanced": {
+                    "header": "$~Zaawansowany",
+                    "explanation": "$~/Zaawansowane koncepcje i funkcje języka, których prawdopodobnie nie będziesz potrzebować./"
+                },
+                "Hidden": {
+                    "header": "$~Ukryty",
+                    "explanation": "$~/Pojęcia ukryte w głównej dokumentacji./"
+                },
+                "How": {
+                    "header": "$~Jak",
+                    "explanation": "$~/Typowe wzorce tworzenia różnych rodzajów projektów./"
+                }
             }
         },
         "dialog": {

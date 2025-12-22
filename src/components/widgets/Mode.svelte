@@ -6,14 +6,24 @@
     import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
+        /** Localized text for the labels and tooltips */
         modes: (locale: LocaleText) => ModeText<readonly string[]>;
+        /** The current mode selected */
         choice: number;
+        /** Callback for when a mode is selected.*/
         select: (choice: number) => void;
+        /** Icons to add as prefixes to labels */
         icons?: readonly string[];
+        /** Whether the mode chooser is active */
         active?: boolean;
+        /** Whether to add a label before the mode chooser*/
         labeled?: boolean;
+        /** Whether to add labels to the individual mode buttons */
         modeLabels?: boolean;
+        /** Whether to wrap the row of buttons. Good if there are many. */
         wrap?: boolean;
+        /** Buttons to omit, allowing for conditional display of modes */
+        omit?: readonly number[];
     }
 
     let {
@@ -25,6 +35,7 @@
         labeled = true,
         modeLabels = true,
         wrap = false,
+        omit = [],
     }: Props = $props();
 
     let modeText = $derived($locales.get(modes));
@@ -50,51 +61,53 @@
         aria-labelledby={modeText.label}
     >
         {#each modeText.labels as label, index}
-            <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
-            <button
-                type="button"
-                role="radio"
-                aria-checked={index === choice}
-                class:selected={index === choice}
-                aria-label={modeText.tips[index]}
-                aria-disabled={!active || index === choice}
-                ondblclick={(event) => event.stopPropagation()}
-                onpointerdown={(event) =>
-                    index !== choice && event.button === 0 && active
-                        ? select(index)
-                        : undefined}
-                onpointerenter={(event) =>
-                    showTip(
-                        event.target as HTMLButtonElement,
-                        modeText.tips[index],
-                    )}
-                onpointerleave={hideTip}
-                onfocus={(event) =>
-                    showTip(
-                        event.target as HTMLButtonElement,
-                        modeText.tips[index],
-                    )}
-                onblur={hideTip}
-                ontouchstart={(event) =>
-                    showTip(
-                        event.target as HTMLButtonElement,
-                        modeText.tips[index],
-                    )}
-                ontouchend={hideTip}
-                ontouchcancel={hideTip}
-                onkeydown={(event) =>
-                    (event.key === 'Enter' || event.key === ' ') &&
-                    // Only activate with no modifiers down. Enter is used for other shortcuts.
-                    !event.shiftKey &&
-                    !event.ctrlKey &&
-                    !event.altKey &&
-                    !event.metaKey
-                        ? select(index)
-                        : undefined}
-            >
-                {#if icons}{withMonoEmoji(icons[index])}{/if}
-                {#if modeLabels}{withMonoEmoji(label)}{/if}
-            </button>
+            {#if !omit.includes(index)}
+                <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
+                <button
+                    type="button"
+                    role="radio"
+                    aria-checked={index === choice}
+                    class:selected={index === choice}
+                    aria-label={modeText.tips[index]}
+                    aria-disabled={!active || index === choice}
+                    ondblclick={(event) => event.stopPropagation()}
+                    onpointerdown={(event) =>
+                        index !== choice && event.button === 0 && active
+                            ? select(index)
+                            : undefined}
+                    onpointerenter={(event) =>
+                        showTip(
+                            event.target as HTMLButtonElement,
+                            modeText.tips[index],
+                        )}
+                    onpointerleave={hideTip}
+                    onfocus={(event) =>
+                        showTip(
+                            event.target as HTMLButtonElement,
+                            modeText.tips[index],
+                        )}
+                    onblur={hideTip}
+                    ontouchstart={(event) =>
+                        showTip(
+                            event.target as HTMLButtonElement,
+                            modeText.tips[index],
+                        )}
+                    ontouchend={hideTip}
+                    ontouchcancel={hideTip}
+                    onkeydown={(event) =>
+                        (event.key === 'Enter' || event.key === ' ') &&
+                        // Only activate with no modifiers down. Enter is used for other shortcuts.
+                        !event.shiftKey &&
+                        !event.ctrlKey &&
+                        !event.altKey &&
+                        !event.metaKey
+                            ? select(index)
+                            : undefined}
+                >
+                    {#if icons}{withMonoEmoji(icons[index])}{/if}
+                    {#if modeLabels}{withMonoEmoji(label)}{/if}
+                </button>
+            {/if}
         {/each}
     </div>
 </div>

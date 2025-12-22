@@ -111,34 +111,6 @@
       ],
       "type": "object"
     },
-    "DialogText": {
-      "additionalProperties": false,
-      "properties": {
-        "explanation": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Template"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/Template"
-              },
-              "type": "array"
-            }
-          ],
-          "description": "The explanation text just below the header."
-        },
-        "header": {
-          "description": "The header to be shown at the top of the dialog",
-          "type": "string"
-        }
-      },
-      "required": [
-        "header",
-        "explanation"
-      ],
-      "type": "object"
-    },
     "DocText": {
       "anyOf": [
         {
@@ -340,6 +312,34 @@
         "av",
         "tools",
         "stories"
+      ],
+      "type": "object"
+    },
+    "HeaderAndExplanationText": {
+      "additionalProperties": false,
+      "properties": {
+        "explanation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Template"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/Template"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "The explanation text just below the header."
+        },
+        "header": {
+          "description": "The header to be shown at the top of the dialog",
+          "type": "string"
+        }
+      },
+      "required": [
+        "header",
+        "explanation"
       ],
       "type": "object"
     },
@@ -9729,19 +9729,19 @@
                       "description": "The subheaders of the dialog",
                       "properties": {
                         "copy": {
-                          "$ref": "#/definitions/DialogText",
+                          "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The copy and paste dialog text"
                         },
                         "gallery": {
-                          "$ref": "#/definitions/DialogText",
+                          "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The gallery subheader and explanation"
                         },
                         "pii": {
-                          "$ref": "#/definitions/DialogText",
+                          "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The personal information subheader and explanation"
                         },
                         "public": {
-                          "$ref": "#/definitions/DialogText",
+                          "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The public/private toggle subheader and explanation"
                         }
                       },
@@ -9820,48 +9820,48 @@
                   "additionalProperties": false,
                   "properties": {
                     "animation": {
-                      "description": "Animation header",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Animation header"
                     },
                     "appearance": {
-                      "description": "Appearance header",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Appearance header"
                     },
                     "arrangements": {
-                      "description": "Arrangements header",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Arrangements header"
                     },
                     "conversions": {
-                      "description": "Documentation header in structure before conversions",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Conversions header"
                     },
                     "forms": {
-                      "description": "Forms header",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Forms header"
                     },
                     "functions": {
-                      "description": "Documentation header in structure before functions",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Functions"
                     },
                     "inputs": {
-                      "description": "Documentation header in structure and functions before inputs",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Function inputs header"
                     },
                     "interfaces": {
-                      "description": "Documentation header in structure view before interfaces",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Structue interfaces header"
                     },
                     "location": {
-                      "description": "Location header",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Location header"
                     },
                     "properties": {
-                      "description": "Documentation header in structure before properties",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Structure properties header"
                     },
                     "reactions": {
-                      "description": "Reactions header",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Reactions header"
                     }
                   },
                   "required": [
@@ -9977,52 +9977,52 @@
                   "description": "Labels for concept categories",
                   "properties": {
                     "Advanced": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Binds": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Decisions": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Documentation": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Hidden": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "How": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Inputs": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Lists": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Maps": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Numbers": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Outputs": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Project": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Tables": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Text": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Truth": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Types": {
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText"
                     }
                   },
                   "required": [
@@ -10224,19 +10224,19 @@
                   "description": "Headers on the page",
                   "properties": {
                     "classes": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Associtaed classes header"
                     },
                     "creators": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "The list of curators"
                     },
                     "curators": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "The list of curators"
                     },
                     "delete": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Delete header"
                     }
                   },
@@ -10771,7 +10771,7 @@
                           "$ref": "#/definitions/ButtonText"
                         },
                         "dialog": {
-                          "$ref": "#/definitions/DialogText"
+                          "$ref": "#/definitions/HeaderAndExplanationText"
                         },
                         "public": {
                           "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
@@ -11862,7 +11862,7 @@
                   "description": "The project creation and browsing page",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Dialog text for the project addition dialog"
                     },
                     "archiveprompt": {
@@ -12595,7 +12595,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "translate": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "The content for the translation dialog"
                     },
                     "unsaved": {
@@ -13825,7 +13825,7 @@
       "additionalProperties": false,
       "properties": {
         "blocked": {
-          "$ref": "#/definitions/DialogText",
+          "$ref": "#/definitions/HeaderAndExplanationText",
           "description": "What to say when content is blocked"
         },
         "button": {
@@ -13875,7 +13875,7 @@
           "description": "Content moderation rules that creators promise to follow. See en-US.json for ground truth language."
         },
         "moderate": {
-          "$ref": "#/definitions/DialogText",
+          "$ref": "#/definitions/HeaderAndExplanationText",
           "description": "Moderation view text"
         },
         "progress": {
@@ -13883,11 +13883,11 @@
           "description": "Progress message"
         },
         "unmoderated": {
-          "$ref": "#/definitions/DialogText",
+          "$ref": "#/definitions/HeaderAndExplanationText",
           "description": "What to sa when content has not yet been moderated"
         },
         "warning": {
-          "$ref": "#/definitions/DialogText",
+          "$ref": "#/definitions/HeaderAndExplanationText",
           "description": "What to say to warn viewers before showing content with warnings."
         }
       },

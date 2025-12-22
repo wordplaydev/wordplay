@@ -1649,7 +1649,10 @@
                             {/snippet}
                             {#snippet content()}
                                 {#if tile.kind === TileKind.Documentation}
-                                    <Documentation {project} />
+                                    <Documentation
+                                        {project}
+                                        standalone={false}
+                                    />
                                 {:else if tile.kind === TileKind.Palette}
                                     <Palette
                                         {project}

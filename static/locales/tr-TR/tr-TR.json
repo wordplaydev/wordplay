@@ -4652,19 +4652,50 @@
                 "search": "$~Sözcüklerle kavramları arayın"
             },
             "header": {
-                "inputs": "$~Girişler",
-                "interfaces": "$~Arayüzler",
-                "properties": "$~Özellikler",
-                "functions": "$~Fonksiyonlar",
-                "conversions": "$~Dönüşümler"
-            },
-            "modes": {
-                "label": "$~göz at",
-                "labels": ["$~nasıl", "$~programlama dili"],
-                "tips": [
-                    "$~projeler yapmak için yeniden kullanılabilir kalıplar",
-                    "$~programlama dili kavramları"
-                ]
+                "inputs": {
+                    "header": "$~Girişler",
+                    "explanation": "$~/Zorunlu ve isteğe bağlı değerler./"
+                },
+                "interfaces": {
+                    "header": "$~Arayüzler",
+                    "explanation": "$~/Bu yapının dayandığı yapılar./"
+                },
+                "properties": {
+                    "header": "$~Özellikler",
+                    "explanation": "$~Bu kavram, mağazaların değerlerini yansıtır."
+                },
+                "functions": {
+                    "header": "$~Fonksiyonlar",
+                    "explanation": "$~/Bu kavramın hesaplayabileceği değerler./"
+                },
+                "conversions": {
+                    "header": "$~Dönüşümler",
+                    "explanation": "$~Bu değeri başka türdeki değerlere dönüştürmenin yolları."
+                },
+                "arrangements": {
+                    "header": "$~Düzenlemeler",
+                    "explanation": "$~/Dizeleri gruplandırma yöntemleri./"
+                },
+                "forms": {
+                    "header": "$~Formlar",
+                    "explanation": "$~/Sahneye yerleştirilebilen şekiller./"
+                },
+                "appearance": {
+                    "header": "$~Dış görünüş",
+                    "explanation": "$~Çıktının görünümünü değiştirmenin yolları./"
+                },
+                "animation": {
+                    "header": "$~Animasyon",
+                    "explanation": "$~/Sahne üzerinde çıktıyı canlandırmanın yolları./"
+                },
+                "location": {
+                    "header": "$~Konum",
+                    "explanation": "$~/Çıktının sahnede hangi aşamada olduğunu belirleme yöntemleri./"
+                },
+                "reactions": {
+                    "header": "$~Tepkiler",
+                    "explanation": "$~/Giriş akışına tepki verme veya onu analiz etme yöntemleri./"
+                }
             },
             "how": {
                 "category": {
@@ -4679,6 +4710,117 @@
                     "video": "$~bir kamera kullan"
                 },
                 "related": "$~Aradığınız bu değil mi?"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~göz at",
+                    "labels": ["$~kod", "$~nasıl"],
+                    "tips": [
+                        "$~programlama dili kavramları",
+                        "$~projeler yapmak için yeniden kullanılabilir kalıplar"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~amaç",
+                    "labels": [
+                        "$~proje",
+                        "$~çıktı",
+                        "$~giriş",
+                        "$~karar vermek",
+                        "$~isim",
+                        "$~metin",
+                        "$~sayılar",
+                        "$~gerçek",
+                        "$~listeler",
+                        "$~setler",
+                        "$~tablolar",
+                        "$~dokümantasyon",
+                        "$~türleri",
+                        "$~vesaire."
+                    ],
+                    "tips": [
+                        "$~proje düzeyindeki kavramlar",
+                        "$~ifadeler, gruplar, aşamalar, düzenler ve daha fazlası",
+                        "$~zaman, düğmeler, tuşlar, sahneler ve daha fazlası",
+                        "$~Diğer değerlere göre değerler seçin",
+                        "$~Daha sonra kullanılmak üzere değerlere, fonksiyonlara ve veri yapılarına isim verin.",
+                        "$~doğru, yanlış ve hiçbiri değerleri",
+                        "$~sayılar ve matematiksel işlemler",
+                        "$~düz ve biçimlendirilmiş metin",
+                        "$~listeler ve liste işlemleri",
+                        "$~kümeler, haritalar ve işlemler",
+                        "$~tablolar ve tablo işlemleri",
+                        "$~veri türleri, dönüşümler ve tür kontrolleri",
+                        "$~dokümantasyon ve yorumlar",
+                        "$~ileri dil kavramları"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Proje",
+                    "explanation": "$~Projenizde tanımlanan kavramlar."
+                },
+                "Outputs": {
+                    "header": "$~Çıktılar",
+                    "explanation": "$~/Sahneye yerleştirilebilecek farklı çıktı türleri./"
+                },
+                "Inputs": {
+                    "header": "$~Akarsular",
+                    "explanation": "$~/Zaman içinde değişen ve bir programın yeniden değerlendirilmesine neden olan, dünyadan gelen girdiler./"
+                },
+                "Decisions": {
+                    "header": "$~Kararlar",
+                    "explanation": "$~/Koşullara bağlı olarak farklı değerler arasında seçim yapma yolları./"
+                },
+                "Binds": {
+                    "header": "$~Bağlar",
+                    "explanation": "$~/Değerleri, fonksiyonları ve veri yapılarını daha sonra kullanılmak üzere adlandırmanın yolları./"
+                },
+                "Numbers": {
+                    "header": "$~Sayılar",
+                    "explanation": "$~/Sayılar, birimler ve matematiksel işlemler./"
+                },
+                "Text": {
+                    "header": "$~Metin",
+                    "explanation": "$~/Düz ve biçimlendirilmiş metin ve bunların manipülasyon yöntemleri./"
+                },
+                "Truth": {
+                    "header": "$~Gerçek",
+                    "explanation": "$~/Doğru, yanlış ve yok değerleri ve bunların mantıksal işlemlerde kullanım biçimleri./"
+                },
+                "Lists": {
+                    "header": "$~Listeler",
+                    "explanation": "$~Listeler ve liste işlemleri, değerleri belirli bir sırada saklamak için idealdir."
+                },
+                "Maps": {
+                    "header": "$~Haritalar",
+                    "explanation": "$~Kümeler, haritalar ve bunların işlemleri; değer koleksiyonlarını veya bir değerden diğerine eşlemeleri saklamak için uygundur."
+                },
+                "Tables": {
+                    "header": "$~Tablolar",
+                    "explanation": "$~/Tablolar ve tablo işlemleri, yapılandırılmış verileri satır ve sütunlar halinde saklamak için idealdir./"
+                },
+                "Types": {
+                    "header": "$~Türler",
+                    "explanation": "$~/Adlandırılmış değerlerin belirli bir veri türüne sahip olması gerektiğini belirtmenin ve bunu kontrol etmenin yolları./"
+                },
+                "Documentation": {
+                    "header": "$~Dokümantasyon",
+                    "explanation": "$~/Kodunuza yorum ve açıklama eklemenin yolları./"
+                },
+                "Advanced": {
+                    "header": "$~Gelişmiş",
+                    "explanation": "$~/Muhtemelen ihtiyacınız olmayacak gelişmiş dil kavramları ve özellikleri./"
+                },
+                "Hidden": {
+                    "header": "$~Gizlenmiş",
+                    "explanation": "$~/Ana dokümantasyonda yer almayan kavramlar./"
+                },
+                "How": {
+                    "header": "$~Nasıl yapılır",
+                    "explanation": "$~/Farklı türde projeler oluşturmak için yaygın kullanılan kalıplar./"
+                }
             }
         },
         "dialog": {

@@ -4638,17 +4638,50 @@
                 "search": "keywords"
             },
             "header": {
-                "inputs": "Inputs",
-                "interfaces": "Interfaces",
-                "properties": "Properties",
-                "functions": "Functions",
-                "conversions": "Conversions",
-                "arrangements": "Arrangements",
-                "forms": "Forms",
-                "appearance": "Appearance",
-                "animation": "Animation",
-                "location": "Location",
-                "reactions": "Reactions"
+                "inputs": {
+                    "header": "Inputs",
+                    "explanation": "/Required and optional values./"
+                },
+                "interfaces": {
+                    "header": "Interfaces",
+                    "explanation": "/Structures this structure is based on./"
+                },
+                "properties": {
+                    "header": "Properties",
+                    "explanation": "/Values this concept stores./"
+                },
+                "functions": {
+                    "header": "Functions",
+                    "explanation": "/Values this concept can compute./"
+                },
+                "conversions": {
+                    "header": "Conversions",
+                    "explanation": "/Ways to convert this value into values of other types./"
+                },
+                "arrangements": {
+                    "header": "Arrangements",
+                    "explanation": "/Ways of arranging phrases in a group./"
+                },
+                "forms": {
+                    "header": "Forms",
+                    "explanation": "/Shapes that can be placed on stage./"
+                },
+                "appearance": {
+                    "header": "Appearance",
+                    "explanation": "/Ways to change how output looks./"
+                },
+                "animation": {
+                    "header": "Animation",
+                    "explanation": "/Ways to animate output on stage./"
+                },
+                "location": {
+                    "header": "Location",
+                    "explanation": "/Ways of determing where output is on stage./"
+                },
+                "reactions": {
+                    "header": "Reactions",
+                    "explanation": "/Ways of reacting to or analyzing an input stream./"
+                }
             },
             "mode": {
                 "browse": {
@@ -4696,22 +4729,70 @@
                 }
             },
             "purposes": {
-                "Project": "project",
-                "Outputs": "output",
-                "Inputs": "input",
-                "Decisions": "decisions",
-                "Binds": "binds",
-                "Numbers": "numbers",
-                "Text": "text",
-                "Truth": "truth",
-                "Lists": "lists",
-                "Maps": "maps",
-                "Tables": "tables",
-                "Types": "types",
-                "Documentation": "documentation",
-                "Advanced": "advanced",
-                "Hidden": "hidden",
-                "How": "how to"
+                "Project": {
+                    "header": "Project",
+                    "explanation": "/Concepts defined in your project./"
+                },
+                "Outputs": {
+                    "header": "Outputs",
+                    "explanation": "/Different types of output that can be placed on stage./"
+                },
+                "Inputs": {
+                    "header": "Streams",
+                    "explanation": "/Inputs from the world that change over time, causing a program to reevaluate./"
+                },
+                "Decisions": {
+                    "header": "Decisions",
+                    "explanation": "/Ways to choose between different values based on conditions./"
+                },
+                "Binds": {
+                    "header": "Binds",
+                    "explanation": "/Ways to name values, functions, and data structures for later use./"
+                },
+                "Numbers": {
+                    "header": "Numbers",
+                    "explanation": "/Numbers, units, and math operations./"
+                },
+                "Text": {
+                    "header": "Text",
+                    "explanation": "/Plain and formatted text, and ways of manipulating them./"
+                },
+                "Truth": {
+                    "header": "Truth",
+                    "explanation": "/True, false, and none values and ways of using them for logic./"
+                },
+                "Lists": {
+                    "header": "Lists",
+                    "explanation": "/Lists and list operations, good for storing values in a particular order./"
+                },
+                "Maps": {
+                    "header": "Maps",
+                    "explanation": "/Sets, maps, and their operations, good for storing collections of values, or mappings from one value to others./"
+                },
+                "Tables": {
+                    "header": "Tables",
+                    "explanation": "/Tables and table operations, good for storing structured data in rows and columns./"
+                },
+                "Types": {
+                    "header": "Types",
+                    "explanation": "/Ways of declaring that named values should have a particular data type and checking that they do./"
+                },
+                "Documentation": {
+                    "header": "Documentation",
+                    "explanation": "/Ways of adding comments and explanations to your code./"
+                },
+                "Advanced": {
+                    "header": "Advanced",
+                    "explanation": "/Advanced language concepts and features that you probably won't need./"
+                },
+                "Hidden": {
+                    "header": "Hidden",
+                    "explanation": "/Concepts that are hidden from the main documentation./"
+                },
+                "How": {
+                    "header": "How to",
+                    "explanation": "/Common patterns for creating different kinds of projects./"
+                }
             },
             "how": {
                 "category": {

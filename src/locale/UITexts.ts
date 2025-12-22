@@ -46,7 +46,7 @@ export type ModeText<Options extends readonly string[]> = {
     tips: Options;
 };
 
-export type DialogText = {
+export type HeaderAndExplanationText = {
     /** The header to be shown at the top of the dialog */
     header: string;
     /** The explanation text just below the header. */
@@ -204,7 +204,7 @@ type UITexts = {
             /** The header for the save error */
             unsaved: Template;
             /** The content for the translation dialog */
-            translate: DialogText;
+            translate: HeaderAndExplanationText;
         };
         subheader: {
             /** The header for the source language */
@@ -649,17 +649,17 @@ type UITexts = {
     };
     dialog: {
         /** The sharing dialog */
-        share: DialogText & {
+        share: HeaderAndExplanationText & {
             /** The subheaders of the dialog */
             subheader: {
                 /** The gallery subheader and explanation */
-                gallery: DialogText;
+                gallery: HeaderAndExplanationText;
                 /** The public/private toggle subheader and explanation */
-                public: DialogText;
+                public: HeaderAndExplanationText;
                 /** The personal information subheader and explanation */
-                pii: DialogText;
+                pii: HeaderAndExplanationText;
                 /** The copy and paste dialog text */
-                copy: DialogText;
+                copy: HeaderAndExplanationText;
             };
             /** Text fields in the share dialog */
             field: {
@@ -693,7 +693,7 @@ type UITexts = {
             };
         };
         /** The settings dialog */
-        settings: DialogText & {
+        settings: HeaderAndExplanationText & {
             button: {
                 /** Show the settings dialog */
                 show: string;
@@ -739,7 +739,7 @@ type UITexts = {
             };
         };
         /** The locale chooser dialog */
-        locale: DialogText & {
+        locale: HeaderAndExplanationText & {
             /** Subheaders in the local chooser dialog. */
             subheader: {
                 /** How to label the locales that have been selected */
@@ -764,7 +764,7 @@ type UITexts = {
             };
         };
         /** The keyboard shortcut reference dialog */
-        help: DialogText & {
+        help: HeaderAndExplanationText & {
             subheader: {
                 moveCursor: string;
                 editCode: string;
@@ -773,7 +773,7 @@ type UITexts = {
             };
         };
         /** The feedback dialog */
-        feedback: DialogText & {
+        feedback: HeaderAndExplanationText & {
             button: {
                 /** Show the feedback dialog */
                 show: string;

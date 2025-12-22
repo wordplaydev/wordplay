@@ -1,7 +1,7 @@
 import type { HowToCategories } from '@concepts/HowTo';
 import type Purpose from '@concepts/Purpose';
 import type { Template } from '@locale/LocaleText';
-import type { ModeText } from '@locale/UITexts';
+import type { HeaderAndExplanationText, ModeText } from '@locale/UITexts';
 
 type DocumentationText = {
     /** The ARIA label for the palette section. */
@@ -47,32 +47,32 @@ type DocumentationText = {
         >;
     };
     header: {
-        /** Documentation header in structure and functions before inputs */
-        inputs: string;
-        /** Documentation header in structure view before interfaces */
-        interfaces: string;
-        /** Documentation header in structure before properties */
-        properties: string;
-        /** Documentation header in structure before functions */
-        functions: string;
-        /** Documentation header in structure before conversions */
-        conversions: string;
+        /** Function inputs header */
+        inputs: HeaderAndExplanationText;
+        /** Structue interfaces header */
+        interfaces: HeaderAndExplanationText;
+        /** Structure properties header */
+        properties: HeaderAndExplanationText;
+        /** Functions */
+        functions: HeaderAndExplanationText;
+        /** Conversions header */
+        conversions: HeaderAndExplanationText;
         /** Arrangements header */
-        arrangements: string;
+        arrangements: HeaderAndExplanationText;
         /** Forms header */
-        forms: string;
+        forms: HeaderAndExplanationText;
         /** Appearance header */
-        appearance: string;
+        appearance: HeaderAndExplanationText;
         /** Animation header */
-        animation: string;
+        animation: HeaderAndExplanationText;
         /** Location header */
-        location: string;
+        location: HeaderAndExplanationText;
         /** Reactions header */
-        reactions: string;
+        reactions: HeaderAndExplanationText;
     };
     /** Labels for concept categories */
     purposes: {
-        [key in keyof typeof Purpose]: string;
+        [key in keyof typeof Purpose]: HeaderAndExplanationText;
     };
     /** Everything related to how to content */
     how: {

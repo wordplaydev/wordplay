@@ -1,8 +1,8 @@
 import type { Template } from '@locale/LocaleText';
 import type {
     ButtonText,
-    DialogText,
     FieldText,
+    HeaderAndExplanationText,
     ModeText,
 } from '@locale/UITexts';
 
@@ -30,7 +30,7 @@ type PageText = {
         emoji: string;
     };
     share: {
-        dialog: DialogText;
+        dialog: HeaderAndExplanationText;
         button: ButtonText;
         delete: ButtonText;
         public: ModeText<string[]>;

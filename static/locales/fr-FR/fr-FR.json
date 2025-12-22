@@ -4635,19 +4635,50 @@
                 "search": "$~rechercher des concepts avec des mots"
             },
             "header": {
-                "inputs": "$~Entrées",
-                "interfaces": "$~Interfaces",
-                "properties": "$~Propriétés",
-                "functions": "$~Fonctions",
-                "conversions": "$~Conversions"
-            },
-            "modes": {
-                "label": "$~parcourir",
-                "labels": ["$~comment", "$~langage de programmation"],
-                "tips": [
-                    "$~patrons réutilisables pour la réalisation de projets",
-                    "$~concepts de langage de programmation"
-                ]
+                "inputs": {
+                    "header": "$~Entrées",
+                    "explanation": "$~Valeurs obligatoires et facultatives."
+                },
+                "interfaces": {
+                    "header": "$~Interfaces",
+                    "explanation": "$~/Structures sur lesquelles cette structure est basée./"
+                },
+                "properties": {
+                    "header": "$~Propriétés",
+                    "explanation": "$~/Apprécie ce concept store./"
+                },
+                "functions": {
+                    "header": "$~Fonctions",
+                    "explanation": "$~/Valeurs que ce concept peut calculer./"
+                },
+                "conversions": {
+                    "header": "$~Conversions",
+                    "explanation": "$~/Méthodes de conversion de cette valeur en valeurs d'autres types./"
+                },
+                "arrangements": {
+                    "header": "$~Arrangements",
+                    "explanation": "$~/Façons d'organiser les phrases en groupe./"
+                },
+                "forms": {
+                    "header": "$~Formulaires",
+                    "explanation": "$~/Formes pouvant être placées sur scène./"
+                },
+                "appearance": {
+                    "header": "$~Apparence",
+                    "explanation": "$~/Moyens de modifier l'apparence du résultat./"
+                },
+                "animation": {
+                    "header": "$~Animation",
+                    "explanation": "$~/Moyens d'animer la sortie sur scène./"
+                },
+                "location": {
+                    "header": "$~Emplacement",
+                    "explanation": "$~/Moyens de déterminer où se situe la sortie sur scène./"
+                },
+                "reactions": {
+                    "header": "$~Réactions",
+                    "explanation": "$~/Moyens de réagir à un flux d'entrée ou de l'analyser./"
+                }
             },
             "how": {
                 "category": {
@@ -4662,6 +4693,117 @@
                     "video": "$~utiliser un appareil photo"
                 },
                 "related": "$~Ce n'est pas ce que vous cherchez ?"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~parcourir",
+                    "labels": ["$~code", "$~comment"],
+                    "tips": [
+                        "$~concepts de langage de programmation",
+                        "$~patrons réutilisables pour la réalisation de projets"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~but",
+                    "labels": [
+                        "$~projet",
+                        "$~sortir",
+                        "$~saisir",
+                        "$~décider",
+                        "$~nom",
+                        "$~texte",
+                        "$~Nombres",
+                        "$~vérité",
+                        "$~listes",
+                        "$~ensembles",
+                        "$~tables",
+                        "$~documentation",
+                        "$~types",
+                        "$~etc."
+                    ],
+                    "tips": [
+                        "$~concepts au niveau du projet",
+                        "$~phrases, groupes, étapes, mises en page et plus encore",
+                        "$~l'heure, les boutons, les touches, les scènes et plus encore",
+                        "$~choisir des valeurs en fonction d'autres valeurs",
+                        "$~nommer les valeurs, les fonctions et les structures de données pour une utilisation ultérieure",
+                        "$~valeurs vrai, faux et aucun",
+                        "$~nombres et opérations mathématiques",
+                        "$~texte brut et formaté",
+                        "$~listes et opérations sur les listes",
+                        "$~ensembles, cartes et opérations",
+                        "$~tables et opérations sur les tables",
+                        "$~types de données, conversions et vérifications de type",
+                        "$~documentation et commentaires",
+                        "$~concepts linguistiques avancés"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Projet",
+                    "explanation": "$~/Concepts définis dans votre projet./"
+                },
+                "Outputs": {
+                    "header": "$~Sorties",
+                    "explanation": "$~Différents types de productions peuvent être présentés sur scène."
+                },
+                "Inputs": {
+                    "header": "$~Rivières",
+                    "explanation": "$~/Des éléments provenant du monde extérieur qui évoluent avec le temps, obligeant un programme à se réévaluer./"
+                },
+                "Decisions": {
+                    "header": "$~Décisions",
+                    "explanation": "$~/Moyens de choisir entre différentes valeurs en fonction des conditions./"
+                },
+                "Binds": {
+                    "header": "$~Liaisons",
+                    "explanation": "$~/Méthodes pour nommer les valeurs, les fonctions et les structures de données en vue d'une utilisation ultérieure./"
+                },
+                "Numbers": {
+                    "header": "$~Nombres",
+                    "explanation": "$~/Nombres, unités et opérations mathématiques./"
+                },
+                "Text": {
+                    "header": "$~Texte",
+                    "explanation": "$~/Texte brut et formaté, et méthodes de manipulation./"
+                },
+                "Truth": {
+                    "header": "$~Vérité",
+                    "explanation": "$~/Valeurs vrai, faux et aucun et leurs utilisations en logique./"
+                },
+                "Lists": {
+                    "header": "$~Listes",
+                    "explanation": "$~/Listes et opérations sur les listes, utiles pour stocker des valeurs dans un ordre particulier./"
+                },
+                "Maps": {
+                    "header": "$~Cartes",
+                    "explanation": "$~Les ensembles, les dictionnaires et leurs opérations sont utiles pour stocker des collections de valeurs ou des correspondances entre une valeur et une autre."
+                },
+                "Tables": {
+                    "header": "$~Tables",
+                    "explanation": "$~/Tables et opérations sur les tables, idéales pour stocker des données structurées en lignes et en colonnes./"
+                },
+                "Types": {
+                    "header": "$~Types",
+                    "explanation": "$~/Méthodes pour déclarer que des valeurs nommées doivent avoir un type de données particulier et pour vérifier qu'elles le font./"
+                },
+                "Documentation": {
+                    "header": "$~Documentation",
+                    "explanation": "$~/Méthodes pour ajouter des commentaires et des explications à votre code./"
+                },
+                "Advanced": {
+                    "header": "$~Avancé",
+                    "explanation": "$~/Concepts et fonctionnalités linguistiques avancés dont vous n'aurez probablement pas besoin./"
+                },
+                "Hidden": {
+                    "header": "$~Caché",
+                    "explanation": "$~/Concepts qui ne figurent pas dans la documentation principale./"
+                },
+                "How": {
+                    "header": "$~Comment",
+                    "explanation": "$~/Modèles courants pour la création de différents types de projets./"
+                }
             }
         },
         "dialog": {

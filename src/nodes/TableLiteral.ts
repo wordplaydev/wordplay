@@ -210,7 +210,7 @@ export default class TableLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Tables;
+        return Purpose.Hidden;
     }
 
     computeConflicts(context: Context): Conflict[] {

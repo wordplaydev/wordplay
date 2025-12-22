@@ -4652,19 +4652,50 @@
                 "search": "$~söka efter begrepp med ord"
             },
             "header": {
-                "inputs": "$~Ingångar",
-                "interfaces": "$~Gränssnitt",
-                "properties": "$~Egenskaper",
-                "functions": "$~Funktioner",
-                "conversions": "$~Konverteringar"
-            },
-            "modes": {
-                "label": "$~bläddra",
-                "labels": ["$~hur man", "$~programmeringsspråk"],
-                "tips": [
-                    "$~återanvändbara mönster för att skapa projekt",
-                    "$~programmeringsspråkskoncept"
-                ]
+                "inputs": {
+                    "header": "$~Ingångar",
+                    "explanation": "$~/Obligatoriska och valfria värden./"
+                },
+                "interfaces": {
+                    "header": "$~Gränssnitt",
+                    "explanation": "$~/Strukturer som denna struktur är baserad på./"
+                },
+                "properties": {
+                    "header": "$~Fastigheter",
+                    "explanation": "$~/Värden som detta koncept lagrar./"
+                },
+                "functions": {
+                    "header": "$~Funktioner",
+                    "explanation": "$~/Värden som detta koncept kan beräkna./"
+                },
+                "conversions": {
+                    "header": "$~Konverteringar",
+                    "explanation": "$~/Sätt att konvertera detta värde till värden av andra typer./"
+                },
+                "arrangements": {
+                    "header": "$~Arrangemang",
+                    "explanation": "$~/Sätt att ordna fraser i en grupp./"
+                },
+                "forms": {
+                    "header": "$~Formulär",
+                    "explanation": "$~/Former som kan placeras på scenen./"
+                },
+                "appearance": {
+                    "header": "$~Utseende",
+                    "explanation": "$~/Sätt att ändra hur utdata ser ut./"
+                },
+                "animation": {
+                    "header": "$~Animation",
+                    "explanation": "$~/Sätt att animera utdata på scenen./"
+                },
+                "location": {
+                    "header": "$~Plats",
+                    "explanation": "$~/Sätt att avgöra var output finns på scenen./"
+                },
+                "reactions": {
+                    "header": "$~Reaktioner",
+                    "explanation": "$~/Sätt att reagera på eller analysera en indataström./"
+                }
             },
             "how": {
                 "category": {
@@ -4679,6 +4710,117 @@
                     "video": "$~använda en kamera"
                 },
                 "related": "$~Inte vad du letar efter?"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~bläddra",
+                    "labels": ["$~koda", "$~hur man"],
+                    "tips": [
+                        "$~programmeringsspråkskoncept",
+                        "$~återanvändbara mönster för att skapa projekt"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~ändamål",
+                    "labels": [
+                        "$~projekt",
+                        "$~produktion",
+                        "$~input",
+                        "$~besluta",
+                        "$~namn",
+                        "$~text",
+                        "$~tal",
+                        "$~sanning",
+                        "$~listor",
+                        "$~uppsättningar",
+                        "$~bord",
+                        "$~dokumentation",
+                        "$~typer",
+                        "$~etc."
+                    ],
+                    "tips": [
+                        "$~koncept på projektnivå",
+                        "$~fraser, grupper, etapper, layouter och mer",
+                        "$~tid, knappar, tangenter, scener och mer",
+                        "$~välj värden baserat på andra värden",
+                        "$~namnge värden, funktioner och datastrukturer för senare användning",
+                        "$~sant, falskt och inget värde",
+                        "$~siffror och matematiska operationer",
+                        "$~vanlig och formaterad text",
+                        "$~listor och listoperationer",
+                        "$~uppsättningar, kartor och operationer",
+                        "$~tabeller och tabelloperationer",
+                        "$~datatyper, konverteringar och typkontroller",
+                        "$~dokumentation och kommentarer",
+                        "$~avancerade språkbegrepp"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Projekt",
+                    "explanation": "$~/Begrepp definierade i ditt projekt./"
+                },
+                "Outputs": {
+                    "header": "$~Utgångar",
+                    "explanation": "$~/Olika typer av utdata som kan placeras på scenen./"
+                },
+                "Inputs": {
+                    "header": "$~Strömmar",
+                    "explanation": "$~/Input från världen som förändras över tid, vilket får ett program att omvärderas./"
+                },
+                "Decisions": {
+                    "header": "$~Beslut",
+                    "explanation": "$~/Sätt att välja mellan olika värden baserat på villkor./"
+                },
+                "Binds": {
+                    "header": "$~Binder",
+                    "explanation": "$~/Sätt att namnge värden, funktioner och datastrukturer för senare användning./"
+                },
+                "Numbers": {
+                    "header": "$~Tal",
+                    "explanation": "$~/Tal, enheter och matematiska operationer./"
+                },
+                "Text": {
+                    "header": "$~Text",
+                    "explanation": "$~/Vanlig och formaterad text, och sätt att manipulera den./"
+                },
+                "Truth": {
+                    "header": "$~Sanning",
+                    "explanation": "$~/Sant, falskt och nollvärden och sätt att använda dem för logik./"
+                },
+                "Lists": {
+                    "header": "$~Listor",
+                    "explanation": "$~/Listor och listoperationer, bra för att lagra värden i en viss ordning./"
+                },
+                "Maps": {
+                    "header": "$~Kartor",
+                    "explanation": "$~/Mängder, kartor och deras operationer, bra för att lagra samlingar av värden, eller mappningar från ett värde till andra./"
+                },
+                "Tables": {
+                    "header": "$~Tabeller",
+                    "explanation": "$~/Tabeller och tabelloperationer, bra för att lagra strukturerad data i rader och kolumner./"
+                },
+                "Types": {
+                    "header": "$~Typer",
+                    "explanation": "$~/Sätt att deklarera att namngivna värden ska ha en viss datatyp och kontrollera att de har det./"
+                },
+                "Documentation": {
+                    "header": "$~Dokumentation",
+                    "explanation": "$~/Sätt att lägga till kommentarer och förklaringar i din kod./"
+                },
+                "Advanced": {
+                    "header": "$~Avancerad",
+                    "explanation": "$~/Avancerade språkbegrepp och funktioner som du förmodligen inte behöver./"
+                },
+                "Hidden": {
+                    "header": "$~Dold",
+                    "explanation": "$~/Begrepp som är dolda från huvuddokumentationen./"
+                },
+                "How": {
+                    "header": "$~Hur man",
+                    "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt./"
+                }
             }
         },
         "dialog": {

@@ -4634,19 +4634,50 @@
                 "search": "$~Suche nach Konzepten mit Wörtern"
             },
             "header": {
-                "inputs": "$~Eingänge",
-                "interfaces": "$~Schnittstellen",
-                "properties": "$~Eigenschaften",
-                "functions": "$~Funktionen",
-                "conversions": "$~Konvertierungen"
-            },
-            "modes": {
-                "label": "$~Durchsuchen",
-                "labels": ["$~wie man", "$~Programmiersprache"],
-                "tips": [
-                    "$~wiederverwendbare Schnittmuster für Projekte",
-                    "$~Konzepte von Programmiersprachen"
-                ]
+                "inputs": {
+                    "header": "$~Eingaben",
+                    "explanation": "$~/Erforderliche und optionale Werte./"
+                },
+                "interfaces": {
+                    "header": "$~Schnittstellen",
+                    "explanation": "$~/Strukturen, auf denen diese Struktur basiert./"
+                },
+                "properties": {
+                    "header": "$~Eigenschaften",
+                    "explanation": "$~/Die Werte, die dieses Konzept verkörpert./"
+                },
+                "functions": {
+                    "header": "$~Funktionen",
+                    "explanation": "$~/Werte, die dieses Konzept berechnen kann./"
+                },
+                "conversions": {
+                    "header": "$~Umrechnungen",
+                    "explanation": "$~Möglichkeiten, diesen Wert in Werte anderer Typen umzuwandeln./"
+                },
+                "arrangements": {
+                    "header": "$~Arrangements",
+                    "explanation": "$~/Möglichkeiten, Phrasen in einer Gruppe anzuordnen./"
+                },
+                "forms": {
+                    "header": "$~Formulare",
+                    "explanation": "$~/Formen, die auf der Bühne platziert werden können./"
+                },
+                "appearance": {
+                    "header": "$~Aussehen",
+                    "explanation": "$~/Möglichkeiten zur Änderung des Ausgabeformats./"
+                },
+                "animation": {
+                    "header": "$~Animation",
+                    "explanation": "$~Möglichkeiten zur Animation von Ausgaben auf der Bühne./"
+                },
+                "location": {
+                    "header": "$~Standort",
+                    "explanation": "$~Methoden zur Bestimmung der Ausgabeposition auf der Bühne./"
+                },
+                "reactions": {
+                    "header": "$~Reaktionen",
+                    "explanation": "$~Möglichkeiten, auf einen Eingabestrom zu reagieren oder ihn zu analysieren./"
+                }
             },
             "how": {
                 "category": {
@@ -4661,6 +4692,117 @@
                     "video": "$~eine Kamera benutzen"
                 },
                 "related": "$~Nicht das, wonach Sie suchen?"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~durchsuchen",
+                    "labels": ["$~Code", "$~wie man"],
+                    "tips": [
+                        "$~Konzepte von Programmiersprachen",
+                        "$~wiederverwendbare Schnittmuster für Projekte"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~Zweck",
+                    "labels": [
+                        "$~Projekt",
+                        "$~Ausgabe",
+                        "$~Eingang",
+                        "$~entscheiden",
+                        "$~Name",
+                        "$~Text",
+                        "$~Zahlen",
+                        "$~Wahrheit",
+                        "$~Listen",
+                        "$~Sets",
+                        "$~Tabellen",
+                        "$~Dokumentation",
+                        "$~Typen",
+                        "$~usw."
+                    ],
+                    "tips": [
+                        "$~Konzepte auf Projektebene",
+                        "$~Phrasen, Gruppen, Phasen, Layouts und mehr",
+                        "$~Zeit, Schaltflächen, Tasten, Szenen und mehr",
+                        "$~Werte basierend auf anderen Werten auswählen",
+                        "$~Benennen Sie Werte, Funktionen und Datenstrukturen zur späteren Verwendung.",
+                        "$~Werte: wahr, falsch und keine",
+                        "$~Zahlen und mathematische Operationen",
+                        "$~reiner und formatierter Text",
+                        "$~Listen und Listenoperationen",
+                        "$~Mengen, Karten und Operationen",
+                        "$~Tabellen und Tabellenoperationen",
+                        "$~Datentypen, Konvertierungen und Typüberprüfungen",
+                        "$~Dokumentation und Kommentare",
+                        "$~fortgeschrittene Sprachkonzepte"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Projekt",
+                    "explanation": "$~/Konzepte, die in Ihrem Projekt definiert sind./"
+                },
+                "Outputs": {
+                    "header": "$~Ausgaben",
+                    "explanation": "$~Verschiedene Arten von Ausgabegeräten, die auf der Bühne platziert werden können."
+                },
+                "Inputs": {
+                    "header": "$~Bäche",
+                    "explanation": "$~/Eingaben aus der Welt, die sich im Laufe der Zeit verändern und ein Programm zu einer Neubewertung veranlassen./"
+                },
+                "Decisions": {
+                    "header": "$~Entscheidungen",
+                    "explanation": "$~/Möglichkeiten zur Auswahl zwischen verschiedenen Werten basierend auf Bedingungen./"
+                },
+                "Binds": {
+                    "header": "$~Bindet",
+                    "explanation": "$~/Möglichkeiten zur Benennung von Werten, Funktionen und Datenstrukturen für die spätere Verwendung./"
+                },
+                "Numbers": {
+                    "header": "$~Zahlen",
+                    "explanation": "$~Zahlen, Einheiten und mathematische Operationen."
+                },
+                "Text": {
+                    "header": "$~Text",
+                    "explanation": "$~Klarer und formatierter Text sowie Möglichkeiten, ihn zu bearbeiten."
+                },
+                "Truth": {
+                    "header": "$~Wahrheit",
+                    "explanation": "$~Die Werte „True“, „False“ und „None“ sowie Möglichkeiten ihrer logischen Verwendung."
+                },
+                "Lists": {
+                    "header": "$~Listen",
+                    "explanation": "$~Listen und Listenoperationen eignen sich gut zum Speichern von Werten in einer bestimmten Reihenfolge."
+                },
+                "Maps": {
+                    "header": "$~Karten",
+                    "explanation": "$~Mengen, Abbildungen und ihre Operationen eignen sich gut zum Speichern von Sammlungen von Werten oder Abbildungen von einem Wert auf andere."
+                },
+                "Tables": {
+                    "header": "$~Tabellen",
+                    "explanation": "$~Tabellen und Tabellenoperationen eignen sich gut zum Speichern strukturierter Daten in Zeilen und Spalten."
+                },
+                "Types": {
+                    "header": "$~Typen",
+                    "explanation": "$~Möglichkeiten, um festzulegen, dass benannte Werte einen bestimmten Datentyp haben sollen, und um zu überprüfen, ob dies auch der Fall ist."
+                },
+                "Documentation": {
+                    "header": "$~Dokumentation",
+                    "explanation": "$~Möglichkeiten, Kommentare und Erklärungen zu Ihrem Code hinzuzufügen./"
+                },
+                "Advanced": {
+                    "header": "$~Fortschrittlich",
+                    "explanation": "$~Fortgeschrittene Sprachkonzepte und -funktionen, die Sie wahrscheinlich nicht benötigen werden."
+                },
+                "Hidden": {
+                    "header": "$~Versteckt",
+                    "explanation": "$~/Konzepte, die in der Hauptdokumentation nicht enthalten sind./"
+                },
+                "How": {
+                    "header": "$~Wie man",
+                    "explanation": "$~Gängige Muster für die Erstellung verschiedener Projekttypen."
+                }
             }
         },
         "dialog": {

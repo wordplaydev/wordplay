@@ -4,6 +4,7 @@
 </script>
 
 <script lang="ts">
+    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -68,10 +69,11 @@
 
     interface Props {
         project: Project;
+        standalone: boolean;
         collapse?: boolean;
     }
 
-    let { project, collapse = false }: Props = $props();
+    let { project, standalone, collapse = false }: Props = $props();
 
     let view: HTMLElement | undefined = $state();
 
@@ -172,9 +174,6 @@
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
-        // No project? No drop.
-        if (project === undefined) return;
-
         const node: Node | undefined = $dragged;
 
         // Release the dragged node.
@@ -278,6 +277,7 @@
                 '',
             ]}
             wrap
+            omit={standalone ? [0] : []}
         />
     {/if}
 
@@ -447,21 +447,39 @@
                             !appearance.includes(c) && !((c instanceof StructureConcept) && (c.definition === project.shares.output.Form || c.definition === project.shares.output.Arrangement))
 
                     )}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.purposes.Outputs}
+                        sub
+                    />
                     <ConceptGroupView concepts={outputs} {collapse} {row} />
-                    <Subheader text={(l) => l.ui.docs.header.arrangements} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.arrangements}
+                        sub
+                    />
                     <ConceptGroupView
                         concepts={arrangements}
                         {collapse}
                         {row}
                     />
-                    <Subheader text={(l) => l.ui.docs.header.forms} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.forms}
+                        sub
+                    />
                     <ConceptGroupView concepts={forms} {collapse} {row} />
-                    <Subheader text={(l) => l.ui.docs.header.appearance} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.appearance}
+                        sub
+                    />
                     <ConceptGroupView concepts={appearance} {collapse} {row} />
-                    <Subheader text={(l) => l.ui.docs.header.appearance} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.appearance}
+                        sub
+                    />
                     <ConceptGroupView concepts={styles} {collapse} {row} />
-                    <Subheader text={(l) => l.ui.docs.header.location}
-                    ></Subheader>
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.location}
+                        sub
+                    />
                     <ConceptGroupView concepts={other} {collapse} {row} />
                 {:else if purpose === Purpose.Inputs}
                     {@const concepts =
@@ -472,9 +490,15 @@
                     {@const streams = concepts.filter(
                         (c) => !controls.includes(c),
                     )}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.purposes.Inputs}
+                        sub
+                    />
                     <ConceptGroupView concepts={streams} {collapse} {row} />
-                    <Subheader text={(l) => l.ui.docs.header.reactions}
-                    ></Subheader>
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.reactions}
+                        sub
+                    />
                     <ConceptGroupView concepts={controls} {collapse} {row} />
                 {:else if [Purpose.Text, Purpose.Numbers, Purpose.Truth, Purpose.Lists, Purpose.Maps, Purpose.Tables].includes(purpose)}
                     {@const primary =
@@ -493,18 +517,30 @@
                             ),
                         )
                         .flat()}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.purposes[purpose]}
+                        sub
+                    />
                     <ConceptGroupView
                         concepts={[...primary]}
                         {collapse}
                         {row}
                     />
-                    <Subheader text={(l) => l.ui.docs.header.functions}
-                    ></Subheader>
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.functions}
+                        sub
+                    />
                     <ConceptGroupView concepts={functions} {collapse} {row} />
-                    <Subheader text={(l) => l.ui.docs.header.conversions}
-                    ></Subheader>
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.conversions}
+                        sub
+                    />
                     <ConceptGroupView concepts={conversions} {collapse} {row} />
                 {:else}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.purposes[purpose]}
+                        sub
+                    />
                     <ConceptGroupView
                         concepts={index.getPrimaryConceptsWithPurpose(purpose)}
                         {collapse}

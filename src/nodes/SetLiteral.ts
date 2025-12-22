@@ -115,7 +115,7 @@ export default class SetLiteral extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Maps;
+        return Purpose.Hidden;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

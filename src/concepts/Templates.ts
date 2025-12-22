@@ -216,6 +216,7 @@ const Templates: Node[] = [
     Words.make(),
 
     // Types
+    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     TextType.make(),
     BooleanType.make(),
     NoneType.make(),
@@ -225,8 +226,8 @@ const Templates: Node[] = [
     MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
     TableType.make(),
     NameType.make('_'),
+    FunctionType.make(undefined, [], TypePlaceholder.make()),
     UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
-    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     ConversionDefinition.make(
         undefined,
         new TypePlaceholder(),
@@ -236,7 +237,6 @@ const Templates: Node[] = [
     TypeInputs.make([]),
     TypeVariables.make([]),
     new AnyType(),
-    FunctionType.make(undefined, [], TypePlaceholder.make()),
     StreamType.make(),
 
     // Advanced

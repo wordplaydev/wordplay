@@ -131,7 +131,7 @@ export default class MapLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Maps;
+        return Purpose.Hidden;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

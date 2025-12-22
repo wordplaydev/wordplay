@@ -4621,15 +4621,31 @@
                 "interfaces": "Interfaces",
                 "properties": "Propiedades",
                 "functions": "Funciones",
-                "conversions": "Conversiones"
-            },
-            "modes": {
-                "label": "$~navegar",
-                "labels": ["$~Cómo", "$~lenguaje de programación"],
-                "tips": [
-                    "$~Patrones reutilizables para realizar proyectos",
-                    "$~conceptos de lenguaje de programación"
-                ]
+                "conversions": "Conversiones",
+                "arrangements": {
+                    "header": "$~Preparativos",
+                    "explanation": "$~/Formas de ordenar frases en un grupo./"
+                },
+                "forms": {
+                    "header": "$~Formularios",
+                    "explanation": "$~/Formas que se pueden colocar en el escenario./"
+                },
+                "appearance": {
+                    "header": "$~Apariencia",
+                    "explanation": "$~/Formas de cambiar el aspecto de la salida./"
+                },
+                "animation": {
+                    "header": "$~Animación",
+                    "explanation": "$~/Formas de animar la salida en el escenario./"
+                },
+                "location": {
+                    "header": "$~Ubicación",
+                    "explanation": "$~/Formas de determinar dónde está la salida en el escenario./"
+                },
+                "reactions": {
+                    "header": "$~Reacciones",
+                    "explanation": "$~/Formas de reaccionar o analizar un flujo de entrada./"
+                }
             },
             "how": {
                 "category": {
@@ -4644,6 +4660,117 @@
                     "video": "$~usa una cámara"
                 },
                 "related": "$~¿No es lo que estás buscando?"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~navegar",
+                    "labels": ["$~código", "$~Cómo"],
+                    "tips": [
+                        "$~conceptos de lenguaje de programación",
+                        "$~Patrones reutilizables para realizar proyectos"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~objetivo",
+                    "labels": [
+                        "$~proyecto",
+                        "$~producción",
+                        "$~aporte",
+                        "$~decidir",
+                        "$~nombre",
+                        "$~texto",
+                        "$~números",
+                        "$~verdad",
+                        "$~liza",
+                        "$~conjuntos",
+                        "$~mesas",
+                        "$~documentación",
+                        "$~tipos",
+                        "$~etc."
+                    ],
+                    "tips": [
+                        "$~conceptos a nivel de proyecto",
+                        "$~frases, grupos, etapas, diseños y más",
+                        "$~Tiempo, botones, teclas, escenas y más",
+                        "$~Elija valores en función de otros valores",
+                        "$~Nombrar valores, funciones y estructuras de datos para su uso posterior",
+                        "$~valores verdaderos, falsos y ninguno",
+                        "$~números y operaciones matemáticas",
+                        "$~texto simple y formateado",
+                        "$~listas y operaciones con listas",
+                        "$~conjuntos, mapas y operaciones",
+                        "$~tablas y operaciones de tabla",
+                        "$~tipos de datos, conversiones y comprobaciones de tipos",
+                        "$~documentación y comentarios",
+                        "$~conceptos avanzados del lenguaje"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Proyecto",
+                    "explanation": "$~/Conceptos definidos en tu proyecto./"
+                },
+                "Outputs": {
+                    "header": "$~Salidas",
+                    "explanation": "$~/Diferentes tipos de salida que se pueden colocar en el escenario./"
+                },
+                "Inputs": {
+                    "header": "$~Arroyos",
+                    "explanation": "$~/Entradas del mundo que cambian con el tiempo, provocando que un programa se reevalúe./"
+                },
+                "Decisions": {
+                    "header": "$~Decisiones",
+                    "explanation": "$~/Formas de elegir entre diferentes valores en función de las condiciones./"
+                },
+                "Binds": {
+                    "header": "$~Se vincula",
+                    "explanation": "$~/Formas de nombrar valores, funciones y estructuras de datos para su uso posterior./"
+                },
+                "Numbers": {
+                    "header": "$~Números",
+                    "explanation": "$~/Números, unidades y operaciones matemáticas./"
+                },
+                "Text": {
+                    "header": "$~Texto",
+                    "explanation": "$~/Texto simple y formateado, y formas de manipularlos./"
+                },
+                "Truth": {
+                    "header": "$~Verdad",
+                    "explanation": "$~Valores verdaderos, falsos y ninguno y formas de usarlos para la lógica."
+                },
+                "Lists": {
+                    "header": "$~Liza",
+                    "explanation": "$~/Listas y operaciones de listas, útiles para almacenar valores en un orden particular./"
+                },
+                "Maps": {
+                    "header": "$~Mapas",
+                    "explanation": "$~/Conjuntos, mapas y sus operaciones, útiles para almacenar colecciones de valores o asignaciones de un valor a otros./"
+                },
+                "Tables": {
+                    "header": "$~Tablas",
+                    "explanation": "$~/Tablas y operaciones de tabla, útiles para almacenar datos estructurados en filas y columnas./"
+                },
+                "Types": {
+                    "header": "$~Tipos",
+                    "explanation": "$~/Formas de declarar que los valores nombrados deben tener un tipo de datos particular y verificar que así sea./"
+                },
+                "Documentation": {
+                    "header": "$~Documentación",
+                    "explanation": "$~/Formas de agregar comentarios y explicaciones a tu código./"
+                },
+                "Advanced": {
+                    "header": "$~Avanzado",
+                    "explanation": "$~/Conceptos y características avanzadas del lenguaje que probablemente no necesitarás./"
+                },
+                "Hidden": {
+                    "header": "$~Oculto",
+                    "explanation": "$~/Conceptos que están ocultos en la documentación principal./"
+                },
+                "How": {
+                    "header": "$~Cómo",
+                    "explanation": "$~/Patrones comunes para crear diferentes tipos de proyectos./"
+                }
             }
         },
         "dialog": {

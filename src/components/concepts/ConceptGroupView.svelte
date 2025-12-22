@@ -64,6 +64,7 @@
     .concepts.row {
         flex-direction: row;
         flex-wrap: wrap;
+        align-items: end;
         justify-items: center;
     }
 </style>

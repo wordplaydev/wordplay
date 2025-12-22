@@ -1,4 +1,8 @@
-import type { ConfirmText, DialogText, FieldText } from '@locale/UITexts';
+import type {
+    ConfirmText,
+    FieldText,
+    HeaderAndExplanationText,
+} from '@locale/UITexts';
 
 type PageText = {
     /** What to call a gallery by default, before it's given a name */
@@ -8,13 +12,13 @@ type PageText = {
     /** Headers on the page */
     subheader: {
         /** Associtaed classes header */
-        classes: DialogText;
+        classes: HeaderAndExplanationText;
         /** The list of curators */
-        curators: DialogText;
+        curators: HeaderAndExplanationText;
         /** The list of curators */
-        creators: DialogText;
+        creators: HeaderAndExplanationText;
         /** Delete header */
-        delete: DialogText;
+        delete: HeaderAndExplanationText;
     };
     /** Confirm buttons on the gallery page */
     confirm: {
