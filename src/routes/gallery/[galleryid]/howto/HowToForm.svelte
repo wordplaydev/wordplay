@@ -18,9 +18,16 @@
     interface Props {
         editingMode: boolean; // true if editing, false if viewing
         howTo?: HowTo; // undefined if creating a brand new how-to
+        centerX?: number;
+        centerY?: number;
     }
 
-    let { editingMode, howTo = $bindable(undefined) }: Props = $props();
+    let {
+        editingMode,
+        howTo = $bindable(undefined),
+        centerX = $bindable(0),
+        centerY = $bindable(0),
+    }: Props = $props();
 
     // utility variables
     let reactionButtons = $locales.get((l) => l.ui.howto.reactions);
@@ -53,8 +60,8 @@
             let returnValue = await HowTos.addHowTo(
                 galleryID,
                 publish,
-                window.innerWidth / 2,
-                window.innerHeight / 2,
+                publish ? centerX : 0,
+                publish ? centerY : 0,
                 [],
                 title,
                 prompts,

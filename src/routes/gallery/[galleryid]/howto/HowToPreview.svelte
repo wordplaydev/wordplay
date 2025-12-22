@@ -8,7 +8,6 @@
         cameraX: number;
         cameraY: number;
         childMoving: boolean;
-        draftsArea?: DOMRect | undefined;
         requestedId?: string | null;
     }
 
@@ -17,7 +16,6 @@
         cameraX,
         cameraY,
         childMoving = $bindable(),
-        draftsArea = undefined,
         requestedId = null,
     }: Props = $props();
 
@@ -96,15 +94,21 @@
                 const selfArea = document
                     .getElementById(`howto-${howToId}`)
                     ?.getBoundingClientRect();
+                const stickyArea = document
+                    .getElementById('stickyArea')
+                    ?.getBoundingClientRect();
+
+                console.log('selfArea:', selfArea);
+                console.log('stickyArea:', stickyArea);
 
                 if (
-                    draftsArea &&
+                    stickyArea &&
                     selfArea &&
                     // check all corners of the preview are outside of the drafts area
-                    (draftsArea.left > selfArea.right ||
-                        draftsArea.right < selfArea.left ||
-                        draftsArea.top > selfArea.bottom ||
-                        draftsArea.bottom < selfArea.top)
+                    (stickyArea.left > selfArea.right ||
+                        stickyArea.right < selfArea.left ||
+                        stickyArea.top > selfArea.bottom ||
+                        stickyArea.bottom < selfArea.top)
                 ) {
                     published = true;
                     xcoord = clientX - cameraX;

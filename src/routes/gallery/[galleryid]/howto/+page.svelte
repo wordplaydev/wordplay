@@ -113,8 +113,8 @@
         }
     }
 
-    let draftsArea: DOMRect | undefined = $derived(
-        document.getElementById('draftsarea')?.getBoundingClientRect(),
+    let stickyArea: DOMRect | undefined = $derived(
+        document.getElementById('stickyArea')?.getBoundingClientRect(),
     );
 
     let viewportWidth = $derived(window.innerWidth);
@@ -123,16 +123,25 @@
     function panTo(x: number, y: number) {
         let viewportCenterX: number = viewportWidth / 2;
         let viewportCenterY: number =
-            (draftsArea && viewportHeight / 2 > draftsArea.bottom + 100) || // TODO(@mc) -- fix magic number
-            !draftsArea
+            (stickyArea && viewportHeight / 2 > stickyArea.bottom + 100) || // TODO(@mc) -- fix magic number
+            !stickyArea
                 ? viewportHeight / 2 + 100
-                : draftsArea.bottom + 100;
+                : stickyArea.bottom + 100;
 
         cameraX = -x + viewportCenterX;
         cameraY = -y + viewportCenterY;
     }
 
     panTo(0, 0);
+
+    let centerX = $derived(-cameraX + viewportWidth / 2);
+    let centerY = $derived(
+        -cameraY +
+            ((stickyArea && viewportHeight / 2 > stickyArea.bottom + 100) || // TODO(@mc) -- fix magic number
+            !stickyArea
+                ? viewportHeight / 2 + 100
+                : stickyArea.bottom + 100),
+    );
 
     // determine if we should render a how-to based on its coordinates
     // needs to be within the viewport as well as outside of the drafts / bookmarks areas
@@ -200,11 +209,16 @@
         </Header>
 
         {#if canUserEdit}
-            <HowToForm editingMode={true} bind:howTo={newHowTo} />
+            <HowToForm
+                editingMode={true}
+                bind:howTo={newHowTo}
+                {centerX}
+                {centerY}
+            />
         {/if}
 
-        <div class="canvasstickyarea">
-            <div class="drafts" id="draftsarea">
+        <div class="canvasstickyarea" id="stickyArea">
+            <div class="drafts">
                 <Subheader text={(l) => l.ui.howto.canvasView.draftsheader} />
                 <MarkupHTMLView
                     markup={(l) => l.ui.howto.canvasView.draftsprompt}
@@ -216,7 +230,6 @@
                             {cameraX}
                             {cameraY}
                             bind:childMoving
-                            {draftsArea}
                         />
                     {/if}
                 {/each}
@@ -234,7 +247,6 @@
                             label={(l) => howto.getTitle()}
                             action={() => {
                                 let coords = howto.getCoordinates();
-                                console.log(howto.getTitle(), 'is at', coords);
                                 panTo(coords[0], coords[1]);
                             }}
                         />
@@ -250,7 +262,6 @@
                 {cameraX}
                 {cameraY}
                 bind:childMoving
-                {draftsArea}
             />
         {/if}
     {/each}
