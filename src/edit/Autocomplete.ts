@@ -239,7 +239,7 @@ function getFieldAssignmentEdits(
     fieldPosition: FieldPosition,
     context: Context,
 ) {
-    const { parent, field } = fieldPosition;
+    const { parent, field, index } = fieldPosition;
     // Get the field of the parent node's grammar.
     const fieldInfo = parent.getFieldNamed(field);
     if (fieldInfo === undefined) return [];
@@ -255,7 +255,18 @@ function getFieldAssignmentEdits(
     }
 
     // Get possible assignments for this field.
-    if (fieldValue === undefined || !Array.isArray(fieldValue))
+    if (
+        fieldValue === undefined ||
+        (Array.isArray(fieldValue) && index !== undefined)
+    ) {
+        // Figure out where the insertion is happening, so we know how to split space.
+        let position =
+            fieldValue === undefined || fieldValue.length === 0
+                ? (context.source.getFieldPosition(parent, field) ?? 0)
+                : (context.source.getNodeLastPosition(
+                      fieldValue[(index ?? 1) - 1],
+                  ) ?? 0);
+
         for (const kind of fieldInfo.kind.enumerate()) {
             if (kind !== undefined)
                 edits = [
@@ -267,20 +278,26 @@ function getFieldAssignmentEdits(
                         parent,
                         true,
                         context,
-                    ).map((replacement) =>
-                        fieldValue
-                            ? new Replace(
-                                  context,
-                                  parent,
-                                  fieldValue,
-                                  replacement,
-                              )
-                            : new Assign(context, 1, parent, [
-                                  { field: field, node: replacement },
-                              ]),
-                    ),
+                    )
+                        .filter((r) => r !== undefined)
+                        .map((replacement) =>
+                            // No value? Create an assign.
+                            fieldValue === undefined
+                                ? new Assign(context, position, parent, [
+                                      { field: field, node: replacement },
+                                  ])
+                                : new Append(
+                                      context,
+                                      position,
+                                      parent,
+                                      fieldValue,
+                                      index ?? 0,
+                                      replacement,
+                                  ),
+                        ),
                 ];
         }
+    }
 
     return edits;
 }

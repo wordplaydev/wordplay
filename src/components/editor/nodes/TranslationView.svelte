@@ -20,4 +20,4 @@
     node={[node, 'language']}
     {format}
     empty="menu"
-/><NodeView node={[node, 'separator']} {format} />
+/><NodeView node={[node, 'separator']} {format} empty="hide" />

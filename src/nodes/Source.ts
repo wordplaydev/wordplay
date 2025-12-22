@@ -518,6 +518,39 @@ export default class Source extends Expression {
         }
     }
 
+    /** Given a node and field name, return the position of the field in the source. */
+    getFieldPosition(parent: Node, field: string): number | undefined {
+        // Get position of the parent by iterating through its children and finding the first
+        // field set. Then, iterate through the fields to find the field before the target field,
+        // we so we can find the last position of the last token in the field before. That is the position.
+        const grammar = parent.getGrammar();
+        const targetField = grammar.find((f) => f.name === field);
+        if (targetField === undefined) return undefined; // Field not found in grammar
+        const targetFieldIndex = grammar.indexOf(targetField);
+        if (targetFieldIndex === -1) return undefined; // Field not found in grammar
+        // If the target field is first, return the position of the first token in the parent.
+        if (targetFieldIndex === 0) {
+            const firstToken = parent.leaves()[0];
+            return firstToken
+                ? this.getTokenTextPosition(firstToken)
+                : this.getNodeFirstPosition(parent);
+        } else {
+            for (let i = targetFieldIndex + 1; i < grammar.length; i++) {
+                const siblingOrList = parent.getField(grammar[i].name);
+                const sibling = Array.isArray(siblingOrList)
+                    ? siblingOrList[0]
+                    : siblingOrList;
+                if (sibling) {
+                    const firstSiblingToken = sibling.leaves()[0];
+                    return firstSiblingToken
+                        ? this.getTokenTextPosition(firstSiblingToken)
+                        : undefined;
+                }
+            }
+        }
+        return undefined;
+    }
+
     scanLines<Result>(
         checker: (
             line: number,

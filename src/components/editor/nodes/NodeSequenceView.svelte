@@ -11,6 +11,7 @@
     import { getCaret, getInsertionPoint } from '../../project/Contexts';
     import Button from '../../widgets/Button.svelte';
     import EmptyView from '../blocks/EmptyView.svelte';
+    import MenuTrigger from '../menu/MenuTrigger.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
     interface Props {
@@ -130,10 +131,15 @@
                 {/if}
                 <NodeView {node} {format} />
             {:else}
-                <EmptyView {node} {field} style={empty} {format} />
+                <EmptyView {node} {field} style={empty} {format} index={0} />
             {/each}
-            {#if nodes.length > 0 && insertionFeedback?.index === nodes.length}
-                <div class="insertion-feedback"></div>
+            {#if nodes.length > 0}
+                {#if insertionFeedback?.index === nodes.length}
+                    <div class="insertion-feedback"></div>
+                {/if}
+                <MenuTrigger
+                    anchor={{ parent: node, field, index: nodes.length }}
+                />
             {/if}
         </div>
     {/if}

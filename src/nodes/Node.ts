@@ -954,8 +954,12 @@ export type Replacement = {
     replacement: FieldValue;
 };
 
-/** Represents a node and a field on the node, for representing unset fields on a node. */
-export type FieldPosition = { parent: Node; field: string };
+/** Represents a node and a field on the node, and optional index into a list field. Used to represent a selection of a field for editing. */
+export type FieldPosition = {
+    parent: Node;
+    field: string;
+    index: number | undefined;
+};
 
 export function isFieldPosition(value: any): value is FieldPosition {
     return (

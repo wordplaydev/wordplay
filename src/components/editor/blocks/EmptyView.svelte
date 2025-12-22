@@ -15,9 +15,11 @@
         style: 'hide' | 'label' | 'menu';
         /** The format to use when rendering child nodes */
         format: Format;
+        /** The index in case the field is a list */
+        index?: number;
     }
 
-    let { node, field, style, format }: Props = $props();
+    let { node, field, style, format, index }: Props = $props();
 
     let project = getProject();
 
@@ -37,7 +39,7 @@
                 )}
             />
         {/if}
-        <MenuTrigger anchor={{ parent: node, field }}></MenuTrigger>
+        <MenuTrigger anchor={{ parent: node, field, index }}></MenuTrigger>
     </div>
 {/if}
 

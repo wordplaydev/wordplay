@@ -9,9 +9,11 @@ import Revision from './Revision';
 
 /** Set a field on a child */
 export default class Assign<NodeType extends Node> extends Revision {
+    /** The node with the field being set */
     readonly parent: Node;
+    /** The source index where the assignment occurs */
     readonly position: number;
-    // A list of field name and value pairs to assign.
+    /** A list of field name and value pairs to assign. */
     readonly additions: { field: string; node: NodeType | Refer | undefined }[];
     constructor(
         context: Context,
