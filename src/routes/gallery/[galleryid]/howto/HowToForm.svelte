@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import HowToChat from './HowToChat.svelte';
+    import ChatView from '@components/app/chat/ChatView.svelte';
     import Header from '@components/app/Header.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -11,7 +11,10 @@
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { HowTos, locales } from '@db/Database';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
+    import type { Creator } from '@db/creators/CreatorDatabase';
+    import { Chats, Creators, Galleries, HowTos, locales } from '@db/Database';
+    import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
@@ -155,6 +158,48 @@
 
         HowTos.updateHowTo(howTo, true);
     }
+
+    // variables to set up the chat
+    // Get the chat for the how-to, if there is one.
+    // undefined: there isn't one
+    // null: we're still loading
+    // false: couldn't load it.
+    let chat = $state<Chat | undefined | null | false>(null);
+    $effect(() => {
+        // When the how-to or chat change, get the chat.
+        if (howTo)
+            Chats.getChatHowTo(howTo).then((retrievedChat) => {
+                chat = retrievedChat;
+            });
+    });
+
+    // Load the gallery if it exists.
+    let gallery = $state<Gallery | undefined>(undefined);
+    $effect(() => {
+        if (galleryID) {
+            Galleries.get(galleryID).then((g) => {
+                gallery = g;
+            });
+        } else gallery = undefined;
+    });
+
+    let creators: Record<string, Creator | null> = $state({});
+
+    // Set the creators to whatever user IDs we have.
+    $effect(() => {
+        if (!howTo) return;
+
+        const owner = howTo.getCreator();
+        // We async load all participants, regardless of their chat eligibility, since we need to render
+        // their names.
+        Creators.getCreatorsByUIDs(
+            chat
+                ? [...chat.getAllParticipants(), ...(owner ? [owner] : [])]
+                : owner
+                  ? [owner]
+                  : [],
+        ).then((map) => (creators = map));
+    });
 </script>
 
 <Dialog
@@ -347,7 +392,11 @@
 
                     <HowToUsedBy bind:howTo />
 
-                    <HowToChat {howTo} />
+                    <HowToPrompt
+                        text={(l) => l.ui.howto.viewHowTo.chatPrompt}
+                    />
+
+                    <ChatView {chat} {creators} {gallery} {howTo} />
                 </div>
             {/if}
         </div>

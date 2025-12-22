@@ -1,10 +1,3 @@
-<!-- 
-Copied from src/components/app/chat/CollaborateView.svelte 
-with modifications made to work for HowTos, rather than chats, and removing the "add collaborators" section
-also, queries for the chat in this component rather than being passed in as a prop.
-
-This chat component enables communication between gallery collaborators of a how-to
- -->
 <script lang="ts">
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -17,32 +10,49 @@ This chat component enables communication between gallery collaborators of a how
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Creators, Galleries } from '@db/Database';
+    import { Chats } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
+    import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { tick, untrack } from 'svelte';
-    import CreatorView from '../../../../components/app/CreatorView.svelte';
-    import Loading from '../../../../components/app/Loading.svelte';
-    import HowToPrompt from './HowToPrompt.svelte';
+    import CreatorView from '../CreatorView.svelte';
+    import Loading from '../Loading.svelte';
 
     interface Props {
-        howTo: HowTo;
+        chat: Chat | undefined | null | false;
+        creators: Record<string, Creator | null>;
+        gallery: Gallery | undefined;
+        project?: Project;
+        howTo?: HowTo;
     }
 
-    let { howTo }: Props = $props();
+    let {
+        chat,
+        creators,
+        gallery,
+        project = undefined,
+        howTo = undefined,
+    }: Props = $props();
 
     const user = getUser();
+    let newMessage = $state('');
+    let newMessageView = $state<HTMLTextAreaElement | undefined>();
 
-    // Get the chat for the how-to, if there is one.
-    // undefined: there isn't one
-    // null: we're still loading
-    // false: couldn't load it.
-    let chat = $state<Chat | undefined | null | false>(null);
+    let scrollerView = $state<HTMLDivElement | undefined>();
+
+    // When the project changes, mark read if it was unread and scroll.
     $effect(() => {
-        // When the project or chat change, get the chat.
-        Chats.getChatHowTo(howTo).then((retrievedChat) => {
-            chat = retrievedChat;
+        if (chat && $user && chat.hasUnread($user.uid)) {
+            untrack(() => {
+                Chats.updateChat(chat.asRead($user.uid), true);
+            });
+        }
+
+        // After the chat is visible, scroll to the bottom.
+        tick().then(() => {
+            if (scrollerView)
+                scrollerView.scrollTop = scrollerView.scrollHeight;
         });
     });
 
@@ -60,54 +70,9 @@ This chat component enables communication between gallery collaborators of a how
         });
     }
 
-    // Load the gallery if it exists.
-    let gallery = $state<Gallery | undefined>(undefined);
-    $effect(() => {
-        const galleryID = howTo.getHowToGalleryId();
-        if (galleryID) {
-            Galleries.get(galleryID).then((g) => {
-                gallery = g;
-            });
-        } else gallery = undefined;
-    });
-
-    let newMessage = $state('');
-    let newMessageView = $state<HTMLTextAreaElement | undefined>();
-    let scrollerView = $state<HTMLDivElement | undefined>();
-
-    // When the howTo changes, mark read if it was unread and scroll.
-    $effect(() => {
-        if (chat && $user && chat.hasUnread($user.uid)) {
-            untrack(() => {
-                if (chat) Chats.updateChat(chat.asRead($user.uid), true);
-            });
-        }
-
-        // After the chat is visible, scroll to the bottom.
-        tick().then(() => {
-            if (scrollerView)
-                scrollerView.scrollTop = scrollerView.scrollHeight;
-        });
-    });
-
-    let creators: Record<string, Creator | null> = $state({});
-
-    // Set the creators to whatever user IDs we have.
-    $effect(() => {
-        const owner = howTo.getCreator();
-        // We async load all participants, regardless of their chat eligibility, since we need to render
-        // their names.
-        Creators.getCreatorsByUIDs(
-            chat
-                ? [...chat.getAllParticipants(), ...(owner ? [owner] : [])]
-                : owner
-                  ? [owner]
-                  : [],
-        ).then((map) => (creators = map));
-    });
-
     function startChat() {
-        if (gallery) Chats.addChatToHowTo(howTo, gallery);
+        if (project) Chats.addChat(project, gallery);
+        else if (howTo) Chats.addChatToHowTo(howTo, gallery);
     }
 
     function areSameDay(a: Date, b: Date): boolean {
@@ -162,7 +127,6 @@ This chat component enables communication between gallery collaborators of a how
     </div>
 {/snippet}
 
-<HowToPrompt text={(l) => l.ui.howto.viewHowTo.chatPrompt} />
 {#if chat === null}
     <Loading></Loading>
 {:else if chat === false}
