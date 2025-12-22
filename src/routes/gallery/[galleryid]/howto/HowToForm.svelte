@@ -5,6 +5,7 @@
     import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -245,6 +246,20 @@
                             action={() => {
                                 editingMode = true;
                             }}
+                        />
+                        <ConfirmButton
+                            tip={(l) => l.ui.howto.viewHowTo.delete.description}
+                            prompt={(l) => l.ui.howto.viewHowTo.delete.prompt}
+                            action={async () => {
+                                if (galleryID && howTo) {
+                                    await HowTos.deleteHowTo(
+                                        howToId,
+                                        galleryID,
+                                    );
+                                    show = false;
+                                }
+                            }}
+                            label={(l) => l.ui.howto.viewHowTo.delete.prompt}
                         />
                         {#if isPublished}
                             <Button

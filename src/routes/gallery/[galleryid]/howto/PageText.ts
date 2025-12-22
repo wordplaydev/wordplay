@@ -1,4 +1,4 @@
-import type { ButtonText, DialogText, FieldText } from "@locale/UITexts";
+import type { ButtonText, ConfirmText, DialogText, FieldText } from "@locale/UITexts";
 
 type PageText = {
     /** Headers on the gallery page */
@@ -51,6 +51,8 @@ type PageText = {
         view: ButtonText;
         /** Button text for editing the how-to */
         edit: ButtonText;
+        /** Button text for deleting the how-to */
+        delete: ConfirmText;
         /** Button text for bookmarking the how-to */
         canBookmark: ButtonText;
         alreadyBookmarked: ButtonText;

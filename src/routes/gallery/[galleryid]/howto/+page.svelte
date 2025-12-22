@@ -113,35 +113,34 @@
         }
     }
 
-    let stickyArea: DOMRect | undefined = $derived(
-        document.getElementById('stickyArea')?.getBoundingClientRect(),
-    );
+    // camera panning and viewport calculations
+    let stickyArea: DOMRect | undefined = $state(undefined);
+    $effect(() => {
+        stickyArea = document
+            .getElementById('stickyArea')
+            ?.getBoundingClientRect();
+    });
 
     let viewportWidth = $derived(window.innerWidth);
     let viewportHeight = $derived(window.innerHeight);
 
-    function panTo(x: number, y: number) {
-        let viewportCenterX: number = viewportWidth / 2;
-        let viewportCenterY: number =
-            (stickyArea && viewportHeight / 2 > stickyArea.bottom + 100) || // TODO(@mc) -- fix magic number
+    let viewportCenterX: number = $derived(viewportWidth / 2);
+    let viewportCenterY: number = $derived(
+        (stickyArea && viewportHeight / 2 > stickyArea.bottom + 100) || // TODO(@mc) -- fix magic number
             !stickyArea
-                ? viewportHeight / 2 + 100
-                : stickyArea.bottom + 100;
+            ? viewportHeight / 2 + 100
+            : stickyArea.bottom + 100,
+    );
 
+    let centerX = $derived(-cameraX + viewportCenterX);
+    let centerY = $derived(-cameraY + viewportCenterY);
+
+    function panTo(x: number, y: number) {
         cameraX = -x + viewportCenterX;
         cameraY = -y + viewportCenterY;
     }
 
     panTo(0, 0);
-
-    let centerX = $derived(-cameraX + viewportWidth / 2);
-    let centerY = $derived(
-        -cameraY +
-            ((stickyArea && viewportHeight / 2 > stickyArea.bottom + 100) || // TODO(@mc) -- fix magic number
-            !stickyArea
-                ? viewportHeight / 2 + 100
-                : stickyArea.bottom + 100),
-    );
 
     // determine if we should render a how-to based on its coordinates
     // needs to be within the viewport as well as outside of the drafts / bookmarks areas
@@ -184,6 +183,7 @@
     //     });
     // }
 
+    // refresh the page when a new howTo is created
     let newHowTo: HowTo | undefined = $state(undefined);
 
     $effect(() => {

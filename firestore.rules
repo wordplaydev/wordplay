@@ -133,22 +133,22 @@ service cloud.firestore {
       // 2) the requestor is the owner or a collaborator
       // 3) the requestor is a curator or collaborator of the gallery the how-to is in
       allow read: 
-        if resource.data != null && 'galleryId' in resource.data && (
+        if resource.data != null && (
           "mod" in request.auth.token && request.auth.token.mod ||
-          isGalleryPublic(resource.data.galleryId) ||
           isRequestorOwnerCollaborator(request.auth.uid) ||
-          isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId)
+          'galleryId' in resource.data && isGalleryPublic(resource.data.galleryId) ||
+          'galleryId' in resource.data && isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId)
         );
 
       allow update: 
       // How-tos can be updated if:
       // 1) owner or collaborator
       // 2) curator of the gallery the how-to is in
-        if request.auth != null && 'galleryId' in request.resource.data && 
+        if request.auth != null && 
           (
             "mod" in request.auth.token && request.auth.token.mod ||
             isRequestorOwnerCollaborator(request.auth.uid) ||
-            isRequestorCurator(request.auth.uid, request.resource.data.galleryId)
+            'galleryId' in request.resource.data && isRequestorCurator(request.auth.uid, request.resource.data.galleryId)
           );
       allow delete: if request.auth != null && resource.data.creator == request.auth.uid;
     }

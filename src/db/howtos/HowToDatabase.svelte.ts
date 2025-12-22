@@ -1,10 +1,10 @@
 /** This file encapsulates all Firebase how-to functionality and relies on Svelte state to cache how-to documents. */
-import { type Database } from '@db/Database';
+import { Galleries, type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe } from 'firebase/auth';
-import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, onSnapshot, or, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
@@ -208,6 +208,83 @@ export class HowToDatabase {
         // if (firestore === undefined) return;
         // const user = this.db.getUser();
         // if (user) this.listen(firestore, user);
+
+        console.log("sync user is being called");
+
+        // if there is no firestore access, do nothing
+        if (firestore === undefined) return;
+
+        // if there is no user, do nothing
+        const user = this.db.getUser();
+        if (!user) return;
+
+        // get the current list of galleries to watch
+        const galleryIDsToWatch = Array.from(Galleries.accessibleGalleries.keys());
+
+        // construct constraints based on
+        // (1) any how-tos that the user has access to as a creator or collaborator on the how-to itself
+        // (2) any how-tos that the user has access to as a curator or collaborator on the gallery
+        let constraints = [
+            where("creator", "==", user.uid),
+            where("collaborators", "array-contains", user.uid),
+        ]
+
+        if (galleryIDsToWatch.length > 0) {
+            constraints.push(where("galleryId", "in", galleryIDsToWatch));
+        }
+
+        // set up the realtime how-tos query for the user, tracking any how-tos from the cloud
+        // and deleting any tracked locally that didn't appear in the snapshot
+        this.unsubscribe = onSnapshot(
+            query(collection(firestore, HowTosCollection), or(...constraints)), async (snapshot) => {
+                // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
+                // so we can delete ones that are gone from the server.
+                snapshot.forEach((doc) => {
+                    const howto = doc.data();
+
+                    // try to parse the how-to and save on success.
+                    try {
+                        HowToSchema.parse(howto);
+                        // Update the how-to in the local cache, but do not persist; we just got it from the DB.
+                        this.updateHowTo(
+                            new HowTo(howto as HowToDocument),
+                            false,
+                        )
+                    } catch (error) {
+                        // If the how-to doesn't succeed, then we don't save it.
+                        console.error(error);
+                    }
+                });
+
+                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
+                snapshot.docChanges().forEach((change) => {
+                    // Removed? Delete the local cache of the gallery.
+                    // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
+                    if (change.type === 'removed') {
+                        const howToId = change.doc.id;
+                        const galleryId = change.doc.data().galleryId;
+
+                        this.howtos.delete(howToId);
+                        this.galleryHowTos.set(galleryId, this.galleryHowTos.get(galleryId)?.filter((id) => id !== howToId) ?? []);
+
+                        if (this.galleryHowTos.get(galleryId)?.length === 0) {
+                            this.galleryHowTos.delete(galleryId);
+
+                            if (this.galleryListener) {
+                                this.db.Galleries.ignore(howToId, this.galleryListener);
+                            }
+                        }
+                    }
+                });
+
+            },
+            (error) => {
+                if (error instanceof FirebaseError) {
+                    console.error(error.code);
+                    console.error(error.message);
+                }
+            }
+        )
     }
 
     async addHowTo(

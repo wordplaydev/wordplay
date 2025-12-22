@@ -9895,6 +9895,10 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for copying the direct link to this how-to"
                     },
+                    "delete": {
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "Button text for deleting the how-to"
+                    },
                     "draftNote": {
                       "description": "Text indicating that the how-to is currently a draft",
                       "type": "string"
@@ -9927,6 +9931,7 @@
                   "required": [
                     "view",
                     "edit",
+                    "delete",
                     "canBookmark",
                     "alreadyBookmarked",
                     "submit",

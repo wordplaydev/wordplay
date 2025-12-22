@@ -4808,8 +4808,12 @@
                     "tip": "View how-to"
                 },
                 "edit": {
-                    "label": "✏️ Edit how-to",
+                    "label": "✏️ Edit",
                     "tip": "Edit this how-to"
+                },
+                "delete": {
+                    "description": "Delete this how-to",
+                    "prompt": "🗑️ Delete"
                 },
                 "submit": {
                     "label": "📨 Submit to Wordplay Guide",
