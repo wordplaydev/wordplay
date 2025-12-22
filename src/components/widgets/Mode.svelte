@@ -4,6 +4,7 @@
     import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '@locale/UITexts';
     import { withMonoEmoji } from '../../unicode/emoji';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         /** Localized text for the labels and tooltips */
@@ -60,7 +61,7 @@
         id={modeText.label}
         aria-labelledby={modeText.label}
     >
-        {#each modeText.labels as label, index}
+        {#each modeText.labels, index}
             {#if !omit.includes(index)}
                 <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
                 <button
@@ -105,7 +106,9 @@
                             : undefined}
                 >
                     {#if icons}{withMonoEmoji(icons[index])}{/if}
-                    {#if modeLabels}{withMonoEmoji(label)}{/if}
+                    {#if modeLabels}<LocalizedText
+                            path={(l) => modeText.labels[index]}
+                        />{/if}
                 </button>
             {/if}
         {/each}
