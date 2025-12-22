@@ -87,13 +87,6 @@
         }
     }
 
-    function panTo(x: number, y: number) {
-        // logic isn't quite right here -- need to center the thing that is being panned to
-        console.log('panning to', x, y);
-        cameraX = x;
-        cameraY = y;
-    }
-
     function onKeyDown(event: KeyboardEvent) {
         if (!childMoving) {
             switch (event.key) {
@@ -125,7 +118,21 @@
     );
 
     let viewportWidth = $derived(window.innerWidth);
-    let viewportHeight = $derived(window.innerHeight - 100);
+    let viewportHeight = $derived(window.innerHeight);
+
+    function panTo(x: number, y: number) {
+        let viewportCenterX: number = viewportWidth / 2;
+        let viewportCenterY: number =
+            (draftsArea && viewportHeight / 2 > draftsArea.bottom + 100) || // TODO(@mc) -- fix magic number
+            !draftsArea
+                ? viewportHeight / 2 + 100
+                : draftsArea.bottom + 100;
+
+        cameraX = -x + viewportCenterX;
+        cameraY = -y + viewportCenterY;
+    }
+
+    panTo(0, 0);
 
     // determine if we should render a how-to based on its coordinates
     // needs to be within the viewport as well as outside of the drafts / bookmarks areas
@@ -145,16 +152,28 @@
             ?.getBoundingClientRect();
         let inStickies: boolean =
             infoArea !== undefined &&
-            x >= infoArea.left &&
-            x <= infoArea.right &&
-            y >= infoArea.top &&
-            y <= infoArea.bottom;
+            x >= infoArea.left - BUFFER &&
+            x <= infoArea.right + BUFFER &&
+            y >= infoArea.top - BUFFER &&
+            y <= infoArea.bottom + BUFFER;
 
         return inBounds && !inStickies;
     }
 
     // if a specific how-to was requested, pan to it and open its dialog
-    const requestedId: string | null = page.url.searchParams.get('id');
+    // const requestedId: string | null = page.url.searchParams.get('id');
+
+    // if (requestedId) {
+    //     $effect(() => {
+    //         const requestedHowTo = howTos.find(
+    //             (ht) => ht.getHowToId() === requestedId,
+    //         );
+    //         if (requestedHowTo) {
+    //             let coords = requestedHowTo.getCoordinates();
+    //             panTo(coords[0], coords[1]);
+    //         }
+    //     });
+    // }
 
     let newHowTo: HowTo | undefined = $state(undefined);
 
@@ -214,9 +233,9 @@
                             tip={(l) => l.ui.howto.canvasView.bookmarkstooltip}
                             label={(l) => howto.getTitle()}
                             action={() => {
-                                let howToCoords = howto.getCoordinates();
-                                // TODO(@mc) -- need to fix centering logic
-                                panTo(howToCoords[0], howToCoords[1]);
+                                let coords = howto.getCoordinates();
+                                console.log(howto.getTitle(), 'is at', coords);
+                                panTo(coords[0], coords[1]);
                             }}
                         />
                     {/if}

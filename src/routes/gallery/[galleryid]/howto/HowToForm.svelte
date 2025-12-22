@@ -53,8 +53,8 @@
             let returnValue = await HowTos.addHowTo(
                 galleryID,
                 publish,
-                0,
-                0,
+                window.innerWidth / 2,
+                window.innerHeight / 2,
                 [],
                 title,
                 prompts,
