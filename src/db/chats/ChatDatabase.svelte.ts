@@ -1,7 +1,8 @@
 /** This file encapsulates all Firebase chat functionality and relies on Svelte state to cache chat documents. */
-import { Projects, type Database } from '@db/Database';
+import { HowTos, Projects, type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import HowTo from '@db/howtos/HowToDatabase.svelte';
 import type Project from '@db/projects/Project';
 import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe, User } from 'firebase/auth';
@@ -43,7 +44,7 @@ export type SerializedMessage = z.infer<typeof MessageSchema>;
 const ChatSchemaV1 = z.object({
     // The version of the schema
     v: z.literal(1),
-    /** A UUID corresponding to the project ID to which this chat applies. Also the id for the chat in the collection. */
+    /** A UUID corresponding to the project or how-to ID to which this chat applies. Also the id for the chat in the collection. */
     project: z.string(),
     /**
      * A list of creator IDs who can contribute to this chat.
@@ -60,9 +61,31 @@ const ChatSchemaV1 = z.object({
     unread: z.array(z.string()),
 });
 
-const ChatSchema = ChatSchemaV1;
+/** v2 adds a type to let us know if the project field's UUID refers to a project or a how-to */
+const ChatSchemaV2 = ChatSchemaV1.omit({ v: true }).extend(
+    z.object({ v: z.literal(2), type: z.enum(['project', 'howto']) }).shape,
+);
 
-export type SerializedChat = z.infer<typeof ChatSchemaV1>;
+/** The latest version of the chat schema */
+const ChatSchema = ChatSchemaV2;
+const ChatSchemaLatestVersion = 2;
+
+export type SerializedChat = z.infer<typeof ChatSchemaV2>;
+export type SerializedChatUnknownVersion = | z.infer<typeof ChatSchemaV1> | SerializedChat;
+
+/** Chat upgrader */
+export function upgradeChat(
+    chat: SerializedChatUnknownVersion,
+): SerializedChat {
+    switch (chat.v) {
+        case 1:
+            return upgradeChat({ ...chat, v: 2, type: 'project' });
+        case ChatSchemaLatestVersion:
+            return chat;
+        default:
+            throw new Error('Unexpected chat version ' + chat);
+    }
+}
 
 ////////////////////////////////
 // APIs
@@ -181,6 +204,10 @@ export default class Chat {
         });
     }
 
+    getType() {
+        return this.data.type;
+    }
+
     getData() {
         return { ...this.data };
     }
@@ -202,11 +229,13 @@ export class ChatDatabase {
 
     private projectsListener: (project: Project) => void;
     private galleryListener: (gallery: Gallery) => void;
+    private howToListener: (howto: HowTo) => void;
 
     constructor(db: Database) {
         this.db = db;
         this.projectsListener = this.handleRevisedProject.bind(this);
         this.galleryListener = this.handleRevisedGallery.bind(this);
+        this.howToListener = this.handleRevisedHowTo.bind(this);
     }
 
     /** Take the given chat and update it's state locally, and optionally remotely. */
@@ -263,7 +292,7 @@ export class ChatDatabase {
 
         // Create a new chat.
         const newChat: SerializedChat = {
-            v: 1,
+            v: 2,
             project: project.getID(),
             messages: [],
             // Everyone contributing is eligible to see and participate in the chat.
@@ -274,6 +303,7 @@ export class ChatDatabase {
                 ]),
             ),
             unread: [],
+            type: 'project',
         };
 
         // Add the chat to Firebase, relying on the realtime listener to update the local cache.
@@ -289,6 +319,55 @@ export class ChatDatabase {
 
             // Add the chat to the project once we've added it to the database.
             Projects.reviseProject(project.withChat(newChat.project));
+        } catch (err) {
+            console.error(err);
+            return undefined;
+        }
+
+        return newChat.project;
+    }
+
+    async addChatToHowTo(
+        howTo: HowTo,
+        gallery: Gallery
+    ) {
+        if (firestore === undefined) return undefined;
+        const creator = howTo.getCreator();
+        if (creator === null) return undefined;
+
+        // Create a new chat.
+        const newChat: SerializedChat = {
+            v: 2,
+            project: howTo.getHowToId(),
+            messages: [],
+            // All gallery curators can access the chat
+            participants: Array.from(
+                new Set([
+                    ...(gallery ? gallery.getCurators() : []),
+                ]),
+            ),
+            unread: [],
+            type: 'howto',
+        };
+
+        // Add the chat to Firebase, relying on the realtime listener to update the local cache.
+        try {
+            // Create the document.
+            await setDoc(
+                doc(firestore, ChatsCollection, newChat.project),
+                newChat,
+            );
+
+            // Add the chat to the chats cache, but not remotely; we just created it.
+            this.updateChat(new Chat(newChat), false);
+
+            // Add the chat to the project once we've added it to the database.
+            // Projects.reviseProject(project.withChat(newChat.project));
+            HowTos.updateHowTo(new HowTo({
+                ...howTo.getData(),
+                chat: newChat.project,
+            }), true);
+
         } catch (err) {
             console.error(err);
             return undefined;
@@ -321,6 +400,13 @@ export class ChatDatabase {
                 if (project) this.syncParticipants(project, gallery);
             }
         }
+    }
+
+    /** Should be called when a how-to updates, to synchronize chat participants */
+    async handleRevisedHowTo(howTo: HowTo) {
+        // ensure that the chat has the correct eligible participants based on the how-to
+
+        this.syncParticipantsHowTo(howTo);
     }
 
     /** Ensure the participants of the chat include the project owner, project collaborators, and if in a gallery, curators of the gallery it is in. */
@@ -364,11 +450,69 @@ export class ChatDatabase {
         }
     }
 
+    async syncParticipantsHowTo(howTo: HowTo) {
+        // Ensure the chat has all of the project's contributors.
+        const chat = this.chats.get(howTo.getHowToId());
+        const galleryID = howTo.getHowToGalleryId();
+        const gallery =
+            galleryID === null
+                ? undefined
+                : await this.db.Galleries.get(galleryID);
+
+        // No corresponding chat? That's an issue: the only projects we should be listening to are the ones
+        // with chats!
+        if (chat === undefined) {
+            console.error(
+                `No chat found for project ${howTo.getHowToId()}, but we're listening to its changes for some reason. Perhaps a defect?`,
+            );
+            return;
+        }
+
+        // Get the chat's sorted lists of participants as a string, so we can quickly check the current set.
+        const currentChatParticipantsString = chat
+            .getEligibleParticipants()
+            .sort()
+            .join();
+
+        // Get the chat's intended participants based on the project and gallery.
+        const intendedChatParticipants = [
+            ...new Set([
+                ...howTo.getCollaborators(),
+                howTo.getCreator(),
+                ...(gallery ? gallery.getCurators() : []),
+            ]),
+        ].sort();
+
+        // If they're not updated, update them.
+        if (currentChatParticipantsString !== intendedChatParticipants.join()) {
+            // Update the chat with the new list of contributors.
+            this.updateChat(
+                new Chat({
+                    ...chat.getData(),
+                    participants: intendedChatParticipants,
+                }),
+                true,
+            );
+        }
+    }
+
     /** Get the chat for this project. Undefined if there isn't one, false if we couldn't due to an error. */
     async getChat(project: Project): Promise<Chat | undefined | false> {
         const chatID = project.getID();
         if (chatID === null) return undefined;
 
+        return this.getChatHelper(chatID);
+    }
+
+    /** Get the chat for this how-to. Undefined if there isn't one, false if we couldn't due to an error */
+    async getChatHowTo(howTo: HowTo): Promise<Chat | undefined | false> {
+        const chatID = howTo.getHowToId();
+        if (chatID === null) return undefined;
+
+        return this.getChatHelper(chatID);
+    }
+
+    private async getChatHelper(chatID: string): Promise<Chat | undefined | false> {
         // Do we have the chat cached? Return it.
         const chat = this.chats.get(chatID);
         if (chat) return chat;
@@ -383,7 +527,8 @@ export class ChatDatabase {
                 const remoteChat = chatDoc.data();
                 if (remoteChat === undefined) return undefined;
 
-                const newChat = new Chat(remoteChat as SerializedChat);
+                // assume that the chat is of an unknown version and upgrade it
+                const newChat = new Chat(upgradeChat(remoteChat as SerializedChatUnknownVersion) as SerializedChat);
                 // Update the chat locally, but do not persist, we already know it's in the database..
                 this.updateChat(newChat, false);
                 return newChat;
@@ -433,8 +578,9 @@ export class ChatDatabase {
                     try {
                         ChatSchema.parse(chat);
                         // Update the chat in the local cache, but do not persist; we just got it from the DB.
+                        // assume it's a chat of unknown version and upgrade it
                         this.updateChat(
-                            new Chat(chat as SerializedChat),
+                            new Chat(upgradeChat(chat as SerializedChatUnknownVersion) as SerializedChat),
                             false,
                         );
                     } catch (error) {

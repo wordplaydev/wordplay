@@ -305,8 +305,6 @@ export class HowToDatabase {
         const user = this.db.getUser()?.uid;
         if (user === null) return undefined;
 
-        // create the chat corresponding to this how-to
-
         // create a new how-to
         const newHowTo: HowToDocument = {
             id: uuidv4(),

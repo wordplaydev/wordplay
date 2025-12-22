@@ -1,5 +1,6 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import HowToChat from './HowToChat.svelte';
     import Header from '@components/app/Header.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -56,6 +57,7 @@
     );
     let title: string = $derived(howTo ? howTo.getTitle() : '');
 
+    // writer functions
     async function writeNewHowTo(publish: boolean) {
         if (!howTo) {
             let returnValue = await HowTos.addHowTo(
@@ -345,9 +347,7 @@
 
                     <HowToUsedBy bind:howTo />
 
-                    <HowToPrompt
-                        text={(l) => l.ui.howto.viewHowTo.chatPrompt}
-                    />
+                    <HowToChat {howTo} />
                 </div>
             {/if}
         </div>
