@@ -129,6 +129,7 @@
             class="node-list"
             class:indent
             class:padding
+            class:empty={nodes.length === 0}
             data-field={field}
             data-direction={block ? 'block' : 'inline'}
         >
@@ -188,6 +189,11 @@
         min-height: var(--wordplay-spacing);
     }
 
+    .node-list:not(.empty) {
+        /* Leave room for dragging if not empty */
+        padding: 0 var(--wordplay-spacing);
+    }
+
     .node-list.padding {
         gap: var(--wordplay-spacing);
     }
@@ -197,19 +203,25 @@
         gap: var(--wordplay-spacing);
     }
 
+    [data-direction='block'].node-list:not(.empty) {
+        /* Leave vertical room for dragging */
+        padding: var(--wordplay-spacing) 0;
+    }
+
     .node-list.indent {
         margin-inline-start: var(--wordplay-spacing);
     }
 
     .insertion-feedback {
+        pointer-events: none;
         align-self: stretch;
         background-color: var(--wordplay-highlight-color);
     }
 
-    [data-direction='inline'].node-list .insertion-feedback {
+    [data-direction='inline'] > .insertion-feedback {
         width: var(--wordplay-focus-width);
     }
-    [data-direction='block'].node-list .insertion-feedback {
+    [data-direction='block'] > .insertion-feedback {
         width: 100%;
         height: var(--wordplay-focus-width);
     }
