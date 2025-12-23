@@ -1,6 +1,7 @@
 <script lang="ts">
     import type Block from '@nodes/Block';
     import Column from '../blocks/Column.svelte';
+    import Row from '../blocks/Row.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -17,20 +18,38 @@
 {/snippet}
 
 {#if format.block}
-    {#if format.editable && node.docs}{@render docs()}{/if}
-    <Column
-        >{#if format.editable && node.docs === undefined}{@render docs()}{/if}<NodeView
-            node={[node, 'open']}
-            {format}
-            empty="hide"
-        /><NodeSequenceView
-            {node}
-            field="statements"
-            {format}
-            empty="label"
-            block={node.isRoot()}
-        /><NodeView node={[node, 'close']} {format} empty="hide" />
-    </Column>
+    {#if node.docs === undefined || node.docs.docs.length === 0}
+        <Row>
+            {@render docs()}
+            <Column
+                ><NodeView
+                    node={[node, 'open']}
+                    {format}
+                    empty="hide"
+                /><NodeSequenceView
+                    {node}
+                    field="statements"
+                    {format}
+                    empty="label"
+                    block={node.isRoot()}
+                /><NodeView node={[node, 'close']} {format} empty="hide" />
+            </Column>
+        </Row>
+    {:else}
+        <Column
+            >{@render docs()}<NodeView
+                node={[node, 'open']}
+                {format}
+                empty="hide"
+            /><NodeSequenceView
+                {node}
+                field="statements"
+                {format}
+                empty="label"
+                block={node.isRoot()}
+            /><NodeView node={[node, 'close']} {format} empty="hide" />
+        </Column>
+    {/if}
 {:else}
     <NodeView node={[node, 'docs']} {format} empty="menu" /><NodeView
         node={[node, 'open']}

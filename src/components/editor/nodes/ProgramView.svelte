@@ -17,9 +17,23 @@
 {/snippet}
 
 {#if format.block}
-    {#if format.editable && node.docs}{@render docs()}{/if}
-    <Column
-        >{#if format.editable && node.docs === undefined}{@render docs()}{/if}<NodeSequenceView
+    {#if format.editable}
+        {@render docs()}
+        <Column
+            ><NodeSequenceView
+                {node}
+                field="borrows"
+                {format}
+                empty="hide"
+            /><NodeView node={[node, 'expression']} {format} /><NodeView
+                node={[node, 'end']}
+                {format}
+                empty="hide"
+            />
+        </Column>
+    {:else}
+        {@render docs()}
+        <NodeSequenceView
             {node}
             field="borrows"
             {format}
@@ -29,7 +43,7 @@
             {format}
             empty="hide"
         />
-    </Column>
+    {/if}
 {:else}
     <NodeView node={[node, 'docs']} {format} empty="menu" /><NodeSequenceView
         {node}
