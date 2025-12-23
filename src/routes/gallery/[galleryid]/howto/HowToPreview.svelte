@@ -39,7 +39,6 @@
     let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
     let ycoord: number = $derived(howTo?.getCoordinates()[1] ?? 0);
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
-
     // logic for picking the preview glyph
     // if there are any examples in the how-to at all, use the first one's glyph per the same logic in ProjectPreview
     // if there are not any examples, we just use the first character of the first line of text
@@ -294,6 +293,22 @@
     }
 </script>
 
+{#snippet preview()}
+    <div
+        class="howtopreview"
+        role="presentation"
+        style:background
+        style:color={foreground}
+        style:font-family={face}
+    >
+        {#if character}
+            {@html character}
+        {:else}
+            {previewText}
+        {/if}
+    </div>
+{/snippet}
+
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
@@ -309,31 +324,23 @@
     onblur={onLoseFocus}
     onkeydown={onKeyPress}
 >
-    <HowToForm editingMode={false} bind:howTo />
+    <div class="howtotitle"> {title}</div>
 
-    <div
-        class="howtopreview"
-        role="presentation"
-        style:background
-        style:color={foreground}
-        style:font-family={face}
-    >
-        {#if character}
-            {@html character}
-        {:else}
-            {previewText}
-        {/if}
-    </div>
+    <HowToForm editingMode={false} bind:howTo {preview} />
 </div>
 <svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
 <style>
+    /* setting preview size as a var here that can be changed here, will adjust everything else */
+    :root {
+        --previewSize: 4rem;
+    }
+
     .howto {
         cursor: pointer;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
-        aspect-ratio: 1 / 1;
-        width: auto;
+        max-width: calc(var(--previewSize) * 1.5 + var(--wordplay-spacing) * 2);
         height: auto;
         padding: var(--wordplay-spacing);
     }
@@ -343,8 +350,16 @@
         border-width: var(--wordplay-focus-width);
     }
 
+    .howtotitle {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: var(--wordplay-font-size);
+        max-height: calc(2 * var(--wordplay-font-size));
+    }
+
     .howtopreview {
-        font-size: 4rem;
+        font-size: var(--previewSize);
         display: flex;
         /** For some reason this is necessary for keeping the character centered. */
         align-items: center;

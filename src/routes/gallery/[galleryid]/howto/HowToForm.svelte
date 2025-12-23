@@ -20,6 +20,7 @@
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
+    import type { Snippet } from 'svelte';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
 
@@ -29,6 +30,7 @@
         howTo: HowTo | undefined; // undefined if creating a brand new how-to
         centerX?: number;
         centerY?: number;
+        preview?: Snippet;
     }
 
     let {
@@ -36,6 +38,7 @@
         howTo = $bindable(),
         centerX = $bindable(0),
         centerY = $bindable(0),
+        preview = undefined,
     }: Props = $props();
 
     // utility variables
@@ -213,6 +216,25 @@
     let collabToggle: boolean = $state(false);
 </script>
 
+{#if preview}
+    <Button
+        tip={(l) =>
+            editingMode
+                ? l.ui.howto.newHowTo.editForm.header
+                : l.ui.howto.viewHowTo.view.tip}
+        action={() => (show = !show)}>{@render preview()}</Button
+    >
+{:else}
+    <Button
+        tip={(l) =>
+            !howTo
+                ? l.ui.howto.newHowTo.newForm.header
+                : l.ui.howto.newHowTo.editForm.header}
+        action={() => (show = !show)}
+        icon={'+'}
+        large={!howTo}
+    ></Button>
+{/if}
 <Dialog
     bind:show
     header={(l) =>
@@ -227,16 +249,6 @@
                 ? l.ui.howto.newHowTo.newForm.explanation
                 : l.ui.howto.newHowTo.editForm.explanation
             : l.ui.howto.newHowTo.editForm.explanation}
-    button={{
-        tip: (l) =>
-            editingMode
-                ? !howTo
-                    ? l.ui.howto.newHowTo.newForm.header
-                    : l.ui.howto.newHowTo.editForm.header
-                : l.ui.howto.viewHowTo.view.tip,
-        icon: editingMode ? (!howTo ? '+' : '✏️') : title,
-        large: !howTo,
-    }}
 >
     {#if editingMode}
         <Subheader>
