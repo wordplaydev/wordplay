@@ -68,6 +68,10 @@
             var(--wordplay-border-width);
     }
 
+    .revision:first-child {
+        border-top: none;
+    }
+
     .revision:focus {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
     }
