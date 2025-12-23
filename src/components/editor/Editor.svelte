@@ -329,6 +329,8 @@
      */
     let nodeViewCache = new Map<Node, HTMLElement | null>();
     $effect(() => {
+        // If blocks mode changes, reset cache.
+        $blocks;
         if (source && $evaluation) nodeViewCache = new Map();
     });
     function getNodeView(node: Node): HTMLElement | undefined {
@@ -1668,6 +1670,8 @@
     // Update the outline positions any time the highlights change, but only after we're done rendering.
     let outlines = $state<HighlightSpec[]>([]);
     $effect(() => {
+        /** Update outlines when blocks mode changes. */
+        $blocks;
         if ($highlights)
             tick().then(() => {
                 outlines = updateOutlines(
