@@ -37,7 +37,7 @@
         </Row>
     {:else}
         <Column
-            ><NodeView
+            >{@render docs()}<NodeView
                 node={[node, 'open']}
                 {format}
                 empty="hide"
