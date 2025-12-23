@@ -156,7 +156,7 @@ export default class FunctionType extends Type {
             // If this function takes fewer than the number of inputs that the given function expects,
             // then the given function will not function correctly. But it is okay if the given
             // function takes fewer inputs then this function, since it just means it's ignoring some of the inputs.
-            if (inputsToCheck.length < this.inputs.length) return false;
+            if (this.inputs.length < inputsToCheck.length) return false;
             for (
                 let i = 0;
                 // Keep going until we run out of inputs from either list.
