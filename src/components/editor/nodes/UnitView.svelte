@@ -11,8 +11,16 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeSequenceView {node} field="numerator" {format} empty="menu" /><NodeView
-    node={[node, 'slash']}
+<NodeSequenceView
+    {node}
+    field="numerator"
+    {format}
+    empty="menu"
+    padding={false}
+/><NodeView node={[node, 'slash']} {format} empty="hide" /><NodeSequenceView
+    {node}
+    field="denominator"
     {format}
     empty="hide"
-/><NodeSequenceView {node} field="denominator" {format} empty="hide" />
+    padding={false}
+/>
