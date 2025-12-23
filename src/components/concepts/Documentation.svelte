@@ -245,7 +245,6 @@
             modes={(l) => l.ui.docs.mode.browse}
             icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
             choice={Modes.indexOf(mode)}
-            labeled={false}
             select={(choice) => {
                 const newMode = Modes[choice];
                 if (mode !== newMode) {
@@ -258,7 +257,6 @@
             <Mode
                 modes={(l) => l.ui.docs.mode.purpose}
                 choice={Object.keys(Purpose).indexOf(purpose)}
-                labeled={false}
                 select={(choice) => {
                     purpose = Object.values(Purpose)[choice];
                     path.set([]);

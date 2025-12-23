@@ -4684,7 +4684,7 @@
             },
             "mode": {
                 "browse": {
-                    "label": "browse",
+                    "label": "section",
                     "labels": ["code", "how to"],
                     "tips": [
                         "programming language concepts",
@@ -4692,7 +4692,7 @@
                     ]
                 },
                 "purpose": {
-                    "label": "purpose",
+                    "label": "code",
                     "labels": [
                         "project",
                         "output",
