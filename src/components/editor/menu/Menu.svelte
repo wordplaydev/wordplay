@@ -1,7 +1,7 @@
 <script lang="ts">
+    import Subheader from '@components/app/Subheader.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
     import Revision from '@edit/Revision';
     import { isFieldPosition, ListOf } from '@nodes/Node';
     import { tick } from 'svelte';
@@ -154,7 +154,9 @@
         onkeydown={handleKey}
     >
         {#if fieldLabel}<div class="label"
-                ><Note><LocalizedText path={fieldLabel} /></Note></div
+                ><Subheader compact
+                    ><LocalizedText path={fieldLabel} /></Subheader
+                ></div
             >{/if}
         {#each revisions as entry, itemIndex}
             {#if entry instanceof Revision}
@@ -276,7 +278,6 @@
         width: fit-content;
         height: auto;
         overflow-y: auto;
-        padding: var(--wordplay-spacing);
     }
 
     .submenu {

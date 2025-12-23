@@ -103,6 +103,8 @@ export default class Menu {
                 (revision) =>
                     !priority.includes(revision) && !revision.isRemoval(),
             );
+
+            // Organize by purpose.
             const kinds: Map<Purpose, Revision[]> = new Map();
             for (const other of others) {
                 const node = other.getNewNode(this.concepts.locales);
@@ -114,17 +116,22 @@ export default class Menu {
                 }
             }
 
+            // Make an sorted array of the revision sets.
+            const grouped = Array.from(kinds.entries())
+                .toSorted(
+                    (a, b) => PurposeRelevance[a[0]] - PurposeRelevance[b[0]],
+                )
+                .map(
+                    ([purpose, revisions]) =>
+                        new RevisionSet(purpose, revisions),
+                );
+
             organization = [
                 ...priority,
-                ...Array.from(kinds.entries())
-                    .sort(
-                        (a, b) =>
-                            PurposeRelevance[a[0]] - PurposeRelevance[b[0]],
-                    )
-                    .map(
-                        ([purpose, revisions]) =>
-                            new RevisionSet(purpose, revisions),
-                    ),
+                ...// We only do this grouping if there are more than 7 other revisions and more than 1 group
+                (others.length > 7 && kinds.size > 1
+                    ? grouped
+                    : grouped.flatMap((set) => set.revisions)),
                 ...removals,
             ];
         }
