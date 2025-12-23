@@ -17,4 +17,5 @@
     empty="label"
     {format}
     block={format.block}
+    padding={false}
 />

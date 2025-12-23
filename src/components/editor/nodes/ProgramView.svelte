@@ -1,5 +1,6 @@
 <script lang="ts">
     import type Program from '@nodes/Program';
+    import Column from '../blocks/Column.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -11,13 +12,33 @@
     let { node, format }: ProgramProps = $props();
 </script>
 
-<NodeView node={[node, 'docs']} {format} empty="hide" /><NodeSequenceView
-    {node}
-    field="borrows"
-    {format}
-    empty="hide"
-/><NodeView node={[node, 'expression']} {format} /><NodeView
-    node={[node, 'end']}
-    {format}
-    empty="hide"
-/>
+{#snippet docs()}
+    <NodeView node={[node, 'docs']} {format} empty="menu" />
+{/snippet}
+
+{#if format.block}
+    {#if node.docs}{@render docs()}{/if}
+    <Column
+        >{#if node.docs === undefined}{@render docs()}{/if}<NodeSequenceView
+            {node}
+            field="borrows"
+            {format}
+            empty="hide"
+        /><NodeView node={[node, 'expression']} {format} /><NodeView
+            node={[node, 'end']}
+            {format}
+            empty="hide"
+        />
+    </Column>
+{:else}
+    <NodeView node={[node, 'docs']} {format} empty="menu" /><NodeSequenceView
+        {node}
+        field="borrows"
+        {format}
+        empty="hide"
+    /><NodeView node={[node, 'expression']} {format} /><NodeView
+        node={[node, 'end']}
+        {format}
+        empty="hide"
+    />
+{/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { FieldPosition } from '@nodes/Node';
-    import { DROP_DOWN_SYMBOL } from '@parser/Symbols';
+    import { isFieldPosition, type FieldPosition } from '@nodes/Node';
+    import { DOCS_SYMBOL, DROP_DOWN_SYMBOL } from '@parser/Symbols';
     import type { CaretPosition } from '../../../edit/Caret';
     import { getSetMenuAnchor } from '../../project/Contexts';
 
@@ -30,7 +30,11 @@
     onpointerdown={show}
     onkeydown={(event) =>
         event.key === 'Enter' || event.key === ' ' ? show(event) : undefined}
-    >{insert ? '+' : DROP_DOWN_SYMBOL}</span
+    >{insert
+        ? '+'
+        : isFieldPosition(anchor) && anchor.field === 'docs'
+          ? DOCS_SYMBOL
+          : DROP_DOWN_SYMBOL}</span
 >
 
 <style>

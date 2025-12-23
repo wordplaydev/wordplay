@@ -200,7 +200,6 @@
 
     [data-direction='block'].node-list {
         flex-direction: column;
-        gap: var(--wordplay-spacing);
     }
 
     [data-direction='block'].node-list:not(.empty) {
