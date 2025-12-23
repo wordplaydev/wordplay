@@ -31,7 +31,7 @@ export default class Unit extends Type {
 
     constructor(
         exponents: undefined | Map<string, number> = undefined,
-        numerator?: Dimension[] | undefined,
+        numerator?: Dimension[],
         slash?: Token,
         denominator?: Dimension[],
     ) {
@@ -227,6 +227,10 @@ export default class Unit extends Type {
         const newUnit = new Unit(exponents);
         Unit.Pool.set(hash, newUnit);
         return newUnit;
+    }
+
+    isEmpty() {
+        return this.numerator.length === 0 && this.denominator.length === 0;
     }
 
     isUnitless() {

@@ -10,8 +10,11 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={[node, 'number']} {format} /><NodeView
-    node={[node, 'unit']}
+<NodeView
+    node={[node, 'number']}
     {format}
-    empty="menu"
-/>
+/>{#if format.editable || (node.unit !== undefined && !node.unit.isEmpty())}<NodeView
+        node={[node, 'unit']}
+        {format}
+        empty="menu"
+    />{/if}

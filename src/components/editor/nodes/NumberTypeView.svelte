@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Node from '@nodes/Node';
     import type NumberType from '@nodes/NumberType';
+    import Unit from '@nodes/Unit';
     import NodeView, { type Format } from './NodeView.svelte';
 
     interface Props {
@@ -14,7 +14,8 @@
 <NodeView
     node={[node, 'number']}
     {format}
-/>{#if node.unit instanceof Node}<NodeView
+/>{#if format.editable || (node.unit instanceof Unit && !node.unit.isEmpty())}<NodeView
         node={[node, 'unit']}
         {format}
+        empty="menu"
     />{/if}
