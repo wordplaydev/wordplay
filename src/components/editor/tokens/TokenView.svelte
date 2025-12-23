@@ -1,10 +1,8 @@
 <script lang="ts">
-    import BinaryEvaluate from '@nodes/BinaryEvaluate';
     import Name from '@nodes/Name';
     import Reference from '@nodes/Reference';
     import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
-    import UnaryEvaluate from '@nodes/UnaryEvaluate';
     import { locales } from '../../../db/Database';
     import { withColorEmoji } from '../../../unicode/emoji';
     import {
@@ -14,12 +12,11 @@
         getProject,
         getRoot,
     } from '../../project/Contexts';
+    import MenuTrigger from '../menu/MenuTrigger.svelte';
     import type { Format } from '../nodes/NodeView.svelte';
     import BooleanTokenEditor from './BooleanTokenEditor.svelte';
     import NameTokenEditor from './NameTokenEditor.svelte';
     import NumberTokenEditor from './NumberTokenEditor.svelte';
-    import OperatorEditor from './OperatorEditor.svelte';
-    import ReferenceTokenEditor from './ReferenceTokenEditor.svelte';
     import TextOrPlaceholder from './TextOrPlaceholder.svelte';
     import TokenCategories from './TokenCategories';
     import WordsTokenEditor from './WordsTokenEditor.svelte';
@@ -149,14 +146,12 @@
                         placeholder={placeholder ?? ((l) => l.token.Name)}
                     />
                 {:else if parent instanceof Reference}
-                    {@const grandparent = root.getParent(parent)}
-                    <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
-                    {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
-                        <OperatorEditor evaluate={grandparent} />
-                    {:else}
-                        <ReferenceTokenEditor reference={parent}
-                        ></ReferenceTokenEditor>
-                    {/if}
+                    <TextOrPlaceholder
+                        {placeholder}
+                        {text}
+                        rendered={renderedText}
+                        {format}
+                    /><MenuTrigger anchor={parent}></MenuTrigger>
                 {:else}<TextOrPlaceholder
                         {placeholder}
                         {text}

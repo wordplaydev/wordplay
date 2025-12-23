@@ -7,19 +7,24 @@ import type Locales from '../locale/Locales';
 export default class Refer {
     readonly creator: (name: string, operator?: string) => Node;
     readonly definition: Definition;
+    readonly operator: boolean;
 
     constructor(
-        creator: (name: string, op?: string) => Node,
+        creator: (name: string) => Node,
         definition: Definition,
+        operator: boolean = false,
     ) {
         this.creator = creator;
         this.definition = definition;
+        this.operator = operator;
     }
 
     getNode(locales: Locales) {
         return this.creator(
-            this.definition.getPreferredName(locales.getLocales()),
-            this.definition.names.getSymbolicName(),
+            this.operator
+                ? (this.definition.names.getOperatorName()?.getName() ??
+                      this.definition.getPreferredName(locales.getLocales()))
+                : this.definition.getPreferredName(locales.getLocales()),
         );
     }
 

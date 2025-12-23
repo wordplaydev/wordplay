@@ -156,7 +156,7 @@ export default class FunctionType extends Type {
             // If this function takes fewer than the number of inputs that the given function expects,
             // then the given function will not function correctly. But it is okay if the given
             // function takes fewer inputs then this function, since it just means it's ignoring some of the inputs.
-            if (this.inputs.length < inputsToCheck.length) return false;
+            if (inputsToCheck.length < this.inputs.length) return false;
             for (
                 let i = 0;
                 // Keep going until we run out of inputs from either list.
@@ -165,16 +165,19 @@ export default class FunctionType extends Type {
             ) {
                 const thisBind = this.inputs[i];
                 const thatBind = inputsToCheck[i];
+                // Ensure the this input accepts the other input
                 if (
                     thisBind.type instanceof Type &&
                     thatBind.type instanceof Type &&
                     !thisBind.type.accepts(thatBind.type, context)
                 )
                     return false;
+                // Ensure variable-length status matches
                 if (thisBind.isVariableLength() !== thatBind.isVariableLength())
                     return false;
-                if (thisBind.hasDefault() !== thatBind.hasDefault())
-                    return false;
+                // It doesn't matter if the binds have defaults or not. The types are the same.
+                // if (thisBind.hasDefault() !== thatBind.hasDefault())
+                //     return false;
             }
             return true;
         });

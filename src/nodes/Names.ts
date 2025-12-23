@@ -128,6 +128,15 @@ export default class Names extends Node {
         return this.getSymbolicName() !== undefined;
     }
 
+    getOperatorName() {
+        return this.names.find((name) => name.isOperator());
+    }
+
+    /** Returns true if it has an operator name */
+    hasOperatorName() {
+        return this.getOperatorName() !== undefined;
+    }
+
     getPreferredNameString(
         preferred: LocaleText | LocaleText[] | Locale | Locale[],
         symbolic = true,

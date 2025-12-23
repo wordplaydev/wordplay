@@ -15,6 +15,7 @@ import Purpose from '../concepts/Purpose';
 import Refer from '../edit/Refer';
 import type Locales from '../locale/Locales';
 import { type TemplateInput } from '../locale/Locales';
+import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
 import type Context from './Context';
 import type Definition from './Definition';
@@ -70,6 +71,9 @@ export default class Reference extends SimpleExpression {
         /** The context of the edit */
         context: Context,
     ): Refer[] {
+        // Find the parent.
+        const parent = reference.getParent(context);
+
         // A matching function to see if a definition matches
         const match = (def: Definition, prefix: string, name: string) =>
             def.getNames().find((n) => n.startsWith(prefix)) ?? name;
@@ -97,8 +101,8 @@ export default class Reference extends SimpleExpression {
                 )
                 // Translate the definitions into References, or to the definitions.
                 .map((definition) => {
-                    // Bind of acceptible type? Make a reference.
                     if (
+                        // Bind of acceptible type? Make a reference.
                         (definition instanceof Bind &&
                             (type === undefined ||
                                 type.accepts(
@@ -106,14 +110,22 @@ export default class Reference extends SimpleExpression {
                                         .getType(context)
                                         .generalize(context),
                                     context,
-                                ))) || // A function type that matches the function?
+                                ))) ||
+                        // A function that matches the function type?
                         (type instanceof FunctionType &&
                             definition instanceof FunctionDefinition &&
-                            type.accepts(definition.getType(context), context))
+                            type.accepts(
+                                definition.getType(context),
+                                context,
+                            ) &&
+                            // Only accept definitions with symbolic names if a binary evaluate.
+                            (!(parent instanceof BinaryEvaluate) ||
+                                definition.names.hasOperatorName()))
                     )
                         return new Refer(
                             (name) =>
                                 Reference.make(
+                                    // Completing? Pass the prefix to find a matching name.
                                     prefix
                                         ? match(definition, prefix, name)
                                         : name,
@@ -177,7 +189,7 @@ export default class Reference extends SimpleExpression {
     }
 
     static getPossibleReplacements({ type, node, context }: ReplaceContext) {
-        return this.getPossibleReferences(type, node, true, context);
+        return this.getPossibleReferences(type, node, false, context);
     }
 
     static getPossibleAppends({ type, parent, context }: InsertContext) {

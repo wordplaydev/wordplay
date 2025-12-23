@@ -4,6 +4,7 @@ import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
+import { OperatorRegEx } from '@parser/Tokenizer';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import ReservedSymbols from '../parser/ReservedSymbols';
@@ -136,6 +137,10 @@ export default class Name extends LanguageTagged {
 
     startsWith(prefix: string) {
         return this.name && this.name.startsWith(prefix);
+    }
+
+    isOperator() {
+        return OperatorRegEx.test(this.name.text.getText());
     }
 
     withoutLanguage() {

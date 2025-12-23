@@ -102,6 +102,9 @@ export default class BinaryEvaluate extends Expression {
                 getDefinitions: (context: Context): Definition[] => {
                     return this.getFunctions(context);
                 },
+                getType: (context) =>
+                    this.getFunction(context)?.getType(context) ??
+                    new AnyType(),
             },
             {
                 name: 'right',
