@@ -133,11 +133,11 @@ export default class Menu {
 
             organization = [
                 ...priority,
+                ...removals,
                 ...// We only do this grouping if there are more than 7 other revisions and more than 1 group
                 (others.length > 7 && kinds.size > 1
                     ? grouped
                     : grouped.flatMap((set) => set.revisions)),
-                ...removals,
             ];
         }
 
