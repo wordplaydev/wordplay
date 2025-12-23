@@ -45,6 +45,7 @@
     );
 
     function handlePointerDown(event: PointerEvent) {
+        if (event.button !== 0) return; // Only primary button
         event.stopPropagation();
         // Release the implicit pointer capture so events can travel to other components.
         if (event.target instanceof Element)
@@ -68,7 +69,7 @@
             aria-readonly="true"
             class:blocks={$blocks}
             class="node"
-            class:outline
+            class:outline={outline && !$blocks}
             class:draggable={dragged !== undefined && draggable}
             class:elide
             class:evaluate={node instanceof Expression &&
@@ -133,7 +134,7 @@
         touch-action: none;
     }
 
-    .node.outline {
+    .outline {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: 1px var(--wordplay-border-radius)
