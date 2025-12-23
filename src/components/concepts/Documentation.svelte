@@ -19,6 +19,10 @@
     import Purpose from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
+    import {
+        getLanguageQuoteClose,
+        getLanguageQuoteOpen,
+    } from '@locale/LanguageCode';
     import Expression from '@nodes/Expression';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import type Node from '@nodes/Node';
@@ -37,7 +41,6 @@
         SET_OPEN_SYMBOL,
         TABLE_CLOSE_SYMBOL,
         TABLE_OPEN_SYMBOL,
-        TEXT_SYMBOL,
         TRUE_SYMBOL,
         TYPE_SYMBOL,
     } from '@parser/Symbols';
@@ -266,13 +269,14 @@
                 '🖱️',
                 '?',
                 BIND_SYMBOL,
-                TEXT_SYMBOL,
+                getLanguageQuoteOpen($locales.getLocale().language) +
+                    getLanguageQuoteClose($locales.getLocale().language),
                 MEASUREMENT_SYMBOL,
-                `${TRUE_SYMBOL}${NONE_SYMBOL}`,
-                `${LIST_OPEN_SYMBOL}${LIST_CLOSE_SYMBOL}`,
-                `${SET_OPEN_SYMBOL}${SET_CLOSE_SYMBOL}`,
-                `${TABLE_OPEN_SYMBOL}${TABLE_CLOSE_SYMBOL}`,
-                FORMATTED_SYMBOL,
+                TRUE_SYMBOL + NONE_SYMBOL,
+                LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
+                SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
+                TABLE_OPEN_SYMBOL + TABLE_CLOSE_SYMBOL,
+                FORMATTED_SYMBOL + FORMATTED_SYMBOL,
                 TYPE_SYMBOL,
                 '',
             ]}
