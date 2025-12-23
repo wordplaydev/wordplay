@@ -39,7 +39,9 @@
                 )}
             />
         {/if}
-        <MenuTrigger anchor={{ parent: node, field, index }}></MenuTrigger>
+        {#if format.editable}
+            <MenuTrigger anchor={{ parent: node, field, index }}></MenuTrigger>
+        {/if}
     </div>
 {/if}
 

@@ -39,7 +39,10 @@
         elide?: boolean;
         /** If true, hides names and docs not in a selected locale */
         locale?: Locale | null | 'symbolic';
+        /** The current caret, if there is one. */
         caret?: Caret | undefined;
+        /** Whether this view is editable. Affects appearance. */
+        editable?: boolean;
         /** Whether to show line numbers */
         lines?: boolean;
     }
@@ -53,6 +56,7 @@
         elide = false,
         locale = null,
         caret = undefined,
+        editable = false,
         lines = false,
     }: Props = $props();
 
@@ -225,7 +229,7 @@
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
-        ><NodeView {node} format={{ block: $isBlocks, root }} /></span
+        ><NodeView {node} format={{ block: $isBlocks, root, editable }} /></span
     >
 {:else}
     <code
@@ -233,7 +237,7 @@
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
-        ><NodeView {node} format={{ block: $isBlocks, root }} /></code
+        ><NodeView {node} format={{ block: $isBlocks, root, editable }} /></code
     >
 {/if}
 

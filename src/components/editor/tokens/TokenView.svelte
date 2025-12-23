@@ -151,7 +151,8 @@
                         {text}
                         rendered={renderedText}
                         {format}
-                    /><MenuTrigger anchor={parent}></MenuTrigger>
+                    />{#if format.editable}<MenuTrigger anchor={parent}
+                        ></MenuTrigger>{/if}
                 {:else}<TextOrPlaceholder
                         {placeholder}
                         {text}

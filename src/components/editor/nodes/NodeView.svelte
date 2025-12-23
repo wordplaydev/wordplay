@@ -2,6 +2,7 @@
     export type Format = {
         block: boolean;
         root: Root | undefined;
+        editable: boolean;
     };
 </script>
 

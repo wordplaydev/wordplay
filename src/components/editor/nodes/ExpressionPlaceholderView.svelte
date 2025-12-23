@@ -1,7 +1,7 @@
 <script lang="ts">
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import { locales } from '../../../db/Database';
-    import { getCaret, getProject, getRoot } from '../../project/Contexts';
+    import { getProject, getRoot } from '../../project/Contexts';
     import MenuTrigger from '../menu/MenuTrigger.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -16,8 +16,6 @@
 
     const rootContext = getRoot();
     let root = $derived(rootContext?.root);
-
-    const caret = getCaret();
 
     /** If this has no placeholder token, then get the label for field it represents */
     let placeholder = $derived.by(() => {
@@ -45,7 +43,7 @@
     empty="hide"
     {format}
 />{#if node.type}<NodeView node={[node, 'type']} {format} />{/if}
-{#if caret && format.block}<MenuTrigger anchor={node} />{/if}
+{#if format.editable && format.block}<MenuTrigger anchor={node} />{/if}
 
 <style>
     .label {

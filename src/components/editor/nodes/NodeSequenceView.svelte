@@ -137,10 +137,10 @@
                 {#if insertionFeedback?.index === nodes.length}
                     <div class="insertion-feedback"></div>
                 {/if}
-                <MenuTrigger
-                    anchor={{ parent: node, field, index: nodes.length }}
-                    insert
-                />
+                {#if format.editable}<MenuTrigger
+                        anchor={{ parent: node, field, index: nodes.length }}
+                        insert
+                    />{/if}
             {/if}
         </div>
     {/if}

@@ -1827,6 +1827,7 @@
         spaces={source.spaces}
         {locale}
         caret={$caret}
+        editable={true}
         blocks={$blocks}
         lines={$showLines}
         inline={false}
