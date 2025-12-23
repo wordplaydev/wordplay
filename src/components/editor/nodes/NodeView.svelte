@@ -325,10 +325,6 @@
         box-shadow: none;
     }
 
-    .block.Program {
-        padding: var(--wordplay-spacing);
-    }
-
     .small {
         font-size: var(--wordplay-small-font-size);
     }

@@ -17,9 +17,9 @@
 {/snippet}
 
 {#if format.block}
-    {#if node.docs}{@render docs()}{/if}
+    {#if format.editable && node.docs}{@render docs()}{/if}
     <Column
-        >{#if node.docs === undefined}{@render docs()}{/if}<NodeSequenceView
+        >{#if format.editable && node.docs === undefined}{@render docs()}{/if}<NodeSequenceView
             {node}
             field="borrows"
             {format}

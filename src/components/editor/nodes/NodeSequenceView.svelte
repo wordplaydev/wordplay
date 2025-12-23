@@ -129,6 +129,7 @@
             class="node-list"
             class:indent
             class:padding
+            class:editable={format.editable}
             class:empty={nodes.length === 0}
             data-field={field}
             data-direction={block ? 'block' : 'inline'}
@@ -189,7 +190,7 @@
         min-height: var(--wordplay-spacing);
     }
 
-    .node-list:not(.empty) {
+    .node-list.editable:not(.empty) {
         /* Leave room for dragging if not empty */
         padding: 0 var(--wordplay-spacing);
     }
@@ -202,7 +203,7 @@
         flex-direction: column;
     }
 
-    [data-direction='block'].node-list:not(.empty) {
+    [data-direction='block'].node-list.editable:not(.empty) {
         /* Leave vertical room for dragging */
         padding: var(--wordplay-spacing) 0;
     }
