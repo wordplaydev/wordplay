@@ -4727,6 +4727,9 @@
                     ]
                 }
             },
+            "note": {
+                "empty": "Names you define in your project will show up here."
+            },
             "purposes": {
                 "Project": {
                     "header": "Project",

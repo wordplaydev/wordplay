@@ -24,6 +24,10 @@ type DocumentationText = {
         /** The search text field */
         search: string;
     };
+    note: {
+        /** The project has no concepts. */
+        empty: string;
+    };
     /** Modes in the guide */
     mode: {
         browse: ModeText<[string, string]>;

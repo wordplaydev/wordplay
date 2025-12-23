@@ -7,6 +7,7 @@
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
@@ -421,6 +422,12 @@
                             {collapse}
                             row={viewWidth > viewHeight}
                         />
+                    {:else}
+                        <Note
+                            ><LocalizedText
+                                path={(l) => l.ui.docs.note.empty}
+                            /></Note
+                        >
                     {/if}
                 {:else if purpose === Purpose.Outputs}
                     {@const concepts =

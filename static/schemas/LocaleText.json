@@ -9968,6 +9968,19 @@
                   "description": "Shown if documentation is missing for a concept",
                   "type": "string"
                 },
+                "note": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "empty": {
+                      "description": "The project has no concepts.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "empty"
+                  ],
+                  "type": "object"
+                },
                 "purposes": {
                   "additionalProperties": false,
                   "description": "Labels for concept categories",
@@ -10049,6 +10062,7 @@
                 "nodoc",
                 "button",
                 "field",
+                "note",
                 "mode",
                 "header",
                 "purposes",
