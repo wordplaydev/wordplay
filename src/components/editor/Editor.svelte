@@ -13,7 +13,11 @@
     import { type LocaleTextAccessor } from '@locale/Locales';
     import Evaluate from '@nodes/Evaluate';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
+    import Node, {
+        type FieldPosition,
+        ListOf,
+        isFieldPosition,
+    } from '@nodes/Node';
     import type Program from '@nodes/Program';
     import type Source from '@nodes/Source';
     import Sym from '@nodes/Sym';
@@ -766,6 +770,7 @@
     /** Given a pointer event, find the insertion points in blocks mode. */
     function getBlockInsertionPoint(
         event: PointerEvent,
+        candidate: Node,
     ): InsertionPoint | undefined {
         // Find the node under the pointer. If there isn't one, bail.
         const nodeUnderPointer = getNodeAt(event, false);
@@ -779,7 +784,13 @@
         const emptyView = el.closest(`.empty`);
         if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
             const list = nodeUnderPointer.getField(emptyView.dataset.field);
-            if (Array.isArray(list))
+            const kind = nodeUnderPointer.getFieldKind(emptyView.dataset.field);
+            // If it's a list and it allows the node kind being inserted, return an insertion point.
+            if (
+                Array.isArray(list) &&
+                kind instanceof ListOf &&
+                kind.allowsItem(candidate)
+            ) {
                 return new InsertionPoint(
                     nodeUnderPointer,
                     emptyView.dataset.field,
@@ -788,6 +799,7 @@
                     undefined,
                     0,
                 );
+            }
         }
 
         const list = el.closest('.node-list');
@@ -836,7 +848,12 @@
                 index += 1;
 
             const nodeList = nodeUnderPointer.getField(field);
-            if (Array.isArray(nodeList)) {
+            const kind = nodeUnderPointer.getFieldKind(field);
+            if (
+                Array.isArray(nodeList) &&
+                kind instanceof ListOf &&
+                kind.allowsItem(candidate)
+            ) {
                 return new InsertionPoint(
                     nodeUnderPointer,
                     field,
@@ -979,7 +996,7 @@
 
             // In blocks mode? Handle the case of empty and insert.
             if ($blocks) {
-                insertionPoint = getBlockInsertionPoint(event);
+                insertionPoint = getBlockInsertionPoint(event, $dragged);
             }
             // Get the insertion points at the current pointer position
             // And filter them by kinds that match, getting the field's allowed types,
