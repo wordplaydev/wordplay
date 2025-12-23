@@ -455,7 +455,7 @@
         if (newPosition !== undefined)
             caret.set($caret.withPosition(newPosition));
 
-        // Mark that the creator might want to drag the node under the mouse and remember where the click started.
+        // Mark that the creator might want to drag the node under the pointer and remember where the click started.
         dragPoint = { x: event.clientX, y: event.clientY };
         if (
             editable &&
@@ -936,7 +936,7 @@
 
         // If dragging and there's no drag candidate, update the selection.
         if (
-            event.button === 0 &&
+            event.buttons === 1 &&
             $dragged === undefined &&
             dragPoint !== undefined
         ) {
@@ -951,7 +951,13 @@
                         $caret.withPosition([$caret.position[0], position]),
                     );
             }
-        }
+        } else
+            console.log(
+                'Not updating selection',
+                event.button,
+                $dragged?.toWordplay(),
+                dragPoint,
+            );
 
         // Hover debug stuff when paused.
         if (!evaluator.isPlaying()) handleDebugHover(event);
