@@ -845,7 +845,7 @@
                     undefined,
                     index,
                 );
-            } else console.log("Couldn't find field " + field);
+            }
         }
     }
 
