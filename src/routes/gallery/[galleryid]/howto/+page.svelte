@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
+    import Loading from '@components/app/Loading.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -12,7 +13,6 @@
     import { docToMarkup } from '@locale/LocaleText';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
-    import Loading from '@components/app/Loading.svelte';
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
@@ -222,24 +222,26 @@
             {/if}
 
             <div class="canvasstickyarea" id="stickyArea">
-                <div class="drafts">
-                    <Subheader
-                        text={(l) => l.ui.howto.canvasView.draftsheader}
-                    />
-                    <MarkupHTMLView
-                        markup={(l) => l.ui.howto.canvasView.draftsprompt}
-                    />
-                    {#each howTos as howTo, i (i)}
-                        {#if !howTo.isPublished()}
-                            <HowToPreview
-                                bind:howTo={howTos[i]}
-                                {cameraX}
-                                {cameraY}
-                                bind:childMoving
-                            />
-                        {/if}
-                    {/each}
-                </div>
+                {#if canUserEdit}
+                    <div class="drafts">
+                        <Subheader
+                            text={(l) => l.ui.howto.canvasView.draftsheader}
+                        />
+                        <MarkupHTMLView
+                            markup={(l) => l.ui.howto.canvasView.draftsprompt}
+                        />
+                        {#each howTos as howTo, i (i)}
+                            {#if !howTo.isPublished()}
+                                <HowToPreview
+                                    bind:howTo={howTos[i]}
+                                    {cameraX}
+                                    {cameraY}
+                                    bind:childMoving
+                                />
+                            {/if}
+                        {/each}
+                    </div>
+                {/if}
 
                 <div class="bookmarks" id="bookmarksarea">
                     <Subheader

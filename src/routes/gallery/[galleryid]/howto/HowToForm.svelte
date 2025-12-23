@@ -13,7 +13,7 @@
     import TextField from '@components/widgets/TextField.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Creators, Galleries, HowTos, locales } from '@db/Database';
+    import { Chats, Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import HowToPrompt from './HowToPrompt.svelte';
@@ -22,14 +22,14 @@
     // defining props
     interface Props {
         editingMode: boolean; // true if editing, false if viewing
-        howTo?: HowTo; // undefined if creating a brand new how-to
+        howTo: HowTo | undefined; // undefined if creating a brand new how-to
         centerX?: number;
         centerY?: number;
     }
 
     let {
         editingMode,
-        howTo = $bindable(undefined),
+        howTo = $bindable(),
         centerX = $bindable(0),
         centerY = $bindable(0),
     }: Props = $props();
@@ -53,6 +53,7 @@
         howTo ? howTo.getUserReactions() : {},
     );
     let text: string[] = $derived(howTo ? howTo.getText() : ['']);
+    let newText: string[] = $state([...text]); // can't bind to text itself, so make a copy and edit that
     let prompts: string[] = $derived(
         howTo
             ? howTo.getGuidingQuestions()
@@ -71,7 +72,7 @@
                 [],
                 title,
                 prompts,
-                text,
+                newText,
                 ['en-US'],
                 reactionButtons.map((b) => b.label),
             );
@@ -84,7 +85,7 @@
                 ...howTo.getData(),
                 published: publish,
                 title: title,
-                text: text,
+                text: newText,
             });
 
             HowTos.updateHowTo(howTo, true);
@@ -183,23 +184,24 @@
         } else gallery = undefined;
     });
 
+    // TODO(@mc) -- uncomment this once it works again
     let creators: Record<string, Creator | null> = $state({});
 
-    // Set the creators to whatever user IDs we have.
-    $effect(() => {
-        if (!howTo) return;
+    // // Set the creators to whatever user IDs we have.
+    // $effect(() => {
+    //     if (!howTo) return;
 
-        const owner = howTo.getCreator();
-        // We async load all participants, regardless of their chat eligibility, since we need to render
-        // their names.
-        Creators.getCreatorsByUIDs(
-            chat
-                ? [...chat.getAllParticipants(), ...(owner ? [owner] : [])]
-                : owner
-                  ? [owner]
-                  : [],
-        ).then((map) => (creators = map));
-    });
+    //     const owner = howTo.getCreator();
+    //     // We async load all participants, regardless of their chat eligibility, since we need to render
+    //     // their names.
+    //     Creators.getCreatorsByUIDs(
+    //         chat
+    //             ? [...chat.getAllParticipants(), ...(owner ? [owner] : [])]
+    //             : owner
+    //               ? [owner]
+    //               : [],
+    //     ).then((map) => (creators = map));
+    // });
 </script>
 
 <Dialog
@@ -242,7 +244,7 @@
             <FormattedEditor
                 placeholder={(l) => l.ui.howto.newHowTo.editorPlaceholder}
                 description={(l) => l.ui.howto.newHowTo.editorDescription}
-                bind:text={text[i]}
+                bind:text={newText[i]}
                 id="howto-prompt-{i}"
             />
         {/each}
