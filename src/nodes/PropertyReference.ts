@@ -21,7 +21,6 @@ import Bind from './Bind';
 import type Context from './Context';
 import type Definition from './Definition';
 import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import FunctionDefinition from './FunctionDefinition';
 import getGuards from './getGuards';
 import NameType from './NameType';
@@ -64,14 +63,9 @@ export default class PropertyReference extends Expression {
     static getPossibleReferences(
         type: Type | undefined,
         node: Node | undefined,
-        replace: boolean,
         context: Context,
     ) {
-        if (!replace)
-            return [
-                PropertyReference.make(ExpressionPlaceholder.make(), undefined),
-            ];
-        else if (node instanceof PropertyReference) {
+        if (node instanceof PropertyReference) {
             const selectionType = node.structure.getType(context);
             const definition =
                 selectionType instanceof StructureType
@@ -135,11 +129,11 @@ export default class PropertyReference extends Expression {
     }
 
     static getPossibleReplacements({ type, node, context }: ReplaceContext) {
-        return this.getPossibleReferences(type, node, true, context);
+        return this.getPossibleReferences(type, node, context);
     }
 
-    static getPossibleAppends({ type, context }: InsertContext) {
-        return this.getPossibleReferences(type, undefined, false, context);
+    static getPossibleAppends({ type, parent, context }: InsertContext) {
+        return this.getPossibleReferences(type, parent, context);
     }
 
     getDescriptor(): NodeDescriptor {
