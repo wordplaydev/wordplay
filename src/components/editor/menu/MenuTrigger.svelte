@@ -1,6 +1,10 @@
 <script lang="ts">
     import { isFieldPosition, type FieldPosition } from '@nodes/Node';
-    import { DOCS_SYMBOL, DROP_DOWN_SYMBOL } from '@parser/Symbols';
+    import {
+        DOCS_SYMBOL,
+        DROP_DOWN_SYMBOL,
+        LOCALE_SYMBOL,
+    } from '@parser/Symbols';
     import type { CaretPosition } from '../../../edit/Caret';
     import { getSetMenuAnchor } from '../../project/Contexts';
 
@@ -12,6 +16,7 @@
     let { anchor, insert = false }: Props = $props();
 
     const menuNode = getSetMenuAnchor();
+    const field = $derived(isFieldPosition(anchor) ? anchor.field : undefined);
 
     function show(event: PointerEvent | KeyboardEvent) {
         if (event instanceof PointerEvent && event.button !== 0) return;
@@ -25,7 +30,7 @@
 
 <span
     class="trigger"
-    data-field={anchor && isFieldPosition(anchor) ? anchor.field : undefined}
+    data-field={field}
     role="button"
     tabindex="0"
     onpointerdown={show}
@@ -33,9 +38,11 @@
         event.key === 'Enter' || event.key === ' ' ? show(event) : undefined}
     >{insert
         ? '+'
-        : isFieldPosition(anchor) && anchor.field === 'docs'
+        : field === 'docs'
           ? DOCS_SYMBOL
-          : DROP_DOWN_SYMBOL}</span
+          : field === 'language'
+            ? LOCALE_SYMBOL
+            : DROP_DOWN_SYMBOL}</span
 >
 
 <style>

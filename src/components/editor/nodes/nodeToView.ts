@@ -295,7 +295,7 @@ map(Names, NamesView, {
     size: 'normal',
 });
 map(Language, LanguageView, {
-    kind: 'plain',
+    kind: 'type',
     direction: 'inline',
     size: 'small',
 });
