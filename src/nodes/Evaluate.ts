@@ -7,7 +7,7 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import UnknownInput from '@conflicts/UnknownInput';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
@@ -111,7 +111,7 @@ export default class Evaluate extends Expression {
 
     static getPossibleEvaluations(
         expectedType: Type | undefined,
-        node: Node,
+        node: Node | undefined,
         replace: boolean,
         context: Context,
     ) {
@@ -138,12 +138,9 @@ export default class Evaluate extends Expression {
                       scopingType instanceof StructureType
                       ? scopingType.definition.getDefinitions(nodeBeingReplaced)
                       : // Otherwise, get definitions in scope of the anchor
-                        node.getDefinitionsInScope(context)
+                        (node?.getDefinitionsInScope(context) ?? [])
                 : // If the node is not selected, get definitions in the anchor's scope
-                  node.getDefinitionsInScope(context);
-
-        // This probably doesn't belong here. The expected type is the expected type, and it should be correct.
-        // if (!isBeingReplaced && structure) expectedType = undefined;
+                  (node?.getDefinitionsInScope(context) ?? []);
 
         // Convert the definitions to evaluate suggestions.
         return definitions
@@ -192,12 +189,12 @@ export default class Evaluate extends Expression {
             );
     }
 
-    static getPossibleReplacements({ node, type, context }: EditContext) {
+    static getPossibleReplacements({ node, type, context }: ReplaceContext) {
         return this.getPossibleEvaluations(type, node, true, context);
     }
 
-    static getPossibleAppends({ node, type, context }: EditContext) {
-        return this.getPossibleEvaluations(type, node, false, context);
+    static getPossibleAppends({ type, context }: InsertContext) {
+        return this.getPossibleEvaluations(type, undefined, false, context);
     }
 
     getDescriptor(): NodeDescriptor {

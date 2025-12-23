@@ -1,4 +1,4 @@
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -10,7 +10,6 @@ import { BIND_SYMBOL } from '../parser/Symbols';
 import AnyType from './AnyType';
 import type Context from './Context';
 import Expression from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import ListType from './ListType';
 import type { Grammar, Replacement } from './Node';
 import Node, { node, optional } from './Node';
@@ -35,7 +34,7 @@ export default class Spread extends Node {
         return new Spread(new Token(BIND_SYMBOL, Sym.Bind), list);
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
         return node instanceof Expression &&
             node.getType(context).accepts(ListType.make(), context)
             ? [Spread.make(node)]
@@ -43,7 +42,7 @@ export default class Spread extends Node {
     }
 
     static getPossibleAppends() {
-        return [Spread.make(ExpressionPlaceholder.make())];
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {

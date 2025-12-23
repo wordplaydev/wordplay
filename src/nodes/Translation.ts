@@ -58,6 +58,14 @@ export default class Translation extends LanguageTagged {
         );
     }
 
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
+        return [this.make('')];
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'Translation';
     }

@@ -6,7 +6,7 @@ import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import UnusedBind from '@conflicts/UnusedBind';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -112,7 +112,7 @@ export default class Bind extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, context, type }: EditContext) {
+    static getPossibleReplacements({ node, context, type }: ReplaceContext) {
         if (node instanceof Expression) {
             if (type === undefined || node.getParent(context) instanceof Block)
                 return [

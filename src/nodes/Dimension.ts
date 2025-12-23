@@ -1,4 +1,5 @@
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import { getPossibleDimensions } from '@edit/getPossibleUnits';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from '@parser/Symbols';
@@ -45,8 +46,9 @@ export default class Dimension extends Node {
         );
     }
 
-    static getPossibleReplacements({ node, type }: EditContext) {
-        return node instanceof Dimension && type === undefined
+    static getPossibleReplacements({ node, type }: ReplaceContext) {
+        // Offer to wrap the dimension in a power.
+        return node instanceof Dimension
             ? [
                   // A power of two
                   ...(node.exponent === undefined ? [node.withPower(2)] : []),
@@ -54,8 +56,10 @@ export default class Dimension extends Node {
             : [];
     }
 
-    static getPossibleAppends() {
-        return [];
+    static getPossibleAppends({ context }: InsertContext) {
+        return getPossibleDimensions(context).map((dim) =>
+            Dimension.make(true, dim, 1),
+        );
     }
 
     getDescriptor(): NodeDescriptor {

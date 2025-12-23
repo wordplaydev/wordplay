@@ -1,5 +1,5 @@
 import Purpose from '@concepts/Purpose';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { OR_SYMBOL } from '@parser/Symbols';
@@ -40,7 +40,7 @@ export default class UnionType extends Type {
         return new UnionType(left, new Token(OR_SYMBOL, Sym.Union), right);
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
+    static getPossibleReplacements({ node }: ReplaceContext) {
         return node instanceof Type
             ? [UnionType.make(node, TypePlaceholder.make())]
             : [];

@@ -1,4 +1,4 @@
-import type EditContext from '@edit/EditContext';
+import type { InsertContext } from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -39,14 +39,14 @@ export default class FormattedLiteral extends Literal {
         this.computeChildren();
     }
 
-    static getPossibleReplacements({ type, context }: EditContext) {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends({ type, context }: InsertContext) {
         return type !== undefined && type.accepts(FormattedType.make(), context)
             ? [new FormattedLiteral([FormattedTranslation.make()])]
             : [];
-    }
-
-    static getPossibleAppends(context: EditContext) {
-        return this.getPossibleReplacements(context);
     }
 
     static make(texts: FormattedTranslation[]) {

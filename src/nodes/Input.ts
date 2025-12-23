@@ -1,6 +1,6 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext } from '@edit/EditContext';
 import Refer from '@edit/Refer';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
@@ -44,14 +44,13 @@ export default class Input extends Node {
         );
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
-        const parent = node.getParent(context);
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends({ parent, context }: InsertContext) {
         // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
-        if (
-            parent instanceof Evaluate &&
-            (node === parent.open ||
-                (node instanceof Expression && parent.inputs.includes(node)))
-        ) {
+        if (parent instanceof Evaluate) {
             const mapping = parent.getInputMapping(context);
             return mapping?.inputs
                 .filter((input) => input.given === undefined)
@@ -71,10 +70,6 @@ export default class Input extends Node {
                         }, input.expected),
                 );
         } else return [];
-    }
-
-    static getPossibleAppends(context: EditContext) {
-        return this.getPossibleReplacements(context);
     }
 
     getGrammar(): Grammar {

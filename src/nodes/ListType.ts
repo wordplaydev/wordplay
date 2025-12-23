@@ -1,4 +1,4 @@
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
@@ -47,14 +47,16 @@ export default class ListType extends BasisType {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return [
-            ListType.make(),
-            ...(node instanceof Type ? [ListType.make(node)] : []),
-        ];
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        return node instanceof Type
+            ? [
+                  ListType.make(),
+                  ...(node instanceof Type ? [ListType.make(node)] : []),
+              ]
+            : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleAppends({}: InsertContext) {
         return [ListType.make()];
     }
 

@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext } from '@edit/EditContext';
 import type { LocaleText } from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
@@ -61,11 +61,11 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements({ type }: EditContext) {
-        return [ExpressionPlaceholder.make(type)];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
+    static getPossibleAppends({ type }: InsertContext) {
         return [ExpressionPlaceholder.make(type)];
     }
 

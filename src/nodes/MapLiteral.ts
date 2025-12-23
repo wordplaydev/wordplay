@@ -1,7 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { NotAKeyValue } from '@conflicts/NotAKeyValue';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import KeyValue from '@nodes/KeyValue';
@@ -21,7 +20,6 @@ import AnyType from './AnyType';
 import BindToken from './BindToken';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import MapType from './MapType';
 import { list, node, optional, type Grammar, type Replacement } from './Node';
 import SetCloseToken from './SetCloseToken';
@@ -66,22 +64,12 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
-            ? [
-                  MapLiteral.make(),
-                  MapLiteral.make([
-                      KeyValue.make(node, ExpressionPlaceholder.make()),
-                  ]),
-                  MapLiteral.make([
-                      KeyValue.make(ExpressionPlaceholder.make(), node),
-                  ]),
-              ]
-            : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
     static getPossibleAppends() {
-        return [MapLiteral.make()];
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {

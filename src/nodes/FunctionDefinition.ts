@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import NoExpression from '@conflicts/NoExpression';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
@@ -112,7 +112,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleReplacements({ type, context }: EditContext) {
+    static getPossibleReplacements({ type, context }: ReplaceContext) {
         return type instanceof FunctionType
             ? [type.getDefaultExpression(context)]
             : [];

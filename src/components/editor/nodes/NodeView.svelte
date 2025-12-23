@@ -281,7 +281,7 @@
 
     .block.inline {
         flex-direction: row;
-        align-items: center;
+        align-items: baseline;
         gap: var(--wordplay-spacing-half);
     }
 

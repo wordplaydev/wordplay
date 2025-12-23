@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import ReferenceCycle from '@conflicts/ReferenceCycle';
 import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '@conflicts/UnknownName';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -176,12 +176,12 @@ export default class Reference extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements({ type, node, context }: EditContext) {
+    static getPossibleReplacements({ type, node, context }: ReplaceContext) {
         return this.getPossibleReferences(type, node, true, context);
     }
 
-    static getPossibleAppends({ type, node, context }: EditContext) {
-        return this.getPossibleReferences(type, node, true, context);
+    static getPossibleAppends({ type, parent, context }: InsertContext) {
+        return this.getPossibleReferences(type, parent, true, context);
     }
 
     getDescriptor(): NodeDescriptor {

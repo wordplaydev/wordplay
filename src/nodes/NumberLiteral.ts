@@ -1,7 +1,7 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { NotANumber } from '@conflicts/NotANumber';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -51,7 +51,7 @@ export default class NumberLiteral extends Literal {
         );
     }
 
-    static getPossibleReplacements({ type, context }: EditContext) {
+    static getPossibleReplacements({ type, context }: ReplaceContext) {
         const possibleNumberTypes = type
             ?.getPossibleTypes(context)
             .filter(
@@ -71,17 +71,15 @@ export default class NumberLiteral extends Literal {
                               : undefined,
                       ),
             );
-        } else {
-            return [
-                NumberLiteral.make(0, undefined, Sym.Decimal),
-                NumberLiteral.make('π', undefined, Sym.Pi),
-                NumberLiteral.make('∞', undefined, Sym.Infinity),
-            ];
         }
     }
 
-    static getPossibleAppends(context: EditContext) {
-        return this.getPossibleReplacements(context);
+    static getPossibleAppends() {
+        return [
+            NumberLiteral.make(0, undefined, Sym.Decimal),
+            NumberLiteral.make('π', undefined, Sym.Pi),
+            NumberLiteral.make('∞', undefined, Sym.Infinity),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {

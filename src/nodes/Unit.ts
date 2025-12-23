@@ -1,5 +1,5 @@
 import Purpose from '@concepts/Purpose';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import {
@@ -124,7 +124,7 @@ export default class Unit extends Type {
         this.computeChildren();
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
         // What dimensions are possible?
         const dimensions = getPossibleDimensions(context);
 
@@ -144,7 +144,7 @@ export default class Unit extends Type {
             : [];
     }
 
-    static getPossibleAppends({ context }: EditContext) {
+    static getPossibleAppends({ context }: InsertContext) {
         return getPossibleDimensions(context).map((dim) => Unit.create([dim]));
     }
 

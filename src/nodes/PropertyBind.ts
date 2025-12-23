@@ -1,6 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
 import InvalidProperty from '@conflicts/InvalidProperty';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation from '@runtime/Evaluation';
@@ -23,10 +22,8 @@ import BindToken from './BindToken';
 import type Context from './Context';
 import { buildBindings } from './Evaluate';
 import Expression from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from './Node';
 import PropertyReference from './PropertyReference';
-import Reference from './Reference';
 import StructureDefinitionType from './StructureDefinitionType';
 import Sym from './Sym';
 import type Token from './Token';
@@ -52,22 +49,12 @@ export default class PropertyBind extends Expression {
         return new PropertyBind(reference, new BindToken(), value);
     }
 
-    static getPossibleReplacements({ node, type }: EditContext) {
-        return node instanceof PropertyReference
-            ? [PropertyBind.make(node, ExpressionPlaceholder.make(type))]
-            : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
-        return [
-            PropertyBind.make(
-                PropertyReference.make(
-                    ExpressionPlaceholder.make(),
-                    Reference.make('_'),
-                ),
-                ExpressionPlaceholder.make(type),
-            ),
-        ];
+    static getPossibleAppends() {
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {

@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -83,7 +83,8 @@ export default class Delete extends Expression {
         ];
     }
 
-    static getPossibleReplacements({ node, type }: EditContext) {
+    static getPossibleReplacements({ node, type }: ReplaceContext) {
+        // Offer to wrap the table expression in a delete.
         return node instanceof Expression && type instanceof TableType
             ? [
                   Delete.make(
@@ -95,12 +96,7 @@ export default class Delete extends Expression {
     }
 
     static getPossibleAppends() {
-        return [
-            Delete.make(
-                ExpressionPlaceholder.make(TableType.make()),
-                ExpressionPlaceholder.make(BooleanType.make()),
-            ),
-        ];
+        return [];
     }
 
     getPurpose() {

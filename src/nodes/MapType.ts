@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -56,16 +56,13 @@ export default class MapType extends BasisType {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return [
-            MapType.make(),
-            ...(node instanceof Type && node
-                ? [
-                      MapType.make(node, TypePlaceholder.make()),
-                      MapType.make(TypePlaceholder.make(), node),
-                  ]
-                : []),
-        ];
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        return node instanceof Type
+            ? [
+                  MapType.make(node, TypePlaceholder.make()),
+                  MapType.make(TypePlaceholder.make(), node),
+              ]
+            : [];
     }
 
     static getPossibleAppends() {

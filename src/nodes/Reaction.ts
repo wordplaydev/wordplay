@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Check from '@runtime/Check';
@@ -69,8 +69,9 @@ export default class Reaction extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
+    static getPossibleReplacements({ node, type }: ReplaceContext) {
+        // Wrap the stream in a reaction if replacing an expression with a stream type.
+        return node instanceof Expression && type instanceof StreamType
             ? [
                   Reaction.make(
                       node,
@@ -84,11 +85,7 @@ export default class Reaction extends Expression {
     }
 
     static getPossibleAppends() {
-        return Reaction.make(
-            ExpressionPlaceholder.make(),
-            Changed.make(ExpressionPlaceholder.make(StreamType.make())),
-            ExpressionPlaceholder.make(),
-        );
+        return [];
     }
 
     isUndelimited() {

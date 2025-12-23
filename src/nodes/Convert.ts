@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownConversion } from '@conflicts/UnknownConversion';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -23,7 +23,6 @@ import type Context from './Context';
 import ConversionDefinition from './ConversionDefinition';
 import ConversionType from './ConversionType';
 import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { getConcreteConversionTypeVariable } from './Generics';
 import Names from './Names';
 import NameType from './NameType';
@@ -33,7 +32,6 @@ import { NotAType } from './NotAType';
 import Sym from './Sym';
 import Token from './Token';
 import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
 
 export default class Convert extends Expression {
@@ -59,19 +57,15 @@ export default class Convert extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, type }: EditContext) {
-        return node instanceof Expression
-            ? [Convert.make(node, type ?? TypePlaceholder.make())]
+    static getPossibleReplacements({ node, type }: ReplaceContext) {
+        // Have an expected type? If so, suggest conversions to that type.
+        return node instanceof Expression && type !== undefined
+            ? [Convert.make(node, type)]
             : [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
-        return [
-            Convert.make(
-                ExpressionPlaceholder.make(),
-                type ?? TypePlaceholder.make(),
-            ),
-        ];
+    static getPossibleAppends({ type }: InsertContext) {
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {

@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation from '@runtime/Evaluation';
@@ -81,12 +81,13 @@ export default class Block extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        // Offer to replace the node parenthesized.
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        // Offer to parenthesize the node.
         return node instanceof Expression ? [Block.make([node])] : [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
+    static getPossibleAppends({ type }: InsertContext) {
+        // Offer a block with an expression placeholder of the desired type.
         return [Block.make([ExpressionPlaceholder.make(type)])];
     }
 

@@ -6,6 +6,7 @@ import type Revision from '@edit/Revision';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import type Context from '@nodes/Context';
 import FormattedLiteral from '@nodes/FormattedLiteral';
+import FormattedTranslation from '@nodes/FormattedTranslation';
 import Input from '@nodes/Input';
 import Match from '@nodes/Match';
 import Node, {
@@ -19,6 +20,7 @@ import Otherwise from '@nodes/Otherwise';
 import SetOrMapAccess from '@nodes/SetOrMapAccess';
 import Spread from '@nodes/Spread';
 import TableType from '@nodes/TableType';
+import Translation from '@nodes/Translation';
 import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
 import BinaryEvaluate from '../nodes/BinaryEvaluate';
@@ -73,7 +75,6 @@ import TextLiteral from '../nodes/TextLiteral';
 import TextType from '../nodes/TextType';
 import This from '../nodes/This';
 import Token from '../nodes/Token';
-import type Type from '../nodes/Type';
 import TypeInputs from '../nodes/TypeInputs';
 import TypePlaceholder from '../nodes/TypePlaceholder';
 import TypeVariables from '../nodes/TypeVariables';
@@ -85,6 +86,7 @@ import UnparsableExpression from '../nodes/UnparsableExpression';
 import Update from '../nodes/Update';
 import WebLink from '../nodes/WebLink';
 import type Caret from './Caret';
+import type { InsertContext, ReplaceContext } from './EditContext';
 import Remove from './Remove';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
@@ -199,14 +201,13 @@ export function getEditsAt(
                     ...programField.kind
                         .enumerate()
                         .map((kind) =>
-                            getPossibleNodes(
-                                programField,
-                                kind,
-                                undefined,
-                                source.expression.expression,
-                                false,
+                            getPossibleNodes(programField, kind, {
+                                type: undefined,
                                 context,
-                            )
+                                parent: source.expression.expression,
+                                field: 'statements',
+                                index: 0,
+                            })
                                 .filter(
                                     (kind): kind is Node | Refer =>
                                         kind !== undefined,
@@ -247,6 +248,11 @@ function getFieldAssignmentEdits(
     // Get the current value of the field.
     const fieldValue = parent.getField(field);
 
+    // Match the type of the current node
+    const expectedType = fieldInfo.getType
+        ? fieldInfo.getType(context, undefined)
+        : undefined;
+
     let edits: Revision[] = [];
 
     // Is the field currently set? Add a removal.
@@ -271,14 +277,13 @@ function getFieldAssignmentEdits(
             if (kind !== undefined)
                 edits = [
                     ...edits,
-                    ...getPossibleNodes(
-                        fieldInfo,
-                        kind,
-                        undefined,
-                        parent,
-                        true,
+                    ...getPossibleNodes(fieldInfo, kind, {
+                        type: expectedType,
                         context,
-                    )
+                        field,
+                        parent,
+                        index,
+                    })
                         .filter((r) => r !== undefined)
                         .map((replacement) =>
                             // No value? Create an assign.
@@ -327,14 +332,11 @@ function getNodeEdits(anchor: Node, context: Context) {
             ...field.kind
                 .enumerate()
                 .map((kind) =>
-                    getPossibleNodes(
-                        field,
-                        kind,
-                        expectedType,
+                    getPossibleNodes(field, kind, {
+                        type: expectedType,
                         node,
-                        true,
                         context,
-                    ).map(
+                    }).map(
                         (replacement) =>
                             new Replace(context, parent, node, replacement),
                     ),
@@ -450,16 +452,14 @@ function getRelativeFieldEdits(
             ...field.kind
                 .enumerate()
                 .map((kind) =>
-                    getPossibleNodes(
-                        field,
-                        kind,
-                        expectedType instanceof UnknownType
-                            ? undefined
-                            : expectedType,
-                        anchorNode,
-                        true,
+                    getPossibleNodes(field, kind, {
+                        type:
+                            expectedType instanceof UnknownType
+                                ? undefined
+                                : expectedType,
+                        node: anchorNode,
                         context,
-                    )
+                    })
                         // If not on an empty line, only include recommendations that "complete" the selection
                         .filter(
                             (replacement) =>
@@ -536,14 +536,11 @@ function getRelativeFieldEdits(
                         ...relativeField.kind
                             .enumerate()
                             .map((kind) =>
-                                getPossibleNodes(
-                                    relativeField,
-                                    kind,
-                                    expectedType,
-                                    anchorNode,
-                                    false,
+                                getPossibleNodes(relativeField, kind, {
+                                    type: expectedType,
+                                    node: anchorNode,
                                     context,
-                                )
+                                })
                                     // Some nodes will suggest removals. We filter those here.
                                     .filter(
                                         (kind): kind is Node | Refer =>
@@ -581,14 +578,11 @@ function getRelativeFieldEdits(
                     ...relativeField.kind
                         .enumerate()
                         .map((kind) =>
-                            getPossibleNodes(
-                                relativeField,
-                                kind,
-                                expectedType,
-                                anchorNode,
-                                false,
+                            getPossibleNodes(relativeField, kind, {
+                                type: expectedType,
+                                node: anchorNode,
                                 context,
-                            )
+                            })
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)
                                 .map((addition) => {
@@ -677,7 +671,9 @@ const PossibleNodes = [
     NumberLiteral,
     BooleanLiteral,
     TextLiteral,
+    Translation,
     FormattedLiteral,
+    FormattedTranslation,
     NoneLiteral,
     ListLiteral,
     ListAccess,
@@ -747,28 +743,30 @@ const PossibleNodes = [
     FunctionType,
 ];
 
+/** Given a field, a kind of node, an optional expected type, an optional selected node, and a context,
+ * get the nodes that are possible to set, insert, or replace. */
 function getPossibleNodes(
     field: Field,
     kind: NodeKind,
-    expectedType: Type | undefined,
-    anchor: Node,
-    selected: boolean,
-    context: Context,
+    action: InsertContext | ReplaceContext,
 ): (Node | Refer | undefined)[] {
-    // Undefined? That's just undefined,
+    // Looking for a node kind that is undefined? That's just undefined.
     if (kind === undefined) return [undefined];
-    // Symbol? That's just a token. We use the symbol's string as the text. Don't recommend it if it's already that.
+
+    // Symbol? That represents a token. We use the symbol's string as the text. Don't recommend it if it's already that.
     if (!(kind instanceof Function)) {
         const newToken = new Token(kind.toString(), kind);
         // Don't generate tokens on uncompletable fields, tokens that are equal to the existing token, or tokens that are numbers, text, or names.
         return field.uncompletable ||
-            newToken.isEqualTo(anchor) ||
+            ('node' in action &&
+                action.node !== undefined &&
+                newToken.isEqualTo(action.node)) ||
             WildcardSymbols.has(kind)
             ? []
             : [newToken];
     }
 
-    const menuContext = { node: anchor, context, type: expectedType };
+    const anchor = 'node' in action ? action.node : undefined;
 
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.
@@ -781,26 +779,30 @@ function getPossibleNodes(
             // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
             // from the context given.
             .map((possibleKind) =>
-                selected
-                    ? possibleKind.getPossibleReplacements(menuContext)
-                    : possibleKind.getPossibleAppends(menuContext),
+                'node' in action
+                    ? possibleKind.getPossibleReplacements(action)
+                    : possibleKind.getPossibleAppends(action),
             )
             // Flatten the list of possible nodes.
             .flat()
             .filter(
                 (node) =>
                     // Filter out nodes that don't match the given type, if provided.
-                    (expectedType === undefined ||
+                    (action.type === undefined ||
                         !(node instanceof Expression) ||
-                        expectedType.accepts(node.getType(context), context)) &&
+                        action.type.accepts(
+                            node.getType(action.context),
+                            action.context,
+                        )) &&
                     // Filter out nodes that are equivalent to the selection node
-                    (anchor === undefined ||
-                        (node instanceof Refer &&
-                            (!(anchor instanceof Reference) ||
-                                (anchor instanceof Reference &&
-                                    node.definition !==
-                                        anchor.resolve(context)))) ||
-                        (node instanceof Node && !anchor.isEqualTo(node))),
+                    ((anchor !== undefined &&
+                        node instanceof Refer &&
+                        (!(anchor instanceof Reference) ||
+                            (anchor instanceof Reference &&
+                                node.definition !==
+                                    anchor.resolve(action.context)))) ||
+                        (node instanceof Node &&
+                            !(anchor !== undefined && anchor.isEqualTo(node)))),
             )
     );
 }

@@ -1,6 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
@@ -59,14 +58,13 @@ export default class ListLiteral extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
-            ? [ListLiteral.make(), ListLiteral.make([node])]
-            : [];
+    static getPossibleReplacements() {
+        // Offer to wrap the element in a list
+        return node instanceof Expression ? [ListLiteral.make([node])] : [];
     }
 
     static getPossibleAppends() {
-        return [ListLiteral.make()];
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {

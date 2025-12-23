@@ -1,8 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -165,28 +163,12 @@ export default class TableLiteral extends Expression {
         return new TableLiteral(type, rows);
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return [
-            TableLiteral.make(
-                TableType.make(),
-                node instanceof Expression ? [Row.make([node])] : undefined,
-            ),
-        ];
+    static getPossibleReplacements() {
+        return [];
     }
 
     static getPossibleAppends() {
-        return [
-            TableLiteral.make(
-                TableType.make([
-                    Bind.make(
-                        undefined,
-                        Names.make([PLACEHOLDER_SYMBOL]),
-                        NumberType.make(),
-                    ),
-                ]),
-                [Row.make([NumberLiteral.make(1)])],
-            ),
-        ];
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {

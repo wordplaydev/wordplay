@@ -1,4 +1,3 @@
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
@@ -57,10 +56,8 @@ export default class SetLiteral extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
-            ? [SetLiteral.make(), SetLiteral.make([node])]
-            : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
     static getPossibleAppends() {

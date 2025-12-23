@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -63,7 +63,7 @@ export default class PropertyReference extends Expression {
 
     static getPossibleReferences(
         type: Type | undefined,
-        node: Node,
+        node: Node | undefined,
         replace: boolean,
         context: Context,
     ) {
@@ -134,12 +134,12 @@ export default class PropertyReference extends Expression {
         return [];
     }
 
-    static getPossibleReplacements({ type, node, context }: EditContext) {
+    static getPossibleReplacements({ type, node, context }: ReplaceContext) {
         return this.getPossibleReferences(type, node, true, context);
     }
 
-    static getPossibleAppends({ type, node, context }: EditContext) {
-        return this.getPossibleReferences(type, node, false, context);
+    static getPossibleAppends({ type, context }: InsertContext) {
+        return this.getPossibleReferences(type, undefined, false, context);
     }
 
     getDescriptor(): NodeDescriptor {

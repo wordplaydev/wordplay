@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -37,7 +37,7 @@ export default class SetType extends BasisType {
         return new SetType(new SetOpenToken(), key, new SetCloseToken());
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
+    static getPossibleReplacements({ node }: ReplaceContext) {
         return [
             SetType.make(),
             ...(node instanceof Type ? [SetType.make(node)] : []),
@@ -45,7 +45,7 @@ export default class SetType extends BasisType {
     }
 
     static getPossibleAppends() {
-        return SetType.make();
+        return [SetType.make()];
     }
 
     getDescriptor(): NodeDescriptor {

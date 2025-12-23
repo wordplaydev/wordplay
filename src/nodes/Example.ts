@@ -1,5 +1,4 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
@@ -32,8 +31,8 @@ export default class Example extends Content {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Content ? [Example.make(Program.make())] : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
     static getPossibleAppends() {

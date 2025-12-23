@@ -1,5 +1,5 @@
 import Purpose from '@concepts/Purpose';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -48,7 +48,7 @@ export default class TextLiteral extends Literal {
         return new TextLiteral([Translation.make(text ?? '', language)]);
     }
 
-    static getPossibleReplacements({ type, context }: EditContext) {
+    static getPossibleText(type: Type | undefined, context: Context) {
         // Is the type one or more literal text types? Suggest those. Otherwise just suggest an empty text literal.
         const types = type
             ? type
@@ -60,8 +60,12 @@ export default class TextLiteral extends Literal {
             : [TextLiteral.make()];
     }
 
-    static getPossibleAppends(context: EditContext) {
-        return this.getPossibleReplacements(context);
+    static getPossibleReplacements({ type, context }: ReplaceContext) {
+        return this.getPossibleText(type, context);
+    }
+
+    static getPossibleAppends({ type, context }: InsertContext) {
+        return this.getPossibleText(type, context);
     }
 
     getDescriptor(): NodeDescriptor {

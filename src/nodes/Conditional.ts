@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -15,7 +15,6 @@ import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import BooleanLiteral from './BooleanLiteral';
 import BooleanType from './BooleanType';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
@@ -58,9 +57,9 @@ export default class Conditional extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, type }: EditContext) {
-        return node instanceof Expression &&
-            (type === undefined || type instanceof BooleanType)
+    static getPossibleReplacements({ node, type }: ReplaceContext) {
+        // A boolean selected? Offer to wrap it in a conditional.
+        return node instanceof Expression && type instanceof BooleanType
             ? [
                   Conditional.make(
                       node,
@@ -71,12 +70,8 @@ export default class Conditional extends Expression {
             : [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
-        return Conditional.make(
-            BooleanLiteral.make(true),
-            ExpressionPlaceholder.make(type),
-            ExpressionPlaceholder.make(type),
-        );
+    static getPossibleAppends() {
+        return [];
     }
 
     isUndelimited() {

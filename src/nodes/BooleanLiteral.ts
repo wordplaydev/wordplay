@@ -1,5 +1,5 @@
 import Purpose from '@concepts/Purpose';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -34,15 +34,17 @@ export default class BooleanLiteral extends Literal {
         );
     }
 
-    static getPossibleReplacements({ type }: EditContext) {
-        // Any type or a boolean? Offer the literals
-        return type === undefined || type instanceof BooleanType
-            ? [BooleanLiteral.make(true), BooleanLiteral.make(false)]
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        // If the node is true, offer false, and vice versa.
+        return node instanceof BooleanLiteral
+            ? node.bool()
+                ? [BooleanLiteral.make(false)]
+                : [BooleanLiteral.make(true)]
             : [];
     }
 
     static getPossibleAppends() {
-        return BooleanLiteral.make(true);
+        return [BooleanLiteral.make(true), BooleanLiteral.make(false)];
     }
 
     getDescriptor(): NodeDescriptor {

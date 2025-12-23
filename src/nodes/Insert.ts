@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -82,7 +82,7 @@ export default class Insert extends Expression {
         ];
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
         const anchorType =
             node instanceof Expression ? node.getType(context) : undefined;
         const tableType =
