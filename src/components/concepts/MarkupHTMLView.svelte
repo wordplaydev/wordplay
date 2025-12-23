@@ -21,6 +21,7 @@
 
     let { markup, inline = false, note = false }: Props = $props();
 
+    /* Convert the markup into a Markup node. */
     let parsed = $derived.by(() => {
         if (markup instanceof Markup) return markup;
         if (markup instanceof Function) {
@@ -130,7 +131,7 @@
 
     p {
         margin-block-start: 0em;
-        margin-block-end: 0em;
+        margin-block-end: 1em;
     }
 
     ul {
