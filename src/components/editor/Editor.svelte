@@ -1049,7 +1049,7 @@
             grabFocus('Restoring editor focus after menu is hidden.');
     });
 
-    async function showMenu(node: CaretPosition | FieldPosition) {
+    async function showMenu(anchor: CaretPosition | FieldPosition) {
         if (!editable) return;
 
         wasFocusedBeforeMenu = focused;
@@ -1061,14 +1061,15 @@
         const revisions = getEditsAt(
             project,
             $caret,
-            isFieldPosition(node) ? node : undefined,
+            isFieldPosition(anchor) ? anchor : undefined,
             $locales,
         );
 
         // Set the menu.
         if (concepts)
             menu = new Menu(
-                $caret,
+                source,
+                anchor,
                 revisions,
                 undefined,
                 concepts,

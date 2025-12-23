@@ -32,7 +32,7 @@
             />
         </Column>
     {:else}
-        {@render docs()}
+        {#if node.docs && node.docs.docs.length > 0}{@render docs()}{/if}
         <NodeSequenceView
             {node}
             field="borrows"

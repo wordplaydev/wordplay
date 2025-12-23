@@ -20,7 +20,7 @@
 {#if format.block}
     {#if node.docs === undefined || node.docs.docs.length === 0}
         <Row>
-            {@render docs()}
+            {#if format.editable}{@render docs()}{/if}
             <Column
                 ><NodeView
                     node={[node, 'open']}
@@ -37,7 +37,7 @@
         </Row>
     {:else}
         <Column
-            >{@render docs()}<NodeView
+            ><NodeView
                 node={[node, 'open']}
                 {format}
                 empty="hide"

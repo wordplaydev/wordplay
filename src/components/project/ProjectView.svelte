@@ -30,7 +30,7 @@
         AnimationFactors,
     } from '@db/settings/AnimationFactorSetting';
     import type Locale from '@locale/Locale';
-    import Node from '@nodes/Node';
+    import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
@@ -55,7 +55,6 @@
     } from '../../db/Database';
     import { isFlagged } from '../../db/projects/Moderation';
     import Arrangement from '../../db/settings/Arrangement';
-    import type Caret from '../../edit/Caret';
     import Characters from '../../lore/BasisCharacters';
     import type Color from '../../output/Color';
     import {
@@ -923,7 +922,7 @@
     $effect(() => {
         if (menu) {
             // Find the tile corresponding to the menu's source file.
-            const index = sources.indexOf(menu.getCaret().source);
+            const index = sources.indexOf(menu.getSource());
             const tile = layout?.tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index),
             );
@@ -951,7 +950,7 @@
 
     /** When the menu changes, compute a menu position. */
     $effect(() => {
-        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
+        menuPosition = menu ? getMenuPosition(menu) : undefined;
     });
 
     // When the locale direction changes, update the output.
@@ -1305,7 +1304,7 @@
     }
 
     function repositionFloaters() {
-        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
+        menuPosition = menu ? getMenuPosition(menu) : undefined;
     }
 
     function getSourceIndexByID(id: string) {
@@ -1351,10 +1350,13 @@
         });
     }
 
-    function getMenuPosition(caret: Caret) {
+    function getMenuPosition(menu: MenuInfo) {
+        const source = menu.getSource();
+        const anchor = menu.getAnchor();
+
         // Find the editor
         const editor = document.querySelector(
-            `.editor[data-id="${caret.source.id}"]`,
+            `.editor[data-id="${source.id}"]`,
         );
         if (editor === null) return undefined;
 
@@ -1363,28 +1365,44 @@
 
         const projectBounds = project.getBoundingClientRect();
 
-        // Is it a node? Position near it's top left.
-        if (caret.position instanceof Node) {
-            const view = editor.querySelector(
-                `.node-view[data-id="${caret.position.id}"]`,
+        if (isFieldPosition(anchor)) {
+            // Is it a field position? Position near the field.
+            const trigger = editor.querySelector(
+                `.node-view[data-id="${anchor.parent.id}"] .trigger[data-field="${anchor.field}"]`,
             );
-            if (view == null) return undefined;
-            const nodeBounds = view.getBoundingClientRect();
+            if (trigger == null) return undefined;
+            const triggerBounds = trigger.getBoundingClientRect();
             return {
-                left: nodeBounds.left - projectBounds.left,
-                top: nodeBounds.bottom - projectBounds.top,
+                left: triggerBounds.left - projectBounds.left,
+                top:
+                    triggerBounds.bottom -
+                    triggerBounds.height / 4 -
+                    projectBounds.top,
             };
-        }
-        // Is it a position? Position at the bottom right of the caret.
-        else if (caret.isIndex()) {
-            // Find the position of the caret in the editor.
-            const caretView = editor.querySelector('.caret');
-            if (caretView === null) return undefined;
-            const caretBounds = caretView.getBoundingClientRect();
-            return {
-                left: caretBounds.left - projectBounds.left,
-                top: caretBounds.bottom - projectBounds.top,
-            };
+        } else {
+            // Is it a node? Position near it's top left.
+            if (anchor instanceof Node) {
+                const view = editor.querySelector(
+                    `.node-view[data-id="${anchor.id}"]`,
+                );
+                if (view == null) return undefined;
+                const nodeBounds = view.getBoundingClientRect();
+                return {
+                    left: nodeBounds.left - projectBounds.left,
+                    top: nodeBounds.bottom - projectBounds.top,
+                };
+            }
+            // Is it a position? Position at the bottom right of the caret.
+            else if (typeof anchor === 'number') {
+                // Find the position of the caret in the editor.
+                const caretView = editor.querySelector('.caret');
+                if (caretView === null) return undefined;
+                const caretBounds = caretView.getBoundingClientRect();
+                return {
+                    left: caretBounds.left - projectBounds.left,
+                    top: caretBounds.bottom - projectBounds.top,
+                };
+            }
         }
     }
 

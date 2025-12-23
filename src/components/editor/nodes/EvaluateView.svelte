@@ -20,6 +20,7 @@
         {format}
         field="inputs"
         empty="label"
+        padding={false}
         block={node.inputs.reduce((sum, v) => sum + v.toWordplay().length, 0) >
             32}
     />

@@ -1,7 +1,9 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type Purpose from '@concepts/Purpose';
+import { type CaretPosition } from '@edit/Caret';
 import type Locales from '@locale/Locales';
-import type Caret from '../../../edit/Caret';
+import type { FieldPosition } from '@nodes/Node';
+import type Source from '@nodes/Source';
 import Revision from '../../../edit/Revision';
 import type { Edit } from '../commands/Commands';
 
@@ -32,8 +34,11 @@ const PurposeRelevance: Record<Purpose, number> = {
 
 /** An immutable container for menu state. */
 export default class Menu {
+    /** The source in which the menu was requested */
+    private readonly source: Source;
+
     /** The caret at which the menu was generated. */
-    private readonly caret: Caret;
+    private readonly anchor: CaretPosition | FieldPosition;
 
     /** The transforms generated from the caret */
     private readonly revisions: Revision[];
@@ -61,14 +66,16 @@ export default class Menu {
     private readonly organization: MenuOrganization;
 
     constructor(
-        caret: Caret,
+        source: Source,
+        anchor: CaretPosition | FieldPosition,
         revisions: Revision[],
         organization: MenuOrganization | undefined,
         concepts: ConceptIndex,
         selection: [number, number | undefined],
         action: (selection: Edit | RevisionSet | undefined) => boolean,
     ) {
-        this.caret = caret;
+        this.source = source;
+        this.anchor = anchor;
         this.revisions = revisions;
         this.concepts = concepts;
         this.selection = selection;
@@ -119,12 +126,21 @@ export default class Menu {
         this.organization = organization;
     }
 
+    getSource(): Source {
+        return this.source;
+    }
+
+    getAnchor(): CaretPosition | FieldPosition {
+        return this.anchor;
+    }
+
     withSelection(selection: MenuSelection) {
         const [index, subindex] = selection;
         const submenu = this.organization[index];
 
         return new Menu(
-            this.caret,
+            this.source,
+            this.anchor,
             this.revisions,
             this.organization,
             this.concepts,
@@ -136,10 +152,6 @@ export default class Menu {
             ],
             this.action,
         );
-    }
-
-    getCaret(): Caret {
-        return this.caret;
     }
 
     getOrganization() {
@@ -226,7 +238,8 @@ export default class Menu {
             const newIndex = index + direction;
             return newIndex >= 0 && newIndex < this.organization.length
                 ? new Menu(
-                      this.caret,
+                      this.source,
+                      this.anchor,
                       this.revisions,
                       this.organization,
                       this.concepts,
@@ -238,7 +251,8 @@ export default class Menu {
             const newSubindex = subindex + direction;
             return newSubindex >= -1 && newSubindex < submenu.size()
                 ? new Menu(
-                      this.caret,
+                      this.source,
+                      this.anchor,
                       this.revisions,
                       this.organization,
                       this.concepts,
@@ -253,7 +267,8 @@ export default class Menu {
     out() {
         return this.selection[1] !== undefined
             ? new Menu(
-                  this.caret,
+                  this.source,
+                  this.anchor,
                   this.revisions,
                   this.organization,
                   this.concepts,
@@ -268,7 +283,8 @@ export default class Menu {
         return this.getSelection() instanceof RevisionSet &&
             this.selection[1] === undefined
             ? new Menu(
-                  this.caret,
+                  this.source,
+                  this.anchor,
                   this.revisions,
                   this.organization,
                   this.concepts,
@@ -281,7 +297,8 @@ export default class Menu {
     back() {
         return this.selection[1] !== undefined
             ? new Menu(
-                  this.caret,
+                  this.source,
+                  this.anchor,
                   this.revisions,
                   this.organization,
                   this.concepts,

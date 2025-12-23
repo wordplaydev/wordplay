@@ -25,6 +25,7 @@
 
 <span
     class="trigger"
+    data-field={anchor && isFieldPosition(anchor) ? anchor.field : undefined}
     role="button"
     tabindex="0"
     onpointerdown={show}
