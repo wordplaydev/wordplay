@@ -1,5 +1,5 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
-import type Purpose from '@concepts/Purpose';
+import Purpose from '@concepts/Purpose';
 import type Project from '@db/projects/Project';
 import { type CaretPosition } from '@edit/Caret';
 import type Locales from '@locale/Locales';
@@ -88,18 +88,23 @@ export default class Menu {
         this.action = action;
 
         if (organization === undefined) {
+            const visibleRevisions = this.revisions.filter((revision) => {
+                const node = revision.getNewNode(this.concepts.locales);
+                return node ? node.getPurpose() !== Purpose.Hidden : true;
+            });
+
             // The organization is divided into the following groups and order:
             // 1. Anything involving a reference (e.g., revisions that insert a Refer)
             // 2. RevisionSets organized by node kind, or the single Revision if there's only one, sorted by Purpose.
             // 3. Any removals, which are likely the least relevant.
             // RevisionSets are organized alphabetically by locale.
-            const priority = this.revisions.filter((revision) =>
+            const priority = visibleRevisions.filter((revision) =>
                 revision.isCompletion(this.concepts.locales),
             );
-            const removals = this.revisions.filter((revision) =>
+            const removals = visibleRevisions.filter((revision) =>
                 revision.isRemoval(),
             );
-            const others = this.revisions.filter(
+            const others = visibleRevisions.filter(
                 (revision) =>
                     !priority.includes(revision) && !revision.isRemoval(),
             );
