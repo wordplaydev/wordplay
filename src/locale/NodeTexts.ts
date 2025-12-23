@@ -560,7 +560,7 @@ type NodeTexts = {
      * Finish inputs: $1: property name, $2: value
      */
     PropertyReference: DescriptiveNodeText &
-        ExpressionText & { label: { property: Template; structure: Template } };
+        ExpressionText & { label: { property: Template } };
     /**
      * Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1`
      * Finish inputs: $1 = resulting value

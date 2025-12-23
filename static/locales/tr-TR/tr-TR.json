@@ -1087,7 +1087,6 @@
             "start": "$~İlk önce değeri alalım",
             "finish": "$~Bulunan mülk 1 dolar, 2 dolar",
             "label": {
-                "structure": "$~yapı",
                 "property": "$~mülk"
             }
         },

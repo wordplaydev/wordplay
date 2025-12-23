@@ -1070,7 +1070,6 @@
             "description": "property $1[$1|missing name]",
             "emotion": "kind",
             "label": {
-                "structure": "structure",
                 "property": "property"
             },
             "doc": [

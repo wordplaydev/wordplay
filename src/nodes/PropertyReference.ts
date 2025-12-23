@@ -145,7 +145,9 @@ export default class PropertyReference extends Expression {
             {
                 name: 'structure',
                 kind: node(Expression),
-                label: () => (l) => l.node.PropertyReference.label.structure,
+                label: (locales, _, context) => {
+                    return () => this.getSubjectType(context).getLabel(locales);
+                },
             },
             { name: 'dot', kind: node(Sym.Access), label: undefined },
             {

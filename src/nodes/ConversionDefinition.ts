@@ -106,13 +106,13 @@ export default class ConversionDefinition extends DefinitionExpression {
                 name: 'input',
                 kind: node(Type),
                 space: true,
-                label: () => (l) => l.node.ConversionDefinition.label.input,
+                label: (locales) => () => this.input.getLabel(locales),
             },
             {
                 name: 'output',
                 kind: node(Type),
                 space: true,
-                label: () => (l) => l.node.ConversionDefinition.label.output,
+                label: (locales) => () => this.output.getLabel(locales),
             },
             {
                 name: 'expression',

@@ -1087,7 +1087,6 @@
             "start": "$~Låt oss först ta reda på värdet",
             "finish": "$~Hittade egenskapen $1, den är $2",
             "label": {
-                "structure": "$~strukturera",
                 "property": "$~egendom"
             }
         },

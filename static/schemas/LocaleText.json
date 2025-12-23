@@ -5447,14 +5447,10 @@
                   "properties": {
                     "property": {
                       "$ref": "#/definitions/Template"
-                    },
-                    "structure": {
-                      "$ref": "#/definitions/Template"
                     }
                   },
                   "required": [
-                    "property",
-                    "structure"
+                    "property"
                   ],
                   "type": "object"
                 },

@@ -1087,7 +1087,6 @@
             "start": "$~Najpierw ustalmy wartość",
             "finish": "$~Znaleziono nieruchomość o wartości 1, jest ona warta 2",
             "label": {
-                "structure": "$~struktura",
                 "property": "$~nieruchomość"
             }
         },

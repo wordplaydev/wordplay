@@ -1075,7 +1075,6 @@
             "start": "$~Lassen Sie uns zunächst den Wert ermitteln",
             "finish": "$~gefundenes Eigentum $1, es ist $2",
             "label": {
-                "structure": "$~Struktur",
                 "property": "$~Eigentum"
             }
         },

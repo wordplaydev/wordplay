@@ -1087,7 +1087,6 @@
             "start": "$~Commençons par obtenir la valeur",
             "finish": "$~J'ai trouvé une propriété à $1, elle est à $2",
             "label": {
-                "structure": "$~structure",
                 "property": "$~propriété"
             }
         },

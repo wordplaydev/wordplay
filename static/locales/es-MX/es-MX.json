@@ -1062,7 +1062,6 @@
             "start": "primero obtengamos el valor",
             "finish": "se encontró la propiedad $1, es $2",
             "label": {
-                "structure": "$~estructura",
                 "property": "$~propiedad"
             }
         },
