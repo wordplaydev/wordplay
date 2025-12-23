@@ -8,7 +8,6 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
     import CharacterChooser from '@components/editor/commands/GlyphChooser.svelte';
@@ -1763,14 +1762,6 @@
                                                 tile.id,
                                             )}
                                         </div>
-                                    {/if}
-                                    {#if $blocks}
-                                        <p class="editor-warning feedback"
-                                            >This editing mode is experimental. <Link
-                                                to="https://discord.gg/Jh2Qq9husy"
-                                                >Discuss</Link
-                                            > improvements.
-                                        </p>
                                     {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
