@@ -594,7 +594,6 @@
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         padding: var(--wordplay-spacing);
-        padding-top: 0;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
