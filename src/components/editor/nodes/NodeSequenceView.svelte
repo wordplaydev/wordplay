@@ -23,6 +23,7 @@
         filtered?: Node[];
         /** How to handle an empty list: hide (don't render anything), label (show a localized placeholder label), menu (show a compact trigger menu) */
         empty: 'hide' | 'label' | 'menu';
+        /** The current format of the subtree */
         format: Format;
         /** Whether to lay out the list inline or block */
         block?: boolean;

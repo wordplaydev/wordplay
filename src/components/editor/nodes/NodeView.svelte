@@ -300,9 +300,9 @@
 
     .block.type {
         font-size: var(--wordplay-small-font-size);
-        box-shadow: inset var(--wordplay-border-color) 0px 0px
+        box-shadow: inset var(--wordplay-border-color) 1px 1px
             var(--wordplay-border-width);
-        background: var(--wordplay-alternating-color);
+        background: var(--color-light-grey-transparent);
         padding: var(--wordplay-spacing-half);
     }
 
