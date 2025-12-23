@@ -26,8 +26,12 @@
         format: Format;
         /** Whether to lay out the list inline or block */
         block?: boolean;
+        /** Whether to elide the list when it's long. */
         elide?: boolean;
+        /** Whether to indent the list.*/
         indent?: boolean;
+        /** Whether to add padding between items in blocks mode. */
+        padding?: boolean;
     }
 
     let {
@@ -39,6 +43,7 @@
         elide = $bindable(false),
         block = false,
         indent = false,
+        padding = true,
     }: Props = $props();
 
     let caret = getCaret();
@@ -122,6 +127,7 @@
         <div
             class="node-list"
             class:indent
+            class:padding
             data-field={field}
             data-direction={block ? 'block' : 'inline'}
         >
@@ -175,10 +181,14 @@
     .node-list {
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
+        gap: 0;
         align-items: baseline;
         min-width: var(--wordplay-spacing);
         min-height: var(--wordplay-spacing);
+    }
+
+    .node-list.padding {
+        padding: var(--wordplay-spacing);
     }
 
     [data-direction='block'].node-list {
