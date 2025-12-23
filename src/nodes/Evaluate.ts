@@ -229,7 +229,15 @@ export default class Evaluate extends Expression {
             {
                 name: 'inputs',
                 kind: list(true, node(Input), node(Expression)),
-                label: (locales: Locales, child: Node, context: Context) => {
+                label: (
+                    locales: Locales,
+                    context: Context,
+                    index: number | undefined,
+                ) => {
+                    if (index === undefined)
+                        return (l) => l.node.Evaluate.label.inputs;
+                    const child = this.inputs[index];
+
                     // Get the function called
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.

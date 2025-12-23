@@ -1,5 +1,6 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type Purpose from '@concepts/Purpose';
+import type Project from '@db/projects/Project';
 import { type CaretPosition } from '@edit/Caret';
 import type Locales from '@locale/Locales';
 import type { FieldPosition } from '@nodes/Node';
@@ -34,6 +35,9 @@ const PurposeRelevance: Record<Purpose, number> = {
 
 /** An immutable container for menu state. */
 export default class Menu {
+    /** The project this menu was generated for */
+    private readonly project: Project;
+
     /** The source in which the menu was requested */
     private readonly source: Source;
 
@@ -66,6 +70,7 @@ export default class Menu {
     private readonly organization: MenuOrganization;
 
     constructor(
+        project: Project,
         source: Source,
         anchor: CaretPosition | FieldPosition,
         revisions: Revision[],
@@ -74,6 +79,7 @@ export default class Menu {
         selection: [number, number | undefined],
         action: (selection: Edit | RevisionSet | undefined) => boolean,
     ) {
+        this.project = project;
         this.source = source;
         this.anchor = anchor;
         this.revisions = revisions;
@@ -126,6 +132,10 @@ export default class Menu {
         this.organization = organization;
     }
 
+    getProject() {
+        return this.project;
+    }
+
     getSource(): Source {
         return this.source;
     }
@@ -139,6 +149,7 @@ export default class Menu {
         const submenu = this.organization[index];
 
         return new Menu(
+            this.project,
             this.source,
             this.anchor,
             this.revisions,
@@ -238,6 +249,7 @@ export default class Menu {
             const newIndex = index + direction;
             return newIndex >= 0 && newIndex < this.organization.length
                 ? new Menu(
+                      this.project,
                       this.source,
                       this.anchor,
                       this.revisions,
@@ -251,6 +263,7 @@ export default class Menu {
             const newSubindex = subindex + direction;
             return newSubindex >= -1 && newSubindex < submenu.size()
                 ? new Menu(
+                      this.project,
                       this.source,
                       this.anchor,
                       this.revisions,
@@ -267,6 +280,7 @@ export default class Menu {
     out() {
         return this.selection[1] !== undefined
             ? new Menu(
+                  this.project,
                   this.source,
                   this.anchor,
                   this.revisions,
@@ -283,6 +297,7 @@ export default class Menu {
         return this.getSelection() instanceof RevisionSet &&
             this.selection[1] === undefined
             ? new Menu(
+                  this.project,
                   this.source,
                   this.anchor,
                   this.revisions,
@@ -297,6 +312,7 @@ export default class Menu {
     back() {
         return this.selection[1] !== undefined
             ? new Menu(
+                  this.project,
                   this.source,
                   this.anchor,
                   this.revisions,

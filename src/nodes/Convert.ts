@@ -77,7 +77,7 @@ export default class Convert extends Expression {
             {
                 name: 'expression',
                 kind: node(Expression),
-                label: (locales, _, context) => () =>
+                label: (locales, context) => () =>
                     this.expression.getType(context).getLabel(locales),
             },
             {

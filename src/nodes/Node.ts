@@ -665,8 +665,15 @@ export default abstract class Node {
         context: Context,
         root: Root,
     ): LocaleTextAccessor | undefined {
-        const label = this.getFieldOfChild(child)?.label;
-        return label ? label(locales, child, context, root) : undefined;
+        const field = this.getFieldOfChild(child);
+        if (field === undefined) return undefined;
+        const label = field?.label;
+        if (label === undefined) return undefined;
+        const index =
+            field.kind instanceof ListOf
+                ? (this as any)[field.name].indexOf(child)
+                : undefined;
+        return label(locales, context, index, root);
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */
@@ -709,9 +716,13 @@ type BaseField = {
 };
 
 type LabelAccessor = (
+    /** The locales to use */
     locales: Locales,
-    child: Node,
+    /** The source context */
     context: Context,
+    /** The index of the child in the list, if the field is a list */
+    index: number | undefined,
+    /** The root node */
     root: Root,
 ) => LocaleTextAccessor;
 

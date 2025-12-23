@@ -1,6 +1,9 @@
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import Revision from '@edit/Revision';
+    import { isFieldPosition, ListOf } from '@nodes/Node';
     import { tick } from 'svelte';
     import { locales } from '../../../db/Database';
     import Token from '../../../nodes/Token';
@@ -22,6 +25,23 @@
     // We pull out the organization here to avoid rerendering with the menu changes but the organization doesn't.
     // This not only helps with efficiency, but also prevent screen readers from resetting the menu item focus.
     let revisions = $derived(menu.getOrganization());
+
+    /** See if there's a label for the field */
+    let fieldLabel = $derived.by(() => {
+        const anchor = menu.getAnchor();
+        if (isFieldPosition(anchor)) {
+            const field = anchor.parent.getFieldNamed(anchor.field);
+            if (field === undefined) return;
+            const root = menu.getProject().getRoot(anchor.parent);
+            if (root === undefined) return;
+            const context = menu.getProject().getContext(menu.getSource());
+            const labelGenerator = field.label;
+            if (labelGenerator === undefined) return;
+            const index =
+                field.kind instanceof ListOf ? anchor.index : undefined;
+            return labelGenerator($locales, context, index, root);
+        }
+    });
 
     /**
      * Constrain the menu position to the viewport.
@@ -133,6 +153,9 @@
             : menu.getSelectionIndex()[0]}"
         onkeydown={handleKey}
     >
+        {#if fieldLabel}<div class="label"
+                ><Note><LocalizedText path={fieldLabel} /></Note></div
+            >{/if}
         {#each revisions as entry, itemIndex}
             {#if entry instanceof Revision}
                 <MenuItem
@@ -224,6 +247,10 @@
 
         /* Submenus should be absolute relative to this */
         position: relative;
+    }
+
+    .label {
+        padding: var(--wordplay-spacing);
     }
 
     .menu {

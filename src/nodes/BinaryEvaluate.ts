@@ -89,7 +89,7 @@ export default class BinaryEvaluate extends Expression {
                 name: 'left',
                 kind: node(Expression),
                 // The label comes from the type of left, or the default label from the translation.
-                label: (locales: Locales, _: Node, context: Context) => () =>
+                label: (locales: Locales, context: Context) => () =>
                     this.left.getType(context).getLabel(locales),
                 getType: (context) => this.left.getType(context),
             },
@@ -110,7 +110,7 @@ export default class BinaryEvaluate extends Expression {
                 name: 'right',
                 kind: node(Expression),
                 // The name of the input from the function, or the translation default
-                label: (locales: Locales, _: Node, context: Context) => {
+                label: (locales: Locales, context: Context) => {
                     const fun = this.getFunction(context);
                     return fun
                         ? (_) => locales.getName(fun.inputs[0].names)

@@ -32,9 +32,8 @@
             <LocalizedText
                 path={label(
                     $locales,
-                    /** This isn't actually correct, but it's an empty list, so it shouldn't matter */
-                    node,
                     $project.getNodeContext(node),
+                    undefined,
                     format.root,
                 )}
             />

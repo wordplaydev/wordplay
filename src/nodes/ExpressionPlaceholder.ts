@@ -78,12 +78,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
             {
                 name: 'placeholder',
                 kind: node(Sym.Placeholder),
-                label: (
-                    locales: Locales,
-                    _: Node,
-                    context: Context,
-                    root: Root,
-                ) => {
+                label: (locales: Locales, context: Context, _, root: Root) => {
                     const parent: Node | undefined = root.getParent(this);
                     // See if the parent has a label.
                     return (

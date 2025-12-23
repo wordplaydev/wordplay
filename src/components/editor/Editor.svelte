@@ -1068,6 +1068,7 @@
         // Set the menu.
         if (concepts)
             menu = new Menu(
+                project,
                 source,
                 anchor,
                 revisions,

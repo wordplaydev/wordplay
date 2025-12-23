@@ -40,7 +40,6 @@ import ListType from './ListType';
 import type Name from './Name';
 import Names from './Names';
 import NameType from './NameType';
-import type Node from './Node';
 import { any, node, none, type Grammar, type Replacement } from './Node';
 import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
@@ -189,7 +188,7 @@ export default class Bind extends Expression {
                 indent: true,
                 // The bind field should be whatever type is expected.
                 getType: (context: Context) => this.getExpectedType(context),
-                label: (locales: Locales, _: Node, context: Context) => {
+                label: (locales: Locales, context: Context) => {
                     const bind = this.getCorrespondingBindDefinition(context);
                     return () =>
                         bind
