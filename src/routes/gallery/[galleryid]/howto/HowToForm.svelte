@@ -7,12 +7,11 @@
     import CreatorList from '@components/project/CreatorList.svelte';
     import { TileKind } from '@components/project/Tile';
     import Button from '@components/widgets/Button.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
@@ -288,49 +287,48 @@
         </div>
 
         <div class="toolbar">
-            <Toggle
-                tips={(l) => l.ui.howto.newHowTo.collaboratorsToggle}
-                on={collabToggle}
-                toggle={() => {
-                    collabToggle = !collabToggle;
-                }}
-            >
-                {COLLABORATE_SYMBOL}
-                {TileKind.Collaborate}
-            </Toggle>
-            {#if !howTo}
-                <label for="notify-checked">
-                    <Checkbox
-                        id="notify-checked"
-                        bind:on={notify}
-                        changed={(value) => (notify = value ?? true)}
-                        label={(l) => l.ui.howto.newHowTo.notificationOptOut}
+            <div class="toolbar-left">
+                <Toggle
+                    tips={(l) => l.ui.howto.newHowTo.collaboratorsToggle}
+                    on={collabToggle}
+                    toggle={() => {
+                        collabToggle = !collabToggle;
+                    }}
+                >
+                    {COLLABORATE_SYMBOL}
+                    {TileKind.Collaborate}
+                </Toggle>
+            </div>
+            <div class="toolbar-right">
+                {#if !howTo}
+                    <Mode
+                        choice={notify ? 0 : 1}
+                        modes={['🔔', '🔕']}
+                        descriptions={(l) => l.ui.howto.newHowTo.notification}
+                        select={(num) => (notify = num === 0)}
                     />
-                    <LocalizedText
-                        path={(l) => l.ui.howto.newHowTo.notificationOptOut}
-                    />
-                </label>
-            {/if}
+                {/if}
 
-            {#if !howTo?.isPublished()}
+                {#if !howTo?.isPublished()}
+                    <Button
+                        tip={(l) => l.ui.howto.newHowTo.save.tip}
+                        label={(l) => l.ui.howto.newHowTo.save.label}
+                        action={() => {
+                            writeNewHowTo(false);
+                        }}
+                        active={true}
+                    />
+                {/if}
                 <Button
-                    tip={(l) => l.ui.howto.newHowTo.save.tip}
-                    label={(l) => l.ui.howto.newHowTo.save.label}
+                    tip={(l) => l.ui.howto.newHowTo.post.tip}
+                    label={(l) => l.ui.howto.newHowTo.post.label}
                     action={() => {
-                        writeNewHowTo(false);
+                        writeNewHowTo(true);
                     }}
                     active={true}
-                />
-            {/if}
-            <Button
-                tip={(l) => l.ui.howto.newHowTo.post.tip}
-                label={(l) => l.ui.howto.newHowTo.post.label}
-                action={() => {
-                    writeNewHowTo(true);
-                }}
-                active={true}
-                submit={true}
-            />
+                    submit={true}
+                /></div
+            >
         </div>
     {:else if howTo}
         <div class="howtosplitview">
@@ -463,6 +461,13 @@
             var(--wordplay-border-color);
         flex-wrap: wrap;
         max-width: 100%;
+        justify-content: space-between;
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+        display: flex;
+        gap: var(--wordplay-spacing);
     }
 
     .splitside {

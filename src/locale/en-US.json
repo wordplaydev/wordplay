@@ -4793,7 +4793,13 @@
                     "label": "💾 Save draft",
                     "tip": "Save your how-to as a draft"
                 },
-                "notificationOptOut": "Notify subscribers that a new how-to has been posted",
+                "notification": {
+                    "label": "Notify subscribers",
+                    "modes": [
+                        "Notify",
+                        "Don't notify"
+                    ]
+                },
                 "prompt": "Tell us the story of how you discovered this",
                 "editorPlaceholder": "Write your how-to here",
                 "editorDescription": "A text box to write your how-to",
@@ -4825,7 +4831,7 @@
                     "tip": "Submit this how-to to be considered for inclusion in the Wordplay Guide!"
                 },
                 "alreadySubmitted": {
-                    "label": "✅ Submitted to Wordplay Guide",
+                    "label": "✅ Submitted to Guide",
                     "tip": "This how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
                 },
                 "canBookmark": {

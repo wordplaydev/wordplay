@@ -9838,9 +9838,9 @@
                       "$ref": "#/definitions/DialogText",
                       "description": "Dialog text for how-to form (new how-to or edit existing)"
                     },
-                    "notificationOptOut": {
-                      "description": "Checkbox text for opting out of notifying subscribers",
-                      "type": "string"
+                    "notification": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "Checkbox text for opting out of notifying subscribers"
                     },
                     "post": {
                       "$ref": "#/definitions/ButtonText",
@@ -9865,7 +9865,7 @@
                     "editForm",
                     "post",
                     "save",
-                    "notificationOptOut",
+                    "notification",
                     "prompt",
                     "editorPlaceholder",
                     "editorDescription",

@@ -1,4 +1,4 @@
-import type { ButtonText, ConfirmText, DialogText, FieldText, ToggleText } from "@locale/UITexts";
+import type { ButtonText, ConfirmText, DialogText, FieldText, ModeText, ToggleText } from "@locale/UITexts";
 
 type PageText = {
     /** Headers on the gallery page */
@@ -37,7 +37,7 @@ type PageText = {
         /** Button text for saving a how-to draft */
         save: ButtonText;
         /** Checkbox text for opting out of notifying subscribers */
-        notificationOptOut: string;
+        notification: ModeText<[string, string]>;
         /** How-to prompt / editor placeholder and description text */
         prompt: string;
         editorPlaceholder: string;
