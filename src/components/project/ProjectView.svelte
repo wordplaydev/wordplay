@@ -1956,7 +1956,6 @@
                     locale={$locales.getLocale()}
                     blocks={$blocks}
                 />
-                <div class="cursor">🐲</div>
             </div>
         {/if}
     {/if}
@@ -2037,16 +2036,6 @@
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         opacity: 0.9;
-    }
-
-    /* A fancy dragon cursor for dragon drop! Get it? */
-    .cursor {
-        position: absolute;
-        font-size: 2rem;
-        top: -1.5rem;
-        left: -1.5rem;
-        font-family: 'Noto Emoji';
-        z-index: 2;
     }
 
     .empty {

@@ -287,6 +287,7 @@
         autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
     );
 
+    /** Called when the program evaluates another step. */
     async function evalUpdate() {
         // No evaluator, or we're playing? No need to update the eval editor info.
         if (evaluator === undefined || evaluator.isPlaying()) return;
@@ -766,7 +767,7 @@
     function getBlockInsertionPoint(
         event: PointerEvent,
     ): InsertionPoint | undefined {
-        // Find the node under the pointer.
+        // Find the node under the pointer. If there isn't one, bail.
         const nodeUnderPointer = getNodeAt(event, false);
         if (nodeUnderPointer === undefined) return undefined;
 
@@ -774,9 +775,8 @@
         const el = document.elementFromPoint(event.clientX, event.clientY);
         if (!(el instanceof HTMLElement)) return undefined;
 
-        const node = el.closest(`.node-view`);
-        if (!(node instanceof HTMLElement)) return undefined;
-        const emptyView = node.querySelector(`.empty`);
+        // Find the empty view closest to the element under the pointer.
+        const emptyView = el.closest(`.empty`);
         if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
             const list = nodeUnderPointer.getField(emptyView.dataset.field);
             if (Array.isArray(list))
@@ -790,7 +790,7 @@
                 );
         }
 
-        const list = node.querySelector('.node-list');
+        const list = el.closest('.node-list');
         if (
             list instanceof HTMLElement &&
             list.dataset.field &&
@@ -936,7 +936,7 @@
 
         // If dragging and there's no drag candidate, update the selection.
         if (
-            event.buttons === 1 &&
+            event.button === 0 &&
             $dragged === undefined &&
             dragPoint !== undefined
         ) {
