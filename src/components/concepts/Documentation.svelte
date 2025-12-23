@@ -240,49 +240,50 @@
         bind:text={query}
         fill
     />
-    <Mode
-        modes={(l) => l.ui.docs.mode.browse}
-        icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
-        choice={Modes.indexOf(mode)}
-        labeled={false}
-        select={(choice) => {
-            const newMode = Modes[choice];
-            if (mode !== newMode) {
-                mode = newMode;
-                path.set([]);
-            }
-        }}
-    />
-
-    {#if mode === 'language'}
+    {#if query.length === 0}
         <Mode
-            modes={(l) => l.ui.docs.mode.purpose}
-            choice={Object.keys(Purpose).indexOf(purpose)}
+            modes={(l) => l.ui.docs.mode.browse}
+            icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
+            choice={Modes.indexOf(mode)}
             labeled={false}
             select={(choice) => {
-                purpose = Object.values(Purpose)[choice];
-                path.set([]);
+                const newMode = Modes[choice];
+                if (mode !== newMode) {
+                    mode = newMode;
+                    path.set([]);
+                }
             }}
-            icons={[
-                '👤',
-                '🖥️',
-                '🖱️',
-                '?',
-                BIND_SYMBOL,
-                getLanguageQuoteOpen($locales.getLocale().language) +
-                    getLanguageQuoteClose($locales.getLocale().language),
-                MEASUREMENT_SYMBOL,
-                TRUE_SYMBOL + NONE_SYMBOL,
-                LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
-                SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
-                TABLE_OPEN_SYMBOL + TABLE_CLOSE_SYMBOL,
-                FORMATTED_SYMBOL + FORMATTED_SYMBOL,
-                TYPE_SYMBOL,
-                '',
-            ]}
-            wrap
-            omit={standalone ? [0] : []}
         />
+        {#if mode === 'language'}
+            <Mode
+                modes={(l) => l.ui.docs.mode.purpose}
+                choice={Object.keys(Purpose).indexOf(purpose)}
+                labeled={false}
+                select={(choice) => {
+                    purpose = Object.values(Purpose)[choice];
+                    path.set([]);
+                }}
+                icons={[
+                    '👤',
+                    '🖥️',
+                    '🖱️',
+                    '?',
+                    BIND_SYMBOL,
+                    getLanguageQuoteOpen($locales.getLocale().language) +
+                        getLanguageQuoteClose($locales.getLocale().language),
+                    MEASUREMENT_SYMBOL,
+                    TRUE_SYMBOL + NONE_SYMBOL,
+                    LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
+                    SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
+                    TABLE_OPEN_SYMBOL + TABLE_CLOSE_SYMBOL,
+                    FORMATTED_SYMBOL + FORMATTED_SYMBOL,
+                    TYPE_SYMBOL,
+                    '',
+                ]}
+                wrap
+                omit={standalone ? [0] : []}
+            />
+        {/if}
     {/if}
 
     {#if currentConcept}
