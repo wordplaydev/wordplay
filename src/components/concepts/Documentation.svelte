@@ -420,7 +420,8 @@
                             category={(l) => l.term.project}
                             concepts={projectConcepts}
                             {collapse}
-                            row={viewWidth > viewHeight}
+                            {row}
+                            describe={false}
                         />
                     {:else}
                         <Note
@@ -554,7 +555,7 @@
                     <ConceptGroupView
                         concepts={index.getPrimaryConceptsWithPurpose(purpose)}
                         {collapse}
-                        row={viewWidth > viewHeight}
+                        {row}
                     />
                 {/if}
             {:else}

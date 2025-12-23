@@ -9,10 +9,17 @@
         concepts: Concept[];
         collapse: boolean;
         row: boolean;
+        describe?: boolean;
     }
 
-    let { category, concepts, collapse, row }: Props = $props();
+    let {
+        category,
+        concepts,
+        collapse,
+        row,
+        describe = true,
+    }: Props = $props();
 </script>
 
 <Subheader text={category} />
-<ConceptGroupView {concepts} {collapse} {row} />
+<ConceptGroupView {concepts} {collapse} {row} {describe} />

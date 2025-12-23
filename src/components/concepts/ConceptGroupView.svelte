@@ -8,11 +8,20 @@
 
     interface Props {
         concepts: Concept[];
+        /** Allow the list to be collapsible */
         collapse?: boolean;
+        /** Lay out in an inline row */
         row?: boolean;
+        /** Include a concept link for each code view */
+        describe?: boolean;
     }
 
-    let { concepts, collapse = true, row = true }: Props = $props();
+    let {
+        concepts,
+        collapse = true,
+        row = true,
+        describe = true,
+    }: Props = $props();
 
     let expanded = $state(false);
 
@@ -29,7 +38,11 @@
                     duration: $animationDuration,
                 }}
             >
-                <CodeView {concept} node={concept.getRepresentation()} />
+                <CodeView
+                    {concept}
+                    {describe}
+                    node={concept.getRepresentation()}
+                />
             </span>
         {/if}
     {:else}
