@@ -1,21 +1,26 @@
 <script lang="ts">
     import { page } from '$app/state';
     import ChatView from '@components/app/chat/ChatView.svelte';
-    import Header from '@components/app/Header.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
+    import CreatorList from '@components/project/CreatorList.svelte';
+    import { TileKind } from '@components/project/Tile';
     import Button from '@components/widgets/Button.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { Chats, Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
 
@@ -60,6 +65,9 @@
             : [$locales.get((l) => l.ui.howto.newHowTo.prompt)],
     );
     let title: string = $derived(howTo ? howTo.getTitle() : '');
+    let allCollaborators: string[] = $derived(
+        howTo ? [...howTo.getCollaborators(), howTo.getCreator()] : [],
+    );
 
     // writer functions
     async function writeNewHowTo(publish: boolean) {
@@ -69,7 +77,7 @@
                 publish,
                 publish ? centerX : 0,
                 publish ? centerY : 0,
-                [],
+                allCollaborators,
                 title,
                 prompts,
                 newText,
@@ -202,6 +210,8 @@
     //               : [],
     //     ).then((map) => (creators = map));
     // });
+
+    let collabToggle: boolean = $state(false);
 </script>
 
 <Dialog
@@ -230,14 +240,14 @@
     }}
 >
     {#if editingMode}
-        <Header>
+        <Subheader>
             <TextField
                 bind:text={title}
                 description={(l) => l.ui.howto.newHowTo.title.description}
                 placeholder={(l) => l.ui.howto.newHowTo.title.placeholder}
                 id="howto-title"
             />
-        </Header>
+        </Subheader>
 
         {#each prompts as prompt, i (i)}
             <HowToPrompt text={(l) => prompt} />
@@ -249,7 +259,45 @@
             />
         {/each}
 
+        <div class="optionsarea">
+            {#if collabToggle}
+                <div class="optionspanel">
+                    <Subheader>
+                        {COLLABORATE_SYMBOL}{TileKind.Collaborate}
+                    </Subheader>
+                    <!-- TODO(@mc) -- collaboration is not tested!!! -->
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.howto.newHowTo.collaboratorsPrompt}
+                    ></MarkupHTMLView>
+
+                    <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
+                        <CreatorList
+                            anonymize={false}
+                            uids={allCollaborators}
+                            editable={true}
+                            add={(userID) => allCollaborators.push(userID)}
+                            remove={(userID) =>
+                                (allCollaborators = allCollaborators.filter(
+                                    (uid) => uid !== userID,
+                                ))}
+                            removable={() => true}
+                        />
+                    </Labeled>
+                </div>
+            {/if}
+        </div>
+
         <div class="toolbar">
+            <Toggle
+                tips={(l) => l.ui.howto.newHowTo.collaboratorsToggle}
+                on={collabToggle}
+                toggle={() => {
+                    collabToggle = !collabToggle;
+                }}
+            >
+                {COLLABORATE_SYMBOL}
+                {TileKind.Collaborate}
+            </Toggle>
             {#if !howTo}
                 <label for="notify-checked">
                     <Checkbox
@@ -263,6 +311,7 @@
                     />
                 </label>
             {/if}
+
             {#if !howTo?.isPublished()}
                 <Button
                     tip={(l) => l.ui.howto.newHowTo.save.tip}
@@ -413,6 +462,7 @@
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         flex-wrap: wrap;
+        max-width: 100%;
     }
 
     .splitside {
@@ -430,5 +480,20 @@
         gap: var(--wordplay-spacing);
         height: 100%;
         overflow: hidden;
+    }
+
+    .optionsarea {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+    }
+
+    .optionspanel {
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        padding: var(--wordplay-spacing);
+        margin: var(--wordplay-spacing);
+        max-width: 100%;
+        width: 100%;
     }
 </style>

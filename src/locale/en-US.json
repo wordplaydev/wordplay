@@ -4800,6 +4800,11 @@
                 "title": {
                     "description": "The title of your how-to",
                     "placeholder": "Title"
+                },
+                "collaboratorsPrompt": "Add a collaborator, who can edit this how-to",
+                "collaboratorsToggle": {
+                    "on": "Collapse the collaborators panel",
+                    "off": "Expand the collaborators panel"
                 }
             },
             "viewHowTo": {

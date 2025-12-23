@@ -9818,6 +9818,13 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for the how-to addition button"
                     },
+                    "collaboratorsPrompt": {
+                      "description": "Collaboration",
+                      "type": "string"
+                    },
+                    "collaboratorsToggle": {
+                      "$ref": "#/definitions/ToggleText"
+                    },
                     "editForm": {
                       "$ref": "#/definitions/DialogText"
                     },
@@ -9862,7 +9869,9 @@
                     "prompt",
                     "editorPlaceholder",
                     "editorDescription",
-                    "title"
+                    "title",
+                    "collaboratorsPrompt",
+                    "collaboratorsToggle"
                   ],
                   "type": "object"
                 },

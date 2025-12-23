@@ -2,6 +2,7 @@
     import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -198,8 +199,10 @@
     });
 </script>
 
-{#if gallery == null}
+{#if gallery === null}
     <Loading />
+{:else if gallery === undefined}
+    <Writing><Notice text={(l) => l.ui.howto.error.unknown} /></Writing>
 {:else}
     <Writing>
         <div id="info">

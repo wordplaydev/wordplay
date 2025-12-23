@@ -1,4 +1,4 @@
-import type { ButtonText, ConfirmText, DialogText, FieldText } from "@locale/UITexts";
+import type { ButtonText, ConfirmText, DialogText, FieldText, ToggleText } from "@locale/UITexts";
 
 type PageText = {
     /** Headers on the gallery page */
@@ -44,6 +44,9 @@ type PageText = {
         editorDescription: string;
         /** Field text for how-to title */
         title: FieldText;
+        /** Collaboration */
+        collaboratorsPrompt: string;
+        collaboratorsToggle: ToggleText;
     },
     /** Buttons and dialogs for viewing a new how-to */
     viewHowTo: {
