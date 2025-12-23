@@ -224,7 +224,7 @@
     .block {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing-half);
         align-items: start;
         width: fit-content;
         height: fit-content;
@@ -283,7 +283,7 @@
     .block.inline {
         flex-direction: row;
         align-items: baseline;
-        gap: var(--wordplay-spacing-half);
+        gap: 1px;
     }
 
     .block.definition {
@@ -300,9 +300,10 @@
 
     .block.type {
         font-size: var(--wordplay-small-font-size);
-        box-shadow: inset var(--color-orange) 0px 0px
+        box-shadow: inset var(--wordplay-border-color) 0px 0px
             var(--wordplay-border-width);
-        background: var(--color-orange-transparent);
+        background: var(--wordplay-alternating-color);
+        padding: var(--wordplay-spacing-half);
     }
 
     .block.predicate {

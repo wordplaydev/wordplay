@@ -224,6 +224,9 @@
 
     .token-view.editable.blocks {
         cursor: grab;
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing-half);
     }
 
     :global(.dragging) .token-view.editable {

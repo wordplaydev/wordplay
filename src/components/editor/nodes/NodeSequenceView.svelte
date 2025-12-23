@@ -188,7 +188,7 @@
     }
 
     .node-list.padding {
-        padding: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
     }
 
     [data-direction='block'].node-list {
