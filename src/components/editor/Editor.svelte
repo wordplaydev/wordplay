@@ -951,13 +951,7 @@
                         $caret.withPosition([$caret.position[0], position]),
                     );
             }
-        } else
-            console.log(
-                'Not updating selection',
-                event.button,
-                $dragged?.toWordplay(),
-                dragPoint,
-            );
+        }
 
         // Hover debug stuff when paused.
         if (!evaluator.isPlaying()) handleDebugHover(event);
