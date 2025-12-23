@@ -1474,7 +1474,7 @@
         },
         "MapType": {
             "name": "map ",
-            "description": "map from $1[$1|any] to $2[$2|any]",
+            "description": "$1[$1|any] to $2[$2|any] map",
             "emotion": "kind",
             "doc": [
                 "Do you know how awesome @Map is? Like really awesome. I tell @Bind what kind of map they are all the time, like this map of numbers to lists:",
@@ -1492,7 +1492,7 @@
         },
         "NameType": {
             "name": "structure",
-            "description": "$1 type",
+            "description": "$1",
             "emotion": "curious",
             "doc": [
                 "I represent a @StructureDefinition by it's name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
