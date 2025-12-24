@@ -123,18 +123,18 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(
-            getFieldAssignmentEdits(field, context, locales),
-        );
+        return removeDuplicates(getFieldAssignments(field, context, locales));
     }
-    // If the token is a node, find the allowable nodes to replace this node, or whether it's removable
+    // If we have a node selected, find possible replacements or removals.
     else if (caret.position instanceof Node) {
         note(
             `Getting possible field edits for node selection ${caret.position.toWordplay()}`,
             1,
         );
 
-        return removeDuplicates(getNodeEdits(caret.position, context, locales));
+        return removeDuplicates(
+            getNodeRevisions(caret.position, context, locales),
+        );
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else if (caret.isPosition()) {
@@ -149,11 +149,19 @@ export function getEditsAt(
                 1,
             );
 
-            edits = getNodeEdits(caret.tokenExcludingSpace, context, locales);
+            edits = getNodeRevisions(
+                caret.tokenExcludingSpace,
+                context,
+                locales,
+            );
         }
 
-        const { before, after } = caret.getNodesBetween();
+        // What's before and after the caret?
+        let { before, after } = caret.getNodesBetween();
+
+        // True if the caret is immediately after the prior token on the same line.
         const adjacent = caret.position === caret.tokenSpaceIndex;
+        const caretLine = caret.getLine();
 
         // For each node before, get edits for what can come after.
         for (const node of before) {
@@ -164,7 +172,7 @@ export function getEditsAt(
                     true,
                     node,
                     caret.position,
-                    adjacent,
+                    adjacent && caretLine === caret.source.getLine(node),
                     isEmptyLine,
                     context,
                     locales,
@@ -181,7 +189,7 @@ export function getEditsAt(
                     false,
                     node,
                     caret.position,
-                    adjacent,
+                    adjacent && caretLine === caret.source.getLine(node),
                     isEmptyLine,
                     context,
                     locales,
@@ -239,7 +247,7 @@ export function getEditsAt(
 }
 
 /** Given a field position, get possible values for the field */
-function getFieldAssignmentEdits(
+function getFieldAssignments(
     fieldPosition: FieldPosition,
     context: Context,
     locales: Locales,
@@ -313,7 +321,7 @@ function getFieldAssignmentEdits(
 }
 
 /** Given a node, get possible replacements */
-function getNodeEdits(anchor: Node, context: Context, locales: Locales) {
+function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
     let edits: Revision[] = [];
 
     // Get the allowed kinds on this node and then translate them into replacement edits.
@@ -435,7 +443,7 @@ function getRelativeFieldEdits(
     // Generate possible nodes that could replace the token prior
     // (e.g., autocomplete References, create binary operations)
     // We only do this if this is before, and we're immediately after
-    // a node, and for replacements that "complete" the existing parent.
+    // a node, and on not in a list on a different line and for replacements that "complete" the existing parent.
     if (isAfterAnchor && adjacent) {
         // If the anchor is in a list, get it's index.
         const list = parent.getField(field.name);
@@ -545,9 +553,11 @@ function getRelativeFieldEdits(
                             .map((kind) =>
                                 getPossibleNodes(relativeField, kind, {
                                     type: expectedType,
-                                    node: anchorNode,
                                     context,
                                     locales,
+                                    parent,
+                                    field: relativeField.name,
+                                    index,
                                 })
                                     // Some nodes will suggest removals. We filter those here.
                                     .filter(

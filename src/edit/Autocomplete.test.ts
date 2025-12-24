@@ -86,9 +86,8 @@ test.each([
         Replace,
         'c',
     ],
-    // Lists should suggest bindings in scope
     [
-        'suggest insertion of binding in scope',
+        'suggest insertion of in scope bind in list',
         `a:'hello'\n[ "hi" **]`,
         undefined,
         Append,

@@ -99,10 +99,16 @@ export default class Caret {
     // The node recently added.
     readonly addition: Node | undefined;
 
-    // A cache of the token we're at, since we use it frequently.
+    // The token we're at, including preceding space.
     readonly tokenIncludingSpace: Token | undefined;
+
+    // The token before the caret.
     readonly tokenPrior: Token | undefined;
+
+    // The index of the beginning of the token's preceding space.
     readonly tokenSpaceIndex: number | undefined;
+
+    // The token the caret is at, excluding preceding space.
     readonly tokenExcludingSpace: Token | undefined;
 
     constructor(
@@ -285,6 +291,12 @@ export default class Caret {
         return (
             typeof this.position === 'number' &&
             this.source.isEmptyLine(this.position)
+        );
+    }
+
+    getLine() {
+        return this.source.getLine(
+            Array.isArray(this.position) ? this.position[1] : this.position,
         );
     }
 
