@@ -56,7 +56,7 @@ export default class Dimension extends Node {
             : [];
     }
 
-    static getPossibleAppends({ context, index }: InsertContext) {
+    static getPossibleInsertions({ context, index }: InsertContext) {
         return getPossibleDimensions(context).map((dim) =>
             Dimension.make(index !== undefined && index > 0, dim, 1),
         );

@@ -44,7 +44,7 @@ export default class SetType extends BasisType {
         ];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [SetType.make()];
     }
 

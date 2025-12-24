@@ -168,7 +168,7 @@ export default class TableLiteral extends CompositeLiteral {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TableLiteral.make()];
     }
 

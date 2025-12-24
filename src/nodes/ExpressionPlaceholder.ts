@@ -65,7 +65,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return [];
     }
 
-    static getPossibleAppends({ type }: InsertContext) {
+    static getPossibleInsertions({ type }: InsertContext) {
         return [ExpressionPlaceholder.make(type)];
     }
 

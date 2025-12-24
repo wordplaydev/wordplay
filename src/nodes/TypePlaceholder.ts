@@ -30,7 +30,7 @@ export default class TypePlaceholder extends Type {
         return [TypePlaceholder.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TypePlaceholder.make()];
     }
 

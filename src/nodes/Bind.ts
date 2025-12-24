@@ -120,7 +120,7 @@ export default class Bind extends Expression {
         }
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [
             Bind.make(
                 undefined,

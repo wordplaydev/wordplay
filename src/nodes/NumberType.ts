@@ -60,7 +60,7 @@ export default class NumberType extends BasisType {
         return [NumberType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [NumberType.make()];
     }
 

@@ -41,7 +41,7 @@ export default class Spread extends Node {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

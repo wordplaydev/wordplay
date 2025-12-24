@@ -56,7 +56,7 @@ export default class FormattedTranslation extends LanguageTagged {
         return [FormattedTranslation.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return this.getPossibleReplacements();
     }
 

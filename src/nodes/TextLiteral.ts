@@ -64,7 +64,7 @@ export default class TextLiteral extends Literal {
         return this.getPossibleText(type, context);
     }
 
-    static getPossibleAppends({ type, context }: InsertContext) {
+    static getPossibleInsertions({ type, context }: InsertContext) {
         return this.getPossibleText(type, context);
     }
 

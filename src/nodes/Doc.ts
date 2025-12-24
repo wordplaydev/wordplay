@@ -56,7 +56,7 @@ export default class Doc extends LanguageTagged {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [Doc.make()];
     }
 

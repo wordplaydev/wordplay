@@ -35,7 +35,7 @@ export default class Example extends Content {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [Example.make(Program.make())];
     }
 

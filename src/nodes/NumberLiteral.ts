@@ -106,7 +106,7 @@ export default class NumberLiteral extends Literal {
     }
 
     /** Inserting a number in a list? Get numbers that match the expected type. */
-    static getPossibleAppends({ type, context }: InsertContext) {
+    static getPossibleInsertions({ type, context }: InsertContext) {
         return NumberLiteral.getPossibleNumbers(undefined, type, context);
     }
 

@@ -50,7 +50,7 @@ export default class TextType extends BasisType {
         return [TextType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TextType.make()];
     }
 

@@ -110,7 +110,7 @@ export default class Select extends Expression {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

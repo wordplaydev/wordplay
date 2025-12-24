@@ -48,7 +48,7 @@ export default class Input extends Node {
         return [];
     }
 
-    static getPossibleAppends({ parent, context }: InsertContext) {
+    static getPossibleInsertions({ parent, context }: InsertContext) {
         // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
         if (parent instanceof Evaluate) {
             const mapping = parent.getInputMapping(context);

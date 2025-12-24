@@ -56,7 +56,7 @@ export default class WebLink extends Content {
         ];
     }
 
-    static getPossibleAppends({ locales }: InsertContext) {
+    static getPossibleInsertions({ locales }: InsertContext) {
         return [
             WebLink.make(
                 locales.get((l) => l.node.WebLink.name),

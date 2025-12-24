@@ -70,7 +70,7 @@ export default class Conditional extends Expression {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

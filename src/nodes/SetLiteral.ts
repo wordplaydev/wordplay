@@ -61,7 +61,7 @@ export default class SetLiteral extends CompositeLiteral {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [SetLiteral.make()];
     }
 

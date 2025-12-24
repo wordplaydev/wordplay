@@ -88,7 +88,7 @@ export default class Block extends Expression {
         return node instanceof Expression ? [Block.make([node])] : [];
     }
 
-    static getPossibleAppends({
+    static getPossibleInsertions({
         type,
         context,
         locales,

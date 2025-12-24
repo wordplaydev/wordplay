@@ -113,7 +113,7 @@ export default class StructureDefinition extends DefinitionExpression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [
             StructureDefinition.make(
                 undefined,

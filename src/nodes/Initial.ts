@@ -40,7 +40,7 @@ export default class Initial extends SimpleExpression {
         return [Initial.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [Initial.make()];
     }
 

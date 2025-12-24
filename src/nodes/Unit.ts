@@ -149,7 +149,7 @@ export default class Unit extends Node {
             : [];
     }
 
-    static getPossibleAppends({ context }: InsertContext) {
+    static getPossibleInsertions({ context }: InsertContext) {
         return getPossibleDimensions(context).map((dim) => Unit.create([dim]));
     }
 

@@ -66,7 +66,7 @@ export default class Previous extends Expression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

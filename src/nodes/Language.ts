@@ -50,7 +50,7 @@ export default class Language extends Node {
         );
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return Object.keys(Languages).map((language) =>
             Language.make(language),
         );

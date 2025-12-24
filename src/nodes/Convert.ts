@@ -64,7 +64,7 @@ export default class Convert extends Expression {
             : [];
     }
 
-    static getPossibleAppends({ type }: InsertContext) {
+    static getPossibleInsertions({ type }: InsertContext) {
         return [];
     }
 

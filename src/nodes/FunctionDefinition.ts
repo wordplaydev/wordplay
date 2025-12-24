@@ -118,7 +118,7 @@ export default class FunctionDefinition extends DefinitionExpression {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [
             FunctionDefinition.make(
                 undefined,

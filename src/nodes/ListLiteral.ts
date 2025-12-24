@@ -64,7 +64,7 @@ export default class ListLiteral extends CompositeLiteral {
         return node instanceof Expression ? [ListLiteral.make([node])] : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [ListLiteral.make([])];
     }
 

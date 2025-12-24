@@ -69,7 +69,7 @@ export default class MapLiteral extends CompositeLiteral {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [MapLiteral.make()];
     }
 

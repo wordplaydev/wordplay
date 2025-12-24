@@ -65,7 +65,7 @@ export default class MapType extends BasisType {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [MapType.make()];
     }
 

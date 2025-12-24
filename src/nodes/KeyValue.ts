@@ -39,7 +39,7 @@ export default class KeyValue extends Node {
         ];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return this.getPossibleReplacements();
     }
 

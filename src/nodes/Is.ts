@@ -49,7 +49,7 @@ export default class Is extends Expression {
         return [];
     }
 
-    static getPossibleAppends({ type }: InsertContext) {
+    static getPossibleInsertions({ type }: InsertContext) {
         return type instanceof BooleanType
             ? [
                   Is.make(

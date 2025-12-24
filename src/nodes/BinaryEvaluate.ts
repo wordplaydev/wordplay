@@ -71,7 +71,7 @@ export default class BinaryEvaluate extends Expression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

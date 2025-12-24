@@ -46,7 +46,7 @@ export default class UnionType extends Type {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [UnionType.make(TypePlaceholder.make(), TypePlaceholder.make())];
     }
 

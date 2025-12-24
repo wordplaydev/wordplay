@@ -49,7 +49,7 @@ export default class Markup extends Content {
         ];
     }
 
-    static getPossibleAppends({ locales }: InsertContext) {
+    static getPossibleInsertions({ locales }: InsertContext) {
         return [
             new Paragraph([Words.make(locales.get((l) => l.node.Markup.name))]),
         ];

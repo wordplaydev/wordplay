@@ -24,7 +24,7 @@ export default class Docs extends Node {
         return [new Docs([Doc.make()])];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [new Docs([Doc.make()])];
     }
 

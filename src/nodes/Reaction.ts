@@ -84,7 +84,7 @@ export default class Reaction extends Expression {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

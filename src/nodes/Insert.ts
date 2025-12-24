@@ -99,7 +99,7 @@ export default class Insert extends Expression {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [Insert.make(ExpressionPlaceholder.make(TableType.make()))];
     }
 

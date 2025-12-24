@@ -53,7 +53,7 @@ export default class PropertyBind extends Expression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

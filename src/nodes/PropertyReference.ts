@@ -132,7 +132,7 @@ export default class PropertyReference extends Expression {
         return this.getPossibleReferences(type, node, context);
     }
 
-    static getPossibleAppends({ type, parent, context }: InsertContext) {
+    static getPossibleInsertions({ type, parent, context }: InsertContext) {
         return this.getPossibleReferences(type, parent, context);
     }
 

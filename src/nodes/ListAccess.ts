@@ -71,7 +71,7 @@ export default class ListAccess extends Expression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

@@ -53,7 +53,7 @@ export default class TableType extends BasisType {
         return [TableType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TableType.make()];
     }
 

@@ -52,7 +52,7 @@ export default class NoneLiteral extends Literal {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [NoneLiteral.make()];
     }
 

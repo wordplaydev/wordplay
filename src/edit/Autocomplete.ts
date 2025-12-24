@@ -807,7 +807,7 @@ function getPossibleNodes(
             .map((possibleKind) =>
                 'node' in action
                     ? possibleKind.getPossibleReplacements(action)
-                    : possibleKind.getPossibleAppends(action),
+                    : possibleKind.getPossibleInsertions(action),
             )
             // Flatten the list of possible nodes.
             .flat()

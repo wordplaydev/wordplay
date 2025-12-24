@@ -29,7 +29,7 @@ export default class BooleanType extends BasisType {
         return [BooleanType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [BooleanType.make()];
     }
 

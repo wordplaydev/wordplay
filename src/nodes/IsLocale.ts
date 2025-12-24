@@ -40,7 +40,7 @@ export default class IsLocale extends SimpleExpression {
         return [IsLocale.make(Language.make('en'))];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [IsLocale.make(Language.make('en'))];
     }
 

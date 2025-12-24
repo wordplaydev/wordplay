@@ -49,7 +49,7 @@ export default class UnaryEvaluate extends Expression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

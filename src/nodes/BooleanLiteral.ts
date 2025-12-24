@@ -51,7 +51,7 @@ export default class BooleanLiteral extends Literal {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [BooleanLiteral.make(true), BooleanLiteral.make(false)];
     }
 

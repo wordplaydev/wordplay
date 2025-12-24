@@ -62,7 +62,7 @@ export default class Translation extends LanguageTagged {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [this.make('')];
     }
 

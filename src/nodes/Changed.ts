@@ -68,7 +68,7 @@ export default class Changed extends SimpleExpression {
         return [];
     }
 
-    static getPossibleAppends({ type }: InsertContext) {
+    static getPossibleInsertions({ type }: InsertContext) {
         // If a boolean is expected, suggest Changed.
         return type instanceof BooleanType
             ? [Changed.make(ExpressionPlaceholder.make(StreamType.make()))]

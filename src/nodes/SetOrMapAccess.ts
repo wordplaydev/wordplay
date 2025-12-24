@@ -72,7 +72,7 @@ export default class SetOrMapAccess extends Expression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

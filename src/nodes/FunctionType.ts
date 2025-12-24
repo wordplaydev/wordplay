@@ -78,7 +78,7 @@ export default class FunctionType extends Type {
         return [FunctionType.make(undefined, [], TypePlaceholder.make())];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return this.getPossibleReplacements();
     }
 

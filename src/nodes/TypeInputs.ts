@@ -36,7 +36,7 @@ export default class TypeInputs extends Node {
         return [TypeInputs.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TypeInputs.make()];
     }
 

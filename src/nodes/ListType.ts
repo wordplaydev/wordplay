@@ -56,7 +56,7 @@ export default class ListType extends BasisType {
             : [];
     }
 
-    static getPossibleAppends({}: InsertContext) {
+    static getPossibleInsertions({}: InsertContext) {
         return [ListType.make()];
     }
 

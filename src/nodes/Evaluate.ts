@@ -193,7 +193,7 @@ export default class Evaluate extends Expression {
         return this.getPossibleEvaluations(type, node, true, context);
     }
 
-    static getPossibleAppends({ type, parent, context }: InsertContext) {
+    static getPossibleInsertions({ type, parent, context }: InsertContext) {
         return this.getPossibleEvaluations(type, parent, false, context);
     }
 

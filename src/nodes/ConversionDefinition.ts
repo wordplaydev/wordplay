@@ -74,7 +74,7 @@ export default class ConversionDefinition extends DefinitionExpression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [
             ConversionDefinition.make(
                 undefined,

@@ -43,7 +43,7 @@ export default class FormattedLiteral extends Literal {
         return [];
     }
 
-    static getPossibleAppends({ type, context }: InsertContext) {
+    static getPossibleInsertions({ type, context }: InsertContext) {
         return type !== undefined && type.accepts(FormattedType.make(), context)
             ? [new FormattedLiteral([FormattedTranslation.make()])]
             : [];

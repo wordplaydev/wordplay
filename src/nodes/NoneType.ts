@@ -31,7 +31,7 @@ export default class NoneType extends BasisType {
         return [NoneType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [NoneType.make()];
     }
 

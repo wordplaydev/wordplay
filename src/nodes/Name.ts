@@ -75,7 +75,7 @@ export default class Name extends LanguageTagged {
     }
 
     /** Suggest names for insertion.  */
-    static getPossibleAppends({ locales }: InsertContext) {
+    static getPossibleInsertions({ locales }: InsertContext) {
         return [Name.make(locales.get((l) => l.term.name))];
     }
 

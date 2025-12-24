@@ -45,7 +45,7 @@ export default class Paragraph extends Content {
         return [new Paragraph([Words.make(locales.get((l) => l.token.Words))])];
     }
 
-    static getPossibleAppends({ locales }: InsertContext) {
+    static getPossibleInsertions({ locales }: InsertContext) {
         return [new Paragraph([Words.make(locales.get((l) => l.token.Words))])];
     }
 

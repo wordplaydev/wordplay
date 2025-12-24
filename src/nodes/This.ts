@@ -59,7 +59,7 @@ export default class This extends SimpleExpression {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 

@@ -38,7 +38,7 @@ export default class Mention extends Content {
         return [new Mention(new Token('_', Sym.Mention))];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [new Mention(new Token('_', Sym.Mention))];
     }
 

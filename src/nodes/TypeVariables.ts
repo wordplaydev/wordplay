@@ -39,7 +39,7 @@ export default class TypeVariables extends Node {
         return [TypeVariables.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TypeVariables.make()];
     }
 
