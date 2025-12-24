@@ -102,9 +102,33 @@ export default class BinaryEvaluate extends Expression {
                 getDefinitions: (context: Context): Definition[] => {
                     return this.getFunctions(context);
                 },
-                getType: (context) =>
-                    this.getFunction(context)?.getType(context) ??
-                    new AnyType(),
+                /**
+                 * The expected function type of this binary evaluate is whether function it resolves to, but
+                 * concretized with the actual types of the left and right inputs, as that determines what it could be replaced with.
+                 */
+                getType: (context) => {
+                    const type = this.getFunction(context)?.getType(context);
+                    if (
+                        type instanceof FunctionType &&
+                        type.inputs.length === 1
+                    ) {
+                        const newType = FunctionType.make(
+                            type.types,
+                            [
+                                type.inputs[0].withType(
+                                    this.right
+                                        .getType(context)
+                                        .generalize(context),
+                                ),
+                            ],
+                            type.output,
+                            type.definition,
+                        );
+                        console.log(newType.toWordplay());
+                        return newType;
+                    }
+                    return type ?? new AnyType();
+                },
             },
             {
                 name: 'right',

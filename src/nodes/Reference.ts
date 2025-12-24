@@ -111,13 +111,12 @@ export default class Reference extends SimpleExpression {
                                         .generalize(context),
                                     context,
                                 ))) ||
-                        // A function that matches the function type?
+                        // If this definition replaced the current one and it's concrete types, would it be of an acceptable type?
                         (type instanceof FunctionType &&
                             definition instanceof FunctionDefinition &&
-                            type.accepts(
-                                definition.getType(context),
-                                context,
-                            ) &&
+                            definition
+                                .getType(context)
+                                .accepts(type, context) &&
                             // Only accept definitions with symbolic names if a binary evaluate.
                             (!(parent instanceof BinaryEvaluate) ||
                                 definition.names.hasOperatorName()))
@@ -319,7 +318,6 @@ export default class Reference extends SimpleExpression {
         if (definition === undefined || definition instanceof TypeVariable)
             return new UnknownNameType(this, this.name, undefined);
 
-        // What is the type of the definition?
         const type = definition.getType(context);
 
         // Otherwise, do some type guard analyis on the definition.
