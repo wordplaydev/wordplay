@@ -169,7 +169,7 @@ export default class TableLiteral extends CompositeLiteral {
     }
 
     static getPossibleAppends() {
-        return [];
+        return [TableLiteral.make()];
     }
 
     getDescriptor(): NodeDescriptor {

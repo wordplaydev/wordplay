@@ -4,6 +4,7 @@ import BooleanLiteral from '@nodes/BooleanLiteral';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { TRUE_SYMBOL } from '@parser/Symbols';
 import { expect, test } from 'vitest';
 import DefaultLocale from '../locale/DefaultLocale';
 import NumberLiteral from '../nodes/NumberLiteral';
@@ -15,7 +16,13 @@ import Replace from './Replace';
 import type Revision from './Revision';
 
 test.each([
-    ['blank program suggestions', '**', undefined, Append, '0'],
+    ['blank programs suggest numbers', '**', undefined, Append, '0'],
+    ['blank programs suggest booleans', '**', undefined, Append, TRUE_SYMBOL],
+    ['blank programs suggest text', '**', undefined, Append, "''"],
+    ['blank programs suggest lists', '**', undefined, Append, '[]'],
+    ['blank programs suggest sets', '**', undefined, Append, '{}'],
+    ['blank programs suggest maps', '**', undefined, Append, '[]'],
+    ['blank programs suggest tables', '**', undefined, Append, '[]'],
     ['set unset bind value', 'a:**', undefined, Assign, '0'],
     ['suggest binary evaluate completions', '1 + **', undefined, Assign, '1'],
     [

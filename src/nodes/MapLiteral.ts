@@ -70,7 +70,7 @@ export default class MapLiteral extends CompositeLiteral {
     }
 
     static getPossibleAppends() {
-        return [];
+        return [MapLiteral.make()];
     }
 
     getDescriptor(): NodeDescriptor {

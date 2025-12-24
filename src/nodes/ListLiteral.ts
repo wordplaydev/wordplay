@@ -65,7 +65,7 @@ export default class ListLiteral extends CompositeLiteral {
     }
 
     static getPossibleAppends() {
-        return [];
+        return [ListLiteral.make([])];
     }
 
     getDescriptor(): NodeDescriptor {
