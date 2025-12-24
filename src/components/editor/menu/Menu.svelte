@@ -303,8 +303,9 @@
 
     .revisionset {
         padding: var(--wordplay-spacing);
-        border-radius: var(--wordplay-border-radius);
         cursor: pointer;
+        border-top: dashed var(--wordplay-border-color)
+            var(--wordplay-border-width);
     }
 
     .revisionset:focus {
