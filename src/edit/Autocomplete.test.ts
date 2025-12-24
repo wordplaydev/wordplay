@@ -77,9 +77,8 @@ test.each([
         Replace,
         'boomy.hat',
     ],
-    // Selecting 2 should offer to replace with c
     [
-        'suggest bind reference',
+        'suggest reference to replace node',
         `c: 1\n1 + 2`,
         (node: Node) =>
             node instanceof NumberLiteral && node.toWordplay() === '2',
@@ -89,6 +88,13 @@ test.each([
     [
         'suggest insertion of in scope bind in list',
         `a:'hello'\n[ "hi" **]`,
+        undefined,
+        Append,
+        'a',
+    ],
+    [
+        'suggest insertion of in scope bind in block',
+        'a: 1\n**',
         undefined,
         Append,
         'a',
