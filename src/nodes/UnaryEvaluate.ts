@@ -66,6 +66,13 @@ export default class UnaryEvaluate extends Expression {
                     return this.getFunctions(context);
                 },
                 label: undefined,
+                /**
+                 * The expected function type of this binary evaluate is whether function it resolves to, but
+                 * concretized with the actual types of the left and right inputs, as that determines what it could be replaced with.
+                 */
+                getType: (context) =>
+                    this.getFunction(context)?.getType(context) ??
+                    new AnyType(),
             },
             {
                 name: 'input',

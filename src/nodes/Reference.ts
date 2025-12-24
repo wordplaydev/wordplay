@@ -35,6 +35,7 @@ import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import TypeVariable from './TypeVariable';
+import UnaryEvaluate from './UnaryEvaluate';
 import UnionType from './UnionType';
 import UnknownNameType from './UnknownNameType';
 
@@ -118,7 +119,8 @@ export default class Reference extends SimpleExpression {
                                 .getType(context)
                                 .accepts(type, context) &&
                             // Only accept definitions with symbolic names if a binary evaluate.
-                            (!(parent instanceof BinaryEvaluate) ||
+                            ((!(parent instanceof BinaryEvaluate) &&
+                                !(parent instanceof UnaryEvaluate)) ||
                                 definition.names.hasOperatorName()))
                     )
                         return new Refer(
