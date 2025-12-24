@@ -9,6 +9,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import BooleanType from './BooleanType';
+import Conditional from './Conditional';
 import type Context from './Context';
 import Literal from './Literal';
 import { node, type Grammar, type Replacement } from './Node';
@@ -37,9 +38,16 @@ export default class BooleanLiteral extends Literal {
     static getPossibleReplacements({ node }: ReplaceContext) {
         // If the node is true, offer false, and vice versa.
         return node instanceof BooleanLiteral
-            ? node.bool()
-                ? [BooleanLiteral.make(false)]
-                : [BooleanLiteral.make(true)]
+            ? [
+                  node.bool()
+                      ? BooleanLiteral.make(false)
+                      : BooleanLiteral.make(true),
+                  Conditional.make(
+                      node,
+                      BooleanLiteral.make(true),
+                      BooleanLiteral.make(false),
+                  ),
+              ]
             : [];
     }
 

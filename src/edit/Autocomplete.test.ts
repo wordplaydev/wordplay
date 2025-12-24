@@ -1,12 +1,12 @@
 import Project from '@db/projects/Project';
 import DefaultLocales from '@locale/DefaultLocales';
+import BooleanLiteral from '@nodes/BooleanLiteral';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { expect, test } from 'vitest';
 import DefaultLocale from '../locale/DefaultLocale';
 import NumberLiteral from '../nodes/NumberLiteral';
-import Reference from '../nodes/Reference';
 import Append from './Append';
 import Assign from './Assign';
 import { getEditsAt } from './Autocomplete';
@@ -20,10 +20,10 @@ test.each([
     ['suggest binary evaluate completions', '1 + **', undefined, Assign, '1'],
     [
         'suggest conditional on boolean value',
-        'b: ⊥\nb',
-        (node: Node) => node instanceof Reference,
+        'b: ⊥',
+        (node: Node) => node instanceof BooleanLiteral,
         Replace,
-        'b ? _ _',
+        '⊥ ? ⊤ ⊥',
     ],
     ['suggest phrase on empty program', '**', undefined, Append, "💬('')"],
     [
