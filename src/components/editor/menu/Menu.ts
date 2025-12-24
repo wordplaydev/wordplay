@@ -114,7 +114,9 @@ export default class Menu {
             for (const other of others) {
                 const node = other.getNewNode(this.concepts.locales);
                 if (node) {
-                    const purpose = node.getPurpose();
+                    const concept = this.concepts.getRelevantConcept(node);
+                    // If the node is an Evaluate, see if the function or structure it refers to has a concept in the concept index, and use it's purpose.
+                    let purpose = concept?.getPurpose() ?? node.getPurpose();
                     const revisions = kinds.get(purpose);
                     if (revisions) kinds.set(purpose, [...revisions, other]);
                     else kinds.set(purpose, [other]);
