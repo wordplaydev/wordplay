@@ -189,11 +189,11 @@ export default class Reference extends SimpleExpression {
     }
 
     static getPossibleReplacements({ type, node, context }: ReplaceContext) {
-        return this.getPossibleReferences(type, node, false, context);
+        return this.getPossibleReferences(type, node, true, context);
     }
 
     static getPossibleAppends({ type, parent, context }: InsertContext) {
-        return this.getPossibleReferences(type, parent, true, context);
+        return this.getPossibleReferences(type, parent, false, context);
     }
 
     getDescriptor(): NodeDescriptor {
