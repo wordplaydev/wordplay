@@ -440,7 +440,7 @@ map(NumberType, NumberTypeView, {
     direction: 'inline',
     size: 'small',
 });
-map(Unit, UnitView, { kind: 'type', direction: 'inline', size: 'small' });
+map(Unit, UnitView, { kind: 'none', direction: 'inline', size: 'small' });
 map(Dimension, DimensionView, {
     kind: 'none',
     direction: 'inline',
