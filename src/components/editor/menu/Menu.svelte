@@ -201,6 +201,11 @@
                         event.preventDefault();
                         handleItemClick(entry);
                     }}
+                    onmouseenter={(event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        handleItemClick(entry);
+                    }}
                     onfocusin={() => {
                         const selection = menu.getSelectionIndex();
                         menu = menu.withSelection(
@@ -331,5 +336,9 @@
 
     .revisionset:hover {
         background: var(--wordplay-hover);
+    }
+
+    .show {
+        background: var(--wordplay-highlight-color);
     }
 </style>
