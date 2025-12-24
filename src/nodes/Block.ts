@@ -25,9 +25,11 @@ import EvalOpenToken from './EvalOpenToken';
 import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import FunctionDefinition from './FunctionDefinition';
+import Names from './Names';
 import NoExpressionType from './NoExpressionType';
 import type Node from './Node';
 import { any, list, node, none, type Grammar, type Replacement } from './Node';
+import Reference from './Reference';
 import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
 import type Token from './Token';
@@ -86,9 +88,40 @@ export default class Block extends Expression {
         return node instanceof Expression ? [Block.make([node])] : [];
     }
 
-    static getPossibleAppends({ type }: InsertContext) {
-        // Offer a block with an expression placeholder of the desired type.
-        return [Block.make([ExpressionPlaceholder.make(type)])];
+    static getPossibleAppends({
+        type,
+        context,
+        locales,
+        parent,
+    }: InsertContext) {
+        return [
+            // Offer a block with an expression placeholder of the desired type.
+            Block.make([ExpressionPlaceholder.make(type)]),
+            // Offer a bind with the expected type
+            Bind.make(
+                undefined,
+                Names.make(['_']),
+                undefined,
+                ExpressionPlaceholder.make(type),
+            ),
+            // If a root block, offer references to anything in scope.
+            ...parent
+                .getDefinitionsInScope(context)
+                .map((def) =>
+                    def instanceof FunctionDefinition
+                        ? def.getEvaluateTemplate(locales, context, undefined)
+                        : def instanceof StructureDefinition
+                          ? def.getEvaluateTemplate(locales, context)
+                          : def instanceof Bind
+                            ? Reference.make(
+                                  def.names
+                                      .getPreferredName(locales.getLocale())
+                                      ?.getName() ?? '_',
+                              )
+                            : undefined,
+                )
+                .filter((n) => n !== undefined),
+        ];
     }
 
     getEvaluationExpression(): Expression {
