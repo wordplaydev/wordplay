@@ -411,6 +411,9 @@
                     "primary": "$~Ich bewerte in Lesereihenfolge, nicht in der mathematischen Reihenfolge der Operationen. Möchten Sie @Block verwenden, um die Reihenfolge anzugeben, in der ich auswerten soll?",
                     "name": "$~mehrdeutigeReihenfolge"
                 }
+            },
+            "label": {
+                "operator": "$~Operator"
             }
         },
         "Bind": {
@@ -808,7 +811,8 @@
             },
             "label": {
                 "inputs": "$~Eingaben",
-                "expression": "$~Ausdruck"
+                "expression": "$~Ausdruck",
+                "output": "$~Ausgabe"
             }
         },
         "Iteration": {
@@ -4476,7 +4480,8 @@
             "menu": {
                 "label": "$~Autovervollständigungsmenü",
                 "show": "$~Autovervollständigungsmenü anzeigen",
-                "back": "$~Untermenü verlassen"
+                "back": "$~Untermenü verlassen",
+                "empty": "$~Keine Vorschläge."
             },
             "cursor": {
                 "priorLine": "$~Bewegen Sie den Cursor zur Zeile davor.",

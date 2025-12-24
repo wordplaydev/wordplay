@@ -4490,7 +4490,8 @@
             "menu": {
                 "label": "autocomplete menu",
                 "show": "show autocomplete menu",
-                "back": "leave submenu"
+                "back": "leave submenu",
+                "empty": "No suggestions."
             },
             "cursor": {
                 "priorLine": "move cursor to line before",

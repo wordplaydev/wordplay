@@ -386,6 +386,9 @@
                     "primary": "Evalúo en orden de lectura, no en el orden de operaciones matemáticas. ¿Quieres usar @Block para especificar el orden en el que debería evaluar?",
                     "name": "$~ordenambiguo"
                 }
+            },
+            "label": {
+                "operator": "$~operador"
             }
         },
         "Bind": {
@@ -795,7 +798,8 @@
             },
             "label": {
                 "inputs": "$~entradas",
-                "expression": "$~expresión"
+                "expression": "$~expresión",
+                "output": "$~producción"
             }
         },
         "Iteration": {
@@ -4459,7 +4463,8 @@
             "menu": {
                 "label": "menú de autocompletar",
                 "show": "mostrar menú de autocompletar",
-                "back": "salir del submenú"
+                "back": "salir del submenú",
+                "empty": "$~No hay sugerencias"
             },
             "cursor": {
                 "priorLine": "mover el cursor a la línea anterior",

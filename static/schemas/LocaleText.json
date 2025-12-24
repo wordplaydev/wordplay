@@ -13213,6 +13213,10 @@
                       "description": "How to describe the autocomplete back button for leaving the submenu",
                       "type": "string"
                     },
+                    "empty": {
+                      "description": "What to say when the menu is empty",
+                      "type": "string"
+                    },
                     "label": {
                       "description": "How to describe the autocomplete menu",
                       "type": "string"
@@ -13225,7 +13229,8 @@
                   "required": [
                     "label",
                     "show",
-                    "back"
+                    "back",
+                    "empty"
                   ],
                   "type": "object"
                 },

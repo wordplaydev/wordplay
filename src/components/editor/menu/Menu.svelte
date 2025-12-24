@@ -2,6 +2,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import Revision from '@edit/Revision';
     import Node, { isFieldPosition, ListOf } from '@nodes/Node';
     import { tick } from 'svelte';
@@ -179,7 +180,7 @@
                     {handleItemClick}
                     id="menuitem-{itemIndex}"
                 />
-            {:else}
+            {:else if entry.size() > 0}
                 <div
                     role="menuitem"
                     tabindex="-1"
@@ -231,15 +232,18 @@
                             {handleItemClick}
                             id={`menuitem-${itemIndex}-${subitemIndex}`}
                         />
-                    {:else}
-                        <!-- Feedback if there are no items.-->
-                        &mdash;
                     {/each}
                 </div>
             {/if}
         {:else}
             <!-- Feedback if there are no items.-->
-            &mdash;
+            <div class="empty"
+                ><Note
+                    ><LocalizedText
+                        path={(l) => l.ui.source.menu.empty}
+                    /></Note
+                ></div
+            >
         {/each}
     </div>
 </div>
@@ -264,7 +268,8 @@
         position: relative;
     }
 
-    .label {
+    .label,
+    .empty {
         padding: var(--wordplay-spacing);
     }
 

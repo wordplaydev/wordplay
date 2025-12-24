@@ -411,6 +411,9 @@
                     "name": "$~tvetydigordning",
                     "primary": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?"
                 }
+            },
+            "label": {
+                "operator": "$~operatör"
             }
         },
         "Bind": {
@@ -820,7 +823,8 @@
             },
             "label": {
                 "inputs": "$~ingångar",
-                "expression": "$~uttryck"
+                "expression": "$~uttryck",
+                "output": "$~produktion"
             }
         },
         "Iteration": {
@@ -4494,7 +4498,8 @@
             "menu": {
                 "label": "$~autoslutförande-menyn",
                 "show": "$~visa autoslutförandemenyn",
-                "back": "$~lämna undermenyn"
+                "back": "$~lämna undermenyn",
+                "empty": "$~Inga förslag."
             },
             "cursor": {
                 "priorLine": "$~flytta markören till raden innan",

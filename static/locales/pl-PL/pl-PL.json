@@ -411,6 +411,9 @@
                     "name": "$~niejednoznacznyporządek",
                     "primary": "$~Oceniam w kolejności czytania, a nie w kolejności działań matematycznych. Czy chcesz użyć @Block, aby określić kolejność, w jakiej powinienem oceniać?"
                 }
+            },
+            "label": {
+                "operator": "$~operator"
             }
         },
         "Bind": {
@@ -820,7 +823,8 @@
             },
             "label": {
                 "inputs": "$~wejścia",
-                "expression": "$~wyrażenie"
+                "expression": "$~wyrażenie",
+                "output": "$~wyjście"
             }
         },
         "Iteration": {
@@ -4499,7 +4503,8 @@
             "menu": {
                 "label": "$~menu autouzupełniania",
                 "show": "$~pokaż menu autouzupełniania",
-                "back": "$~opuść podmenu"
+                "back": "$~opuść podmenu",
+                "empty": "$~Brak sugestii."
             },
             "cursor": {
                 "priorLine": "$~przesuń kursor do wiersza przed",

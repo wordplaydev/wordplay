@@ -411,6 +411,9 @@
                     "primary": "我是按照讀取順序而非數學運算順序來評估一個值的。你想用 @Block 來來指定我的運算順序嗎？",
                     "name": "$~模糊的順序"
                 }
+            },
+            "label": {
+                "operator": "$~操作員"
             }
         },
         "Bind": {
@@ -820,7 +823,8 @@
             },
             "label": {
                 "inputs": "$~輸入",
-                "expression": "$~表達"
+                "expression": "$~表達",
+                "output": "$~輸出"
             }
         },
         "Iteration": {
@@ -4435,7 +4439,8 @@
             "menu": {
                 "label": "自動完成選單",
                 "show": "顯示自動完成選單",
-                "back": "退出子選單"
+                "back": "退出子選單",
+                "empty": "$~沒有建議。"
             },
             "cursor": {
                 "priorLine": "將遊標移至前一行",

@@ -411,6 +411,9 @@
                     "name": "$~ordreambigu",
                     "primary": "$~J'évalue dans l'ordre de lecture, et non dans l'ordre mathématique des opérations. Voulez-vous utiliser @Block pour spécifier l'ordre d'évaluation ?"
                 }
+            },
+            "label": {
+                "operator": "$~opérateur"
             }
         },
         "Bind": {
@@ -820,7 +823,8 @@
             },
             "label": {
                 "inputs": "$~entrées",
-                "expression": "$~expression"
+                "expression": "$~expression",
+                "output": "$~sortir"
             }
         },
         "Iteration": {
@@ -4477,7 +4481,8 @@
             "menu": {
                 "label": "$~menu de saisie semi-automatique",
                 "show": "$~afficher le menu de saisie semi-automatique",
-                "back": "$~quitter le sous-menu"
+                "back": "$~quitter le sous-menu",
+                "empty": "$~Aucune suggestion."
             },
             "cursor": {
                 "priorLine": "$~déplacer le curseur sur la ligne avant",

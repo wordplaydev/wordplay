@@ -252,6 +252,8 @@ type UITexts = {
             show: string;
             /** How to describe the autocomplete back button for leaving the submenu */
             back: string;
+            /** What to say when the menu is empty */
+            empty: string;
         };
         field: {
             /** The name of the source file */

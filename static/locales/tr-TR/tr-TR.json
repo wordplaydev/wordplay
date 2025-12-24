@@ -411,6 +411,9 @@
                     "name": "$~belirsizdüzen",
                     "primary": "$~İşlemlerin matematiksel sırasına göre değil, okuma sırasına göre değerlendiriyorum. Değerlendirmem gereken sırayı belirtmek için @Block kullanmak ister misiniz?"
                 }
+            },
+            "label": {
+                "operator": "$~operatör"
             }
         },
         "Bind": {
@@ -820,7 +823,8 @@
             },
             "label": {
                 "inputs": "$~girdiler",
-                "expression": "$~ifade"
+                "expression": "$~ifade",
+                "output": "$~çıktı"
             }
         },
         "Iteration": {
@@ -4494,7 +4498,8 @@
             "menu": {
                 "label": "$~otomatik tamamlama menüsü",
                 "show": "$~otomatik tamamlama menüsünü göster",
-                "back": "$~alt menüden çık"
+                "back": "$~alt menüden çık",
+                "empty": "$~Önerim yok."
             },
             "cursor": {
                 "priorLine": "$~imleci önceki satıra taşı",
