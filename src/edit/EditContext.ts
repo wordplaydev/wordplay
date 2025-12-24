@@ -1,3 +1,4 @@
+import type Locales from '@locale/Locales';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import type Type from '@nodes/Type';
@@ -7,6 +8,8 @@ type BaseContext = {
     context: Context;
     /** The type expected for whatever node is suggested */
     type: Type | undefined;
+    /** Locales currently in use */
+    locales: Locales;
 };
 
 export type ReplaceContext = BaseContext & {

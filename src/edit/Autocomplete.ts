@@ -123,7 +123,9 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(getFieldAssignmentEdits(field, context));
+        return removeDuplicates(
+            getFieldAssignmentEdits(field, context, locales),
+        );
     }
     // If the token is a node, find the allowable nodes to replace this node, or whether it's removable
     else if (caret.position instanceof Node) {
@@ -132,7 +134,7 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(getNodeEdits(caret.position, context));
+        return removeDuplicates(getNodeEdits(caret.position, context, locales));
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else if (caret.isPosition()) {
@@ -147,7 +149,7 @@ export function getEditsAt(
                 1,
             );
 
-            edits = getNodeEdits(caret.tokenExcludingSpace, context);
+            edits = getNodeEdits(caret.tokenExcludingSpace, context, locales);
         }
 
         const { before, after } = caret.getNodesBetween();
@@ -207,6 +209,7 @@ export function getEditsAt(
                                 parent: source.expression.expression,
                                 field: 'statements',
                                 index: 0,
+                                locales,
                             })
                                 .filter(
                                     (kind): kind is Node | Refer =>
@@ -239,6 +242,7 @@ export function getEditsAt(
 function getFieldAssignmentEdits(
     fieldPosition: FieldPosition,
     context: Context,
+    locales: Locales,
 ) {
     const { parent, field, index } = fieldPosition;
     // Get the field of the parent node's grammar.
@@ -283,6 +287,7 @@ function getFieldAssignmentEdits(
                         field,
                         parent,
                         index,
+                        locales,
                     })
                         .filter((r) => r !== undefined)
                         .map((replacement) =>
@@ -308,7 +313,7 @@ function getFieldAssignmentEdits(
 }
 
 /** Given a node, get possible replacements */
-function getNodeEdits(anchor: Node, context: Context) {
+function getNodeEdits(anchor: Node, context: Context, locales: Locales) {
     let edits: Revision[] = [];
 
     // Get the allowed kinds on this node and then translate them into replacement edits.
@@ -336,6 +341,7 @@ function getNodeEdits(anchor: Node, context: Context) {
                         type: expectedType,
                         node,
                         context,
+                        locales,
                     }).map(
                         (replacement) =>
                             new Replace(context, parent, node, replacement),
@@ -459,6 +465,7 @@ function getRelativeFieldEdits(
                                 : expectedType,
                         node: anchorNode,
                         context,
+                        locales,
                     })
                         // If not on an empty line, only include recommendations that "complete" the selection
                         .filter(
@@ -540,6 +547,7 @@ function getRelativeFieldEdits(
                                     type: expectedType,
                                     node: anchorNode,
                                     context,
+                                    locales,
                                 })
                                     // Some nodes will suggest removals. We filter those here.
                                     .filter(
@@ -582,6 +590,7 @@ function getRelativeFieldEdits(
                                 type: expectedType,
                                 node: anchorNode,
                                 context,
+                                locales,
                             })
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)

@@ -48,8 +48,12 @@ export default class Words extends Content {
         this.close = close;
     }
 
-    static make() {
-        return new Words(undefined, [new Token('…', Sym.Words)], undefined);
+    static make(text?: string) {
+        return new Words(
+            undefined,
+            [new Token(text ?? '…', Sym.Words)],
+            undefined,
+        );
     }
 
     getDescriptor(): NodeDescriptor {

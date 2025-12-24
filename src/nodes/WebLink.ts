@@ -1,3 +1,4 @@
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
@@ -46,12 +47,22 @@ export default class WebLink extends Content {
         );
     }
 
-    static getPossibleReplacements() {
-        return [WebLink.make('...', 'https://')];
+    static getPossibleReplacements({ locales }: ReplaceContext) {
+        return [
+            WebLink.make(
+                locales.get((l) => l.node.WebLink.name),
+                'https://',
+            ),
+        ];
     }
 
-    static getPossibleAppends() {
-        return [WebLink.make('...', 'https://')];
+    static getPossibleAppends({ locales }: InsertContext) {
+        return [
+            WebLink.make(
+                locales.get((l) => l.node.WebLink.name),
+                'https://',
+            ),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {
