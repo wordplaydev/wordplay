@@ -42,7 +42,7 @@ enum Sym {
     NumberType = '•#',
     JapaneseNumeral = '#jpn',
     RomanNumeral = '#rom',
-    Pi = '#pi',
+    Pi = 'π',
     Infinity = '∞',
     TableOpen = '⎡',
     TableClose = '⎦',

@@ -1,7 +1,7 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { NotANumber } from '@conflicts/NotANumber';
-import type { ReplaceContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -51,7 +51,9 @@ export default class NumberLiteral extends Literal {
         );
     }
 
-    static getPossibleReplacements({ type, context }: ReplaceContext) {
+    /** Given a type and source context,  */
+    static getPossibleNumbers(type: Type | undefined, context: Context) {
+        // What number types are possible?
         const possibleNumberTypes = type
             ?.getPossibleTypes(context)
             .filter(
@@ -72,14 +74,23 @@ export default class NumberLiteral extends Literal {
                       ),
             );
         }
+        // No type? Suggest some common numbers and hard to type numbers.
+        else
+            return [
+                NumberLiteral.make(0, undefined, Sym.Decimal),
+                NumberLiteral.make('π', undefined, Sym.Pi),
+                NumberLiteral.make('∞', undefined, Sym.Infinity),
+            ];
     }
 
-    static getPossibleAppends() {
-        return [
-            NumberLiteral.make(0, undefined, Sym.Decimal),
-            NumberLiteral.make('π', undefined, Sym.Pi),
-            NumberLiteral.make('∞', undefined, Sym.Infinity),
-        ];
+    /** Replacing a node with another? Get numbers that match the expected type. */
+    static getPossibleReplacements({ type, context }: ReplaceContext) {
+        return NumberLiteral.getPossibleNumbers(type, context);
+    }
+
+    /** Inserting a number in a list? Get numbers that match the expected type. */
+    static getPossibleAppends({ type, context }: InsertContext) {
+        return NumberLiteral.getPossibleNumbers(type, context);
     }
 
     getDescriptor(): NodeDescriptor {
