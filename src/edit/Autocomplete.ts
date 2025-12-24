@@ -54,7 +54,6 @@ import ListType from '../nodes/ListType';
 import MapLiteral from '../nodes/MapLiteral';
 import MapType from '../nodes/MapType';
 import Markup from '../nodes/Markup';
-import Mention from '../nodes/Mention';
 import NoneLiteral from '../nodes/NoneLiteral';
 import NoneType from '../nodes/NoneType';
 import NumberLiteral from '../nodes/NumberLiteral';
@@ -742,7 +741,6 @@ const PossibleNodes = [
     Docs,
     Example,
     Markup,
-    Mention,
     Paragraph,
     WebLink,
     // Tables
