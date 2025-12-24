@@ -6,7 +6,7 @@ import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import UnusedBind from '@conflicts/UnusedBind';
-import type { ReplaceContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -111,23 +111,41 @@ export default class Bind extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, context, type }: ReplaceContext) {
+    static getPossibleReplacements({
+        node,
+        context,
+        type,
+        locales,
+    }: ReplaceContext) {
         if (node instanceof Expression) {
             if (type === undefined || node.getParent(context) instanceof Block)
                 return [
-                    Bind.make(undefined, Names.make(['_']), undefined, node),
+                    Bind.make(
+                        undefined,
+                        Names.make([locales.get((l) => l.term.name)]),
+                        undefined,
+                        node,
+                    ),
                 ];
         }
     }
 
-    static getPossibleInsertions() {
+    static getPossibleInsertions({ locales, parent }: InsertContext) {
         return [
-            Bind.make(
-                undefined,
-                Names.make(['_']),
-                undefined,
-                ExpressionPlaceholder.make(),
-            ),
+            parent instanceof StructureDefinition ||
+            parent instanceof FunctionDefinition
+                ? Bind.make(
+                      undefined,
+                      Names.make([locales.get((l) => l.term.name)]),
+                      TypePlaceholder.make(),
+                      undefined,
+                  )
+                : Bind.make(
+                      undefined,
+                      Names.make([locales.get((l) => l.term.name)]),
+                      undefined,
+                      ExpressionPlaceholder.make(),
+                  ),
         ];
     }
 
