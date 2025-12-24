@@ -258,8 +258,6 @@
         box-shadow: var(--wordplay-border-radius) var(--wordplay-border-radius)
             var(--wordplay-border-radius) 0px var(--wordplay-lightgrey);
         border-spacing: 0;
-        /* Default size */
-        min-width: 15em;
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
