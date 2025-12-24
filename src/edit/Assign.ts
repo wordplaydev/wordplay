@@ -7,17 +7,20 @@ import Caret from './Caret';
 import Refer from './Refer';
 import Revision from './Revision';
 
+type Addition = { field: string; node: Node | Refer };
+
 /** Set a field on a child */
-export default class Assign<NodeType extends Node> extends Revision {
+export default class Assign extends Revision {
     /** The source index where the assignment occurs */
     readonly position: number;
     /** A list of field name and value pairs to assign. */
-    readonly additions: { field: string; node: NodeType | Refer | undefined }[];
+    readonly additions: [Addition, ...Addition[]];
+
     constructor(
         context: Context,
         position: number,
         parent: Node,
-        additions: { field: string; node: NodeType | Refer | undefined }[],
+        additions: [Addition, ...Addition[]],
     ) {
         super(parent, context);
 
@@ -30,7 +33,7 @@ export default class Assign<NodeType extends Node> extends Revision {
     }
 
     isRemoval(): boolean {
-        return this.additions.some(({ node }) => node === undefined);
+        return false;
     }
 
     getRemoved(): Node[] {
@@ -50,7 +53,7 @@ export default class Assign<NodeType extends Node> extends Revision {
         return this.realize(this.additions[0].node, locales);
     }
 
-    realize(node: NodeType | Refer | undefined, locales: Locales) {
+    realize(node: Node | Refer | undefined, locales: Locales) {
         return node === undefined
             ? undefined
             : node instanceof Node
@@ -145,13 +148,9 @@ export default class Assign<NodeType extends Node> extends Revision {
                 const otherNode = transform.additions[index].node;
                 return (
                     field === transform.additions[index].field &&
-                    (node === undefined
-                        ? otherNode === undefined
-                        : node instanceof Node
-                          ? otherNode instanceof Node &&
-                            node.isEqualTo(otherNode)
-                          : otherNode instanceof Refer &&
-                            node.equals(otherNode))
+                    (node instanceof Node
+                        ? otherNode instanceof Node && node.isEqualTo(otherNode)
+                        : otherNode instanceof Refer && node.equals(otherNode))
                 );
             })
         );
