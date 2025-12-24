@@ -13,7 +13,7 @@
 <NodeView node={[node, 'open']} {format} /><NodeView
     node={[node, 'key']}
     {format}
-/><NodeView node={[node, 'bind']} {format} /><NodeView
+/><NodeView node={[node, 'bind']} {format} empty="hide" /><NodeView
     node={[node, 'value']}
     {format}
 /><NodeView node={[node, 'close']} {format} />
