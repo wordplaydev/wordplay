@@ -262,7 +262,7 @@ map(FormattedLiteral, FormattedLiteralView, {
     size: 'normal',
 });
 map(FormattedTranslation, FormattedTranslationView, {
-    kind: 'none',
+    kind: 'plain',
     direction: 'inline',
     size: 'normal',
 });
@@ -353,7 +353,7 @@ map(TextLiteral, TextLiteralView, {
     size: 'normal',
 });
 map(Translation, TranslationView, {
-    kind: 'none',
+    kind: 'plain',
     direction: 'inline',
     size: 'normal',
 });

@@ -299,7 +299,7 @@
     .block.inline {
         flex-direction: row;
         align-items: baseline;
-        gap: var(--wordplay-spacing-half);
+        gap: 0;
     }
 
     .block.definition {
