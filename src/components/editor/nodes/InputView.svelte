@@ -13,4 +13,5 @@
 <small><NodeView node={[node, 'name']} {format} /></small><NodeView
     node={[node, 'bind']}
     {format}
+    empty="hide"
 /><NodeView node={[node, 'value']} {format} />

@@ -39,7 +39,8 @@
         /><NodeView node={[node, 'close']} {format} /><NodeView
             node={[node, 'dot']}
             {format}
-        /><NodeView node={[node, 'output']} {format} empty="menu" />
+            empty="hide"
+        /><NodeView node={[node, 'output']} {format} />
     </Row>
     <Column indent>
         <NodeView node={[node, 'expression']} {format} empty="label" />
@@ -60,5 +61,6 @@
     /><NodeView node={[node, 'dot']} {format} /><NodeView
         node={[node, 'output']}
         {format}
+        empty="hide"
     /><NodeView node={[node, 'expression']} {format} />
 {/if}

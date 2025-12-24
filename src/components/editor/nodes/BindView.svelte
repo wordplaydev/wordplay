@@ -24,7 +24,7 @@
         <NodeView node={[node, 'etc']} {format} empty="hide" />
         <NodeView node={[node, 'dot']} {format} empty="hide" />
         <NodeView node={[node, 'type']} {format} empty="menu" />
-        <NodeView node={[node, 'colon']} {format} />
+        <NodeView node={[node, 'colon']} {format} empty="hide" />
         <NodeView node={[node, 'value']} {format} />
     </Row>
 {:else}
