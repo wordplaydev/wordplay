@@ -350,9 +350,10 @@ function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
                         node,
                         context,
                         locales,
-                    }).map(
-                        (replacement) =>
-                            new Replace(context, parent, node, replacement),
+                    }).map((replacement) =>
+                        replacement === undefined
+                            ? new Remove(context, parent, anchor)
+                            : new Replace(context, parent, node, replacement),
                     ),
                 )
                 .flat(),
@@ -477,9 +478,9 @@ function getRelativeFieldEdits(
                     })
                         // If not on an empty line, only include recommendations that "complete" the selection
                         .filter(
-                            (replacement) =>
-                                empty ||
-                                (replacement !== undefined &&
+                            (replacement): replacement is Node | Refer =>
+                                replacement !== undefined &&
+                                (empty ||
                                     completes(
                                         anchorNode,
                                         replacement instanceof Node

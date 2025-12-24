@@ -20,7 +20,7 @@ export default class Replace<NodeType extends Node> extends Revision {
         context: Context,
         parent: Node,
         node: Node,
-        replacement: NodeType | Refer | undefined,
+        replacement: NodeType | Refer,
         /** True if this replacement completes an existing node */
         description:
             | ((translation: LocaleText) => string)
