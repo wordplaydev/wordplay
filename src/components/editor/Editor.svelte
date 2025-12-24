@@ -1058,12 +1058,26 @@
         await tick();
 
         // Get the unique valid edits at the caret.
-        const revisions = getEditsAt(
+        let revisions = getEditsAt(
             project,
             $caret,
             isFieldPosition(anchor) ? anchor : undefined,
             $locales,
         );
+
+        // If in blocks mode, filter edits that would create conflicts.
+        if ($blocks)
+            revisions = revisions.filter((revision) => {
+                const edit = revision.getEdit($locales);
+                if (Array.isArray(edit) && edit.length === 2) {
+                    const newSource = edit[0];
+                    return (
+                        Project.getNewConflicts(project, source, newSource) ===
+                        0
+                    );
+                }
+                return true;
+            });
 
         // Set the menu.
         if (concepts)

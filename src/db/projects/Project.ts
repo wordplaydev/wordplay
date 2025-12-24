@@ -1,5 +1,6 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
+import { UnknownName } from '@conflicts/UnknownName';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
@@ -524,6 +525,25 @@ export default class Project {
         return this.getAnalysis().conflicts;
     }
 
+    static getNewConflicts(
+        project: Project,
+        oldSource: Source,
+        newSource: Source,
+    ): number {
+        const currentConflicts = project.getMajorConflictsNow().length;
+        const newConflicts = project
+            .getRevisionConflicts(oldSource, newSource)
+            .filter((conflict) => !(conflict instanceof UnknownName));
+        return newConflicts.length - currentConflicts;
+    }
+
+    /** Given a revised source, what new conflicts are introduced? */
+    getRevisionConflicts(oldSource: Source, newSource: Source) {
+        return this.withSource(oldSource, newSource)
+            .getMajorConflictsNow()
+            .filter((conflict) => !(conflict instanceof UnknownName));
+    }
+
     getMajorConflictsNow() {
         let conflicts: Conflict[] = [];
         for (const source of this.getSources()) {
@@ -962,7 +982,7 @@ export default class Project {
             // We changed the documentation symbol. Automatically convert it when deserializing. by seeing if there are 2 or more `` in the code,
             // and no ¶ and if so, replace them with the new symbol.
             (source.code.match(/``/g) || []).length >= 2 &&
-            (source.code.match(/¶/g) || []).length === 0
+                (source.code.match(/¶/g) || []).length === 0
                 ? source.code.replaceAll('``', DOCS_SYMBOL)
                 : source.code,
         );

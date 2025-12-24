@@ -1,4 +1,3 @@
-import { UnknownName } from '@conflicts/UnknownName';
 import type { LocaleTextAccessor } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
@@ -40,7 +39,7 @@ import type {
     Revision,
 } from '../components/editor/commands/Commands';
 import type Conflict from '../conflicts/Conflict';
-import type Project from '../db/projects/Project';
+import Project from '../db/projects/Project';
 import type LanguageCode from '../locale/LanguageCode';
 import NodeRef from '../locale/NodeRef';
 import Bind from '../nodes/Bind';
@@ -1240,12 +1239,7 @@ export default class Caret {
 
         // Finally, if we're in blocks mode, verify that the insertion was valid.
         if (blocks) {
-            const currentConflicts = project.getMajorConflictsNow().length;
-            const conflicts = project
-                .withSource(this.source, newSource)
-                .getMajorConflictsNow()
-                .filter((conflict) => !(conflict instanceof UnknownName));
-            if (conflicts.length > currentConflicts)
+            if (Project.getNewConflicts(project, this.source, newSource) > 0)
                 return (l) => l.ui.source.cursor.ignored.noError;
         }
 
