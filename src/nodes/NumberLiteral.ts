@@ -2,6 +2,7 @@ import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { NotANumber } from '@conflicts/NotANumber';
 import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import { getPossibleDimensions } from '@edit/getPossibleUnits';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -12,7 +13,9 @@ import type Locales from '../locale/Locales';
 import { type TemplateInput } from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
+import Dimension from './Dimension';
 import Literal from './Literal';
+import type Node from './Node';
 import { node, optional, type Grammar, type Replacement } from './Node';
 import NumberType from './NumberType';
 import Sym from './Sym';
@@ -52,7 +55,11 @@ export default class NumberLiteral extends Literal {
     }
 
     /** Given a type and source context,  */
-    static getPossibleNumbers(type: Type | undefined, context: Context) {
+    static getPossibleNumbers(
+        node: Node | undefined,
+        type: Type | undefined,
+        context: Context,
+    ) {
         // What number types are possible?
         const possibleNumberTypes = type
             ?.getPossibleTypes(context)
@@ -63,15 +70,25 @@ export default class NumberLiteral extends Literal {
 
         // If a type is provided, and it has a unit, suggest numbers with corresponding units.
         if (possibleNumberTypes && possibleNumberTypes.length > 0) {
-            return possibleNumberTypes.map((numberType) =>
-                numberType.isLiteral()
+            return possibleNumberTypes.map((numberType) => {
+                const unit =
+                    numberType.unit instanceof Unit
+                        ? numberType.unit.clone()
+                        : undefined;
+                return numberType.isLiteral()
                     ? numberType.getLiteral()
-                    : NumberLiteral.make(
-                          1,
-                          numberType.unit instanceof Unit
-                              ? numberType.unit.clone()
-                              : undefined,
-                      ),
+                    : node instanceof NumberLiteral
+                      ? node.withUnit(unit)
+                      : NumberLiteral.make(1, unit);
+            });
+        }
+        // No type provided, but there's a node? Suggest numbers with all possible units.
+        else if (node instanceof NumberLiteral) {
+            return getPossibleDimensions(context).map((dimension) =>
+                NumberLiteral.make(
+                    node.number.getText(),
+                    new Unit(undefined, [Dimension.make(false, dimension, 1)]),
+                ),
             );
         }
         // No type? Suggest some common numbers and hard to type numbers.
@@ -84,13 +101,13 @@ export default class NumberLiteral extends Literal {
     }
 
     /** Replacing a node with another? Get numbers that match the expected type. */
-    static getPossibleReplacements({ type, context }: ReplaceContext) {
-        return NumberLiteral.getPossibleNumbers(type, context);
+    static getPossibleReplacements({ node, type, context }: ReplaceContext) {
+        return NumberLiteral.getPossibleNumbers(node, type, context);
     }
 
     /** Inserting a number in a list? Get numbers that match the expected type. */
     static getPossibleAppends({ type, context }: InsertContext) {
-        return NumberLiteral.getPossibleNumbers(type, context);
+        return NumberLiteral.getPossibleNumbers(undefined, type, context);
     }
 
     getDescriptor(): NodeDescriptor {
@@ -143,6 +160,10 @@ export default class NumberLiteral extends Literal {
 
     computeType(): Type {
         return new NumberType(this.number, this.unit);
+    }
+
+    withUnit(unit: Unit | undefined) {
+        return new NumberLiteral(this.number.clone(), unit);
     }
 
     getValue() {

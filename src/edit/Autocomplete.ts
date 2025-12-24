@@ -644,17 +644,21 @@ function getRelativeFieldEdits(
 }
 
 /**
- * Given two nodes, determines if some part of the original node appears in the replacement node.
- * "Appears" in this case means that one of the replacement's name tokens starts with one of the original's name tokens,
- * or that one of the non-token nodes in the replacement is equal to one of the non-token nodes in the original.
+ * Given two nodes, determine if at least one node in the original node appears in the replacement node,
+ * or if one of the replacement's name tokens starts with one of the original's name tokens.
  */
 function completes(original: Node, replacement: Node): boolean {
     // Completes if it contains a node equal to the original node
     const replacementNodes = replacement.nodes();
-    if (replacementNodes.some((node) => node.isEqualTo(original))) return true;
+    const originalNodes = original.nodes();
+    if (
+        replacementNodes.some((newNode) =>
+            originalNodes.some((oldNode) => newNode.isEqualTo(oldNode)),
+        )
+    )
+        return true;
 
     // Completes if there's a name in the replacement that completes the original node.
-    const originalNodes = original.nodes();
     return replacementNodes.some((n1) =>
         originalNodes.some((n2) => {
             const n1isToken = n1 instanceof Token;

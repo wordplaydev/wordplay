@@ -87,7 +87,7 @@ test.each([
         Append,
         'a',
     ],
-    ['suggest unit', '1**', undefined, Assign, 'ms'],
+    ['suggest unit', '1**', undefined, Replace, '1ms'],
     ['suggest additional denominator', '1m**', undefined, Replace, 'm·min'],
     ['suggest denominator', '1m**', undefined, Replace, 'm/s'],
 ])(
@@ -151,7 +151,10 @@ test.each([
 
             const newNode = match?.getNewNode(DefaultLocales);
 
-            expect(newNode?.toWordplay(getPreferredSpaces(newNode))).toBe(edit);
+            expect(
+                newNode?.toWordplay(getPreferredSpaces(newNode)),
+                description,
+            ).toBe(edit);
         }
     },
 );
