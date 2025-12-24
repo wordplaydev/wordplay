@@ -33,6 +33,7 @@ import {
 import type Caret from '../../../edit/Caret';
 
 import { Settings, type Database } from '@db/Database';
+import type Locales from '@locale/Locales';
 import type { LocaleTextAccessor } from '@locale/Locales';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -101,6 +102,8 @@ export type CommandContext = {
     editor: boolean;
     /** The project we're editing */
     project: Project;
+    /** The locales currently selected */
+    locales: Locales;
     /** The evalutor currently evaluating the project */
     evaluator: Evaluator;
     database: Database;
@@ -1035,11 +1038,11 @@ const Commands: Command[] = [
         keySymbol: 'F',
         shift: false,
         control: false,
-        execute: ({ caret }) =>
+        execute: ({ caret, locales }) =>
             caret?.insertNode(
                 FunctionDefinition.make(
                     undefined,
-                    Names.make([]),
+                    Names.make([locales.get((l) => l.term.name)]),
                     undefined,
                     [],
                     ExpressionPlaceholder.make(),

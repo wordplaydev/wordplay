@@ -1359,6 +1359,7 @@
             database: DB,
             toggleMenu,
             blocks: $blocks,
+            locales: $locales,
             view: editor,
             getTokenViews,
             clearLargeDeletionNotification: () =>

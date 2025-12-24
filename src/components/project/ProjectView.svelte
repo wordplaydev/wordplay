@@ -992,6 +992,7 @@
         editor: false,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
         evaluator: $evaluation.evaluator,
+        locales: $locales,
         dragging: dragged !== undefined,
         database: DB,
         setFullscreen: (on: boolean) => setBrowserFullscreen(on),
