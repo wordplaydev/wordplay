@@ -31,7 +31,7 @@ import SimpleExpression from './SimpleExpression';
 import StreamDefinition from './StreamDefinition';
 import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
-import type Token from './Token';
+import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import TypeVariable from './TypeVariable';
@@ -98,6 +98,9 @@ export default class Reference extends SimpleExpression {
                 )
                 // Translate the definitions into References, or to the definitions.
                 .map((definition) => {
+                    const isOperator =
+                        definition instanceof FunctionDefinition &&
+                        definition.isOperator();
                     if (
                         // Bind of acceptible type? Make a reference.
                         (definition instanceof Bind &&
@@ -121,13 +124,17 @@ export default class Reference extends SimpleExpression {
                     )
                         return new Refer(
                             (name) =>
-                                Reference.make(
-                                    // Completing? Pass the prefix to find a matching name.
-                                    prefix
-                                        ? match(definition, prefix, name)
-                                        : name,
+                                new Reference(
+                                    new Token(
+                                        // Completing? Pass the prefix to find a matching name.
+                                        prefix
+                                            ? match(definition, prefix, name)
+                                            : name,
+                                        isOperator ? Sym.Operator : Sym.Name,
+                                    ),
                                 ),
                             definition,
+                            isOperator,
                         );
                     // If the anchor is in list field, and the anchor is not being replaced, offer (Binary/Unary)Evaluate in scope.
                     else if (

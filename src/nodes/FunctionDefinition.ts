@@ -167,7 +167,9 @@ export default class FunctionDefinition extends DefinitionExpression {
                     structureType instanceof Expression
                         ? structureType
                         : ExpressionPlaceholder.make(structureType),
-                    Reference.make(this.getOperatorName() ?? '_'),
+                    new Reference(
+                        new Token(this.getOperatorName() ?? '_', Sym.Operator),
+                    ),
                     ExpressionPlaceholder.make(),
                 )
               : Evaluate.make(
