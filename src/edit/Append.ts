@@ -9,8 +9,6 @@ import Refer from './Refer';
 import Revision from './Revision';
 
 export default class Append<NodeType extends Node> extends Revision {
-    /** The node with a field being appended to */
-    readonly parent: Node;
     /** The source index where the insertion occurs */
     readonly position: number;
     /** Undefined means after the last child. Otherwise, the node should be whatever child we're inserting before, even if it's not part of the list. */
@@ -27,9 +25,8 @@ export default class Append<NodeType extends Node> extends Revision {
         index: number,
         insertion: NodeType | Refer,
     ) {
-        super(context);
+        super(parent, context);
 
-        this.parent = parent;
         this.position = position;
         this.list = list;
         this.index = index;
@@ -42,6 +39,10 @@ export default class Append<NodeType extends Node> extends Revision {
 
     isRemoval(): boolean {
         return false;
+    }
+
+    getRemoved(): Node[] {
+        return [];
     }
 
     isCompletion(): boolean {

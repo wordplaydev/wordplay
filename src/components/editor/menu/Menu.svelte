@@ -199,7 +199,7 @@
                 >
                     <MarkupHTMLView
                         markup={$locales.concretize(
-                            `/${$locales.get((l) => l.ui.docs.purposes[entry.purpose].header)}…/`,
+                            `/${$locales.get((l) => l.ui.docs.purposes[entry.purpose]?.header)}…/`,
                         )}
                     />
                 </div>

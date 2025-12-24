@@ -264,7 +264,7 @@ export function getConceptIndex(): ConceptIndexContext | undefined {
 }
 
 const RootSymbol = Symbol('root');
-type RootContext = { root: Root | undefined };
+type RootContext = { root: Root | undefined; removed: Set<Node> };
 export function setRoot(context: RootContext) {
     setContext(RootSymbol, context);
 }

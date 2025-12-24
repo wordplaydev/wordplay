@@ -26,7 +26,7 @@ export default class Replace<NodeType extends Node> extends Revision {
             | ((translation: LocaleText) => string)
             | undefined = undefined,
     ) {
-        super(context);
+        super(parent, context);
 
         this.parent = parent;
         this.node = node;
@@ -40,6 +40,10 @@ export default class Replace<NodeType extends Node> extends Revision {
 
     isRemoval(): boolean {
         return this.replacement === undefined;
+    }
+
+    getRemoved(): Node[] {
+        return this.replacement === undefined ? [this.node] : [];
     }
 
     /** True if the replacement node has a reference prefixed by a reference in the original node */

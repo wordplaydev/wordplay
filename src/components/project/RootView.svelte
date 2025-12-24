@@ -12,6 +12,7 @@
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import Spaces from '@parser/Spaces';
     import { EMOJI_SYMBOL } from '@parser/Symbols';
+    import { SvelteSet } from 'svelte/reactivity';
     import { writable } from 'svelte/store';
     import FormattedLiteral from '../../nodes/FormattedLiteral';
     import TextLiteral from '../../nodes/TextLiteral';
@@ -45,6 +46,8 @@
         editable?: boolean;
         /** Whether to show line numbers */
         lines?: boolean;
+        /** Whether any particular nodes should be rendered as removed */
+        removed?: Node[];
     }
 
     let {
@@ -58,17 +61,26 @@
         caret = undefined,
         editable = false,
         lines = false,
+        removed = [],
     }: Props = $props();
 
     /** Get the root, or make one if it's not a source. */
     let root = $derived(node instanceof Source ? node.root : new Root(node));
 
     // Expose the root in a store context for quick access to it.
-    let rootContext = $state<{ root: Root | undefined }>({ root: undefined });
+    let rootContext = $state<{
+        root: Root | undefined;
+        removed: SvelteSet<Node>;
+    }>({
+        root: undefined,
+        removed: new SvelteSet<Node>(),
+    });
     setRoot(rootContext);
 
     $effect(() => {
         rootContext.root = root;
+        rootContext.removed.clear();
+        for (const node of removed) rootContext.removed.add(node);
     });
 
     // When the spaces change, update the rendered spaces

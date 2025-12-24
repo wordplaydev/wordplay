@@ -1,5 +1,6 @@
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
+import Root from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
 import type { Edit } from '../components/editor/commands/Commands';
@@ -7,9 +8,12 @@ import type Locales from '../locale/Locales';
 import type Markup from '../nodes/Markup';
 
 export default abstract class Revision {
+    /** The node with a field being appended to */
+    readonly parent: Node;
     readonly context: Context;
 
-    constructor(context: Context) {
+    constructor(parent: Node, context: Context) {
+        this.parent = parent;
         this.context = context;
     }
 
@@ -18,6 +22,9 @@ export default abstract class Revision {
 
     /** True if the revision removes something */
     abstract isRemoval(): boolean;
+
+    /** The list of nodes to be removed */
+    abstract getRemoved(): Node[];
 
     /** True if the revision is a completion */
     abstract isCompletion(locales: Locales): boolean;
@@ -34,6 +41,31 @@ export default abstract class Revision {
     abstract getEditedNode(locales: Locales): [Node, Node];
 
     abstract equals(transform: Revision): boolean;
+
+    /**
+     * Get a copy of the parent being modified and the nodes to be removed from the copy.
+     * Handy for rendering a preview of the removal.
+     */
+    getParentAndRemoved(): [Node, Node[]] {
+        const parent = this.parent;
+        const parentCopy = parent.clone();
+        if (!this.isRemoval()) return [parentCopy, []];
+        const removedNodes = this.getRemoved();
+        if (removedNodes.length === 0) return [parentCopy, []];
+        const root = this.context.getRoot(parent);
+        if (root === undefined) return [parentCopy, []];
+        // Find the paths of the removed nodes in the parent.
+        // Find the path of the parent, the paths of the removed notes.
+        const parentPath = root.getPath(parent);
+        const removedPaths = removedNodes.map((n) =>
+            root.getPath(n).slice(parentPath.length),
+        );
+        const parentRoot = new Root(parentCopy);
+        const removedCopies = removedPaths
+            .map((p) => parentRoot.resolvePath(p))
+            .filter((n) => n !== undefined);
+        return [parentCopy, removedCopies];
+    }
 
     static splitSpace(source: Source, position: number, newNode: Node): Spaces {
         const tokenAfter = source.getTokenAt(position);

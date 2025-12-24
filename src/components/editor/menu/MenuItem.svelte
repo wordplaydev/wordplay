@@ -14,7 +14,14 @@
 
     let { entry, menu = $bindable(), id, handleItemClick }: Props = $props();
 
+    /** Is removal */
+    let isRemoval = $derived(entry.isRemoval());
+
+    /** Get the node created after the revision, for possible rendering */
     let [newNode] = $derived(entry.getEditedNode($locales));
+
+    /** If a removal, get a duplicated parent node, and list of nodes to be removed */
+    let [parent, removed] = $derived(entry.getParentAndRemoved());
 </script>
 
 <div
@@ -38,23 +45,13 @@
     }}
 >
     {#if newNode !== undefined}
-        {#if entry.isRemoval()}
-            <strike
-                ><RootView
-                    node={newNode}
-                    locale="symbolic"
-                    blocks={$blocks}
-                    inline={true}
-                /></strike
-            >
-        {:else}
-            <RootView
-                node={newNode}
-                locale="symbolic"
-                blocks={$blocks}
-                inline={true}
-            />
-        {/if}
+        <RootView
+            node={isRemoval ? parent : newNode}
+            locale="symbolic"
+            blocks={$blocks}
+            inline={true}
+            removed={isRemoval ? removed : []}
+        />
     {:else}
         <MarkupHTMLView markup={entry.getDescription($locales)} />
     {/if}
@@ -74,10 +71,6 @@
 
     .revision:focus {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
-    }
-
-    .revision.selected :not(:global(.block)) :global(.token-view) {
-        color: var(--wordplay-background);
     }
 
     .revision:hover {

@@ -88,6 +88,11 @@
     let hidden = getHidden();
     let hide = $derived(node && $hidden && $hidden.has(node));
 
+    // Determine if the node is removed
+    let removed = $derived(
+        node && rootContext ? rootContext.removed.has(node) : false,
+    );
+
     // Get the insertion point
     let insertion = getInsertionPoint();
 
@@ -125,6 +130,7 @@
                 {
                     block: format.block,
                     hide,
+                    removed,
                     inline: style?.direction === 'inline',
                     Token: node instanceof Token,
                     highlighted: highlight,
@@ -193,6 +199,16 @@
         width: 0;
         height: 0;
         overflow: hidden;
+    }
+
+    .removed::after {
+        content: ''; /* Required for pseudo-elements */
+        position: absolute; /* Position the line relative to the div */
+        width: 100%;
+        height: var(--wordplay-focus-width); /* Adjust line thickness */
+        top: 50%; /* Center the line vertically */
+        left: 0;
+        background: var(--wordplay-error); /* Adjust line color */
     }
 
     .small {

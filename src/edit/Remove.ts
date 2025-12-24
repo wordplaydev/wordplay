@@ -10,13 +10,11 @@ import Revision from './Revision';
  * Remove one or more nodes from sequence of nodes in a parent.
  */
 export default class Remove extends Revision {
-    readonly parent: Node;
     readonly nodes: Node[];
 
     constructor(context: Context, parent: Node, ...nodes: Node[]) {
-        super(context);
+        super(parent, context);
 
-        this.parent = parent;
         this.nodes = nodes;
     }
 
@@ -26,6 +24,10 @@ export default class Remove extends Revision {
 
     isRemoval(): boolean {
         return true;
+    }
+
+    getRemoved(): Node[] {
+        return this.getNodes();
     }
 
     isCompletion(): boolean {

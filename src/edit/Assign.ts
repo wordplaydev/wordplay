@@ -9,8 +9,6 @@ import Revision from './Revision';
 
 /** Set a field on a child */
 export default class Assign<NodeType extends Node> extends Revision {
-    /** The node with the field being set */
-    readonly parent: Node;
     /** The source index where the assignment occurs */
     readonly position: number;
     /** A list of field name and value pairs to assign. */
@@ -21,9 +19,8 @@ export default class Assign<NodeType extends Node> extends Revision {
         parent: Node,
         additions: { field: string; node: NodeType | Refer | undefined }[],
     ) {
-        super(context);
+        super(parent, context);
 
-        this.parent = parent;
         this.position = position;
         this.additions = additions;
     }
@@ -34,6 +31,14 @@ export default class Assign<NodeType extends Node> extends Revision {
 
     isRemoval(): boolean {
         return this.additions.some(({ node }) => node === undefined);
+    }
+
+    getRemoved(): Node[] {
+        return this.additions
+            .filter(({ node }) => node === undefined)
+            .map(({ field }) => this.parent.getField(field))
+            .flat()
+            .filter((node): node is Node => node instanceof Node);
     }
 
     isCompletion(): boolean {
