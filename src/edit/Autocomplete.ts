@@ -350,6 +350,7 @@ function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
                         node,
                         context,
                         locales,
+                        complete: false,
                     }).map((replacement) =>
                         replacement === undefined
                             ? new Remove(context, parent, anchor)
@@ -475,6 +476,7 @@ function getRelativeFieldEdits(
                         node: anchorNode,
                         context,
                         locales,
+                        complete: true,
                     })
                         // If not on an empty line, only include recommendations that "complete" the selection
                         .filter(
@@ -602,6 +604,7 @@ function getRelativeFieldEdits(
                                 node: anchorNode,
                                 context,
                                 locales,
+                                complete: false,
                             })
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)

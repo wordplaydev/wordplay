@@ -15,6 +15,8 @@ type BaseContext = {
 export type ReplaceContext = BaseContext & {
     /** The optional node being edited */
     node: Node;
+    /** Whether the node should be considered a candidate for autocompletion */
+    complete: boolean;
 };
 
 export type InsertContext = BaseContext & {

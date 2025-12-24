@@ -90,7 +90,7 @@ export default class Reference extends SimpleExpression {
             reference
                 // Find all the definitions in scope.
                 .getDefinitionsInScope(context)
-                // Only accept definitions that have a matching name.
+                // If there's a prefix we're completing, include
                 .filter(
                     (def) =>
                         prefix === undefined ||
@@ -185,8 +185,13 @@ export default class Reference extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements({ type, node, context }: ReplaceContext) {
-        return this.getPossibleReferences(type, node, true, context);
+    static getPossibleReplacements({
+        type,
+        node,
+        context,
+        complete,
+    }: ReplaceContext) {
+        return this.getPossibleReferences(type, node, complete, context);
     }
 
     static getPossibleInsertions({ type, parent, context }: InsertContext) {
