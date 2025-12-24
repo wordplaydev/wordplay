@@ -278,7 +278,7 @@ export default class Bind extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Binds;
+        return Purpose.Definitions;
     }
 
     isEvaluationInvolved() {

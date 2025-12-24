@@ -4616,11 +4616,26 @@
                 "search": "buscar conceptos con palabras"
             },
             "header": {
-                "inputs": "Entradas",
-                "interfaces": "Interfaces",
-                "properties": "Propiedades",
-                "functions": "Funciones",
-                "conversions": "Conversiones",
+                "inputs": {
+                    "header": "Entradas",
+                    "explanation": "$~/Valores obligatorios y opcionales./"
+                },
+                "interfaces": {
+                    "header": "Interfaces",
+                    "explanation": "$~/Estructuras en las que se basa esta estructura./"
+                },
+                "properties": {
+                    "header": "Propiedades",
+                    "explanation": "$~/Valores que almacena este concepto./"
+                },
+                "functions": {
+                    "header": "Funciones",
+                    "explanation": "$~/Valores que este concepto puede calcular./"
+                },
+                "conversions": {
+                    "header": "Conversiones",
+                    "explanation": "$~/Formas de convertir este valor en valores de otros tipos./"
+                },
                 "arrangements": {
                     "header": "$~Preparativos",
                     "explanation": "$~/Formas de ordenar frases en un grupo./"
@@ -4722,10 +4737,6 @@
                     "header": "$~Decisiones",
                     "explanation": "$~/Formas de elegir entre diferentes valores en función de las condiciones./"
                 },
-                "Binds": {
-                    "header": "$~Se vincula",
-                    "explanation": "$~/Formas de nombrar valores, funciones y estructuras de datos para su uso posterior./"
-                },
                 "Numbers": {
                     "header": "$~Números",
                     "explanation": "$~/Números, unidades y operaciones matemáticas./"
@@ -4769,7 +4780,14 @@
                 "How": {
                     "header": "$~Cómo",
                     "explanation": "$~/Patrones comunes para crear diferentes tipos de proyectos./"
+                },
+                "Definitions": {
+                    "header": "$~Definiciones",
+                    "explanation": "$~/Formas de nombrar valores, funciones y estructuras de datos para su uso posterior./"
                 }
+            },
+            "note": {
+                "empty": "$~Los nombres que defina en su proyecto aparecerán aquí."
             }
         },
         "dialog": {

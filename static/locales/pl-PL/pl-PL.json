@@ -4777,10 +4777,6 @@
                     "header": "$~Decyzje",
                     "explanation": "$~/Sposoby wyboru pomiędzy różnymi wartościami w zależności od warunków./"
                 },
-                "Binds": {
-                    "header": "$~Wiąże",
-                    "explanation": "$~/Sposoby nadawania nazw wartościom, funkcjom i strukturom danych do późniejszego wykorzystania./"
-                },
                 "Numbers": {
                     "header": "$~Takty muzyczne",
                     "explanation": "$~/Liczby, jednostki i działania matematyczne./"
@@ -4824,7 +4820,14 @@
                 "How": {
                     "header": "$~Jak",
                     "explanation": "$~/Typowe wzorce tworzenia różnych rodzajów projektów./"
+                },
+                "Definitions": {
+                    "header": "$~Definicje",
+                    "explanation": "$~/Sposoby nadawania nazw wartościom, funkcjom i strukturom danych do późniejszego wykorzystania./"
                 }
+            },
+            "note": {
+                "empty": "$~Tutaj pojawią się nazwy zdefiniowane w projekcie."
             }
         },
         "dialog": {

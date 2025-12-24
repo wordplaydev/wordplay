@@ -4754,10 +4754,6 @@
                     "header": "$~Entscheidungen",
                     "explanation": "$~/Möglichkeiten zur Auswahl zwischen verschiedenen Werten basierend auf Bedingungen./"
                 },
-                "Binds": {
-                    "header": "$~Bindet",
-                    "explanation": "$~/Möglichkeiten zur Benennung von Werten, Funktionen und Datenstrukturen für die spätere Verwendung./"
-                },
                 "Numbers": {
                     "header": "$~Zahlen",
                     "explanation": "$~Zahlen, Einheiten und mathematische Operationen."
@@ -4801,7 +4797,14 @@
                 "How": {
                     "header": "$~Wie man",
                     "explanation": "$~Gängige Muster für die Erstellung verschiedener Projekttypen."
+                },
+                "Definitions": {
+                    "header": "$~Definitionen",
+                    "explanation": "$~/Möglichkeiten zur Benennung von Werten, Funktionen und Datenstrukturen für die spätere Verwendung./"
                 }
+            },
+            "note": {
+                "empty": "$~Die in Ihrem Projekt definierten Namen werden hier angezeigt."
             }
         },
         "dialog": {

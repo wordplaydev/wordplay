@@ -72,7 +72,7 @@ export default class This extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Binds;
+        return Purpose.Definitions;
     }
 
     clone(replace?: Replacement) {

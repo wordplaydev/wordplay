@@ -19,7 +19,7 @@ const PurposeRelevance: Record<Purpose, number> = {
     Outputs: 1,
     Inputs: 2,
     Decisions: 3,
-    Binds: 4,
+    Definitions: 4,
     Text: 5,
     Numbers: 6,
     Truth: 7,

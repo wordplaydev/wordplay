@@ -4772,10 +4772,6 @@
                     "header": "$~Beslut",
                     "explanation": "$~/Sätt att välja mellan olika värden baserat på villkor./"
                 },
-                "Binds": {
-                    "header": "$~Binder",
-                    "explanation": "$~/Sätt att namnge värden, funktioner och datastrukturer för senare användning./"
-                },
                 "Numbers": {
                     "header": "$~Tal",
                     "explanation": "$~/Tal, enheter och matematiska operationer./"
@@ -4819,7 +4815,14 @@
                 "How": {
                     "header": "$~Hur man",
                     "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt./"
+                },
+                "Definitions": {
+                    "header": "$~Definitioner",
+                    "explanation": "$~/Sätt att namnge värden, funktioner och datastrukturer för senare användning./"
                 }
+            },
+            "note": {
+                "empty": "$~Namn som du definierar i ditt projekt kommer att visas här."
             }
         },
         "dialog": {

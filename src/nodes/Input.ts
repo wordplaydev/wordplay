@@ -106,7 +106,7 @@ export default class Input extends Node {
     }
 
     getPurpose() {
-        return Purpose.Binds;
+        return Purpose.Definitions;
     }
 
     getType(context: Context): Type {

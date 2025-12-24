@@ -8,7 +8,7 @@ enum Purpose {
     /** Language concepts related to decisions */
     Decisions = 'Decisions',
     /** Language concepts related to naming things for later (binds, blocks) */
-    Binds = 'Binds',
+    Definitions = 'Definitions',
     /** Language concepts related to text logic */
     Text = 'Text',
     /** Language concepts related to number logic */

@@ -183,7 +183,7 @@ export default class PropertyReference extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Binds;
+        return Purpose.Definitions;
     }
 
     computeConflicts(context: Context): Conflict[] {

@@ -169,7 +169,7 @@ export default class Block extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Binds;
+        return Purpose.Definitions;
     }
 
     /** If its the root block of a program. */

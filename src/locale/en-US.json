@@ -4747,8 +4747,8 @@
                     "header": "Decisions",
                     "explanation": "/Ways to choose between different values based on conditions./"
                 },
-                "Binds": {
-                    "header": "Binds",
+                "Definitions": {
+                    "header": "Definitions",
                     "explanation": "/Ways to name values, functions, and data structures for later use./"
                 },
                 "Numbers": {

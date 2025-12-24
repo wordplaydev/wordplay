@@ -4699,10 +4699,6 @@
                     "header": "$~决策",
                     "explanation": "$~根据条件选择不同值的方法。"
                 },
-                "Binds": {
-                    "header": "$~绑定",
-                    "explanation": "$~/为后续使用而命名值、函数和数据结构的方法。/"
-                },
                 "Numbers": {
                     "header": "$~数字",
                     "explanation": "$~数字、单位和数学运算。"
@@ -4746,7 +4742,14 @@
                 "How": {
                     "header": "$~如何",
                     "explanation": "$~创建不同类型项目的常用模式。"
+                },
+                "Definitions": {
+                    "header": "$~定义",
+                    "explanation": "$~/为后续使用而命名值、函数和数据结构的方法。/"
                 }
+            },
+            "note": {
+                "empty": "$~您在项目中定义的名称将显示在此处。"
             }
         },
         "dialog": {

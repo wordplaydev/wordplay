@@ -279,7 +279,7 @@ export default class Evaluate extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Binds;
+        return Purpose.Definitions;
     }
 
     clone(replace?: Replacement) {

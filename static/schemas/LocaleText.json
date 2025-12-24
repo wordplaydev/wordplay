@@ -9988,10 +9988,10 @@
                     "Advanced": {
                       "$ref": "#/definitions/HeaderAndExplanationText"
                     },
-                    "Binds": {
+                    "Decisions": {
                       "$ref": "#/definitions/HeaderAndExplanationText"
                     },
-                    "Decisions": {
+                    "Definitions": {
                       "$ref": "#/definitions/HeaderAndExplanationText"
                     },
                     "Documentation": {
@@ -10039,7 +10039,7 @@
                     "Outputs",
                     "Inputs",
                     "Decisions",
-                    "Binds",
+                    "Definitions",
                     "Text",
                     "Numbers",
                     "Truth",

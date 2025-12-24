@@ -4755,10 +4755,6 @@
                     "header": "$~Décisions",
                     "explanation": "$~/Moyens de choisir entre différentes valeurs en fonction des conditions./"
                 },
-                "Binds": {
-                    "header": "$~Liaisons",
-                    "explanation": "$~/Méthodes pour nommer les valeurs, les fonctions et les structures de données en vue d'une utilisation ultérieure./"
-                },
                 "Numbers": {
                     "header": "$~Nombres",
                     "explanation": "$~/Nombres, unités et opérations mathématiques./"
@@ -4802,7 +4798,14 @@
                 "How": {
                     "header": "$~Comment",
                     "explanation": "$~/Modèles courants pour la création de différents types de projets./"
+                },
+                "Definitions": {
+                    "header": "$~Définitions",
+                    "explanation": "$~/Méthodes pour nommer les valeurs, les fonctions et les structures de données en vue d'une utilisation ultérieure./"
                 }
+            },
+            "note": {
+                "empty": "$~Les noms que vous définissez dans votre projet apparaîtront ici."
             }
         },
         "dialog": {

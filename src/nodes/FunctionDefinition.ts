@@ -250,7 +250,7 @@ export default class FunctionDefinition extends DefinitionExpression {
     }
 
     getPurpose() {
-        return Purpose.Binds;
+        return Purpose.Definitions;
     }
 
     clone(replace?: Replacement) {

@@ -86,7 +86,7 @@ export default class PropertyBind extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Binds;
+        return Purpose.Definitions;
     }
 
     computeConflicts(context: Context): Conflict[] {

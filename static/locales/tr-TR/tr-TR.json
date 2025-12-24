@@ -4772,10 +4772,6 @@
                     "header": "$~Kararlar",
                     "explanation": "$~/Koşullara bağlı olarak farklı değerler arasında seçim yapma yolları./"
                 },
-                "Binds": {
-                    "header": "$~Bağlar",
-                    "explanation": "$~/Değerleri, fonksiyonları ve veri yapılarını daha sonra kullanılmak üzere adlandırmanın yolları./"
-                },
                 "Numbers": {
                     "header": "$~Sayılar",
                     "explanation": "$~/Sayılar, birimler ve matematiksel işlemler./"
@@ -4819,7 +4815,14 @@
                 "How": {
                     "header": "$~Nasıl yapılır",
                     "explanation": "$~/Farklı türde projeler oluşturmak için yaygın kullanılan kalıplar./"
+                },
+                "Definitions": {
+                    "header": "$~Tanımlar",
+                    "explanation": "$~/Değerleri, fonksiyonları ve veri yapılarını daha sonra kullanılmak üzere adlandırmanın yolları./"
                 }
+            },
+            "note": {
+                "empty": "$~Projenizde tanımladığınız isimler burada görünecektir."
             }
         },
         "dialog": {
