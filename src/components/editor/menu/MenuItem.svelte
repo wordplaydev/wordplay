@@ -71,6 +71,7 @@
 
     .revision:focus {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     .revision:hover {
