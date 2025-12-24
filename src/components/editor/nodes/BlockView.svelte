@@ -1,7 +1,6 @@
 <script lang="ts">
     import type Block from '@nodes/Block';
-    import Column from '../blocks/Column.svelte';
-    import Row from '../blocks/Row.svelte';
+    import Flow from '../blocks/Flow.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -19,9 +18,9 @@
 
 {#if format.block}
     {#if node.docs === undefined || node.docs.docs.length === 0}
-        <Row>
+        <Flow direction={node.statements.length > 1 ? 'column' : 'row'}>
             {#if format.editable}{@render docs()}{/if}
-            <Column
+            <Flow direction={node.statements.length > 1 ? 'column' : 'row'}
                 ><NodeView
                     node={[node, 'open']}
                     {format}
@@ -33,10 +32,10 @@
                     empty="label"
                     block={node.isRoot()}
                 /><NodeView node={[node, 'close']} {format} empty="hide" />
-            </Column>
-        </Row>
+            </Flow>
+        </Flow>
     {:else}
-        <Column
+        <Flow direction={node.statements.length > 1 ? 'column' : 'row'}
             >{@render docs()}<NodeView
                 node={[node, 'open']}
                 {format}
@@ -48,7 +47,7 @@
                 empty="label"
                 block={node.isRoot()}
             /><NodeView node={[node, 'close']} {format} empty="hide" />
-        </Column>
+        </Flow>
     {/if}
 {:else}
     <NodeView node={[node, 'docs']} {format} empty="menu" /><NodeView

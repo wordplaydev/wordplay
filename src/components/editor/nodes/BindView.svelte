@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Bind from '@nodes/Bind';
-    import Row from '../blocks/Row.svelte';
+    import Flow from '../blocks/Flow.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
     interface Props {
@@ -15,7 +15,7 @@
     {#if node.docs}
         <NodeView node={[node, 'docs']} {format} empty="menu" />
     {/if}
-    <Row>
+    <Flow direction="row">
         {#if !node.docs}
             <NodeView node={[node, 'docs']} {format} empty="menu" />
         {/if}
@@ -26,7 +26,7 @@
         <NodeView node={[node, 'type']} {format} empty="menu" />
         <NodeView node={[node, 'colon']} {format} empty="hide" />
         <NodeView node={[node, 'value']} {format} />
-    </Row>
+    </Flow>
 {:else}
     <NodeView node={[node, 'docs']} {format} /><NodeView
         node={[node, 'share']}

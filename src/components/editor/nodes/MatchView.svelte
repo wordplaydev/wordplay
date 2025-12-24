@@ -1,7 +1,6 @@
 <script lang="ts">
     import type Match from '@nodes/Match';
-    import Column from '../blocks/Column.svelte';
-    import Row from '../blocks/Row.svelte';
+    import Flow from '../blocks/Flow.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -14,13 +13,13 @@
 </script>
 
 {#if format.block}
-    <Row>
+    <Flow direction="row">
         <NodeView node={[node, 'value']} {format} /><NodeView
             node={[node, 'question']}
             {format}
         />
-    </Row>
-    <Column indent>
+    </Flow>
+    <Flow direction="column" indent>
         <NodeSequenceView
             block
             {node}
@@ -28,7 +27,7 @@
             {format}
             empty="label"
         /><NodeView node={[node, 'other']} {format} />
-    </Column>
+    </Flow>
 {:else}
     <NodeView node={[node, 'value']} {format} /><NodeView
         node={[node, 'question']}

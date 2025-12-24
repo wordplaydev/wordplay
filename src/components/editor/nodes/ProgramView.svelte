@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Program from '@nodes/Program';
-    import Column from '../blocks/Column.svelte';
+    import Flow from '../blocks/Flow.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -19,8 +19,8 @@
 {#if format.block}
     {#if format.editable}
         {@render docs()}
-        <Column
-            ><NodeSequenceView
+        <Flow direction="column">
+            <NodeSequenceView
                 {node}
                 field="borrows"
                 {format}
@@ -30,7 +30,7 @@
                 {format}
                 empty="hide"
             />
-        </Column>
+        </Flow>
     {:else}
         {#if node.docs && node.docs.docs.length > 0}{@render docs()}{/if}
         <NodeSequenceView

@@ -1,7 +1,6 @@
 <script lang="ts">
     import type StructureDefinition from '@nodes/StructureDefinition';
-    import Column from '../blocks/Column.svelte';
-    import Row from '../blocks/Row.svelte';
+    import Flow from '../blocks/Flow.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -14,9 +13,9 @@
 </script>
 
 {#if format.block}
-    <Column>
+    <Flow direction="column">
         <NodeView node={[node, 'docs']} {format} empty="hide" />
-        <Row>
+        <Flow direction="row">
             <NodeView node={[node, 'share']} {format} empty="hide" /><NodeView
                 node={[node, 'type']}
                 {format}
@@ -35,10 +34,11 @@
                 {format}
                 empty="label"
             /><NodeView node={[node, 'close']} {format} />
-        </Row>
-        <Column indent><NodeView node={[node, 'expression']} {format} /></Column
+        </Flow>
+        <Flow direction="column" indent
+            ><NodeView node={[node, 'expression']} {format} /></Flow
         >
-    </Column>
+    </Flow>
 {:else}
     <NodeView node={[node, 'docs']} {format} /><NodeView
         node={[node, 'share']}

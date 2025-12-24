@@ -1,7 +1,6 @@
 <script lang="ts">
     import type FunctionDefinition from '@nodes/FunctionDefinition';
-    import Column from '../blocks/Column.svelte';
-    import Row from '../blocks/Row.svelte';
+    import Flow from '../blocks/Flow.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -23,7 +22,7 @@
 
 {#if format.block}
     {#if node.docs}{@render docs()}{/if}
-    <Row
+    <Flow direction="row"
         >{#if node.docs === undefined}{@render docs()}{/if}<NodeView
             node={[node, 'fun']}
             {format}
@@ -41,10 +40,10 @@
             {format}
             empty="hide"
         /><NodeView node={[node, 'output']} {format} />
-    </Row>
-    <Column indent>
+    </Flow>
+    <Flow direction="column" indent>
         <NodeView node={[node, 'expression']} {format} empty="label" />
-    </Column>
+    </Flow>
 {:else}
     <NodeView node={[node, 'docs']} {format} /><NodeView
         node={[node, 'share']}

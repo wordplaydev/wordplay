@@ -1,7 +1,6 @@
 <script lang="ts">
     import type Conditional from '@nodes/Conditional';
-    import Column from '../blocks/Column.svelte';
-    import Row from '../blocks/Row.svelte';
+    import Flow from '../blocks/Flow.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
     interface Props {
@@ -13,17 +12,17 @@
 </script>
 
 {#if format.block}
-    <Row>
+    <Flow direction="row">
         <NodeView node={[node, 'condition']} {format} /><NodeView
             node={[node, 'question']}
             {format}
         />
-    </Row>
-    <Column indent>
+    </Flow>
+    <Flow direction="column" indent>
         <NodeView node={[node, 'yes']} {format} /><NodeView
             node={[node, 'no']}
             {format}
-        /></Column
+        /></Flow
     >
 {:else}
     <NodeView node={[node, 'condition']} {format} /><NodeView
