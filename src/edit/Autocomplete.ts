@@ -818,13 +818,13 @@ function getPossibleNodes(
                             node.getType(action.context),
                             action.context,
                         )) &&
-                    // Filter out nodes that are equivalent to the selection node
-                    ((anchor !== undefined &&
-                        node instanceof Refer &&
-                        (!(anchor instanceof Reference) ||
-                            (anchor instanceof Reference &&
-                                node.definition !==
-                                    anchor.resolve(action.context)))) ||
+                    // Filter out nodes that are equivalent to the selection node, if there is one.
+                    (anchor === undefined ||
+                        (node instanceof Refer &&
+                            (!(anchor instanceof Reference) ||
+                                (anchor instanceof Reference &&
+                                    node.definition !==
+                                        anchor.resolve(action.context)))) ||
                         (node instanceof Node &&
                             !(anchor !== undefined && anchor.isEqualTo(node)))),
             )

@@ -111,11 +111,11 @@ export default class Evaluate extends Expression {
 
     static getPossibleEvaluations(
         expectedType: Type | undefined,
-        node: Node | undefined,
+        anchor: Node,
         replace: boolean,
         context: Context,
     ) {
-        const nodeBeingReplaced = replace ? node : undefined;
+        const nodeBeingReplaced = replace ? anchor : undefined;
 
         // Given the node the caret has selected or is after, find out
         // if there's an evaluate on it that we should complete.
@@ -138,9 +138,9 @@ export default class Evaluate extends Expression {
                       scopingType instanceof StructureType
                       ? scopingType.definition.getDefinitions(nodeBeingReplaced)
                       : // Otherwise, get definitions in scope of the anchor
-                        (node?.getDefinitionsInScope(context) ?? [])
+                        (anchor?.getDefinitionsInScope(context) ?? [])
                 : // If the node is not selected, get definitions in the anchor's scope
-                  (node?.getDefinitionsInScope(context) ?? []);
+                  (anchor?.getDefinitionsInScope(context) ?? []);
 
         // Convert the definitions to evaluate suggestions.
         return definitions
@@ -193,8 +193,8 @@ export default class Evaluate extends Expression {
         return this.getPossibleEvaluations(type, node, true, context);
     }
 
-    static getPossibleAppends({ type, context }: InsertContext) {
-        return this.getPossibleEvaluations(type, undefined, false, context);
+    static getPossibleAppends({ type, parent, context }: InsertContext) {
+        return this.getPossibleEvaluations(type, parent, false, context);
     }
 
     getDescriptor(): NodeDescriptor {

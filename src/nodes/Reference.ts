@@ -94,10 +94,7 @@ export default class Reference extends SimpleExpression {
                 .filter(
                     (def) =>
                         prefix === undefined ||
-                        def.getNames().some((name) =>
-                            // Hello
-                            name.startsWith(prefix),
-                        ),
+                        def.getNames().some((name) => name.startsWith(prefix)),
                 )
                 // Translate the definitions into References, or to the definitions.
                 .map((definition) => {
