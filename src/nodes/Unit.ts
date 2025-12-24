@@ -14,13 +14,18 @@ import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import Dimension from './Dimension';
 import LanguageToken from './LanguageToken';
-import { list, node, optional, type Grammar, type Replacement } from './Node';
+import Node, {
+    list,
+    node,
+    optional,
+    type Grammar,
+    type Replacement,
+} from './Node';
 import Sym from './Sym';
 import Token from './Token';
-import Type from './Type';
 import type TypeSet from './TypeSet';
 
-export default class Unit extends Type {
+export default class Unit extends Node {
     /** In case this was parsed, we keep the original tokens around. */
     readonly numerator: Dimension[];
     readonly slash: Token | undefined;
@@ -282,7 +287,7 @@ export default class Unit extends Type {
         ]);
     }
 
-    accepts(unit: Type): boolean {
+    accepts(unit: Unit): boolean {
         // Every key in this exists in the given unit and they have the same exponents.
         return (
             // Is this a unit?
