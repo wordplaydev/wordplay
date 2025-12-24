@@ -230,7 +230,7 @@ export default class FunctionDefinition extends DefinitionExpression {
             {
                 name: 'output',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
-                label: undefined,
+                label: () => (l) => l.node.FunctionDefinition.label.output,
             },
             {
                 name: 'expression',

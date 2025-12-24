@@ -789,6 +789,7 @@
             "emotion": "kind",
             "label": {
                 "inputs": "inputs",
+                "output": "output",
                 "expression": "expression"
             },
             "doc": [

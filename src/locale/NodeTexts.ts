@@ -420,6 +420,7 @@ type NodeTexts = {
         }> & {
             label: {
                 inputs: string;
+                output: string;
                 expression: string;
             };
         };

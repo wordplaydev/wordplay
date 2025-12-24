@@ -3940,10 +3940,14 @@
                     },
                     "inputs": {
                       "type": "string"
+                    },
+                    "output": {
+                      "type": "string"
                     }
                   },
                   "required": [
                     "inputs",
+                    "output",
                     "expression"
                   ],
                   "type": "object"
