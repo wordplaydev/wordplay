@@ -28,16 +28,16 @@
     interface Props {
         editingMode: boolean; // true if editing, false if viewing
         howTo: HowTo | undefined; // undefined if creating a brand new how-to
-        centerX?: number;
-        centerY?: number;
+        writeX?: number;
+        writeY?: number;
         preview?: Snippet;
     }
 
     let {
         editingMode,
         howTo = $bindable(),
-        centerX = $bindable(0),
-        centerY = $bindable(0),
+        writeX = $bindable(0),
+        writeY = $bindable(0),
         preview = undefined,
     }: Props = $props();
 
@@ -77,8 +77,8 @@
             let returnValue = await HowTos.addHowTo(
                 galleryID,
                 publish,
-                publish ? centerX : 0,
-                publish ? centerY : 0,
+                publish ? writeX : 0,
+                publish ? writeY : 0,
                 allCollaborators,
                 title,
                 prompts,
@@ -101,6 +101,8 @@
             HowTos.updateHowTo(howTo, true);
             editingMode = false;
         }
+
+        newText = [];
     }
 
     function submitToGuide() {

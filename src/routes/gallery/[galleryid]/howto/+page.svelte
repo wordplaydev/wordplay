@@ -3,6 +3,7 @@
     import Header from '@components/app/Header.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import Page from '@components/app/Page.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -10,7 +11,7 @@
     import Button from '@components/widgets/Button.svelte';
     import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
-    import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
@@ -33,20 +34,7 @@
         });
     });
 
-    // determine if the user can add a new how-to
-    const user = getUser();
-    // TODO(@mc) -- i think this might be broken cuz firebase auth
-    // let canUserEdit = $derived(
-    //     gallery
-    //         ? isAuthenticated($user) &&
-    //               (gallery.hasCreator($user.uid) ||
-    //                   gallery.hasCreator($user.uid))
-    //         : false,
-    // );
-    let canUserEdit = true;
-
-    // get the gallery name for display
-    const galleryID = decodeURI(page.params.galleryid);
+    let galleryID = $derived(gallery?.getID());
     let galleryName = $derived(gallery?.getName($locales));
 
     // load the how tos for this gallery
@@ -64,9 +52,40 @@
         });
     });
 
+    // determine if the user can add a new how-to
+    const user = getUser();
+    // TODO(@mc) -- i think this might be broken cuz firebase auth
+    // let canUserEdit = $derived(
+    //     gallery
+    //         ? isAuthenticated($user) &&
+    //               (gallery.hasCreator($user.uid) ||
+    //                   gallery.hasCreator($user.uid))
+    //         : false,
+    // );
+    let canUserEdit = $user !== null;
+
+    // refresh the page when a new howTo is created
+    let newHowTo: HowTo | undefined = $state(undefined);
+
+    $effect(() => {
+        if (newHowTo && galleryID) {
+            newHowTo = undefined;
+            HowTos.getHowTos(galleryID).then((hts) => {
+                if (hts) howTos = hts;
+                else howTos = [];
+            });
+        }
+    });
+
     // infinite canvas functionality
     let cameraX = $state(0);
     let cameraY = $state(0);
+
+    function panTo(x: number, y: number) {
+        cameraX = x;
+        cameraY = y;
+    }
+
     let canvasMoving = $state(false);
     let childMoving = $state(false);
 
@@ -114,204 +133,148 @@
             return;
         }
     }
-
-    // camera panning and viewport calculations
-    let stickyArea: DOMRect | undefined = $state(undefined);
-    $effect(() => {
-        stickyArea = document
-            .getElementById('stickyArea')
-            ?.getBoundingClientRect();
-    });
-
-    let viewportWidth = $derived(window.innerWidth);
-    let viewportHeight = $derived(window.innerHeight);
-
-    let viewportCenterX: number = $derived(viewportWidth / 2);
-    let viewportCenterY: number = $derived(
-        (stickyArea && viewportHeight / 2 > stickyArea.bottom + 100) || // TODO(@mc) -- fix magic number
-            !stickyArea
-            ? viewportHeight / 2 + 100
-            : stickyArea.bottom + 100,
-    );
-
-    let centerX = $derived(-cameraX + viewportCenterX);
-    let centerY = $derived(-cameraY + viewportCenterY);
-
-    function panTo(x: number, y: number) {
-        cameraX = -x + viewportCenterX;
-        cameraY = -y + viewportCenterY;
-    }
-
-    panTo(0, 0);
-
-    // determine if we should render a how-to based on its coordinates
-    // needs to be within the viewport as well as outside of the drafts / bookmarks areas
-    function shouldRender(coordinates: number[]): boolean {
-        const x = coordinates[0] + cameraX;
-        const y = coordinates[1] + cameraY;
-        const BUFFER = 0;
-
-        let inBounds: boolean =
-            x >= -BUFFER &&
-            x <= viewportWidth + BUFFER &&
-            y >= -BUFFER &&
-            y <= viewportHeight + BUFFER;
-
-        let infoArea: DOMRect | undefined = document
-            .getElementById('info')
-            ?.getBoundingClientRect();
-        let inStickies: boolean =
-            infoArea !== undefined &&
-            x >= infoArea.left - BUFFER &&
-            x <= infoArea.right + BUFFER &&
-            y >= infoArea.top - BUFFER &&
-            y <= infoArea.bottom + BUFFER;
-
-        return inBounds && !inStickies;
-    }
-
-    // if a specific how-to was requested, pan to it and open its dialog
-    // const requestedId: string | null = page.url.searchParams.get('id');
-
-    // if (requestedId) {
-    //     $effect(() => {
-    //         const requestedHowTo = howTos.find(
-    //             (ht) => ht.getHowToId() === requestedId,
-    //         );
-    //         if (requestedHowTo) {
-    //             let coords = requestedHowTo.getCoordinates();
-    //             panTo(coords[0], coords[1]);
-    //         }
-    //     });
-    // }
-
-    // refresh the page when a new howTo is created
-    let newHowTo: HowTo | undefined = $state(undefined);
-
-    $effect(() => {
-        if (newHowTo) {
-            newHowTo = undefined;
-            HowTos.getHowTos(galleryID).then((hts) => {
-                if (hts) howTos = hts;
-                else howTos = [];
-            });
-        }
-    });
 </script>
 
 {#if gallery === null}
     <Loading />
 {:else if gallery === undefined}
-    <Writing><Notice text={(l) => l.ui.howto.error.unknown} /></Writing>
-{:else}
     <Writing>
-        <div id="info">
-            <Header>
-                <MarkupHTMLView
-                    inline
-                    markup={docToMarkup(
-                        $locales.get((l) => l.ui.howto.canvasView.header),
-                    ).concretize($locales, [galleryName]) ?? ''}
-                />
-            </Header>
+        <Notice text={(l) => l.ui.howto.error.unknown} />
+    </Writing>
+{:else}
+    <Page footer={true}>
+        <div class="howtospace">
+            <div class="howtospaceheader">
+                <Header>
+                    <MarkupHTMLView
+                        inline
+                        markup={docToMarkup(
+                            $locales.get((l) => l.ui.howto.canvasView.header),
+                        ).concretize($locales, [galleryName]) ?? ''}
+                    />
+                </Header>
 
-            {#if canUserEdit}
-                <HowToForm
-                    editingMode={true}
-                    bind:howTo={newHowTo}
-                    {centerX}
-                    {centerY}
-                />
-            {/if}
-
-            <div class="canvasstickyarea" id="stickyArea">
                 {#if canUserEdit}
-                    <div class="drafts">
+                    <HowToForm
+                        editingMode={true}
+                        bind:howTo={newHowTo}
+                        writeX={cameraX}
+                        writeY={cameraY}
+                    />
+                {/if}
+            </div>
+            <div class="howtospacebody">
+                <div class="stickyarea" id="drafts">
+                    {#if canUserEdit}
+                        <div class="drafts">
+                            <Subheader
+                                text={(l) => l.ui.howto.canvasView.draftsheader}
+                            />
+                            <MarkupHTMLView
+                                markup={(l) =>
+                                    l.ui.howto.canvasView.draftsprompt}
+                            />
+                            {#each howTos as howTo, i (i)}
+                                {#if !howTo.isPublished()}
+                                    <HowToPreview
+                                        bind:howTo={howTos[i]}
+                                        {cameraX}
+                                        {cameraY}
+                                        bind:childMoving
+                                    />
+                                {/if}
+                            {/each}
+                        </div>
+                    {/if}
+                    <div class="bookmarks">
                         <Subheader
-                            text={(l) => l.ui.howto.canvasView.draftsheader}
+                            text={(l) => l.ui.howto.canvasView.bookmarksheader}
                         />
-                        <MarkupHTMLView
-                            markup={(l) => l.ui.howto.canvasView.draftsprompt}
-                        />
-                        {#each howTos as howTo, i (i)}
-                            {#if !howTo.isPublished()}
-                                <HowToPreview
-                                    bind:howTo={howTos[i]}
-                                    {cameraX}
-                                    {cameraY}
-                                    bind:childMoving
+
+                        {#each howTos as howto, i (i)}
+                            {#if howto
+                                .getBookmarkers()
+                                .includes($user?.uid ?? '')}
+                                <Button
+                                    tip={(l) =>
+                                        l.ui.howto.canvasView.bookmarkstooltip}
+                                    label={(l) => howto.getTitle()}
+                                    action={() => {
+                                        let coords = howto.getCoordinates();
+                                        panTo(-coords[0], -coords[1]);
+                                    }}
                                 />
                             {/if}
                         {/each}
                     </div>
-                {/if}
-
-                <div class="bookmarks" id="bookmarksarea">
-                    <Subheader
-                        text={(l) => l.ui.howto.canvasView.bookmarksheader}
-                    />
-
-                    {#each howTos as howto, i (i)}
-                        {#if howto.getBookmarkers().includes($user?.uid ?? '')}
-                            <Button
-                                tip={(l) =>
-                                    l.ui.howto.canvasView.bookmarkstooltip}
-                                label={(l) => howto.getTitle()}
-                                action={() => {
-                                    let coords = howto.getCoordinates();
-                                    panTo(coords[0], coords[1]);
-                                }}
+                </div>
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div
+                    class="canvas"
+                    id="canvas"
+                    onmouseup={onMouseUp}
+                    onmousedown={onMouseDown}
+                    onmousemove={onMouseMove}
+                    onkeydown={(event) => onKeyDown(event)}
+                    ondblclick={() => panTo(0, 0)}
+                >
+                    {#each howTos as howTo, i (i)}
+                        {#if howTo.isPublished()}
+                            <HowToPreview
+                                bind:howTo={howTos[i]}
+                                {cameraX}
+                                {cameraY}
+                                bind:childMoving
                             />
                         {/if}
-                    {/each}
-                </div>
+                    {/each}</div
+                >
             </div>
         </div>
-        {#each howTos as howTo, i (i)}
-            {#if howTo.isPublished() && shouldRender(howTo.getCoordinates())}
-                <HowToPreview
-                    bind:howTo={howTos[i]}
-                    {cameraX}
-                    {cameraY}
-                    bind:childMoving
-                />
-            {/if}
-        {/each}
-    </Writing>
+    </Page>
 {/if}
 
-<svelte:window
-    onmouseup={onMouseUp}
-    onmousedown={onMouseDown}
-    onmousemove={onMouseMove}
-    onkeydown={(event) => onKeyDown(event)}
-    ondblclick={() => panTo(0, 0)}
-/>
-
 <style>
+    .howtospace {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        height: 100%;
+    }
+
+    .howtospaceheader {
+        padding: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
+    }
+
+    .howtospacebody {
+        padding: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+
+    .stickyarea {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+    }
+
     .drafts {
-        border: var(--wordplay-border-color);
+        border: var(--wordplay-border-color) dashed;
         border-radius: var(--wordplay-border-radius);
-        border-style: dashed;
-        cursor: default;
-        height: auto;
-        width: 100%;
         padding: var(--wordplay-spacing);
     }
 
     .bookmarks {
-        border: var(--wordplay-border-color);
+        border: var(--wordplay-border-color) dashed;
         border-radius: var(--wordplay-border-radius);
-        border-style: dashed;
-        cursor: default;
-        height: auto;
-        width: 100%;
         padding: var(--wordplay-spacing);
+        margin-top: var(--wordplay-spacing);
     }
 
-    .canvasstickyarea {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+    .canvas {
+        border: var(--wordplay-border-color) solid;
+        border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
+        overflow: hidden;
     }
 </style>

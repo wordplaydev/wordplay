@@ -236,30 +236,19 @@
 
             let published = howTo.isPublished();
 
-            // if is a draft and moved outside of the drafts space, then publish it
+            // if it is a draft and was moved outside of the drafts space, then publish it
             if (!published) {
-                const selfArea = document
-                    .getElementById(`howto-${howToId}`)
+                const draftsArea = document
+                    .getElementById('drafts')
                     ?.getBoundingClientRect();
-                const stickyArea = document
-                    .getElementById('stickyArea')
+                const canvasArea = document
+                    .getElementById('canvas')
                     ?.getBoundingClientRect();
 
-                console.log('selfArea:', selfArea);
-                console.log('stickyArea:', stickyArea);
-
-                if (
-                    stickyArea &&
-                    selfArea &&
-                    // check all corners of the preview are outside of the drafts area
-                    (stickyArea.left > selfArea.right ||
-                        stickyArea.right < selfArea.left ||
-                        stickyArea.top > selfArea.bottom ||
-                        stickyArea.bottom < selfArea.top)
-                ) {
+                if (draftsArea && canvasArea && xcoord > draftsArea.right) {
                     published = true;
-                    xcoord = clientX - cameraX;
-                    ycoord = clientY - cameraY;
+                    xcoord = Math.round(clientX - canvasArea.left - cameraX);
+                    ycoord = Math.round(clientY - canvasArea.top - cameraY);
                 }
             }
 
@@ -313,7 +302,6 @@
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
     class="howto"
-    style:position={isPublished ? 'absolute' : 'relative'}
     style:left={`${renderX}px`}
     style:top={`${renderY}px`}
     onmousedown={onMouseDown}
@@ -337,6 +325,7 @@
     }
 
     .howto {
+        position: relative;
         cursor: pointer;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
