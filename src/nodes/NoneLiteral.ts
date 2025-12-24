@@ -30,7 +30,7 @@ export default class NoneLiteral extends Literal {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Hidden;
+        return Purpose.Truth;
     }
 
     getGrammar(): Grammar {

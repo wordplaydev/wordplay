@@ -18,6 +18,7 @@ import Characters from '../lore/BasisCharacters';
 import ValueException from '../values/ValueException';
 import AnyType from './AnyType';
 import BindToken from './BindToken';
+import CompositeLiteral from './CompositeLiteral';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
 import MapType from './MapType';
@@ -30,7 +31,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
 
-export default class MapLiteral extends Expression {
+export default class MapLiteral extends CompositeLiteral {
     readonly open: Token;
     readonly values: (Expression | KeyValue)[];
     readonly close: Token | undefined;

@@ -15,6 +15,7 @@ import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import TypeException from '../values/TypeException';
 import AnyType from './AnyType';
+import CompositeLiteral from './CompositeLiteral';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
 import ListCloseToken from './ListCloseToken';
@@ -28,7 +29,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
 
-export default class ListLiteral extends Expression {
+export default class ListLiteral extends CompositeLiteral {
     readonly open: Token;
     readonly values: (Spread | Expression)[];
     readonly close: Token | undefined;

@@ -52,7 +52,7 @@ export default class BooleanLiteral extends Literal {
     }
 
     getPurpose() {
-        return Purpose.Hidden;
+        return Purpose.Truth;
     }
 
     getGrammar(): Grammar {

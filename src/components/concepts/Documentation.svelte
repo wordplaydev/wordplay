@@ -24,8 +24,10 @@
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
     } from '@locale/LanguageCode';
+    import CompositeLiteral from '@nodes/CompositeLiteral';
     import Expression from '@nodes/Expression';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Literal from '@nodes/Literal';
     import type Node from '@nodes/Node';
     import Source from '@nodes/Source';
     import {
@@ -512,8 +514,17 @@
                     />
                     <ConceptGroupView concepts={controls} {collapse} {row} />
                 {:else if [Purpose.Text, Purpose.Numbers, Purpose.Truth, Purpose.Lists, Purpose.Maps, Purpose.Tables].includes(purpose)}
-                    {@const primary =
-                        index.getPrimaryConceptsWithPurpose(purpose)}
+                    <!-- We filter out the literals because the corresponding node concepts have all of the documentation. -->
+                    {@const primary = index
+                        .getPrimaryConceptsWithPurpose(purpose)
+                        .filter(
+                            (s) =>
+                                !(
+                                    s instanceof NodeConcept &&
+                                    (s.template instanceof Literal ||
+                                        s.template instanceof CompositeLiteral)
+                                ),
+                        )}
                     {@const functions = primary
                         .map((p) =>
                             Array.from(p.getSubConcepts()).filter(

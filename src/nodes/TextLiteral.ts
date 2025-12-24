@@ -73,7 +73,7 @@ export default class TextLiteral extends Literal {
     }
 
     getPurpose() {
-        return Purpose.Hidden;
+        return Purpose.Text;
     }
 
     getGrammar(): Grammar {

@@ -19,6 +19,7 @@ import StructureValue from '../values/StructureValue';
 import Bind from './Bind';
 import BooleanLiteral from './BooleanLiteral';
 import BooleanType from './BooleanType';
+import CompositeLiteral from './CompositeLiteral';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
 import Input from './Input';
@@ -38,7 +39,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
 
-export default class TableLiteral extends Expression {
+export default class TableLiteral extends CompositeLiteral {
     readonly type: TableType;
     readonly rows: Row[];
 

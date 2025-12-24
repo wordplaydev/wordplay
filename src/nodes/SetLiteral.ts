@@ -15,6 +15,7 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import AnyType from './AnyType';
+import CompositeLiteral from './CompositeLiteral';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
 import { list, node, type Grammar, type Replacement } from './Node';
@@ -26,7 +27,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
 
-export default class SetLiteral extends Expression {
+export default class SetLiteral extends CompositeLiteral {
     readonly open: Token;
     readonly values: Expression[];
     readonly close: Token | undefined;
