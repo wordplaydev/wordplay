@@ -1239,7 +1239,7 @@ export default class Caret {
 
         // Finally, if we're in blocks mode, verify that the insertion was valid.
         if (blocks) {
-            if (Project.getNewConflicts(project, this.source, newSource) > 0)
+            if (project.getNewConflicts(this.source, newSource).length > 0)
                 return (l) => l.ui.source.cursor.ignored.noError;
         }
 
@@ -1961,8 +1961,7 @@ export default class Caret {
         // If only valid, ensure the edit is valid.
         if (
             validOnly &&
-            project.withSource(this.source, newSource).getMajorConflictsNow()
-                .length > project.getMajorConflictsNow().length
+            project.getNewConflicts(this.source, newSource).length > 0
         )
             return parent
                 ? [this.source, this.withPosition(parent)]

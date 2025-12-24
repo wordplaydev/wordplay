@@ -9,6 +9,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Conflict from '@conflicts/Conflict';
     import Project from '@db/projects/Project';
+    import type Revision from '@edit/Revision';
     import type Locale from '@locale/Locale';
     import { type LocaleTextAccessor } from '@locale/Locales';
     import Evaluate from '@nodes/Evaluate';
@@ -19,7 +20,7 @@
         isFieldPosition,
     } from '@nodes/Node';
     import type Program from '@nodes/Program';
-    import type Source from '@nodes/Source';
+    import Source from '@nodes/Source';
     import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
     import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -1066,18 +1067,26 @@
         );
 
         // If in blocks mode, filter edits that would create conflicts.
-        if ($blocks)
-            revisions = revisions.filter((revision) => {
+        if ($blocks) {
+            // Make a mapping of sources to revisions.
+            const revisionToSource = new Map<Revision, Source>();
+            for (const revision of revisions) {
                 const edit = revision.getEdit($locales);
-                if (Array.isArray(edit) && edit.length === 2) {
-                    const newSource = edit[0];
-                    return (
-                        Project.getNewConflicts(project, source, newSource) ===
-                        0
-                    );
-                }
-                return true;
+                const source = Array.isArray(edit) ? edit[0] : undefined;
+                if (source) revisionToSource.set(revision, source);
+            }
+            // Find the new conflicts for each revision.
+            const newConflicts = project.getNewConflictsBatch(
+                source,
+                Array.from(revisionToSource.values()),
+            );
+            // Filter the revisions by those that don't create conflicts.
+            revisions = revisions.filter((revision) => {
+                const source = revisionToSource.get(revision);
+                const conflicts = source ? newConflicts.get(source) : undefined;
+                return conflicts === undefined || conflicts.length === 0;
             });
+        }
 
         // Set the menu.
         if (concepts)

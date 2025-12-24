@@ -525,23 +525,36 @@ export default class Project {
         return this.getAnalysis().conflicts;
     }
 
-    static getNewConflicts(
-        project: Project,
+    getNewConflictsBatch(
         oldSource: Source,
-        newSource: Source,
-    ): number {
-        const currentConflicts = project.getMajorConflictsNow().length;
-        const newConflicts = project
-            .getRevisionConflicts(oldSource, newSource)
-            .filter((conflict) => !(conflict instanceof UnknownName));
-        return newConflicts.length - currentConflicts;
+        newSources: Source[],
+    ): Map<Source, Conflict[]> {
+        // Get the current conflicts.
+        const currentConflicts = this.getMajorConflictsNow();
+        const newConflictsBySource = new Map<Source, Conflict[]>();
+        // For all of the new sources, get the new conflicts caused by the revision.
+        for (const newSource of newSources) {
+            let newConflicts = this.withSource(oldSource, newSource)
+                .getMajorConflictsNow()
+                .filter((conflict) => !(conflict instanceof UnknownName));
+
+            // Remove all current conflicts that are in the new conflicts.
+            newConflictsBySource.set(
+                newSource,
+                newConflicts.filter(
+                    (newConflict) =>
+                        !currentConflicts.some((oldConflict) =>
+                            oldConflict.isEqualTo(newConflict),
+                        ),
+                ),
+            );
+        }
+        return newConflictsBySource;
     }
 
-    /** Given a revised source, what new conflicts are introduced? */
-    getRevisionConflicts(oldSource: Source, newSource: Source) {
-        return this.withSource(oldSource, newSource)
-            .getMajorConflictsNow()
-            .filter((conflict) => !(conflict instanceof UnknownName));
+    getNewConflicts(oldSource: Source, newSource: Source): Conflict[] {
+        const newConflicts = this.getNewConflictsBatch(oldSource, [newSource]);
+        return Array.from(newConflicts.values())[0];
     }
 
     getMajorConflictsNow() {
