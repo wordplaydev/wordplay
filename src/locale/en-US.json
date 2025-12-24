@@ -4770,7 +4770,8 @@
                 "draftsheader": "📝 How-to drafts",
                 "draftsprompt": "This is a space for your drafts! Only you can see what is inside. To post your draft, use the post button in the editor or drag it outside of this space.",
                 "bookmarksheader": "🔖 Bookmarks",
-                "bookmarkstooltip": "Click me to go to this how-to"
+                "bookmarkstooltip": "Click me to go to this how-to",
+                "navigationtooltip": "Navigate to a how-to"
             },
             "newHowTo": {
                 "add": {
@@ -4850,10 +4851,6 @@
                 "usedByAddButton": "Add project or how-to",
                 "chatPrompt": "Leave a comment or question for the creator!",
                 "draftNote": "This is a draft how-to. Only you can see it.",
-                "copyLink": {
-                    "label": "🔗 Copy link",
-                    "tip": "Copy the link to this how-to"
-                },
                 "reactions": [
                     {
                         "label": "👍",

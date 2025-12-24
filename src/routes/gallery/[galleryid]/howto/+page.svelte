@@ -9,6 +9,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
+    import Options, { type Option } from '@components/widgets/Options.svelte';
     import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
@@ -82,8 +83,8 @@
     let cameraY = $state(0);
 
     function panTo(x: number, y: number) {
-        cameraX = x;
-        cameraY = y;
+        cameraX = -x;
+        cameraY = -y;
     }
 
     let canvasMoving = $state(false);
@@ -133,6 +134,18 @@
             return;
         }
     }
+
+    // navigation
+    let navigationSelection: string | undefined = $state(undefined);
+    let navigationOptions: Option[] = $derived([
+        { value: undefined, label: '—' },
+        ...howTos.map((h) => {
+            return {
+                value: h.getHowToId(),
+                label: h.getTitle(),
+            };
+        }),
+    ]);
 </script>
 
 {#if gallery === null}
@@ -162,7 +175,24 @@
                         writeY={cameraY}
                     />
                 {/if}
+
+                <Options
+                    bind:value={navigationSelection}
+                    label={(l) => l.ui.howto.canvasView.navigationtooltip}
+                    options={navigationOptions}
+                    change={() => {
+                        let navigateTo: HowTo | undefined = howTos.find(
+                            (ht) => ht.getHowToId() == navigationSelection,
+                        );
+
+                        if (!navigateTo) return;
+
+                        let coords = navigateTo.getCoordinates();
+                        panTo(coords[0], coords[1]);
+                    }}
+                ></Options>
             </div>
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div class="howtospacebody">
                 <div class="stickyarea" id="drafts">
                     {#if canUserEdit}
@@ -201,14 +231,14 @@
                                     label={(l) => howto.getTitle()}
                                     action={() => {
                                         let coords = howto.getCoordinates();
-                                        panTo(-coords[0], -coords[1]);
+                                        panTo(coords[0], coords[1]);
                                     }}
                                 />
                             {/if}
                         {/each}
                     </div>
                 </div>
-                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
                 <div
                     class="canvas"
                     id="canvas"
@@ -217,6 +247,7 @@
                     onmousemove={onMouseMove}
                     onkeydown={(event) => onKeyDown(event)}
                     ondblclick={() => panTo(0, 0)}
+                    tabindex="0"
                 >
                     {#each howTos as howTo, i (i)}
                         {#if howTo.isPublished()}
@@ -276,5 +307,11 @@
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
         overflow: hidden;
+    }
+
+    .drafts:active,
+    .canvas:active {
+        border-color: var(--wordplay-highlight-color);
+        border-width: var(--wordplay-focus-width);
     }
 </style>

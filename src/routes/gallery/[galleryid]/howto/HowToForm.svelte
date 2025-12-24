@@ -392,16 +392,6 @@
                     {/if}
                     {#if isPublished}
                         <Button
-                            tip={(l) => l.ui.howto.viewHowTo.copyLink.tip}
-                            label={(l) => l.ui.howto.viewHowTo.copyLink.label}
-                            active={true}
-                            action={async () => {
-                                await navigator.clipboard.writeText(
-                                    `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
-                                );
-                            }}
-                        />
-                        <Button
                             tip={(l) =>
                                 userHasBookmarked
                                     ? l.ui.howto.viewHowTo.alreadyBookmarked.tip

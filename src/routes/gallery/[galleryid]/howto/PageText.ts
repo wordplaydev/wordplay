@@ -24,6 +24,8 @@ type PageText = {
         bookmarksheader: string;
         /** Bookmarks  tooltip */
         bookmarkstooltip: string;
+        /** Navigation tooltip */
+        navigationtooltip: string;
     },
     /** Buttons and dialogs for adding a new how-to */
     newHowTo: {
@@ -76,8 +78,6 @@ type PageText = {
         chatPrompt: string;
         /** Text indicating that the how-to is currently a draft */
         draftNote: string;
-        /** Button text for copying the direct link to this how-to */
-        copyLink: ButtonText;
         /** Default reaction options for viewing a how-to */
         reactions: ButtonText[];
     },

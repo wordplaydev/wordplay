@@ -9761,6 +9761,10 @@
                     "howtoprompt": {
                       "description": "Explanation for the how-to space page",
                       "type": "string"
+                    },
+                    "navigationtooltip": {
+                      "description": "Navigation tooltip",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -9769,7 +9773,8 @@
                     "draftsheader",
                     "draftsprompt",
                     "bookmarksheader",
-                    "bookmarkstooltip"
+                    "bookmarkstooltip",
+                    "navigationtooltip"
                   ],
                   "type": "object"
                 },
@@ -9893,10 +9898,6 @@
                       "description": "Text for prompting users to chat",
                       "type": "string"
                     },
-                    "copyLink": {
-                      "$ref": "#/definitions/ButtonText",
-                      "description": "Button text for copying the direct link to this how-to"
-                    },
                     "delete": {
                       "$ref": "#/definitions/ConfirmText",
                       "description": "Button text for deleting the how-to"
@@ -9963,7 +9964,6 @@
                     "usedByAddButton",
                     "chatPrompt",
                     "draftNote",
-                    "copyLink",
                     "reactions"
                   ],
                   "type": "object"
