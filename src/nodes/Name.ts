@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import type { InsertContext } from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -68,6 +69,16 @@ export default class Name extends LanguageTagged {
         ) as this;
     }
 
+    /** Doesn't ever make sense to replace a Name with an empty name. */
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    /** Suggest names for insertion.  */
+    static getPossibleAppends({ locales }: InsertContext) {
+        return [Name.make(locales.get((l) => l.term.name))];
+    }
+
     simplify() {
         return this;
     }
@@ -87,7 +98,7 @@ export default class Name extends LanguageTagged {
     }
 
     getPurpose() {
-        return Purpose.Hidden;
+        return Purpose.Definitions;
     }
 
     computeConflicts(): Conflict[] {

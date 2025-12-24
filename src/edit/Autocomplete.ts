@@ -9,6 +9,7 @@ import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import Input from '@nodes/Input';
 import Match from '@nodes/Match';
+import Name from '@nodes/Name';
 import Node, {
     Empty,
     ListOf,
@@ -713,6 +714,7 @@ const PossibleNodes = [
     ConversionDefinition,
     // Binds and blocks
     Bind,
+    Name,
     Block,
     PropertyReference,
     PropertyBind,
