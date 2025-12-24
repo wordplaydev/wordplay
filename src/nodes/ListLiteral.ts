@@ -79,10 +79,32 @@ export default class ListLiteral extends CompositeLiteral {
                 name: 'values',
                 kind: list(true, node(Expression), node(Spread)),
                 label: () => (l) => l.term.value,
-                // Only allow types to be inserted that are of the list's type, if provided.
-                getType: (context) =>
-                    this.getItemType(context)?.generalize(context) ??
-                    new AnyType(),
+                // Only allow types to be inserted that are of the surrounding field's expected type.
+                getType: (context) => {
+                    // What is the field of this list?
+                    const parent = context.getRoot(this)?.getParent(this);
+                    if (parent) {
+                        const field = parent.getFieldOfChild(this);
+                        if (field) {
+                            if (field.getType) {
+                                const fieldValue = parent.getField(field.name);
+                                const index = Array.isArray(fieldValue)
+                                    ? fieldValue.indexOf(this)
+                                    : -1;
+                                const listType = field.getType(
+                                    context,
+                                    index < 0 ? undefined : index,
+                                );
+                                if (
+                                    listType instanceof ListType &&
+                                    listType.type !== undefined
+                                )
+                                    return listType.type;
+                            }
+                        }
+                    }
+                    return new AnyType();
+                },
                 space: true,
                 // Only add line breaks if greater than 40 characters long.
                 newline: this.wrap(),
