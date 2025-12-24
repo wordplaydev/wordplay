@@ -88,10 +88,10 @@ export default class Menu {
         this.action = action;
 
         if (organization === undefined) {
-            const visibleRevisions = this.revisions.filter((revision) => {
-                const node = revision.getNewNode(this.concepts.locales);
-                return node ? node.getPurpose() !== Purpose.Hidden : true;
-            });
+            const visibleRevisions = this.revisions.filter(
+                (revision) =>
+                    revision.getPurpose(this.concepts) !== Purpose.Hidden,
+            );
 
             // The organization is divided into the following groups and order:
             // 1. Anything involving a reference (e.g., revisions that insert a Refer)
@@ -112,11 +112,8 @@ export default class Menu {
             // Organize by purpose.
             const kinds: Map<Purpose, Revision[]> = new Map();
             for (const other of others) {
-                const node = other.getNewNode(this.concepts.locales);
-                if (node) {
-                    const concept = this.concepts.getRelevantConcept(node);
-                    // If the node is an Evaluate, see if the function or structure it refers to has a concept in the concept index, and use it's purpose.
-                    let purpose = concept?.getPurpose() ?? node.getPurpose();
+                const purpose = other.getPurpose(this.concepts);
+                if (purpose !== undefined) {
                     const revisions = kinds.get(purpose);
                     if (revisions) kinds.set(purpose, [...revisions, other]);
                     else kinds.set(purpose, [other]);

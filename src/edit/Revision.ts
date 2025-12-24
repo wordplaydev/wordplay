@@ -1,3 +1,5 @@
+import type ConceptIndex from '@concepts/ConceptIndex';
+import type Purpose from '@concepts/Purpose';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Root from '@nodes/Root';
@@ -65,6 +67,16 @@ export default abstract class Revision {
             .map((p) => parentRoot.resolvePath(p))
             .filter((n) => n !== undefined);
         return [parentCopy, removedCopies];
+    }
+
+    /** Given a concept index, find the purpose of this revision */
+    getPurpose(concepts: ConceptIndex): Purpose | undefined {
+        const node = this.getNewNode(concepts.locales);
+        if (node) {
+            const concept = concepts.getRelevantConcept(node);
+            // If the node is an Evaluate, see if the function or structure it refers to has a concept in the concept index, and use it's purpose.
+            return concept?.getPurpose() ?? node.getPurpose();
+        } else return undefined;
     }
 
     static splitSpace(source: Source, position: number, newNode: Node): Spaces {
