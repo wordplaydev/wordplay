@@ -4,6 +4,7 @@ import type Project from '@db/projects/Project';
 import { type CaretPosition } from '@edit/Caret';
 import type Locales from '@locale/Locales';
 import type { FieldPosition } from '@nodes/Node';
+import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import Revision from '../../../edit/Revision';
 import type { Edit } from '../commands/Commands';
@@ -98,8 +99,11 @@ export default class Menu {
             // 2. RevisionSets organized by node kind, or the single Revision if there's only one, sorted by Purpose.
             // 3. Any removals, which are likely the least relevant.
             // RevisionSets are organized alphabetically by locale.
-            const priority = visibleRevisions.filter((revision) =>
-                revision.isCompletion(this.concepts.locales),
+            const priority = visibleRevisions.filter(
+                (revision) =>
+                    revision.isCompletion(this.concepts.locales) ||
+                    revision.getNewNode(this.concepts.locales) instanceof
+                        Reference,
             );
             const removals = visibleRevisions.filter((revision) =>
                 revision.isRemoval(),

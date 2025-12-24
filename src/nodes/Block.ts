@@ -93,7 +93,13 @@ export default class Block extends Expression {
         context,
         locales,
         parent,
+        index,
     }: InsertContext) {
+        if (!(parent instanceof Block)) return [];
+        const definitions = [
+            ...parent.getDefinitionsInScope(context),
+            ...(index === undefined ? [] : parent.getDefinitionsBefore(index)),
+        ];
         return [
             // Offer a block with an expression placeholder of the desired type.
             Block.make([ExpressionPlaceholder.make(type)]),
@@ -104,9 +110,9 @@ export default class Block extends Expression {
                 undefined,
                 ExpressionPlaceholder.make(type),
             ),
-            // If a root block, offer references to anything in scope.
-            ...parent
-                .getDefinitionsInScope(context)
+            // Offer references to anything in scope, including anything in the parent's scope
+            // and anything defined prior to the insertion point in this block.
+            ...definitions
                 .map((def) =>
                     def instanceof FunctionDefinition
                         ? def.getEvaluateTemplate(locales, context, undefined)
@@ -280,6 +286,10 @@ export default class Block extends Expression {
 
         // Expose any bind, function, or structures, including on the line that contains this node, to allow them to refer to themselves.
         // But don't expose any definitions if the node is after the definition.
+        return this.getDefinitionsBefore(index);
+    }
+
+    getDefinitionsBefore(index: number): Definition[] {
         return this.statements.filter(
             (s, i): s is Bind | FunctionDefinition | StructureDefinition =>
                 (s instanceof Bind ||

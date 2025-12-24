@@ -217,7 +217,7 @@ export default class Reference extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Advanced;
+        return Purpose.Definitions;
     }
 
     clone(replace?: Replacement) {
