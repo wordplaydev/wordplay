@@ -2552,6 +2552,18 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "operator": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "operator"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -2571,6 +2583,7 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
                 "right",
                 "start"

@@ -96,7 +96,7 @@ export default class BinaryEvaluate extends Expression {
             {
                 name: 'fun',
                 kind: node(Reference),
-                label: undefined,
+                label: () => (l) => l.node.BinaryEvaluate.label.operator,
                 space: true,
                 indent: true,
                 getDefinitions: (context: Context): Definition[] => {

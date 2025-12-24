@@ -397,6 +397,9 @@
                 "\\1 + 2 · 3 + 4\\",
                 "In math, multiplication would come first, and then addition, and so the result would be \\11\\. But since I evaluate in reading order, the result is \\13\\."
             ],
+            "label": {
+                "operator": "operator"
+            },
             "right": "input",
             "start": "Let's evaluate $1 first",
             "finish": "Look, I made $1!",

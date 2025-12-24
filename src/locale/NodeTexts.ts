@@ -159,7 +159,7 @@ type NodeTexts = {
         } & Conflicts<{
             /** Warning about order of evaluation of binary evaluations always being reading order, not math order of operations */
             OrderOfOperations: InternalConflictText;
-        }>;
+        }> & { label: { operator: string } };
     /**
      * Naming a value, e.g., `mybinding: 5m`
      * Description inputs: $1 = the name that is bound

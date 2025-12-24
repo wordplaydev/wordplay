@@ -3,7 +3,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Revision from '@edit/Revision';
-    import { isFieldPosition, ListOf } from '@nodes/Node';
+    import Node, { isFieldPosition, ListOf } from '@nodes/Node';
     import { tick } from 'svelte';
     import { locales } from '../../../db/Database';
     import Token from '../../../nodes/Token';
@@ -29,18 +29,31 @@
     /** See if there's a label for the field */
     let fieldLabel = $derived.by(() => {
         const anchor = menu.getAnchor();
+        const root = menu.getSource().root;
+        const context = menu.getProject().getContext(menu.getSource());
+
+        let parent = undefined,
+            fieldName = undefined;
         if (isFieldPosition(anchor)) {
-            const field = anchor.parent.getFieldNamed(anchor.field);
-            if (field === undefined) return;
-            const root = menu.getProject().getRoot(anchor.parent);
-            if (root === undefined) return;
-            const context = menu.getProject().getContext(menu.getSource());
-            const labelGenerator = field.label;
-            if (labelGenerator === undefined) return;
-            const index =
-                field.kind instanceof ListOf ? anchor.index : undefined;
-            return labelGenerator($locales, context, index, root);
+            parent = anchor.parent;
+            fieldName = anchor.field;
+        } else if (anchor instanceof Node) {
+            parent = menu.getSource().root.getParent(anchor);
+            if (parent !== undefined)
+                fieldName = parent.getFieldOfChild(anchor)?.name;
         }
+
+        if (parent === undefined || fieldName === undefined) return;
+
+        const field = parent.getFieldNamed(fieldName);
+        if (field === undefined) return;
+        const labelGenerator = field.label;
+        if (labelGenerator === undefined) return;
+        const index =
+            field.kind instanceof ListOf && isFieldPosition(anchor)
+                ? anchor.index
+                : undefined;
+        return labelGenerator($locales, context, index, root);
     });
 
     /**
