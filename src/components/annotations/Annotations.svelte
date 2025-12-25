@@ -3,7 +3,12 @@
         node: Node;
         element: Element | null;
         messages: Markup[];
-        kind: 'step' | 'primary' | 'secondary' | 'minor';
+        kind:
+            | 'step'
+            | 'primaryMajor'
+            | 'primaryMinor'
+            | 'secondaryMajor'
+            | 'secondaryMinor';
         context: Context;
         resolutions: Resolution[];
         conflict?: ConflictLocaleAccessor;
@@ -115,9 +120,7 @@
                                     project.getContext(project.getMain()),
                             ),
                         ],
-                        kind: conflict.isMinor()
-                            ? ('minor' as const)
-                            : ('primary' as const),
+                        kind: `primary${conflict.isMinor() ? 'Minor' : 'Major'}` as const,
                         context,
                         // Place the resolutions in the primary node.
                         resolutions: nodes.resolutions ?? [],
@@ -137,7 +140,7 @@
                                       ),
                                   ],
                                   context,
-                                  kind: 'secondary' as const,
+                                  kind: `secondary${conflict.isMinor() ? 'Minor' : 'Major'}` as const,
                                   resolutions: [],
                               },
                           ]
@@ -488,12 +491,17 @@
         background: var(--wordplay-evaluation-color);
     }
 
-    .annotation.primary {
+    .annotation.primaryMajor {
         background: var(--wordplay-error);
     }
 
-    .annotation.secondary,
-    .annotation.minor {
-        background: var(--wordplay-warning);
+    .annotation.secondaryMajor,
+    .annotation.secondaryMinor {
+        background: var(--wordplay-inactive-color);
+    }
+
+    .annotation.primaryMinor,
+    .annotation.secondaryMinor {
+        border-style: dotted;
     }
 </style>

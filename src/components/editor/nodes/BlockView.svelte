@@ -16,37 +16,29 @@
     <NodeView node={[node, 'docs']} {format} empty="menu" />
 {/snippet}
 
+{#snippet statements()}
+    <NodeView node={[node, 'open']} {format} empty="hide" /><NodeSequenceView
+        {node}
+        field="statements"
+        {format}
+        empty="label"
+        block={node.isRoot() ||
+            node.statements.reduce((sum, v) => sum + v.toWordplay().length, 0) >
+                32}
+    /><NodeView node={[node, 'close']} {format} empty="hide" />
+{/snippet}
+
 {#if format.block}
     {#if node.docs === undefined || node.docs.docs.length === 0}
         <Flow direction={node.statements.length > 1 ? 'column' : 'row'}>
             {#if format.editable}{@render docs()}{/if}
             <Flow direction={node.statements.length > 1 ? 'column' : 'row'}
-                ><NodeView
-                    node={[node, 'open']}
-                    {format}
-                    empty="hide"
-                /><NodeSequenceView
-                    {node}
-                    field="statements"
-                    {format}
-                    empty="label"
-                    block={node.isRoot()}
-                /><NodeView node={[node, 'close']} {format} empty="hide" />
+                >{@render statements()}
             </Flow>
         </Flow>
     {:else}
         <Flow direction={node.statements.length > 1 ? 'column' : 'row'}
-            >{@render docs()}<NodeView
-                node={[node, 'open']}
-                {format}
-                empty="hide"
-            /><NodeSequenceView
-                {node}
-                field="statements"
-                {format}
-                empty="label"
-                block={node.isRoot()}
-            /><NodeView node={[node, 'close']} {format} empty="hide" />
+            >{@render docs()}{@render statements()}
         </Flow>
     {/if}
 {:else}

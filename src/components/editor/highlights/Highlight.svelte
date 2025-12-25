@@ -159,13 +159,22 @@
     }
 
     /* Conflicts layer on top of everything else */
-    .underline.primary path {
+    .underline.primaryMajor path {
         stroke: var(--wordplay-error);
     }
 
-    .underline.secondary path,
-    .underline.minor path {
+    .underline.primaryMinor path {
         stroke: var(--wordplay-warning);
+    }
+
+    .underline.secondaryMajor path,
+    .underline.secondaryMinor path {
+        stroke: var(--wordplay-inactive-color);
+    }
+
+    .underline.primaryMinor path,
+    .underline.secondaryMinor path {
+        stroke-dasharray: calc(var(--wordplay-focus-width));
     }
 
     .underline.exception path {
