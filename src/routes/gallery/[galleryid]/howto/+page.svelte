@@ -83,8 +83,8 @@
     let cameraY = $state(0);
 
     function panTo(x: number, y: number) {
-        cameraX = -x;
-        cameraY = -y;
+        cameraX = -x + 10;
+        cameraY = -y + 10;
     }
 
     let canvasMoving = $state(false);
@@ -139,12 +139,14 @@
     let navigationSelection: string | undefined = $state(undefined);
     let navigationOptions: Option[] = $derived([
         { value: undefined, label: '—' },
-        ...howTos.map((h) => {
-            return {
-                value: h.getHowToId(),
-                label: h.getTitle(),
-            };
-        }),
+        ...howTos
+            .map((h) => {
+                return {
+                    value: h.getHowToId(),
+                    label: h.getTitle(),
+                };
+            })
+            .sort((a, b) => a.label.localeCompare(b.label)),
     ]);
 </script>
 
@@ -204,16 +206,18 @@
                                 markup={(l) =>
                                     l.ui.howto.canvasView.draftsprompt}
                             />
-                            {#each howTos as howTo, i (i)}
-                                {#if !howTo.isPublished()}
-                                    <HowToPreview
-                                        bind:howTo={howTos[i]}
-                                        {cameraX}
-                                        {cameraY}
-                                        bind:childMoving
-                                    />
-                                {/if}
-                            {/each}
+                            <div class="draftslist">
+                                {#each howTos as howTo, i (i)}
+                                    {#if !howTo.isPublished()}
+                                        <HowToPreview
+                                            bind:howTo={howTos[i]}
+                                            {cameraX}
+                                            {cameraY}
+                                            bind:childMoving
+                                        />
+                                    {/if}
+                                {/each}
+                            </div>
                         </div>
                     {/if}
                     <div class="bookmarks">
@@ -258,8 +262,8 @@
                                 bind:childMoving
                             />
                         {/if}
-                    {/each}</div
-                >
+                    {/each}
+                </div>
             </div>
         </div>
     </Page>
@@ -293,6 +297,12 @@
         border: var(--wordplay-border-color) dashed;
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
+        display: grid;
+        grid-template-rows: auto 1fr 1fr;
+    }
+
+    .draftslist {
+        position: relative;
     }
 
     .bookmarks {
@@ -307,6 +317,7 @@
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
         overflow: hidden;
+        position: relative;
     }
 
     .drafts:active,

@@ -325,7 +325,7 @@
     }
 
     .howto {
-        position: relative;
+        position: absolute;
         cursor: pointer;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
