@@ -72,8 +72,8 @@
         font-size: small;
         border-radius: 50%;
         color: var(--wordplay-background);
-        min-width: 2em;
-        min-height: 2em;
+        min-width: 1.5em;
+        min-height: 1.5em;
         display: inline-flex;
         flex-direction: column;
         justify-content: center;

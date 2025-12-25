@@ -144,6 +144,13 @@
         background: var(--wordplay-alternating-color);
     }
 
+    .icon {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        gap: var(--wordplay-spacing-half);
+    }
+
     button.on .icon {
         transform: scale(0.9);
     }
