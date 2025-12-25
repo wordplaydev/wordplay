@@ -21,11 +21,15 @@ export default class Docs extends Node {
     }
 
     static getPossibleReplacements() {
-        return [new Docs([Doc.make()])];
+        return Docs.make();
     }
 
     static getPossibleInsertions() {
-        return [new Docs([Doc.make()])];
+        return Docs.make();
+    }
+
+    static make(docs?: Doc[]) {
+        return new Docs(docs ?? [Doc.make()]);
     }
 
     getDescriptor(): NodeDescriptor {

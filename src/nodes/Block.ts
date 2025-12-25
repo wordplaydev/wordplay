@@ -84,8 +84,16 @@ export default class Block extends Expression {
     }
 
     static getPossibleReplacements({ node }: ReplaceContext) {
-        // Offer to parenthesize the node.
-        return node instanceof Expression ? [Block.make([node])] : [];
+        // Offer to parenthesize the node, or add docs if there aren't any.
+        return node instanceof Expression
+            ? [
+                  Block.make([node]),
+                  ...(node instanceof Block &&
+                  (node.docs === undefined || node.docs.docs.length === 0)
+                      ? [node.withDocs()]
+                      : []),
+              ]
+            : [];
     }
 
     static getPossibleInsertions({
@@ -209,6 +217,16 @@ export default class Block extends Expression {
             this.replaceChild('close', this.close, replace),
             this.replaceChild('docs', this.docs, replace),
         ) as this;
+    }
+
+    withDocs(docs?: Docs) {
+        return new Block(
+            this.statements,
+            this.kind,
+            this.open,
+            this.close,
+            docs ?? Docs.make(),
+        );
     }
 
     withStatement(statement: Expression) {

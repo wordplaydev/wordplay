@@ -13,7 +13,12 @@
 </script>
 
 {#snippet docs()}
-    <NodeView node={[node, 'docs']} {format} empty="menu" />
+    <!-- We don't show the menu trigger, since it takes up space and can be added by selecting the block and adding docs there. -->
+    <NodeView
+        node={[node, 'docs']}
+        {format}
+        empty={node.isRoot() ? 'menu' : 'hide'}
+    />
 {/snippet}
 
 {#snippet statements()}
