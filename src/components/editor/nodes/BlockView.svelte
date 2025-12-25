@@ -42,7 +42,10 @@
             </Flow>
         </Flow>
     {:else}
-        <Flow direction={node.statements.length > 1 ? 'column' : 'row'}
+        <Flow
+            direction={node.statements.length > 1 || node.docs !== undefined
+                ? 'column'
+                : 'row'}
             >{@render docs()}{@render statements()}
         </Flow>
     {/if}
