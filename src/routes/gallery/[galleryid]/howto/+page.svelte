@@ -184,6 +184,11 @@
             })
             .sort((a, b) => a.label.localeCompare(b.label)),
     ]);
+
+    // collision detection
+    let notPermittedAreas = $state<
+        Map<string, [number, number, number, number]>
+    >(new Map());
 </script>
 
 {#if gallery === null}
@@ -299,6 +304,7 @@
                                 {cameraX}
                                 {cameraY}
                                 bind:childMoving
+                                bind:notPermittedAreas
                             />
                         {/if}
                     {/each}
@@ -329,7 +335,7 @@
 
     .stickyarea {
         display: grid;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 1fr auto;
     }
 
     .drafts {

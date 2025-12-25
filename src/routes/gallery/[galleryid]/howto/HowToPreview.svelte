@@ -24,6 +24,7 @@
         cameraX: number;
         cameraY: number;
         childMoving: boolean;
+        notPermittedAreas?: Map<string, [number, number, number, number]>;
     }
 
     let {
@@ -31,6 +32,7 @@
         cameraX,
         cameraY,
         childMoving = $bindable(),
+        notPermittedAreas = $bindable(new Map()),
     }: Props = $props();
 
     let title: string = $derived(howTo?.getTitle() ?? '');
@@ -187,36 +189,56 @@
 
     function onMouseMove(e: MouseEvent) {
         if (thisChildMoving) {
-            xcoord += e.movementX;
-            ycoord += e.movementY;
+            let intendX = xcoord + e.movementX;
+            let intendY = ycoord + e.movementY;
+
+            if (checkIfCanMove(intendX, intendY)) {
+                xcoord = intendX;
+                ycoord = intendY;
+            }
         }
     }
 
     function onKeyPress(event: KeyboardEvent) {
         if (thisChildMoving) {
+            let intendX: number;
+            let intendY: number;
+
             switch (event.key) {
                 case 'ArrowUp':
-                    ycoord -= 10;
+                    intendY = ycoord - 10;
+                    if (checkIfCanMove(xcoord, intendY)) {
+                        ycoord = intendY;
+                        thisChildMoved = true;
+                    }
 
-                    thisChildMoved = true;
                     event.preventDefault();
                     break;
                 case 'ArrowDown':
-                    ycoord += 10;
+                    intendY = ycoord + 10;
+                    if (checkIfCanMove(xcoord, intendY)) {
+                        ycoord = intendY;
+                        thisChildMoved = true;
+                    }
 
-                    thisChildMoved = true;
                     event.preventDefault();
                     break;
                 case 'ArrowLeft':
-                    xcoord -= 10;
+                    intendX = xcoord - 10;
+                    if (checkIfCanMove(intendX, ycoord)) {
+                        xcoord = intendX;
+                        thisChildMoved = true;
+                    }
 
-                    thisChildMoved = true;
                     event.preventDefault();
                     break;
                 case 'ArrowRight':
-                    xcoord += 10;
+                    intendX = xcoord + 10;
+                    if (checkIfCanMove(intendX, ycoord)) {
+                        xcoord = intendX;
+                        thisChildMoved = true;
+                    }
 
-                    thisChildMoved = true;
                     event.preventDefault();
                     break;
 
@@ -300,8 +322,13 @@
             const deltaX = e.touches[0].clientX - prevTouchX;
             const deltaY = e.touches[0].clientY - prevTouchY;
 
-            xcoord += deltaX;
-            ycoord += deltaY;
+            let intendX = xcoord + deltaX;
+            let intendY = ycoord + deltaY;
+
+            if (checkIfCanMove(intendX, intendY)) {
+                xcoord = intendX;
+                ycoord = intendY;
+            }
 
             prevTouchX = e.touches[0].clientX;
             prevTouchY = e.touches[0].clientY;
@@ -313,6 +340,35 @@
 
         prevTouchX = undefined;
         prevTouchY = undefined;
+    }
+
+    // collision detection
+    let width: number = $state(0);
+    let height: number = $state(0);
+
+    $effect(() => {
+        notPermittedAreas.set(howToId, [renderX, renderY, width, height]);
+    });
+
+    function checkIfCanMove(targetX: number, targetY: number) {
+        for (let [id, area] of notPermittedAreas) {
+            if (id === howToId) continue;
+
+            let buffer = 16;
+
+            if (
+                !(
+                    targetX + width + buffer <= area[0] ||
+                    targetX - buffer >= area[0] + area[2] ||
+                    targetY + height + buffer <= area[1] ||
+                    targetY - buffer >= area[1] + area[3]
+                )
+            ) {
+                return false;
+            }
+        }
+
+        return true;
     }
 </script>
 
@@ -346,6 +402,8 @@
     onblur={onLoseFocus}
     onkeydown={onKeyPress}
     ontouchstart={(e) => onTouchStart(e)}
+    bind:clientWidth={width}
+    bind:clientHeight={height}
 >
     <div class="howtotitle"> {title}</div>
 
@@ -372,6 +430,7 @@
         max-width: calc(var(--previewSize) * 1.5 + var(--wordplay-spacing) * 2);
         height: auto;
         padding: var(--wordplay-spacing);
+        margin: var(--wordplay-spacing);
     }
 
     .howto:hover {
