@@ -186,7 +186,10 @@
     ]);
 
     // collision detection
-    let notPermittedAreas = $state<
+    let notPermittedAreasCanvas = $state<
+        Map<string, [number, number, number, number]>
+    >(new Map());
+    let notPermittedAreasDrafts = $state<
         Map<string, [number, number, number, number]>
     >(new Map());
 </script>
@@ -255,6 +258,9 @@
                                             {cameraX}
                                             {cameraY}
                                             bind:childMoving
+                                            bind:notPermittedAreas={
+                                                notPermittedAreasDrafts
+                                            }
                                         />
                                     {/if}
                                 {/each}
@@ -304,7 +310,7 @@
                                 {cameraX}
                                 {cameraY}
                                 bind:childMoving
-                                bind:notPermittedAreas
+                                bind:notPermittedAreas={notPermittedAreasCanvas}
                             />
                         {/if}
                     {/each}

@@ -24,7 +24,7 @@
         cameraX: number;
         cameraY: number;
         childMoving: boolean;
-        notPermittedAreas?: Map<string, [number, number, number, number]>;
+        notPermittedAreas: Map<string, [number, number, number, number]>;
     }
 
     let {
@@ -32,7 +32,7 @@
         cameraX,
         cameraY,
         childMoving = $bindable(),
-        notPermittedAreas = $bindable(new Map()),
+        notPermittedAreas = $bindable(),
     }: Props = $props();
 
     let title: string = $derived(howTo?.getTitle() ?? '');
@@ -347,28 +347,33 @@
     let height: number = $state(0);
 
     $effect(() => {
-        notPermittedAreas.set(howToId, [renderX, renderY, width, height]);
+        notPermittedAreas.set(howToId, [xcoord, ycoord, width, height]);
     });
 
+    const buffer: number = 16;
+    const maxOutside: number = 10000;
+    // TODO(@mc): do need to make this more efficient for larger datasets
     function checkIfCanMove(targetX: number, targetY: number) {
-        for (let [id, area] of notPermittedAreas) {
+        for (let [id, [x, y, w, h]] of notPermittedAreas) {
             if (id === howToId) continue;
 
-            let buffer = 16;
-
+            // we do not allow how-to previews to overlap each other (include a buffer)
             if (
                 !(
-                    targetX + width + buffer <= area[0] ||
-                    targetX - buffer >= area[0] + area[2] ||
-                    targetY + height + buffer <= area[1] ||
-                    targetY - buffer >= area[1] + area[3]
+                    targetX + width + buffer <= x ||
+                    targetX - buffer >= x + w ||
+                    targetY + height + buffer <= y ||
+                    targetY - buffer >= y + h
                 )
             ) {
                 return false;
             }
         }
 
-        return true;
+        // we also don't allow how-to previews to move too far away from any other preview
+        return notPermittedAreas.values().every(([x, y, w, h]) => {
+            return Math.hypot(targetX, targetY, x, y) < maxOutside;
+        });
     }
 </script>
 
