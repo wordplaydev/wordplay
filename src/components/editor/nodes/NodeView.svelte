@@ -314,6 +314,10 @@
         border-bottom-right-radius: 0;
     }
 
+    .block:global(.BinaryEvaluate).evaluate {
+        gap: var(--wordplay-spacing-half);
+    }
+
     .block.type {
         font-size: var(--wordplay-small-font-size);
         box-shadow: inset var(--wordplay-border-color) 1px 1px
