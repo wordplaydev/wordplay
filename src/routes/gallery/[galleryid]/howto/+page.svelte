@@ -135,6 +135,42 @@
         }
     }
 
+    let touchPrevX: number | undefined = $state(undefined);
+    let touchPrevY: number | undefined = $state(undefined);
+    function onTouchStart(event: TouchEvent) {
+        if (!childMoving) {
+            canvasMoving = true;
+            touchPrevX = event.touches[0].clientX;
+            touchPrevY = event.touches[0].clientY;
+        }
+    }
+
+    function onTouchMove(event: TouchEvent) {
+        if (canvasMoving && !childMoving) {
+            let touchX = event.touches[0].clientX;
+            let touchY = event.touches[0].clientY;
+
+            if (touchPrevX !== undefined && touchPrevY !== undefined) {
+                let deltaX = touchX - touchPrevX;
+                let deltaY = touchY - touchPrevY;
+
+                cameraX += deltaX;
+                cameraY += deltaY;
+            }
+
+            touchPrevX = touchX;
+            touchPrevY = touchY;
+        }
+    }
+
+    function onTouchEnd() {
+        if (!childMoving) {
+            canvasMoving = false;
+            touchPrevX = undefined;
+            touchPrevY = undefined;
+        }
+    }
+
     // navigation
     let navigationSelection: string | undefined = $state(undefined);
     let navigationOptions: Option[] = $derived([
@@ -250,6 +286,9 @@
                     onmousedown={onMouseDown}
                     onmousemove={onMouseMove}
                     onkeydown={(event) => onKeyDown(event)}
+                    ontouchstart={(event) => onTouchStart(event)}
+                    ontouchend={onTouchEnd}
+                    ontouchmove={(event) => onTouchMove(event)}
                     ondblclick={() => panTo(0, 0)}
                     tabindex="0"
                 >

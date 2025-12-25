@@ -280,6 +280,40 @@
             childMoving = false;
         }
     }
+
+    let prevTouchX: number | undefined = $state(undefined);
+    let prevTouchY: number | undefined = $state(undefined);
+    function onTouchStart(e: TouchEvent) {
+        childMoving = true;
+        thisChildMoving = true;
+
+        prevTouchX = e.touches[0].clientX;
+        prevTouchY = e.touches[0].clientY;
+    }
+
+    function onTouchMove(e: TouchEvent) {
+        if (
+            thisChildMoving &&
+            prevTouchX !== undefined &&
+            prevTouchY !== undefined
+        ) {
+            const deltaX = e.touches[0].clientX - prevTouchX;
+            const deltaY = e.touches[0].clientY - prevTouchY;
+
+            xcoord += deltaX;
+            ycoord += deltaY;
+
+            prevTouchX = e.touches[0].clientX;
+            prevTouchY = e.touches[0].clientY;
+        }
+    }
+
+    function onTouchEnd(e: TouchEvent) {
+        onDropHowTo(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+
+        prevTouchX = undefined;
+        prevTouchY = undefined;
+    }
 </script>
 
 {#snippet preview()}
@@ -311,12 +345,18 @@
     onfocus={onMouseDown}
     onblur={onLoseFocus}
     onkeydown={onKeyPress}
+    ontouchstart={(e) => onTouchStart(e)}
 >
     <div class="howtotitle"> {title}</div>
 
     <HowToForm editingMode={false} bind:howTo {preview} />
 </div>
-<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
+<svelte:window
+    on:mouseup={onMouseUp}
+    on:mousemove={onMouseMove}
+    on:touchmove={(e) => onTouchMove(e)}
+    on:touchend={(e) => onTouchEnd(e)}
+/>
 
 <style>
     /* setting preview size as a var here that can be changed here, will adjust everything else */
