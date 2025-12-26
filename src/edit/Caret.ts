@@ -644,7 +644,8 @@ export default class Caret {
         }
 
         const points: (Node | number)[] = [];
-        for (const node of this.source.expression.nodes()) {
+        const nodes = this.source.expression.nodes();
+        for (const node of nodes) {
             if (node instanceof Token) {
                 const tokenParent = this.source.root.getParent(node);
                 // Find the preceding space and include all line breaks, but only if the space root is for a block.
@@ -680,7 +681,7 @@ export default class Caret {
                     // If an only child, include it's parent, not the token itself.
                     if (
                         tokenParent !== undefined &&
-                        tokenParent.getChildren().length === 1
+                        tokenParent.leaves().length === 1
                     )
                         points.push(tokenParent);
                     else points.push(node);
@@ -688,13 +689,14 @@ export default class Caret {
             }
             // If it's not a token, check it's grammar for insertion points.
             else {
-                // Expression or type with a single token? Include it.
+                // Expression or type with a single child ? Include it.
                 if (
-                    (node instanceof Expression || node instanceof Type) &&
+                    (node instanceof Literal || node instanceof Name) &&
                     node.leaves().length === 1
                 )
                     points.push(node);
 
+                // Inspect the grammar of the node for a list of insertion points.
                 const grammar = node.getGrammar();
                 for (let index = 0; index < grammar.length; index++) {
                     const field = grammar[index];
@@ -818,10 +820,10 @@ export default class Caret {
             return (l) => l.ui.source.cursor.ignored.noMove;
 
         // Get all eligible caret positions in blocks mode, in the order in which we'll search for the next position.
-        const positions =
-            direction < 0
-                ? this.getSourceBlockPositions().reverse()
-                : this.getSourceBlockPositions();
+        const positions = this.getSourceBlockPositions();
+        if (direction < 0) positions.reverse();
+
+        // Go through all of the eligible positions
         const onNode = this.isNode();
         for (const possible of positions) {
             const possibleIsIndex = typeof possible === 'number';
