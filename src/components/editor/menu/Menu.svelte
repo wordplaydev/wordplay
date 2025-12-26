@@ -329,6 +329,11 @@
             var(--wordplay-border-width);
     }
 
+    .revisionset:nth-last-child(2) {
+        border-bottom-left-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
+    }
+
     .revisionset:focus {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));

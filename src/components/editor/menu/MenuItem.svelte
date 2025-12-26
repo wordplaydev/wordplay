@@ -69,6 +69,11 @@
         border-top: none;
     }
 
+    .revision:last-child {
+        border-bottom-left-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
+    }
+
     .revision:focus {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
