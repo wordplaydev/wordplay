@@ -1,6 +1,7 @@
 <script lang="ts">
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import RootView from '@components/project/RootView.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { blocks, locales } from '@db/Database';
     import Revision from '@edit/Revision';
     import Menu, { RevisionSet } from './Menu';
@@ -13,6 +14,8 @@
     }
 
     let { entry, menu = $bindable(), id, handleItemClick }: Props = $props();
+
+    let view: HTMLDivElement | undefined = $state(undefined);
 
     /** Is removal */
     let isRemoval = $derived(entry.isRemoval());
@@ -27,6 +30,7 @@
 <div
     role="menuitem"
     tabindex="-1"
+    bind:this={view}
     {id}
     aria-label={entry
         .getEditedNode($locales)[0]
@@ -37,6 +41,9 @@
         event.preventDefault();
         event.stopPropagation();
         handleItemClick(entry);
+    }}
+    onpointerenter={() => {
+        if (view) setKeyboardFocus(view, 'Focusing menu item on pointer enter');
     }}
     class={`revision ${menu.getSelection() === entry ? 'selected' : ''}`}
     onfocusin={() => {
@@ -77,10 +84,6 @@
     .revision:focus {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
-    }
-
-    .revision:hover {
-        background: var(--wordplay-hover);
     }
 
     .details {

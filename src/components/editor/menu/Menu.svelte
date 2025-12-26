@@ -201,7 +201,7 @@
                         event.preventDefault();
                         handleItemClick(entry);
                     }}
-                    onmouseenter={(event) => {
+                    onpointerenter={(event) => {
                         event.stopPropagation();
                         event.preventDefault();
                         handleItemClick(entry);
@@ -339,11 +339,7 @@
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
-    .revisionset:hover {
-        background: var(--wordplay-hover);
-    }
-
     .show {
-        background: var(--wordplay-highlight-color);
+        background: var(--wordplay-hover);
     }
 </style>
