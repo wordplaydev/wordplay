@@ -49,7 +49,6 @@ import type Definition from '../nodes/Definition';
 import DefinitionExpression from '../nodes/DefinitionExpression';
 import { LanguageTagged } from '../nodes/LanguageTagged';
 import Literal from '../nodes/Literal';
-import MapLiteral from '../nodes/MapLiteral';
 import Name from '../nodes/Name';
 import NameType from '../nodes/NameType';
 import NumberLiteral from '../nodes/NumberLiteral';
@@ -1824,12 +1823,13 @@ export default class Caret {
                     this.withPosition(parent.statements[0]),
                 ];
             }
-            // Is the parent a list with on element? Unwrap the list.
+            // Is the parent a list or set with a single element amd the deletion is one of it's delimiters? Unwrap the list or set.
             else if (
                 (parent instanceof ListLiteral ||
-                    parent instanceof SetLiteral ||
-                    parent instanceof MapLiteral) &&
-                parent.values.length === 1
+                    parent instanceof SetLiteral) &&
+                parent.values.length === 1 &&
+                (this.position === parent.open ||
+                    this.position === parent.close)
             ) {
                 return [
                     this.source.replace(parent, parent.values[0]),
