@@ -1155,6 +1155,7 @@ export default class Caret {
             // If that didn't do anything, do nothing; it's not removeable.
             if (edit === undefined)
                 return (l) => l.ui.source.cursor.ignored.noDelete;
+            if (!Array.isArray(edit)) return edit;
             const [source, caret] = edit;
             if (!isPosition(caret.position))
                 return (l) => l.ui.source.cursor.ignored.noDelete;
@@ -1654,7 +1655,7 @@ export default class Caret {
         project: Project,
         forward: boolean,
         validOnly: boolean,
-    ): Edit | ProjectRevision | undefined {
+    ): Edit | ProjectRevision | LocaleTextAccessor | undefined {
         const offset = forward ? 0 : -1;
 
         // If the position is a number, see if this is a rename
@@ -1928,7 +1929,7 @@ export default class Caret {
         node: Node,
         validOnly: boolean,
         project: Project,
-    ): Revision | undefined {
+    ): Revision | LocaleTextAccessor {
         // If valid only, check to see if the node is in a list or represents an optional field.
         const parent = this.source.root.getParent(node);
         if (validOnly) {
@@ -1936,7 +1937,7 @@ export default class Caret {
                 const field = parent.getFieldOfChild(node);
                 if (field !== undefined) {
                     const value = parent.getField(field.name);
-                    // If the deletion isn't valid, then return the parent, in case it can be deleted.
+                    // If the deletion isn't valid, then no change.
                     if (
                         !(
                             (field.kind instanceof ListOf &&
@@ -1945,18 +1946,20 @@ export default class Caret {
                             field.kind instanceof Empty
                         )
                     )
-                        return [this.source, this.withPosition(parent)];
+                        return (l) => l.ui.source.cursor.ignored.noDelete;
                 }
-            } else return undefined;
+            } else return (l) => l.ui.source.cursor.ignored.noDelete;
         }
 
         const range = this.getRange(node);
-        if (range === undefined) return;
+        if (range === undefined)
+            return (l) => l.ui.source.cursor.ignored.noDelete;
         const newSource = this.source.withoutGraphemesBetween(
             range[0],
             range[1],
         );
-        if (newSource === undefined) return undefined;
+        if (newSource === undefined)
+            return (l) => l.ui.source.cursor.ignored.noDelete;
 
         // If only valid, ensure the edit is valid.
         if (
@@ -1965,7 +1968,7 @@ export default class Caret {
         )
             return parent
                 ? [this.source, this.withPosition(parent)]
-                : undefined;
+                : (l) => l.ui.source.cursor.ignored.noError;
 
         return [
             newSource,
