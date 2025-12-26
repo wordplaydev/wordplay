@@ -23,7 +23,8 @@
             32}
     />
     <NodeView node={[node, 'close']} {format} />
-    <NodeView node={[node, 'literal']} {format} />
+    <!-- Too advanced of a feature. Let's hide it for now. -->
+    <NodeView node={[node, 'literal']} {format} empty="hide" />
 {:else}
     <NodeView node={[node, 'open']} {format} /><NodeSequenceView
         {node}
