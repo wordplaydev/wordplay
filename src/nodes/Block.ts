@@ -162,7 +162,7 @@ export default class Block extends Expression {
             },
             {
                 name: 'statements',
-                kind: list(true, node(Expression), node(Bind)),
+                kind: list(this.isRoot(), node(Expression), node(Bind)),
                 label: () => (l) => l.node.Block.label.statements,
                 indent: !this.isRoot(),
                 newline:
