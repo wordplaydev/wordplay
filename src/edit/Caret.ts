@@ -646,6 +646,7 @@ export default class Caret {
         const points: (Node | number)[] = [];
         for (const node of this.source.expression.nodes()) {
             if (node instanceof Token) {
+                const tokenParent = this.source.root.getParent(node);
                 // Find the preceding space and include all line breaks, but only if the space root is for a block.
                 const spaceRoot = this.source.root.getSpaceRoot(node);
                 const spaceRootParent = spaceRoot
@@ -665,13 +666,8 @@ export default class Caret {
                         }
                     }
                 }
-                // If the token's individual symbols are editable, add them to the list.
-                if (
-                    Caret.isTokenTextBlockEditable(
-                        node,
-                        this.source.root.getParent(node),
-                    )
-                ) {
+                // If the token's individual symbols are editable, and the token isn't an only child, add all text positions to the list.
+                if (Caret.isTokenTextBlockEditable(node, tokenParent)) {
                     const start = this.source.getTokenTextPosition(node);
                     const end = this.source.getTokenLastPosition(node);
                     if (start !== undefined && end !== undefined) {
@@ -679,8 +675,16 @@ export default class Caret {
                             points.push(pos);
                     }
                 }
-                // If the token itself is editable, add it to the list.
-                else if (Caret.isTokenBlockEditable(node)) points.push(node);
+                // If the token itself is editable and not an only child, add it to the list.
+                else if (Caret.isTokenBlockEditable(node)) {
+                    // If an only child, include it's parent, not the token itself.
+                    if (
+                        tokenParent !== undefined &&
+                        tokenParent.getChildren().length === 1
+                    )
+                        points.push(tokenParent);
+                    else points.push(node);
+                }
             }
             // If it's not a token, check it's grammar for insertion points.
             else {
@@ -1937,7 +1941,7 @@ export default class Caret {
                 const field = parent.getFieldOfChild(node);
                 if (field !== undefined) {
                     const value = parent.getField(field.name);
-                    // If the deletion isn't valid, then no change.
+                    // If the deletion isn't a list with more than one element or a list that allows empty, or an emptyable field, ignore the deletion.
                     if (
                         !(
                             (field.kind instanceof ListOf &&
