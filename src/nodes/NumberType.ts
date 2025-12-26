@@ -132,7 +132,7 @@ export default class NumberType extends BasisType {
             )
                 return false;
 
-            // If the units aren't compatible, then the the types aren't compatible.
+            // If the units aren't compatible, then the types aren't compatible.
             if (
                 !(this.unit instanceof Function || this.unit.isUnitless()) &&
                 !thisUnit.accepts(thatUnit)

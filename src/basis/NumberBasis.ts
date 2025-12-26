@@ -146,6 +146,7 @@ export default function bootstrapNumber(locales: Locales) {
                     names,
                     UnionType.make(
                         NoneType.None,
+                        //The type of the operand is the type of the input.
                         NumberType.make((left) => left),
                     ),
                     NoneLiteral.make(),
@@ -178,6 +179,7 @@ export default function bootstrapNumber(locales: Locales) {
                     return expression(requestor, left, right);
                 },
             ),
+            // The type of the output is the same as the input type.
             NumberType.make((left) => left),
         );
     }
@@ -269,7 +271,7 @@ export default function bootstrapNumber(locales: Locales) {
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.multiply,
-                    // The operand's type can be any unitless measurement
+                    // The operand's type can be any unitless number
                     NumberType.make(),
                     // The output's type is is the unit's product
                     NumberType.make((left, right) =>
@@ -280,7 +282,9 @@ export default function bootstrapNumber(locales: Locales) {
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.divide,
+                    // Divide's operand can be any unitless number
                     NumberType.make(),
+                    // Divide's output's type is the unit's quotient
                     NumberType.make((left, right) =>
                         right ? left.quotient(right) : left,
                     ),
