@@ -456,9 +456,11 @@
                   : // Otherwise choose an index position under the mouse
                     getCaretPositionAt(event);
 
-        // If we found a position, set it.
-        if (newPosition !== undefined)
+        // If we found a position, set it and reset the ignore feedback.
+        if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
+            resetIgnored(true);
+        }
 
         // Mark that the creator might want to drag the node under the pointer and remember where the click started.
         dragPoint = { x: event.clientX, y: event.clientY };
