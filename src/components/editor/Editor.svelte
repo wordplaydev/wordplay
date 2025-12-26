@@ -1280,10 +1280,10 @@
                 $blocks,
                 project,
             );
-            if (edit) {
+            if (Array.isArray(edit)) {
                 newSource = edit[0];
                 newCaret = edit[1];
-            } else return;
+            } else setIgnored(edit);
         }
 
         // If the last key pressed was a deadkey, capture it from the input.
