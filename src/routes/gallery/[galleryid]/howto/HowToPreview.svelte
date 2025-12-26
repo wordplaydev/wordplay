@@ -18,6 +18,7 @@
     import type Value from '@values/Value';
     import UnicodeString from '../../../../unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
+    import { movePermitted } from './utils';
 
     interface Props {
         howTo: HowTo;
@@ -192,7 +193,16 @@
             let intendX = xcoord + e.movementX;
             let intendY = ycoord + e.movementY;
 
-            if (checkIfCanMove(intendX, intendY)) {
+            if (
+                movePermitted(
+                    intendX,
+                    intendY,
+                    width,
+                    height,
+                    howToId,
+                    notPermittedAreas,
+                )
+            ) {
                 xcoord = intendX;
                 ycoord = intendY;
             }
@@ -207,7 +217,16 @@
             switch (event.key) {
                 case 'ArrowUp':
                     intendY = ycoord - 10;
-                    if (checkIfCanMove(xcoord, intendY)) {
+                    if (
+                        movePermitted(
+                            xcoord,
+                            intendY,
+                            width,
+                            height,
+                            howToId,
+                            notPermittedAreas,
+                        )
+                    ) {
                         ycoord = intendY;
                         thisChildMoved = true;
                     }
@@ -216,7 +235,16 @@
                     break;
                 case 'ArrowDown':
                     intendY = ycoord + 10;
-                    if (checkIfCanMove(xcoord, intendY)) {
+                    if (
+                        movePermitted(
+                            xcoord,
+                            intendY,
+                            width,
+                            height,
+                            howToId,
+                            notPermittedAreas,
+                        )
+                    ) {
                         ycoord = intendY;
                         thisChildMoved = true;
                     }
@@ -225,7 +253,16 @@
                     break;
                 case 'ArrowLeft':
                     intendX = xcoord - 10;
-                    if (checkIfCanMove(intendX, ycoord)) {
+                    if (
+                        movePermitted(
+                            intendX,
+                            ycoord,
+                            width,
+                            height,
+                            howToId,
+                            notPermittedAreas,
+                        )
+                    ) {
                         xcoord = intendX;
                         thisChildMoved = true;
                     }
@@ -234,7 +271,16 @@
                     break;
                 case 'ArrowRight':
                     intendX = xcoord + 10;
-                    if (checkIfCanMove(intendX, ycoord)) {
+                    if (
+                        movePermitted(
+                            intendX,
+                            ycoord,
+                            width,
+                            height,
+                            howToId,
+                            notPermittedAreas,
+                        )
+                    ) {
                         xcoord = intendX;
                         thisChildMoved = true;
                     }
@@ -325,7 +371,7 @@
             let intendX = xcoord + deltaX;
             let intendY = ycoord + deltaY;
 
-            if (checkIfCanMove(intendX, intendY)) {
+            if (movePermitted(intendX, intendY, howToId, notPermittedAreas)) {
                 xcoord = intendX;
                 ycoord = intendY;
             }
@@ -349,32 +395,6 @@
     $effect(() => {
         notPermittedAreas.set(howToId, [xcoord, ycoord, width, height]);
     });
-
-    const buffer: number = 16;
-    const maxOutside: number = 10000;
-    // TODO(@mc): do need to make this more efficient for larger datasets
-    function checkIfCanMove(targetX: number, targetY: number) {
-        for (let [id, [x, y, w, h]] of notPermittedAreas) {
-            if (id === howToId) continue;
-
-            // we do not allow how-to previews to overlap each other (include a buffer)
-            if (
-                !(
-                    targetX + width + buffer <= x ||
-                    targetX - buffer >= x + w ||
-                    targetY + height + buffer <= y ||
-                    targetY - buffer >= y + h
-                )
-            ) {
-                return false;
-            }
-        }
-
-        // we also don't allow how-to previews to move too far away from any other preview
-        return notPermittedAreas.values().every(([x, y, w, h]) => {
-            return Math.hypot(targetX, targetY, x, y) < maxOutside;
-        });
-    }
 </script>
 
 {#snippet preview()}

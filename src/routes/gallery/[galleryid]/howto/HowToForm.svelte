@@ -23,21 +23,26 @@
     import type { Snippet } from 'svelte';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
+    import { movePermitted } from './utils';
 
     // defining props
     interface Props {
         editingMode: boolean; // true if editing, false if viewing
         howTo: HowTo | undefined; // undefined if creating a brand new how-to
-        writeX?: number;
-        writeY?: number;
+        cameraX?: number;
+        cameraY?: number;
+        notPermittedAreasCanvas?: Map<string, [number, number, number, number]>;
+        notPermittedAreasDrafts?: Map<string, [number, number, number, number]>;
         preview?: Snippet;
     }
 
     let {
         editingMode,
         howTo = $bindable(),
-        writeX = $bindable(0),
-        writeY = $bindable(0),
+        cameraX = 0,
+        cameraY = 0,
+        notPermittedAreasCanvas = undefined,
+        notPermittedAreasDrafts = undefined,
         preview = undefined,
     }: Props = $props();
 
@@ -74,11 +79,40 @@
     // writer functions
     async function writeNewHowTo(publish: boolean) {
         if (!howTo) {
+            let writeX = -cameraX;
+            let writeY = -cameraY;
+            let canvasToCheck = publish
+                ? notPermittedAreasCanvas
+                : notPermittedAreasDrafts;
+            let numSearchAttempts = 0;
+
+            while (
+                canvasToCheck &&
+                !movePermitted(writeX, writeY, 100, 100, '', canvasToCheck)
+            ) {
+                if (numSearchAttempts < 5) {
+                    writeX += 150;
+                } else if (numSearchAttempts == 5) {
+                    writeX = -cameraX - 150;
+                } else if (numSearchAttempts < 10) {
+                    writeX -= 150;
+                } else if (numSearchAttempts == 10) {
+                    writeX = -cameraX;
+                    writeY += 150;
+                } else if (numSearchAttempts == 15) {
+                    writeY = -cameraY - 150;
+                } else {
+                    writeY -= 150;
+                }
+
+                numSearchAttempts++;
+            }
+
             let returnValue = await HowTos.addHowTo(
                 galleryID,
                 publish,
-                publish ? writeX : 0,
-                publish ? writeY : 0,
+                writeX,
+                writeY,
                 allCollaborators,
                 title,
                 prompts,

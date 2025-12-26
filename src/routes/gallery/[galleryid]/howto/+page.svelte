@@ -217,8 +217,10 @@
                     <HowToForm
                         editingMode={true}
                         bind:howTo={newHowTo}
-                        writeX={cameraX}
-                        writeY={cameraY}
+                        {cameraX}
+                        {cameraY}
+                        {notPermittedAreasCanvas}
+                        {notPermittedAreasDrafts}
                     />
                 {/if}
 
