@@ -1,3 +1,4 @@
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -20,12 +21,16 @@ export default class Docs extends Node {
         this.computeChildren();
     }
 
-    static getPossibleReplacements() {
-        return Docs.make();
+    static getTemplate(locales: Locales) {
+        return Docs.make([Doc.getTemplate(locales)]);
     }
 
-    static getPossibleInsertions() {
-        return Docs.make();
+    static getPossibleReplacements({ locales }: ReplaceContext) {
+        return Docs.getTemplate(locales);
+    }
+
+    static getPossibleInsertions({ locales }: InsertContext) {
+        return Docs.getTemplate(locales);
     }
 
     static make(docs?: Doc[]) {
