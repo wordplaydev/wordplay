@@ -34,6 +34,7 @@
     });
 </script>
 
+<!-- CaretView.svelte:computeLocation depends on this structure. -->
 {#if node.placeholder}<NodeView
         node={[node, 'placeholder']}
         {format}

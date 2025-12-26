@@ -445,8 +445,9 @@
             // ... and it's a placeholder, then position a caret in it's center
             if (caret.isPlaceholderNode()) {
                 const placeholderView = nodeView.querySelector(
-                    '.placeholder .token-category-placeholder',
+                    '.token-category-placeholder',
                 );
+                console.log(placeholderView);
                 const placeholderViewRect =
                     placeholderView?.getBoundingClientRect();
                 if (placeholderViewRect) {
