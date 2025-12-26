@@ -122,7 +122,12 @@
     });
 </script>
 
-{#if format.block}
+{#snippet append()}<MenuTrigger
+        anchor={{ parent: node, field, index: nodes.length }}
+        insert
+    />{/snippet}
+
+{#snippet list()}
     {#if nodes.length > 0 || empty !== 'hide'}
         <!-- These data attributes are used by Editor.svelte:getBlockInsertionPoint() -->
         <div
@@ -146,12 +151,20 @@
                 {#if insertionFeedback?.index === nodes.length}
                     <div class="insertion-feedback"></div>
                 {/if}
-                {#if format.editable}<MenuTrigger
-                        anchor={{ parent: node, field, index: nodes.length }}
-                        insert
-                    />{/if}
+                {#if !block && format.editable}{@render append()}{/if}
             {/if}
         </div>
+    {/if}
+{/snippet}
+
+{#if format.block}
+    {#if block}
+        <div class="flow">
+            {@render list()}
+            {@render append()}
+        </div>
+    {:else}
+        {@render list()}
     {/if}
 {:else}
     {#if hiddenBefore > 0}
@@ -224,5 +237,12 @@
     [data-direction='block'] > .insertion-feedback {
         width: 100%;
         height: var(--wordplay-focus-width);
+    }
+
+    .flow {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing-half);
+        align-items: end;
     }
 </style>
