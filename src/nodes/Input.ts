@@ -49,11 +49,15 @@ export default class Input extends Node {
     }
 
     static getPossibleInsertions({ parent, context }: InsertContext) {
-        // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
+        // If the parent is an evaluate, offer inputs.
         if (parent instanceof Evaluate) {
             const mapping = parent.getInputMapping(context);
             return mapping?.inputs
-                .filter((input) => input.given === undefined)
+                .filter(
+                    (input) =>
+                        input.given === undefined ||
+                        input.expected.isVariableLength(),
+                )
                 .map(
                     (input, index, inputs) =>
                         new Refer((name) => {
