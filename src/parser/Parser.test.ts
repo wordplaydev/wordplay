@@ -7,6 +7,7 @@ import BooleanType from '@nodes/BooleanType';
 import Borrow from '@nodes/Borrow';
 import Conditional from '@nodes/Conditional';
 import ConversionDefinition from '@nodes/ConversionDefinition';
+import ConversionType from '@nodes/ConversionType';
 import Convert from '@nodes/Convert';
 import Doc from '@nodes/Doc';
 import DocumentedExpression from '@nodes/DocumentedExpression';
@@ -276,6 +277,7 @@ test.each([
     ['a•…#', Bind, 'type', StreamType],
     ['a•Cat|#', Bind, 'type', UnionType],
     ['a•`…`', Bind, 'type', FormattedType],
+    ['a•→# ""', Bind, 'type', ConversionType],
     ['a•/', Bind, 'type', UnparsableType],
 ])(
     '%s -> %o',
