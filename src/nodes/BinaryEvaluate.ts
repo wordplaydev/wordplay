@@ -124,7 +124,6 @@ export default class BinaryEvaluate extends Expression {
                             type.output,
                             type.definition,
                         );
-                        console.log(newType.toWordplay());
                         return newType;
                     }
                     return type ?? new AnyType();
