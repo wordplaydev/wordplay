@@ -13,7 +13,9 @@
 <NodeView node={[node, 'borrow']} {format} /><NodeView
     node={[node, 'source']}
     {format}
-/><NodeView node={[node, 'dot']} {format} /><NodeView
+    empty="label"
+/><NodeView node={[node, 'dot']} {format} empty="hide" /><NodeView
     node={[node, 'name']}
     {format}
-/><NodeView node={[node, 'version']} {format} />
+    empty="label"
+/><NodeView node={[node, 'version']} {format} empty="hide" />

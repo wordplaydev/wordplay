@@ -540,7 +540,7 @@
             "description": "borrow $1[$1|missing name]",
             "emotion": "excited",
             "label": {
-                "source": "$source",
+                "source": "source",
                 "bind": "name",
                 "version": "version"
             },
