@@ -358,7 +358,7 @@ function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
                         complete: false,
                     }).map((replacement) =>
                         replacement === undefined
-                            ? new Remove(context, parent, anchor)
+                            ? new Remove(context, parent, node)
                             : new Replace(context, parent, node, replacement),
                     ),
                 )
