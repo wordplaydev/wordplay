@@ -39,11 +39,10 @@
         node={[node, 'placeholder']}
         {format}
     />{/if}{#if placeholder}<span class="label">{placeholder}</span
-    >{/if}{#if node.type && format.editable}<NodeView
-        node={[node, 'dot']}
-        empty="hide"
-        {format}
-    /><NodeView node={[node, 'type']} {format} />{/if}
+    >{/if}<NodeView node={[node, 'dot']} empty="hide" {format} /><NodeView
+    node={[node, 'type']}
+    format={{ ...format, editable: false }}
+/>
 {#if format.editable && format.block}<MenuTrigger anchor={node} />{/if}
 
 <style>
