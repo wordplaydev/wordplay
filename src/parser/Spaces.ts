@@ -13,6 +13,7 @@ export const EXPLICIT_SPACE_TEXT = '·';
 export const TAB_TEXT = SPACE_TEXT.repeat(TAB_WIDTH);
 export const EXPLICIT_TAB_TEXT =
     SPACE_TEXT.repeat(TAB_WIDTH - TAB_SYMBOL.length) + TAB_SYMBOL;
+export const EXPLICIT_NEWLINE_TEXT = '↵';
 
 export const MAX_LINE_LENGTH = 40;
 

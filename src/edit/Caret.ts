@@ -1114,7 +1114,7 @@ export default class Caret {
 
         if (blocks) {
             // Don't permit tabs or newlines unless inside a block editable token.
-            if (text === '\n' || text == '\t')
+            if (text == '\t')
                 return (l) => l.ui.source.cursor.ignored.blockSpace;
         }
 

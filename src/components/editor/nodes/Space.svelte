@@ -76,9 +76,11 @@
 -->
 {#key [$spaceIndicator, space, line, $showLines, insertionIndex]}
     <span class="space" role="none" data-id={token.id} data-uiid="space">
-        {#if block}{#if space !== '' && space.replaceAll(' ', '').length === 0}<span
-                    class="space-text"
-                    >{EXPLICIT_SPACE_TEXT.repeat(space.length)}</span
+        {#if block}{#if space !== ''}<span class="space-text"
+                    >{space
+                        .split('')
+                        .map((s) => (s === ' ' ? EXPLICIT_SPACE_TEXT : s))
+                        .join('')}</span
                 >{/if}
         {:else}
             <span role="none" class="before"
