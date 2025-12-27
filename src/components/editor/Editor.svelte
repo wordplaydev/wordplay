@@ -779,6 +779,9 @@
         const nodeUnderPointer = getNodeAt(event, false);
         if (nodeUnderPointer === undefined) return undefined;
 
+        // Don't allow parents to be inserted into their children.
+        if (candidate.contains(nodeUnderPointer)) return undefined;
+
         // Does the node under the pointer have an empty or node-list inside it?
         const el = document.elementFromPoint(event.clientX, event.clientY);
         if (!(el instanceof HTMLElement)) return undefined;
@@ -791,6 +794,7 @@
                 emptyView.dataset.field,
             );
             const kind = field?.kind;
+
             // If it's a list and it allows the node kind being inserted, return an insertion point.
             if (
                 field !== undefined &&
