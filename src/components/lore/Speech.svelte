@@ -790,6 +790,7 @@
     .speaker {
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
+        align-items: baseline;
+        gap: var(--wordplay-spacing-half);
     }
 </style>

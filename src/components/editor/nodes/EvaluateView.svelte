@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getProject, getRoot } from '@components/project/Contexts';
     import Evaluate from '@nodes/Evaluate';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView, { type Format } from './NodeView.svelte';
@@ -9,6 +10,18 @@
     }
 
     let { node, format }: Props = $props();
+
+    // Get the function this corresponds to, so we can decide whether to offer an input trigger.
+    const root = getRoot();
+    const project = getProject();
+    let context = $derived(
+        root.root === undefined || $project === undefined
+            ? undefined
+            : $project.getNodeContext(root.root.root),
+    );
+    const fun = $derived(
+        context === undefined ? undefined : node.getFunction(context),
+    );
 </script>
 
 {#if format.block}
@@ -19,7 +32,7 @@
         {node}
         {format}
         field="inputs"
-        empty="label"
+        empty={fun !== undefined && fun.inputs.length > 0 ? 'label' : 'hide'}
         block={node.inputs.reduce((sum, v) => sum + v.toWordplay().length, 0) >
             32}
     />
