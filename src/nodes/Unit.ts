@@ -31,8 +31,12 @@ export default class Unit extends Node {
     readonly slash: Token | undefined;
     readonly denominator: Dimension[];
 
-    /** We store units internally as a map from unit names to a positive or negative non-zero exponent. */
-    readonly exponents: Map<string, number>;
+    /**
+     * We store units internally as a map from unit names to a positive or negative non-zero exponent.
+     * We only instantiate this map once, in the constructor, and it is immutable after that.
+     * It remains undefined if unitless, to save on memory.
+     */
+    readonly exponents: Map<string, number> | undefined;
 
     constructor(
         exponents: undefined | Map<string, number> = undefined,
@@ -53,36 +57,42 @@ export default class Unit extends Node {
                     : slash;
             this.denominator = denominator ?? [];
 
-            this.exponents = new Map();
+            if (this.numerator.length === 0 && this.denominator.length === 0)
+                this.exponents = undefined;
+            else {
+                this.exponents = new Map();
 
-            for (const dim of this.numerator) {
-                const name = dim.getName();
-                if (name !== undefined) {
-                    const exp =
-                        dim.exponent === undefined
-                            ? 1
-                            : NumberValue.fromToken(dim.exponent)[0].toNumber();
-                    const current = this.exponents.get(name);
-                    this.exponents.set(name, (current ?? 0) + exp);
+                for (const dim of this.numerator) {
+                    const name = dim.getName();
+                    if (name !== undefined) {
+                        const exp =
+                            dim.exponent === undefined
+                                ? 1
+                                : NumberValue.fromToken(
+                                      dim.exponent,
+                                  )[0].toNumber();
+                        const current = this.exponents.get(name);
+                        this.exponents.set(name, (current ?? 0) + exp);
+                    }
                 }
-            }
-            for (const dim of this.denominator) {
-                const name = dim.getName();
-                if (name !== undefined) {
-                    const exp =
-                        dim.exponent === undefined
-                            ? -1
-                            : -NumberValue.fromToken(
-                                  dim.exponent,
-                              )[0].toNumber();
-                    const current = this.exponents.get(name);
-                    this.exponents.set(name, (current ?? 0) + exp);
+                for (const dim of this.denominator) {
+                    const name = dim.getName();
+                    if (name !== undefined) {
+                        const exp =
+                            dim.exponent === undefined
+                                ? -1
+                                : -NumberValue.fromToken(
+                                      dim.exponent,
+                                  )[0].toNumber();
+                        const current = this.exponents.get(name);
+                        this.exponents.set(name, (current ?? 0) + exp);
+                    }
                 }
-            }
 
-            // Eliminate any 0 exponent units.
-            for (const [unit, exp] of this.exponents)
-                if (exp === 0) this.exponents.delete(unit);
+                // Eliminate any 0 exponent units.
+                for (const [unit, exp] of this.exponents)
+                    if (exp === 0) this.exponents.delete(unit);
+            }
         } else {
             // Start as empty.
             this.numerator = [];
@@ -218,7 +228,9 @@ export default class Unit extends Node {
     /** A unit pool, since they recur so frequently. We map the exponents to a unique string */
     static Pool = new Map<string, Unit>();
 
-    static get(exponents: Map<string, number>) {
+    static get(exponents: Map<string, number> | undefined) {
+        if (exponents === undefined || exponents.size === 0) return Unit.Empty;
+
         // Convert the exponents to a canonical string
         let hash = '';
         for (const key of Array.from(exponents.keys()).sort())
@@ -239,17 +251,22 @@ export default class Unit extends Node {
     }
 
     isUnitless() {
-        return this.exponents.size === 0;
+        return this.size() === 0;
+    }
+
+    size() {
+        return this.exponents?.size ?? 0;
     }
 
     isEqualTo(unit: Unit) {
-        return (
-            unit instanceof Unit &&
-            this.exponents.size === unit.exponents.size &&
-            Array.from(this.exponents.keys()).every(
-                (key) => this.exponents.get(key) === unit.exponents.get(key),
-            )
-        );
+        if (!(unit instanceof Unit)) return false;
+        if (this.size() !== unit.size()) return false;
+        if (this.exponents !== undefined && unit.exponents !== undefined)
+            for (const key of this.exponents.keys()) {
+                if (this.exponents.get(key) !== unit.exponents.get(key))
+                    return false;
+            }
+        return true;
     }
 
     computeConflicts() {
@@ -311,13 +328,10 @@ export default class Unit extends Node {
     }
 
     toString(depth?: number) {
-        const units = Array.from(this.exponents.keys()).sort();
-        const numerator = units.filter(
-            (unit) => (this.exponents.get(unit) ?? 0) > 0,
-        );
-        const denominator = units.filter(
-            (unit) => (this.exponents.get(unit) ?? 0) < 0,
-        );
+        const exp = this.exponents === undefined ? new Map() : this.exponents;
+        const units = Array.from(exp.keys()).sort();
+        const numerator = units.filter((unit) => (exp.get(unit) ?? 0) > 0);
+        const denominator = units.filter((unit) => (exp.get(unit) ?? 0) < 0);
 
         return (
             (depth === undefined ? '' : '\t'.repeat(depth)) +
@@ -325,10 +339,8 @@ export default class Unit extends Node {
                 .map(
                     (unit) =>
                         `${unit}${
-                            (this.exponents.get(unit) ?? 0) > 1
-                                ? `${EXPONENT_SYMBOL}${this.exponents.get(
-                                      unit,
-                                  )}`
+                            (exp.get(unit) ?? 0) > 1
+                                ? `${EXPONENT_SYMBOL}${exp.get(unit)}`
                                 : ''
                         }`,
                 )
@@ -338,9 +350,9 @@ export default class Unit extends Node {
                 .map(
                     (unit) =>
                         `${unit}${
-                            (this.exponents.get(unit) ?? 0) < -1
+                            (exp.get(unit) ?? 0) < -1
                                 ? `${EXPONENT_SYMBOL}${Math.abs(
-                                      this.exponents.get(unit) ?? 0,
+                                      exp.get(unit) ?? 0,
                                   )}`
                                 : ''
                         }`,
@@ -350,6 +362,8 @@ export default class Unit extends Node {
     }
 
     root(root: number) {
+        if (this.exponents === undefined) return this;
+
         const newExponents = new Map();
 
         // Subtract one from every unit's exponent, and if it would be zero, set it to -1.
@@ -366,7 +380,7 @@ export default class Unit extends Node {
         const newExponents = new Map(this.exponents);
 
         // Add the given units' exponents to the existing exponents
-        for (const [unit, exponent] of operand.exponents) {
+        for (const [unit, exponent] of operand.exponents ?? new Map()) {
             const currentExponent = newExponents.get(unit);
             newExponents.set(unit, (currentExponent ?? 0) + exponent);
         }
@@ -378,7 +392,7 @@ export default class Unit extends Node {
         const newExponents = new Map(this.exponents);
 
         // Subtract the given units' exponents from the existing exponents
-        for (const [unit, exponent] of operand.exponents) {
+        for (const [unit, exponent] of operand.exponents ?? new Map()) {
             const currentExponent = newExponents.get(unit);
             newExponents.set(unit, (currentExponent ?? 0) - exponent);
         }
@@ -391,7 +405,7 @@ export default class Unit extends Node {
         const newExponents = new Map(this.exponents);
 
         // Multiply the units by the power.
-        for (const [unit, exp] of this.exponents) {
+        for (const [unit, exp] of this.exponents ?? new Map()) {
             newExponents.set(unit, exp * exponent);
         }
 
@@ -409,7 +423,7 @@ export default class Unit extends Node {
 
     getDescriptionInputs(locales: Locales) {
         return [
-            this.exponents.size === 0
+            this.isUnitless()
                 ? locales.get((l) => l.basis.Number.name[0])
                 : this.toWordplay(),
         ];
