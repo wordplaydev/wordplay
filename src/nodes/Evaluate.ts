@@ -557,7 +557,11 @@ export default class Evaluate extends Expression {
                             lastType instanceof ListType &&
                             expectedType instanceof ListType &&
                             (lastType.type === undefined ||
-                                expectedType.accepts(lastType.type, context))
+                                expectedType.type === undefined ||
+                                expectedType.type.accepts(
+                                    lastType.type,
+                                    context,
+                                ))
                         )
                             isVariableListInput = true;
                     }
