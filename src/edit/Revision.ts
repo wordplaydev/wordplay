@@ -45,23 +45,32 @@ export default abstract class Revision {
     abstract equals(transform: Revision): boolean;
 
     /**
-     * Get a copy of the parent being modified and the nodes to be removed from the copy.
-     * Handy for rendering a preview of the removal.
+     * Get the node to represent the context of the removal and the list of nodes being removed in that context.
+     * These are helpful for rendering a removal preview.
      */
-    getParentAndRemoved(): [Node, Node[]] {
+    getRemovalContext(): [Node, Node[]] {
         const parent = this.parent;
         const parentCopy = parent.clone();
+        // Not a removal? Return the parent and no removals.
         if (!this.isRemoval()) return [parentCopy, []];
         const removedNodes = this.getRemoved();
+        // Not a removal? Return the parent and no removals.
         if (removedNodes.length === 0) return [parentCopy, []];
+        // Just one removed node? Just return the node itself, no need to account for multiple nodes being removed.
+        if (removedNodes.length === 1) {
+            const removal = removedNodes[0].clone();
+            return [removal, [removal]];
+        }
+        // Can't find the root for the parent? We need it to calculate paths, so fail by returning the parent.
         const root = this.context.getRoot(parent);
         if (root === undefined) return [parentCopy, []];
+        // There are multiple nodes being removed, so we want to find their paths in the parent copy.
         // Find the paths of the removed nodes in the parent.
-        // Find the path of the parent, the paths of the removed notes.
         const parentPath = root.getPath(parent);
         const removedPaths = removedNodes.map((n) =>
             root.getPath(n).slice(parentPath.length),
         );
+        // Map them back to the copy.
         const parentRoot = new Root(parentCopy);
         const removedCopies = removedPaths
             .map((p) => parentRoot.resolvePath(p))

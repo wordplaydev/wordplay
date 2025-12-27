@@ -24,7 +24,7 @@
     let [newNode] = $derived(entry.getEditedNode($locales));
 
     /** If a removal, get a duplicated parent node, and list of nodes to be removed */
-    let [parent, removed] = $derived(entry.getParentAndRemoved());
+    let [parent, removed] = $derived(entry.getRemovalContext());
 </script>
 
 <div
