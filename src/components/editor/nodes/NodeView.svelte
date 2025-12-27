@@ -134,6 +134,7 @@
                     inline: style?.direction === 'inline',
                     Token: node instanceof Token,
                     highlighted: highlight,
+                    editable: format.editable,
                 },
                 style?.kind,
             ]}
@@ -244,7 +245,6 @@
         align-items: start;
         width: fit-content;
         height: fit-content;
-        cursor: grab;
 
         /** Animate some of the visual distinctions that come and go*/
         transition-property: padding, border-color;
@@ -260,12 +260,13 @@
 
     /** Hover background and scale for blocks without hovered children */
     :global(.editor:not(.dragging))
-        .node-view.block:not(.blockselected):not(
+        .node-view.block.editable:not(.blockselected):not(
             :has(.node-view.block:hover)
         ):hover {
         background: var(--wordplay-hover);
         outline: var(--wordplay-border-width) solid var(--wordplay-border-color);
         box-shadow: var(--color-shadow) 4px 4px 4px;
+        cursor: grab;
     }
 
     .blockselected {

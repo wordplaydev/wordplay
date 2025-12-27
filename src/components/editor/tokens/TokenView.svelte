@@ -38,7 +38,7 @@
     let hidden = getHidden();
 
     let hide = $derived(node ? $hidden?.has(node) : false);
-    let editable = $derived($caret !== undefined);
+    let editable = $derived($caret !== undefined && format.editable);
 
     let context = $derived(
         root === undefined
