@@ -535,6 +535,7 @@ export default class Bind extends Expression {
                 const evalFunc = evaluate.getFunction(context);
                 if (
                     evalFunc instanceof FunctionDefinition &&
+                    funcIndex >= 0 &&
                     funcIndex < evalFunc.inputs.length
                 ) {
                     const bind = evalFunc.inputs[funcIndex];
