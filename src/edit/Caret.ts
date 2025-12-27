@@ -485,10 +485,10 @@ export default class Caret {
     }
 
     left(sibling: boolean): Caret {
-        return this.moveInline(sibling, -1);
+        return this.moveInlineText(sibling, -1);
     }
     right(sibling: boolean): Caret {
-        return this.moveInline(sibling, 1);
+        return this.moveInlineText(sibling, 1);
     }
 
     nextNewline(direction: -1 | 1): Caret | undefined {
@@ -503,7 +503,7 @@ export default class Caret {
         );
     }
 
-    moveInline(sibling: boolean, direction: -1 | 1): Caret {
+    moveInlineText(sibling: boolean, direction: -1 | 1): Caret {
         // Map the direction onto an entry direction.
         const entry = direction > 0 ? 'next' : 'previous';
         if (this.isNode()) {
@@ -805,7 +805,7 @@ export default class Caret {
     }
 
     /** Move to the next node or position in blocks mode. */
-    moveInlineSemantic(direction: -1 | 1): Caret | LocaleTextAccessor {
+    moveInlineBlock(direction: -1 | 1): Caret | LocaleTextAccessor {
         // Find the current position.
         const currentPosition = isPosition(this.position)
             ? this.position

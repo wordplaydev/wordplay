@@ -797,8 +797,8 @@ const Commands: Command[] = [
         execute: ({ caret, database, blocks }) =>
             caret
                 ? blocks
-                    ? (caret.moveInlineSemantic(-1) ?? false)
-                    : caret.moveInline(
+                    ? (caret.moveInlineBlock(-1) ?? false)
+                    : caret.moveInlineText(
                           false,
                           database.Locales.getWritingDirection() === 'ltr'
                               ? -1
@@ -832,8 +832,8 @@ const Commands: Command[] = [
         execute: ({ caret, database, blocks }) =>
             caret
                 ? blocks
-                    ? (caret.moveInlineSemantic(1) ?? false)
-                    : caret.moveInline(
+                    ? (caret.moveInlineBlock(1) ?? false)
+                    : caret.moveInlineText(
                           false,
                           database.Locales.getWritingDirection() === 'ltr'
                               ? 1
