@@ -400,7 +400,7 @@ map(UnaryEvaluate, UnaryEvaluateView, {
 });
 
 map(Convert, ConvertView, {
-    kind: 'plain',
+    kind: 'evaluate',
     direction: 'inline',
     size: 'normal',
 });
