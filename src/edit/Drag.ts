@@ -258,7 +258,7 @@ export function getInsertionPoint(
     );
 }
 
-/** Given a project, a  */
+/** Given a project, a dragged node, a target node, and a possible insertion point, determine whether the target is valid.  */
 export function isValidDropTarget(
     project: Project,
     dragged: Node,
