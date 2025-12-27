@@ -21,6 +21,6 @@
     {node}
     field="denominator"
     {format}
-    empty="hide"
+    empty={node.slash ? 'menu' : 'hide'}
     padding={false}
 />

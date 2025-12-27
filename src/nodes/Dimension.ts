@@ -46,20 +46,30 @@ export default class Dimension extends Node {
         );
     }
 
-    static getPossibleReplacements({ node, type }: ReplaceContext) {
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
         // Offer to wrap the dimension in a power.
         return node instanceof Dimension
             ? [
                   // A power of two
                   ...(node.exponent === undefined ? [node.withPower(2)] : []),
               ]
-            : [];
+            : [
+                  getPossibleDimensions(context).map((dim) =>
+                      Dimension.make(false, dim, -1),
+                  ),
+              ].flat();
     }
 
     static getPossibleInsertions({ context, index }: InsertContext) {
-        return getPossibleDimensions(context).map((dim) =>
-            Dimension.make(index !== undefined && index > 0, dim, 1),
-        );
+        const dimensions = getPossibleDimensions(context);
+        return [
+            ...dimensions.map((dim) =>
+                Dimension.make(index !== undefined && index > 0, dim, 1),
+            ),
+            ...dimensions.map((dim) =>
+                Dimension.make(index !== undefined && index > 0, dim, -1),
+            ),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {
