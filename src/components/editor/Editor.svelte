@@ -787,12 +787,23 @@
         const emptyView = el.closest(`.empty`);
         if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
             const list = nodeUnderPointer.getField(emptyView.dataset.field);
-            const kind = nodeUnderPointer.getFieldKind(emptyView.dataset.field);
+            const field = nodeUnderPointer.getFieldNamed(
+                emptyView.dataset.field,
+            );
+            const kind = field?.kind;
             // If it's a list and it allows the node kind being inserted, return an insertion point.
             if (
+                field !== undefined &&
+                kind !== undefined &&
                 Array.isArray(list) &&
                 kind instanceof ListOf &&
-                kind.allowsItem(candidate)
+                kind.allowsItem(candidate) &&
+                // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
+                (field.getType === undefined ||
+                    !(candidate instanceof Expression) ||
+                    field
+                        .getType(context, 0)
+                        .accepts(candidate.getType(context), context))
             ) {
                 return new InsertionPoint(
                     nodeUnderPointer,
@@ -811,7 +822,7 @@
             list.dataset.field &&
             list.dataset.direction
         ) {
-            const field = list.dataset.field;
+            const fieldName = list.dataset.field;
             const inline = list.dataset.direction === 'inline';
 
             // Find the closest child in the list to the pointer.
@@ -850,16 +861,24 @@
             )
                 index += 1;
 
-            const nodeList = nodeUnderPointer.getField(field);
-            const kind = nodeUnderPointer.getFieldKind(field);
+            const nodeList = nodeUnderPointer.getField(fieldName);
+            const field = nodeUnderPointer.getFieldNamed(fieldName);
+            const kind = field?.kind;
             if (
+                field !== undefined &&
                 Array.isArray(nodeList) &&
                 kind instanceof ListOf &&
-                kind.allowsItem(candidate)
+                kind.allowsItem(candidate) &&
+                // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
+                (field.getType === undefined ||
+                    !(candidate instanceof Expression) ||
+                    field
+                        .getType(context, 0)
+                        .accepts(candidate.getType(context), context))
             ) {
                 return new InsertionPoint(
                     nodeUnderPointer,
-                    field,
+                    fieldName,
                     nodeList,
                     undefined,
                     undefined,
