@@ -5,6 +5,7 @@ import Replace from '@edit/Replace';
 import type Revision from '@edit/Revision';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import type Context from '@nodes/Context';
+import DocumentedExpression from '@nodes/DocumentedExpression';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import Input from '@nodes/Input';
@@ -742,6 +743,7 @@ const PossibleNodes = [
     // Docs,
     Doc,
     Docs,
+    DocumentedExpression,
     Example,
     Markup,
     Paragraph,

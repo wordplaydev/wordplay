@@ -1,3 +1,4 @@
+import type { ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
@@ -44,6 +45,16 @@ export default class DocumentedExpression extends SimpleExpression {
 
     getPurpose() {
         return Purpose.Documentation;
+    }
+
+    static getPossibleReplacements({ node, locales }: ReplaceContext) {
+        return node instanceof Expression
+            ? new DocumentedExpression(Docs.getTemplate(locales), node)
+            : [];
+    }
+
+    static getPossibleInsertions() {
+        return [];
     }
 
     computeConflicts() {
