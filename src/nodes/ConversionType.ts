@@ -9,6 +9,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import Sym from './Sym';
 import Token from './Token';
 import Type from './Type';
+import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
 
 export default class ConversionType extends Type {
@@ -26,12 +27,20 @@ export default class ConversionType extends Type {
         this.computeChildren();
     }
 
-    static make(input: Type, output: Type) {
+    static make(input?: Type, output?: Type) {
         return new ConversionType(
             new Token(CONVERT_SYMBOL, Sym.Convert),
-            input,
-            output,
+            input ?? TypePlaceholder.make(),
+            output ?? TypePlaceholder.make(),
         );
+    }
+
+    static getPossibleReplacements() {
+        return [ConversionType.make()];
+    }
+
+    static getPossibleInsertions() {
+        return [ConversionType.make()];
     }
 
     getDescriptor(): NodeDescriptor {

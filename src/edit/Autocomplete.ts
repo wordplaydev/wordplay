@@ -5,6 +5,7 @@ import Replace from '@edit/Replace';
 import type Revision from '@edit/Revision';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import type Context from '@nodes/Context';
+import ConversionType from '@nodes/ConversionType';
 import DocumentedExpression from '@nodes/DocumentedExpression';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
@@ -769,10 +770,11 @@ const PossibleNodes = [
     MapType,
     TableType,
     UnionType,
+    FunctionType,
     TypePlaceholder,
     TypeInputs,
     TypeVariables,
-    FunctionType,
+    ConversionType,
 ];
 
 /** Given a field, a kind of node, an optional expected type, an optional selected node, and a context,

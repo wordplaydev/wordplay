@@ -314,7 +314,7 @@
     .block.inline {
         flex-direction: row;
         align-items: baseline;
-        gap: 0;
+        gap: var(--wordplay-spacing-half);
     }
 
     .block.definition {
