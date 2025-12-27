@@ -613,7 +613,8 @@ export default class Caret {
         return (
             (token.isSymbol(Sym.Name) && parent instanceof Name) ||
             token.isSymbol(Sym.Words) ||
-            token.isSymbol(Sym.Number)
+            token.isSymbol(Sym.Number) ||
+            token.isSymbol(Sym.Text)
         );
     }
 
@@ -629,7 +630,7 @@ export default class Caret {
         );
     }
 
-    getSourceBlockPositions(): (Node | number)[] {
+    getBlockPositions(): (Node | number)[] {
         // Find all the tokens in a series of fields, for identifying positions before and after lists.
         function getFieldTokens(node: Node, fields: Field[]) {
             return fields
@@ -812,7 +813,7 @@ export default class Caret {
             return (l) => l.ui.source.cursor.ignored.noMove;
 
         // Get all eligible caret positions in blocks mode, in the order in which we'll search for the next position.
-        const positions = this.getSourceBlockPositions();
+        const positions = this.getBlockPositions();
         if (direction < 0) positions.reverse();
 
         // Go through all of the eligible positions

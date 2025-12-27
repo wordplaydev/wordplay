@@ -6,13 +6,9 @@ export function measureTokenSegment(
     blocks: boolean,
 ) {
     // Find the first text node of the token view.
-    const textNode = blocks
-        ? Array.from(
-              tokenView.querySelector('.measurer')?.childNodes ?? [],
-          ).find((node) => node.nodeType === node.TEXT_NODE)
-        : Array.from(tokenView.childNodes).find(
-              (node) => node.nodeType === node.TEXT_NODE,
-          );
+    const textNode = Array.from(tokenView.childNodes).find(
+        (node) => node.nodeType === node.TEXT_NODE,
+    );
     // Use a range to measure its dimensions.
     if (textNode) {
         // The text can contain emojis. We must segment it by graphemes to determine the

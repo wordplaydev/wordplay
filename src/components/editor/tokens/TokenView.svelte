@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Name from '@nodes/Name';
+    import Caret from '@edit/Caret';
     import Reference from '@nodes/Reference';
     import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
@@ -15,11 +15,8 @@
     import MenuTrigger from '../menu/MenuTrigger.svelte';
     import type { Format } from '../nodes/NodeView.svelte';
     import BooleanTokenEditor from './BooleanTokenEditor.svelte';
-    import NameTokenEditor from './NameTokenEditor.svelte';
-    import NumberTokenEditor from './NumberTokenEditor.svelte';
     import TextOrPlaceholder from './TextOrPlaceholder.svelte';
     import TokenCategories from './TokenCategories';
-    import WordsTokenEditor from './WordsTokenEditor.svelte';
 
     interface TokenProps {
         node: Token;
@@ -103,6 +100,7 @@
 </script>
 
 {#if format.block && root}
+    {@const parent = root.getParent(node)}
     <div
         class="token-view blocks token-category-{TokenCategories.get(
             Array.isArray(node.types)
@@ -113,60 +111,23 @@
         class:active
         class:editable
         class:placeholder={placeholder !== undefined}
+        class:text={format.editable &&
+            Caret.isTokenTextBlockEditable(node, parent)}
         class:added
         data-id={node.id}
     >
-        {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number) || node.isSymbol(Sym.Boolean))}
-            {#if node.isSymbol(Sym.Words)}<WordsTokenEditor
-                    words={node}
-                    {text}
-                    project={$project}
-                    description={(l) => l.token.Words}
-                    placeholder={placeholder ?? ((l) => l.token.Words)}
-                />
-            {:else if node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
-                    {node}
-                    project={$project}
-                />
-            {:else if node.isSymbol(Sym.Number)}<NumberTokenEditor
-                    number={node}
-                    {text}
-                    project={$project}
-                    description={(l) => l.token.Number}
-                    placeholder={placeholder ?? ((l) => l.token.Number)}
-                />{:else}
-                {@const parent = root.getParent(node)}
-                <!-- Names can be any text that parses as a name -->
-                {#if parent instanceof Name}
-                    <NameTokenEditor
-                        {text}
-                        project={$project}
-                        name={parent.name}
-                        description={(l) => l.token.Name}
-                        placeholder={placeholder ?? ((l) => l.token.Name)}
-                    />
-                {:else if parent instanceof Reference}
-                    <TextOrPlaceholder
-                        {placeholder}
-                        {text}
-                        rendered={renderedText}
-                        {format}
-                    />{#if format.editable}<MenuTrigger anchor={parent}
-                        ></MenuTrigger>{/if}
-                {:else}<TextOrPlaceholder
-                        {placeholder}
-                        {text}
-                        rendered={renderedText}
-                        {format}
-                    />{/if}
-            {/if}
-        {:else}<TextOrPlaceholder
+        {#if editable && $project && node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
+                {node}
+                project={$project}
+            />{:else}<TextOrPlaceholder
                 {placeholder}
                 {text}
                 rendered={renderedText}
                 {format}
             />{/if}
-    </div>
+    </div>{#if format.editable && parent instanceof Reference}<MenuTrigger
+            anchor={parent}
+        ></MenuTrigger>{/if}
 {:else}
     <span
         class="token-view text token-category-{TokenCategories.get(
@@ -302,5 +263,10 @@
     .text.editable:hover,
     .active {
         outline: 1px solid var(--wordplay-border-color);
+    }
+
+    .text {
+        border-bottom: solid var(--wordplay-focus-width)
+            var(--wordplay-border-color);
     }
 </style>
