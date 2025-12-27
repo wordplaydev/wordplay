@@ -1817,9 +1817,10 @@ export default class Caret {
             const node = this.position;
             const parent = this.source.root.getParent(node);
 
-            // Is the parent a wrapper? Unwrap it.
+            // Is the parent a wrapper and the node is a block delimiter? Unwrap it.
             if (
                 parent instanceof Block &&
+                (node === parent.open || node === parent.close) &&
                 !parent.isRoot() &&
                 parent.statements.length === 1
             ) {
