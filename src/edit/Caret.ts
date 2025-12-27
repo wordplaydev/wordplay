@@ -608,16 +608,10 @@ export default class Caret {
         else return this;
     }
 
-    static isTokenTextBlockEditable(
-        token: Token,
-        parent: Node | undefined,
-    ): boolean {
-        return (
-            (token.isSymbol(Sym.Name) && parent instanceof Name) ||
-            token.isSymbol(Sym.Words) ||
-            token.isSymbol(Sym.Number) ||
-            token.isSymbol(Sym.Text)
-        );
+    static BlockEditableKinds = [Sym.Name, Sym.Words, Sym.Number];
+
+    static isTokenTextBlockEditable(token: Token): boolean {
+        return Caret.BlockEditableKinds.some((k) => token.isSymbol(k));
     }
 
     static isTokenBlockEditable(token: Token): boolean {
@@ -663,7 +657,7 @@ export default class Caret {
                 }
 
                 // If the token's individual symbols are editable, and the token isn't an only child, add all text positions to the list.
-                if (Caret.isTokenTextBlockEditable(node, tokenParent)) {
+                if (Caret.isTokenTextBlockEditable(node)) {
                     const start = this.source.getTokenTextPosition(node);
                     const end = this.source.getTokenLastPosition(node);
                     if (start !== undefined && end !== undefined) {
@@ -1492,13 +1486,7 @@ export default class Caret {
         if (this.position instanceof Node) {
             // Token? Set a position.
             if (this.position instanceof Token) {
-                if (
-                    blocks &&
-                    !Caret.isTokenTextBlockEditable(
-                        this.position,
-                        this.source.root.getParent(this.position),
-                    )
-                )
+                if (blocks && !Caret.isTokenTextBlockEditable(this.position))
                     return false;
 
                 const index = this.source.getTokenTextPosition(this.position);
@@ -1513,13 +1501,7 @@ export default class Caret {
                 const first = children[0];
                 if (first === undefined) return this;
                 if (first instanceof Token && leaves.length === 1) {
-                    if (
-                        blocks &&
-                        !Caret.isTokenTextBlockEditable(
-                            first,
-                            this.source.root.getParent(first),
-                        )
-                    )
+                    if (blocks && !Caret.isTokenTextBlockEditable(first))
                         return false;
                     const index = this.source.getTokenTextPosition(first);
                     return index !== undefined

@@ -755,6 +755,12 @@ export abstract class FieldKind {
     abstract toString(): string;
 }
 
+export function enumerateSymbols(field: Field): Sym[] {
+    return field.kind
+        .enumerate()
+        .filter((k): k is Sym => k !== undefined && !(k instanceof Function));
+}
+
 // A field can be of this type of node or token type.
 export class IsA extends FieldKind {
     readonly kind: Function | Sym;

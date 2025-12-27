@@ -112,7 +112,7 @@
         class:editable
         class:placeholder={placeholder !== undefined}
         class:blockText={format.editable &&
-            Caret.isTokenTextBlockEditable(node, parent)}
+            Caret.isTokenTextBlockEditable(node)}
         class:added
         data-id={node.id}
     >

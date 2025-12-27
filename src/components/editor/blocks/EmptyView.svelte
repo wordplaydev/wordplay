@@ -2,7 +2,9 @@
     import { getProject } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
+    import Caret from '@edit/Caret';
     import type Node from '@nodes/Node';
+    import { enumerateSymbols } from '@nodes/Node';
     import MenuTrigger from '../menu/MenuTrigger.svelte';
     import { type Format } from '../nodes/NodeView.svelte';
 
@@ -23,20 +25,29 @@
 
     let project = getProject();
 
-    let label = $derived(node.getFieldNamed(field)?.label);
+    let fieldInfo = $derived(node.getFieldNamed(field));
+    let kinds = $derived(fieldInfo ? enumerateSymbols(fieldInfo) : []);
 </script>
 
 {#if style !== 'hide'}
-    <div class="empty" data-field={field}>
-        {#if style === 'label' && label && $project && format.root}
-            <LocalizedText
-                path={label(
-                    $locales,
-                    $project.getNodeContext(node),
-                    undefined,
-                    format.root,
-                )}
-            />
+    <div
+        class="empty"
+        class:blockText={format.editable &&
+            kinds?.some((kind) => Caret.BlockEditableKinds.includes(kind))}
+        data-field={field}
+    >
+        {#if style === 'label' && $project && format.root}
+            {@const label = fieldInfo?.label}
+            {#if label}
+                <LocalizedText
+                    path={label(
+                        $locales,
+                        $project.getNodeContext(node),
+                        undefined,
+                        format.root,
+                    )}
+                />
+            {/if}
         {/if}
         {#if format.editable}
             <MenuTrigger anchor={{ parent: node, field, index }}></MenuTrigger>
@@ -53,5 +64,10 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+    }
+
+    .blockText {
+        border-bottom: solid var(--wordplay-focus-width)
+            var(--wordplay-border-color);
     }
 </style>
