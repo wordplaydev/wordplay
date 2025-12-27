@@ -43,7 +43,8 @@
         handleItemClick(entry);
     }}
     onpointerenter={() => {
-        if (view) setKeyboardFocus(view, 'Focusing menu item on pointer enter');
+        if (view && menu.getOrganization().includes(entry))
+            setKeyboardFocus(view, 'Focusing menu item on pointer enter');
     }}
     class={`revision ${menu.getSelection() === entry ? 'selected' : ''}`}
     onfocusin={() => {
@@ -84,6 +85,10 @@
     .revision:focus {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
+    .revision:hover {
+        background: var(--wordplay-hover);
     }
 
     .details {

@@ -207,13 +207,7 @@
                         handleItemClick(entry);
                     }}
                     onfocusin={() => {
-                        const selection = menu.getSelectionIndex();
-                        menu = menu.withSelection(
-                            entry instanceof RevisionSet ||
-                                selection === undefined
-                                ? [itemIndex, undefined]
-                                : [selection[0], itemIndex],
-                        );
+                        menu = menu.withSelection([itemIndex, undefined]);
                     }}
                 >
                     <MarkupHTMLView
