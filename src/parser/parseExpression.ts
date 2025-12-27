@@ -404,7 +404,7 @@ export function parseNumber(tokens: Tokens): NumberLiteral {
         tokens.nextLacksPrecedingSpace()
             ? parseUnit(tokens)
             : undefined;
-    return new NumberLiteral(number, unit ?? Unit.Empty);
+    return new NumberLiteral(number, unit ?? Unit.create());
 }
 
 export function parseUnit(tokens: Tokens): Unit | undefined {

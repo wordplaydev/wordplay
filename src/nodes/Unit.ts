@@ -217,11 +217,11 @@ export default class Unit extends Node {
         return exponents;
     }
 
-    static reuse(numerator: string[], denominator: string[] = []) {
+    static reuse(numerator: string[] = [], denominator: string[] = []) {
         return Unit.get(Unit.map(numerator, denominator));
     }
 
-    static create(numerator: string[], denominator: string[] = []) {
+    static create(numerator: string[] = [], denominator: string[] = []) {
         return new Unit(Unit.map(numerator, denominator));
     }
 
