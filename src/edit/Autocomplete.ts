@@ -332,7 +332,7 @@ function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
         const expectedType = field.getType
             ? field.getType(context, undefined)
             : anchor instanceof Expression
-              ? anchor.getType(context)
+              ? anchor.getType(context).generalize(context)
               : undefined;
         // Get the value of the field.
         const fieldValue = parent.getField(field.name);
