@@ -18,8 +18,10 @@ import Spaces from '@parser/Spaces';
 import {
     CONVERT_SYMBOL,
     ELISION_SYMBOL,
+    EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     LIST_OPEN_SYMBOL,
+    PLACEHOLDER_SYMBOL,
     PROPERTY_SYMBOL,
     SET_OPEN_SYMBOL,
     STREAM_SYMBOL,
@@ -1124,6 +1126,7 @@ export default class Caret {
             : undefined;
         if (renameEdit) return [renameEdit[0], renameEdit[1]];
 
+        let newText: string | undefined = undefined;
         let newSource: Source | undefined;
         let newPosition: number | Node;
         let originalPosition: number;
@@ -1197,7 +1200,7 @@ export default class Caret {
 
         // Update the source, position, and text of delimiter completion.
         if (autocompletion)
-            [text, newSource, newPosition, closed] = autocompletion;
+            [newText, newSource, newPosition, closed] = autocompletion;
 
         // Did we somehow get no source?
         if (newSource === undefined)
@@ -1210,6 +1213,7 @@ export default class Caret {
                 newSource,
                 this.withSource(newSource).withPosition(newPosition),
             ];
+        else text = newText ?? text;
 
         // Insert the possibly revised text.
         newSource = newSource.withGraphemesAt(text, newPosition);
@@ -1380,7 +1384,19 @@ export default class Caret {
                         )
                     )))
         ) {
-            text += DelimiterCloseByOpen[text];
+            // Insert an empty block in valid only mode and place the caret at the placeholder.
+            if (validOnly && text === EVAL_OPEN_SYMBOL) {
+                text += PLACEHOLDER_SYMBOL + EVAL_CLOSE_SYMBOL;
+                newSource = source.withGraphemesAt(text, position);
+                const placeholder = newSource
+                    ?.nodes()
+                    .find(
+                        (n) =>
+                            newSource?.getNodeFirstPosition(n) === position + 1,
+                    );
+                newPosition = placeholder ?? position + text.length;
+            } else text += DelimiterCloseByOpen[text];
+
             closed = true;
         }
         // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
