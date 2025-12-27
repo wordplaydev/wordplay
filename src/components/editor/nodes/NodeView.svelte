@@ -111,17 +111,16 @@
     {#if ComponentView !== undefined}
         <!-- Render space preceding this node if not hidden, if there's a first token, and this node is the root of the preceding space. -->
         {#if !hide && firstToken && spaceRoot === node}
-            {#if !format.block}
-                <Space
-                    token={firstToken}
-                    first={$spaces.isFirst(firstToken)}
-                    line={$spaces.getLineNumber(firstToken)}
-                    {space}
-                    insertion={$insertion?.token === firstToken
-                        ? $insertion
-                        : undefined}
-                />
-            {/if}
+            <Space
+                token={firstToken}
+                first={$spaces.isFirst(firstToken)}
+                line={$spaces.getLineNumber(firstToken)}
+                {space}
+                block={format.block}
+                insertion={$insertion?.token === firstToken
+                    ? $insertion
+                    : undefined}
+            />
         {/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
             class={[
                 'node-view',
@@ -143,9 +142,8 @@
             id={`node-${node.id}`}
             aria-hidden={hide ? 'true' : null}
             aria-label={description}
-            ><!--Render the value if there's a value to render, or the node view otherwise -->
-            {#if value && node.isUndelimited()}<span class="eval"
-                    >{EVAL_OPEN_SYMBOL}</span
+            ><!--Render the value if there's a value to render, or the node view otherwise -->{#if value && node.isUndelimited()}<span
+                    class="eval">{EVAL_OPEN_SYMBOL}</span
                 >{/if}<ComponentView
                 {node}
                 {format}

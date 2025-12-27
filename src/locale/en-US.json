@@ -4551,7 +4551,7 @@
                 "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
                 "ignored": {
                     "readOnly": "Source is read only",
-                    "blockSpace": "No space allowed here",
+                    "blockSpace": "No new lines or tabs allowed here",
                     "noDelete": "Can't delete this",
                     "noInsert": "Unable to insert here",
                     "noError": "This edit would create a conflict",

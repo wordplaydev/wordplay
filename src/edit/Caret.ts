@@ -648,31 +648,23 @@ export default class Caret {
         for (const node of nodes) {
             if (node instanceof Token) {
                 const tokenParent = this.source.root.getParent(node);
-                // Find the preceding space and include all line breaks, but only if the space root is for a block.
-                const spaceRoot = this.source.root.getSpaceRoot(node);
-                const spaceRootParent = spaceRoot
-                    ? this.source.root.getParent(spaceRoot)
-                    : undefined;
-                if (
-                    spaceRootParent instanceof Block &&
-                    spaceRootParent.isRoot()
-                ) {
-                    const space = this.source.spaces.getSpace(node);
-                    const position = this.source.getTokenTextPosition(node);
-                    if (position !== undefined) {
-                        for (let index = 0; index < space.length; index++) {
-                            if (space.charAt(index) === '\n') {
-                                points.push(position - space.length + index);
-                            }
+                // Include all preceding spaces, since we render them.
+                const space = this.source.spaces.getSpace(node);
+                const position = this.source.getTokenTextPosition(node);
+                if (position !== undefined) {
+                    for (let index = 0; index < space.length; index++) {
+                        if (space.charAt(index) === ' ') {
+                            points.push(position - space.length + index);
                         }
                     }
                 }
+
                 // If the token's individual symbols are editable, and the token isn't an only child, add all text positions to the list.
                 if (Caret.isTokenTextBlockEditable(node, tokenParent)) {
                     const start = this.source.getTokenTextPosition(node);
                     const end = this.source.getTokenLastPosition(node);
                     if (start !== undefined && end !== undefined) {
-                        for (let pos = start + 1; pos < end; pos++)
+                        for (let pos = start; pos < end; pos++)
                             points.push(pos);
                     }
                 }
@@ -1120,19 +1112,8 @@ export default class Caret {
         text = text.normalize();
 
         if (blocks) {
-            // Don't permit space unless inside a block editable token.
-            if (
-                text === ' ' &&
-                (this.tokenIncludingSpace === undefined ||
-                    !Caret.isTokenTextBlockEditable(
-                        this.tokenIncludingSpace,
-                        this.source.root.getParent(this.tokenIncludingSpace),
-                    ))
-            )
-                return (l) => l.ui.source.cursor.ignored.blockSpace;
-
-            // Don't permit space insertion.
-            if (text === '\t' || text === '\n')
+            // Don't permit tabs or newlines unless inside a block editable token.
+            if (text === '\n' || text == '\t')
                 return (l) => l.ui.source.cursor.ignored.blockSpace;
         }
 
