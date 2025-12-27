@@ -447,7 +447,6 @@
                 const placeholderView = nodeView.querySelector(
                     '.token-category-placeholder',
                 );
-                console.log(placeholderView);
                 const placeholderViewRect =
                     placeholderView?.getBoundingClientRect();
                 if (placeholderViewRect) {
