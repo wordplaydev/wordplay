@@ -271,6 +271,11 @@ export default class Evaluate extends Expression {
                         Math.max(0, index ?? 0),
                         fun.inputs.length - 1,
                     );
+                    if (
+                        insertionIndex < 0 ||
+                        insertionIndex >= fun.inputs.length
+                    )
+                        return new NeverType();
                     return fun.inputs[insertionIndex].getType(context);
                 },
             },
