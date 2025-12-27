@@ -111,7 +111,7 @@
         class:active
         class:editable
         class:placeholder={placeholder !== undefined}
-        class:text={format.editable &&
+        class:blockText={format.editable &&
             Caret.isTokenTextBlockEditable(node, parent)}
         class:added
         data-id={node.id}
@@ -265,7 +265,7 @@
         outline: 1px solid var(--wordplay-border-color);
     }
 
-    .text {
+    .blockText {
         border-bottom: solid var(--wordplay-focus-width)
             var(--wordplay-border-color);
     }
