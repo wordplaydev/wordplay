@@ -19,8 +19,7 @@
         {format}
         elide
         empty="label"
-        block={node.values.reduce((sum, v) => sum + v.toWordplay().length, 0) >
-            32}
+        block={node.values.length > 10}
     />
     <NodeView node={[node, 'close']} {format} />
     <!-- Too advanced of a feature. Let's hide it for now. -->

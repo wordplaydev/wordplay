@@ -106,22 +106,26 @@
     let style = $derived(view ? view.style : undefined);
 </script>
 
+{#snippet spaceView()}
+    {#if !hide && firstToken && spaceRoot === node}
+        <Space
+            token={firstToken}
+            first={$spaces.isFirst(firstToken)}
+            line={$spaces.getLineNumber(firstToken)}
+            {space}
+            block={format.block}
+            insertion={$insertion?.token === firstToken
+                ? $insertion
+                : undefined}
+        />
+    {/if}
+{/snippet}
+
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     {#if ComponentView !== undefined}
         <!-- Render space preceding this node if not hidden, if there's a first token, and this node is the root of the preceding space. -->
-        {#if !hide && firstToken && spaceRoot === node}
-            <Space
-                token={firstToken}
-                first={$spaces.isFirst(firstToken)}
-                line={$spaces.getLineNumber(firstToken)}
-                {space}
-                block={format.block}
-                insertion={$insertion?.token === firstToken
-                    ? $insertion
-                    : undefined}
-            />
-        {/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
+        {#if !format.block}{@render spaceView()}{/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
             class={[
                 'node-view',
                 node.getDescriptor(),
@@ -142,7 +146,7 @@
             id={`node-${node.id}`}
             aria-hidden={hide ? 'true' : null}
             aria-label={description}
-            ><!--Render the value if there's a value to render, or the node view otherwise -->{#if value && node.isUndelimited()}<span
+            >{#if format.block}{@render spaceView()}{/if}<!--Render the value if there's a value to render, or the node view otherwise -->{#if value && node.isUndelimited()}<span
                     class="eval">{EVAL_OPEN_SYMBOL}</span
                 >{/if}<ComponentView
                 {node}

@@ -1,5 +1,5 @@
 <script module lang="ts">
-    const LIMIT = 20;
+    const LIMIT = 15;
 </script>
 
 <script lang="ts" generics="NodeType extends Node">
@@ -139,7 +139,8 @@
             data-field={field}
             data-direction={block ? 'block' : 'inline'}
         >
-            {#each nodes as node, index}
+            {@render before()}
+            {#each visible as node, index}
                 {#if insertionFeedback?.index === index}
                     <div class="insertion-feedback"></div>
                 {/if}
@@ -147,6 +148,7 @@
             {:else}
                 <EmptyView {node} {field} style={empty} {format} index={0} />
             {/each}
+            {@render after()}
             {#if nodes.length > 0}
                 {#if insertionFeedback?.index === nodes.length}
                     <div class="insertion-feedback"></div>
@@ -155,6 +157,29 @@
             {/if}
         </div>
     {/if}
+{/snippet}
+
+{#snippet before()}
+    {#if hiddenBefore > 0}
+        <Button
+            tip={(l) => l.ui.source.button.expandSequence}
+            action={() => (elide = false)}
+            ><span class="count"
+                ><LocalizedText path={(l) => l.ui.edit.show} />
+                ({hiddenBefore})</span
+            ></Button
+        >{/if}
+{/snippet}
+
+{#snippet after()}
+    {#if hiddenAfter > 0}<Button
+            tip={(l) => l.ui.source.button.expandSequence}
+            action={() => (elide = false)}
+            ><span class="count"
+                ><LocalizedText path={(l) => l.ui.edit.show} />
+                ({hiddenAfter})</span
+            ></Button
+        >{/if}
 {/snippet}
 
 {#if format.block}
@@ -167,25 +192,10 @@
         {@render list()}
     {/if}
 {:else}
-    {#if hiddenBefore > 0}
-        <Button
-            tip={(l) => l.ui.source.button.expandSequence}
-            action={() => (elide = false)}
-            ><span class="count"
-                ><LocalizedText path={(l) => l.ui.edit.show} />
-                ({hiddenBefore})</span
-            ></Button
-        >{/if}{#each visible as node}<NodeView
+    {@render before()}{#each visible as node}<NodeView
             {node}
             {format}
-        />{/each}{#if hiddenAfter > 0}<Button
-            tip={(l) => l.ui.source.button.expandSequence}
-            action={() => (elide = false)}
-            ><span class="count"
-                ><LocalizedText path={(l) => l.ui.edit.show} />
-                ({hiddenAfter})</span
-            ></Button
-        >{/if}
+        />{/each}{@render after()}
 {/if}
 
 <style>
