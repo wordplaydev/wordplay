@@ -135,10 +135,7 @@ export function getHighlights(
         highlights.add(source, latestValue.step.node, 'exception');
 
     // Is the caret selecting a non-placeholder node? Highlight it.
-    if (
-        caret.position instanceof Node &&
-        (blocks || !caret.isPlaceholderNode())
-    ) {
+    if (caret.position instanceof Node) {
         const tokensSelected =
             !blocks ||
             !(caret.position instanceof Expression) ||

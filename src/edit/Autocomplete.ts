@@ -327,10 +327,13 @@ function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
 
     // Get the allowed kinds on this node and then translate them into replacement edits.
     edits = getFieldEdits(anchor, context, (field, parent, node) => {
-        // Match the type of the current node
+        // The expected type is the type expected of the field the node is currently in, or if there isn't an expected
+        // type, the type of the node itself, if it is an expression.
         const expectedType = field.getType
             ? field.getType(context, undefined)
-            : undefined;
+            : anchor instanceof Expression
+              ? anchor.getType(context)
+              : undefined;
         // Get the value of the field.
         const fieldValue = parent.getField(field.name);
 
