@@ -1361,6 +1361,19 @@ export default class Caret {
             }
         }
 
+        // If it's a convert and we're valid only, insert a placeholder.
+        if (text === CONVERT_SYMBOL && validOnly) {
+            text += PLACEHOLDER_SYMBOL;
+            newSource = source.withGraphemesAt(text, position);
+            const placeholder = newSource
+                ?.nodes()
+                .find(
+                    (n) => newSource?.getNodeFirstPosition(n) === position + 1,
+                );
+            newPosition = placeholder ?? position + text.length;
+            if (newSource) return [text, newSource, newPosition, closed];
+        }
+
         // If the inserted string matches a single matched delimiter, complete it, unless:
         // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
         // 2) the character being inserted closes an unmatched delimiter, in which case we just insert the character.
