@@ -488,6 +488,26 @@
                 };
             }
         }
+        // At the start in blocks mode? Render at the first statement's top left.
+        else if (caret.position === 0 && blocks) {
+            const block = caret.source.expression.expression;
+            const blockView = getNodeView(block);
+            if (blockView !== null) {
+                const emptyView =
+                    block.statements.length > 0
+                        ? blockView.querySelector('.node-view')
+                        : Array.from(blockView.querySelectorAll('.empty')).at(
+                              -1,
+                          );
+                const bounds = (emptyView ?? blockView).getBoundingClientRect();
+                return {
+                    left: bounds.left + viewportXOffset,
+                    top: bounds.top + viewportYOffset,
+                    height: bounds.height,
+                    bottom: bounds.bottom + viewportYOffset,
+                };
+            }
+        }
 
         // No token? No caret.
         if (token === undefined) return;
