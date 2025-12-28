@@ -231,19 +231,24 @@ export default class Names extends Node {
         return Names.LocalePath;
     }
 
+    /** Update the name with the given langauge Add or change the name of with the matching language. If there is no match, replace the , if there is one.no names have languages, then it replaces the language free name. */
     withName(name: string, language: LanguageCode) {
-        const index = this.names.findIndex(
+        let matchingIndex = this.names.findIndex(
             (name) => name.getLanguage() === language,
         );
+        if (matchingIndex < 0)
+            matchingIndex = this.names.findIndex(
+                (name) => name.getLanguage() === undefined,
+            );
 
         const newName = Name.make(name, Language.make(language));
         return new Names(
-            index < 0
+            matchingIndex < 0
                 ? [...this.names, newName]
                 : [
-                      ...this.names.slice(0, index),
+                      ...this.names.slice(0, matchingIndex),
                       newName,
-                      ...this.names.slice(index + 1),
+                      ...this.names.slice(matchingIndex + 1),
                   ],
         );
     }

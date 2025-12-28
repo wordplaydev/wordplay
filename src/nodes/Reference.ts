@@ -28,6 +28,7 @@ import type Node from './Node';
 import { ListOf, node, type Grammar, type Replacement } from './Node';
 import Reaction from './Reaction';
 import SimpleExpression from './SimpleExpression';
+import Source from './Source';
 import StreamDefinition from './StreamDefinition';
 import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
@@ -103,6 +104,8 @@ export default class Reference extends SimpleExpression {
                         definition instanceof FunctionDefinition &&
                         definition.isOperator();
                     if (
+                        // A source?
+                        definition instanceof Source ||
                         // Bind of acceptible type? Make a reference.
                         (definition instanceof Bind &&
                             (type === undefined ||
@@ -122,7 +125,7 @@ export default class Reference extends SimpleExpression {
                             ((!(parent instanceof BinaryEvaluate) &&
                                 !(parent instanceof UnaryEvaluate)) ||
                                 definition.names.hasOperatorName()))
-                    )
+                    ) {
                         return new Refer(
                             (name) =>
                                 new Reference(
@@ -137,6 +140,7 @@ export default class Reference extends SimpleExpression {
                             definition,
                             isOperator,
                         );
+                    }
                     // If the anchor is in list field, and the anchor is not being replaced, offer (Binary/Unary)Evaluate in scope.
                     else if (
                         complete &&

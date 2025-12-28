@@ -353,10 +353,15 @@ export default abstract class Node {
             scope = scope?.getScope(context);
         }
 
+        // Include any source files that aren't the main source file and aren't this source file.
         // Finally, implicitly include standard libraries and definitions.
-        definitions = definitions.concat(
-            context.project.getDefaultShares().all,
-        );
+        definitions = [
+            ...definitions,
+            ...context.project
+                .getSupplements()
+                .filter((s) => s !== context.source),
+            ...context.project.getDefaultShares().all,
+        ];
 
         // Cache the definitions for later.
         context.definitions.set(this, definitions);
