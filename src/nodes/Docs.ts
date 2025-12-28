@@ -34,7 +34,7 @@ export default class Docs extends Node {
     }
 
     static make(docs?: Doc[]) {
-        return new Docs(docs ?? [Doc.make()]);
+        return new Docs(docs ?? []);
     }
 
     getDescriptor(): NodeDescriptor {

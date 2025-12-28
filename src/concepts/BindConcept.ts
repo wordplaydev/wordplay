@@ -51,7 +51,7 @@ export default class BindConcept extends Concept {
     }
 
     getDocs(locales: Locales): Markup[] {
-        return (this.bind.docs?.docs ?? [])
+        return this.bind.docs.docs
             .map((doc) => doc.markup.concretize(locales, []))
             .filter((m) => m !== undefined);
     }

@@ -51,7 +51,7 @@ import TypeToken from './TypeToken';
 import UnknownType from './UnknownType';
 
 export default class Bind extends Expression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly share: Token | undefined;
     readonly names: Names;
     readonly etc: Token | undefined;
@@ -72,7 +72,7 @@ export default class Bind extends Expression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.share = share;
         this.names = names;
         this.etc = etc;

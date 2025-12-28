@@ -12,11 +12,11 @@
 </script>
 
 {#if format.block}
-    {#if node.docs}
+    {#if !node.docs.isEmpty()}
         <NodeView node={[node, 'docs']} {format} empty="menu" />
     {/if}
     <Flow direction="row">
-        {#if !node.docs}
+        {#if node.docs.isEmpty()}
             <NodeView node={[node, 'docs']} {format} empty="menu" />
         {/if}
         <NodeView node={[node, 'share']} {format} empty="hide" />

@@ -166,7 +166,7 @@ export default class OutputPropertyValueSet {
     }
 
     getDocs(locales: Locales) {
-        return this.values[0]?.bind.docs?.getPreferredLocale(locales);
+        return this.values[0]?.bind.docs.getPreferredLocale(locales);
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */
