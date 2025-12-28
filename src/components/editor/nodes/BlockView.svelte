@@ -14,11 +14,7 @@
 
 {#snippet docs()}
     <!-- We don't show the menu trigger, since it takes up space and can be added by selecting the block and adding docs there. -->
-    <NodeView
-        node={[node, 'docs']}
-        {format}
-        empty={node.isRoot() ? 'menu' : 'hide'}
-    />
+    <NodeView node={[node, 'docs']} {format} empty={'menu'} />
 {/snippet}
 
 {#snippet statements()}
@@ -35,7 +31,7 @@
 {/snippet}
 
 {#if format.block}
-    {#if node.docs === undefined || node.docs.docs.length === 0}
+    {#if node.docs.isEmpty()}
         <Flow direction={node.statements.length > 1 ? 'column' : 'row'}>
             {#if format.editable}{@render docs()}{/if}
             <Flow direction={node.statements.length > 1 ? 'column' : 'row'}
@@ -44,7 +40,7 @@
         </Flow>
     {:else}
         <Flow
-            direction={node.statements.length > 1 || node.docs !== undefined
+            direction={node.statements.length > 1 || !node.docs.isEmpty()
                 ? 'column'
                 : 'row'}
             >{@render docs()}{@render statements()}

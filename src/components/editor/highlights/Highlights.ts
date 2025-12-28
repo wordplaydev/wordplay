@@ -8,7 +8,7 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import Literal from '@nodes/Literal';
 import Name from '@nodes/Name';
 import NameType from '@nodes/NameType';
-import Node, { ListOf } from '@nodes/Node';
+import Node from '@nodes/Node';
 import Program from '@nodes/Program';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
@@ -18,7 +18,11 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Caret from '../../../edit/Caret';
-import { isValidDropTarget, type InsertionPoint } from '../../../edit/Drag';
+import {
+    AssignmentPoint,
+    InsertionPoint,
+    isValidDropTarget,
+} from '../../../edit/Drag';
 import getOutlineOf, {
     getOutlineOfRows,
     getTokenRects,
@@ -108,7 +112,7 @@ export function getHighlights(
     caret: Caret,
     dragged: Node | undefined,
     hovered: Node | undefined,
-    insertion: InsertionPoint | undefined,
+    insertion: InsertionPoint | AssignmentPoint | undefined,
     animatingNodes: Set<Node> | undefined,
     selectedOutput: Evaluate[] | undefined,
     blocks: boolean,
@@ -164,12 +168,17 @@ export function getHighlights(
             highlights.add(source, hovered, 'hovered');
         }
         // No valid hover target? Highlight the insertion point if there is one.
-        else if (insertion) {
+        else if (insertion instanceof InsertionPoint) {
             if (insertion.list.length === 0) {
                 highlights.add(source, insertion.node, 'match');
                 highlights.add(source, insertion.node, 'hovered');
                 highlights.addEmpty(insertion.node, insertion.field);
             }
+        }
+        // No valid hover target? Highlight the assignment point if there is one.
+        else if (insertion instanceof AssignmentPoint) {
+            highlights.add(source, insertion.parent, 'hovered');
+            highlights.addEmpty(insertion.parent, insertion.field);
         }
         // No insert? Highlight valid drop targets.
         else if (insertion === undefined) {
@@ -189,11 +198,11 @@ export function getHighlights(
                 }
                 // Does this target have an empty field we can insert into?
                 const elgibleFields = target.getGrammar().filter((field) => {
-                    if (!(field.kind instanceof ListOf)) return false;
-                    if (!field.kind.allowsKind(target.constructor))
-                        return false;
+                    if (!field.kind.allows(dragged)) return false;
                     const value = target.getField(field.name);
-                    const empty = Array.isArray(value) && value.length === 0;
+                    const empty =
+                        value === undefined ||
+                        (Array.isArray(value) && value.length === 0);
                     return empty;
                 });
                 if (elgibleFields.length > 0) {

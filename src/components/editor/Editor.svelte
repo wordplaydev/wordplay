@@ -42,6 +42,7 @@
         isCaretPosition,
     } from '../../edit/Caret';
     import {
+        AssignmentPoint,
         InsertionPoint,
         dropNodeOnSource,
         getInsertionPoint,
@@ -66,10 +67,10 @@
         getKeyboardEditIdle,
         getSelectedOutput,
         setCaret,
+        setDragTarget,
         setEditor,
         setHighlights,
         setHovered,
-        setInsertionPoint,
         setSetMenuAnchor,
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
@@ -228,8 +229,10 @@
     const hoveredAny = writable<Node | undefined>(undefined);
 
     // A store of current insertion points in a drag.
-    const insertion = writable<InsertionPoint | undefined>(undefined);
-    setInsertionPoint(insertion);
+    const insertion = writable<InsertionPoint | AssignmentPoint | undefined>(
+        undefined,
+    );
+    setDragTarget(insertion);
 
     // A store of the handle edit function
     const editContext = writable({
@@ -773,7 +776,7 @@
     function getBlockInsertionPoint(
         event: PointerEvent,
         candidate: Node,
-    ): InsertionPoint | undefined {
+    ): InsertionPoint | AssignmentPoint | undefined {
         // Find the node under the pointer. If there isn't one, bail.
         const nodeUnderPointer = getNodeAt(event, false);
         if (nodeUnderPointer === undefined) return undefined;
@@ -788,34 +791,41 @@
         // Find the empty view closest to the element under the pointer.
         const emptyView = el.closest(`.empty`);
         if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
-            const list = nodeUnderPointer.getField(emptyView.dataset.field);
-            const field = nodeUnderPointer.getFieldNamed(
-                emptyView.dataset.field,
-            );
-            const kind = field?.kind;
+            const fieldName = emptyView.dataset.field;
+            const fieldValue = nodeUnderPointer.getField(fieldName);
+            const fieldInfo = nodeUnderPointer.getFieldNamed(fieldName);
+            const kind = fieldInfo?.kind;
 
             // If it's a list and it allows the node kind being inserted, return an insertion point.
             if (
-                field !== undefined &&
+                fieldInfo !== undefined &&
                 kind !== undefined &&
-                Array.isArray(list) &&
+                Array.isArray(fieldValue) &&
                 kind instanceof ListOf &&
                 kind.allowsItem(candidate) &&
                 // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
-                (field.getType === undefined ||
+                (fieldInfo.getType === undefined ||
                     !(candidate instanceof Expression) ||
-                    field
+                    fieldInfo
                         .getType(context, 0)
                         .accepts(candidate.getType(context), context))
             ) {
                 return new InsertionPoint(
                     nodeUnderPointer,
-                    emptyView.dataset.field,
-                    list,
+                    fieldName,
+                    fieldValue,
                     undefined,
                     undefined,
                     0,
                 );
+            }
+            // If it's an unassigned field, offer an insertion point.
+            else if (
+                fieldValue === undefined &&
+                kind !== undefined &&
+                kind.allows(candidate)
+            ) {
+                return new AssignmentPoint(nodeUnderPointer, fieldName);
             }
         }
 
@@ -1017,7 +1027,8 @@
             !($hovered instanceof ExpressionPlaceholder) &&
             !($hovered instanceof TypePlaceholder)
         ) {
-            let insertionPoint: InsertionPoint | undefined = undefined;
+            let insertionPoint: InsertionPoint | AssignmentPoint | undefined =
+                undefined;
 
             // In blocks mode? Handle the case of empty and insert.
             if ($blocks) {

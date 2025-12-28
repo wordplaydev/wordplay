@@ -56,6 +56,17 @@ export class InsertionPoint {
     }
 }
 
+/** Represents a field that could be assigned. */
+export class AssignmentPoint {
+    readonly parent: Node;
+    readonly field: string;
+
+    constructor(parent: Node, field: string) {
+        this.parent = parent;
+        this.field = field;
+    }
+}
+
 /**
  * Given a project, a source in that project, a node being dragged, and either a node hovered over or an insertion point,
  * drop the node hover the hovered node or at the insertion point, returning a revised project and a reference to the
@@ -65,7 +76,7 @@ export function dropNodeOnSource(
     project: Project,
     source: Source,
     dragged: Node,
-    target: Node | InsertionPoint,
+    target: Node | InsertionPoint | AssignmentPoint,
 ): [Project, Source, Node] {
     const root = project.getRoot(dragged);
     const draggedRoot = root?.root;
@@ -111,7 +122,7 @@ export function dropNodeOnSource(
     const sourceReplacements: [Source, Source][] = [];
 
     // This should be the node to pretty print after dropping, to ensure semantic spacing is intact.
-    let nodeToFormat: Node;
+    let nodeToFormat: Node = draggedClone;
 
     // Case 1: We're replacing the hovered node with the dragged node.
     if (target instanceof Node) {
@@ -125,7 +136,7 @@ export function dropNodeOnSource(
         nodeToFormat = draggedClone;
     }
     // Case 2: We're inserting into a list
-    else {
+    else if (target instanceof InsertionPoint) {
         const insertion = target;
         // Replace the old list with a new one that has the insertion.
         editedProgram = editedProgram.replace(insertion.list, [
@@ -175,6 +186,15 @@ export function dropNodeOnSource(
             editedSpace = editedSpace.withSpace(nodeAtIndex, afterSpace);
         }
     }
+    // Case 3: We're assigning to an unassigned field.
+    else if (target instanceof AssignmentPoint) {
+        // Set the field to the dragged clone.
+        const revisedParent = target.parent.replace(target.field, draggedClone);
+        editedProgram = editedProgram.replace(target.parent, revisedParent);
+
+        // Format the parent node
+        nodeToFormat = revisedParent;
+    }
 
     // If the dragged node came from a Source we have a replacement (undefined or a Node)
     // update the the source. We handle it differently based on whether it was this editors source or another editor's source.
@@ -204,9 +224,9 @@ export function dropNodeOnSource(
 
     // Make a new source
     let newSource = source.withProgram(editedProgram, editedSpace);
-    newSource = newSource.withSpaces(
-        getPreferredSpaces(nodeToFormat, editedSpace),
-    );
+    newSource = nodeToFormat
+        ? newSource.withSpaces(getPreferredSpaces(nodeToFormat, editedSpace))
+        : newSource;
 
     // Finally, add this editor's updated source to the list of sources to replace in the project.
     sourceReplacements.push([source, newSource]);
@@ -263,7 +283,7 @@ export function isValidDropTarget(
     project: Project,
     dragged: Node,
     target: Node,
-    insertion: InsertionPoint | undefined,
+    insertion: InsertionPoint | AssignmentPoint | undefined,
 ): boolean {
     // Is the target inside the dragged node? If so, we can't drop it there.
     if (dragged.contains(target)) return false;
@@ -288,7 +308,12 @@ export function isValidDropTarget(
         (field.getType === undefined ||
             !(dragged instanceof Expression) ||
             field
-                .getType(context, insertion ? insertion.index : undefined)
+                .getType(
+                    context,
+                    insertion instanceof InsertionPoint
+                        ? insertion.index
+                        : undefined,
+                )
                 .accepts(dragged.getType(context), context))
     )
         return true;

@@ -44,7 +44,7 @@ export enum BlockKind {
 }
 
 export default class Block extends Expression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly open: Token | undefined;
     readonly statements: Expression[];
     readonly close: Token | undefined;
@@ -63,12 +63,7 @@ export default class Block extends Expression {
         this.open = open;
         this.statements = statements;
         this.close = close;
-        this.docs =
-            docs === undefined
-                ? undefined
-                : docs instanceof Docs
-                  ? docs
-                  : new Docs(docs);
+        this.docs = docs === undefined ? Docs.make([]) : docs;
         this.kind = kind;
 
         this.computeChildren();
@@ -164,7 +159,7 @@ export default class Block extends Expression {
         return [
             {
                 name: 'docs',
-                kind: any(node(Docs), none()),
+                kind: node(Docs),
                 label: () => (l) => l.term.documentation,
             },
             {

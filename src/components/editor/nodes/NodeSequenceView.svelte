@@ -4,11 +4,12 @@
 
 <script lang="ts" generics="NodeType extends Node">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { InsertionPoint } from '@edit/Drag';
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
     import type KeysOfType from '../../../util/KeysOfType';
-    import { getCaret, getInsertionPoint } from '../../project/Contexts';
+    import { getCaret, getDragTarget } from '../../project/Contexts';
     import Button from '../../widgets/Button.svelte';
     import EmptyView from '../blocks/EmptyView.svelte';
     import MenuTrigger from '../menu/MenuTrigger.svelte';
@@ -48,12 +49,12 @@
     }: Props = $props();
 
     let caret = getCaret();
-    let insertionPoint = getInsertionPoint();
-    let insertionFeedback = $derived(
-        $insertionPoint !== undefined &&
-            $insertionPoint.node === node &&
-            $insertionPoint.field === field
-            ? $insertionPoint
+    let dragTarget = getDragTarget();
+    let insertion = $derived(
+        $dragTarget instanceof InsertionPoint &&
+            $dragTarget.node === node &&
+            $dragTarget.field === field
+            ? $dragTarget
             : undefined,
     );
 
@@ -122,7 +123,7 @@
     });
 </script>
 
-{#snippet append()}{#if format.editable}<MenuTrigger
+{#snippet append()}{#if format.editable && nodes.length > 0}<MenuTrigger
             anchor={{ parent: node, field, index: nodes.length }}
             insert
         />{/if}{/snippet}
@@ -141,7 +142,7 @@
         >
             {@render before()}
             {#each visible as node, index}
-                {#if insertionFeedback?.index === index}
+                {#if insertion?.index === index}
                     <div class="insertion-feedback"></div>
                 {/if}
                 <NodeView {node} {format} />
@@ -150,7 +151,7 @@
             {/each}
             {@render after()}
             {#if nodes.length > 0}
-                {#if insertionFeedback?.index === nodes.length}
+                {#if insertion?.index === nodes.length}
                     <div class="insertion-feedback"></div>
                 {/if}
                 {#if !block}{@render append()}{/if}

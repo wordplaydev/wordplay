@@ -58,6 +58,10 @@ export default class Docs extends Node {
         ) as this;
     }
 
+    isEmpty() {
+        return this.docs.length === 0;
+    }
+
     withOption(doc: Doc) {
         return new Docs([...this.docs, doc]);
     }

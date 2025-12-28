@@ -18,7 +18,7 @@ import { getContext, setContext } from 'svelte';
 import { type Readable, type Writable } from 'svelte/store';
 import type Caret from '../../edit/Caret';
 import type { CaretPosition } from '../../edit/Caret';
-import type { InsertionPoint } from '../../edit/Drag';
+import type { AssignmentPoint, InsertionPoint } from '../../edit/Drag';
 import type LanguageCode from '../../locale/LanguageCode';
 import type {
     CommandContext,
@@ -190,13 +190,15 @@ export function getHovered() {
     return getContext<HoveredContext>(HoveredSymbol);
 }
 
-type InsertionPointContext = Writable<InsertionPoint | undefined> | undefined;
-const InsertionPointsSymbol = Symbol('insertions');
-export function setInsertionPoint(context: InsertionPointContext) {
+type DragTargetContext =
+    | Writable<InsertionPoint | AssignmentPoint | undefined>
+    | undefined;
+const InsertionPointsSymbol = Symbol('drag-target');
+export function setDragTarget(context: DragTargetContext) {
     setContext(InsertionPointsSymbol, context);
 }
-export function getInsertionPoint() {
-    return getContext<InsertionPointContext>(InsertionPointsSymbol);
+export function getDragTarget() {
+    return getContext<DragTargetContext>(InsertionPointsSymbol);
 }
 
 type DraggedContext = Writable<Node | undefined>;

@@ -14,7 +14,7 @@
 <NodeSequenceView
     {node}
     field="docs"
-    empty="label"
+    empty="menu"
     {format}
     block={format.block}
     padding={false}

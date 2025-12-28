@@ -8,6 +8,7 @@
 
 <script lang="ts" generics="NodeType extends Node">
     import ValueView from '@components/values/ValueView.svelte';
+    import { InsertionPoint } from '@edit/Drag';
     import Expression from '@nodes/Expression';
     import Node from '@nodes/Node';
     import type { UnitDeriver } from '@nodes/NumberType';
@@ -17,10 +18,10 @@
     import Token from '../../../nodes/Token';
     import type KeysOfType from '../../../util/KeysOfType';
     import {
+        getDragTarget,
         getEvaluation,
         getHidden,
         getHighlights,
-        getInsertionPoint,
         getRoot,
         getSpaces,
     } from '../../project/Contexts';
@@ -94,7 +95,7 @@
     );
 
     // Get the insertion point
-    let insertion = getInsertionPoint();
+    let dragTarget = getDragTarget();
 
     // Get the highlights
     let highlights = getHighlights();
@@ -114,8 +115,9 @@
             line={$spaces.getLineNumber(firstToken)}
             {space}
             block={format.block}
-            insertion={$insertion?.token === firstToken
-                ? $insertion
+            insertion={$dragTarget instanceof InsertionPoint &&
+            $dragTarget.token === firstToken
+                ? $dragTarget
                 : undefined}
         />
     {/if}
