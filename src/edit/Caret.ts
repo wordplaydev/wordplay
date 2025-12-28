@@ -20,10 +20,8 @@ import {
     ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
-    LIST_OPEN_SYMBOL,
     PLACEHOLDER_SYMBOL,
     PROPERTY_SYMBOL,
-    SET_OPEN_SYMBOL,
     STREAM_SYMBOL,
 } from '@parser/Symbols';
 import {
@@ -33,6 +31,7 @@ import {
     isName,
     OperatorRegEx,
     TextOpenByTextClose,
+    tokens,
 } from '@parser/Tokenizer';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type {
@@ -2015,10 +2014,20 @@ export default class Caret {
             return undefined;
         let wrapper: Expression | undefined = undefined;
         let position: Expression | undefined;
-        if (key === EVAL_OPEN_SYMBOL) wrapper = Block.make([node]);
-        else if (key === LIST_OPEN_SYMBOL) wrapper = ListLiteral.make([node]);
-        else if (key === SET_OPEN_SYMBOL) wrapper = SetLiteral.make([node]);
-        else if (OperatorRegEx.test(key)) {
+
+        // Tokenize the insertion
+        const token = tokens(key)[0];
+        if (token === undefined) return;
+
+        // Wrap in a block
+        if (token.isSymbol(Sym.EvalOpen)) wrapper = Block.make([node]);
+        // Wrap in a list
+        else if (token.isSymbol(Sym.ListOpen))
+            wrapper = ListLiteral.make([node]);
+        // Wrap in a set
+        else if (token.isSymbol(Sym.SetOpen)) wrapper = SetLiteral.make([node]);
+        // Wrap in a binary evlauate if an operator
+        else if (token.isSymbol(Sym.Operator)) {
             position = ExpressionPlaceholder.make();
             wrapper = new BinaryEvaluate(node, Reference.make(key), position);
         }
