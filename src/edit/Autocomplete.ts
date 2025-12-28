@@ -12,6 +12,7 @@ import FormattedTranslation from '@nodes/FormattedTranslation';
 import Input from '@nodes/Input';
 import Match from '@nodes/Match';
 import Name from '@nodes/Name';
+import NameType from '@nodes/NameType';
 import Node, {
     Empty,
     ListOf,
@@ -770,6 +771,7 @@ const PossibleNodes = [
     MapType,
     TableType,
     UnionType,
+    NameType,
     FunctionType,
     TypePlaceholder,
     TypeInputs,

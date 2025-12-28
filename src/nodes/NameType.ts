@@ -3,6 +3,8 @@ import type Conflict from '@conflicts/Conflict';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { UnknownName } from '@conflicts/UnknownName';
 import { UnknownTypeName } from '@conflicts/UnknownTypeName';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import Refer from '@edit/Refer';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -44,6 +46,23 @@ export default class NameType extends Type {
 
     static make(name: string, definition?: Definition) {
         return new NameType(new NameToken(name), undefined, definition);
+    }
+
+    static getStructuresInScope(node: Node, context: Context) {
+        // Suggest all defined structures in scope
+        return node
+            .getDefinitionsInScope(context)
+            .filter((def) => def instanceof StructureDefinition)
+            .map((def) => new Refer((name) => NameType.make(name, def), def));
+    }
+
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        // Suggest all defined structures in scope
+        return this.getStructuresInScope(node, context);
+    }
+
+    static getPossibleInsertions({ parent, context }: InsertContext) {
+        return this.getStructuresInScope(parent, context);
     }
 
     getDescriptor(): NodeDescriptor {
