@@ -444,8 +444,7 @@
         const nonTokenNodeUnderPointer = getNodeAt(event, false);
         const newPosition =
             // If shift is down or in blocks mode, select the non-token node at the position.
-            (event.shiftKey || $blocks) &&
-            nonTokenNodeUnderPointer !== undefined
+            event.shiftKey && nonTokenNodeUnderPointer !== undefined
                 ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
                   tokenUnderPointer instanceof Token &&

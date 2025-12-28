@@ -265,8 +265,9 @@
         outline: 1px solid var(--wordplay-border-color);
     }
 
-    .blockText {
+    .token-view.editable.blocks.blockText {
         border-bottom: solid var(--wordplay-focus-width)
             var(--wordplay-border-color);
+        cursor: text;
     }
 </style>
