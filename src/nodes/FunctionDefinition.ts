@@ -15,6 +15,7 @@ import Purpose from '../concepts/Purpose';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
 import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
 import type Context from './Context';
@@ -42,7 +43,6 @@ import type TypeSet from './TypeSet';
 import TypeToken from './TypeToken';
 import TypeVariables from './TypeVariables';
 import UnaryEvaluate from './UnaryEvaluate';
-import UnimplementedType from './UnimplementedType';
 import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionDefinition extends DefinitionExpression {
@@ -394,7 +394,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         return this.output instanceof Type
             ? this.output
             : this.expression === undefined
-              ? new UnimplementedType(this)
+              ? new AnyType()
               : this.expression.getType(context);
     }
 

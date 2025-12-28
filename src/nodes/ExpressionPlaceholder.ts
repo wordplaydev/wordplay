@@ -12,6 +12,7 @@ import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import NodeRef from '../locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
 import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
 import type Context from './Context';
@@ -32,7 +33,6 @@ import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
 import TypeToken from './TypeToken';
-import UnimplementedType from './UnimplementedType';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -176,7 +176,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
             if (parent.output) return parent.output;
         }
 
-        return this.type ?? new UnimplementedType(this);
+        return new AnyType();
     }
 
     isPlaceholder() {
