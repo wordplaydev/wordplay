@@ -172,8 +172,7 @@ export default abstract class Node {
     nodes<Kind extends Node>(include?: (node: Node) => node is Kind): Kind[] {
         const nodes: Node[] = [];
         this.traverse((node) => {
-            if (include === undefined || include(node) === true)
-                nodes.push(node);
+            if (include === undefined || include(node)) nodes.push(node);
             return true;
         });
         return nodes as Kind[];

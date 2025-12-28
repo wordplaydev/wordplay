@@ -321,7 +321,10 @@
         {#if results}
             {#each results as [concept, text]}
                 <div class="result">
-                    <CodeView {concept} node={concept.getRepresentation()} />
+                    <CodeView
+                        {concept}
+                        node={concept.getRepresentation($locales)}
+                    />
                     <!-- Show the matching text -->
                     {#if text.length > 1 || concept.getName($locales, false) !== text[0]}
                         {@const match = text[0]}
@@ -377,7 +380,7 @@
                     <HowConceptView concept={currentConcept} />
                 {:else}
                     <CodeView
-                        node={currentConcept.getRepresentation()}
+                        node={currentConcept.getRepresentation($locales)}
                         concept={currentConcept}
                     />
                 {/if}

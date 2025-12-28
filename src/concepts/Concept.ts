@@ -55,7 +55,7 @@ export default abstract class Concept {
     /**
      * Return a node to represent the concept. Usually an example or template.
      */
-    abstract getRepresentation(): Node;
+    abstract getRepresentation(locales: Locales): Node;
 
     /**
      * Returns a localized creator-facing name or description to represent the concept.

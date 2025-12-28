@@ -103,18 +103,17 @@ const Templates: Node[] = [
     Evaluate.make(ExpressionPlaceholder.make(), []),
     FunctionDefinition.make(
         undefined,
-        Names.make(['_']),
+        Names.make([PLACEHOLDER_SYMBOL]),
         undefined,
         [],
         ExpressionPlaceholder.make(),
     ),
     StructureDefinition.make(
         undefined,
-        Names.make(['_']),
+        Names.make([PLACEHOLDER_SYMBOL]),
         [],
         undefined,
         [],
-        Block.make([ExpressionPlaceholder.make()]),
     ),
     PropertyReference.make(
         ExpressionPlaceholder.make(),
@@ -225,7 +224,7 @@ const Templates: Node[] = [
     SetType.make(),
     MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
     TableType.make(),
-    NameType.make('_'),
+    NameType.make(PLACEHOLDER_SYMBOL),
     FunctionType.make(undefined, [], TypePlaceholder.make()),
     UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
     ConversionDefinition.make(
@@ -250,13 +249,13 @@ const Templates: Node[] = [
     new UnaryEvaluate(Reference.make('-'), ExpressionPlaceholder.make()),
     ExpressionPlaceholder.make(),
     Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
-    Name.make('a'),
-    Names.make(['a', 'b']),
-    Reference.make('_'),
+    Name.make(PLACEHOLDER_SYMBOL),
+    Names.make([PLACEHOLDER_SYMBOL]),
+    Reference.make(PLACEHOLDER_SYMBOL),
     ConversionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
     new UnparsableExpression([]),
     Program.make([ExpressionPlaceholder.make()]),
-    new Source('?', '_'),
+    new Source('?', PLACEHOLDER_SYMBOL),
     new Borrow(),
 ];
 

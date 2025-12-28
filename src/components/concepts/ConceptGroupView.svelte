@@ -2,7 +2,7 @@
     import Expander from '@components/widgets/Expander.svelte';
     import type Concept from '@concepts/Concept';
     import { slide } from 'svelte/transition';
-    import { animationDuration } from '../../db/Database';
+    import { animationDuration, locales } from '../../db/Database';
     import Note from '../widgets/Note.svelte';
     import CodeView from './CodeView.svelte';
 
@@ -41,7 +41,7 @@
                 <CodeView
                     {concept}
                     {describe}
-                    node={concept.getRepresentation()}
+                    node={concept.getRepresentation($locales)}
                 />
             </span>
         {/if}

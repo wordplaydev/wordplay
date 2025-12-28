@@ -28,12 +28,12 @@ import StructureConcept from './StructureConcept';
 import Templates from './Templates';
 
 export function getNodeConcepts(context: Context): NodeConcept[] {
-    return Templates.map((node) => {
-        const typeName = node.getAffiliatedType();
+    return Templates.map((template) => {
+        const typeName = template.getAffiliatedType();
         const type = typeName
             ? context.getBasis().getStructureDefinition(typeName)
             : undefined;
-        return new NodeConcept(node.getPurpose(), type, node, context);
+        return new NodeConcept(template.getPurpose(), type, template, context);
     });
 }
 

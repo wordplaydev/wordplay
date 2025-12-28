@@ -1,7 +1,10 @@
 import { docToMarkup } from '@locale/LocaleText';
 import type Context from '@nodes/Context';
+import NameToken from '@nodes/NameToken';
+import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
-import type StructureDefinition from '@nodes/StructureDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
+import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
@@ -70,8 +73,28 @@ export default class NodeConcept extends Concept {
             : [this.template.getLabel(locales)];
     }
 
-    getRepresentation() {
-        return this.template;
+    getRepresentation(locales: Locales): Node {
+        // Find any names that use _ as a placeholder and replace them with a localized name for name.
+        const name = this.template.nodes(
+            (n): n is NameToken =>
+                n instanceof NameToken && n.getText() === PLACEHOLDER_SYMBOL,
+        )[0];
+        const nameTranslation = String(locales.get((l) => l.node.Name.name));
+        const template = name
+            ? this.template.replace(
+                  name,
+                  new NameToken(
+                      this.template instanceof StructureDefinition ||
+                          this.template instanceof NameType
+                          ? nameTranslation
+                                .charAt(0)
+                                .toLocaleUpperCase(locales.getLocaleString()) +
+                                nameTranslation.slice(1)
+                          : nameTranslation,
+                  ),
+              )
+            : this.template;
+        return template;
     }
 
     getNodes(): Set<Node> {
