@@ -28,6 +28,7 @@
         {format}
         empty="label"
         block={node.isRoot() ||
+            node.statements.length > 1 ||
             node.statements.reduce((sum, v) => sum + v.toWordplay().length, 0) >
                 32}
     /><NodeView node={[node, 'close']} {format} empty="hide" />

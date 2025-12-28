@@ -157,7 +157,7 @@ export default class StructureDefinition extends DefinitionExpression {
                 name: 'interfaces',
                 kind: list(true, node(Reference)),
                 space: true,
-                label: undefined,
+                label: () => (l) => l.node.StructureDefinition.label.interfaces,
             },
             {
                 name: 'types',

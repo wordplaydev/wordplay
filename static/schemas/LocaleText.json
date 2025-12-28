@@ -6128,12 +6128,16 @@
                     },
                     "inputs": {
                       "type": "string"
+                    },
+                    "interfaces": {
+                      "type": "string"
                     }
                   },
                   "required": [
                     "docs",
                     "inputs",
-                    "expression"
+                    "expression",
+                    "interfaces"
                   ],
                   "type": "object"
                 },

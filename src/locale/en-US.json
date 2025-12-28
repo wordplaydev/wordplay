@@ -1211,7 +1211,8 @@
             "label": {
                 "docs": "documentation",
                 "inputs": "inputs",
-                "expression": "values and functions"
+                "expression": "values and functions",
+                "interfaces": "interfaces"
             },
             "doc": [
                 "Why hello, how are you? Me? I'm great. I love to define structures that store values and function, so as long as I get to do that all day, I'm happy.",

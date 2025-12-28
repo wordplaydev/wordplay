@@ -103,6 +103,19 @@ export default class Block extends Expression {
         parent,
         index,
     }: InsertContext) {
+        if (parent instanceof StructureDefinition)
+            return [
+                Block.make([
+                    FunctionDefinition.make(
+                        undefined,
+                        Names.make([locales.get((l) => l.node.Name.name)]),
+                        undefined,
+                        [],
+                        ExpressionPlaceholder.make(),
+                    ),
+                ]),
+            ];
+
         if (!(parent instanceof Block)) return [];
         const definitions = [
             ...parent.getDefinitionsInScope(context),

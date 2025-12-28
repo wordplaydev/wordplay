@@ -666,7 +666,14 @@ type NodeTexts = {
              * Description inputs: $1 = Interface, $2 = Function
              */
             UnimplementedInterface: InternalConflictText;
-        }> & { label: { docs: string; inputs: string; expression: string } };
+        }> & {
+            label: {
+                docs: string;
+                inputs: string;
+                expression: string;
+                interfaces: string;
+            };
+        };
     StructureDefinitionType: DescriptiveNodeText;
     /**
      * A table literal, e.g., `⎡a•# b•#⎦⎡1 2⎦`

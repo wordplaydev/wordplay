@@ -12,10 +12,15 @@
     let { node, format }: Props = $props();
 </script>
 
+{#snippet docs()}
+    <NodeView node={[node, 'docs']} {format} empty="menu" />
+{/snippet}
+
 {#if format.block}
     <Flow direction="column">
-        <NodeView node={[node, 'docs']} {format} empty="hide" />
+        {#if node.docs && node.docs.docs.length > 0}{@render docs()}{/if}
         <Flow direction="row">
+            {#if node.docs === undefined || node.docs.docs.length === 0}{@render docs()}{/if}
             <NodeView node={[node, 'share']} {format} empty="hide" /><NodeView
                 node={[node, 'type']}
                 {format}
@@ -34,10 +39,16 @@
                 {format}
                 empty="label"
             /><NodeView node={[node, 'close']} {format} />
+            {#if node.expression === undefined}<NodeView
+                    node={[node, 'expression']}
+                    {format}
+                />{/if}
         </Flow>
-        <Flow direction="column" indent
-            ><NodeView node={[node, 'expression']} {format} /></Flow
-        >
+        {#if node.expression !== undefined}
+            <Flow direction="column" indent
+                ><NodeView node={[node, 'expression']} {format} /></Flow
+            >
+        {/if}
     </Flow>
 {:else}
     <NodeView node={[node, 'docs']} {format} /><NodeView
