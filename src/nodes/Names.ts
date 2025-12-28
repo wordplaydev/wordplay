@@ -69,6 +69,10 @@ export default class Names extends Node {
         ) as this;
     }
 
+    isEmpty() {
+        return this.names.length === 0;
+    }
+
     simplify() {
         return new Names(this.names.map((name) => name.simplify()));
     }

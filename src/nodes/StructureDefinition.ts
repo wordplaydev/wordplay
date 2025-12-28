@@ -50,9 +50,9 @@ export default class StructureDefinition extends DefinitionExpression {
     readonly names: Names;
     readonly interfaces: Reference[];
     readonly types: TypeVariables | undefined;
-    readonly open: Token | undefined;
+    readonly open: Token;
     readonly inputs: Bind[];
-    readonly close: Token | undefined;
+    readonly close: Token;
     readonly expression: Block | undefined;
 
     // PERF: Cache definitions to avoid having to recreate the list.
@@ -65,9 +65,9 @@ export default class StructureDefinition extends DefinitionExpression {
         names: Names,
         interfaces: Reference[],
         types: TypeVariables | undefined,
-        open: Token | undefined,
+        open: Token,
         inputs: Bind[],
-        close: Token | undefined,
+        close: Token,
         block?: Block,
     ) {
         super();

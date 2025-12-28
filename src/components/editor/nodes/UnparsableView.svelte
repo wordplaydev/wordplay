@@ -13,7 +13,12 @@
 </script>
 
 {#if node.unparsables.length > 0}
-    <NodeSequenceView {node} field="unparsables" {format} empty="hide" />
+    <NodeSequenceView
+        {node}
+        field="unparsables"
+        format={{ ...format, editable: false }}
+        empty="hide"
+    />
 {:else}<span class="empty">&nbsp;</span>{/if}
 
 <style>
