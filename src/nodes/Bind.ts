@@ -482,13 +482,11 @@ export default class Bind extends Expression {
     }
 
     computeType(context: Context): Type {
+        // Always compute the value's type, as it has side effects on streams.
+        const valueType = this.value ? this.value.getType(context) : undefined;
+
         // What type is this binding?
-        let type =
-            this.getSpecifiedType() ?? // If it has an expression, ask the expression.
-            (this.value instanceof Expression
-                ? this.value.getType(context)
-                : // Otherwise, we don't know, it could be anything.
-                  undefined);
+        let type = this.getSpecifiedType() ?? valueType;
 
         if (type === undefined || type instanceof UnknownType)
             type = this.getExpectedType(context);

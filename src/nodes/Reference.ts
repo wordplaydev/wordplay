@@ -31,6 +31,7 @@ import Reaction from './Reaction';
 import SimpleExpression from './SimpleExpression';
 import Source from './Source';
 import StreamDefinition from './StreamDefinition';
+import StreamType from './StreamType';
 import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
 import Token from './Token';
@@ -108,9 +109,14 @@ export default class Reference extends SimpleExpression {
                 )
                 // Translate the definitions into References, or to the definitions.
                 .map((definition) => {
+                    // Is the function an operator? That affects how we name it.
                     const isOperator =
                         definition instanceof FunctionDefinition &&
                         definition.isOperator();
+                    // Is the type of the definition coming from a stream? We might generate a reference to the stream itself.
+                    const streamType = !(definition instanceof TypeVariable)
+                        ? context.getStreamType(definition.getType(context))
+                        : undefined;
                     if (
                         // A source?
                         definition instanceof Source ||
@@ -132,7 +138,11 @@ export default class Reference extends SimpleExpression {
                             // Only accept definitions with symbolic names if a binary evaluate.
                             ((!(parent instanceof BinaryEvaluate) &&
                                 !(parent instanceof UnaryEvaluate)) ||
-                                definition.names.hasOperatorName()))
+                                definition.names.hasOperatorName())) ||
+                        // If the type is a StreamType and the definition is a stream with a matching type, suggest
+                        (type instanceof StreamType &&
+                            streamType !== undefined &&
+                            type.accepts(streamType, context))
                     ) {
                         return new Refer(
                             (name) =>
