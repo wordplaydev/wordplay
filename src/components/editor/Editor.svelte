@@ -251,6 +251,9 @@
     let lastKeyDownIgnored = $state(false);
     let keyIgnoredReason = $state<undefined | LocaleTextAccessor>(undefined);
 
+    // True if the caret was recently set with a pointer.
+    let caretSetByPointer = $state(false);
+
     // Caret location comes from the caret
     let caretLocation: CaretBounds | undefined = $state(undefined);
 
@@ -468,6 +471,10 @@
         if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
             resetIgnored(true);
+            caretSetByPointer = true;
+            setTimeout(() => {
+                caretSetByPointer = false;
+            }, 100);
         }
 
         // Mark that the creator might want to drag the node under the pointer and remember where the click started.
@@ -1949,7 +1956,8 @@
         blink={$keyboardEditIdle === IdleKind.Idle &&
             focused &&
             editable &&
-            restoredPosition === undefined}
+            restoredPosition === undefined &&
+            !caretSetByPointer}
         ignored={shakeCaret}
         {getTokenViews}
         viewport={editor}
