@@ -127,11 +127,13 @@ export default class Evaluate extends Expression {
         const structure =
             scopingType instanceof BasisType ||
             scopingType instanceof StructureType;
+
         // Get the definitions in the structure type we found,
-        // or in the surrounding scope if there isn't one.
-        const definitions =
+        // and in the surrounding scope.
+        const definitions = [
+            ...(anchor?.getDefinitionsInScope(context) ?? []),
             // If the anchor is selected for replacement...
-            nodeBeingReplaced
+            ...(nodeBeingReplaced
                 ? // If the scope is basis, get definitions in basis scope
                   scopingType instanceof BasisType
                     ? scopingType.getDefinitions(nodeBeingReplaced, context)
@@ -140,8 +142,8 @@ export default class Evaluate extends Expression {
                       ? scopingType.definition.getDefinitions(nodeBeingReplaced)
                       : // Otherwise, get definitions in scope of the anchor
                         (anchor?.getDefinitionsInScope(context) ?? [])
-                : // If the node is not selected, get definitions in the anchor's scope
-                  (anchor?.getDefinitionsInScope(context) ?? []);
+                : []),
+        ];
 
         // Convert the definitions to evaluate suggestions.
         return definitions
@@ -167,10 +169,7 @@ export default class Evaluate extends Expression {
                             ))) ||
                     (def instanceof StreamDefinition &&
                         (expectedType === undefined ||
-                            expectedType.accepts(
-                                def.getType(context),
-                                context,
-                            ))),
+                            expectedType.accepts(def.output, context))),
             )
             .map(
                 (def) =>
