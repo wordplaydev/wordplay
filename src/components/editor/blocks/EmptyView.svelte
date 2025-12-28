@@ -5,6 +5,7 @@
     import Caret from '@edit/Caret';
     import type Node from '@nodes/Node';
     import { enumerateSymbols } from '@nodes/Node';
+    import Token from '@nodes/Token';
     import MenuTrigger from '../menu/MenuTrigger.svelte';
     import { type Format } from '../nodes/NodeView.svelte';
 
@@ -33,7 +34,9 @@
     <div
         class="empty"
         class:blockText={format.editable &&
-            kinds?.some((kind) => Caret.BlockEditableKinds.includes(kind))}
+            kinds.some((kind) =>
+                Caret.isTokenTextBlockEditable(new Token('', kind), node),
+            )}
         data-field={field}
     >
         {#if style === 'label' && $project && format.root}

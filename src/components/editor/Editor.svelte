@@ -452,7 +452,10 @@
             // If in blocks mode and over an editable text token, get the caret position
             $blocks &&
             tokenUnderPointer instanceof Token &&
-            Caret.isTokenTextBlockEditable(tokenUnderPointer)
+            Caret.isTokenTextBlockEditable(
+                tokenUnderPointer,
+                source.root.getParent(tokenUnderPointer),
+            )
                 ? getCaretPositionAt(event)
                 : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
                   (event.shiftKey || $blocks) &&
