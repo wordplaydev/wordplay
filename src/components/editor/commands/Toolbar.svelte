@@ -60,7 +60,7 @@
     choice={$blocks ? 1 : 0}
     select={(mode) => Settings.setBlocks(mode === 1)}
     labeled={false}
-    modeLabels={true}
+    modeLabels={false}
 />
 
 <!-- Navigate commands are always visible -->

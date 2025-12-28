@@ -136,7 +136,7 @@ export const DEFECT_SYMBOL = '🪲';
 
 export const SEARCH_SYMBOL = '🔍';
 
-export const BLOCK_EDITING_SYMBOL = '▢';
-export const TEXT_EDITING_SYMBOL = 'a|';
+export const BLOCK_EDITING_SYMBOL = withMonoEmoji('🖱️');
+export const TEXT_EDITING_SYMBOL = withMonoEmoji('⌨️');
 
 export const DROP_DOWN_SYMBOL = '▾';
