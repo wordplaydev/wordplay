@@ -32,7 +32,7 @@
 
 {#if format.block}
     {#if node.docs.isEmpty()}
-        <Flow direction={node.statements.length > 1 ? 'column' : 'row'}>
+        <Flow direction="row">
             {#if format.editable}{@render docs()}{/if}
             <Flow direction={node.statements.length > 1 ? 'column' : 'row'}
                 >{@render statements()}
