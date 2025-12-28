@@ -1010,8 +1010,8 @@
         ) {
             // Dragging to select. What's under the pointer?
             const position = getCaretPositionAt(event);
-            // Update the selection based on the caret position.
-            if (position !== undefined) {
+            // Update the selection range based on the caret position.
+            if (position !== undefined && !$blocks) {
                 if ($caret.isPosition() && $caret.position !== position)
                     caret.set($caret.withPosition([$caret.position, position]));
                 else if ($caret.isRange() && $caret.position[0] !== position)
