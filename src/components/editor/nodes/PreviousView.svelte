@@ -13,6 +13,7 @@
 <NodeView node={[node, 'previous']} {format} /><NodeView
     node={[node, 'range']}
     {format}
+    empty="menu"
 /><NodeView node={[node, 'number']} {format} /><NodeView
     node={[node, 'stream']}
     {format}

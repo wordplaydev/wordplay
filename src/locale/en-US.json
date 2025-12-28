@@ -994,7 +994,7 @@
             "doc": [
                 "Have you ever wanted to remember the past?",
                 "I am the Verse's official record keeper. Give me a stream and a number to look backwards and I'll tell you what that stream's value was in history.",
-                "For example, here's what @Time it was five ticks ago:",
+                "For example, here's what @Time was five ticks ago:",
                 "\\← 5 Time(1000ms)\\",
                 "See how it's @None for 5 seconds, then suddenly a previous time?",
                 "If you want the last several values, give me to arrows, and I'll interpret the number as a count:",

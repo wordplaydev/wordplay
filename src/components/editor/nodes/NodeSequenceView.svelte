@@ -122,10 +122,10 @@
     });
 </script>
 
-{#snippet append()}<MenuTrigger
-        anchor={{ parent: node, field, index: nodes.length }}
-        insert
-    />{/snippet}
+{#snippet append()}{#if format.editable}<MenuTrigger
+            anchor={{ parent: node, field, index: nodes.length }}
+            insert
+        />{/if}{/snippet}
 
 {#snippet list()}
     {#if nodes.length > 0 || empty !== 'hide'}
@@ -153,7 +153,7 @@
                 {#if insertionFeedback?.index === nodes.length}
                     <div class="insertion-feedback"></div>
                 {/if}
-                {#if !block && format.editable}{@render append()}{/if}
+                {#if !block}{@render append()}{/if}
             {/if}
         </div>
     {/if}

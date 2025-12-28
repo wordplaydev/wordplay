@@ -89,7 +89,7 @@ const Templates: Node[] = [
     Changed.make(ExpressionPlaceholder.make(StreamType.make())),
     Previous.make(
         ExpressionPlaceholder.make(StreamType.make()),
-        ExpressionPlaceholder.make(NumberType.make()),
+        NumberLiteral.make(1),
     ),
 
     // Bind
