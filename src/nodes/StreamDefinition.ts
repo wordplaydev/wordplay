@@ -42,7 +42,7 @@ import TypeToken from './TypeToken';
 import { getEvaluationInputConflicts } from './util';
 
 export default class StreamDefinition extends DefinitionExpression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly dots: Token;
     readonly names: Names;
     readonly open: Token | undefined;
@@ -65,7 +65,7 @@ export default class StreamDefinition extends DefinitionExpression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.names = names;
         this.dots = dots;
         this.open = open;

@@ -97,6 +97,12 @@ export default class Docs extends Node {
         return getPreferred(locales, this.docs);
     }
 
+    getMarkup(locales: Locales) {
+        return this.docs
+            .map((doc) => doc.markup.concretize(locales, []))
+            .filter((m) => m !== undefined);
+    }
+
     static readonly LocalePath = (l: LocaleText) => l.node.Docs;
     getLocalePath() {
         return Docs.LocalePath;

@@ -21,9 +21,9 @@
 {/snippet}
 
 {#if format.block}
-    {#if node.docs}{@render docs()}{/if}
+    {#if !node.docs.isEmpty()}{@render docs()}{/if}
     <Flow direction="row"
-        >{#if node.docs === undefined}{@render docs()}{/if}<NodeView
+        >{#if node.docs.isEmpty()}{@render docs()}{/if}<NodeView
             node={[node, 'fun']}
             {format}
         /><NodeView node={[node, 'names']} {format} /><NodeView

@@ -18,9 +18,9 @@
 
 {#if format.block}
     <Flow direction="column">
-        {#if node.docs && node.docs.docs.length > 0}{@render docs()}{/if}
+        {#if !node.docs.isEmpty()}{@render docs()}{/if}
         <Flow direction="row">
-            {#if node.docs === undefined || node.docs.docs.length === 0}{@render docs()}{/if}
+            {#if node.docs.isEmpty()}{@render docs()}{/if}
             <NodeView node={[node, 'share']} {format} empty="hide" /><NodeView
                 node={[node, 'type']}
                 {format}

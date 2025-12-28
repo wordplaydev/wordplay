@@ -83,8 +83,7 @@ export default class Block extends Expression {
         return node instanceof Expression
             ? [
                   Block.make([node]),
-                  ...(node instanceof Block &&
-                  (node.docs === undefined || node.docs.docs.length === 0)
+                  ...(node instanceof Block && node.docs.isEmpty()
                       ? [node.withDocs()]
                       : []),
               ]

@@ -46,7 +46,7 @@ import UnimplementedType from './UnimplementedType';
 import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionDefinition extends DefinitionExpression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly share: Token | undefined;
     readonly fun: Token;
     readonly names: Names;
@@ -73,7 +73,7 @@ export default class FunctionDefinition extends DefinitionExpression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.share = share;
         this.names = names;
         this.fun = fun;

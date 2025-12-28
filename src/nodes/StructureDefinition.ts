@@ -44,7 +44,7 @@ import TypeVariables from './TypeVariables';
 import { getEvaluationInputConflicts } from './util';
 
 export default class StructureDefinition extends DefinitionExpression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly share: Token | undefined;
     readonly type: Token;
     readonly names: Names;
@@ -72,7 +72,7 @@ export default class StructureDefinition extends DefinitionExpression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.share = share;
         this.type = type;
         this.names = names;

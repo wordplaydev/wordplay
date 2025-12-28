@@ -31,7 +31,7 @@ import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
 
 export default class ConversionDefinition extends DefinitionExpression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly arrow: Token;
     readonly input: Type;
     readonly output: Type;
@@ -46,7 +46,7 @@ export default class ConversionDefinition extends DefinitionExpression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.arrow = arrow;
         this.input = input;
         this.output = output;

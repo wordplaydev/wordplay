@@ -60,9 +60,7 @@ export default class StreamConcept extends Concept {
     }
 
     getDocs(locales: Locales): Markup[] {
-        return (this.definition.docs?.docs ?? [])
-            .map((doc) => doc.markup.concretize(locales, []))
-            .filter((m) => m !== undefined);
+        return this.definition.docs.getMarkup(locales);
     }
 
     getNames() {
