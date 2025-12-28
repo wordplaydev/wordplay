@@ -357,9 +357,6 @@ export default abstract class Node {
         // Finally, implicitly include standard libraries and definitions.
         definitions = [
             ...definitions,
-            ...context.project
-                .getSupplements()
-                .filter((s) => s !== context.source),
             ...context.project.getDefaultShares().all,
         ];
 

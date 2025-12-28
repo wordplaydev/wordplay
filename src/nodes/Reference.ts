@@ -17,6 +17,7 @@ import type Locales from '../locale/Locales';
 import { type TemplateInput } from '../locale/Locales';
 import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
+import Borrow from './Borrow';
 import type Context from './Context';
 import type Definition from './Definition';
 import Expression, { type GuardContext } from './Expression';
@@ -89,9 +90,16 @@ export default class Reference extends SimpleExpression {
         // If the anchor is being replaced but isn't a reference, suggest nothing.
         // Otherwise, suggest references in the anchor node's scope that complete the prefix.
         return (
-            reference
+            [
                 // Find all the definitions in scope.
-                .getDefinitionsInScope(context)
+                ...reference.getDefinitionsInScope(context),
+                // Find all the sources in scope if the context is a borrow.
+                ...(reference instanceof Borrow
+                    ? context.project
+                          .getSupplements()
+                          .filter((s) => s !== context.source)
+                    : []),
+            ]
                 // If there's a prefix we're completing, include
                 .filter(
                     (def) =>
