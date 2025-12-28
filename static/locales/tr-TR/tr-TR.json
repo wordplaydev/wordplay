@@ -4774,8 +4774,8 @@
                     "explanation": "$~/Sahneye yerleştirilebilecek farklı çıktı türleri./"
                 },
                 "Inputs": {
-                    "header": "$~Akarsular",
-                    "explanation": "$~/Zaman içinde değişen ve bir programın yeniden değerlendirilmesine neden olan, dünyadan gelen girdiler./"
+                    "header": "$~Girişler",
+                    "explanation": "$~/Zaman içinde değişen ve programın yeniden değerlendirilmesine neden olan, dünyadan gelen girdi akışları./"
                 },
                 "Decisions": {
                     "header": "$~Kararlar",

@@ -4739,8 +4739,8 @@
                     "explanation": "$~/Diferentes tipos de salida que se pueden colocar en el escenario./"
                 },
                 "Inputs": {
-                    "header": "$~Arroyos",
-                    "explanation": "$~/Entradas del mundo que cambian con el tiempo, provocando que un programa se reevalúe./"
+                    "header": "$~Entradas",
+                    "explanation": "$~/Flujos de entrada del mundo que cambian con el tiempo, lo que hace que un programa se reevalúe./"
                 },
                 "Decisions": {
                     "header": "$~Decisiones",

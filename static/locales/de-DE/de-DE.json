@@ -4756,8 +4756,8 @@
                     "explanation": "$~Verschiedene Arten von Ausgabegeräten, die auf der Bühne platziert werden können."
                 },
                 "Inputs": {
-                    "header": "$~Bäche",
-                    "explanation": "$~/Eingaben aus der Welt, die sich im Laufe der Zeit verändern und ein Programm zu einer Neubewertung veranlassen./"
+                    "header": "$~Eingaben",
+                    "explanation": "$~/Eingabeströme aus der Welt, die sich im Laufe der Zeit verändern und ein Programm zu einer Neubewertung veranlassen./"
                 },
                 "Decisions": {
                     "header": "$~Entscheidungen",

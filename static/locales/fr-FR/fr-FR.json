@@ -4757,8 +4757,8 @@
                     "explanation": "$~Différents types de productions peuvent être présentés sur scène."
                 },
                 "Inputs": {
-                    "header": "$~Rivières",
-                    "explanation": "$~/Des éléments provenant du monde extérieur qui évoluent avec le temps, obligeant un programme à se réévaluer./"
+                    "header": "$~Entrées",
+                    "explanation": "$~/Flux d'informations provenant du monde extérieur qui évoluent au fil du temps, obligeant un programme à se réévaluer./"
                 },
                 "Decisions": {
                     "header": "$~Décisions",

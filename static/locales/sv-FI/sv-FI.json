@@ -4774,8 +4774,8 @@
                     "explanation": "$~/Olika typer av utdata som kan placeras på scenen./"
                 },
                 "Inputs": {
-                    "header": "$~Strömmar",
-                    "explanation": "$~/Input från världen som förändras över tid, vilket får ett program att omvärderas./"
+                    "header": "$~Ingångar",
+                    "explanation": "$~/Indataströmmar från världen som förändras över tid, vilket får ett program att omvärderas./"
                 },
                 "Decisions": {
                     "header": "$~Beslut",

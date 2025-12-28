@@ -4749,8 +4749,8 @@
                     "explanation": "/Different types of output that can be placed on stage./"
                 },
                 "Inputs": {
-                    "header": "Streams",
-                    "explanation": "/Inputs from the world that change over time, causing a program to reevaluate./"
+                    "header": "Inputs",
+                    "explanation": "/Input streams from the world that change over time, causing a program to reevaluate./"
                 },
                 "Decisions": {
                     "header": "Decisions",

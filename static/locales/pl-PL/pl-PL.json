@@ -4779,8 +4779,8 @@
                     "explanation": "$~/Różne typy wyjść, które można umieścić na scenie./"
                 },
                 "Inputs": {
-                    "header": "$~Strumienie",
-                    "explanation": "$~/Dane wejściowe ze świata, które zmieniają się z czasem, powodując ponowną ocenę programu./"
+                    "header": "$~Wejścia",
+                    "explanation": "$~/Strumienie wejściowe ze świata, które zmieniają się w czasie, powodując ponowną ocenę programu./"
                 },
                 "Decisions": {
                     "header": "$~Decyzje",
