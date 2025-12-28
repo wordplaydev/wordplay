@@ -446,17 +446,23 @@
         const tokenUnderPointer = getNodeAt(event, true);
         const nonTokenNodeUnderPointer = getNodeAt(event, false);
         const newPosition =
-            // If shift is down or in blocks mode, select the non-token node at the position.
-            event.shiftKey && nonTokenNodeUnderPointer !== undefined
-                ? nonTokenNodeUnderPointer
-                : // If the node is a placeholder token, select it's placeholder ancestor
-                  tokenUnderPointer instanceof Token &&
-                    tokenUnderPointer.isSymbol(Sym.Placeholder)
-                  ? source.root
-                        .getAncestors(tokenUnderPointer)
-                        .find((a) => a.isPlaceholder())
-                  : // Otherwise choose an index position under the mouse
-                    getCaretPositionAt(event);
+            // If in blocks mode and over an editable text token, get the caret position
+            $blocks &&
+            tokenUnderPointer instanceof Token &&
+            Caret.isTokenTextBlockEditable(tokenUnderPointer)
+                ? getCaretPositionAt(event)
+                : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
+                  (event.shiftKey || $blocks) &&
+                    nonTokenNodeUnderPointer !== undefined
+                  ? nonTokenNodeUnderPointer
+                  : // If the node is a placeholder token, select it's placeholder ancestor
+                    tokenUnderPointer instanceof Token &&
+                      tokenUnderPointer.isSymbol(Sym.Placeholder)
+                    ? source.root
+                          .getAncestors(tokenUnderPointer)
+                          .find((a) => a.isPlaceholder())
+                    : // Otherwise choose an index position under the mouse
+                      getCaretPositionAt(event);
 
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
