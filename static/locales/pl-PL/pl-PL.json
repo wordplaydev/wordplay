@@ -1013,7 +1013,10 @@
                 "$~Mogę pomóc, gdy chcesz stworzyć występy nawiązujące do przeszłości."
             ],
             "start": "$~Pierwszy zgarniasz $1",
-            "finish": "$~Oceniono na wartość strumienia $1"
+            "finish": "$~Oceniono na wartość strumienia $1",
+            "label": {
+                "range": "$~zakres"
+            }
         },
         "Program": {
             "name": "$~program",

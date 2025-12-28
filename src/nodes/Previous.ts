@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type { ReplaceContext } from '@edit/EditContext';
+import type { InsertContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -62,12 +62,14 @@ export default class Previous extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, context }: ReplaceContext) {
+    static getPossibleReplacements() {
         return [];
     }
 
-    static getPossibleInsertions() {
-        return [];
+    static getPossibleInsertions({ parent, field }: InsertContext) {
+        return parent instanceof Previous && field === 'range'
+            ? [new Token(PREVIOUS_SYMBOL, Sym.Previous)]
+            : [];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -80,7 +82,7 @@ export default class Previous extends Expression {
             {
                 name: 'range',
                 kind: optional(node(Sym.Previous)),
-                label: undefined,
+                label: (l) => (l) => l.node.Previous.label.range,
             },
             {
                 name: 'number',

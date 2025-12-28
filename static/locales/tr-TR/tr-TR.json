@@ -1013,7 +1013,10 @@
                 "$~Geçmişe dayalı performanslar yaratmak istediğinizde yardımcı oluyorum."
             ],
             "start": "$~İlk önce 1$ kazan",
-            "finish": "$~Akış değeri 1$ olarak değerlendirildi"
+            "finish": "$~Akış değeri 1$ olarak değerlendirildi",
+            "label": {
+                "range": "$~menzil"
+            }
         },
         "Program": {
             "name": "$~program",

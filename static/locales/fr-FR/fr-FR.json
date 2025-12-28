@@ -1013,7 +1013,10 @@
                 "$~Je suis utile lorsque vous souhaitez créer des performances qui dépendent du passé."
             ],
             "start": "$~Obtenez d'abord $1",
-            "finish": "$~Évalué à une valeur de flux de $1"
+            "finish": "$~Évalué à une valeur de flux de $1",
+            "label": {
+                "range": "$~gamme"
+            }
         },
         "Program": {
             "name": "$~programme",

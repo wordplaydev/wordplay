@@ -1003,7 +1003,10 @@
                 "I'm helpful when you want to create performances that depend on the past."
             ],
             "start": "First get $1",
-            "finish": "Evaluated to stream value $1"
+            "finish": "Evaluated to stream value $1",
+            "label": {
+                "range": "range"
+            }
         },
         "Program": {
             "name": "program",

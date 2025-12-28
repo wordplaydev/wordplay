@@ -7,6 +7,7 @@ import NameType from '@nodes/NameType';
 import type { FieldPosition } from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
+import Token from '@nodes/Token';
 import Revision from '../../../edit/Revision';
 import type { Edit } from '../commands/Commands';
 
@@ -92,7 +93,8 @@ export default class Menu {
         if (organization === undefined) {
             const visibleRevisions = this.revisions.filter(
                 (revision) =>
-                    revision.getPurpose(this.concepts) !== Purpose.Hidden,
+                    revision.getPurpose(this.concepts) !== Purpose.Hidden ||
+                    revision.getNewNode(this.concepts.locales) instanceof Token,
             );
 
             // The organization is divided into the following groups and order:

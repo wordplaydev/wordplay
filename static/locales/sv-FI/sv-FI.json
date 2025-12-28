@@ -1013,7 +1013,10 @@
                 "$~Jag är behjälplig när du vill skapa föreställningar som är beroende av det förflutna."
             ],
             "start": "$~Få först $1",
-            "finish": "$~Utvärderad till strömvärde $1"
+            "finish": "$~Utvärderad till strömvärde $1",
+            "label": {
+                "range": "$~räckvidd"
+            }
         },
         "Program": {
             "name": "$~programmera",

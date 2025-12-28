@@ -1001,7 +1001,10 @@
                 "$~Ich bin hilfreich, wenn Sie Aufführungen schaffen möchten, die auf der Vergangenheit basieren."
             ],
             "start": "$~erhalte zuerst $1",
-            "finish": "$~ausgewertet auf Streamwert $1"
+            "finish": "$~ausgewertet auf Streamwert $1",
+            "label": {
+                "range": "$~Reichweite"
+            }
         },
         "Program": {
             "name": "$~Programm",

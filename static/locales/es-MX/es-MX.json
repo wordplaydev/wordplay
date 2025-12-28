@@ -988,7 +988,10 @@
                 "Soy útil cuando quieres crear actuaciones que dependen del pasado."
             ],
             "start": "primero obtener $1",
-            "finish": "evaluado al valor del stream $1"
+            "finish": "evaluado al valor del stream $1",
+            "label": {
+                "range": "$~rango"
+            }
         },
         "Program": {
             "name": "programa",

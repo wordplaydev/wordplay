@@ -515,7 +515,7 @@ type NodeTexts = {
      * Start inputs: $1 = the stream expression being checked
      * Finish inputs: $1 = resulting value
      */
-    Previous: NodeText & ExpressionText;
+    Previous: NodeText & ExpressionText & { label: { range: string } };
     /**
      * A program, e.g., `1 + 1`, `hello()`, etc.
      * Start inputs: $1 = the stream that caused the evaluation, or nothing
