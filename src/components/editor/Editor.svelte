@@ -1108,8 +1108,10 @@
             // Filter the revisions by those that don't create conflicts.
             revisions = revisions.filter((revision) => {
                 const source = revisionToSource.get(revision);
-                const conflicts = source ? newConflicts.get(source) : undefined;
-                return conflicts === undefined || conflicts.length === 0;
+                const conflicts = source
+                    ? (newConflicts.get(source) ?? [])
+                    : [];
+                return conflicts.length === 0;
             });
         }
 

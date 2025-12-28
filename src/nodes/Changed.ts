@@ -94,7 +94,8 @@ export default class Changed extends SimpleExpression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        // This will be a value type
+        // The type of the stream will be the stream's value type of the stream, which doesn't help us verify the expression is a stream.
+        // Instead, we rely on Context.setStreamType() to be called, to cache the stream type.
         const valueType = this.stream.getType(context);
         const streamType = context.getStreamType(valueType);
 

@@ -55,6 +55,7 @@ import PropertyReference from './PropertyReference';
 import Reference from './Reference';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionType from './StreamDefinitionType';
+import StreamType from './StreamType';
 import StructureDefinition from './StructureDefinition';
 import StructureDefinitionType from './StructureDefinitionType';
 import StructureType from './StructureType';
@@ -749,7 +750,10 @@ export default class Evaluate extends Expression {
             );
         } else if (fun instanceof StreamDefinition) {
             // Remember that this type came from this definition.
-            context.setStreamType(fun.output, fun);
+            context.setStreamType(
+                fun.output,
+                StreamType.make(fun.getType(context)),
+            );
             // Return the type of this stream's output.
             return fun.output;
         }

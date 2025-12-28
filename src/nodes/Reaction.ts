@@ -163,6 +163,7 @@ export default class Reaction extends Expression {
         if (!(conditionType instanceof BooleanType))
             conflicts.push(new ExpectedBooleanCondition(this, conditionType));
 
+        // At least one dependency of the condition must be a stream.
         if (
             !Array.from(this.condition.getAllDependencies(context)).some(
                 (node) =>
