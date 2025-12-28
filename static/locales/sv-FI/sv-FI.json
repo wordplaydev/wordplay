@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~dokumentation",
                 "inputs": "$~ingångar",
-                "expression": "$~värden och funktioner"
+                "expression": "$~värden och funktioner",
+                "interfaces": "$~gränssnitt"
             }
         },
         "StructureDefinitionType": {

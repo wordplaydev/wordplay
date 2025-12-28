@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~선적 서류 비치",
                 "inputs": "$~입력값",
-                "expression": "$~값과 함수"
+                "expression": "$~값과 함수",
+                "interfaces": "$~인터페이스"
             }
         },
         "StructureDefinitionType": {

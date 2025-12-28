@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~dokümantasyon",
                 "inputs": "$~girdiler",
-                "expression": "$~değerler ve fonksiyonlar"
+                "expression": "$~değerler ve fonksiyonlar",
+                "interfaces": "$~arayüzler"
             }
         },
         "StructureDefinitionType": {

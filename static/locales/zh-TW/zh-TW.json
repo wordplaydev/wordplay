@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~文件",
                 "inputs": "$~輸入",
-                "expression": "$~值和函數"
+                "expression": "$~值和函數",
+                "interfaces": "$~介面"
             }
         },
         "StructureDefinitionType": {

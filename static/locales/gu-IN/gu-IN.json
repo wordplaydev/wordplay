@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~દસ્તાવેજીકરણ",
                 "inputs": "$~ઇનપુટ્સ",
-                "expression": "$~મૂલ્યો અને કાર્યો"
+                "expression": "$~મૂલ્યો અને કાર્યો",
+                "interfaces": "$~ઇન્ટરફેસ"
             }
         },
         "StructureDefinitionType": {

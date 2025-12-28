@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~ਦਸਤਾਵੇਜ਼ੀਕਰਨ",
                 "inputs": "$~ਇਨਪੁੱਟ",
-                "expression": "$~ਮੁੱਲ ਅਤੇ ਕਾਰਜ"
+                "expression": "$~ਮੁੱਲ ਅਤੇ ਕਾਰਜ",
+                "interfaces": "$~ਇੰਟਰਫੇਸ"
             }
         },
         "StructureDefinitionType": {

@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~documentation",
                 "inputs": "$~entrées",
-                "expression": "$~valeurs et fonctions"
+                "expression": "$~valeurs et fonctions",
+                "interfaces": "$~interfaces"
             }
         },
         "StructureDefinitionType": {

@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~ஆவணங்கள்",
                 "inputs": "$~உள்ளீடுகள்",
-                "expression": "$~மதிப்புகள் மற்றும் செயல்பாடுகள்"
+                "expression": "$~மதிப்புகள் மற்றும் செயல்பாடுகள்",
+                "interfaces": "$~இடைமுகங்கள்"
             }
         },
         "StructureDefinitionType": {

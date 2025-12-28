@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~ドキュメント",
                 "inputs": "$~入力",
-                "expression": "$~価値と機能"
+                "expression": "$~価値と機能",
+                "interfaces": "$~インターフェース"
             }
         },
         "StructureDefinitionType": {

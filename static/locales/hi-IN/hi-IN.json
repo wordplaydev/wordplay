@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~प्रलेखन",
                 "inputs": "$~आदानों",
-                "expression": "$~मान और कार्य"
+                "expression": "$~मान और कार्य",
+                "interfaces": "$~इंटरफेस"
             }
         },
         "StructureDefinitionType": {

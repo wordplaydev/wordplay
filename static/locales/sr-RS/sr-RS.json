@@ -1251,7 +1251,8 @@
             "label": {
                 "docs": "$~документација",
                 "inputs": "$~улази",
-                "expression": "$~вредности и функције"
+                "expression": "$~вредности и функције",
+                "interfaces": "$~интерфејси"
             }
         },
         "StructureDefinitionType": {
