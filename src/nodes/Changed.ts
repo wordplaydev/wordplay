@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type { InsertContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -64,8 +64,11 @@ export default class Changed extends SimpleExpression {
         ];
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getPossibleReplacements({ type }: ReplaceContext) {
+        // If a boolean is expected, suggest Changed.
+        return type instanceof BooleanType
+            ? [Changed.make(ExpressionPlaceholder.make(StreamType.make()))]
+            : [];
     }
 
     static getPossibleInsertions({ type }: InsertContext) {
