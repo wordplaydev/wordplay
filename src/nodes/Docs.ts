@@ -45,7 +45,7 @@ export default class Docs extends Node {
         return [
             {
                 name: 'docs',
-                kind: list(false, node(Doc)),
+                kind: list(true, node(Doc)),
                 newline: true,
                 label: () => (l) => l.term.documentation,
             },
