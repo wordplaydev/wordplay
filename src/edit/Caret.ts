@@ -615,6 +615,7 @@ export default class Caret {
         return (
             token.isSymbol(Sym.Words) ||
             token.isSymbol(Sym.Number) ||
+            token.isSymbol(Sym.URL) ||
             (token.isSymbol(Sym.Name) &&
                 parent !== undefined &&
                 !(parent instanceof Reference))
@@ -663,12 +664,12 @@ export default class Caret {
                     }
                 }
 
-                // If the token's individual symbols are editable, and the token isn't an only child, add all text positions to the list.
+                // If the token's individual symbols are editable.
                 if (Caret.isTokenTextBlockEditable(node, tokenParent)) {
                     const start = this.source.getTokenTextPosition(node);
                     const end = this.source.getTokenLastPosition(node);
                     if (start !== undefined && end !== undefined) {
-                        for (let pos = start; pos < end; pos++)
+                        for (let pos = start; pos <= end; pos++)
                             points.push(pos);
                     }
                 }

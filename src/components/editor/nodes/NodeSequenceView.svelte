@@ -26,6 +26,8 @@
         empty: 'hide' | 'label' | 'menu';
         /** The current format of the subtree */
         format: Format;
+        /** Whether to show an append button */
+        add?: boolean;
         /** Whether to lay out the list inline or block */
         block?: boolean;
         /** Whether to elide the list when it's long. */
@@ -43,6 +45,7 @@
         empty,
         format,
         elide = $bindable(false),
+        add = true,
         block = false,
         indent = false,
         padding = true,
@@ -123,7 +126,7 @@
     });
 </script>
 
-{#snippet append()}{#if format.editable && nodes.length > 0}<MenuTrigger
+{#snippet append()}{#if format.editable && nodes.length > 0 && add}<MenuTrigger
             anchor={{ parent: node, field, index: nodes.length }}
             insert
         />{/if}{/snippet}

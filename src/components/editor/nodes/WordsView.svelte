@@ -11,35 +11,37 @@
     let { node, format }: WordProps = $props();
 </script>
 
-<span class="words {format.block ? 'blocks' : ''} {node.getFormat()}"
-    ><NodeView node={[node, 'open']} {format} /><NodeSequenceView
+<NodeView node={[node, 'open']} {format} /><span
+    class="words {format.block ? 'blocks' : ''} {node.getFormat()}"
+    ><NodeSequenceView
         {node}
         field="segments"
         filtered={node.getNodeSegments()}
-        empty="label"
+        empty="menu"
         {format}
-    /><NodeView node={[node, 'close']} {format} />
-</span>
+    /></span
+><NodeView node={[node, 'close']} {format} empty="hide" />
 
 <style>
     .words.blocks {
         display: flex;
         flex-direction: row;
+        align-items: baseline;
     }
 
-    .italic {
+    .italic :global(.Token) {
         font-style: italic;
     }
-    .underline {
+    .underline :global(.Token) {
         text-decoration: underline;
     }
-    .light {
+    .light :global(.Token) {
         font-weight: 300;
     }
-    .bold {
+    .bold :global(.Token) {
         font-weight: bold;
     }
-    .extra {
+    .extra :global(.Token) {
         font-weight: 900;
     }
 </style>

@@ -70,7 +70,7 @@ export default class Words extends Content {
                     node(Sym.Light),
                     node(Sym.Bold),
                     node(Sym.Extra),
-                    none(['close', () => new Token(Sym.Italic, Sym.Italic)]),
+                    none(['close', (close) => close.clone()]),
                 ),
                 label: undefined,
             },
@@ -96,7 +96,7 @@ export default class Words extends Content {
                     node(Sym.Light),
                     node(Sym.Bold),
                     node(Sym.Extra),
-                    none(['open', () => new Token(Sym.Italic, Sym.Italic)]),
+                    none(['open', (open) => open.clone()]),
                 ),
                 label: undefined,
             },
@@ -110,7 +110,15 @@ export default class Words extends Content {
     clone(replace?: Replacement | undefined): this {
         return new Words(
             this.replaceChild('open', this.open, replace),
-            this.replaceChild('segments', this.getNodeSegments(), replace),
+            this.replaceChild(
+                'segments',
+                // We have to branch here because otherwise, we don't pass the original list to replaceChild(), which
+                // breaks replacements that target the list.
+                this.segments.every((n) => n instanceof Node)
+                    ? this.segments
+                    : this.getNodeSegments(),
+                replace,
+            ),
             this.replaceChild('close', this.close, replace),
         ) as this;
     }

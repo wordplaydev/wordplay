@@ -306,6 +306,13 @@ function getFieldAssignments(
                             fieldValue === undefined
                                 ? new Assign(context, position, parent, [
                                       { field: field, node: replacement },
+                                      // Are there any other fields required to be set when this one is set?
+                                      // Include it in the proposed assignment.
+                                      ...generateDependentAssignments(
+                                          fieldInfo,
+                                          locales,
+                                          replacement,
+                                      ),
                                   ])
                                 : new Append(
                                       context,
@@ -615,31 +622,6 @@ function getRelativeFieldEdits(
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)
                                 .map((addition) => {
-                                    // Are there any other fields required to be set when this one is set?
-                                    // Include it in the proposed assignment.
-                                    const otherNodes = relativeField.kind
-                                        .enumerateFieldKinds()
-                                        .filter(
-                                            (kind): kind is Empty =>
-                                                kind instanceof Empty &&
-                                                kind.dependency !== undefined &&
-                                                parent.getField(
-                                                    kind.dependency.name,
-                                                ) === undefined,
-                                        )
-                                        .map((kind) => {
-                                            if (kind.dependency) {
-                                                return {
-                                                    field: kind.dependency.name,
-                                                    node: kind.dependency.createDefault(),
-                                                };
-                                            } else return undefined;
-                                        })
-                                        .filter(
-                                            (addition) =>
-                                                addition !== undefined,
-                                        );
-
                                     return new Assign(
                                         context,
                                         position,
@@ -649,7 +631,13 @@ function getRelativeFieldEdits(
                                                 field: relativeField.name,
                                                 node: addition,
                                             },
-                                            ...otherNodes,
+                                            // Are there any other fields required to be set when this one is set?
+                                            // Include it in the proposed assignment.
+                                            ...generateDependentAssignments(
+                                                relativeField,
+                                                locales,
+                                                addition,
+                                            ),
                                         ],
                                     );
                                 }),
@@ -661,6 +649,35 @@ function getRelativeFieldEdits(
 
     // Return the edits, removing any duplicates
     return edits;
+}
+
+/**
+ * Generate assignments for a field based on dependencies
+ */
+function generateDependentAssignments(
+    field: Field,
+    locales: Locales,
+    addition: Node | Refer,
+): { field: string; node: Node | Refer }[] {
+    return field.kind
+        .enumerateFieldKinds()
+        .filter(
+            (kind): kind is Empty =>
+                kind instanceof Empty && kind.dependency !== undefined,
+        )
+        .map((kind) => {
+            if (kind.dependency) {
+                return {
+                    field: kind.dependency.name,
+                    node: kind.dependency.createDefault(
+                        addition instanceof Node
+                            ? addition
+                            : addition.getNode(locales),
+                    ),
+                };
+            } else return undefined;
+        })
+        .filter((addition) => addition !== undefined);
 }
 
 /**

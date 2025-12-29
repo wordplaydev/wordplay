@@ -856,7 +856,11 @@ export class ListOf extends FieldKind {
     }
 }
 
-type EmptyDefault = { name: string; createDefault: () => Node };
+/**
+ * Represents a dependency between two fields of a node, where creating one must mean creating the other.
+ * The createDefault() function generates the dependent field given the other field's value.
+ * */
+type EmptyDefault = { name: string; createDefault: (node: Node) => Node };
 
 // A field can be undefined, and if a dependency field name is specified, only if that field is also undefined.
 export class Empty extends FieldKind {
@@ -946,7 +950,9 @@ export class Any extends FieldKind {
 export function node(kind: Function | Sym) {
     return new IsA(kind);
 }
-export function none(dependency?: [string, () => Node]) {
+
+/** An empty option, with an optional dependency on another field that generates a default when creating them. */
+export function none(dependency?: [string, (node: Node) => Node]) {
     return new Empty(
         dependency
             ? { name: dependency[0], createDefault: dependency[1] }

@@ -5,6 +5,7 @@ import Purpose from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from './Node';
 import Program from './Program';
 import Sym from './Sym';
@@ -36,7 +37,7 @@ export default class Example extends Content {
     }
 
     static getPossibleInsertions() {
-        return [Example.make(Program.make())];
+        return [Example.make(Program.make([ExpressionPlaceholder.make()]))];
     }
 
     getDescriptor(): NodeDescriptor {

@@ -210,7 +210,7 @@ const Templates: Node[] = [
     ]),
     ConceptLink.make(PLACEHOLDER_SYMBOL),
     WebLink.make('🔗', 'http://wordplay.dev'),
-    Example.make(Program.make()),
+    Example.make(Program.make([ExpressionPlaceholder.make()])),
     new Paragraph([Words.make()]),
     Words.make(),
 
