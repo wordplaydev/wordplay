@@ -65,7 +65,6 @@ const AutocompleteTriggers: Trigger[] = [
     { symbol: CONVERT_SYMBOL, revise: completeConvert },
     { symbol: Object.keys(DelimiterCloseByOpen), revise: completeDelimiter },
     { symbol: '.', revise: completeStream },
-    { symbol: '>', revise: completeArrow },
     {
         symbol: (text) => tokens(text)[0]?.isSymbol(Sym.Operator),
         revise: completeBinaryEvaluate,
@@ -267,17 +266,6 @@ function completeStream({
     return undefined;
 }
 
-function completeArrow({ source, position }: InsertInfo): Revision | undefined {
-    // If the preceding character is an arrow dash, delete the dash and insert the arrow
-    if (source.getGraphemeAt(position - 1) === '-') {
-        const newSource = source
-            .withoutGraphemeAt(position - 1)
-            ?.withGraphemesAt(CONVERT_SYMBOL, position - 1);
-        if (newSource) return [newSource, position];
-    }
-    return undefined;
-}
-
 /**
  * If the inserted character is an operator, see if we can construct a binary evaluation with the
  * preceding expression and a placeholder on the right.
@@ -289,16 +277,14 @@ function completeBinaryEvaluate({
     project,
 }: InsertInfo): Revision | undefined {
     // Find the top most expression that ends where the caret is.
-    const precedingExpression = source
-        .nodes()
-        .filter(
-            (node): node is Expression =>
-                node instanceof Expression &&
-                !(node instanceof Program) &&
-                !(node instanceof Source) &&
-                !(node instanceof Block && node.isRoot()) &&
-                source.getNodeLastPosition(node) === position,
-        )[0];
+    const precedingExpression = getPrecedingExpression(source, position).filter(
+        (node): node is Expression =>
+            node instanceof Expression &&
+            !(node instanceof Program) &&
+            !(node instanceof Source) &&
+            !(node instanceof Block && node.isRoot()) &&
+            source.getNodeLastPosition(node) === position,
+    )[0];
 
     if (
         precedingExpression &&
