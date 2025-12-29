@@ -9,11 +9,17 @@ import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionType from '@nodes/FunctionType';
 import Is from '@nodes/Is';
+import ListAccess from '@nodes/ListAccess';
+import ListType from '@nodes/ListType';
 import Literal from '@nodes/Literal';
+import MapType from '@nodes/MapType';
 import Node from '@nodes/Node';
+import NumberType from '@nodes/NumberType';
 import Program from '@nodes/Program';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
+import SetOrMapAccess from '@nodes/SetOrMapAccess';
+import SetType from '@nodes/SetType';
 import Source from '@nodes/Source';
 import StreamDefinitionType from '@nodes/StreamDefinitionType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
@@ -204,6 +210,7 @@ function completeDelimiter({
     caret,
     text,
     source,
+    project,
     position,
     validOnly,
 }: InsertInfo): Revision | undefined {
@@ -231,6 +238,21 @@ function completeDelimiter({
         let newPosition: Node | number = position;
         let newSource = source;
 
+        const preceding = getPrecedingExpression(source, position).map(
+            (node) => ({
+                expression: node,
+                type: node.getType(project.getNodeContext(node)),
+            }),
+        );
+        const precedingList = preceding.filter(
+            (preceding) => preceding.type instanceof ListType,
+        )[0]?.expression;
+        const precedingSet = preceding.filter(
+            (preceding) =>
+                preceding.type instanceof SetType ||
+                preceding.type instanceof MapType,
+        )[0]?.expression;
+
         // Insert an empty block in valid only mode and place the caret at the placeholder.
         if (validOnly && text === EVAL_OPEN_SYMBOL) {
             text += PLACEHOLDER_SYMBOL + EVAL_CLOSE_SYMBOL;
@@ -242,6 +264,22 @@ function completeDelimiter({
                 );
             newPosition = placeholder ?? position + text.length;
             if (newSource) return [newSource, newPosition];
+        }
+        // Is the preceding expression a list? Complete a list close
+        else if (precedingList) {
+            const placeholder = ExpressionPlaceholder.make(NumberType.make());
+            const newSource = source.replace(
+                precedingList,
+                ListAccess.make(precedingList, placeholder),
+            );
+            if (newSource) return [newSource, placeholder];
+        } else if (precedingSet) {
+            const placeholder = ExpressionPlaceholder.make();
+            const newSource = source.replace(
+                precedingSet,
+                SetOrMapAccess.make(precedingSet, placeholder),
+            );
+            if (newSource) return [newSource, placeholder];
         } else {
             text += DelimiterCloseByOpen[text];
             newSource = source.withGraphemesAt(text, position) ?? newSource;
