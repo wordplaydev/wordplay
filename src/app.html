@@ -672,6 +672,27 @@
                 border-bottom: var(--wordplay-border-width) solid
                     var(--wordplay-border-color);
             }
+
+            a {
+                color: var(--wordplay-highlight-color);
+                text-decoration: none;
+                /* In case a parent disables pointer events, we need to enable them here. */
+                pointer-events: auto;
+            }
+
+            /* Links in paragraphs should have underlines for visibility. */
+            p > a {
+                text-decoration: calc(var(--wordplay-focus-width) / 2) underline
+                    var(--wordplay-highlight-color);
+            }
+
+            a:focus,
+            a:hover {
+                outline: none;
+                text-decoration: underline;
+                text-decoration-thickness: var(--wordplay-focus-width);
+                text-decoration-color: var(--wordplay-focus-color);
+            }
         </style>
 
         %sveltekit.head%
