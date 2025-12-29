@@ -101,15 +101,8 @@ export default class NumberLiteral extends Literal {
     }
 
     /** Replacing a node with another? Get numbers that match the expected type. */
-    static getPossibleReplacements({
-        node,
-        type,
-        complete,
-        context,
-    }: ReplaceContext) {
-        return !complete || node instanceof NumberLiteral
-            ? NumberLiteral.getPossibleNumbers(node, type, context)
-            : [];
+    static getPossibleReplacements({ node, type, context }: ReplaceContext) {
+        return NumberLiteral.getPossibleNumbers(node, type, context);
     }
 
     /** Inserting a number in a list? Get numbers that match the expected type. */

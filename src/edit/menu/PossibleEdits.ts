@@ -85,7 +85,6 @@ import TypeVariables from '../../nodes/TypeVariables';
 import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 import UnionType from '../../nodes/UnionType';
 import Unit from '../../nodes/Unit';
-import UnknownType from '../../nodes/UnknownType';
 import UnparsableExpression from '../../nodes/UnparsableExpression';
 import Update from '../../nodes/Update';
 import WebLink from '../../nodes/WebLink';
@@ -363,7 +362,6 @@ function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
                         node,
                         context,
                         locales,
-                        complete: false,
                     }).map((replacement) =>
                         replacement === undefined
                             ? new Remove(context, parent, node)
@@ -476,46 +474,32 @@ function getRelativeFieldEdits(
             2,
         );
 
-        edits = [
-            ...edits,
-            ...field.kind
-                .enumerate()
-                .map((kind) =>
-                    getPossibleNodes(field, kind, {
-                        type:
-                            expectedType instanceof UnknownType
-                                ? undefined
-                                : expectedType,
-                        node: anchorNode,
-                        context,
-                        locales,
-                        complete: true,
-                    })
-                        // If not on an empty line, only include recommendations that "complete" the selection
-                        .filter(
-                            (replacement): replacement is Node | Refer =>
-                                replacement !== undefined &&
-                                (empty ||
-                                    completes(
-                                        anchorNode,
-                                        replacement instanceof Node
-                                            ? replacement
-                                            : replacement.getNode(locales),
-                                    )),
-                        )
-                        // Convert the matching nodes to replacements.
-                        .map(
-                            (replacement) =>
-                                new Replace(
-                                    context,
-                                    parent,
-                                    anchorNode,
-                                    replacement,
-                                ),
-                        ),
-                )
-                .flat(),
-        ];
+        if (anchorNode instanceof Reference) {
+            edits = [
+                ...edits,
+                ...Reference.getPossibleReferences(
+                    expectedType,
+                    anchorNode,
+                    true,
+                    context,
+                ).map(
+                    (replacement) =>
+                        new Replace(context, parent, anchorNode, replacement),
+                ),
+            ];
+        } else if (anchorNode instanceof PropertyReference) {
+            edits = [
+                ...edits,
+                ...PropertyReference.getPossibleReferences(
+                    expectedType,
+                    anchorNode,
+                    context,
+                ).map(
+                    (replacement) =>
+                        new Replace(context, parent, anchorNode, replacement),
+                ),
+            ];
+        }
     }
 
     // Scan the parent's grammar for fields before or after to the current node the caret is it.
@@ -618,7 +602,6 @@ function getRelativeFieldEdits(
                                 field: relativeField.name,
                                 context,
                                 locales,
-                                complete: false,
                                 index: undefined,
                             })
                                 // Filter out any undefined values, since the field is already undefined.
@@ -680,39 +663,6 @@ function generateDependentAssignments(
             } else return undefined;
         })
         .filter((addition) => addition !== undefined);
-}
-
-/**
- * Given two nodes, determine if at least one node in the original node appears in the replacement node,
- * or if one of the replacement's name tokens starts with one of the original's name tokens.
- */
-function completes(original: Node, replacement: Node): boolean {
-    // Completes if it contains a node equal to the original node
-    const replacementNodes = replacement.nodes();
-    const originalNodes = original.nodes();
-    if (
-        replacementNodes.some((newNode) =>
-            originalNodes.some((oldNode) => newNode.isEqualTo(oldNode)),
-        )
-    )
-        return true;
-
-    // Completes if there's a name in the replacement that completes the original node.
-    return replacementNodes.some((n1) =>
-        originalNodes.some((n2) => {
-            const n1isToken = n1 instanceof Token;
-            const n2isToken = n2 instanceof Token;
-            const n1isName = n1isToken && n1.isName();
-            const n2isName = n2isToken && n2.isName();
-            return (
-                (n1isToken &&
-                    n1isName &&
-                    n2isName &&
-                    n1.getText().startsWith(n2.getText())) ||
-                (!n1isToken && !n2isToken && n1.isEqualTo(n2))
-            );
-        }),
-    );
 }
 
 /** A list of node types from which we can generate replacements. Order affects where they appear in autocomplete menus. */

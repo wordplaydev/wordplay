@@ -221,13 +221,8 @@ export default class Reference extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements({
-        type,
-        node,
-        context,
-        complete,
-    }: ReplaceContext) {
-        return this.getPossibleReferences(type, node, complete, context);
+    static getPossibleReplacements({ type, node, context }: ReplaceContext) {
+        return this.getPossibleReferences(type, node, false, context);
     }
 
     static getPossibleInsertions({ type, parent, context }: InsertContext) {

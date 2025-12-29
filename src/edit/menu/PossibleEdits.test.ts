@@ -2,8 +2,10 @@ import Project from '@db/projects/Project';
 import Caret from '@edit/caret/Caret';
 import DefaultLocales from '@locale/DefaultLocales';
 import BooleanLiteral from '@nodes/BooleanLiteral';
+import Evaluate from '@nodes/Evaluate';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
+import Unit from '@nodes/Unit';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { TRUE_SYMBOL } from '@parser/Symbols';
 import { expect, test } from 'vitest';
@@ -56,21 +58,21 @@ test.each([
     ],
     [
         'suggest evaluate wrap',
-        `ƒ sum(a•? b•?) a & b\nsum()**`,
-        undefined,
+        `ƒ sum(a•? b•?) a & b\nsum()`,
+        (node) => node instanceof Evaluate,
         Replace,
         '(sum())',
     ],
+    ['suggest basis function eval', `"hi".**`, undefined, Replace, '"hi".📏()'],
     [
-        'suggest structure function eval',
-        `"hi".**`,
-        undefined,
+        'suggest binary evaluate',
+        `1**`,
+        (node) => node instanceof NumberLiteral,
         Replace,
-        '"hi".📏()',
+        '1 + _',
     ],
-    ['suggest structure property', `"hi".**`, undefined, Replace, '"hi" = _'],
     [
-        'suggest property reference',
+        'complete property reference',
         `•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`,
         undefined,
         Replace,
@@ -98,9 +100,21 @@ test.each([
         Append,
         'a',
     ],
-    ['suggest unit', '1**', undefined, Replace, '1ms'],
-    ['suggest additional denominator', '1m**', undefined, Replace, 'm·min'],
-    ['suggest denominator', '1m**', undefined, Replace, 'm/s'],
+    ['suggest unit', '1**', undefined, Assign, 'ms'],
+    [
+        'suggest additional denominator',
+        '1m**',
+        (node) => node instanceof Unit,
+        Replace,
+        'm·min',
+    ],
+    [
+        'suggest denominator',
+        '1m**',
+        (node) => node instanceof Unit,
+        Replace,
+        'm/s',
+    ],
 ])(
     '%s: %s',
     (
