@@ -133,6 +133,9 @@ function getPrecedingExpression(
         .filter(
             (node): node is Expression =>
                 node instanceof Expression &&
+                !(node instanceof Program) &&
+                !(node instanceof Source) &&
+                !(node instanceof Block && node.isRoot()) &&
                 source.getNodeLastPosition(node) === position,
         );
 }
