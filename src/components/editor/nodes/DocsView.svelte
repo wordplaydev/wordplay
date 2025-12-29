@@ -16,6 +16,6 @@
     field="docs"
     empty="menu"
     {format}
-    block={format.block}
+    block="block"
     padding={false}
 />

@@ -23,10 +23,7 @@
         field="statements"
         {format}
         empty="label"
-        block={node.isRoot() ||
-            node.statements.length > 1 ||
-            node.statements.reduce((sum, v) => sum + v.toWordplay().length, 0) >
-                32}
+        block={node.isRoot() || node.statements.length > 1 ? 'block' : 'inline'}
     /><NodeView node={[node, 'close']} {format} empty="hide" />
 {/snippet}
 
@@ -56,6 +53,6 @@
         field="statements"
         {format}
         empty="label"
-        block={node.isRoot()}
+        block={node.isRoot() ? 'block' : 'inline-wrap'}
     /><NodeView node={[node, 'close']} {format} empty="hide" />
 {/if}

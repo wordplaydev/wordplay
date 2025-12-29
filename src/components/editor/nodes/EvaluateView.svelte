@@ -33,8 +33,6 @@
         {format}
         field="inputs"
         empty={fun !== undefined && fun.inputs.length > 0 ? 'label' : 'hide'}
-        block={node.inputs.reduce((sum, v) => sum + v.toWordplay().length, 0) >
-            32}
     />
     <NodeView node={[node, 'close']} {format} />
 {:else}

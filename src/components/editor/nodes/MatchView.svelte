@@ -21,7 +21,7 @@
     </Flow>
     <Flow direction="column" indent>
         <NodeSequenceView
-            block
+            block="block"
             {node}
             field="cases"
             {format}

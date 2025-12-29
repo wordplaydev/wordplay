@@ -28,8 +28,8 @@
         format: Format;
         /** Whether to show an append button */
         add?: boolean;
-        /** Whether to lay out the list inline or block */
-        block?: boolean;
+        /** What layout to use. */
+        block?: 'inline' | 'block' | 'inline-wrap';
         /** Whether to elide the list when it's long. */
         elide?: boolean;
         /** Whether to indent the list.*/
@@ -46,7 +46,7 @@
         format,
         elide = $bindable(false),
         add = true,
-        block = false,
+        block = 'inline-wrap',
         indent = false,
         padding = true,
     }: Props = $props();
@@ -141,7 +141,7 @@
             class:editable={format.editable}
             class:empty={nodes.length === 0}
             data-field={field}
-            data-direction={block ? 'block' : 'inline'}
+            data-direction={block}
         >
             {@render before()}
             {#each visible as node, index}
@@ -228,6 +228,12 @@
 
     [data-direction='block'].node-list {
         flex-direction: column;
+    }
+
+    [data-direction='inline-wrap'].node-list {
+        flex-wrap: wrap;
+        row-gap: var(--wordplay-spacing-half);
+        max-width: 20em;
     }
 
     [data-direction='block'].node-list.editable.padding:not(.empty) {
