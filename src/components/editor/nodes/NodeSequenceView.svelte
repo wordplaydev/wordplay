@@ -44,7 +44,7 @@
         format,
         elide = $bindable(false),
         add = true,
-        direction: block = 'inline',
+        direction = 'inline',
         indent = false,
     }: Props = $props();
 
@@ -137,7 +137,7 @@
             class:editable={format.editable}
             class:empty={nodes.length === 0}
             data-field={field}
-            data-direction={block}
+            data-direction={direction}
         >
             {@render before()}
             {#each visible as node, index}
@@ -153,7 +153,7 @@
                 {#if insertion?.index === nodes.length}
                     <div class="insertion-feedback"></div>
                 {/if}
-                {#if !block}{@render append()}{/if}
+                {#if !direction}{@render append()}{/if}
             {/if}
         </div>
     {/if}
@@ -183,7 +183,7 @@
 {/snippet}
 
 {#if format.block}
-    {#if block}
+    {#if direction === 'block'}
         <div class="flow">
             {@render list()}
             {@render append()}
