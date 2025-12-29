@@ -215,6 +215,7 @@
 
     [data-direction='block'].node-list {
         flex-direction: column;
+        gap: var(--wordplay-spacing-half);
     }
 
     [data-direction='inline'].node-list {
