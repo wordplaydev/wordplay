@@ -481,7 +481,7 @@
                     ].getBoundingClientRect();
 
                 return {
-                    left: nodeViewRect.left + viewportXOffset,
+                    left: nodeViewRect.right + editorPadding + viewportXOffset,
                     top: nodeViewRect.top + viewportYOffset,
                     height: nodeViewRect.height,
                     bottom: nodeViewRect.bottom + viewportYOffset,
