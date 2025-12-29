@@ -202,13 +202,18 @@ function completeEvaluate({
         // Make a new source
         const newSource = source.replace(precedingExpression, evaluate);
         if (newSource === source) return undefined;
-        // Place the caret on the placeholder
+        const firstPlaceholder = evaluate.nodes(
+            (n) => n instanceof ExpressionPlaceholder,
+        )[0];
+        // Place the caret on the first placeholder, or before the close.
         const newPosition =
-            (evaluate instanceof Evaluate
-                ? evaluate.close
-                    ? newSource.getNodeFirstPosition(evaluate.close)
-                    : newSource.getNodeLastPosition(evaluate)
-                : position) ?? position;
+            firstPlaceholder !== undefined
+                ? firstPlaceholder
+                : ((evaluate instanceof Evaluate
+                      ? evaluate.close
+                          ? newSource.getNodeFirstPosition(evaluate.close)
+                          : newSource.getNodeLastPosition(evaluate)
+                      : position) ?? position);
 
         return [newSource, newPosition];
     }

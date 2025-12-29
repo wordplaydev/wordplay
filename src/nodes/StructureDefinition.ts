@@ -238,8 +238,7 @@ export default class StructureDefinition extends DefinitionExpression {
                 .filter((input) => !input.hasDefault())
                 .map((input) =>
                     input.type
-                        ? (input.type.getDefaultExpression(context) ??
-                          ExpressionPlaceholder.make(input.type))
+                        ? ExpressionPlaceholder.make(input.type.clone())
                         : ExpressionPlaceholder.make(),
                 ),
         );
