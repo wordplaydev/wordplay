@@ -37,6 +37,7 @@
             kinds.some((kind) =>
                 Caret.isTokenTextBlockEditable(new Token('', kind), node),
             )}
+        data-nodeid={node.id}
         data-field={field}
     >
         {#if style === 'label' && $project && format.root}

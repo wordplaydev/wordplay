@@ -850,7 +850,7 @@ export default class Source extends Expression {
             return this.getTokenTextPosition(firstToken);
         const tokenBefore = this.getTokenBeforeNode(node);
         return tokenBefore === undefined
-            ? undefined
+            ? 0
             : this.getTokenLastPosition(tokenBefore);
     }
 
@@ -860,7 +860,7 @@ export default class Source extends Expression {
             return this.getTokenLastPosition(lastToken);
         const tokenAfter = this.getTokenAfterNode(node);
         return tokenAfter === undefined
-            ? undefined
+            ? this.code.getLength()
             : this.getTokenTextPosition(tokenAfter);
     }
 

@@ -264,6 +264,28 @@ export default abstract class Node {
         return this.getFieldNamed(name)?.kind;
     }
 
+    getAdjacentFieldNode(
+        fieldName: string,
+        forward: boolean,
+    ): Node | undefined {
+        const grammar = forward
+            ? this.getGrammar()
+            : this.getGrammar().reverse();
+        const values: Node[] = [];
+        for (let index = 0; index < grammar.length; index++) {
+            const field = grammar[index];
+            // Found the node? Get the most recent node we read.
+            if (field.name === fieldName) return values.at(-1);
+            // Otherwise, add the nodes.
+            else {
+                const fieldValue = this.getField(field.name);
+                if (fieldValue instanceof Node) values.push(fieldValue);
+                else if (Array.isArray(fieldValue)) values.push(...fieldValue);
+            }
+        }
+        return undefined;
+    }
+
     // CONFLICTS
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */

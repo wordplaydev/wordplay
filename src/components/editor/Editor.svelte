@@ -93,6 +93,7 @@
     import { type Outline, OutlinePadding } from './highlights/outline';
     import Menu, { RevisionSet } from './menu/Menu';
     import MenuTrigger from './menu/MenuTrigger.svelte';
+    import { getEmptyList, getNodeAt } from './pointer/Utilities';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -448,29 +449,34 @@
     }
 
     function placeCaretAt(event: PointerEvent) {
-        const tokenUnderPointer = getNodeAt(event, true);
-        const nonTokenNodeUnderPointer = getNodeAt(event, false);
+        // If the token is over an empty list, insertion point for that list.
+        const empty = $blocks ? getEmptyList(source, event) : undefined;
+        const tokenUnderPointer = getNodeAt(source, event, true);
+        const nonTokenNodeUnderPointer = getNodeAt(source, event, false);
         const newPosition =
-            // If in blocks mode and over an editable text token, get the caret position
-            $blocks &&
-            tokenUnderPointer instanceof Token &&
-            Caret.isTokenTextBlockEditable(
-                tokenUnderPointer,
-                source.root.getParent(tokenUnderPointer),
-            )
-                ? getCaretPositionAt(event)
-                : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
-                  (event.shiftKey || $blocks) &&
-                    nonTokenNodeUnderPointer !== undefined
-                  ? nonTokenNodeUnderPointer
-                  : // If the node is a placeholder token, select it's placeholder ancestor
+            // If there's an ampty position, use that.
+            empty !== undefined
+                ? empty
+                : // If in blocks mode and over an editable text token, get the caret position
+                  $blocks &&
                     tokenUnderPointer instanceof Token &&
-                      tokenUnderPointer.isSymbol(Sym.Placeholder)
-                    ? source.root
-                          .getAncestors(tokenUnderPointer)
-                          .find((a) => a.isPlaceholder())
-                    : // Otherwise choose an index position under the mouse
-                      getCaretPositionAt(event);
+                    Caret.isTokenTextBlockEditable(
+                        tokenUnderPointer,
+                        source.root.getParent(tokenUnderPointer),
+                    )
+                  ? getCaretPositionAt(event)
+                  : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
+                    (event.shiftKey || $blocks) &&
+                      nonTokenNodeUnderPointer !== undefined
+                    ? nonTokenNodeUnderPointer
+                    : // If the node is a placeholder token, select it's placeholder ancestor
+                      tokenUnderPointer instanceof Token &&
+                        tokenUnderPointer.isSymbol(Sym.Placeholder)
+                      ? source.root
+                            .getAncestors(tokenUnderPointer)
+                            .find((a) => a.isPlaceholder())
+                      : // Otherwise choose an index position under the mouse
+                        getCaretPositionAt(event);
 
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
@@ -498,25 +504,6 @@
                 if (editor) editor.style.touchAction = 'none';
             }
         }
-    }
-
-    function getNodeAt(
-        event: PointerEvent | MouseEvent,
-        includeTokens: boolean,
-    ) {
-        const el = document.elementFromPoint(event.clientX, event.clientY);
-        // Only return a node if hovering over its text. Space isn't eligible.
-        if (el instanceof HTMLElement) {
-            const nodeView = el.closest(
-                `.node-view${includeTokens ? '' : `:not(.Token)`}`,
-            );
-            if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
-                return source.expression.getNodeByID(
-                    parseInt(nodeView.dataset.id),
-                );
-            }
-        }
-        return undefined;
     }
 
     function getTokenFromElement(
@@ -796,7 +783,7 @@
         candidate: Node,
     ): InsertionPoint | AssignmentPoint | undefined {
         // Find the node under the pointer. If there isn't one, bail.
-        const nodeUnderPointer = getNodeAt(event, false);
+        const nodeUnderPointer = getNodeAt(source, event, false);
         if (nodeUnderPointer === undefined) return undefined;
 
         // Don't allow parents to be inserted into their children.
@@ -1029,8 +1016,8 @@
 
     function handleEditHover(event: PointerEvent) {
         // By default, set the hovered state to whatever node is under the mouse.
-        hovered.set(getNodeAt(event, false));
-        hoveredAny.set(getNodeAt(event, true));
+        hovered.set(getNodeAt(source, event, false));
+        hoveredAny.set(getNodeAt(source, event, true));
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
         if (dragged && dragCandidate && exceededDragThreshold(event)) {
@@ -1082,7 +1069,7 @@
     function handleDebugHover(event: PointerEvent) {
         if (evaluator === undefined) return;
 
-        const node = getNodeAt(event, false);
+        const node = getNodeAt(source, event, false);
 
         // If the node is associated with a step, set it, otherwise unset it.
         hovered.set(
@@ -1853,7 +1840,7 @@
     onkeydown={handleKeyDown}
     ondblclick={(event) => {
         event.stopPropagation();
-        let node = getNodeAt(event, true);
+        let node = getNodeAt(source, event, true);
         if (node) caret.set($caret.withPosition(node));
     }}
     onfocusin={() => {
