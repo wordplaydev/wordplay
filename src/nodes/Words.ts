@@ -131,6 +131,12 @@ export default class Words extends Content {
         return new Words(this.open, segments, this.close);
     }
 
+    withSegmentInsertedAt(index: number, segment: Segment) {
+        const newSegments = [...this.segments];
+        newSegments.splice(index, 0, segment);
+        return this.withSegments(newSegments);
+    }
+
     getPurpose() {
         return Purpose.Documentation;
     }

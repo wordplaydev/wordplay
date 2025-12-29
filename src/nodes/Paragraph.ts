@@ -91,6 +91,12 @@ export default class Paragraph extends Content {
         return new Paragraph(segments);
     }
 
+    withSegmentInsertedAt(index: number, segment: Segment) {
+        const newSegments = [...this.segments];
+        newSegments.splice(index, 0, segment);
+        return this.withSegments(newSegments);
+    }
+
     getPurpose() {
         return Purpose.Documentation;
     }

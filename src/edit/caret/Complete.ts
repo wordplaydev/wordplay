@@ -17,6 +17,7 @@ import MapType from '@nodes/MapType';
 import Names from '@nodes/Names';
 import Node from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
+import Paragraph from '@nodes/Paragraph';
 import Program from '@nodes/Program';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
@@ -28,6 +29,8 @@ import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
 import Sym from '@nodes/Sym';
 import TypePlaceholder from '@nodes/TypePlaceholder';
+import WebLink from '@nodes/WebLink';
+import Words from '@nodes/Words';
 import {
     BIND_SYMBOL,
     CONVERT_SYMBOL,
@@ -36,6 +39,7 @@ import {
     EVAL_OPEN_SYMBOL,
     PLACEHOLDER_SYMBOL,
     STREAM_SYMBOL,
+    TAG_OPEN_SYMBOL,
     TYPE_SYMBOL,
 } from '@parser/Symbols';
 import {
@@ -82,6 +86,7 @@ const AutocompleteTriggers: Trigger[] = [
     },
     { symbol: TYPE_SYMBOL, revise: completeIs },
     { symbol: BIND_SYMBOL, revise: completeBindOrKeyValue },
+    { symbol: TAG_OPEN_SYMBOL, revise: completeLink },
 ];
 
 /** Given some text to insert, get a revision based on any eligible autocompletions. */
@@ -136,6 +141,17 @@ function getPrecedingExpression(
                 !(node instanceof Program) &&
                 !(node instanceof Source) &&
                 !(node instanceof Block && node.isRoot()) &&
+                !(node instanceof Bind) &&
+                source.getNodeLastPosition(node) === position,
+        );
+}
+
+function getPrecedingMarkup(source: Source, position: number): Words[] {
+    return source
+        .nodes()
+        .filter(
+            (node): node is Words =>
+                node instanceof Words &&
                 source.getNodeLastPosition(node) === position,
         );
 }
@@ -358,10 +374,7 @@ function completeBinaryEvaluate({
 }
 
 /** Complete an is type check on the preceding expression */
-export function completeIs({
-    source,
-    position,
-}: InsertInfo): Revision | undefined {
+function completeIs({ source, position }: InsertInfo): Revision | undefined {
     // Find the top most expression that ends where the caret is.
     const precedingExpression = getPrecedingExpression(source, position)[0];
     if (precedingExpression === undefined) return undefined;
@@ -377,7 +390,7 @@ export function completeIs({
 }
 
 /** On a :, complete a Bind or KeyValue */
-export function completeBindOrKeyValue({
+function completeBindOrKeyValue({
     source,
     position,
 }: InsertInfo): Revision | undefined {
@@ -401,4 +414,27 @@ export function completeBindOrKeyValue({
     const newSource = source.replace(preceding, bind);
     // Place the caret on the placeholder
     if (newSource !== source) return [newSource, placeholder];
+}
+
+/** Complete a web link inside a paragraph */
+function completeLink({ source, position }: InsertInfo): Revision | undefined {
+    const precedingMarkup = getPrecedingMarkup(source, position);
+    const content = precedingMarkup[0];
+    const parent = source.root.getParent(content);
+
+    if (!(parent instanceof Words || parent instanceof Paragraph))
+        return undefined;
+
+    const index = parent.segments.indexOf(content);
+    if (index < 0) return undefined;
+
+    const newLink = WebLink.make('', 'https://');
+    const newSource = source.replace(
+        parent,
+        parent.withSegmentInsertedAt(index + 1, newLink),
+    );
+
+    if (newSource !== source) return [newSource, position + 1];
+
+    return undefined;
 }
