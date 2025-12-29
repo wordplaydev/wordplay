@@ -10,6 +10,7 @@ import Node, { Empty, ListOf, type Field } from '@nodes/Node';
 import Program from '@nodes/Program';
 import PropertyReference from '@nodes/PropertyReference';
 import Source from '@nodes/Source';
+import StreamDefinitionType from '@nodes/StreamDefinitionType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
 import Sym from '@nodes/Sym';
@@ -1344,9 +1345,26 @@ export default class Caret {
                 if (
                     fun instanceof FunctionType ||
                     fun instanceof StructureType ||
-                    fun instanceof StructureDefinitionType
+                    fun instanceof StructureDefinitionType ||
+                    fun instanceof StreamDefinitionType
                 ) {
-                    const evaluate = Evaluate.make(precedingExpression, []);
+                    const definition =
+                        fun instanceof FunctionType
+                            ? fun.definition
+                            : fun instanceof StructureType
+                              ? fun.definition
+                              : fun instanceof StructureDefinitionType
+                                ? fun.type.definition
+                                : fun instanceof StreamDefinitionType
+                                  ? fun.definition
+                                  : undefined;
+                    const evaluate = definition
+                        ? (definition.getEvaluateTemplate(
+                              context.getBasis().locales,
+                              context,
+                              precedingExpression,
+                          ) ?? Evaluate.make(precedingExpression, []))
+                        : Evaluate.make(precedingExpression, []);
                     // Make a new source
                     newSource = source.replace(precedingExpression, evaluate);
                     // Place the caret on the placeholder
