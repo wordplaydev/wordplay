@@ -1,6 +1,6 @@
 <script lang="ts">
     import NodeView from '@components/editor/nodes/NodeView.svelte';
-    import type Caret from '@edit/Caret';
+    import type Caret from '@edit/caret/Caret';
     import type Locale from '@locale/Locale';
     import Docs from '@nodes/Docs';
     import type { LanguageTagged } from '@nodes/LanguageTagged';

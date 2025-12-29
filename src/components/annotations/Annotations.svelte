@@ -33,7 +33,7 @@
         ConflictLocaleAccessor,
         Resolution,
     } from '@conflicts/Conflict';
-    import type Caret from '@edit/Caret';
+    import type Caret from '@edit/caret/Caret';
     import { docToMarkup } from '@locale/LocaleText';
     import NodeRef from '@locale/NodeRef';
     import Context from '@nodes/Context';

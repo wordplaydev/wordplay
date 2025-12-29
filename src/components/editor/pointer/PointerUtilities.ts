@@ -1,4 +1,4 @@
-import Caret from '@edit/Caret';
+import Caret from '@edit/caret/Caret';
 import {
     AssignmentPoint,
     getInsertionPoint,

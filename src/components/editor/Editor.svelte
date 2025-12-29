@@ -9,7 +9,10 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Conflict from '@conflicts/Conflict';
     import Project from '@db/projects/Project';
-    import Caret, { type CaretPosition, isCaretPosition } from '@edit/Caret';
+    import Caret, {
+        type CaretPosition,
+        isCaretPosition,
+    } from '@edit/caret/Caret';
     import {
         AssignmentPoint,
         InsertionPoint,

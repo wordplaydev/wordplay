@@ -1,7 +1,7 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
 import { UnknownName } from '@conflicts/UnknownName';
-import type { CaretPosition } from '@edit/Caret';
+import type { CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';

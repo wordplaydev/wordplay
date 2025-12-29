@@ -1,7 +1,7 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
 import Purpose from '@concepts/Purpose';
 import type Project from '@db/projects/Project';
-import { type CaretPosition } from '@edit/Caret';
+import { type CaretPosition } from '@edit/caret/Caret';
 import type Locales from '@locale/Locales';
 import NameType from '@nodes/NameType';
 import type { FieldPosition } from '@nodes/Node';

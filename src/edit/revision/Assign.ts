@@ -1,4 +1,4 @@
-import Caret from '@edit/Caret';
+import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';

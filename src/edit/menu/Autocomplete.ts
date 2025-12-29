@@ -1,4 +1,4 @@
-import type Caret from '@edit/Caret';
+import type Caret from '@edit/caret/Caret';
 import Append from '@edit/revision/Append';
 import Assign from '@edit/revision/Assign';
 import Refer from '@edit/revision/Refer';

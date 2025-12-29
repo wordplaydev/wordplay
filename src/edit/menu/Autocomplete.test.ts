@@ -1,5 +1,5 @@
 import Project from '@db/projects/Project';
-import Caret from '@edit/Caret';
+import Caret from '@edit/caret/Caret';
 import DefaultLocales from '@locale/DefaultLocales';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import type Node from '@nodes/Node';

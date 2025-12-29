@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Caret from '@edit/Caret';
+    import Caret from '@edit/caret/Caret';
     import Reference from '@nodes/Reference';
     import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';

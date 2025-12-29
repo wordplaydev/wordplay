@@ -2,7 +2,7 @@
     import { getProject } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
-    import Caret from '@edit/Caret';
+    import Caret from '@edit/caret/Caret';
     import type Node from '@nodes/Node';
     import { enumerateSymbols } from '@nodes/Node';
     import Token from '@nodes/Token';

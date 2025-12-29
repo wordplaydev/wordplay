@@ -89,7 +89,7 @@
 </script>
 
 <script lang="ts">
-    import Caret from '@edit/Caret';
+    import Caret from '@edit/caret/Caret';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';

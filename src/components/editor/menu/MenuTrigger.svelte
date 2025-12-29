@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { CaretPosition } from '@edit/Caret';
+    import type { CaretPosition } from '@edit/caret/Caret';
     import { isFieldPosition, type FieldPosition } from '@nodes/Node';
     import {
         DOCS_SYMBOL,
