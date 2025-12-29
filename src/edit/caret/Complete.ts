@@ -6,6 +6,7 @@ import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import Convert from '@nodes/Convert';
 import Evaluate from '@nodes/Evaluate';
+import Example from '@nodes/Example';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionType from '@nodes/FunctionType';
@@ -17,7 +18,7 @@ import MapType from '@nodes/MapType';
 import Names from '@nodes/Names';
 import Node from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
-import Paragraph from '@nodes/Paragraph';
+import Paragraph, { type Segment } from '@nodes/Paragraph';
 import Program from '@nodes/Program';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
@@ -33,6 +34,7 @@ import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
 import {
     BIND_SYMBOL,
+    CODE_SYMBOL,
     CONVERT_SYMBOL,
     ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
@@ -87,6 +89,7 @@ const AutocompleteTriggers: Trigger[] = [
     { symbol: TYPE_SYMBOL, revise: completeIs },
     { symbol: BIND_SYMBOL, revise: completeBindOrKeyValue },
     { symbol: TAG_OPEN_SYMBOL, revise: completeLink },
+    { symbol: CODE_SYMBOL, revise: completeExample },
 ];
 
 /** Given some text to insert, get a revision based on any eligible autocompletions. */
@@ -417,7 +420,19 @@ function completeBindOrKeyValue({
 }
 
 /** Complete a web link inside a paragraph */
-function completeLink({ source, position }: InsertInfo): Revision | undefined {
+function completeLink(info: InsertInfo): Revision | undefined {
+    return completeMarkup(info, WebLink.make('', 'https://'));
+}
+
+/** Complete a example program inside a paragraph */
+function completeExample(info: InsertInfo): Revision | undefined {
+    return completeMarkup(info, Example.make(Program.make([])));
+}
+
+function completeMarkup(
+    { source, position }: InsertInfo,
+    segment: Segment,
+): Revision | undefined {
     const precedingMarkup = getPrecedingMarkup(source, position);
     const content = precedingMarkup[0];
     const parent = source.root.getParent(content);
@@ -428,10 +443,9 @@ function completeLink({ source, position }: InsertInfo): Revision | undefined {
     const index = parent.segments.indexOf(content);
     if (index < 0) return undefined;
 
-    const newLink = WebLink.make('', 'https://');
     const newSource = source.replace(
         parent,
-        parent.withSegmentInsertedAt(index + 1, newLink),
+        parent.withSegmentInsertedAt(index + 1, segment),
     );
 
     if (newSource !== source) return [newSource, position + 1];
