@@ -3,6 +3,7 @@
 import type Project from '@db/projects/Project';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
+import Convert from '@nodes/Convert';
 import Evaluate from '@nodes/Evaluate';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -17,6 +18,7 @@ import StreamDefinitionType from '@nodes/StreamDefinitionType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
 import Sym from '@nodes/Sym';
+import TypePlaceholder from '@nodes/TypePlaceholder';
 import {
     CONVERT_SYMBOL,
     ELISION_SYMBOL,
@@ -110,6 +112,19 @@ export function completeInsertion(
     }
 }
 
+function getPrecedingExpression(
+    source: Source,
+    position: number,
+): Expression[] {
+    return source
+        .nodes()
+        .filter(
+            (node): node is Expression =>
+                node instanceof Expression &&
+                source.getNodeLastPosition(node) === position,
+        );
+}
+
 function completeEvaluate({
     project,
     source,
@@ -117,55 +132,51 @@ function completeEvaluate({
 }: InsertInfo): Revision | undefined {
     // If the inserted character is an open parenthesis, see if we can construct an evaluate with the preceding expression.
     // Find the top most expression that ends where the caret is.
-    const precedingExpression = source
-        .nodes()
-        .filter(
-            (node): node is Expression =>
-                (node instanceof Reference ||
-                    node instanceof PropertyReference ||
-                    (node instanceof Block && !node.isRoot())) &&
-                source.getNodeLastPosition(node) === position,
-        )
-        .at(-1);
+    const precedingExpression = getPrecedingExpression(source, position).filter(
+        (node) =>
+            node instanceof Reference ||
+            node instanceof PropertyReference ||
+            (node instanceof Block && !node.isRoot()),
+    )[0];
+    if (precedingExpression === undefined) return undefined;
 
-    if (precedingExpression) {
-        const context = project.getNodeContext(precedingExpression);
-        const fun = precedingExpression.getType(context);
-        if (
-            fun instanceof FunctionType ||
-            fun instanceof StructureType ||
-            fun instanceof StructureDefinitionType ||
-            fun instanceof StreamDefinitionType
-        ) {
-            const definition =
-                fun instanceof FunctionType
-                    ? fun.definition
-                    : fun instanceof StructureType
+    const context = project.getNodeContext(precedingExpression);
+    const fun = precedingExpression.getType(context);
+    if (
+        fun instanceof FunctionType ||
+        fun instanceof StructureType ||
+        fun instanceof StructureDefinitionType ||
+        fun instanceof StreamDefinitionType
+    ) {
+        const definition =
+            fun instanceof FunctionType
+                ? fun.definition
+                : fun instanceof StructureType
+                  ? fun.definition
+                  : fun instanceof StructureDefinitionType
+                    ? fun.type.definition
+                    : fun instanceof StreamDefinitionType
                       ? fun.definition
-                      : fun instanceof StructureDefinitionType
-                        ? fun.type.definition
-                        : fun instanceof StreamDefinitionType
-                          ? fun.definition
-                          : undefined;
-            const evaluate = definition
-                ? (definition.getEvaluateTemplate(
-                      context.getBasis().locales,
-                      context,
-                      precedingExpression,
-                  ) ?? Evaluate.make(precedingExpression, []))
-                : Evaluate.make(precedingExpression, []);
-            // Make a new source
-            const newSource = source.replace(precedingExpression, evaluate);
-            // Place the caret on the placeholder
-            const newPosition =
-                (evaluate instanceof Evaluate
-                    ? evaluate.close
-                        ? newSource.getNodeFirstPosition(evaluate.close)
-                        : newSource.getNodeLastPosition(evaluate)
-                    : position) ?? position;
+                      : undefined;
+        const evaluate = definition
+            ? (definition.getEvaluateTemplate(
+                  context.getBasis().locales,
+                  context,
+                  precedingExpression,
+              ) ?? Evaluate.make(precedingExpression, []))
+            : Evaluate.make(precedingExpression, []);
+        // Make a new source
+        const newSource = source.replace(precedingExpression, evaluate);
+        if (newSource === source) return undefined;
+        // Place the caret on the placeholder
+        const newPosition =
+            (evaluate instanceof Evaluate
+                ? evaluate.close
+                    ? newSource.getNodeFirstPosition(evaluate.close)
+                    : newSource.getNodeLastPosition(evaluate)
+                : position) ?? position;
 
-            return [newSource, newPosition];
-        }
+        return [newSource, newPosition];
     }
     return undefined;
 }
@@ -174,14 +185,17 @@ function completeConvert({
     source,
     position,
 }: InsertInfo): Revision | undefined {
-    // If it's a convert and we're valid only, insert a placeholder.
-    const newText = CONVERT_SYMBOL + PLACEHOLDER_SYMBOL;
-    const newSource = source.withGraphemesAt(newText, position);
-    const placeholder = newSource
-        ?.nodes()
-        .find((n) => newSource?.getNodeFirstPosition(n) === position + 1);
-    const newPosition = placeholder ?? position + newText.length;
-    if (newSource) return [newSource, newPosition];
+    // What's the preceding expression?
+    const precedingExpression = getPrecedingExpression(source, position)[0];
+    if (precedingExpression === undefined) return undefined;
+
+    // Replace the preceding expression with a conversion of it.
+    const placeholder = TypePlaceholder.make();
+    const newSource = source.replace(
+        precedingExpression,
+        Convert.make(precedingExpression, placeholder),
+    );
+    if (newSource !== source) return [newSource, placeholder];
 }
 
 function completeDelimiter({
