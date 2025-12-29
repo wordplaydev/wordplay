@@ -213,11 +213,6 @@
         min-height: var(--wordplay-spacing);
     }
 
-    .node-list.editable:not(.empty) {
-        /* Leave room for dragging if not empty */
-        padding: 0 var(--wordplay-spacing);
-    }
-
     [data-direction='block'].node-list {
         flex-direction: column;
     }
@@ -225,12 +220,6 @@
     [data-direction='inline'].node-list {
         flex-wrap: wrap;
         row-gap: var(--wordplay-spacing-half);
-        max-width: 20em;
-    }
-
-    [data-direction='block'].node-list.editable:not(.empty) {
-        /* Leave vertical room for dragging */
-        padding: var(--wordplay-spacing) 0;
     }
 
     .node-list.indent {
