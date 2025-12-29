@@ -3,7 +3,6 @@ import Purpose from '@concepts/Purpose';
 import type Project from '@db/projects/Project';
 import { type CaretPosition } from '@edit/caret/Caret';
 import type Locales from '@locale/Locales';
-import NameType from '@nodes/NameType';
 import type { FieldPosition } from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
@@ -105,9 +104,7 @@ export default class Menu {
             const priority = visibleRevisions.filter((revision) => {
                 if (revision.isCompletion(this.concepts.locales)) return true;
                 const newNode = revision.getNewNode(this.concepts.locales);
-                return (
-                    newNode instanceof Reference || newNode instanceof NameType
-                );
+                return newNode instanceof Reference;
             });
             const removals = visibleRevisions.filter((revision) =>
                 revision.isRemoval(),
