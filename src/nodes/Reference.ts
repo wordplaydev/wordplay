@@ -27,6 +27,7 @@ import getGuards from './getGuards';
 import NameToken from './NameToken';
 import type Node from './Node';
 import { ListOf, node, type Grammar, type Replacement } from './Node';
+import PropertyReference from './PropertyReference';
 import Reaction from './Reaction';
 import SimpleExpression from './SimpleExpression';
 import Source from './Source';
@@ -92,8 +93,11 @@ export default class Reference extends SimpleExpression {
         // Otherwise, suggest references in the anchor node's scope that complete the prefix.
         return (
             [
-                // Find all the definitions in scope.
-                ...reference.getDefinitionsInScope(context),
+                // Find all the definitions in scope. If the anchor happens to be a property reference and we're completing,
+                // only find definitions in it's scope.
+                ...(reference instanceof PropertyReference && complete
+                    ? reference.getDefinitions(reference, context)
+                    : reference.getDefinitionsInScope(context)),
                 // Find all the sources in scope if the context is a borrow.
                 ...(reference instanceof Borrow
                     ? context.project

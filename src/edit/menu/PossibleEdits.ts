@@ -614,10 +614,12 @@ function getRelativeFieldEdits(
                         .map((kind) =>
                             getPossibleNodes(relativeField, kind, {
                                 type: expectedType,
-                                node: anchorNode,
+                                parent: anchorNode,
+                                field: relativeField.name,
                                 context,
                                 locales,
                                 complete: false,
+                                index: undefined,
                             })
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)

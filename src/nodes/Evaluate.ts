@@ -189,8 +189,15 @@ export default class Evaluate extends Expression {
             );
     }
 
-    static getPossibleReplacements({ node, type, context }: ReplaceContext) {
-        return this.getPossibleEvaluations(type, node, true, context);
+    static getPossibleReplacements({
+        node,
+        type,
+        complete,
+        context,
+    }: ReplaceContext) {
+        return complete
+            ? []
+            : this.getPossibleEvaluations(type, node, true, context);
     }
 
     static getPossibleInsertions({ type, parent, context }: InsertContext) {
