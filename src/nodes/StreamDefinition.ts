@@ -160,7 +160,11 @@ export default class StreamDefinition extends DefinitionExpression {
         ) as this;
     }
 
-    getEvaluateTemplate(nameOrLocales: string | Locales) {
+    getEvaluateTemplate(
+        nameOrLocales: string | Locales,
+        context: Context,
+        defaults: boolean,
+    ) {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
@@ -173,7 +177,10 @@ export default class StreamDefinition extends DefinitionExpression {
             this.inputs
                 .filter((input) => !input.hasDefault())
                 .map((input) =>
-                    ExpressionPlaceholder.make(input.type?.clone()),
+                    defaults && input.type !== undefined
+                        ? (input.type.getDefaultExpression(context) ??
+                          ExpressionPlaceholder.make(input.type.clone()))
+                        : ExpressionPlaceholder.make(input.type?.clone()),
                 ),
         );
     }

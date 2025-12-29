@@ -114,6 +114,7 @@ export default class PropertyReference extends Expression {
                                             def.getEvaluateTemplate(
                                                 name,
                                                 context,
+                                                true,
                                                 node.structure,
                                             ),
                                         def,

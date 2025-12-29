@@ -178,6 +178,7 @@ export default class Evaluate extends Expression {
                             def.getEvaluateTemplate(
                                 name,
                                 context,
+                                true,
                                 replace &&
                                     structure &&
                                     nodeBeingReplaced instanceof Expression

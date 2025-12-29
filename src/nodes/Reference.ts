@@ -186,6 +186,7 @@ export default class Reference extends SimpleExpression {
                                             ? match(definition, prefix, name)
                                             : name,
                                         context,
+                                        true,
                                         undefined,
                                     ),
                                 definition,
@@ -208,6 +209,7 @@ export default class Reference extends SimpleExpression {
                                             ? match(definition, prefix, name)
                                             : name,
                                         context,
+                                        true,
                                     ),
                                 definition,
                             );

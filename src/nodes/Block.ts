@@ -130,9 +130,14 @@ export default class Block extends Expression {
             ...definitions
                 .map((def) =>
                     def instanceof FunctionDefinition
-                        ? def.getEvaluateTemplate(locales, context, undefined)
+                        ? def.getEvaluateTemplate(
+                              locales,
+                              context,
+                              false,
+                              undefined,
+                          )
                         : def instanceof StructureDefinition
-                          ? def.getEvaluateTemplate(locales, context)
+                          ? def.getEvaluateTemplate(locales, context, true)
                           : def instanceof Bind
                             ? Reference.make(
                                   def.names

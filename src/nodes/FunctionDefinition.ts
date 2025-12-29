@@ -139,6 +139,7 @@ export default class FunctionDefinition extends DefinitionExpression {
     getEvaluateTemplate(
         nameOrLocales: Locales | string,
         context: Context,
+        defaults: boolean,
         structureType: Expression | Type | undefined,
     ) {
         const possibleStructure = context.getRoot(this)?.getParent(this);
@@ -185,7 +186,16 @@ export default class FunctionDefinition extends DefinitionExpression {
                         .filter((input) => !input.hasDefault())
                         .map((input) =>
                             input.type
-                                ? ExpressionPlaceholder.make(input.type.clone())
+                                ? defaults
+                                    ? (input.type.getDefaultExpression(
+                                          context,
+                                      ) ??
+                                      ExpressionPlaceholder.make(
+                                          input.type.clone(),
+                                      ))
+                                    : ExpressionPlaceholder.make(
+                                          input.type.clone(),
+                                      )
                                 : ExpressionPlaceholder.make(),
                         ),
                 );

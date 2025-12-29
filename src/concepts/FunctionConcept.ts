@@ -41,6 +41,7 @@ export default class FunctionConcept extends Concept {
         this.example = this.definition.getEvaluateTemplate(
             locales,
             context,
+            false,
             this.structure?.type,
         );
 

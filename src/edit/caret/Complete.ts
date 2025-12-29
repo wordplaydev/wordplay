@@ -196,6 +196,7 @@ function completeEvaluate({
             ? (definition.getEvaluateTemplate(
                   context.getBasis().locales,
                   context,
+                  false,
                   precedingExpression,
               ) ?? Evaluate.make(precedingExpression, []))
             : Evaluate.make(precedingExpression, []);

@@ -223,7 +223,11 @@ export default class StructureDefinition extends DefinitionExpression {
         return true;
     }
 
-    getEvaluateTemplate(nameOrLocales: Locales | string, context: Context) {
+    getEvaluateTemplate(
+        nameOrLocales: Locales | string,
+        context: Context,
+        defaults: boolean,
+    ) {
         // In case for some reason an input of this refers to this.
         if (context.visited(this)) return ExpressionPlaceholder.make();
         context.visit(this);
@@ -238,7 +242,10 @@ export default class StructureDefinition extends DefinitionExpression {
                 .filter((input) => !input.hasDefault())
                 .map((input) =>
                     input.type
-                        ? ExpressionPlaceholder.make(input.type.clone())
+                        ? defaults
+                            ? (input.type.getDefaultExpression(context) ??
+                              ExpressionPlaceholder.make(input.type.clone()))
+                            : ExpressionPlaceholder.make(input.type.clone())
                         : ExpressionPlaceholder.make(),
                 ),
         );
