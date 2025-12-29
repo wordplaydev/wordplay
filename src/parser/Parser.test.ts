@@ -53,6 +53,7 @@ import UnparsableExpression from '@nodes/UnparsableExpression';
 import UnparsableType from '@nodes/UnparsableType';
 import Update from '@nodes/Update';
 import WebLink from '@nodes/WebLink';
+import Words from '@nodes/Words';
 import { expect, test } from 'vitest';
 import Delete from '../nodes/Delete';
 import Docs from '../nodes/Docs';
@@ -351,7 +352,7 @@ test('plain docs', () => {
     const doc = parseDoc(toTokens('¶this is what I am.¶'));
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Token);
+    expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Words);
     expect(doc.markup.paragraphs[0].segments.length).toBe(1);
 });
 
@@ -371,10 +372,12 @@ test('linked docs', () => {
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(WebLink);
-    expect(
-        (doc.markup.paragraphs[0].segments[1] as WebLink).url?.getText(),
-    ).toBe('https://wikipedia.org');
+    const words = doc.markup.paragraphs[0].segments[0];
+    expect(words).toBeInstanceOf(Words);
+    expect((words as Words).segments[1]).toBeInstanceOf(WebLink);
+    expect(((words as Words).segments[1] as WebLink).url?.getText()).toBe(
+        'https://wikipedia.org',
+    );
 });
 
 test('docs in docs', () => {
@@ -383,10 +386,11 @@ test('docs in docs', () => {
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Token);
-    expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(Example);
-    expect(doc.markup.paragraphs[0].segments[2]).toBeInstanceOf(Token);
-    expect(doc.markup.paragraphs[0].segments.length).toBe(3);
+    const words = doc.markup.paragraphs[0].segments[0];
+    expect(words).toBeInstanceOf(Words);
+    expect((words as Words).segments[1]).toBeInstanceOf(Example);
+    expect((words as Words).segments[2]).toBeInstanceOf(Token);
+    expect((words as Words).segments.length).toBe(3);
 });
 
 test('unparsables in docs', () => {
@@ -397,10 +401,11 @@ test('unparsables in docs', () => {
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Token);
-    expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(Example);
-    expect(doc.markup.paragraphs[0].segments[2]).toBeInstanceOf(Token);
-    expect(doc.markup.paragraphs[0].segments.length).toBe(3);
+    const words = doc.markup.paragraphs[0].segments[0];
+    expect(words).toBeInstanceOf(Words);
+    expect((words as Words).segments[1]).toBeInstanceOf(Example);
+    expect((words as Words).segments[2]).toBeInstanceOf(Token);
+    expect((words as Words).segments.length).toBe(3);
 });
 
 test('unparsables in blocks', () => {

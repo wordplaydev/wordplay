@@ -94,7 +94,7 @@ export const StrictURLRegEx = new RegExp(
     'u',
 );
 /** We use this permissive one because we still want to tokenize URL link things, even if they aren't strict. */
-export const PermissiveURLRegEx = new RegExp(/^(https?)?:\/\/.*/, 'u');
+export const PermissiveURLRegEx = StrictURLRegEx; //new RegExp(/^(https?)?:\/\/[^>]*/, 'u');
 
 export const MarkupSymbols = [
     CODE_SYMBOL,
