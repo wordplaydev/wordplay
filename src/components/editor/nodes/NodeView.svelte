@@ -26,6 +26,7 @@
         getSpaces,
     } from '../../project/Contexts';
     import EmptyView from '../blocks/EmptyView.svelte';
+    import MenuTrigger from '../menu/MenuTrigger.svelte';
     import getNodeView from './nodeToView';
     import Space from './Space.svelte';
 
@@ -38,9 +39,16 @@
         format: Format;
         /** The style of the empty view, if empty. We default to labeled */
         empty?: 'hide' | 'menu' | 'label';
+        /** Whether to show a trigger to replace this node */
+        replaceable?: boolean;
     }
 
-    let { node: path, format, empty = 'menu' }: Props = $props();
+    let {
+        node: path,
+        format,
+        empty = 'menu',
+        replaceable = false,
+    }: Props = $props();
 
     /** Get the value of the node, possibly undefined. */
     let node = $derived(
@@ -174,7 +182,9 @@
         </div>
     {:else}
         !
-    {/if}
+    {/if}{#if replaceable && format.block && node !== undefined}<MenuTrigger
+            anchor={node}
+        />{/if}
 {:else if node === undefined && format.block && Array.isArray(path)}
     <EmptyView node={path[0]} field={path[1]} style={empty} {format} />
 {/if}

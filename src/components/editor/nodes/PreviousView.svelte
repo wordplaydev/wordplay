@@ -14,6 +14,7 @@
     node={[node, 'range']}
     {format}
     empty="menu"
+    replaceable
 /><NodeView node={[node, 'number']} {format} /><NodeView
     node={[node, 'stream']}
     {format}

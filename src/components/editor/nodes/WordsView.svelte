@@ -11,7 +11,7 @@
     let { node, format }: WordProps = $props();
 </script>
 
-<NodeView node={[node, 'open']} {format} /><span
+<NodeView node={[node, 'open']} {format} replaceable /><span
     class="words {format.block ? 'blocks' : ''} {node.getFormat()}"
     ><NodeSequenceView
         {node}
