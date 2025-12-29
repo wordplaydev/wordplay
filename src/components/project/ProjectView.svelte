@@ -1478,7 +1478,11 @@
     onpointermove={handlePointerMove}
     onpointerup={handlePointerUp}
     onfocus={resetKeyModifiers}
-    onblur={resetKeyModifiers}
+    onblur={(event) => {
+        resetKeyModifiers();
+        handlePointerUp();
+        event.preventDefault();
+    }}
 />
 
 {#if warn}
