@@ -176,6 +176,7 @@
     let navigationOptions: Option[] = $derived([
         { value: undefined, label: '—' },
         ...howTos
+            .filter((ht) => ht.isPublished())
             .map((h) => {
                 return {
                     value: h.getHowToId(),

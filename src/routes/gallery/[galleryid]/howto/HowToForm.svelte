@@ -79,33 +79,42 @@
     // writer functions
     async function writeNewHowTo(publish: boolean) {
         if (!howTo) {
-            let writeX = -cameraX;
-            let writeY = -cameraY;
-            let canvasToCheck = publish
-                ? notPermittedAreasCanvas
-                : notPermittedAreasDrafts;
-            let numSearchAttempts = 0;
+            let writeX, writeY;
 
-            while (
-                canvasToCheck &&
-                !movePermitted(writeX, writeY, 100, 100, '', canvasToCheck)
-            ) {
-                if (numSearchAttempts < 5) {
-                    writeX += 150;
-                } else if (numSearchAttempts == 5) {
-                    writeX = -cameraX - 150;
-                } else if (numSearchAttempts < 10) {
-                    writeX -= 150;
-                } else if (numSearchAttempts == 10) {
-                    writeX = -cameraX;
-                    writeY += 150;
-                } else if (numSearchAttempts == 15) {
-                    writeY = -cameraY - 150;
-                } else {
-                    writeY -= 150;
+            if (publish) {
+                writeX = -cameraX;
+                writeY = -cameraY;
+                let canvasToCheck = publish
+                    ? notPermittedAreasCanvas
+                    : notPermittedAreasDrafts;
+                let numSearchAttempts = 0;
+
+                while (
+                    canvasToCheck !== undefined &&
+                    !movePermitted(writeX, writeY, 100, 100, '', canvasToCheck)
+                ) {
+                    if (numSearchAttempts < 5) {
+                        writeX += 150;
+                    } else if (numSearchAttempts == 5) {
+                        writeX = -cameraX - 150;
+                    } else if (numSearchAttempts < 10) {
+                        writeX -= 150;
+                    } else if (numSearchAttempts == 10) {
+                        writeX = -cameraX;
+                        writeY += 150;
+                    } else if (numSearchAttempts == 15) {
+                        writeY = -cameraY - 150;
+                    } else if (numSearchAttempts < 20) {
+                        writeY -= 150;
+                    } else {
+                        break; // prevent infinite loop
+                    }
+
+                    numSearchAttempts++;
                 }
-
-                numSearchAttempts++;
+            } else {
+                writeX = 0;
+                writeY = 0;
             }
 
             let returnValue = await HowTos.addHowTo(
