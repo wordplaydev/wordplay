@@ -53,6 +53,10 @@
         transition: transform calc(var(--animation-factor) * 0.1s);
     }
 
+    .trigger {
+        margin-inline-end: var(--wordplay-spacing-half);
+    }
+
     .trigger:hover,
     .trigger:focus {
         color: var(--wordplay-foreground);

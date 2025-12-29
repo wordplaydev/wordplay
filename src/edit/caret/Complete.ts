@@ -2,6 +2,7 @@
 
 import type Project from '@db/projects/Project';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import Convert from '@nodes/Convert';
 import Evaluate from '@nodes/Evaluate';
@@ -13,6 +14,7 @@ import ListAccess from '@nodes/ListAccess';
 import ListType from '@nodes/ListType';
 import Literal from '@nodes/Literal';
 import MapType from '@nodes/MapType';
+import Names from '@nodes/Names';
 import Node from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
 import Program from '@nodes/Program';
@@ -27,6 +29,7 @@ import StructureType from '@nodes/StructureType';
 import Sym from '@nodes/Sym';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import {
+    BIND_SYMBOL,
     CONVERT_SYMBOL,
     ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
@@ -78,6 +81,7 @@ const AutocompleteTriggers: Trigger[] = [
         revise: completeBinaryEvaluate,
     },
     { symbol: TYPE_SYMBOL, revise: completeIs },
+    { symbol: BIND_SYMBOL, revise: completeBindOrKeyValue },
 ];
 
 /** Given some text to insert, get a revision based on any eligible autocompletions. */
@@ -365,6 +369,33 @@ export function completeIs({
         precedingExpression,
         Is.make(precedingExpression, placeholder),
     );
+    // Place the caret on the placeholder
+    if (newSource !== source) return [newSource, placeholder];
+}
+
+/** On a :, complete a Bind or KeyValue */
+export function completeBindOrKeyValue({
+    source,
+    position,
+}: InsertInfo): Revision | undefined {
+    const preceding = getPrecedingExpression(source, position).filter(
+        (node) => node instanceof Reference || node instanceof Is,
+    )[0];
+    if (preceding === undefined) return undefined;
+    const reference = preceding.nodes((node) => node instanceof Reference)[0];
+    if (reference === undefined) return undefined;
+
+    const placeholder = ExpressionPlaceholder.make(
+        preceding instanceof Is ? preceding.type : undefined,
+    );
+    const bind = Bind.make(
+        undefined,
+        Names.make([reference.name.getText()]),
+        preceding instanceof Is ? preceding.type : undefined,
+        placeholder,
+    );
+    // Make a new source
+    const newSource = source.replace(preceding, bind);
     // Place the caret on the placeholder
     if (newSource !== source) return [newSource, placeholder];
 }
