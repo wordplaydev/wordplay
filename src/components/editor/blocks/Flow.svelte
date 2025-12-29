@@ -15,10 +15,6 @@
 </div>
 
 <style>
-    div {
-        gap: var(--wordplay-spacing-half);
-    }
-
     .row {
         display: flex;
         flex-direction: row;
