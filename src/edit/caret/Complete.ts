@@ -8,6 +8,7 @@ import Evaluate from '@nodes/Evaluate';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionType from '@nodes/FunctionType';
+import Is from '@nodes/Is';
 import Literal from '@nodes/Literal';
 import Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -26,6 +27,7 @@ import {
     EVAL_OPEN_SYMBOL,
     PLACEHOLDER_SYMBOL,
     STREAM_SYMBOL,
+    TYPE_SYMBOL,
 } from '@parser/Symbols';
 import {
     DelimiterCloseByOpen,
@@ -69,6 +71,7 @@ const AutocompleteTriggers: Trigger[] = [
         symbol: (text) => tokens(text)[0]?.isSymbol(Sym.Operator),
         revise: completeBinaryEvaluate,
     },
+    { symbol: TYPE_SYMBOL, revise: completeIs },
 ];
 
 /** Given some text to insert, get a revision based on any eligible autocompletions. */
@@ -282,8 +285,7 @@ function completeBinaryEvaluate({
             node instanceof Expression &&
             !(node instanceof Program) &&
             !(node instanceof Source) &&
-            !(node instanceof Block && node.isRoot()) &&
-            source.getNodeLastPosition(node) === position,
+            !(node instanceof Block && node.isRoot()),
     )[0];
 
     if (
@@ -308,4 +310,23 @@ function completeBinaryEvaluate({
         const newPosition = binary.right;
         if (newSource) return [newSource, newPosition];
     }
+}
+
+/** Complete an is type check on the preceding expression */
+export function completeIs({
+    source,
+    position,
+}: InsertInfo): Revision | undefined {
+    // Find the top most expression that ends where the caret is.
+    const precedingExpression = getPrecedingExpression(source, position)[0];
+    if (precedingExpression === undefined) return undefined;
+
+    const placeholder = TypePlaceholder.make();
+    // Make a new source
+    const newSource = source.replace(
+        precedingExpression,
+        Is.make(precedingExpression, placeholder),
+    );
+    // Place the caret on the placeholder
+    if (newSource !== source) return [newSource, placeholder];
 }
