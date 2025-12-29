@@ -434,6 +434,8 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
+        if (event.button !== 0) return;
+
         // Clear any existing large deletion notification when user clicks to clear selection
         setLargeDeletionNotification?.(null);
         event.preventDefault();
