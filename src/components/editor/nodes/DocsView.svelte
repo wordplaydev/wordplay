@@ -16,6 +16,6 @@
     field="docs"
     empty="menu"
     {format}
-    block="block"
+    direction="block"
     padding={false}
 />

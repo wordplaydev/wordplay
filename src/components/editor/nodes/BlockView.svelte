@@ -23,7 +23,9 @@
         field="statements"
         {format}
         empty="label"
-        block={node.isRoot() || node.statements.length > 1 ? 'block' : 'inline'}
+        direction={node.isRoot() || node.statements.length > 1
+            ? 'block'
+            : 'inline'}
     /><NodeView node={[node, 'close']} {format} empty="hide" />
 {/snippet}
 
@@ -53,6 +55,6 @@
         field="statements"
         {format}
         empty="label"
-        block={node.isRoot() ? 'block' : 'inline-wrap'}
+        direction={node.isRoot() ? 'block' : 'inline'}
     /><NodeView node={[node, 'close']} {format} empty="hide" />
 {/if}

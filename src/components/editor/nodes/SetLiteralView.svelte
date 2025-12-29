@@ -19,7 +19,7 @@
         {format}
         elide
         empty="label"
-        block={node.values.length > 10 ? 'block' : 'inline-wrap'}
+        direction={node.values.length > 10 ? 'block' : 'inline'}
     />
     <NodeView node={[node, 'close']} {format} />
     <NodeView node={[node, 'literal']} {format} />

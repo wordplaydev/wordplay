@@ -28,8 +28,8 @@
         format: Format;
         /** Whether to show an append button */
         add?: boolean;
-        /** What layout to use. */
-        block?: 'inline' | 'block' | 'inline-wrap';
+        /** What layout to use. Inline wraps automatically. */
+        direction?: 'inline' | 'block';
         /** Whether to elide the list when it's long. */
         elide?: boolean;
         /** Whether to indent the list.*/
@@ -46,7 +46,7 @@
         format,
         elide = $bindable(false),
         add = true,
-        block = 'inline-wrap',
+        direction: block = 'inline',
         indent = false,
         padding = true,
     }: Props = $props();
@@ -230,7 +230,7 @@
         flex-direction: column;
     }
 
-    [data-direction='inline-wrap'].node-list {
+    [data-direction='inline'].node-list {
         flex-wrap: wrap;
         row-gap: var(--wordplay-spacing-half);
         max-width: 20em;
@@ -251,13 +251,14 @@
         background-color: var(--wordplay-highlight-color);
     }
 
-    [data-direction='inline'] > .insertion-feedback,
-    [data-direction='inline-wrap'] > .insertion-feedback {
+    [data-direction='inline'] > .insertion-feedback {
         width: var(--wordplay-focus-width);
     }
     [data-direction='block'] > .insertion-feedback {
         width: 100%;
         height: var(--wordplay-focus-width);
+        margin-block-start: var(--wordplay-spacing);
+        margin-block-end: var(--wordplay-spacing);
     }
 
     .flow {

@@ -81,113 +81,196 @@ export function getBlockInsertionPoint(
     // Find the empty view closest to the element under the pointer.
     const emptyView = el.closest(`.empty`);
     if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
-        const fieldName = emptyView.dataset.field;
-        const fieldValue = nodeUnderPointer.getField(fieldName);
-        const fieldInfo = nodeUnderPointer.getFieldNamed(fieldName);
-        const kind = fieldInfo?.kind;
-
-        // If it's a list and it allows the node kind being inserted, return an insertion point.
-        if (
-            fieldInfo !== undefined &&
-            kind !== undefined &&
-            Array.isArray(fieldValue) &&
-            kind instanceof ListOf &&
-            kind.allowsItem(candidate) &&
-            // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
-            (fieldInfo.getType === undefined ||
-                !(candidate instanceof Expression) ||
-                fieldInfo
-                    .getType(context, 0)
-                    .accepts(candidate.getType(context), context))
-        ) {
-            return new InsertionPoint(
-                nodeUnderPointer,
-                fieldName,
-                fieldValue,
-                undefined,
-                undefined,
-                0,
-            );
-        }
-        // If it's an unassigned field, offer an insertion point.
-        else if (
-            fieldValue === undefined &&
-            kind !== undefined &&
-            kind.allows(candidate)
-        ) {
-            return new AssignmentPoint(nodeUnderPointer, fieldName);
-        }
+        const point = getEmptyInsertionPoint(
+            emptyView,
+            nodeUnderPointer,
+            emptyView.dataset.field,
+            candidate,
+            context,
+        );
+        if (point) return point;
     }
 
     const list = el.closest('.node-list');
-    if (
-        list instanceof HTMLElement &&
-        list.dataset.field &&
-        list.dataset.direction
-    ) {
-        const fieldName = list.dataset.field;
-        const inline = list.dataset.direction === 'inline';
+    if (list instanceof HTMLElement) {
+        const point = getListInsertionPoint(
+            list,
+            nodeUnderPointer,
+            event,
+            candidate,
+            context,
+        );
+        return point;
+    }
+}
 
-        // Find the closest child in the list to the pointer.
-        const children = Array.from(list.childNodes).filter(
-            (node): node is HTMLElement =>
-                node instanceof HTMLElement &&
-                node.classList.contains('node-view'),
-        ) as HTMLElement[];
-        const closestChild = children
+function getEmptyInsertionPoint(
+    emptyView: HTMLElement,
+    nodeUnderPointer: Node,
+    fieldName: string,
+    candidate: Node,
+    context: Context,
+): InsertionPoint | AssignmentPoint | undefined {
+    const fieldValue = nodeUnderPointer.getField(fieldName);
+    const fieldInfo = nodeUnderPointer.getFieldNamed(fieldName);
+    const kind = fieldInfo?.kind;
+
+    // If it's a list and it allows the node kind being inserted, return an insertion point.
+    if (
+        fieldInfo !== undefined &&
+        kind !== undefined &&
+        Array.isArray(fieldValue) &&
+        kind instanceof ListOf &&
+        kind.allowsItem(candidate) &&
+        // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
+        (fieldInfo.getType === undefined ||
+            !(candidate instanceof Expression) ||
+            fieldInfo
+                .getType(context, 0)
+                .accepts(candidate.getType(context), context))
+    ) {
+        return new InsertionPoint(
+            nodeUnderPointer,
+            fieldName,
+            fieldValue,
+            undefined,
+            undefined,
+            0,
+        );
+    }
+    // If it's an unassigned field, offer an insertion point.
+    else if (
+        fieldValue === undefined &&
+        kind !== undefined &&
+        kind.allows(candidate)
+    ) {
+        return new AssignmentPoint(nodeUnderPointer, fieldName);
+    }
+}
+
+function getListInsertionPoint(
+    list: HTMLElement,
+    nodeUnderPointer: Node,
+    event: PointerEvent,
+    candidate: Node,
+    context: Context,
+): InsertionPoint | undefined {
+    // Get the relevant metadata.
+    const fieldName = list.dataset.field;
+    if (fieldName === undefined) return undefined;
+
+    const inline = list.dataset.direction === 'inline';
+    const nodeList = nodeUnderPointer.getField(fieldName);
+    const field = nodeUnderPointer.getFieldNamed(fieldName);
+    const kind = field?.kind;
+
+    if (
+        field === undefined ||
+        kind === undefined ||
+        nodeList === undefined ||
+        !Array.isArray(nodeList) ||
+        !(kind instanceof ListOf)
+    )
+        return;
+
+    // Get all the node views from the list's child nodes.
+    const children = Array.from(list.childNodes).filter(
+        (node): node is HTMLElement =>
+            node instanceof HTMLElement && node.classList.contains('node-view'),
+    );
+
+    // Find the closest child based on the layout of the children. For block,
+    // we assume a vertical list, finding the closest vertical child.
+    // For inline, we assume a column of rows, finding the closest row first,
+    // and then the closest child within that row.
+    let closestChild: HTMLElement | undefined;
+    if (inline) {
+        // First, organize the children into rows.
+        const rows: { child: HTMLElement; rect: DOMRect }[][] = [];
+        for (const child of children) {
+            const rect = child.getBoundingClientRect();
+            // Is this child's top greater than the lowest bottom of the current row.
+            if (
+                rows.length === 0 ||
+                rect.top >
+                    Math.max(...rows[rows.length - 1].map((c) => c.rect.bottom))
+            ) {
+                rows.push([{ child, rect }]);
+            } else rows[rows.length - 1].push({ child, rect });
+        }
+        // Find the closest vertical row.
+        const closestRow = rows
+            .map((row) => {
+                const top = Math.min(...row.map((c) => c.rect.top));
+                const bottom = Math.max(...row.map((c) => c.rect.bottom));
+                return {
+                    row,
+                    distance: Math.abs(
+                        event.clientY - (top + (bottom - top) / 2),
+                    ),
+                };
+            })
+            .sort((a, b) => a.distance - b.distance)[0]?.row;
+        if (closestRow !== undefined) {
+            // Within that row, find the closest child horizontally.
+            closestChild = closestRow
+                .map(({ child, rect }) => {
+                    return {
+                        child,
+                        distance: Math.abs(
+                            event.clientX - (rect.left + rect.width / 2),
+                        ),
+                    };
+                })
+                .sort((a, b) => a.distance - b.distance)[0]?.child;
+        }
+    } else {
+        closestChild = children
             .map((child) => {
                 const rect = child.getBoundingClientRect();
                 return {
                     child,
                     distance: Math.abs(
-                        inline
-                            ? event.clientX - (rect.left + rect.width / 2)
-                            : event.clientY - (rect.top + rect.height / 2),
+                        event.clientY - (rect.top + rect.height / 2),
                     ),
                 };
             })
-            .sort((a, b) => a.distance - b.distance)[0];
+            .sort((a, b) => a.distance - b.distance)[0]?.child;
+    }
 
-        // Find the index of the closest child.
-        let index = 0;
-        if (closestChild === undefined) return;
+    // Find the index of the closest child.
+    let index = 0;
+    if (closestChild === undefined) return;
 
-        index = children.indexOf(closestChild.child);
-        if (index === -1) return;
+    index = children.indexOf(closestChild);
+    if (index === -1) return;
 
-        // If the pointer is past the center of the closest child, insert after it.
-        const rect = closestChild.child.getBoundingClientRect();
-        if (
-            inline
-                ? event.clientX > rect.left + rect.width / 2
-                : event.clientY > rect.top + rect.height / 2
-        )
-            index += 1;
+    // If the pointer is past the center of the closest child, insert after it.
+    const rect = closestChild.getBoundingClientRect();
+    if (
+        inline
+            ? event.clientX > rect.left + rect.width / 2
+            : event.clientY > rect.top + rect.height / 2
+    )
+        index += 1;
 
-        const nodeList = nodeUnderPointer.getField(fieldName);
-        const field = nodeUnderPointer.getFieldNamed(fieldName);
-        const kind = field?.kind;
-        if (
-            field !== undefined &&
-            Array.isArray(nodeList) &&
-            kind instanceof ListOf &&
-            kind.allowsItem(candidate) &&
-            // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
-            (field.getType === undefined ||
-                !(candidate instanceof Expression) ||
-                field
-                    .getType(context, 0)
-                    .accepts(candidate.getType(context), context))
-        ) {
-            return new InsertionPoint(
-                nodeUnderPointer,
-                fieldName,
-                nodeList,
-                undefined,
-                undefined,
-                index,
-            );
-        }
+    if (
+        kind.allowsItem(candidate) &&
+        // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
+        (field.getType === undefined ||
+            !(candidate instanceof Expression) ||
+            field
+                .getType(context, index)
+                .accepts(candidate.getType(context), context))
+    ) {
+        return new InsertionPoint(
+            nodeUnderPointer,
+            fieldName,
+            nodeList,
+            undefined,
+            undefined,
+            index,
+        );
     }
 }
 
