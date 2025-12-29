@@ -1,5 +1,6 @@
 import Expression from './Expression';
 import type Node from './Node';
+import type { Field } from './Node';
 
 export type Path = { type: string; index: number }[];
 type Cache = {
@@ -188,5 +189,10 @@ export default class Root {
             : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
               // in which case the path doesn't resolve.
               this.resolvePath(path.slice(1), child);
+    }
+
+    /** Get the field of a node */
+    getFieldOfChild(child: Node): Field | undefined {
+        return this.getParent(child)?.getFieldOfChild(child);
     }
 }

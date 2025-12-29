@@ -124,7 +124,8 @@
             first={$spaces.isFirst(firstToken)}
             line={$spaces.getLineNumber(firstToken)}
             {space}
-            block={format.block}
+            block={false}
+            invisible={false}
             insertion={$dragTarget instanceof InsertionPoint &&
             $dragTarget.token === firstToken
                 ? $dragTarget
@@ -134,13 +135,19 @@
 {/snippet}
 
 {#snippet blockSpace()}
-    {#if !hide && firstToken === node && node instanceof Token}
+    <!-- Render space if not hidden, and this is the token with the space -->
+    {#if !hide && firstToken !== undefined && spaceRoot === node && root !== undefined}
+        {@const tokenPrefersPrecedingSpace =
+            space.length === 0 && spaceRoot !== undefined
+                ? root.getFieldOfChild(spaceRoot)?.space === true
+                : false}
         <Space
-            token={node}
+            token={firstToken}
             first={false}
             line={undefined}
-            {space}
-            block={format.block}
+            space={tokenPrefersPrecedingSpace ? ' ' : space}
+            invisible={tokenPrefersPrecedingSpace}
+            block={true}
             insertion={undefined}
         />
     {/if}
@@ -149,8 +156,8 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     {#if ComponentView !== undefined}
-        <!-- Render space preceding this node if not hidden, if there's a first token, and this node is the root of the preceding space. -->
-        {#if !format.block}{@render textSpace()}{/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
+        <!-- In text mode, render space before the node view. -->
+        {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
             class={[
                 'node-view',
                 node.getDescriptor(),
@@ -171,7 +178,7 @@
             id={`node-${node.id}`}
             aria-hidden={hide ? 'true' : null}
             aria-label={description}
-            >{#if format.block}{@render blockSpace()}{/if}<!--Render the value if there's a value to render, or the node view otherwise -->{#if value && node.isUndelimited()}<span
+            ><!--Render the available value if debugging, node view otherwise -->{#if value && node.isUndelimited()}<span
                     class="eval">{EVAL_OPEN_SYMBOL}</span
                 >{/if}<ComponentView
                 {node}
@@ -270,7 +277,7 @@
     .block {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing-half);
+        gap: 0;
         align-items: start;
         width: fit-content;
         height: fit-content;
@@ -280,7 +287,7 @@
         transition-duration: calc(var(--animation-factor) * 200ms);
         transition-timing-function: ease-out;
 
-        padding: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing-half);
         box-shadow: var(--color-shadow) 0px 0px 4px;
         border-radius: var(--wordplay-border-radius);
 
@@ -328,7 +335,7 @@
     .block.inline {
         flex-direction: row;
         align-items: baseline;
-        gap: var(--wordplay-spacing-half);
+        gap: 0;
     }
 
     .block.definition {

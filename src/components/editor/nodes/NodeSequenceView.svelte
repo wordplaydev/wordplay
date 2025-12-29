@@ -34,8 +34,6 @@
         elide?: boolean;
         /** Whether to indent the list.*/
         indent?: boolean;
-        /** Whether to add padding between items in blocks mode. */
-        padding?: boolean;
     }
 
     let {
@@ -48,7 +46,6 @@
         add = true,
         direction: block = 'inline',
         indent = false,
-        padding = true,
     }: Props = $props();
 
     let caret = getCaret();
@@ -137,7 +134,6 @@
         <div
             class="node-list"
             class:indent
-            class:padding
             class:editable={format.editable}
             class:empty={nodes.length === 0}
             data-field={field}
@@ -217,13 +213,9 @@
         min-height: var(--wordplay-spacing);
     }
 
-    .node-list.editable.padding:not(.empty) {
+    .node-list.editable:not(.empty) {
         /* Leave room for dragging if not empty */
         padding: 0 var(--wordplay-spacing);
-    }
-
-    .node-list.padding {
-        gap: var(--wordplay-spacing);
     }
 
     [data-direction='block'].node-list {
@@ -236,7 +228,7 @@
         max-width: 20em;
     }
 
-    [data-direction='block'].node-list.editable.padding:not(.empty) {
+    [data-direction='block'].node-list.editable:not(.empty) {
         /* Leave vertical room for dragging */
         padding: var(--wordplay-spacing) 0;
     }
@@ -264,7 +256,7 @@
     .flow {
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing-half);
+        gap: 0;
         align-items: end;
     }
 </style>

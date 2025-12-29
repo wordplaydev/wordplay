@@ -12,12 +12,19 @@
     import InsertionPointView from './../caret/InsertionPointView.svelte';
 
     interface Props {
+        /** The token which this space precedes */
         token: Token;
+        /** The space to render */
         space: string;
+        /** The line number to render, if any */
         line: number | undefined;
         /** Whether to render in blocks mode */
         block: boolean;
+        /** Whether the space should be rendered invisibly. Overrides the space indicator setting if true. */
+        invisible: boolean;
+        /** The insertion point to render inside the space, if any. */
         insertion?: InsertionPoint | undefined;
+        /** Whether this is the first line of a source file */
         first?: boolean;
     }
 
@@ -26,6 +33,7 @@
         space,
         line,
         block,
+        invisible = false,
         insertion = undefined,
         first = false,
     }: Props = $props();
@@ -51,7 +59,10 @@
     let beforeSpacesByLine = $derived(
         insertionIndex === undefined
             ? []
-            : render(space.substring(0, insertionIndex), $spaceIndicator),
+            : render(
+                  space.substring(0, insertionIndex),
+                  invisible ? false : $spaceIndicator,
+              ),
     );
     // If there's no insertion, just render the space, otherwise render the right side of the insertion.
     let afterSpacesByLine = $derived(
@@ -59,7 +70,7 @@
             insertionIndex === undefined
                 ? space
                 : space.substring(insertionIndex),
-            $spaceIndicator,
+            invisible ? false : $spaceIndicator,
         ),
     );
     let firstLine = $derived(
@@ -79,7 +90,13 @@
         {#if block}{#if space !== ''}<span class="space-text"
                     >{space
                         .split('')
-                        .map((s) => (s === ' ' ? EXPLICIT_SPACE_TEXT : s))
+                        .map((s) =>
+                            s === ' '
+                                ? invisible || !$spaceIndicator
+                                    ? SPACE_TEXT
+                                    : EXPLICIT_SPACE_TEXT
+                                : s,
+                        )
                         .join('')}</span
                 >{/if}
         {:else}

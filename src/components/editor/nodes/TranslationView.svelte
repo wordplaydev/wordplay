@@ -16,7 +16,6 @@
     field="segments"
     {format}
     empty="label"
-    padding={false}
 /><NodeView node={[node, 'close']} {format} /><NodeView
     node={[node, 'language']}
     {format}

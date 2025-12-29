@@ -257,12 +257,12 @@ map(Markup, MarkupView, {
     size: 'normal',
 });
 map(FormattedLiteral, FormattedLiteralView, {
-    kind: 'none',
+    kind: 'plain',
     direction: 'inline',
     size: 'normal',
 });
 map(FormattedTranslation, FormattedTranslationView, {
-    kind: 'plain',
+    kind: 'none',
     direction: 'inline',
     size: 'normal',
 });
@@ -348,12 +348,12 @@ map(VariableType, VariableTypeView, {
 });
 
 map(TextLiteral, TextLiteralView, {
-    kind: 'none',
+    kind: 'plain',
     direction: 'inline',
     size: 'normal',
 });
 map(Translation, TranslationView, {
-    kind: 'plain',
+    kind: 'none',
     direction: 'inline',
     size: 'normal',
 });

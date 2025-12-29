@@ -11,4 +11,4 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeSequenceView {node} field="texts" {format} empty="label" padding={false} />
+<NodeSequenceView {node} field="texts" {format} empty="label" />
