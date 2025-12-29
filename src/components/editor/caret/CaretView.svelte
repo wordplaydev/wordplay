@@ -776,6 +776,12 @@
     }
 </script>
 
+<svelte:window
+    onresize={() => {
+        location = computeLocation();
+    }}
+/>
+
 <span
     class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''} {blocks
         ? 'blocks'
