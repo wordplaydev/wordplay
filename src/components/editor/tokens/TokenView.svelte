@@ -106,7 +106,7 @@
             Array.isArray(node.types)
                 ? (node.types[0] ?? 'default')
                 : node.types,
-        )}"
+        )} {format.definition?.getDescriptor() || ''}"
         class:hide
         class:active
         class:editable
@@ -269,5 +269,14 @@
         border-bottom: solid var(--wordplay-focus-width)
             var(--wordplay-border-color);
         cursor: text;
+    }
+
+    .StructureDefinition,
+    .StreamDefinition {
+        font-style: italic;
+    }
+
+    .StreamDefinition {
+        text-decoration: underline dotted;
     }
 </style>

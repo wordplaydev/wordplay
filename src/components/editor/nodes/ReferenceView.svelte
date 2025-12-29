@@ -59,11 +59,8 @@
     });
 </script>
 
-<span
-    class:changed={animating}
-    class={definition ? definition.getDescriptor() : ''}
->
-    <NodeView node={[node, 'name']} {format} />
+<span class:changed={animating}>
+    <NodeView node={[node, 'name']} format={{ ...format, definition }} />
 </span>
 
 <style>
@@ -89,14 +86,5 @@
         100% {
             transform: scale(1);
         }
-    }
-
-    .StructureDefinition,
-    .StreamDefinition {
-        font-style: italic;
-    }
-
-    .StreamDefinition {
-        text-decoration: underline dotted;
     }
 </style>

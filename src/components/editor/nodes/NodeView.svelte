@@ -3,12 +3,14 @@
         block: boolean;
         root: Root | undefined;
         editable: boolean;
+        definition?: Definition | undefined;
     };
 </script>
 
 <script lang="ts" generics="NodeType extends Node">
     import ValueView from '@components/values/ValueView.svelte';
     import { InsertionPoint } from '@edit/Drag';
+    import type Definition from '@nodes/Definition';
     import Expression from '@nodes/Expression';
     import Node from '@nodes/Node';
     import type { UnitDeriver } from '@nodes/NumberType';
@@ -374,5 +376,9 @@
 
     .small {
         font-size: var(--wordplay-small-font-size);
+    }
+
+    .stream {
+        text-decoration: underline dotted;
     }
 </style>
