@@ -14,12 +14,7 @@
     import { type LocaleTextAccessor } from '@locale/Locales';
     import Evaluate from '@nodes/Evaluate';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Node, {
-        type FieldPosition,
-        ListOf,
-        isFieldPosition,
-    } from '@nodes/Node';
-    import type Program from '@nodes/Program';
+    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
@@ -45,11 +40,9 @@
         AssignmentPoint,
         InsertionPoint,
         dropNodeOnSource,
-        getInsertionPoint,
         isValidDropTarget,
     } from '../../edit/Drag';
     import Expression from '../../nodes/Expression';
-    import { TAB_WIDTH } from '../../parser/Spaces';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import UnicodeString from '../../unicode/UnicodeString';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
@@ -93,7 +86,13 @@
     import { type Outline, OutlinePadding } from './highlights/outline';
     import Menu, { RevisionSet } from './menu/Menu';
     import MenuTrigger from './menu/MenuTrigger.svelte';
-    import { getEmptyList, getNodeAt } from './pointer/Utilities';
+    import {
+        getBlockInsertionPoint,
+        getCaretPositionAt,
+        getEmptyList,
+        getNodeAt,
+        getTextInsertionPointsAt,
+    } from './pointer/PointerUtilities';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -197,7 +196,7 @@
      * An expensive operation to get all the token views for various operations.
      * We try to do it only once per update.
      */
-    function getTokenViews() {
+    function getTokenViews(): HTMLElement[] {
         if (editor === null) tokenViews = [];
         else if (tokenViews !== undefined) return tokenViews;
         else
@@ -363,17 +362,6 @@
         }
     }
 
-    function getTokenByView(program: Program, tokenView: Element) {
-        if (
-            tokenView instanceof HTMLElement &&
-            tokenView.dataset.id !== undefined
-        ) {
-            const node = program.getNodeByID(parseInt(tokenView.dataset.id));
-            return node instanceof Token ? node : undefined;
-        }
-        return undefined;
-    }
-
     function ensureElementIsVisible(element: Element, nearest = false) {
         // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
         element.scrollIntoView({
@@ -449,6 +437,8 @@
     }
 
     function placeCaretAt(event: PointerEvent) {
+        if (editor === null) return;
+
         // If the token is over an empty list, insertion point for that list.
         const empty = $blocks ? getEmptyList(source, event) : undefined;
         const tokenUnderPointer = getNodeAt(source, event, true);
@@ -464,7 +454,14 @@
                         tokenUnderPointer,
                         source.root.getParent(tokenUnderPointer),
                     )
-                  ? getCaretPositionAt(event)
+                  ? getCaretPositionAt(
+                        $caret,
+                        editor,
+                        event,
+                        getNodeView,
+                        getTokenViews,
+                        $locales.getDirection(),
+                    )
                   : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
                     (event.shiftKey || $blocks) &&
                       nonTokenNodeUnderPointer !== undefined
@@ -476,8 +473,14 @@
                             .getAncestors(tokenUnderPointer)
                             .find((a) => a.isPlaceholder())
                       : // Otherwise choose an index position under the mouse
-                        getCaretPositionAt(event);
-
+                        getCaretPositionAt(
+                            $caret,
+                            editor,
+                            event,
+                            getNodeView,
+                            getTokenViews,
+                            $locales.getDirection(),
+                        );
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
@@ -506,472 +509,6 @@
         }
     }
 
-    function getTokenFromElement(
-        textOrSpace: Element,
-    ): [Token, Element] | undefined {
-        const tokenView = textOrSpace.closest(`.Token`);
-        const token =
-            tokenView === null
-                ? undefined
-                : getTokenByView($caret.getProgram(), tokenView);
-        return tokenView === null || token === undefined
-            ? undefined
-            : [token, tokenView];
-    }
-
-    function getTokenFromLineBreak(
-        textOrSpace: Element,
-    ): [Token, Element] | undefined {
-        const spaceView = textOrSpace.closest('.space') as HTMLElement;
-        const tokenID =
-            spaceView instanceof HTMLElement && spaceView.dataset.id
-                ? parseInt(spaceView.dataset.id)
-                : undefined;
-        const node = tokenID ? source.getNodeByID(tokenID) : undefined;
-        return node instanceof Token ? [node, spaceView] : undefined;
-    }
-
-    function getCaretPositionAt(event: PointerEvent): number | undefined {
-        // What element is under the mouse?
-        const elementAtCursor = document.elementFromPoint(
-            event.clientX,
-            event.clientY,
-        );
-
-        // If there's no element (which should be impossible), return nothing.
-        if (elementAtCursor === null) return undefined;
-        if (editor === null) return undefined;
-
-        // If we've selected a token view, figure out what position in the text to place the caret.
-        if (elementAtCursor.classList.contains('token-view')) {
-            // Find the token this corresponds to.
-            const [token, tokenView] =
-                getTokenFromElement(elementAtCursor) ?? [];
-            // If we found a token, find the position in it corresponding to the mouse position.
-            if (
-                token instanceof Token &&
-                tokenView instanceof Element &&
-                event.target instanceof Element
-            ) {
-                const startIndex = $caret.source.getTokenTextPosition(token);
-                const lastIndex = $caret.source.getTokenLastPosition(token);
-                if (startIndex !== undefined && lastIndex !== undefined) {
-                    // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
-                    const targetRect = event.target.getBoundingClientRect();
-                    const tokenRect = elementAtCursor.getBoundingClientRect();
-                    const offset =
-                        event.offsetX + (targetRect.left - tokenRect.left);
-                    const newPosition = Math.max(
-                        startIndex,
-                        Math.min(
-                            lastIndex,
-                            startIndex +
-                                (tokenRect.width === 0
-                                    ? 0
-                                    : Math.round(
-                                          token.getTextLength() *
-                                              (offset / tokenRect.width),
-                                      )),
-                        ),
-                    );
-                    return newPosition;
-                }
-            }
-        }
-
-        // If the element at the cursor is inside space, choose the space.
-        // This depends tightly on the spaces rendered in Space.svelte and
-        // NodeView.svelte, when in blocks mode.
-        const spaceView = elementAtCursor.closest('.space');
-        if (spaceView instanceof HTMLElement) {
-            const tokenID = spaceView.dataset.id
-                ? parseInt(spaceView.dataset.id)
-                : null;
-            const token =
-                tokenID !== null && !isNaN(tokenID)
-                    ? source.getNodeByID(tokenID)
-                    : null;
-            if (token instanceof Token) {
-                const space = source.spaces.getSpace(token);
-                // We only choose this position if doesn't contain newlines (we handle those below).
-                if (!space.includes('\n')) {
-                    const tokenView = getNodeView(token);
-                    const spacePosition = source.getTokenSpacePosition(token);
-                    if (tokenView && spacePosition !== undefined) {
-                        const spaceRect = spaceView.getBoundingClientRect();
-                        const percent =
-                            (spaceRect.width -
-                                (tokenView.getBoundingClientRect().left -
-                                    event.clientX)) /
-                            spaceRect.width;
-
-                        return Math.round(
-                            spacePosition +
-                                percent *
-                                    space.replace('\t', ' '.repeat(TAB_WIDTH))
-                                        .length,
-                        );
-                    }
-                }
-            }
-        }
-
-        // Otherwise, the pointer is over the editor.
-        // Find the closest token and choose either it's right or left side.
-        // Map the token text to a list of vertical and horizontal distances
-        const closestToken = Array.from(getTokenViews())
-            .map((tokenView) => {
-                const textRect = tokenView.getBoundingClientRect();
-                return {
-                    view: tokenView,
-                    textDistance:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : Math.abs(
-                                  event.clientY -
-                                      (textRect.top + textRect.height / 2),
-                              ),
-                    textLeft:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : textRect.left,
-                    textRight:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : textRect.right,
-                    textTop:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : textRect.top,
-                    textBottom:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : textRect.bottom,
-                    leftDistance:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : Math.abs(event.clientX - textRect.left),
-                    rightDistance:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : Math.abs(event.clientX - textRect.right),
-                    hidden: tokenView.closest('.hide') !== null,
-                };
-            })
-            // Filter by tokens within the vertical boundaries of the token.
-            .filter(
-                (text) =>
-                    !text.hidden &&
-                    text.textDistance !== Number.POSITIVE_INFINITY &&
-                    event.clientY >= text.textTop &&
-                    event.clientY <= text.textBottom,
-            )
-            // Sort by increasing horizontal distance from the pointer
-            .sort(
-                (a, b) =>
-                    Math.min(a.leftDistance, a.rightDistance) -
-                    Math.min(b.leftDistance, b.rightDistance),
-            )[0]; // Choose the closest.
-
-        // If we found one, choose either the beginnng or end of the line.
-        if (closestToken) {
-            const [token] = getTokenFromElement(closestToken.view) ?? [];
-            if (token === undefined) return undefined;
-
-            return closestToken.textRight < event.clientX
-                ? source.getEndOfTokenLine(token)
-                : source.getStartOfTokenLine(token);
-        }
-
-        // Otherwise, if the pointer wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
-        type BreakInfo = {
-            token: Token;
-            offset: number;
-            index: number;
-            view: HTMLElement;
-        };
-
-        // Find all tokens with empty lines and choose the nearest.
-        const closestLine =
-            // Find all of the token line breaks, which are wrapped in spans to enable consistent measurement.
-            // This is because line breaks and getBoundingClientRect() are jumpy depending on what's around them.
-            Array.from(editor.querySelectorAll('.space .break'))
-                // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
-                .map((br) => {
-                    const [token, tokenView] = getTokenFromLineBreak(br) ?? [];
-                    // Check the br container, which gives us a more accurate bounding client rect.
-                    const rect = br.getBoundingClientRect();
-                    if (tokenView === undefined || token === undefined)
-                        return undefined;
-                    // Skip the line if it doesn't include the pointer's y.
-                    if (event.clientY < rect.top || event.clientY > rect.bottom)
-                        return undefined;
-                    return {
-                        token,
-                        offset: Math.abs(
-                            rect.top + rect.height / 2 - event.clientY,
-                        ),
-                        // Find the index of the break in the space view.
-                        index: Array.from(
-                            tokenView.querySelectorAll('.break'),
-                        ).indexOf(br),
-                        view: br as HTMLElement,
-                    };
-                })
-                // Filter out any empty breaks that we couldn't find
-                .filter<BreakInfo>(
-                    (br: BreakInfo | undefined): br is BreakInfo =>
-                        br !== undefined,
-                )
-                // Sort by increasing offset from mouse y
-                .sort((a, b) => a.offset - b.offset)[0]; // Chose the closest
-
-        // If we have a closest line, find the line number
-        if (closestLine) {
-            // Find the space view of the closest line.
-
-            // Compute the horizontal position at which to place the caret.
-            // Find the width of a single space by finding the longest line,
-            // which determines its width.
-            const spaceView = closestLine.view.closest('.space');
-            const spaceBounds = spaceView?.getBoundingClientRect();
-            const tokenSpace = source.spaces.getSpace(closestLine.token);
-            let spaceWidth =
-                (spaceBounds?.width ?? 0) /
-                Math.max.apply(
-                    null,
-                    tokenSpace
-                        .replaceAll('\t', ' '.repeat(TAB_WIDTH))
-                        .split('\n')
-                        .map((s) => s.length),
-                );
-            if (isNaN(spaceWidth) || spaceWidth === Infinity) spaceWidth = 0;
-
-            // Offset the caret position by the number of spaces from the edge that was clicked.
-            let positionOffset = spaceBounds
-                ? Math.round(
-                      Math.abs(
-                          event.clientX -
-                              ($locales.getDirection() === 'ltr'
-                                  ? spaceBounds.left
-                                  : spaceBounds.right),
-                      ) / spaceWidth,
-                  )
-                : 0;
-            if (isNaN(positionOffset) || positionOffset === Infinity)
-                positionOffset = 0;
-
-            const index = $caret.source.getTokenSpacePosition(
-                closestLine.token,
-            );
-
-            // Figure out where on the line to place the insertion point based on the line index
-            return index !== undefined
-                ? index +
-                      tokenSpace.split('\n', closestLine.index).length +
-                      positionOffset
-                : undefined;
-        }
-
-        // Otherwise, choose the last position if nothing else matches.
-        return source.getCode().getLength();
-    }
-
-    /** Given a pointer event, find the insertion points in blocks mode. */
-    function getBlockInsertionPoint(
-        event: PointerEvent,
-        candidate: Node,
-    ): InsertionPoint | AssignmentPoint | undefined {
-        // Find the node under the pointer. If there isn't one, bail.
-        const nodeUnderPointer = getNodeAt(source, event, false);
-        if (nodeUnderPointer === undefined) return undefined;
-
-        // Don't allow parents to be inserted into their children.
-        if (candidate.contains(nodeUnderPointer)) return undefined;
-
-        // Does the node under the pointer have an empty or node-list inside it?
-        const el = document.elementFromPoint(event.clientX, event.clientY);
-        if (!(el instanceof HTMLElement)) return undefined;
-
-        // Find the empty view closest to the element under the pointer.
-        const emptyView = el.closest(`.empty`);
-        if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
-            const fieldName = emptyView.dataset.field;
-            const fieldValue = nodeUnderPointer.getField(fieldName);
-            const fieldInfo = nodeUnderPointer.getFieldNamed(fieldName);
-            const kind = fieldInfo?.kind;
-
-            // If it's a list and it allows the node kind being inserted, return an insertion point.
-            if (
-                fieldInfo !== undefined &&
-                kind !== undefined &&
-                Array.isArray(fieldValue) &&
-                kind instanceof ListOf &&
-                kind.allowsItem(candidate) &&
-                // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
-                (fieldInfo.getType === undefined ||
-                    !(candidate instanceof Expression) ||
-                    fieldInfo
-                        .getType(context, 0)
-                        .accepts(candidate.getType(context), context))
-            ) {
-                return new InsertionPoint(
-                    nodeUnderPointer,
-                    fieldName,
-                    fieldValue,
-                    undefined,
-                    undefined,
-                    0,
-                );
-            }
-            // If it's an unassigned field, offer an insertion point.
-            else if (
-                fieldValue === undefined &&
-                kind !== undefined &&
-                kind.allows(candidate)
-            ) {
-                return new AssignmentPoint(nodeUnderPointer, fieldName);
-            }
-        }
-
-        const list = el.closest('.node-list');
-        if (
-            list instanceof HTMLElement &&
-            list.dataset.field &&
-            list.dataset.direction
-        ) {
-            const fieldName = list.dataset.field;
-            const inline = list.dataset.direction === 'inline';
-
-            // Find the closest child in the list to the pointer.
-            const children = Array.from(list.childNodes).filter(
-                (node): node is HTMLElement =>
-                    node instanceof HTMLElement &&
-                    node.classList.contains('node-view'),
-            ) as HTMLElement[];
-            const closestChild = children
-                .map((child) => {
-                    const rect = child.getBoundingClientRect();
-                    return {
-                        child,
-                        distance: Math.abs(
-                            inline
-                                ? event.clientX - (rect.left + rect.width / 2)
-                                : event.clientY - (rect.top + rect.height / 2),
-                        ),
-                    };
-                })
-                .sort((a, b) => a.distance - b.distance)[0];
-
-            // Find the index of the closest child.
-            let index = 0;
-            if (closestChild === undefined) return;
-
-            index = children.indexOf(closestChild.child);
-            if (index === -1) return;
-
-            // If the pointer is past the center of the closest child, insert after it.
-            const rect = closestChild.child.getBoundingClientRect();
-            if (
-                inline
-                    ? event.clientX > rect.left + rect.width / 2
-                    : event.clientY > rect.top + rect.height / 2
-            )
-                index += 1;
-
-            const nodeList = nodeUnderPointer.getField(fieldName);
-            const field = nodeUnderPointer.getFieldNamed(fieldName);
-            const kind = field?.kind;
-            if (
-                field !== undefined &&
-                Array.isArray(nodeList) &&
-                kind instanceof ListOf &&
-                kind.allowsItem(candidate) &&
-                // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
-                (field.getType === undefined ||
-                    !(candidate instanceof Expression) ||
-                    field
-                        .getType(context, 0)
-                        .accepts(candidate.getType(context), context))
-            ) {
-                return new InsertionPoint(
-                    nodeUnderPointer,
-                    fieldName,
-                    nodeList,
-                    undefined,
-                    undefined,
-                    index,
-                );
-            }
-        }
-    }
-
-    /** Given a pointer event, find the insertion points in text mode. */
-    function getTextInsertionPointsAt(event: PointerEvent) {
-        // Is the caret position between tokens?
-        // If so, are any of the token's parents inside a list in which we could insert something?
-        const position = getCaretPositionAt(event);
-
-        // If we found a position, find what's between.
-        if (position !== undefined) {
-            // Create a caret for the position and get the token it's at.
-            const caret = new Caret(
-                source,
-                position,
-                undefined,
-                undefined,
-                undefined,
-            );
-            const token = caret.getToken();
-            if (token === undefined) return [];
-
-            // What is the space prior to this insertion point?
-            const index = source.getTokenSpacePosition(token);
-            if (index === undefined) return [];
-
-            // Find what space is prior.
-            const spacePrior = source.spaces
-                .getSpace(token)
-                .substring(0, position - index);
-
-            // How many lines does the space prior include?
-            const line = spacePrior.split('\n').length - 1;
-
-            // What nodes are between this and are any of them insertion points?
-            const { before, after } = caret.getNodesBetween();
-
-            // If there are nodes between the point, construct insertion points
-            // that exist in lists.
-            return (
-                [
-                    ...before.map((tree) =>
-                        getInsertionPoint(source, tree, false, token, line),
-                    ),
-                    ...after.map((tree) =>
-                        getInsertionPoint(source, tree, true, token, line),
-                    ),
-                ]
-                    // Filter out duplicates and undefineds
-                    .filter<InsertionPoint>(
-                        (
-                            insertion1: InsertionPoint | undefined,
-                            i1,
-                            insertions,
-                        ): insertion1 is InsertionPoint =>
-                            insertion1 !== undefined &&
-                            insertions.find(
-                                (insertion2, i2) =>
-                                    i1 > i2 &&
-                                    insertion1 !== insertion2 &&
-                                    insertion2 !== undefined &&
-                                    insertion1.equals(insertion2),
-                            ) === undefined,
-                    )
-            );
-        }
-        return [];
-    }
-
     function exceededDragThreshold(event: PointerEvent) {
         return (
             dragPoint !== undefined &&
@@ -984,9 +521,10 @@
 
     function handlePointerMove(event: PointerEvent) {
         if (evaluator === undefined) return;
+        if (editor === null) return;
 
         // Remove the touch action disabling now that we're moving.
-        if (editor) editor.style.removeProperty('touchAction');
+        editor.style.removeProperty('touchAction');
 
         // Handle an edit
         handleEditHover(event);
@@ -998,7 +536,14 @@
             dragPoint !== undefined
         ) {
             // Dragging to select. What's under the pointer?
-            const position = getCaretPositionAt(event);
+            const position = getCaretPositionAt(
+                $caret,
+                editor,
+                event,
+                getNodeView,
+                getTokenViews,
+                $locales.getDirection(),
+            );
             // Update the selection range based on the caret position.
             if (position !== undefined && !$blocks) {
                 if ($caret.isPosition() && $caret.position !== position)
@@ -1015,6 +560,8 @@
     }
 
     function handleEditHover(event: PointerEvent) {
+        if (editor === null) return;
+
         // By default, set the hovered state to whatever node is under the mouse.
         hovered.set(getNodeAt(source, event, false));
         hoveredAny.set(getNodeAt(source, event, true));
@@ -1037,25 +584,32 @@
 
             // In blocks mode? Handle the case of empty and insert.
             if ($blocks) {
-                insertionPoint = getBlockInsertionPoint(event, $dragged);
+                insertionPoint = getBlockInsertionPoint(
+                    context,
+                    event,
+                    $dragged,
+                );
             }
             // Get the insertion points at the current pointer position
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
             else {
-                insertionPoint = getTextInsertionPointsAt(event).filter(
-                    (insertion) => {
-                        const kind = insertion.node.getFieldKind(
-                            insertion.field,
-                        );
-                        return (
-                            kind &&
-                            $dragged &&
-                            (kind.allows($dragged) || kind.allows([$dragged]))
-                        );
-                    },
-                )[0];
+                insertionPoint = getTextInsertionPointsAt(
+                    $caret,
+                    editor,
+                    event,
+                    getNodeView,
+                    getTokenViews,
+                    $locales.getDirection(),
+                ).filter((insertion) => {
+                    const kind = insertion.node.getFieldKind(insertion.field);
+                    return (
+                        kind &&
+                        $dragged &&
+                        (kind.allows($dragged) || kind.allows([$dragged]))
+                    );
+                })[0];
             }
 
             // Set the insertion, whatever we found.

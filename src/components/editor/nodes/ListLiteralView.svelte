@@ -19,7 +19,7 @@
         {format}
         elide
         empty="label"
-        block={'inline-wrap'}
+        block="inline-wrap"
     />
     <NodeView node={[node, 'close']} {format} />
     <!-- Too advanced of a feature. Let's hide it for now. -->

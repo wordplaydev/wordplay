@@ -251,7 +251,8 @@
         background-color: var(--wordplay-highlight-color);
     }
 
-    [data-direction='inline'] > .insertion-feedback {
+    [data-direction='inline'] > .insertion-feedback,
+    [data-direction='inline-wrap'] > .insertion-feedback {
         width: var(--wordplay-focus-width);
     }
     [data-direction='block'] > .insertion-feedback {
