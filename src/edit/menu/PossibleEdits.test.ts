@@ -13,7 +13,7 @@ import Append from '../revision/Append';
 import Assign from '../revision/Assign';
 import Replace from '../revision/Replace';
 import type Revision from '../revision/Revision';
-import { getEditsAt } from './Autocomplete';
+import { getEditsAt } from './PossibleEdits';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],

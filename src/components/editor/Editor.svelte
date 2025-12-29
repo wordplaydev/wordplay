@@ -19,8 +19,8 @@
         dropNodeOnSource,
         isValidDropTarget,
     } from '@edit/drag/Drag';
-    import { getEditsAt } from '@edit/menu/Autocomplete';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
+    import { getEditsAt } from '@edit/menu/PossibleEdits';
     import type Revision from '@edit/revision/Revision';
     import type Locale from '@locale/Locale';
     import { type LocaleTextAccessor } from '@locale/Locales';
