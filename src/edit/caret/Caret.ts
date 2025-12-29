@@ -1180,9 +1180,6 @@ export default class Caret {
             ? completeInsertion(project, newCaret, text, blocks)
             : undefined;
 
-        // Keep track of whether we closed a delimiter.
-        let closed = false;
-
         // Update the source, position, and text of delimiter completion, if there is one.
         if (completion) {
             const [newSource, newPosition] = completion;
@@ -1204,9 +1201,7 @@ export default class Caret {
             const newToken = newSource.getTokenAt(originalPosition, false);
 
             // Find the position.
-            newPosition =
-                newPosition +
-                (closed ? 1 : new UnicodeString(text).getLength());
+            newPosition = newPosition + new UnicodeString(text).getLength();
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
