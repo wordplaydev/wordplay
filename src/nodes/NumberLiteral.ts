@@ -1,8 +1,8 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { NotANumber } from '@conflicts/NotANumber';
-import type { InsertContext, ReplaceContext } from '@edit/EditContext';
-import { getPossibleDimensions } from '@edit/getPossibleUnits';
+import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';

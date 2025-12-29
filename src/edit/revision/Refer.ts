@@ -1,8 +1,8 @@
+import type Locales from '@locale/Locales';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import type Node from '@nodes/Node';
 import TypeVariable from '@nodes/TypeVariable';
-import type Locales from '../locale/Locales';
 
 export default class Refer {
     readonly creator: (name: string, operator?: string) => Node;

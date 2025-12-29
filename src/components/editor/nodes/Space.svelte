@@ -1,8 +1,8 @@
 <script lang="ts">
     import { getShowLines } from '@components/project/Contexts';
+    import type { InsertionPoint } from '@edit/drag/Drag';
     import type Token from '@nodes/Token';
     import { spaceIndicator } from '../../../db/Database';
-    import type { InsertionPoint } from '../../../edit/Drag';
     import {
         EXPLICIT_SPACE_TEXT,
         EXPLICIT_TAB_TEXT,

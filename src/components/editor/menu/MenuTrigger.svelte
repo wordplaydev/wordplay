@@ -1,11 +1,11 @@
 <script lang="ts">
+    import type { CaretPosition } from '@edit/Caret';
     import { isFieldPosition, type FieldPosition } from '@nodes/Node';
     import {
         DOCS_SYMBOL,
         DROP_DOWN_SYMBOL,
         LOCALE_SYMBOL,
     } from '@parser/Symbols';
-    import type { CaretPosition } from '../../../edit/Caret';
     import { getSetMenuAnchor } from '../../project/Contexts';
 
     interface Props {

@@ -78,9 +78,9 @@
 
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
+    import type MenuInfo from '@edit/menu/Menu';
     import type { HighlightSpec } from '../editor/highlights/Highlights';
     import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
-    import type MenuInfo from '../editor/menu/Menu';
     import Timeline from '../evaluator/Timeline.svelte';
     import OutputView from '../output/OutputView.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';

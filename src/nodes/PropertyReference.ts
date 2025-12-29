@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
-import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import Refer from '@edit/revision/Refer';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -12,7 +13,6 @@ import NameException from '@values/NameException';
 import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
-import Refer from '../edit/Refer';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import UnimplementedException from '../values/UnimplementedException';

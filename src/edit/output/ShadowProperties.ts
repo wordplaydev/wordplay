@@ -1,11 +1,11 @@
 // import BooleanLiteral from '../nodes/BooleanLiteral';
-import Evaluate from '../nodes/Evaluate';
-import NumberLiteral from '../nodes/NumberLiteral';
+import Evaluate from '../../nodes/Evaluate';
+import NumberLiteral from '../../nodes/NumberLiteral';
 // import Reference from '../nodes/Reference';
 // import Unit from '../nodes/Unit';
-import type Project from '../db/projects/Project';
-import type LocaleText from '../locale/LocaleText';
-import { createColorLiteral } from '../output/Color';
+import type Project from '../../db/projects/Project';
+import type LocaleText from '../../locale/LocaleText';
+import { createColorLiteral } from '../../output/Color';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
 

@@ -8,7 +8,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 
 import { MisplacedThis } from '@conflicts/MisplacedThis';
-import type { ReplaceContext } from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import StartFinish from '@runtime/StartFinish';

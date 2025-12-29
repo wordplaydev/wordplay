@@ -1,4 +1,4 @@
-import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';

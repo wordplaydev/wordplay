@@ -1189,7 +1189,7 @@ export default class Caret {
         }
 
         // Let's see if we should do any delimiter completion before we insert.
-        const autocompletion = this.completeInsertion(
+        const completion = this.completeInsertion(
             text,
             complete,
             newSource,
@@ -1202,8 +1202,7 @@ export default class Caret {
         let closed = false;
 
         // Update the source, position, and text of delimiter completion.
-        if (autocompletion)
-            [newText, newSource, newPosition, closed] = autocompletion;
+        if (completion) [newText, newSource, newPosition, closed] = completion;
 
         // Did we somehow get no source?
         if (newSource === undefined)

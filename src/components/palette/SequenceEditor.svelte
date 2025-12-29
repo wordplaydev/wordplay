@@ -1,11 +1,11 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import type OutputExpression from '@edit/OutputExpression';
-    import type OutputProperty from '@edit/OutputProperty';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import type OutputExpression from '@edit/output/OutputExpression';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
+    import getSequenceProperties from '@edit/output/SequenceProperties';
     import { untrack } from 'svelte';
-    import getSequenceProperties from '../../edit/SequenceProperties';
     import PaletteProperty from './PaletteProperty.svelte';
 
     interface Props {

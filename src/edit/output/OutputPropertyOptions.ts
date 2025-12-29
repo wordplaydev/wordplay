@@ -1,4 +1,4 @@
-import type Expression from '../nodes/Expression';
+import type Expression from '../../nodes/Expression';
 
 export default class OutputPropertyOptions {
     readonly values: { value: string; label: string }[];

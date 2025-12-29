@@ -89,6 +89,7 @@
 </script>
 
 <script lang="ts">
+    import Caret from '@edit/Caret';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';
@@ -99,7 +100,6 @@
         locales,
         spaceIndicator,
     } from '../../../db/Database';
-    import Caret from '../../../edit/Caret';
     import UnicodeString from '../../../unicode/UnicodeString';
     import { getEditor, getEvaluation } from '../../project/Contexts';
     import { measureTokenSegment } from '../highlights/measureTokenSegment';

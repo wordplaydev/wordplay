@@ -1,5 +1,5 @@
 import Purpose from '@concepts/Purpose';
-import type { ReplaceContext } from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';

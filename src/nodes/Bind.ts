@@ -6,7 +6,7 @@ import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import UnusedBind from '@conflicts/UnusedBind';
-import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';

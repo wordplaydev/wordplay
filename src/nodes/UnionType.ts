@@ -1,5 +1,5 @@
 import Purpose from '@concepts/Purpose';
-import type { ReplaceContext } from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { OR_SYMBOL } from '@parser/Symbols';

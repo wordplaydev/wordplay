@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
-import type { InsertContext } from '@edit/EditContext';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';

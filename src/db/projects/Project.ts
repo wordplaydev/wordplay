@@ -1,6 +1,7 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
 import { UnknownName } from '@conflicts/UnknownName';
+import type { CaretPosition } from '@edit/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
@@ -24,7 +25,6 @@ import { DOCS_SYMBOL } from '@parser/Symbols';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import { v4 as uuidv4 } from 'uuid';
 import { Basis } from '../../basis/Basis';
-import type { CaretPosition } from '../../edit/Caret';
 import DefaultLocale from '../../locale/DefaultLocale';
 import Locales from '../../locale/Locales';
 import type LocaleText from '../../locale/LocaleText';

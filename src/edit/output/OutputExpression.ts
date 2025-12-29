@@ -6,14 +6,14 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import Evaluate from '../nodes/Evaluate';
+import type Project from '../../db/projects/Project';
+import type Locales from '../../locale/Locales';
+import Evaluate from '../../nodes/Evaluate';
+import getShapeProperties from './getShapeProperties';
 import getGroupProperties from './GroupProperties';
 import type OutputProperty from './OutputProperty';
 import getPhraseProperties from './PhraseProperties';
 import getStageProperties from './StageProperties';
-import getShapeProperties from './getShapeProperties';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.

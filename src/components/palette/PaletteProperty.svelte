@@ -2,11 +2,11 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
-    import type OutputProperty from '@edit/OutputProperty';
-    import OutputPropertyOptions from '@edit/OutputPropertyOptions';
-    import OutputPropertyRange from '@edit/OutputPropertyRange';
-    import OutputPropertyText from '@edit/OutputPropertyText';
-    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
+    import OutputPropertyRange from '@edit/output/OutputPropertyRange';
+    import OutputPropertyText from '@edit/output/OutputPropertyText';
+    import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
     import { tick } from 'svelte';
     import { blocks, DB, locales } from '../../db/Database';

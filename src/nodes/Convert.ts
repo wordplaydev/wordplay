@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownConversion } from '@conflicts/UnknownConversion';
-import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';

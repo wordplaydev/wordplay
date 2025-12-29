@@ -1,7 +1,7 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleType from '@conflicts/IncompatibleType';
-import type { ReplaceContext } from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';

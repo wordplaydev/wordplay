@@ -1,3 +1,4 @@
+import type Caret from '@edit/Caret';
 import Node from '@nodes/Node';
 import {
     ALL_SYMBOL,
@@ -30,7 +31,6 @@ import {
     TYPE_SYMBOL,
     UNDO_SYMBOL,
 } from '@parser/Symbols';
-import type Caret from '../../../edit/Caret';
 
 import { Settings, type Database } from '@db/Database';
 import type Locales from '@locale/Locales';

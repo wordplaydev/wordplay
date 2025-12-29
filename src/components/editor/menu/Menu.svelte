@@ -3,15 +3,15 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import Revision from '@edit/Revision';
+    import type Menu from '@edit/menu/Menu';
+    import { RevisionSet } from '@edit/menu/Menu';
+    import Revision from '@edit/revision/Revision';
     import Node, { isFieldPosition, ListOf } from '@nodes/Node';
     import { tick } from 'svelte';
     import { locales } from '../../../db/Database';
     import Token from '../../../nodes/Token';
     import MarkupHTMLView from '../../concepts/MarkupHTMLView.svelte';
     import MenuItem from '../menu/MenuItem.svelte';
-    import type Menu from './Menu';
-    import { RevisionSet } from './Menu';
 
     interface Props {
         menu: Menu;

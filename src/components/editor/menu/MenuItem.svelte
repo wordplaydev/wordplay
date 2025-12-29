@@ -3,8 +3,8 @@
     import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { blocks, locales } from '@db/Database';
-    import Revision from '@edit/Revision';
-    import Menu, { RevisionSet } from './Menu';
+    import Menu, { RevisionSet } from '@edit/menu/Menu';
+    import Revision from '@edit/revision/Revision';
 
     interface Props {
         entry: Revision;

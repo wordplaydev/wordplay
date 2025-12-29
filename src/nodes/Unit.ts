@@ -1,5 +1,6 @@
 import Purpose from '@concepts/Purpose';
-import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import {
@@ -9,7 +10,6 @@ import {
 } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import { getPossibleDimensions } from '../edit/getPossibleUnits';
 import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import Dimension from './Dimension';

@@ -5,9 +5,9 @@ import type Node from '@nodes/Node';
 import Root from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
-import type { Edit } from '../components/editor/commands/Commands';
-import type Locales from '../locale/Locales';
-import type Markup from '../nodes/Markup';
+import type { Edit } from '../../components/editor/commands/Commands';
+import type Locales from '../../locale/Locales';
+import type Markup from '../../nodes/Markup';
 
 export default abstract class Revision {
     /** The node with a field being appended to */

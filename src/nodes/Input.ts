@@ -1,7 +1,7 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
-import type { InsertContext } from '@edit/EditContext';
-import Refer from '@edit/Refer';
+import type { InsertContext } from '@edit/revision/EditContext';
+import Refer from '@edit/revision/Refer';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';

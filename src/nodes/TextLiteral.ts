@@ -1,5 +1,5 @@
 import Purpose from '@concepts/Purpose';
-import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';

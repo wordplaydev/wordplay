@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type { InsertContext, ReplaceContext } from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation from '@runtime/Evaluation';

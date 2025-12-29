@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
-import type { InsertContext } from '@edit/EditContext';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type { LocaleText } from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';

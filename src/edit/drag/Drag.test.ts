@@ -1,14 +1,14 @@
 import Project from '@db/projects/Project';
+import DefaultLocale from '@locale/DefaultLocale';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import ListLiteral from '@nodes/ListLiteral';
 import type Node from '@nodes/Node';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Source from '@nodes/Source';
 import Token from '@nodes/Token';
+import parseExpression from '@parser/parseExpression';
+import { toTokens } from '@parser/toTokens';
 import { expect, test } from 'vitest';
-import DefaultLocale from '../locale/DefaultLocale';
-import parseExpression from '../parser/parseExpression';
-import { toTokens } from '../parser/toTokens';
 import { dropNodeOnSource, InsertionPoint } from './Drag';
 
 test.each([

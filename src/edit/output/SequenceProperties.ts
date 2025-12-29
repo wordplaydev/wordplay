@@ -1,11 +1,11 @@
 import TextLiteral from '@nodes/TextLiteral';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import KeyValue from '../nodes/KeyValue';
-import MapLiteral from '../nodes/MapLiteral';
-import NumberLiteral from '../nodes/NumberLiteral';
-import Unit from '../nodes/Unit';
-import { createPoseLiteral } from '../output/Pose';
+import type Project from '../../db/projects/Project';
+import type Locales from '../../locale/Locales';
+import KeyValue from '../../nodes/KeyValue';
+import MapLiteral from '../../nodes/MapLiteral';
+import NumberLiteral from '../../nodes/NumberLiteral';
+import Unit from '../../nodes/Unit';
+import { createPoseLiteral } from '../../output/Pose';
 import { getDurationProperty, getStyleProperty } from './OutputProperties';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';

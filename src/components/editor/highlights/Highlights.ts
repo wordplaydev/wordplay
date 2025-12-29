@@ -1,3 +1,9 @@
+import type Caret from '@edit/Caret';
+import {
+    AssignmentPoint,
+    InsertionPoint,
+    isValidDropTarget,
+} from '@edit/drag/Drag';
 import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import DefinitionExpression from '@nodes/DefinitionExpression';
@@ -17,12 +23,6 @@ import Token from '@nodes/Token';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Caret from '../../../edit/Caret';
-import {
-    AssignmentPoint,
-    InsertionPoint,
-    isValidDropTarget,
-} from '../../../edit/Drag';
 import getOutlineOf, {
     getOutlineOfRows,
     getTokenRects,

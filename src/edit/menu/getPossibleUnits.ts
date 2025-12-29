@@ -1,8 +1,8 @@
 import NumberType from '@nodes/NumberType';
 import Unit from '@nodes/Unit';
-import type Project from '../db/projects/Project';
-import type Context from '../nodes/Context';
-import Dimension from '../nodes/Dimension';
+import type Project from '../../db/projects/Project';
+import type Context from '../../nodes/Context';
+import Dimension from '../../nodes/Dimension';
 
 export function getPossibleUnits(context: Context) {
     const project = context.project;

@@ -9,7 +9,7 @@
 
 <script lang="ts" generics="NodeType extends Node">
     import ValueView from '@components/values/ValueView.svelte';
-    import { InsertionPoint } from '@edit/Drag';
+    import { InsertionPoint } from '@edit/drag/Drag';
     import type Definition from '@nodes/Definition';
     import Expression from '@nodes/Expression';
     import Node from '@nodes/Node';

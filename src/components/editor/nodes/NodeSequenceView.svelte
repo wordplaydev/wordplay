@@ -4,7 +4,7 @@
 
 <script lang="ts" generics="NodeType extends Node">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { InsertionPoint } from '@edit/Drag';
+    import { InsertionPoint } from '@edit/drag/Drag';
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';

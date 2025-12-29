@@ -2,7 +2,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import OutputExpression from '@edit/OutputExpression';
+    import OutputExpression from '@edit/output/OutputExpression';
     import Evaluate from '@nodes/Evaluate';
     import type Expression from '@nodes/Expression';
     import KeyValue from '@nodes/KeyValue';

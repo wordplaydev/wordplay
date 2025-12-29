@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type { InsertContext } from '@edit/EditContext';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';

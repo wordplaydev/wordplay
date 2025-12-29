@@ -9,7 +9,16 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Conflict from '@conflicts/Conflict';
     import Project from '@db/projects/Project';
-    import type Revision from '@edit/Revision';
+    import Caret, { type CaretPosition, isCaretPosition } from '@edit/Caret';
+    import {
+        AssignmentPoint,
+        InsertionPoint,
+        dropNodeOnSource,
+        isValidDropTarget,
+    } from '@edit/drag/Drag';
+    import { getEditsAt } from '@edit/menu/Autocomplete';
+    import Menu, { RevisionSet } from '@edit/menu/Menu';
+    import type Revision from '@edit/revision/Revision';
     import type Locale from '@locale/Locale';
     import { type LocaleTextAccessor } from '@locale/Locales';
     import Evaluate from '@nodes/Evaluate';
@@ -31,17 +40,6 @@
         locales,
         showLines,
     } from '../../db/Database';
-    import { getEditsAt } from '../../edit/Autocomplete';
-    import Caret, {
-        type CaretPosition,
-        isCaretPosition,
-    } from '../../edit/Caret';
-    import {
-        AssignmentPoint,
-        InsertionPoint,
-        dropNodeOnSource,
-        isValidDropTarget,
-    } from '../../edit/Drag';
     import Expression from '../../nodes/Expression';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import UnicodeString from '../../unicode/UnicodeString';
@@ -84,7 +82,6 @@
         updateOutlines,
     } from './highlights/Highlights';
     import { type Outline, OutlinePadding } from './highlights/outline';
-    import Menu, { RevisionSet } from './menu/Menu';
     import MenuTrigger from './menu/MenuTrigger.svelte';
     import {
         getBlockInsertionPoint,

@@ -1,4 +1,5 @@
 import Project from '@db/projects/Project';
+import Caret from '@edit/Caret';
 import DefaultLocales from '@locale/DefaultLocales';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import type Node from '@nodes/Node';
@@ -6,14 +7,13 @@ import Source from '@nodes/Source';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { TRUE_SYMBOL } from '@parser/Symbols';
 import { expect, test } from 'vitest';
-import DefaultLocale from '../locale/DefaultLocale';
-import NumberLiteral from '../nodes/NumberLiteral';
-import Append from './Append';
-import Assign from './Assign';
+import DefaultLocale from '../../locale/DefaultLocale';
+import NumberLiteral from '../../nodes/NumberLiteral';
+import Append from '../revision/Append';
+import Assign from '../revision/Assign';
+import Replace from '../revision/Replace';
+import type Revision from '../revision/Revision';
 import { getEditsAt } from './Autocomplete';
-import Caret from './Caret';
-import Replace from './Replace';
-import type Revision from './Revision';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],

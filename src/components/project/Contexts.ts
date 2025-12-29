@@ -3,6 +3,9 @@ import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type Conflict from '@conflicts/Conflict';
 import type Project from '@db/projects/Project';
+import type Caret from '@edit/Caret';
+import type { CaretPosition } from '@edit/Caret';
+import type { AssignmentPoint, InsertionPoint } from '@edit/drag/Drag';
 import type Locale from '@locale/Locale';
 import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
@@ -16,9 +19,6 @@ import type Step from '@runtime/Step';
 import type { User } from 'firebase/auth';
 import { getContext, setContext } from 'svelte';
 import { type Readable, type Writable } from 'svelte/store';
-import type Caret from '../../edit/Caret';
-import type { CaretPosition } from '../../edit/Caret';
-import type { AssignmentPoint, InsertionPoint } from '../../edit/Drag';
 import type LanguageCode from '../../locale/LanguageCode';
 import type {
     CommandContext,

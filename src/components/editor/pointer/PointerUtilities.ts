@@ -1,5 +1,9 @@
 import Caret from '@edit/Caret';
-import { AssignmentPoint, getInsertionPoint, InsertionPoint } from '@edit/Drag';
+import {
+    AssignmentPoint,
+    getInsertionPoint,
+    InsertionPoint,
+} from '@edit/drag/Drag';
 import type { WritingDirection } from '@locale/Scripts';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
