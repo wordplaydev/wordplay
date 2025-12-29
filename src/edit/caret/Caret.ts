@@ -1,36 +1,20 @@
 import type { LocaleTextAccessor } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
-import Evaluate from '@nodes/Evaluate';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionType from '@nodes/FunctionType';
 import ListLiteral from '@nodes/ListLiteral';
 import Node, { Empty, ListOf, type Field } from '@nodes/Node';
 import Program from '@nodes/Program';
-import PropertyReference from '@nodes/PropertyReference';
 import Source from '@nodes/Source';
-import StreamDefinitionType from '@nodes/StreamDefinitionType';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
-import StructureType from '@nodes/StructureType';
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Spaces from '@parser/Spaces';
-import {
-    CONVERT_SYMBOL,
-    ELISION_SYMBOL,
-    EVAL_CLOSE_SYMBOL,
-    EVAL_OPEN_SYMBOL,
-    PLACEHOLDER_SYMBOL,
-    PROPERTY_SYMBOL,
-    STREAM_SYMBOL,
-} from '@parser/Symbols';
+import { ELISION_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
 import {
     DelimiterCloseByOpen,
     DelimiterOpenByClose,
-    FormattingSymbols,
     isName,
-    OperatorRegEx,
     TextOpenByTextClose,
     tokens,
 } from '@parser/Tokenizer';
@@ -60,6 +44,7 @@ import Translation from '../../nodes/Translation';
 import Type from '../../nodes/Type';
 import TypeVariable from '../../nodes/TypeVariable';
 import UnicodeString from '../../unicode/UnicodeString';
+import { completeInsertion } from './Complete';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 
@@ -1129,7 +1114,6 @@ export default class Caret {
             : undefined;
         if (renameEdit) return [renameEdit[0], renameEdit[1]];
 
-        let newText: string | undefined = undefined;
         let newSource: Source | undefined;
         let newPosition: number | Node;
         let originalPosition: number;
@@ -1188,59 +1172,59 @@ export default class Caret {
             }
         }
 
+        // Construct a new caret based on the revision.
+        const newCaret = this.withSource(newSource).withPosition(newPosition);
+
         // Let's see if we should do any delimiter completion before we insert.
-        const completion = this.completeInsertion(
-            text,
-            complete,
-            newSource,
-            newPosition,
-            project,
-            blocks,
-        );
+        const completion = complete
+            ? completeInsertion(project, newCaret, text, blocks)
+            : undefined;
 
         // Keep track of whether we closed a delimiter.
         let closed = false;
 
-        // Update the source, position, and text of delimiter completion.
-        if (completion) [newText, newSource, newPosition, closed] = completion;
-
-        // Did we somehow get no source?
-        if (newSource === undefined)
-            return (l) => l.ui.source.cursor.ignored.noInsert;
-
-        // After the autcomplete, are we no longer inserting text, as indicated by empty text insertion?
-        // Return what autocomplete returned.
-        if (text === '' || typeof newPosition !== 'number')
+        // Update the source, position, and text of delimiter completion, if there is one.
+        if (completion) {
+            const [newSource, newPosition] = completion;
             return [
                 newSource,
                 this.withSource(newSource).withPosition(newPosition),
             ];
-        else text = newText ?? text;
-
-        // Insert the possibly revised text.
-        newSource = newSource.withGraphemesAt(text, newPosition);
-
-        // Did we somehow get no source? Bail.
-        if (newSource === undefined)
-            return (l) => l.ui.source.cursor.ignored.noInsert;
-
-        // What's the new token we added?
-        const newToken = newSource.getTokenAt(originalPosition, false);
-
-        // Find the position.
-        newPosition =
-            newPosition + (closed ? 1 : new UnicodeString(text).getLength());
-
-        // Finally, if we're in blocks mode, verify that the insertion was valid.
-        if (blocks) {
-            if (project.getNewConflicts(this.source, newSource).length > 0)
-                return (l) => l.ui.source.cursor.ignored.noError;
         }
+        // No autocomplete,
+        else {
+            // Insert the possibly revised text.
+            newSource = newSource.withGraphemesAt(text, newPosition);
 
-        return [
-            newSource,
-            new Caret(newSource, newPosition, undefined, undefined, newToken),
-        ];
+            // Did we somehow get no source? Bail.
+            if (newSource === undefined)
+                return (l) => l.ui.source.cursor.ignored.noInsert;
+
+            // What's the new token we added?
+            const newToken = newSource.getTokenAt(originalPosition, false);
+
+            // Find the position.
+            newPosition =
+                newPosition +
+                (closed ? 1 : new UnicodeString(text).getLength());
+
+            // Finally, if we're in blocks mode, verify that the insertion was valid.
+            if (blocks) {
+                if (project.getNewConflicts(this.source, newSource).length > 0)
+                    return (l) => l.ui.source.cursor.ignored.noError;
+            }
+
+            return [
+                newSource,
+                new Caret(
+                    newSource,
+                    newPosition,
+                    undefined,
+                    undefined,
+                    newToken,
+                ),
+            ];
+        }
     }
 
     insertRename(text: string, project: Project) {
@@ -1310,186 +1294,6 @@ export default class Caret {
                         this.tokenIncludingSpace,
                     ) !== undefined))
         );
-    }
-
-    completeInsertion(
-        text: string,
-        complete: boolean,
-        source: Source,
-        position: number,
-        project: Project,
-        validOnly: boolean,
-    ): [string, Source, number | Node, boolean] | undefined {
-        let newSource: Source | undefined = source;
-        let newPosition: number | Node = position;
-        let closed = false;
-
-        // If the inserted character is an open parenthesis, see if we can construct an evaluate with the preceding expression.
-        if (text === EVAL_OPEN_SYMBOL) {
-            // Find the top most expression that ends where the caret is.
-            const precedingExpression = this.source
-                .nodes()
-                .filter(
-                    (node): node is Expression =>
-                        (node instanceof Reference ||
-                            node instanceof PropertyReference ||
-                            (node instanceof Block && !node.isRoot())) &&
-                        source.getNodeLastPosition(node) === position,
-                )
-                .at(-1);
-
-            if (precedingExpression) {
-                const context = project.getNodeContext(precedingExpression);
-                const fun = precedingExpression.getType(context);
-                if (
-                    fun instanceof FunctionType ||
-                    fun instanceof StructureType ||
-                    fun instanceof StructureDefinitionType ||
-                    fun instanceof StreamDefinitionType
-                ) {
-                    const definition =
-                        fun instanceof FunctionType
-                            ? fun.definition
-                            : fun instanceof StructureType
-                              ? fun.definition
-                              : fun instanceof StructureDefinitionType
-                                ? fun.type.definition
-                                : fun instanceof StreamDefinitionType
-                                  ? fun.definition
-                                  : undefined;
-                    const evaluate = definition
-                        ? (definition.getEvaluateTemplate(
-                              context.getBasis().locales,
-                              context,
-                              precedingExpression,
-                          ) ?? Evaluate.make(precedingExpression, []))
-                        : Evaluate.make(precedingExpression, []);
-                    // Make a new source
-                    newSource = source.replace(precedingExpression, evaluate);
-                    // Place the caret on the placeholder
-                    newPosition =
-                        (evaluate instanceof Evaluate
-                            ? evaluate.close
-                                ? newSource.getNodeFirstPosition(evaluate.close)
-                                : newSource.getNodeLastPosition(evaluate)
-                            : position) ?? position;
-                    // Don't insert anything.
-                    text = '';
-                    return [text, newSource, newPosition, closed];
-                }
-            }
-        }
-
-        // If it's a convert and we're valid only, insert a placeholder.
-        if (text === CONVERT_SYMBOL && validOnly) {
-            text += PLACEHOLDER_SYMBOL;
-            newSource = source.withGraphemesAt(text, position);
-            const placeholder = newSource
-                ?.nodes()
-                .find(
-                    (n) => newSource?.getNodeFirstPosition(n) === position + 1,
-                );
-            newPosition = placeholder ?? position + text.length;
-            if (newSource) return [text, newSource, newPosition, closed];
-        }
-
-        // If the inserted string matches a single matched delimiter, complete it, unless:
-        // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
-        // 2) the character being inserted closes an unmatched delimiter, in which case we just insert the character.
-        if (
-            complete &&
-            text in DelimiterCloseByOpen &&
-            ((!this.isInsideWords() &&
-                (!FormattingSymbols.includes(text) ||
-                    // Allow the elision symbol, since it can be completed outside of words.
-                    text === ELISION_SYMBOL)) ||
-                (this.isInsideWords() && FormattingSymbols.includes(text))) &&
-            (this.tokenPrior === undefined ||
-                // The text typed does not close an unmatched delimiter
-                (this.source.getUnmatchedDelimiter(this.tokenPrior, text) ===
-                    undefined &&
-                    !(
-                        // The token prior is text or unknown
-                        (
-                            this.tokenPrior.isSymbol(Sym.Text) ||
-                            this.tokenPrior.isSymbol(Sym.Unknown)
-                        )
-                    )))
-        ) {
-            // Insert an empty block in valid only mode and place the caret at the placeholder.
-            if (validOnly && text === EVAL_OPEN_SYMBOL) {
-                text += PLACEHOLDER_SYMBOL + EVAL_CLOSE_SYMBOL;
-                newSource = source.withGraphemesAt(text, position);
-                const placeholder = newSource
-                    ?.nodes()
-                    .find(
-                        (n) =>
-                            newSource?.getNodeFirstPosition(n) === position + 1,
-                    );
-                newPosition = placeholder ?? position + text.length;
-            } else text += DelimiterCloseByOpen[text];
-
-            closed = true;
-        }
-        // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
-        else if (
-            text === '.' &&
-            source.getGraphemeAt(position - 1) === '.' &&
-            source.getGraphemeAt(position - 2) === '.'
-        ) {
-            text = STREAM_SYMBOL;
-            newSource = source
-                .withoutGraphemeAt(position - 2)
-                ?.withoutGraphemeAt(position - 2);
-            newPosition = position - 2;
-        }
-        // If the preceding character is an arrow dash, delete the dash and insert the arrow
-        else if (text === '>' && source.getGraphemeAt(position - 1) === '-') {
-            text = CONVERT_SYMBOL;
-            newSource = source.withoutGraphemeAt(position - 1);
-            newPosition = position - 1;
-        }
-        // If the inserted character is an operator, see if we can construct a binary evaluation with the
-        // the preceding expression and a placeholder on the right.
-        else if (validOnly && OperatorRegEx.test(text)) {
-            // Find the top most expression that ends where the caret is.
-            const precedingExpression = this.source
-                .nodes()
-                .filter(
-                    (node): node is Expression =>
-                        node instanceof Expression &&
-                        !(node instanceof Program) &&
-                        !(node instanceof Source) &&
-                        !(node instanceof Block && node.isRoot()) &&
-                        source.getNodeLastPosition(node) === position,
-                )[0];
-
-            if (
-                precedingExpression &&
-                precedingExpression
-                    .getType(project.getNodeContext(precedingExpression))
-                    .getDefinitionOfNameInScope(
-                        text,
-                        project.getNodeContext(precedingExpression),
-                    ) !== undefined
-            ) {
-                const binary = new BinaryEvaluate(
-                    precedingExpression instanceof Literal
-                        ? precedingExpression
-                        : Block.make([precedingExpression]),
-                    Reference.make(text),
-                    ExpressionPlaceholder.make(),
-                );
-                // Make a new source
-                newSource = source.replace(precedingExpression, binary);
-                // Place the caret on the placeholder
-                newPosition = binary.right;
-                // Don't insert anything.
-                text = '';
-            }
-        }
-
-        return newSource ? [text, newSource, newPosition, closed] : undefined;
     }
 
     isInsideWords() {
