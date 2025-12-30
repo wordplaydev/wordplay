@@ -700,7 +700,7 @@
     $effect(() => {
         if (
             index === undefined ||
-            ($keyboardEditIdle && latestProject !== project)
+            ($keyboardEditIdle === IdleKind.Idle && latestProject !== project)
         ) {
             latestProject = project;
 
