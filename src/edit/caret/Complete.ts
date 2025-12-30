@@ -17,6 +17,7 @@ import Literal from '@nodes/Literal';
 import MapType from '@nodes/MapType';
 import Names from '@nodes/Names';
 import Node from '@nodes/Node';
+import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import Paragraph, { type Segment } from '@nodes/Paragraph';
 import Program from '@nodes/Program';
@@ -39,7 +40,9 @@ import {
     ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
+    EXPONENT_SYMBOL,
     PLACEHOLDER_SYMBOL,
+    PRODUCT_SYMBOL,
     STREAM_SYMBOL,
     TAG_OPEN_SYMBOL,
     TYPE_SYMBOL,
@@ -357,6 +360,13 @@ function completeBinaryEvaluate({
             !(node instanceof Source) &&
             !(node instanceof Block && node.isRoot()),
     )[0];
+
+    if (
+        precedingExpression instanceof NumberLiteral &&
+        !precedingExpression.unit?.isEmpty() &&
+        (text === PRODUCT_SYMBOL || text === EXPONENT_SYMBOL)
+    )
+        return undefined;
 
     if (
         precedingExpression &&
