@@ -4880,6 +4880,56 @@
                     }
                 ]
             },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "How-to space settings",
+                    "explanation": "Configure the settings for this how-to space."
+                },
+                "configurationButton": {
+                    "tip": "Configure this how-to space",
+                    "label": "⚙️ Settings"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "Visibility",
+                        "explanation": "Configure who can view how-tos in this space by default"
+                    },
+                    "mode": {
+                        "label": "default visibility",
+                        "modes": [
+                            "only collaborators of this gallery can view",
+                            "collaborators of any gallery any curator creates can view"
+                        ]
+                    },
+                    "expanded": "expanded",
+                    "limited": "limited"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "Guiding Questions",
+                        "explanation": "Configure the guiding questions shown when creating a new how-to. Separate guiding questions with a line break."
+                    },
+                    "descriptor": "A text box to write your guiding questions, separated by a line break.",
+                    "submit": {
+                        "label": "Save guiding questions",
+                        "tip": "Save guiding questions"
+                    }
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "Reactions",
+                        "explanation": "Configure the reactions that viewers can leave on how-tos"
+                    },
+                    "reactionPickerTip": "Choose a character to be a reaction",
+                    "reactionDescriptionTip": "Describe what this reaction means",
+                    "addReactionTip": "Add a new reaction",
+                    "removeReactionTip": "Remove this reaction",
+                    "submit": {
+                        "label": "Save reactions",
+                        "tip": "Save reactions"
+                    }
+                }
+            },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."
             }

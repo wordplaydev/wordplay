@@ -14,6 +14,7 @@
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
+    import HowToConfiguration from './HowToConfiguration.svelte';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
 
@@ -63,7 +64,10 @@
     //                   gallery.hasCreator($user.uid))
     //         : false,
     // );
-    let canUserEdit = $user !== null;
+    let canUserEdit = $derived($user !== null);
+    let isUserCurator = $derived(
+        gallery && $user && gallery.hasCurator($user.uid),
+    );
 
     // refresh the page when a new howTo is created
     let newHowTo: HowTo | undefined = $state(undefined);
@@ -236,6 +240,10 @@
                         panTo(coords[0], coords[1]);
                     }}
                 ></Options>
+
+                {#if isUserCurator}
+                    <HowToConfiguration />
+                {/if}
             </div>
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div class="howtospacebody">

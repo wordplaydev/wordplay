@@ -85,6 +85,30 @@ type PageText = {
         /** Default reaction options for viewing a how-to */
         reactions: ButtonText[];
     },
+    /** For configuring the how-to space */
+    configuration: {
+        configurationDialog: DialogText;
+        configurationButton: ButtonText;
+        visibility: {
+            subheader: DialogText;
+            mode: ModeText<[string, string]>;
+            limited: string;
+            expanded: string;
+        }
+        guidingQuestions: {
+            subheader: DialogText;
+            descriptor: string;
+            submit: ButtonText;
+        }
+        reactions: {
+            subheader: DialogText;
+            reactionPickerTip: string;
+            reactionDescriptionTip: string;
+            addReactionTip: string;
+            removeReactionTip: string;
+            submit: ButtonText;
+        }
+    }
     error: {
         /** When the how-to is not known or is not public */
         unknown: string;

@@ -9783,6 +9783,102 @@
                   ],
                   "type": "object"
                 },
+                "configuration": {
+                  "additionalProperties": false,
+                  "description": "For configuring the how-to space",
+                  "properties": {
+                    "configurationButton": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
+                    "configurationDialog": {
+                      "$ref": "#/definitions/DialogText"
+                    },
+                    "guidingQuestions": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "descriptor": {
+                          "type": "string"
+                        },
+                        "subheader": {
+                          "$ref": "#/definitions/DialogText"
+                        },
+                        "submit": {
+                          "$ref": "#/definitions/ButtonText"
+                        }
+                      },
+                      "required": [
+                        "subheader",
+                        "descriptor",
+                        "submit"
+                      ],
+                      "type": "object"
+                    },
+                    "reactions": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "addReactionTip": {
+                          "type": "string"
+                        },
+                        "reactionDescriptionTip": {
+                          "type": "string"
+                        },
+                        "reactionPickerTip": {
+                          "type": "string"
+                        },
+                        "removeReactionTip": {
+                          "type": "string"
+                        },
+                        "subheader": {
+                          "$ref": "#/definitions/DialogText"
+                        },
+                        "submit": {
+                          "$ref": "#/definitions/ButtonText"
+                        }
+                      },
+                      "required": [
+                        "subheader",
+                        "reactionPickerTip",
+                        "reactionDescriptionTip",
+                        "addReactionTip",
+                        "removeReactionTip",
+                        "submit"
+                      ],
+                      "type": "object"
+                    },
+                    "visibility": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "expanded": {
+                          "type": "string"
+                        },
+                        "limited": {
+                          "type": "string"
+                        },
+                        "mode": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                        },
+                        "subheader": {
+                          "$ref": "#/definitions/DialogText"
+                        }
+                      },
+                      "required": [
+                        "subheader",
+                        "mode",
+                        "limited",
+                        "expanded"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "configurationDialog",
+                    "configurationButton",
+                    "visibility",
+                    "guidingQuestions",
+                    "reactions"
+                  ],
+                  "type": "object"
+                },
                 "error": {
                   "additionalProperties": false,
                   "properties": {
@@ -9984,6 +10080,7 @@
                 "canvasView",
                 "newHowTo",
                 "viewHowTo",
+                "configuration",
                 "error"
               ],
               "type": "object"
