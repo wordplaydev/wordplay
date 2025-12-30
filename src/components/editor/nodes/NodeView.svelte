@@ -15,6 +15,7 @@
     import Node from '@nodes/Node';
     import type { UnitDeriver } from '@nodes/NumberType';
     import type Root from '@nodes/Root';
+    import Source from '@nodes/Source';
     import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
     import { locales } from '../../../db/Database';
     import Token from '../../../nodes/Token';
@@ -125,7 +126,7 @@
             line={$spaces.getLineNumber(firstToken)}
             {space}
             block={false}
-            invisible={false}
+            invisible={!(root?.root instanceof Source)}
             insertion={$dragTarget instanceof InsertionPoint &&
             $dragTarget.token === firstToken
                 ? $dragTarget
@@ -146,7 +147,8 @@
             first={false}
             line={undefined}
             space={tokenPrefersPrecedingSpace ? ' ' : space}
-            invisible={tokenPrefersPrecedingSpace}
+            invisible={tokenPrefersPrecedingSpace ||
+                !(root?.root instanceof Source)}
             block={true}
             insertion={undefined}
         />
@@ -348,10 +350,6 @@
         border-block-end: var(--wordplay-focus-width) solid var(--color-purple);
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
-    }
-
-    .block:global(.BinaryEvaluate).evaluate {
-        gap: var(--wordplay-spacing-half);
     }
 
     .block.type {
