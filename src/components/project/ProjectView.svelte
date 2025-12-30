@@ -674,15 +674,6 @@
     let howToStore = Locales.howTos;
     let howTos = $derived($howToStore[$locales.getLocaleString()]);
 
-    /** Update the concept index whenever the project, locales, or how tos change. */
-    $effect(() => {
-        index = ConceptIndex.make(
-            project,
-            $locales,
-            howTos instanceof Promise ? [] : howTos,
-        );
-    });
-
     /* Keep the index context up to date when it changes.*/
     $effect(() => {
         indexContext.index = index;
@@ -705,20 +696,24 @@
 
     let latestProject: Project | undefined;
 
-    // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
+    // When dependencies change, create a new concept index.
     $effect(() => {
-        if ($keyboardEditIdle && latestProject !== project) {
+        if (
+            index === undefined ||
+            ($keyboardEditIdle && latestProject !== project)
+        ) {
             latestProject = project;
 
             // Make a new concept index with the new project and translations, but the old examples.
-            const newIndex =
-                project && index
-                    ? ConceptIndex.make(
-                          project,
-                          $locales,
-                          howTos instanceof Promise ? [] : howTos,
-                      ).withExamples(index.examples)
-                    : undefined;
+            const newIndex = project
+                ? ConceptIndex.make(
+                      project,
+                      $locales,
+                      howTos instanceof Promise ? [] : howTos,
+                  ).withExamples(
+                      index === undefined ? new Map() : index.examples,
+                  )
+                : undefined;
 
             // Set the index
             index = newIndex;
