@@ -175,18 +175,23 @@ export default class FunctionDefinition extends DefinitionExpression {
                 )
               : Evaluate.make(
                     structure
-                        ? PropertyReference.make(
-                              structureType instanceof Expression
-                                  ? structureType
-                                  : ExpressionPlaceholder.make(structureType),
-                              reference,
-                          )
+                        ? structure instanceof PropertyReference
+                            ? structure
+                            : PropertyReference.make(
+                                  structureType instanceof Expression
+                                      ? structureType
+                                      : ExpressionPlaceholder.make(
+                                            structureType,
+                                        ),
+                                  reference,
+                              )
                         : reference,
                     this.inputs
                         .filter((input) => !input.hasDefault())
                         .map((input) =>
                             input.type
-                                ? defaults
+                                ? // Always generate a default for function types. Placeholders are gnarly!
+                                  defaults || input.type instanceof FunctionType
                                     ? (input.type.getDefaultExpression(
                                           context,
                                       ) ??

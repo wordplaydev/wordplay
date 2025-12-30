@@ -169,13 +169,22 @@ function completeEvaluate({
 }: InsertInfo): Revision | undefined {
     // If the inserted character is an open parenthesis, see if we can construct an evaluate with the preceding expression.
     // Find the top most expression that ends where the caret is.
-    const precedingExpression = getPrecedingExpression(source, position).filter(
+    const precedingExpressions = getPrecedingExpression(
+        source,
+        position,
+    ).filter(
         (node) =>
             node instanceof Reference ||
             node instanceof PropertyReference ||
             (node instanceof Block && !node.isRoot()),
-    )[0];
-    if (precedingExpression === undefined) return undefined;
+    );
+
+    if (precedingExpressions.length === 0) return undefined;
+
+    const propertyReference = precedingExpressions.find(
+        (node): node is PropertyReference => node instanceof PropertyReference,
+    );
+    const precedingExpression = propertyReference ?? precedingExpressions[0];
 
     const context = project.getNodeContext(precedingExpression);
     const fun = precedingExpression.getType(context);

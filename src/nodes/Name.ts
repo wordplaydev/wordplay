@@ -80,7 +80,7 @@ export default class Name extends LanguageTagged {
     }
 
     simplify() {
-        return this;
+        return this.withoutLanguage();
     }
 
     getCorrespondingDefinition(context: Context): Definition | undefined {
