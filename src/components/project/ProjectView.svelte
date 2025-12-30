@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 1000;
+    export const KeyboardIdleWaitTime = 500;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
@@ -705,7 +705,6 @@
             latestProject = project;
 
             // Make a new concept index with the new project and translations, but the old examples.
-            console.log('New index', $keyboardEditIdle);
             const newIndex = project
                 ? ConceptIndex.make(
                       project,
@@ -788,31 +787,40 @@
     );
 
     /**
-     * Any time the evaluator of the project changes, start it, and analyze it after some delay.
+     * Any time the evaluator of the project changes, start it.
      * */
     let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
     $effect(() => {
         // Re-evaluate immediately if not started.
         if (!$evaluator.isStarted()) $evaluator.start();
+    });
 
-        untrack(() => {
-            if (updateTimer) clearTimeout(updateTimer);
-        });
-
-        function updateConflicts() {
-            // In the middle of analyzing? Check later.
-            if (project.analyzed === 'analyzing') {
-                updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
-            }
-            // Done analyzing, or not analyzed?
-            else if (project.analyzed === 'unanalyzed') {
-                project.analyze();
-                // Get the resulting conflicts.
-                conflicts.set(project.getConflicts());
-            }
+    function updateConflicts() {
+        // Analyzed? Update the conflicts immediately.
+        if (project.analyzed === 'analyzed') {
+            conflicts.set(project.getConflicts());
         }
+        // Not yet analyzed? Analyze in a bit.
+        else if (project.analyzed === 'unanalyzed') {
+            project.analyze();
+            updateTimer = setTimeout(() => {
+                project.analyze();
+                updateConflicts();
+            }, KeyboardIdleWaitTime);
+        }
+        // Still analyzing? Try again later.
+        else {
+            if (updateTimer) clearTimeout(updateTimer);
+            updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
+        }
+    }
 
-        updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
+    /** Any time the project changes, update the conflicts soon */
+    $effect(() => {
+        if (project) updateConflicts();
+        return () => {
+            if (updateTimer) clearTimeout(updateTimer);
+        };
     });
 
     /** When stepping and the current step changes, change the active source. */
