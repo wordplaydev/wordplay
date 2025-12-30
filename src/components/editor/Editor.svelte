@@ -751,7 +751,7 @@
         let newCaret = navigation ? edit : edit[1];
         const newSource = navigation ? undefined : edit[0];
 
-        // Set the keyboard edit idle to false.
+        // Update the idle state.
         keyboardEditIdle.set(idle);
 
         // See if the caret is inside a node that's currently being displayed as a value, and if

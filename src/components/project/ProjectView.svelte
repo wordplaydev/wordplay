@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 300;
+    export const KeyboardIdleWaitTime = 1000;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
@@ -705,6 +705,7 @@
             latestProject = project;
 
             // Make a new concept index with the new project and translations, but the old examples.
+            console.log('New index', $keyboardEditIdle);
             const newIndex = project
                 ? ConceptIndex.make(
                       project,
