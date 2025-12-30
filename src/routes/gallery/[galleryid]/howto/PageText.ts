@@ -20,6 +20,8 @@ type PageText = {
         draftsheader: string;
         /** Explanation for the drafts area */
         draftsprompt: string;
+        /** Tooltip for viewing a draft */
+        drafttooltip: string;
         /** Header for the bookmarks area */
         bookmarksheader: string;
         /** Bookmarks  tooltip */
@@ -46,6 +48,8 @@ type PageText = {
         editorDescription: string;
         /** Field text for how-to title */
         title: FieldText;
+        /** Placeholder for an untitled how-to */
+        titlePlaceholder: string;
         /** Collaboration */
         collaboratorsPrompt: string;
         collaboratorsToggle: ToggleText;

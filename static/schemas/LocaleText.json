@@ -9754,6 +9754,10 @@
                       "description": "Explanation for the drafts area",
                       "type": "string"
                     },
+                    "drafttooltip": {
+                      "description": "Tooltip for viewing a draft",
+                      "type": "string"
+                    },
                     "header": {
                       "description": "Header for the how-to space page",
                       "type": "string"
@@ -9772,6 +9776,7 @@
                     "howtoprompt",
                     "draftsheader",
                     "draftsprompt",
+                    "drafttooltip",
                     "bookmarksheader",
                     "bookmarkstooltip",
                     "navigationtooltip"
@@ -9862,6 +9867,10 @@
                     "title": {
                       "$ref": "#/definitions/FieldText",
                       "description": "Field text for how-to title"
+                    },
+                    "titlePlaceholder": {
+                      "description": "Placeholder for an untitled how-to",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -9875,6 +9884,7 @@
                     "editorPlaceholder",
                     "editorDescription",
                     "title",
+                    "titlePlaceholder",
                     "collaboratorsPrompt",
                     "collaboratorsToggle"
                   ],

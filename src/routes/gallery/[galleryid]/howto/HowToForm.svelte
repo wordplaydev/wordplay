@@ -29,20 +29,18 @@
     interface Props {
         editingMode: boolean; // true if editing, false if viewing
         howTo: HowTo | undefined; // undefined if creating a brand new how-to
-        cameraX?: number;
-        cameraY?: number;
-        notPermittedAreasCanvas?: Map<string, [number, number, number, number]>;
-        notPermittedAreasDrafts?: Map<string, [number, number, number, number]>;
+        notPermittedAreas: Map<string, [number, number, number, number]>;
+        cameraX: number;
+        cameraY: number;
         preview?: Snippet;
     }
 
     let {
         editingMode,
         howTo = $bindable(),
-        cameraX = 0,
-        cameraY = 0,
-        notPermittedAreasCanvas = undefined,
-        notPermittedAreasDrafts = undefined,
+        notPermittedAreas,
+        cameraX,
+        cameraY,
         preview = undefined,
     }: Props = $props();
 
@@ -76,47 +74,52 @@
         howTo ? [...howTo.getCollaborators(), howTo.getCreator()] : [],
     );
 
-    // writer functions
-    async function writeNewHowTo(publish: boolean) {
-        if (!howTo) {
-            let writeX, writeY;
+    function findPlaceToWrite() {
+        let writeX, writeY;
 
-            if (publish) {
+        writeX = -cameraX;
+        writeY = -cameraY;
+        let numSearchAttempts = 0;
+
+        while (
+            !movePermitted(writeX, writeY, 100, 100, '', notPermittedAreas)
+        ) {
+            if (numSearchAttempts < 5) {
+                writeX += 150;
+            } else if (numSearchAttempts == 5) {
+                writeX = -cameraX - 150;
+            } else if (numSearchAttempts < 10) {
+                writeX -= 150;
+            } else if (numSearchAttempts == 10) {
                 writeX = -cameraX;
-                writeY = -cameraY;
-                let canvasToCheck = publish
-                    ? notPermittedAreasCanvas
-                    : notPermittedAreasDrafts;
-                let numSearchAttempts = 0;
-
-                while (
-                    canvasToCheck !== undefined &&
-                    !movePermitted(writeX, writeY, 100, 100, '', canvasToCheck)
-                ) {
-                    if (numSearchAttempts < 5) {
-                        writeX += 150;
-                    } else if (numSearchAttempts == 5) {
-                        writeX = -cameraX - 150;
-                    } else if (numSearchAttempts < 10) {
-                        writeX -= 150;
-                    } else if (numSearchAttempts == 10) {
-                        writeX = -cameraX;
-                        writeY += 150;
-                    } else if (numSearchAttempts == 15) {
-                        writeY = -cameraY - 150;
-                    } else if (numSearchAttempts < 20) {
-                        writeY -= 150;
-                    } else {
-                        break; // prevent infinite loop
-                    }
-
-                    numSearchAttempts++;
-                }
+                writeY += 150;
+            } else if (numSearchAttempts == 15) {
+                writeY = -cameraY - 150;
+            } else if (numSearchAttempts < 20) {
+                writeY -= 150;
             } else {
-                writeX = 0;
-                writeY = 0;
+                break; // prevent infinite loop
             }
 
+            numSearchAttempts++;
+        }
+
+        return [writeX, writeY];
+    }
+
+    // writer functions
+    async function writeNewHowTo(publish: boolean) {
+        if (title.length === 0)
+            title = $locales.get((l) => l.ui.howto.newHowTo.titlePlaceholder);
+
+        let writeX: number = 0;
+        let writeY: number = 0;
+
+        if (publish) {
+            [writeX, writeY] = findPlaceToWrite();
+        }
+
+        if (!howTo) {
             let returnValue = await HowTos.addHowTo(
                 galleryID,
                 publish,
@@ -134,11 +137,21 @@
             show = false;
             editingMode = true;
         } else {
+            // if was not published, and now is published, need to find coordinates for the how-to
+            // if was already published, then keep the same coordinates
+            let [writeX, writeY] = howTo.getCoordinates();
+
+            if (!isPublished) {
+                [writeX, writeY] = findPlaceToWrite();
+            }
+
             howTo = new HowTo({
                 ...howTo.getData(),
                 published: publish,
                 title: title,
                 text: newText,
+                xcoord: writeX,
+                ycoord: writeY,
             });
 
             HowTos.updateHowTo(howTo, true);
@@ -272,11 +285,11 @@
 {:else}
     <Button
         tip={(l) =>
-            !howTo
-                ? l.ui.howto.newHowTo.newForm.header
-                : l.ui.howto.newHowTo.editForm.header}
+            howTo
+                ? l.ui.howto.canvasView.drafttooltip
+                : l.ui.howto.newHowTo.newForm.header}
         action={() => (show = !show)}
-        icon={'+'}
+        icon={howTo ? howTo.getTitle() : '+'}
         large={!howTo}
     ></Button>
 {/if}

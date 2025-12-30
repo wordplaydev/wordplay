@@ -174,7 +174,6 @@
     }
 
     // code that enables drag and drop functionality
-
     childMoving = false;
     let thisChildMoving = false;
     let thisChildMoved = false;
@@ -294,7 +293,7 @@
         }
     }
 
-    function onDropHowTo(clientX: number, clientY: number) {
+    function onDropHowTo() {
         childMoving = false;
 
         if (thisChildMoving) {
@@ -302,47 +301,25 @@
 
             if (!howTo) return;
 
-            let published = howTo.isPublished();
-
-            // if it is a draft and was moved outside of the drafts space, then publish it
-            if (!published) {
-                const draftsArea = document
-                    .getElementById('drafts')
-                    ?.getBoundingClientRect();
-                const canvasArea = document
-                    .getElementById('canvas')
-                    ?.getBoundingClientRect();
-
-                if (draftsArea && canvasArea && xcoord > draftsArea.right) {
-                    published = true;
-                    xcoord = Math.round(clientX - canvasArea.left - cameraX);
-                    ycoord = Math.round(clientY - canvasArea.top - cameraY);
-                }
-            }
-
             howTo = new HowTo({
                 ...howTo.getData(),
                 xcoord: xcoord,
                 ycoord: ycoord,
-                published: published,
             });
 
             HowTos.updateHowTo(howTo, true);
         }
     }
 
-    function onMouseUp(event: MouseEvent) {
-        onDropHowTo(event.clientX, event.clientY);
+    function onMouseUp() {
+        onDropHowTo();
     }
 
     function onLoseFocus() {
         if (thisChildMoved) {
             thisChildMoved = false;
-            let item = document
-                .getElementById(`howto-${howToId}`)
-                ?.getBoundingClientRect();
 
-            onDropHowTo(item?.left ?? 0, item?.top ?? 0);
+            onDropHowTo();
         } else {
             thisChildMoving = false;
             childMoving = false;
@@ -371,7 +348,16 @@
             let intendX = xcoord + deltaX;
             let intendY = ycoord + deltaY;
 
-            if (movePermitted(intendX, intendY, howToId, notPermittedAreas)) {
+            if (
+                movePermitted(
+                    intendX,
+                    intendY,
+                    width,
+                    height,
+                    howToId,
+                    notPermittedAreas,
+                )
+            ) {
                 xcoord = intendX;
                 ycoord = intendY;
             }
@@ -382,7 +368,7 @@
     }
 
     function onTouchEnd(e: TouchEvent) {
-        onDropHowTo(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+        onDropHowTo();
 
         prevTouchX = undefined;
         prevTouchY = undefined;
@@ -432,7 +418,14 @@
 >
     <div class="howtotitle"> {title}</div>
 
-    <HowToForm editingMode={false} bind:howTo {preview} />
+    <HowToForm
+        editingMode={false}
+        bind:howTo
+        {notPermittedAreas}
+        {cameraX}
+        {cameraY}
+        {preview}
+    />
 </div>
 <svelte:window
     on:mouseup={onMouseUp}

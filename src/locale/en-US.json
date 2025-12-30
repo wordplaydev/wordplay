@@ -4768,7 +4768,8 @@
                 "header": "$1's how-tos",
                 "howtoprompt": "Tell us the story of how you learned something to make your project.",
                 "draftsheader": "📝 How-to drafts",
-                "draftsprompt": "This is a space for your drafts! Only you can see what is inside. To post your draft, use the post button in the editor or drag it outside of this space.",
+                "draftsprompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
+                "drafttooltip": "View your draft",
                 "bookmarksheader": "🔖 Bookmarks",
                 "bookmarkstooltip": "Click me to go to this how-to",
                 "navigationtooltip": "Navigate to a how-to"
@@ -4808,6 +4809,7 @@
                     "description": "The title of your how-to",
                     "placeholder": "Title"
                 },
+                "titlePlaceholder": "Untitled how-to",
                 "collaboratorsPrompt": "Add a collaborator, who can edit this how-to",
                 "collaboratorsToggle": {
                     "on": "Collapse the collaborators panel",

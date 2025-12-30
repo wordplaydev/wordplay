@@ -187,10 +187,7 @@
     ]);
 
     // collision detection
-    let notPermittedAreasCanvas = $state<
-        Map<string, [number, number, number, number]>
-    >(new Map());
-    let notPermittedAreasDrafts = $state<
+    let notPermittedAreas = $state<
         Map<string, [number, number, number, number]>
     >(new Map());
 </script>
@@ -220,8 +217,7 @@
                         bind:howTo={newHowTo}
                         {cameraX}
                         {cameraY}
-                        {notPermittedAreasCanvas}
-                        {notPermittedAreasDrafts}
+                        {notPermittedAreas}
                     />
                 {/if}
 
@@ -254,19 +250,21 @@
                                     l.ui.howto.canvasView.draftsprompt}
                             />
                             <div class="draftslist">
-                                {#each howTos as howTo, i (i)}
-                                    {#if !howTo.isPublished()}
-                                        <HowToPreview
-                                            bind:howTo={howTos[i]}
-                                            {cameraX}
-                                            {cameraY}
-                                            bind:childMoving
-                                            bind:notPermittedAreas={
-                                                notPermittedAreasDrafts
-                                            }
-                                        />
-                                    {/if}
-                                {/each}
+                                <ul>
+                                    {#each howTos as howTo, i (i)}
+                                        {#if !howTo.isPublished()}
+                                            <li>
+                                                <HowToForm
+                                                    editingMode={false}
+                                                    bind:howTo={howTos[i]}
+                                                    {notPermittedAreas}
+                                                    {cameraX}
+                                                    {cameraY}
+                                                />
+                                            </li>
+                                        {/if}
+                                    {/each}
+                                </ul>
                             </div>
                         </div>
                     {/if}
@@ -313,7 +311,7 @@
                                 {cameraX}
                                 {cameraY}
                                 bind:childMoving
-                                bind:notPermittedAreas={notPermittedAreasCanvas}
+                                bind:notPermittedAreas
                             />
                         {/if}
                     {/each}
@@ -342,21 +340,20 @@
         grid-template-columns: 1fr 3fr;
     }
 
-    .stickyarea {
+    /* .stickyarea {
         display: grid;
-        grid-template-rows: 1fr auto;
-    }
+        grid-template-rows: 1fr 1fr;
+    } */
 
     .drafts {
         border: var(--wordplay-border-color) dashed;
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
-        display: grid;
-        grid-template-rows: auto 1fr 1fr;
     }
 
     .draftslist {
-        position: relative;
+        height: 100%;
+        overflow-y: auto;
     }
 
     .bookmarks {
@@ -374,7 +371,6 @@
         position: relative;
     }
 
-    .drafts:active,
     .canvas:active {
         border-color: var(--wordplay-highlight-color);
         border-width: var(--wordplay-focus-width);
