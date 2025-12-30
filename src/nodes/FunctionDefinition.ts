@@ -34,7 +34,6 @@ import type Node from './Node';
 import { any, list, node, none, type Grammar, type Replacement } from './Node';
 import PropertyReference from './PropertyReference';
 import Reference from './Reference';
-import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
 import Token from './Token';
 import Type from './Type';
@@ -142,18 +141,22 @@ export default class FunctionDefinition extends DefinitionExpression {
         defaults: boolean,
         structureType: Expression | Type | undefined,
     ) {
-        const possibleStructure = context.getRoot(this)?.getParent(this);
-        const structure = structureType
-            ? structureType
-            : possibleStructure instanceof StructureDefinition
-              ? possibleStructure
-              : undefined;
-        const reference = Reference.make(
+        const name =
             typeof nameOrLocales === 'string'
                 ? nameOrLocales
-                : nameOrLocales.getName(this.names),
-            this,
-        );
+                : nameOrLocales.getName(this.names);
+        const fun =
+            structureType instanceof Reference ||
+            structureType instanceof PropertyReference
+                ? structureType
+                : structureType instanceof Expression
+                  ? PropertyReference.make(structureType, Reference.make(name))
+                  : structureType instanceof Type
+                    ? PropertyReference.make(
+                          ExpressionPlaceholder.make(structureType),
+                          Reference.make(name),
+                      )
+                    : Reference.make(name);
         return this.isOperator() && this.inputs.length === 0
             ? new UnaryEvaluate(
                   new Reference(
@@ -174,18 +177,7 @@ export default class FunctionDefinition extends DefinitionExpression {
                     ExpressionPlaceholder.make(),
                 )
               : Evaluate.make(
-                    structure
-                        ? structure instanceof PropertyReference
-                            ? structure
-                            : PropertyReference.make(
-                                  structureType instanceof Expression
-                                      ? structureType
-                                      : ExpressionPlaceholder.make(
-                                            structureType,
-                                        ),
-                                  reference,
-                              )
-                        : reference,
+                    fun,
                     this.inputs
                         .filter((input) => !input.hasDefault())
                         .map((input) =>
