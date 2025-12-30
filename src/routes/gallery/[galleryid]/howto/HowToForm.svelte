@@ -45,7 +45,9 @@
     }: Props = $props();
 
     // utility variables
-    let reactionButtons = $locales.get((l) => l.ui.howto.viewHowTo.reactions);
+    let reactionButtons = $locales.get(
+        (l) => l.ui.howto.viewer.reactions.options,
+    );
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
     const galleryID: string = decodeURI(page.params.galleryid);
 
@@ -67,7 +69,7 @@
     let prompts: string[] = $derived(
         howTo
             ? howTo.getGuidingQuestions()
-            : [$locales.get((l) => l.ui.howto.newHowTo.prompt)],
+            : [$locales.get((l) => l.ui.howto.editor.prompt)],
     );
     let title: string = $derived(howTo ? howTo.getTitle() : '');
     let allCollaborators: string[] = $derived(
@@ -110,7 +112,7 @@
     // writer functions
     async function writeNewHowTo(publish: boolean) {
         if (title.length === 0)
-            title = $locales.get((l) => l.ui.howto.newHowTo.titlePlaceholder);
+            title = $locales.get((l) => l.ui.howto.editor.titlePlaceholder);
 
         let writeX: number = 0;
         let writeY: number = 0;
@@ -278,16 +280,16 @@
     <Button
         tip={(l) =>
             editingMode
-                ? l.ui.howto.newHowTo.editForm.header
-                : l.ui.howto.viewHowTo.view.tip}
+                ? l.ui.howto.editor.editForm.header
+                : l.ui.howto.viewer.view.tip}
         action={() => (show = !show)}>{@render preview()}</Button
     >
 {:else}
     <Button
         tip={(l) =>
             howTo
-                ? l.ui.howto.canvasView.drafttooltip
-                : l.ui.howto.newHowTo.newForm.header}
+                ? l.ui.howto.drafts.tooltip
+                : l.ui.howto.editor.newForm.header}
         action={() => (show = !show)}
         icon={howTo ? howTo.getTitle() : '+'}
         large={!howTo}
@@ -298,22 +300,22 @@
     header={(l) =>
         editingMode
             ? !howTo
-                ? l.ui.howto.newHowTo.newForm.header
-                : l.ui.howto.newHowTo.editForm.header
+                ? l.ui.howto.editor.newForm.header
+                : l.ui.howto.editor.editForm.header
             : title}
     explanation={(l) =>
         editingMode
             ? !howTo
-                ? l.ui.howto.newHowTo.newForm.explanation
-                : l.ui.howto.newHowTo.editForm.explanation
-            : l.ui.howto.newHowTo.editForm.explanation}
+                ? l.ui.howto.editor.newForm.explanation
+                : l.ui.howto.editor.editForm.explanation
+            : l.ui.howto.editor.editForm.explanation}
 >
     {#if editingMode}
         <Subheader>
             <TextField
                 bind:text={title}
-                description={(l) => l.ui.howto.newHowTo.title.description}
-                placeholder={(l) => l.ui.howto.newHowTo.title.placeholder}
+                description={(l) => l.ui.howto.editor.title.description}
+                placeholder={(l) => l.ui.howto.editor.title.placeholder}
                 id="howto-title"
             />
         </Subheader>
@@ -321,8 +323,8 @@
         {#each prompts as prompt, i (i)}
             <HowToPrompt text={(l) => prompt} />
             <FormattedEditor
-                placeholder={(l) => l.ui.howto.newHowTo.editorPlaceholder}
-                description={(l) => l.ui.howto.newHowTo.editorDescription}
+                placeholder={(l) => l.ui.howto.editor.editorPlaceholder}
+                description={(l) => l.ui.howto.editor.editorDescription}
                 bind:text={newText[i]}
                 id="howto-prompt-{i}"
             />
@@ -336,7 +338,7 @@
                     </Subheader>
                     <!-- TODO(@mc) -- collaboration is not tested!!! -->
                     <MarkupHTMLView
-                        markup={(l) => l.ui.howto.newHowTo.collaboratorsPrompt}
+                        markup={(l) => l.ui.howto.editor.collaboratorsPrompt}
                     ></MarkupHTMLView>
 
                     <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
@@ -359,7 +361,7 @@
         <div class="toolbar">
             <div class="toolbar-left">
                 <Toggle
-                    tips={(l) => l.ui.howto.newHowTo.collaboratorsToggle}
+                    tips={(l) => l.ui.howto.editor.collaboratorsToggle}
                     on={collabToggle}
                     toggle={() => {
                         collabToggle = !collabToggle;
@@ -374,15 +376,15 @@
                     <Mode
                         choice={notify ? 0 : 1}
                         modes={['🔔', '🔕']}
-                        descriptions={(l) => l.ui.howto.newHowTo.notification}
+                        descriptions={(l) => l.ui.howto.editor.notification}
                         select={(num) => (notify = num === 0)}
                     />
                 {/if}
 
                 {#if !howTo?.isPublished()}
                     <Button
-                        tip={(l) => l.ui.howto.newHowTo.save.tip}
-                        label={(l) => l.ui.howto.newHowTo.save.label}
+                        tip={(l) => l.ui.howto.editor.save.tip}
+                        label={(l) => l.ui.howto.editor.save.label}
                         action={() => {
                             writeNewHowTo(false);
                         }}
@@ -390,8 +392,8 @@
                     />
                 {/if}
                 <Button
-                    tip={(l) => l.ui.howto.newHowTo.post.tip}
-                    label={(l) => l.ui.howto.newHowTo.post.label}
+                    tip={(l) => l.ui.howto.editor.post.tip}
+                    label={(l) => l.ui.howto.editor.post.label}
                     action={() => {
                         writeNewHowTo(true);
                     }}
@@ -406,16 +408,16 @@
                 <div class="toolbar">
                     {#if $user && howTo.isCreatorCollaborator($user.uid)}
                         <Button
-                            tip={(l) => l.ui.howto.viewHowTo.edit.tip}
-                            label={(l) => l.ui.howto.viewHowTo.edit.label}
+                            tip={(l) => l.ui.howto.viewer.edit.tip}
+                            label={(l) => l.ui.howto.viewer.edit.label}
                             active={true}
                             action={() => {
                                 editingMode = true;
                             }}
                         />
                         <ConfirmButton
-                            tip={(l) => l.ui.howto.viewHowTo.delete.description}
-                            prompt={(l) => l.ui.howto.viewHowTo.delete.prompt}
+                            tip={(l) => l.ui.howto.viewer.delete.description}
+                            prompt={(l) => l.ui.howto.viewer.delete.prompt}
                             action={async () => {
                                 if (galleryID && howTo) {
                                     await HowTos.deleteHowTo(
@@ -425,20 +427,22 @@
                                     show = false;
                                 }
                             }}
-                            label={(l) => l.ui.howto.viewHowTo.delete.prompt}
+                            label={(l) => l.ui.howto.viewer.delete.prompt}
                         />
                         {#if isPublished}
                             <Button
                                 tip={(l) =>
                                     howTo && howTo.getSubmittedToGuide()
-                                        ? l.ui.howto.viewHowTo.alreadySubmitted
-                                              .tip
-                                        : l.ui.howto.viewHowTo.submit.tip}
+                                        ? l.ui.howto.viewer.submitToGuide
+                                              .alreadySubmitted.tip
+                                        : l.ui.howto.viewer.submitToGuide.submit
+                                              .tip}
                                 label={(l) =>
                                     howTo && howTo.getSubmittedToGuide()
-                                        ? l.ui.howto.viewHowTo.alreadySubmitted
-                                              .label
-                                        : l.ui.howto.viewHowTo.submit.label}
+                                        ? l.ui.howto.viewer.submitToGuide
+                                              .alreadySubmitted.label
+                                        : l.ui.howto.viewer.submitToGuide.submit
+                                              .label}
                                 active={!howTo.getSubmittedToGuide()}
                                 action={() => {
                                     submitToGuide();
@@ -450,13 +454,13 @@
                         <Button
                             tip={(l) =>
                                 userHasBookmarked
-                                    ? l.ui.howto.viewHowTo.alreadyBookmarked.tip
-                                    : l.ui.howto.viewHowTo.canBookmark.tip}
+                                    ? l.ui.howto.bookmarks.alreadyBookmarked.tip
+                                    : l.ui.howto.bookmarks.canBookmark.tip}
                             label={(l) =>
                                 userHasBookmarked
-                                    ? l.ui.howto.viewHowTo.alreadyBookmarked
+                                    ? l.ui.howto.bookmarks.alreadyBookmarked
                                           .label
-                                    : l.ui.howto.viewHowTo.canBookmark.label}
+                                    : l.ui.howto.bookmarks.canBookmark.label}
                             active={true}
                             background={userHasBookmarked}
                             action={() => {
@@ -474,7 +478,7 @@
             {#if isPublished}
                 <div class="splitside" id="howtointeractions">
                     <HowToPrompt
-                        text={(l) => l.ui.howto.viewHowTo.reactionPrompt}
+                        text={(l) => l.ui.howto.viewer.reactions.prompt}
                     />
                     {#each reactionButtons as reaction, i (i)}
                         <Button
@@ -495,14 +499,12 @@
 
                     <HowToUsedBy bind:howTo />
 
-                    <HowToPrompt
-                        text={(l) => l.ui.howto.viewHowTo.chatPrompt}
-                    />
+                    <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
 
                     <ChatView {chat} {creators} {gallery} {howTo} />
                 </div>
             {:else}
-                <HowToPrompt text={(l) => l.ui.howto.viewHowTo.draftNote} />
+                <HowToPrompt text={(l) => l.ui.howto.drafts.note} />
             {/if}
         </div>
     {/if}

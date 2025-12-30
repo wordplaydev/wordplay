@@ -10,29 +10,34 @@ type PageText = {
         /** Subtitle for the how-to space in the gallery if no how-tos */
         subheaderEmpty: string;
     },
-    /** Headers on the how-to canvas page */
-    canvasView: {
-        /** Header for the how-to space page */
-        header: string;
-        /** Explanation for the how-to space page */
-        howtoprompt: string;
+    /** Header for the how-to space page */
+    header: string;
+    /** Explanation for the how-to space page */
+    howtoprompt: string;
+    drafts: {
         /** Header for the drafts area */
-        draftsheader: string;
+        header: string;
         /** Explanation for the drafts area */
-        draftsprompt: string;
+        prompt: string;
         /** Tooltip for viewing a draft */
-        drafttooltip: string;
+        tooltip: string;
+        /** Text indicating that the how-to is currently a draft */
+        note: string;
+    }
+    bookmarks: {
         /** Header for the bookmarks area */
-        bookmarksheader: string;
+        header: string;
         /** Bookmarks  tooltip */
-        bookmarkstooltip: string;
-        /** Navigation tooltip */
-        navigationtooltip: string;
-    },
-    /** Buttons and dialogs for adding a new how-to */
-    newHowTo: {
-        /** Button text for the how-to addition button */
-        add: ButtonText;
+        tooltip: string;
+        /** Button text for bookmarking the how-to */
+        canBookmark: ButtonText;
+        alreadyBookmarked: ButtonText;
+    }
+    /** Navigation tooltip */
+    navigationtooltip: string;
+    /** Button text for the how-to addition button */
+    add: ButtonText;
+    editor: {
         /** Dialog text for how-to form (new how-to or edit existing) */
         newForm: DialogText;
         editForm: DialogText;
@@ -53,53 +58,60 @@ type PageText = {
         /** Collaboration */
         collaboratorsPrompt: string;
         collaboratorsToggle: ToggleText;
-    },
-    /** Buttons and dialogs for viewing a new how-to */
-    viewHowTo: {
+    }
+    viewer: {
         /** Button text for viewing the how-to */
         view: ButtonText;
         /** Button text for editing the how-to */
         edit: ButtonText;
         /** Button text for deleting the how-to */
         delete: ConfirmText;
-        /** Button text for bookmarking the how-to */
-        canBookmark: ButtonText;
-        alreadyBookmarked: ButtonText;
         /** Button text for submitting the how-to to be included in the public guide */
-        submit: ButtonText;
-        alreadySubmitted: ButtonText;
-        /** Text for prompting reactions */
-        reactionPrompt: string;
-        /** Text for asking if the user used this how-to in their project or another how-to */
-        usedPrompt: string;
-        /** Text for how many others projects or how-tos, other than the user's own, have used this how-to */
-        usedCountDisplay: string;
-        /** Options text for selecting which projects and how-tos used this how-to */
-        usedBySelector: string;
-        usedByRemoveButton: string;
-        usedByAddButton: string;
+        submitToGuide: {
+            submit: ButtonText;
+            alreadySubmitted: ButtonText;
+        }
+        usedBy: {
+            /** Text for asking if the user used this how-to in their project or another how-to */
+            prompt: string;
+            /** Text for how many others projects or how-tos, other than the user's own, have used this how-to */
+            countDisplay: string;
+            /** Options text for selecting which projects and how-tos used this how-to */
+            selector: string;
+            removeButton: string;
+            addButton: string;
+        }
+        reactions: {
+            /** Text for prompting reactions */
+            prompt: string;
+            /** Default reaction options for viewing a how-to */
+            options: ButtonText[];
+        }
         /** Text for prompting users to chat */
         chatPrompt: string;
-        /** Text indicating that the how-to is currently a draft */
-        draftNote: string;
-        /** Default reaction options for viewing a how-to */
-        reactions: ButtonText[];
-    },
+    }
     /** For configuring the how-to space */
     configuration: {
+        /** Dialog header and explanation for configuring settings */
         configurationDialog: DialogText;
+        /** Button text for opening configuration dialog */
         configurationButton: ButtonText;
+        /** Subheaders and descriptions for configuring visibility */
         visibility: {
             subheader: DialogText;
             mode: ModeText<[string, string]>;
+            /** Name of visibility option for limiting visibility to gallery curators and creators */
             limited: string;
+            /** Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries */
             expanded: string;
         }
+        /** Subheaders and descriptions for configuring guiding questions */
         guidingQuestions: {
             subheader: DialogText;
             descriptor: string;
             submit: ButtonText;
         }
+        /** Subheaders and descriptions for configuring reaction options */
         reactions: {
             subheader: DialogText;
             reactionPickerTip: string;

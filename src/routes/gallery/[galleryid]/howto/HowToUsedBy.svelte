@@ -112,7 +112,7 @@
         <Button
             submit
             padding={false}
-            tip={(l) => l.ui.howto.viewHowTo.usedByRemoveButton}
+            tip={(l) => l.ui.howto.viewer.usedBy.removeButton}
             action={() => {
                 removeFromUsedByList(id);
             }}
@@ -121,7 +121,7 @@
     </form>
 {/snippet}
 
-<HowToPrompt text={(l) => l.ui.howto.viewHowTo.usedPrompt} />
+<HowToPrompt text={(l) => l.ui.howto.viewer.usedBy.prompt} />
 
 {#each usedProjects as project (project.getID())}
     {@render usedItem(project.getName(), project.getID())}
@@ -135,14 +135,14 @@
     <Options
         id="usedBySelector"
         bind:value={usedByProjectToAdd}
-        label={(l) => l.ui.howto.viewHowTo.usedBySelector}
+        label={(l) => l.ui.howto.viewer.usedBy.selector}
         options={dropdownOptions}
         change={() => {}}
     />
     <Button
         submit
         background
-        tip={(l) => l.ui.howto.viewHowTo.usedByAddButton}
+        tip={(l) => l.ui.howto.viewer.usedBy.addButton}
         active={usedByProjectToAdd !== undefined}
         action={() => {
             addUsedByToList();
@@ -152,6 +152,6 @@
 <MarkupHTMLView
     inline
     markup={docToMarkup(
-        $locales.get((l) => l.ui.howto.viewHowTo.usedCountDisplay),
+        $locales.get((l) => l.ui.howto.viewer.usedBy.countDisplay),
     ).concretize($locales, [numOtherUsedBy]) ?? ''}
 />

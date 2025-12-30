@@ -14,7 +14,7 @@
     let expandedScope: boolean = $state(false);
     let guidingQuestionsText: string = $state('');
     let reactions: ButtonText[] = $state(
-        $locales.get((l) => l.ui.howto.viewHowTo.reactions),
+        $locales.get((l) => l.ui.howto.viewer.reactions.options),
     );
     let showReactionOptions: boolean[] = $state(
         Array(reactions.length).fill(false),

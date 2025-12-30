@@ -210,7 +210,7 @@
                     <MarkupHTMLView
                         inline
                         markup={docToMarkup(
-                            $locales.get((l) => l.ui.howto.canvasView.header),
+                            $locales.get((l) => l.ui.howto.header),
                         ).concretize($locales, [galleryName]) ?? ''}
                     />
                 </Header>
@@ -227,7 +227,7 @@
 
                 <Options
                     bind:value={navigationSelection}
-                    label={(l) => l.ui.howto.canvasView.navigationtooltip}
+                    label={(l) => l.ui.howto.navigationtooltip}
                     options={navigationOptions}
                     change={() => {
                         let navigateTo: HowTo | undefined = howTos.find(
@@ -250,12 +250,9 @@
                 <div class="stickyarea" id="drafts">
                     {#if canUserEdit}
                         <div class="drafts">
-                            <Subheader
-                                text={(l) => l.ui.howto.canvasView.draftsheader}
-                            />
+                            <Subheader text={(l) => l.ui.howto.drafts.header} />
                             <MarkupHTMLView
-                                markup={(l) =>
-                                    l.ui.howto.canvasView.draftsprompt}
+                                markup={(l) => l.ui.howto.drafts.prompt}
                             />
                             <div class="draftslist">
                                 <ul>
@@ -277,17 +274,14 @@
                         </div>
                     {/if}
                     <div class="bookmarks">
-                        <Subheader
-                            text={(l) => l.ui.howto.canvasView.bookmarksheader}
-                        />
+                        <Subheader text={(l) => l.ui.howto.bookmarks.header} />
 
                         {#each howTos as howto, i (i)}
                             {#if howto
                                 .getBookmarkers()
                                 .includes($user?.uid ?? '')}
                                 <Button
-                                    tip={(l) =>
-                                        l.ui.howto.canvasView.bookmarkstooltip}
+                                    tip={(l) => l.ui.howto.bookmarks.tooltip}
                                     label={(l) => howto.getTitle()}
                                     action={() => {
                                         let coords = howto.getCoordinates();

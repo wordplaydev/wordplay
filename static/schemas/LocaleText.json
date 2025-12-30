@@ -9734,52 +9734,34 @@
               "additionalProperties": false,
               "description": "How-to space page labels",
               "properties": {
-                "canvasView": {
+                "add": {
+                  "$ref": "#/definitions/ButtonText",
+                  "description": "Button text for the how-to addition button"
+                },
+                "bookmarks": {
                   "additionalProperties": false,
-                  "description": "Headers on the how-to canvas page",
                   "properties": {
-                    "bookmarksheader": {
+                    "alreadyBookmarked": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
+                    "canBookmark": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for bookmarking the how-to"
+                    },
+                    "header": {
                       "description": "Header for the bookmarks area",
                       "type": "string"
                     },
-                    "bookmarkstooltip": {
+                    "tooltip": {
                       "description": "Bookmarks  tooltip",
-                      "type": "string"
-                    },
-                    "draftsheader": {
-                      "description": "Header for the drafts area",
-                      "type": "string"
-                    },
-                    "draftsprompt": {
-                      "description": "Explanation for the drafts area",
-                      "type": "string"
-                    },
-                    "drafttooltip": {
-                      "description": "Tooltip for viewing a draft",
-                      "type": "string"
-                    },
-                    "header": {
-                      "description": "Header for the how-to space page",
-                      "type": "string"
-                    },
-                    "howtoprompt": {
-                      "description": "Explanation for the how-to space page",
-                      "type": "string"
-                    },
-                    "navigationtooltip": {
-                      "description": "Navigation tooltip",
                       "type": "string"
                     }
                   },
                   "required": [
                     "header",
-                    "howtoprompt",
-                    "draftsheader",
-                    "draftsprompt",
-                    "drafttooltip",
-                    "bookmarksheader",
-                    "bookmarkstooltip",
-                    "navigationtooltip"
+                    "tooltip",
+                    "canBookmark",
+                    "alreadyBookmarked"
                   ],
                   "type": "object"
                 },
@@ -9788,13 +9770,16 @@
                   "description": "For configuring the how-to space",
                   "properties": {
                     "configurationButton": {
-                      "$ref": "#/definitions/ButtonText"
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for opening configuration dialog"
                     },
                     "configurationDialog": {
-                      "$ref": "#/definitions/DialogText"
+                      "$ref": "#/definitions/DialogText",
+                      "description": "Dialog header and explanation for configuring settings"
                     },
                     "guidingQuestions": {
                       "additionalProperties": false,
+                      "description": "Subheaders and descriptions for configuring guiding questions",
                       "properties": {
                         "descriptor": {
                           "type": "string"
@@ -9815,6 +9800,7 @@
                     },
                     "reactions": {
                       "additionalProperties": false,
+                      "description": "Subheaders and descriptions for configuring reaction options",
                       "properties": {
                         "addReactionTip": {
                           "type": "string"
@@ -9847,11 +9833,14 @@
                     },
                     "visibility": {
                       "additionalProperties": false,
+                      "description": "Subheaders and descriptions for configuring visibility",
                       "properties": {
                         "expanded": {
+                          "description": "Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries",
                           "type": "string"
                         },
                         "limited": {
+                          "description": "Name of visibility option for limiting visibility to gallery curators and creators",
                           "type": "string"
                         },
                         "mode": {
@@ -9879,51 +9868,37 @@
                   ],
                   "type": "object"
                 },
-                "error": {
+                "drafts": {
                   "additionalProperties": false,
-                  "properties": {
-                    "unknown": {
-                      "description": "When the how-to is not known or is not public",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "unknown"
-                  ],
-                  "type": "object"
-                },
-                "galleryView": {
-                  "additionalProperties": false,
-                  "description": "Headers on the gallery page",
                   "properties": {
                     "header": {
-                      "description": "Title of how-to space in the gallery view",
+                      "description": "Header for the drafts area",
                       "type": "string"
                     },
-                    "subheader": {
-                      "description": "Subtitle for the how-to space in the gallery view",
+                    "note": {
+                      "description": "Text indicating that the how-to is currently a draft",
                       "type": "string"
                     },
-                    "subheaderEmpty": {
-                      "description": "Subtitle for the how-to space in the gallery if no how-tos",
+                    "prompt": {
+                      "description": "Explanation for the drafts area",
+                      "type": "string"
+                    },
+                    "tooltip": {
+                      "description": "Tooltip for viewing a draft",
                       "type": "string"
                     }
                   },
                   "required": [
                     "header",
-                    "subheader",
-                    "subheaderEmpty"
+                    "prompt",
+                    "tooltip",
+                    "note"
                   ],
                   "type": "object"
                 },
-                "newHowTo": {
+                "editor": {
                   "additionalProperties": false,
-                  "description": "Buttons and dialogs for adding a new how-to",
                   "properties": {
-                    "add": {
-                      "$ref": "#/definitions/ButtonText",
-                      "description": "Button text for the how-to addition button"
-                    },
                     "collaboratorsPrompt": {
                       "description": "Collaboration",
                       "type": "string"
@@ -9970,7 +9945,6 @@
                     }
                   },
                   "required": [
-                    "add",
                     "newForm",
                     "editForm",
                     "post",
@@ -9986,20 +9960,58 @@
                   ],
                   "type": "object"
                 },
-                "viewHowTo": {
+                "error": {
                   "additionalProperties": false,
-                  "description": "Buttons and dialogs for viewing a new how-to",
                   "properties": {
-                    "alreadyBookmarked": {
-                      "$ref": "#/definitions/ButtonText"
+                    "unknown": {
+                      "description": "When the how-to is not known or is not public",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unknown"
+                  ],
+                  "type": "object"
+                },
+                "galleryView": {
+                  "additionalProperties": false,
+                  "description": "Headers on the gallery page",
+                  "properties": {
+                    "header": {
+                      "description": "Title of how-to space in the gallery view",
+                      "type": "string"
                     },
-                    "alreadySubmitted": {
-                      "$ref": "#/definitions/ButtonText"
+                    "subheader": {
+                      "description": "Subtitle for the how-to space in the gallery view",
+                      "type": "string"
                     },
-                    "canBookmark": {
-                      "$ref": "#/definitions/ButtonText",
-                      "description": "Button text for bookmarking the how-to"
-                    },
+                    "subheaderEmpty": {
+                      "description": "Subtitle for the how-to space in the gallery if no how-tos",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "subheader",
+                    "subheaderEmpty"
+                  ],
+                  "type": "object"
+                },
+                "header": {
+                  "description": "Header for the how-to space page",
+                  "type": "string"
+                },
+                "howtoprompt": {
+                  "description": "Explanation for the how-to space page",
+                  "type": "string"
+                },
+                "navigationtooltip": {
+                  "description": "Navigation tooltip",
+                  "type": "string"
+                },
+                "viewer": {
+                  "additionalProperties": false,
+                  "properties": {
                     "chatPrompt": {
                       "description": "Text for prompting users to chat",
                       "type": "string"
@@ -10008,46 +10020,78 @@
                       "$ref": "#/definitions/ConfirmText",
                       "description": "Button text for deleting the how-to"
                     },
-                    "draftNote": {
-                      "description": "Text indicating that the how-to is currently a draft",
-                      "type": "string"
-                    },
                     "edit": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for editing the how-to"
                     },
-                    "reactionPrompt": {
-                      "description": "Text for prompting reactions",
-                      "type": "string"
-                    },
                     "reactions": {
-                      "description": "Default reaction options for viewing a how-to",
-                      "items": {
-                        "$ref": "#/definitions/ButtonText"
+                      "additionalProperties": false,
+                      "properties": {
+                        "options": {
+                          "description": "Default reaction options for viewing a how-to",
+                          "items": {
+                            "$ref": "#/definitions/ButtonText"
+                          },
+                          "type": "array"
+                        },
+                        "prompt": {
+                          "description": "Text for prompting reactions",
+                          "type": "string"
+                        }
                       },
-                      "type": "array"
+                      "required": [
+                        "prompt",
+                        "options"
+                      ],
+                      "type": "object"
                     },
-                    "submit": {
-                      "$ref": "#/definitions/ButtonText",
-                      "description": "Button text for submitting the how-to to be included in the public guide"
+                    "submitToGuide": {
+                      "additionalProperties": false,
+                      "description": "Button text for submitting the how-to to be included in the public guide",
+                      "properties": {
+                        "alreadySubmitted": {
+                          "$ref": "#/definitions/ButtonText"
+                        },
+                        "submit": {
+                          "$ref": "#/definitions/ButtonText"
+                        }
+                      },
+                      "required": [
+                        "submit",
+                        "alreadySubmitted"
+                      ],
+                      "type": "object"
                     },
-                    "usedByAddButton": {
-                      "type": "string"
-                    },
-                    "usedByRemoveButton": {
-                      "type": "string"
-                    },
-                    "usedBySelector": {
-                      "description": "Options text for selecting which projects and how-tos used this how-to",
-                      "type": "string"
-                    },
-                    "usedCountDisplay": {
-                      "description": "Text for how many others projects or how-tos, other than the user's own, have used this how-to",
-                      "type": "string"
-                    },
-                    "usedPrompt": {
-                      "description": "Text for asking if the user used this how-to in their project or another how-to",
-                      "type": "string"
+                    "usedBy": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "addButton": {
+                          "type": "string"
+                        },
+                        "countDisplay": {
+                          "description": "Text for how many others projects or how-tos, other than the user's own, have used this how-to",
+                          "type": "string"
+                        },
+                        "prompt": {
+                          "description": "Text for asking if the user used this how-to in their project or another how-to",
+                          "type": "string"
+                        },
+                        "removeButton": {
+                          "type": "string"
+                        },
+                        "selector": {
+                          "description": "Options text for selecting which projects and how-tos used this how-to",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "prompt",
+                        "countDisplay",
+                        "selector",
+                        "removeButton",
+                        "addButton"
+                      ],
+                      "type": "object"
                     },
                     "view": {
                       "$ref": "#/definitions/ButtonText",
@@ -10058,28 +10102,24 @@
                     "view",
                     "edit",
                     "delete",
-                    "canBookmark",
-                    "alreadyBookmarked",
-                    "submit",
-                    "alreadySubmitted",
-                    "reactionPrompt",
-                    "usedPrompt",
-                    "usedCountDisplay",
-                    "usedBySelector",
-                    "usedByRemoveButton",
-                    "usedByAddButton",
-                    "chatPrompt",
-                    "draftNote",
-                    "reactions"
+                    "submitToGuide",
+                    "usedBy",
+                    "reactions",
+                    "chatPrompt"
                   ],
                   "type": "object"
                 }
               },
               "required": [
                 "galleryView",
-                "canvasView",
-                "newHowTo",
-                "viewHowTo",
+                "header",
+                "howtoprompt",
+                "drafts",
+                "bookmarks",
+                "navigationtooltip",
+                "add",
+                "editor",
+                "viewer",
                 "configuration",
                 "error"
               ],

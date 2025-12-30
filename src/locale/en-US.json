@@ -4764,21 +4764,32 @@
                 "subheader": "$1 how-tos, $2 new",
                 "subheaderEmpty": "0 how-tos (try creating a new one!)"
             },
-            "canvasView": {
-                "header": "$1's how-tos",
-                "howtoprompt": "Tell us the story of how you learned something to make your project.",
-                "draftsheader": "📝 How-to drafts",
-                "draftsprompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
-                "drafttooltip": "View your draft",
-                "bookmarksheader": "🔖 Bookmarks",
-                "bookmarkstooltip": "Click me to go to this how-to",
-                "navigationtooltip": "Navigate to a how-to"
+            "header": "$1's how-tos",
+            "howtoprompt": "Tell us the story of how you learned something to make your project.",
+            "drafts": {
+                "header": "📝 How-to drafts",
+                "prompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
+                "tooltip": "View your draft",
+                "note": "This is a draft how-to. Only you can see it."
             },
-            "newHowTo": {
-                "add": {
-                    "label": "Add new how-to",
-                    "tip": "Add new how-to"
+            "bookmarks": {
+                "header": "🔖 Bookmarks",
+                "tooltip": "Click me to go to this how-to",
+                "canBookmark": {
+                    "label": "🔖 Bookmark how-to",
+                    "tip": "Bookmark this how-to to find it later"
                 },
+                "alreadyBookmarked": {
+                    "label": "🔖 Remove bookmark",
+                    "tip": "Remove this how-to from your bookmarks"
+                }
+            },
+            "navigationtooltip": "Navigate to a how-to",
+            "add": {
+                "label": "Add new how-to",
+                "tip": "Add new how-to"
+            },
+            "editor": {
                 "newForm": {
                     "header": "Create a new how-to",
                     "explanation": ""
@@ -4816,7 +4827,7 @@
                     "off": "Expand the collaborators panel"
                 }
             },
-            "viewHowTo": {
+            "viewer": {
                 "view": {
                     "label": "View how-to",
                     "tip": "View how-to"
@@ -4829,56 +4840,53 @@
                     "description": "Delete this how-to",
                     "prompt": "🗑️ Delete"
                 },
-                "submit": {
-                    "label": "📨 Submit to Wordplay Guide",
-                    "tip": "Submit this how-to to be considered for inclusion in the Wordplay Guide!"
-                },
-                "alreadySubmitted": {
-                    "label": "✅ Submitted to Guide",
-                    "tip": "This how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
-                },
-                "canBookmark": {
-                    "label": "🔖 Bookmark how-to",
-                    "tip": "Bookmark this how-to to find it later"
-                },
-                "alreadyBookmarked": {
-                    "label": "🔖 Remove bookmark",
-                    "tip": "Remove this how-to from your bookmarks"
-                },
-                "reactionPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
-                "usedPrompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
-                "usedCountDisplay": "and $1 other projects or how-tos",
-                "usedBySelector": "Project and how-to selector",
-                "usedByRemoveButton": "Remove project or how-to from list",
-                "usedByAddButton": "Add project or how-to",
-                "chatPrompt": "Leave a comment or question for the creator!",
-                "draftNote": "This is a draft how-to. Only you can see it.",
-                "reactions": [
-                    {
-                        "label": "👍",
-                        "tip": "I like this!"
+                "submitToGuide": {
+                    "submit": {
+                        "label": "📨 Submit to Wordplay Guide",
+                        "tip": "Submit this how-to to be considered for inclusion in the Wordplay Guide!"
                     },
-                    {
-                        "label": "💭",
-                        "tip": "This inspires me!"
-                    },
-                    {
-                        "label": "🙏",
-                        "tip": "Thank you!"
-                    },
-                    {
-                        "label": "🎉",
-                        "tip": "Celebration!"
-                    },
-                    {
-                        "label": "🤩",
-                        "tip": "I want to try this!"
-                    },
-                    {
-                        "label": "😁",
-                        "tip": "This makes me happy!"
+                    "alreadySubmitted": {
+                        "label": "✅ Submitted to Guide",
+                        "tip": "This how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
                     }
-                ]
+                },
+                "usedBy": {
+                    "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
+                    "countDisplay": "and $1 other projects or how-tos",
+                    "selector": "Project and how-to selector",
+                    "removeButton": "Remove project or how-to from list",
+                    "addButton": "Add project or how-to"
+                },
+                "reactions": {
+                    "prompt": "Did you like this how-to? Leave a reaction to support the creator!",
+                    "options": [
+                        {
+                            "label": "👍",
+                            "tip": "I like this!"
+                        },
+                        {
+                            "label": "💭",
+                            "tip": "This inspires me!"
+                        },
+                        {
+                            "label": "🙏",
+                            "tip": "Thank you!"
+                        },
+                        {
+                            "label": "🎉",
+                            "tip": "Celebration!"
+                        },
+                        {
+                            "label": "🤩",
+                            "tip": "I want to try this!"
+                        },
+                        {
+                            "label": "😁",
+                            "tip": "This makes me happy!"
+                        }
+                    ]
+                },
+                "chatPrompt": "Leave a comment or question for the creator!"
             },
             "configuration": {
                 "configurationDialog": {
