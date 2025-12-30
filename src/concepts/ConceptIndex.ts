@@ -50,22 +50,8 @@ export default class ConceptIndex {
         for (const primary of this.primaryConcepts) {
             const subConcepts = primary.getSubConcepts();
             this.subConcepts.set(primary, subConcepts);
-            for (const subconcept of subConcepts) {
-                if (
-                    primary instanceof StructureConcept &&
-                    primary.definition.names.toWordplay().includes('Number') &&
-                    subconcept instanceof FunctionConcept &&
-                    subconcept.definition.names.toWordplay().includes('=')
-                ) {
-                    console.log(
-                        'Adding FunctionConcept for = in number based on ' +
-                            project.getSources()[0].id,
-                        subconcept.definition.id,
-                    );
-                }
-
+            for (const subconcept of subConcepts)
                 this.concepts.push(subconcept);
-            }
         }
 
         // Remember the preferred locales.
