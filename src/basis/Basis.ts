@@ -58,6 +58,7 @@ export class Basis {
     static readonly Bases: Map<string, Basis> = new Map();
 
     constructor(locales: Locales) {
+        console.log('New basis');
         this.locales = locales;
         this.languages = locales.getLanguages();
 

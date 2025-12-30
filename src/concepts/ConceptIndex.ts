@@ -50,8 +50,22 @@ export default class ConceptIndex {
         for (const primary of this.primaryConcepts) {
             const subConcepts = primary.getSubConcepts();
             this.subConcepts.set(primary, subConcepts);
-            for (const subconcept of subConcepts)
+            for (const subconcept of subConcepts) {
+                if (
+                    primary instanceof StructureConcept &&
+                    primary.definition.names.toWordplay().includes('Number') &&
+                    subconcept instanceof FunctionConcept &&
+                    subconcept.definition.names.toWordplay().includes('=')
+                ) {
+                    console.log(
+                        'Adding FunctionConcept for = in number based on ' +
+                            project.getSources()[0].id,
+                        subconcept.definition.id,
+                    );
+                }
+
                 this.concepts.push(subconcept);
+            }
         }
 
         // Remember the preferred locales.
@@ -218,6 +232,10 @@ export default class ConceptIndex {
     }
 
     getFunctionConcept(fun: FunctionDefinition): FunctionConcept | undefined {
+        if (fun.names.toWordplay().includes('=')) {
+            console.log('Looking for function concept for = with id ' + fun.id);
+        }
+
         return this.concepts.find(
             (concept): concept is FunctionConcept =>
                 concept instanceof FunctionConcept &&

@@ -35,6 +35,17 @@ export default class FunctionConcept extends Concept {
     ) {
         super(purpose, affiliation, context);
 
+        if (
+            affiliation?.names.toWordplay().includes('Number') &&
+            definition.names.toWordplay().includes('=')
+        ) {
+            console.log(
+                'Creating FunctionConcept for = in measurement based on ' +
+                    context.source.id,
+                definition.id,
+            );
+        }
+
         this.definition = definition;
         this.structure = structure;
 

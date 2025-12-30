@@ -13,6 +13,7 @@ import NumberType from '@nodes/NumberType';
 import SetLiteral from '@nodes/SetLiteral';
 import SetType from '@nodes/SetType';
 import StructureDefinition from '@nodes/StructureDefinition';
+import StructureType from '@nodes/StructureType';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -116,6 +117,15 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('table'),
             TableType.make(),
             [new TableLiteral(TableType.make(), [])],
+            locales,
+            context,
+        ),
+        new StructureConcept(
+            Purpose.Types,
+            basis.getSimpleDefinition('structure'),
+            basis.getSimpleDefinition('structure'),
+            new StructureType(basis.getSimpleDefinition('structure')),
+            undefined,
             locales,
             context,
         ),

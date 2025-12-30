@@ -360,14 +360,14 @@ export default abstract class Node {
         // See if this node has any additional basis functions to include.
         let additional = this.getAdditionalBasisScope(context);
         while (scope !== undefined || additional) {
+            if (scope)
+                definitions = definitions.concat(
+                    scope.getDefinitions(this, context),
+                );
             // Order matters here: defintions close in the tree have precedent, so they should go first.
             if (additional)
                 definitions = definitions.concat(
                     additional.getDefinitions(this, context),
-                );
-            if (scope)
-                definitions = definitions.concat(
-                    scope.getDefinitions(this, context),
                 );
             // Before changing the scope, see if it has any additional basis scope to add.
             additional = scope?.getAdditionalBasisScope(context);
