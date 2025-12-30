@@ -218,10 +218,6 @@ export default class ConceptIndex {
     }
 
     getFunctionConcept(fun: FunctionDefinition): FunctionConcept | undefined {
-        if (fun.names.toWordplay().includes('=')) {
-            console.log('Looking for function concept for = with id ' + fun.id);
-        }
-
         return this.concepts.find(
             (concept): concept is FunctionConcept =>
                 concept instanceof FunctionConcept &&
