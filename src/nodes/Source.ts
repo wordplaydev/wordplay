@@ -110,6 +110,10 @@ export default class Source extends Expression {
         return new Source(Names.make([mainName]), '');
     }
 
+    getParentNode(node: Node): Node | undefined {
+        return this.root.getParent(node);
+    }
+
     /** Used by Evaluator to get the steps for the evaluation of this source file. */
     getEvaluationSteps(evaluator: Evaluator, context: Context): Step[] {
         return this.expression.compile(evaluator, context);

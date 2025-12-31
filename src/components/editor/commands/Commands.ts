@@ -980,15 +980,26 @@ const Commands: Command[] = [
         execute: ({ editor, caret, blocks }) => {
             if (editor && caret) {
                 // If it blocks mode and in side of a block text editable token, select the whole token..
-                if (
-                    blocks &&
-                    caret.tokenExcludingSpace !== undefined &&
-                    Caret.isTokenTextBlockEditable(
-                        caret.tokenExcludingSpace,
-                        caret.source.root.getParent(caret.tokenExcludingSpace),
+                if (blocks) {
+                    if (
+                        caret.tokenExcludingSpace !== undefined &&
+                        Caret.isTokenTextBlockEditable(
+                            caret.tokenExcludingSpace,
+                            caret.source.getParentNode(
+                                caret.tokenExcludingSpace,
+                            ),
+                        )
                     )
-                )
-                    return caret.withPosition(caret.tokenExcludingSpace);
+                        return caret.withPosition(caret.tokenExcludingSpace);
+                    if (
+                        caret.tokenPrior !== undefined &&
+                        Caret.isTokenTextBlockEditable(
+                            caret.tokenPrior,
+                            caret.source.getParentNode(caret.tokenPrior),
+                        )
+                    )
+                        return caret.withPosition(caret.tokenPrior);
+                }
 
                 // Select the whole program.
                 return caret.withPosition(caret.getProgram());
