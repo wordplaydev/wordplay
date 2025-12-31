@@ -437,7 +437,7 @@ function completeBindOrKeyValue({
     const bind = Bind.make(
         undefined,
         Names.make([reference.name.getText()]),
-        preceding instanceof Is ? preceding.type : undefined,
+        preceding instanceof Is ? preceding.type.clone() : undefined,
         placeholder,
     );
     // Make a new source
