@@ -1459,7 +1459,7 @@ const Commands: Command[] = [
         alt: undefined,
         key: '(',
         active: ({ caret }) => caret?.isNode() ?? false,
-        execute: ({ caret }) => caret?.wrap('(') ?? false,
+        execute: ({ project, caret }) => caret?.wrap(project, '(') ?? false,
     },
     {
         symbol: '[ ]',
@@ -1471,7 +1471,7 @@ const Commands: Command[] = [
         alt: false,
         key: '[',
         active: ({ caret }) => caret?.isNode() ?? false,
-        execute: ({ caret }) => caret?.wrap('[') ?? false,
+        execute: ({ project, caret }) => caret?.wrap(project, '[') ?? false,
     },
     IncrementLiteral,
     DecrementLiteral,

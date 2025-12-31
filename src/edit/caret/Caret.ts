@@ -1125,7 +1125,7 @@ export default class Caret {
         // Before doing insertion, see if a node is selected, and if so, wrap or remove it.
         if (this.position instanceof Node) {
             // Try wrapping the node
-            const wrap = this.wrap(text);
+            const wrap = this.wrap(project, text);
             if (wrap !== undefined) return wrap;
 
             // If that didn't do anything, try deleting the node.
@@ -1838,7 +1838,7 @@ export default class Caret {
             : undefined;
     }
 
-    wrap(key: string): Edit | undefined {
+    wrap(project: Project, key: string): Revision | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
         if (node instanceof Token && !node.isSymbol(Sym.End))
             node = this.source.root.getParent(node);
@@ -1860,8 +1860,17 @@ export default class Caret {
         else if (token.isSymbol(Sym.SetOpen)) wrapper = SetLiteral.make([node]);
         // Wrap in a binary evlauate if an operator
         else if (token.isSymbol(Sym.Operator)) {
-            position = ExpressionPlaceholder.make();
-            wrapper = new BinaryEvaluate(node, Reference.make(key), position);
+            const context = project.getNodeContext(node);
+            const type = node.getType(context);
+            const definition = type.getDefinitionOfNameInScope(key, context);
+            if (definition) {
+                position = ExpressionPlaceholder.make();
+                wrapper = new BinaryEvaluate(
+                    node,
+                    Reference.make(key),
+                    position,
+                );
+            }
         }
         if (wrapper === undefined) return;
 
