@@ -246,7 +246,7 @@
     .flow {
         display: flex;
         flex-direction: row;
-        gap: 0;
+        gap: var(--wordplay-spacing);
         align-items: end;
     }
 </style>
