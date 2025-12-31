@@ -3,6 +3,7 @@ import Placeholder from '@conflicts/Placeholder';
 import type { InsertContext } from '@edit/revision/EditContext';
 import type { LocaleText } from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import Halt from '@runtime/Halt';
 import type Step from '@runtime/Step';
@@ -28,7 +29,7 @@ import type Root from './Root';
 import SimpleExpression from './SimpleExpression';
 import StreamType from './StreamType';
 import Sym from './Sym';
-import type Token from './Token';
+import Token from './Token';
 import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
@@ -194,6 +195,14 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                 this,
             ),
         ];
+    }
+
+    withType(type: Type | undefined) {
+        return new ExpressionPlaceholder(
+            this.placeholder,
+            new Token(TYPE_SYMBOL, Sym.Type),
+            type,
+        );
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {

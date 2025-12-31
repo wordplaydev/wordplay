@@ -406,12 +406,17 @@ function completeIs({ source, position }: InsertInfo): Revision | undefined {
     // Find the top most expression that ends where the caret is.
     const precedingExpression = getPrecedingExpression(source, position)[0];
     if (precedingExpression === undefined) return undefined;
+    // Expression placeholders use •Type to type themselves.
+    const isExpressionPlaceholder =
+        precedingExpression instanceof ExpressionPlaceholder;
 
     const placeholder = TypePlaceholder.make();
     // Make a new source
     const newSource = source.replace(
         precedingExpression,
-        Is.make(precedingExpression, placeholder),
+        isExpressionPlaceholder
+            ? precedingExpression.withType(placeholder)
+            : Is.make(precedingExpression, placeholder),
     );
     // Place the caret on the placeholder
     if (newSource !== source) return [newSource, placeholder];
