@@ -256,7 +256,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: CONVERT_SYMBOL2, types: [Sym.Convert] },
     { pattern: CONVERT_SYMBOL3, types: [Sym.Convert] },
     { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
-    { pattern: TYPE_SYMBOL, types: [Sym.Type, Sym.TypeOperator] },
+    { pattern: TYPE_SYMBOL, types: [Sym.Type] },
     { pattern: /^!#/, types: [Sym.Number] },
     {
         pattern: new RegExp(`^[${LITERAL_SYMBOL}${LITERAL_SYMBOL_FULL}]`, 'u'),

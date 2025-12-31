@@ -32,7 +32,6 @@ enum Sym {
     None = 'ø',
     Type = '•',
     Literal = '!',
-    TypeOperator = '•op',
     TypeOpen = '⸨',
     TypeClose = '⸩',
     Separator = ',',

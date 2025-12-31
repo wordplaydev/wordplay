@@ -203,11 +203,11 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
             // If the next is a unary operator, then it has to have no preceding space to be parsed as a binary evaluate.
             (!tokens.nextIsUnary() || tokens.nextLacksPrecedingSpace()) &&
             (tokens.nextIs(Sym.Operator) ||
-                (tokens.nextIs(Sym.TypeOperator) &&
+                (tokens.nextIs(Sym.Type) &&
                     !tokens.nextHasPrecedingLineBreak())),
         () =>
-            (left = tokens.nextIs(Sym.TypeOperator)
-                ? new Is(left, tokens.read(Sym.TypeOperator), parseType(tokens))
+            (left = tokens.nextIs(Sym.Type)
+                ? new Is(left, tokens.read(Sym.Type), parseType(tokens))
                 : new BinaryEvaluate(
                       left,
                       parseReference(tokens),
