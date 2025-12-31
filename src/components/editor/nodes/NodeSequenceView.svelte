@@ -123,10 +123,13 @@
     });
 </script>
 
-{#snippet append()}{#if format.editable && nodes.length > 0 && add}<MenuTrigger
-            anchor={{ parent: node, field, index: nodes.length }}
-            insert
-        />{/if}{/snippet}
+{#snippet append()}{#if format.editable && nodes.length > 0 && add}<div
+            class="append"
+            ><MenuTrigger
+                anchor={{ parent: node, field, index: nodes.length }}
+                insert
+            /></div
+        >{/if}{/snippet}
 
 {#snippet list()}
     {#if nodes.length > 0 || empty !== 'hide'}
@@ -153,7 +156,7 @@
                 {#if insertion?.index === nodes.length}
                     <div class="insertion-feedback"></div>
                 {/if}
-                {#if !direction}{@render append()}{/if}
+                {#if direction === 'inline'}{@render append()}{/if}
             {/if}
         </div>
     {/if}
@@ -243,10 +246,13 @@
         margin-block-end: var(--wordplay-spacing);
     }
 
+    .append {
+        margin-inline-start: var(--wordplay-spacing-half);
+    }
+
     .flow {
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
         align-items: end;
     }
 </style>
