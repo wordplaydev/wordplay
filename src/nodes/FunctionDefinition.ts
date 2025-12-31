@@ -242,7 +242,7 @@ export default class FunctionDefinition extends DefinitionExpression {
             },
             {
                 name: 'expression',
-                kind: any(node(Expression), node(Sym.Etc), none()),
+                kind: any(node(Expression), none()),
                 space: true,
                 indent: true,
                 // Must match output type if provided
