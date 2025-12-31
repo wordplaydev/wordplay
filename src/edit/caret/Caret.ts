@@ -6,10 +6,12 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ListLiteral from '@nodes/ListLiteral';
 import Node, { Empty, ListOf, type Field } from '@nodes/Node';
+import NumberType from '@nodes/NumberType';
 import Program from '@nodes/Program';
 import Source from '@nodes/Source';
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
+import Unit from '@nodes/Unit';
 import Spaces from '@parser/Spaces';
 import { ELISION_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
 import {
@@ -1126,6 +1128,28 @@ export default class Caret {
 
         // Before doing insertion, see if a node is selected, and if so, wrap or remove it.
         if (this.position instanceof Node) {
+            // Is this a placeholder being replaced with numbers? Replace it, preserving units.
+            if (
+                tokens(text)[0].isSymbol(Sym.Number) &&
+                this.position instanceof ExpressionPlaceholder &&
+                this.position.type instanceof NumberType &&
+                this.position.type.unit instanceof Unit
+            ) {
+                newSource = this.source.replace(
+                    this.position,
+                    new NumberLiteral(
+                        new Token(text, Sym.Number),
+                        this.position.type.unit.clone(),
+                    ),
+                );
+                newPosition =
+                    (this.source.getNodeFirstPosition(this.position) ?? 0) + 1;
+                return [
+                    newSource,
+                    this.withSource(newSource).withPosition(newPosition),
+                ];
+            }
+
             // Try wrapping the node
             const wrap = this.wrap(project, text);
             if (wrap !== undefined) return wrap;
