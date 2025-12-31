@@ -43,15 +43,13 @@ export default class Translation extends LanguageTagged {
         this.close = close;
         this.separator = separator;
 
-        /** Unescape the text string */
-
         this.computeChildren();
     }
 
     static make(text?: string, language?: Language) {
         return new Translation(
             new Token("'", Sym.Text),
-            [new Token(text ?? '', Sym.Words)],
+            text && text.length > 0 ? [new Token(text, Sym.Words)] : [],
             new Token("'", Sym.Text),
             language,
             undefined,
