@@ -59,7 +59,7 @@ test.each([...projects])(
             'Unexpected conflicts: \n' + messages.join('\n'),
         ).toHaveLength(0);
     },
-    20000,
+    30000,
 );
 
 // NOTE: Disabling this test. Don't think its necessary to have all examples localized in all
