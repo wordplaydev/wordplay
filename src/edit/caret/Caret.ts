@@ -3,6 +3,7 @@ import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import ListLiteral from '@nodes/ListLiteral';
 import Node, { Empty, ListOf, type Field } from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -1863,7 +1864,11 @@ export default class Caret {
             const context = project.getNodeContext(node);
             const type = node.getType(context);
             const definition = type.getDefinitionOfNameInScope(key, context);
-            if (definition) {
+            if (
+                definition &&
+                definition instanceof FunctionDefinition &&
+                definition.inputs.length === 1
+            ) {
                 position = ExpressionPlaceholder.make();
                 wrapper = new BinaryEvaluate(
                     node,
