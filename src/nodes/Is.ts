@@ -42,7 +42,7 @@ export default class Is extends Expression {
     }
 
     static make(left: Expression, right: Type) {
-        return new Is(left, new Token(TYPE_SYMBOL, Sym.TypeOperator), right);
+        return new Is(left, new Token(TYPE_SYMBOL, Sym.Type), right);
     }
 
     static getPossibleReplacements() {

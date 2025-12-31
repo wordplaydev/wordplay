@@ -390,7 +390,7 @@ function completeBinaryEvaluate({
             precedingExpression instanceof Literal
                 ? precedingExpression
                 : Block.make([precedingExpression]),
-            Reference.make(text),
+            new Reference(tokens(text)[0]),
             ExpressionPlaceholder.make(),
         );
         // Make a new source
