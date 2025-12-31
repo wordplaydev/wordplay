@@ -1,4 +1,4 @@
-import type Caret from '@edit/caret/Caret';
+import Caret from '@edit/caret/Caret';
 import Node from '@nodes/Node';
 import {
     ALL_SYMBOL,
@@ -977,8 +977,24 @@ const Commands: Command[] = [
         control: true,
         key: 'KeyA',
         keySymbol: 'A',
-        execute: ({ editor, caret }) =>
-            editor && caret ? caret.withPosition(caret.getProgram()) : false,
+        execute: ({ editor, caret, blocks }) => {
+            if (editor && caret) {
+                // If it blocks mode and in side of a block text editable token, select the whole token..
+                if (
+                    blocks &&
+                    caret.tokenExcludingSpace !== undefined &&
+                    Caret.isTokenTextBlockEditable(
+                        caret.tokenExcludingSpace,
+                        caret.source.root.getParent(caret.tokenExcludingSpace),
+                    )
+                )
+                    return caret.withPosition(caret.tokenExcludingSpace);
+
+                // Select the whole program.
+                return caret.withPosition(caret.getProgram());
+            }
+            return false;
+        },
     },
     {
         symbol: TAB_SYMBOL,
