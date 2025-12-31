@@ -1185,6 +1185,13 @@ export default class Caret {
         // Update the source, position, and text of delimiter completion, if there is one.
         if (completion) {
             const [newSource, newPosition] = completion;
+
+            // Finally, if we're in blocks mode, verify that the insertion was valid.
+            if (blocks) {
+                if (project.getNewConflicts(this.source, newSource).length > 0)
+                    return (l) => l.ui.source.cursor.ignored.noError;
+            }
+
             return [
                 newSource,
                 this.withSource(newSource).withPosition(newPosition),
