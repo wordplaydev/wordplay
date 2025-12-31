@@ -651,7 +651,7 @@ export default class Caret {
                     }
                 }
 
-                // If the token's individual symbols are editable.
+                // If the token's individual symbols are editable, include the many positions.
                 if (Caret.isTokenTextBlockEditable(node, tokenParent)) {
                     const start = this.source.getTokenTextPosition(node);
                     const end = this.source.getTokenLastPosition(node);
@@ -662,10 +662,11 @@ export default class Caret {
                 }
                 // If the token itself is editable and not an only child, add it to the list.
                 else if (Caret.isTokenBlockEditable(node)) {
-                    // If an only child, include it's parent, not the token itself.
+                    // If an only child or a placeholder, include it's parent, not the token itself.
                     if (
-                        tokenParent !== undefined &&
-                        tokenParent.leaves().length === 1
+                        (tokenParent !== undefined &&
+                            tokenParent.leaves().length === 1) ||
+                        tokenParent instanceof ExpressionPlaceholder
                     )
                         points.push(tokenParent);
                     else points.push(node);
