@@ -727,8 +727,8 @@
                 },
                 "UnknownInput": {
                     "name": "unknown input",
-                    "primary": "I don't know of an input by this name in $1",
-                    "secondary": "I don't have an input with the name $1"
+                    "primary": "I don't think *$1* accepts an input with my name",
+                    "secondary": "I don't have an input with the name *$1*"
                 },
                 "InputListMustBeLast": {
                     "name": "extra inputs aren't last",
