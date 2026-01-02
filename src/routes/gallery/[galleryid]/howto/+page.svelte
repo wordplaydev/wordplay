@@ -7,13 +7,14 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getAnnounce, getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
     import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
+    import { untrack } from 'svelte';
     import HowToConfiguration from './HowToConfiguration.svelte';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
@@ -174,6 +175,31 @@
             touchPrevY = undefined;
         }
     }
+
+    // when cameraX and cameraY change, announce it
+    const announce = getAnnounce();
+
+    $effect(() => {
+        cameraX;
+        cameraY;
+
+        untrack(() => {
+            if ($announce) {
+                $announce(
+                    'canvas moved',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize(
+                            $locales.get((l) => l.ui.howto.announcePosition),
+                            'canvas',
+                            cameraX.toString(),
+                            cameraY.toString(),
+                        )
+                        .toText(),
+                );
+            }
+        });
+    });
 
     // navigation
     let navigationSelection: string | undefined = $state(undefined);

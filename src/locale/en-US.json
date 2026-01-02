@@ -4938,6 +4938,7 @@
                     }
                 }
             },
+            "announcePosition": "$1 moved to $2 $3",
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."
             }

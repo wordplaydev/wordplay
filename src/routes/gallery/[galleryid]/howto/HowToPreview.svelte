@@ -1,5 +1,6 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
+    import { getAnnounce } from '@components/project/Contexts';
     import { characterToSVG, type Character } from '@db/characters/Character';
     import { CharactersDB, DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
@@ -16,6 +17,7 @@
     import MarkupValue from '@values/MarkupValue';
     import StructureValue from '@values/StructureValue';
     import type Value from '@values/Value';
+    import { untrack } from 'svelte';
     import UnicodeString from '../../../../unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
     import { movePermitted } from './utils';
@@ -380,6 +382,31 @@
 
     $effect(() => {
         notPermittedAreas.set(howToId, [xcoord, ycoord, width, height]);
+    });
+
+    // when position of the preview changes, announce it
+    const announce = getAnnounce();
+
+    $effect(() => {
+        xcoord;
+        ycoord;
+
+        untrack(() => {
+            if ($announce) {
+                $announce(
+                    'how-to moved',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize(
+                            $locales.get((l) => l.ui.howto.announcePosition),
+                            title,
+                            xcoord.toString(),
+                            ycoord.toString(),
+                        )
+                        .toText(),
+                );
+            }
+        });
     });
 </script>
 

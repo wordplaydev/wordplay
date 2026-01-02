@@ -58,7 +58,7 @@
         id="guidingquestions"
         description={(l) =>
             l.ui.howto.configuration.guidingQuestions.descriptor}
-        placeholder={(l) => l.ui.howto.newHowTo.prompt}
+        placeholder={(l) => l.ui.howto.editor.prompt}
         bind:text={guidingQuestionsText}
     />
     <Button

@@ -120,7 +120,9 @@ type PageText = {
             removeReactionTip: string;
             submit: ButtonText;
         }
-    }
+    },
+    /** For announcing changes to the canvas or to how-to positions */
+    announcePosition: string;
     error: {
         /** When the how-to is not known or is not public */
         unknown: string;

@@ -9738,6 +9738,10 @@
                   "$ref": "#/definitions/ButtonText",
                   "description": "Button text for the how-to addition button"
                 },
+                "announcePosition": {
+                  "description": "For announcing changes to the canvas or to how-to positions",
+                  "type": "string"
+                },
                 "bookmarks": {
                   "additionalProperties": false,
                   "properties": {
@@ -10121,6 +10125,7 @@
                 "editor",
                 "viewer",
                 "configuration",
+                "announcePosition",
                 "error"
               ],
               "type": "object"
