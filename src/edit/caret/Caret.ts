@@ -10,7 +10,7 @@ import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ListLiteral from '@nodes/ListLiteral';
-import Node, { Empty, ListOf, type Field } from '@nodes/Node';
+import Node, { Empty, FieldKind, ListOf, type Field } from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
 import Program from '@nodes/Program';
 import Source from '@nodes/Source';
@@ -1407,19 +1407,8 @@ export default class Caret {
         } else return this;
     }
 
-    getRange(node: Node): [number, number] | undefined {
-        const tokens = node.nodes((t): t is Token => t instanceof Token);
-        const first = tokens[0];
-        const last = tokens[tokens.length - 1];
-        const firstIndex = this.source.getTokenTextPosition(first);
-        const lastIndex = this.source.getTokenLastPosition(last);
-        return firstIndex === undefined || lastIndex === undefined
-            ? undefined
-            : [firstIndex, lastIndex];
-    }
-
     replace(old: Node, replacement: string): Edit | undefined {
-        const range = this.getRange(old);
+        const range = this.source.getRange(old);
         if (range === undefined) return;
         const newCode = replacement;
 
@@ -1824,33 +1813,64 @@ export default class Caret {
     ): Revision | LocaleTextAccessor {
         // If valid only, check to see if the node is in a list or represents an optional field.
         const parent = this.source.root.getParent(node);
+        // Keep track if there's an empty field that has a dependency.
+        let dependency: Node | Node[] | undefined = undefined;
         if (validOnly) {
             if (parent) {
                 const field = parent.getFieldOfChild(node);
                 if (field !== undefined) {
                     const value = parent.getField(field.name);
                     // If the deletion isn't a list with more than one element or a list that allows empty, or an emptyable field, ignore the deletion.
-                    if (
-                        !(
-                            (field.kind instanceof ListOf &&
-                                ((Array.isArray(value) && value.length > 1) ||
-                                    field.kind.allowsEmpty)) ||
-                            field.kind instanceof Empty
-                        )
-                    )
+                    const kinds = field.kind?.enumerateFieldKinds() ?? [];
+                    let permittingKind: FieldKind | undefined = undefined;
+                    for (const kind of kinds) {
+                        if (
+                            kind instanceof ListOf &&
+                            ((Array.isArray(value) && value.length > 1) ||
+                                kind.allowsEmpty)
+                        ) {
+                            permittingKind = kind;
+                            break;
+                        }
+                        if (kind instanceof Empty) {
+                            permittingKind = kind;
+                            if (kind.dependency)
+                                dependency = parent.getField(
+                                    kind.dependency.name,
+                                );
+                            break;
+                        }
+                    }
+                    if (permittingKind === undefined)
                         return (l) => l.ui.source.cursor.ignored.noDelete;
                 }
             } else return (l) => l.ui.source.cursor.ignored.noDelete;
         }
 
-        const range = this.getRange(node);
-        if (range === undefined)
-            return (l) => l.ui.source.cursor.ignored.noDelete;
-        const newSource = this.source.withoutGraphemesBetween(
-            range[0],
-            range[1],
+        let nodesToDelete = [
+            node,
+            ...(Array.isArray(dependency)
+                ? dependency
+                : dependency
+                  ? [dependency]
+                  : []),
+        ];
+        let newSource: Source | undefined = this.source;
+        let firstPosition = Math.min(
+            ...nodesToDelete
+                .map((n) => this.source.getNodeFirstPosition(n) ?? undefined)
+                .filter((p): p is number => p !== undefined),
         );
-        if (newSource === undefined)
+        for (const nodeToRemove of nodesToDelete) {
+            const range = newSource.getRange(nodeToRemove);
+            if (range === undefined)
+                return (l) => l.ui.source.cursor.ignored.noDelete;
+            newSource = newSource.withoutGraphemesBetween(range[0], range[1]);
+            if (newSource === undefined)
+                return (l) => l.ui.source.cursor.ignored.noDelete;
+        }
+
+        if (firstPosition === undefined)
             return (l) => l.ui.source.cursor.ignored.noDelete;
 
         // If only valid, ensure the edit is valid.
@@ -1859,13 +1879,17 @@ export default class Caret {
             project.getNewConflicts(this.source, newSource, NegligibleConflicts)
                 .length > 0
         )
-            return parent
-                ? [this.source, this.withPosition(parent)]
-                : (l) => l.ui.source.cursor.ignored.noError;
+            return (l) => l.ui.source.cursor.ignored.noError;
 
         return [
             newSource,
-            new Caret(newSource, range[0], undefined, undefined, undefined),
+            new Caret(
+                newSource,
+                firstPosition,
+                undefined,
+                undefined,
+                undefined,
+            ),
         ];
     }
 

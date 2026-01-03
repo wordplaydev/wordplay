@@ -868,6 +868,17 @@ export default class Source extends Expression {
             : this.getTokenTextPosition(tokenAfter);
     }
 
+    getRange(node: Node): [number, number] | undefined {
+        const tokens = node.nodes((t): t is Token => t instanceof Token);
+        const first = tokens[0];
+        const last = tokens[tokens.length - 1];
+        const firstIndex = this.getTokenTextPosition(first);
+        const lastIndex = this.getTokenLastPosition(last);
+        return firstIndex === undefined || lastIndex === undefined
+            ? undefined
+            : [firstIndex, lastIndex];
+    }
+
     getFirstToken(node: Node): Token | undefined {
         return node.nodes().filter((n): n is Token => n instanceof Token)[0];
     }
