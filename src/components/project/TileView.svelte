@@ -593,5 +593,10 @@
 
     .tile-controls {
         margin-inline-start: auto;
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing-half);
+        align-items: center;
+        flex-wrap: nowrap;
     }
 </style>
