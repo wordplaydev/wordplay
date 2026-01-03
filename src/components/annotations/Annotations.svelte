@@ -491,16 +491,13 @@
         background: var(--wordplay-evaluation-color);
     }
 
-    .annotation.primaryMajor {
+    .annotation.primaryMajor,
+    .annotation.secondaryMajor {
         background: var(--wordplay-error);
     }
 
-    .annotation.secondaryMajor,
+    .annotation.primaryMinor,
     .annotation.secondaryMinor {
-        background: var(--wordplay-inactive-color);
-    }
-
-    .annotation.primaryMinor {
         background: var(--wordplay-warning);
     }
 </style>

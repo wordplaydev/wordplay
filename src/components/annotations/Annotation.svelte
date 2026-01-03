@@ -129,17 +129,14 @@
         border-color: var(--wordplay-evaluation-color);
     }
 
-    .annotation.primaryMajor {
+    .annotation.primaryMajor,
+    .annotation.secondaryMajor {
         border-color: var(--wordplay-error);
     }
 
-    .annotation.primaryMinor {
-        border-color: var(--wordplay-warning);
-    }
-
-    .annotation.secondaryMajor,
+    .annotation.primaryMinor,
     .annotation.secondaryMinor {
-        border-color: var(--wordplay-inactive-color);
+        border-color: var(--wordplay-warning);
     }
 
     .annotation.secondary {
