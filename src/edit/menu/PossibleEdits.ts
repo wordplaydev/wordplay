@@ -202,7 +202,7 @@ export function getEditsAt(
         // We have to special case empty Program Blocks. This is because all other sequences are
         // delimited except for program blocks, so when we're in an empty program block, there is no
         // delimiter to anchor off of.
-        if (context.source.leaves().length === 1) {
+        if (context.source.hasOneLeaf()) {
             note(`Getting edits for empty block`, 1);
 
             const programField =

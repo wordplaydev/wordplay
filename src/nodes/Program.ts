@@ -85,7 +85,7 @@ export default class Program extends Expression {
     }
 
     isEmpty() {
-        return this.leaves().length === 1;
+        return this.hasOneLeaf();
     }
 
     isEvaluationInvolved() {

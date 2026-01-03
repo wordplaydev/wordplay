@@ -312,6 +312,11 @@ export default abstract class Node {
         return context.project.getRoot(this)?.getParent(this);
     }
 
+    /** Returns true if there's only one leaf in this node */
+    hasOneLeaf(): boolean {
+        return this.leaves().length === 1;
+    }
+
     // BINDINGS
 
     /**

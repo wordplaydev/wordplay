@@ -684,7 +684,7 @@ export default class Caret {
                     // If an only child or a placeholder, include it's parent, not the token itself.
                     if (
                         (tokenParent !== undefined &&
-                            tokenParent.leaves().length === 1) ||
+                            tokenParent.hasOneLeaf()) ||
                         tokenParent instanceof ExpressionPlaceholder
                     )
                         points.push(tokenParent);
@@ -696,7 +696,7 @@ export default class Caret {
                 // Expression or type with a single child ? Include it.
                 if (
                     (node instanceof Literal || node instanceof Name) &&
-                    node.leaves().length === 1
+                    node.hasOneLeaf()
                 )
                     points.push(node);
 
@@ -951,8 +951,7 @@ export default class Caret {
 
     getParentOfOnlyChild(token: Token): Node {
         const parent = this.source.root.getParent(token);
-        const tokens = parent?.leaves();
-        return parent && tokens && tokens.length === 1 && tokens[0] === token
+        return parent && parent.hasOneLeaf() && parent.leaves()[0] === token
             ? parent
             : token;
     }
@@ -1760,7 +1759,7 @@ export default class Caret {
                         kind.allowsKind(Expression) &&
                         parent instanceof Expression &&
                         node instanceof Token &&
-                        parent.leaves().length === 1
+                        parent.hasOneLeaf()
                     ) {
                         const placeholder = ExpressionPlaceholder.make();
                         return [

@@ -956,11 +956,10 @@ const Commands: Command[] = [
                         : caret.getToken();
                 if (token !== undefined) {
                     const parent = caret.source.root.getParent(token);
+                    if (parent === undefined) return false;
                     return caret
                         .withEntry(undefined)
-                        .withPosition(
-                            parent?.getChildren().length === 1 ? parent : token,
-                        );
+                        .withPosition(parent.hasOneLeaf() ? parent : token);
                 }
             }
             return false;
