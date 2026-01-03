@@ -980,24 +980,31 @@ const Commands: Command[] = [
             if (editor && caret) {
                 // If it blocks mode and in side of a block text editable token, select the whole token..
                 if (blocks) {
+                    const tokenAt = caret.tokenExcludingSpace;
+                    const parentAt = tokenAt
+                        ? caret.source.getParentNode(tokenAt)
+                        : undefined;
                     if (
-                        caret.tokenExcludingSpace !== undefined &&
-                        Caret.isTokenTextBlockEditable(
-                            caret.tokenExcludingSpace,
-                            caret.source.getParentNode(
-                                caret.tokenExcludingSpace,
-                            ),
-                        )
+                        tokenAt &&
+                        parentAt &&
+                        Caret.isTokenTextBlockEditable(tokenAt, parentAt)
                     )
-                        return caret.withPosition(caret.tokenExcludingSpace);
+                        return caret.withPosition(
+                            parentAt.hasOneLeaf() ? parentAt : tokenAt,
+                        );
+
+                    const tokenAfter = caret.tokenPrior;
+                    const parentAfter = tokenAfter
+                        ? caret.source.getParentNode(tokenAfter)
+                        : undefined;
                     if (
-                        caret.tokenPrior !== undefined &&
-                        Caret.isTokenTextBlockEditable(
-                            caret.tokenPrior,
-                            caret.source.getParentNode(caret.tokenPrior),
-                        )
+                        tokenAfter &&
+                        parentAfter &&
+                        Caret.isTokenTextBlockEditable(tokenAfter, parentAfter)
                     )
-                        return caret.withPosition(caret.tokenPrior);
+                        return caret.withPosition(
+                            parentAfter.hasOneLeaf() ? parentAfter : tokenAfter,
+                        );
                 }
 
                 // Select the whole program.
