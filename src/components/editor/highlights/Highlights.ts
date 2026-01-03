@@ -226,13 +226,15 @@ export function getHighlights(
     }
     // Otherwise, is a node hovered over? Highlight it.
     else if (
+        !blocks &&
         hovered instanceof Node &&
         !(
             hovered instanceof Expression &&
             hovered.getKind() !== ExpressionKind.Simple
         )
-    )
+    ) {
         highlights.add(source, hovered, 'hovered');
+    }
 
     // Tag all nodes with primary conflicts as primary
     for (const [primary, conflicts] of project.getPrimaryConflicts())

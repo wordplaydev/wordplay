@@ -268,7 +268,6 @@
     .token-view.editable.blocks.blockText {
         border-bottom: solid var(--wordplay-focus-width)
             var(--wordplay-border-color);
-        cursor: text;
     }
 
     .StructureDefinition,

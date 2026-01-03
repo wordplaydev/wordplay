@@ -185,6 +185,7 @@ type NodeViewComponent = Component<{
 type BlockKind =
     | 'plain'
     | 'definition'
+    | 'reference'
     | 'data'
     | 'evaluate'
     | 'type'
@@ -280,7 +281,7 @@ map(Block, BlockView, {
 });
 
 map(Bind, BindView, {
-    kind: 'plain',
+    kind: 'definition',
     direction: 'block',
     size: 'normal',
 });
@@ -300,7 +301,7 @@ map(Language, LanguageView, {
     size: 'small',
 });
 map(Reference, ReferenceView, {
-    kind: 'none',
+    kind: 'reference',
     direction: 'inline',
     size: 'normal',
 });
@@ -364,7 +365,7 @@ map(TextType, TextTypeView, {
 });
 
 map(FunctionDefinition, FunctionDefinitionView, {
-    kind: 'plain',
+    kind: 'definition',
     direction: 'block',
     size: 'normal',
 });

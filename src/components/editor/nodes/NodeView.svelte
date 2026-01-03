@@ -304,7 +304,7 @@
     :global(.editor:not(.dragging))
         .node-view.block.editable:not(.blockselected):not(
             :has(.node-view.block:hover)
-        ):hover {
+        ):not(.Token):hover {
         background: var(--wordplay-hover);
         outline: var(--wordplay-border-width) solid var(--wordplay-border-color);
         box-shadow: var(--color-shadow) 4px 4px 4px;
@@ -348,6 +348,12 @@
         border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+    }
+
+    .block.reference {
+        padding: var(--wordplay-spacing-half);
+        border-block-end: var(--wordplay-focus-width) solid var(--color-blue);
+        border-bottom-right-radius: 0;
     }
 
     .block.evaluate {
