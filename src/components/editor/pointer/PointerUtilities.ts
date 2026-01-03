@@ -105,6 +105,8 @@ export function getBlockInsertionPoint(
             context,
         );
         return point;
+    } else {
+        console.log('No list under pointer.', el);
     }
 }
 

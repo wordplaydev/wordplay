@@ -123,6 +123,13 @@
     });
 </script>
 
+{#snippet insertFeedback()}
+    <!--  Need a zero with space here to ensure baseline alignment has text to calculate on. 
+          Otherwise, the baseline is pushed down, causing a layout gap that prevents the pointer 
+          from remaining stably under the pointer during a drag, causing a flickering. -->
+    <div class="insertion-feedback">&ZeroWidthSpace;</div>
+{/snippet}
+
 {#snippet append()}{#if format.editable && nodes.length > 0 && add}<div
             class="append"
             ><MenuTrigger
@@ -145,7 +152,7 @@
             {@render before()}
             {#each visible as node, index}
                 {#if insertion?.index === index}
-                    <div class="insertion-feedback"></div>
+                    {@render insertFeedback()}
                 {/if}
                 <NodeView {node} {format} />
             {:else}
@@ -154,7 +161,7 @@
             {@render after()}
             {#if nodes.length > 0}
                 {#if insertion?.index === nodes.length}
-                    <div class="insertion-feedback"></div>
+                    {@render insertFeedback()}
                 {/if}
                 {#if direction === 'inline'}{@render append()}{/if}
             {/if}
@@ -219,6 +226,8 @@
     [data-direction='block'].node-list {
         flex-direction: column;
         gap: var(--wordplay-spacing-half);
+        padding-block-start: var(--wordplay-spacing-half);
+        padding-block-end: var(--wordplay-spacing-half);
     }
 
     [data-direction='inline'].node-list {
