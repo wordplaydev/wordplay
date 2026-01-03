@@ -3,8 +3,10 @@ import Caret from '@edit/caret/Caret';
 import DefaultLocales from '@locale/DefaultLocales';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import Evaluate from '@nodes/Evaluate';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
+import StreamType from '@nodes/StreamType';
 import Unit from '@nodes/Unit';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { TRUE_SYMBOL } from '@parser/Symbols';
@@ -114,6 +116,15 @@ test.each([
         (node) => node instanceof Unit,
         Replace,
         'm/s',
+    ],
+    [
+        'suggest streams on stream placeholders',
+        '∆ _•…_',
+        (node) =>
+            node instanceof ExpressionPlaceholder &&
+            node.type instanceof StreamType,
+        Replace,
+        '🖱️()',
     ],
 ])(
     '%s: %s',

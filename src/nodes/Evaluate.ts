@@ -167,9 +167,16 @@ export default class Evaluate extends Expression {
                                 def.getType(context),
                                 context,
                             ))) ||
+                    // If its a stream and the expected type matches the stream's type,
+                    // or it's a stream type and the stream output matches the expected type.
                     (def instanceof StreamDefinition &&
                         (expectedType === undefined ||
-                            expectedType.accepts(def.output, context))),
+                            expectedType.accepts(def.output, context) ||
+                            (expectedType instanceof StreamType &&
+                                expectedType.type.accepts(
+                                    def.output,
+                                    context,
+                                )))),
             )
             .map(
                 (def) =>
