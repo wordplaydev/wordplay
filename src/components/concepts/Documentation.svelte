@@ -435,10 +435,13 @@
                             describe={false}
                         />
                     {:else}
-                        <Note
+                        <Subheader
+                            text={(l) => l.ui.docs.purposes.Project.header}
+                        />
+                        <em
                             ><LocalizedText
                                 path={(l) => l.ui.docs.note.empty}
-                            /></Note
+                            /></em
                         >
                     {/if}
                 {:else if purpose === Purpose.Outputs}
