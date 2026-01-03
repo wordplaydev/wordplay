@@ -160,7 +160,27 @@ export default class Evaluate extends Expression {
                     (def instanceof FunctionDefinition &&
                         (expectedType === undefined ||
                             expectedType.accepts(
-                                def.getOutputType(context),
+                                def.getOutputType(
+                                    context,
+                                    // If it's a binary evaluate, we pass a hypothetical evaluate so
+                                    // the output type of the function we get includes any inherited units for
+                                    // number types.
+                                    def.isBinary()
+                                        ? def.getEvaluateTemplate(
+                                              def.names.getNames()[0],
+                                              context,
+                                              true,
+                                              replace &&
+                                                  structureFunctions.includes(
+                                                      def,
+                                                  ) &&
+                                                  nodeBeingReplaced instanceof
+                                                      Expression
+                                                  ? nodeBeingReplaced
+                                                  : undefined,
+                                          )
+                                        : undefined,
+                                ),
                                 context,
                             ))) ||
                     (def instanceof StructureDefinition &&

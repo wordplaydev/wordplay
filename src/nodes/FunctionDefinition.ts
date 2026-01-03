@@ -32,6 +32,7 @@ import Names from './Names';
 import NameType from './NameType';
 import type Node from './Node';
 import { any, list, node, none, type Grammar, type Replacement } from './Node';
+import NumberType from './NumberType';
 import PropertyReference from './PropertyReference';
 import Reference from './Reference';
 import Sym from './Sym';
@@ -42,6 +43,7 @@ import type TypeSet from './TypeSet';
 import TypeToken from './TypeToken';
 import TypeVariables from './TypeVariables';
 import UnaryEvaluate from './UnaryEvaluate';
+import Unit from './Unit';
 import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionDefinition extends DefinitionExpression {
@@ -166,14 +168,33 @@ export default class FunctionDefinition extends DefinitionExpression {
                           Reference.make(name),
                       )
                     : Reference.make(name);
+
+        const structure =
+            structureType instanceof Expression
+                ? structureType
+                : ExpressionPlaceholder.make(structureType?.clone());
+
+        // The first number type input with a unit deriver, if there is one.
+        const unitDeriver =
+            this.inputs.length > 0
+                ? this.inputs[0]
+                      .getType(context)
+                      .getPossibleTypes(context)
+                      .find(
+                          (t): t is NumberType =>
+                              t instanceof NumberType &&
+                              t.unit instanceof Function,
+                      )?.unit
+                : undefined;
+
+        const unitStructure = structure.getType(context);
+
         return this.isOperator() && this.inputs.length === 0
             ? new UnaryEvaluate(
                   new Reference(
                       new Token(this.getOperatorName() ?? '_', Sym.Operator),
                   ),
-                  structureType instanceof Expression
-                      ? structureType
-                      : ExpressionPlaceholder.make(structureType?.clone()),
+                  structure,
               )
             : this.isOperator() && this.inputs.length === 1
               ? unary && this.isOptionalUnary()
@@ -184,21 +205,29 @@ export default class FunctionDefinition extends DefinitionExpression {
                                 Sym.Operator,
                             ),
                         ),
-                        structureType instanceof Expression
-                            ? structureType
-                            : ExpressionPlaceholder.make(structureType),
+                        structure,
                     )
                   : new BinaryEvaluate(
-                        structureType instanceof Expression
-                            ? structureType
-                            : ExpressionPlaceholder.make(structureType),
+                        structure,
                         new Reference(
                             new Token(
                                 this.getOperatorName() ?? '_',
                                 Sym.Operator,
                             ),
                         ),
-                        ExpressionPlaceholder.make(),
+                        ExpressionPlaceholder.make(
+                            unitDeriver instanceof Function &&
+                                unitStructure instanceof NumberType &&
+                                unitStructure.unit instanceof Unit
+                                ? NumberType.make(
+                                      unitDeriver(
+                                          unitStructure.unit,
+                                          undefined,
+                                          undefined,
+                                      ),
+                                  )
+                                : this.inputs[0].getType(context)?.clone(),
+                        ),
                     )
               : Evaluate.make(
                     fun,
@@ -208,14 +237,14 @@ export default class FunctionDefinition extends DefinitionExpression {
                             input.type
                                 ? // Always generate a default for function types. Placeholders are gnarly!
                                   defaults || input.type instanceof FunctionType
-                                    ? (input.type.getDefaultExpression(
-                                          context,
-                                      ) ??
+                                    ? (input
+                                          .getType(context)
+                                          .getDefaultExpression(context) ??
                                       ExpressionPlaceholder.make(
-                                          input.type.clone(),
+                                          input.getType(context).clone(),
                                       ))
                                     : ExpressionPlaceholder.make(
-                                          input.type.clone(),
+                                          input.getType(context).clone(),
                                       )
                                 : ExpressionPlaceholder.make(),
                         ),
@@ -420,9 +449,19 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    getOutputType(context: Context) {
-        return this.output instanceof Type
-            ? this.output
+    getOutputType(
+        context: Context,
+        caller:
+            | BinaryEvaluate
+            | UnaryEvaluate
+            | Evaluate
+            | undefined = undefined,
+    ): Type {
+        return this.output !== undefined
+            ? // If it's a number type, and we received a caller, pass it, so we can infer the units.
+              this.output instanceof NumberType && caller !== undefined
+                ? this.output.withOp(caller)
+                : this.output
             : this.expression === undefined
               ? new AnyType()
               : this.expression.getType(context);
