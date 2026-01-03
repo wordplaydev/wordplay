@@ -190,7 +190,11 @@ export function dropNodeOnSource(
     else if (target instanceof AssignmentPoint) {
         // Set the field to the dragged clone.
         const revisedParent = target.parent.replace(target.field, draggedClone);
-        editedProgram = editedProgram.replace(target.parent, revisedParent);
+        // Update the edited program (or if the revised parent is a program, use that).
+        editedProgram =
+            editedProgram instanceof Program && revisedParent instanceof Program
+                ? revisedParent
+                : editedProgram.replace(target.parent, revisedParent);
 
         // Format the parent node
         nodeToFormat = revisedParent;

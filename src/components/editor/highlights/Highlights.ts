@@ -168,7 +168,10 @@ export function getHighlights(
             highlights.add(source, hovered, 'hovered');
         }
         // No valid hover target? Highlight the insertion point if there is one.
-        else if (insertion instanceof InsertionPoint) {
+        else if (
+            insertion instanceof InsertionPoint &&
+            isValidDropTarget(project, dragged, insertion.node, insertion, true)
+        ) {
             if (insertion.list.length === 0) {
                 highlights.add(source, insertion.node, 'match');
                 highlights.add(source, insertion.node, 'hovered');
@@ -177,8 +180,13 @@ export function getHighlights(
         }
         // No valid hover target? Highlight the assignment point if there is one.
         else if (insertion instanceof AssignmentPoint) {
-            highlights.add(source, insertion.parent, 'hovered');
-            highlights.addEmpty(insertion.parent, insertion.field);
+            if (insertion.parent instanceof Program) {
+                highlights.add(source, insertion.parent.expression, 'match');
+                highlights.add(source, insertion.parent.expression, 'hovered');
+            } else {
+                highlights.add(source, insertion.parent, 'hovered');
+                highlights.addEmpty(insertion.parent, insertion.field);
+            }
         }
         // No insert? Highlight valid drop targets.
         else if (insertion === undefined) {

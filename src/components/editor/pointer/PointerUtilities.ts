@@ -5,6 +5,7 @@ import {
     InsertionPoint,
 } from '@edit/drag/Drag';
 import type { WritingDirection } from '@locale/Scripts';
+import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
 import type Node from '@nodes/Node';
@@ -86,7 +87,6 @@ export function getBlockInsertionPoint(
     const emptyView = el.closest(`.empty`);
     if (emptyView instanceof HTMLElement && emptyView.dataset.field) {
         const point = getEmptyInsertionPoint(
-            emptyView,
             nodeUnderPointer,
             emptyView.dataset.field,
             candidate,
@@ -109,7 +109,6 @@ export function getBlockInsertionPoint(
 }
 
 function getEmptyInsertionPoint(
-    emptyView: HTMLElement,
     nodeUnderPointer: Node,
     fieldName: string,
     candidate: Node,
@@ -133,6 +132,18 @@ function getEmptyInsertionPoint(
                 .getType(context, 0)
                 .accepts(candidate.getType(context), context))
     ) {
+        // Special case a root block being dragged onto a root block's statements, replacing it with a replacement of the root block.
+        // Makes it easier to drag onto an empty program.
+        if (
+            nodeUnderPointer instanceof Block &&
+            nodeUnderPointer.isRoot() &&
+            fieldName === 'statements' &&
+            candidate instanceof Block &&
+            candidate.isRoot()
+        ) {
+            return new AssignmentPoint(context.source.expression, 'expression');
+        }
+
         return new InsertionPoint(
             nodeUnderPointer,
             fieldName,
