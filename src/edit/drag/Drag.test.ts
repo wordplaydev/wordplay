@@ -1,5 +1,6 @@
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
+import Evaluate from '@nodes/Evaluate';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import ListLiteral from '@nodes/ListLiteral';
 import type Node from '@nodes/Node';
@@ -93,6 +94,37 @@ test.each([
         },
         '[1 2 3 4 5]',
         '',
+    ],
+    // Drop reaction with placeholders onto a typed bind.
+    [
+        ['a•#: _'],
+        () => parseExpression(toTokens('_ … _•? … _')),
+        (sources) => sources[0].find(ExpressionPlaceholder),
+        'a•#: _ … _•? … _',
+    ],
+    // Drop list onto typed list
+    [
+        ['a•[#]: _'],
+        () => parseExpression(toTokens('[]')),
+        (sources) => sources[0].find(ExpressionPlaceholder),
+        'a•[#]: []',
+    ],
+    // Insert number into unit-typed number list, despite type error.
+    [
+        ['Place()'],
+        () => parseExpression(toTokens('1')),
+        (sources) => {
+            const node = sources[0].find<Evaluate>(Evaluate);
+            return new InsertionPoint(
+                node,
+                'inputs',
+                node.inputs,
+                node.find<Token>(Token, 2),
+                0,
+                0,
+            );
+        },
+        'Place(1)',
     ],
 ])(
     'Drop on %s should yield %s',

@@ -161,7 +161,7 @@ export function getHighlights(
         // If we're hovered over a valid drop target, highlight the hovered node.
         if (
             hovered &&
-            isValidDropTarget(project, dragged, hovered, insertion)
+            isValidDropTarget(project, dragged, hovered, insertion, true)
         ) {
             // Highlight the matching drop target being hovered.
             highlights.add(source, hovered, 'match');
@@ -188,7 +188,9 @@ export function getHighlights(
                 // Is it a literal or placeholder?
                 // Highlight it!
                 // We don't highlight expressions that have more structure, because it's confusing, but we do permit valid drops.
-                if (isValidDropTarget(project, dragged, target, insertion)) {
+                if (
+                    isValidDropTarget(project, dragged, target, insertion, true)
+                ) {
                     if (
                         target instanceof Literal ||
                         target instanceof ExpressionPlaceholder ||

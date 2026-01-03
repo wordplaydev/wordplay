@@ -375,7 +375,13 @@
         if (
             $dragged &&
             (($hovered &&
-                isValidDropTarget(project, $dragged, $hovered, $insertion)) ||
+                isValidDropTarget(
+                    project,
+                    $dragged,
+                    $hovered,
+                    $insertion,
+                    true,
+                )) ||
                 $insertion)
         )
             drop();

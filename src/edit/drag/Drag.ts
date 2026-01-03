@@ -278,12 +278,17 @@ export function getInsertionPoint(
     );
 }
 
-/** Given a project, a dragged node, a target node, and a possible insertion point, determine whether the target is valid.  */
+/**
+ * Given a project, a dragged node, a target node, and a possible insertion point, determine whether the target is valid.
+ * Valid means that it is syntactically correct, but it may still result in a type error. We permit type errors to allow
+ * for more flexible editing, and to help learners reason through what the type should be.
+ */
 export function isValidDropTarget(
     project: Project,
     dragged: Node,
     target: Node,
     insertion: InsertionPoint | AssignmentPoint | undefined,
+    permissiveTypes: boolean,
 ): boolean {
     // Is the target inside the dragged node? If so, we can't drop it there.
     if (dragged.contains(target)) return false;
@@ -294,8 +299,11 @@ export function isValidDropTarget(
         ?.getParent(target)
         ?.getFieldOfChild(target);
 
-    // No field? Not valid.
+    // No field? That's weird. Bail.
     if (field === undefined) return false;
+
+    // Field doesn't allow the dragged node? Not a valid target.
+    if (!field.kind.allowsKind(dragged.constructor)) return false;
 
     // What's the type context of the target?
     const source = project.getSourceOf(target);
@@ -304,17 +312,17 @@ export function isValidDropTarget(
 
     // If the field permits the dragged node's kind, and either isn't typed or the dragged node's type is accepted by the field's type, allow the drop.
     if (
-        field.kind.allowsKind(dragged.constructor) &&
-        (field.getType === undefined ||
-            !(dragged instanceof Expression) ||
-            field
-                .getType(
-                    context,
-                    insertion instanceof InsertionPoint
-                        ? insertion.index
-                        : undefined,
-                )
-                .accepts(dragged.getType(context), context))
+        permissiveTypes ||
+        field.getType === undefined ||
+        !(dragged instanceof Expression) ||
+        field
+            .getType(
+                context,
+                insertion instanceof InsertionPoint
+                    ? insertion.index
+                    : undefined,
+            )
+            .accepts(dragged.getType(context), context)
     )
         return true;
 
