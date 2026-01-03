@@ -334,6 +334,7 @@
         /** The index into the space where the caret is. */
         caretIndex: number,
     ): {
+        beforeSpaceLeft: number;
         beforeSpaceWidth: number;
         beforeSpaceHeight: number;
     } {
@@ -344,6 +345,7 @@
         // Couldn't find the space for some reason? Return zero dimensions.
         if (!(spaceElement instanceof HTMLElement))
             return {
+                beforeSpaceLeft: 0,
                 beforeSpaceWidth: 0,
                 beforeSpaceHeight: 0,
             };
@@ -384,6 +386,7 @@
         // If we didn't find a line, return zero dimensions.
         if (containingLine === undefined)
             return {
+                beforeSpaceLeft: 0,
                 beforeSpaceWidth: 0,
                 beforeSpaceHeight: 0,
             };
@@ -404,6 +407,7 @@
 
         // Return the computed space.
         return {
+            beforeSpaceLeft: beforeSpaceBounds.left,
             beforeSpaceWidth,
             beforeSpaceHeight,
         };
@@ -568,7 +572,7 @@
             const spaceBefore = explicitSpace.substring(0, spaceIndex);
             const spaceAfter = explicitSpace.substring(spaceIndex);
 
-            const { beforeSpaceWidth, beforeSpaceHeight } =
+            const { beforeSpaceWidth, beforeSpaceHeight, beforeSpaceLeft } =
                 computeSpaceDimensions(viewport, token, spaceIndex);
 
             // Find the line number inline end.
@@ -631,8 +635,10 @@
                     // For horizontal layout, place the caret to the right of the prior token, {spaces} after.
                     return {
                         left:
-                            priorTokenHorizontalEnd +
-                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
+                            blocks && spaceBefore.getLength() > 0
+                                ? beforeSpaceLeft + beforeSpaceWidth
+                                : priorTokenHorizontalEnd +
+                                  (leftToRight ? 1 : -1) * beforeSpaceWidth,
                         top: priorTokenTop,
                         height: caretHeight,
                         bottom: priorTokenTop + caretHeight,
@@ -744,7 +750,8 @@
                     horizontalStart =
                         rect === undefined
                             ? editorHorizontalStart
-                            : (leftToRight ? rect.left : rect.right) +
+                            : beforeSpaceLeft +
+                              (leftToRight ? rect.left : rect.right) +
                               viewportXOffset;
 
                     // if (rect)
@@ -753,10 +760,9 @@
 
                 if (horizontal) {
                     return {
-                        left: blocks
-                            ? tokenStart
-                            : horizontalStart +
-                              (leftToRight ? 1 : -1) * beforeSpaceWidth,
+                        left:
+                            horizontalStart +
+                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
                         top: spaceTop,
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,
