@@ -145,6 +145,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         nameOrLocales: Locales | string,
         context: Context,
         defaults: boolean,
+        /** The structure to call the function on, or the type it should be called on */
         structureType: Expression | Type | undefined,
         // If it can be unary, returns a unary evaluate.
         unary: boolean = false,

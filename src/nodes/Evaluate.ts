@@ -124,25 +124,28 @@ export default class Evaluate extends Expression {
             nodeBeingReplaced instanceof Expression
                 ? nodeBeingReplaced.getType(context)
                 : undefined;
-        const structure =
-            scopingType instanceof BasisType ||
-            scopingType instanceof StructureType;
+
+        // All the definitions outside the given node.
+        const functionsInScope = anchor.getDefinitionsInScope(context) ?? [];
+
+        // All the functions inside the given node's internal scope.
+        const structureFunctions = nodeBeingReplaced
+            ? // If the scope is basis, get definitions in basis scope
+              scopingType instanceof BasisType
+                ? scopingType.getDefinitions(nodeBeingReplaced, context)
+                : // If the scope is a structure, get definitions in its scope
+                  scopingType instanceof StructureType
+                  ? scopingType.definition.getDefinitions(nodeBeingReplaced)
+                  : // Otherwise, nothing extra
+                    []
+            : [];
 
         // Get the definitions in the structure type we found,
         // and in the surrounding scope.
         const definitions = [
-            ...(anchor?.getDefinitionsInScope(context) ?? []),
+            ...functionsInScope,
             // If the anchor is selected for replacement...
-            ...(nodeBeingReplaced
-                ? // If the scope is basis, get definitions in basis scope
-                  scopingType instanceof BasisType
-                    ? scopingType.getDefinitions(nodeBeingReplaced, context)
-                    : // If the scope is a structure, get definitions in its scope
-                      scopingType instanceof StructureType
-                      ? scopingType.definition.getDefinitions(nodeBeingReplaced)
-                      : // Otherwise, get definitions in scope of the anchor
-                        (anchor?.getDefinitionsInScope(context) ?? [])
-                : []),
+            ...structureFunctions,
         ];
 
         // Convert the definitions to evaluate suggestions.
@@ -181,7 +184,7 @@ export default class Evaluate extends Expression {
             .map((def) => {
                 const type =
                     replace &&
-                    structure &&
+                    structureFunctions.includes(def) &&
                     nodeBeingReplaced instanceof Expression
                         ? nodeBeingReplaced
                         : undefined;
