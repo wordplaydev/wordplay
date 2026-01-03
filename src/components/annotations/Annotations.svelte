@@ -500,8 +500,7 @@
         background: var(--wordplay-inactive-color);
     }
 
-    .annotation.primaryMinor,
-    .annotation.secondaryMinor {
-        border-style: dotted;
+    .annotation.primaryMinor {
+        background: var(--wordplay-warning);
     }
 </style>

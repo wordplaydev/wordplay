@@ -172,11 +172,6 @@
         stroke: var(--wordplay-inactive-color);
     }
 
-    .underline.primaryMinor path,
-    .underline.secondaryMinor path {
-        stroke-dasharray: calc(var(--wordplay-focus-width));
-    }
-
     .underline.exception path {
         stroke: var(--wordplay-error);
         fill: var(--wordplay-error);

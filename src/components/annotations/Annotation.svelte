@@ -142,18 +142,6 @@
         border-color: var(--wordplay-inactive-color);
     }
 
-    .annotation.primaryMinor,
-    .annotation.secondaryMinor {
-        border-inline-start-style: dotted;
-        border-inline-end-style: none;
-    }
-
-    .annotation.primaryMinor.flip,
-    .annotation.secondaryMinor.flip {
-        border-inline-start-style: none;
-        border-inline-end-style: dotted;
-    }
-
     .annotation.secondary {
         font-size: var(--wordplay-small-font-size);
     }
