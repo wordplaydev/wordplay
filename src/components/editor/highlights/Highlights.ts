@@ -70,31 +70,30 @@ export const HighlightTypes = {
 };
 
 export class Highlights {
-    private map: Map<Node, Set<HighlightType>> = new Map();
-    private empty: Map<Node, Set<string>> = new Map();
+    private map: Map<Node, HighlightType[]> = new Map();
+    private empty: Map<Node, string[]> = new Map();
 
     add(source: Source, node: Node, type: HighlightType) {
         if (source.has(node)) {
-            if (!this.map.has(node))
-                this.map.set(node, new Set<HighlightType>());
-            this.map.get(node)?.add(type);
+            if (!this.map.has(node)) this.map.set(node, []);
+            this.map.get(node)?.push(type);
         }
     }
 
     addEmpty(node: Node, field: string) {
-        if (!this.empty.has(node)) this.empty.set(node, new Set<string>());
-        this.empty.get(node)?.add(field);
+        if (!this.empty.has(node)) this.empty.set(node, []);
+        this.empty.get(node)?.push(field);
     }
 
     entries() {
         return this.map.entries();
     }
 
-    get(node: Node): Set<HighlightType> | undefined {
+    get(node: Node): HighlightType[] | undefined {
         return this.map.get(node);
     }
 
-    getEmpty(node: Node): Set<string> | undefined {
+    getEmpty(node: Node): string[] | undefined {
         return this.empty.get(node);
     }
 }
@@ -141,9 +140,9 @@ export function getHighlights(
     // Is the caret selecting a non-placeholder node? Highlight it.
     if (caret.position instanceof Node) {
         const tokensSelected =
-            !blocks ||
-            !(caret.position instanceof Expression) ||
-            caret.position.getKind() === ExpressionKind.Simple;
+            !blocks &&
+            (!(caret.position instanceof Expression) ||
+                caret.position.getKind() === ExpressionKind.Simple);
         highlights.add(
             source,
             caret.position,
@@ -373,14 +372,14 @@ export function updateOutlines(
         if (nodeView) {
             // If this node has empty fields to highlight, add outlines for those too.
             const emptyFields = highlights.getEmpty(node);
-            if (emptyFields && emptyFields.size > 0) {
+            if (emptyFields && emptyFields.length > 0) {
                 for (const fieldName of emptyFields) {
                     const fieldView = nodeView.querySelector(
                         `[data-field="${fieldName}"]`,
                     );
                     if (fieldView) {
                         const emptyOutline = {
-                            types: Array.from(types),
+                            types: types,
                             outline: getOutlineOf(
                                 fieldView as HTMLElement,
                                 horizontal,
@@ -402,7 +401,7 @@ export function updateOutlines(
             // No empty highlight? Just highlight the node.
             else {
                 const outline = {
-                    types: Array.from(types),
+                    types: types,
                     outline: getOutlineOf(nodeView, horizontal, rtl, blocks),
                     underline: getUnderlineOf(
                         nodeView,

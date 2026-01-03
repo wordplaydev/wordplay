@@ -167,14 +167,14 @@
             class={[
                 'node-view',
                 node.getDescriptor(),
-                ...(highlight ? highlight.values() : []),
+                ...(highlight ? highlight : []),
                 {
                     block: format.block,
                     hide,
                     removed,
                     inline: style?.direction === 'inline',
                     Token: node instanceof Token,
-                    highlighted: highlight,
+                    highlighted: highlight !== undefined,
                     editable: format.editable,
                 },
                 style?.kind,
@@ -305,8 +305,8 @@
         .node-view.block.editable:not(.blockselected):not(
             :has(.node-view.block:hover)
         ):not(.Token):hover {
-        background: var(--wordplay-hover);
-        outline: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        /* background: var(--wordplay-hover); */
+        outline: var(--wordplay-focus-width) solid var(--wordplay-hover);
         box-shadow: var(--color-shadow) 4px 4px 4px;
         cursor: grab;
     }

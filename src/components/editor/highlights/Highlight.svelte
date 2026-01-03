@@ -138,6 +138,7 @@
         animation-duration: calc(var(--animation-factor) * 1s);
     }
 
+    /* Make the text legible inside animating nodes */
     :global(
         .node-view.evaluating .token-view,
         .node-view.animating .token-view,
