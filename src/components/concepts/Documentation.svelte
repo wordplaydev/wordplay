@@ -11,6 +11,7 @@
     import Mode from '@components/widgets/Mode.svelte';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
+    import ConceptIndex from '@concepts/ConceptIndex';
     import ConversionConcept from '@concepts/ConversionConcept';
     import FunctionConcept from '@concepts/FunctionConcept';
     import HowConcept from '@concepts/HowConcept';
@@ -128,6 +129,11 @@
             Locales.loadHowTos($locales.getLocaleString()).then((loaded) => {
                 howTos = loaded;
             });
+    });
+
+    $effect(() => {
+        if (howTos && indexContext)
+            indexContext.index = ConceptIndex.make(project, $locales, howTos);
     });
 
     // When the path changes, reset the query
