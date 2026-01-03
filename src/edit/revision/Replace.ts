@@ -149,8 +149,7 @@ export default class Replace<NodeType extends Node> extends Revision {
                 this.replacement.isEqualTo(revision.replacement)) ||
                 (this.replacement instanceof Refer &&
                     revision.replacement instanceof Refer &&
-                    this.replacement.definition ===
-                        revision.replacement.definition))
+                    this.replacement.equals(revision.replacement)))
         );
     }
 

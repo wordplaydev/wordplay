@@ -126,6 +126,13 @@ test.each([
         Replace,
         '🖱️()',
     ],
+    [
+        'suggest negation on number expressions',
+        '5',
+        (node) => node instanceof NumberLiteral,
+        Replace,
+        '-5',
+    ],
 ])(
     '%s: %s',
     (

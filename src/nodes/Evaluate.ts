@@ -178,23 +178,39 @@ export default class Evaluate extends Expression {
                                     context,
                                 )))),
             )
-            .map(
-                (def) =>
-                    new Refer(
-                        (name) =>
-                            def.getEvaluateTemplate(
-                                name,
-                                context,
-                                true,
-                                replace &&
-                                    structure &&
-                                    nodeBeingReplaced instanceof Expression
-                                    ? nodeBeingReplaced
-                                    : undefined,
-                            ),
-                        def,
-                    ),
-            );
+            .map((def) => {
+                const type =
+                    replace &&
+                    structure &&
+                    nodeBeingReplaced instanceof Expression
+                        ? nodeBeingReplaced
+                        : undefined;
+                const defaultTemplate = new Refer(
+                    (name) =>
+                        def.getEvaluateTemplate(name, context, true, type),
+                    def,
+                );
+                return def instanceof FunctionDefinition &&
+                    def.isOptionalUnary()
+                    ? [
+                          new Refer(
+                              (name) =>
+                                  def.getEvaluateTemplate(
+                                      name,
+                                      context,
+                                      true,
+                                      type,
+                                      true,
+                                  ),
+                              def,
+                              true,
+                              true,
+                          ),
+                          defaultTemplate,
+                      ]
+                    : [defaultTemplate];
+            })
+            .flat();
     }
 
     static getPossibleReplacements({ node, type, context }: ReplaceContext) {

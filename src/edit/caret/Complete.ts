@@ -205,12 +205,12 @@ function completeEvaluate({
                       ? fun.definition
                       : undefined;
         const evaluate = definition
-            ? (definition.getEvaluateTemplate(
+            ? definition.getEvaluateTemplate(
                   context.getBasis().locales,
                   context,
                   false,
                   precedingExpression,
-              ) ?? Evaluate.make(precedingExpression, []))
+              )
             : Evaluate.make(precedingExpression, []);
         // Make a new source
         const newSource = source.replace(precedingExpression, evaluate);

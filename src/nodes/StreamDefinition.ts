@@ -164,7 +164,7 @@ export default class StreamDefinition extends DefinitionExpression {
         nameOrLocales: string | Locales,
         context: Context,
         defaults: boolean,
-    ) {
+    ): Evaluate {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'

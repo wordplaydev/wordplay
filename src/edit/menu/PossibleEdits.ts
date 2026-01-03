@@ -775,39 +775,40 @@ function getPossibleNodes(
 
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.
-    return (
-        // Filter nodes by the kind provided.
-        PossibleNodes.filter(
-            (possibleKind) =>
-                possibleKind.prototype instanceof kind || kind === possibleKind,
+
+    const possible = PossibleNodes.filter(
+        (possibleKind) =>
+            possibleKind.prototype instanceof kind || kind === possibleKind,
+    )
+        // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
+        // from the context given.
+        .map((possibleKind) =>
+            'node' in action
+                ? possibleKind.getPossibleReplacements(action)
+                : possibleKind.getPossibleInsertions(action),
         )
-            // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
-            // from the context given.
-            .map((possibleKind) =>
-                'node' in action
-                    ? possibleKind.getPossibleReplacements(action)
-                    : possibleKind.getPossibleInsertions(action),
-            )
-            // Flatten the list of possible nodes.
-            .flat()
-            .filter(
-                (node) =>
-                    // Filter out nodes that don't match the given type, if provided.
-                    (action.type === undefined ||
-                        !(node instanceof Expression) ||
-                        action.type.accepts(
-                            node.getType(action.context),
-                            action.context,
-                        )) &&
-                    // Filter out nodes that are equivalent to the selection node, if there is one.
-                    (anchor === undefined ||
-                        (node instanceof Refer &&
-                            (!(anchor instanceof Reference) ||
-                                (anchor instanceof Reference &&
-                                    node.definition !==
-                                        anchor.resolve(action.context)))) ||
-                        (node instanceof Node &&
-                            !(anchor !== undefined && anchor.isEqualTo(node)))),
-            )
+        // Flatten the list of possible nodes.
+        .flat();
+
+    const filtered = possible.filter(
+        (node) =>
+            // Filter out nodes that don't match the given type, if provided.
+            (action.type === undefined ||
+                !(node instanceof Expression) ||
+                action.type.accepts(
+                    node.getType(action.context),
+                    action.context,
+                )) &&
+            // Filter out nodes that are equivalent to the selection node, if there is one.
+            (anchor === undefined ||
+                (node instanceof Refer &&
+                    (!(anchor instanceof Reference) ||
+                        (anchor instanceof Reference &&
+                            node.definition !==
+                                anchor.resolve(action.context)))) ||
+                (node instanceof Node &&
+                    !(anchor !== undefined && anchor.isEqualTo(node)))),
     );
+
+    return filtered;
 }

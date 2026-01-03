@@ -227,7 +227,7 @@ export default class StructureDefinition extends DefinitionExpression {
         nameOrLocales: Locales | string,
         context: Context,
         defaults: boolean,
-    ) {
+    ): Evaluate | ExpressionPlaceholder {
         // In case for some reason an input of this refers to this.
         if (context.visited(this)) return ExpressionPlaceholder.make();
         context.visit(this);

@@ -134,13 +134,21 @@ export default class FunctionDefinition extends DefinitionExpression {
         return 'FunctionDefinition';
     }
 
+    isOptionalUnary() {
+        return (
+            this.inputs.length === 1 && this.inputs.every((i) => i.hasDefault())
+        );
+    }
+
     /** Create an expression that evaluates this function with typed placeholders for its inputs. */
     getEvaluateTemplate(
         nameOrLocales: Locales | string,
         context: Context,
         defaults: boolean,
         structureType: Expression | Type | undefined,
-    ) {
+        // If it can be unary, returns a unary evaluate.
+        unary: boolean = false,
+    ): Evaluate | UnaryEvaluate | BinaryEvaluate {
         const name =
             typeof nameOrLocales === 'string'
                 ? nameOrLocales
@@ -167,15 +175,30 @@ export default class FunctionDefinition extends DefinitionExpression {
                       : ExpressionPlaceholder.make(structureType?.clone()),
               )
             : this.isOperator() && this.inputs.length === 1
-              ? new BinaryEvaluate(
-                    structureType instanceof Expression
-                        ? structureType
-                        : ExpressionPlaceholder.make(structureType),
-                    new Reference(
-                        new Token(this.getOperatorName() ?? '_', Sym.Operator),
-                    ),
-                    ExpressionPlaceholder.make(),
-                )
+              ? unary && this.isOptionalUnary()
+                  ? new UnaryEvaluate(
+                        new Reference(
+                            new Token(
+                                this.getOperatorName() ?? '_',
+                                Sym.Operator,
+                            ),
+                        ),
+                        structureType instanceof Expression
+                            ? structureType
+                            : ExpressionPlaceholder.make(structureType),
+                    )
+                  : new BinaryEvaluate(
+                        structureType instanceof Expression
+                            ? structureType
+                            : ExpressionPlaceholder.make(structureType),
+                        new Reference(
+                            new Token(
+                                this.getOperatorName() ?? '_',
+                                Sym.Operator,
+                            ),
+                        ),
+                        ExpressionPlaceholder.make(),
+                    )
               : Evaluate.make(
                     fun,
                     this.inputs

@@ -7,16 +7,21 @@ import TypeVariable from '@nodes/TypeVariable';
 export default class Refer {
     readonly creator: (name: string, operator?: string) => Node;
     readonly definition: Definition;
+    /** True if this should be rendered with an operator name */
     readonly operator: boolean;
+    /** True if this is a unary operator and should be distinguished from uses of the same function as a binary operator */
+    readonly unary: boolean;
 
     constructor(
         creator: (name: string) => Node,
         definition: Definition,
         operator: boolean = false,
+        unary: boolean = false,
     ) {
         this.creator = creator;
         this.definition = definition;
         this.operator = operator;
+        this.unary = unary;
     }
 
     getNode(locales: Locales) {
@@ -35,7 +40,9 @@ export default class Refer {
     }
 
     equals(refer: Refer) {
-        return refer.definition === this.definition;
+        return (
+            refer.definition === this.definition && this.unary === refer.unary
+        );
     }
 
     toString() {
