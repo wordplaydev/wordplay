@@ -44,6 +44,8 @@
         empty?: 'hide' | 'menu' | 'label';
         /** Whether to show a trigger to replace this node */
         replaceable?: boolean;
+        /** The index of the node in the list, if it's in one */
+        index?: number | undefined;
     }
 
     let {
@@ -51,6 +53,7 @@
         format,
         empty = 'menu',
         replaceable = false,
+        index = undefined,
     }: Props = $props();
 
     /** Get the value of the node, possibly undefined. */
@@ -139,9 +142,10 @@
     <!-- Render space if not hidden, and this is the token with the space -->
     {#if !hide && firstToken !== undefined && spaceRoot === node && root !== undefined}
         {@const tokenPrefersPrecedingSpace =
-            space.length === 0 && spaceRoot !== undefined
-                ? root.getFieldOfChild(spaceRoot)?.space === true
-                : false}
+            space.length === 0 &&
+            spaceRoot !== undefined &&
+            root.getFieldOfChild(spaceRoot)?.space === true &&
+            (index === undefined || index > 0)}
         <Space
             token={firstToken}
             first={false}

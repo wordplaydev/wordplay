@@ -158,7 +158,7 @@
                 {#if insertion?.index === index}
                     {@render insertFeedback()}
                 {/if}
-                <NodeView {node} {format} />
+                <NodeView {node} {format} {index} />
             {:else}
                 <EmptyView {node} {field} style={empty} {format} index={0} />
             {/each}
@@ -206,9 +206,10 @@
         {@render list()}
     {/if}
 {:else}
-    {@render before()}{#each visible as node}<NodeView
+    {@render before()}{#each visible as node, index}<NodeView
             {node}
             {format}
+            {index}
         />{/each}{@render after()}
 {/if}
 
