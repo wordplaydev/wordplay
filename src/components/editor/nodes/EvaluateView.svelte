@@ -33,6 +33,7 @@
         {format}
         field="inputs"
         empty={fun !== undefined && fun.inputs.length > 0 ? 'label' : 'hide'}
+        wrap
     />
     <NodeView node={[node, 'close']} {format} />
 {:else}

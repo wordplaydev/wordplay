@@ -34,6 +34,8 @@
         elide?: boolean;
         /** Whether to indent the list.*/
         indent?: boolean;
+        /** Whether to wrap the list*/
+        wrap?: boolean;
     }
 
     let {
@@ -46,6 +48,7 @@
         add = true,
         direction = 'inline',
         indent = false,
+        wrap = false,
     }: Props = $props();
 
     let caret = getCaret();
@@ -144,6 +147,7 @@
         <div
             class="node-list"
             class:indent
+            class:wrap
             class:editable={format.editable}
             class:empty={nodes.length === 0}
             data-field={field}
@@ -230,7 +234,7 @@
         padding-block-end: var(--wordplay-spacing-half);
     }
 
-    [data-direction='inline'].node-list {
+    [data-direction='inline'].node-list.wrap {
         flex-wrap: wrap;
         row-gap: var(--wordplay-spacing-half);
     }
