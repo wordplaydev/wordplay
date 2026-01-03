@@ -11,6 +11,7 @@
     import Project from '@db/projects/Project';
     import Caret, {
         type CaretPosition,
+        NegligibleConflicts,
         isCaretPosition,
     } from '@edit/caret/Caret';
     import {
@@ -679,6 +680,7 @@
             const newConflicts = project.getNewConflictsBatch(
                 source,
                 Array.from(revisionToSource.values()),
+                NegligibleConflicts,
             );
             // Filter the revisions by those that don't create conflicts.
             revisions = revisions.filter((revision) => {

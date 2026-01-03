@@ -1,6 +1,5 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
-import { UnknownName } from '@conflicts/UnknownName';
 import type { CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
@@ -528,6 +527,8 @@ export default class Project {
     getNewConflictsBatch(
         oldSource: Source,
         newSources: Source[],
+        // Any conflict types to ignore
+        negligibleConflicts: (new () => Conflict)[],
     ): Map<Source, Conflict[]> {
         // Get the current conflicts.
         const currentConflicts = this.getMajorConflictsNow();
@@ -536,7 +537,12 @@ export default class Project {
         for (const newSource of newSources) {
             let newConflicts = this.withSource(oldSource, newSource)
                 .getMajorConflictsNow()
-                .filter((conflict) => !(conflict instanceof UnknownName));
+                .filter(
+                    (conflict) =>
+                        !negligibleConflicts.some(
+                            (neglibile) => conflict instanceof neglibile,
+                        ),
+                );
 
             // Remove all current conflicts that are in the new conflicts.
             newConflictsBySource.set(
@@ -552,8 +558,16 @@ export default class Project {
         return newConflictsBySource;
     }
 
-    getNewConflicts(oldSource: Source, newSource: Source): Conflict[] {
-        const newConflicts = this.getNewConflictsBatch(oldSource, [newSource]);
+    getNewConflicts(
+        oldSource: Source,
+        newSource: Source,
+        negligibleConflicts: (new () => Conflict)[],
+    ): Conflict[] {
+        const newConflicts = this.getNewConflictsBatch(
+            oldSource,
+            [newSource],
+            negligibleConflicts,
+        );
         return Array.from(newConflicts.values())[0];
     }
 

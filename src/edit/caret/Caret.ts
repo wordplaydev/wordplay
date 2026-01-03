@@ -1,3 +1,8 @@
+import IncompatibleCellType from '@conflicts/IncompatibleCellType';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import IncompatibleType from '@conflicts/IncompatibleType';
+import { UnknownName } from '@conflicts/UnknownName';
+import { UnknownTypeName } from '@conflicts/UnknownTypeName';
 import type { LocaleTextAccessor } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
@@ -48,6 +53,18 @@ import Type from '../../nodes/Type';
 import TypeVariable from '../../nodes/TypeVariable';
 import UnicodeString from '../../unicode/UnicodeString';
 import { completeInsertion } from './Complete';
+
+/**
+ * Conflicts that are permitted on insertion. We permit these to allow for some
+ * flexibility in typing names and for thinking through types.
+ */
+export const NegligibleConflicts: (new (...args: any[]) => Conflict)[] = [
+    UnknownName,
+    UnknownTypeName,
+    IncompatibleCellType,
+    IncompatibleType,
+    IncompatibleInput,
+];
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 
@@ -1212,7 +1229,13 @@ export default class Caret {
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
-                if (project.getNewConflicts(this.source, newSource).length > 0)
+                if (
+                    project.getNewConflicts(
+                        this.source,
+                        newSource,
+                        NegligibleConflicts,
+                    ).length > 0
+                )
                     return (l) => l.ui.source.cursor.ignored.noError;
             }
 
@@ -1238,7 +1261,13 @@ export default class Caret {
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
-                if (project.getNewConflicts(this.source, newSource).length > 0)
+                if (
+                    project.getNewConflicts(
+                        this.source,
+                        newSource,
+                        NegligibleConflicts,
+                    ).length > 0
+                )
                     return (l) => l.ui.source.cursor.ignored.noError;
             }
 
@@ -1828,7 +1857,8 @@ export default class Caret {
         // If only valid, ensure the edit is valid.
         if (
             validOnly &&
-            project.getNewConflicts(this.source, newSource).length > 0
+            project.getNewConflicts(this.source, newSource, NegligibleConflicts)
+                .length > 0
         )
             return parent
                 ? [this.source, this.withPosition(parent)]
