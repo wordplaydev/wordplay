@@ -10,7 +10,7 @@ import Token from '@nodes/Token';
 import parseExpression from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import { expect, test } from 'vitest';
-import { dropNodeOnSource, InsertionPoint } from './Drag';
+import { dropNodeOnSource, InsertionPoint, isValidDropTarget } from './Drag';
 
 test.each([
     // Replace placeholder with rootless expression
@@ -143,13 +143,31 @@ test.each([
             sources.slice(1),
             DefaultLocale,
         );
+
+        const draggedNode: Node = dragged(sources);
+        const targetNode: Node | InsertionPoint = target(sources);
+
+        // Assert that the drop target is valid.
+        expect(
+            isValidDropTarget(
+                project,
+                draggedNode,
+                targetNode instanceof InsertionPoint
+                    ? targetNode.node
+                    : targetNode,
+                targetNode instanceof InsertionPoint ? targetNode : undefined,
+                true,
+            ),
+        ).toBe(true);
+
         const [newProject] = dropNodeOnSource(
             project,
             sources[0],
-            dragged(sources),
-            target(sources),
+            draggedNode,
+            targetNode,
         ) ?? [undefined, undefined];
 
+        // Assert that the new project matches expectations.
         expect(newProject).toBeDefined();
         expect(newProject?.getMain().toWordplay()).toBe(mainExpected);
         if (supplementExpected)
