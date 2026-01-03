@@ -81,7 +81,10 @@ type Trigger = {
 
 /** A list of autocompletions by symbol triggers, and the order in which to consider them. */
 const AutocompleteTriggers: Trigger[] = [
-    { symbol: EVAL_OPEN_SYMBOL, revise: completeEvaluate },
+    {
+        symbol: EVAL_OPEN_SYMBOL,
+        revise: completeEvaluate,
+    },
     { symbol: CONVERT_SYMBOL, revise: completeConvert },
     { symbol: Object.keys(DelimiterCloseByOpen), revise: completeDelimiter },
     { symbol: '.', revise: completeStream },
@@ -138,6 +141,7 @@ export function completeInsertion(
 function getPrecedingExpression(
     source: Source,
     position: number,
+    exact: boolean,
 ): Expression[] {
     return source
         .nodes()
@@ -148,7 +152,7 @@ function getPrecedingExpression(
                 !(node instanceof Source) &&
                 !(node instanceof Block && node.isRoot()) &&
                 !(node instanceof Bind) &&
-                source.getNodeLastPosition(node) === position,
+                (!exact || source.getNodeLastPosition(node) === position),
         );
 }
 
@@ -172,6 +176,7 @@ function completeEvaluate({
     const precedingExpressions = getPrecedingExpression(
         source,
         position,
+        true,
     ).filter(
         (node) =>
             node instanceof Reference ||
@@ -238,7 +243,11 @@ function completeConvert({
     position,
 }: InsertInfo): Revision | undefined {
     // What's the preceding expression?
-    const precedingExpression = getPrecedingExpression(source, position)[0];
+    const precedingExpression = getPrecedingExpression(
+        source,
+        position,
+        false,
+    )[0];
     if (precedingExpression === undefined) return undefined;
 
     // Replace the preceding expression with a conversion of it.
@@ -282,7 +291,7 @@ function completeDelimiter({
         let newPosition: Node | number = position;
         let newSource = source;
 
-        const preceding = getPrecedingExpression(source, position).map(
+        const preceding = getPrecedingExpression(source, position, false).map(
             (node) => ({
                 expression: node,
                 type: node.getType(project.getNodeContext(node)),
@@ -362,7 +371,11 @@ function completeBinaryEvaluate({
     project,
 }: InsertInfo): Revision | undefined {
     // Find the top most expression that ends where the caret is.
-    const precedingExpression = getPrecedingExpression(source, position).filter(
+    const precedingExpression = getPrecedingExpression(
+        source,
+        position,
+        false,
+    ).filter(
         (node): node is Expression =>
             node instanceof Expression &&
             !(node instanceof Program) &&
@@ -404,7 +417,11 @@ function completeBinaryEvaluate({
 /** Complete an is type check on the preceding expression */
 function completeIs({ source, position }: InsertInfo): Revision | undefined {
     // Find the top most expression that ends where the caret is.
-    const precedingExpression = getPrecedingExpression(source, position)[0];
+    const precedingExpression = getPrecedingExpression(
+        source,
+        position,
+        true,
+    )[0];
     if (precedingExpression === undefined) return undefined;
     // Expression placeholders use •Type to type themselves.
     const isExpressionPlaceholder =
@@ -427,7 +444,7 @@ function completeBindOrKeyValue({
     source,
     position,
 }: InsertInfo): Revision | undefined {
-    const preceding = getPrecedingExpression(source, position).filter(
+    const preceding = getPrecedingExpression(source, position, true).filter(
         (node) => node instanceof Reference || node instanceof Is,
     )[0];
     if (preceding === undefined) return undefined;
