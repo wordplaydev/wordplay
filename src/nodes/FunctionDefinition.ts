@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import NoExpression from '@conflicts/NoExpression';
-import type { ReplaceContext } from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
@@ -113,17 +113,18 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleReplacements({ type, context }: ReplaceContext) {
-        return type instanceof FunctionType
+    static getPossibleReplacements({ node, type, context }: ReplaceContext) {
+        return node instanceof ExpressionPlaceholder &&
+            type instanceof FunctionType
             ? [type.getDefaultExpression(context)]
             : [];
     }
 
-    static getPossibleInsertions() {
+    static getPossibleInsertions({ locales }: InsertContext) {
         return [
             FunctionDefinition.make(
                 undefined,
-                Names.make(['_']),
+                Names.make([locales.get((l) => l.term.name)]),
                 undefined,
                 [],
                 ExpressionPlaceholder.make(),
