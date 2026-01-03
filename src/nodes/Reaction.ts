@@ -168,7 +168,8 @@ export default class Reaction extends Expression {
             !Array.from(this.condition.getAllDependencies(context)).some(
                 (node) =>
                     context.getStreamType(node.getType(context)) !== undefined,
-            )
+            ) &&
+            context.getStreamType(this.condition.getType(context)) === undefined
         )
             conflicts.push(new ExpectedStream(this));
 
