@@ -146,8 +146,12 @@
     }
 
     .node.elide {
-        max-height: 5em;
+        max-height: 10ex;
         overflow: hidden;
+    }
+
+    .node.elide.blocks {
+        max-height: 20ex;
     }
 
     .code {
@@ -159,7 +163,13 @@
 
     .node:focus,
     .node.draggable:hover {
-        background: var(--wordplay-hover);
+        outline: var(--wordplay-focus-width) solid var(--wordplay-hover);
+        box-shadow: var(--color-shadow) 4px 4px 4px;
+    }
+
+    .node:focus {
+        outline-color: var(--wordplay-focus-color);
+        box-shadow: var(--color-shadow) 4px 4px 4px;
     }
 
     .node:not(:global(.outline)) {

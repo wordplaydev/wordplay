@@ -305,7 +305,6 @@
         .node-view.block.editable:not(.blockselected):not(
             :has(.node-view.block:hover)
         ):not(.Token):hover {
-        /* background: var(--wordplay-hover); */
         outline: var(--wordplay-focus-width) solid var(--wordplay-hover);
         box-shadow: var(--color-shadow) 4px 4px 4px;
         cursor: grab;

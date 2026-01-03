@@ -416,7 +416,6 @@
                                             node={how.getRepresentation()}
                                             concept={how}
                                             elide
-                                            flip
                                         />
                                     {/each}
                                 </div>
