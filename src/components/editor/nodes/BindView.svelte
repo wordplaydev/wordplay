@@ -15,7 +15,7 @@
     {#if !node.docs.isEmpty()}
         <NodeView node={[node, 'docs']} {format} empty="menu" />
     {/if}
-    <Flow direction="row">
+    <Flow direction="row" wrap>
         {#if node.docs.isEmpty()}
             <NodeView node={[node, 'docs']} {format} empty="menu" />
         {/if}

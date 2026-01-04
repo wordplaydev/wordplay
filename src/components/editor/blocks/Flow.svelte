@@ -5,12 +5,13 @@
         children: Snippet;
         direction: 'row' | 'column';
         indent?: boolean;
+        wrap?: boolean;
     }
 
-    let { children, direction, indent = false }: Props = $props();
+    let { children, direction, indent = false, wrap = false }: Props = $props();
 </script>
 
-<div class={[indent, direction]}>
+<div class={['row', direction, { indent, wrap }]}>
     {@render children()}
 </div>
 
@@ -19,6 +20,11 @@
         display: flex;
         flex-direction: row;
         align-items: baseline;
+    }
+
+    .row.wrap {
+        flex-wrap: wrap;
+        row-gap: var(--wordplay-spacing-half);
     }
 
     .row.indent {
