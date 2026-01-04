@@ -13,13 +13,9 @@
 </script>
 
 {#if format.block}
+    <NodeSequenceView {node} field="borrows" {format} empty="hide" />
     <Flow direction="row">
-        <NodeSequenceView
-            {node}
-            field="borrows"
-            {format}
-            empty="hide"
-        /><NodeView node={[node, 'expression']} {format} /><NodeView
+        <NodeView node={[node, 'expression']} {format} /><NodeView
             node={[node, 'end']}
             {format}
             empty="hide"
