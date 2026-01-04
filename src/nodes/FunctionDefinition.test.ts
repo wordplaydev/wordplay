@@ -24,7 +24,7 @@ test.each([
     },
 );
 
-test('Test text functions', () => {
+test('Test evaluation limit', () => {
     expect(evaluateCode('ƒ a() a() a()')).toBeInstanceOf(
         EvaluationLimitException,
     );
