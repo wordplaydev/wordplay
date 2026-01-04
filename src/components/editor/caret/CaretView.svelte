@@ -642,8 +642,6 @@
             if (spaceBefore.indexOfCharacter('\n') < 0) {
                 if (horizontal) {
                     const blocksSpace = blocks && spaceBefore.getLength() > 0;
-                    console.log(beforeSpaceTop);
-                    console.log(viewportYOffset);
                     // For horizontal layout, place the caret to the right of the prior token, {spaces} after.
                     return {
                         left: blocksSpace
