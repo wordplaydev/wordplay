@@ -500,6 +500,21 @@ export default class Source extends Expression {
         return position;
     }
 
+    /** Get the last position of the end of the given line */
+    getEndOfLine(line: number): number | undefined {
+        let currentLine = 0;
+        for (let index = 0; index < this.code.getLength(); index++) {
+            const char = this.code.at(index);
+            if (char === '\n') {
+                if (currentLine === line) return index;
+                currentLine++;
+            }
+        }
+        // If we reached the end of the code, and we're on the target line, return the end of the code.
+        if (currentLine === line) return this.code.getLength();
+        return undefined;
+    }
+
     /** Given a node in this source, return the line the node is on */
     getLine(position: number | Node): number | undefined {
         if (position instanceof Node) {

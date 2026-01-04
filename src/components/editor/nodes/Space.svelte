@@ -124,8 +124,10 @@
                                         beforeSpacesByLine.length +
                                         index}</div
                                 >{/if}</span
-                        >{/if}<span class="space-text" data-uiid="space-text"
-                        >{s}</span
+                        >{/if}<span
+                        class="space-text"
+                        data-uiid="space-text"
+                        data-line={beforeSpacesByLine.length + index}>{s}</span
                     >{/each}</span
             >
         {/if}</span

@@ -468,6 +468,7 @@
                         getNodeView,
                         getTokenViews,
                         $locales.getDirection(),
+                        $blocks,
                     )
                   : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
                     (event.shiftKey || $blocks) &&
@@ -487,6 +488,7 @@
                             getNodeView,
                             getTokenViews,
                             $locales.getDirection(),
+                            $blocks,
                         );
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
@@ -550,6 +552,7 @@
                 getNodeView,
                 getTokenViews,
                 $locales.getDirection(),
+                $blocks,
             );
             // Update the selection range based on the caret position.
             if (position !== undefined && !$blocks) {
@@ -612,6 +615,7 @@
                     getNodeView,
                     getTokenViews,
                     $locales.getDirection(),
+                    $blocks,
                 ).filter((insertion) => {
                     const kind = insertion.node.getFieldKind(insertion.field);
                     return (
