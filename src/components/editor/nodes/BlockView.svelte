@@ -23,7 +23,7 @@
         field="statements"
         {format}
         empty="label"
-        direction={node.isRoot() || node.statements.length > 1
+        direction={node.isRoot() && node.statements.length > 1
             ? 'block'
             : 'inline'}
     /><NodeView node={[node, 'close']} {format} empty="hide" />
