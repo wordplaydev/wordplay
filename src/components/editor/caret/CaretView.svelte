@@ -407,7 +407,6 @@
 
         // Restore the original HTML
         spaceElement.innerHTML = originalHTML;
-        console.log(beforeSpaceBounds);
 
         // Return the computed space.
         return {
