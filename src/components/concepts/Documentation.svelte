@@ -48,7 +48,7 @@
         TRUE_SYMBOL,
         TYPE_SYMBOL,
     } from '@parser/Symbols';
-    import { onDestroy, tick } from 'svelte';
+    import { onDestroy, tick, untrack } from 'svelte';
     import { Locales, Projects, blocks, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import ConceptLink from '../../nodes/ConceptLink';
@@ -132,8 +132,11 @@
     });
 
     $effect(() => {
-        if (howTos && indexContext)
-            indexContext.index = ConceptIndex.make(project, $locales, howTos);
+        if (howTos && indexContext) {
+            indexContext.index = untrack(() =>
+                ConceptIndex.make(project, $locales, howTos),
+            );
+        }
     });
 
     // When the path changes, reset the query
