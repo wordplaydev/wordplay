@@ -17,7 +17,7 @@
     /><NodeView node={[node, 'dash']} {format} empty="hide" /><NodeView
         node={[node, 'region']}
         {format}
-        empty="menu"
+        empty="hide"
     /></em
 >
 
