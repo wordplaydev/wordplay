@@ -97,6 +97,12 @@
         fill: none;
     }
 
+    /* Definitions and uses get hover feedback without border */
+    .related:not(:global(.selected)).outline path {
+        stroke: none;
+        fill: var(--wordplay-hover);
+    }
+
     .outline.selected path {
         stroke: var(--wordplay-highlight-color);
         stroke-width: var(--wordplay-focus-width);

@@ -1437,7 +1437,7 @@
         <Highlight
             outline={rangeHighlight}
             underline={rangeHighlight}
-            types={['hovered']}
+            types={['selected']}
             above={false}
         />
     {/if}

@@ -8,7 +8,6 @@ import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import DefinitionExpression from '@nodes/DefinitionExpression';
 import type Evaluate from '@nodes/Evaluate';
-import Expression, { ExpressionKind } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Literal from '@nodes/Literal';
@@ -67,6 +66,8 @@ export const HighlightTypes = {
     delimiter: false,
     // Highlight of an empty list to be dragged upon
     empty: true,
+    // Highlight definitions and uses
+    related: false,
 };
 
 export class Highlights {
@@ -150,16 +151,19 @@ export function getHighlights(
 
     // Is the caret selecting a non-placeholder node? Highlight it.
     if (caret.position instanceof Node) {
-        const tokensSelected =
-            !blocks &&
-            (!(caret.position instanceof Expression) ||
-                caret.position.getKind() === ExpressionKind.Simple);
         highlights.add(
             source,
             caret.position,
             !blocks ? 'selected' : 'blockselected',
         );
-        if (tokensSelected) highlights.add(source, caret.position, 'hovered');
+    }
+
+    // Does the selected node have a matching delimiter?
+    if (caret.position instanceof Token) {
+        const match = source.getMatchedDelimiter(caret.position);
+        if (match) {
+            highlights.add(source, match, 'delimiter');
+        }
     }
 
     // Is a node being dragged?
@@ -235,15 +239,7 @@ export function getHighlights(
         }
     }
     // Otherwise, is a node hovered over? Highlight it.
-    else if (
-        selecting &&
-        !blocks &&
-        hovered instanceof Node &&
-        !(
-            hovered instanceof Expression &&
-            hovered.getKind() !== ExpressionKind.Simple
-        )
-    ) {
+    else if (selecting && !blocks && hovered instanceof Node) {
         highlights.add(source, hovered, 'hovered');
     }
 
@@ -278,14 +274,6 @@ export function getHighlights(
     if (selectedOutput) {
         for (const node of selectedOutput)
             highlights.add(source, node, 'output');
-    }
-
-    // Does the selected node have a matching delimiter?
-    if (caret.position instanceof Token) {
-        const match = source.getMatchedDelimiter(caret.position);
-        if (match) {
-            highlights.add(source, match, 'delimiter');
-        }
     }
 
     // Get the caret's parent (if it's inside a token) and give it a hover highlight
@@ -348,11 +336,11 @@ export function getHighlights(
                         definition instanceof Bind
                         ? definition.names
                         : definition,
-                    'hovered',
+                    'related',
                 );
         } else {
             if ('names' in definition)
-                highlights.add(source, definition.names, 'hovered');
+                highlights.add(source, definition.names, 'related');
             for (const ref of source
                 .nodes()
                 .filter(
@@ -360,7 +348,7 @@ export function getHighlights(
                         (def instanceof Reference || def instanceof NameType) &&
                         def.resolve(context) === definition,
                 ))
-                highlights.add(source, ref, 'hovered');
+                highlights.add(source, ref, 'related');
         }
     }
 
