@@ -143,17 +143,19 @@ function getPrecedingExpression(
     position: number,
     exact: boolean,
 ): Expression[] {
-    return source
-        .nodes()
-        .filter(
-            (node): node is Expression =>
-                node instanceof Expression &&
+    return source.nodes().filter((node): node is Expression => {
+        const start = source.getNodeLastPosition(node);
+        if (start === undefined) return false;
+        return (
+            (node instanceof Expression &&
                 !(node instanceof Program) &&
                 !(node instanceof Source) &&
                 !(node instanceof Block && node.isRoot()) &&
                 !(node instanceof Bind) &&
-                (!exact || source.getNodeLastPosition(node) === position),
+                start === position) ||
+            (!exact && start + 1 === position)
         );
+    });
 }
 
 function getPrecedingMarkup(source: Source, position: number): Words[] {
@@ -400,7 +402,8 @@ function completeBinaryEvaluate({
             ) !== undefined
     ) {
         const binary = new BinaryEvaluate(
-            precedingExpression instanceof Literal
+            precedingExpression instanceof Literal ||
+                precedingExpression instanceof Reference
                 ? precedingExpression
                 : Block.make([precedingExpression]),
             new Reference(tokens(text)[0]),
