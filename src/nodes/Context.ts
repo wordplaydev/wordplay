@@ -8,6 +8,7 @@ import type Reference from './Reference';
 import type Source from './Source';
 import type StreamType from './StreamType';
 import type Type from './Type';
+import UnknownType from './UnknownType';
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {
@@ -66,6 +67,7 @@ export default class Context {
     getType(node: Expression) {
         let cache = this.types.get(node);
         if (cache === undefined) {
+            // If we visited the node already in this call to getType(), the type depends on itself.
             if (this.visited(node)) {
                 cache = new CycleType(
                     node,
@@ -73,9 +75,19 @@ export default class Context {
                 );
             } else {
                 this.visit(node);
+                // Compute the type.
                 cache = node.computeType(this);
                 this.unvisit();
             }
+            // Cache the type in this context for later, unless it contains a cycle,
+            // in which case the type will be lazily computed elsewhere.
+            if (
+                !cache
+                    .getTypeSet(this)
+                    .list()
+                    .some((t) => t instanceof UnknownType)
+            )
+                this.types.set(node, cache);
         }
         return cache;
     }

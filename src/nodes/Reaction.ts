@@ -177,18 +177,21 @@ export default class Reaction extends Expression {
     }
 
     computeType(context: Context): Type {
+        // Get the union of all of the types in the initial and next expressions.
         const type = UnionType.getPossibleUnion(context, [
             this.initial.getType(context),
             this.next.getType(context),
         ]).generalize(context);
 
-        // If the type includes an unknown type because of a cycle or some other unknown type, remove the unknown, since the rest of the type defines the possible values.
-        const types = type.getTypeSet(context).list();
-        const cycle = types.findIndex((type) => type instanceof UnknownType);
-        if (cycle >= 0) {
-            types.splice(cycle, 1);
-            return UnionType.getPossibleUnion(context, types);
-        } else return type;
+        // If the type includes an unknown type because of a cycle or some other unknown type,
+        // remove them, since the rest of the type defines the possible values.
+        return UnionType.getPossibleUnion(
+            context,
+            type
+                .getTypeSet(context)
+                .list()
+                .filter((t) => !(t instanceof UnknownType)),
+        );
     }
 
     getDependencies(): Expression[] {
