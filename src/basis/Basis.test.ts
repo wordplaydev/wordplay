@@ -1,7 +1,6 @@
 import Templates from '@concepts/Templates';
 import UnusedBind from '@conflicts/UnusedBind';
 import DefaultLocales from '@locale/DefaultLocales';
-import Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import UnparsableExpression from '@nodes/UnparsableExpression';
@@ -16,7 +15,7 @@ const basis = Basis.getLocalizedBasis(DefaultLocales);
 
 const source = new Source('basis', '');
 const project = Project.make(null, 'test', source, [], DefaultLocale);
-const context = new Context(project, source);
+const context = project.getContext(source);
 
 function checkBasisNodes(node: Node) {
     // Check for syntax errors

@@ -574,7 +574,7 @@ export default class Project {
     getMajorConflictsNow() {
         let conflicts: Conflict[] = [];
         for (const source of this.getSources()) {
-            const context = new Context(this, source);
+            const context = this.getContext(source);
             for (const node of source.nodes()) {
                 conflicts = [...conflicts, ...node.computeConflicts(context)];
             }
@@ -584,7 +584,7 @@ export default class Project {
 
     hasMajorConflictsNow() {
         for (const source of this.getSources()) {
-            const context = new Context(this, source);
+            const context = this.getContext(source);
             for (const node of source.nodes()) {
                 if (
                     node
