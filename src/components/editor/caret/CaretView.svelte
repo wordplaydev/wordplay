@@ -335,6 +335,7 @@
         caretIndex: number,
     ): {
         beforeSpaceLeft: number;
+        beforeSpaceTop: number;
         beforeSpaceWidth: number;
         beforeSpaceHeight: number;
     } {
@@ -346,6 +347,7 @@
         if (!(spaceElement instanceof HTMLElement))
             return {
                 beforeSpaceLeft: 0,
+                beforeSpaceTop: 0,
                 beforeSpaceWidth: 0,
                 beforeSpaceHeight: 0,
             };
@@ -387,6 +389,7 @@
         if (containingLine === undefined)
             return {
                 beforeSpaceLeft: 0,
+                beforeSpaceTop: 0,
                 beforeSpaceWidth: 0,
                 beforeSpaceHeight: 0,
             };
@@ -404,10 +407,12 @@
 
         // Restore the original HTML
         spaceElement.innerHTML = originalHTML;
+        console.log(beforeSpaceBounds);
 
         // Return the computed space.
         return {
             beforeSpaceLeft: beforeSpaceBounds.left,
+            beforeSpaceTop: beforeSpaceBounds.top,
             beforeSpaceWidth,
             beforeSpaceHeight,
         };
@@ -572,8 +577,12 @@
             const spaceBefore = explicitSpace.substring(0, spaceIndex);
             const spaceAfter = explicitSpace.substring(spaceIndex);
 
-            const { beforeSpaceWidth, beforeSpaceHeight, beforeSpaceLeft } =
-                computeSpaceDimensions(viewport, token, spaceIndex);
+            const {
+                beforeSpaceWidth,
+                beforeSpaceHeight,
+                beforeSpaceLeft,
+                beforeSpaceTop,
+            } = computeSpaceDimensions(viewport, token, spaceIndex);
 
             // Find the line number inline end.
             const lineWidth =
@@ -632,14 +641,20 @@
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOfCharacter('\n') < 0) {
                 if (horizontal) {
+                    const blocksSpace = blocks && spaceBefore.getLength() > 0;
+                    console.log(beforeSpaceTop);
+                    console.log(viewportYOffset);
                     // For horizontal layout, place the caret to the right of the prior token, {spaces} after.
                     return {
-                        left:
-                            blocks && spaceBefore.getLength() > 0
-                                ? beforeSpaceLeft + beforeSpaceWidth
-                                : priorTokenHorizontalEnd +
-                                  (leftToRight ? 1 : -1) * beforeSpaceWidth,
-                        top: priorTokenTop,
+                        left: blocksSpace
+                            ? beforeSpaceLeft -
+                              viewportRect.left +
+                              beforeSpaceWidth
+                            : priorTokenHorizontalEnd +
+                              (leftToRight ? 1 : -1) * beforeSpaceWidth,
+                        top: blocksSpace
+                            ? beforeSpaceTop - viewportRect.top
+                            : priorTokenTop,
                         height: caretHeight,
                         bottom: priorTokenTop + caretHeight,
                     };
