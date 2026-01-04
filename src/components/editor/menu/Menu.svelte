@@ -218,6 +218,7 @@
                 </div>
                 <div
                     class="submenu"
+                    class:right={menuLeft + menuWidth * 2 > window.innerWidth}
                     role="menu"
                     tabindex="-1"
                     aria-label={$locales.getLocale().ui.docs.purposes[
@@ -304,6 +305,11 @@
         max-height: 20em;
         padding: var(--wordplay-spacing);
         overflow-y: auto;
+    }
+
+    .submenu.right {
+        left: auto;
+        right: 100%;
     }
 
     .show + .submenu {
