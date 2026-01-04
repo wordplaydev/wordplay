@@ -1,4 +1,5 @@
-import type EditContext from '@edit/EditContext';
+import Purpose from '@concepts/Purpose';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -8,6 +9,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import BooleanType from './BooleanType';
+import Conditional from './Conditional';
 import type Context from './Context';
 import Literal from './Literal';
 import { node, type Grammar, type Replacement } from './Node';
@@ -33,19 +35,32 @@ export default class BooleanLiteral extends Literal {
         );
     }
 
-    static getPossibleReplacements({ type }: EditContext) {
-        // Any type or a boolean? Offer the literals
-        return type === undefined || type instanceof BooleanType
-            ? [BooleanLiteral.make(true), BooleanLiteral.make(false)]
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        // If the node is true, offer false, and vice versa.
+        return node instanceof BooleanLiteral
+            ? [
+                  node.bool()
+                      ? BooleanLiteral.make(false)
+                      : BooleanLiteral.make(true),
+                  Conditional.make(
+                      node,
+                      BooleanLiteral.make(true),
+                      BooleanLiteral.make(false),
+                  ),
+              ]
             : [];
     }
 
-    static getPossibleAppends() {
-        return BooleanLiteral.make(true);
+    static getPossibleInsertions() {
+        return [BooleanLiteral.make(true), BooleanLiteral.make(false)];
     }
 
     getDescriptor(): NodeDescriptor {
         return 'BooleanLiteral';
+    }
+
+    getPurpose() {
+        return Purpose.Truth;
     }
 
     getGrammar(): Grammar {
@@ -54,6 +69,7 @@ export default class BooleanLiteral extends Literal {
                 name: 'value',
                 kind: node(Sym.Boolean),
                 getType: () => BooleanType.make(),
+                label: undefined,
             },
         ];
     }

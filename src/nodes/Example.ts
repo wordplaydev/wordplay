@@ -1,11 +1,11 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from './Node';
 import Program from './Program';
 import Sym from './Sym';
@@ -32,12 +32,12 @@ export default class Example extends Content {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Content ? [Example.make(Program.make())] : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends() {
-        return [Example.make(Program.make())];
+    static getPossibleInsertions() {
+        return [Example.make(Program.make([ExpressionPlaceholder.make()]))];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -46,9 +46,9 @@ export default class Example extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.Code) },
-            { name: 'program', kind: node(Program) },
-            { name: 'close', kind: node(Sym.Code) },
+            { name: 'open', kind: node(Sym.Code), label: undefined },
+            { name: 'program', kind: node(Program), label: undefined },
+            { name: 'close', kind: node(Sym.Code), label: undefined },
         ];
     }
 
@@ -65,7 +65,7 @@ export default class Example extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Example;

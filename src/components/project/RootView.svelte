@@ -1,18 +1,18 @@
 <script lang="ts">
-    import NodeView from '@components/editor/NodeView.svelte';
-    import type Caret from '@edit/Caret';
+    import NodeView from '@components/editor/nodes/NodeView.svelte';
+    import type Caret from '@edit/caret/Caret';
     import type Locale from '@locale/Locale';
     import Docs from '@nodes/Docs';
     import type { LanguageTagged } from '@nodes/LanguageTagged';
     import Name from '@nodes/Name';
     import Names from '@nodes/Names';
     import type Node from '@nodes/Node';
-    import Program from '@nodes/Program';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import Spaces from '@parser/Spaces';
     import { EMOJI_SYMBOL } from '@parser/Symbols';
+    import { SvelteSet } from 'svelte/reactivity';
     import { writable } from 'svelte/store';
     import FormattedLiteral from '../../nodes/FormattedLiteral';
     import TextLiteral from '../../nodes/TextLiteral';
@@ -40,9 +40,14 @@
         elide?: boolean;
         /** If true, hides names and docs not in a selected locale */
         locale?: Locale | null | 'symbolic';
+        /** The current caret, if there is one. */
         caret?: Caret | undefined;
+        /** Whether this view is editable. Affects appearance. */
+        editable?: boolean;
         /** Whether to show line numbers */
         lines?: boolean;
+        /** Whether any particular nodes should be rendered as removed */
+        removed?: Node[];
     }
 
     let {
@@ -54,18 +59,28 @@
         elide = false,
         locale = null,
         caret = undefined,
+        editable = false,
         lines = false,
+        removed = [],
     }: Props = $props();
 
     /** Get the root, or make one if it's not a source. */
     let root = $derived(node instanceof Source ? node.root : new Root(node));
 
     // Expose the root in a store context for quick access to it.
-    let rootContext = $state<{ root: Root | undefined }>({ root: undefined });
+    let rootContext = $state<{
+        root: Root | undefined;
+        removed: SvelteSet<Node>;
+    }>({
+        root: undefined,
+        removed: new SvelteSet<Node>(),
+    });
     setRoot(rootContext);
 
     $effect(() => {
         rootContext.root = root;
+        rootContext.removed.clear();
+        for (const node of removed) rootContext.removed.add(node);
     });
 
     // When the spaces change, update the rendered spaces
@@ -197,10 +212,6 @@
                     if (visible.length === 1 && visible[0].language)
                         newHidden.add(visible[0].language);
                 }
-
-                // If this is a doc and we're not in a program, hide it unconditionally.
-                if (tagged instanceof Docs && !(root.root instanceof Program))
-                    newHidden.add(tagged);
             }
         }
 
@@ -229,14 +240,16 @@
         class="root"
         style="--line-count: {lineDigits}"
         class:inert
-        class:elide><NodeView {node} /></span
+        class:elide
+        ><NodeView {node} format={{ block: $isBlocks, root, editable }} /></span
     >
 {:else}
     <code
         class="root"
         style="--line-count: {lineDigits}"
         class:inert
-        class:elide><NodeView {node} direction="column" /></code
+        class:elide
+        ><NodeView {node} format={{ block: $isBlocks, root, editable }} /></code
     >
 {/if}
 

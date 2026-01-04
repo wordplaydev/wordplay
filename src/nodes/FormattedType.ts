@@ -29,7 +29,7 @@ export default class FormattedType extends BasisType {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'tick', kind: node(Sym.Doc) }];
+        return [{ name: 'tick', kind: node(Sym.Doc), label: undefined }];
     }
 
     acceptsAll(types: TypeSet): boolean {

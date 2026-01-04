@@ -53,7 +53,7 @@ export default class TableType extends BasisType {
         return [TableType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TableType.make()];
     }
 
@@ -63,9 +63,14 @@ export default class TableType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.TableOpen) },
-            { name: 'columns', kind: list(true, node(Bind)), space: true },
-            { name: 'close', kind: node(Sym.TableClose) },
+            { name: 'open', kind: node(Sym.TableOpen), label: undefined },
+            {
+                name: 'columns',
+                kind: list(true, node(Bind)),
+                label: () => (l) => l.term.column,
+                space: true,
+            },
+            { name: 'close', kind: node(Sym.TableClose), label: undefined },
         ];
     }
 

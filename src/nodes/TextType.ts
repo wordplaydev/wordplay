@@ -50,7 +50,7 @@ export default class TextType extends BasisType {
         return [TextType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TextType.make()];
     }
 
@@ -60,10 +60,14 @@ export default class TextType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.Text) },
-            { name: 'text', kind: node(Sym.Words) },
-            { name: 'close', kind: node(Sym.Text) },
-            { name: 'language', kind: optional(node(Language)) },
+            { name: 'open', kind: node(Sym.Text), label: undefined },
+            { name: 'text', kind: node(Sym.Words), label: undefined },
+            { name: 'close', kind: node(Sym.Text), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
         ];
     }
 

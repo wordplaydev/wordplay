@@ -1562,8 +1562,8 @@
 )}
     <h3>{locales.get(accessor).label}</h3>
     <Mode
-        descriptions={accessor}
-        modes={[
+        modes={accessor}
+        icons={[
             '🎨',
             locales.get((l) => l.ui.page.character.field.inherit),
             ...(none
@@ -1676,8 +1676,8 @@
             /></h2
         >
         <Mode
-            descriptions={(l) => l.ui.page.character.field.mode}
-            modes={['👆', '⌫', '■', '🔲', '⚪️', '╱', '🙂']}
+            modes={(l) => l.ui.page.character.field.mode}
+            icons={['👆', '⌫', '■', '🔲', '⚪️', '╱', '🙂']}
             choice={mode}
             select={(choice: number) => {
                 mode = choice as DrawingMode;
@@ -1711,7 +1711,7 @@
                 <LocalizedText path={(l) => l.ui.page.character.shape.emoji} />
             {:else}
                 <LocalizedText
-                    path={(l) => l.ui.page.character.field.mode.modes[0]}
+                    path={(l) => l.ui.page.character.field.mode.labels[0]}
                 />…
             {/if}
         </h2>
@@ -2263,21 +2263,15 @@
                         tip: (l) => l.ui.page.character.share.button.tip,
                         icon: isPublic ? GLOBE1_SYMBOL : '🤫',
                         label: isPublic
-                            ? (l) => l.ui.page.character.share.public.modes[0]
-                            : (l) => l.ui.page.character.share.public.modes[1],
+                            ? (l) => l.ui.page.character.share.public.labels[0]
+                            : (l) => l.ui.page.character.share.public.labels[1],
                     }}
                 >
                     <Mode
-                        descriptions={(l) => l.ui.page.character.share.public}
+                        modes={(l) => l.ui.page.character.share.public}
                         choice={isPublic ? 0 : 1}
                         select={(mode) => (isPublic = mode === 0)}
-                        modes={[
-                            `${GLOBE1_SYMBOL} ${$locales.get(
-                                (l) =>
-                                    l.ui.page.character.share.public.modes[0],
-                            )}`,
-                            `🤫 ${$locales.get((l) => l.ui.page.character.share.public.modes[1])}`,
-                        ]}
+                        icons={[GLOBE1_SYMBOL, '🤫']}
                     />
                     <Labeled
                         label={(l) => l.ui.page.character.share.collaborators}

@@ -1,4 +1,4 @@
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -10,7 +10,6 @@ import { BIND_SYMBOL } from '../parser/Symbols';
 import AnyType from './AnyType';
 import type Context from './Context';
 import Expression from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import ListType from './ListType';
 import type { Grammar, Replacement } from './Node';
 import Node, { node, optional } from './Node';
@@ -35,15 +34,15 @@ export default class Spread extends Node {
         return new Spread(new Token(BIND_SYMBOL, Sym.Bind), list);
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
         return node instanceof Expression &&
             node.getType(context).accepts(ListType.make(), context)
             ? [Spread.make(node)]
             : [];
     }
 
-    static getPossibleAppends() {
-        return [Spread.make(ExpressionPlaceholder.make())];
+    static getPossibleInsertions() {
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -52,7 +51,7 @@ export default class Spread extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'dots', kind: node(Sym.Bind) },
+            { name: 'dots', kind: node(Sym.Bind), label: undefined },
             {
                 name: 'list',
                 kind: optional(node(Expression)),
@@ -70,7 +69,7 @@ export default class Spread extends Node {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Lists;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

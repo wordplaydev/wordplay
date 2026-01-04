@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type OutputProperty from '@edit/OutputProperty';
-    import type OutputPropertyOptions from '@edit/OutputPropertyOptions';
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import type OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
+    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
     import { locales, Projects } from '../../db/Database';
     import { getProject } from '../project/Contexts';
     import Options from '../widgets/Options.svelte';

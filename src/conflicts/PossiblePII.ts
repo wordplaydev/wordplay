@@ -15,7 +15,7 @@ export class PossiblePII extends Conflict {
     readonly pii: PII;
 
     constructor(text: Token, pii: PII) {
-        super(false);
+        super(true);
 
         this.text = text;
         this.pii = pii;

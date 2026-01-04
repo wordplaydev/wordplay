@@ -110,6 +110,10 @@ export default class Source extends Expression {
         return new Source(Names.make([mainName]), '');
     }
 
+    getParentNode(node: Node): Node | undefined {
+        return this.root.getParent(node);
+    }
+
     /** Used by Evaluator to get the steps for the evaluation of this source file. */
     getEvaluationSteps(evaluator: Evaluator, context: Context): Step[] {
         return this.expression.compile(evaluator, context);
@@ -124,6 +128,7 @@ export default class Source extends Expression {
             {
                 name: 'expression',
                 kind: node(Program),
+                label: undefined,
                 space: false,
                 indent: false,
             },
@@ -463,6 +468,7 @@ export default class Source extends Expression {
             ? index - this.spaces.getSpace(token).length
             : undefined;
     }
+
     getTokenLastPosition(token: Token) {
         const index = this.getTokenTextPosition(token);
         return index !== undefined ? index + token.getTextLength() : undefined;
@@ -494,6 +500,21 @@ export default class Source extends Expression {
         return position;
     }
 
+    /** Get the last position of the end of the given line */
+    getEndOfLine(line: number): number | undefined {
+        let currentLine = 0;
+        for (let index = 0; index < this.code.getLength(); index++) {
+            const char = this.code.at(index);
+            if (char === '\n') {
+                if (currentLine === line) return index;
+                currentLine++;
+            }
+        }
+        // If we reached the end of the code, and we're on the target line, return the end of the code.
+        if (currentLine === line) return this.code.getLength();
+        return undefined;
+    }
+
     /** Given a node in this source, return the line the node is on */
     getLine(position: number | Node): number | undefined {
         if (position instanceof Node) {
@@ -514,6 +535,39 @@ export default class Source extends Expression {
                 1
             );
         }
+    }
+
+    /** Given a node and field name, return the position of the field in the source. */
+    getFieldPosition(parent: Node, field: string): number | undefined {
+        // Get position of the parent by iterating through its children and finding the first
+        // field set. Then, iterate through the fields to find the field before the target field,
+        // we so we can find the last position of the last token in the field before. That is the position.
+        const grammar = parent.getGrammar();
+        const targetField = grammar.find((f) => f.name === field);
+        if (targetField === undefined) return undefined; // Field not found in grammar
+        const targetFieldIndex = grammar.indexOf(targetField);
+        if (targetFieldIndex === -1) return undefined; // Field not found in grammar
+        // If the target field is first, return the position of the first token in the parent.
+        if (targetFieldIndex === 0) {
+            const firstToken = parent.leaves()[0];
+            return firstToken
+                ? this.getTokenTextPosition(firstToken)
+                : this.getNodeFirstPosition(parent);
+        } else {
+            for (let i = targetFieldIndex + 1; i < grammar.length; i++) {
+                const siblingOrList = parent.getField(grammar[i].name);
+                const sibling = Array.isArray(siblingOrList)
+                    ? siblingOrList[0]
+                    : siblingOrList;
+                if (sibling) {
+                    const firstSiblingToken = sibling.leaves()[0];
+                    return firstSiblingToken
+                        ? this.getTokenTextPosition(firstSiblingToken)
+                        : undefined;
+                }
+            }
+        }
+        return undefined;
     }
 
     scanLines<Result>(
@@ -815,7 +869,7 @@ export default class Source extends Expression {
             return this.getTokenTextPosition(firstToken);
         const tokenBefore = this.getTokenBeforeNode(node);
         return tokenBefore === undefined
-            ? undefined
+            ? 0
             : this.getTokenLastPosition(tokenBefore);
     }
 
@@ -825,8 +879,19 @@ export default class Source extends Expression {
             return this.getTokenLastPosition(lastToken);
         const tokenAfter = this.getTokenAfterNode(node);
         return tokenAfter === undefined
-            ? undefined
+            ? this.code.getLength()
             : this.getTokenTextPosition(tokenAfter);
+    }
+
+    getRange(node: Node): [number, number] | undefined {
+        const tokens = node.nodes((t): t is Token => t instanceof Token);
+        const first = tokens[0];
+        const last = tokens[tokens.length - 1];
+        const firstIndex = this.getTokenTextPosition(first);
+        const lastIndex = this.getTokenLastPosition(last);
+        return firstIndex === undefined || lastIndex === undefined
+            ? undefined
+            : [firstIndex, lastIndex];
     }
 
     getFirstToken(node: Node): Token | undefined {
@@ -939,6 +1004,6 @@ export default class Source extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Source;
+        return Purpose.Advanced;
     }
 }

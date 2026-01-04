@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import UnknownColumn from '@conflicts/UnknownColumn';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -99,12 +99,8 @@ export default class Select extends Expression {
         ];
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
-        const anchorType =
-            node instanceof Expression ? node.getType(context) : undefined;
-        const tableType =
-            anchorType instanceof TableType ? anchorType : undefined;
-        return node instanceof Expression && tableType
+    static getPossibleReplacements({ node, type }: ReplaceContext) {
+        return node instanceof Expression && type instanceof TableType
             ? [
                   Select.make(
                       node,
@@ -114,17 +110,12 @@ export default class Select extends Expression {
             : [];
     }
 
-    static getPossibleAppends() {
-        return [
-            Select.make(
-                ExpressionPlaceholder.make(TableType.make()),
-                ExpressionPlaceholder.make(BooleanType.make()),
-            ),
-        ];
+    static getPossibleInsertions() {
+        return [];
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Tables;
     }
 
     clone(replace?: Replacement) {

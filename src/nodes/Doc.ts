@@ -1,6 +1,8 @@
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
+import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOCS_SYMBOL } from '@parser/Symbols';
@@ -12,7 +14,7 @@ import { LanguageTagged } from './LanguageTagged';
 import Markup from './Markup';
 import type { Grammar, Replacement } from './Node';
 import { node, optional } from './Node';
-import type Paragraph from './Paragraph';
+import Paragraph from './Paragraph';
 import Sym from './Sym';
 import Token from './Token';
 import Words from './Words';
@@ -52,12 +54,18 @@ export default class Doc extends LanguageTagged {
         );
     }
 
+    static getTemplate(locales: Locales) {
+        return Doc.make([
+            new Paragraph([Words.make(locales.get((l) => l.node.Words.name))]),
+        ]);
+    }
+
     static getPossibleReplacements() {
         return [];
     }
 
-    static getPossibleAppends() {
-        return [Doc.make()];
+    static getPossibleInsertions({ locales }: InsertContext) {
+        return [Doc.getTemplate(locales)];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -66,11 +74,23 @@ export default class Doc extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.Doc) },
-            { name: 'markup', kind: node(Markup) },
-            { name: 'close', kind: node(Sym.Doc) },
-            { name: 'language', kind: optional(node(Language)) },
-            { name: 'separator', kind: optional(node(Sym.Separator)) },
+            { name: 'open', kind: node(Sym.Doc), label: undefined },
+            {
+                name: 'markup',
+                kind: node(Markup),
+                label: undefined,
+            },
+            { name: 'close', kind: node(Sym.Doc), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
+            {
+                name: 'separator',
+                kind: optional(node(Sym.Separator)),
+                label: undefined,
+            },
         ];
     }
 
@@ -85,7 +105,7 @@ export default class Doc extends LanguageTagged {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     withLanguage(language: Language) {

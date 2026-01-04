@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Purpose from '../concepts/Purpose';
 import type Context from './Context';
 import type ConversionDefinition from './ConversionDefinition';
 import type Expression from './Expression';
@@ -11,10 +10,6 @@ import TypeSet from './TypeSet';
 export default abstract class Type extends Node {
     constructor() {
         super();
-    }
-
-    getPurpose() {
-        return Purpose.Type;
     }
 
     /**

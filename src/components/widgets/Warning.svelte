@@ -14,7 +14,7 @@
         background: var(--wordplay-highlight-color);
         color: var(--wordplay-background);
         border-radius: var(--wordplay-border-radius);
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing-half);
         font-size: medium;
     }
 </style>

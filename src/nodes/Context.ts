@@ -6,8 +6,9 @@ import type Node from './Node';
 import type PropertyReference from './PropertyReference';
 import type Reference from './Reference';
 import type Source from './Source';
-import type StreamDefinition from './StreamDefinition';
+import type StreamType from './StreamType';
 import type Type from './Type';
+import UnknownType from './UnknownType';
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {
@@ -31,7 +32,11 @@ export default class Context {
 
     readonly definitions: Map<Node, Definition[]> = new Map();
 
-    readonly streamTypes: Map<Type, StreamDefinition> = new Map();
+    /**
+     * Computed types that actually stem from streams. Used by expressions like Changed, Previous, and Reaction,
+     * which rely on knowing the stream type from which a value type emerged.
+     */
+    readonly streamTypes: Map<Type, StreamType> = new Map();
 
     constructor(project: Project, source: Source) {
         this.project = project;
@@ -62,6 +67,7 @@ export default class Context {
     getType(node: Expression) {
         let cache = this.types.get(node);
         if (cache === undefined) {
+            // If we visited the node already in this call to getType(), the type depends on itself.
             if (this.visited(node)) {
                 cache = new CycleType(
                     node,
@@ -69,9 +75,19 @@ export default class Context {
                 );
             } else {
                 this.visit(node);
+                // Compute the type.
                 cache = node.computeType(this);
                 this.unvisit();
             }
+            // Cache the type in this context for later, unless it contains a cycle,
+            // in which case the type will be lazily computed elsewhere.
+            if (
+                !cache
+                    .getTypeSet(this)
+                    .list()
+                    .some((t) => t instanceof UnknownType)
+            )
+                this.types.set(node, cache);
         }
         return cache;
     }
@@ -98,11 +114,11 @@ export default class Context {
         return this.referenceUnions.set(ref, keys);
     }
 
-    setStreamType(type: Type, stream: StreamDefinition) {
-        this.streamTypes.set(type, stream);
+    setStreamType(type: Type, streamType: StreamType) {
+        this.streamTypes.set(type, streamType);
     }
 
-    getStreamType(type: Type): StreamDefinition | undefined {
+    getStreamType(type: Type): StreamType | undefined {
         return this.streamTypes.get(type);
     }
 }

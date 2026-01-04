@@ -31,7 +31,7 @@ import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
 
 export default class ConversionDefinition extends DefinitionExpression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly arrow: Token;
     readonly input: Type;
     readonly output: Type;
@@ -46,7 +46,7 @@ export default class ConversionDefinition extends DefinitionExpression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.arrow = arrow;
         this.input = input;
         this.output = output;
@@ -74,7 +74,7 @@ export default class ConversionDefinition extends DefinitionExpression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [
             ConversionDefinition.make(
                 undefined,
@@ -96,10 +96,24 @@ export default class ConversionDefinition extends DefinitionExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: any(node(Docs), none()) },
-            { name: 'arrow', kind: node(Sym.Convert) },
-            { name: 'input', kind: node(Type), space: true },
-            { name: 'output', kind: node(Type), space: true },
+            {
+                name: 'docs',
+                kind: any(node(Docs), none()),
+                label: () => (l) => l.term.documentation,
+            },
+            { name: 'arrow', kind: node(Sym.Convert), label: undefined },
+            {
+                name: 'input',
+                kind: node(Type),
+                space: true,
+                label: (locales) => () => this.input.getLabel(locales),
+            },
+            {
+                name: 'output',
+                kind: node(Type),
+                space: true,
+                label: (locales) => () => this.output.getLabel(locales),
+            },
             {
                 name: 'expression',
                 kind: node(Expression),
@@ -107,12 +121,14 @@ export default class ConversionDefinition extends DefinitionExpression {
                 indent: true,
                 // Must match the output type
                 getType: () => this.output,
+                label: () => (l) =>
+                    l.node.ConversionDefinition.label.expression,
             },
         ];
     }
 
     getPurpose() {
-        return Purpose.Convert;
+        return Purpose.Types;
     }
 
     clone(replace?: Replacement) {

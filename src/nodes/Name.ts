@@ -1,9 +1,11 @@
 import type Conflict from '@conflicts/Conflict';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
+import { OperatorRegEx } from '@parser/Tokenizer';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import ReservedSymbols from '../parser/ReservedSymbols';
@@ -45,9 +47,17 @@ export default class Name extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'name', kind: node(Sym.Name) },
-            { name: 'language', kind: optional(node(Language)) },
-            { name: 'separator', kind: optional(node(Sym.Separator)) },
+            { name: 'name', kind: node(Sym.Name), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
+            {
+                name: 'separator',
+                kind: optional(node(Sym.Separator)),
+                label: undefined,
+            },
         ];
     }
 
@@ -59,8 +69,18 @@ export default class Name extends LanguageTagged {
         ) as this;
     }
 
+    /** Doesn't ever make sense to replace a Name with an empty name. */
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    /** Suggest names for insertion.  */
+    static getPossibleInsertions({ locales }: InsertContext) {
+        return [Name.make(locales.get((l) => l.term.name))];
+    }
+
     simplify() {
-        return this;
+        return this.withoutLanguage();
     }
 
     getCorrespondingDefinition(context: Context): Definition | undefined {
@@ -78,7 +98,7 @@ export default class Name extends LanguageTagged {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Definitions;
     }
 
     computeConflicts(): Conflict[] {
@@ -128,6 +148,10 @@ export default class Name extends LanguageTagged {
 
     startsWith(prefix: string) {
         return this.name && this.name.startsWith(prefix);
+    }
+
+    isOperator() {
+        return OperatorRegEx.test(this.name.text.getText());
     }
 
     withoutLanguage() {

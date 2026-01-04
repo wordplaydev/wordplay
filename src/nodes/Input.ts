@@ -1,7 +1,7 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
-import Refer from '@edit/Refer';
+import type { InsertContext } from '@edit/revision/EditContext';
+import Refer from '@edit/revision/Refer';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -44,17 +44,20 @@ export default class Input extends Node {
         );
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
-        const parent = node.getParent(context);
-        // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
-        if (
-            parent instanceof Evaluate &&
-            (node === parent.open ||
-                (node instanceof Expression && parent.inputs.includes(node)))
-        ) {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleInsertions({ parent, context }: InsertContext) {
+        // If the parent is an evaluate, offer inputs.
+        if (parent instanceof Evaluate) {
             const mapping = parent.getInputMapping(context);
             return mapping?.inputs
-                .filter((input) => input.given === undefined)
+                .filter(
+                    (input) =>
+                        input.given === undefined ||
+                        input.expected.isVariableLength(),
+                )
                 .map(
                     (input, index, inputs) =>
                         new Refer((name) => {
@@ -73,14 +76,10 @@ export default class Input extends Node {
         } else return [];
     }
 
-    static getPossibleAppends(context: EditContext) {
-        return this.getPossibleReplacements(context);
-    }
-
     getGrammar(): Grammar {
         return [
-            { name: 'name', kind: node(Sym.Name) },
-            { name: 'bind', kind: node(Sym.Bind) },
+            { name: 'name', kind: node(Sym.Name), label: undefined },
+            { name: 'bind', kind: node(Sym.Bind), label: undefined },
             {
                 name: 'value',
                 kind: node(Expression),
@@ -97,6 +96,7 @@ export default class Input extends Node {
                     }
                     return new NoExpressionType(this.value);
                 },
+                label: () => (l) => l.term.value,
             },
         ];
     }
@@ -110,7 +110,7 @@ export default class Input extends Node {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Definitions;
     }
 
     getType(context: Context): Type {

@@ -38,7 +38,7 @@ export default class Mention extends Content {
         return [new Mention(new Token('_', Sym.Mention))];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [new Mention(new Token('_', Sym.Mention))];
     }
 
@@ -47,7 +47,7 @@ export default class Mention extends Content {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'name', kind: node(Sym.Mention) }];
+        return [{ name: 'name', kind: node(Sym.Mention), label: undefined }];
     }
     computeConflicts() {
         return [];
@@ -60,7 +60,7 @@ export default class Mention extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Mention;

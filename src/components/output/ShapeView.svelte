@@ -130,7 +130,7 @@
     }
 
     .shape.rectangle {
-        border-radius: calc(2 * var(--wordplay-border-radius));
+        border-radius: var(--wordplay-border-radius);
     }
 
     .shape.circle {

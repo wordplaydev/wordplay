@@ -44,7 +44,14 @@
         "help": "$~Yardım",
         "feedback": "$~geri bildirim",
         "how": "$~nasıl",
-        "code": "$~kod"
+        "code": "$~kod",
+        "unit": "$~birim",
+        "markup": "$~işaretleme",
+        "column": "$~kolon",
+        "cell": "$~hücre",
+        "documentation": "$~dokümantasyon",
+        "language": "$~dil",
+        "region": "$~bölge"
     },
     "token": {
         "EvalOpen": "$~değerlendirme açık",
@@ -225,7 +232,10 @@
                 "$~@Name'lerden oluşan bir listeyim. Bir değere birden fazla isim vermek istediğinizde, genellikle farklı @Language'lar kullanmak istediğinizde kullanışlıdır.",
                 "$~İsimler \\,\\ sembolleriyle ayrılır. Örneğin, burada @Bind'in @Name ile birden fazla değer vermesi",
                 "$~\\hi/en,merhaba/tr,hola/es: 'hoşgeldiniz'\\"
-            ]
+            ],
+            "label": {
+                "names": "$~isimler"
+            }
         },
         "Row": {
             "name": "$~sıra",
@@ -281,6 +291,9 @@
                     "secondary": "$~Benim adım $1 ile aynı",
                     "name": "$~yinelenentürdeğişkeni"
                 }
+            },
+            "label": {
+                "type": "$~tip"
             }
         },
         "TypeVariables": {
@@ -294,7 +307,10 @@
             "emotion": "serious",
             "doc": [
                 "$~Açıklamalarda bulunan @Words, @WebLink, @ConceptLink ve @Example gibi birçok işaretleme türünü kullanan bir paragraf listesiyim."
-            ]
+            ],
+            "label": {
+                "paragraphs": "$~paragraflar"
+            }
         },
         "Paragraph": {
             "name": "$~paragraf",
@@ -395,6 +411,9 @@
                     "name": "$~belirsizdüzen",
                     "primary": "$~İşlemlerin matematiksel sırasına göre değil, okuma sırasına göre değerlendiriyorum. Değerlendirmem gereken sırayı belirtmek için @Block kullanmak ister misiniz?"
                 }
+            },
+            "label": {
+                "operator": "$~operatör"
             }
         },
         "Bind": {
@@ -468,6 +487,11 @@
                     "name": "$~kullanılmamışbağ",
                     "primary": "$~Adım $1 ama kimse beni kullanmıyor. Belki de bana ihtiyaç yoktur?"
                 }
+            },
+            "label": {
+                "value": "$~değer",
+                "names": "$~isimler",
+                "type": "$~tip"
             }
         },
         "Block": {
@@ -489,7 +513,6 @@
                 "$~Yani genelde ben sadece bir sürü @Bind ve sonunda bir ifadeden ibaretim.",
                 "$~\\(\na: 1\nb: 2\nc: 3\nd: 4\na + b + c + d\n)\\"
             ],
-            "statement": "$~ifade",
             "start": "$~İlk ifade",
             "finish": "$~Tamamdır, 1$ kazandım",
             "conflict": {
@@ -506,6 +529,9 @@
                     },
                     "name": "$~görmezdengelinenifade"
                 }
+            },
+            "label": {
+                "statements": "$~ifadeler"
             }
         },
         "BooleanLiteral": {
@@ -521,9 +547,6 @@
             "emotion": "excited",
             "doc": "$~Birden fazla @Source ile bir performans yaratırsanız, diğer @Source'larda paylaşılan @Bind'i ödünç almak için beni kullanabilirsiniz. Sadece isimlerini kullanın ve ben onların ismini ve değerini getireceğim.",
             "start": "$~1 dolardan 2 dolar ödünç almak",
-            "source": "$~$source",
-            "bind": "$~isim",
-            "version": "$~versiyon",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~bilinmeyenödünç",
@@ -539,6 +562,11 @@
                     "description": "$~ödünç alma döngüsü",
                     "explanation": "$~1$ kendi kendine bağlıdır"
                 }
+            },
+            "label": {
+                "source": "$~$source",
+                "bind": "$~isim",
+                "version": "$~versiyon"
             }
         },
         "Changed": {
@@ -550,7 +578,10 @@
                 "$~Sadece bir akışın değişmesi durumunda bir şeyin değişmesini istediğinizde gerçekten yardımcı oluyorum.",
                 "$~İşte bu kadar."
             ],
-            "start": "$~Bakalım 1 dolar değişmiş mi..."
+            "start": "$~Bakalım 1 dolar değişmiş mi...",
+            "label": {
+                "stream": "$~aktarım"
+            }
         },
         "Conditional": {
             "name": "$~şartlı",
@@ -566,15 +597,17 @@
             "else": "$~$1[kodun üzerinden atlama | kodun üzerinden atlamama]",
             "afterthen": "$~evet bitti, hayırı geçelim mi?",
             "finish": "$~Sanırım 1 dolar?",
-            "condition": "$~durum",
-            "yes": "$~Evet",
-            "no": "$~HAYIR",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "$~1$ ile evet ve hayırı nasıl seçebilirim? Gerçekten hayır, nasıl?",
                     "secondary": "$~Sanırım @Conditional benim @Boolean olmamı istiyordu, ama ben $1'ım.",
                     "name": "$~beklenenbooleankoşulu"
                 }
+            },
+            "label": {
+                "condition": "$~durum",
+                "yes": "$~Evet",
+                "no": "$~HAYIR"
             }
         },
         "ConversionDefinition": {
@@ -593,6 +626,11 @@
                     "name": "$~yanlışyerleştirilmişdönüşüm",
                     "primary": "$~vay canına, burada olamayacağım, sadece @Block'ta."
                 }
+            },
+            "label": {
+                "input": "$~giriş türü",
+                "output": "$~çıktı türü",
+                "expression": "$~ifade"
             }
         },
         "Convert": {
@@ -663,8 +701,6 @@
             "start": "$~Önce girdileri değerlendirelim",
             "evaluate": "$~şimdi fonksiyonu değerlendirelim",
             "finish": "$~1 dolara değerlendirdim",
-            "function": "$~işlev",
-            "input": "$~giriş",
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "$~1 dolar olmam gerekirken 2 dolarım",
@@ -709,6 +745,11 @@
                     "description": "$~bilinmeyen fonksiyon",
                     "explanation": "$~aman Tanrım, $1 $2[$2|bu @Block]'ta bir fonksiyon değil!"
                 }
+            },
+            "label": {
+                "function": "$~işlev",
+                "types": "$~türleri",
+                "inputs": "$~giriş"
             }
         },
         "Input": {
@@ -737,7 +778,6 @@
                 "$~@Stage olmayı sevmiyorum!"
             ],
             "start": "$~Burada ne yapacağımı bilmiyorum. Bana bilgi verebilir misiniz?",
-            "placeholder": "$~ifade",
             "conflict": {
                 "Placeholder": {
                     "name": "$~yertutucu",
@@ -749,6 +789,9 @@
                     "description": "$~uygulanmamış",
                     "explanation": "$~Burada ne yapacağımı bilmiyorum. Bana bilgi verebilir misiniz?"
                 }
+            },
+            "label": {
+                "placeholder": "$~ifade"
             }
         },
         "FunctionDefinition": {
@@ -777,6 +820,11 @@
                     "name": "$~eksikifade",
                     "primary": "$~Değerlendirmek için bir ifadeye ihtiyacım var, ekleyebilir misiniz?"
                 }
+            },
+            "label": {
+                "inputs": "$~girdiler",
+                "expression": "$~ifade",
+                "output": "$~çıktı"
             }
         },
         "Iteration": {
@@ -867,8 +915,7 @@
             "emotion": "eager",
             "doc": "$~Ben belirli bir @List değerleriyim! Benimle neler yapabileceğinizi öğrenmek için @List'e bakın.",
             "start": "$~Önce maddeleri değerlendirelim",
-            "finish": "$~Ben bir ben yaptım! $1",
-            "item": "$~öğe"
+            "finish": "$~Ben bir ben yaptım! $1"
         },
         "Spread": {
             "name": "$~yaymak",
@@ -891,6 +938,9 @@
                     "secondary": "$~oops, benim değerim nerede?",
                     "name": "$~eksikdeğer"
                 }
+            },
+            "label": {
+                "values": "$~çift"
             }
         },
         "Match": {
@@ -907,8 +957,10 @@
             "start": "$~Bakalım 1 dolar ne kadarmış...",
             "case": "$~Bu durumu kontrol edelim",
             "finish": "$~Tamam, son bir değerimiz var!",
-            "value": "$~değer",
-            "other": "$~varsayılan"
+            "label": {
+                "case": "$~dava",
+                "other": "$~varsayılan"
+            }
         },
         "NumberLiteral": {
             "name": "$~sayısabiti",
@@ -961,7 +1013,10 @@
                 "$~Geçmişe dayalı performanslar yaratmak istediğinizde yardımcı oluyorum."
             ],
             "start": "$~İlk önce 1$ kazan",
-            "finish": "$~Akış değeri 1$ olarak değerlendirildi"
+            "finish": "$~Akış değeri 1$ olarak değerlendirildi",
+            "label": {
+                "range": "$~menzil"
+            }
         },
         "Program": {
             "name": "$~program",
@@ -997,6 +1052,10 @@
                     "description": "$~eksik değer",
                     "explanation": "$~Bir değer bekliyordum ama alamadım!"
                 }
+            },
+            "label": {
+                "borrows": "$~ödünç alıyor",
+                "expression": "$~engellemek"
             }
         },
         "PropertyBind": {
@@ -1017,6 +1076,10 @@
                     "secondary": "$~$1 adında bir girdim yok",
                     "name": "$~bilinmeyenmülk"
                 }
+            },
+            "label": {
+                "property": "$~mülk",
+                "value": "$~değer"
             }
         },
         "PropertyReference": {
@@ -1030,7 +1093,9 @@
             ],
             "start": "$~İlk önce değeri alalım",
             "finish": "$~Bulunan mülk 1 dolar, 2 dolar",
-            "property": "$~mülk"
+            "label": {
+                "property": "$~mülk"
+            }
         },
         "Reaction": {
             "name": "$~tepki",
@@ -1044,14 +1109,16 @@
             ],
             "start": "$~Akışı güncellememiz gerekip gerekmediğine bakalım",
             "finish": "$~Yeni akış değeri 1$",
-            "initial": "$~ilk",
-            "condition": "$~durum",
-            "next": "$~Sonraki",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~beklenenakış",
                     "primary": "$~$1 bir akışı referans almıyor, bu yüzden asla tepki vermeyeceğim!"
                 }
+            },
+            "label": {
+                "initial": "$~ilk",
+                "condition": "$~durum",
+                "next": "$~Sonraki"
             }
         },
         "Reference": {
@@ -1183,6 +1250,12 @@
                     "name": "$~uygulanmamış",
                     "primary": "$~$1'i uyguladım ama $2'yi uygulamadım"
                 }
+            },
+            "label": {
+                "docs": "$~dokümantasyon",
+                "inputs": "$~girdiler",
+                "expression": "$~değerler ve fonksiyonlar",
+                "interfaces": "$~arayüzler"
             }
         },
         "StructureDefinitionType": {
@@ -1206,7 +1279,10 @@
             "description": "$~metin $1",
             "emotion": "serious",
             "doc": "$~Bir veya daha fazla belirli @Translation çevirisini temsil ediyorum. Neler yapabileceğim hakkında daha fazla bilgi edinmek için @Text bakın!",
-            "start": "$~Mevcut yerel ayarda metin oluşturalım"
+            "start": "$~Mevcut yerel ayarda metin oluşturalım",
+            "label": {
+                "texts": "$~metin"
+            }
         },
         "Translation": {
             "name": "$~çeviri",
@@ -1240,6 +1316,9 @@
                     "name": "$~olasıözelkarakter",
                     "primary": "$~Bu bir karakter ismine benziyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın."
                 }
+            },
+            "label": {
+                "segments": "$~metin"
             }
         },
         "FormattedLiteral": {
@@ -1301,7 +1380,10 @@
                 "$~Tek bir kural var: isim ve değer arasına boşluk koyamazsınız. Aksi takdirde @Reference veya @BinaryEvaluate yapıyor olabilirsiniz."
             ],
             "start": "$~Değeri ne kadar?",
-            "finish": "$~1 dolar yaptım"
+            "finish": "$~1 dolar yaptım",
+            "label": {
+                "input": "$~giriş"
+            }
         },
         "UnparsableExpression": {
             "name": "$~çözümlenemez",
@@ -4420,7 +4502,8 @@
             "menu": {
                 "label": "$~otomatik tamamlama menüsü",
                 "show": "$~otomatik tamamlama menüsünü göster",
-                "back": "$~alt menüden çık"
+                "back": "$~alt menüden çık",
+                "empty": "$~Önerim yok."
             },
             "cursor": {
                 "priorLine": "$~imleci önceki satıra taşı",
@@ -4477,7 +4560,19 @@
                 "expandAfterInline": "$~seçimi genişlet",
                 "expandPriorLine": "$~seçimi önceki satıra genişlet",
                 "expandNextLine": "$~seçimi bir sonraki satıra genişlet",
-                "largeDelete": "$~Bu seçimi silmek istediğinizden emin misiniz? Fikrinizi değiştirirseniz geri al düğmesini (↺) kullanabilirsiniz."
+                "largeDelete": "$~Bu seçimi silmek istediğinizden emin misiniz? Fikrinizi değiştirirseniz geri al düğmesini (↺) kullanabilirsiniz.",
+                "ignored": {
+                    "readOnly": "$~Kaynak salt okunur.",
+                    "blockSpace": "$~Buraya yer yok.",
+                    "noDelete": "$~Bunu silemiyorum.",
+                    "noInsert": "$~Buraya eklenemiyor",
+                    "noError": "$~Bu düzenleme bir çakışmaya yol açacaktır.",
+                    "noEditor": "$~Aktif editör yok.",
+                    "noClipboard": "$~Pano mevcut değil.",
+                    "noClipboardItem": "$~Panoda hiçbir şey yok.",
+                    "noSelection": "$~Hiçbir şey seçilmedi.",
+                    "noMove": "$~Daha fazla ilerleyemiyorum"
+                }
             },
             "options": {
                 "locale": {
@@ -4565,15 +4660,50 @@
                 "search": "$~Sözcüklerle kavramları arayın"
             },
             "header": {
-                "inputs": "$~Girişler",
-                "interfaces": "$~Arayüzler",
-                "properties": "$~Özellikler",
-                "functions": "$~Fonksiyonlar",
-                "conversions": "$~Dönüşümler"
-            },
-            "modes": {
-                "label": "$~göz at",
-                "modes": ["$~nasıl", "$~kavramlar"]
+                "inputs": {
+                    "header": "$~Girişler",
+                    "explanation": "$~/Zorunlu ve isteğe bağlı değerler./"
+                },
+                "interfaces": {
+                    "header": "$~Arayüzler",
+                    "explanation": "$~/Bu yapının dayandığı yapılar./"
+                },
+                "properties": {
+                    "header": "$~Özellikler",
+                    "explanation": "$~Bu kavram, mağazaların değerlerini yansıtır."
+                },
+                "functions": {
+                    "header": "$~Fonksiyonlar",
+                    "explanation": "$~/Bu kavramın hesaplayabileceği değerler./"
+                },
+                "conversions": {
+                    "header": "$~Dönüşümler",
+                    "explanation": "$~Bu değeri başka türdeki değerlere dönüştürmenin yolları."
+                },
+                "arrangements": {
+                    "header": "$~Düzenlemeler",
+                    "explanation": "$~/Dizeleri gruplandırma yöntemleri./"
+                },
+                "forms": {
+                    "header": "$~Formlar",
+                    "explanation": "$~/Sahneye yerleştirilebilen şekiller./"
+                },
+                "appearance": {
+                    "header": "$~Dış görünüş",
+                    "explanation": "$~Çıktının görünümünü değiştirmenin yolları./"
+                },
+                "animation": {
+                    "header": "$~Animasyon",
+                    "explanation": "$~/Sahne üzerinde çıktıyı canlandırmanın yolları./"
+                },
+                "location": {
+                    "header": "$~Konum",
+                    "explanation": "$~/Çıktının sahnede hangi aşamada olduğunu belirleme yöntemleri./"
+                },
+                "reactions": {
+                    "header": "$~Tepkiler",
+                    "explanation": "$~/Giriş akışına tepki verme veya onu analiz etme yöntemleri./"
+                }
             },
             "how": {
                 "category": {
@@ -4588,6 +4718,120 @@
                     "video": "$~bir kamera kullan"
                 },
                 "related": "$~Aradığınız bu değil mi?"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~göz at",
+                    "labels": ["$~kod", "$~nasıl"],
+                    "tips": [
+                        "$~programlama dili kavramları",
+                        "$~projeler yapmak için yeniden kullanılabilir kalıplar"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~amaç",
+                    "labels": [
+                        "$~proje",
+                        "$~çıktı",
+                        "$~giriş",
+                        "$~karar vermek",
+                        "$~isim",
+                        "$~metin",
+                        "$~sayılar",
+                        "$~gerçek",
+                        "$~listeler",
+                        "$~setler",
+                        "$~tablolar",
+                        "$~dokümantasyon",
+                        "$~türleri",
+                        "$~vesaire."
+                    ],
+                    "tips": [
+                        "$~proje düzeyindeki kavramlar",
+                        "$~ifadeler, gruplar, aşamalar, düzenler ve daha fazlası",
+                        "$~zaman, düğmeler, tuşlar, sahneler ve daha fazlası",
+                        "$~Diğer değerlere göre değerler seçin",
+                        "$~Daha sonra kullanılmak üzere değerlere, fonksiyonlara ve veri yapılarına isim verin.",
+                        "$~doğru, yanlış ve hiçbiri değerleri",
+                        "$~sayılar ve matematiksel işlemler",
+                        "$~düz ve biçimlendirilmiş metin",
+                        "$~listeler ve liste işlemleri",
+                        "$~kümeler, haritalar ve işlemler",
+                        "$~tablolar ve tablo işlemleri",
+                        "$~veri türleri, dönüşümler ve tür kontrolleri",
+                        "$~dokümantasyon ve yorumlar",
+                        "$~ileri dil kavramları"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Proje",
+                    "explanation": "$~Projenizde tanımlanan kavramlar."
+                },
+                "Outputs": {
+                    "header": "$~Çıktılar",
+                    "explanation": "$~/Sahneye yerleştirilebilecek farklı çıktı türleri./"
+                },
+                "Inputs": {
+                    "header": "$~Girişler",
+                    "explanation": "$~/Zaman içinde değişen ve programın yeniden değerlendirilmesine neden olan, dünyadan gelen girdi akışları./"
+                },
+                "Decisions": {
+                    "header": "$~Kararlar",
+                    "explanation": "$~/Koşullara bağlı olarak farklı değerler arasında seçim yapma yolları./"
+                },
+                "Numbers": {
+                    "header": "$~Sayılar",
+                    "explanation": "$~/Sayılar, birimler ve matematiksel işlemler./"
+                },
+                "Text": {
+                    "header": "$~Metin",
+                    "explanation": "$~/Düz ve biçimlendirilmiş metin ve bunların manipülasyon yöntemleri./"
+                },
+                "Truth": {
+                    "header": "$~Gerçek",
+                    "explanation": "$~/Doğru, yanlış ve yok değerleri ve bunların mantıksal işlemlerde kullanım biçimleri./"
+                },
+                "Lists": {
+                    "header": "$~Listeler",
+                    "explanation": "$~Listeler ve liste işlemleri, değerleri belirli bir sırada saklamak için idealdir."
+                },
+                "Maps": {
+                    "header": "$~Haritalar",
+                    "explanation": "$~Kümeler, haritalar ve bunların işlemleri; değer koleksiyonlarını veya bir değerden diğerine eşlemeleri saklamak için uygundur."
+                },
+                "Tables": {
+                    "header": "$~Tablolar",
+                    "explanation": "$~/Tablolar ve tablo işlemleri, yapılandırılmış verileri satır ve sütunlar halinde saklamak için idealdir./"
+                },
+                "Types": {
+                    "header": "$~Türler",
+                    "explanation": "$~/Adlandırılmış değerlerin belirli bir veri türüne sahip olması gerektiğini belirtmenin ve bunu kontrol etmenin yolları./"
+                },
+                "Documentation": {
+                    "header": "$~Dokümantasyon",
+                    "explanation": "$~/Kodunuza yorum ve açıklama eklemenin yolları./"
+                },
+                "Advanced": {
+                    "header": "$~Gelişmiş",
+                    "explanation": "$~/Muhtemelen ihtiyacınız olmayacak gelişmiş dil kavramları ve özellikleri./"
+                },
+                "Hidden": {
+                    "header": "$~Gizlenmiş",
+                    "explanation": "$~/Ana dokümantasyonda yer almayan kavramlar./"
+                },
+                "How": {
+                    "header": "$~Nasıl yapılır",
+                    "explanation": "$~/Farklı türde projeler oluşturmak için yaygın kullanılan kalıplar./"
+                },
+                "Definitions": {
+                    "header": "$~Tanımlar",
+                    "explanation": "$~/Değerleri, fonksiyonları ve veri yapılarını daha sonra kullanılmak üzere adlandırmanın yolları./"
+                }
+            },
+            "note": {
+                "empty": "$~Projenizde tanımladığınız isimler burada görünecektir."
             }
         },
         "dialog": {
@@ -4621,7 +4865,11 @@
                 "mode": {
                     "public": {
                         "label": "$~görünürlük",
-                        "modes": ["$~özel", "$~halk"]
+                        "labels": ["$~özel", "$~halk"],
+                        "tips": [
+                            "$~Bu projeyi yalnızca siz ve işbirlikçileriniz görebilir.",
+                            "$~Bu projeyi herkes görebilir."
+                        ]
                     }
                 },
                 "error": {
@@ -4649,56 +4897,86 @@
                 "mode": {
                     "layout": {
                         "label": "$~düzen",
-                        "modes": [
-                            "$~fayansları otomatik olarak yerleştir",
+                        "labels": [
+                            "$~otomatik",
+                            "$~sıra",
+                            "$~yığın",
+                            "$~iki",
+                            "$~bir",
+                            "$~özgür"
+                        ],
+                        "tips": [
+                            "$~karoları otomatik olarak yerleştir",
                             "$~yatay ekran düzeni",
                             "$~dikey ekran düzeni",
-                            "$~en son iki fayans, yan yana",
-                            "$~sadece en son fayans",
-                            "$~bir tuval üzerinde taşınabilir ve yeniden boyutlandırılabilir fayanslar"
+                            "$~En son iki karo, yan yana",
+                            "$~yalnızca en son karo",
+                            "$~tuval üzerinde hareket ettirilebilen ve yeniden boyutlandırılabilen karolar"
                         ]
                     },
                     "animate": {
                         "label": "$~animasyonlar",
-                        "modes": [
+                        "labels": [
+                            "$~kapalı",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10x"
+                        ],
+                        "tips": [
                             "$~animasyonlar kapalı",
-                            "$~çeyrek hız",
+                            "$~çeyrek hızda",
                             "$~üçüncü hız",
-                            "$~yarım hız",
+                            "$~yarı hızda",
                             "$~normal hız",
                             "$~çift hız",
-                            "$~beş hız",
-                            "$~on hız"
+                            "$~beş vitesli",
+                            "$~on vites"
                         ]
                     },
                     "dark": {
                         "label": "$~tema",
-                        "modes": [
-                            "$~açık renkler",
-                            "$~koyu renkler",
-                            "$~cihaz ayarını kullan"
+                        "labels": ["$~ışık", "$~karanlık", "$~otomatik"],
+                        "tips": [
+                            "$~daha açık renkler",
+                            "$~daha koyu renkler",
+                            "$~Mevcut cihaz ayarlarını kullanın"
                         ]
                     },
                     "space": {
                         "label": "$~uzay göstergesi",
-                        "modes": [
-                            "$~boşluk ve sekme göstergelerini açıkça göster",
-                            "$~boşluk ve sekme göstergelerini gösterme"
+                        "labels": ["$~saklamak", "$~göstermek"],
+                        "tips": [
+                            "$~Boşluk ve sekme göstergelerini göstermeyin.",
+                            "$~Boşluk ve sekme göstergelerini açıkça göster"
                         ]
                     },
                     "lines": {
                         "label": "$~satır numaraları",
-                        "modes": [
-                            "$~metin modunda satır numaralarını göster",
-                            "$~metin modunda satır numaralarını gösterme"
+                        "labels": ["$~saklamak", "$~göstermek"],
+                        "tips": [
+                            "$~Metin modunda satır numaralarını gösterme",
+                            "$~Metin modunda satır numaralarını göster"
                         ]
                     },
                     "writing": {
                         "label": "$~yazı düzeni",
-                        "modes": [
-                            "$~yatay, soldan sağa",
-                            "$~dikey, sağdan sola",
-                            "$~dikey, soldan sağa"
+                        "labels": ["$~yatay", "$~dikey rtl", "$~dikey harf"],
+                        "tips": [
+                            "$~yatay metin, soldan sağa okunur.",
+                            "$~dikey metin, sağdan sola okunur.",
+                            "$~Dikey metin, soldan sağa okunur."
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~düzenleme modu",
+                        "labels": ["$~metin", "$~bloklar"],
+                        "tips": [
+                            "$~kodu metin olarak düzenle",
+                            "$~Kodu bloklar halinde düzenle"
                         ]
                     }
                 },
@@ -4760,7 +5038,11 @@
                 },
                 "mode": {
                     "label": "$~geri bildirim",
-                    "modes": ["$~kusurlar", "$~fikirler"]
+                    "labels": ["$~kusurlar", "$~fikirler"],
+                    "tips": [
+                        "$~Bozuk görünen bir şeyi bildirin.",
+                        "$~yeni özellikler veya iyileştirmeler önerin"
+                    ]
                 },
                 "field": {
                     "title": {
@@ -5337,7 +5619,7 @@
                     },
                     "mode": {
                         "label": "$~mod",
-                        "modes": [
+                        "labels": [
                             "$~seçme",
                             "$~silgi",
                             "$~piksel",
@@ -5345,15 +5627,34 @@
                             "$~elips",
                             "$~yol",
                             "$~emoji"
+                        ],
+                        "tips": [
+                            "$~şekilleri ve pikselleri seçin",
+                            "$~Şekilleri ve pikselleri silin.",
+                            "$~piksel çizmek",
+                            "$~dikdörtgenler çizin",
+                            "$~elips çizin",
+                            "$~yollar çiz",
+                            "$~Emoji'yi piksel olarak içe aktar"
                         ]
                     },
                     "fill": {
                         "label": "$~doldurmak",
-                        "modes": ["$~hiçbiri", "$~inert", "$~seçmek"]
+                        "labels": ["$~hiçbiri", "$~atalet", "$~seçmek"],
+                        "tips": [
+                            "$~dolgu yok",
+                            "$~Çevreleyen metinden dolgu rengini devral",
+                            "$~Dolgu rengi seçin"
+                        ]
                     },
                     "stroke": {
                         "label": "$~felç",
-                        "modes": ["$~hiçbiri", "$~inert", "$~seçmek"]
+                        "labels": ["$~hiçbiri", "$~atalet", "$~seçmek"],
+                        "tips": [
+                            "$~felç yok",
+                            "$~Çevreleyen metinden kontur rengini devral",
+                            "$~Bir çizgi rengi seçin"
+                        ]
                     },
                     "none": "$~hiçbiri",
                     "inherit": "$~metin rengi",
@@ -5475,7 +5776,11 @@
                     },
                     "public": {
                         "label": "$~görünürlük",
-                        "modes": ["$~halk", "$~özel"]
+                        "labels": ["$~halk", "$~özel"],
+                        "tips": [
+                            "$~Bu karakteri herkes görebilir.",
+                            "$~Bu karakteri yalnızca siz ve işbirlikçileriniz görebilir."
+                        ]
                     },
                     "collaborators": "$~işbirlikçiler"
                 }

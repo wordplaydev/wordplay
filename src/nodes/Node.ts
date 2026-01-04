@@ -172,8 +172,7 @@ export default abstract class Node {
     nodes<Kind extends Node>(include?: (node: Node) => node is Kind): Kind[] {
         const nodes: Node[] = [];
         this.traverse((node) => {
-            if (include === undefined || include(node) === true)
-                nodes.push(node);
+            if (include === undefined || include(node)) nodes.push(node);
             return true;
         });
         return nodes as Kind[];
@@ -265,6 +264,28 @@ export default abstract class Node {
         return this.getFieldNamed(name)?.kind;
     }
 
+    getAdjacentFieldNode(
+        fieldName: string,
+        forward: boolean,
+    ): Node | undefined {
+        const grammar = forward
+            ? this.getGrammar()
+            : this.getGrammar().reverse();
+        const values: Node[] = [];
+        for (let index = 0; index < grammar.length; index++) {
+            const field = grammar[index];
+            // Found the node? Get the most recent node we read.
+            if (field.name === fieldName) return values.at(-1);
+            // Otherwise, add the nodes.
+            else {
+                const fieldValue = this.getField(field.name);
+                if (fieldValue instanceof Node) values.push(fieldValue);
+                else if (Array.isArray(fieldValue)) values.push(...fieldValue);
+            }
+        }
+        return undefined;
+    }
+
     // CONFLICTS
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
@@ -289,6 +310,11 @@ export default abstract class Node {
 
     getParent(context: Context) {
         return context.project.getRoot(this)?.getParent(this);
+    }
+
+    /** Returns true if there's only one leaf in this node */
+    hasOneLeaf(): boolean {
+        return this.leaves().length === 1;
     }
 
     // BINDINGS
@@ -339,14 +365,14 @@ export default abstract class Node {
         // See if this node has any additional basis functions to include.
         let additional = this.getAdditionalBasisScope(context);
         while (scope !== undefined || additional) {
+            if (scope)
+                definitions = definitions.concat(
+                    scope.getDefinitions(this, context),
+                );
             // Order matters here: defintions close in the tree have precedent, so they should go first.
             if (additional)
                 definitions = definitions.concat(
                     additional.getDefinitions(this, context),
-                );
-            if (scope)
-                definitions = definitions.concat(
-                    scope.getDefinitions(this, context),
                 );
             // Before changing the scope, see if it has any additional basis scope to add.
             additional = scope?.getAdditionalBasisScope(context);
@@ -354,10 +380,12 @@ export default abstract class Node {
             scope = scope?.getScope(context);
         }
 
+        // Include any source files that aren't the main source file and aren't this source file.
         // Finally, implicitly include standard libraries and definitions.
-        definitions = definitions.concat(
-            context.project.getDefaultShares().all,
-        );
+        definitions = [
+            ...definitions,
+            ...context.project.getDefaultShares().all,
+        ];
 
         // Cache the definitions for later.
         context.definitions.set(this, definitions);
@@ -665,8 +693,15 @@ export default abstract class Node {
         context: Context,
         root: Root,
     ): LocaleTextAccessor | undefined {
-        const label = this.getFieldOfChild(child)?.label;
-        return label ? label(locales, child, context, root) : undefined;
+        const field = this.getFieldOfChild(child);
+        if (field === undefined) return undefined;
+        const label = field?.label;
+        if (label === undefined) return undefined;
+        const index =
+            field.kind instanceof ListOf
+                ? (this as any)[field.name].indexOf(child)
+                : undefined;
+        return label(locales, context, index, root);
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */
@@ -685,18 +720,9 @@ export default abstract class Node {
     }
 }
 
-export type Field = {
+type BaseField = {
     /** The name of the field, corresponding to a name on the Node class. Redundant with the class, but no reflection in JavaScript. */
     name: string;
-    /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
-    kind: Any | Empty | ListOf | IsA;
-    /** A description of the field for the UI */
-    label?: (
-        locales: Locales,
-        child: Node,
-        context: Context,
-        root: Root,
-    ) => LocaleTextAccessor;
     /** True if a preceding space is preferred the node */
     space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */
@@ -717,6 +743,29 @@ export type Field = {
     getDefinitions?: (context: Context) => Definition[];
 };
 
+type LabelAccessor = (
+    /** The locales to use */
+    locales: Locales,
+    /** The source context */
+    context: Context,
+    /** The index of the child in the list, if the field is a list */
+    index: number | undefined,
+    /** The root node */
+    root: Root,
+) => LocaleTextAccessor;
+
+export type ListField = BaseField & {
+    kind: ListOf;
+    label: LabelAccessor;
+};
+
+export type OtherField = BaseField & {
+    kind: IsA | Empty | Any;
+    label: LabelAccessor | undefined;
+};
+
+export type Field = ListField | OtherField;
+
 /** These types help define a node's grammar at runtime, allowing for a range of rules to be specified about their structure.
  * This helps with edits, autocomplete, spacing rules, and more.
  */
@@ -732,6 +781,12 @@ export abstract class FieldKind {
     abstract enumerateFieldKinds(): FieldKind[];
     abstract isOptional(): boolean;
     abstract toString(): string;
+}
+
+export function enumerateSymbols(field: Field): Sym[] {
+    return field.kind
+        .enumerate()
+        .filter((k): k is Sym => k !== undefined && !(k instanceof Function));
 }
 
 // A field can be of this type of node or token type.
@@ -828,7 +883,11 @@ export class ListOf extends FieldKind {
     }
 }
 
-type EmptyDefault = { name: string; createDefault: () => Node };
+/**
+ * Represents a dependency between two fields of a node, where creating one must mean creating the other.
+ * The createDefault() function generates the dependent field given the other field's value.
+ * */
+type EmptyDefault = { name: string; createDefault: (node: Node) => Node };
 
 // A field can be undefined, and if a dependency field name is specified, only if that field is also undefined.
 export class Empty extends FieldKind {
@@ -918,7 +977,9 @@ export class Any extends FieldKind {
 export function node(kind: Function | Sym) {
     return new IsA(kind);
 }
-export function none(dependency?: [string, () => Node]) {
+
+/** An empty option, with an optional dependency on another field that generates a default when creating them. */
+export function none(dependency?: [string, (node: Node) => Node]) {
     return new Empty(
         dependency
             ? { name: dependency[0], createDefault: dependency[1] }
@@ -938,7 +999,26 @@ export function optional(kind: IsA) {
 
 export type Grammar = Field[];
 
+/** Represents a replacement of an original node or string with a new field value */
 export type Replacement = {
     original: Node | Node[] | string;
     replacement: FieldValue;
 };
+
+/** Represents a node and a field on the node, and optional index into a list field. Used to represent a selection of a field for editing. */
+export type FieldPosition = {
+    parent: Node;
+    field: string;
+    index: number | undefined;
+};
+
+export function isFieldPosition(value: any): value is FieldPosition {
+    return (
+        value !== undefined &&
+        typeof value === 'object' &&
+        'parent' in value &&
+        value.parent instanceof Node &&
+        'field' in value &&
+        typeof value.field === 'string'
+    );
+}

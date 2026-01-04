@@ -39,7 +39,7 @@ export default class TypeVariables extends Node {
         return [TypeVariables.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TypeVariables.make()];
     }
 
@@ -49,9 +49,9 @@ export default class TypeVariables extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.TypeOpen) },
-            { name: 'variables', kind: node(Names) },
-            { name: 'close', kind: node(Sym.TypeClose) },
+            { name: 'open', kind: node(Sym.TypeOpen), label: undefined },
+            { name: 'variables', kind: node(Names), label: undefined },
+            { name: 'close', kind: node(Sym.TypeClose), label: undefined },
         ];
     }
 
@@ -72,7 +72,7 @@ export default class TypeVariables extends Node {
     }
 
     getPurpose() {
-        return Purpose.Type;
+        return Purpose.Advanced;
     }
 
     computeConflicts() {

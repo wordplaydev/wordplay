@@ -1,7 +1,7 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleType from '@conflicts/IncompatibleType';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -73,12 +73,21 @@ export default class Match extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return [Match.make(node instanceof Expression ? node : undefined)];
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        // Wrap the value in a match with the value as a default
+        return node instanceof Expression
+            ? [
+                  Match.make(
+                      undefined,
+                      undefined,
+                      node instanceof Expression ? node : undefined,
+                  ),
+              ]
+            : [];
     }
 
-    static getPossibleAppends() {
-        return [Match.make()];
+    static getPossibleInsertions() {
+        return [];
     }
 
     isUndelimited() {
@@ -94,9 +103,14 @@ export default class Match extends Expression {
             {
                 name: 'value',
                 kind: node(Expression),
-                label: () => (l) => l.node.Match.value,
+                label: () => (l) => l.term.value,
             },
-            { name: 'question', kind: node(Sym.Match), space: true },
+            {
+                name: 'question',
+                kind: node(Sym.Match),
+                space: true,
+                label: undefined,
+            },
             {
                 name: 'cases',
                 kind: list(true, node(KeyValue)),
@@ -104,11 +118,12 @@ export default class Match extends Expression {
                 indent: true,
                 newline: true,
                 initial: true,
+                label: () => (l) => l.node.Match.label.case,
             },
             {
                 name: 'other',
                 kind: node(Expression),
-                label: () => (l) => l.node.Match.other,
+                label: () => (l) => l.node.Match.label.other,
                 space: true,
                 indent: true,
                 newline: true,
@@ -130,7 +145,7 @@ export default class Match extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Decisions;
     }
 
     computeConflicts(context: Context): Conflict[] {

@@ -2,10 +2,10 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import type OutputExpression from '@edit/OutputExpression';
-    import type OutputProperty from '@edit/OutputProperty';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import getPoseProperties from '@edit/PoseProperties';
+    import type OutputExpression from '@edit/output/OutputExpression';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
+    import getPoseProperties from '@edit/output/PoseProperties';
     import Evaluate from '@nodes/Evaluate';
     import KeyValue from '@nodes/KeyValue';
     import MapLiteral from '@nodes/MapLiteral';

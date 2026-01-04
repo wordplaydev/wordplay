@@ -131,18 +131,20 @@ export default class ConceptIndex {
             return new StreamConcept(stream, locales, context);
         }
 
-        const streams = Object.values(project.shares.input).map((def) =>
-            def instanceof StreamDefinition
-                ? makeStreamConcept(def)
-                : new FunctionConcept(
-                      Purpose.Input,
-                      undefined,
-                      def,
-                      undefined,
-                      locales,
-                      context,
-                  ),
-        );
+        const streams = Object.values(project.shares.input)
+            .filter((c) => c !== project.shares.input.Reaction)
+            .map((def) =>
+                def instanceof StreamDefinition
+                    ? makeStreamConcept(def)
+                    : new FunctionConcept(
+                          Purpose.Inputs,
+                          undefined,
+                          def,
+                          undefined,
+                          locales,
+                          context,
+                      ),
+            );
 
         const constructs = getNodeConcepts(context);
 
@@ -231,6 +233,14 @@ export default class ConceptIndex {
         );
     }
 
+    getInterfaceImplementers(def: StructureDefinition): StructureConcept[] {
+        return this.concepts.filter(
+            (concept): concept is StructureConcept =>
+                concept instanceof StructureConcept &&
+                concept.inter.some((s) => s.definition === def),
+        );
+    }
+
     getStreamConcept(fun: StreamDefinition): StreamConcept | undefined {
         return this.concepts.find(
             (concept): concept is StreamConcept =>
@@ -255,6 +265,7 @@ export default class ConceptIndex {
         return this.primaryConcepts.filter((c) => c.purpose === purpose);
     }
 
+    /** Finds a concept that represents the given type */
     getConceptOfType(
         type: Type,
     ): FunctionConcept | StructureConcept | undefined {

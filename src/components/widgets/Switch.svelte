@@ -104,7 +104,7 @@
         transform-origin: center;
         cursor: pointer;
         border-radius: var(--wordplay-border-radius);
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing-half);
         border: 1px solid var(--wordplay-chrome);
         background: var(--wordplay-background);
     }
@@ -140,6 +140,7 @@
         transform: scale(1.05);
         transform-origin: center;
         z-index: 1;
+        background-color: var(--wordplay-hover);
     }
 
     .button.active {

@@ -1,7 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -22,7 +21,6 @@ import Bind from './Bind';
 import BooleanType from './BooleanType';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import getGuards from './getGuards';
 import MapType from './MapType';
 import { node, type Grammar, type Replacement } from './Node';
@@ -70,23 +68,12 @@ export default class SetOrMapAccess extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
-        if (!(node instanceof Expression)) return [];
-        return node.getType(context).accepts(SetType.make(), context) ||
-            node.getType(context).accepts(MapType.make(), context)
-            ? [SetOrMapAccess.make(node, ExpressionPlaceholder.make())]
-            : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends() {
-        return [
-            SetOrMapAccess.make(
-                ExpressionPlaceholder.make(
-                    UnionType.make(SetType.make(), MapType.make()),
-                ),
-                ExpressionPlaceholder.make(),
-            ),
-        ];
+    static getPossibleInsertions() {
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -102,13 +89,13 @@ export default class SetOrMapAccess extends Expression {
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
-            { name: 'open', kind: node(Sym.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
             {
                 name: 'key',
                 kind: node(Expression),
                 label: () => (l) => l.term.key,
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
     }
 
@@ -122,7 +109,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Maps;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

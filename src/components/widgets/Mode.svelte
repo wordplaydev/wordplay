@@ -2,28 +2,44 @@
     import { getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
-    import type { ModeText } from '../../locale/UITexts';
+    import type { ModeText } from '@locale/UITexts';
     import { withMonoEmoji } from '../../unicode/emoji';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
-        descriptions: (locale: LocaleText) => ModeText<string[]>;
-        modes: string[];
+        /** Localized text for the labels and tooltips */
+        modes: (locale: LocaleText) => ModeText<readonly string[]>;
+        /** The current mode selected */
         choice: number;
+        /** Callback for when a mode is selected.*/
         select: (choice: number) => void;
+        /** Icons to add as prefixes to labels */
+        icons?: readonly string[];
+        /** Whether the mode chooser is active */
         active?: boolean;
+        /** Whether to add a label before the mode chooser*/
         labeled?: boolean;
+        /** Whether to add labels to the individual mode buttons */
+        modeLabels?: boolean;
+        /** Whether to wrap the row of buttons. Good if there are many. */
+        wrap?: boolean;
+        /** Buttons to omit, allowing for conditional display of modes */
+        omit?: readonly number[];
     }
 
     let {
-        descriptions,
         modes,
+        icons,
         choice,
         select,
         active = true,
         labeled = true,
+        modeLabels = true,
+        wrap = false,
+        omit = [],
     }: Props = $props();
 
-    let descriptionText = $derived($locales.get(descriptions));
+    let modeText = $derived($locales.get(modes));
 
     let hint = getTip();
     function showTip(view: HTMLButtonElement, tip: string) {
@@ -36,61 +52,65 @@
 
 <div class="mode">
     {#if labeled}
-        <label class="label" for={descriptionText.label}
-            >{descriptionText.label}</label
-        >
+        <label class="label" for={modeText.label}>{modeText.label}</label>
     {/if}
     <div
         class="group"
+        class:wrap
         role="radiogroup"
-        id={descriptionText.label}
-        aria-labelledby={descriptionText.label}
+        id={modeText.label}
+        aria-labelledby={modeText.label}
     >
-        {#each modes as mode, index}
-            <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
-            <button
-                type="button"
-                role="radio"
-                aria-checked={index === choice}
-                class:selected={index === choice}
-                aria-label={descriptionText.modes[index]}
-                aria-disabled={!active || index === choice}
-                ondblclick={(event) => event.stopPropagation()}
-                onpointerdown={(event) =>
-                    index !== choice && event.button === 0 && active
-                        ? select(index)
-                        : undefined}
-                onpointerenter={(event) =>
-                    showTip(
-                        event.target as HTMLButtonElement,
-                        descriptionText.modes[index],
-                    )}
-                onpointerleave={hideTip}
-                onfocus={(event) =>
-                    showTip(
-                        event.target as HTMLButtonElement,
-                        descriptionText.modes[index],
-                    )}
-                onblur={hideTip}
-                ontouchstart={(event) =>
-                    showTip(
-                        event.target as HTMLButtonElement,
-                        descriptionText.modes[index],
-                    )}
-                ontouchend={hideTip}
-                ontouchcancel={hideTip}
-                onkeydown={(event) =>
-                    (event.key === 'Enter' || event.key === ' ') &&
-                    // Only activate with no modifiers down. Enter is used for other shortcuts.
-                    !event.shiftKey &&
-                    !event.ctrlKey &&
-                    !event.altKey &&
-                    !event.metaKey
-                        ? select(index)
-                        : undefined}
-            >
-                {withMonoEmoji(mode)}
-            </button>
+        {#each modeText.labels, index}
+            {#if !omit.includes(index)}
+                <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
+                <button
+                    type="button"
+                    role="radio"
+                    aria-checked={index === choice}
+                    class:selected={index === choice}
+                    aria-label={modeText.tips[index]}
+                    aria-disabled={!active || index === choice}
+                    ondblclick={(event) => event.stopPropagation()}
+                    onpointerdown={(event) =>
+                        index !== choice && event.button === 0 && active
+                            ? select(index)
+                            : undefined}
+                    onpointerenter={(event) =>
+                        showTip(
+                            event.target as HTMLButtonElement,
+                            modeText.tips[index],
+                        )}
+                    onpointerleave={hideTip}
+                    onfocus={(event) =>
+                        showTip(
+                            event.target as HTMLButtonElement,
+                            modeText.tips[index],
+                        )}
+                    onblur={hideTip}
+                    ontouchstart={(event) =>
+                        showTip(
+                            event.target as HTMLButtonElement,
+                            modeText.tips[index],
+                        )}
+                    ontouchend={hideTip}
+                    ontouchcancel={hideTip}
+                    onkeydown={(event) =>
+                        (event.key === 'Enter' || event.key === ' ') &&
+                        // Only activate with no modifiers down. Enter is used for other shortcuts.
+                        !event.shiftKey &&
+                        !event.ctrlKey &&
+                        !event.altKey &&
+                        !event.metaKey
+                            ? select(index)
+                            : undefined}
+                >
+                    {#if icons}{withMonoEmoji(icons[index])}{/if}
+                    {#if modeLabels}<LocalizedText
+                            path={(l) => modeText.labels[index]}
+                        />{/if}
+                </button>
+            {/if}
         {/each}
     </div>
 </div>
@@ -102,7 +122,7 @@
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
         white-space: nowrap;
-        align-items: center;
+        align-items: baseline;
     }
 
     .label {
@@ -127,7 +147,7 @@
     button.selected {
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
-        transform: scale(1.1);
+        transform: scale(1.05);
         cursor: default;
     }
 
@@ -149,6 +169,7 @@
 
     button:not(:global(.selected)):hover {
         transform: scale(1.05);
+        background: var(--wordplay-hover);
     }
 
     .group {
@@ -160,6 +181,12 @@
         /* border: 1px solid var(--wordplay-chrome); */
         border-radius: var(--wordplay-border-radius);
         user-select: none;
+    }
+
+    .group.wrap {
+        flex-wrap: wrap;
+        white-space: normal;
+        row-gap: var(--wordplay-focus-width);
     }
 
     [aria-disabled='true'] {

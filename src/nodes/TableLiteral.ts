@@ -1,8 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -21,6 +19,7 @@ import StructureValue from '../values/StructureValue';
 import Bind from './Bind';
 import BooleanLiteral from './BooleanLiteral';
 import BooleanType from './BooleanType';
+import CompositeLiteral from './CompositeLiteral';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
 import Input from './Input';
@@ -40,7 +39,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
 
-export default class TableLiteral extends Expression {
+export default class TableLiteral extends CompositeLiteral {
     readonly type: TableType;
     readonly rows: Row[];
 
@@ -165,28 +164,12 @@ export default class TableLiteral extends Expression {
         return new TableLiteral(type, rows);
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return [
-            TableLiteral.make(
-                TableType.make(),
-                node instanceof Expression ? [Row.make([node])] : undefined,
-            ),
-        ];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends() {
-        return [
-            TableLiteral.make(
-                TableType.make([
-                    Bind.make(
-                        undefined,
-                        Names.make([PLACEHOLDER_SYMBOL]),
-                        NumberType.make(),
-                    ),
-                ]),
-                [Row.make([NumberLiteral.make(1)])],
-            ),
-        ];
+    static getPossibleInsertions() {
+        return [TableLiteral.make()];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -200,12 +183,17 @@ export default class TableLiteral extends Expression {
                 kind: node(TableType),
                 label: () => (l) => l.term.table,
             },
-            { name: 'rows', kind: list(true, node(Row)), newline: true },
+            {
+                name: 'rows',
+                kind: list(true, node(Row)),
+                newline: true,
+                label: () => (l) => l.term.row,
+            },
         ];
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Hidden;
     }
 
     computeConflicts(context: Context): Conflict[] {

@@ -1,5 +1,4 @@
 import Block from '@nodes/Block';
-import Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
 import Source from '@nodes/Source';
 import { expect } from 'vitest';
@@ -31,7 +30,7 @@ export function testConflict(
     expect(goodOp).toBeInstanceOf(nodeType);
     expect(
         goodOp
-            ?.getConflicts(new Context(goodProject, goodSource))
+            ?.getConflicts(goodProject.getContext(goodSource))
             .filter((n) => n instanceof conflictType)[0],
     ).toBeUndefined();
 
@@ -42,7 +41,7 @@ export function testConflict(
         nodeIndex
     ];
     expect(badOp).toBeInstanceOf(nodeType);
-    const conflicts = badOp?.getConflicts(new Context(badProject, badSource));
+    const conflicts = badOp?.getConflicts(badProject.getContext(badSource));
     expect(conflicts?.find((c) => c instanceof conflictType)).toBeInstanceOf(
         conflictType,
     );
@@ -61,7 +60,7 @@ export function testTypes(
             : undefined;
     const lastIsExpression = last instanceof Expression;
     if (last instanceof Expression) {
-        const type = last.getType(new Context(project, source));
+        const type = last.getType(project.getContext(source));
         const match = type instanceof typeExpected;
         if (!match)
             console.log(`Type of expression ${last.toWordplay()} is ${type}`);

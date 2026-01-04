@@ -6,14 +6,29 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Conflict from '@conflicts/Conflict';
     import Project from '@db/projects/Project';
+    import Caret, {
+        type CaretPosition,
+        NegligibleConflicts,
+        isCaretPosition,
+    } from '@edit/caret/Caret';
+    import {
+        AssignmentPoint,
+        InsertionPoint,
+        dropNodeOnSource,
+        isValidDropTarget,
+    } from '@edit/drag/Drag';
+    import Menu, { RevisionSet } from '@edit/menu/Menu';
+    import { getEditsAt } from '@edit/menu/PossibleEdits';
+    import type Revision from '@edit/revision/Revision';
     import type Locale from '@locale/Locale';
+    import { type LocaleTextAccessor } from '@locale/Locales';
     import Evaluate from '@nodes/Evaluate';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Node from '@nodes/Node';
-    import type Program from '@nodes/Program';
-    import type Source from '@nodes/Source';
+    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
+    import Source from '@nodes/Source';
     import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
     import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -29,16 +44,7 @@
         locales,
         showLines,
     } from '../../db/Database';
-    import { getEditsAt } from '../../edit/Autocomplete';
-    import Caret, { type CaretPosition } from '../../edit/Caret';
-    import {
-        InsertionPoint,
-        dropNodeOnSource,
-        getInsertionPoint,
-        isValidDropTarget,
-    } from '../../edit/Drag';
     import Expression from '../../nodes/Expression';
-    import { TAB_WIDTH } from '../../parser/Spaces';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import UnicodeString from '../../unicode/UnicodeString';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
@@ -56,32 +62,38 @@
         getKeyboardEditIdle,
         getSelectedOutput,
         setCaret,
+        setDragTarget,
         setEditor,
         setHighlights,
         setHovered,
-        setInsertionPoint,
-        setSetMenuNode,
+        setSetMenuAnchor,
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import Button from '../widgets/Button.svelte';
-    import CaretView, { type CaretBounds } from './CaretView.svelte';
-    import Highlight from './Highlight.svelte';
-    import PlaceholderView from './MenuTrigger.svelte';
+    import CaretView, { type CaretBounds } from './caret/CaretView.svelte';
     import {
         type Edit,
         type ProjectRevision,
         InsertSymbol,
         handleKeyCommand,
-    } from './util/Commands';
+    } from './commands/Commands';
+    import Highlight from './highlights/Highlight.svelte';
     import {
         type HighlightSpec,
-        type Highlights,
+        Highlights,
         getHighlights,
         getRangeOutline,
         updateOutlines,
-    } from './util/Highlights';
-    import Menu, { RevisionSet } from './util/Menu';
-    import { type Outline, OutlinePadding } from './util/outline';
+    } from './highlights/Highlights';
+    import { type Outline, OutlinePadding } from './highlights/outline';
+    import MenuTrigger from './menu/MenuTrigger.svelte';
+    import {
+        getBlockInsertionPoint,
+        getCaretPositionAt,
+        getEmptyList,
+        getNodeAt,
+        getTextInsertionPointsAt,
+    } from './pointer/PointerUtilities';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -185,7 +197,7 @@
      * An expensive operation to get all the token views for various operations.
      * We try to do it only once per update.
      */
-    function getTokenViews() {
+    function getTokenViews(): HTMLElement[] {
         if (editor === null) tokenViews = [];
         else if (tokenViews !== undefined) return tokenViews;
         else
@@ -207,7 +219,7 @@
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
-    const highlights = writable<Highlights>(new Map());
+    const highlights = writable<Highlights>(new Highlights());
     setHighlights(highlights);
 
     // A store of what node is hovered over, excluding tokens, used in drag and drop.
@@ -218,8 +230,10 @@
     const hoveredAny = writable<Node | undefined>(undefined);
 
     // A store of current insertion points in a drag.
-    const insertion = writable<InsertionPoint | undefined>(undefined);
-    setInsertionPoint(insertion);
+    const insertion = writable<InsertionPoint | AssignmentPoint | undefined>(
+        undefined,
+    );
+    setDragTarget(insertion);
 
     // A store of the handle edit function
     const editContext = writable({
@@ -236,6 +250,10 @@
 
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = $state(false);
+    let keyIgnoredReason = $state<undefined | LocaleTextAccessor>(undefined);
+
+    // True if the caret was recently set with a pointer.
+    let caretSetByPointer = $state(false);
 
     // Caret location comes from the caret
     let caretLocation: CaretBounds | undefined = $state(undefined);
@@ -259,26 +277,29 @@
             lastKeyDownIgnored,
     );
 
-    function setMenuNode(position: CaretPosition | undefined) {
+    function setMenuAnchor(anchor: CaretPosition | FieldPosition) {
         if (
-            position !== undefined &&
-            (menu === undefined || $caret.position !== position)
+            anchor !== undefined &&
+            (menu === undefined || $caret.position !== anchor)
         ) {
-            caret.set($caret.withPosition(position));
-            showMenu();
+            if (isCaretPosition(anchor)) caret.set($caret.withPosition(anchor));
+            showMenu(anchor);
         } else hideMenu();
     }
 
     // A store of the currently requested node for which to show a menu.
-    const menuNode =
-        writable<(position: CaretPosition | undefined) => void>(setMenuNode);
-    setSetMenuNode(menuNode);
+    const menuAnchor =
+        writable<(position: CaretPosition | FieldPosition) => void>(
+            setMenuAnchor,
+        );
+    setSetMenuAnchor(menuAnchor);
 
     // Focus the editor on mount, if autofocus is on.
     onMount(() =>
         autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
     );
 
+    /** Called when the program evaluates another step. */
     async function evalUpdate() {
         // No evaluator, or we're playing? No need to update the eval editor info.
         if (evaluator === undefined || evaluator.isPlaying()) return;
@@ -302,15 +323,16 @@
         }
     }
 
-    function setIgnored(ignored: boolean) {
-        if (ignored) {
-            lastKeyDownIgnored = true;
-            // Flip back to unignored after the animation so we can give more feedback.
-            setTimeout(
-                () => (lastKeyDownIgnored = false),
-                $animationFactor * 250,
-            );
-        } else lastKeyDownIgnored = false;
+    function resetIgnored(resetReason: boolean) {
+        lastKeyDownIgnored = false;
+        if (resetReason) keyIgnoredReason = undefined;
+    }
+
+    function setIgnored(reason: LocaleTextAccessor | undefined) {
+        lastKeyDownIgnored = true;
+        keyIgnoredReason = reason;
+        // Flip back to unignored after the animation so we can give more feedback.
+        setTimeout(() => resetIgnored(false), $animationFactor * 250);
     }
 
     /**
@@ -320,6 +342,8 @@
      */
     let nodeViewCache = new Map<Node, HTMLElement | null>();
     $effect(() => {
+        // If blocks mode changes, reset cache.
+        $blocks;
         if (source && $evaluation) nodeViewCache = new Map();
     });
     function getNodeView(node: Node): HTMLElement | undefined {
@@ -339,17 +363,6 @@
         }
     }
 
-    function getTokenByView(program: Program, tokenView: Element) {
-        if (
-            tokenView instanceof HTMLElement &&
-            tokenView.dataset.id !== undefined
-        ) {
-            const node = program.getNodeByID(parseInt(tokenView.dataset.id));
-            return node instanceof Token ? node : undefined;
-        }
-        return undefined;
-    }
-
     function ensureElementIsVisible(element: Element, nearest = false) {
         // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
         element.scrollIntoView({
@@ -360,7 +373,19 @@
 
     function handleRelease() {
         // Is the creator hovering over a valid drop target? If so, execute the edit.
-        if (isValidDropTarget(project, $dragged, $hovered, $insertion)) drop();
+        if (
+            $dragged &&
+            (($hovered &&
+                isValidDropTarget(
+                    project,
+                    $dragged,
+                    $hovered,
+                    $insertion,
+                    true,
+                )) ||
+                $insertion)
+        )
+            drop();
 
         // Release the dragged node.
         if (dragged) dragged.set(undefined);
@@ -375,12 +400,16 @@
         if ($dragged === undefined) return;
         if ($hovered === undefined && $insertion === undefined) return;
 
-        const [newProject, newSource, droppedNode] = dropNodeOnSource(
-            project,
-            source,
-            $dragged,
-            $hovered ?? ($insertion as Node | InsertionPoint),
-        ) ?? [undefined, undefined];
+        // If there's a hovered node, prioritize that. Otherwise, choose the insertion point.
+        const target = $hovered ?? $insertion;
+
+        const [newProject, newSource, droppedNode] =
+            target === undefined
+                ? [undefined, undefined]
+                : (dropNodeOnSource(project, source, $dragged, target) ?? [
+                      undefined,
+                      undefined,
+                  ]);
 
         if (newProject === undefined || droppedNode === undefined) return;
 
@@ -401,6 +430,8 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
+        if (event.button !== 0) return;
+
         // Clear any existing large deletion notification when user clicks to clear selection
         setLargeDeletionNotification?.(null);
         event.preventDefault();
@@ -413,29 +444,69 @@
     }
 
     function placeCaretAt(event: PointerEvent) {
-        const tokenUnderPointer = getNodeAt(event, true);
-        const nonTokenNodeUnderPointer = getNodeAt(event, false);
+        if (editor === null) return;
+
+        // If the token is over an empty list, insertion point for that list.
+        const empty = $blocks ? getEmptyList(source, event) : undefined;
+        const tokenUnderPointer = getNodeAt(source, event, true);
+        const nonTokenNodeUnderPointer = getNodeAt(source, event, false);
         const newPosition =
-            // If shift is down or in blocks mode, select the non-token node at the position.
-            (event.shiftKey || $blocks) &&
-            nonTokenNodeUnderPointer !== undefined
-                ? nonTokenNodeUnderPointer
-                : // If the node is a placeholder token, select it's placeholder ancestor
-                  tokenUnderPointer instanceof Token &&
-                    tokenUnderPointer.isSymbol(Sym.Placeholder)
-                  ? source.root
-                        .getAncestors(tokenUnderPointer)
-                        .find((a) => a.isPlaceholder())
-                  : // Otherwise choose an index position under the mouse
-                    getCaretPositionAt(event);
-
-        // If we found a position, set it.
-        if (newPosition !== undefined)
+            // If there's an ampty position, use that.
+            empty !== undefined
+                ? empty
+                : // If in blocks mode and over an editable text token, get the caret position
+                  $blocks &&
+                    tokenUnderPointer instanceof Token &&
+                    Caret.isTokenTextBlockEditable(
+                        tokenUnderPointer,
+                        source.root.getParent(tokenUnderPointer),
+                    )
+                  ? getCaretPositionAt(
+                        $caret,
+                        editor,
+                        event,
+                        getNodeView,
+                        getTokenViews,
+                        $locales.getDirection(),
+                        $blocks,
+                    )
+                  : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
+                    (event.shiftKey || $blocks) &&
+                      nonTokenNodeUnderPointer !== undefined
+                    ? nonTokenNodeUnderPointer
+                    : // If the node is a placeholder token, select it's placeholder ancestor
+                      tokenUnderPointer instanceof Token &&
+                        tokenUnderPointer.isSymbol(Sym.Placeholder)
+                      ? source.root
+                            .getAncestors(tokenUnderPointer)
+                            .find((a) => a.isPlaceholder())
+                      : // Otherwise choose an index position under the mouse
+                        getCaretPositionAt(
+                            $caret,
+                            editor,
+                            event,
+                            getNodeView,
+                            getTokenViews,
+                            $locales.getDirection(),
+                            $blocks,
+                        );
+        // If we found a position, set it and reset the ignore feedback.
+        if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
+            resetIgnored(true);
+            caretSetByPointer = true;
+            setTimeout(() => {
+                caretSetByPointer = false;
+            }, 100);
+        }
 
-        // Mark that the creator might want to drag the node under the mouse and remember where the click started.
+        // Mark that the creator might want to drag the node under the pointer and remember where the click started.
         dragPoint = { x: event.clientX, y: event.clientY };
-        if (editable && nonTokenNodeUnderPointer && event.shiftKey) {
+        if (
+            editable &&
+            nonTokenNodeUnderPointer &&
+            ($blocks || event.shiftKey)
+        ) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
@@ -445,361 +516,6 @@
                 if (editor) editor.style.touchAction = 'none';
             }
         }
-    }
-
-    function getNodeAt(
-        event: PointerEvent | MouseEvent,
-        includeTokens: boolean,
-    ) {
-        const el = document.elementFromPoint(event.clientX, event.clientY);
-        // Only return a node if hovering over its text. Space isn't eligible.
-        if (el instanceof HTMLElement) {
-            const nodeView = el.closest(
-                `.node-view${includeTokens ? '' : `:not(.Token)`}`,
-            );
-            if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
-                return source.expression.getNodeByID(
-                    parseInt(nodeView.dataset.id),
-                );
-            }
-        }
-        return undefined;
-    }
-
-    function getTokenFromElement(
-        textOrSpace: Element,
-    ): [Token, Element] | undefined {
-        const tokenView = textOrSpace.closest(`.Token`);
-        const token =
-            tokenView === null
-                ? undefined
-                : getTokenByView($caret.getProgram(), tokenView);
-        return tokenView === null || token === undefined
-            ? undefined
-            : [token, tokenView];
-    }
-
-    function getTokenFromLineBreak(
-        textOrSpace: Element,
-    ): [Token, Element] | undefined {
-        const spaceView = textOrSpace.closest('.space') as HTMLElement;
-        const tokenID =
-            spaceView instanceof HTMLElement && spaceView.dataset.id
-                ? parseInt(spaceView.dataset.id)
-                : undefined;
-        const node = tokenID ? source.getNodeByID(tokenID) : undefined;
-        return node instanceof Token ? [node, spaceView] : undefined;
-    }
-
-    function getCaretPositionAt(event: PointerEvent): number | undefined {
-        // What element is under the mouse?
-        const elementAtCursor = document.elementFromPoint(
-            event.clientX,
-            event.clientY,
-        );
-
-        // If there's no element (which should be impossible), return nothing.
-        if (elementAtCursor === null) return undefined;
-        if (editor === null) return undefined;
-
-        // If we've selected a token view, figure out what position in the text to place the caret.
-        if (elementAtCursor.classList.contains('token-view')) {
-            // Find the token this corresponds to.
-            const [token, tokenView] =
-                getTokenFromElement(elementAtCursor) ?? [];
-            // If we found a token, find the position in it corresponding to the mouse position.
-            if (
-                token instanceof Token &&
-                tokenView instanceof Element &&
-                event.target instanceof Element
-            ) {
-                const startIndex = $caret.source.getTokenTextPosition(token);
-                const lastIndex = $caret.source.getTokenLastPosition(token);
-                if (startIndex !== undefined && lastIndex !== undefined) {
-                    // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
-                    const targetRect = event.target.getBoundingClientRect();
-                    const tokenRect = elementAtCursor.getBoundingClientRect();
-                    const offset =
-                        event.offsetX + (targetRect.left - tokenRect.left);
-                    const newPosition = Math.max(
-                        startIndex,
-                        Math.min(
-                            lastIndex,
-                            startIndex +
-                                (tokenRect.width === 0
-                                    ? 0
-                                    : Math.round(
-                                          token.getTextLength() *
-                                              (offset / tokenRect.width),
-                                      )),
-                        ),
-                    );
-                    return newPosition;
-                }
-            }
-        }
-
-        // If the element at the cursor is inside space, choose the space.
-        // This depends tightly on the spaces rendered in Space.svelte and
-        // NodeView.svelte, when in blocks mode.
-        const spaceView = elementAtCursor.closest('.space');
-        if (spaceView instanceof HTMLElement) {
-            const tokenID = spaceView.dataset.id
-                ? parseInt(spaceView.dataset.id)
-                : null;
-            const token =
-                tokenID !== null && !isNaN(tokenID)
-                    ? source.getNodeByID(tokenID)
-                    : null;
-            if (token instanceof Token) {
-                const space = source.spaces.getSpace(token);
-                // We only choose this position if doesn't contain newlines (we handle those below).
-                if (!space.includes('\n')) {
-                    const tokenView = getNodeView(token);
-                    const spacePosition = source.getTokenSpacePosition(token);
-                    if (tokenView && spacePosition !== undefined) {
-                        const spaceRect = spaceView.getBoundingClientRect();
-                        const percent =
-                            (spaceRect.width -
-                                (tokenView.getBoundingClientRect().left -
-                                    event.clientX)) /
-                            spaceRect.width;
-
-                        return Math.round(
-                            spacePosition +
-                                percent *
-                                    space.replace('\t', ' '.repeat(TAB_WIDTH))
-                                        .length,
-                        );
-                    }
-                }
-            }
-        }
-
-        // Otherwise, the pointer is over the editor.
-        // Find the closest token and choose either it's right or left side.
-        // Map the token text to a list of vertical and horizontal distances
-        const closestToken = Array.from(getTokenViews())
-            .map((tokenView) => {
-                const textRect = tokenView.getBoundingClientRect();
-                return {
-                    view: tokenView,
-                    textDistance:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : Math.abs(
-                                  event.clientY -
-                                      (textRect.top + textRect.height / 2),
-                              ),
-                    textLeft:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : textRect.left,
-                    textRight:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : textRect.right,
-                    textTop:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : textRect.top,
-                    textBottom:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : textRect.bottom,
-                    leftDistance:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : Math.abs(event.clientX - textRect.left),
-                    rightDistance:
-                        textRect === undefined
-                            ? Number.POSITIVE_INFINITY
-                            : Math.abs(event.clientX - textRect.right),
-                    hidden: tokenView.closest('.hide') !== null,
-                };
-            })
-            // Filter by tokens within the vertical boundaries of the token.
-            .filter(
-                (text) =>
-                    !text.hidden &&
-                    text.textDistance !== Number.POSITIVE_INFINITY &&
-                    event.clientY >= text.textTop &&
-                    event.clientY <= text.textBottom,
-            )
-            // Sort by increasing horizontal distance from the pointer
-            .sort(
-                (a, b) =>
-                    Math.min(a.leftDistance, a.rightDistance) -
-                    Math.min(b.leftDistance, b.rightDistance),
-            )[0]; // Choose the closest.
-
-        // If we found one, choose either the beginnng or end of the line.
-        if (closestToken) {
-            const [token] = getTokenFromElement(closestToken.view) ?? [];
-            if (token === undefined) return undefined;
-
-            return closestToken.textRight < event.clientX
-                ? source.getEndOfTokenLine(token)
-                : source.getStartOfTokenLine(token);
-        }
-
-        // Otherwise, if the pointer wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
-        type BreakInfo = {
-            token: Token;
-            offset: number;
-            index: number;
-            view: HTMLElement;
-        };
-
-        // Find all tokens with empty lines and choose the nearest.
-        const closestLine =
-            // Find all of the token line breaks, which are wrapped in spans to enable consistent measurement.
-            // This is because line breaks and getBoundingClientRect() are jumpy depending on what's around them.
-            Array.from(editor.querySelectorAll('.space .break'))
-                // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
-                .map((br) => {
-                    const [token, tokenView] = getTokenFromLineBreak(br) ?? [];
-                    // Check the br container, which gives us a more accurate bounding client rect.
-                    const rect = br.getBoundingClientRect();
-                    if (tokenView === undefined || token === undefined)
-                        return undefined;
-                    // Skip the line if it doesn't include the pointer's y.
-                    if (event.clientY < rect.top || event.clientY > rect.bottom)
-                        return undefined;
-                    return {
-                        token,
-                        offset: Math.abs(
-                            rect.top + rect.height / 2 - event.clientY,
-                        ),
-                        // Find the index of the break in the space view.
-                        index: Array.from(
-                            tokenView.querySelectorAll('.break'),
-                        ).indexOf(br),
-                        view: br as HTMLElement,
-                    };
-                })
-                // Filter out any empty breaks that we couldn't find
-                .filter<BreakInfo>(
-                    (br: BreakInfo | undefined): br is BreakInfo =>
-                        br !== undefined,
-                )
-                // Sort by increasing offset from mouse y
-                .sort((a, b) => a.offset - b.offset)[0]; // Chose the closest
-
-        // If we have a closest line, find the line number
-        if (closestLine) {
-            // Find the space view of the closest line.
-
-            // Compute the horizontal position at which to place the caret.
-            // Find the width of a single space by finding the longest line,
-            // which determines its width.
-            const spaceView = closestLine.view.closest('.space');
-            const spaceBounds = spaceView?.getBoundingClientRect();
-            const tokenSpace = source.spaces.getSpace(closestLine.token);
-            let spaceWidth =
-                (spaceBounds?.width ?? 0) /
-                Math.max.apply(
-                    null,
-                    tokenSpace
-                        .replaceAll('\t', ' '.repeat(TAB_WIDTH))
-                        .split('\n')
-                        .map((s) => s.length),
-                );
-            if (isNaN(spaceWidth) || spaceWidth === Infinity) spaceWidth = 0;
-
-            // Offset the caret position by the number of spaces from the edge that was clicked.
-            let positionOffset = spaceBounds
-                ? Math.round(
-                      Math.abs(
-                          event.clientX -
-                              ($locales.getDirection() === 'ltr'
-                                  ? spaceBounds.left
-                                  : spaceBounds.right),
-                      ) / spaceWidth,
-                  )
-                : 0;
-            if (isNaN(positionOffset) || positionOffset === Infinity)
-                positionOffset = 0;
-
-            const index = $caret.source.getTokenSpacePosition(
-                closestLine.token,
-            );
-
-            // Figure out where on the line to place the insertion point based on the line index
-            return index !== undefined
-                ? index +
-                      tokenSpace.split('\n', closestLine.index).length +
-                      positionOffset
-                : undefined;
-        }
-
-        // Otherwise, choose the last position if nothing else matches.
-        return source.getCode().getLength();
-    }
-
-    function getInsertionPointsAt(event: PointerEvent) {
-        // Is the caret position between tokens?
-        // If so, are any of the token's parents inside a list in which we could insert something?
-        const position = getCaretPositionAt(event);
-
-        // If we found a position, find what's between.
-        if (position !== undefined) {
-            // Create a caret for the position and get the token it's at.
-            const caret = new Caret(
-                source,
-                position,
-                undefined,
-                undefined,
-                undefined,
-            );
-            const token = caret.getToken();
-            if (token === undefined) return [];
-
-            // What is the space prior to this insertion point?
-            const index = source.getTokenSpacePosition(token);
-            if (index === undefined) return [];
-
-            // Find what space is prior.
-            const spacePrior = source.spaces
-                .getSpace(token)
-                .substring(0, position - index);
-
-            // How many lines does the space prior include?
-            const line = spacePrior.split('\n').length - 1;
-
-            // What nodes are between this and are any of them insertion points?
-            const { before, after } = caret.getNodesBetween();
-
-            // If there are nodes between the point, construct insertion points
-            // that exist in lists.
-            return (
-                [
-                    ...before.map((tree) =>
-                        getInsertionPoint(source, tree, false, token, line),
-                    ),
-                    ...after.map((tree) =>
-                        getInsertionPoint(source, tree, true, token, line),
-                    ),
-                ]
-                    // Filter out duplicates and undefineds
-                    .filter<InsertionPoint>(
-                        (
-                            insertion1: InsertionPoint | undefined,
-                            i1,
-                            insertions,
-                        ): insertion1 is InsertionPoint =>
-                            insertion1 !== undefined &&
-                            insertions.find(
-                                (insertion2, i2) =>
-                                    i1 > i2 &&
-                                    insertion1 !== insertion2 &&
-                                    insertion2 !== undefined &&
-                                    insertion1.equals(insertion2),
-                            ) === undefined,
-                    )
-            );
-        }
-        return [];
     }
 
     function exceededDragThreshold(event: PointerEvent) {
@@ -814,9 +530,10 @@
 
     function handlePointerMove(event: PointerEvent) {
         if (evaluator === undefined) return;
+        if (editor === null) return;
 
         // Remove the touch action disabling now that we're moving.
-        if (editor) editor.style.removeProperty('touchAction');
+        editor.style.removeProperty('touchAction');
 
         // Handle an edit
         handleEditHover(event);
@@ -828,9 +545,17 @@
             dragPoint !== undefined
         ) {
             // Dragging to select. What's under the pointer?
-            const position = getCaretPositionAt(event);
-            // Update the selection based on the caret position.
-            if (position !== undefined) {
+            const position = getCaretPositionAt(
+                $caret,
+                editor,
+                event,
+                getNodeView,
+                getTokenViews,
+                $locales.getDirection(),
+                $blocks,
+            );
+            // Update the selection range based on the caret position.
+            if (position !== undefined && !$blocks) {
                 if ($caret.isPosition() && $caret.position !== position)
                     caret.set($caret.withPosition([$caret.position, position]));
                 else if ($caret.isRange() && $caret.position[0] !== position)
@@ -845,9 +570,14 @@
     }
 
     function handleEditHover(event: PointerEvent) {
+        if (editor === null) return;
+
+        // Update the selecting state
+        selectingWithShift = event.shiftKey && dragCandidate === undefined;
+
         // By default, set the hovered state to whatever node is under the mouse.
-        hovered.set(getNodeAt(event, false));
-        hoveredAny.set(getNodeAt(event, true));
+        hovered.set(getNodeAt(source, event, false));
+        hoveredAny.set(getNodeAt(source, event, true));
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
         if (dragged && dragCandidate && exceededDragThreshold(event)) {
@@ -862,20 +592,39 @@
             !($hovered instanceof ExpressionPlaceholder) &&
             !($hovered instanceof TypePlaceholder)
         ) {
-            // Get the insertion points at the current mouse position
+            let insertionPoint: InsertionPoint | AssignmentPoint | undefined =
+                undefined;
+
+            // In blocks mode? Handle the case of empty and insert.
+            if ($blocks) {
+                insertionPoint = getBlockInsertionPoint(
+                    context,
+                    event,
+                    $dragged,
+                );
+            }
+            // Get the insertion points at the current pointer position
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
-            const insertionPoint = getInsertionPointsAt(event).filter(
-                (insertion) => {
+            else {
+                insertionPoint = getTextInsertionPointsAt(
+                    $caret,
+                    editor,
+                    event,
+                    getNodeView,
+                    getTokenViews,
+                    $locales.getDirection(),
+                    $blocks,
+                ).filter((insertion) => {
                     const kind = insertion.node.getFieldKind(insertion.field);
                     return (
                         kind &&
                         $dragged &&
                         (kind.allows($dragged) || kind.allows([$dragged]))
                     );
-                },
-            )[0];
+                })[0];
+            }
 
             // Set the insertion, whatever we found.
             insertion.set(insertionPoint);
@@ -888,9 +637,9 @@
     function handleDebugHover(event: PointerEvent) {
         if (evaluator === undefined) return;
 
-        const node = getNodeAt(event, false);
+        const node = getNodeAt(source, event, false);
 
-        // if the node is associated with a step, set it, otherwise unset it.
+        // If the node is associated with a step, set it, otherwise unset it.
         hovered.set(
             evaluator.isDone() || node === undefined
                 ? undefined
@@ -909,7 +658,7 @@
             grabFocus('Restoring editor focus after menu is hidden.');
     });
 
-    async function showMenu(node: CaretPosition | undefined = undefined) {
+    async function showMenu(anchor: CaretPosition | FieldPosition) {
         if (!editable) return;
 
         wasFocusedBeforeMenu = focused;
@@ -917,20 +666,45 @@
         // Wait for everything to be updated so we have a fresh context
         await tick();
 
-        // Is the caret on a specific token or node?
-        const position = node ?? $caret.position;
-
         // Get the unique valid edits at the caret.
-        const revisions = getEditsAt(
+        let revisions = getEditsAt(
             project,
-            $caret.withPosition(position),
+            $caret,
+            isFieldPosition(anchor) ? anchor : undefined,
             $locales,
         );
+
+        // If in blocks mode, filter edits that would create conflicts.
+        if ($blocks) {
+            // Make a mapping of sources to revisions.
+            const revisionToSource = new Map<Revision, Source>();
+            for (const revision of revisions) {
+                const edit = revision.getEdit($locales);
+                const source = Array.isArray(edit) ? edit[0] : undefined;
+                if (source) revisionToSource.set(revision, source);
+            }
+            // Find the new conflicts for each revision.
+            const newConflicts = project.getNewConflictsBatch(
+                source,
+                Array.from(revisionToSource.values()),
+                NegligibleConflicts,
+            );
+            // Filter the revisions by those that don't create conflicts.
+            revisions = revisions.filter((revision) => {
+                const source = revisionToSource.get(revision);
+                const conflicts = source
+                    ? (newConflicts.get(source) ?? [])
+                    : [];
+                return conflicts.length === 0;
+            });
+        }
 
         // Set the menu.
         if (concepts)
             menu = new Menu(
-                $caret,
+                project,
+                source,
+                anchor,
                 revisions,
                 undefined,
                 concepts,
@@ -945,7 +719,7 @@
     }
 
     function toggleMenu() {
-        return menu === undefined ? showMenu() : hideMenu();
+        return menu === undefined ? showMenu($caret.position) : hideMenu();
     }
 
     function handleMenuItem(
@@ -972,11 +746,15 @@
      *      But there are other things that edit, and they may not want the editor grabbing focus.
      **/
     async function handleEdit(
-        edit: Edit | ProjectRevision | undefined,
+        edit: Edit | ProjectRevision | LocaleTextAccessor,
         idle: IdleKind,
         focusAfter: boolean,
     ) {
-        if (edit === undefined) return;
+        // Received a reason to ignore the edit? Set ignored.
+        if (typeof edit === 'function') {
+            setIgnored(edit);
+            return;
+        }
 
         // Clear any existing large deletion notification since a new edit has started
         setLargeDeletionNotification?.(null);
@@ -988,7 +766,7 @@
         let newCaret = navigation ? edit : edit[1];
         const newSource = navigation ? undefined : edit[0];
 
-        // Set the keyboard edit idle to false.
+        // Update the idle state.
         keyboardEditIdle.set(idle);
 
         // See if the caret is inside a node that's currently being displayed as a value, and if
@@ -1037,10 +815,12 @@
                         ? newCaret
                         : newCaret.withSource(newSource),
                 );
-            } else setIgnored(true);
+                resetIgnored(true);
+            } else setIgnored((l) => l.ui.source.cursor.ignored.readOnly);
         } else {
             // Remove the addition, since the caret moved since being added.
             caret.set(newCaret.withoutAddition());
+            resetIgnored(true);
         }
 
         // After processing the edit, if it was a deletion, check if a large deletion occurred
@@ -1070,6 +850,9 @@
     let replacePreviousWithNext = false;
     let composing = $state(false);
     let composingJustEnded = false;
+    /** If the shift key is pressed in text mode, entering selecting mode */
+    let selectingWithShift = $state(false);
+
     /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
     let insertedSymbol = false;
     /** True if text was pasted */
@@ -1084,9 +867,9 @@
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
 
-        setIgnored(false);
+        resetIgnored(true);
 
-        let edit: Edit | ProjectRevision | undefined = undefined;
+        let edit: Edit | ProjectRevision | LocaleTextAccessor | undefined;
 
         // Somehow no reference to the input? Bail.
         if (input === null) return;
@@ -1111,10 +894,10 @@
                 $blocks,
                 project,
             );
-            if (edit) {
+            if (Array.isArray(edit)) {
                 newSource = edit[0];
                 newCaret = edit[1];
-            } else return;
+            } else setIgnored(edit);
         }
 
         // If the last key pressed was a deadkey, capture it from the input.
@@ -1141,7 +924,7 @@
                             newSource.getTokenAt(newCaret.position),
                         ),
                     ];
-                }
+                } else edit = undefined;
             }
             // Otherwise, just insert the grapheme and limit the input field to the last character.
             else if (!composing) {
@@ -1171,8 +954,9 @@
         if (!composing) event.preventDefault();
 
         // Did we make an update?
-        if (edit) handleEdit(edit, IdleKind.Typing, true);
-        else setIgnored(true);
+        if (edit instanceof Caret || Array.isArray(edit))
+            handleEdit(edit, IdleKind.Typing, true);
+        else if (edit !== undefined) setIgnored(edit);
     }
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -1190,7 +974,7 @@
         if (editor === null) return;
 
         // Assume we'll handle it.
-        setIgnored(false);
+        resetIgnored(true);
 
         // If it was a dead key, don't handle it as a command, just remember that it was
         // a dead key, then let the input event above insert it.
@@ -1212,6 +996,7 @@
             database: DB,
             toggleMenu,
             blocks: $blocks,
+            locales: $locales,
             view: editor,
             getTokenViews,
             clearLargeDeletionNotification: () =>
@@ -1225,10 +1010,13 @@
         const idle =
             command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
 
-        if (result !== false) {
+        if (typeof result === 'function') {
+            setIgnored(result);
+            return;
+        } else if (result !== false) {
             if (result instanceof Promise) {
                 result.then((edit) => {
-                    if (edit === undefined) setIgnored(true);
+                    if (typeof edit === 'function') setIgnored(edit);
                     else if (edit !== true) handleEdit(edit, idle, true);
                 });
             } else if (result !== undefined && result !== true) {
@@ -1238,10 +1026,14 @@
             // Prevent default keyboard commands from being otherwise handled, since they were handled here.
             event.preventDefault();
             event.stopPropagation();
+            return;
         }
-        // Give feedback that we didn't execute a command.
-        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
-            setIgnored(true);
+        // Give feedback that we didn't execute a command if it's not a modifier key.
+        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key)) {
+            setIgnored(undefined);
+            return;
+        }
+        // Return undefined and let the event bubble.
     }
 
     function handleCompositionStart() {
@@ -1263,7 +1055,8 @@
                 project,
                 !keyWasDead,
             );
-            if (edit) handleEdit(edit, IdleKind.Typing, true);
+            if (typeof edit === 'function') setIgnored(edit);
+            else handleEdit(edit, IdleKind.Typing, true);
             input.value = '';
         }
     }
@@ -1303,8 +1096,6 @@
     );
 
     let concepts = $derived(indexContext?.index);
-    // A shorthand for the current program.
-    let program = $derived(source.expression);
 
     /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
     $effect(() => {
@@ -1456,6 +1247,7 @@
                         ...(project.getSecondaryConflictsInvolvingNode(
                             conflictSelection,
                         ) ?? []),
+                        ...$nodeConflicts,
                     ]
                         // Eliminate duplicate conflicts
                         .filter(
@@ -1529,6 +1321,7 @@
             $animatingNodes,
             selection?.getOutput(project),
             $blocks,
+            selectingWithShift,
         );
         highlights.set(newHighlights);
     });
@@ -1536,12 +1329,15 @@
     // Update the outline positions any time the highlights change, but only after we're done rendering.
     let outlines = $state<HighlightSpec[]>([]);
     $effect(() => {
+        /** Update outlines when blocks mode changes. */
+        $blocks;
         if ($highlights)
             tick().then(() => {
                 outlines = updateOutlines(
                     $highlights,
                     true,
                     $locales.getDirection() === 'rtl',
+                    $blocks,
                     getNodeView,
                 );
             });
@@ -1557,6 +1353,7 @@
                   getNodeView,
                   true,
                   $locales.getDirection() === 'rtl',
+                  $blocks,
               )
             : undefined,
     );
@@ -1617,7 +1414,7 @@
     onkeydown={handleKeyDown}
     ondblclick={(event) => {
         event.stopPropagation();
-        let node = getNodeAt(event, true);
+        let node = getNodeAt(source, event, true);
         if (node) caret.set($caret.withPosition(node));
     }}
     onfocusin={() => {
@@ -1644,7 +1441,7 @@
         <Highlight
             outline={rangeHighlight}
             underline={rangeHighlight}
-            types={['hovered']}
+            types={['selected']}
             above={false}
         />
     {/if}
@@ -1655,9 +1452,7 @@
             {...outline}
             above={false}
             types={outline.types}
-            ignored={$evaluation !== undefined &&
-                $evaluation.playing === true &&
-                lastKeyDownIgnored}
+            ignored={shakeCaret}
         />
     {/each}
     <!--
@@ -1691,10 +1486,11 @@
     ></textarea>
     <!-- Render the program -->
     <RootView
-        node={program}
+        node={source}
         spaces={source.spaces}
         {locale}
         caret={$caret}
+        editable={true}
         blocks={$blocks}
         lines={$showLines}
         inline={false}
@@ -1726,7 +1522,8 @@
         blink={$keyboardEditIdle === IdleKind.Idle &&
             focused &&
             editable &&
-            restoredPosition === undefined}
+            restoredPosition === undefined &&
+            !caretSetByPointer}
         ignored={shakeCaret}
         {getTokenViews}
         viewport={editor}
@@ -1741,7 +1538,8 @@
     {#key $caret.position}
         <div
             class="caret-description"
-            class:node={$caret.isNode()}
+            class:ignored={shakeCaret}
+            class:visible={$caret.isNode() || keyIgnoredReason !== undefined}
             onpointerdown={(event) => event.stopPropagation()}
             style:left={caretLocation
                 ? `calc(${caretLocation.left}px - ${OutlinePadding}px)`
@@ -1760,7 +1558,11 @@
                 {$caret.position.getLabel(
                     $locales,
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
-                <PlaceholderView position={$caret.position} />{/if}</div
+                <MenuTrigger
+                    anchor={$caret.position}
+                />{/if}{#if keyIgnoredReason}<em>
+                    &nbsp;<LocalizedText path={keyIgnoredReason} /></em
+                >{/if}</div
         >
     {/key}
     {#if project.getSupplements().length > 0}
@@ -1793,6 +1595,7 @@
         </div>
     {/if}
 </div>
+.
 
 <style>
     .editor {
@@ -1876,14 +1679,18 @@
         background: var(--wordplay-highlight-color);
         color: var(--wordplay-background);
         /* border:  var(--wordplay-border-width) solid var(--wordplay-border-color); */
-        padding-left: calc(var(--wordplay-spacing) / 2);
-        padding-right: calc(var(--wordplay-spacing) / 2);
+        padding-left: var(--wordplay-spacing-half);
+        padding-right: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
         opacity: 0;
     }
 
-    .caret-description.node {
+    .caret-description.visible {
         opacity: 1;
+    }
+
+    .caret-description.ignored {
+        animation: shake calc(var(--animation-factor) * 250ms) linear;
     }
 
     .output-preview-container {

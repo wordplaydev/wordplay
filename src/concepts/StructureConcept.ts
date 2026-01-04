@@ -60,7 +60,7 @@ export default class StructureConcept extends Concept {
             );
         this.examples =
             examples === undefined || examples.length === 0
-                ? [this.definition.getEvaluateTemplate(locales, context)]
+                ? [this.definition.getEvaluateTemplate(locales, context, false)]
                 : examples;
 
         this.functions = this.definition
@@ -68,7 +68,7 @@ export default class StructureConcept extends Concept {
             .map(
                 (def) =>
                     new FunctionConcept(
-                        Purpose.Evaluate,
+                        purpose,
                         definition,
                         def,
                         this,
@@ -124,9 +124,7 @@ export default class StructureConcept extends Concept {
     }
 
     getDocs(locales: Locales): Markup[] {
-        return (this.definition.docs?.docs ?? [])
-            .map((doc) => doc.markup.concretize(locales, []))
-            .filter((m) => m !== undefined);
+        return this.definition.docs.getMarkup(locales);
     }
 
     getNames() {

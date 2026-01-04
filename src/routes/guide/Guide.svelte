@@ -130,7 +130,7 @@
         <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>
 
-    <Documentation {project} collapse={false}></Documentation>
+    <Documentation {project} standalone collapse={false}></Documentation>
 </section>
 
 <style>

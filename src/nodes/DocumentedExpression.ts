@@ -1,3 +1,4 @@
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
@@ -33,13 +34,27 @@ export default class DocumentedExpression extends SimpleExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: node(Docs) },
-            { name: 'expression', kind: node(Expression) },
+            { name: 'docs', kind: node(Docs), label: undefined },
+            {
+                name: 'expression',
+                kind: node(Expression),
+                label: () => (l) => l.term.value,
+            },
         ];
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
+    }
+
+    static getPossibleReplacements({ node, locales }: ReplaceContext) {
+        return node instanceof Expression
+            ? new DocumentedExpression(Docs.getTemplate(locales), node)
+            : [];
+    }
+
+    static getPossibleInsertions() {
+        return [];
     }
 
     computeConflicts() {

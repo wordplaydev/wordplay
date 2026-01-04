@@ -1,4 +1,3 @@
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
@@ -16,6 +15,7 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import AnyType from './AnyType';
+import CompositeLiteral from './CompositeLiteral';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
 import { list, node, type Grammar, type Replacement } from './Node';
@@ -27,7 +27,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
 
-export default class SetLiteral extends Expression {
+export default class SetLiteral extends CompositeLiteral {
     readonly open: Token;
     readonly values: Expression[];
     readonly close: Token | undefined;
@@ -57,13 +57,11 @@ export default class SetLiteral extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
-            ? [SetLiteral.make(), SetLiteral.make([node])]
-            : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [SetLiteral.make()];
     }
 
@@ -73,10 +71,11 @@ export default class SetLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
             {
                 name: 'values',
                 kind: list(true, node(Expression)),
+                label: () => (l) => l.term.value,
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
                     this.getItemType(context) ?? new AnyType(),
@@ -85,8 +84,13 @@ export default class SetLiteral extends Expression {
                 initial: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
-            { name: 'literal', kind: node(Sym.Literal) },
+            {
+                name: 'close',
+                kind: node(Sym.SetClose),
+                newline: this.wrap(),
+                label: undefined,
+            },
+            { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
     }
 
@@ -109,7 +113,7 @@ export default class SetLiteral extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Hidden;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

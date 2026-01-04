@@ -105,11 +105,7 @@ export function parseBlock(
     const root = kind === BlockKind.Root;
 
     // Grab any documentation if this isn't a root.
-    const docs = root
-        ? undefined
-        : tokens.nextIs(Sym.Doc)
-          ? parseDocs(tokens)
-          : undefined;
+    const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
 
     const open = root
         ? undefined
@@ -207,11 +203,11 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
             // If the next is a unary operator, then it has to have no preceding space to be parsed as a binary evaluate.
             (!tokens.nextIsUnary() || tokens.nextLacksPrecedingSpace()) &&
             (tokens.nextIs(Sym.Operator) ||
-                (tokens.nextIs(Sym.TypeOperator) &&
+                (tokens.nextIs(Sym.Type) &&
                     !tokens.nextHasPrecedingLineBreak())),
         () =>
-            (left = tokens.nextIs(Sym.TypeOperator)
-                ? new Is(left, tokens.read(Sym.TypeOperator), parseType(tokens))
+            (left = tokens.nextIs(Sym.Type)
+                ? new Is(left, tokens.read(Sym.Type), parseType(tokens))
                 : new BinaryEvaluate(
                       left,
                       parseReference(tokens),
@@ -408,7 +404,7 @@ export function parseNumber(tokens: Tokens): NumberLiteral {
         tokens.nextLacksPrecedingSpace()
             ? parseUnit(tokens)
             : undefined;
-    return new NumberLiteral(number, unit ?? Unit.Empty);
+    return new NumberLiteral(number, unit ?? Unit.create());
 }
 
 export function parseUnit(tokens: Tokens): Unit | undefined {
@@ -767,12 +763,26 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
     );
 }
 
-export function parseStructure(tokens: Tokens): StructureDefinition {
+export function parseStructure(
+    tokens: Tokens,
+): StructureDefinition | UnparsableExpression {
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
     const share = tokens.nextIs(Sym.Share) ? tokens.read(Sym.Share) : undefined;
 
     const type = tokens.read(Sym.Type);
     const names = parseNames(tokens);
+
+    // So we can rewind to the start.
+    const firstToken = [
+        ...(docs ? docs.leaves() : []),
+        ...(share ? [share] : []),
+        type,
+    ][0];
+
+    if (names.isEmpty()) {
+        tokens.unreadTo(firstToken);
+        return parseUnparsable(tokens);
+    }
 
     const interfaces: Reference[] = [];
     tokens.whileDo(
@@ -783,9 +793,13 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     const types = tokens.nextIs(Sym.TypeOpen)
         ? parseTypeVariables(tokens)
         : undefined;
-    const open = tokens.nextIs(Sym.EvalOpen)
-        ? tokens.read(Sym.EvalOpen)
-        : undefined;
+
+    if (!tokens.nextIs(Sym.EvalOpen)) {
+        tokens.unreadTo(firstToken);
+        return parseUnparsable(tokens);
+    }
+
+    const open = tokens.read(Sym.EvalOpen);
 
     // Don't allow reactions on structure input binds
     tokens.pushReactionAllowed(false);
@@ -799,9 +813,12 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     // Restore
     tokens.popReactionAllowed();
 
-    const close = tokens.nextIs(Sym.EvalClose)
-        ? tokens.read(Sym.EvalClose)
-        : undefined;
+    if (!tokens.nextIs(Sym.EvalClose)) {
+        tokens.unreadTo(firstToken);
+        return parseUnparsable(tokens);
+    }
+
+    const close = tokens.read(Sym.EvalClose);
     const block = nextAreOptionalDocsThen(tokens, [Sym.EvalOpen])
         ? parseBlock(tokens, BlockKind.Structure)
         : undefined;
@@ -965,7 +982,7 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
     return left;
 }
 
-function parseUnparsable(tokens: Tokens): Expression {
+function parseUnparsable(tokens: Tokens): UnparsableExpression {
     return new UnparsableExpression(tokens.readLine());
 }
 

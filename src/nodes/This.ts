@@ -8,7 +8,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 
 import { MisplacedThis } from '@conflicts/MisplacedThis';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import StartFinish from '@runtime/StartFinish';
@@ -45,7 +45,7 @@ export default class This extends SimpleExpression {
         return new This(new Token(PROPERTY_SYMBOL, Sym.Access));
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
         return context
             .getRoot(node)
             ?.getAncestors(node)
@@ -59,8 +59,8 @@ export default class This extends SimpleExpression {
             : [];
     }
 
-    static getPossibleAppends(context: EditContext) {
-        return this.getPossibleReplacements(context);
+    static getPossibleInsertions() {
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -68,11 +68,11 @@ export default class This extends SimpleExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'dis', kind: node(Sym.This) }];
+        return [{ name: 'dis', kind: node(Sym.This), label: undefined }];
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Definitions;
     }
 
     clone(replace?: Replacement) {
