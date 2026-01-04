@@ -1820,25 +1820,33 @@ export default class Caret {
                 const field = parent.getFieldOfChild(node);
                 if (field !== undefined) {
                     const value = parent.getField(field.name);
-                    // If the deletion isn't a list with more than one element or a list that allows empty, or an emptyable field, ignore the deletion.
-                    const kinds = field.kind?.enumerateFieldKinds() ?? [];
                     let permittingKind: FieldKind | undefined = undefined;
-                    for (const kind of kinds) {
-                        if (
-                            kind instanceof ListOf &&
-                            ((Array.isArray(value) && value.length > 1) ||
-                                kind.allowsEmpty)
-                        ) {
-                            permittingKind = kind;
-                            break;
-                        }
-                        if (kind instanceof Empty) {
-                            permittingKind = kind;
-                            if (kind.dependency)
-                                dependency = parent.getField(
-                                    kind.dependency.name,
-                                );
-                            break;
+                    if (
+                        field.kind instanceof ListOf &&
+                        ((Array.isArray(value) && value.length > 1) ||
+                            field.kind.allowsEmpty)
+                    ) {
+                        permittingKind = field.kind;
+                    } else {
+                        // If the deletion isn't a list with more than one element or a list that allows empty, or an emptyable field, ignore the deletion.
+                        const kinds = field.kind?.enumerateFieldKinds() ?? [];
+                        for (const kind of kinds) {
+                            if (
+                                kind instanceof ListOf &&
+                                ((Array.isArray(value) && value.length > 1) ||
+                                    kind.allowsEmpty)
+                            ) {
+                                permittingKind = kind;
+                                break;
+                            }
+                            if (kind instanceof Empty) {
+                                permittingKind = kind;
+                                if (kind.dependency)
+                                    dependency = parent.getField(
+                                        kind.dependency.name,
+                                    );
+                                break;
+                            }
                         }
                     }
                     if (permittingKind === undefined)
