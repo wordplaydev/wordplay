@@ -147,13 +147,12 @@ function getPrecedingExpression(
         const start = source.getNodeLastPosition(node);
         if (start === undefined) return false;
         return (
-            (node instanceof Expression &&
-                !(node instanceof Program) &&
-                !(node instanceof Source) &&
-                !(node instanceof Block && node.isRoot()) &&
-                !(node instanceof Bind) &&
-                start === position) ||
-            (!exact && start + 1 === position)
+            node instanceof Expression &&
+            !(node instanceof Program) &&
+            !(node instanceof Source) &&
+            !(node instanceof Block && node.isRoot()) &&
+            !(node instanceof Bind) &&
+            (start === position || (!exact && start + 1 === position))
         );
     });
 }
