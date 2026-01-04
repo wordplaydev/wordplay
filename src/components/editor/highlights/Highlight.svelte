@@ -94,13 +94,13 @@
     /* Selections do stroke and background of different colors to give the node a sense of shape */
     .hovered:not(:global(.selected)).outline path {
         stroke: var(--wordplay-hover);
-        fill: var(--wordplay-hover);
+        fill: none;
     }
 
     .outline.selected path {
         stroke: var(--wordplay-highlight-color);
         stroke-width: var(--wordplay-focus-width);
-        fill: none;
+        fill: var(--wordplay-hover);
     }
 
     .delimiter.outline path {

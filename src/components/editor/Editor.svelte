@@ -569,6 +569,9 @@
     function handleEditHover(event: PointerEvent) {
         if (editor === null) return;
 
+        // Update the selecting state
+        selectingWithShift = event.shiftKey && dragCandidate === undefined;
+
         // By default, set the hovered state to whatever node is under the mouse.
         hovered.set(getNodeAt(source, event, false));
         hoveredAny.set(getNodeAt(source, event, true));
@@ -843,6 +846,9 @@
     let replacePreviousWithNext = false;
     let composing = $state(false);
     let composingJustEnded = false;
+    /** If the shift key is pressed in text mode, entering selecting mode */
+    let selectingWithShift = $state(false);
+
     /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
     let insertedSymbol = false;
     /** True if text was pasted */
@@ -1311,6 +1317,7 @@
             $animatingNodes,
             selection?.getOutput(project),
             $blocks,
+            selectingWithShift,
         );
         highlights.set(newHighlights);
     });

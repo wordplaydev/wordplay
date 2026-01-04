@@ -169,6 +169,7 @@
 
     button:not(:global(.selected)):hover {
         transform: scale(1.05);
+        background: var(--wordplay-hover);
     }
 
     .group {

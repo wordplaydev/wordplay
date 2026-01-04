@@ -155,6 +155,10 @@
         transform: scale(0.9);
     }
 
+    button:hover {
+        background: var(--wordplay-hover);
+    }
+
     button:not(:global(.on)):hover .icon {
         transform: scale(1.1);
     }

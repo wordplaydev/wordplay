@@ -140,6 +140,7 @@
         transform: scale(1.05);
         transform-origin: center;
         z-index: 1;
+        background-color: var(--wordplay-hover);
     }
 
     .button.active {

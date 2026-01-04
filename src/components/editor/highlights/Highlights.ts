@@ -34,7 +34,7 @@ import getOutlineOf, {
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
     // A node selected by the caret
-    selected: true,
+    selected: false,
     // A node being evaluated
     evaluating: false,
     // A node with an evaluation exeception
@@ -106,15 +106,26 @@ export type HighlightSpec = {
 };
 
 export function getHighlights(
+    /** What source we are highlighting */
     source: Source,
+    /** The evaluation of the project */
     evaluator: Evaluator,
+    /** Where the caret is */
     caret: Caret,
+    /** What is being dragged */
     dragged: Node | undefined,
+    /** What the pointer is over */
     hovered: Node | undefined,
+    /** Where an insertion is happening */
     insertion: InsertionPoint | AssignmentPoint | undefined,
+    /** Nodes that are currently being animated */
     animatingNodes: Set<Node> | undefined,
+    /** Output that is selected */
     selectedOutput: Evaluate[] | undefined,
+    /** True if in blocks mode */
     blocks: boolean,
+    /** True if selecting nodes (e.g., shift key) */
+    selecting: boolean,
 ): Highlights {
     let highlights = new Highlights();
 
@@ -225,6 +236,7 @@ export function getHighlights(
     }
     // Otherwise, is a node hovered over? Highlight it.
     else if (
+        selecting &&
         !blocks &&
         hovered instanceof Node &&
         !(
