@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 500;
+    export const KeyboardIdleWaitTime = 1000;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
