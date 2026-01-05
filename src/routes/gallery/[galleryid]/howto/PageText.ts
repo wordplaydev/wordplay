@@ -1,4 +1,4 @@
-import type { ButtonText, ConfirmText, DialogText, FieldText, ModeText, ToggleText } from "@locale/UITexts";
+import type { ButtonText, ConfirmText, FieldText, HeaderAndExplanationText, ModeText, ToggleText } from "@locale/UITexts";
 
 type PageText = {
     /** Headers on the gallery page */
@@ -39,8 +39,8 @@ type PageText = {
     add: ButtonText;
     editor: {
         /** Dialog text for how-to form (new how-to or edit existing) */
-        newForm: DialogText;
-        editForm: DialogText;
+        newForm: HeaderAndExplanationText;
+        editForm: HeaderAndExplanationText;
         /** Button text for submitting the how-to */
         post: ButtonText;
         /** Button text for saving a how-to draft */
@@ -93,12 +93,12 @@ type PageText = {
     /** For configuring the how-to space */
     configuration: {
         /** Dialog header and explanation for configuring settings */
-        configurationDialog: DialogText;
+        configurationDialog: HeaderAndExplanationText;
         /** Button text for opening configuration dialog */
         configurationButton: ButtonText;
         /** Subheaders and descriptions for configuring visibility */
         visibility: {
-            subheader: DialogText;
+            subheader: HeaderAndExplanationText;
             mode: ModeText<[string, string]>;
             /** Name of visibility option for limiting visibility to gallery curators and creators */
             limited: string;
@@ -107,13 +107,13 @@ type PageText = {
         }
         /** Subheaders and descriptions for configuring guiding questions */
         guidingQuestions: {
-            subheader: DialogText;
+            subheader: HeaderAndExplanationText;
             descriptor: string;
             submit: ButtonText;
         }
         /** Subheaders and descriptions for configuring reaction options */
         reactions: {
-            subheader: DialogText;
+            subheader: HeaderAndExplanationText;
             reactionPickerTip: string;
             reactionDescriptionTip: string;
             addReactionTip: string;

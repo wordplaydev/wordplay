@@ -374,9 +374,12 @@
             <div class="toolbar-right">
                 {#if !howTo}
                     <Mode
+                        modes={(l) => l.ui.howto.editor.notification}
                         choice={notify ? 0 : 1}
-                        modes={['🔔', '🔕']}
-                        descriptions={(l) => l.ui.howto.editor.notification}
+                        icons={[
+                            '🔔',
+                            '🔕',
+                        ]}
                         select={(num) => (notify = num === 0)}
                     />
                 {/if}

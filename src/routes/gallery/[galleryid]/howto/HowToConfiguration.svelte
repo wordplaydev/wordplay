@@ -38,12 +38,9 @@
             l.ui.howto.configuration.visibility.subheader.explanation}
     />
     <Mode
+        modes={(l) => l.ui.howto.configuration.visibility.mode}
         choice={expandedScope ? 1 : 0}
-        modes={[
-            $locales.get((l) => l.ui.howto.configuration.visibility.limited),
-            $locales.get((l) => l.ui.howto.configuration.visibility.expanded),
-        ]}
-        descriptions={(l) => l.ui.howto.configuration.visibility.mode}
+        icons={['', '']}
         select={(num) => (expandedScope = num === 1)}
     />
 

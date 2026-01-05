@@ -230,7 +230,9 @@
         "Names": {
             "name": "name list",
             "emotion": "kind",
-            "label": { "names": "names" },
+            "label": {
+                "names": "names"
+            },
             "doc": [
                 "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
                 "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
@@ -284,7 +286,9 @@
         "TypeVariable": {
             "name": "type variable",
             "emotion": "curious",
-            "label": { "type": "type" },
+            "label": {
+                "type": "type"
+            },
             "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
@@ -303,7 +307,9 @@
             "name": "markup",
             "description": "$1 paragraphs",
             "emotion": "serious",
-            "label": { "paragraphs": "paragraphs" },
+            "label": {
+                "paragraphs": "paragraphs"
+            },
             "doc": [
                 "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
@@ -764,7 +770,9 @@
             "name": "placeholder",
             "description": "$1[$1|placeholder]",
             "emotion": "scared",
-            "label": { "placeholder": "expression" },
+            "label": {
+                "placeholder": "expression"
+            },
             "doc": [
                 "I'm an *expression*, but not a real one… I just take the place of one.",
                 "I'm good if you don't know what to write yet. Like this:",
@@ -923,7 +931,9 @@
             "name": "map literal",
             "description": "$1 pairing map",
             "emotion": "kind",
-            "label": { "values": "pair" },
+            "label": {
+                "values": "pair"
+            },
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "Let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
@@ -1270,7 +1280,9 @@
             "name": "text literal",
             "description": "text $1",
             "emotion": "serious",
-            "label": { "texts": "text" },
+            "label": {
+                "texts": "text"
+            },
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "Let's make text in the current locale"
         },
@@ -1278,7 +1290,9 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
-            "label": { "segments": "text" },
+            "label": {
+                "segments": "text"
+            },
             "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": {
@@ -1357,7 +1371,9 @@
             "name": "unary evaluate",
             "description": "$1",
             "emotion": "kind",
-            "label": { "input": "input" },
+            "label": {
+                "input": "input"
+            },
             "doc": [
                 "Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?",
                 "Like this:",
@@ -4873,10 +4889,14 @@
                     "tip": "Save your how-to as a draft"
                 },
                 "notification": {
-                    "label": "Notify subscribers",
-                    "modes": [
-                        "Notify",
-                        "Don't notify"
+                    "label": "notify subscribers",
+                    "labels": [
+                        "notify",
+                        "do not notify"
+                    ],
+                    "tips": [
+                        "Notify subscribers when you post this how-to",
+                        "Do not notify subscribers when you post this how-to"
                     ]
                 },
                 "prompt": "Tell us the story of how you discovered this",
@@ -4970,7 +4990,11 @@
                     },
                     "mode": {
                         "label": "default visibility",
-                        "modes": [
+                        "labels": [
+                            "limited",
+                            "expanded"
+                        ],
+                        "tips": [
                             "only collaborators of this gallery can view",
                             "collaborators of any gallery any curator creates can view"
                         ]
@@ -5257,7 +5281,10 @@
             "mode": {
                 "browse": {
                     "label": "section",
-                    "labels": ["code", "how to"],
+                    "labels": [
+                        "code",
+                        "how to"
+                    ],
                     "tips": [
                         "programming language concepts",
                         "reusable patterns for making projects"
@@ -5414,7 +5441,10 @@
                 "mode": {
                     "public": {
                         "label": "visibility",
-                        "labels": ["private", "public"],
+                        "labels": [
+                            "private",
+                            "public"
+                        ],
                         "tips": [
                             "only you and collaborators can see this project",
                             "anyone can see this project"
@@ -5488,7 +5518,11 @@
                     },
                     "dark": {
                         "label": "theme",
-                        "labels": ["light", "dark", "auto"],
+                        "labels": [
+                            "light",
+                            "dark",
+                            "auto"
+                        ],
                         "tips": [
                             "lighter colors",
                             "darker colors",
@@ -5497,12 +5531,21 @@
                     },
                     "blocks": {
                         "label": "editor",
-                        "labels": ["text", "blocks"],
-                        "tips": ["edit code as text", "edit code as blocks"]
+                        "labels": [
+                            "text",
+                            "blocks"
+                        ],
+                        "tips": [
+                            "edit code as text",
+                            "edit code as blocks"
+                        ]
                     },
                     "space": {
                         "label": "space indicator",
-                        "labels": ["hide", "show"],
+                        "labels": [
+                            "hide",
+                            "show"
+                        ],
                         "tips": [
                             "do not show space and tab indicators",
                             "show space and tab indicators explicitly"
@@ -5510,7 +5553,10 @@
                     },
                     "lines": {
                         "label": "line numbers",
-                        "labels": ["hide", "show"],
+                        "labels": [
+                            "hide",
+                            "show"
+                        ],
                         "tips": [
                             "do not show line numbers in text mode",
                             "show line numbers in text mode"
@@ -5588,7 +5634,10 @@
                 },
                 "mode": {
                     "label": "feedback",
-                    "labels": ["defects", "ideas"],
+                    "labels": [
+                        "defects",
+                        "ideas"
+                    ],
                     "tips": [
                         "report something that seems broken",
                         "suggest new features or improvements"
@@ -6020,7 +6069,10 @@
                     },
                     "public": {
                         "label": "visibility",
-                        "labels": ["public", "private"],
+                        "labels": [
+                            "public",
+                            "private"
+                        ],
                         "tips": [
                             "anyone can see this character",
                             "only you and collaborators can see this character"
@@ -6060,7 +6112,11 @@
                     },
                     "fill": {
                         "label": "fill",
-                        "labels": ["none", "inerit", "choose"],
+                        "labels": [
+                            "none",
+                            "inerit",
+                            "choose"
+                        ],
                         "tips": [
                             "no fill",
                             "inherit fill color from surrounding text",
@@ -6069,7 +6125,11 @@
                     },
                     "stroke": {
                         "label": "stroke",
-                        "labels": ["none", "inerit", "choose"],
+                        "labels": [
+                            "none",
+                            "inerit",
+                            "choose"
+                        ],
                         "tips": [
                             "no stroke",
                             "inherit stroke color from surrounding text",
