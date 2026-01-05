@@ -585,6 +585,9 @@ export default class ProjectsDatabase {
 
     /** Persist in storage */
     async persist() {
+        // Note that we're saving.
+        this.database.setStatus(SaveStatus.Saving, undefined);
+
         const userID = this.database.getUserID();
 
         // Before doing anything, ensure all editable projects that don't have an owner have one.
@@ -739,9 +742,6 @@ export default class ProjectsDatabase {
      * Should be called any time this.projects is modified.
      */
     saveSoon() {
-        // Note that we're saving.
-        this.database.setStatus(SaveStatus.Saving, undefined);
-
         // Clear pending saves.
         clearTimeout(this.timer);
 

@@ -316,23 +316,6 @@
     {#if !tile.isInvisible()}
         <!-- Render the toolbar -->
         <div class="header" style:color={foreground} style:fill={foreground}>
-            {#if !layout.isFullscreen()}
-                <Button
-                    background={background !== null}
-                    padding={false}
-                    tip={(l) => l.ui.tile.button.collapse}
-                    action={() => mode(TileMode.Collapsed)}
-                    icon="–"
-                ></Button>
-            {/if}
-            <Toggle
-                tips={(l) => l.ui.tile.toggle.fullscreen}
-                on={fullscreen}
-                background={background !== null}
-                toggle={() => setFullscreen(!fullscreen)}
-            >
-                <FullscreenIcon />
-            </Toggle>
             <!-- This goes above the toolbar because we need the feedback to be visible. -->
             <div style="z-index:2">
                 <Subheader compact>
@@ -371,6 +354,25 @@
             </div>
             <div class="toolbar">
                 {@render extra?.()}
+            </div>
+            <div class="tile-controls">
+                {#if !layout.isFullscreen()}
+                    <Button
+                        background={background !== null}
+                        padding={false}
+                        tip={(l) => l.ui.tile.button.collapse}
+                        action={() => mode(TileMode.Collapsed)}
+                        icon="–"
+                    ></Button>
+                {/if}
+                <Toggle
+                    tips={(l) => l.ui.tile.toggle.fullscreen}
+                    on={fullscreen}
+                    background={background !== null}
+                    toggle={() => setFullscreen(!fullscreen)}
+                >
+                    <FullscreenIcon />
+                </Toggle>
             </div>
         </div>
         <!-- Render the content -->
@@ -544,13 +546,16 @@
         flex-wrap: nowrap;
         align-items: center;
         padding: var(--wordplay-spacing);
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         width: 100%;
         overflow-x: auto;
         overflow-y: visible;
         flex-shrink: 0;
         /** Dim the header a bit so that they don't demand so much attention */
         opacity: 0.8;
+
+        border-block-end: solid var(--wordplay-border-color)
+            var(--wordplay-border-width);
     }
 
     .focus-indicator {
@@ -584,5 +589,14 @@
 
     .name.source {
         color: var(--wordplay-foreground);
+    }
+
+    .tile-controls {
+        margin-inline-start: auto;
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing-half);
+        align-items: center;
+        flex-wrap: nowrap;
     }
 </style>

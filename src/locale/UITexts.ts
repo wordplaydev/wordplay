@@ -2,8 +2,8 @@ import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
 import type { DocText, Template } from './LocaleText';
 
+import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
-import { HowToCategories } from '@concepts/HowTo';
 import type ErrorText from '../routes/ErrorText';
 import type LandingPageText from '../routes/PageText';
 import type AboutPageText from '../routes/about/PageText';
@@ -13,7 +13,7 @@ import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
 import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
 import type HowToPageText from '../routes/gallery/[galleryid]/howto/PageText';
-import type GuidePageText from '../routes/guide/PageText';
+import type { default as GuidePageText } from '../routes/guide/PageText';
 import type JoinPageText from '../routes/join/PageText';
 import type LearnPageText from '../routes/learn/PageText';
 import type LoginPageText from '../routes/login/PageText';
@@ -38,14 +38,16 @@ export type ToggleText = {
     off: string;
 };
 
-export type ModeText<Modes extends readonly string[]> = {
+export type ModeText<Options extends readonly string[]> = {
     /** The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
-    /** The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance */
-    modes: Modes;
+    /** A list of modes */
+    labels: Options;
+    /** A list of tips/aria labels for each option */
+    tips: Options;
 };
 
-export type DialogText = {
+export type HeaderAndExplanationText = {
     /** The header to be shown at the top of the dialog */
     header: string;
     /** The explanation text just below the header. */
@@ -203,7 +205,7 @@ type UITexts = {
             /** The header for the save error */
             unsaved: Template;
             /** The content for the translation dialog */
-            translate: DialogText;
+            translate: HeaderAndExplanationText;
         };
         subheader: {
             /** The header for the source language */
@@ -253,6 +255,8 @@ type UITexts = {
             show: string;
             /** How to describe the autocomplete back button for leaving the submenu */
             back: string;
+            /** What to say when the menu is empty */
+            empty: string;
         };
         field: {
             /** The name of the source file */
@@ -373,6 +377,29 @@ type UITexts = {
             elide: string;
             /** Large deletion notification */
             largeDelete: string;
+            /** Explanations for why something isn't editable */
+            ignored: {
+                /** The source is not editable */
+                readOnly: string;
+                /** No spaces in block mode unless in editable */
+                blockSpace: string;
+                /** A node couldn't be deleted */
+                noDelete: string;
+                /** An insertion failed */
+                noInsert: string;
+                /** No errors allowed */
+                noError: string;
+                /** No editor active */
+                noEditor: string;
+                /** No clipboard */
+                noClipboard: string;
+                /** No clipboard item */
+                noClipboardItem: string;
+                /** No selection */
+                noSelection: string;
+                /** No where to go */
+                noMove: string;
+            };
         };
         error: {
             /** An invalid source name */
@@ -431,49 +458,7 @@ type UITexts = {
         };
     };
     /** The documentation browser */
-    docs: {
-        /** The ARIA label for the palette section. */
-        label: string;
-        /** A link to a concept in documentation */
-        link: Template;
-        /** A link to the tutorial for a concept */
-        learn: string;
-        /** Shown if documentation is missing for a concept */
-        nodoc: string;
-        button: {
-            /** The home button in the docs tile */
-            home: string;
-            /** The back button in the docs tile */
-            back: string;
-            /** The toggle to expand and collapse concept groups */
-            toggle: string;
-        };
-        field: {
-            /** The search text field */
-            search: string;
-        };
-        /** Labels for different sections of the guide */
-        modes: ModeText<[string, string]>;
-        header: {
-            /** Documentation header in structure and functions before inputs */
-            inputs: string;
-            /** Documentation header in structure view before interfaces */
-            interfaces: string;
-            /** Documentation header in structure before properties */
-            properties: string;
-            /** Documentation header in structure before functions */
-            functions: string;
-            /** Documentation header in structure before conversions */
-            conversions: string;
-        };
-        /** Everything related to how to content */
-        how: {
-            /** The category names */
-            category: Record<keyof typeof HowToCategories, string>;
-            /** The subheader for related how to's */
-            related: string;
-        };
-    };
+    docs: DocumentationText;
     /** The project chat */
     collaborate: {
         /** The ARIA label for the chat section */
@@ -669,17 +654,17 @@ type UITexts = {
     };
     dialog: {
         /** The sharing dialog */
-        share: DialogText & {
+        share: HeaderAndExplanationText & {
             /** The subheaders of the dialog */
             subheader: {
                 /** The gallery subheader and explanation */
-                gallery: DialogText;
+                gallery: HeaderAndExplanationText;
                 /** The public/private toggle subheader and explanation */
-                public: DialogText;
+                public: HeaderAndExplanationText;
                 /** The personal information subheader and explanation */
-                pii: DialogText;
+                pii: HeaderAndExplanationText;
                 /** The copy and paste dialog text */
-                copy: DialogText;
+                copy: HeaderAndExplanationText;
             };
             /** Text fields in the share dialog */
             field: {
@@ -713,7 +698,7 @@ type UITexts = {
             };
         };
         /** The settings dialog */
-        settings: DialogText & {
+        settings: HeaderAndExplanationText & {
             button: {
                 /** Show the settings dialog */
                 show: string;
@@ -740,6 +725,8 @@ type UITexts = {
                 dark: ModeText<[string, string, string]>;
                 /** The writing layout direction */
                 writing: ModeText<[string, string, string]>;
+                /** The blocks on/off mode */
+                blocks: ModeText<[string, string]>;
                 /** The space_indicator on/off mode */
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */
@@ -757,7 +744,7 @@ type UITexts = {
             };
         };
         /** The locale chooser dialog */
-        locale: DialogText & {
+        locale: HeaderAndExplanationText & {
             /** Subheaders in the local chooser dialog. */
             subheader: {
                 /** How to label the locales that have been selected */
@@ -782,7 +769,7 @@ type UITexts = {
             };
         };
         /** The keyboard shortcut reference dialog */
-        help: DialogText & {
+        help: HeaderAndExplanationText & {
             subheader: {
                 moveCursor: string;
                 editCode: string;
@@ -791,7 +778,7 @@ type UITexts = {
             };
         };
         /** The feedback dialog */
-        feedback: DialogText & {
+        feedback: HeaderAndExplanationText & {
             button: {
                 /** Show the feedback dialog */
                 show: string;
@@ -901,4 +888,3 @@ type UITexts = {
 };
 
 export { type UITexts as default };
-

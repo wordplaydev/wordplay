@@ -29,7 +29,7 @@ export default class BooleanType extends BasisType {
         return [BooleanType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [BooleanType.make()];
     }
 
@@ -38,7 +38,9 @@ export default class BooleanType extends BasisType {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'type', kind: node(Sym.BooleanType) }];
+        return [
+            { name: 'type', kind: node(Sym.BooleanType), label: undefined },
+        ];
     }
 
     clone(replace?: Replacement) {

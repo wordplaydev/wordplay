@@ -1,6 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -21,7 +20,6 @@ import AnyType from './AnyType';
 import Bind from './Bind';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import getGuards from './getGuards';
 import ListCloseToken from './ListCloseToken';
 import ListOpenToken from './ListOpenToken';
@@ -69,32 +67,12 @@ export default class ListAccess extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
-        if (!(node instanceof Expression)) return [];
-        return node.getType(context).accepts(ListType.make(), context)
-            ? [
-                  ListAccess.make(
-                      node,
-                      ExpressionPlaceholder.make(NumberType.make()),
-                  ),
-              ]
-            : node.getType(context).accepts(NumberType.make(), context)
-              ? [
-                    ListAccess.make(
-                        ExpressionPlaceholder.make(ListType.make()),
-                        node,
-                    ),
-                ]
-              : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends() {
-        return [
-            ListAccess.make(
-                ExpressionPlaceholder.make(ListType.make()),
-                ExpressionPlaceholder.make(NumberType.make()),
-            ),
-        ];
+    static getPossibleInsertions() {
+        return [];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -110,7 +88,7 @@ export default class ListAccess extends Expression {
                 // Must be a list
                 getType: () => ListType.make(),
             },
-            { name: 'open', kind: node(Sym.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen), label: undefined },
             {
                 name: 'index',
                 kind: node(Expression),
@@ -118,7 +96,7 @@ export default class ListAccess extends Expression {
                 // Must be a number
                 getType: () => NumberType.make(),
             },
-            { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose), label: undefined },
         ];
     }
 
@@ -132,7 +110,7 @@ export default class ListAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Lists;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

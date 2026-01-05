@@ -1,5 +1,6 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
+import type { CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
@@ -23,7 +24,6 @@ import { DOCS_SYMBOL } from '@parser/Symbols';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import { v4 as uuidv4 } from 'uuid';
 import { Basis } from '../../basis/Basis';
-import type { CaretPosition } from '../../edit/Caret';
 import DefaultLocale from '../../locale/DefaultLocale';
 import Locales from '../../locale/Locales';
 import type LocaleText from '../../locale/LocaleText';
@@ -524,10 +524,57 @@ export default class Project {
         return this.getAnalysis().conflicts;
     }
 
+    getNewConflictsBatch(
+        oldSource: Source,
+        newSources: Source[],
+        // Any conflict types to ignore
+        negligibleConflicts: (new () => Conflict)[],
+    ): Map<Source, Conflict[]> {
+        // Get the current conflicts.
+        const currentConflicts = this.getMajorConflictsNow();
+        const newConflictsBySource = new Map<Source, Conflict[]>();
+        // For all of the new sources, get the new conflicts caused by the revision.
+        for (const newSource of newSources) {
+            let newConflicts = this.withSource(oldSource, newSource)
+                .getMajorConflictsNow()
+                .filter(
+                    (conflict) =>
+                        !negligibleConflicts.some(
+                            (neglibile) => conflict instanceof neglibile,
+                        ),
+                );
+
+            // Remove all current conflicts that are in the new conflicts.
+            newConflictsBySource.set(
+                newSource,
+                newConflicts.filter(
+                    (newConflict) =>
+                        !currentConflicts.some((oldConflict) =>
+                            oldConflict.isEqualTo(newConflict),
+                        ),
+                ),
+            );
+        }
+        return newConflictsBySource;
+    }
+
+    getNewConflicts(
+        oldSource: Source,
+        newSource: Source,
+        negligibleConflicts: (new () => Conflict)[],
+    ): Conflict[] {
+        const newConflicts = this.getNewConflictsBatch(
+            oldSource,
+            [newSource],
+            negligibleConflicts,
+        );
+        return Array.from(newConflicts.values())[0];
+    }
+
     getMajorConflictsNow() {
         let conflicts: Conflict[] = [];
         for (const source of this.getSources()) {
-            const context = new Context(this, source);
+            const context = this.getContext(source);
             for (const node of source.nodes()) {
                 conflicts = [...conflicts, ...node.computeConflicts(context)];
             }
@@ -537,7 +584,7 @@ export default class Project {
 
     hasMajorConflictsNow() {
         for (const source of this.getSources()) {
-            const context = new Context(this, source);
+            const context = this.getContext(source);
             for (const node of source.nodes()) {
                 if (
                     node
@@ -962,7 +1009,7 @@ export default class Project {
             // We changed the documentation symbol. Automatically convert it when deserializing. by seeing if there are 2 or more `` in the code,
             // and no ¶ and if so, replace them with the new symbol.
             (source.code.match(/``/g) || []).length >= 2 &&
-            (source.code.match(/¶/g) || []).length === 0
+                (source.code.match(/¶/g) || []).length === 0
                 ? source.code.replaceAll('``', DOCS_SYMBOL)
                 : source.code,
         );

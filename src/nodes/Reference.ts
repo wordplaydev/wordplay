@@ -2,7 +2,8 @@ import type Conflict from '@conflicts/Conflict';
 import ReferenceCycle from '@conflicts/ReferenceCycle';
 import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '@conflicts/UnknownName';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import Refer from '@edit/revision/Refer';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -12,10 +13,11 @@ import type Step from '@runtime/Step';
 import NameException from '@values/NameException';
 import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
-import Refer from '../edit/Refer';
 import type Locales from '../locale/Locales';
 import { type TemplateInput } from '../locale/Locales';
+import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
+import Borrow from './Borrow';
 import type Context from './Context';
 import type Definition from './Definition';
 import Expression, { type GuardContext } from './Expression';
@@ -25,15 +27,19 @@ import getGuards from './getGuards';
 import NameToken from './NameToken';
 import type Node from './Node';
 import { ListOf, node, type Grammar, type Replacement } from './Node';
+import PropertyReference from './PropertyReference';
 import Reaction from './Reaction';
 import SimpleExpression from './SimpleExpression';
+import Source from './Source';
 import StreamDefinition from './StreamDefinition';
+import StreamType from './StreamType';
 import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
-import type Token from './Token';
+import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import TypeVariable from './TypeVariable';
+import UnaryEvaluate from './UnaryEvaluate';
 import UnionType from './UnionType';
 import UnknownNameType from './UnknownNameType';
 
@@ -70,6 +76,9 @@ export default class Reference extends SimpleExpression {
         /** The context of the edit */
         context: Context,
     ): Refer[] {
+        // Find the parent.
+        const parent = reference.getParent(context);
+
         // A matching function to see if a definition matches
         const match = (def: Definition, prefix: string, name: string) =>
             def.getNames().find((n) => n.startsWith(prefix)) ?? name;
@@ -83,22 +92,39 @@ export default class Reference extends SimpleExpression {
         // If the anchor is being replaced but isn't a reference, suggest nothing.
         // Otherwise, suggest references in the anchor node's scope that complete the prefix.
         return (
-            reference
-                // Find all the definitions in scope.
-                .getDefinitionsInScope(context)
-                // Only accept definitions that have a matching name.
+            [
+                // Find all the definitions in scope. If the anchor happens to be a property reference and we're completing,
+                // only find definitions in it's scope.
+                ...(reference instanceof PropertyReference && complete
+                    ? reference.getDefinitions(reference, context)
+                    : reference.getDefinitionsInScope(context)),
+                // Find all the sources in scope if the context is a borrow.
+                ...(reference instanceof Borrow
+                    ? context.project
+                          .getSupplements()
+                          .filter((s) => s !== context.source)
+                    : []),
+            ]
+                // If there's a prefix we're completing, include
                 .filter(
                     (def) =>
                         prefix === undefined ||
-                        def.getNames().some((name) =>
-                            // Hello
-                            name.startsWith(prefix),
-                        ),
+                        def.getNames().some((name) => name.startsWith(prefix)),
                 )
                 // Translate the definitions into References, or to the definitions.
                 .map((definition) => {
-                    // Bind of acceptible type? Make a reference.
+                    // Is the function an operator? That affects how we name it.
+                    const isOperator =
+                        definition instanceof FunctionDefinition &&
+                        definition.isOperator();
+                    // Is the type of the definition coming from a stream? We might generate a reference to the stream itself.
+                    const streamType = !(definition instanceof TypeVariable)
+                        ? context.getStreamType(definition.getType(context))
+                        : undefined;
                     if (
+                        // A source?
+                        definition instanceof Source ||
+                        // Bind of acceptible type? Make a reference.
                         (definition instanceof Bind &&
                             (type === undefined ||
                                 type.accepts(
@@ -106,20 +132,37 @@ export default class Reference extends SimpleExpression {
                                         .getType(context)
                                         .generalize(context),
                                     context,
-                                ))) || // A function type that matches the function?
+                                ))) ||
+                        // If this definition replaced the current one and it's concrete types, would it be of an acceptable type?
                         (type instanceof FunctionType &&
                             definition instanceof FunctionDefinition &&
-                            type.accepts(definition.getType(context), context))
-                    )
+                            definition
+                                .getType(context)
+                                .accepts(type, context) &&
+                            // Only accept definitions with symbolic names if a binary evaluate.
+                            ((!(parent instanceof BinaryEvaluate) &&
+                                !(parent instanceof UnaryEvaluate)) ||
+                                definition.names.hasOperatorName())) ||
+                        // If the type is a StreamType and the definition is a stream with a matching type, suggest
+                        (type instanceof StreamType &&
+                            streamType !== undefined &&
+                            type.accepts(streamType, context))
+                    ) {
                         return new Refer(
                             (name) =>
-                                Reference.make(
-                                    prefix
-                                        ? match(definition, prefix, name)
-                                        : name,
+                                new Reference(
+                                    new Token(
+                                        // Completing? Pass the prefix to find a matching name.
+                                        prefix
+                                            ? match(definition, prefix, name)
+                                            : name,
+                                        isOperator ? Sym.Operator : Sym.Name,
+                                    ),
                                 ),
                             definition,
+                            isOperator,
                         );
+                    }
                     // If the anchor is in list field, and the anchor is not being replaced, offer (Binary/Unary)Evaluate in scope.
                     else if (
                         complete &&
@@ -143,6 +186,7 @@ export default class Reference extends SimpleExpression {
                                             ? match(definition, prefix, name)
                                             : name,
                                         context,
+                                        true,
                                         undefined,
                                     ),
                                 definition,
@@ -165,6 +209,7 @@ export default class Reference extends SimpleExpression {
                                             ? match(definition, prefix, name)
                                             : name,
                                         context,
+                                        true,
                                     ),
                                 definition,
                             );
@@ -176,12 +221,12 @@ export default class Reference extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements({ type, node, context }: EditContext) {
-        return this.getPossibleReferences(type, node, true, context);
+    static getPossibleReplacements({ type, node, context }: ReplaceContext) {
+        return this.getPossibleReferences(type, node, false, context);
     }
 
-    static getPossibleAppends({ type, node, context }: EditContext) {
-        return this.getPossibleReferences(type, node, true, context);
+    static getPossibleInsertions({ type, parent, context }: InsertContext) {
+        return this.getPossibleReferences(type, parent, false, context);
     }
 
     getDescriptor(): NodeDescriptor {
@@ -205,7 +250,7 @@ export default class Reference extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Definitions;
     }
 
     clone(replace?: Replacement) {
@@ -298,7 +343,6 @@ export default class Reference extends SimpleExpression {
         if (definition === undefined || definition instanceof TypeVariable)
             return new UnknownNameType(this, this.name, undefined);
 
-        // What is the type of the definition?
         const type = definition.getType(context);
 
         // Otherwise, do some type guard analyis on the definition.

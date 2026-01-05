@@ -35,6 +35,9 @@
 
 <div class="annotations">
     {#each annotations as annotation}
+        {@const secondary =
+            annotation.kind === 'secondaryMajor' ||
+            annotation.kind === 'secondaryMinor'}
         {#if annotation.conflict}
             <h3>
                 {#if editor}
@@ -53,9 +56,7 @@
             </h3>
         {/if}
         <div
-            class={`annotation ${annotation.kind} ${
-                annotation.kind === 'secondary' ? 'flip' : ''
-            }`}
+            class={`annotation ${annotation.kind} ${secondary ? 'flip' : ''}`}
             data-annotationid={id}
             transition:fade|local={{
                 duration: $animationDuration,
@@ -63,7 +64,7 @@
         >
             <Speech
                 character={annotation.node.getCharacter($locales)}
-                flip={annotation.kind === 'secondary'}
+                flip={secondary}
                 below
             >
                 {#snippet content()}
@@ -128,12 +129,13 @@
         border-color: var(--wordplay-evaluation-color);
     }
 
-    .annotation.primary {
+    .annotation.primaryMajor,
+    .annotation.secondaryMajor {
         border-color: var(--wordplay-error);
     }
 
-    .annotation.secondary,
-    .annotation.minor {
+    .annotation.primaryMinor,
+    .annotation.secondaryMinor {
         border-color: var(--wordplay-warning);
     }
 

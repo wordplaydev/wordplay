@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -15,7 +15,6 @@ import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import BooleanLiteral from './BooleanLiteral';
 import BooleanType from './BooleanType';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
@@ -58,9 +57,9 @@ export default class Conditional extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, type }: EditContext) {
-        return node instanceof Expression &&
-            (type === undefined || type instanceof BooleanType)
+    static getPossibleReplacements({ node, type }: ReplaceContext) {
+        // A boolean selected? Offer to wrap it in a conditional.
+        return node instanceof Expression && type instanceof BooleanType
             ? [
                   Conditional.make(
                       node,
@@ -71,12 +70,8 @@ export default class Conditional extends Expression {
             : [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
-        return Conditional.make(
-            BooleanLiteral.make(true),
-            ExpressionPlaceholder.make(type),
-            ExpressionPlaceholder.make(type),
-        );
+    static getPossibleInsertions() {
+        return [];
     }
 
     isUndelimited() {
@@ -92,22 +87,27 @@ export default class Conditional extends Expression {
             {
                 name: 'condition',
                 kind: node(Expression),
-                label: () => (l) => l.node.Conditional.condition,
+                label: () => (l) => l.node.Conditional.label.condition,
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
-            { name: 'question', kind: node(Sym.Conditional), space: true },
+            {
+                name: 'question',
+                kind: node(Sym.Conditional),
+                space: true,
+                label: undefined,
+            },
             {
                 name: 'yes',
                 kind: node(Expression),
-                label: () => (l) => l.node.Conditional.yes,
+                label: () => (l) => l.node.Conditional.label.yes,
                 space: true,
                 indent: true,
             },
             {
                 name: 'no',
                 kind: node(Expression),
-                label: () => (l) => l.node.Conditional.no,
+                label: () => (l) => l.node.Conditional.label.no,
                 space: true,
                 indent: true,
             },
@@ -128,7 +128,7 @@ export default class Conditional extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Decisions;
     }
 
     computeConflicts(context: Context): Conflict[] {

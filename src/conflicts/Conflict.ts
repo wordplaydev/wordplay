@@ -2,7 +2,7 @@ import type Project from '@db/projects/Project';
 import type LocaleText from '@locale/LocaleText';
 import type { InternalConflictText } from '@locale/NodeTexts';
 import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+import Node from '@nodes/Node';
 import type Locales from '../locale/Locales';
 import type Markup from '../nodes/Markup';
 
@@ -52,6 +52,19 @@ export default abstract class Conflict {
 
     toString() {
         return this.constructor.name;
+    }
+
+    /** A conflict is equal if it's the same constructor, the same number of nodes, and all nodes are equivalent. */
+    isEqualTo(other: Conflict): boolean {
+        if (this.constructor !== other.constructor) return false;
+        const theseNodes = Object.values(this).filter((f) => f instanceof Node);
+        const thoseNodes = Object.values(other).filter(
+            (f) => f instanceof Node,
+        );
+        if (theseNodes.length !== thoseNodes.length) return false;
+        return theseNodes.every((these, index) =>
+            these.isEqualTo(thoseNodes[index]),
+        );
     }
 
     abstract getLocalePath(): ConflictLocaleAccessor;

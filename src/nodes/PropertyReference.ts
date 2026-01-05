@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import Refer from '@edit/revision/Refer';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -12,7 +13,6 @@ import NameException from '@values/NameException';
 import type Value from '@values/Value';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
-import Refer from '../edit/Refer';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import UnimplementedException from '../values/UnimplementedException';
@@ -21,7 +21,6 @@ import Bind from './Bind';
 import type Context from './Context';
 import type Definition from './Definition';
 import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import FunctionDefinition from './FunctionDefinition';
 import getGuards from './getGuards';
 import NameType from './NameType';
@@ -63,15 +62,10 @@ export default class PropertyReference extends Expression {
 
     static getPossibleReferences(
         type: Type | undefined,
-        node: Node,
-        replace: boolean,
+        node: Node | undefined,
         context: Context,
     ) {
-        if (!replace)
-            return [
-                PropertyReference.make(ExpressionPlaceholder.make(), undefined),
-            ];
-        else if (node instanceof PropertyReference) {
+        if (node instanceof PropertyReference) {
             const selectionType = node.structure.getType(context);
             const definition =
                 selectionType instanceof StructureType
@@ -120,6 +114,7 @@ export default class PropertyReference extends Expression {
                                             def.getEvaluateTemplate(
                                                 name,
                                                 context,
+                                                true,
                                                 node.structure,
                                             ),
                                         def,
@@ -134,12 +129,12 @@ export default class PropertyReference extends Expression {
         return [];
     }
 
-    static getPossibleReplacements({ type, node, context }: EditContext) {
-        return this.getPossibleReferences(type, node, true, context);
+    static getPossibleReplacements({ type, node, context }: ReplaceContext) {
+        return this.getPossibleReferences(type, node, context);
     }
 
-    static getPossibleAppends({ type, node, context }: EditContext) {
-        return this.getPossibleReferences(type, node, false, context);
+    static getPossibleInsertions({ type, parent, context }: InsertContext) {
+        return this.getPossibleReferences(type, parent, context);
     }
 
     getDescriptor(): NodeDescriptor {
@@ -148,13 +143,19 @@ export default class PropertyReference extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'structure', kind: node(Expression) },
-            { name: 'dot', kind: node(Sym.Access) },
+            {
+                name: 'structure',
+                kind: node(Expression),
+                label: (locales, context) => {
+                    return () => this.getSubjectType(context).getLabel(locales);
+                },
+            },
+            { name: 'dot', kind: node(Sym.Access), label: undefined },
             {
                 name: 'name',
                 kind: node(Reference),
                 // The label is
-                label: () => (l) => l.node.PropertyReference.property,
+                label: () => (l) => l.node.PropertyReference.label.property,
                 // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
                 getDefinitions: (context: Context) => {
                     let defs = this.getDefinitions(this, context);
@@ -183,7 +184,7 @@ export default class PropertyReference extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Definitions;
     }
 
     computeConflicts(context: Context): Conflict[] {

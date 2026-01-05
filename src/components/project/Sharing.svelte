@@ -1,6 +1,6 @@
 <script lang="ts">
     import Notice from '@components/app/Notice.svelte';
-    import { toClipboard } from '@components/editor/util/Clipboard';
+    import { toClipboard } from '@components/editor/commands/Clipboard';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';

@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import UnknownColumn from '@conflicts/UnknownColumn';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -98,12 +98,8 @@ export default class Update extends Expression {
         ];
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
-        const anchorType =
-            node instanceof Expression ? node.getType(context) : undefined;
-        const tableType =
-            anchorType instanceof TableType ? anchorType : undefined;
-        return node instanceof Expression && tableType
+    static getPossibleReplacements({ node, context, type }: ReplaceContext) {
+        return node instanceof Expression && type instanceof TableType
             ? [
                   Update.make(
                       node,
@@ -113,13 +109,8 @@ export default class Update extends Expression {
             : [];
     }
 
-    static getPossibleAppends() {
-        return [
-            Update.make(
-                ExpressionPlaceholder.make(TableType.make()),
-                ExpressionPlaceholder.make(BooleanType.make()),
-            ),
-        ];
+    static getPossibleInsertions() {
+        return [];
     }
 
     clone(replace?: Replacement) {
@@ -131,7 +122,7 @@ export default class Update extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Tables;
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {

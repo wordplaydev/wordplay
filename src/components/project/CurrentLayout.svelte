@@ -23,7 +23,7 @@
     const label = $derived(
         $locales.get(
             (l) =>
-                l.ui.dialog.settings.mode.layout.modes[
+                l.ui.dialog.settings.mode.layout.labels[
                     Object.values(Arrangement).indexOf(computedLayout)
                 ],
         ),

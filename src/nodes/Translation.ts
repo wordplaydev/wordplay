@@ -43,19 +43,25 @@ export default class Translation extends LanguageTagged {
         this.close = close;
         this.separator = separator;
 
-        /** Unescape the text string */
-
         this.computeChildren();
     }
 
     static make(text?: string, language?: Language) {
         return new Translation(
             new Token("'", Sym.Text),
-            [new Token(text ?? '', Sym.Words)],
+            text && text.length > 0 ? [new Token(text, Sym.Words)] : [],
             new Token("'", Sym.Text),
             language,
             undefined,
         );
+    }
+
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleInsertions() {
+        return [this.make('')];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -64,14 +70,23 @@ export default class Translation extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.Text) },
+            { name: 'open', kind: node(Sym.Text), label: undefined },
             {
                 name: 'segments',
                 kind: list(true, node(Sym.Words), node(Example)),
+                label: () => (l) => l.node.Translation.label.segments,
             },
-            { name: 'close', kind: node(Sym.Text) },
-            { name: 'language', kind: optional(node(Language)) },
-            { name: 'separator', kind: optional(node(Sym.Separator)) },
+            { name: 'close', kind: node(Sym.Text), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
+            {
+                name: 'separator',
+                kind: optional(node(Sym.Separator)),
+                label: undefined,
+            },
         ];
     }
 
@@ -86,7 +101,7 @@ export default class Translation extends LanguageTagged {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Text;
     }
 
     static ConceptRegExPattern = new RegExp(ConceptRegExPattern, 'ug');

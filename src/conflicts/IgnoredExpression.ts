@@ -121,7 +121,7 @@ export class IgnoredExpression extends Conflict {
         }
         return {
             primary: {
-                node: this.block,
+                node: this.block.statements.at(-1) ?? this.block,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
                         (l) => IgnoredExpression.LocalePath(l).primary,

@@ -37,36 +37,14 @@
         href={to}
         target={external ? '_blank' : null}
         class:nowrap
-        >{@render labelOrChildren()}{#if external}<span class="external"
-                >↗</span
+        >{@render labelOrChildren()}{#if external}<span class="external">↗</span
             >{/if}</a
     >
 {/if}
 
 <style>
-    a {
-        color: var(--wordplay-highlight-color);
-        text-decoration: none;
-        /* In case a parent disables pointer events, we need to enable them here. */
-        pointer-events: auto;
-    }
-
-    /* Links in paragraphs should have underlines for visibility. */
-    :global(p) > a {
-        text-decoration: calc(var(--wordplay-focus-width) / 2) underline
-            var(--wordplay-highlight-color);
-    }
-
     .nowrap {
         white-space: nowrap;
-    }
-
-    a:focus,
-    a:hover {
-        outline: none;
-        text-decoration: underline;
-        text-decoration-thickness: var(--wordplay-focus-width);
-        text-decoration-color: var(--wordplay-focus-color);
     }
 
     .external {

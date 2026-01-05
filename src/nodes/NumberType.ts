@@ -19,7 +19,7 @@ import type TypeSet from './TypeSet';
 import UnaryEvaluate from './UnaryEvaluate';
 import Unit from './Unit';
 
-type UnitDeriver = (
+export type UnitDeriver = (
     left: Unit,
     right: Unit | undefined,
     constant: number | undefined,
@@ -60,7 +60,7 @@ export default class NumberType extends BasisType {
         return [NumberType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [NumberType.make()];
     }
 
@@ -75,8 +75,8 @@ export default class NumberType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', kind: node(Sym.NumberType) },
-            { name: 'unit', kind: node(Unit) },
+            { name: 'number', kind: node(Sym.NumberType), label: undefined },
+            { name: 'unit', kind: node(Unit), label: undefined },
         ];
     }
 
@@ -116,10 +116,10 @@ export default class NumberType extends BasisType {
 
         // See if all of the possible types are compatible.
         for (const possibleType of types.set) {
-            // Not a measurement type? Not compatible.
+            // Not a number type? Not compatible.
             if (!(possibleType instanceof NumberType)) return false;
 
-            // If it is a measurement type, get it's unit.
+            // If it is a number type, get it's unit.
             const thatUnit = possibleType.concreteUnit(context);
 
             // If this is a percent and the possible type has a unit, it's not compatible.
@@ -132,7 +132,7 @@ export default class NumberType extends BasisType {
             )
                 return false;
 
-            // If the units aren't compatible, then the the types aren't compatible.
+            // If the units aren't compatible, then the types aren't compatible.
             if (
                 !(this.unit instanceof Function || this.unit.isUnitless()) &&
                 !thisUnit.accepts(thatUnit)

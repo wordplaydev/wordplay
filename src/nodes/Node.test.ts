@@ -2,7 +2,7 @@ import { expect, test } from 'vitest';
 import parseExpression from '../parser/parseExpression';
 import { toTokens } from '../parser/toTokens';
 import Bind from './Bind';
-import Docs from './Docs';
+import Doc from './Doc';
 import Language from './Language';
 import type Node from './Node';
 import NumberLiteral from './NumberLiteral';
@@ -28,7 +28,8 @@ test.each([
     ['1 + 2 + 3', NumberLiteral, 2, '4', '1 + 2 + 4'],
     // Replace Node with undefined
     ['"Hi"/en', Language, 0, undefined, '"Hi"'],
-    ['¶Hi¶/en(1)', Docs, 0, undefined, '(1)'],
+    // Remove Node from list by passing undefined
+    ['¶Hi¶/en(1)', Doc, 0, undefined, '(1)'],
     // Remove Node in list
     ['[ 1 2 3 ]', NumberLiteral, 0, undefined, '[ 2 3 ]'],
     // Replace Node in list

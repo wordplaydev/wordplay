@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type ExceptionValue from '@values/ExceptionValue';
@@ -18,6 +19,10 @@ export default class ExceptionType extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'ExceptionType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Hidden;
     }
 
     getGrammar() {

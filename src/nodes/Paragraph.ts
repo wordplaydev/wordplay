@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Node, { list, node } from '@nodes/Node';
@@ -40,12 +41,12 @@ export default class Paragraph extends Content {
         this.segments = segments;
     }
 
-    static getPossibleReplacements() {
-        return [new Paragraph([])];
+    static getPossibleReplacements({ locales }: ReplaceContext) {
+        return [new Paragraph([Words.make(locales.get((l) => l.token.Words))])];
     }
 
-    static getPossibleAppends() {
-        return [new Paragraph([])];
+    static getPossibleInsertions({ locales }: InsertContext) {
+        return [new Paragraph([Words.make(locales.get((l) => l.token.Words))])];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -67,6 +68,7 @@ export default class Paragraph extends Content {
                     node(Mention),
                     node(Branch),
                 ),
+                label: () => (l) => l.term.markup,
             },
         ];
     }
@@ -89,8 +91,14 @@ export default class Paragraph extends Content {
         return new Paragraph(segments);
     }
 
+    withSegmentInsertedAt(index: number, segment: Segment) {
+        const newSegments = [...this.segments];
+        newSegments.splice(index, 0, segment);
+        return this.withSegments(newSegments);
+    }
+
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Paragraph;

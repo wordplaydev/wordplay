@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
@@ -7,7 +8,8 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import UnknownInput from '@conflicts/UnknownInput';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import Refer from '@edit/revision/Refer';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
@@ -26,8 +28,6 @@ import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import UnimplementedException from '@values/UnimplementedException';
 import type Value from '@values/Value';
 import ValueException from '@values/ValueException';
-import Purpose from '../concepts/Purpose';
-import Refer from '../edit/Refer';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
@@ -55,6 +55,7 @@ import PropertyReference from './PropertyReference';
 import Reference from './Reference';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionType from './StreamDefinitionType';
+import StreamType from './StreamType';
 import StructureDefinition from './StructureDefinition';
 import StructureDefinitionType from './StructureDefinitionType';
 import StructureType from './StructureType';
@@ -111,11 +112,11 @@ export default class Evaluate extends Expression {
 
     static getPossibleEvaluations(
         expectedType: Type | undefined,
-        node: Node,
+        anchor: Node,
         replace: boolean,
         context: Context,
     ) {
-        const nodeBeingReplaced = replace ? node : undefined;
+        const nodeBeingReplaced = replace ? anchor : undefined;
 
         // Given the node the caret has selected or is after, find out
         // if there's an evaluate on it that we should complete.
@@ -123,27 +124,29 @@ export default class Evaluate extends Expression {
             nodeBeingReplaced instanceof Expression
                 ? nodeBeingReplaced.getType(context)
                 : undefined;
-        const structure =
-            scopingType instanceof BasisType ||
-            scopingType instanceof StructureType;
-        // Get the definitions in the structure type we found,
-        // or in the surrounding scope if there isn't one.
-        const definitions =
-            // If the anchor is selected for replacement...
-            nodeBeingReplaced
-                ? // If the scope is basis, get definitions in basis scope
-                  scopingType instanceof BasisType
-                    ? scopingType.getDefinitions(nodeBeingReplaced, context)
-                    : // If the scope is a structure, get definitions in its scope
-                      scopingType instanceof StructureType
-                      ? scopingType.definition.getDefinitions(nodeBeingReplaced)
-                      : // Otherwise, get definitions in scope of the anchor
-                        node.getDefinitionsInScope(context)
-                : // If the node is not selected, get definitions in the anchor's scope
-                  node.getDefinitionsInScope(context);
 
-        // This probably doesn't belong here. The expected type is the expected type, and it should be correct.
-        // if (!isBeingReplaced && structure) expectedType = undefined;
+        // All the definitions outside the given node.
+        const functionsInScope = anchor.getDefinitionsInScope(context) ?? [];
+
+        // All the functions inside the given node's internal scope.
+        const structureFunctions = nodeBeingReplaced
+            ? // If the scope is basis, get definitions in basis scope
+              scopingType instanceof BasisType
+                ? scopingType.getDefinitions(nodeBeingReplaced, context)
+                : // If the scope is a structure, get definitions in its scope
+                  scopingType instanceof StructureType
+                  ? scopingType.definition.getDefinitions(nodeBeingReplaced)
+                  : // Otherwise, nothing extra
+                    []
+            : [];
+
+        // Get the definitions in the structure type we found,
+        // and in the surrounding scope.
+        const definitions = [
+            ...functionsInScope,
+            // If the anchor is selected for replacement...
+            ...structureFunctions,
+        ];
 
         // Convert the definitions to evaluate suggestions.
         return definitions
@@ -157,7 +160,27 @@ export default class Evaluate extends Expression {
                     (def instanceof FunctionDefinition &&
                         (expectedType === undefined ||
                             expectedType.accepts(
-                                def.getOutputType(context),
+                                def.getOutputType(
+                                    context,
+                                    // If it's a binary evaluate, we pass a hypothetical evaluate so
+                                    // the output type of the function we get includes any inherited units for
+                                    // number types.
+                                    def.isBinary()
+                                        ? def.getEvaluateTemplate(
+                                              def.names.getNames()[0],
+                                              context,
+                                              true,
+                                              replace &&
+                                                  structureFunctions.includes(
+                                                      def,
+                                                  ) &&
+                                                  nodeBeingReplaced instanceof
+                                                      Expression
+                                                  ? nodeBeingReplaced
+                                                  : undefined,
+                                          )
+                                        : undefined,
+                                ),
                                 context,
                             ))) ||
                     (def instanceof StructureDefinition &&
@@ -167,37 +190,58 @@ export default class Evaluate extends Expression {
                                 def.getType(context),
                                 context,
                             ))) ||
+                    // If its a stream and the expected type matches the stream's type,
+                    // or it's a stream type and the stream output matches the expected type.
                     (def instanceof StreamDefinition &&
                         (expectedType === undefined ||
-                            expectedType.accepts(
-                                def.getType(context),
-                                context,
-                            ))),
+                            expectedType.accepts(def.output, context) ||
+                            (expectedType instanceof StreamType &&
+                                expectedType.type.accepts(
+                                    def.output,
+                                    context,
+                                )))),
             )
-            .map(
-                (def) =>
-                    new Refer(
-                        (name) =>
-                            def.getEvaluateTemplate(
-                                name,
-                                context,
-                                replace &&
-                                    structure &&
-                                    nodeBeingReplaced instanceof Expression
-                                    ? nodeBeingReplaced
-                                    : undefined,
-                            ),
-                        def,
-                    ),
-            );
+            .map((def) => {
+                const type =
+                    replace &&
+                    structureFunctions.includes(def) &&
+                    nodeBeingReplaced instanceof Expression
+                        ? nodeBeingReplaced
+                        : undefined;
+                const defaultTemplate = new Refer(
+                    (name) =>
+                        def.getEvaluateTemplate(name, context, true, type),
+                    def,
+                );
+                return def instanceof FunctionDefinition &&
+                    def.isOptionalUnary()
+                    ? [
+                          new Refer(
+                              (name) =>
+                                  def.getEvaluateTemplate(
+                                      name,
+                                      context,
+                                      true,
+                                      type,
+                                      true,
+                                  ),
+                              def,
+                              true,
+                              true,
+                          ),
+                          defaultTemplate,
+                      ]
+                    : [defaultTemplate];
+            })
+            .flat();
     }
 
-    static getPossibleReplacements({ node, type, context }: EditContext) {
+    static getPossibleReplacements({ node, type, context }: ReplaceContext) {
         return this.getPossibleEvaluations(type, node, true, context);
     }
 
-    static getPossibleAppends({ node, type, context }: EditContext) {
-        return this.getPossibleEvaluations(type, node, false, context);
+    static getPossibleInsertions({ type, parent, context }: InsertContext) {
+        return this.getPossibleEvaluations(type, parent, false, context);
     }
 
     getDescriptor(): NodeDescriptor {
@@ -221,19 +265,31 @@ export default class Evaluate extends Expression {
                         ),
                         new AnyType(),
                     ),
-                label: () => (l) => l.node.Evaluate.function,
+                label: () => (l) => l.node.Evaluate.label.function,
             },
-            { name: 'types', kind: any(node(TypeInputs), none()) },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            {
+                name: 'types',
+                kind: any(node(TypeInputs), none()),
+                label: () => (l) => l.node.Evaluate.label.types,
+            },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Input), node(Expression)),
-                label: (locales: Locales, child: Node, context: Context) => {
+                label: (
+                    locales: Locales,
+                    context: Context,
+                    index: number | undefined,
+                ) => {
+                    if (index === undefined)
+                        return (l) => l.node.Evaluate.label.inputs;
+                    const child = this.inputs[index];
+
                     // Get the function called
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return (l) => l.node.Evaluate.input;
+                        return (l) => l.node.Evaluate.label.inputs;
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(context);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -245,7 +301,7 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child))),
                     );
                     return bind === undefined
-                        ? (l) => l.node.Evaluate.input
+                        ? (l) => l.node.Evaluate.label.inputs
                         : () => locales.getName(bind.expected.names);
                 },
                 space: true,
@@ -262,15 +318,20 @@ export default class Evaluate extends Expression {
                         Math.max(0, index ?? 0),
                         fun.inputs.length - 1,
                     );
+                    if (
+                        insertionIndex < 0 ||
+                        insertionIndex >= fun.inputs.length
+                    )
+                        return new NeverType();
                     return fun.inputs[insertionIndex].getType(context);
                 },
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
         ];
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Definitions;
     }
 
     clone(replace?: Replacement) {
@@ -543,7 +604,11 @@ export default class Evaluate extends Expression {
                             lastType instanceof ListType &&
                             expectedType instanceof ListType &&
                             (lastType.type === undefined ||
-                                expectedType.accepts(lastType.type, context))
+                                expectedType.type === undefined ||
+                                expectedType.type.accepts(
+                                    lastType.type,
+                                    context,
+                                ))
                         )
                             isVariableListInput = true;
                     }
@@ -731,7 +796,10 @@ export default class Evaluate extends Expression {
             );
         } else if (fun instanceof StreamDefinition) {
             // Remember that this type came from this definition.
-            context.setStreamType(fun.output, fun);
+            context.setStreamType(
+                fun.output,
+                StreamType.make(fun.getType(context)),
+            );
             // Return the type of this stream's output.
             return fun.output;
         }

@@ -23,7 +23,19 @@ const db = getFirestore();
 
 type UserMatch = { uid: string; email: string | null; name: string | null };
 
+// Permit local testing and calls from our two domains.
+const cors = {
+    cors: [
+        '/firebase\.com$/',
+        '/127.0.0.1*/',
+        'http://localhost:5173',
+        'https://test.wordplay.dev',
+        'https://wordplay.dev',
+    ],
+};
+
 export const getCreators = onCall<UserIdentifier[]>(
+    cors,
     async (request): Promise<UserMatch[]> => {
         const users = await admin.auth().getUsers(request.data);
         const matches: UserMatch[] = [];
@@ -42,7 +54,7 @@ export const getCreators = onCall<UserIdentifier[]>(
 export const emailExists = onCall<
     EmailExistsInputs,
     Promise<EmailExistsOutput>
->(async (request) => {
+>(cors, async (request) => {
     const emails = request.data;
     return admin
         .auth()
@@ -70,100 +82,85 @@ export const getTranslations = onCall<{
     from: string;
     to: string;
     text: string[];
-}>(
-    // Permit local testing and calls from our two domains.
-    {
-        cors: [
-            '/firebase\.com$/',
-            '/127.0.0.1*/',
-            '/localhost*/',
-            'https://test.wordplay.dev',
-            'https://wordplay.dev',
-        ],
-    },
-    async (request): Promise<string[] | null> => {
-        const from = request.data.from;
-        const to = request.data.to;
-        const text = request.data.text;
+}>(cors, async (request): Promise<string[] | null> => {
+    const from = request.data.from;
+    const to = request.data.to;
+    const text = request.data.text;
 
-        try {
-            // Creates a Google Translate client
-            const translator = new Translate.v2.Translate();
+    try {
+        // Creates a Google Translate client
+        const translator = new Translate.v2.Translate();
 
-            const [translations] = await translator.translate(text, {
-                from,
-                to,
-            });
+        const [translations] = await translator.translate(text, {
+            from,
+            to,
+        });
 
-            return translations;
-        } catch (e) {
-            console.error(e);
-            return null;
-        }
-    },
-);
+        return translations;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+});
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */
-export const getWebpage = onRequest(
-    { cors: true },
-    async (request, response) => {
-        const url: string | undefined =
-            'url' in request.query && typeof request.query.url === 'string'
-                ? decodeURI(request.query['url'])
-                : undefined;
+export const getWebpage = onRequest(cors, async (request, response) => {
+    const url: string | undefined =
+        'url' in request.query && typeof request.query.url === 'string'
+            ? decodeURI(request.query['url'])
+            : undefined;
 
-        const lib =
-            url === undefined
-                ? undefined
-                : url.startsWith('https://')
-                  ? https
-                  : http;
+    const lib =
+        url === undefined
+            ? undefined
+            : url.startsWith('https://')
+              ? https
+              : http;
 
-        // Cache the response for 10 minutes to minimize requests.
-        response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
+    // Cache the response for 10 minutes to minimize requests.
+    response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
 
-        if (lib === undefined || url === undefined) {
-            console.log('Invalid URL ' + url);
-            response.json('invalid-url');
-        } else {
-            const result: string = await new Promise((resolve) => {
-                lib.get(url, (resp) => {
-                    const contentType = resp.headers['content-type'];
-                    if (resp.statusCode !== 200) {
-                        console.error(`GET status: Code: ${resp.statusCode}`);
-                        resolve('not-available');
-                    } else if (!contentType?.startsWith('text/html')) {
-                        console.error(`GET received ${contentType}`);
-                        resolve('not-html');
-                    }
-
-                    // Get the data
-                    let data = '';
-
-                    // A chunk of data has been recieved.
-                    resp.on('data', (chunk) => {
-                        data += chunk;
-                    });
-
-                    // The whole response has been received. Print out the result.
-                    resp.on('end', () => {
-                        console.log('GET success');
-                        resolve(data);
-                    });
-                }).on('error', (err) => {
-                    console.error('GET error: ' + err.message);
+    if (lib === undefined || url === undefined) {
+        console.log('Invalid URL ' + url);
+        response.json('invalid-url');
+    } else {
+        const result: string = await new Promise((resolve) => {
+            lib.get(url, (resp) => {
+                const contentType = resp.headers['content-type'];
+                if (resp.statusCode !== 200) {
+                    console.error(`GET status: Code: ${resp.statusCode}`);
                     resolve('not-available');
+                } else if (!contentType?.startsWith('text/html')) {
+                    console.error(`GET received ${contentType}`);
+                    resolve('not-html');
+                }
+
+                // Get the data
+                let data = '';
+
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
                 });
+
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    console.log('GET success');
+                    resolve(data);
+                });
+            }).on('error', (err) => {
+                console.error('GET error: ' + err.message);
+                resolve('not-available');
             });
+        });
 
-            // Set the content length header.
-            response.set('Content-Length', `${new Blob([result]).size}`);
+        // Set the content length header.
+        response.set('Content-Length', `${new Blob([result]).size}`);
 
-            // Send the HTML back as JSON-encoded text.
-            response.json(result);
-        }
-    },
-);
+        // Send the HTML back as JSON-encoded text.
+        response.json(result);
+    }
+});
 
 const PurgeDayDelay = 30;
 const MillisecondsPerDay = 24 * 60 * 60 * 1000;
@@ -202,7 +199,7 @@ export const purgeArchivedProjects = onSchedule(
 export const createClass = onCall<
     CreateClassInputs,
     Promise<CreateClassOutput>
->(async (request) => {
+>(cors, async (request) => {
     const auth = admin.auth();
     const { teacher, name, description, students, existing } = request.data;
 

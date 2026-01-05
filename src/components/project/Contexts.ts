@@ -3,8 +3,13 @@ import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type Conflict from '@conflicts/Conflict';
 import type Project from '@db/projects/Project';
+import type Caret from '@edit/caret/Caret';
+import type { CaretPosition } from '@edit/caret/Caret';
+import type { AssignmentPoint, InsertionPoint } from '@edit/drag/Drag';
 import type Locale from '@locale/Locale';
+import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
+import type { FieldPosition } from '@nodes/Node';
 import type Root from '@nodes/Root';
 import type Color from '@output/Color';
 import type Spaces from '@parser/Spaces';
@@ -14,16 +19,13 @@ import type Step from '@runtime/Step';
 import type { User } from 'firebase/auth';
 import { getContext, setContext } from 'svelte';
 import { type Readable, type Writable } from 'svelte/store';
-import type Caret from '../../edit/Caret';
-import type { CaretPosition } from '../../edit/Caret';
-import type { InsertionPoint } from '../../edit/Drag';
 import type LanguageCode from '../../locale/LanguageCode';
 import type {
     CommandContext,
     Edit,
     ProjectRevision,
-} from '../editor/util/Commands';
-import type { Highlights } from '../editor/util/Highlights';
+} from '../editor/commands/Commands';
+import type { Highlights } from '../editor/highlights/Highlights';
 import type SelectedOutput from './SelectedOutput.svelte';
 
 // Authentication related contexts
@@ -134,7 +136,7 @@ export function getCaret() {
 }
 
 export type EditHandler = (
-    edit: Edit | ProjectRevision | undefined,
+    edit: Edit | ProjectRevision | LocaleTextAccessor,
     idle: IdleKind,
     focus: boolean,
 ) => Promise<void>;
@@ -188,13 +190,15 @@ export function getHovered() {
     return getContext<HoveredContext>(HoveredSymbol);
 }
 
-type InsertionPointContext = Writable<InsertionPoint | undefined> | undefined;
-const InsertionPointsSymbol = Symbol('insertions');
-export function setInsertionPoint(context: InsertionPointContext) {
+type DragTargetContext =
+    | Writable<InsertionPoint | AssignmentPoint | undefined>
+    | undefined;
+const InsertionPointsSymbol = Symbol('drag-target');
+export function setDragTarget(context: DragTargetContext) {
     setContext(InsertionPointsSymbol, context);
 }
-export function getInsertionPoint() {
-    return getContext<InsertionPointContext>(InsertionPointsSymbol);
+export function getDragTarget() {
+    return getContext<DragTargetContext>(InsertionPointsSymbol);
 }
 
 type DraggedContext = Writable<Node | undefined>;
@@ -262,7 +266,7 @@ export function getConceptIndex(): ConceptIndexContext | undefined {
 }
 
 const RootSymbol = Symbol('root');
-type RootContext = { root: Root | undefined };
+type RootContext = { root: Root | undefined; removed: Set<Node> };
 export function setRoot(context: RootContext) {
     setContext(RootSymbol, context);
 }
@@ -270,13 +274,15 @@ export function getRoot() {
     return getContext<RootContext>(RootSymbol);
 }
 
-const MenuNodeSymbol = Symbol('menu');
-type MenuNodeContext = Writable<(position: CaretPosition | undefined) => void>;
-export function setSetMenuNode(context: MenuNodeContext) {
-    setContext(MenuNodeSymbol, context);
+const MenuAnchorSymbol = Symbol('menu');
+type MenuAnchorContext = Writable<
+    (position: CaretPosition | FieldPosition) => void
+>;
+export function setSetMenuAnchor(context: MenuAnchorContext) {
+    setContext(MenuAnchorSymbol, context);
 }
-export function getSetMenuNode() {
-    return getContext<MenuNodeContext>(MenuNodeSymbol);
+export function getSetMenuAnchor() {
+    return getContext<MenuAnchorContext>(MenuAnchorSymbol);
 }
 
 const ShowLinesSymbol = Symbol('lines');

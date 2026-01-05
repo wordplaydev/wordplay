@@ -1,4 +1,5 @@
-import type EditContext from '@edit/EditContext';
+import Purpose from '@concepts/Purpose';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { OR_SYMBOL } from '@parser/Symbols';
@@ -39,13 +40,13 @@ export default class UnionType extends Type {
         return new UnionType(left, new Token(OR_SYMBOL, Sym.Union), right);
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
+    static getPossibleReplacements({ node }: ReplaceContext) {
         return node instanceof Type
             ? [UnionType.make(node, TypePlaceholder.make())]
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [UnionType.make(TypePlaceholder.make(), TypePlaceholder.make())];
     }
 
@@ -57,11 +58,23 @@ export default class UnionType extends Type {
         return 'UnionType';
     }
 
+    getPurpose(): Purpose {
+        return Purpose.Types;
+    }
+
     getGrammar(): Grammar {
         return [
-            { name: 'left', kind: node(Type) },
-            { name: 'or', kind: node(Sym.Union) },
-            { name: 'right', kind: node(Type) },
+            { name: 'left', kind: node(Type), label: () => (l) => l.term.type },
+            {
+                name: 'or',
+                kind: node(Sym.Union),
+                label: undefined,
+            },
+            {
+                name: 'right',
+                kind: node(Type),
+                label: () => (l) => l.term.type,
+            },
         ];
     }
 

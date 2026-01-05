@@ -1,4 +1,3 @@
-import Context from '@nodes/Context';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -479,7 +478,7 @@ export default class Evaluator {
     getCurrentContext() {
         return (
             this.getCurrentEvaluation()?.getContext() ??
-            new Context(this.project, this.project.getMain())
+            this.project.getContext(this.project.getMain())
         );
     }
 
@@ -535,7 +534,7 @@ export default class Evaluator {
             // Get the expression of the given node and compile it.
             const context =
                 this.project.getNodeContext(definition) ??
-                new Context(this.project, this.project.getMain());
+                this.project.getContext(this.project.getMain());
             steps = definition.getEvaluationSteps(this, context);
             this.steps.set(definition, steps);
         }

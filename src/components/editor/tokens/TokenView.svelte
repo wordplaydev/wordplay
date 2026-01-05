@@ -1,0 +1,281 @@
+<script lang="ts">
+    import Caret from '@edit/caret/Caret';
+    import Reference from '@nodes/Reference';
+    import Sym from '@nodes/Sym';
+    import Token from '@nodes/Token';
+    import { locales } from '../../../db/Database';
+    import { withColorEmoji } from '../../../unicode/emoji';
+    import {
+        getCaret,
+        getHidden,
+        getLocalize,
+        getProject,
+        getRoot,
+    } from '../../project/Contexts';
+    import MenuTrigger from '../menu/MenuTrigger.svelte';
+    import type { Format } from '../nodes/NodeView.svelte';
+    import BooleanTokenEditor from './BooleanTokenEditor.svelte';
+    import TextOrPlaceholder from './TextOrPlaceholder.svelte';
+    import TokenCategories from './TokenCategories';
+
+    interface TokenProps {
+        node: Token;
+        format: Format;
+    }
+
+    let { node, format }: TokenProps = $props();
+
+    let caret = getCaret();
+    let project = getProject();
+
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
+
+    let localize = getLocalize();
+    let hidden = getHidden();
+
+    let hide = $derived(node ? $hidden?.has(node) : false);
+    let editable = $derived($caret !== undefined && format.editable);
+
+    let context = $derived(
+        root === undefined
+            ? undefined
+            : $project !== undefined
+              ? $project.getNodeContext(root.root)
+              : undefined,
+    );
+
+    // See if this is a placeholder that should be rendered differently.
+    let placeholder = $derived(
+        $project && root && context
+            ? node.getPlaceholder(root, context, $locales)
+            : undefined,
+    );
+
+    let isInCaret = $derived(
+        $caret !== undefined &&
+            node.getTextLength() > 0 &&
+            ($caret.getTokenExcludingSpace() === node ||
+                ($caret.tokenPrior === node &&
+                    $caret.atBeginningOfTokenSpace())),
+    );
+
+    // True if the caret is "on" this token.
+    let active = $derived(
+        $caret &&
+            node.getTextLength() > 0 &&
+            ($caret.getTokenExcludingSpace() === node ||
+                ($caret.tokenPrior === node &&
+                    $caret.atBeginningOfTokenSpace() &&
+                    $caret.tokenIncludingSpace &&
+                    $caret.tokenAtHasPrecedingSpace())),
+    );
+
+    // True if this is the recently added token.
+    let added = $derived($caret?.addition?.contains(node) ?? false);
+
+    // If requesed, localize the token's text.
+    // Don't localize the name if the caret is in the name.
+    let text = $derived(
+        context && root && localize && $localize
+            ? node.localized(
+                  isInCaret,
+                  node.isSymbol(Sym.Operator),
+                  $localize,
+                  root,
+                  context,
+              )
+            : node.getText(),
+    );
+
+    // Prepare the text for rendering by replacing spaces with non-breaking spaces
+    // and adding variation selectors after emoji to guarantee the correct emoji font is chosen.
+    let renderedText = $derived(
+        node.isSymbol(Sym.Name) ||
+            node.isSymbol(Sym.Text) ||
+            node.isSymbol(Sym.Words)
+            ? withColorEmoji(text.replaceAll(' ', '\xa0'))
+            : text.replaceAll(' ', '\xa0'),
+    );
+</script>
+
+{#if format.block && root}
+    {@const parent = root.getParent(node)}
+    <div
+        class="token-view blocks token-category-{TokenCategories.get(
+            Array.isArray(node.types)
+                ? (node.types[0] ?? 'default')
+                : node.types,
+        )} {format.definition?.getDescriptor() || ''}"
+        class:hide
+        class:active
+        class:editable
+        class:placeholder={placeholder !== undefined}
+        class:blockText={format.editable &&
+            Caret.isTokenTextBlockEditable(node, parent)}
+        class:added
+        data-id={node.id}
+    >
+        {#if editable && $project && node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
+                {node}
+                project={$project}
+            />{:else}<TextOrPlaceholder
+                {placeholder}
+                {text}
+                rendered={renderedText}
+                {format}
+            />{/if}
+    </div>{#if format.editable && parent instanceof Reference}<MenuTrigger
+            anchor={parent}
+        ></MenuTrigger>{/if}
+{:else}
+    <span
+        class="token-view text token-category-{TokenCategories.get(
+            Array.isArray(node.types)
+                ? (node.types[0] ?? 'default')
+                : node.types,
+        )}"
+        class:hide
+        class:active
+        class:editable
+        class:placeholder={placeholder !== undefined}
+        class:added
+        data-id={node.id}
+        role="presentation"
+    >
+        <TextOrPlaceholder
+            {placeholder}
+            {text}
+            rendered={renderedText}
+            {format}
+        />
+    </span>
+{/if}
+
+<style>
+    .token-view {
+        display: inline-block;
+        position: relative;
+        font-family: var(--wordplay-code-font);
+
+        /** This allows us to style things up the the tree. */
+        text-decoration: inherit;
+    }
+
+    .hide {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    .token-view.added {
+        animation: ybounce;
+        animation-duration: calc(var(--animation-factor) * 500ms);
+        animation-delay: 100ms;
+    }
+
+    :global(.hide) .token-view {
+        width: 0;
+        height: 0;
+    }
+
+    .token-view.editable {
+        cursor: text;
+    }
+
+    .token-view.editable.blocks {
+        cursor: grab;
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    :global(.dragging) .token-view.editable {
+        cursor: grabbing;
+    }
+
+    /* Give all tokens in side a .Doc the doc color except those inside an .Example */
+    :global(.Doc) .token-view {
+        color: var(--wordplay-doc-color);
+    }
+
+    .token-category-docs {
+        font-size: small;
+        color: var(--wordplay-doc-color);
+    }
+
+    .token-category-delimiter,
+    :global(.Example) .token-category-delimiter {
+        color: var(--color-dark-grey);
+    }
+    .token-category-relation,
+    :global(.Example) .token-category-relation {
+        color: var(--wordplay-relation-color);
+    }
+    .token-category-share,
+    :global(.Example) .token-category-share {
+        color: var(--color-orange);
+    }
+    .token-category-eval,
+    :global(.Example) .token-category-eval {
+        color: var(--color-blue);
+    }
+
+    .token-category-name,
+    :global(.Example) .token-category-name {
+        color: var(--wordplay-foreground);
+    }
+
+    .token-category-type,
+    :global(.Example) .token-category-type {
+        color: var(--wordplay-type-color);
+    }
+    .token-category-operator,
+    :global(.Example) .token-category-operator {
+        color: var(--wordplay-operator-color);
+    }
+    .token-category-unknown,
+    :global(.Example) .token-category-unknown {
+        color: var(--color-pink);
+    }
+    .token-category-placeholder,
+    :global(.Example) .token-category-placeholder {
+        color: var(--wordplay-inactive-color);
+    }
+
+    .token-category-literal,
+    :global(.Example) .token-category-literal {
+        color: var(--color-blue);
+    }
+
+    :global(.Token):has(.token-category-docs):first-child {
+        margin-inline-end: var(--wordplay-spacing);
+    }
+
+    :global(.Token):has(.token-category-docs):last-child {
+        margin-inline-start: var(--wordplay-spacing);
+    }
+
+    .token-view.newline {
+        display: block;
+    }
+
+    .text.editable:hover,
+    .active {
+        outline: 1px solid var(--wordplay-border-color);
+    }
+
+    .token-view.editable.blocks.blockText {
+        border-bottom: solid var(--wordplay-focus-width)
+            var(--wordplay-border-color);
+    }
+
+    .StructureDefinition,
+    .StreamDefinition {
+        font-style: italic;
+    }
+
+    .StreamDefinition {
+        text-decoration: underline dotted;
+    }
+</style>

@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COALESCE_SYMBOL } from '@parser/Symbols';
@@ -41,7 +41,7 @@ export default class Otherwise extends SimpleExpression {
         this.computeChildren();
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
+    static getPossibleReplacements({ node }: ReplaceContext) {
         return node instanceof Expression
             ? [
                   Otherwise.make(node, ExpressionPlaceholder.make()),
@@ -50,13 +50,8 @@ export default class Otherwise extends SimpleExpression {
             : [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
-        return [
-            Otherwise.make(
-                ExpressionPlaceholder.make(type),
-                ExpressionPlaceholder.make(type),
-            ),
-        ];
+    static getPossibleInsertions() {
+        return [];
     }
 
     static make(left: Expression, right: Expression) {
@@ -73,9 +68,23 @@ export default class Otherwise extends SimpleExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'left', kind: node(Expression) },
-            { name: 'question', kind: node(Sym.Otherwise), space: true },
-            { name: 'right', kind: node(Expression), space: true },
+            {
+                name: 'left',
+                kind: node(Expression),
+                label: () => (l) => l.term.value,
+            },
+            {
+                name: 'question',
+                kind: node(Sym.Otherwise),
+                space: true,
+                label: undefined,
+            },
+            {
+                name: 'right',
+                kind: node(Expression),
+                space: true,
+                label: () => (l) => l.term.value,
+            },
         ];
     }
 
@@ -88,7 +97,7 @@ export default class Otherwise extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Decisions;
     }
 
     computeConflicts(context: Context): Conflict[] {

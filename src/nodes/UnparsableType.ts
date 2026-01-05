@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import type LocaleText from '@locale/LocaleText';
@@ -22,6 +23,10 @@ export default class UnparsableType extends Type {
         return 'UnparsableType';
     }
 
+    getPurpose(): Purpose {
+        return Purpose.Hidden;
+    }
+
     acceptsAll(): boolean {
         return false;
     }
@@ -31,7 +36,13 @@ export default class UnparsableType extends Type {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'unparsables', kind: list(true, node(Node)) }];
+        return [
+            {
+                name: 'unparsables',
+                kind: list(true, node(Node)),
+                label: undefined,
+            },
+        ];
     }
 
     computeConflicts(context: Context): Conflict[] {

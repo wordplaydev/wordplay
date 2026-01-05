@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -42,19 +42,22 @@ export default class Is extends Expression {
     }
 
     static make(left: Expression, right: Type) {
-        return new Is(left, new Token(TYPE_SYMBOL, Sym.TypeOperator), right);
+        return new Is(left, new Token(TYPE_SYMBOL, Sym.Type), right);
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
-            ? [Is.make(node, TypePlaceholder.make())]
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleInsertions({ type }: InsertContext) {
+        return type instanceof BooleanType
+            ? [
+                  Is.make(
+                      ExpressionPlaceholder.make(type),
+                      TypePlaceholder.make(),
+                  ),
+              ]
             : [];
-    }
-
-    static getPossibleAppends({ type }: EditContext) {
-        return [
-            Is.make(ExpressionPlaceholder.make(type), TypePlaceholder.make()),
-        ];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -63,9 +66,13 @@ export default class Is extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'expression', kind: node(Expression) },
-            { name: 'operator', kind: node(Sym.Type) },
-            { name: 'type', kind: node(Type) },
+            {
+                name: 'expression',
+                kind: node(Expression),
+                label: () => (l) => l.term.value,
+            },
+            { name: 'operator', kind: node(Sym.Type), label: undefined },
+            { name: 'type', kind: node(Type), label: () => (l) => l.term.type },
         ];
     }
 
@@ -78,7 +85,7 @@ export default class Is extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Decide;
+        return Purpose.Types;
     }
 
     computeType() {

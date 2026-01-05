@@ -111,34 +111,6 @@
       ],
       "type": "object"
     },
-    "DialogText": {
-      "additionalProperties": false,
-      "properties": {
-        "explanation": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Template"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/Template"
-              },
-              "type": "array"
-            }
-          ],
-          "description": "The explanation text just below the header."
-        },
-        "header": {
-          "description": "The header to be shown at the top of the dialog",
-          "type": "string"
-        }
-      },
-      "required": [
-        "header",
-        "explanation"
-      ],
-      "type": "object"
-    },
     "DocText": {
       "anyOf": [
         {
@@ -340,6 +312,34 @@
         "av",
         "tools",
         "stories"
+      ],
+      "type": "object"
+    },
+    "HeaderAndExplanationText": {
+      "additionalProperties": false,
+      "properties": {
+        "explanation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Template"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/Template"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "The explanation text just below the header."
+        },
+        "header": {
+          "description": "The header to be shown at the top of the dialog",
+          "type": "string"
+        }
+      },
+      "required": [
+        "header",
+        "explanation"
       ],
       "type": "object"
     },
@@ -2552,6 +2552,18 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "operator": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "operator"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -2571,6 +2583,7 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
                 "right",
                 "start"
@@ -2681,6 +2694,26 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "names": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "names",
+                    "type"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -2696,6 +2729,7 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
                 "start"
               ],
@@ -2799,6 +2833,19 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "statements": {
+                      "description": "The placeholder label for a statement in the block",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "statements"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -2806,10 +2853,6 @@
                 "start": {
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type first begins evaluating."
-                },
-                "statement": {
-                  "$ref": "#/definitions/Template",
-                  "description": "The placeholder label for a statement in the block"
                 }
               },
               "required": [
@@ -2818,9 +2861,9 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
-                "start",
-                "statement"
+                "start"
               ],
               "type": "object"
             },
@@ -2888,10 +2931,6 @@
               "additionalProperties": false,
               "description": "A borrow staement, indicating some code to import into a source Start inputs: $1 = source name, $2: name borrowed",
               "properties": {
-                "bind": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder label for the bind name being borrowed"
-                },
                 "conflict": {
                   "additionalProperties": false,
                   "description": "Conflicts that this node can generate",
@@ -2959,34 +2998,47 @@
                   ],
                   "type": "object"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "bind": {
+                      "description": "Placeholder label for the bind name being borrowed",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "Placeholder label for the source name",
+                      "type": "string"
+                    },
+                    "version": {
+                      "description": "Placeholder label for the version being borrowed",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "source",
+                    "bind",
+                    "version"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
                 },
-                "source": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder label for the source name"
-                },
                 "start": {
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type first begins evaluating."
-                },
-                "version": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder label for the version being borrowed"
                 }
               },
               "required": [
-                "bind",
                 "conflict",
                 "description",
                 "doc",
                 "emotion",
                 "exception",
+                "label",
                 "name",
-                "source",
-                "start",
-                "version"
+                "start"
               ],
               "type": "object"
             },
@@ -3028,6 +3080,18 @@
                   ],
                   "type": "string"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "stream": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stream"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -3040,6 +3104,7 @@
               "required": [
                 "doc",
                 "emotion",
+                "label",
                 "name",
                 "start"
               ],
@@ -3056,10 +3121,6 @@
                 "afterthen": {
                   "$ref": "#/definitions/Template",
                   "description": "When the else case is chosen. Description inputs: $1: true if jumping to the \"else\" expression"
-                },
-                "condition": {
-                  "$ref": "#/definitions/Template",
-                  "description": "A placeholder label for the condition"
                 },
                 "conflict": {
                   "additionalProperties": false,
@@ -3113,35 +3174,48 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition": {
+                      "$ref": "#/definitions/Template",
+                      "description": "A placeholder label for the condition"
+                    },
+                    "no": {
+                      "$ref": "#/definitions/Template",
+                      "description": "A placeholder label for else condition"
+                    },
+                    "yes": {
+                      "$ref": "#/definitions/Template",
+                      "description": "A placeholder label for then expression"
+                    }
+                  },
+                  "required": [
+                    "condition",
+                    "yes",
+                    "no"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
                 },
-                "no": {
-                  "$ref": "#/definitions/Template",
-                  "description": "A placeholder label for else condition"
-                },
                 "start": {
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type first begins evaluating."
-                },
-                "yes": {
-                  "$ref": "#/definitions/Template",
-                  "description": "A placeholder label for then expression"
                 }
               },
               "required": [
                 "afterthen",
-                "condition",
                 "conflict",
                 "doc",
                 "else",
                 "emotion",
                 "finish",
+                "label",
                 "name",
-                "no",
-                "start",
-                "yes"
+                "start"
               ],
               "type": "object"
             },
@@ -3197,6 +3271,26 @@
                   ],
                   "type": "string"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "expression": {
+                      "type": "string"
+                    },
+                    "input": {
+                      "type": "string"
+                    },
+                    "output": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "input",
+                    "output",
+                    "expression"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -3211,6 +3305,7 @@
                 "description",
                 "doc",
                 "emotion",
+                "label",
                 "name",
                 "start"
               ],
@@ -3585,13 +3680,25 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
-                "function": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder label for the function"
-                },
-                "input": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder labelf or an unspecified input"
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "function": {
+                      "type": "string"
+                    },
+                    "inputs": {
+                      "type": "string"
+                    },
+                    "types": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "function",
+                    "types",
+                    "inputs"
+                  ],
+                  "type": "object"
                 },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
@@ -3610,8 +3717,7 @@
                 "evaluate",
                 "exception",
                 "finish",
-                "function",
-                "input",
+                "label",
                 "name",
                 "start"
               ],
@@ -3690,12 +3796,21 @@
                   ],
                   "type": "object"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "placeholder": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "placeholder"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
-                },
-                "placeholder": {
-                  "$ref": "#/definitions/Template"
                 },
                 "start": {
                   "$ref": "#/definitions/Template",
@@ -3708,8 +3823,8 @@
                 "doc",
                 "emotion",
                 "exception",
+                "label",
                 "name",
-                "placeholder",
                 "start"
               ],
               "type": "object"
@@ -3830,6 +3945,26 @@
                   ],
                   "type": "string"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "expression": {
+                      "type": "string"
+                    },
+                    "inputs": {
+                      "type": "string"
+                    },
+                    "output": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "inputs",
+                    "output",
+                    "expression"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -3844,6 +3979,7 @@
                 "description",
                 "doc",
                 "emotion",
+                "label",
                 "name",
                 "start"
               ],
@@ -4408,10 +4544,6 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
-                "item": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder label for an item in a list"
-                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -4426,7 +4558,6 @@
                 "doc",
                 "emotion",
                 "finish",
-                "item",
                 "name",
                 "start"
               ],
@@ -4492,6 +4623,18 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "values": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "values"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -4507,6 +4650,7 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
                 "start"
               ],
@@ -4517,8 +4661,68 @@
               "description": "A map type, e.g., `{#:#}` Description inputs: $1 = Key type or undefined, $2 = value type or undefined"
             },
             "Markup": {
-              "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ ` Description inputs: $1 = paragraph count"
+              "additionalProperties": false,
+              "description": "Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ ` Description inputs: $1 = paragraph count",
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "paragraphs": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "paragraphs"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "description": "The name that should be used to refer to the node type",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "emotion",
+                "label",
+                "name"
+              ],
+              "type": "object"
             },
             "Match": {
               "additionalProperties": false,
@@ -4562,21 +4766,31 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "case": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The label for the case being checked"
+                    },
+                    "other": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The label for the default value if none of the cases match"
+                    }
+                  },
+                  "required": [
+                    "other",
+                    "case"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
                 },
-                "other": {
-                  "$ref": "#/definitions/Template",
-                  "description": "The label for the default value if none of the cases match"
-                },
                 "start": {
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type first begins evaluating."
-                },
-                "value": {
-                  "$ref": "#/definitions/Template",
-                  "description": "The label for the value to be compared against."
                 }
               },
               "required": [
@@ -4584,10 +4798,9 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
-                "other",
-                "start",
-                "value"
+                "start"
               ],
               "type": "object"
             },
@@ -4666,8 +4879,63 @@
               "type": "object"
             },
             "Names": {
-              "$ref": "#/definitions/NodeText",
-              "description": "A list of names, e.g., `hi,hello,hey`"
+              "additionalProperties": false,
+              "description": "A list of names, e.g., `hi,hello,hey`",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "names": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "description": "The name that should be used to refer to the node type",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "doc",
+                "emotion",
+                "label",
+                "name"
+              ],
+              "type": "object"
             },
             "NeverType": {
               "$ref": "#/definitions/NodeText",
@@ -4921,6 +5189,18 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "range": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "range"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -4934,6 +5214,7 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
                 "start"
               ],
@@ -5014,6 +5295,22 @@
                   "$ref": "#/definitions/Template",
                   "description": "What to say when the program is halting because of a fatal error"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "borrows": {
+                      "type": "string"
+                    },
+                    "expression": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "borrows",
+                    "expression"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -5034,6 +5331,7 @@
                 "exception",
                 "finish",
                 "halt",
+                "label",
                 "name",
                 "start",
                 "unevaluated"
@@ -5095,6 +5393,22 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "property": {
+                      "$ref": "#/definitions/Template"
+                    },
+                    "value": {
+                      "$ref": "#/definitions/Template"
+                    }
+                  },
+                  "required": [
+                    "property",
+                    "value"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -5110,6 +5424,7 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
                 "start"
               ],
@@ -5157,12 +5472,21 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "property": {
+                      "$ref": "#/definitions/Template"
+                    }
+                  },
+                  "required": [
+                    "property"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
-                },
-                "property": {
-                  "$ref": "#/definitions/Template"
                 },
                 "start": {
                   "$ref": "#/definitions/Template",
@@ -5174,8 +5498,8 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
-                "property",
                 "start"
               ],
               "type": "object"
@@ -5184,10 +5508,6 @@
               "additionalProperties": false,
               "description": "Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1` Finish inputs: $1 = resulting value",
               "properties": {
-                "condition": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder label for the condition to check"
-                },
                 "conflict": {
                   "additionalProperties": false,
                   "description": "Conflicts that this node can generate",
@@ -5236,17 +5556,32 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
-                "initial": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder label for the initial value"
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition": {
+                      "$ref": "#/definitions/Template",
+                      "description": "Placeholder label for the condition to check"
+                    },
+                    "initial": {
+                      "$ref": "#/definitions/Template",
+                      "description": "Placeholder label for the initial value"
+                    },
+                    "next": {
+                      "$ref": "#/definitions/Template",
+                      "description": "Placeholder label for the next value"
+                    }
+                  },
+                  "required": [
+                    "initial",
+                    "condition",
+                    "next"
+                  ],
+                  "type": "object"
                 },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
-                },
-                "next": {
-                  "$ref": "#/definitions/Template",
-                  "description": "Placeholder label for the next value"
                 },
                 "start": {
                   "$ref": "#/definitions/Template",
@@ -5254,14 +5589,12 @@
                 }
               },
               "required": [
-                "condition",
                 "conflict",
                 "doc",
                 "emotion",
                 "finish",
-                "initial",
+                "label",
                 "name",
-                "next",
                 "start"
               ],
               "type": "object"
@@ -5797,6 +6130,30 @@
                   ],
                   "type": "string"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "docs": {
+                      "type": "string"
+                    },
+                    "expression": {
+                      "type": "string"
+                    },
+                    "inputs": {
+                      "type": "string"
+                    },
+                    "interfaces": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "docs",
+                    "inputs",
+                    "expression",
+                    "interfaces"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -5811,6 +6168,7 @@
                 "description",
                 "doc",
                 "emotion",
+                "label",
                 "name",
                 "start"
               ],
@@ -5983,6 +6341,18 @@
                   ],
                   "type": "string"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "texts": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "texts"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -5996,6 +6366,7 @@
                 "description",
                 "doc",
                 "emotion",
+                "label",
                 "name",
                 "start"
               ],
@@ -6155,6 +6526,18 @@
                   ],
                   "type": "string"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "segments": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "segments"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -6165,6 +6548,7 @@
                 "description",
                 "doc",
                 "emotion",
+                "label",
                 "name"
               ],
               "type": "object"
@@ -6225,6 +6609,18 @@
                   ],
                   "type": "string"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -6234,6 +6630,7 @@
                 "conflict",
                 "doc",
                 "emotion",
+                "label",
                 "name"
               ],
               "type": "object"
@@ -6284,6 +6681,18 @@
                   "$ref": "#/definitions/Template",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "input": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "input"
+                  ],
+                  "type": "object"
+                },
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
@@ -6298,6 +6707,7 @@
                 "doc",
                 "emotion",
                 "finish",
+                "label",
                 "name",
                 "start"
               ],
@@ -8003,12 +8413,20 @@
               "description": "What to call a boolean value",
               "type": "string"
             },
+            "cell": {
+              "description": "What to call a table cell",
+              "type": "string"
+            },
             "changed": {
               "description": "How to describe output that has changed",
               "type": "string"
             },
             "code": {
               "description": "What to call code",
+              "type": "string"
+            },
+            "column": {
+              "description": "What to call a table column",
               "type": "string"
             },
             "convert": {
@@ -8021,6 +8439,10 @@
             },
             "document": {
               "description": "What to call documentation in code",
+              "type": "string"
+            },
+            "documentation": {
+              "description": "What to call documentation",
               "type": "string"
             },
             "entered": {
@@ -8066,12 +8488,20 @@
               "description": "What to call a key in a map",
               "type": "string"
             },
+            "language": {
+              "description": "What to call language tags",
+              "type": "string"
+            },
             "list": {
               "description": "What to call a list value",
               "type": "string"
             },
             "map": {
               "description": "What to call a map value",
+              "type": "string"
+            },
+            "markup": {
+              "description": "What to call rich text",
               "type": "string"
             },
             "moved": {
@@ -8104,6 +8534,10 @@
             },
             "query": {
               "description": "What to call a query a table value",
+              "type": "string"
+            },
+            "region": {
+              "description": "What to call region tags",
               "type": "string"
             },
             "row": {
@@ -8148,6 +8582,10 @@
             "type": {
               "type": "string"
             },
+            "unit": {
+              "description": "What to call a number unit",
+              "type": "string"
+            },
             "value": {
               "description": "What to call a data value",
               "type": "string"
@@ -8179,14 +8617,18 @@
             "value",
             "boolean",
             "table",
+            "column",
+            "cell",
+            "row",
             "list",
             "map",
             "text",
             "number",
+            "unit",
+            "markup",
             "function",
             "none",
             "exception",
-            "row",
             "set",
             "structure",
             "stream",
@@ -8194,7 +8636,10 @@
             "query",
             "key",
             "help",
-            "feedback"
+            "feedback",
+            "language",
+            "region",
+            "documentation"
           ],
           "type": "object"
         },
@@ -8391,9 +8836,6 @@
             "TypeOpen": {
               "type": "string"
             },
-            "TypeOperator": {
-              "type": "string"
-            },
             "URL": {
               "type": "string"
             },
@@ -8445,7 +8887,6 @@
             "None",
             "Type",
             "Literal",
-            "TypeOperator",
             "TypeOpen",
             "TypeClose",
             "Separator",
@@ -9129,6 +9570,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The animation on/off/slowdown mode"
                         },
+                        "blocks": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "The blocks on/off mode"
+                        },
                         "dark": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                           "description": "The dark on/off/automatic mode"
@@ -9155,6 +9600,7 @@
                         "animate",
                         "dark",
                         "writing",
+                        "blocks",
                         "space",
                         "lines"
                       ],
@@ -9309,19 +9755,19 @@
                       "description": "The subheaders of the dialog",
                       "properties": {
                         "copy": {
-                          "$ref": "#/definitions/DialogText",
+                          "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The copy and paste dialog text"
                         },
                         "gallery": {
-                          "$ref": "#/definitions/DialogText",
+                          "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The gallery subheader and explanation"
                         },
                         "pii": {
-                          "$ref": "#/definitions/DialogText",
+                          "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The personal information subheader and explanation"
                         },
                         "public": {
-                          "$ref": "#/definitions/DialogText",
+                          "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The public/private toggle subheader and explanation"
                         }
                       },
@@ -9399,25 +9845,49 @@
                 "header": {
                   "additionalProperties": false,
                   "properties": {
+                    "animation": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Animation header"
+                    },
+                    "appearance": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Appearance header"
+                    },
+                    "arrangements": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Arrangements header"
+                    },
                     "conversions": {
-                      "description": "Documentation header in structure before conversions",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Conversions header"
+                    },
+                    "forms": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Forms header"
                     },
                     "functions": {
-                      "description": "Documentation header in structure before functions",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Functions"
                     },
                     "inputs": {
-                      "description": "Documentation header in structure and functions before inputs",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Function inputs header"
                     },
                     "interfaces": {
-                      "description": "Documentation header in structure view before interfaces",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Structue interfaces header"
+                    },
+                    "location": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Location header"
                     },
                     "properties": {
-                      "description": "Documentation header in structure before properties",
-                      "type": "string"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Structure properties header"
+                    },
+                    "reactions": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Reactions header"
                     }
                   },
                   "required": [
@@ -9425,7 +9895,13 @@
                     "interfaces",
                     "properties",
                     "functions",
-                    "conversions"
+                    "conversions",
+                    "arrangements",
+                    "forms",
+                    "appearance",
+                    "animation",
+                    "location",
+                    "reactions"
                   ],
                   "type": "object"
                 },
@@ -9501,13 +9977,112 @@
                   "$ref": "#/definitions/Template",
                   "description": "A link to a concept in documentation"
                 },
-                "modes": {
-                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
-                  "description": "Labels for different sections of the guide"
+                "mode": {
+                  "additionalProperties": false,
+                  "description": "Modes in the guide",
+                  "properties": {
+                    "browse": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                    },
+                    "purpose": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "browse",
+                    "purpose"
+                  ],
+                  "type": "object"
                 },
                 "nodoc": {
                   "description": "Shown if documentation is missing for a concept",
                   "type": "string"
+                },
+                "note": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "empty": {
+                      "description": "The project has no concepts.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "empty"
+                  ],
+                  "type": "object"
+                },
+                "purposes": {
+                  "additionalProperties": false,
+                  "description": "Labels for concept categories",
+                  "properties": {
+                    "Advanced": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Decisions": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Definitions": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Documentation": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Hidden": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "How": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Inputs": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Lists": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Maps": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Numbers": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Outputs": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Project": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Tables": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Text": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Truth": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
+                    "Types": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    }
+                  },
+                  "required": [
+                    "Project",
+                    "Outputs",
+                    "Inputs",
+                    "Decisions",
+                    "Definitions",
+                    "Text",
+                    "Numbers",
+                    "Truth",
+                    "Lists",
+                    "Maps",
+                    "Tables",
+                    "Documentation",
+                    "Types",
+                    "Advanced",
+                    "Hidden",
+                    "How"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -9517,8 +10092,10 @@
                 "nodoc",
                 "button",
                 "field",
-                "modes",
+                "note",
+                "mode",
                 "header",
+                "purposes",
                 "how"
               ],
               "type": "object"
@@ -9687,19 +10264,19 @@
                   "description": "Headers on the page",
                   "properties": {
                     "classes": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Associtaed classes header"
                     },
                     "creators": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "The list of curators"
                     },
                     "curators": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "The list of curators"
                     },
                     "delete": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Delete header"
                     }
                   },
@@ -9778,7 +10355,6 @@
                       "description": "Button text for opening configuration dialog"
                     },
                     "configurationDialog": {
-                      "$ref": "#/definitions/DialogText",
                       "description": "Dialog header and explanation for configuring settings"
                     },
                     "guidingQuestions": {
@@ -9788,9 +10364,7 @@
                         "descriptor": {
                           "type": "string"
                         },
-                        "subheader": {
-                          "$ref": "#/definitions/DialogText"
-                        },
+                        "subheader": {},
                         "submit": {
                           "$ref": "#/definitions/ButtonText"
                         }
@@ -9818,9 +10392,7 @@
                         "removeReactionTip": {
                           "type": "string"
                         },
-                        "subheader": {
-                          "$ref": "#/definitions/DialogText"
-                        },
+                        "subheader": {},
                         "submit": {
                           "$ref": "#/definitions/ButtonText"
                         }
@@ -9850,9 +10422,7 @@
                         "mode": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
                         },
-                        "subheader": {
-                          "$ref": "#/definitions/DialogText"
-                        }
+                        "subheader": {}
                       },
                       "required": [
                         "subheader",
@@ -9910,9 +10480,7 @@
                     "collaboratorsToggle": {
                       "$ref": "#/definitions/ToggleText"
                     },
-                    "editForm": {
-                      "$ref": "#/definitions/DialogText"
-                    },
+                    "editForm": {},
                     "editorDescription": {
                       "type": "string"
                     },
@@ -9920,7 +10488,6 @@
                       "type": "string"
                     },
                     "newForm": {
-                      "$ref": "#/definitions/DialogText",
                       "description": "Dialog text for how-to form (new how-to or edit existing)"
                     },
                     "notification": {
@@ -10634,7 +11201,7 @@
                           "$ref": "#/definitions/ButtonText"
                         },
                         "dialog": {
-                          "$ref": "#/definitions/DialogText"
+                          "$ref": "#/definitions/HeaderAndExplanationText"
                         },
                         "public": {
                           "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
@@ -11725,7 +12292,7 @@
                   "description": "The project creation and browsing page",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Dialog text for the project addition dialog"
                     },
                     "archiveprompt": {
@@ -12458,7 +13025,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "translate": {
-                      "$ref": "#/definitions/DialogText",
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "The content for the translation dialog"
                     },
                     "unsaved": {
@@ -12707,6 +13274,65 @@
                       "description": "Expand selection to prior line",
                       "type": "string"
                     },
+                    "ignored": {
+                      "additionalProperties": false,
+                      "description": "Explanations for why something isn't editable",
+                      "properties": {
+                        "blockSpace": {
+                          "description": "No spaces in block mode unless in editable",
+                          "type": "string"
+                        },
+                        "noClipboard": {
+                          "description": "No clipboard",
+                          "type": "string"
+                        },
+                        "noClipboardItem": {
+                          "description": "No clipboard item",
+                          "type": "string"
+                        },
+                        "noDelete": {
+                          "description": "A node couldn't be deleted",
+                          "type": "string"
+                        },
+                        "noEditor": {
+                          "description": "No editor active",
+                          "type": "string"
+                        },
+                        "noError": {
+                          "description": "No errors allowed",
+                          "type": "string"
+                        },
+                        "noInsert": {
+                          "description": "An insertion failed",
+                          "type": "string"
+                        },
+                        "noMove": {
+                          "description": "No where to go",
+                          "type": "string"
+                        },
+                        "noSelection": {
+                          "description": "No selection",
+                          "type": "string"
+                        },
+                        "readOnly": {
+                          "description": "The source is not editable",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "readOnly",
+                        "blockSpace",
+                        "noDelete",
+                        "noInsert",
+                        "noError",
+                        "noEditor",
+                        "noClipboard",
+                        "noClipboardItem",
+                        "noSelection",
+                        "noMove"
+                      ],
+                      "type": "object"
+                    },
                     "incrementLiteral": {
                       "description": "Increment the literal at the cursor",
                       "type": "string"
@@ -12939,7 +13565,8 @@
                     "search",
                     "tidy",
                     "elide",
-                    "largeDelete"
+                    "largeDelete",
+                    "ignored"
                   ],
                   "type": "object"
                 },
@@ -12989,6 +13616,10 @@
                       "description": "How to describe the autocomplete back button for leaving the submenu",
                       "type": "string"
                     },
+                    "empty": {
+                      "description": "What to say when the menu is empty",
+                      "type": "string"
+                    },
                     "label": {
                       "description": "How to describe the autocomplete menu",
                       "type": "string"
@@ -13001,7 +13632,8 @@
                   "required": [
                     "label",
                     "show",
-                    "back"
+                    "back",
+                    "empty"
                   ],
                   "type": "object"
                 },
@@ -13398,6 +14030,39 @@
       ],
       "type": "object"
     },
+    "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 14,
+          "minItems": 14,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 14,
+          "minItems": 14,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "labels",
+        "tips"
+      ],
+      "type": "object"
+    },
     "ModeText<[string,string,string,string,string,string,string,string]>": {
       "additionalProperties": false,
       "properties": {
@@ -13405,8 +14070,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 8,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13417,7 +14091,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13428,8 +14103,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 7,
+          "minItems": 7,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13440,7 +14124,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13451,8 +14136,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13463,7 +14157,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13474,8 +14169,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13486,7 +14190,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13497,8 +14202,17 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13509,7 +14223,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13520,8 +14235,15 @@
           "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
           "type": "string"
         },
-        "modes": {
-          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
           "items": {
             "type": "string"
           },
@@ -13530,7 +14252,8 @@
       },
       "required": [
         "label",
-        "modes"
+        "labels",
+        "tips"
       ],
       "type": "object"
     },
@@ -13538,7 +14261,7 @@
       "additionalProperties": false,
       "properties": {
         "blocked": {
-          "$ref": "#/definitions/DialogText",
+          "$ref": "#/definitions/HeaderAndExplanationText",
           "description": "What to say when content is blocked"
         },
         "button": {
@@ -13588,7 +14311,7 @@
           "description": "Content moderation rules that creators promise to follow. See en-US.json for ground truth language."
         },
         "moderate": {
-          "$ref": "#/definitions/DialogText",
+          "$ref": "#/definitions/HeaderAndExplanationText",
           "description": "Moderation view text"
         },
         "progress": {
@@ -13596,11 +14319,11 @@
           "description": "Progress message"
         },
         "unmoderated": {
-          "$ref": "#/definitions/DialogText",
+          "$ref": "#/definitions/HeaderAndExplanationText",
           "description": "What to sa when content has not yet been moderated"
         },
         "warning": {
-          "$ref": "#/definitions/DialogText",
+          "$ref": "#/definitions/HeaderAndExplanationText",
           "description": "What to say to warn viewers before showing content with warnings."
         }
       },

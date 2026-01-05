@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import NoExpression from '@conflicts/NoExpression';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
@@ -15,6 +15,7 @@ import Purpose from '../concepts/Purpose';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
 import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
 import type Context from './Context';
@@ -31,9 +32,9 @@ import Names from './Names';
 import NameType from './NameType';
 import type Node from './Node';
 import { any, list, node, none, type Grammar, type Replacement } from './Node';
+import NumberType from './NumberType';
 import PropertyReference from './PropertyReference';
 import Reference from './Reference';
-import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
 import Token from './Token';
 import Type from './Type';
@@ -42,11 +43,11 @@ import type TypeSet from './TypeSet';
 import TypeToken from './TypeToken';
 import TypeVariables from './TypeVariables';
 import UnaryEvaluate from './UnaryEvaluate';
-import UnimplementedType from './UnimplementedType';
+import Unit from './Unit';
 import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionDefinition extends DefinitionExpression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly share: Token | undefined;
     readonly fun: Token;
     readonly names: Names;
@@ -73,7 +74,7 @@ export default class FunctionDefinition extends DefinitionExpression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.share = share;
         this.names = names;
         this.fun = fun;
@@ -112,17 +113,18 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleReplacements({ type, context }: EditContext) {
-        return type instanceof FunctionType
+    static getPossibleReplacements({ node, type, context }: ReplaceContext) {
+        return node instanceof ExpressionPlaceholder &&
+            type instanceof FunctionType
             ? [type.getDefaultExpression(context)]
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions({ locales }: InsertContext) {
         return [
             FunctionDefinition.make(
                 undefined,
-                Names.make(['_']),
+                Names.make([locales.get((l) => l.term.name)]),
                 undefined,
                 [],
                 ExpressionPlaceholder.make(),
@@ -135,56 +137,116 @@ export default class FunctionDefinition extends DefinitionExpression {
         return 'FunctionDefinition';
     }
 
+    isOptionalUnary() {
+        return (
+            this.inputs.length === 1 && this.inputs.every((i) => i.hasDefault())
+        );
+    }
+
     /** Create an expression that evaluates this function with typed placeholders for its inputs. */
     getEvaluateTemplate(
         nameOrLocales: Locales | string,
         context: Context,
+        defaults: boolean,
+        /** The structure to call the function on, or the type it should be called on */
         structureType: Expression | Type | undefined,
-    ) {
-        const possibleStructure = context.getRoot(this)?.getParent(this);
-        const structure = structureType
-            ? structureType
-            : possibleStructure instanceof StructureDefinition
-              ? possibleStructure
-              : undefined;
-        const reference = Reference.make(
+        // If it can be unary, returns a unary evaluate.
+        unary: boolean = false,
+    ): Evaluate | UnaryEvaluate | BinaryEvaluate {
+        const name =
             typeof nameOrLocales === 'string'
                 ? nameOrLocales
-                : nameOrLocales.getName(this.names),
-            this,
-        );
+                : nameOrLocales.getName(this.names);
+        const fun =
+            structureType instanceof Reference ||
+            structureType instanceof PropertyReference
+                ? structureType
+                : structureType instanceof Expression
+                  ? PropertyReference.make(structureType, Reference.make(name))
+                  : structureType instanceof Type
+                    ? PropertyReference.make(
+                          ExpressionPlaceholder.make(structureType),
+                          Reference.make(name),
+                      )
+                    : Reference.make(name);
+
+        const structure =
+            structureType instanceof Expression
+                ? structureType
+                : ExpressionPlaceholder.make(structureType?.clone());
+
+        // The first number type input with a unit deriver, if there is one.
+        const unitDeriver =
+            this.inputs.length > 0
+                ? this.inputs[0]
+                      .getType(context)
+                      .getPossibleTypes(context)
+                      .find(
+                          (t): t is NumberType =>
+                              t instanceof NumberType &&
+                              t.unit instanceof Function,
+                      )?.unit
+                : undefined;
+
+        const unitStructure = structure.getType(context);
+
         return this.isOperator() && this.inputs.length === 0
             ? new UnaryEvaluate(
                   new Reference(
                       new Token(this.getOperatorName() ?? '_', Sym.Operator),
                   ),
-                  structureType instanceof Expression
-                      ? structureType
-                      : ExpressionPlaceholder.make(structureType?.clone()),
+                  structure,
               )
             : this.isOperator() && this.inputs.length === 1
-              ? new BinaryEvaluate(
-                    structureType instanceof Expression
-                        ? structureType
-                        : ExpressionPlaceholder.make(structureType),
-                    Reference.make(this.getOperatorName() ?? '_'),
-                    ExpressionPlaceholder.make(),
-                )
+              ? unary && this.isOptionalUnary()
+                  ? new UnaryEvaluate(
+                        new Reference(
+                            new Token(
+                                this.getOperatorName() ?? '_',
+                                Sym.Operator,
+                            ),
+                        ),
+                        structure,
+                    )
+                  : new BinaryEvaluate(
+                        structure,
+                        new Reference(
+                            new Token(
+                                this.getOperatorName() ?? '_',
+                                Sym.Operator,
+                            ),
+                        ),
+                        ExpressionPlaceholder.make(
+                            unitDeriver instanceof Function &&
+                                unitStructure instanceof NumberType &&
+                                unitStructure.unit instanceof Unit
+                                ? NumberType.make(
+                                      unitDeriver(
+                                          unitStructure.unit,
+                                          undefined,
+                                          undefined,
+                                      ),
+                                  )
+                                : this.inputs[0].getType(context)?.clone(),
+                        ),
+                    )
               : Evaluate.make(
-                    structure
-                        ? PropertyReference.make(
-                              structureType instanceof Expression
-                                  ? structureType
-                                  : ExpressionPlaceholder.make(structureType),
-                              reference,
-                          )
-                        : reference,
+                    fun,
                     this.inputs
                         .filter((input) => !input.hasDefault())
                         .map((input) =>
                             input.type
-                                ? (input.type.getDefaultExpression(context) ??
-                                  ExpressionPlaceholder.make(input.type))
+                                ? // Always generate a default for function types. Placeholders are gnarly!
+                                  defaults || input.type instanceof FunctionType
+                                    ? (input
+                                          .getType(context)
+                                          .getDefaultExpression(context) ??
+                                      ExpressionPlaceholder.make(
+                                          input.getType(context).clone(),
+                                      ))
+                                    : ExpressionPlaceholder.make(
+                                          input.getType(context).clone(),
+                                      )
                                 : ExpressionPlaceholder.make(),
                         ),
                 );
@@ -192,41 +254,54 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: any(node(Docs), none()) },
+            {
+                name: 'docs',
+                kind: any(node(Docs), none()),
+                label: () => (l) => l.term.documentation,
+            },
             {
                 name: 'share',
                 kind: any(node(Sym.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
+                label: undefined,
             },
-            { name: 'fun', kind: node(Sym.Function) },
-            { name: 'names', kind: node(Names), space: true },
-            { name: 'types', kind: any(node(TypeVariables), none()) },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            { name: 'fun', kind: node(Sym.Function), label: undefined },
+            { name: 'names', kind: node(Names), space: true, label: undefined },
+            {
+                name: 'types',
+                kind: any(node(TypeVariables), none()),
+                label: undefined,
+            },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
+                label: () => (l) => l.node.FunctionDefinition.label.inputs,
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
             {
                 name: 'dot',
                 kind: any(
                     node(Sym.Type),
                     none(['output', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'output',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: () => (l) => l.node.FunctionDefinition.label.output,
             },
             {
                 name: 'expression',
-                kind: any(node(Expression), node(Sym.Etc), none()),
+                kind: any(node(Expression), none()),
                 space: true,
                 indent: true,
                 // Must match output type if provided
                 getType: (context) => this.getOutputType(context),
+                label: () => (l) => l.node.FunctionDefinition.label.expression,
             },
         ];
     }
@@ -237,7 +312,7 @@ export default class FunctionDefinition extends DefinitionExpression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Definitions;
     }
 
     clone(replace?: Replacement) {
@@ -375,11 +450,21 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    getOutputType(context: Context) {
-        return this.output instanceof Type
-            ? this.output
+    getOutputType(
+        context: Context,
+        caller:
+            | BinaryEvaluate
+            | UnaryEvaluate
+            | Evaluate
+            | undefined = undefined,
+    ): Type {
+        return this.output !== undefined
+            ? // If it's a number type, and we received a caller, pass it, so we can infer the units.
+              this.output instanceof NumberType && caller !== undefined
+                ? this.output.withOp(caller)
+                : this.output
             : this.expression === undefined
-              ? new UnimplementedType(this)
+              ? new AnyType()
               : this.expression.getType(context);
     }
 

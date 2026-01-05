@@ -6,7 +6,7 @@ import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import UnusedBind from '@conflicts/UnusedBind';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -40,7 +40,6 @@ import ListType from './ListType';
 import type Name from './Name';
 import Names from './Names';
 import NameType from './NameType';
-import type Node from './Node';
 import { any, node, none, type Grammar, type Replacement } from './Node';
 import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
@@ -52,7 +51,7 @@ import TypeToken from './TypeToken';
 import UnknownType from './UnknownType';
 
 export default class Bind extends Expression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly share: Token | undefined;
     readonly names: Names;
     readonly etc: Token | undefined;
@@ -73,7 +72,7 @@ export default class Bind extends Expression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.share = share;
         this.names = names;
         this.etc = etc;
@@ -112,39 +111,68 @@ export default class Bind extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, context, type }: EditContext) {
+    static getPossibleReplacements({
+        node,
+        context,
+        type,
+        locales,
+    }: ReplaceContext) {
         if (node instanceof Expression) {
             if (type === undefined || node.getParent(context) instanceof Block)
                 return [
-                    Bind.make(undefined, Names.make(['_']), undefined, node),
+                    Bind.make(
+                        undefined,
+                        Names.make([locales.get((l) => l.term.name)]),
+                        undefined,
+                        node,
+                    ),
                 ];
         }
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions({ locales, parent }: InsertContext) {
         return [
-            Bind.make(
-                undefined,
-                Names.make(['_']),
-                undefined,
-                ExpressionPlaceholder.make(),
-            ),
+            parent instanceof StructureDefinition ||
+            parent instanceof FunctionDefinition
+                ? Bind.make(
+                      undefined,
+                      Names.make([locales.get((l) => l.term.name)]),
+                      TypePlaceholder.make(),
+                      undefined,
+                  )
+                : Bind.make(
+                      undefined,
+                      Names.make([locales.get((l) => l.term.name)]),
+                      undefined,
+                      ExpressionPlaceholder.make(),
+                  ),
         ];
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: any(node(Docs), none()) },
+            {
+                name: 'docs',
+                kind: any(node(Docs), none()),
+                label: () => (l) => l.term.documentation,
+            },
             {
                 name: 'share',
                 kind: any(node(Sym.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
+                label: undefined,
             },
-            { name: 'names', kind: node(Names), newline: true },
+            {
+                name: 'names',
+                kind: node(Names),
+                newline: true,
+                label: () => (l) => l.node.Bind.label.names,
+            },
             {
                 name: 'etc',
                 kind: any(node(Sym.Etc), none()),
                 getToken: () => new Token(ETC_SYMBOL, Sym.Etc),
+                label: undefined,
             },
             {
                 name: 'dot',
@@ -152,10 +180,12 @@ export default class Bind extends Expression {
                     node(Sym.Type),
                     none(['type', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'type',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: () => (l) => l.node.Bind.label.type,
             },
             {
                 name: 'colon',
@@ -163,10 +193,12 @@ export default class Bind extends Expression {
                     node(Sym.Bind),
                     none(['value', () => ExpressionPlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'value',
                 kind: any(
+                    none(),
                     node(Expression),
                     none(['colon', () => new BindToken()]),
                 ),
@@ -174,12 +206,12 @@ export default class Bind extends Expression {
                 indent: true,
                 // The bind field should be whatever type is expected.
                 getType: (context: Context) => this.getExpectedType(context),
-                label: (locales: Locales, child: Node, context: Context) => {
-                    if (child === this.value) {
-                        const bind =
-                            this.getCorrespondingBindDefinition(context);
-                        return () => (bind ? locales.getName(bind.names) : '_');
-                    } else return () => '_';
+                label: (locales: Locales, context: Context) => {
+                    const bind = this.getCorrespondingBindDefinition(context);
+                    return () =>
+                        bind
+                            ? locales.getName(bind.names)
+                            : locales.get((l) => l.node.Bind.label.value);
                 },
             },
         ];
@@ -264,7 +296,7 @@ export default class Bind extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Definitions;
     }
 
     isEvaluationInvolved() {
@@ -450,13 +482,11 @@ export default class Bind extends Expression {
     }
 
     computeType(context: Context): Type {
+        // Always compute the value's type, as it has side effects on streams.
+        const valueType = this.value ? this.value.getType(context) : undefined;
+
         // What type is this binding?
-        let type =
-            this.getSpecifiedType() ?? // If it has an expression, ask the expression.
-            (this.value instanceof Expression
-                ? this.value.getType(context)
-                : // Otherwise, we don't know, it could be anything.
-                  undefined);
+        let type = this.getSpecifiedType() ?? valueType;
 
         if (type === undefined || type instanceof UnknownType)
             type = this.getExpectedType(context);
@@ -503,6 +533,7 @@ export default class Bind extends Expression {
                 const evalFunc = evaluate.getFunction(context);
                 if (
                     evalFunc instanceof FunctionDefinition &&
+                    funcIndex >= 0 &&
                     funcIndex < evalFunc.inputs.length
                 ) {
                     const bind = evalFunc.inputs[funcIndex];

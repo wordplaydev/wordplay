@@ -2,8 +2,8 @@
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
     import Slider from '@components/widgets/Slider.svelte';
     import type Project from '@db/projects/Project';
-    import type OutputProperty from '@edit/OutputProperty';
-    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import { getFirstText } from '@locale/LocaleText';
     import type Bind from '@nodes/Bind';
     import Evaluate from '@nodes/Evaluate';

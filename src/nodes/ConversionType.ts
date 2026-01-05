@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
@@ -8,47 +9,74 @@ import { node, type Grammar, type Replacement } from './Node';
 import Sym from './Sym';
 import Token from './Token';
 import Type from './Type';
+import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
 
 export default class ConversionType extends Type {
-    readonly input: Type;
     readonly convert: Token;
+    readonly input: Type;
     readonly output: Type;
 
-    constructor(input: Type, convert: Token, output: Type) {
+    constructor(convert: Token, input: Type, output: Type) {
         super();
 
-        this.input = input;
         this.convert = convert;
+        this.input = input;
         this.output = output;
 
         this.computeChildren();
     }
 
-    static make(input: Type, output: Type) {
+    static make(input?: Type, output?: Type) {
         return new ConversionType(
-            input,
             new Token(CONVERT_SYMBOL, Sym.Convert),
-            output,
+            input ?? TypePlaceholder.make(),
+            output ?? TypePlaceholder.make(),
         );
+    }
+
+    static getPossibleReplacements() {
+        return [ConversionType.make()];
+    }
+
+    static getPossibleInsertions() {
+        return [ConversionType.make()];
     }
 
     getDescriptor(): NodeDescriptor {
         return 'ConversionType';
     }
 
+    getPurpose(): Purpose {
+        return Purpose.Advanced;
+    }
+
     getGrammar(): Grammar {
         return [
-            { name: 'input', kind: node(Type) },
-            { name: 'convert', kind: node(Sym.Convert), space: true },
-            { name: 'output', kind: node(Type), space: true },
+            {
+                name: 'convert',
+                kind: node(Sym.Convert),
+                space: true,
+                label: undefined,
+            },
+            {
+                name: 'input',
+                kind: node(Type),
+                label: () => (l) => l.term.type,
+            },
+            {
+                name: 'output',
+                kind: node(Type),
+                space: true,
+                label: () => (l) => l.term.type,
+            },
         ];
     }
 
     clone(replace?: Replacement) {
         return new ConversionType(
-            this.replaceChild('input', this.input, replace),
             this.replaceChild('convert', this.convert, replace),
+            this.replaceChild('input', this.input, replace),
             this.replaceChild('output', this.output, replace),
         ) as this;
     }

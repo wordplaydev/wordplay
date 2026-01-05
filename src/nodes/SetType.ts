@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -37,15 +37,15 @@ export default class SetType extends BasisType {
         return new SetType(new SetOpenToken(), key, new SetCloseToken());
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
+    static getPossibleReplacements({ node }: ReplaceContext) {
         return [
             SetType.make(),
             ...(node instanceof Type ? [SetType.make(node)] : []),
         ];
     }
 
-    static getPossibleAppends() {
-        return SetType.make();
+    static getPossibleInsertions() {
+        return [SetType.make()];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -54,9 +54,13 @@ export default class SetType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.SetOpen) },
-            { name: 'key', kind: optional(node(Type)) },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
+            {
+                name: 'key',
+                kind: optional(node(Type)),
+                label: () => (l) => l.term.type,
+            },
+            { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
     }
 

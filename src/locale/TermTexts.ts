@@ -46,6 +46,12 @@ type TermTexts = {
     boolean: string;
     /** What to call a table value */
     table: string;
+    /** What to call a table column */
+    column: string;
+    /** What to call a table cell */
+    cell: string;
+    /** What to call a row value */
+    row: string;
     /** What to call a list value */
     list: string;
     /** What to call a map value */
@@ -54,14 +60,16 @@ type TermTexts = {
     text: string;
     /** What to call a number value */
     number: string;
+    /** What to call a number unit */
+    unit: string;
+    /** What to call rich text */
+    markup: string;
     /** What to call a function value */
     function: string;
     /** What to call a none value */
     none: string;
     /** What to call an exception value */
     exception: string;
-    /** What to call a row value */
-    row: string;
     /** What to call a set value */
     set: string;
     /** What to call a structure value */
@@ -78,6 +86,12 @@ type TermTexts = {
     help: string;
     /** What to call feedback in help/feedback links  */
     feedback: string;
+    /** What to call language tags */
+    language: string;
+    /** What to call region tags */
+    region: string;
+    /** What to call documentation */
+    documentation: string;
 };
 
 export { type TermTexts as default };

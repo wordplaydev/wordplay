@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { toClipboard } from '@components/editor/util/Clipboard';
+    import { toClipboard } from '@components/editor/commands/Clipboard';
     import Button from '@components/widgets/Button.svelte';
     import Project from '@db/projects/Project';
     import Example from '@nodes/Example';

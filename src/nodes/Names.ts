@@ -54,7 +54,13 @@ export default class Names extends Node {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'names', kind: list(false, node(Name)) }];
+        return [
+            {
+                name: 'names',
+                kind: list(false, node(Name)),
+                label: () => (l) => l.node.Names.label.names,
+            },
+        ];
     }
 
     clone(replace?: Replacement) {
@@ -63,12 +69,16 @@ export default class Names extends Node {
         ) as this;
     }
 
+    isEmpty() {
+        return this.names.length === 0;
+    }
+
     simplify() {
         return new Names(this.names.map((name) => name.simplify()));
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Hidden;
     }
 
     computeConflicts() {
@@ -120,6 +130,15 @@ export default class Names extends Node {
 
     hasSymbolicName() {
         return this.getSymbolicName() !== undefined;
+    }
+
+    getOperatorName() {
+        return this.names.find((name) => name.isOperator());
+    }
+
+    /** Returns true if it has an operator name */
+    hasOperatorName() {
+        return this.getOperatorName() !== undefined;
     }
 
     getPreferredNameString(
@@ -212,19 +231,24 @@ export default class Names extends Node {
         return Names.LocalePath;
     }
 
+    /** Update the name with the given langauge Add or change the name of with the matching language. If there is no match, replace the , if there is one.no names have languages, then it replaces the language free name. */
     withName(name: string, language: LanguageCode) {
-        const index = this.names.findIndex(
+        let matchingIndex = this.names.findIndex(
             (name) => name.getLanguage() === language,
         );
+        if (matchingIndex < 0)
+            matchingIndex = this.names.findIndex(
+                (name) => name.getLanguage() === undefined,
+            );
 
         const newName = Name.make(name, Language.make(language));
         return new Names(
-            index < 0
+            matchingIndex < 0
                 ? [...this.names, newName]
                 : [
-                      ...this.names.slice(0, index),
+                      ...this.names.slice(0, matchingIndex),
                       newName,
-                      ...this.names.slice(index + 1),
+                      ...this.names.slice(matchingIndex + 1),
                   ],
         );
     }

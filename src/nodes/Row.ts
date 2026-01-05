@@ -59,13 +59,15 @@ export default class Row extends Node {
                     node(Sym.Delete),
                     node(Sym.Update),
                 ),
+                label: undefined,
             },
             {
                 name: 'cells',
                 kind: list(true, node(Input), node(Expression)),
                 space: true,
+                label: () => (l) => l.term.cell,
             },
-            { name: 'close', kind: node(Sym.TableClose) },
+            { name: 'close', kind: node(Sym.TableClose), label: undefined },
         ];
     }
 
@@ -78,7 +80,7 @@ export default class Row extends Node {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Tables;
     }
 
     getDependencies() {

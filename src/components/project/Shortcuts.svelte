@@ -1,6 +1,6 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Commands, { Category } from '../editor/util/Commands';
+    import Commands, { Category } from '../editor/commands/Commands';
     import CommandDescription from './CommandDescription.svelte';
 </script>
 

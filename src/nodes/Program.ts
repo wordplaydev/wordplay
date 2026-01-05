@@ -18,7 +18,6 @@ import Borrow from './Borrow';
 import type Context from './Context';
 import type Definition from './Definition';
 import Dimension from './Dimension';
-import Docs from './Docs';
 import Expression, { ExpressionKind } from './Expression';
 import Language from './Language';
 import type Node from './Node';
@@ -31,20 +30,13 @@ import type TypeSet from './TypeSet';
 import Unit from './Unit';
 
 export default class Program extends Expression {
-    readonly docs: Docs | undefined;
     readonly borrows: Borrow[];
     readonly expression: Block;
     readonly end: Token | undefined;
 
-    constructor(
-        docs: Docs | undefined,
-        borrows: Borrow[],
-        expression: Block,
-        end: Token | undefined,
-    ) {
+    constructor(borrows: Borrow[], expression: Block, end: Token | undefined) {
         super();
 
-        this.docs = docs;
         this.borrows = borrows.slice();
         this.expression = expression;
         this.end = end;
@@ -54,7 +46,6 @@ export default class Program extends Expression {
 
     static make(expressions: Expression[] = []) {
         return new Program(
-            undefined,
             [],
             new Block(expressions, BlockKind.Root),
             new Token('', Sym.End),
@@ -67,20 +58,26 @@ export default class Program extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: optional(node(Docs)) },
-            { name: 'borrows', kind: list(true, node(Borrow)) },
-            { name: 'expression', kind: node(Block) },
-            { name: 'end', kind: optional(node(Sym.End)) },
+            {
+                name: 'borrows',
+                kind: list(true, node(Borrow)),
+                label: () => (l) => l.node.Program.label.borrows,
+            },
+            {
+                name: 'expression',
+                kind: node(Block),
+                label: () => (l) => l.node.Program.label.expression,
+            },
+            { name: 'end', kind: optional(node(Sym.End)), label: undefined },
         ];
     }
 
     getPurpose() {
-        return Purpose.Source;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {
         return new Program(
-            this.replaceChild('docs', this.docs, replace),
             this.replaceChild('borrows', this.borrows, replace),
             this.replaceChild('expression', this.expression, replace),
             this.replaceChild('end', this.end, replace),
@@ -88,7 +85,7 @@ export default class Program extends Expression {
     }
 
     isEmpty() {
-        return this.leaves().length === 1;
+        return this.hasOneLeaf();
     }
 
     isEvaluationInvolved() {

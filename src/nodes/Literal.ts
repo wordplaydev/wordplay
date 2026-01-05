@@ -3,7 +3,6 @@ import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import Purpose from '../concepts/Purpose';
 import type Context from './Context';
 import type Expression from './Expression';
 import SimpleExpression from './SimpleExpression';
@@ -20,10 +19,6 @@ export default abstract class Literal extends SimpleExpression {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     compile(__: Evaluator, _: Context): Step[] {
         return [new StartFinish(this)];
-    }
-
-    getPurpose() {
-        return Purpose.Value;
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
