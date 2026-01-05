@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getExampleGalleries } from '../../examples/examples';
 import { localeToString } from '../../locale/Locale';
 import type Locales from '../../locale/Locales';
-import type { Database } from '../Database';
+import { type Database } from '../Database';
 import { firestore } from '../firebase';
 import type Project from '../projects/Project';
 import {
@@ -402,6 +402,39 @@ export default class GalleryDatabase {
             }
         }
         return projectsToKeep;
+    }
+
+    async getExpandedScopeViewers(uid: string): Promise<Set<string> | undefined | false> {
+        // find all galleries that a given user is a curator for
+        // get all curators and creators for those galleries
+
+        try {
+            const galleryDocs = await getDocs(query(
+                collection(firestore, GalleriesCollection),
+                where('curators', 'array-contains', uid)
+            ));
+
+            if (!galleryDocs.empty) {
+                const galleries = galleryDocs.docs.map((doc) => deserializeGallery(doc.data()));
+                let allViewers: Set<string> = new Set();
+
+                galleries.forEach((g) => {
+                    g.getCurators().forEach((curator) => {
+                        allViewers.add(curator);
+                    });
+                    g.getCreators().forEach((creator) => {
+                        allViewers.add(creator);
+                    });
+                });
+
+                return allViewers;
+
+            } else {
+                return undefined;
+            }
+        } catch (error) {
+            return false;
+        }
     }
 
     clean() {

@@ -39,6 +39,7 @@ const SerializedGalleryV2 = SerializedGalleryV1.omit({ v: true }).extend({
     v: z.literal(2),
     /** visibility of the how-to space: false if limited to gallery's own permissions, true if expanded to allow gallery creators' other galleries' creators and curators to also view */
     howToExpandedVisibility: z.boolean(),
+    howToViewers: z.array(z.string()),
     /** guiding questions for creating a how-to */
     howToGuidingQuestions: z.array(z.string()),
     /** reaction options for the how-tos */
@@ -59,6 +60,7 @@ export function upgradeGallery(
             // default guiding questions and reactions
             return upgradeGallery({
                 ...gallery, v: 2, howToExpandedVisibility: false,
+                howToViewers: gallery.curators.concat(gallery.creators),
                 howToGuidingQuestions: ["Tell us the story of how you discovered this"],
                 howToReactions: {
                     "👍": "I like this!", "💭": "This inspires me!",

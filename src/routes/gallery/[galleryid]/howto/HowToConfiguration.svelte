@@ -28,15 +28,43 @@
         ),
     );
 
+    // get the viewers for this gallery, based on the gallery setting
+    let curators: string[] = $derived(gallery ? gallery.getCurators() : []);
+    let expandedVisibility: boolean = $derived(
+        gallery ? gallery.getHowToExpandedVisibility() : false,
+    );
+
+    let limitedViewers = $derived(curators.concat(gallery.getCreators()));
+    let expandedViewers = $state<string[]>([]);
+
+    $effect(() => {
+        if (expandedVisibility) {
+            let allViewers: Set<string> = new Set<string>();
+
+            curators.forEach((curatorId) => {
+                Galleries.getExpandedScopeViewers(curatorId).then((v) => {
+                    if (v) {
+                        v.forEach((viewer) => {
+                            allViewers.add(viewer);
+                        });
+                    }
+                });
+            });
+
+            expandedViewers = Array.from(allViewers);
+        }
+    });
+
     function changeVisibility(num: number) {
         expandedScope = num === 1;
 
-        Galleries.edit(
-            new Gallery({
-                ...gallery.getData(),
-                howToExpandedVisibility: expandedScope,
-            }),
-        );
+        gallery = new Gallery({
+            ...gallery.getData(),
+            howToExpandedVisibility: expandedScope,
+            howToViewers: expandedScope ? expandedViewers : limitedViewers,
+        });
+
+        Galleries.edit(gallery);
     }
 
     function changeGuidingQuestions() {
