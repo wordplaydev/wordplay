@@ -3,7 +3,20 @@ import fs from 'fs';
 import path from 'path';
 
 export * from '@playwright/test';
-export const test = baseTest.extend<{}, { workerStorageState: string }>({
+
+/** Generates a worker-specific username based on parallelIndex */
+function getUsernameForWorker(): string {
+    return `user${test.info().parallelIndex}`;
+}
+
+export const test = baseTest.extend<
+    { loggedInUsername: string },
+    { workerStorageState: string }
+>({
+    // Provide the test username to all tests in this worker.
+    loggedInUsername: async ({ }, use) => {
+        await use(getUsernameForWorker());
+    },
     // Use the same storage state for all tests in this worker.
     storageState: ({ workerStorageState }, use) => use(workerStorageState),
     // Authenticate once per worker with a worker-scoped fixture.
@@ -30,7 +43,7 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
             // Make sure that accounts are unique, so that multiple team members
             // can run tests at the same time without interference.
             const account = {
-                username: `user${id}`,
+                username: getUsernameForWorker(),
                 password: 'password',
             };
 
