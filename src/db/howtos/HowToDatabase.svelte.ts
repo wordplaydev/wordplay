@@ -43,6 +43,7 @@ const HowToSchemaV1 = z.object({
 
     /** Social interactions */
     /** The list of users who reacted to the how-to using each reaction */
+    reactionOptions: z.record(z.string(), z.string()),
     reactions: z.record(z.string(), z.array(z.string())),
     /** The list of projects who used the how-to */
     usedByProjects: z.array(z.string()),
@@ -116,6 +117,10 @@ export default class HowTo {
 
     getLocales() {
         return this.data.locales;
+    }
+
+    getReactionOptions() {
+        return this.data.reactionOptions;
     }
 
     getUserReactions() {
@@ -299,7 +304,7 @@ export class HowToDatabase {
         guidingQuestions: string[],
         text: string[],
         locales: string[],
-        reactionTypes: string[]
+        reactionTypes: [string, string][],
     ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
@@ -319,8 +324,9 @@ export class HowToDatabase {
             creator: user as string,
             collaborators: collaborators,
             locales: locales,
+            reactionOptions: Object.fromEntries(new Map<string, string>(reactionTypes)),
             reactions: Object.fromEntries(new Map<string, string[]>(
-                reactionTypes.map((type) => [type, []])
+                reactionTypes.map(([emoji, _]) => [emoji, []])
             )),
             usedByProjects: [],
             chat: null,

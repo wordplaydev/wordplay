@@ -48,7 +48,6 @@ type PageText = {
         /** Checkbox text for opting out of notifying subscribers */
         notification: ModeText<[string, string]>;
         /** How-to prompt / editor placeholder and description text */
-        prompt: string;
         editorPlaceholder: string;
         editorDescription: string;
         /** Field text for how-to title */
@@ -81,12 +80,7 @@ type PageText = {
             removeButton: string;
             addButton: string;
         }
-        reactions: {
-            /** Text for prompting reactions */
-            prompt: string;
-            /** Default reaction options for viewing a how-to */
-            options: ButtonText[];
-        }
+        reactionsPrompt: string;
         /** Text for prompting users to chat */
         chatPrompt: string;
     }

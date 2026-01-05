@@ -4899,7 +4899,6 @@
                         "Do not notify subscribers when you post this how-to"
                     ]
                 },
-                "prompt": "Tell us the story of how you discovered this",
                 "editorPlaceholder": "Write your how-to here",
                 "editorDescription": "A text box to write your how-to",
                 "title": {
@@ -4943,35 +4942,7 @@
                     "removeButton": "Remove project or how-to from list",
                     "addButton": "Add project or how-to"
                 },
-                "reactions": {
-                    "prompt": "Did you like this how-to? Leave a reaction to support the creator!",
-                    "options": [
-                        {
-                            "label": "👍",
-                            "tip": "I like this!"
-                        },
-                        {
-                            "label": "💭",
-                            "tip": "This inspires me!"
-                        },
-                        {
-                            "label": "🙏",
-                            "tip": "Thank you!"
-                        },
-                        {
-                            "label": "🎉",
-                            "tip": "Celebration!"
-                        },
-                        {
-                            "label": "🤩",
-                            "tip": "I want to try this!"
-                        },
-                        {
-                            "label": "😁",
-                            "tip": "This makes me happy!"
-                        }
-                    ]
-                },
+                "reactionsPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
                 "chatPrompt": "Leave a comment or question for the creator!"
             },
             "configuration": {

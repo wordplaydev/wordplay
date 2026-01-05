@@ -10355,6 +10355,7 @@
                       "description": "Button text for opening configuration dialog"
                     },
                     "configurationDialog": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Dialog header and explanation for configuring settings"
                     },
                     "guidingQuestions": {
@@ -10364,7 +10365,9 @@
                         "descriptor": {
                           "type": "string"
                         },
-                        "subheader": {},
+                        "subheader": {
+                          "$ref": "#/definitions/HeaderAndExplanationText"
+                        },
                         "submit": {
                           "$ref": "#/definitions/ButtonText"
                         }
@@ -10392,7 +10395,9 @@
                         "removeReactionTip": {
                           "type": "string"
                         },
-                        "subheader": {},
+                        "subheader": {
+                          "$ref": "#/definitions/HeaderAndExplanationText"
+                        },
                         "submit": {
                           "$ref": "#/definitions/ButtonText"
                         }
@@ -10422,7 +10427,9 @@
                         "mode": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
                         },
-                        "subheader": {}
+                        "subheader": {
+                          "$ref": "#/definitions/HeaderAndExplanationText"
+                        }
                       },
                       "required": [
                         "subheader",
@@ -10480,14 +10487,18 @@
                     "collaboratorsToggle": {
                       "$ref": "#/definitions/ToggleText"
                     },
-                    "editForm": {},
+                    "editForm": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
                     "editorDescription": {
                       "type": "string"
                     },
                     "editorPlaceholder": {
+                      "description": "How-to prompt / editor placeholder and description text",
                       "type": "string"
                     },
                     "newForm": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Dialog text for how-to form (new how-to or edit existing)"
                     },
                     "notification": {
@@ -10497,10 +10508,6 @@
                     "post": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for submitting the how-to"
-                    },
-                    "prompt": {
-                      "description": "How-to prompt / editor placeholder and description text",
-                      "type": "string"
                     },
                     "save": {
                       "$ref": "#/definitions/ButtonText",
@@ -10521,7 +10528,6 @@
                     "post",
                     "save",
                     "notification",
-                    "prompt",
                     "editorPlaceholder",
                     "editorDescription",
                     "title",
@@ -10595,26 +10601,8 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for editing the how-to"
                     },
-                    "reactions": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "options": {
-                          "description": "Default reaction options for viewing a how-to",
-                          "items": {
-                            "$ref": "#/definitions/ButtonText"
-                          },
-                          "type": "array"
-                        },
-                        "prompt": {
-                          "description": "Text for prompting reactions",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "prompt",
-                        "options"
-                      ],
-                      "type": "object"
+                    "reactionsPrompt": {
+                      "type": "string"
                     },
                     "submitToGuide": {
                       "additionalProperties": false,
@@ -10675,7 +10663,7 @@
                     "delete",
                     "submitToGuide",
                     "usedBy",
-                    "reactions",
+                    "reactionsPrompt",
                     "chatPrompt"
                   ],
                   "type": "object"

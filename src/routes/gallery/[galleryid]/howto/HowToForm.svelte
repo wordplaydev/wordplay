@@ -19,6 +19,7 @@
     import { Chats, Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import type { ButtonText } from '@locale/UITexts';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import type { Snippet } from 'svelte';
     import HowToPrompt from './HowToPrompt.svelte';
@@ -45,11 +46,18 @@
     }: Props = $props();
 
     // utility variables
-    let reactionButtons = $locales.get(
-        (l) => l.ui.howto.viewer.reactions.options,
-    );
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
     const galleryID: string = decodeURI(page.params.galleryid);
+
+    // Load the gallery if it exists.
+    let gallery = $state<Gallery | undefined>(undefined);
+    $effect(() => {
+        if (galleryID) {
+            Galleries.get(galleryID).then((g) => {
+                gallery = g;
+            });
+        } else gallery = undefined;
+    });
 
     const user = getUser();
 
@@ -64,16 +72,33 @@
     let reactions: Record<string, string[]> = $derived(
         howTo ? howTo.getUserReactions() : {},
     );
-    let text: string[] = $derived(howTo ? howTo.getText() : ['']);
-    let newText: string[] = $state([...text]); // can't bind to text itself, so make a copy and edit that
     let prompts: string[] = $derived(
         howTo
             ? howTo.getGuidingQuestions()
-            : [$locales.get((l) => l.ui.howto.editor.prompt)],
+            : gallery
+              ? gallery.getHowToGuidingQuestions()
+              : [],
     );
+    let text: string[] = $derived(
+        howTo ? howTo.getText() : Array(prompts.length).fill(''),
+    );
+    let newText: string[] = $derived([...text]); // can't bind to text itself, so make a copy and edit that
     let title: string = $derived(howTo ? howTo.getTitle() : '');
     let allCollaborators: string[] = $derived(
         howTo ? [...howTo.getCollaborators(), howTo.getCreator()] : [],
+    );
+
+    let reactionButtons: ButtonText[] = $derived(
+        Object.entries(
+            howTo
+                ? howTo.getReactionOptions()
+                : gallery
+                  ? gallery.getHowToReactions()
+                  : {},
+        ).map(([emoji, description]) => ({
+            label: emoji,
+            tip: description,
+        })),
     );
 
     function findPlaceToWrite() {
@@ -132,7 +157,7 @@
                 prompts,
                 newText,
                 ['en-US'],
-                reactionButtons.map((b) => b.label),
+                reactionButtons.map((b) => [b.label, b.tip]),
             );
 
             howTo = returnValue ? returnValue : undefined;
@@ -242,16 +267,6 @@
             Chats.getChatHowTo(howTo).then((retrievedChat) => {
                 chat = retrievedChat;
             });
-    });
-
-    // Load the gallery if it exists.
-    let gallery = $state<Gallery | undefined>(undefined);
-    $effect(() => {
-        if (galleryID) {
-            Galleries.get(galleryID).then((g) => {
-                gallery = g;
-            });
-        } else gallery = undefined;
     });
 
     // TODO(@mc) -- uncomment this once it works again
@@ -376,10 +391,7 @@
                     <Mode
                         modes={(l) => l.ui.howto.editor.notification}
                         choice={notify ? 0 : 1}
-                        icons={[
-                            '🔔',
-                            '🔕',
-                        ]}
+                        icons={['🔔', '🔕']}
                         select={(num) => (notify = num === 0)}
                     />
                 {/if}
@@ -481,7 +493,7 @@
             {#if isPublished}
                 <div class="splitside" id="howtointeractions">
                     <HowToPrompt
-                        text={(l) => l.ui.howto.viewer.reactions.prompt}
+                        text={(l) => l.ui.howto.viewer.reactionsPrompt}
                     />
                     {#each reactionButtons as reaction, i (i)}
                         <Button

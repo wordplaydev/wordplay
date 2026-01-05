@@ -7,18 +7,65 @@
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { locales } from '@db/Database';
-    import type { ButtonText } from '@locale/UITexts';
+    import { Galleries } from '@db/Database';
+    import Gallery from '@db/galleries/Gallery';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
 
-    let expandedScope: boolean = $state(false);
-    let guidingQuestionsText: string = $state('');
-    let reactions: ButtonText[] = $state(
-        $locales.get((l) => l.ui.howto.viewer.reactions.options),
+    interface Props {
+        gallery: Gallery;
+    }
+
+    let { gallery }: Props = $props();
+
+    let expandedScope: boolean = $derived(gallery.getHowToExpandedVisibility());
+    let guidingQuestionsText: string = $derived(
+        gallery.getHowToGuidingQuestions().join('\n'),
     );
-    let showReactionOptions: boolean[] = $state(
-        Array(reactions.length).fill(false),
+
+    let reactions: [string, string, boolean][] = $state(
+        Object.entries(gallery.getHowToReactions()).map(
+            ([emoji, description]) => [emoji, description, false],
+        ),
     );
+
+    function changeVisibility(num: number) {
+        expandedScope = num === 1;
+
+        Galleries.edit(
+            new Gallery({
+                ...gallery.getData(),
+                howToExpandedVisibility: expandedScope,
+            }),
+        );
+    }
+
+    function changeGuidingQuestions() {
+        gallery = new Gallery({
+            ...gallery.getData(),
+            howToGuidingQuestions: guidingQuestionsText
+                .split('\n')
+                .map((q) => q.trim())
+                .filter((q) => q.length > 0),
+        });
+        Galleries.edit(gallery);
+    }
+
+    function changeReactions() {
+        let reactionsObject: Record<string, string> = Object.fromEntries(
+            new Map<string, string>(
+                reactions.map(([emoji, description, _]) => [
+                    emoji,
+                    description,
+                ]),
+            ),
+        );
+        Galleries.edit(
+            new Gallery({
+                ...gallery.getData(),
+                howToReactions: reactionsObject,
+            }),
+        );
+    }
 </script>
 
 <Dialog
@@ -41,7 +88,7 @@
         modes={(l) => l.ui.howto.configuration.visibility.mode}
         choice={expandedScope ? 1 : 0}
         icons={['', '']}
-        select={(num) => (expandedScope = num === 1)}
+        select={(num) => changeVisibility(num)}
     />
 
     <Subheader
@@ -55,15 +102,13 @@
         id="guidingquestions"
         description={(l) =>
             l.ui.howto.configuration.guidingQuestions.descriptor}
-        placeholder={(l) => l.ui.howto.editor.prompt}
+        placeholder={(l) => ''}
         bind:text={guidingQuestionsText}
     />
     <Button
         label={(l) => l.ui.howto.configuration.guidingQuestions.submit.label}
         tip={(l) => l.ui.howto.configuration.guidingQuestions.submit.tip}
-        action={() => {
-            // Save guiding questions logic here.
-        }}
+        action={changeGuidingQuestions}
         submit={true}
         background={true}
     />
@@ -74,14 +119,16 @@
     <MarkupHTMLView
         markup={(l) => l.ui.howto.configuration.reactions.subheader.explanation}
     />
-    {#each reactions as reaction, index}
+    {#each reactions as _, index}
         <div class="reactionConfiguration">
             <Button
                 tip={(l) =>
                     l.ui.howto.configuration.reactions.reactionPickerTip}
-                action={() =>
-                    (showReactionOptions[index] = !showReactionOptions[index])}
-                icon={reaction.label}
+                action={() => {
+                    reactions[index][2] = !reactions[index][2];
+                }}
+                icon={reactions[index][0]}
+                background={reactions[index][2]}
             />
 
             <TextField
@@ -90,7 +137,7 @@
                     l.ui.howto.configuration.reactions.reactionDescriptionTip}
                 placeholder={(l) =>
                     l.ui.howto.configuration.reactions.reactionDescriptionTip}
-                bind:text={reaction.tip}
+                bind:text={reactions[index][1]}
             />
 
             <Button
@@ -99,14 +146,13 @@
                 icon={CANCEL_SYMBOL}
                 action={() => {
                     reactions.splice(index, 1);
-                    showReactionOptions.splice(index, 1);
                 }}
             />
         </div>
-        {#if showReactionOptions[index]}
+        {#if reactions[index][2]}
             <EmojiChooser
-                pick={(emoji) => (reactions[index]['label'] = emoji)}
-                emoji={reaction.label}
+                pick={(emoji) => (reactions[index][0] = emoji)}
+                emoji={reactions[index][0]}
             />
         {/if}
     {/each}
@@ -114,16 +160,13 @@
         tip={(l) => l.ui.howto.configuration.reactions.addReactionTip}
         icon={'+'}
         action={() => {
-            reactions.push({ label: '😀', tip: '' });
-            showReactionOptions.push(false);
+            reactions.push(['😀', '', false]);
         }}
     />
     <Button
         label={(l) => l.ui.howto.configuration.reactions.submit.label}
         tip={(l) => l.ui.howto.configuration.reactions.submit.tip}
-        action={() => {
-            // Save reactions logic here.
-        }}
+        action={changeReactions}
         submit={true}
         background={true}
     />

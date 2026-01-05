@@ -3,51 +3,75 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import z from 'zod';
 
-export const GallerySchemaLatestVersion = 1;
+export const GallerySchemaLatestVersion = 2;
 
 /** The schema for a gallery */
-type SerializedGalleryV1 = {
+const SerializedGalleryV1 = z.object({
     /** Version of the gallery schema, so we can upgrade them. */
-    v: 1;
+    v: z.literal(1),
     /** Unique Firestore id */
-    id: string;
+    id: z.string(),
     /** A vanity URL name, globally unique, must be valid URL path */
-    path: string | null;
+    path: z.string().nullable(),
     /** One or more localized names of the gallery, indexed by locale name. Cannot be empty. */
-    name: Record<string, string>;
+    name: z.record(z.string(), z.string()),
     /** Localized descriptions of the theme of the gallery, indexed by locale name. Cannot be empty. */
-    description: Record<string, string>;
+    description: z.record(z.string(), z.string()),
     /**
      * A set of unique lower case non-preposition words that appear in the names and descriptions, suitable for basic text search.
      * These are derived from the name and description.
      */
-    words: string[];
+    words: z.array(z.string()),
     /** Project IDs in the project. */
-    projects: string[];
+    projects: z.array(z.string()),
     /** Firebase uids who can modify gallery public and creators, e.g. teachers. May not be empty. */
-    curators: string[];
+    curators: z.array(z.string()),
     /** Firebase uids who can add projects to the gallery and view its projects, e.g. students */
-    creators: string[];
+    creators: z.array(z.string()),
     /** If true, gallery can be viewed by anyone and appears in search results. */
-    public: boolean;
+    public: z.boolean(),
     /** If true, gallery is prioritized in search results */
-    featured: boolean;
-};
+    featured: z.boolean(),
+});
 
-type SerializedGalleryUnknownVersion = SerializedGalleryV1;
+/** v2 adds configurations for the how-to space */
+const SerializedGalleryV2 = SerializedGalleryV1.omit({ v: true }).extend({
+    v: z.literal(2),
+    /** visibility of the how-to space: false if limited to gallery's own permissions, true if expanded to allow gallery creators' other galleries' creators and curators to also view */
+    howToExpandedVisibility: z.boolean(),
+    /** guiding questions for creating a how-to */
+    howToGuidingQuestions: z.array(z.string()),
+    /** reaction options for the how-tos */
+    howToReactions: z.record(z.string(), z.string()),
+})
+
+/** The latest version of a gallery */
+export const GallerySchema = SerializedGalleryV2;
+export type SerializedGallery = z.infer<typeof SerializedGalleryV2>;
+
+type SerializedGalleryUnknownVersion = | z.infer<typeof SerializedGalleryV1> | SerializedGallery;
 
 export function upgradeGallery(
     gallery: SerializedGalleryUnknownVersion,
 ): SerializedGallery {
     switch (gallery.v) {
+        case 1:
+            // default guiding questions and reactions
+            return upgradeGallery({
+                ...gallery, v: 2, howToExpandedVisibility: false,
+                howToGuidingQuestions: ["Tell us the story of how you discovered this"],
+                howToReactions: {
+                    "👍": "I like this!", "💭": "This inspires me!",
+                    "🙏": "Thank you!", "🎉": "Celebration!",
+                    "🤩": "I want to try this!", "😁": "This makes me happy!"
+                }
+            })
         case GallerySchemaLatestVersion:
             return gallery;
         default:
             throw new Error('unknown gallery version: ' + gallery.v) as never;
     }
 }
-
-export type SerializedGallery = SerializedGalleryV1;
 
 export function deserializeGallery(gallery: unknown): Gallery {
     return new Gallery(
@@ -181,5 +205,21 @@ export default class Gallery {
         const newData = { ...this.data };
         newData.projects = projectIDs.slice();
         return new Gallery(newData);
+    }
+
+    getHowToExpandedVisibility(): boolean {
+        return this.data.howToExpandedVisibility;
+    }
+
+    getHowToGuidingQuestions(): string[] {
+        return this.data.howToGuidingQuestions;
+    }
+
+    getHowToReactions(): Record<string, string> {
+        return this.data.howToReactions;
+    }
+
+    getData() {
+        return { ... this.data };
     }
 }
