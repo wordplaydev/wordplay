@@ -255,6 +255,17 @@
         HowTos.updateHowTo(howTo, true);
     }
 
+    function updateCollaborators(newCollaborators: string[]) {
+        if (!howTo) return;
+
+        howTo = new HowTo({
+            ...howTo.getData(),
+            collaborators: newCollaborators,
+        });
+
+        HowTos.updateHowTo(howTo, true);
+    }
+
     // variables to set up the chat
     // Get the chat for the how-to, if there is one.
     // undefined: there isn't one
@@ -351,7 +362,6 @@
                     <Subheader>
                         {COLLABORATE_SYMBOL}{TileKind.Collaborate}
                     </Subheader>
-                    <!-- TODO(@mc) -- collaboration is not tested!!! -->
                     <MarkupHTMLView
                         markup={(l) => l.ui.howto.editor.collaboratorsPrompt}
                     ></MarkupHTMLView>
@@ -361,11 +371,16 @@
                             anonymize={false}
                             uids={allCollaborators}
                             editable={true}
-                            add={(userID) => allCollaborators.push(userID)}
-                            remove={(userID) =>
-                                (allCollaborators = allCollaborators.filter(
+                            add={(userID) => {
+                                allCollaborators.push(userID);
+                                updateCollaborators(allCollaborators);
+                            }}
+                            remove={(userID) => {
+                                allCollaborators = allCollaborators.filter(
                                     (uid) => uid !== userID,
-                                ))}
+                                );
+                                updateCollaborators(allCollaborators);
+                            }}
                             removable={() => true}
                         />
                     </Labeled>
