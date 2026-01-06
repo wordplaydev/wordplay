@@ -104,7 +104,7 @@
                 padding={false}
                 tip={(l) => l.ui.dialog.share.button.submit}
                 active={validCollaborator(emailOrUsername) === true}
-                action={() => undefined}>&gt;</Button
+                action={addCreator}>&gt;</Button
             >
             {#if adding}<Spinning />{/if}
         </form>

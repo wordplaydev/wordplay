@@ -48,7 +48,7 @@
         background
         tip={(l) => l.ui.page.login.button.updateEmail}
         active={validEmail(newEmail)}
-        action={() => undefined}>&gt;</Button
+        action={update}>&gt;</Button
     >
     {#if changeSubmitted}<Spinning
             label={(l) => l.ui.page.login.feedback.changing}
