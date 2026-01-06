@@ -4982,7 +4982,10 @@
                     "submit": {
                         "label": "Save guiding questions",
                         "tip": "Save guiding questions"
-                    }
+                    },
+                    "default": [
+                        "Tell us the story of how you discovered this"
+                    ]
                 },
                 "reactions": {
                     "subheader": {
@@ -4996,6 +4999,14 @@
                     "submit": {
                         "label": "Save reactions",
                         "tip": "Save reactions"
+                    },
+                    "default": {
+                        "👍": "I like this!",
+                        "💭": "This inspires me!",
+                        "🙏": "Thank you!",
+                        "🎉": "Celebration!",
+                        "🤩": "I want to try this!",
+                        "😁": "This makes me happy!"
                     }
                 }
             },

@@ -27,7 +27,7 @@ import {
     getClass,
     setClass,
 } from '../teachers/TeacherDatabase.svelte';
-import Gallery, { deserializeGallery, type SerializedGallery } from './Gallery';
+import Gallery, { deserializeGallery, GallerySchemaLatestVersion, type SerializedGallery } from './Gallery';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';
@@ -188,7 +188,7 @@ export default class GalleryDatabase {
         const description: Record<string, string> = {};
         description[localeToString(locales.getLocales()[0])] = '';
         const gallery: SerializedGallery = {
-            v: 1,
+            v: GallerySchemaLatestVersion,
             id,
             path: null,
             name,
@@ -199,6 +199,10 @@ export default class GalleryDatabase {
             creators: creators ?? [],
             public: false,
             featured: false,
+            howToExpandedVisibility: false,
+            howToViewers: (curators ?? [user.uid]).concat(creators ?? []),
+            howToGuidingQuestions: locales.get((l) => l.ui.howto.configuration.guidingQuestions.default),
+            howToReactions: locales.get((l) => l.ui.howto.configuration.reactions.default),
         };
 
         // Save the gallery online, and then locally. Return when it's created.
@@ -410,6 +414,7 @@ export default class GalleryDatabase {
     async getExpandedScopeViewers(uid: string): Promise<Set<string> | undefined | false> {
         // find all galleries that a given user is a curator for
         // get all curators and creators for those galleries
+        if (firestore === undefined) return false;
 
         try {
             const galleryDocs = await getDocs(query(

@@ -57,16 +57,12 @@ export function upgradeGallery(
 ): SerializedGallery {
     switch (gallery.v) {
         case 1:
-            // default guiding questions and reactions
+            // default to empty guiding questions and reactions
             return upgradeGallery({
                 ...gallery, v: 2, howToExpandedVisibility: false,
                 howToViewers: gallery.curators.concat(gallery.creators),
-                howToGuidingQuestions: ["Tell us the story of how you discovered this"],
-                howToReactions: {
-                    "👍": "I like this!", "💭": "This inspires me!",
-                    "🙏": "Thank you!", "🎉": "Celebration!",
-                    "🤩": "I want to try this!", "😁": "This makes me happy!"
-                }
+                howToGuidingQuestions: [],
+                howToReactions: {}
             })
         case GallerySchemaLatestVersion:
             return gallery;

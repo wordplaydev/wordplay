@@ -10362,6 +10362,12 @@
                       "additionalProperties": false,
                       "description": "Subheaders and descriptions for configuring guiding questions",
                       "properties": {
+                        "default": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "descriptor": {
                           "type": "string"
                         },
@@ -10375,7 +10381,8 @@
                       "required": [
                         "subheader",
                         "descriptor",
-                        "submit"
+                        "submit",
+                        "default"
                       ],
                       "type": "object"
                     },
@@ -10385,6 +10392,12 @@
                       "properties": {
                         "addReactionTip": {
                           "type": "string"
+                        },
+                        "default": {
+                          "additionalProperties": {
+                            "type": "string"
+                          },
+                          "type": "object"
                         },
                         "reactionDescriptionTip": {
                           "type": "string"
@@ -10408,7 +10421,8 @@
                         "reactionDescriptionTip",
                         "addReactionTip",
                         "removeReactionTip",
-                        "submit"
+                        "submit",
+                        "default"
                       ],
                       "type": "object"
                     },

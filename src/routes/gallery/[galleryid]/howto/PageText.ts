@@ -104,6 +104,7 @@ type PageText = {
             subheader: HeaderAndExplanationText;
             descriptor: string;
             submit: ButtonText;
+            default: string[];
         }
         /** Subheaders and descriptions for configuring reaction options */
         reactions: {
@@ -113,6 +114,7 @@ type PageText = {
             addReactionTip: string;
             removeReactionTip: string;
             submit: ButtonText;
+            default: Record<string, string>;
         }
     },
     /** For announcing changes to the canvas or to how-to positions */
