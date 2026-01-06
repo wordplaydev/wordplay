@@ -15,6 +15,8 @@ import { z } from 'zod';
 
 const HowToSchemaV1 = z.object({
     /** Metadata */
+    /** version of the schema */
+    v: z.literal(1),
     /** A UUID to help with identifying how-tos */
     id: z.string(),
     /** When the how-to was last edited */
@@ -58,6 +60,7 @@ const HowToSchemaV1 = z.object({
 
 });
 
+const HowToSchemaLatestVersion = 1;
 const HowToSchema = HowToSchemaV1;
 
 export type HowToDocument = z.infer<typeof HowToSchemaV1>;
@@ -204,6 +207,20 @@ export class HowToDatabase {
         }
     }
 
+    async deleteHowTos(galleryId: string) {
+        if (firestore === undefined) return;
+
+        const querySnapshot = await getDocs(
+            query(collection(firestore, HowTosCollection), where('galleryId', '==', galleryId))
+        );
+
+        if (!querySnapshot.empty) {
+            querySnapshot.docs.forEach(async (d) => {
+                if (firestore) await deleteDoc(doc(firestore, HowTosCollection, (d.data() as HowToDocument).id));
+            })
+        }
+    }
+
     async deleteHowTo(howToId: string, galleryId: string) {
         this.howtos.delete(howToId);
         this.galleryHowTos.set(galleryId, this.galleryHowTos.get(galleryId)?.filter((id) => id !== howToId) ?? []);
@@ -312,6 +329,7 @@ export class HowToDatabase {
 
         // create a new how-to
         const newHowTo: HowToDocument = {
+            v: HowToSchemaLatestVersion,
             id: uuidv4(),
             timestamp: Date.now(),
             galleryId: galleryId,

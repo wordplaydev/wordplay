@@ -278,6 +278,9 @@ export default class GalleryDatabase {
             if (project) await this.removeProjectFromGallery(project);
         }
 
+        // Delete all how-tos in the gallery
+        this.database.HowTos.deleteHowTos(gallery.getID());
+
         // Remove the gallery from any classes it is in.
         const classes = await getDocs(
             query(
