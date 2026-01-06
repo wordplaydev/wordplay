@@ -411,15 +411,17 @@ export default class GalleryDatabase {
         return projectsToKeep;
     }
 
-    async getExpandedScopeViewers(uid: string): Promise<Set<string> | undefined | false> {
+    async getExpandedScopeViewers(uids: string[]): Promise<Set<string> | undefined | false> {
         // find all galleries that a given user is a curator for
         // get all curators and creators for those galleries
         if (firestore === undefined) return false;
 
+        const q = uids.map((uid) => where('curators', 'array-contains', uid));
+
         try {
             const galleryDocs = await getDocs(query(
                 collection(firestore, GalleriesCollection),
-                where('curators', 'array-contains', uid)
+                or(...q),
             ));
 
             if (!galleryDocs.empty) {
@@ -427,16 +429,11 @@ export default class GalleryDatabase {
                 let allViewers: Set<string> = new Set();
 
                 galleries.forEach((g) => {
-                    g.getCurators().forEach((curator) => {
-                        allViewers.add(curator);
-                    });
-                    g.getCreators().forEach((creator) => {
-                        allViewers.add(creator);
-                    });
+                    g.getCurators().forEach((c) => { allViewers.add(c); });
+                    g.getCreators().forEach((c) => { allViewers.add(c); });
                 });
 
                 return allViewers;
-
             } else {
                 return undefined;
             }

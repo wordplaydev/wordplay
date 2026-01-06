@@ -43,7 +43,7 @@ service cloud.firestore {
     }
     match /galleries/{gallery} {
       allow create: if request.auth != null;
-      allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators));
+      allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators || request.auth.uid in resource.data.howToViewers));
       
       allow update: 
         if request.auth != null && 

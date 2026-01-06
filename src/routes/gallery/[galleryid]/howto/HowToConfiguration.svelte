@@ -30,33 +30,22 @@
 
     // get the viewers for this gallery, based on the gallery setting
     let curators: string[] = $derived(gallery ? gallery.getCurators() : []);
-    let expandedVisibility: boolean = $derived(
-        gallery ? gallery.getHowToExpandedVisibility() : false,
+
+    let limitedViewers: string[] = $derived(
+        curators.concat(gallery.getCreators()),
     );
 
-    let limitedViewers = $derived(curators.concat(gallery.getCreators()));
-    let expandedViewers = $state<string[]>([]);
-
-    $effect(() => {
-        if (expandedVisibility) {
-            let allViewers: Set<string> = new Set<string>();
-
-            curators.forEach((curatorId) => {
-                Galleries.getExpandedScopeViewers(curatorId).then((v) => {
-                    if (v) {
-                        v.forEach((viewer) => {
-                            allViewers.add(viewer);
-                        });
-                    }
-                });
-            });
-
-            expandedViewers = Array.from(allViewers);
-        }
-    });
-
-    function changeVisibility(num: number) {
+    async function changeVisibility(num: number) {
         expandedScope = num === 1;
+
+        let expandedViewers: string[] = [];
+        if (expandedScope) {
+            await Galleries.getExpandedScopeViewers(curators).then((v) => {
+                if (v) {
+                    expandedViewers = Array.from(v);
+                }
+            });
+        }
 
         gallery = new Gallery({
             ...gallery.getData(),
