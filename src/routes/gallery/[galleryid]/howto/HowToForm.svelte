@@ -315,6 +315,20 @@
     });
 
     let collabToggle: boolean = $state(false);
+
+    function previewButtonPressed() {
+        show = !show;
+
+        if (show && howTo && !howTo.getSeenByUsers().includes($user.uid)) {
+            howTo = new HowTo({
+                ...howTo.getData(),
+                social: {
+                    ...howTo.getSocial(),
+                    seenByUsers: [...howTo.getSeenByUsers(), $user.uid],
+                },
+            });
+        }
+    }
 </script>
 
 {#if preview}
@@ -323,15 +337,17 @@
             editingMode
                 ? l.ui.howto.editor.editForm.header
                 : l.ui.howto.viewer.view.tip}
-        action={() => (show = !show)}>{@render preview()}</Button
+        action={previewButtonPressed}
     >
+        {@render preview()}
+    </Button>
 {:else}
     <Button
         tip={(l) =>
             howTo
                 ? l.ui.howto.drafts.tooltip
                 : l.ui.howto.editor.newForm.header}
-        action={() => (show = !show)}
+        action={previewButtonPressed}
         icon={howTo ? howTo.getTitle() : '+'}
         large={!howTo}
     ></Button>

@@ -355,6 +355,7 @@
         display: grid;
         grid-template-rows: auto 1fr;
         height: 100%;
+        width: 100%;
     }
 
     .howtospaceheader {

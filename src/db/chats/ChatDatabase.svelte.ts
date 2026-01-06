@@ -340,10 +340,15 @@ export class ChatDatabase {
             v: 2,
             project: howTo.getHowToId(),
             messages: [],
-            // All gallery curators can access the chat
+            // All gallery curators, creators, viewers can access the chat
+            // As can any creators or collaborators on a how-to
             participants: Array.from(
                 new Set([
                     ...(gallery ? gallery.getCurators() : []),
+                    ...(gallery ? gallery.getCreators() : []),
+                    ...(gallery ? gallery.getHowToViewers() : []),
+                    ...howTo.getCollaborators(),
+                    howTo.getCreator(),
                 ]),
             ),
             unread: [],
