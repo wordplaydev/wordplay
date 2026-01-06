@@ -205,6 +205,14 @@ export default class Gallery {
         return new Gallery(newData);
     }
 
+    getHowToViewers(): string[] {
+        return this.data.howToViewers;
+    }
+
+    isHowToViewer(uid: string): boolean {
+        return this.data.howToViewers.includes(uid);
+    }
+
     getHowToExpandedVisibility(): boolean {
         return this.data.howToExpandedVisibility;
     }

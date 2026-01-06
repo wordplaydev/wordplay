@@ -3,8 +3,8 @@
     import BigLink from '@components/app/BigLink.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
-    import { HowTos, locales } from '@db/Database';
-    import type HowTo from '@db/howtos/HowToDatabase.svelte';
+    import { HowToSocials, locales } from '@db/Database';
+    import type HowToSocial from '@db/howtos/HowToSocialDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import Iconified from '../../../Iconified.svelte';
@@ -17,22 +17,21 @@
     let { galleryID, projectsEditable }: Props = $props();
     const user = getUser();
 
-    let howTos: HowTo[] = $state([]);
+    let howToSocialData: HowToSocial[] = $state([]);
     $effect(() => {
         if (!galleryID) {
-            howTos = [];
+            howToSocialData = [];
             return;
         }
 
-        HowTos.getHowTos(galleryID).then((hts) => {
-            if (hts) howTos = hts;
-            else howTos = [];
+        HowToSocials.getHowToSocialsForGallery(galleryID).then((data) => {
+            if (data) howToSocialData = data;
         });
     });
 
-    let totalHowTos: number = $derived(howTos.length);
+    let totalHowTos: number = $derived(howToSocialData.length);
     let newHowTos: number = $derived(
-        howTos.filter((ht) => {
+        howToSocialData.filter((ht) => {
             const seenBy = ht.getSeenByUsers();
             return $user && seenBy && !seenBy.includes($user.uid);
         }).length,

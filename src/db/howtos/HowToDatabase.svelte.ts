@@ -19,8 +19,6 @@ const HowToSchemaV1 = z.object({
     v: z.literal(1),
     /** A UUID to help with identifying how-tos */
     id: z.string(),
-    /** When the how-to was last edited */
-    timestamp: z.number(),
     /** The gallery that this how-to corresponds to */
     galleryId: z.string(),
     /** If the how-to is published */
@@ -42,28 +40,12 @@ const HowToSchemaV1 = z.object({
     collaborators: z.array(z.string()),
     /** Locales that the how-to depends on All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: z.array(z.string()),
-
-    /** Social interactions */
-    /** The list of users who reacted to the how-to using each reaction */
-    reactionOptions: z.record(z.string(), z.string()),
-    reactions: z.record(z.string(), z.array(z.string())),
-    /** The list of projects who used the how-to */
-    usedByProjects: z.array(z.string()),
-    /** The ID of the chat corresponding to the how-to */
-    chat: z.string().nullable(),
-    /** The list of users who bookmarked the how-to */
-    bookmarkers: z.array(z.string()),
-    /** If the how-to was submitted for the team to review for inclusion in the global Guide */
-    submittedToGuide: z.boolean(),
-    /** The list of users who have seen the how-to */
-    seenByUsers: z.array(z.string()),
-
 });
 
 const HowToSchemaLatestVersion = 1;
 const HowToSchema = HowToSchemaV1;
 
-export type HowToDocument = z.infer<typeof HowToSchemaV1>;
+export type HowToDocument = z.infer<typeof HowToSchema>;
 
 ////////////////////////////////
 // APIs
@@ -122,34 +104,6 @@ export default class HowTo {
         return this.data.locales;
     }
 
-    getReactionOptions() {
-        return this.data.reactionOptions;
-    }
-
-    getUserReactions() {
-        return this.data.reactions;
-    }
-
-    getUsedByProjects() {
-        return this.data.usedByProjects;
-    }
-
-    getChatId() {
-        return this.data.chat;
-    }
-
-    getBookmarkers() {
-        return this.data.bookmarkers;
-    }
-
-    getSubmittedToGuide() {
-        return this.data.submittedToGuide;
-    }
-
-    getSeenByUsers() {
-        return this.data.seenByUsers;
-    }
-
     getData() {
         return { ...this.data };
     }
@@ -168,7 +122,7 @@ export class HowToDatabase {
     private readonly howtos = $state(new SvelteMap<string, HowTo>());
 
     /** Maps gallery IDs to lists of how-to IDs */
-    private readonly galleryHowTos = $state(new SvelteMap<string, string[]>());
+    readonly galleryHowTos = $state(new SvelteMap<string, string[]>());
 
     /** All of the how-tos that the user has write access to */
     readonly allEditableHowTos: HowTo[] = $derived([...
@@ -321,7 +275,6 @@ export class HowToDatabase {
         guidingQuestions: string[],
         text: string[],
         locales: string[],
-        reactionTypes: [string, string][],
     ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
@@ -331,7 +284,6 @@ export class HowToDatabase {
         const newHowTo: HowToDocument = {
             v: HowToSchemaLatestVersion,
             id: uuidv4(),
-            timestamp: Date.now(),
             galleryId: galleryId,
             published: published, // defaults to false
             xcoord: xcoord,
@@ -342,18 +294,7 @@ export class HowToDatabase {
             creator: user as string,
             collaborators: collaborators,
             locales: locales,
-            reactionOptions: Object.fromEntries(new Map<string, string>(reactionTypes)),
-            reactions: Object.fromEntries(new Map<string, string[]>(
-                reactionTypes.map(([emoji, _]) => [emoji, []])
-            )),
-            usedByProjects: [],
-            chat: null,
-            bookmarkers: [],
-            submittedToGuide: false,
-            seenByUsers: [user as string],
         };
-
-        console.log(newHowTo);
 
         // Add the how-to to Firebase, relying on the realtime listener to update the local cache.
         try {

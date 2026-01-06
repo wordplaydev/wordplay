@@ -157,7 +157,43 @@ service cloud.firestore {
             isRequestorOwnerCollaborator(request.auth.uid) ||
             'galleryId' in request.resource.data && isRequestorCurator(request.auth.uid, request.resource.data.galleryId)
           );
-      allow delete: if request.auth != null && resource.data.creator == request.auth.uid;
+      allow delete: if request.auth != null && (resource.data.creator == request.auth.uid || isRequestorCurator(request.auth.uid, resource.data.galleryId));
+    }
+    match /howtosocials/{id} {
+      function isHowToCreatorCollaborator(uid) {
+        let howTo = get(/databases/$(database)/documents/howtos/$(id)).data;
+        return howTo != null && (uid == howTo.creator || uid in howTo.collaborators);
+      }
+
+      function isRequestorCuratorCollaborator(uid, galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null && (uid in gallery.curators || uid in gallery.creators);
+      }
+
+      function isRequestorCurator(uid, galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null && (uid in gallery.curators);
+      }
+
+      function isGalleryPublic(galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null && gallery.public;
+      }
+
+      allow create: if request.auth != null && isHowToCreatorCollaborator(request.auth.uid);
+      allow read: if resource.data != null && (
+        "mod" in request.auth.token && request.auth.token.mod ||
+        request.auth != null && isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryID) || 
+        request.auth != null && request.auth.uid in resource.data.participants ||
+        resource.data != null && isGalleryPublic(resource.data.galleryId)
+      );
+      allow update: if request.auth != null && (
+        "mod" in request.auth.token && request.auth.token.mod || 
+        isHowToCreatorCollaborator(request.auth.uid) ||
+        resource.data != null && request.auth.uid in resource.data.participants ||
+        resource.data != null && isGalleryPublic(resource.data.galleryId)
+      );
+      allow delete: if request.auth != null && (resource.data.creator == request.auth.uid || isRequestorCurator(request.auth.uid, resource.data.galleryId));
     }
   }
 }

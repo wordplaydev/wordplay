@@ -16,9 +16,17 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Galleries, HowTos, locales } from '@db/Database';
+    import {
+        Chats,
+        Creators,
+        Galleries,
+        HowTos,
+        HowToSocials,
+        locales,
+    } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import HowToSocial from '@db/howtos/HowToSocialDatabase.svelte';
     import type { ButtonText } from '@locale/UITexts';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import type { Snippet } from 'svelte';
@@ -66,12 +74,6 @@
     let notify: boolean = $state(true);
 
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
-    let userHasBookmarked: boolean = $derived(
-        $user && howTo ? howTo.getBookmarkers().includes($user.uid) : false,
-    );
-    let reactions: Record<string, string[]> = $derived(
-        howTo ? howTo.getUserReactions() : {},
-    );
     let prompts: string[] = $derived(
         howTo
             ? howTo.getGuidingQuestions()
@@ -88,10 +90,35 @@
         howTo ? [...howTo.getCollaborators(), howTo.getCreator()] : [],
     );
 
+    // social interactions
+    let socialInteractions = $state<HowToSocial | undefined>(undefined);
+    $effect(() => {
+        if (howTo) {
+            HowToSocials.getHowToSocial(howToId).then((social) => {
+                if (social) socialInteractions = social;
+            });
+        } else {
+            socialInteractions = undefined;
+        }
+    });
+
+    let userHasBookmarked: boolean = $derived(
+        $user && socialInteractions
+            ? socialInteractions.getBookmarkers().includes($user.uid)
+            : false,
+    );
+    let reactions: Record<string, string[]> = $derived(
+        socialInteractions ? socialInteractions.getReactions() : {},
+    );
+
+    let isSubmitted: boolean = $derived(
+        socialInteractions ? socialInteractions.getSubmittedToGuide() : false,
+    );
+
     let reactionButtons: ButtonText[] = $derived(
         Object.entries(
-            howTo
-                ? howTo.getReactionOptions()
+            socialInteractions
+                ? socialInteractions.getReactionOptions()
                 : gallery
                   ? gallery.getHowToReactions()
                   : {},
@@ -147,7 +174,7 @@
         }
 
         if (!howTo) {
-            let returnValue = await HowTos.addHowTo(
+            let howToReturnValue = await HowTos.addHowTo(
                 galleryID,
                 publish,
                 writeX,
@@ -157,10 +184,23 @@
                 prompts,
                 newText,
                 ['en-US'],
-                reactionButtons.map((b) => [b.label, b.tip]),
             );
 
-            howTo = returnValue ? returnValue : undefined;
+            howTo = howToReturnValue ? howToReturnValue : undefined;
+
+            let socialInteractionsReturnValue =
+                await HowToSocials.addHowToSocial(
+                    howTo?.getHowToId() ?? '',
+                    galleryID,
+                    allCollaborators.concat(
+                        gallery ? gallery.getHowToViewers() : [],
+                    ),
+                    gallery ? gallery.getHowToReactions() : {},
+                );
+
+            socialInteractions = socialInteractionsReturnValue
+                ? socialInteractionsReturnValue
+                : undefined;
             show = false;
             editingMode = true;
         } else {
@@ -189,44 +229,45 @@
     }
 
     function submitToGuide() {
-        if (!howTo) return;
+        if (!socialInteractions) return;
 
-        howTo = new HowTo({
-            ...howTo.getData(),
+        socialInteractions = new HowToSocial({
+            ...socialInteractions.getData(),
             submittedToGuide: true,
         });
 
-        HowTos.updateHowTo(howTo, true);
+        HowToSocials.updateHowToSocial(socialInteractions, true);
     }
 
-    function addRemoveBookmark() {
-        if (!$user || !howTo) return;
-
+    async function addRemoveBookmark() {
+        if (!$user || !socialInteractions) return;
         let newBookmarkers;
 
         if (userHasBookmarked) {
             // remove bookmark
 
-            newBookmarkers = howTo
+            newBookmarkers = socialInteractions
                 .getBookmarkers()
                 .filter((uid) => uid !== $user.uid);
         } else {
             // add bookmark
 
-            newBookmarkers = [...howTo.getBookmarkers(), $user.uid];
+            newBookmarkers = [
+                ...socialInteractions.getBookmarkers(),
+                $user.uid,
+            ];
         }
 
-        howTo = new HowTo({
-            ...howTo.getData(),
+        socialInteractions = new HowToSocial({
+            ...socialInteractions.getData(),
             bookmarkers: newBookmarkers,
         });
 
-        HowTos.updateHowTo(howTo, true);
+        await HowToSocials.updateHowToSocial(socialInteractions, true);
     }
 
     function addRemoveReaction(reactionLabel: string) {
-        if (!$user || !howTo) return;
-
+        if (!$user || !socialInteractions) return;
         let newReactions;
 
         if (reactions[reactionLabel]?.includes($user.uid)) {
@@ -247,12 +288,12 @@
             };
         }
 
-        howTo = new HowTo({
-            ...howTo.getData(),
+        socialInteractions = new HowToSocial({
+            ...socialInteractions.getData(),
             reactions: newReactions,
         });
 
-        HowTos.updateHowTo(howTo, true);
+        HowToSocials.updateHowToSocial(socialInteractions, true);
     }
 
     function updateCollaborators(newCollaborators: string[]) {
@@ -264,6 +305,8 @@
         });
 
         HowTos.updateHowTo(howTo, true);
+
+        // rely on listener to update social interaction participants
     }
 
     // variables to set up the chat
@@ -280,24 +323,23 @@
             });
     });
 
-    // TODO(@mc) -- uncomment this once it works again
     let creators: Record<string, Creator | null> = $state({});
 
-    // // Set the creators to whatever user IDs we have.
-    // $effect(() => {
-    //     if (!howTo) return;
+    // Set the creators to whatever user IDs we have.
+    $effect(() => {
+        if (!howTo) return;
 
-    //     const owner = howTo.getCreator();
-    //     // We async load all participants, regardless of their chat eligibility, since we need to render
-    //     // their names.
-    //     Creators.getCreatorsByUIDs(
-    //         chat
-    //             ? [...chat.getAllParticipants(), ...(owner ? [owner] : [])]
-    //             : owner
-    //               ? [owner]
-    //               : [],
-    //     ).then((map) => (creators = map));
-    // });
+        const owner = howTo.getCreator();
+        // We async load all participants, regardless of their chat eligibility, since we need to render
+        // their names.
+        Creators.getCreatorsByUIDs(
+            chat
+                ? [...chat.getAllParticipants(), ...(owner ? [owner] : [])]
+                : owner
+                  ? [owner]
+                  : [],
+        ).then((map) => (creators = map));
+    });
 
     let collabToggle: boolean = $state(false);
 </script>
@@ -462,18 +504,18 @@
                         {#if isPublished}
                             <Button
                                 tip={(l) =>
-                                    howTo && howTo.getSubmittedToGuide()
+                                    isSubmitted
                                         ? l.ui.howto.viewer.submitToGuide
                                               .alreadySubmitted.tip
                                         : l.ui.howto.viewer.submitToGuide.submit
                                               .tip}
                                 label={(l) =>
-                                    howTo && howTo.getSubmittedToGuide()
+                                    isSubmitted
                                         ? l.ui.howto.viewer.submitToGuide
                                               .alreadySubmitted.label
                                         : l.ui.howto.viewer.submitToGuide.submit
                                               .label}
-                                active={!howTo.getSubmittedToGuide()}
+                                active={!isSubmitted}
                                 action={() => {
                                     submitToGuide();
                                 }}
@@ -516,10 +558,17 @@
                             label={(l) =>
                                 reaction.label +
                                 ' ' +
-                                reactions[reaction.label].length}
+                                (socialInteractions
+                                    ? socialInteractions.getNumReactions(
+                                          reaction.label,
+                                      )
+                                    : 0)}
                             active={true}
-                            background={$user
-                                ? reactions[reaction.label].includes($user.uid)
+                            background={$user && socialInteractions
+                                ? socialInteractions.didUserReact(
+                                      $user.uid,
+                                      reaction.label,
+                                  )
                                 : false}
                             action={() => {
                                 addRemoveReaction(reaction.label);
@@ -527,7 +576,7 @@
                         />
                     {/each}
 
-                    <HowToUsedBy bind:howTo />
+                    <HowToUsedBy bind:howToSocial={socialInteractions} />
 
                     <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
 
