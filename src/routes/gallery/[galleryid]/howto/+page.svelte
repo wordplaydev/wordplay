@@ -14,10 +14,9 @@
     } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
-    import { Galleries, HowTos, HowToSocials, locales } from '@db/Database';
+    import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
-    import HowToSocial from '@db/howtos/HowToSocialDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import { untrack } from 'svelte';
     import HowToConfiguration from './HowToConfiguration.svelte';
@@ -47,7 +46,6 @@
 
     // load the how tos for this gallery
     let howTos = $state<HowTo[]>([]);
-    let howToSocials = $state<HowToSocial[]>([]);
 
     $effect(() => {
         if (galleryID === undefined) {
@@ -58,18 +56,6 @@
         HowTos.getHowTos(galleryID).then((hts) => {
             if (hts) howTos = hts;
             else howTos = [];
-        });
-    });
-
-    $effect(() => {
-        if (galleryID === undefined) {
-            howToSocials = [];
-            return;
-        }
-
-        HowToSocials.getHowToSocialsForGallery(galleryID).then((htss) => {
-            if (htss) howToSocials = htss;
-            else howToSocials = [];
         });
     });
 
@@ -87,17 +73,9 @@
         gallery && $user && gallery.hasCurator($user.uid),
     );
 
-    let usersBookmarks: HowTo[] = $derived.by(() => {
-        if (!user) return [];
-
-        let bookmarkedHowTosIds: string[] = howToSocials
-            .filter((hs) => hs.hasBookmarker($user.uid))
-            .map((hs) => hs.getHowToID());
-
-        return howTos.filter((ht) => {
-            return bookmarkedHowTosIds.includes(ht.getHowToId());
-        });
-    });
+    let usersBookmarks: HowTo[] = $derived(
+        howTos.filter((hs) => hs.hasBookmarker($user.uid)),
+    );
 
     // refresh the page when a new howTo is created
     let newHowTo: HowTo | undefined = $state(undefined);

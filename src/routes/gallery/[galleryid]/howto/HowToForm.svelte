@@ -16,17 +16,9 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import {
-        Chats,
-        Creators,
-        Galleries,
-        HowTos,
-        HowToSocials,
-        locales,
-    } from '@db/Database';
+    import { Chats, Creators, Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
-    import HowToSocial from '@db/howtos/HowToSocialDatabase.svelte';
     import type { ButtonText } from '@locale/UITexts';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import type { Snippet } from 'svelte';
@@ -91,34 +83,21 @@
     );
 
     // social interactions
-    let socialInteractions = $state<HowToSocial | undefined>(undefined);
-    $effect(() => {
-        if (howTo) {
-            HowToSocials.getHowToSocial(howToId).then((social) => {
-                if (social) socialInteractions = social;
-            });
-        } else {
-            socialInteractions = undefined;
-        }
-    });
-
     let userHasBookmarked: boolean = $derived(
-        $user && socialInteractions
-            ? socialInteractions.getBookmarkers().includes($user.uid)
-            : false,
+        $user && howTo ? howTo.getBookmarkers().includes($user.uid) : false,
     );
     let reactions: Record<string, string[]> = $derived(
-        socialInteractions ? socialInteractions.getReactions() : {},
+        howTo ? howTo.getReactions() : {},
     );
 
     let isSubmitted: boolean = $derived(
-        socialInteractions ? socialInteractions.getSubmittedToGuide() : false,
+        howTo ? howTo.getSubmittedToGuide() : false,
     );
 
     let reactionButtons: ButtonText[] = $derived(
         Object.entries(
-            socialInteractions
-                ? socialInteractions.getReactionOptions()
+            howTo
+                ? howTo.getReactionOptions()
                 : gallery
                   ? gallery.getHowToReactions()
                   : {},
@@ -184,23 +163,11 @@
                 prompts,
                 newText,
                 ['en-US'],
+                gallery ? gallery.getHowToReactions() : {},
             );
 
             howTo = howToReturnValue ? howToReturnValue : undefined;
 
-            let socialInteractionsReturnValue =
-                await HowToSocials.addHowToSocial(
-                    howTo?.getHowToId() ?? '',
-                    galleryID,
-                    allCollaborators.concat(
-                        gallery ? gallery.getHowToViewers() : [],
-                    ),
-                    gallery ? gallery.getHowToReactions() : {},
-                );
-
-            socialInteractions = socialInteractionsReturnValue
-                ? socialInteractionsReturnValue
-                : undefined;
             show = false;
             editingMode = true;
         } else {
@@ -229,45 +196,48 @@
     }
 
     function submitToGuide() {
-        if (!socialInteractions) return;
+        if (!howTo) return;
 
-        socialInteractions = new HowToSocial({
-            ...socialInteractions.getData(),
-            submittedToGuide: true,
+        howTo = new HowTo({
+            ...howTo.getData(),
+            social: {
+                ...howTo.getSocial(),
+                submittedToGuide: true,
+            },
         });
 
-        HowToSocials.updateHowToSocial(socialInteractions, true);
+        HowTos.updateHowTo(howTo, true);
     }
 
     async function addRemoveBookmark() {
-        if (!$user || !socialInteractions) return;
+        if (!$user || !howTo) return;
         let newBookmarkers;
 
         if (userHasBookmarked) {
             // remove bookmark
 
-            newBookmarkers = socialInteractions
+            newBookmarkers = howTo
                 .getBookmarkers()
                 .filter((uid) => uid !== $user.uid);
         } else {
             // add bookmark
 
-            newBookmarkers = [
-                ...socialInteractions.getBookmarkers(),
-                $user.uid,
-            ];
+            newBookmarkers = [...howTo.getBookmarkers(), $user.uid];
         }
 
-        socialInteractions = new HowToSocial({
-            ...socialInteractions.getData(),
-            bookmarkers: newBookmarkers,
+        howTo = new HowTo({
+            ...howTo.getData(),
+            social: {
+                ...howTo.getSocial(),
+                bookmarkers: newBookmarkers,
+            },
         });
 
-        await HowToSocials.updateHowToSocial(socialInteractions, true);
+        await HowTos.updateHowTo(howTo, true);
     }
 
     function addRemoveReaction(reactionLabel: string) {
-        if (!$user || !socialInteractions) return;
+        if (!$user || !howTo) return;
         let newReactions;
 
         if (reactions[reactionLabel]?.includes($user.uid)) {
@@ -288,12 +258,15 @@
             };
         }
 
-        socialInteractions = new HowToSocial({
-            ...socialInteractions.getData(),
-            reactions: newReactions,
+        howTo = new HowTo({
+            ...howTo.getData(),
+            social: {
+                ...howTo.getSocial(),
+                reactions: newReactions,
+            },
         });
 
-        HowToSocials.updateHowToSocial(socialInteractions, true);
+        HowTos.updateHowTo(howTo, true);
     }
 
     function updateCollaborators(newCollaborators: string[]) {
@@ -558,17 +531,12 @@
                             label={(l) =>
                                 reaction.label +
                                 ' ' +
-                                (socialInteractions
-                                    ? socialInteractions.getNumReactions(
-                                          reaction.label,
-                                      )
+                                (howTo
+                                    ? howTo.getNumReactions(reaction.label)
                                     : 0)}
                             active={true}
-                            background={$user && socialInteractions
-                                ? socialInteractions.didUserReact(
-                                      $user.uid,
-                                      reaction.label,
-                                  )
+                            background={$user && howTo
+                                ? howTo.didUserReact($user.uid, reaction.label)
                                 : false}
                             action={() => {
                                 addRemoveReaction(reaction.label);
@@ -576,7 +544,7 @@
                         />
                     {/each}
 
-                    <HowToUsedBy bind:howToSocial={socialInteractions} />
+                    <HowToUsedBy bind:howTo />
 
                     <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
 

@@ -19,7 +19,6 @@ import { ChatDatabase } from './chats/ChatDatabase.svelte';
 import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
 import GalleryDatabase from './galleries/GalleryDatabase.svelte';
 import { HowToDatabase } from './howtos/HowToDatabase.svelte';
-import { HowToSocialDatabase } from './howtos/HowToSocialDatabase.svelte';
 import LocalesDatabase from './locales/LocalesDatabase';
 import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
 import SettingsDatabase from './settings/SettingsDatabase';
@@ -67,9 +66,6 @@ export class Database {
     /** A collection of how-tos loaded from the database */
     readonly HowTos: HowToDatabase;
 
-    /** A collection of how-to social interaction data loaded from the database */
-    readonly HowToSocials: HowToSocialDatabase;
-
     /** The status of persisting the projects. */
     readonly Status: Writable<{
         status: SaveStatus;
@@ -99,7 +95,6 @@ export class Database {
         this.Chats = new ChatDatabase(this);
         this.Characters = new CharactersDatabase(this);
         this.HowTos = new HowToDatabase(this);
-        this.HowToSocials = new HowToSocialDatabase(this);
     }
 
     getUser() {
@@ -196,9 +191,6 @@ export class Database {
 
         // Tell the how-to database.
         this.HowTos.syncUser();
-
-        // Tell the how-to social database.
-        this.HowToSocials.syncUser();
     }
 
     /** Clean up listeners */
@@ -267,7 +259,6 @@ export const Creators = DB.Creators;
 export const Chats = DB.Chats;
 export const CharactersDB = DB.Characters;
 export const HowTos = DB.HowTos;
-export const HowToSocials = DB.HowToSocials;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;

@@ -2,27 +2,26 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
-    import { HowTos, HowToSocials, locales, Projects } from '@db/Database';
+    import { HowTos, locales, Projects } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
-    import HowToSocial from '@db/howtos/HowToSocialDatabase.svelte';
     import type Project from '@db/projects/Project';
     import { docToMarkup } from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import HowToPrompt from './HowToPrompt.svelte';
 
     interface Props {
-        howToSocial: HowToSocial | undefined;
+        howTo: HowTo | undefined;
     }
 
-    let { howToSocial = $bindable(undefined) }: Props = $props();
+    let { howTo = $bindable(undefined) }: Props = $props();
 
-    let howToId = $derived(howToSocial ? howToSocial.getHowToID() : '');
+    let howToId = $derived(howTo ? howTo.getHowToId() : '');
 
     // the ID of the new project / how-to to add to the list of those that used this how-to
     let usedByProjectToAdd: string | undefined = $state(undefined);
 
     // projects / how-tos that are using this how-to
-    let howToUsedByIds: string[] = $derived(howToSocial?.getUsedByProjects() ?? []);
+    let howToUsedByIds: string[] = $derived(howTo?.getUsedByProjects() ?? []);
 
     // get all of the projects and how-tos that the user has access to
     // if that project or how-to not yet been added to the used-by list, give it as an option in the dropdown
@@ -70,37 +69,43 @@
     );
 
     function addUsedByToList() {
-        if (!howToSocial || !usedByProjectToAdd) return;
+        if (!howTo || !usedByProjectToAdd) return;
 
-        let newUsedByProjects = howToSocial.getUsedByProjects();
+        let newUsedByProjects = howTo.getUsedByProjects();
 
         if (!newUsedByProjects.includes(usedByProjectToAdd)) {
             newUsedByProjects.push(usedByProjectToAdd);
 
-            howToSocial = new HowToSocial({
-                ...howToSocial.getData(),
-                usedByProjects: newUsedByProjects,
+            howTo = new HowTo({
+                ...howTo.getData(),
+                social: {
+                    ...howTo.getSocial(),
+                    usedByProjects: newUsedByProjects,
+                },
             });
 
-            HowToSocials.updateHowToSocial(howToSocial, true);
+            HowTos.updateHowTo(howTo, true);
         }
 
         usedByProjectToAdd = undefined;
     }
 
     function removeFromUsedByList(id: string) {
-        if (!howToSocial) return;
+        if (!howTo) return;
 
-        let newUsedByProjects = howToSocial
+        let newUsedByProjects = howTo
             .getUsedByProjects()
             .filter((pid) => pid !== id);
 
-        howToSocial = new HowToSocial({
-            ...howToSocial.getData(),
-            usedByProjects: newUsedByProjects,
+        howTo = new HowTo({
+            ...howTo.getData(),
+            social: {
+                ...howTo.getSocial(),
+                usedByProjects: newUsedByProjects,
+            },
         });
 
-        HowToSocials.updateHowToSocial(howToSocial, true);
+        HowTos.updateHowTo(howTo, true);
     }
 </script>
 

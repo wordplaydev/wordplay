@@ -13,6 +13,31 @@ import { z } from 'zod';
 // SCHEMAS
 ////////////////////////////////
 
+const HowToSocialSchemaV1 = z.object({
+    /** version of the schema */
+    v: z.literal(1),
+
+    /** Social interactions */
+    /** The list of users who reacted to the how-to using each reaction */
+    reactionOptions: z.record(z.string(), z.string()),
+    reactions: z.record(z.string(), z.array(z.string())),
+    /** The list of projects who used the how-to */
+    usedByProjects: z.array(z.string()),
+    /** The ID of the chat corresponding to the how-to */
+    chat: z.string().nullable(),
+    /** The list of users who bookmarked the how-to */
+    bookmarkers: z.array(z.string()),
+    /** If the how-to was submitted for the team to review for inclusion in the global Guide */
+    submittedToGuide: z.boolean(),
+    /** The list of users who have seen the how-to */
+    seenByUsers: z.array(z.string()),
+})
+
+const HowToSocialSchemaLatestVersion = 1;
+const HowToSocialSchema = HowToSocialSchemaV1;
+
+export type HowToSocialDocument = z.infer<typeof HowToSocialSchema>;
+
 const HowToSchemaV1 = z.object({
     /** Metadata */
     /** version of the schema */
@@ -40,6 +65,9 @@ const HowToSchemaV1 = z.object({
     collaborators: z.array(z.string()),
     /** Locales that the how-to depends on All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: z.array(z.string()),
+
+    /** Social content */
+    social: HowToSocialSchema,
 });
 
 const HowToSchemaLatestVersion = 1;
@@ -102,6 +130,50 @@ export default class HowTo {
 
     getLocales() {
         return this.data.locales;
+    }
+
+    getSocial() {
+        return this.data.social;
+    }
+
+    getReactionOptions() {
+        return this.data.social.reactionOptions;
+    }
+
+    getReactions() {
+        return this.data.social.reactions;
+    }
+
+    getNumReactions(reaction: string) {
+        return this.data.social.reactions[reaction]?.length || 0;
+    }
+
+    didUserReact(userId: string, reaction: string) {
+        return this.data.social.reactions[reaction]?.includes(userId) || false;
+    }
+
+    getUsedByProjects() {
+        return this.data.social.usedByProjects;
+    }
+
+    getChatId() {
+        return this.data.social.chat;
+    }
+
+    getBookmarkers() {
+        return this.data.social.bookmarkers;
+    }
+
+    hasBookmarker(userId: string) {
+        return this.data.social.bookmarkers.includes(userId);
+    }
+
+    getSubmittedToGuide() {
+        return this.data.social.submittedToGuide;
+    }
+
+    getSeenByUsers() {
+        return this.data.social.seenByUsers;
     }
 
     getData() {
@@ -275,10 +347,25 @@ export class HowToDatabase {
         guidingQuestions: string[],
         text: string[],
         locales: string[],
+        reactionTypes: Record<string, string>
     ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
         if (user === null) return undefined;
+
+        // create a new social interaction document
+        const newHowToSocial: HowToSocialDocument = {
+            v: HowToSocialSchemaLatestVersion,
+            reactionOptions: reactionTypes,
+            reactions: Object.fromEntries(new Map<string, string[]>(
+                Object.keys(reactionTypes).map((emoji) => [emoji, []])
+            )),
+            usedByProjects: [],
+            chat: null,
+            bookmarkers: [],
+            submittedToGuide: false,
+            seenByUsers: [user as string],
+        };
 
         // create a new how-to
         const newHowTo: HowToDocument = {
@@ -294,6 +381,7 @@ export class HowToDatabase {
             creator: user as string,
             collaborators: collaborators,
             locales: locales,
+            social: newHowToSocial,
         };
 
         // Add the how-to to Firebase, relying on the realtime listener to update the local cache.
