@@ -1,4 +1,4 @@
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
@@ -47,14 +47,16 @@ export default class ListType extends BasisType {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return [
-            ListType.make(),
-            ...(node instanceof Type ? [ListType.make(node)] : []),
-        ];
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        return node instanceof Type
+            ? [
+                  ListType.make(),
+                  ...(node instanceof Type ? [ListType.make(node)] : []),
+              ]
+            : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions({}: InsertContext) {
         return [ListType.make()];
     }
 
@@ -64,9 +66,13 @@ export default class ListType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.ListOpen) },
-            { name: 'type', kind: optional(node(Type)) },
-            { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'open', kind: node(Sym.ListOpen), label: undefined },
+            {
+                name: 'type',
+                kind: optional(node(Type)),
+                label: () => (l) => l.term.type,
+            },
+            { name: 'close', kind: node(Sym.ListClose), label: undefined },
         ];
     }
 

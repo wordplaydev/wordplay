@@ -1,16 +1,16 @@
 import type { FlagDescriptions } from '@db/projects/Moderation';
 import type { Template } from './LocaleText';
-import type { ButtonText, DialogText } from './UITexts';
+import type { ButtonText, HeaderAndExplanationText } from './UITexts';
 
 export type ModerationTexts = {
     /** What to say to warn viewers before showing content with warnings. */
-    warning: DialogText;
+    warning: HeaderAndExplanationText;
     /** What to say when content is blocked */
-    blocked: DialogText;
+    blocked: HeaderAndExplanationText;
     /** What to sa when content has not yet been moderated */
-    unmoderated: DialogText;
+    unmoderated: HeaderAndExplanationText;
     /** Moderation view text */
-    moderate: DialogText;
+    moderate: HeaderAndExplanationText;
     /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
     /** Progress message */

@@ -3,7 +3,6 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Templates from '@concepts/Templates';
     import type Project from '@db/projects/Project';
-    import Context from '@nodes/Context';
     import type Source from '@nodes/Source';
     import { locales } from '../../db/Database';
     import Characters from '../../lore/BasisCharacters';
@@ -32,7 +31,7 @@
         if ($conflicts) {
             for (const conflict of $conflicts) {
                 const nodes = conflict.getConflictingNodes(
-                    new Context(project, source),
+                    project.getContext(source),
                     Templates,
                 );
                 if (source.has(nodes.primary.node)) {
@@ -72,8 +71,8 @@
         font-size: small;
         border-radius: 50%;
         color: var(--wordplay-background);
-        min-width: 2em;
-        min-height: 2em;
+        min-width: 1.5em;
+        min-height: 1.5em;
         display: inline-flex;
         flex-direction: column;
         justify-content: center;

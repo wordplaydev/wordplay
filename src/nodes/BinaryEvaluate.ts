@@ -71,7 +71,7 @@ export default class BinaryEvaluate extends Expression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 
@@ -89,24 +89,51 @@ export default class BinaryEvaluate extends Expression {
                 name: 'left',
                 kind: node(Expression),
                 // The label comes from the type of left, or the default label from the translation.
-                label: (locales: Locales, _: Node, context: Context) => () =>
+                label: (locales: Locales, context: Context) => () =>
                     this.left.getType(context).getLabel(locales),
                 getType: (context) => this.left.getType(context),
             },
             {
                 name: 'fun',
                 kind: node(Reference),
+                label: () => (l) => l.node.BinaryEvaluate.label.operator,
                 space: true,
                 indent: true,
                 getDefinitions: (context: Context): Definition[] => {
                     return this.getFunctions(context);
+                },
+                /**
+                 * The expected function type of this binary evaluate is whether function it resolves to, but
+                 * concretized with the actual types of the left and right inputs, as that determines what it could be replaced with.
+                 */
+                getType: (context) => {
+                    const type = this.getFunction(context)?.getType(context);
+                    if (
+                        type instanceof FunctionType &&
+                        type.inputs.length === 1
+                    ) {
+                        const newType = FunctionType.make(
+                            type.types,
+                            [
+                                type.inputs[0].withType(
+                                    this.right
+                                        .getType(context)
+                                        .generalize(context),
+                                ),
+                            ],
+                            type.output,
+                            type.definition,
+                        );
+                        return newType;
+                    }
+                    return type ?? new AnyType();
                 },
             },
             {
                 name: 'right',
                 kind: node(Expression),
                 // The name of the input from the function, or the translation default
-                label: (locales: Locales, _: Node, context: Context) => {
+                label: (locales: Locales, context: Context) => {
                     const fun = this.getFunction(context);
                     return fun
                         ? (_) => locales.getName(fun.inputs[0].names)
@@ -134,7 +161,7 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {

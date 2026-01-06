@@ -1,7 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { NotAKeyValue } from '@conflicts/NotAKeyValue';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import KeyValue from '@nodes/KeyValue';
@@ -19,9 +18,9 @@ import Characters from '../lore/BasisCharacters';
 import ValueException from '../values/ValueException';
 import AnyType from './AnyType';
 import BindToken from './BindToken';
+import CompositeLiteral from './CompositeLiteral';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import MapType from './MapType';
 import { list, node, optional, type Grammar, type Replacement } from './Node';
 import SetCloseToken from './SetCloseToken';
@@ -32,7 +31,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
 
-export default class MapLiteral extends Expression {
+export default class MapLiteral extends CompositeLiteral {
     readonly open: Token;
     readonly values: (Expression | KeyValue)[];
     readonly close: Token | undefined;
@@ -66,21 +65,11 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
-            ? [
-                  MapLiteral.make(),
-                  MapLiteral.make([
-                      KeyValue.make(node, ExpressionPlaceholder.make()),
-                  ]),
-                  MapLiteral.make([
-                      KeyValue.make(ExpressionPlaceholder.make(), node),
-                  ]),
-              ]
-            : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [MapLiteral.make()];
     }
 
@@ -90,8 +79,8 @@ export default class MapLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.SetOpen) },
-            { name: 'bind', kind: optional(node(Sym.Bind)) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
+            { name: 'bind', kind: optional(node(Sym.Bind)), label: undefined },
             {
                 name: 'values',
                 kind: list(true, node(KeyValue)),
@@ -99,9 +88,15 @@ export default class MapLiteral extends Expression {
                 indent: true,
                 initial: true,
                 newline: this.wrap(),
+                label: () => (l) => l.node.MapLiteral.label.values,
             },
-            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
-            { name: 'literal', kind: node(Sym.Literal) },
+            {
+                name: 'close',
+                kind: node(Sym.SetClose),
+                newline: this.wrap(),
+                label: undefined,
+            },
+            { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
     }
 
@@ -125,7 +120,7 @@ export default class MapLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Hidden;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

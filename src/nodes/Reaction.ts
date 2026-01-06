@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Check from '@runtime/Check';
@@ -69,8 +69,9 @@ export default class Reaction extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
+    static getPossibleReplacements({ node, type }: ReplaceContext) {
+        // Wrap the stream in a reaction if replacing an expression with a stream type.
+        return node instanceof Expression && type instanceof StreamType
             ? [
                   Reaction.make(
                       node,
@@ -83,12 +84,8 @@ export default class Reaction extends Expression {
             : [];
     }
 
-    static getPossibleAppends() {
-        return Reaction.make(
-            ExpressionPlaceholder.make(),
-            Changed.make(ExpressionPlaceholder.make(StreamType.make())),
-            ExpressionPlaceholder.make(),
-        );
+    static getPossibleInsertions() {
+        return [];
     }
 
     isUndelimited() {
@@ -104,14 +101,19 @@ export default class Reaction extends Expression {
             {
                 name: 'initial',
                 kind: node(Expression),
-                label: () => (l) => l.node.Reaction.initial,
+                label: () => (l) => l.node.Reaction.label.initial,
             },
-            { name: 'dots', kind: node(Sym.Stream), space: true },
+            {
+                name: 'dots',
+                kind: node(Sym.Stream),
+                space: true,
+                label: undefined,
+            },
             {
                 name: 'condition',
                 kind: node(Expression),
                 space: true,
-                label: () => (l) => l.node.Reaction.condition,
+                label: () => (l) => l.node.Reaction.label.condition,
                 getType: () => BooleanType.make(),
             },
             {
@@ -119,11 +121,12 @@ export default class Reaction extends Expression {
                 kind: node(Sym.Stream),
                 space: true,
                 indent: true,
+                label: undefined,
             },
             {
                 name: 'next',
                 kind: node(Expression),
-                label: () => (l) => l.node.Reaction.next,
+                label: () => (l) => l.node.Reaction.label.next,
                 space: true,
                 indent: true,
             },
@@ -145,7 +148,7 @@ export default class Reaction extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Input;
+        return Purpose.Inputs;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {
@@ -160,11 +163,13 @@ export default class Reaction extends Expression {
         if (!(conditionType instanceof BooleanType))
             conflicts.push(new ExpectedBooleanCondition(this, conditionType));
 
+        // At least one dependency of the condition must be a stream.
         if (
             !Array.from(this.condition.getAllDependencies(context)).some(
                 (node) =>
                     context.getStreamType(node.getType(context)) !== undefined,
-            )
+            ) &&
+            context.getStreamType(this.condition.getType(context)) === undefined
         )
             conflicts.push(new ExpectedStream(this));
 
@@ -172,18 +177,21 @@ export default class Reaction extends Expression {
     }
 
     computeType(context: Context): Type {
+        // Get the union of all of the types in the initial and next expressions.
         const type = UnionType.getPossibleUnion(context, [
             this.initial.getType(context),
             this.next.getType(context),
         ]).generalize(context);
 
-        // If the type includes an unknown type because of a cycle or some other unknown type, remove the unknown, since the rest of the type defines the possible values.
-        const types = type.getTypeSet(context).list();
-        const cycle = types.findIndex((type) => type instanceof UnknownType);
-        if (cycle >= 0) {
-            types.splice(cycle, 1);
-            return UnionType.getPossibleUnion(context, types);
-        } else return type;
+        // If the type includes an unknown type because of a cycle or some other unknown type,
+        // remove them, since the rest of the type defines the possible values.
+        return UnionType.getPossibleUnion(
+            context,
+            type
+                .getTypeSet(context)
+                .list()
+                .filter((t) => !(t instanceof UnknownType)),
+        );
     }
 
     getDependencies(): Expression[] {

@@ -63,7 +63,7 @@
 
         return undefined;
     }
-    let node = $derived(concept.getRepresentation());
+    let node = $derived(concept.getRepresentation($locales));
 
     // When locales or the concept change, retrieve the URL to the tutorial.
     $effect(() => {

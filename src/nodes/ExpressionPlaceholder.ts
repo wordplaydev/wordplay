@@ -1,8 +1,9 @@
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type { LocaleText } from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import Halt from '@runtime/Halt';
 import type Step from '@runtime/Step';
@@ -12,6 +13,7 @@ import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import NodeRef from '../locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
+import AnyType from './AnyType';
 import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
 import type Context from './Context';
@@ -25,13 +27,13 @@ import { any, node, none, type Grammar, type Replacement } from './Node';
 import PlaceholderToken from './PlaceholderToken';
 import type Root from './Root';
 import SimpleExpression from './SimpleExpression';
+import StreamType from './StreamType';
 import Sym from './Sym';
-import type Token from './Token';
+import Token from './Token';
 import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
 import type TypeSet from './TypeSet';
 import TypeToken from './TypeToken';
-import UnimplementedType from './UnimplementedType';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -61,11 +63,11 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements({ type }: EditContext) {
-        return [ExpressionPlaceholder.make(type)];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
+    static getPossibleInsertions({ type }: InsertContext) {
         return [ExpressionPlaceholder.make(type)];
     }
 
@@ -78,12 +80,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
             {
                 name: 'placeholder',
                 kind: node(Sym.Placeholder),
-                label: (
-                    locales: Locales,
-                    _: Node,
-                    context: Context,
-                    root: Root,
-                ) => {
+                label: (locales: Locales, context: Context, _, root: Root) => {
                     const parent: Node | undefined = root.getParent(this);
                     // See if the parent has a label.
                     return (
@@ -94,7 +91,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                             root,
                         ) ??
                         ((l: LocaleText) =>
-                            l.node.ExpressionPlaceholder.placeholder)
+                            l.node.ExpressionPlaceholder.label.placeholder)
                     );
                 },
             },
@@ -104,16 +101,18 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                     node(Sym.Type),
                     none(['type', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'type',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: undefined,
             },
         ];
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {
@@ -129,6 +128,11 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     }
 
     computeType(context: Context): Type {
+        // If it is a stream type, set the stream type in the context, so that other expressions like Changed
+        // know what it is.
+        if (this.type instanceof StreamType)
+            context.setStreamType(this.type, StreamType.make(this.type.type));
+
         // Is the type given? Return it.
         if (this.type) return this.type;
 
@@ -173,7 +177,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
             if (parent.output) return parent.output;
         }
 
-        return this.type ?? new UnimplementedType(this);
+        return new AnyType();
     }
 
     isPlaceholder() {
@@ -191,6 +195,14 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                 this,
             ),
         ];
+    }
+
+    withType(type: Type | undefined) {
+        return new ExpressionPlaceholder(
+            this.placeholder,
+            new Token(TYPE_SYMBOL, Sym.Type),
+            type,
+        );
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {

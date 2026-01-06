@@ -1,4 +1,4 @@
-import type { ConfirmText, DialogText } from '@locale/UITexts';
+import type { ConfirmText, HeaderAndExplanationText } from '@locale/UITexts';
 
 type PageText = {
     /** Header for the projects page */
@@ -12,7 +12,7 @@ type PageText = {
     /** A prompt to create galleries */
     galleryprompt: string;
     /** Dialog text for the project addition dialog */
-    add: DialogText;
+    add: HeaderAndExplanationText;
     /** Buttons on the project page */
     subheader: {
         /** Header for the shared project list */

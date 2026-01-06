@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NEVER_SYMBOL } from '@parser/Symbols';
@@ -12,6 +13,10 @@ export default class NeverType extends Type {
 
     getDescriptor(): NodeDescriptor {
         return 'NeverType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Hidden;
     }
 
     getGrammar() {

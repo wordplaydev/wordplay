@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 300;
+    export const KeyboardIdleWaitTime = 1000;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
@@ -8,9 +8,11 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
+    import CharacterChooser from '@components/editor/commands/GlyphChooser.svelte';
+    import Highlight from '@components/editor/highlights/Highlight.svelte';
+    import Menu from '@components/editor/menu/Menu.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -28,7 +30,7 @@
         AnimationFactors,
     } from '@db/settings/AnimationFactorSetting';
     import type Locale from '@locale/Locale';
-    import Node from '@nodes/Node';
+    import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
@@ -53,7 +55,6 @@
     } from '../../db/Database';
     import { isFlagged } from '../../db/projects/Moderation';
     import Arrangement from '../../db/settings/Arrangement';
-    import type Caret from '../../edit/Caret';
     import Characters from '../../lore/BasisCharacters';
     import type Color from '../../output/Color';
     import {
@@ -64,11 +65,6 @@
     import Annotations from '../annotations/Annotations.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Emoji from '../app/Emoji.svelte';
-    import Editor from '../editor/Editor.svelte';
-    import EditorToolbar from '../editor/EditorToolbar.svelte';
-    import CharacterChooser from '../editor/GlyphChooser.svelte';
-    import Highlight from '../editor/Highlight.svelte';
-    import Menu from '../editor/Menu.svelte';
     import {
         EnterFullscreen,
         ExitFullscreen,
@@ -78,10 +74,13 @@
         VisibleModifyCommands,
         VisibleNavigateCommands,
         type CommandContext,
-    } from '../editor/util/Commands';
-    import type { HighlightSpec } from '../editor/util/Highlights';
-    import type MenuInfo from '../editor/util/Menu';
-    import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
+    } from '../editor/commands/Commands';
+
+    import Toolbar from '@components/editor/commands/Toolbar.svelte';
+    import Editor from '@components/editor/Editor.svelte';
+    import type MenuInfo from '@edit/menu/Menu';
+    import type { HighlightSpec } from '../editor/highlights/Highlights';
+    import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
     import Timeline from '../evaluator/Timeline.svelte';
     import OutputView from '../output/OutputView.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
@@ -675,15 +674,6 @@
     let howToStore = Locales.howTos;
     let howTos = $derived($howToStore[$locales.getLocaleString()]);
 
-    /** Update the concept index whenever the project, locales, or how tos change. */
-    $effect(() => {
-        index = ConceptIndex.make(
-            project,
-            $locales,
-            howTos instanceof Promise ? [] : howTos,
-        );
-    });
-
     /* Keep the index context up to date when it changes.*/
     $effect(() => {
         indexContext.index = index;
@@ -706,20 +696,24 @@
 
     let latestProject: Project | undefined;
 
-    // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
+    // When dependencies change, create a new concept index.
     $effect(() => {
-        if ($keyboardEditIdle && latestProject !== project) {
+        if (
+            index === undefined ||
+            ($keyboardEditIdle === IdleKind.Idle && latestProject !== project)
+        ) {
             latestProject = project;
 
             // Make a new concept index with the new project and translations, but the old examples.
-            const newIndex =
-                project && index
-                    ? ConceptIndex.make(
-                          project,
-                          $locales,
-                          howTos instanceof Promise ? [] : howTos,
-                      ).withExamples(index.examples)
-                    : undefined;
+            const newIndex = project
+                ? ConceptIndex.make(
+                      project,
+                      $locales,
+                      howTos instanceof Promise ? [] : howTos,
+                  ).withExamples(
+                      index === undefined ? new Map() : index.examples,
+                  )
+                : undefined;
 
             // Set the index
             index = newIndex;
@@ -793,31 +787,40 @@
     );
 
     /**
-     * Any time the evaluator of the project changes, start it, and analyze it after some delay.
+     * Any time the evaluator of the project changes, start it.
      * */
     let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
     $effect(() => {
         // Re-evaluate immediately if not started.
         if (!$evaluator.isStarted()) $evaluator.start();
+    });
 
-        untrack(() => {
-            if (updateTimer) clearTimeout(updateTimer);
-        });
-
-        function updateConflicts() {
-            // In the middle of analyzing? Check later.
-            if (project.analyzed === 'analyzing') {
-                updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
-            }
-            // Done analyzing, or not analyzed?
-            else if (project.analyzed === 'unanalyzed') {
-                project.analyze();
-                // Get the resulting conflicts.
-                conflicts.set(project.getConflicts());
-            }
+    function updateConflicts() {
+        // Analyzed? Update the conflicts immediately.
+        if (project.analyzed === 'analyzed') {
+            conflicts.set(project.getConflicts());
         }
+        // Not yet analyzed? Analyze in a bit.
+        else if (project.analyzed === 'unanalyzed') {
+            project.analyze();
+            updateTimer = setTimeout(() => {
+                project.analyze();
+                updateConflicts();
+            }, KeyboardIdleWaitTime);
+        }
+        // Still analyzing? Try again later.
+        else {
+            if (updateTimer) clearTimeout(updateTimer);
+            updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
+        }
+    }
 
-        updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
+    /** Any time the project changes, update the conflicts soon */
+    $effect(() => {
+        if (project) updateConflicts();
+        return () => {
+            if (updateTimer) clearTimeout(updateTimer);
+        };
     });
 
     /** When stepping and the current step changes, change the active source. */
@@ -923,7 +926,7 @@
     $effect(() => {
         if (menu) {
             // Find the tile corresponding to the menu's source file.
-            const index = sources.indexOf(menu.getCaret().source);
+            const index = sources.indexOf(menu.getSource());
             const tile = layout?.tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index),
             );
@@ -951,7 +954,7 @@
 
     /** When the menu changes, compute a menu position. */
     $effect(() => {
-        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
+        menuPosition = menu ? getMenuPosition(menu) : undefined;
     });
 
     // When the locale direction changes, update the output.
@@ -962,8 +965,18 @@
         if (nodeView instanceof HTMLElement)
             outline = {
                 types: ['dragging'],
-                outline: getOutlineOf(nodeView, true, direction === 'rtl'),
-                underline: getUnderlineOf(nodeView, true, direction === 'rtl'),
+                outline: getOutlineOf(
+                    nodeView,
+                    true,
+                    direction === 'rtl',
+                    $blocks,
+                ),
+                underline: getUnderlineOf(
+                    nodeView,
+                    true,
+                    direction === 'rtl',
+                    $blocks,
+                ),
             };
     });
 
@@ -983,6 +996,7 @@
         editor: false,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
         evaluator: $evaluation.evaluator,
+        locales: $locales,
         dragging: dragged !== undefined,
         database: DB,
         setFullscreen: (on: boolean) => setBrowserFullscreen(on),
@@ -1295,7 +1309,7 @@
     }
 
     function repositionFloaters() {
-        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
+        menuPosition = menu ? getMenuPosition(menu) : undefined;
     }
 
     function getSourceIndexByID(id: string) {
@@ -1316,7 +1330,7 @@
         const [, result] = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event, and reset the modifier state.
-        if (result !== false) {
+        if (typeof result !== 'function' && result !== false) {
             event.stopPropagation();
             event.preventDefault();
 
@@ -1341,10 +1355,13 @@
         });
     }
 
-    function getMenuPosition(caret: Caret) {
+    function getMenuPosition(menu: MenuInfo) {
+        const source = menu.getSource();
+        const anchor = menu.getAnchor();
+
         // Find the editor
         const editor = document.querySelector(
-            `.editor[data-id="${caret.source.id}"]`,
+            `.editor[data-id="${source.id}"]`,
         );
         if (editor === null) return undefined;
 
@@ -1353,28 +1370,44 @@
 
         const projectBounds = project.getBoundingClientRect();
 
-        // Is it a node? Position near it's top left.
-        if (caret.position instanceof Node) {
-            const view = editor.querySelector(
-                `.node-view[data-id="${caret.position.id}"]`,
+        if (isFieldPosition(anchor)) {
+            // Is it a field position? Position near the field.
+            const trigger = editor.querySelector(
+                `.node-view[data-id="${anchor.parent.id}"] .trigger[data-field="${anchor.field}"]`,
             );
-            if (view == null) return undefined;
-            const nodeBounds = view.getBoundingClientRect();
+            if (trigger == null) return undefined;
+            const triggerBounds = trigger.getBoundingClientRect();
             return {
-                left: nodeBounds.left - projectBounds.left,
-                top: nodeBounds.bottom - projectBounds.top,
+                left: triggerBounds.left - projectBounds.left,
+                top:
+                    triggerBounds.bottom -
+                    triggerBounds.height / 4 -
+                    projectBounds.top,
             };
-        }
-        // Is it a position? Position at the bottom right of the caret.
-        else if (caret.isIndex()) {
-            // Find the position of the caret in the editor.
-            const caretView = editor.querySelector('.caret');
-            if (caretView === null) return undefined;
-            const caretBounds = caretView.getBoundingClientRect();
-            return {
-                left: caretBounds.left - projectBounds.left,
-                top: caretBounds.bottom - projectBounds.top,
-            };
+        } else {
+            // Is it a node? Position near it's top left.
+            if (anchor instanceof Node) {
+                const view = editor.querySelector(
+                    `.node-view[data-id="${anchor.id}"]`,
+                );
+                if (view == null) return undefined;
+                const nodeBounds = view.getBoundingClientRect();
+                return {
+                    left: nodeBounds.left - projectBounds.left,
+                    top: nodeBounds.bottom - projectBounds.top,
+                };
+            }
+            // Is it a position? Position at the bottom right of the caret.
+            else if (typeof anchor === 'number') {
+                // Find the position of the caret in the editor.
+                const caretView = editor.querySelector('.caret');
+                if (caretView === null) return undefined;
+                const caretBounds = caretView.getBoundingClientRect();
+                return {
+                    left: caretBounds.left - projectBounds.left,
+                    top: caretBounds.bottom - projectBounds.top,
+                };
+            }
         }
     }
 
@@ -1449,7 +1482,11 @@
     onpointermove={handlePointerMove}
     onpointerup={handlePointerUp}
     onfocus={resetKeyModifiers}
-    onblur={resetKeyModifiers}
+    onblur={(event) => {
+        resetKeyModifiers();
+        handlePointerUp();
+        event.preventDefault();
+    }}
 />
 
 {#if warn}
@@ -1532,7 +1569,7 @@
                                             (l) =>
                                                 l.ui.dialog.settings.mode
                                                     .animate,
-                                        ).modes[$animationFactor]}
+                                        ).labels[$animationFactor]}
                                     >
                                         <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
                                     </span>
@@ -1602,7 +1639,7 @@
                                         ></Toggle
                                     >
                                     <Mode
-                                        descriptions={(l) =>
+                                        modes={(l) =>
                                             l.ui.dialog.settings.mode.animate}
                                         choice={AnimationFactors.indexOf(
                                             $animationFactor,
@@ -1611,18 +1648,19 @@
                                             Settings.setAnimationFactor(
                                                 AnimationFactors[choice],
                                             )}
-                                        modes={AnimationFactorIcons}
+                                        icons={AnimationFactorIcons}
+                                        modeLabels={false}
                                         labeled={false}
                                     />
                                     {#if $animationFactor === 0}{$locales.get(
                                             (l) =>
                                                 l.ui.dialog.settings.mode
                                                     .animate,
-                                        ).modes[0]}{/if}
+                                        ).labels[0]}{/if}
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    <EditorToolbar
+                                    <Toolbar
                                         sourceID={tile.id}
                                         navigateCommands={VisibleNavigateCommands}
                                         modifyCommands={VisibleModifyCommands}
@@ -1637,7 +1675,10 @@
                             {/snippet}
                             {#snippet content()}
                                 {#if tile.kind === TileKind.Documentation}
-                                    <Documentation {project} />
+                                    <Documentation
+                                        {project}
+                                        standalone={false}
+                                    />
                                 {:else if tile.kind === TileKind.Palette}
                                     <Palette
                                         {project}
@@ -1748,14 +1789,6 @@
                                                 tile.id,
                                             )}
                                         </div>
-                                    {/if}
-                                    {#if $blocks}
-                                        <p class="editor-warning feedback"
-                                            >This editing mode is experimental. <Link
-                                                to="https://discord.gg/Jh2Qq9husy"
-                                                >Discuss</Link
-                                            > improvements.
-                                        </p>
                                     {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
@@ -1950,7 +1983,6 @@
                     locale={$locales.getLocale()}
                     blocks={$blocks}
                 />
-                <div class="cursor">🐲</div>
             </div>
         {/if}
     {/if}
@@ -2030,17 +2062,7 @@
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        opacity: 0.8;
-    }
-
-    /* A fancy dragon cursor for dragon drop! Get it? */
-    .cursor {
-        position: absolute;
-        font-size: 2rem;
-        top: -1.5rem;
-        left: -1.5rem;
-        font-family: 'Noto Emoji';
-        z-index: 2;
+        opacity: 0.9;
     }
 
     .empty {

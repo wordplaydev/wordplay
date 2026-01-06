@@ -76,7 +76,7 @@ type NodeTexts = {
      */
     Name: DescriptiveNodeText;
     /** A list of names, e.g., `hi,hello,hey` */
-    Names: NodeText;
+    Names: NodeText & { label: { names: string } };
     /** A row in a table, e.g., `⎡1 2⎦` */
     Row: NodeText &
         Conflicts<{
@@ -110,14 +110,14 @@ type NodeTexts = {
         Conflicts<{
             /** When a type variable name is the same as another. $1: The duplicate name */
             DuplicateTypeVariable: ConflictText;
-        }>;
+        }> & { label: { type: string } };
     /** A list of type variables in a function or structure definition, e.g. `⸨T⸩` in `ƒ⸨T⸩(a: T b: T)` */
     TypeVariables: NodeText;
     /**
      * Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ `
      * Description inputs: $1 = paragraph count
      */
-    Markup: DescriptiveNodeText;
+    Markup: DescriptiveNodeText & { label: { paragraphs: string } };
     /**
      * A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ¶Paragraph 1\n\nParagraph 2¶ `
      * Description inputs: $1 = number, $2 = unit
@@ -159,7 +159,7 @@ type NodeTexts = {
         } & Conflicts<{
             /** Warning about order of evaluation of binary evaluations always being reading order, not math order of operations */
             OrderOfOperations: InternalConflictText;
-        }>;
+        }> & { label: { operator: string } };
     /**
      * Naming a value, e.g., `mybinding: 5m`
      * Description inputs: $1 = the name that is bound
@@ -167,8 +167,9 @@ type NodeTexts = {
      * Finish inputs: $1 = the value producd, $2: the names bound
      */
     Bind: DescriptiveNodeText &
-        ExpressionText &
-        Conflicts<{
+        ExpressionText & {
+            label: { value: string; names: string; type: string };
+        } & Conflicts<{
             /** When a bind has duplicate names. Description inputs: $1: The name that shadowed this one */
             DuplicateName: { conflict: ConflictText; resolution: Template };
             /** When a shared bind has a duplicate name that's shared. Description inputs: $1: The duplicate */
@@ -199,8 +200,10 @@ type NodeTexts = {
      */
     Block: DescriptiveNodeText &
         ExpressionText & {
-            /** The placeholder label for a statement in the block */
-            statement: Template;
+            label: {
+                /** The placeholder label for a statement in the block */
+                statements: string;
+            };
         } & Conflicts<{
             /** When there's no ending expression */
             ExpectedEndingExpression: InternalConflictText;
@@ -223,12 +226,14 @@ type NodeTexts = {
      */
     Borrow: DescriptiveNodeText &
         SimpleExpressionText & {
-            /** Placeholder label for the source name */
-            source: Template;
-            /** Placeholder label for the bind name being borrowed */
-            bind: Template;
-            /** Placeholder label for the version being borrowed */
-            version: Template;
+            label: {
+                /** Placeholder label for the source name */
+                source: string;
+                /** Placeholder label for the bind name being borrowed */
+                bind: string;
+                /** Placeholder label for the version being borrowed */
+                version: string;
+            };
         } & Conflicts<{
             /** When the borrowed name could not be found */
             UnknownBorrow: InternalConflictText;
@@ -244,7 +249,7 @@ type NodeTexts = {
      * A change predicate expression, true if the stream changed, causing this reevaluation, e.g., `∆ Key()`
      * Start inputs: $1 = stream that changed
      */
-    Changed: NodeText & SimpleExpressionText;
+    Changed: NodeText & SimpleExpressionText & { label: { stream: string } };
     /**
      * A conditional expression, e.g., `truth ? 'yes' 'no'`
      * Start inputs: $1 = description of condition to check
@@ -256,12 +261,15 @@ type NodeTexts = {
             afterthen: Template;
             /** After the then case is done. Description inputs: jump after the "then" expression */
             else: Template;
-            /** A placeholder label for the condition */
-            condition: Template;
-            /** A placeholder label for then expression */
-            yes: Template;
-            /** A placeholder label for else condition */
-            no: Template;
+        } & {
+            label: {
+                /** A placeholder label for the condition */
+                condition: Template;
+                /** A placeholder label for then expression */
+                yes: Template;
+                /** A placeholder label for else condition */
+                no: Template;
+            };
         } & Conflicts<{
             /**
              * When the condition is not boolean typed, e.g., `1 ? 'yes' 'no'`
@@ -279,10 +287,12 @@ type NodeTexts = {
      */
     Match: NodeText &
         ExpressionText & {
-            /** The label for the value to be compared against. */
-            value: Template;
-            /** The label for the default value if none of the cases match */
-            other: Template;
+            label: {
+                /** The label for the default value if none of the cases match */
+                other: Template;
+                /** The label for the case being checked */
+                case: Template;
+            };
             /** How to describe when a case is checked */
             case: Template;
         };
@@ -292,7 +302,13 @@ type NodeTexts = {
         Conflicts<{
             /** When a conversion is defined somewhere it's not allowed. */
             MisplacedConversion: InternalConflictText;
-        }>;
+        }> & {
+            label: {
+                input: string;
+                output: string;
+                expression: string;
+            };
+        };
     /**
      * A conversion expression, e.g., `1 → ''`
      * Start inputs: $1 = expression to convert
@@ -332,10 +348,8 @@ type NodeTexts = {
         ExpressionText & {
             /** What to say after inputs are done evaluating, right before starting evaluation the function */
             evaluate: Template;
-            /** Placeholder label for the function */
-            function: Template;
-            /** Placeholder labelf or an unspecified input */
-            input: Template;
+        } & {
+            label: { function: string; types: string; inputs: string };
         } & Conflicts<{
             /**
              * When an input given to this evaluate doesn't match the input of the function being evaluated
@@ -387,7 +401,7 @@ type NodeTexts = {
      * Description inputs: $1: type or undefined
      */
     ExpressionPlaceholder: DescriptiveNodeText &
-        SimpleExpressionText & { placeholder: Template } & Conflicts<{
+        SimpleExpressionText & { label: { placeholder: string } } & Conflicts<{
             Placeholder: InternalConflictText;
         }> &
         Exceptions<{
@@ -403,7 +417,13 @@ type NodeTexts = {
         Conflicts<{
             /** When a function has no expression */
             NoExpression: InternalConflictText;
-        }>;
+        }> & {
+            label: {
+                inputs: string;
+                output: string;
+                expression: string;
+            };
+        };
     /**
      * An internal node used by higher order functions to iterate over a list of values.
      * Finish inputs: $1 = resulting value
@@ -461,11 +481,7 @@ type NodeTexts = {
      * Description inputs: $1 = item count
      * Finish inputs: $1 = resulting value
      */
-    ListLiteral: DescriptiveNodeText &
-        ExpressionText & {
-            /** Placeholder label for an item in a list */
-            item: Template;
-        };
+    ListLiteral: DescriptiveNodeText & ExpressionText;
     /**
      * A way of spreading a list's values into a list literal, e.g., `[ [ 1 2 3]… 4 5]`
      * Description inputs: none
@@ -476,8 +492,7 @@ type NodeTexts = {
      * Finish inputs: $1 = resulting value
      */
     MapLiteral: DescriptiveNodeText &
-        ExpressionText &
-        Conflicts<{
+        ExpressionText & { label: { values: string } } & Conflicts<{
             /**
              * When something other than a key value pair is given.
              * Description inputs: $1 = expression that's not a map
@@ -500,7 +515,7 @@ type NodeTexts = {
      * Start inputs: $1 = the stream expression being checked
      * Finish inputs: $1 = resulting value
      */
-    Previous: NodeText & ExpressionText;
+    Previous: NodeText & ExpressionText & { label: { range: string } };
     /**
      * A program, e.g., `1 + 1`, `hello()`, etc.
      * Start inputs: $1 = the stream that caused the evaluation, or nothing
@@ -525,33 +540,42 @@ type NodeTexts = {
             StepLimitException: ExceptionText;
             /** When a value was expected, but not provided */
             ValueException: ExceptionText;
-        }>;
+        }> & {
+            label: {
+                borrows: string;
+                expression: string;
+            };
+        };
+
     /**
      * Revising a structure with a new value, e.g., `mammal.name: 5`
      * Description input: $1 = the name being refined
      * Finish inputs: $1: revised property, $2: revised value
      */
     PropertyBind: DescriptiveNodeText &
-        ExpressionText &
-        Conflicts<{ InvalidProperty: ConflictText }>;
+        ExpressionText & {
+            label: { property: Template; value: Template };
+        } & Conflicts<{ InvalidProperty: ConflictText }>;
     /**
      * Getting a structure property, e.g., `mammal.name`
      * Finish inputs: $1: property name, $2: value
      */
     PropertyReference: DescriptiveNodeText &
-        ExpressionText & { property: Template };
+        ExpressionText & { label: { property: Template } };
     /**
      * Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1`
      * Finish inputs: $1 = resulting value
      */
     Reaction: NodeText &
         ExpressionText & {
-            /** Placeholder label for the initial value */
-            initial: Template;
-            /** Placeholder label for the condition to check */
-            condition: Template;
-            /** Placeholder label for the next value */
-            next: Template;
+            label: {
+                /** Placeholder label for the initial value */
+                initial: Template;
+                /** Placeholder label for the condition to check */
+                condition: Template;
+                /** Placeholder label for the next value */
+                next: Template;
+            };
         } & Conflicts<{
             /** When the condition doesn't refer to a strema */
             ExpectedStream: InternalConflictText;
@@ -642,7 +666,14 @@ type NodeTexts = {
              * Description inputs: $1 = Interface, $2 = Function
              */
             UnimplementedInterface: InternalConflictText;
-        }>;
+        }> & {
+            label: {
+                docs: string;
+                inputs: string;
+                expression: string;
+                interfaces: string;
+            };
+        };
     StructureDefinitionType: DescriptiveNodeText;
     /**
      * A table literal, e.g., `⎡a•# b•#⎦⎡1 2⎦`
@@ -654,13 +685,15 @@ type NodeTexts = {
      * A text literal, e.g., `'hi'`
      * Description inputs: $1 = the text of the text literal
      */
-    TextLiteral: DescriptiveNodeText & SimpleExpressionText;
+    TextLiteral: DescriptiveNodeText &
+        SimpleExpressionText & { label: { texts: string } };
     /**
      * One alternate translation of a text literal, e.g., the `'hola/es`' of `'hi'/en'hola'/es`
      * Description inputs: $1 = the text
      */
-    Translation: DescriptiveNodeText &
-        Conflicts<{
+    Translation: DescriptiveNodeText & {
+        label: { segments: string };
+    } & Conflicts<{
             phone: InternalConflictText;
             email: InternalConflictText;
             address: InternalConflictText;
@@ -694,7 +727,8 @@ type NodeTexts = {
      * Description inputs: $1 = the operator
      * Finish inputs: $1 = resulting value
      */
-    UnaryEvaluate: DescriptiveNodeText & ExpressionText;
+    UnaryEvaluate: DescriptiveNodeText &
+        ExpressionText & { label: { input: string } };
     /**
      * An unparsable expression, e.g., `]a[` */
     UnparsableExpression: NodeText &

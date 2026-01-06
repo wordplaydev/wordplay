@@ -43,17 +43,15 @@ export function parseParagraph(tokens: Tokens): Paragraph {
 }
 
 function parseSegment(tokens: Tokens) {
-    return tokens.nextIs(Sym.Words)
-        ? tokens.read(Sym.Words)
-        : tokens.nextIs(Sym.TagOpen)
-          ? parseWebLink(tokens)
-          : tokens.nextIs(Sym.Concept)
-            ? parseConceptLink(tokens)
-            : tokens.nextIs(Sym.Code)
-              ? parseExample(tokens)
-              : tokens.nextIs(Sym.Mention)
-                ? parseMention(tokens)
-                : parseWords(tokens);
+    return tokens.nextIs(Sym.TagOpen)
+        ? parseWebLink(tokens)
+        : tokens.nextIs(Sym.Concept)
+          ? parseConceptLink(tokens)
+          : tokens.nextIs(Sym.Code)
+            ? parseExample(tokens)
+            : tokens.nextIs(Sym.Mention)
+              ? parseMention(tokens)
+              : parseWords(tokens);
 }
 
 function parseWebLink(tokens: Tokens): WebLink {

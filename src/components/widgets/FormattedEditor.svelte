@@ -1,7 +1,7 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { toShortcut } from '@components/editor/util/Commands';
+    import { toShortcut } from '@components/editor/commands/Commands';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Button from './Button.svelte';

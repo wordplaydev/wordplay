@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -56,19 +56,16 @@ export default class MapType extends BasisType {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return [
-            MapType.make(),
-            ...(node instanceof Type && node
-                ? [
-                      MapType.make(node, TypePlaceholder.make()),
-                      MapType.make(TypePlaceholder.make(), node),
-                  ]
-                : []),
-        ];
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        return node instanceof Type
+            ? [
+                  MapType.make(node, TypePlaceholder.make()),
+                  MapType.make(TypePlaceholder.make(), node),
+              ]
+            : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [MapType.make()];
     }
 
@@ -78,23 +75,25 @@ export default class MapType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen), label: undefined },
             {
                 name: 'key',
                 kind: any(
                     node(Type),
                     none(['value', () => ExpressionPlaceholder.make()]),
                 ),
+                label: () => (l) => l.term.type,
             },
-            { name: 'bind', kind: node(Sym.Bind) },
+            { name: 'bind', kind: node(Sym.Bind), label: undefined },
             {
                 name: 'value',
                 kind: any(
                     node(Type),
                     none(['key', () => ExpressionPlaceholder.make()]),
                 ),
+                label: () => (l) => l.term.type,
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
     }
 

@@ -32,11 +32,17 @@ export default class UnparsableExpression extends SimpleExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'unparsables', kind: list(true, node(Node)) }];
+        return [
+            {
+                name: 'unparsables',
+                kind: list(true, node(Node)),
+                label: undefined,
+            },
+        ];
     }
 
     getPurpose() {
-        return Purpose.Source;
+        return Purpose.Hidden;
     }
 
     computeConflicts(context: Context): Conflict[] {

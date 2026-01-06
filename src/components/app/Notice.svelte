@@ -28,7 +28,7 @@
         color: var(--wordplay-background);
         background: var(--wordplay-error);
         margin-block-start: var(--wordplay-spacing);
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
         flex-grow: 0;
     }

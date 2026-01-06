@@ -184,6 +184,7 @@ export default class StructureType extends BasisType {
             return def.getEvaluateTemplate(
                 context.getBasis().locales,
                 context,
+                true,
                 this,
             );
     }

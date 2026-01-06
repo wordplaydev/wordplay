@@ -1,9 +1,17 @@
+<script module lang="ts">
+    /** The available documentation browsing modes */
+    export const Modes = ['language', 'howto'] as const;
+</script>
+
 <script lang="ts">
+    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
+    import ConceptIndex from '@concepts/ConceptIndex';
     import ConversionConcept from '@concepts/ConversionConcept';
     import FunctionConcept from '@concepts/FunctionConcept';
     import HowConcept from '@concepts/HowConcept';
@@ -13,13 +21,35 @@
     import Purpose from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
+    import {
+        getLanguageQuoteClose,
+        getLanguageQuoteOpen,
+    } from '@locale/LanguageCode';
+    import CompositeLiteral from '@nodes/CompositeLiteral';
     import Expression from '@nodes/Expression';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Literal from '@nodes/Literal';
     import type Node from '@nodes/Node';
     import Source from '@nodes/Source';
-    import { SEARCH_SYMBOL } from '@parser/Symbols';
-    import { onDestroy, tick } from 'svelte';
-    import { Locales, Projects, locales } from '../../db/Database';
+    import {
+        BIND_SYMBOL,
+        DOCUMENTATION_SYMBOL,
+        FORMATTED_SYMBOL,
+        IDEA_SYMBOL,
+        LIST_CLOSE_SYMBOL,
+        LIST_OPEN_SYMBOL,
+        MEASUREMENT_SYMBOL,
+        NONE_SYMBOL,
+        SEARCH_SYMBOL,
+        SET_CLOSE_SYMBOL,
+        SET_OPEN_SYMBOL,
+        TABLE_CLOSE_SYMBOL,
+        TABLE_OPEN_SYMBOL,
+        TRUE_SYMBOL,
+        TYPE_SYMBOL,
+    } from '@parser/Symbols';
+    import { onDestroy, tick, untrack } from 'svelte';
+    import { Locales, Projects, blocks, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import ConceptLink from '../../nodes/ConceptLink';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
@@ -34,6 +64,7 @@
     import Note from '../widgets/Note.svelte';
     import TextField from '../widgets/TextField.svelte';
     import CodeView from './CodeView.svelte';
+    import ConceptGroupView from './ConceptGroupView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
     import ConceptsView from './ConceptsView.svelte';
     import ConceptView from './ConceptView.svelte';
@@ -45,10 +76,11 @@
 
     interface Props {
         project: Project;
+        standalone: boolean;
         collapse?: boolean;
     }
 
-    let { project, collapse = true }: Props = $props();
+    let { project, standalone, collapse = false }: Props = $props();
 
     let view: HTMLElement | undefined = $state();
 
@@ -62,17 +94,23 @@
     let index = $derived(indexContext?.index);
 
     let path = getConceptPath();
-
     let dragged = getDragged();
 
     /** The current search string */
     let query = $state('');
 
     /** The browsing mode (programming language or how to) */
-    let mode = $state<'language' | 'how'>('how');
+    let mode = $state<(typeof Modes)[number]>($blocks ? 'language' : 'howto');
+
+    /** The purpose selected for browsing */
+    let purpose = $state<Purpose>(Purpose.Outputs);
 
     /** The current concept is always the one at the end of the list. */
     let currentConcept = $derived($path[$path.length - 1]);
+
+    let viewWidth: number = $state(0);
+    let viewHeight: number = $state(0);
+    let row = $derived(viewWidth > viewHeight);
 
     async function scrollToTop() {
         // Wait for everything to render
@@ -91,6 +129,14 @@
             Locales.loadHowTos($locales.getLocaleString()).then((loaded) => {
                 howTos = loaded;
             });
+    });
+
+    $effect(() => {
+        if (howTos && indexContext) {
+            indexContext.index = untrack(() =>
+                ConceptIndex.make(project, $locales, howTos),
+            );
+        }
     });
 
     // When the path changes, reset the query
@@ -143,9 +189,6 @@
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
-        // No project? No drop.
-        if (project === undefined) return;
-
         const node: Node | undefined = $dragged;
 
         // Release the dragged node.
@@ -189,6 +232,13 @@
     function home() {
         path.set([]);
     }
+
+    // If blocks mode is on, switch language mode.
+    $effect(() => {
+        if ($blocks) {
+            mode = 'language';
+        }
+    });
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
@@ -202,21 +252,49 @@
         bind:text={query}
         fill
     />
-    <Mode
-        descriptions={(l) => l.ui.docs.modes}
-        choice={mode === 'how' ? 0 : 1}
-        select={(choice) => {
-            const newMode = choice === 0 ? 'how' : 'language';
-            if (mode !== newMode) {
-                mode = newMode;
-                path.set([]);
-            }
-        }}
-        modes={[
-            $locales.get((l) => l.ui.docs.modes.modes[0]),
-            $locales.get((l) => l.ui.docs.modes.modes[1]),
-        ]}
-    />
+    {#if query.length === 0}
+        <Mode
+            modes={(l) => l.ui.docs.mode.browse}
+            icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
+            choice={Modes.indexOf(mode)}
+            select={(choice) => {
+                const newMode = Modes[choice];
+                if (mode !== newMode) {
+                    mode = newMode;
+                    path.set([]);
+                }
+            }}
+        />
+        {#if mode === 'language'}
+            <Mode
+                modes={(l) => l.ui.docs.mode.purpose}
+                choice={Object.keys(Purpose).indexOf(purpose)}
+                select={(choice) => {
+                    purpose = Object.values(Purpose)[choice];
+                    path.set([]);
+                }}
+                icons={[
+                    '👤',
+                    '🖥️',
+                    '🖱️',
+                    '?',
+                    BIND_SYMBOL,
+                    getLanguageQuoteOpen($locales.getLocale().language) +
+                        getLanguageQuoteClose($locales.getLocale().language),
+                    MEASUREMENT_SYMBOL,
+                    TRUE_SYMBOL + NONE_SYMBOL,
+                    LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
+                    SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
+                    TABLE_OPEN_SYMBOL + TABLE_CLOSE_SYMBOL,
+                    FORMATTED_SYMBOL + FORMATTED_SYMBOL,
+                    TYPE_SYMBOL,
+                    '',
+                ]}
+                wrap
+                omit={standalone ? [0] : []}
+            />
+        {/if}
+    {/if}
 
     {#if currentConcept}
         <span class="path">
@@ -244,13 +322,18 @@
     aria-label={$locales.get((l) => l.ui.docs.label)}
     onpointerup={handleDrop}
     bind:this={view}
+    bind:clientWidth={viewWidth}
+    bind:clientHeight={viewHeight}
 >
     <div class="content">
         <!-- Search results are prioritized over a selected concept -->
         {#if results}
             {#each results as [concept, text]}
                 <div class="result">
-                    <CodeView {concept} node={concept.getRepresentation()} />
+                    <CodeView
+                        {concept}
+                        node={concept.getRepresentation($locales)}
+                    />
                     <!-- Show the matching text -->
                     {#if text.length > 1 || concept.getName($locales, false) !== text[0]}
                         {@const match = text[0]}
@@ -306,13 +389,13 @@
                     <HowConceptView concept={currentConcept} />
                 {:else}
                     <CodeView
-                        node={currentConcept.getRepresentation()}
+                        node={currentConcept.getRepresentation($locales)}
                         concept={currentConcept}
                     />
                 {/if}
                 <!-- Home page is default. -->
             {:else if index}
-                {#if mode === 'how'}
+                {#if mode === 'howto'}
                     {#if howTos === undefined}
                         <Spinning></Spinning>
                     {:else}
@@ -336,14 +419,13 @@
                                             node={how.getRepresentation()}
                                             concept={how}
                                             elide
-                                            flip
                                         />
                                     {/each}
                                 </div>
                             {/if}
                         {/each}
                     {/if}
-                {:else}
+                {:else if purpose === Purpose.Project}
                     {@const projectConcepts =
                         index.getPrimaryConceptsWithPurpose(Purpose.Project)}
                     {#if projectConcepts.length > 0}
@@ -351,70 +433,154 @@
                             category={(l) => l.term.project}
                             concepts={projectConcepts}
                             {collapse}
+                            {row}
+                            describe={false}
                         />
+                    {:else}
+                        <Subheader
+                            text={(l) => l.ui.docs.purposes.Project.header}
+                        />
+                        <em
+                            ><LocalizedText
+                                path={(l) => l.ui.docs.note.empty}
+                            /></em
+                        >
                     {/if}
-                    <ConceptsView
-                        category={(l) => l.term.value}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Value,
-                        )}
-                        {collapse}
+                {:else if purpose === Purpose.Outputs}
+                    {@const concepts =
+                        index.getPrimaryConceptsWithPurpose(purpose)}
+                    {@const sourceConcept = index.getStructureConcept(
+                        project.shares.output.Data,
+                    )}
+                    {@const outputs: Concept[] = [...index.getInterfaceImplementers(
+                        project.shares.output.Output,
+                    ), ...(sourceConcept ? [ sourceConcept] : [])]}
+                    {@const arrangements: Concept[] = index.getInterfaceImplementers(
+                        project.shares.output.Arrangement,
+                    )}
+                    {@const forms: Concept[] = index.getInterfaceImplementers(
+                        project.shares.output.Form,
+                    )}
+                    {@const styles: Concept[] = concepts.filter(
+                        (c) => c instanceof FunctionConcept || (c instanceof StructureConcept && c.definition === project.shares.output.Sequence)
+                    )}
+                    {@const appearance: Concept[] = concepts.filter((c) => c instanceof StructureConcept && (c.definition === project.shares.output.Color || c.definition === project.shares.output.Aura || c.definition === project.shares.output.Pose))}
+                    {@const other: Concept[] = concepts.filter(
+                        (c) =>
+                            !outputs.includes(c) &&
+                            !arrangements.includes(c) &&
+                            !forms.includes(c) &&
+                            !styles.includes(c) &&
+                            !appearance.includes(c) && !((c instanceof StructureConcept) && (c.definition === project.shares.output.Form || c.definition === project.shares.output.Arrangement))
+
+                    )}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.purposes.Outputs}
+                        sub
                     />
-                    <ConceptsView
-                        category={(l) => l.term.evaluate}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Evaluate,
-                        )}
-                        {collapse}
+                    <ConceptGroupView concepts={outputs} {collapse} {row} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.arrangements}
+                        sub
                     />
-                    <ConceptsView
-                        category={(l) => l.term.bind}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Bind,
-                        )}
+                    <ConceptGroupView
+                        concepts={arrangements}
                         {collapse}
+                        {row}
                     />
-                    <ConceptsView
-                        category={(l) => l.term.decide}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Decide,
-                        )}
-                        {collapse}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.forms}
+                        sub
                     />
-                    <ConceptsView
-                        category={(l) => l.term.input}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Input,
-                        )}
-                        {collapse}
+                    <ConceptGroupView concepts={forms} {collapse} {row} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.appearance}
+                        sub
                     />
-                    <ConceptsView
-                        category={(l) => l.term.output}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Output,
-                        )}
-                        {collapse}
+                    <ConceptGroupView concepts={appearance} {collapse} {row} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.appearance}
+                        sub
                     />
-                    <ConceptsView
-                        category={(l) => l.term.type}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Type,
-                        )}
-                        {collapse}
+                    <ConceptGroupView concepts={styles} {collapse} {row} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.location}
+                        sub
                     />
-                    <ConceptsView
-                        category={(l) => l.term.document}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Document,
-                        )}
-                        {collapse}
+                    <ConceptGroupView concepts={other} {collapse} {row} />
+                {:else if purpose === Purpose.Inputs}
+                    {@const concepts =
+                        index.getPrimaryConceptsWithPurpose(purpose)}
+                    {@const controls: Concept[] = concepts.filter(
+                        (c) => c instanceof NodeConcept,
+                    )}
+                    {@const streams = concepts.filter(
+                        (c) => !controls.includes(c),
+                    )}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.purposes.Inputs}
+                        sub
                     />
-                    <ConceptsView
-                        category={(l) => l.term.source}
-                        concepts={index.getPrimaryConceptsWithPurpose(
-                            Purpose.Source,
+                    <ConceptGroupView concepts={streams} {collapse} {row} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.reactions}
+                        sub
+                    />
+                    <ConceptGroupView concepts={controls} {collapse} {row} />
+                {:else if [Purpose.Text, Purpose.Numbers, Purpose.Truth, Purpose.Lists, Purpose.Maps, Purpose.Tables].includes(purpose)}
+                    <!-- We filter out the literals because the corresponding node concepts have all of the documentation. -->
+                    {@const primary = index
+                        .getPrimaryConceptsWithPurpose(purpose)
+                        .filter(
+                            (s) =>
+                                !(
+                                    s instanceof NodeConcept &&
+                                    (s.template instanceof Literal ||
+                                        s.template instanceof CompositeLiteral)
+                                ),
                         )}
+                    {@const functions = primary
+                        .map((p) =>
+                            Array.from(p.getSubConcepts()).filter(
+                                (c) => c instanceof FunctionConcept,
+                            ),
+                        )
+                        .flat()}
+                    {@const conversions = primary
+                        .map((p) =>
+                            Array.from(p.getSubConcepts()).filter(
+                                (c) => c instanceof ConversionConcept,
+                            ),
+                        )
+                        .flat()}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.purposes[purpose]}
+                        sub
+                    />
+                    <ConceptGroupView
+                        concepts={[...primary]}
                         {collapse}
+                        {row}
+                    />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.functions}
+                        sub
+                    />
+                    <ConceptGroupView concepts={functions} {collapse} {row} />
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.header.conversions}
+                        sub
+                    />
+                    <ConceptGroupView concepts={conversions} {collapse} {row} />
+                {:else}
+                    <HeaderAndExplanation
+                        text={(l) => l.ui.docs.purposes[purpose]}
+                        sub
+                    />
+                    <ConceptGroupView
+                        concepts={index.getPrimaryConceptsWithPurpose(purpose)}
+                        {collapse}
+                        {row}
                     />
                 {/if}
             {:else}
@@ -460,15 +626,14 @@
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         padding: var(--wordplay-spacing);
-        padding-top: 0;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
         position: sticky;
         top: 0;
         z-index: 1;
-        margin-left: calc(var(--wordplay-spacing) / 2);
-        margin-right: calc(var(--wordplay-spacing) / 2);
+        margin-left: var(--wordplay-spacing-half);
+        margin-right: var(--wordplay-spacing-half);
     }
 
     .path {

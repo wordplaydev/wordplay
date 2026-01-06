@@ -42,7 +42,7 @@ import TypeToken from './TypeToken';
 import { getEvaluationInputConflicts } from './util';
 
 export default class StreamDefinition extends DefinitionExpression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly dots: Token;
     readonly names: Names;
     readonly open: Token | undefined;
@@ -65,7 +65,7 @@ export default class StreamDefinition extends DefinitionExpression {
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.names = names;
         this.dots = dots;
         this.open = open;
@@ -110,33 +110,40 @@ export default class StreamDefinition extends DefinitionExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: optional(node(Docs)) },
-            { name: 'dots', kind: node(Sym.Stream) },
-            { name: 'names', kind: node(Names) },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            {
+                name: 'docs',
+                kind: optional(node(Docs)),
+                label: () => (l) => l.term.documentation,
+            },
+            { name: 'dots', kind: node(Sym.Stream), label: undefined },
+            { name: 'names', kind: node(Names), label: undefined },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
+                label: () => (l) => l.term.input,
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
             {
                 name: 'dot',
                 kind: any(
                     node(Sym.Type),
                     none(['output', () => TypePlaceholder.make()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'output',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                label: () => (l) => l.term.type,
             },
         ];
     }
 
     getPurpose() {
-        return Purpose.Input;
+        return Purpose.Hidden;
     }
 
     clone(replace?: Replacement) {
@@ -153,7 +160,11 @@ export default class StreamDefinition extends DefinitionExpression {
         ) as this;
     }
 
-    getEvaluateTemplate(nameOrLocales: string | Locales) {
+    getEvaluateTemplate(
+        nameOrLocales: string | Locales,
+        context: Context,
+        defaults: boolean,
+    ): Evaluate {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
@@ -166,7 +177,10 @@ export default class StreamDefinition extends DefinitionExpression {
             this.inputs
                 .filter((input) => !input.hasDefault())
                 .map((input) =>
-                    ExpressionPlaceholder.make(input.type?.clone()),
+                    defaults && input.type !== undefined
+                        ? (input.type.getDefaultExpression(context) ??
+                          ExpressionPlaceholder.make(input.type.clone()))
+                        : ExpressionPlaceholder.make(input.type?.clone()),
                 ),
         );
     }

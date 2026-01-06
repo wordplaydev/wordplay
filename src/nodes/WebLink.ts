@@ -1,3 +1,4 @@
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
@@ -46,12 +47,22 @@ export default class WebLink extends Content {
         );
     }
 
-    static getPossibleReplacements() {
-        return [WebLink.make('...', 'https://')];
+    static getPossibleReplacements({ locales }: ReplaceContext) {
+        return [
+            WebLink.make(
+                locales.get((l) => l.node.WebLink.name),
+                'https://',
+            ),
+        ];
     }
 
-    static getPossibleAppends() {
-        return [WebLink.make('...', 'https://')];
+    static getPossibleInsertions({ locales }: InsertContext) {
+        return [
+            WebLink.make(
+                locales.get((l) => l.node.WebLink.name),
+                'https://',
+            ),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -60,11 +71,15 @@ export default class WebLink extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.TagOpen) },
-            { name: 'description', kind: node(Sym.Words) },
-            { name: 'at', kind: node(Sym.Link) },
-            { name: 'url', kind: node(Sym.URL) },
-            { name: 'close', kind: node(Sym.TagClose) },
+            { name: 'open', kind: node(Sym.TagOpen), label: undefined },
+            {
+                name: 'description',
+                kind: node(Sym.Words),
+                label: () => (l) => l.term.markup,
+            },
+            { name: 'at', kind: node(Sym.Link), label: undefined },
+            { name: 'url', kind: node(Sym.URL), label: () => (l) => 'url' },
+            { name: 'close', kind: node(Sym.TagClose), label: undefined },
         ];
     }
 
@@ -83,7 +98,7 @@ export default class WebLink extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.WebLink;

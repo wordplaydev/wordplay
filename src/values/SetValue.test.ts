@@ -1,7 +1,6 @@
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import Block, { BlockKind } from '@nodes/Block';
-import Context from '@nodes/Context';
 import SetType from '@nodes/SetType';
 import Source from '@nodes/Source';
 import {
@@ -35,7 +34,7 @@ describe('SetValue', () => {
 
     const source = new Source('test', '');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const context = new Context(project, source);
+    const context = project.getContext(source);
 
     describe('size', () => {
         it('should return the correct size of the set', () => {

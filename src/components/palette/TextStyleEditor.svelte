@@ -6,7 +6,7 @@
     import Options from '@components/widgets/Options.svelte';
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import { getLanguageQuoteClose } from '@locale/LanguageCode';
     import Example from '@nodes/Example';
     import type Expression from '@nodes/Expression';

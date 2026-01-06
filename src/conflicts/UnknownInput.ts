@@ -1,5 +1,4 @@
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import Context from '@nodes/Context';
 import type Evaluate from '@nodes/Evaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
@@ -37,7 +36,7 @@ export default class UnknownInput extends Conflict {
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
                         (l) => UnknownInput.LocalePath(l).primary,
-                        new NodeRef(this.func, locales, context),
+                        this.func.getPreferredName(locales.getLocales()),
                     ),
             },
             secondary: {

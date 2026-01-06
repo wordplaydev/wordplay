@@ -1,4 +1,4 @@
-import type EditContext from '@edit/EditContext';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -39,14 +39,18 @@ export default class FormattedLiteral extends Literal {
         this.computeChildren();
     }
 
-    static getPossibleReplacements({ type, context }: EditContext) {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleInsertions({ type, context }: InsertContext) {
         return type !== undefined && type.accepts(FormattedType.make(), context)
             ? [new FormattedLiteral([FormattedTranslation.make()])]
             : [];
     }
 
-    static getPossibleAppends(context: EditContext) {
-        return this.getPossibleReplacements(context);
+    static make(texts: FormattedTranslation[]) {
+        return new FormattedLiteral(texts);
     }
 
     getDescriptor(): NodeDescriptor {
@@ -55,7 +59,11 @@ export default class FormattedLiteral extends Literal {
 
     getGrammar(): Grammar {
         return [
-            { name: 'texts', kind: list(false, node(FormattedTranslation)) },
+            {
+                name: 'texts',
+                kind: list(false, node(FormattedTranslation)),
+                label: () => (l) => l.term.markup,
+            },
         ];
     }
 
@@ -70,7 +78,7 @@ export default class FormattedLiteral extends Literal {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Text;
     }
 
     getOptions() {

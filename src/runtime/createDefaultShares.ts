@@ -44,7 +44,7 @@ import { createVelocityType } from '../output/Velocity';
 import { createReactionDefinition } from '../values/ReactionStream';
 
 export default function createDefaultShares(locales: Locales) {
-    const TypeType = createOutputType(locales);
+    const OutputType = createOutputType(locales);
     const PlaceType = createPlaceType(locales);
     const VelocityType = createVelocityType(locales);
     const MatterType = createMatterType(locales);
@@ -56,14 +56,14 @@ export default function createDefaultShares(locales: Locales) {
     const ShapeType = createShapeType(locales);
 
     const OutputTypes = {
-        Type: TypeType,
+        Output: OutputType,
         Phrase: PhraseType,
         Group: GroupType,
-        Aura: createAuraType(locales),
-        Stage: createStageType(locales),
         Shape: ShapeType,
+        Stage: createStageType(locales),
         Pose: createPoseType(locales),
         Sequence: createSequenceType(locales),
+        Aura: createAuraType(locales),
         Color: ColorType,
         Place: PlaceType,
         Matter: MatterType,
@@ -97,8 +97,8 @@ export default function createDefaultShares(locales: Locales) {
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),
         Collision: createCollisionDefinition(locales, ReboundType),
-        Reaction: createReactionDefinition(locales),
         Scene: createSceneDefinition(locales, PhraseType, GroupType, ShapeType),
+        Reaction: createReactionDefinition(locales),
     };
 
     const Sequences = getDefaultSequences(locales);

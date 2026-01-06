@@ -41,8 +41,8 @@
     active={$status.message !== undefined}
 >
     <div class="status {$status.status}" class:device>
-        <LocalizedText path={labels.text} />
         {labels.icon}
+        <LocalizedText path={labels.text} />
     </div>
 </Button>
 
@@ -60,10 +60,11 @@
         font-size: small;
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-warning);
-        color: var(--wordplay-background);
+        background: var(--wordplay-alternating-color);
+        color: var(--wordplay-foreground);
         height: 2em;
         display: flex;
+        gap: var(--wordplay-spacing-half);
         align-items: center;
         justify-content: center;
         white-space: nowrap;

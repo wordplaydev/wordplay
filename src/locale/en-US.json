@@ -31,20 +31,27 @@
         "boolean": "boolean",
         "map": "map",
         "number": "number",
+        "unit": "unit",
+        "markup": "markup",
         "function": "function",
         "exception": "exception",
         "table": "table",
+        "column": "column",
+        "row": "row",
+        "cell": "cell",
         "none": "none",
         "list": "list",
         "stream": "stream",
         "structure": "structure",
         "index": "index",
         "query": "query",
-        "row": "row",
         "set": "set",
         "key": "key",
         "help": "Help",
-        "feedback": "feedback"
+        "feedback": "feedback",
+        "documentation": "documentation",
+        "language": "language",
+        "region": "region"
     },
     "token": {
         "EvalOpen": "evaluation open",
@@ -221,6 +228,7 @@
         "Names": {
             "name": "name list",
             "emotion": "kind",
+            "label": { "names": "names" },
             "doc": [
                 "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
                 "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
@@ -274,6 +282,7 @@
         "TypeVariable": {
             "name": "type variable",
             "emotion": "curious",
+            "label": { "type": "type" },
             "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
@@ -292,6 +301,7 @@
             "name": "markup",
             "description": "$1 paragraphs",
             "emotion": "serious",
+            "label": { "paragraphs": "paragraphs" },
             "doc": [
                 "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
@@ -387,6 +397,9 @@
                 "\\1 + 2 · 3 + 4\\",
                 "In math, multiplication would come first, and then addition, and so the result would be \\11\\. But since I evaluate in reading order, the result is \\13\\."
             ],
+            "label": {
+                "operator": "operator"
+            },
             "right": "input",
             "start": "Let's evaluate $1 first",
             "finish": "Look, I made $1!",
@@ -427,6 +440,11 @@
                 "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
+            "label": {
+                "value": "value",
+                "names": "names",
+                "type": "type"
+            },
             "start": "Let's see what value we get from $1!",
             "finish": "Oh nice, I got $1! Let's name it $2",
             "conflict": {
@@ -489,7 +507,9 @@
                 "So usually I'm just a bunch of @Bind and then an expression at the end.",
                 "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
             ],
-            "statement": "statement",
+            "label": {
+                "statements": "expressions"
+            },
             "start": "First expression",
             "finish": "Done, I got $1",
             "conflict": {
@@ -519,11 +539,13 @@
             "name": "borrow",
             "description": "borrow $1[$1|missing name]",
             "emotion": "excited",
+            "label": {
+                "source": "source",
+                "bind": "name",
+                "version": "version"
+            },
             "doc": "If you create a performance with multiple @Source, you can use me to borrow @Bind that are shared in those other @Source. Just use their name and I'll bring in their name and value.",
             "start": "Borrowing $2 from $1",
-            "source": "$source",
-            "bind": "name",
-            "version": "version",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "unknown borrow",
@@ -544,6 +566,9 @@
         "Changed": {
             "name": "changed",
             "emotion": "serious",
+            "label": {
+                "stream": "stream"
+            },
             "doc": [
                 "I check if a stream caused @Program to reevaluate, and make a @Boolean. Like this",
                 "\\∆ Time()\\",
@@ -555,6 +580,11 @@
         "Conditional": {
             "name": "conditional",
             "emotion": "curious",
+            "label": {
+                "condition": "condition",
+                "yes": "yes",
+                "no": "no"
+            },
             "doc": [
                 "I think I'm supposed to make decisions? Like this?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
@@ -566,9 +596,6 @@
             "else": "$1[jumping over code | not jumping over code]",
             "afterthen": "done with yes, let's skip no?",
             "finish": "I guess it's $1?",
-            "condition": "condition",
-            "yes": "yes",
-            "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "expected boolean condition",
@@ -581,6 +608,11 @@
             "name": "conversion definition",
             "description": "$1 → $2",
             "emotion": "excited",
+            "label": {
+                "input": "input type",
+                "output": "output type",
+                "expression": "expression"
+            },
             "doc": [
                 "Dude, I define conversions from one type to another! I go in @Block, someting like this:",
                 "\\→ #kitty #cat . ÷ 2\n6kitty→#cat\\",
@@ -649,6 +681,11 @@
             "name": "evaluate",
             "description": "evaluate $1[$1|anonymous]",
             "emotion": "shy",
+            "label": {
+                "function": "function",
+                "types": "types",
+                "inputs": "input"
+            },
             "doc": [
                 "Hi. I evaluate my dearest @FunctionDefinition. Like this:",
                 "\\ƒ greeting(message•'')\ngreeting('kitty')\\",
@@ -663,8 +700,6 @@
             "start": "Let's evaluate the inputs first",
             "evaluate": "let's evaluate the function now",
             "finish": "I evaluated to $1",
-            "function": "function",
-            "input": "input",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "incompatible input",
@@ -692,8 +727,8 @@
                 },
                 "UnknownInput": {
                     "name": "unknown input",
-                    "primary": "I don't know of an input by this name in $1",
-                    "secondary": "I don't have an input with the name $1"
+                    "primary": "I don't think *$1* accepts an input with my name",
+                    "secondary": "I don't have an input with the name *$1*"
                 },
                 "InputListMustBeLast": {
                     "name": "extra inputs aren't last",
@@ -727,6 +762,7 @@
             "name": "placeholder",
             "description": "$1[$1|placeholder]",
             "emotion": "scared",
+            "label": { "placeholder": "expression" },
             "doc": [
                 "I'm an *expression*, but not a real one… I just take the place of one.",
                 "I'm good if you don't know what to write yet. Like this:",
@@ -737,7 +773,6 @@
                 "I don't like being on @Stage!"
             ],
             "start": "I don't know what to do here. Can you fill me in?",
-            "placeholder": "expression",
             "conflict": {
                 "Placeholder": {
                     "name": "placeholder",
@@ -755,6 +790,11 @@
             "name": "function",
             "description": "function $1",
             "emotion": "kind",
+            "label": {
+                "inputs": "inputs",
+                "output": "output",
+                "expression": "expression"
+            },
             "doc": [
                 "Hi again! I take some inputs, then evaluate an expression using them, producing an output.",
                 "Here's a simple example:",
@@ -790,7 +830,7 @@
             "finish": "I evaluated to $1"
         },
         "Initial": {
-            "name": "Start",
+            "name": "start",
             "emotion": "curious",
             "doc": [
                 "I tell you whether the current evaluation of @Program is the first one, evaluating to a @Boolean. For example:",
@@ -867,8 +907,7 @@
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
             "start": "Let's evaluate the items first",
-            "finish": "I made a me! $1",
-            "item": "item"
+            "finish": "I made a me! $1"
         },
         "Spread": {
             "name": "spread",
@@ -882,6 +921,7 @@
             "name": "map literal",
             "description": "$1 pairing map",
             "emotion": "kind",
+            "label": { "values": "pair" },
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "Let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
@@ -896,6 +936,10 @@
         "Match": {
             "name": "match",
             "emotion": "curious",
+            "label": {
+                "case": "case",
+                "other": "default"
+            },
             "doc": [
                 "I am the most glorious of all conditional checks! I take a value and compares it against any number of cases, and evaluates the corresponding expression that matches.",
                 "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
@@ -906,9 +950,7 @@
             ],
             "start": "Let's see what $1 is...",
             "case": "Let's check this condition",
-            "finish": "Okay, we have a final value!",
-            "value": "value",
-            "other": "default"
+            "finish": "Okay, we have a final value!"
         },
         "NumberLiteral": {
             "name": "number literal",
@@ -952,7 +994,7 @@
             "doc": [
                 "Have you ever wanted to remember the past?",
                 "I am the Verse's official record keeper. Give me a stream and a number to look backwards and I'll tell you what that stream's value was in history.",
-                "For example, here's what @Time it was five ticks ago:",
+                "For example, here's what @Time was five ticks ago:",
                 "\\← 5 Time(1000ms)\\",
                 "See how it's @None for 5 seconds, then suddenly a previous time?",
                 "If you want the last several values, give me to arrows, and I'll interpret the number as a count:",
@@ -961,7 +1003,10 @@
                 "I'm helpful when you want to create performances that depend on the past."
             ],
             "start": "First get $1",
-            "finish": "Evaluated to stream value $1"
+            "finish": "Evaluated to stream value $1",
+            "label": {
+                "range": "range"
+            }
         },
         "Program": {
             "name": "program",
@@ -975,6 +1020,10 @@
                 "If there's a problem during a performance, I'll show that problem.",
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
+            "label": {
+                "borrows": "borrows",
+                "expression": "block"
+            },
             "unevaluated": "the node you chose didn't evaluate",
             "start": "$1[$1 stream changed to $2!|It's my first evaluation]",
             "halt": "encountered exception, stopping",
@@ -1003,6 +1052,10 @@
             "name": "refine",
             "description": "refine $1[$1|missing name]",
             "emotion": "kind",
+            "label": {
+                "property": "property",
+                "value": "value"
+            },
             "doc": [
                 "Sometimes when you make a @StructureDefinition, you want to change the tiniest thing about it, without having to make a new one with all the same values.",
                 "For example, what if you were keeping a record of cats, but then wanted to create a copy of a cat with a different hobby? I can help you change it:",
@@ -1023,18 +1076,25 @@
             "name": "property",
             "description": "property $1[$1|missing name]",
             "emotion": "kind",
+            "label": {
+                "property": "property"
+            },
             "doc": [
                 "When you make a @StructureDefinition, how do you get one of its inputs? I'm how",
                 "Like if you had a structure about cities, you could get its values with me like this:",
                 "\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "First let's get the value",
-            "finish": "Found property $1, it is $2",
-            "property": "property"
+            "finish": "Found property $1, it is $2"
         },
         "Reaction": {
             "name": "reaction",
             "emotion": "excited",
+            "label": {
+                "initial": "initial",
+                "condition": "condition",
+                "next": "next"
+            },
             "doc": [
                 "Streams are so awesome! I can make new ones based on when they change, which is super cool!",
                 "Like, if you wanted @Time to tick, but like, to show words instead of numbers, you could do something like this:",
@@ -1044,9 +1104,6 @@
             ],
             "start": "Let's see if we should update the stream",
             "finish": "The new stream value is $1",
-            "initial": "initial",
-            "condition": "condition",
-            "next": "next",
             "conflict": {
                 "ExpectedStream": {
                     "name": "expected stream",
@@ -1154,6 +1211,12 @@
             "name": "structure",
             "description": "structure $1",
             "emotion": "kind",
+            "label": {
+                "docs": "documentation",
+                "inputs": "inputs",
+                "expression": "values and functions",
+                "interfaces": "interfaces"
+            },
             "doc": [
                 "Why hello, how are you? Me? I'm great. I love to define structures that store values and function, so as long as I get to do that all day, I'm happy.",
                 "I work like this:",
@@ -1205,6 +1268,7 @@
             "name": "text literal",
             "description": "text $1",
             "emotion": "serious",
+            "label": { "texts": "text" },
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "Let's make text in the current locale"
         },
@@ -1212,6 +1276,7 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
+            "label": { "segments": "text" },
             "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": {
@@ -1290,6 +1355,7 @@
             "name": "unary evaluate",
             "description": "$1",
             "emotion": "kind",
+            "label": { "input": "input" },
             "doc": [
                 "Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?",
                 "Like this:",
@@ -1416,7 +1482,7 @@
         },
         "MapType": {
             "name": "map ",
-            "description": "map from $1[$1|any] to $2[$2|any]",
+            "description": "$1[$1|any] to $2[$2|any] map",
             "emotion": "kind",
             "doc": [
                 "Do you know how awesome @Map is? Like really awesome. I tell @Bind what kind of map they are all the time, like this map of numbers to lists:",
@@ -1434,7 +1500,7 @@
         },
         "NameType": {
             "name": "structure",
-            "description": "$1 type",
+            "description": "$1",
             "emotion": "curious",
             "doc": [
                 "I represent a @StructureDefinition by it's name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
@@ -4428,7 +4494,8 @@
             "menu": {
                 "label": "autocomplete menu",
                 "show": "show autocomplete menu",
-                "back": "leave submenu"
+                "back": "leave submenu",
+                "empty": "No suggestions."
             },
             "cursor": {
                 "priorLine": "move cursor to line before",
@@ -4485,7 +4552,19 @@
                 "search": "search for special characters to insert",
                 "tidy": "tidy spacing",
                 "elide": "toggle elision",
-                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind."
+                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
+                "ignored": {
+                    "readOnly": "Source is read only",
+                    "blockSpace": "No tabs allowed here",
+                    "noDelete": "Can't delete this",
+                    "noInsert": "Unable to insert here",
+                    "noError": "This edit would create a conflict",
+                    "noEditor": "No editor active",
+                    "noClipboard": "No clipboard not available",
+                    "noClipboardItem": "Nothing on the clipboard",
+                    "noSelection": "Nothing selected",
+                    "noMove": "Can't move any further"
+                }
             },
             "error": {
                 "invalidName": "This must be a valid Wordplay name.",
@@ -4554,7 +4633,7 @@
             }
         },
         "docs": {
-            "label": "docuemntation browser",
+            "label": "documentation browser",
             "link": "show \"$1\" in documentation",
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",
@@ -4567,15 +4646,164 @@
                 "search": "keywords"
             },
             "header": {
-                "inputs": "Inputs",
-                "interfaces": "Interfaces",
-                "properties": "Properties",
-                "functions": "Functions",
-                "conversions": "Conversions"
+                "inputs": {
+                    "header": "Inputs",
+                    "explanation": "/Required and optional values./"
+                },
+                "interfaces": {
+                    "header": "Interfaces",
+                    "explanation": "/Structures this structure is based on./"
+                },
+                "properties": {
+                    "header": "Properties",
+                    "explanation": "/Values this concept stores./"
+                },
+                "functions": {
+                    "header": "Functions",
+                    "explanation": "/Values this concept can compute./"
+                },
+                "conversions": {
+                    "header": "Conversions",
+                    "explanation": "/Ways to convert this value into values of other types./"
+                },
+                "arrangements": {
+                    "header": "Arrangements",
+                    "explanation": "/Ways of arranging phrases in a group./"
+                },
+                "forms": {
+                    "header": "Forms",
+                    "explanation": "/Shapes that can be placed on stage./"
+                },
+                "appearance": {
+                    "header": "Appearance",
+                    "explanation": "/Ways to change how output looks./"
+                },
+                "animation": {
+                    "header": "Animation",
+                    "explanation": "/Ways to animate output on stage./"
+                },
+                "location": {
+                    "header": "Location",
+                    "explanation": "/Ways of determing where output is on stage./"
+                },
+                "reactions": {
+                    "header": "Reactions",
+                    "explanation": "/Ways of reacting to or analyzing an input stream./"
+                }
             },
-            "modes": {
-                "label": "browse",
-                "modes": ["how to", "concepts"]
+            "mode": {
+                "browse": {
+                    "label": "section",
+                    "labels": ["code", "how to"],
+                    "tips": [
+                        "programming language concepts",
+                        "reusable patterns for making projects"
+                    ]
+                },
+                "purpose": {
+                    "label": "code",
+                    "labels": [
+                        "project",
+                        "output",
+                        "input",
+                        "decide",
+                        "name",
+                        "text",
+                        "numbers",
+                        "truth",
+                        "lists",
+                        "sets",
+                        "tables",
+                        "docs",
+                        "types",
+                        "etc."
+                    ],
+                    "tips": [
+                        "project-level concepts",
+                        "phrases, groups, stages, layouts and more",
+                        "time, buttons, keys, scenes, and more",
+                        "choose values based on other values",
+                        "name values, functions, and data structures for later use",
+                        "true, false, and none values",
+                        "numbers and math operations",
+                        "plain and formatted text",
+                        "lists and list operations",
+                        "sets, maps, and operations",
+                        "tables and table operations",
+                        "data types, conversions, and type checks",
+                        "documentation and comments",
+                        "advanced language concepts"
+                    ]
+                }
+            },
+            "note": {
+                "empty": "Names you define in your project will show up here."
+            },
+            "purposes": {
+                "Project": {
+                    "header": "Project",
+                    "explanation": "/Concepts defined in your project./"
+                },
+                "Outputs": {
+                    "header": "Outputs",
+                    "explanation": "/Different types of output that can be placed on stage./"
+                },
+                "Inputs": {
+                    "header": "Inputs",
+                    "explanation": "/Input streams from the world that change over time, causing a program to reevaluate./"
+                },
+                "Decisions": {
+                    "header": "Decisions",
+                    "explanation": "/Ways to choose between different values based on conditions./"
+                },
+                "Definitions": {
+                    "header": "Definitions",
+                    "explanation": "/Ways to name values, functions, and data structures for later use./"
+                },
+                "Numbers": {
+                    "header": "Numbers",
+                    "explanation": "/Numbers, units, and math operations./"
+                },
+                "Text": {
+                    "header": "Text",
+                    "explanation": "/Plain and formatted text, and ways of manipulating them./"
+                },
+                "Truth": {
+                    "header": "Truth",
+                    "explanation": "/True, false, and none values and ways of using them for logic./"
+                },
+                "Lists": {
+                    "header": "Lists",
+                    "explanation": "/Lists and list operations, good for storing values in a particular order./"
+                },
+                "Maps": {
+                    "header": "Maps",
+                    "explanation": "/Sets, maps, and their operations, good for storing collections of values, or mappings from one value to others./"
+                },
+                "Tables": {
+                    "header": "Tables",
+                    "explanation": "/Tables and table operations, good for storing structured data in rows and columns./"
+                },
+                "Types": {
+                    "header": "Types",
+                    "explanation": "/Ways of declaring that named values should have a particular data type and checking that they do./"
+                },
+                "Documentation": {
+                    "header": "Documentation",
+                    "explanation": "/Ways of adding comments and explanations to your code./"
+                },
+                "Advanced": {
+                    "header": "Advanced",
+                    "explanation": "/Advanced language concepts and features that you probably won't need./"
+                },
+                "Hidden": {
+                    "header": "Hidden",
+                    "explanation": "/Concepts that are hidden from the main documentation./"
+                },
+                "How": {
+                    "header": "How to",
+                    "explanation": "/Common patterns for creating different kinds of projects./"
+                }
             },
             "how": {
                 "category": {
@@ -4623,7 +4851,11 @@
                 "mode": {
                     "public": {
                         "label": "visibility",
-                        "modes": ["private", "public"]
+                        "labels": ["private", "public"],
+                        "tips": [
+                            "only you and collaborators can see this project",
+                            "anyone can see this project"
+                        ]
                     }
                 },
                 "error": {
@@ -4651,7 +4883,15 @@
                 "mode": {
                     "layout": {
                         "label": "layout",
-                        "modes": [
+                        "labels": [
+                            "auto",
+                            "row",
+                            "stack",
+                            "two",
+                            "one",
+                            "free"
+                        ],
+                        "tips": [
                             "lay out tiles automatically",
                             "a horizontal screen layout",
                             "a vertical screen layout",
@@ -4662,7 +4902,17 @@
                     },
                     "animate": {
                         "label": "animations",
-                        "modes": [
+                        "labels": [
+                            "off",
+                            "1/4",
+                            "1/3x",
+                            "1/2x",
+                            "1x",
+                            "2x",
+                            "5x",
+                            "10x"
+                        ],
+                        "tips": [
                             "animations off",
                             "quarter speed",
                             "third speed",
@@ -4675,32 +4925,45 @@
                     },
                     "dark": {
                         "label": "theme",
-                        "modes": [
-                            "light colors",
-                            "dark colors",
-                            "use device setting"
+                        "labels": ["light", "dark", "auto"],
+                        "tips": [
+                            "lighter colors",
+                            "darker colors",
+                            "use the current device setting"
                         ]
+                    },
+                    "blocks": {
+                        "label": "editor",
+                        "labels": ["text", "blocks"],
+                        "tips": ["edit code as text", "edit code as blocks"]
                     },
                     "space": {
                         "label": "space indicator",
-                        "modes": [
-                            "show space and tab indicators explicitly",
-                            "do not show space and tab indicators"
+                        "labels": ["hide", "show"],
+                        "tips": [
+                            "do not show space and tab indicators",
+                            "show space and tab indicators explicitly"
                         ]
                     },
                     "lines": {
                         "label": "line numbers",
-                        "modes": [
-                            "show line numbers in text mode",
-                            "do not show line numbers in text mode"
+                        "labels": ["hide", "show"],
+                        "tips": [
+                            "do not show line numbers in text mode",
+                            "show line numbers in text mode"
                         ]
                     },
                     "writing": {
                         "label": "writing layout",
-                        "modes": [
-                            "horizontal, left to right",
-                            "vertical, right to left",
-                            "vertical, left to right"
+                        "labels": [
+                            "horizontal",
+                            "vertical rtl",
+                            "vertical ltr"
+                        ],
+                        "tips": [
+                            "horizontal text, read left to right",
+                            "vertical text, read right to left",
+                            "vertical text, read left to right"
                         ]
                     }
                 },
@@ -4761,8 +5024,12 @@
                     }
                 },
                 "mode": {
-                    "label": "feedback ",
-                    "modes": ["defects", "idesa"]
+                    "label": "feedback",
+                    "labels": ["defects", "ideas"],
+                    "tips": [
+                        "report something that seems broken",
+                        "suggest new features or improvements"
+                    ]
                 },
                 "field": {
                     "title": {
@@ -5191,7 +5458,11 @@
                     },
                     "public": {
                         "label": "visibility",
-                        "modes": ["public", "private"]
+                        "labels": ["public", "private"],
+                        "tips": [
+                            "anyone can see this character",
+                            "only you and collaborators can see this character"
+                        ]
                     },
                     "collaborators": "collaborators"
                 },
@@ -5206,7 +5477,7 @@
                     },
                     "mode": {
                         "label": "mode",
-                        "modes": [
+                        "labels": [
                             "select",
                             "eraser",
                             "pixel",
@@ -5214,15 +5485,34 @@
                             "ellipse",
                             "path",
                             "emoji"
+                        ],
+                        "tips": [
+                            "select shapes and pixels",
+                            "erase shapes and pixels",
+                            "draw pixels",
+                            "draw rectangles",
+                            "draw ellipses",
+                            "draw paths",
+                            "import an emoji as pixels"
                         ]
                     },
                     "fill": {
                         "label": "fill",
-                        "modes": ["none", "inerit", "choose"]
+                        "labels": ["none", "inerit", "choose"],
+                        "tips": [
+                            "no fill",
+                            "inherit fill color from surrounding text",
+                            "choose a fill color"
+                        ]
                     },
                     "stroke": {
                         "label": "stroke",
-                        "modes": ["none", "inerit", "choose"]
+                        "labels": ["none", "inerit", "choose"],
+                        "tips": [
+                            "no stroke",
+                            "inherit stroke color from surrounding text",
+                            "choose a stroke color"
+                        ]
                     },
                     "none": "none",
                     "inherit": "text color",

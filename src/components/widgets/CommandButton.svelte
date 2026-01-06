@@ -4,8 +4,8 @@
     import { tick } from 'svelte';
     import { locales } from '../../db/Database';
     import { tokenize } from '../../parser/Tokenizer';
-    import TokenView from '../editor/TokenView.svelte';
-    import { toShortcut, type Command } from '../editor/util/Commands';
+    import { toShortcut, type Command } from '../editor/commands/Commands';
+    import TokenView from '../editor/tokens/TokenView.svelte';
     import {
         IdleKind,
         getEditors,
@@ -98,6 +98,7 @@
     }}
     >{#if token}<TokenView
             node={tokenize(command.symbol).getTokens()[0]}
+            format={{ block: false, root: undefined, editable: false }}
         />{:else if /^\p{Extended_Pictographic}+$/u.test(command.symbol)}<Emoji
             >{command.symbol}</Emoji
         >{:else}{command.symbol}{/if}</Button

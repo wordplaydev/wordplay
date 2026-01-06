@@ -52,12 +52,20 @@ export default class Branch extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'mention', kind: node(Mention) },
-            { name: 'open', kind: node(Sym.ListOpen) },
-            { name: 'yes', kind: list(true, node(Words)) },
-            { name: 'bar', kind: optional(node(Sym.Union)) },
-            { name: 'no', kind: list(true, node(Words)) },
-            { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'mention', kind: node(Mention), label: undefined },
+            { name: 'open', kind: node(Sym.ListOpen), label: undefined },
+            {
+                name: 'yes',
+                kind: list(true, node(Words)),
+                label: () => (l) => l.term.markup,
+            },
+            { name: 'bar', kind: optional(node(Sym.Union)), label: undefined },
+            {
+                name: 'no',
+                kind: list(true, node(Words)),
+                label: () => (l) => l.term.markup,
+            },
+            { name: 'close', kind: node(Sym.ListClose), label: undefined },
         ];
     }
     computeConflicts() {
@@ -76,7 +84,7 @@ export default class Branch extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Branch;

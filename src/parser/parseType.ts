@@ -53,10 +53,9 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
                             : // We use the doc symbol because it looks like an empty formatted
                               tokens.nextIs(Sym.FormattedType)
                               ? parseFormattedType(tokens)
-                              : new UnparsableType(tokens.readLine());
-
-    if (!isExpression && tokens.nextIs(Sym.Convert))
-        left = parseConversionType(left, tokens);
+                              : tokens.nextIs(Sym.Convert)
+                                ? parseConversionType(tokens)
+                                : new UnparsableType(tokens.readLine());
 
     tokens.whileDo(
         () => tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace(),
@@ -191,11 +190,12 @@ function parseFunctionType(tokens: Tokens): FunctionType {
     return new FunctionType(fun, typeVars, open, inputs, close, output);
 }
 
-function parseConversionType(left: Type, tokens: Tokens): ConversionType {
+function parseConversionType(tokens: Tokens): ConversionType {
     const convert = tokens.read(Sym.Convert);
+    const from = parseType(tokens);
     const to = parseType(tokens);
 
-    return new ConversionType(left, convert, to);
+    return new ConversionType(convert, from, to);
 }
 
 function parseFormattedType(tokens: Tokens): FormattedType {

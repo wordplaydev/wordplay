@@ -49,7 +49,7 @@ export default class UnaryEvaluate extends Expression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [];
     }
 
@@ -65,13 +65,25 @@ export default class UnaryEvaluate extends Expression {
                 getDefinitions: (context: Context): Definition[] => {
                     return this.getFunctions(context);
                 },
+                label: undefined,
+                /**
+                 * The expected function type of this binary evaluate is whether function it resolves to, but
+                 * concretized with the actual types of the left and right inputs, as that determines what it could be replaced with.
+                 */
+                getType: (context) =>
+                    this.getFunction(context)?.getType(context) ??
+                    new AnyType(),
             },
-            { name: 'input', kind: node(Expression) },
+            {
+                name: 'input',
+                kind: node(Expression),
+                label: () => (l) => l.node.UnaryEvaluate.label.input,
+            },
         ];
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {

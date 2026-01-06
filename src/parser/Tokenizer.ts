@@ -89,10 +89,12 @@ const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
 
 export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
-export const URLRegEx = new RegExp(
+export const StrictURLRegEx = new RegExp(
     /^(https?)?:\/\/(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/,
     'u',
 );
+/** We use this permissive one because we still want to tokenize URL link things, even if they aren't strict. */
+export const PermissiveURLRegEx = StrictURLRegEx; //new RegExp(/^(https?)?:\/\/[^>]*/, 'u');
 
 export const MarkupSymbols = [
     CODE_SYMBOL,
@@ -254,7 +256,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: CONVERT_SYMBOL2, types: [Sym.Convert] },
     { pattern: CONVERT_SYMBOL3, types: [Sym.Convert] },
     { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
-    { pattern: TYPE_SYMBOL, types: [Sym.Type, Sym.TypeOperator] },
+    { pattern: TYPE_SYMBOL, types: [Sym.Type] },
     { pattern: /^!#/, types: [Sym.Number] },
     {
         pattern: new RegExp(`^[${LITERAL_SYMBOL}${LITERAL_SYMBOL_FULL}]`, 'u'),
@@ -662,7 +664,7 @@ function getNextToken(
             inMarkup = true;
 
             // Check URLs first, since the word regex will match URLs.
-            const urlMatch = source.match(URLRegEx);
+            const urlMatch = source.match(PermissiveURLRegEx);
             if (urlMatch !== null) return new Token(urlMatch[0], Sym.URL);
 
             const wordsMatch = source.match(WordsRegEx);

@@ -48,8 +48,12 @@ export default class Words extends Content {
         this.close = close;
     }
 
-    static make() {
-        return new Words(undefined, [new Token('…', Sym.Words)], undefined);
+    static make(text?: string) {
+        return new Words(
+            undefined,
+            [new Token(text ?? '…', Sym.Words)],
+            undefined,
+        );
     }
 
     getDescriptor(): NodeDescriptor {
@@ -66,8 +70,9 @@ export default class Words extends Content {
                     node(Sym.Light),
                     node(Sym.Bold),
                     node(Sym.Extra),
-                    none(['close', () => new Token(Sym.Italic, Sym.Italic)]),
+                    none(['close', (close) => close.clone()]),
                 ),
+                label: undefined,
             },
             {
                 name: 'segments',
@@ -81,6 +86,7 @@ export default class Words extends Content {
                     node(Mention),
                     node(Branch),
                 ),
+                label: () => (l) => l.term.markup,
             },
             {
                 name: 'close',
@@ -90,8 +96,9 @@ export default class Words extends Content {
                     node(Sym.Light),
                     node(Sym.Bold),
                     node(Sym.Extra),
-                    none(['open', () => new Token(Sym.Italic, Sym.Italic)]),
+                    none(['open', (open) => open.clone()]),
                 ),
+                label: undefined,
             },
         ];
     }
@@ -103,7 +110,15 @@ export default class Words extends Content {
     clone(replace?: Replacement | undefined): this {
         return new Words(
             this.replaceChild('open', this.open, replace),
-            this.replaceChild('segments', this.getNodeSegments(), replace),
+            this.replaceChild(
+                'segments',
+                // We have to branch here because otherwise, we don't pass the original list to replaceChild(), which
+                // breaks replacements that target the list.
+                this.segments.every((n) => n instanceof Node)
+                    ? this.segments
+                    : this.getNodeSegments(),
+                replace,
+            ),
             this.replaceChild('close', this.close, replace),
         ) as this;
     }
@@ -116,8 +131,14 @@ export default class Words extends Content {
         return new Words(this.open, segments, this.close);
     }
 
+    withSegmentInsertedAt(index: number, segment: Segment) {
+        const newSegments = [...this.segments];
+        newSegments.splice(index, 0, segment);
+        return this.withSegments(newSegments);
+    }
+
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Words;

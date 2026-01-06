@@ -1,6 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
@@ -16,6 +15,7 @@ import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import TypeException from '../values/TypeException';
 import AnyType from './AnyType';
+import CompositeLiteral from './CompositeLiteral';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
 import ListCloseToken from './ListCloseToken';
@@ -29,7 +29,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import UnionType from './UnionType';
 
-export default class ListLiteral extends Expression {
+export default class ListLiteral extends CompositeLiteral {
     readonly open: Token;
     readonly values: (Spread | Expression)[];
     readonly close: Token | undefined;
@@ -59,14 +59,13 @@ export default class ListLiteral extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        return node instanceof Expression
-            ? [ListLiteral.make(), ListLiteral.make([node])]
-            : [];
+    static getPossibleReplacements() {
+        // Offer to wrap the element in a list
+        return node instanceof Expression ? [ListLiteral.make([node])] : [];
     }
 
-    static getPossibleAppends() {
-        return [ListLiteral.make()];
+    static getPossibleInsertions() {
+        return [ListLiteral.make([])];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -75,15 +74,37 @@ export default class ListLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen), label: undefined },
             {
                 name: 'values',
                 kind: list(true, node(Expression), node(Spread)),
-                label: () => (l) => l.node.ListLiteral.item,
-                // Only allow types to be inserted that are of the list's type, if provided.
-                getType: (context) =>
-                    this.getItemType(context)?.generalize(context) ??
-                    new AnyType(),
+                label: () => (l) => l.term.value,
+                // Only allow types to be inserted that are of the surrounding field's expected type.
+                getType: (context) => {
+                    // What is the field of this list?
+                    const parent = context.getRoot(this)?.getParent(this);
+                    if (parent) {
+                        const field = parent.getFieldOfChild(this);
+                        if (field) {
+                            if (field.getType) {
+                                const fieldValue = parent.getField(field.name);
+                                const index = Array.isArray(fieldValue)
+                                    ? fieldValue.indexOf(this)
+                                    : -1;
+                                const listType = field.getType(
+                                    context,
+                                    index < 0 ? undefined : index,
+                                );
+                                if (
+                                    listType instanceof ListType &&
+                                    listType.type !== undefined
+                                )
+                                    return listType.type;
+                            }
+                        }
+                    }
+                    return new AnyType();
+                },
                 space: true,
                 // Only add line breaks if greater than 40 characters long.
                 newline: this.wrap(),
@@ -92,8 +113,13 @@ export default class ListLiteral extends Expression {
                 // Include an indent before all items in the list
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.ListClose), newline: this.wrap() },
-            { name: 'literal', kind: node(Sym.Literal) },
+            {
+                name: 'close',
+                kind: node(Sym.ListClose),
+                label: undefined,
+                newline: this.wrap(),
+            },
+            { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
     }
 
@@ -116,7 +142,7 @@ export default class ListLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Lists;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

@@ -8,10 +8,18 @@
         category: LocaleTextAccessor;
         concepts: Concept[];
         collapse: boolean;
+        row: boolean;
+        describe?: boolean;
     }
 
-    let { category, concepts, collapse }: Props = $props();
+    let {
+        category,
+        concepts,
+        collapse,
+        row,
+        describe = true,
+    }: Props = $props();
 </script>
 
 <Subheader text={category} />
-<ConceptGroupView {concepts} {collapse} />
+<ConceptGroupView {concepts} {collapse} {row} {describe} />

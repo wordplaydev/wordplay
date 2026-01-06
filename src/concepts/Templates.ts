@@ -78,90 +78,18 @@ import WebLink from '../nodes/WebLink';
 import Words from '../nodes/Words';
 import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
 
-/** These are ordered by appearance in the docs. */
+/** These are ordered by appearance in the guide. */
 const Templates: Node[] = [
-    // Evaluation
-    Evaluate.make(ExpressionPlaceholder.make(), []),
-    Input.make('_', ExpressionPlaceholder.make()),
-
-    FunctionDefinition.make(
-        undefined,
-        Names.make(['_']),
-        undefined,
-        [],
-        ExpressionPlaceholder.make(),
-    ),
-    new BinaryEvaluate(
-        ExpressionPlaceholder.make(),
-        Reference.make(PLACEHOLDER_SYMBOL),
-        ExpressionPlaceholder.make(),
-    ),
-    new UnaryEvaluate(Reference.make('-'), ExpressionPlaceholder.make()),
-    Block.make([ExpressionPlaceholder.make()]),
-    ExpressionPlaceholder.make(),
-    Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
-    ConversionDefinition.make(
-        undefined,
-        new TypePlaceholder(),
-        new TypePlaceholder(),
-        ExpressionPlaceholder.make(),
-    ),
-    ListAccess.make(
-        ExpressionPlaceholder.make(ListType.make()),
-        ExpressionPlaceholder.make(),
-    ),
-    SetOrMapAccess.make(
-        ExpressionPlaceholder.make(SetType.make()),
-        ExpressionPlaceholder.make(),
-    ),
-    Insert.make(ExpressionPlaceholder.make(TableType.make())),
-    Select.make(
-        ExpressionPlaceholder.make(TableType.make()),
-        ExpressionPlaceholder.make(BooleanType.make()),
-    ),
-    Update.make(
-        ExpressionPlaceholder.make(TableType.make()),
-        ExpressionPlaceholder.make(BooleanType.make()),
-    ),
-    Delete.make(
-        ExpressionPlaceholder.make(TableType.make()),
-        ExpressionPlaceholder.make(BooleanType.make()),
-    ),
-
-    // Project
-    Program.make([ExpressionPlaceholder.make()]),
-    new Source('?', '_'),
-    new Borrow(),
-
-    // Decisions
-    Conditional.make(
-        ExpressionPlaceholder.make(BooleanType.make()),
-        ExpressionPlaceholder.make(),
-        ExpressionPlaceholder.make(),
-    ),
-    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
-    Otherwise.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
-    Match.make(
-        ExpressionPlaceholder.make(),
-        [
-            KeyValue.make(
-                ExpressionPlaceholder.make(),
-                ExpressionPlaceholder.make(),
-            ),
-        ],
-        ExpressionPlaceholder.make(),
-    ),
-    IsLocale.make(Language.make(undefined)),
-    Initial.make(),
-    Changed.make(ExpressionPlaceholder.make(StreamType.make())),
+    // Inputs
     Reaction.make(
         ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make(BooleanType.make()),
         ExpressionPlaceholder.make(),
     ),
+    Changed.make(ExpressionPlaceholder.make(StreamType.make())),
     Previous.make(
         ExpressionPlaceholder.make(StreamType.make()),
-        ExpressionPlaceholder.make(NumberType.make()),
+        NumberLiteral.make(1),
     ),
 
     // Bind
@@ -171,16 +99,21 @@ const Templates: Node[] = [
         undefined,
         ExpressionPlaceholder.make(),
     ),
-    Name.make('a'),
-    Names.make(['a', 'b']),
-    Reference.make('_'),
+    Block.make([ExpressionPlaceholder.make()]),
+    Evaluate.make(ExpressionPlaceholder.make(), []),
+    FunctionDefinition.make(
+        undefined,
+        Names.make([PLACEHOLDER_SYMBOL]),
+        undefined,
+        [],
+        ExpressionPlaceholder.make(),
+    ),
     StructureDefinition.make(
         undefined,
-        Names.make(['_']),
+        Names.make([PLACEHOLDER_SYMBOL]),
         [],
         undefined,
         [],
-        Block.make([ExpressionPlaceholder.make()]),
     ),
     PropertyReference.make(
         ExpressionPlaceholder.make(),
@@ -195,40 +128,75 @@ const Templates: Node[] = [
     ),
     This.make(),
 
-    // Types
-    BooleanType.make(),
-    TextType.make(),
-    NumberType.make(),
-    Unit.reuse(['unit']),
-    ListType.make(),
-    SetType.make(),
-    NoneType.make(),
-    MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
-    UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
-    NameType.make('_'),
-    TypeInputs.make([]),
-    TypeVariables.make([]),
-    ConversionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
-    Dimension.make(false, PLACEHOLDER_SYMBOL, 1),
-    new AnyType(),
-    FunctionType.make(undefined, [], TypePlaceholder.make()),
-    StreamType.make(),
-    TableType.make(),
+    // Decisions
+    Conditional.make(
+        ExpressionPlaceholder.make(BooleanType.make()),
+        ExpressionPlaceholder.make(),
+        ExpressionPlaceholder.make(),
+    ),
+    Otherwise.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
+    Match.make(
+        ExpressionPlaceholder.make(),
+        [
+            KeyValue.make(
+                ExpressionPlaceholder.make(),
+                ExpressionPlaceholder.make(),
+            ),
+        ],
+        ExpressionPlaceholder.make(),
+    ),
 
-    // Values
-    KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
-    new FormattedLiteral([FormattedTranslation.make([])]),
-    TextLiteral.make(''),
+    // Numbers
     NumberLiteral.make(0),
+    Dimension.make(false, PLACEHOLDER_SYMBOL, 1),
+    Unit.reuse(['unit']),
+
+    // Truth
     BooleanLiteral.make(true),
     NoneLiteral.make(),
+
+    // Lists
     ListLiteral.make(),
+    ListAccess.make(
+        ExpressionPlaceholder.make(ListType.make()),
+        ExpressionPlaceholder.make(),
+    ),
     Spread.make(ExpressionPlaceholder.make()),
+
+    // Sets
     SetLiteral.make(),
     MapLiteral.make(),
-    TableLiteral.make(),
+
+    // Text
+    TextLiteral.make(''),
+    FormattedLiteral.make([FormattedTranslation.make([])]),
     Translation.make(),
     FormattedTranslation.make([]),
+    Language.make('en'),
+    IsLocale.make(Language.make('en')),
+
+    // Sets and Maps
+    KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
+    SetOrMapAccess.make(
+        ExpressionPlaceholder.make(SetType.make()),
+        ExpressionPlaceholder.make(),
+    ),
+
+    // Tables
+    TableLiteral.make(),
+    Insert.make(ExpressionPlaceholder.make(TableType.make())),
+    Select.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make()),
+    ),
+    Update.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make()),
+    ),
+    Delete.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make()),
+    ),
 
     // Documentation
     Doc.make([new Paragraph([Words.make()])]),
@@ -242,11 +210,53 @@ const Templates: Node[] = [
     ]),
     ConceptLink.make(PLACEHOLDER_SYMBOL),
     WebLink.make('🔗', 'http://wordplay.dev'),
-    Language.make('en'),
-    Example.make(Program.make()),
+    Example.make(Program.make([ExpressionPlaceholder.make()])),
     new Paragraph([Words.make()]),
     Words.make(),
+
+    // Types
+    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    TextType.make(),
+    BooleanType.make(),
+    NoneType.make(),
+    NumberType.make(),
+    ListType.make(),
+    SetType.make(),
+    MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
+    TableType.make(),
+    NameType.make(PLACEHOLDER_SYMBOL),
+    FunctionType.make(undefined, [], TypePlaceholder.make()),
+    UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
+    ConversionDefinition.make(
+        undefined,
+        new TypePlaceholder(),
+        new TypePlaceholder(),
+        ExpressionPlaceholder.make(),
+    ),
+    TypeInputs.make([]),
+    TypeVariables.make([]),
+    new AnyType(),
+    StreamType.make(),
+
+    // Advanced
+    Initial.make(),
+    Input.make('_', ExpressionPlaceholder.make()),
+    new BinaryEvaluate(
+        ExpressionPlaceholder.make(),
+        Reference.make(PLACEHOLDER_SYMBOL),
+        ExpressionPlaceholder.make(),
+    ),
+    new UnaryEvaluate(Reference.make('-'), ExpressionPlaceholder.make()),
+    ExpressionPlaceholder.make(),
+    Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    Name.make(PLACEHOLDER_SYMBOL),
+    Names.make([PLACEHOLDER_SYMBOL]),
+    Reference.make(PLACEHOLDER_SYMBOL),
+    ConversionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
     new UnparsableExpression([]),
+    Program.make([ExpressionPlaceholder.make()]),
+    new Source('?', PLACEHOLDER_SYMBOL),
+    new Borrow(),
 ];
 
 export { Templates as default };

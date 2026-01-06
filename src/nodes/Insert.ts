@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -82,7 +82,7 @@ export default class Insert extends Expression {
         ];
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
         const anchorType =
             node instanceof Expression ? node.getType(context) : undefined;
         const tableType =
@@ -99,12 +99,12 @@ export default class Insert extends Expression {
             : [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [Insert.make(ExpressionPlaceholder.make(TableType.make()))];
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Tables;
     }
 
     clone(replace?: Replacement) {

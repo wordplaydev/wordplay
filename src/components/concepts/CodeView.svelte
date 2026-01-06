@@ -6,7 +6,7 @@
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Type from '../../nodes/Type';
     import Spaces from '../../parser/Spaces';
-    import { copyNode } from '../editor/util/Clipboard';
+    import { copyNode } from '../editor/commands/Clipboard';
     import { getConceptIndex, getDragged } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
@@ -45,6 +45,7 @@
     );
 
     function handlePointerDown(event: PointerEvent) {
+        if (event.button !== 0) return; // Only primary button
         event.stopPropagation();
         // Release the implicit pointer capture so events can travel to other components.
         if (event.target instanceof Element)
@@ -68,8 +69,8 @@
             aria-readonly="true"
             class:blocks={$blocks}
             class="node"
+            class:outline={outline && !$blocks}
             class:draggable={dragged !== undefined && draggable}
-            class:outline
             class:elide
             class:evaluate={node instanceof Expression &&
                 node.getKind() === ExpressionKind.Evaluate}
@@ -85,7 +86,7 @@
                 {node}
                 {inline}
                 {spaces}
-                blocks={false}
+                blocks={$blocks}
                 {elide}
                 locale={$locales.getLocale()}
                 inert={!draggable}
@@ -133,20 +134,24 @@
         touch-action: none;
     }
 
+    .outline {
+        padding: var(--wordplay-spacing);
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border-radius: 1px var(--wordplay-border-radius)
+            var(--wordplay-border-radius) 1px;
+    }
+
     .draggable {
         cursor: grab;
     }
 
-    .node.outline {
-        padding: var(--wordplay-spacing);
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: 1px calc(3 * var(--wordplay-border-radius))
-            calc(3 * var(--wordplay-border-radius)) 1px;
+    .node.elide {
+        max-height: 10ex;
+        overflow: hidden;
     }
 
-    .node.elide {
-        max-height: 5em;
-        overflow: hidden;
+    .node.elide.blocks {
+        max-height: 20ex;
     }
 
     .code {
@@ -158,7 +163,13 @@
 
     .node:focus,
     .node.draggable:hover {
-        background: var(--wordplay-hover);
+        outline: var(--wordplay-focus-width) solid var(--wordplay-hover);
+        box-shadow: var(--color-shadow) 4px 4px 4px;
+    }
+
+    .node:focus {
+        outline-color: var(--wordplay-focus-color);
+        box-shadow: var(--color-shadow) 4px 4px 4px;
     }
 
     .node:not(:global(.outline)) {

@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation from '@runtime/Evaluation';
@@ -25,9 +25,11 @@ import EvalOpenToken from './EvalOpenToken';
 import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import FunctionDefinition from './FunctionDefinition';
+import Names from './Names';
 import NoExpressionType from './NoExpressionType';
 import type Node from './Node';
 import { any, list, node, none, type Grammar, type Replacement } from './Node';
+import Reference from './Reference';
 import StructureDefinition from './StructureDefinition';
 import Sym from './Sym';
 import type Token from './Token';
@@ -42,7 +44,7 @@ export enum BlockKind {
 }
 
 export default class Block extends Expression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly open: Token | undefined;
     readonly statements: Expression[];
     readonly close: Token | undefined;
@@ -61,12 +63,7 @@ export default class Block extends Expression {
         this.open = open;
         this.statements = statements;
         this.close = close;
-        this.docs =
-            docs === undefined
-                ? undefined
-                : docs instanceof Docs
-                  ? docs
-                  : new Docs(docs);
+        this.docs = docs === undefined ? Docs.make([]) : docs;
         this.kind = kind;
 
         this.computeChildren();
@@ -81,13 +78,76 @@ export default class Block extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node }: EditContext) {
-        // Offer to replace the node parenthesized.
-        return node instanceof Expression ? [Block.make([node])] : [];
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        // Offer to parenthesize the node, or add docs if there aren't any.
+        return node instanceof Expression
+            ? [
+                  Block.make([node]),
+                  ...(node instanceof Block && node.docs.isEmpty()
+                      ? [node.withDocs()]
+                      : []),
+              ]
+            : [];
     }
 
-    static getPossibleAppends({ type }: EditContext) {
-        return [Block.make([ExpressionPlaceholder.make(type)])];
+    static getPossibleInsertions({
+        type,
+        context,
+        locales,
+        parent,
+        index,
+    }: InsertContext) {
+        if (parent instanceof StructureDefinition)
+            return [
+                Block.make([
+                    FunctionDefinition.make(
+                        undefined,
+                        Names.make([locales.get((l) => l.node.Name.name)]),
+                        undefined,
+                        [],
+                        ExpressionPlaceholder.make(),
+                    ),
+                ]),
+            ];
+
+        if (!(parent instanceof Block)) return [];
+        const definitions = [
+            ...parent.getDefinitionsInScope(context),
+            ...(index === undefined ? [] : parent.getDefinitionsBefore(index)),
+        ];
+        return [
+            // Offer a block with an expression placeholder of the desired type.
+            Block.make([ExpressionPlaceholder.make(type)]),
+            // Offer a bind with the expected type
+            Bind.make(
+                undefined,
+                Names.make(['_']),
+                undefined,
+                ExpressionPlaceholder.make(type),
+            ),
+            // Offer references to anything in scope, including anything in the parent's scope
+            // and anything defined prior to the insertion point in this block.
+            ...definitions
+                .map((def) =>
+                    def instanceof FunctionDefinition
+                        ? def.getEvaluateTemplate(
+                              locales,
+                              context,
+                              false,
+                              undefined,
+                          )
+                        : def instanceof StructureDefinition
+                          ? def.getEvaluateTemplate(locales, context, true)
+                          : def instanceof Bind
+                            ? Reference.make(
+                                  def.names
+                                      .getPreferredName(locales.getLocale())
+                                      ?.getName() ?? '_',
+                              )
+                            : undefined,
+                )
+                .filter((n) => n !== undefined),
+        ];
     }
 
     getEvaluationExpression(): Expression {
@@ -101,16 +161,21 @@ export default class Block extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: any(node(Docs), none()) },
+            {
+                name: 'docs',
+                kind: node(Docs),
+                label: () => (l) => l.term.documentation,
+            },
             {
                 name: 'open',
                 kind: any(node(Sym.EvalOpen), none()),
                 uncompletable: true,
+                label: undefined,
             },
             {
                 name: 'statements',
-                kind: list(true, node(Expression), node(Bind)),
-                label: () => (l) => l.node.Block.statement,
+                kind: list(this.isRoot(), node(Expression), node(Bind)),
+                label: () => (l) => l.node.Block.label.statements,
                 indent: !this.isRoot(),
                 newline:
                     this.isRoot() ||
@@ -121,6 +186,7 @@ export default class Block extends Expression {
             {
                 name: 'close',
                 kind: any(node(Sym.EvalClose), none()),
+                label: undefined,
                 // If it's a structure with more than one definition, insert new line
                 newline: this.isStructure() && this.statements.length > 0,
                 uncompletable: true,
@@ -129,9 +195,10 @@ export default class Block extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Definitions;
     }
 
+    /** If its the root block of a program. */
     isRoot() {
         return this.kind === BlockKind.Root;
     }
@@ -162,6 +229,16 @@ export default class Block extends Expression {
             this.replaceChild('close', this.close, replace),
             this.replaceChild('docs', this.docs, replace),
         ) as this;
+    }
+
+    withDocs(docs?: Docs) {
+        return new Block(
+            this.statements,
+            this.kind,
+            this.open,
+            this.close,
+            docs ?? Docs.make(),
+        );
     }
 
     withStatement(statement: Expression) {
@@ -239,6 +316,10 @@ export default class Block extends Expression {
 
         // Expose any bind, function, or structures, including on the line that contains this node, to allow them to refer to themselves.
         // But don't expose any definitions if the node is after the definition.
+        return this.getDefinitionsBefore(index);
+    }
+
+    getDefinitionsBefore(index: number): Definition[] {
         return this.statements.filter(
             (s, i): s is Bind | FunctionDefinition | StructureDefinition =>
                 (s instanceof Bind ||
