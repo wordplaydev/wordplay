@@ -19,6 +19,7 @@
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import { untrack } from 'svelte';
+    import { SvelteMap } from 'svelte/reactivity';
     import HowToConfiguration from './HowToConfiguration.svelte';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
@@ -224,8 +225,8 @@
 
     // collision detection
     let notPermittedAreas = $state<
-        Map<string, [number, number, number, number]>
-    >(new Map());
+        SvelteMap<string, [number, number, number, number]>
+    >(new SvelteMap());
 </script>
 
 {#if gallery === null}

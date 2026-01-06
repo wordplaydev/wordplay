@@ -18,6 +18,7 @@
     import StructureValue from '@values/StructureValue';
     import type Value from '@values/Value';
     import { untrack } from 'svelte';
+    import type { SvelteMap } from 'svelte/reactivity';
     import UnicodeString from '../../../../unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
     import { movePermitted } from './utils';
@@ -27,7 +28,7 @@
         cameraX: number;
         cameraY: number;
         childMoving: boolean;
-        notPermittedAreas: Map<string, [number, number, number, number]>;
+        notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
     }
 
     let {

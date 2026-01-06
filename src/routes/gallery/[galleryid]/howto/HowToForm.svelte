@@ -22,6 +22,7 @@
     import type { ButtonText } from '@locale/UITexts';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import type { Snippet } from 'svelte';
+    import type { SvelteMap } from 'svelte/reactivity';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
     import { movePermitted } from './utils';
@@ -30,7 +31,7 @@
     interface Props {
         editingMode: boolean; // true if editing, false if viewing
         howTo: HowTo | undefined; // undefined if creating a brand new how-to
-        notPermittedAreas: Map<string, [number, number, number, number]>;
+        notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
         cameraX: number;
         cameraY: number;
         preview?: Snippet;

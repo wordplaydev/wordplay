@@ -10,7 +10,7 @@ export function movePermitted(
     selfId: string | undefined,
     notPermittedAreas: Map<string, [number, number, number, number]>,
 ): boolean {
-    if (notPermittedAreas.size <= 1) return true;
+    if (notPermittedAreas.size < 1) return true;
 
     let tooFar: boolean = true;
 
