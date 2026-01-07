@@ -9586,6 +9586,9 @@
                     "open": {
                       "description": "The how-to notifications on/off mode",
                       "type": "string"
+                    },
+                    "popup": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -9595,7 +9598,8 @@
                     "header",
                     "howToNotifications",
                     "notification",
-                    "open"
+                    "open",
+                    "popup"
                   ],
                   "type": "object"
                 },

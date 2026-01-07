@@ -10,6 +10,7 @@
 <script lang="ts">
     import Link from '@components/app/Link.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getAnnounce } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -17,13 +18,53 @@
     import { NotificationsIcons } from '@db/settings/HowToNotificationsSetting';
     import { docToMarkup } from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { untrack } from 'svelte';
     import { notifications } from '../../routes/+layout.svelte';
 
-    let show: boolean = $state(false);
+    let showDialog: boolean = $state(false);
+    let showPopup: boolean = $state(false);
+
+    const announce = getAnnounce();
+
+    $effect(() => {
+        notifications;
+
+        showPopup = notifications.size > 0;
+
+        if (announce) {
+            untrack(() => {
+                if ($announce) {
+                    $announce(
+                        'notification',
+                        $locales.getLanguages()[0],
+                        $locales.get((l) => l.ui.dialog.notifications.popup),
+                    );
+                }
+            });
+        }
+    });
 </script>
 
+{#if showPopup}
+    <div class="popup">
+        <Button
+            action={() => {
+                showDialog = true;
+                showPopup = false;
+            }}
+            tip={(l) => l.ui.dialog.notifications.open}
+            label={(l) => l.ui.dialog.notifications.popup}
+        />
+        <Button
+            icon={CANCEL_SYMBOL}
+            action={() => (showPopup = false)}
+            tip={(l) => l.ui.dialog.notifications.delete}
+        />
+    </div>
+{/if}
+
 <Dialog
-    bind:show
+    bind:show={showDialog}
     header={(l) => l.ui.dialog.notifications.header}
     explanation={(l) => l.ui.dialog.notifications.explanation}
     button={{
@@ -96,5 +137,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .popup {
+        border: solid var(--wordplay-border-width) var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        padding: var(--wordplay-spacing);
+        margin-bottom: var(--wordplay-spacing);
+        position: absolute;
+        top: var(--wordplay-spacing);
+        right: var(--wordplay-spacing);
     }
 </style>

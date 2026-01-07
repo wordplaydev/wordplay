@@ -5590,7 +5590,8 @@
                     "howToChatHeader": "New message in how-to \"$1\"",
                     "link": "details"
                 },
-                "delete": "Delete this notification"
+                "delete": "Delete this notification",
+                "popup": "New notification"
             },
             "locale": {
                 "header": "Language",

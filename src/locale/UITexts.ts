@@ -756,6 +756,7 @@ type UITexts = {
                 link: string;
             },
             delete: string;
+            popup: string;
         };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
