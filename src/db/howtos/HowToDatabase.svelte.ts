@@ -1,13 +1,14 @@
 /** This file encapsulates all Firebase how-to functionality and relies on Svelte state to cache how-to documents. */
+import type { NotificationData } from '@components/settings/Notifications.svelte';
 import { Galleries, type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
-import type { Unsubscribe } from 'firebase/auth';
-import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, onSnapshot, or, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, or, query, setDoc, updateDoc, where, type Firestore, type Unsubscribe } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
+import { notifications } from '../../routes/+layout.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -18,6 +19,8 @@ const HowToSocialSchemaV1 = z.object({
     v: z.literal(1),
 
     /** Social interactions */
+    /** Whether the creator chooses to notify subscribers when this is published */
+    notifySubscribers: z.boolean(),
     /** The list of users who reacted to the how-to using each reaction */
     reactionOptions: z.record(z.string(), z.string()),
     reactions: z.record(z.string(), z.array(z.string())),
@@ -48,6 +51,8 @@ const HowToSchemaV1 = z.object({
     galleryId: z.string(),
     /** If the how-to is published */
     published: z.boolean(),
+    /** Timestamp of publishing */
+    publishedAt: z.number().nullable(),
     /** The coordinates of the how-to within the 2D space */
     xcoord: z.number(),
     ycoord: z.number(),
@@ -100,6 +105,10 @@ export default class HowTo {
         return this.data.published;
     }
 
+    getPublishedAt() {
+        return this.data.publishedAt;
+    }
+
     getCoordinates() {
         return [this.data.xcoord, this.data.ycoord];
     }
@@ -134,6 +143,10 @@ export default class HowTo {
 
     getSocial() {
         return this.data.social;
+    }
+
+    getNotifySubscribers() {
+        return this.data.social.notifySubscribers;
     }
 
     getReactionOptions() {
@@ -185,7 +198,7 @@ export default class HowTo {
 // CACHE
 ////////////////////////////////
 
-const HowTosCollection = 'howtos';
+export const HowTosCollection = 'howtos';
 
 export class HowToDatabase {
     private readonly db: Database;
@@ -216,6 +229,14 @@ export class HowToDatabase {
 
     async updateHowTo(howTo: HowTo, persist: boolean) {
         const howToID = howTo.getHowToId();
+
+        // if published as a result of this update, then set publishedAt time
+        if (howTo.isPublished() && howTo.getPublishedAt() === null) {
+            howTo = new HowTo({
+                ...howTo.getData(),
+                publishedAt: Date.now(),
+            })
+        }
 
         // set the revised how-to in the local state, propogating updates
         this.howtos.set(howToID, howTo);
@@ -268,73 +289,7 @@ export class HowToDatabase {
         const user = this.db.getUser();
         if (!user) return;
 
-        // get the current list of galleries to watch
-        const galleryIDsToWatch = Array.from(Galleries.accessibleGalleries.keys());
-
-        // construct constraints based on
-        // (1) any how-tos that the user has access to as a creator or collaborator on the how-to itself
-        // (2) any how-tos that the user has access to as a curator or collaborator on the gallery
-        let constraints = [
-            where("creator", "==", user.uid),
-            where("collaborators", "array-contains", user.uid),
-        ]
-
-        if (galleryIDsToWatch.length > 0) {
-            constraints.push(where("galleryId", "in", galleryIDsToWatch));
-        }
-
-        // set up the realtime how-tos query for the user, tracking any how-tos from the cloud
-        // and deleting any tracked locally that didn't appear in the snapshot
-        this.unsubscribe = onSnapshot(
-            query(collection(firestore, HowTosCollection), or(...constraints)), async (snapshot) => {
-                // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
-                // so we can delete ones that are gone from the server.
-                snapshot.forEach((doc) => {
-                    const howto = doc.data();
-
-                    // try to parse the how-to and save on success.
-                    try {
-                        HowToSchema.parse(howto);
-                        // Update the how-to in the local cache, but do not persist; we just got it from the DB.
-                        this.updateHowTo(
-                            new HowTo(howto as HowToDocument),
-                            false,
-                        )
-                    } catch (error) {
-                        // If the how-to doesn't succeed, then we don't save it.
-                        console.error(error);
-                    }
-                });
-
-                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                snapshot.docChanges().forEach((change) => {
-                    // Removed? Delete the local cache of the gallery.
-                    // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
-                    if (change.type === 'removed') {
-                        const howToId = change.doc.id;
-                        const galleryId = change.doc.data().galleryId;
-
-                        this.howtos.delete(howToId);
-                        this.galleryHowTos.set(galleryId, this.galleryHowTos.get(galleryId)?.filter((id) => id !== howToId) ?? []);
-
-                        if (this.galleryHowTos.get(galleryId)?.length === 0) {
-                            this.galleryHowTos.delete(galleryId);
-
-                            if (this.galleryListener) {
-                                this.db.Galleries.ignore(howToId, this.galleryListener);
-                            }
-                        }
-                    }
-                });
-
-            },
-            (error) => {
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
-                }
-            }
-        )
+        this.listen(firestore, user.uid);
     }
 
     async addHowTo(
@@ -347,7 +302,8 @@ export class HowToDatabase {
         guidingQuestions: string[],
         text: string[],
         locales: string[],
-        reactionTypes: Record<string, string>
+        reactionTypes: Record<string, string>,
+        notify: boolean,
     ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
@@ -356,6 +312,7 @@ export class HowToDatabase {
         // create a new social interaction document
         const newHowToSocial: HowToSocialDocument = {
             v: HowToSocialSchemaLatestVersion,
+            notifySubscribers: notify,
             reactionOptions: reactionTypes,
             reactions: Object.fromEntries(new Map<string, string[]>(
                 Object.keys(reactionTypes).map((emoji) => [emoji, []])
@@ -373,6 +330,7 @@ export class HowToDatabase {
             id: uuidv4(),
             galleryId: galleryId,
             published: published, // defaults to false
+            publishedAt: published ? Date.now() : null,
             xcoord: xcoord,
             ycoord: ycoord,
             title: title,
@@ -526,14 +484,31 @@ export class HowToDatabase {
         if (this.unsubscribe) this.unsubscribe();
     }
 
-    listen(firestore: Firestore, galleryID: string) {
+    listen(firestore: Firestore, userId: string) {
         this.ignore();
+
+        // get the current list of galleries to watch
+        const galleryIDsToWatch = Array.from(Galleries.accessibleGalleries.keys());
+
+        // construct constraints based on
+        // (1) any how-tos that the user has access to as a creator or collaborator on the how-to itself
+        // (2) any how-tos that the user has access to as a curator or collaborator on the gallery
+        let constraints = [
+            where("creator", "==", userId),
+            where("collaborators", "array-contains", userId),
+        ]
+
+        if (galleryIDsToWatch.length > 0) {
+            constraints.push(where("galleryId", "in", galleryIDsToWatch));
+        }
+
+        // start time for notifications
+        const startTime: number = Date.now();
+
+        // set up the realtime how-tos query for the user, tracking any how-tos from the cloud
+        // and deleting any tracked locally that didn't appear in the snapshot
         this.unsubscribe = onSnapshot(
-            query(
-                collection(firestore, HowTosCollection),
-                where('galleryId', '==', galleryID)
-            ),
-            async (snapshot) => {
+            query(collection(firestore, HowTosCollection), or(...constraints)), async (snapshot) => {
                 // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
                 // so we can delete ones that are gone from the server.
                 snapshot.forEach((doc) => {
@@ -554,6 +529,7 @@ export class HowToDatabase {
                 });
 
                 // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
+                // And see if any were explicitly added, and if so, create a notification
                 snapshot.docChanges().forEach((change) => {
                     // Removed? Delete the local cache of the gallery.
                     // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
@@ -571,8 +547,18 @@ export class HowToDatabase {
                                 this.db.Galleries.ignore(howToId, this.galleryListener);
                             }
                         }
+                    } else if (change.type === 'added') {
+                        const data = change.doc.data();
+
+                        if (data.published && data.publishedAt !== null && data.publishedAt >= startTime && data.social.notifySubscribers == true) {
+                            notifications.add({
+                                title: data.title,
+                                galleryID: data.galleryId,
+                            } as NotificationData);
+                        }
                     }
                 });
+
             },
             (error) => {
                 if (error instanceof FirebaseError) {
@@ -580,6 +566,6 @@ export class HowToDatabase {
                     console.error(error.message);
                 }
             }
-        );
+        )
     }
 }

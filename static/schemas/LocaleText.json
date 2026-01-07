@@ -9528,6 +9528,69 @@
                   ],
                   "type": "object"
                 },
+                "notifications": {
+                  "additionalProperties": false,
+                  "description": "The notifications dialog",
+                  "properties": {
+                    "clearAll": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
+                    "delete": {
+                      "type": "string"
+                    },
+                    "explanation": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "The explanation text just below the header."
+                    },
+                    "header": {
+                      "description": "The header to be shown at the top of the dialog",
+                      "type": "string"
+                    },
+                    "howToNotifications": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                    },
+                    "notification": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "header": {
+                          "type": "string"
+                        },
+                        "link": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "header",
+                        "link"
+                      ],
+                      "type": "object"
+                    },
+                    "open": {
+                      "description": "The how-to notifications on/off mode",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "clearAll",
+                    "delete",
+                    "explanation",
+                    "header",
+                    "howToNotifications",
+                    "notification",
+                    "open"
+                  ],
+                  "type": "object"
+                },
                 "settings": {
                   "additionalProperties": false,
                   "description": "The settings dialog",
@@ -9796,6 +9859,7 @@
               "required": [
                 "share",
                 "settings",
+                "notifications",
                 "locale",
                 "help",
                 "feedback"

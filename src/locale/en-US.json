@@ -5565,6 +5565,31 @@
                     "default": "default"
                 }
             },
+            "notifications": {
+                "header": "Notifications",
+                "explanation": "Notifications from new chats and published how-tos",
+                "open": "Open notifications dialog",
+                "howToNotifications": {
+                    "label": "notifications for new how-tos",
+                    "labels": [
+                        "off",
+                        "on"
+                    ],
+                    "tips": [
+                        "do not notify me of new how-tos",
+                        "notify me of new how-tos"
+                    ]
+                },
+                "clearAll": {
+                    "label": "clear all notifications",
+                    "tip": "clear all notifications"
+                },
+                "notification": {
+                    "header": "New how-to titled \"$1\" was posted",
+                    "link": "details"
+                },
+                "delete": "Delete this notification"
+            },
             "locale": {
                 "header": "Language",
                 "explanation": "Choose languages for the interface, tutorial, and documentation.",

@@ -16,6 +16,7 @@ import { BlocksSetting } from './BlocksSetting';
 import { CameraSetting } from './CameraSetting';
 import { DarkSetting } from './DarkSetting';
 import { FaceSetting } from './FaceSetting';
+import { HowToNotificationsSetting } from './HowToNotificationsSetting';
 import { LayoutsSetting } from './LayoutsSetting';
 import { LineSetting } from './LinesSetting';
 import { LocalesSetting } from './LocalesSetting';
@@ -36,13 +37,26 @@ export type SettingsSchemaV1 = {
     writingLayout: WritingLayout;
 };
 
-export type SettingsSchema = SettingsSchemaV1;
+export type SettingsSchemaV2 = Omit<SettingsSchemaV1, 'v'> & {
+    v: 2;
+    newHowToNotifications: boolean;
+}
 
-type SettingsSchemaUnknown = SettingsSchemaV1;
+export type SettingsSchema = SettingsSchemaV2;
+const SettingsSchemaLatestVersion = 2;
+
+type SettingsSchemaUnknown = SettingsSchemaV1 | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
     switch (settings.v) {
         case 1:
+            // return settings;
+            return upgradeSettings({
+                ...settings,
+                v: 2,
+                newHowToNotifications: true,
+            });
+        case SettingsSchemaLatestVersion:
             return settings;
         default:
             throw new Error(`Unknown settings version ${settings.v}`);
@@ -69,6 +83,7 @@ export default class SettingsDatabase {
         space: SpaceSetting,
         lines: LineSetting,
         annotations: AnnotationsSetting,
+        howToNotifications: HowToNotificationsSetting,
     };
 
     /** A derived store based on animation factor */
@@ -106,6 +121,7 @@ export default class SettingsDatabase {
             this.settings.locales.set(this.database, data.locales);
             this.settings.tutorial.set(this.database, data.tutorial);
             this.settings.writingLayout.set(this.database, data.writingLayout);
+            this.settings.howToNotifications.set(this.database, data.newHowToNotifications);
         }
     }
 
@@ -207,15 +223,24 @@ export default class SettingsDatabase {
         return this.settings.blocks.get();
     }
 
+    setHowToNotifications(on: boolean) {
+        this.settings.howToNotifications.set(this.database, on);
+    }
+
+    getHowToNotifications() {
+        return this.settings.howToNotifications.get();
+    }
+
     /** To serialize to a database */
     toObject(): SettingsSchema {
         // Get the config, but delete all device-specific configs.
         return {
-            v: 1,
+            v: SettingsSchemaLatestVersion,
             animationFactor: this.settings.animationFactor.get(),
             locales: this.settings.locales.get(),
             tutorial: this.settings.tutorial.get(),
             writingLayout: this.settings.writingLayout.get(),
+            newHowToNotifications: this.settings.howToNotifications.get(),
         };
     }
 }

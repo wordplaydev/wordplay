@@ -165,6 +165,7 @@
                 newText,
                 ['en-US'],
                 gallery ? gallery.getHowToReactions() : {},
+                notify,
             );
 
             howTo = howToReturnValue ? howToReturnValue : undefined;

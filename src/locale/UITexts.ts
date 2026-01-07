@@ -743,6 +743,18 @@ type UITexts = {
                 default: string;
             };
         };
+        /** The notifications dialog */
+        notifications: HeaderAndExplanationText & {
+            /** The how-to notifications on/off mode */
+            open: string;
+            howToNotifications: ModeText<[string, string]>;
+            clearAll: ButtonText;
+            notification: {
+                header: string;
+                link: string;
+            },
+            delete: string;
+        }
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
             /** Subheaders in the local chooser dialog. */
