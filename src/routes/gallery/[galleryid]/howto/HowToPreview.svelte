@@ -1,6 +1,10 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
-    import { getAnnounce } from '@components/project/Contexts';
+    import {
+        getAnnounce,
+        getUser,
+        isAuthenticated,
+    } from '@components/project/Contexts';
     import { characterToSVG, type Character } from '@db/characters/Character';
     import { CharactersDB, DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
@@ -29,6 +33,7 @@
         cameraY: number;
         childMoving: boolean;
         notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
+        galleryCurators: string[];
     }
 
     let {
@@ -37,6 +42,7 @@
         cameraY,
         childMoving = $bindable(),
         notPermittedAreas = $bindable(),
+        galleryCurators,
     }: Props = $props();
 
     let title: string = $derived(howTo?.getTitle() ?? '');
@@ -181,16 +187,31 @@
     let thisChildMoving = false;
     let thisChildMoved = false;
 
+    // don't allow the user to move the how-to if they don't have write permission to the db
+    // currently, only the creator, collaborators of the how-to + the curators of the gallery can write
+    let allWriters: string[] = $derived([
+        ...howTo.getCollaborators(),
+        howTo.getCreator(),
+        ...galleryCurators,
+    ]);
+    let user = getUser();
+    let canEdit: boolean = $derived(
+        isAuthenticated($user) && allWriters.includes($user.uid),
+    );
+
     let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
     // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
     function onMouseDown() {
+        if (!canEdit) return;
+
         childMoving = true;
         thisChildMoving = true;
     }
 
     function onMouseMove(e: MouseEvent) {
+        if (!canEdit) return;
         if (thisChildMoving) {
             let intendX = xcoord + e.movementX;
             let intendY = ycoord + e.movementY;
@@ -212,6 +233,7 @@
     }
 
     function onKeyPress(event: KeyboardEvent) {
+        if (!canEdit) return;
         if (thisChildMoving) {
             let intendX: number;
             let intendY: number;
@@ -297,6 +319,7 @@
     }
 
     function onDropHowTo() {
+        if (!canEdit) return;
         childMoving = false;
 
         if (thisChildMoving) {
@@ -315,10 +338,12 @@
     }
 
     function onMouseUp() {
+        if (!canEdit) return;
         onDropHowTo();
     }
 
     function onLoseFocus() {
+        if (!canEdit) return;
         if (thisChildMoved) {
             thisChildMoved = false;
 
@@ -332,6 +357,7 @@
     let prevTouchX: number | undefined = $state(undefined);
     let prevTouchY: number | undefined = $state(undefined);
     function onTouchStart(e: TouchEvent) {
+        if (!canEdit) return;
         childMoving = true;
         thisChildMoving = true;
 
@@ -340,6 +366,7 @@
     }
 
     function onTouchMove(e: TouchEvent) {
+        if (!canEdit) return;
         if (
             thisChildMoving &&
             prevTouchX !== undefined &&
@@ -371,6 +398,7 @@
     }
 
     function onTouchEnd(e: TouchEvent) {
+        if (!canEdit) return;
         onDropHowTo();
 
         prevTouchX = undefined;
