@@ -750,11 +750,13 @@ type UITexts = {
             howToNotifications: ModeText<[string, string]>;
             clearAll: ButtonText;
             notification: {
-                header: string;
+                howToHeader: string;
+                projectChatHeader: string;
+                howToChatHeader: string;
                 link: string;
             },
             delete: string;
-        }
+        };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
             /** Subheaders in the local chooser dialog. */

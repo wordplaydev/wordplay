@@ -1,4 +1,5 @@
 /** This file encapsulates all Firebase chat functionality and relies on Svelte state to cache chat documents. */
+import type { NotificationData } from '@components/settings/Notifications.svelte';
 import { HowTos, Projects, type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
@@ -21,6 +22,7 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
+import { notifications } from '../../routes/+layout.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -568,6 +570,9 @@ export class ChatDatabase {
 
     listen(firestore: Firestore, user: User) {
         this.ignore();
+
+        const startTime: number = Date.now();
+
         this.unsubscribe = onSnapshot(
             query(
                 collection(firestore, ChatsCollection),
@@ -595,7 +600,7 @@ export class ChatDatabase {
                 });
 
                 // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                snapshot.docChanges().forEach((change) => {
+                snapshot.docChanges().forEach(async (change) => {
                     // Removed? Delete the local cache of the project.
                     // Stop litening to the project's changes.
                     if (change.type === 'removed') {
@@ -606,6 +611,36 @@ export class ChatDatabase {
                                 projectID,
                                 this.projectsListener,
                             );
+                    } else {
+                        // added or modified? notify if there is a new message after the start time
+
+                        const chatData: Chat | undefined = this.chats.get(change.doc.id);
+
+                        // only alert if the message was sent since the page was first opened
+                        if (!chatData || !chatData.getMessages().some((m) => m.time > startTime)) return;
+
+                        let title: string = "";
+                        let galleryID: string = "";
+
+                        if (chatData.getType() === 'project') {
+                            const project = await this.db.Projects.get(chatData.getProjectID());
+                            if (project) title = project.getName();
+                        } else {
+                            const howto = await this.db.HowTos.getHowTo(chatData.getProjectID());
+                            if (howto) {
+                                title = howto.getTitle();
+                                galleryID = howto.getHowToGalleryId();
+                            }
+                        }
+
+                        if (chatData.hasUnread(user.uid)) {
+                            notifications.add({
+                                title: title,
+                                galleryID: chatData.getType() === 'howto' ? galleryID : undefined,
+                                projectID: chatData.getType() === 'project' ? chatData.getProjectID() : undefined,
+                                type: chatData.getType() === 'howto' ? 'howtochat' : 'projectchat',
+                            } as NotificationData);
+                        }
                     }
                 });
             },

@@ -5585,7 +5585,9 @@
                     "tip": "clear all notifications"
                 },
                 "notification": {
-                    "header": "New how-to titled \"$1\" was posted",
+                    "howToHeader": "New how-to titled \"$1\" was posted",
+                    "projectChatHeader": "New message in project \"$1\"",
+                    "howToChatHeader": "New message in how-to \"$1\"",
                     "link": "details"
                 },
                 "delete": "Delete this notification"

@@ -9562,15 +9562,23 @@
                     "notification": {
                       "additionalProperties": false,
                       "properties": {
-                        "header": {
+                        "howToChatHeader": {
+                          "type": "string"
+                        },
+                        "howToHeader": {
                           "type": "string"
                         },
                         "link": {
                           "type": "string"
+                        },
+                        "projectChatHeader": {
+                          "type": "string"
                         }
                       },
                       "required": [
-                        "header",
+                        "howToHeader",
+                        "projectChatHeader",
+                        "howToChatHeader",
                         "link"
                       ],
                       "type": "object"

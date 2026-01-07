@@ -1,7 +1,9 @@
 <script module lang="ts">
     export type NotificationData = {
         title: string;
-        galleryID: string;
+        galleryID?: string;
+        projectID?: string;
+        type: 'howto' | 'projectchat' | 'howtochat';
     };
 </script>
 
@@ -49,9 +51,15 @@
                 <MarkupHTMLView
                     inline
                     markup={docToMarkup(
-                        $locales.get(
-                            (l) =>
-                                l.ui.dialog.notifications.notification.header,
+                        $locales.get((l) =>
+                            notification.type === 'howto'
+                                ? l.ui.dialog.notifications.notification
+                                      .howToHeader
+                                : notification.type === 'howtochat'
+                                  ? l.ui.dialog.notifications.notification
+                                        .howToChatHeader
+                                  : l.ui.dialog.notifications.notification
+                                        .projectChatHeader,
                         ),
                     ).concretize($locales, [notification.title]) ?? ''}
                 />
@@ -61,10 +69,17 @@
                     tip={(l) => l.ui.dialog.notifications.delete}
                 />
             </div>
-            <Link
-                to={`/gallery/${notification.galleryID}/howto`}
-                label={(l) => l.ui.dialog.notifications.notification.link}
-            />
+            {#if notification.type === 'projectchat'}
+                <Link
+                    to={`/project/${notification.projectID}`}
+                    label={(l) => l.ui.dialog.notifications.notification.link}
+                />
+            {:else}
+                <Link
+                    to={`/gallery/${notification.galleryID}/howto`}
+                    label={(l) => l.ui.dialog.notifications.notification.link}
+                />
+            {/if}
         </div>
     {/each}
 </Dialog>
