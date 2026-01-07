@@ -109,36 +109,74 @@
     );
 
     function findPlaceToWrite() {
-        let writeX, writeY;
+        const searchStep: number = 150; // distance to shift by each search
+        const maxSearches: number = 20; // maximum number of search attempts, to prevent infinite loop
 
-        writeX = -cameraX;
-        writeY = -cameraY;
-        let numSearchAttempts = 0;
+        let baseX = -cameraX;
+        let baseY = -cameraY;
 
-        while (
-            !movePermitted(writeX, writeY, 100, 100, '', notPermittedAreas)
-        ) {
-            if (numSearchAttempts < 5) {
-                writeX += 150;
-            } else if (numSearchAttempts == 5) {
-                writeX = -cameraX - 150;
-            } else if (numSearchAttempts < 10) {
-                writeX -= 150;
-            } else if (numSearchAttempts == 10) {
-                writeX = -cameraX;
-                writeY += 150;
-            } else if (numSearchAttempts == 15) {
-                writeY = -cameraY - 150;
-            } else if (numSearchAttempts < 20) {
-                writeY -= 150;
-            } else {
-                break; // prevent infinite loop
+        let proposedX = baseX;
+        let proposedY = baseY;
+
+        for (let i = 0; i < maxSearches; i++) {
+            /** search grid!
+             * 8 5 3
+             * 6 0 1
+             * 7 4 2
+             */
+            if (
+                movePermitted(
+                    proposedX,
+                    proposedY,
+                    searchStep - 30,
+                    searchStep - 30,
+                    '',
+                    notPermittedAreas,
+                )
+            ) {
+                break;
             }
 
-            numSearchAttempts++;
+            let gridIndex = (i % 8) + 1;
+            let multiplier = Math.floor(i / 8) + 1;
+
+            switch (gridIndex) {
+                case 1:
+                    proposedX = baseX + searchStep * multiplier;
+                    proposedY = baseY;
+                    break;
+                case 2:
+                    proposedX = baseX + searchStep * multiplier;
+                    proposedY = baseY + searchStep * multiplier;
+                    break;
+                case 3:
+                    proposedX = baseX + searchStep * multiplier;
+                    proposedY = baseY - searchStep * multiplier;
+                    break;
+                case 4:
+                    proposedX = baseX;
+                    proposedY = baseY + searchStep * multiplier;
+                    break;
+                case 5:
+                    proposedX = baseX;
+                    proposedY = baseY - searchStep * multiplier;
+                    break;
+                case 6:
+                    proposedX = baseX - searchStep * multiplier;
+                    proposedY = baseY;
+                    break;
+                case 7:
+                    proposedX = baseX - searchStep * multiplier;
+                    proposedY = baseY + searchStep * multiplier;
+                    break;
+                case 8:
+                    proposedX = baseX - searchStep * multiplier;
+                    proposedY = baseY - searchStep * multiplier;
+                    break;
+            }
         }
 
-        return [writeX, writeY];
+        return [proposedX, proposedY];
     }
 
     // writer functions
@@ -435,7 +473,7 @@
                 </Toggle>
             </div>
             <div class="toolbar-right">
-                {#if !howTo}
+                {#if !howTo || !howTo.isPublished()}
                     <Mode
                         modes={(l) => l.ui.howto.editor.notification}
                         choice={notify ? 0 : 1}
