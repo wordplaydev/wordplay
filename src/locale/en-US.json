@@ -4249,6 +4249,9 @@
             }
         },
         "project": {
+            "defaults": {
+                "starterCode": "Welcome to your blank project! This is a documentation comment. You can use it to describe your project, take notes, and explain what you want people to know about your work."
+            },
             "error": {
                 "unknown": "This project doesn't exist or you don't have access to it.",
                 "translate": "There was a problem translating your project.",

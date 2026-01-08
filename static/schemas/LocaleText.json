@@ -12044,6 +12044,19 @@
                   "description": "The text to show when all of the tiles are collapsed.",
                   "type": "string"
                 },
+                "defaults": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "starterCode": {
+                      "description": "The default template shown when opening a new project",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "starterCode"
+                  ],
+                  "type": "object"
+                },
                 "dialog": {
                   "additionalProperties": false,
                   "properties": {
@@ -12166,6 +12179,7 @@
                 }
               },
               "required": [
+                "defaults",
                 "error",
                 "button",
                 "field",
