@@ -33,7 +33,7 @@
         cameraY: number;
         childMoving: boolean;
         notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
-        galleryCurators: string[];
+        galleryCuratorCollaborators: string[];
     }
 
     let {
@@ -42,7 +42,7 @@
         cameraY,
         childMoving = $bindable(),
         notPermittedAreas = $bindable(),
-        galleryCurators,
+        galleryCuratorCollaborators,
     }: Props = $props();
 
     let title: string = $derived(howTo?.getTitle() ?? '');
@@ -188,16 +188,19 @@
     let thisChildMoved = false;
 
     // don't allow the user to move the how-to if they don't have write permission to the db
-    // currently, only the creator, collaborators of the how-to + the curators of the gallery can write
+    // currently, only the creator, collaborators of the how-to + the curators, collaborators of the gallery can write
     let allWriters: string[] = $derived([
         ...howTo.getCollaborators(),
         howTo.getCreator(),
-        ...galleryCurators,
+        ...galleryCuratorCollaborators,
     ]);
     let user = getUser();
     let canEdit: boolean = $derived(
         isAuthenticated($user) && allWriters.includes($user.uid),
     );
+    $effect(() => {
+        console.log(canEdit);
+    });
 
     let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));

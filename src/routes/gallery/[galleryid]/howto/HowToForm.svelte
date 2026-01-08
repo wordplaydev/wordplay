@@ -370,6 +370,8 @@
             });
         }
     }
+
+    // translation
 </script>
 
 {#if preview}
@@ -400,7 +402,7 @@
             ? !howTo
                 ? l.ui.howto.editor.newForm.header
                 : l.ui.howto.editor.editForm.header
-            : title}
+            : ''}
     explanation={(l) =>
         editingMode
             ? !howTo
@@ -505,6 +507,9 @@
             >
         </div>
     {:else if howTo}
+        <HowToPrompt>
+            {title}
+        </HowToPrompt>
         <div class="howtosplitview">
             <div class="splitside" id="howtoview">
                 <div class="toolbar">

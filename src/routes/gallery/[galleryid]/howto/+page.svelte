@@ -342,7 +342,9 @@
                                 {cameraY}
                                 bind:childMoving
                                 bind:notPermittedAreas
-                                galleryCurators={gallery.getCurators()}
+                                galleryCuratorCollaborators={gallery
+                                    .getCurators()
+                                    .concat(gallery.getCreators())}
                             />
                         {/if}
                     {/each}
