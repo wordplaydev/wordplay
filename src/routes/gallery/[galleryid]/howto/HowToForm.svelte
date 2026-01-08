@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
     import ChatView from '@components/app/chat/ChatView.svelte';
+    import CreatorView from '@components/app/CreatorView.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -337,9 +338,10 @@
             });
     });
 
-    let creators: Record<string, Creator | null> = $state({});
+    let chatParticipants: Record<string, Creator | null> = $state({});
+    let collaborators: Record<string, Creator | null> = $state({});
 
-    // Set the creators to whatever user IDs we have.
+    // Set the chat participants to whatever user IDs we have.
     $effect(() => {
         if (!howTo) return;
 
@@ -352,7 +354,15 @@
                 : owner
                   ? [owner]
                   : [],
-        ).then((map) => (creators = map));
+        ).then((map) => (chatParticipants = map));
+    });
+
+    $effect(() => {
+        if (howTo)
+            Creators.getCreatorsByUIDs([
+                ...howTo.getCollaborators(),
+                howTo.getCreator(),
+            ]).then((map) => (collaborators = map));
     });
 
     let collabToggle: boolean = $state(false);
@@ -510,6 +520,11 @@
         <HowToPrompt>
             {title}
         </HowToPrompt>
+        <div class="creatorlist">
+            {#each Object.values(collaborators) as creator, i (i)}
+                <CreatorView anonymize={false} {creator} />
+            {/each}
+        </div>
         <div class="howtosplitview">
             <div class="splitside" id="howtoview">
                 <div class="toolbar">
@@ -610,7 +625,12 @@
 
                     <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
 
-                    <ChatView {chat} {creators} {gallery} {howTo} />
+                    <ChatView
+                        {chat}
+                        creators={chatParticipants}
+                        {gallery}
+                        {howTo}
+                    />
                 </div>
             {:else}
                 <HowToPrompt text={(l) => l.ui.howto.drafts.note} />
@@ -671,5 +691,15 @@
         margin: var(--wordplay-spacing);
         max-width: 100%;
         width: 100%;
+    }
+
+    .creatorlist {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-block-start: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
+        margin: var(--wordplay-spacing);
     }
 </style>
