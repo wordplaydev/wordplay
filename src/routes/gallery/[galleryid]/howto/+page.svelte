@@ -16,7 +16,7 @@
     import Options, { type Option } from '@components/widgets/Options.svelte';
     import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
-    import type HowTo from '@db/howtos/HowToDatabase.svelte';
+    import HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import { untrack } from 'svelte';
     import { SvelteMap } from 'svelte/reactivity';
@@ -206,7 +206,23 @@
         });
     });
 
-    // navigation
+    // navigation via dropdown and url params
+
+    // allow for the URL to take you to a specific how-to
+    let urlID: string | null = $derived(page.url.searchParams.get('id'));
+    $effect(() => {
+        if (urlID) {
+            let queried: HowTo = howTos.filter(
+                (ht) => ht.getHowToId() === urlID,
+            )[0];
+            if (queried) {
+                let coords = queried.getCoordinates();
+                panTo(coords[0], coords[1]);
+            }
+        }
+    });
+
+    // data for the dropdown
     let navigationSelection: string | undefined = $state(undefined);
     let navigationOptions: Option[] = $derived([
         { value: undefined, label: '—' },
@@ -250,8 +266,8 @@
                     <HowToForm
                         editingMode={true}
                         howTo={undefined}
-                        {cameraX}
-                        {cameraY}
+                        bind:cameraX
+                        bind:cameraY
                         {notPermittedAreas}
                     />
                 {/if}

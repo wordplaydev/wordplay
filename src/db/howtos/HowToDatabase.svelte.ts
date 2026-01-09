@@ -565,6 +565,7 @@ export class HowToDatabase {
                             notifications.add({
                                 title: data.title,
                                 galleryID: data.galleryId,
+                                itemID: data.id,
                                 type: 'howto',
                             } as NotificationData);
                         }

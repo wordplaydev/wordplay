@@ -10699,6 +10699,10 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for editing the how-to"
                     },
+                    "link": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for copying the how-to's URL"
+                    },
                     "reactionsPrompt": {
                       "type": "string"
                     },
@@ -10762,7 +10766,8 @@
                     "submitToGuide",
                     "usedBy",
                     "reactionsPrompt",
-                    "chatPrompt"
+                    "chatPrompt",
+                    "link"
                   ],
                   "type": "object"
                 }

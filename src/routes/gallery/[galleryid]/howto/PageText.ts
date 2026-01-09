@@ -83,6 +83,8 @@ type PageText = {
         reactionsPrompt: string;
         /** Text for prompting users to chat */
         chatPrompt: string;
+        /** Button text for copying the how-to's URL */
+        link: ButtonText;
     }
     /** For configuring the how-to space */
     configuration: {

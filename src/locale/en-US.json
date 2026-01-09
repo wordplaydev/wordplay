@@ -4943,7 +4943,11 @@
                     "addButton": "Add project or how-to"
                 },
                 "reactionsPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
-                "chatPrompt": "Leave a comment or question for the creator!"
+                "chatPrompt": "Leave a comment or question for the creator!",
+                "link": {
+                    "label": "🔗 Copy how-to link",
+                    "tip": "Copy link to this how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {

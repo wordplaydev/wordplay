@@ -42,8 +42,8 @@
         editingMode,
         howTo = $bindable(),
         notPermittedAreas,
-        cameraX,
-        cameraY,
+        cameraX = $bindable(),
+        cameraY = $bindable(),
         preview = undefined,
     }: Props = $props();
 
@@ -183,7 +183,6 @@
 
     // writer functions
     async function writeNewHowTo(publish: boolean) {
-        console.log("i'm getting called for", title);
         if (title.length === 0)
             title = $locales.get((l) => l.ui.howto.editor.titlePlaceholder);
 
@@ -195,7 +194,7 @@
         }
 
         if (!howTo) {
-            let howToReturnValue = await HowTos.addHowTo(
+            await HowTos.addHowTo(
                 galleryID,
                 publish,
                 writeX,
@@ -209,7 +208,9 @@
                 notify,
             );
 
-            howTo = howToReturnValue ? howToReturnValue : undefined;
+            // pan the camera to the new how-to
+            [cameraX, cameraY] = [-writeX, -writeY];
+            howTo = undefined;
 
             show = false;
             editingMode = true;
@@ -231,6 +232,8 @@
                 ycoord: writeY,
             });
 
+            // pan the camera to the updated how-to
+            [cameraX, cameraY] = [-writeX, -writeY];
             HowTos.updateHowTo(howTo, true);
             editingMode = false;
         }
@@ -371,7 +374,12 @@
     function previewButtonPressed() {
         show = !show;
 
-        if (show && howTo && $user && !howTo.getSeenByUsers().includes($user.uid)) {
+        if (
+            show &&
+            howTo &&
+            $user &&
+            !howTo.getSeenByUsers().includes($user.uid)
+        ) {
             howTo = new HowTo({
                 ...howTo.getData(),
                 social: {
@@ -586,6 +594,15 @@
                             background={userHasBookmarked}
                             action={() => {
                                 addRemoveBookmark();
+                            }}
+                        />
+                        <Button
+                            tip={(l) => l.ui.howto.viewer.link.tip}
+                            label={(l) => l.ui.howto.viewer.link.label}
+                            action={async () => {
+                                await navigator.clipboard.writeText(
+                                    `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
+                                );
                             }}
                         />
                     {/if}

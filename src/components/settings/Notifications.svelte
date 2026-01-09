@@ -2,13 +2,13 @@
     export type NotificationData = {
         title: string;
         galleryID?: string;
-        projectID?: string;
+        itemID: string;
         type: 'howto' | 'projectchat' | 'howtochat';
     };
 </script>
 
 <script lang="ts">
-    import Link from '@components/app/Link.svelte';
+    import { goto } from '$app/navigation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getAnnounce } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
@@ -111,14 +111,24 @@
                 />
             </div>
             {#if notification.type === 'projectchat'}
-                <Link
-                    to={`/project/${notification.projectID}`}
-                    label={(l) => l.ui.dialog.notifications.notification.link}
+                <Button
+                    tip={(l) => l.ui.dialog.notifications.notification.link}
+                    icon={'🔗'}
+                    action={() => {
+                        showDialog = false;
+                        goto(`/project/${notification.itemID}`);
+                    }}
                 />
             {:else}
-                <Link
-                    to={`/gallery/${notification.galleryID}/howto`}
-                    label={(l) => l.ui.dialog.notifications.notification.link}
+                <Button
+                    tip={(l) => l.ui.dialog.notifications.notification.link}
+                    icon={'🔗'}
+                    action={() => {
+                        showDialog = false;
+                        goto(
+                            `/gallery/${notification.galleryID}/howto?id=${notification.itemID}`,
+                        );
+                    }}
                 />
             {/if}
         </div>

@@ -637,7 +637,7 @@ export class ChatDatabase {
                             notifications.add({
                                 title: title,
                                 galleryID: chatData.getType() === 'howto' ? galleryID : undefined,
-                                projectID: chatData.getType() === 'project' ? chatData.getProjectID() : undefined,
+                                itemID: chatData.getProjectID(),
                                 type: chatData.getType() === 'howto' ? 'howtochat' : 'projectchat',
                             } as NotificationData);
                         }
