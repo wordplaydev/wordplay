@@ -53,10 +53,15 @@
 
     // Load the gallery if it exists.
     let gallery = $state<Gallery | undefined>(undefined);
+    let galleryQuestions: string[] = $state([]);
     $effect(() => {
         if (galleryID) {
             Galleries.get(galleryID).then((g) => {
                 gallery = g;
+
+                if (gallery) {
+                    galleryQuestions = gallery.getHowToGuidingQuestions();
+                }
             });
         } else gallery = undefined;
     });
@@ -68,21 +73,20 @@
     let notify: boolean = $state(true);
 
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
-    let prompts: string[] = $derived(
-        howTo
-            ? howTo.getGuidingQuestions()
-            : gallery
-              ? gallery.getHowToGuidingQuestions()
-              : [],
-    );
-    let text: string[] = $derived(
-        howTo ? howTo.getText() : Array(prompts.length).fill(''),
-    );
-    let newText: string[] = $derived([...text]); // can't bind to text itself, so make a copy and edit that
     let title: string = $derived(howTo ? howTo.getTitle() : '');
     let allCollaborators: string[] = $derived(
         howTo ? [...howTo.getCollaborators(), howTo.getCreator()] : [],
     );
+
+    // prompts and editing
+    let prompts: string[] = $derived(
+        howTo ? howTo.getGuidingQuestions() : galleryQuestions,
+    );
+    let text: string[] = $state([]);
+    $effect(() => {
+        if (prompts.length > 0)
+            text = howTo ? howTo.getText() : Array(prompts.length).fill('');
+    });
 
     // social interactions
     let userHasBookmarked: boolean = $derived(
@@ -202,7 +206,7 @@
                 allCollaborators,
                 title,
                 prompts,
-                newText,
+                text,
                 ['en-US'],
                 gallery ? gallery.getHowToReactions() : {},
                 notify,
@@ -227,7 +231,7 @@
                 ...howTo.getData(),
                 published: publish,
                 title: title,
-                text: newText,
+                text: text,
                 xcoord: writeX,
                 ycoord: writeY,
             });
@@ -237,8 +241,6 @@
             HowTos.updateHowTo(howTo, true);
             editingMode = false;
         }
-
-        newText = [];
     }
 
     function submitToGuide() {
@@ -437,12 +439,12 @@
             />
         </Subheader>
 
-        {#each prompts as prompt, i (i)}
-            <HowToPrompt text={(l) => prompt} />
+        {#each text as t, i (i)}
+            <HowToPrompt text={(l) => prompts[i]} />
             <FormattedEditor
                 placeholder={(l) => l.ui.howto.editor.editorPlaceholder}
                 description={(l) => l.ui.howto.editor.editorDescription}
-                bind:text={newText[i]}
+                bind:text={text[i]}
                 id="howto-prompt-{i}"
             />
         {/each}
@@ -608,8 +610,8 @@
                     {/if}
                 </div>
 
-                {#each prompts as prompt, i (i)}
-                    <HowToPrompt text={(l) => prompt} />
+                {#each text as t, i (i)}
+                    <HowToPrompt text={(l) => prompts[i]} />
                     <MarkupHTMLView markup={text[i]} />
                 {/each}
             </div>
