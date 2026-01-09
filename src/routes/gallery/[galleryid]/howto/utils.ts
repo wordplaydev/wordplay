@@ -1,7 +1,6 @@
 const buffer: number = 16;
 const maxOutside: number = 10000;
 
-// TODO(@mc): do need to make this more efficient for larger datasets
 export function movePermitted(
     targetX: number,
     targetY: number,

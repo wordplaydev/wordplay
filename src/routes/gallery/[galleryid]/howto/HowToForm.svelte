@@ -124,7 +124,6 @@
         })),
     );
 
-    // TODO(@mc): should have this throw an error and prompt the user to shift their canvas a little bit?
     function findPlaceToWrite() {
         const searchStep: number = 150; // distance to shift by each search
         const maxSearches: number = 20; // maximum number of search attempts, to prevent infinite loop

@@ -233,11 +233,8 @@ export class HowToDatabase {
 
     private unsubscribe: Unsubscribe | undefined = undefined;
 
-    private galleryListener: (gallery: Gallery) => void;
-
     constructor(db: Database) {
         this.db = db;
-        // this.galleryListener = this.handleRevisedGallery.bind(this);
     }
 
     async updateHowTo(howTo: HowTo, persist: boolean) {
@@ -258,7 +255,6 @@ export class HowToDatabase {
         this.galleryHowTos.set(galleryID, (this.galleryHowTos.get(galleryID) ?? new SvelteSet<string>()).add(howToID));
 
         // make sure we're listening to updates on this chat's gallery
-        // TODO(@mc): can we listen using the howtoid?
         this.db.Galleries.listen(howToID, this.galleryListener);
 
         // if asked to persist, update remotely
@@ -376,51 +372,6 @@ export class HowToDatabase {
 
         return this.getHowTo(newHowTo.id);
     }
-
-    // TODO(@mc): this isn't the desired behavior for galleries; the collaborators on a how-to are explicitly notated
-    // async handleRevisedGallery(gallery: Gallery) {
-    //     // Synchronize the participants of all the how-tos in the gallery if this person is a curator of the gallery.
-    //     // The user doesn't have permissions otherwise.
-    //     const uid = this.db.getUser()?.uid;
-    //     if (uid !== undefined && gallery.getCurators().includes(uid)) {
-    //         for (const howToId of this.galleryHowTos.get(gallery.getID()) || []) {
-    //             this.syncCollaborators(howToId, gallery);
-    //         }
-    //     }
-    // }
-
-    // syncCollaborators(howToId: string, gallery: Gallery) {
-    //     // ensure that the how-to Collaborators include creator, collaborators, curators
-    //     const howTo = this.howtos.get(howToId);
-
-    //     if (howTo === undefined) {
-    //         console.error(`No how-to with ID ${howToId} found in the cache. Maybe a defect?`);
-    //         return;
-    //     }
-
-    //     // get the list of Collaborators as a sorted string to quickly compare
-    //     const currentCollaboratorsString = howTo.getCollaborators().sort().join();
-
-    //     // get intended participants based on gallery
-    //     const intendedParticipants = [
-    //         ...new Set([
-    //             ...gallery.getCurators(),
-    //             ...gallery.getCreators(),
-    //             ...howTo.getCollaborators(),
-    //         ]),
-    //     ].sort();
-
-    //     if (currentCollaboratorsString !== intendedParticipants.join()) {
-    //         // update the how-to with the new list of Collaborators
-    //         this.updateHowTo(
-    //             new HowTo({
-    //                 ...howTo.getData(),
-    //                 collaborators: intendedParticipants,
-    //             }),
-    //             true,
-    //         );
-    //     }
-    // }
 
     /** Get a list of how-tos for a gallery. Empty if none exist. Undefined if gallery doesn't exist, false if there was an error.*/
     async getHowTos(galleryID: string): Promise<HowTo[] | undefined | false> {
