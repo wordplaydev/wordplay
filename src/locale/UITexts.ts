@@ -130,7 +130,11 @@ type UITexts = {
         };
     };
     /** Project settings and controls */
-    project: {
+    project: { 
+        defaults: {
+            /** The default template shown when opening a new project */
+            starterCode: string;
+        };
         /** The error shown when a project ID is unknown. */
         error: {
             unknown: string;
