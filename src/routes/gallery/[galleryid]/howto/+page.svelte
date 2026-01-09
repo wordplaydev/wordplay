@@ -43,24 +43,31 @@
     });
 
     let galleryName = $derived(gallery?.getName($locales));
+    const user = getUser();
 
-    // load the how tos for this gallery
-    let howTos = $state<HowTo[]>([]);
-
+    // get the how-tos in the gallery
+    // if the user is logged in, HowTos.listen() got called by syncUser, which populates HowTos.galleryHowTos in the callback
+    // if not, we we will make a one-time query to get the how-tos
+    let howTos: HowTo[] = $state([]);
     $effect(() => {
-        if (galleryID === undefined) {
-            howTos = [];
-            return;
-        }
+        howTos = [];
 
-        HowTos.getHowTos(galleryID).then((hts) => {
-            if (hts) howTos = hts;
-            else howTos = [];
-        });
+        if ($user) {
+            let htIds = HowTos.galleryHowTos.get(galleryID) ?? [];
+
+            htIds.forEach((id) => {
+                HowTos.getHowTo(id).then((ht) => {
+                    if (ht) howTos.push(ht);
+                });
+            });
+        } else {
+            HowTos.getHowTos(galleryID).then((data) => {
+                if (data) howTos = data;
+            });
+        }
     });
 
     // determine if the user can add a new how-to
-    const user = getUser();
     let canUserEdit = $derived(
         gallery
             ? isAuthenticated($user) &&
@@ -74,21 +81,8 @@
     );
 
     let usersBookmarks: HowTo[] = $derived(
-        howTos.filter((hs) => hs.hasBookmarker($user.uid)),
+        howTos.filter((hs) => $user && hs.hasBookmarker($user.uid)),
     );
-
-    // refresh the page when a new howTo is created
-    let newHowTo: HowTo | undefined = $state(undefined);
-
-    $effect(() => {
-        if (newHowTo && galleryID) {
-            newHowTo = undefined;
-            HowTos.getHowTos(galleryID).then((hts) => {
-                if (hts) howTos = hts;
-                else howTos = [];
-            });
-        }
-    });
 
     // infinite canvas functionality
     let cameraX = $state(0);
@@ -251,7 +245,7 @@
                 {#if canUserEdit}
                     <HowToForm
                         editingMode={true}
-                        bind:howTo={newHowTo}
+                        howTo={undefined}
                         {cameraX}
                         {cameraY}
                         {notPermittedAreas}

@@ -183,6 +183,7 @@
 
     // writer functions
     async function writeNewHowTo(publish: boolean) {
+        console.log("i'm getting called for", title);
         if (title.length === 0)
             title = $locales.get((l) => l.ui.howto.editor.titlePlaceholder);
 
@@ -341,28 +342,28 @@
     let chatParticipants: Record<string, Creator | null> = $state({});
     let collaborators: Record<string, Creator | null> = $state({});
 
-    // Set the chat participants to whatever user IDs we have.
     $effect(() => {
-        if (!howTo) return;
+        if (!howTo || !show) return;
 
         const owner = howTo.getCreator();
-        // We async load all participants, regardless of their chat eligibility, since we need to render
-        // their names.
+        // we want to have (1) all chat participants, (2) all how to collaborators, (3) how to creator
+        // (1) includes (2) and (3) by definition
+
         Creators.getCreatorsByUIDs(
             chat
                 ? [...chat.getAllParticipants(), ...(owner ? [owner] : [])]
-                : owner
-                  ? [owner]
-                  : [],
-        ).then((map) => (chatParticipants = map));
+                : allCollaborators,
+        ).then((map) => {
+            if (map) {
+                chatParticipants = map;
+            }
+        });
     });
 
     $effect(() => {
-        if (howTo)
-            Creators.getCreatorsByUIDs([
-                ...howTo.getCollaborators(),
-                howTo.getCreator(),
-            ]).then((map) => (collaborators = map));
+        allCollaborators.forEach((uid) => {
+            collaborators[uid] = chatParticipants[uid];
+        });
     });
 
     let collabToggle: boolean = $state(false);
@@ -380,8 +381,6 @@
             });
         }
     }
-
-    // translation
 </script>
 
 {#if preview}

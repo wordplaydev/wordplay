@@ -5,7 +5,7 @@ import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
 import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, or, query, setDoc, updateDoc, where, type Firestore, type Unsubscribe } from 'firebase/firestore';
-import { SvelteMap } from 'svelte/reactivity';
+import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { notifications } from '../../routes/+layout.svelte';
@@ -207,7 +207,7 @@ export class HowToDatabase {
     private readonly howtos = $state(new SvelteMap<string, HowTo>());
 
     /** Maps gallery IDs to lists of how-to IDs */
-    readonly galleryHowTos = $state(new SvelteMap<string, string[]>());
+    readonly galleryHowTos = $state(new SvelteMap<string, SvelteSet<string>>());
 
     /** All of the how-tos that the user has write access to */
     readonly allEditableHowTos: HowTo[] = $derived([...
@@ -224,7 +224,7 @@ export class HowToDatabase {
 
     constructor(db: Database) {
         this.db = db;
-        this.galleryListener = this.handleRevisedGallery.bind(this);
+        // this.galleryListener = this.handleRevisedGallery.bind(this);
     }
 
     async updateHowTo(howTo: HowTo, persist: boolean) {
@@ -240,6 +240,9 @@ export class HowToDatabase {
 
         // set the revised how-to in the local state, propogating updates
         this.howtos.set(howToID, howTo);
+
+        const galleryID = howTo.getHowToGalleryId();
+        this.galleryHowTos.set(galleryID, (this.galleryHowTos.get(galleryID) ?? new SvelteSet<string>()).add(howToID));
 
         // make sure we're listening to updates on this chat's gallery
         // TODO(@mc): can we listen using the howtoid?
@@ -270,7 +273,7 @@ export class HowToDatabase {
 
     async deleteHowTo(howToId: string, galleryId: string) {
         this.howtos.delete(howToId);
-        this.galleryHowTos.set(galleryId, this.galleryHowTos.get(galleryId)?.filter((id) => id !== howToId) ?? []);
+        this.galleryHowTos.get(galleryId)?.delete(howToId);
 
         if (firestore) {
             try {
@@ -360,49 +363,50 @@ export class HowToDatabase {
         return this.getHowTo(newHowTo.id);
     }
 
-    async handleRevisedGallery(gallery: Gallery) {
-        // Synchronize the participants of all the how-tos in the gallery if this person is a curator of the gallery.
-        // The user doesn't have permissions otherwise.
-        const uid = this.db.getUser()?.uid;
-        if (uid !== undefined && gallery.getCurators().includes(uid)) {
-            for (const howToId of this.galleryHowTos.get(gallery.getID()) || []) {
-                this.syncCollaborators(howToId, gallery);
-            }
-        }
-    }
+    // TODO(@mc): this isn't the desired behavior for galleries; the collaborators on a how-to are explicitly notated
+    // async handleRevisedGallery(gallery: Gallery) {
+    //     // Synchronize the participants of all the how-tos in the gallery if this person is a curator of the gallery.
+    //     // The user doesn't have permissions otherwise.
+    //     const uid = this.db.getUser()?.uid;
+    //     if (uid !== undefined && gallery.getCurators().includes(uid)) {
+    //         for (const howToId of this.galleryHowTos.get(gallery.getID()) || []) {
+    //             this.syncCollaborators(howToId, gallery);
+    //         }
+    //     }
+    // }
 
-    syncCollaborators(howToId: string, gallery: Gallery) {
-        // ensure that the how-to Collaborators include creator, collaborators, curators
-        const howTo = this.howtos.get(howToId);
+    // syncCollaborators(howToId: string, gallery: Gallery) {
+    //     // ensure that the how-to Collaborators include creator, collaborators, curators
+    //     const howTo = this.howtos.get(howToId);
 
-        if (howTo === undefined) {
-            console.error(`No how-to with ID ${howToId} found in the cache. Maybe a defect?`);
-            return;
-        }
+    //     if (howTo === undefined) {
+    //         console.error(`No how-to with ID ${howToId} found in the cache. Maybe a defect?`);
+    //         return;
+    //     }
 
-        // get the list of Collaborators as a sorted string to quickly compare
-        const currentCollaboratorsString = howTo.getCollaborators().sort().join();
+    //     // get the list of Collaborators as a sorted string to quickly compare
+    //     const currentCollaboratorsString = howTo.getCollaborators().sort().join();
 
-        // get intended participants based on gallery
-        const intendedParticipants = [
-            ...new Set([
-                ...gallery.getCurators(),
-                ...gallery.getCreators(),
-                ...howTo.getCollaborators(),
-            ]),
-        ].sort();
+    //     // get intended participants based on gallery
+    //     const intendedParticipants = [
+    //         ...new Set([
+    //             ...gallery.getCurators(),
+    //             ...gallery.getCreators(),
+    //             ...howTo.getCollaborators(),
+    //         ]),
+    //     ].sort();
 
-        if (currentCollaboratorsString !== intendedParticipants.join()) {
-            // update the how-to with the new list of Collaborators
-            this.updateHowTo(
-                new HowTo({
-                    ...howTo.getData(),
-                    collaborators: intendedParticipants,
-                }),
-                true,
-            );
-        }
-    }
+    //     if (currentCollaboratorsString !== intendedParticipants.join()) {
+    //         // update the how-to with the new list of Collaborators
+    //         this.updateHowTo(
+    //             new HowTo({
+    //                 ...howTo.getData(),
+    //                 collaborators: intendedParticipants,
+    //             }),
+    //             true,
+    //         );
+    //     }
+    // }
 
     /** Get a list of how-tos for a gallery. Empty if none exist. Undefined if gallery doesn't exist, false if there was an error.*/
     async getHowTos(galleryID: string): Promise<HowTo[] | undefined | false> {
@@ -538,9 +542,9 @@ export class HowToDatabase {
                         const galleryId = change.doc.data().galleryId;
 
                         this.howtos.delete(howToId);
-                        this.galleryHowTos.set(galleryId, this.galleryHowTos.get(galleryId)?.filter((id) => id !== howToId) ?? []);
+                        this.galleryHowTos.get(galleryId)?.delete(howToId);
 
-                        if (this.galleryHowTos.get(galleryId)?.length === 0) {
+                        if (this.galleryHowTos.get(galleryId)?.size === 0) {
                             this.galleryHowTos.delete(galleryId);
 
                             if (this.galleryListener) {

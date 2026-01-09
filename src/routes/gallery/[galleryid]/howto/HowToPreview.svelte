@@ -198,9 +198,6 @@
     let canEdit: boolean = $derived(
         isAuthenticated($user) && allWriters.includes($user.uid),
     );
-    $effect(() => {
-        console.log(canEdit);
-    });
 
     let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
