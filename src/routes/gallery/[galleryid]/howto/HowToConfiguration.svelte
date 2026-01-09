@@ -124,10 +124,14 @@
     />
     <Button
         label={(l) => l.ui.howto.configuration.guidingQuestions.submit.label}
-        tip={(l) => l.ui.howto.configuration.guidingQuestions.submit.tip}
+        tip={(l) =>
+            guidingQuestionsText.trim().length > 0
+                ? l.ui.howto.configuration.guidingQuestions.submit.tip
+                : l.ui.howto.configuration.guidingQuestions.error}
         action={changeGuidingQuestions}
         submit={true}
         background={true}
+        active={guidingQuestionsText.trim().length > 0}
     />
 
     <Subheader
@@ -182,10 +186,14 @@
     />
     <Button
         label={(l) => l.ui.howto.configuration.reactions.submit.label}
-        tip={(l) => l.ui.howto.configuration.reactions.submit.tip}
+        tip={(l) =>
+            reactions.length > 0
+                ? l.ui.howto.configuration.reactions.submit.tip
+                : l.ui.howto.configuration.reactions.submitError}
         action={changeReactions}
         submit={true}
         background={true}
+        active={reactions.length > 0}
     />
 </Dialog>
 

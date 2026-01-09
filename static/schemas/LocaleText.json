@@ -10452,12 +10452,16 @@
                         },
                         "submit": {
                           "$ref": "#/definitions/ButtonText"
+                        },
+                        "submitError": {
+                          "type": "string"
                         }
                       },
                       "required": [
                         "subheader",
                         "descriptor",
                         "submit",
+                        "submitError",
                         "default"
                       ],
                       "type": "object"
@@ -10489,6 +10493,9 @@
                         },
                         "submit": {
                           "$ref": "#/definitions/ButtonText"
+                        },
+                        "submitError": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -10498,6 +10505,7 @@
                         "addReactionTip",
                         "removeReactionTip",
                         "submit",
+                        "submitError",
                         "default"
                       ],
                       "type": "object"

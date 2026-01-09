@@ -104,6 +104,7 @@ type PageText = {
             subheader: HeaderAndExplanationText;
             descriptor: string;
             submit: ButtonText;
+            submitError: string;
             default: string[];
         }
         /** Subheaders and descriptions for configuring reaction options */
@@ -114,6 +115,7 @@ type PageText = {
             addReactionTip: string;
             removeReactionTip: string;
             submit: ButtonText;
+            submitError: string;
             default: Record<string, string>;
         }
     },

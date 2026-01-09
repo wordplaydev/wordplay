@@ -4983,6 +4983,7 @@
                         "label": "Save guiding questions",
                         "tip": "Save guiding questions"
                     },
+                    "submitError": "Guiding questions cannot be empty.",
                     "default": [
                         "Tell us the story of how you discovered this"
                     ]
@@ -4990,7 +4991,7 @@
                 "reactions": {
                     "subheader": {
                         "header": "Reactions",
-                        "explanation": "Configure the reactions that viewers can leave on how-tos"
+                        "explanation": "Configure the reactions that viewers can leave on new how-tos"
                     },
                     "reactionPickerTip": "Choose a character to be a reaction",
                     "reactionDescriptionTip": "Describe what this reaction means",
@@ -5000,6 +5001,7 @@
                         "label": "Save reactions",
                         "tip": "Save reactions"
                     },
+                    "submitError": "At least one reaction is required.",
                     "default": {
                         "👍": "I like this!",
                         "💭": "This inspires me!",
