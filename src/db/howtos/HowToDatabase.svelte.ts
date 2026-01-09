@@ -4,7 +4,7 @@ import { Galleries, type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
-import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, or, query, setDoc, updateDoc, where, type Firestore, type Unsubscribe } from 'firebase/firestore';
+import { and, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, or, query, setDoc, updateDoc, where, type Firestore, type Unsubscribe } from 'firebase/firestore';
 import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
@@ -509,6 +509,8 @@ export class HowToDatabase {
         const galleryIDsToWatch = Array.from(Galleries.accessibleGalleries.keys());
 
         // construct constraints based on
+
+        // for published how-tos
         // (1) any how-tos that the user has access to as a creator or collaborator on the how-to itself
         // (2) any how-tos that the user has access to as a curator or collaborator on the gallery
         let constraints = [
@@ -526,60 +528,69 @@ export class HowToDatabase {
         // set up the realtime how-tos query for the user, tracking any how-tos from the cloud
         // and deleting any tracked locally that didn't appear in the snapshot
         this.unsubscribe = onSnapshot(
-            query(collection(firestore, HowTosCollection), or(...constraints)), async (snapshot) => {
-                // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
-                // so we can delete ones that are gone from the server.
-                snapshot.forEach((doc) => {
-                    const howto = doc.data();
+            query(collection(firestore, HowTosCollection),
+                or(
+                    and(
+                        where("published", "==", false),
+                        or(where("creator", "==", userId), where("collaborators", "array-contains", userId),)
+                    ),
+                    and(
+                        where("published", "==", true),
+                        or(...constraints)
+                    ))), async (snapshot) => {
+                        // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
+                        // so we can delete ones that are gone from the server.
+                        snapshot.forEach((doc) => {
+                            const howto = doc.data();
 
-                    // try to parse the how-to and save on success.
-                    try {
-                        HowToSchema.parse(howto);
-                        // Update the how-to in the local cache, but do not persist; we just got it from the DB.
-                        this.updateHowTo(
-                            new HowTo(howto as HowToDocument),
-                            false,
-                        )
-                    } catch (error) {
-                        // If the how-to doesn't succeed, then we don't save it.
-                        console.error(error);
-                    }
-                });
-
-                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                // And see if any were explicitly added, and if so, create a notification
-                snapshot.docChanges().forEach((change) => {
-                    // Removed? Delete the local cache of the gallery.
-                    // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
-                    if (change.type === 'removed') {
-                        const howToId = change.doc.id;
-                        const galleryId = change.doc.data().galleryId;
-
-                        this.howtos.delete(howToId);
-                        this.galleryHowTos.get(galleryId)?.delete(howToId);
-
-                        if (this.galleryHowTos.get(galleryId)?.size === 0) {
-                            this.galleryHowTos.delete(galleryId);
-
-                            if (this.galleryListener) {
-                                this.db.Galleries.ignore(howToId, this.galleryListener);
+                            // try to parse the how-to and save on success.
+                            try {
+                                HowToSchema.parse(howto);
+                                // Update the how-to in the local cache, but do not persist; we just got it from the DB.
+                                this.updateHowTo(
+                                    new HowTo(howto as HowToDocument),
+                                    false,
+                                )
+                            } catch (error) {
+                                // If the how-to doesn't succeed, then we don't save it.
+                                console.error(error);
                             }
-                        }
-                    } else if (change.type === 'added') {
-                        const data = change.doc.data();
+                        });
 
-                        if (data.published && data.publishedAt !== null && data.publishedAt >= startTime && data.social.notifySubscribers == true) {
-                            notifications.add({
-                                title: data.title,
-                                galleryID: data.galleryId,
-                                itemID: data.id,
-                                type: 'howto',
-                            } as NotificationData);
-                        }
-                    }
-                });
+                        // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
+                        // And see if any were explicitly added, and if so, create a notification
+                        snapshot.docChanges().forEach((change) => {
+                            // Removed? Delete the local cache of the gallery.
+                            // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
+                            if (change.type === 'removed') {
+                                const howToId = change.doc.id;
+                                const galleryId = change.doc.data().galleryId;
 
-            },
+                                this.howtos.delete(howToId);
+                                this.galleryHowTos.get(galleryId)?.delete(howToId);
+
+                                if (this.galleryHowTos.get(galleryId)?.size === 0) {
+                                    this.galleryHowTos.delete(galleryId);
+
+                                    if (this.galleryListener) {
+                                        this.db.Galleries.ignore(howToId, this.galleryListener);
+                                    }
+                                }
+                            } else if (change.type === 'added') {
+                                const data = change.doc.data();
+
+                                if (data.published && data.publishedAt !== null && data.publishedAt >= startTime && data.social.notifySubscribers == true) {
+                                    notifications.add({
+                                        title: data.title,
+                                        galleryID: data.galleryId,
+                                        itemID: data.id,
+                                        type: 'howto',
+                                    } as NotificationData);
+                                }
+                            }
+                        });
+
+                    },
             (error) => {
                 if (error instanceof FirebaseError) {
                     console.error(error.code);

@@ -133,18 +133,21 @@ service cloud.firestore {
       }
 
       allow create: if request.auth != null && "galleryId" in request.resource.data && isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId);
-      // How-tos are readable if:
+      // Published how-tos are readable if:
       // 1) the gallery the how-to is in is public
       // 2) the requestor is the owner or a collaborator
       // 3) the requestor is a curator or collaborator of the gallery the how-to is in
       // 4) the requestor is a viewer of the gallery the how-to is in
+      // Unpublished how-tos (drafts) are only readable by the creator and collaborators
       allow read: 
         if resource.data != null && (
           "mod" in request.auth.token && request.auth.token.mod ||
           isRequestorOwnerCollaborator(request.auth.uid) ||
-          'galleryId' in resource.data && isGalleryPublic(resource.data.galleryId) ||
-          'galleryId' in resource.data && isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId) ||
-          'galleryId' in resource.data && isRequestorViewer(request.auth.uid, resource.data.galleryId)
+          "published" in resource.data && resource.data.published && (
+            'galleryId' in resource.data && isGalleryPublic(resource.data.galleryId) ||
+            'galleryId' in resource.data && isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId) ||
+            'galleryId' in resource.data && isRequestorViewer(request.auth.uid, resource.data.galleryId)
+          )
         );
 
       allow update: 
