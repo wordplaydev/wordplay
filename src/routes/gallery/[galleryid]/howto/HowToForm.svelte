@@ -1,7 +1,6 @@
 <script lang="ts">
     import { page } from '$app/state';
     import ChatView from '@components/app/chat/ChatView.svelte';
-    import CreatorView from '@components/app/CreatorView.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -70,15 +69,27 @@
 
     // component's own states
     let show: boolean = $state(false);
-    let notify: boolean = $state(true);
 
+    // data from the how-to
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
-    let title: string = $derived(howTo ? howTo.getTitle() : '');
-    let allCollaborators: string[] = $derived(
-        howTo ? [...howTo.getCollaborators(), howTo.getCreator()] : [],
-    );
+    let notify: boolean = $derived(howTo ? howTo.getNotifySubscribers() : true);
 
     // prompts and editing
+    let title: string = $derived(howTo ? howTo.getTitle() : '');
+
+    let allCollaborators: string[] = $state([]);
+
+    $effect(() => {
+        if (howTo) {
+            allCollaborators = [
+                ...howTo.getCollaborators(),
+                howTo.getCreator(),
+            ];
+        } else if ($user) {
+            allCollaborators = [$user.uid];
+        }
+    });
+
     let prompts: string[] = $derived(
         howTo ? howTo.getGuidingQuestions() : galleryQuestions,
     );
@@ -214,10 +225,14 @@
 
             // pan the camera to the new how-to
             [cameraX, cameraY] = [-writeX, -writeY];
-            howTo = undefined;
-
             show = false;
             editingMode = true;
+
+            // reset form
+            howTo = undefined;
+            title = '';
+            text = Array(prompts.length).fill('');
+            allCollaborators = [];
         } else {
             // if was not published, and now is published, need to find coordinates for the how-to
             // if was already published, then keep the same coordinates
@@ -234,6 +249,11 @@
                 text: text,
                 xcoord: writeX,
                 ycoord: writeY,
+                collaborators: allCollaborators,
+                social: {
+                    ...howTo.getSocial(),
+                    notifySubscribers: notify,
+                },
             });
 
             // pan the camera to the updated how-to
@@ -317,12 +337,21 @@
         HowTos.updateHowTo(howTo, true);
     }
 
-    function updateCollaborators(newCollaborators: string[]) {
+    function updateCollaborators(toChangeID: string, add: boolean) {
+        if (add) {
+            if (!allCollaborators.includes(toChangeID))
+                allCollaborators.push(toChangeID);
+        } else {
+            allCollaborators = allCollaborators.filter(
+                (uid) => uid !== toChangeID,
+            );
+        }
+
         if (!howTo) return;
 
         howTo = new HowTo({
             ...howTo.getData(),
-            collaborators: newCollaborators,
+            collaborators: allCollaborators,
         });
 
         HowTos.updateHowTo(howTo, true);
@@ -344,15 +373,12 @@
             });
     });
 
+    // get all people who are eligible to chat
     let chatParticipants: Record<string, Creator | null> = $state({});
-    let collaborators: Record<string, Creator | null> = $state({});
-
     $effect(() => {
         if (!howTo || !show) return;
 
         const owner = howTo.getCreator();
-        // we want to have (1) all chat participants, (2) all how to collaborators, (3) how to creator
-        // (1) includes (2) and (3) by definition
 
         Creators.getCreatorsByUIDs(
             chat
@@ -362,12 +388,6 @@
             if (map) {
                 chatParticipants = map;
             }
-        });
-    });
-
-    $effect(() => {
-        allCollaborators.forEach((uid) => {
-            collaborators[uid] = chatParticipants[uid];
         });
     });
 
@@ -465,16 +485,12 @@
                             uids={allCollaborators}
                             editable={true}
                             add={(userID) => {
-                                allCollaborators.push(userID);
-                                updateCollaborators(allCollaborators);
+                                updateCollaborators(userID, true);
                             }}
                             remove={(userID) => {
-                                allCollaborators = allCollaborators.filter(
-                                    (uid) => uid !== userID,
-                                );
-                                updateCollaborators(allCollaborators);
+                                updateCollaborators(userID, false);
                             }}
-                            removable={() => true}
+                            removable={(uid) => uid !== howTo?.getCreator()}
                         />
                     </Labeled>
                 </div>
@@ -530,9 +546,11 @@
             {title}
         </HowToPrompt>
         <div class="creatorlist">
-            {#each Object.values(collaborators) as creator, i (i)}
-                <CreatorView anonymize={false} {creator} />
-            {/each}
+            <CreatorList
+                anonymize={false}
+                editable={false}
+                uids={allCollaborators}
+            />
         </div>
         <div class="howtosplitview">
             <div class="splitside" id="howtoview">
