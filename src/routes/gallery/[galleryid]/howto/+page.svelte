@@ -54,21 +54,11 @@
     let canvasHeight: number = $state(0);
 
     $effect(() => {
-        howTos = [];
+        HowTos.galleryHowTos.get(galleryID); // this gets updated by the listener
 
-        if ($user) {
-            let htIds = HowTos.galleryHowTos.get(galleryID) ?? [];
-
-            htIds.forEach((id) => {
-                HowTos.getHowTo(id).then((ht) => {
-                    if (ht) howTos.push(ht);
-                });
-            });
-        } else {
-            HowTos.getHowTos(galleryID).then((data) => {
-                if (data) howTos = data;
-            });
-        }
+        HowTos.getHowTos(galleryID).then((data) => {
+            if (data) howTos = data;
+        });
     });
 
     // determine if the user can add a new how-to

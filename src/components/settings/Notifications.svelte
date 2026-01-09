@@ -157,5 +157,6 @@
         position: absolute;
         top: var(--wordplay-spacing);
         right: var(--wordplay-spacing);
+        background-color: var(--wordplay-background);
     }
 </style>
