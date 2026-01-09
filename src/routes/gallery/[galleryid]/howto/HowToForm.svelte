@@ -371,7 +371,7 @@
     function previewButtonPressed() {
         show = !show;
 
-        if (show && howTo && !howTo.getSeenByUsers().includes($user.uid)) {
+        if (show && howTo && $user && !howTo.getSeenByUsers().includes($user.uid)) {
             howTo = new HowTo({
                 ...howTo.getData(),
                 social: {

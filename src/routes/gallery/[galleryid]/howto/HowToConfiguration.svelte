@@ -127,7 +127,7 @@
         tip={(l) =>
             guidingQuestionsText.trim().length > 0
                 ? l.ui.howto.configuration.guidingQuestions.submit.tip
-                : l.ui.howto.configuration.guidingQuestions.error}
+                : l.ui.howto.configuration.guidingQuestions.submitError}
         action={changeGuidingQuestions}
         submit={true}
         background={true}

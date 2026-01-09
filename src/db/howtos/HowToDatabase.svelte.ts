@@ -113,6 +113,13 @@ export default class HowTo {
         return [this.data.xcoord, this.data.ycoord];
     }
 
+    inCanvasArea(xmin: number, xmax: number, ymin: number, ymax: number) {
+        const buffer = 100; // extra buffer to load how-tos just outside the canvas
+
+        return this.data.xcoord >= xmin - buffer && this.data.xcoord <= xmax + buffer &&
+            this.data.ycoord >= ymin - buffer && this.data.ycoord <= ymax + buffer;
+    }
+
     getTitle() {
         return this.data.title;
     }

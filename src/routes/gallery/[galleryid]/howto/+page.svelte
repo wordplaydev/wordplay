@@ -48,7 +48,11 @@
     // get the how-tos in the gallery
     // if the user is logged in, HowTos.listen() got called by syncUser, which populates HowTos.galleryHowTos in the callback
     // if not, we we will make a one-time query to get the how-tos
+    // we don't want to render any how-tos that aren't in the canvas area
     let howTos: HowTo[] = $state([]);
+    let canvasWidth: number = $state(0);
+    let canvasHeight: number = $state(0);
+
     $effect(() => {
         howTos = [];
 
@@ -327,9 +331,11 @@
                     ontouchmove={(event) => onTouchMove(event)}
                     ondblclick={() => panTo(0, 0)}
                     tabindex="0"
+                    bind:clientWidth={canvasWidth}
+                    bind:clientHeight={canvasHeight}
                 >
                     {#each howTos as howTo, i (i)}
-                        {#if howTo.isPublished()}
+                        {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
                             <HowToPreview
                                 bind:howTo={howTos[i]}
                                 {cameraX}
