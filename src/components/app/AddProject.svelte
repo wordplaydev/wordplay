@@ -17,7 +17,7 @@
                 '',
                 new Source(
                     $locales.get((l) => l.term.start),
-                    '',
+                    $locales.get((l) => l.ui.project.defaults.starterCode),
                 ),
                 [],
                 $locales.getLocales(),
