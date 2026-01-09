@@ -34,6 +34,8 @@ const HowToSocialSchemaV1 = z.object({
     submittedToGuide: z.boolean(),
     /** The list of users who have seen the how-to */
     seenByUsers: z.array(z.string()),
+    /** The number of times that the how-to has been viewed (one user can view it multiple times, or a viewer may not be logged in) */
+    viewCount: z.number(),
 })
 
 const HowToSocialSchemaLatestVersion = 1;
@@ -196,6 +198,10 @@ export default class HowTo {
         return this.data.social.seenByUsers;
     }
 
+    getViewCount() {
+        return this.data.social.viewCount;
+    }
+
     getData() {
         return { ...this.data };
     }
@@ -332,6 +338,7 @@ export class HowToDatabase {
             bookmarkers: [],
             submittedToGuide: false,
             seenByUsers: [user as string],
+            viewCount: 0,
         };
 
         // create a new how-to

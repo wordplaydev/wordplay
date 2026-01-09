@@ -372,19 +372,19 @@
     let collabToggle: boolean = $state(false);
 
     function previewButtonPressed() {
-        show = !show;
+        show = true;
 
-        if (
-            show &&
-            howTo &&
-            $user &&
-            !howTo.getSeenByUsers().includes($user.uid)
-        ) {
+        if (show && howTo) {
+            let newSeenByUsers: string[] = howTo.getSeenByUsers();
+            if ($user && !newSeenByUsers.includes($user.uid))
+                newSeenByUsers.push($user.uid);
+
             howTo = new HowTo({
                 ...howTo.getData(),
                 social: {
                     ...howTo.getSocial(),
-                    seenByUsers: [...howTo.getSeenByUsers(), $user.uid],
+                    seenByUsers: newSeenByUsers,
+                    viewCount: howTo.getViewCount() + 1,
                 },
             });
         }
