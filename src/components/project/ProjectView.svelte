@@ -1041,6 +1041,34 @@
             });
     });
 
+    /** When dragged is set, update the layout if necessary to support dragging to the last editor. */
+    $effect(() => {
+        // Get the current layout (without making a dependnecy, since we assign below).
+        const currentLayout = untrack(() => layout);
+
+        // Figure out what arrangement we're in.
+        const currentArrangement = Layout.getComputedLayout(
+            $arrangement,
+            canvasWidth,
+            canvasHeight,
+        );
+        // Not in single? Don't do anything.
+        if (currentArrangement !== Arrangement.Single) return;
+        // Find the latest source being viewed.
+        const latestSource = currentLayout.getSources().at(-1);
+        if (latestSource === undefined) return;
+        // If dragging something
+        if (dragged) {
+            // And the latest source does not contain what's being dragged
+            if (!latestSource.getSource(project)?.contains(dragged)) {
+                // Move the source to the end and make it visible.
+                layout = currentLayout
+                    .withTileLast(latestSource)
+                    .resized($arrangement, canvasWidth, canvasHeight);
+            }
+        }
+    });
+
     function toggleBlocks(on: boolean) {
         Settings.setBlocks(on);
     }
