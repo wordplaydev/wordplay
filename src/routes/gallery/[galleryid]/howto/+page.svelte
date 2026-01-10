@@ -26,11 +26,13 @@
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
-    const galleryID = decodeURI(page.params.galleryid);
+    const galleryID: string | undefined = page.params.galleryid
+        ? decodeURI(page.params.galleryid)
+        : undefined;
 
     // When the page changes, get the gallery store corresponding to the requested ID.
     $effect(() => {
-        if (page.params.galleryid === undefined) {
+        if (galleryID === undefined) {
             gallery = undefined;
             return;
         }
@@ -54,6 +56,10 @@
     let canvasHeight: number = $state(0);
 
     $effect(() => {
+        if (galleryID === undefined) {
+            return;
+        }
+
         HowTos.galleryHowTos.get(galleryID); // this gets updated by the listener
 
         HowTos.getHowTos(galleryID).then((data) => {

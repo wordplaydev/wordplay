@@ -2,7 +2,6 @@
 import type { NotificationData } from '@components/settings/Notifications.svelte';
 import { Galleries, type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
-import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
 import { and, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, or, query, setDoc, updateDoc, where, type Firestore, type Unsubscribe } from 'firebase/firestore';
 import { SvelteMap, SvelteSet } from 'svelte/reactivity';
@@ -231,6 +230,8 @@ export class HowToDatabase {
         })
     ]);
 
+    private listeners = new Map<string, Set<(howTo: HowTo) => void>>();
+
     private unsubscribe: Unsubscribe | undefined = undefined;
 
     constructor(db: Database) {
@@ -253,9 +254,6 @@ export class HowToDatabase {
 
         const galleryID = howTo.getHowToGalleryId();
         this.galleryHowTos.set(galleryID, (this.galleryHowTos.get(galleryID) ?? new SvelteSet<string>()).add(howToID));
-
-        // make sure we're listening to updates on this chat's gallery
-        this.db.Galleries.listen(howToID, this.galleryListener);
 
         // if asked to persist, update remotely
         if (persist && firestore) {
@@ -522,10 +520,6 @@ export class HowToDatabase {
 
                                 if (this.galleryHowTos.get(galleryId)?.size === 0) {
                                     this.galleryHowTos.delete(galleryId);
-
-                                    if (this.galleryListener) {
-                                        this.db.Galleries.ignore(howToId, this.galleryListener);
-                                    }
                                 }
                             } else if (change.type === 'added') {
                                 const data = change.doc.data();
@@ -549,5 +543,18 @@ export class HowToDatabase {
                 }
             }
         )
+    }
+
+    listenChat(howToId: string, listener: (howTo: HowTo) => void) {
+        const current = this.listeners.get(howToId);
+
+        if (current) current.add(listener);
+        else this.listeners.set(howToId, new Set([(listener)]));
+    }
+
+    ignoreChat(howToId: string, listener: (howTo: HowTo) => void) {
+        const current = this.listeners.get(howToId);
+
+        if (current) current.delete(listener);
     }
 }

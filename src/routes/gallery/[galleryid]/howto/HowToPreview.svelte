@@ -26,6 +26,7 @@
     import UnicodeString from '../../../../unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
     import { movePermitted } from './utils';
+    import type Spaces from '@parser/Spaces';
 
     interface Props {
         howTo: HowTo;
@@ -92,7 +93,7 @@
             let project: Project = Project.make(
                 null,
                 'example',
-                new Source('example', [example.program, markup.spaces]),
+                new Source('example', [example.program, markup.spaces as Spaces]),
                 [],
                 $locales.getLocales(),
             );

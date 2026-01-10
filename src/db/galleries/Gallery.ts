@@ -67,7 +67,7 @@ export function upgradeGallery(
         case GallerySchemaLatestVersion:
             return gallery;
         default:
-            throw new Error('unknown gallery version: ' + gallery.v) as never;
+            throw new Error('unknown gallery version: ' + gallery);
     }
 }
 

@@ -22,11 +22,12 @@
         gallery.getHowToGuidingQuestions().join('\n'),
     );
 
-    let reactions: [string, string, boolean][] = $state(
-        Object.entries(gallery.getHowToReactions()).map(
+    let reactions: [string, string, boolean][] = $state([]);
+    $effect(() => {
+        reactions = Object.entries(gallery.getHowToReactions()).map(
             ([emoji, description]) => [emoji, description, false],
-        ),
-    );
+        );
+    });
 
     // get the viewers for this gallery, based on the gallery setting
     let curators: string[] = $derived(gallery ? gallery.getCurators() : []);

@@ -48,7 +48,9 @@
 
     // utility variables
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
-    const galleryID: string = decodeURI(page.params.galleryid);
+    const galleryID: string | undefined = page.params.galleryid
+        ? decodeURI(page.params.galleryid)
+        : undefined;
 
     // Load the gallery if it exists.
     let gallery = $state<Gallery | undefined>(undefined);
@@ -197,6 +199,8 @@
 
     // writer functions
     async function writeNewHowTo(publish: boolean) {
+        if (!galleryID) return;
+
         if (title.length === 0)
             title = $locales.get((l) => l.ui.howto.editor.titlePlaceholder);
 
@@ -458,7 +462,7 @@
             />
         </Subheader>
 
-        {#each text as t, i (i)}
+        {#each text as _, i (i)}
             <HowToPrompt text={(l) => prompts[i]} />
             <FormattedEditor
                 placeholder={(l) => l.ui.howto.editor.editorPlaceholder}
@@ -627,7 +631,7 @@
                     {/if}
                 </div>
 
-                {#each text as t, i (i)}
+                {#each text as _, i (i)}
                     <HowToPrompt text={(l) => prompts[i]} />
                     <MarkupHTMLView markup={text[i]} />
                 {/each}

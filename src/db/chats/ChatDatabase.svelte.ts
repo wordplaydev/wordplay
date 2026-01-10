@@ -252,7 +252,11 @@ export class ChatDatabase {
         this.chats.set(projectID, chat);
 
         // Make sure we're listening to updates on the chat's project.
-        this.db.Projects.listen(projectID, this.projectsListener);
+        if (chat.getType() === "project") {
+            this.db.Projects.listen(projectID, this.projectsListener);
+        } else {
+            this.db.HowTos.listenChat(projectID, this.howToListener);
+        }
 
         // Make sure we're listening to the gallery of the project.
         this.db.Galleries.listen(projectID, this.galleryListener);
@@ -331,7 +335,7 @@ export class ChatDatabase {
 
     async addChatToHowTo(
         howTo: HowTo,
-        gallery: Gallery
+        gallery: Gallery | undefined
     ) {
         if (firestore === undefined) return undefined;
         const creator = howTo.getCreator();
@@ -372,7 +376,7 @@ export class ChatDatabase {
             // Projects.reviseProject(project.withChat(newChat.project));
             HowTos.updateHowTo(new HowTo({
                 ...howTo.getData(),
-                chat: newChat.project,
+                social: { ...howTo.getSocial(), chat: newChat.project },
             }), true);
 
         } catch (err) {
@@ -606,10 +610,15 @@ export class ChatDatabase {
                     if (change.type === 'removed') {
                         const projectID = change.doc.id;
                         this.chats.delete(projectID);
-                        if (this.projectsListener)
+                        if (change.doc.data().type === "project" && this.projectsListener)
                             this.db.Projects.ignore(
                                 projectID,
                                 this.projectsListener,
+                            );
+                        else if (change.doc.data().type === "howto" && this.howToListener)
+                            this.db.HowTos.ignoreChat(
+                                projectID,
+                                this.howToListener,
                             );
                     } else {
                         // added or modified? notify if there is a new message after the start time

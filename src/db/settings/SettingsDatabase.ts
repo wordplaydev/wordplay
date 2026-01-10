@@ -59,7 +59,7 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
         case SettingsSchemaLatestVersion:
             return settings;
         default:
-            throw new Error(`Unknown settings version ${settings.v}`);
+            throw new Error(`Unknown settings version ${settings}`);
     }
 }
 

@@ -10,7 +10,7 @@
     import Iconified from '../../../Iconified.svelte';
 
     interface Props {
-        galleryID: string;
+        galleryID: string | undefined;
         projectsEditable: boolean;
     }
 
