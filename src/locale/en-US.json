@@ -4859,20 +4859,20 @@
             },
             "bookmarks": {
                 "header": "🔖 Bookmarks",
-                "tooltip": "Click me to go to this how-to",
+                "tooltip": "go to this how-to",
                 "canBookmark": {
                     "label": "🔖 Bookmark how-to",
-                    "tip": "Bookmark this how-to to find it later"
+                    "tip": "bookmark this how-to to find it later"
                 },
                 "alreadyBookmarked": {
                     "label": "🔖 Remove bookmark",
-                    "tip": "Remove this how-to from your bookmarks"
+                    "tip": "remove this how-to from your bookmarks"
                 }
             },
-            "navigationtooltip": "Navigate to a how-to",
+            "navigationtooltip": "navigate to a how-to",
             "add": {
-                "label": "Add new how-to",
-                "tip": "Add new how-to"
+                "label": "add new how-to",
+                "tip": "add new how-to"
             },
             "editor": {
                 "newForm": {
@@ -4885,11 +4885,11 @@
                 },
                 "post": {
                     "label": "📣 Post",
-                    "tip": "Post your how-to to the space"
+                    "tip": "post your how-to to the space"
                 },
                 "save": {
                     "label": "💾 Save draft",
-                    "tip": "Save your how-to as a draft"
+                    "tip": "save your how-to as a draft"
                 },
                 "notification": {
                     "label": "notify subscribers",
@@ -4898,58 +4898,58 @@
                         "do not notify"
                     ],
                     "tips": [
-                        "Notify subscribers when you post this how-to",
-                        "Do not notify subscribers when you post this how-to"
+                        "notify subscribers when you post this how-to",
+                        "do not notify subscribers when you post this how-to"
                     ]
                 },
                 "editorPlaceholder": "Write your how-to here",
-                "editorDescription": "A text box to write your how-to",
+                "editorDescription": "a text box to write your how-to",
                 "title": {
-                    "description": "The title of your how-to",
+                    "description": "the title of your how-to",
                     "placeholder": "Title"
                 },
                 "titlePlaceholder": "Untitled how-to",
                 "collaboratorsPrompt": "Add a collaborator, who can edit this how-to",
                 "collaboratorsToggle": {
-                    "on": "Collapse the collaborators panel",
-                    "off": "Expand the collaborators panel"
+                    "on": "collapse the collaborators panel",
+                    "off": "expand the collaborators panel"
                 }
             },
             "viewer": {
                 "view": {
                     "label": "View how-to",
-                    "tip": "View how-to"
+                    "tip": "view how-to"
                 },
                 "edit": {
                     "label": "✏️ Edit",
-                    "tip": "Edit this how-to"
+                    "tip": "edit this how-to"
                 },
                 "delete": {
-                    "description": "Delete this how-to",
+                    "description": "delete this how-to",
                     "prompt": "🗑️ Delete"
                 },
                 "submitToGuide": {
                     "submit": {
                         "label": "📨 Submit to Wordplay Guide",
-                        "tip": "Submit this how-to to be considered for inclusion in the Wordplay Guide!"
+                        "tip": "submit this how-to to be considered for inclusion in the Wordplay Guide!"
                     },
                     "alreadySubmitted": {
                         "label": "✅ Submitted to Guide",
-                        "tip": "This how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
+                        "tip": "this how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
                     }
                 },
                 "usedBy": {
                     "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
                     "countDisplay": "and $1 other projects or how-tos",
-                    "selector": "Project and how-to selector",
-                    "removeButton": "Remove project or how-to from list",
-                    "addButton": "Add project or how-to"
+                    "selector": "project and how-to selector",
+                    "removeButton": "remove project or how-to from list",
+                    "addButton": "add project or how-to"
                 },
                 "reactionsPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
                 "chatPrompt": "Leave a comment or question for the creator!",
                 "link": {
                     "label": "🔗 Copy how-to link",
-                    "tip": "Copy link to this how-to"
+                    "tip": "copy link to this how-to"
                 }
             },
             "configuration": {
@@ -4958,7 +4958,7 @@
                     "explanation": "Configure the settings for this how-to space."
                 },
                 "configurationButton": {
-                    "tip": "Configure this how-to space",
+                    "tip": "configure this how-to space",
                     "label": "⚙️ Settings"
                 },
                 "visibility": {
@@ -4985,12 +4985,12 @@
                         "header": "Guiding Questions",
                         "explanation": "Configure the guiding questions shown when creating a new how-to. Separate guiding questions with a line break."
                     },
-                    "descriptor": "A text box to write your guiding questions, separated by a line break.",
+                    "descriptor": "a text box to write your guiding questions, separated by a line break.",
                     "submit": {
                         "label": "Save guiding questions",
-                        "tip": "Save guiding questions"
+                        "tip": "save guiding questions"
                     },
-                    "submitError": "Guiding questions cannot be empty.",
+                    "submitError": "guiding questions cannot be empty.",
                     "default": [
                         "Tell us the story of how you discovered this"
                     ]
@@ -5000,15 +5000,15 @@
                         "header": "Reactions",
                         "explanation": "Configure the reactions that viewers can leave on new how-tos"
                     },
-                    "reactionPickerTip": "Choose a character to be a reaction",
-                    "reactionDescriptionTip": "Describe what this reaction means",
-                    "addReactionTip": "Add a new reaction",
-                    "removeReactionTip": "Remove this reaction",
+                    "reactionPickerTip": "choose a character to be a reaction",
+                    "reactionDescriptionTip": "describe what this reaction means",
+                    "addReactionTip": "add a new reaction",
+                    "removeReactionTip": "remove this reaction",
                     "submit": {
                         "label": "Save reactions",
-                        "tip": "Save reactions"
+                        "tip": "save reactions"
                     },
-                    "submitError": "At least one reaction is required.",
+                    "submitError": "at least one reaction is required.",
                     "default": {
                         "👍": "I like this!",
                         "💭": "This inspires me!",
@@ -5577,7 +5577,7 @@
             "notifications": {
                 "header": "Notifications",
                 "explanation": "Notifications from new chats and published how-tos",
-                "open": "Open notifications dialog",
+                "open": "open notifications dialog",
                 "howToNotifications": {
                     "label": "notifications for new how-tos",
                     "labels": [
@@ -5599,7 +5599,7 @@
                     "howToChatHeader": "New message in how-to \"$1\"",
                     "link": "details"
                 },
-                "delete": "Delete this notification",
+                "delete": "delete this notification",
                 "popup": "New notification"
             },
             "locale": {
