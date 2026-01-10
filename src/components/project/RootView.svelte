@@ -19,7 +19,6 @@
     import {
         setCaret,
         setHidden,
-        setIsBlocks,
         setLocalize,
         setRoot,
         setShowLines,
@@ -120,13 +119,6 @@
     setShowLines(showLines);
     $effect(() => {
         showLines.set(lines);
-    });
-
-    // svelte-ignore state_referenced_locally
-    let isBlocks = writable<boolean>(blocks);
-    setIsBlocks(isBlocks);
-    $effect(() => {
-        isBlocks.set(blocks);
     });
 
     // Update what's hidden when locales or localized changes.
@@ -241,7 +233,7 @@
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
-        ><NodeView {node} format={{ block: $isBlocks, root, editable }} /></span
+        ><NodeView {node} format={{ block: blocks, root, editable }} /></span
     >
 {:else}
     <code
@@ -249,7 +241,7 @@
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
-        ><NodeView {node} format={{ block: $isBlocks, root, editable }} /></code
+        ><NodeView {node} format={{ block: blocks, root, editable }} /></code
     >
 {/if}
 

@@ -26,7 +26,7 @@
     import Speech from '../lore/Speech.svelte';
     import moveOutput, { addStageContent } from '../palette/editOutput';
     import {
-        getAnnounce,
+        getAnnouncer,
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
@@ -74,7 +74,7 @@
     const evaluation = getEvaluation();
     const keyboardEditIdle = getKeyboardEditIdle();
     const selection = getSelectedOutput();
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();

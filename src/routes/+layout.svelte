@@ -25,7 +25,6 @@
         Settings,
     } from '../db/Database';
     import { getLanguageDirection } from '../locale/LanguageCode';
-
     interface Props {
         children: Snippet;
     }

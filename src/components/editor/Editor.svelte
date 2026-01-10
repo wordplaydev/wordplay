@@ -53,7 +53,7 @@
         type EditorState,
         IdleKind,
         getAnimatingNodes,
-        getAnnounce,
+        getAnnouncer,
         getConceptIndex,
         getConflicts,
         getDragged,
@@ -65,7 +65,6 @@
         setDragTarget,
         setEditor,
         setHighlights,
-        setHovered,
         setSetMenuAnchor,
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
@@ -224,7 +223,6 @@
 
     // A store of what node is hovered over, excluding tokens, used in drag and drop.
     const hovered = writable<Node | undefined>(undefined);
-    setHovered(hovered);
 
     // A store of what node is hovered over, including tokens.
     const hoveredAny = writable<Node | undefined>(undefined);
@@ -268,7 +266,7 @@
     let dragCandidate: Node | undefined = $state(undefined);
 
     // Whenever the caret changes, update it's announcements.
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     // True when the last key was ignored and we're not debugging.
     let shakeCaret = $derived(

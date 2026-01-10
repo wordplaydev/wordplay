@@ -10,7 +10,7 @@
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
-    import CharacterChooser from '@components/editor/commands/GlyphChooser.svelte';
+    import GlyphChooser from '@components/editor/commands/GlyphChooser.svelte';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import Menu from '@components/editor/menu/Menu.svelte';
     import Speech from '@components/lore/Speech.svelte';
@@ -94,7 +94,7 @@
     import type Bounds from './Bounds';
     import Checkpoints from './Checkpoints.svelte';
     import {
-        getAnnounce,
+        getAnnouncer,
         getConceptPath,
         getFullscreen,
         getUser,
@@ -269,7 +269,7 @@
     const pageFullscreen = getFullscreen();
 
     /** The live region announcer */
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
@@ -1750,7 +1750,7 @@
                             {/snippet}
                             {#snippet footer()}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    {#if editableAndCurrent}<CharacterChooser
+                                    {#if editableAndCurrent}<GlyphChooser
                                             sourceID={tile.id}
                                         />{/if}
                                     {#if checkpoint > -1}
