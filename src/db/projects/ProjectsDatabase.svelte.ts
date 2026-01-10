@@ -636,8 +636,6 @@ export default class ProjectsDatabase {
 
         // Then, try to save them in Firebase if we have a user ID.
         if (firestore && userID) {
-            this.database.setStatus(SaveStatus.Saving, undefined);
-
             const unsaved = online.filter((history) => history.isUnsaved());
             /** Whether a project was not saved because it has PII. */
             let skipped = false;
@@ -689,7 +687,7 @@ export default class ProjectsDatabase {
                     (l) => l.ui.project.save.projectNotSavedOnline,
                 );
             }
-        }
+        } else this.database.setStatus(SaveStatus.Saved, undefined);
     }
 
     /** Revise all editable projects to use the specified locales */
