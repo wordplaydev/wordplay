@@ -17,7 +17,7 @@ jobs:
             - name: Install dependencies
               run: npm ci
             - run: echo "${{ secrets.ENV_DEMO }}" > .env
-            - run: echo "${{ secrets.FUNCTIONS_ENV_DEMO }}" > functions/.env
+            - run: echo "${{ secrets.FUNCTIONS_ENV_DEMO }}" > functions/.env && echo "SMTP_PASSWORD=" >> functions/.env
             - name: Set up JDK 21 # Firebase tools requires >=21
               uses: actions/setup-java@v4
               with:
