@@ -15,6 +15,9 @@ test('create project and visit its tiles ', async ({ page }) => {
     // Click to open the collaboration panel
     await page.getByTestId('collaborate-toggle').click();
 
+    // Click to open the documentation panel
+    await page.getByTestId('docs-toggle').click();
+
     // Expect all tiles to be visible.
     await Promise.all([
         expect(page.getByTestId('tile-output')).toBeVisible(),
