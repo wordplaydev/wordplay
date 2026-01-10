@@ -13,10 +13,17 @@ export function getTestFirestore(): Firestore {
     }
 
     const testApp = initializeApp({
-        projectId: 'demo',
+        projectId: 'demo-wordplay',
     });
 
     firestoreInstance = getFirestore(testApp);
+
+    // Connect to the Firestore emulator
+    firestoreInstance.settings({
+        host: 'localhost:8080',
+        ssl: false,
+    });
+
     return firestoreInstance;
 }
 
