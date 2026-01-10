@@ -1536,15 +1536,24 @@
         and a visual label for sighted folks.
      -->
     {#key $caret.position}
+        {@const descriptionLeft =
+            caretLocation === undefined
+                ? undefined
+                : Math.min(caretLocation.left)}
+        {@const descriptionTop =
+            caretLocation === undefined
+                ? undefined
+                : Math.min(caretLocation.bottom)}
         <div
             class="caret-description"
             class:ignored={shakeCaret}
             class:visible={$caret.isNode() || keyIgnoredReason !== undefined}
             onpointerdown={(event) => event.stopPropagation()}
-            style:left={caretLocation
-                ? `calc(${caretLocation.left}px - ${OutlinePadding}px)`
+            style:left={descriptionLeft
+                ? `calc(${descriptionLeft}px - ${OutlinePadding}px)`
                 : undefined}
-            style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
+            style:top={descriptionTop ? `${descriptionTop}px` : undefined}
+            data-left={descriptionLeft}
             >{#if $caret.position instanceof Node}
                 {@const relevantConcept = concepts?.getRelevantConcept(
                     $caret.position,

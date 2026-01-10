@@ -469,10 +469,10 @@
                     };
                 }
             }
-            // ... and it's not a placeholder, position (invisible) caret at it's top left
+            // ... and it's not a placeholder, position (invisible) caret below the last token.
             // This is for scrolling purposes.
             else {
-                // Find the bottom left token or value view.
+                // Find the token and value views being displayed for the node.
                 const tokenAndValueViews = nodeView.classList.contains(
                     'token-view',
                 )
@@ -480,19 +480,22 @@
                     : Array.from(
                           nodeView.querySelectorAll(':is(.token-view, .value)'),
                       );
+                // No tokens? No loccation :(
                 if (tokenAndValueViews.length === 0) return;
                 // Get the bounding rect of the last token or value in the layout
                 // and place the caret there for scrolling purposes.
-                const nodeViewRect =
-                    tokenAndValueViews[
-                        tokenAndValueViews.length - 1
-                    ].getBoundingClientRect();
+                const rects = tokenAndValueViews.map((t) =>
+                    t.getBoundingClientRect(),
+                );
+                const left = Math.min(...rects.map((r) => r.left));
+                const bottom = Math.max(...rects.map((r) => r.bottom));
+                const height = bottom - Math.min(...rects.map((r) => r.top));
 
                 return {
-                    left: nodeViewRect.right + editorPadding + viewportXOffset,
-                    top: nodeViewRect.top + viewportYOffset,
-                    height: nodeViewRect.height,
-                    bottom: nodeViewRect.bottom + viewportYOffset,
+                    left: left + viewportXOffset,
+                    top: bottom + viewportYOffset,
+                    height: height,
+                    bottom: bottom + viewportYOffset,
                 };
             }
         }
