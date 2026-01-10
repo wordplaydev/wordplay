@@ -194,7 +194,7 @@ export const [getRoot, setRoot] = createOptionalContext<{
 }>();
 
 /** White space of the root */
-export const [getSpaces, setSpaces] = createContext<Writable<Spaces>>();
+export const [getSpaces, setSpaces] = createOptionalContext<Writable<Spaces>>();
 
 /** Hidden nodes in the root */
 export const [getHidden, setHidden] =
