@@ -19,6 +19,7 @@
         filtered={node.getNodeSegments()}
         empty="menu"
         {format}
+        wrap
     /></span
 ><NodeView node={[node, 'close']} {format} empty="hide" />
 

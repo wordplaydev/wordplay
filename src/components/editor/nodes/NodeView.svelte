@@ -1,8 +1,11 @@
 <script module>
+    import type Spaces from '@parser/Spaces';
+
     export type Format = {
         block: boolean;
         root: Root | undefined;
         editable: boolean;
+        spaces: Spaces | undefined;
         definition?: Definition | undefined;
     };
 </script>

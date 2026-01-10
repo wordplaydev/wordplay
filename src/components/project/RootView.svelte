@@ -233,7 +233,10 @@
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
-        ><NodeView {node} format={{ block: blocks, root, editable }} /></span
+        ><NodeView
+            {node}
+            format={{ block: blocks, spaces, root, editable }}
+        /></span
     >
 {:else}
     <code
@@ -241,7 +244,10 @@
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
-        ><NodeView {node} format={{ block: blocks, root, editable }} /></code
+        ><NodeView
+            {node}
+            format={{ block: blocks, spaces, root, editable }}
+        /></code
     >
 {/if}
 
