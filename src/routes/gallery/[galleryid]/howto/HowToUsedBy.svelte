@@ -48,8 +48,6 @@
         }),
     );
 
-    $effect(() => console.log(unusedProjects.length, unusedHowTos.length));
-
     // compute which options to display in the dropdown
     let dropdownOptions: Option[] = $derived([
         { value: undefined, label: '—' },

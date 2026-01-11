@@ -416,6 +416,9 @@
     }
 </script>
 
+<!-- button to click to open the how-to dialog. if there is a preview (i.e., it is published), use the preview as the button. 
+ if not, then if there is a how-to, then this is a draft; use the title as the button
+ otherwise, this is the "add new how-to" button; use the "+" as the button -->
 {#if preview}
     <Button
         tip={(l) =>
@@ -437,6 +440,8 @@
         large={!howTo}
     ></Button>
 {/if}
+
+<!-- how-to form -->
 <Dialog
     bind:show
     header={(l) =>
@@ -541,10 +546,10 @@
                     }}
                     active={true}
                     submit={true}
-                /></div
-            >
+                />
+            </div>
         </div>
-    {:else if howTo}
+    {:else if howTo && howTo.isPublished()}
         <HowToPrompt>
             {title}
         </HowToPrompt>
@@ -554,9 +559,6 @@
                 editable={false}
                 uids={allCollaborators}
             />
-            {#if !isPublished}
-                <MarkupHTMLView markup={(l) => l.ui.howto.drafts.note} />
-            {/if}
         </div>
         <div class="howtosplitview">
             <div class="splitside" id="howtoview">
@@ -584,54 +586,49 @@
                             }}
                             label={(l) => l.ui.howto.viewer.delete.prompt}
                         />
-                        {#if isPublished}
-                            <Button
-                                tip={(l) =>
-                                    isSubmitted
-                                        ? l.ui.howto.viewer.submitToGuide
-                                              .alreadySubmitted.tip
-                                        : l.ui.howto.viewer.submitToGuide.submit
-                                              .tip}
-                                label={(l) =>
-                                    isSubmitted
-                                        ? l.ui.howto.viewer.submitToGuide
-                                              .alreadySubmitted.label
-                                        : l.ui.howto.viewer.submitToGuide.submit
-                                              .label}
-                                active={!isSubmitted}
-                                action={() => {
-                                    submitToGuide();
-                                }}
-                            />
-                        {/if}
-                    {/if}
-                    {#if isPublished}
                         <Button
                             tip={(l) =>
-                                userHasBookmarked
-                                    ? l.ui.howto.bookmarks.alreadyBookmarked.tip
-                                    : l.ui.howto.bookmarks.canBookmark.tip}
+                                isSubmitted
+                                    ? l.ui.howto.viewer.submitToGuide
+                                          .alreadySubmitted.tip
+                                    : l.ui.howto.viewer.submitToGuide.submit
+                                          .tip}
                             label={(l) =>
-                                userHasBookmarked
-                                    ? l.ui.howto.bookmarks.alreadyBookmarked
-                                          .label
-                                    : l.ui.howto.bookmarks.canBookmark.label}
-                            active={true}
-                            background={userHasBookmarked}
+                                isSubmitted
+                                    ? l.ui.howto.viewer.submitToGuide
+                                          .alreadySubmitted.label
+                                    : l.ui.howto.viewer.submitToGuide.submit
+                                          .label}
+                            active={!isSubmitted}
                             action={() => {
-                                addRemoveBookmark();
-                            }}
-                        />
-                        <Button
-                            tip={(l) => l.ui.howto.viewer.link.tip}
-                            label={(l) => l.ui.howto.viewer.link.label}
-                            action={async () => {
-                                await navigator.clipboard.writeText(
-                                    `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
-                                );
+                                submitToGuide();
                             }}
                         />
                     {/if}
+                    <Button
+                        tip={(l) =>
+                            userHasBookmarked
+                                ? l.ui.howto.bookmarks.alreadyBookmarked.tip
+                                : l.ui.howto.bookmarks.canBookmark.tip}
+                        label={(l) =>
+                            userHasBookmarked
+                                ? l.ui.howto.bookmarks.alreadyBookmarked.label
+                                : l.ui.howto.bookmarks.canBookmark.label}
+                        active={true}
+                        background={userHasBookmarked}
+                        action={() => {
+                            addRemoveBookmark();
+                        }}
+                    />
+                    <Button
+                        tip={(l) => l.ui.howto.viewer.link.tip}
+                        label={(l) => l.ui.howto.viewer.link.label}
+                        action={async () => {
+                            await navigator.clipboard.writeText(
+                                `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
+                            );
+                        }}
+                    />
                 </div>
 
                 {#each text as _, i (i)}
@@ -639,43 +636,77 @@
                     <MarkupHTMLView markup={text[i]} />
                 {/each}
             </div>
-            {#if isPublished}
-                <div class="splitside" id="howtointeractions">
-                    <HowToPrompt
-                        text={(l) => l.ui.howto.viewer.reactionsPrompt}
+            <div class="splitside" id="howtointeractions">
+                <HowToPrompt text={(l) => l.ui.howto.viewer.reactionsPrompt} />
+                {#each reactionButtons as reaction, i (i)}
+                    <Button
+                        tip={(l) => reaction.tip}
+                        label={(l) =>
+                            reaction.label +
+                            ' ' +
+                            (howTo ? howTo.getNumReactions(reaction.label) : 0)}
+                        active={true}
+                        background={$user && howTo
+                            ? howTo.didUserReact($user.uid, reaction.label)
+                            : false}
+                        action={() => {
+                            addRemoveReaction(reaction.label);
+                        }}
                     />
-                    {#each reactionButtons as reaction, i (i)}
-                        <Button
-                            tip={(l) => reaction.tip}
-                            label={(l) =>
-                                reaction.label +
-                                ' ' +
-                                (howTo
-                                    ? howTo.getNumReactions(reaction.label)
-                                    : 0)}
-                            active={true}
-                            background={$user && howTo
-                                ? howTo.didUserReact($user.uid, reaction.label)
-                                : false}
-                            action={() => {
-                                addRemoveReaction(reaction.label);
-                            }}
-                        />
-                    {/each}
+                {/each}
 
-                    <HowToUsedBy bind:howTo />
+                <HowToUsedBy bind:howTo />
 
-                    <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
+                <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
 
-                    <ChatView
-                        {chat}
-                        creators={chatParticipants}
-                        {gallery}
-                        {howTo}
-                    />
-                </div>
+                <ChatView
+                    {chat}
+                    creators={chatParticipants}
+                    {gallery}
+                    {howTo}
+                />
+            </div>
+        </div>
+    {:else}
+        <HowToPrompt>
+            {title}
+        </HowToPrompt>
+        <div class="creatorlist">
+            <CreatorList
+                anonymize={false}
+                editable={false}
+                uids={allCollaborators}
+            />
+            {#if !isPublished}
+                <MarkupHTMLView markup={(l) => l.ui.howto.drafts.note} />
             {/if}
         </div>
+        <div class="toolbar">
+            <Button
+                tip={(l) => l.ui.howto.viewer.edit.tip}
+                label={(l) => l.ui.howto.viewer.edit.label}
+                active={true}
+                action={() => {
+                    editingMode = true;
+                }}
+            />
+            <ConfirmButton
+                tip={(l) => l.ui.howto.viewer.delete.description}
+                prompt={(l) => l.ui.howto.viewer.delete.prompt}
+                action={async () => {
+                    if (galleryID && howTo) {
+                        await HowTos.deleteHowTo(howToId, galleryID);
+                        show = false;
+                    }
+                }}
+                label={(l) => l.ui.howto.viewer.delete.prompt}
+            />
+        </div>
+
+        {#each text as _, i (i)}
+            <HowToPrompt text={(l) => prompts[i]} />
+            <MarkupHTMLView markup={text[i]} />
+        {/each}
     {/if}
 </Dialog>
 

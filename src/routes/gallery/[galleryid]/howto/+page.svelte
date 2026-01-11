@@ -96,20 +96,20 @@
     let canvasMoving = $state(false);
     let childMoving = $state(false);
 
-    function onMouseDown() {
+    function onPointerDown() {
         if (!childMoving) {
             canvasMoving = true;
         }
     }
 
-    function onMouseMove(e: MouseEvent) {
+    function onPointerMove(e: PointerEvent) {
         if (canvasMoving && !childMoving) {
             cameraX += e.movementX;
             cameraY += e.movementY;
         }
     }
 
-    function onMouseUp() {
+    function onPointerUp() {
         if (!childMoving) {
             canvasMoving = false;
         }
@@ -138,42 +138,6 @@
                     return;
             }
             return;
-        }
-    }
-
-    let touchPrevX: number | undefined = $state(undefined);
-    let touchPrevY: number | undefined = $state(undefined);
-    function onTouchStart(event: TouchEvent) {
-        if (!childMoving) {
-            canvasMoving = true;
-            touchPrevX = event.touches[0].clientX;
-            touchPrevY = event.touches[0].clientY;
-        }
-    }
-
-    function onTouchMove(event: TouchEvent) {
-        if (canvasMoving && !childMoving) {
-            let touchX = event.touches[0].clientX;
-            let touchY = event.touches[0].clientY;
-
-            if (touchPrevX !== undefined && touchPrevY !== undefined) {
-                let deltaX = touchX - touchPrevX;
-                let deltaY = touchY - touchPrevY;
-
-                cameraX += deltaX;
-                cameraY += deltaY;
-            }
-
-            touchPrevX = touchX;
-            touchPrevY = touchY;
-        }
-    }
-
-    function onTouchEnd() {
-        if (!childMoving) {
-            canvasMoving = false;
-            touchPrevX = undefined;
-            touchPrevY = undefined;
         }
     }
 
@@ -336,13 +300,10 @@
                 <div
                     class="canvas"
                     id="canvas"
-                    onmouseup={onMouseUp}
-                    onmousedown={onMouseDown}
-                    onmousemove={onMouseMove}
+                    onpointerup={onPointerUp}
+                    onpointerdown={onPointerDown}
+                    onpointermove={(e) => onPointerMove(e)}
                     onkeydown={(event) => onKeyDown(event)}
-                    ontouchstart={(event) => onTouchStart(event)}
-                    ontouchend={onTouchEnd}
-                    ontouchmove={(event) => onTouchMove(event)}
                     ondblclick={() => panTo(0, 0)}
                     tabindex="0"
                     bind:clientWidth={canvasWidth}
@@ -421,6 +382,7 @@
         padding: var(--wordplay-spacing);
         overflow: hidden;
         position: relative;
+        touch-action: none;
     }
 
     .canvas:active {

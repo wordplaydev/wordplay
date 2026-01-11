@@ -209,14 +209,14 @@
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
     // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
-    function onMouseDown() {
+    function onPointerDown() {
         if (!canEdit) return;
 
         childMoving = true;
         thisChildMoving = true;
     }
 
-    function onMouseMove(e: MouseEvent) {
+    function onPointerMove(e: PointerEvent) {
         if (!canEdit) return;
         if (thisChildMoving) {
             let intendX = xcoord + e.movementX;
@@ -236,6 +236,11 @@
                 ycoord = intendY;
             }
         }
+    }
+
+    function onPointerUp() {
+        if (!canEdit) return;
+        onDropHowTo();
     }
 
     function onKeyPress(event: KeyboardEvent) {
@@ -343,11 +348,6 @@
         }
     }
 
-    function onMouseUp() {
-        if (!canEdit) return;
-        onDropHowTo();
-    }
-
     function onLoseFocus() {
         if (!canEdit) return;
         if (thisChildMoved) {
@@ -358,57 +358,6 @@
             thisChildMoving = false;
             childMoving = false;
         }
-    }
-
-    let prevTouchX: number | undefined = $state(undefined);
-    let prevTouchY: number | undefined = $state(undefined);
-    function onTouchStart(e: TouchEvent) {
-        if (!canEdit) return;
-        childMoving = true;
-        thisChildMoving = true;
-
-        prevTouchX = e.touches[0].clientX;
-        prevTouchY = e.touches[0].clientY;
-    }
-
-    function onTouchMove(e: TouchEvent) {
-        if (!canEdit) return;
-        if (
-            thisChildMoving &&
-            prevTouchX !== undefined &&
-            prevTouchY !== undefined
-        ) {
-            const deltaX = e.touches[0].clientX - prevTouchX;
-            const deltaY = e.touches[0].clientY - prevTouchY;
-
-            let intendX = xcoord + deltaX;
-            let intendY = ycoord + deltaY;
-
-            if (
-                movePermitted(
-                    intendX,
-                    intendY,
-                    width,
-                    height,
-                    howToId,
-                    notPermittedAreas,
-                )
-            ) {
-                xcoord = intendX;
-                ycoord = intendY;
-            }
-
-            prevTouchX = e.touches[0].clientX;
-            prevTouchY = e.touches[0].clientY;
-        }
-    }
-
-    function onTouchEnd(e: TouchEvent) {
-        if (!canEdit) return;
-        onDropHowTo();
-
-        prevTouchX = undefined;
-        prevTouchY = undefined;
     }
 
     // collision detection
@@ -467,14 +416,13 @@
     class="howto"
     style:left={`${renderX}px`}
     style:top={`${renderY}px`}
-    onmousedown={onMouseDown}
     id="howto-{howToId}"
     tabindex="0"
     aria-label="How-to preview for {title}"
-    onfocus={onMouseDown}
+    onfocus={onPointerDown}
     onblur={onLoseFocus}
+    onpointerdown={onPointerDown}
     onkeydown={onKeyPress}
-    ontouchstart={(e) => onTouchStart(e)}
     bind:clientWidth={width}
     bind:clientHeight={height}
 >
@@ -490,10 +438,8 @@
     />
 </div>
 <svelte:window
-    on:mouseup={onMouseUp}
-    on:mousemove={onMouseMove}
-    on:touchmove={(e) => onTouchMove(e)}
-    on:touchend={(e) => onTouchEnd(e)}
+    on:pointerup={onPointerUp}
+    on:pointermove={(e) => onPointerMove(e)}
 />
 
 <style>
@@ -511,6 +457,7 @@
         height: auto;
         padding: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
+        touch-action: none;
     }
 
     .howto:hover {
