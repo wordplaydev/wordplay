@@ -181,7 +181,7 @@ export const [getHighlights, setHighlights] =
     createOptionalContext<Writable<Highlights>>();
 
 export const [getSetMenuAnchor, setSetMenuAnchor] =
-    createContext<
+    createOptionalContext<
         Writable<(position: CaretPosition | FieldPosition) => void>
     >();
 

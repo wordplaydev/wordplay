@@ -20,8 +20,9 @@
 
     function show(event: PointerEvent | KeyboardEvent) {
         if (event instanceof PointerEvent && event.button !== 0) return;
+        if (menuNode === undefined) return;
 
-        if (menuNode) {
+        if ($menuNode) {
             event.stopPropagation();
             $menuNode(anchor);
         }
