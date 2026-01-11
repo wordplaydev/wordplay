@@ -48,6 +48,8 @@
         }),
     );
 
+    $effect(() => console.log(unusedProjects.length, unusedHowTos.length));
+
     // compute which options to display in the dropdown
     let dropdownOptions: Option[] = $derived([
         { value: undefined, label: '—' },
@@ -56,7 +58,7 @@
             label: p.getName(),
         })),
         ...unusedHowTos
-            .filter((ht) => ht.getHowToId() != howToId)
+            .filter((ht) => ht.getHowToId() != howToId && ht.isPublished())
             .map((ht) => ({
                 value: ht.getHowToId(),
                 label: ht.getTitle(),
@@ -137,27 +139,40 @@
     {@render usedItem(howToItem.getTitle(), howToItem.getHowToId())}
 {/each}
 
-<form class="form">
-    <Options
-        id="usedBySelector"
-        bind:value={usedByProjectToAdd}
-        label={(l) => l.ui.howto.viewer.usedBy.selector}
-        options={dropdownOptions}
-        change={() => {}}
+{#if dropdownOptions.length > 1}
+    <form class="form">
+        <Options
+            id="usedBySelector"
+            bind:value={usedByProjectToAdd}
+            label={(l) => l.ui.howto.viewer.usedBy.selector}
+            options={dropdownOptions}
+            change={() => {}}
+        />
+        <Button
+            submit
+            background
+            tip={(l) => l.ui.howto.viewer.usedBy.addButton}
+            active={usedByProjectToAdd !== undefined}
+            action={() => {
+                addUsedByToList();
+            }}
+            >&gt;
+        </Button>
+    </form>
+{:else}
+    <MarkupHTMLView
+        inline
+        markup={docToMarkup(
+            $locales.get((l) => l.ui.howto.viewer.usedBy.empty),
+        )}
     />
-    <Button
-        submit
-        background
-        tip={(l) => l.ui.howto.viewer.usedBy.addButton}
-        active={usedByProjectToAdd !== undefined}
-        action={() => {
-            addUsedByToList();
-        }}>&gt;</Button
-    >
-</form>
-<MarkupHTMLView
-    inline
-    markup={docToMarkup(
-        $locales.get((l) => l.ui.howto.viewer.usedBy.countDisplay),
-    ).concretize($locales, [numOtherUsedBy]) ?? ''}
-/>
+{/if}
+
+{#if numOtherUsedBy > 0}
+    <MarkupHTMLView
+        inline
+        markup={docToMarkup(
+            $locales.get((l) => l.ui.howto.viewer.usedBy.countDisplay),
+        ).concretize($locales, [numOtherUsedBy]) ?? ''}
+    />
+{/if}

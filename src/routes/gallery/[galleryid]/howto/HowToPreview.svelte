@@ -6,7 +6,7 @@
         isAuthenticated,
     } from '@components/project/Contexts';
     import { characterToSVG, type Character } from '@db/characters/Character';
-    import { CharactersDB, DB, HowTos, locales } from '@db/Database';
+    import { CharactersDB, DB, HowTos, locales, Projects } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import Project from '@db/projects/Project';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
@@ -115,7 +115,8 @@
                     if (char) character = char;
                 });
 
-                if (character)
+                if (character) {
+                    Projects.deleteProject(project.getID());
                     return {
                         foreground: null,
                         background: null,
@@ -123,6 +124,9 @@
                         previewText: '',
                         character: characterToSVG(character, '100%'),
                     };
+                }
+
+                Projects.deleteProject(project.getID());
                 return {
                     foreground: null,
                     background: null,
@@ -134,6 +138,8 @@
 
             let stage = value ? toStage(evaluator, value) : undefined;
             if (stage && stage.face) Fonts.loadFace(stage.face);
+
+            Projects.deleteProject(project.getID());
 
             return {
                 face: stage ? getFaceCSS(stage.face) : null,

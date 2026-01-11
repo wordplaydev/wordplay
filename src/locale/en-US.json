@@ -4940,7 +4940,8 @@
                 },
                 "usedBy": {
                     "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
-                    "countDisplay": "and $1 other projects or how-tos",
+                    "empty": "You don't have any projects or other published how-tos yet. Try creating one!",
+                    "countDisplay": "Other Wordplay directors have used this in $1 other projects or how-to",
                     "selector": "project and how-to selector",
                     "removeButton": "remove project or how-to from list",
                     "addButton": "add project or how-to"

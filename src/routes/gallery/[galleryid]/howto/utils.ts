@@ -9,7 +9,9 @@ export function movePermitted(
     selfId: string | undefined,
     notPermittedAreas: Map<string, [number, number, number, number]>,
 ): boolean {
-    if (notPermittedAreas.size <= 1) return true;
+    // if there are no how-tos, don't need to worry about collisions
+    // and allow the first how-to in the space to be placed anywhere
+    if (notPermittedAreas.size < 1 || notPermittedAreas.size === 1 && selfId !== undefined) return true;
 
     let tooFar: boolean = true;
 

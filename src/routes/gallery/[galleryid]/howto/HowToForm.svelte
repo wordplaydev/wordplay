@@ -148,7 +148,7 @@
                     proposedY,
                     searchStep - 30,
                     searchStep - 30,
-                    '',
+                    undefined,
                     notPermittedAreas,
                 )
             ) {

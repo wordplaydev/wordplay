@@ -10740,6 +10740,10 @@
                           "description": "Text for how many others projects or how-tos, other than the user's own, have used this how-to",
                           "type": "string"
                         },
+                        "empty": {
+                          "description": "Text for if the user does not have any other how-tos or projects",
+                          "type": "string"
+                        },
                         "prompt": {
                           "description": "Text for asking if the user used this how-to in their project or another how-to",
                           "type": "string"
@@ -10754,6 +10758,7 @@
                       },
                       "required": [
                         "prompt",
+                        "empty",
                         "countDisplay",
                         "selector",
                         "removeButton",
