@@ -10715,6 +10715,10 @@
                       "description": "Text for prompting users to chat",
                       "type": "string"
                     },
+                    "collaborators": {
+                      "description": "Label for list of creators and collaborators",
+                      "type": "string"
+                    },
                     "delete": {
                       "$ref": "#/definitions/ConfirmText",
                       "description": "Button text for deleting the how-to"
@@ -10796,7 +10800,8 @@
                     "usedBy",
                     "reactionsPrompt",
                     "chatPrompt",
-                    "link"
+                    "link",
+                    "collaborators"
                   ],
                   "type": "object"
                 }

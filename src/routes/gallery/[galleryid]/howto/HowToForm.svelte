@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
     import ChatView from '@components/app/chat/ChatView.svelte';
+    import Header from '@components/app/Header.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -550,87 +551,83 @@
             </div>
         </div>
     {:else if howTo && howTo.isPublished()}
-        <HowToPrompt>
+        <Header>
             {title}
-        </HowToPrompt>
+        </Header>
         <div class="creatorlist">
-            <CreatorList
-                anonymize={false}
-                editable={false}
-                uids={allCollaborators}
+            <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
+                <CreatorList
+                    anonymize={false}
+                    editable={false}
+                    uids={allCollaborators}
+                />
+            </Labeled>
+        </div>
+        <div class="toolbar">
+            {#if $user && howTo.isCreatorCollaborator($user.uid)}
+                <Button
+                    tip={(l) => l.ui.howto.viewer.edit.tip}
+                    label={(l) => l.ui.howto.viewer.edit.label}
+                    active={true}
+                    action={() => {
+                        editingMode = true;
+                    }}
+                />
+                <ConfirmButton
+                    tip={(l) => l.ui.howto.viewer.delete.description}
+                    prompt={(l) => l.ui.howto.viewer.delete.prompt}
+                    action={async () => {
+                        if (galleryID && howTo) {
+                            await HowTos.deleteHowTo(howToId, galleryID);
+                            show = false;
+                        }
+                    }}
+                    label={(l) => l.ui.howto.viewer.delete.prompt}
+                />
+                <Button
+                    tip={(l) =>
+                        isSubmitted
+                            ? l.ui.howto.viewer.submitToGuide.alreadySubmitted
+                                  .tip
+                            : l.ui.howto.viewer.submitToGuide.submit.tip}
+                    label={(l) =>
+                        isSubmitted
+                            ? l.ui.howto.viewer.submitToGuide.alreadySubmitted
+                                  .label
+                            : l.ui.howto.viewer.submitToGuide.submit.label}
+                    active={!isSubmitted}
+                    action={() => {
+                        submitToGuide();
+                    }}
+                />
+            {/if}
+            <Button
+                tip={(l) =>
+                    userHasBookmarked
+                        ? l.ui.howto.bookmarks.alreadyBookmarked.tip
+                        : l.ui.howto.bookmarks.canBookmark.tip}
+                label={(l) =>
+                    userHasBookmarked
+                        ? l.ui.howto.bookmarks.alreadyBookmarked.label
+                        : l.ui.howto.bookmarks.canBookmark.label}
+                active={true}
+                background={userHasBookmarked}
+                action={() => {
+                    addRemoveBookmark();
+                }}
+            />
+            <Button
+                tip={(l) => l.ui.howto.viewer.link.tip}
+                label={(l) => l.ui.howto.viewer.link.label}
+                action={async () => {
+                    await navigator.clipboard.writeText(
+                        `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
+                    );
+                }}
             />
         </div>
         <div class="howtosplitview">
             <div class="splitside" id="howtoview">
-                <div class="toolbar">
-                    {#if $user && howTo.isCreatorCollaborator($user.uid)}
-                        <Button
-                            tip={(l) => l.ui.howto.viewer.edit.tip}
-                            label={(l) => l.ui.howto.viewer.edit.label}
-                            active={true}
-                            action={() => {
-                                editingMode = true;
-                            }}
-                        />
-                        <ConfirmButton
-                            tip={(l) => l.ui.howto.viewer.delete.description}
-                            prompt={(l) => l.ui.howto.viewer.delete.prompt}
-                            action={async () => {
-                                if (galleryID && howTo) {
-                                    await HowTos.deleteHowTo(
-                                        howToId,
-                                        galleryID,
-                                    );
-                                    show = false;
-                                }
-                            }}
-                            label={(l) => l.ui.howto.viewer.delete.prompt}
-                        />
-                        <Button
-                            tip={(l) =>
-                                isSubmitted
-                                    ? l.ui.howto.viewer.submitToGuide
-                                          .alreadySubmitted.tip
-                                    : l.ui.howto.viewer.submitToGuide.submit
-                                          .tip}
-                            label={(l) =>
-                                isSubmitted
-                                    ? l.ui.howto.viewer.submitToGuide
-                                          .alreadySubmitted.label
-                                    : l.ui.howto.viewer.submitToGuide.submit
-                                          .label}
-                            active={!isSubmitted}
-                            action={() => {
-                                submitToGuide();
-                            }}
-                        />
-                    {/if}
-                    <Button
-                        tip={(l) =>
-                            userHasBookmarked
-                                ? l.ui.howto.bookmarks.alreadyBookmarked.tip
-                                : l.ui.howto.bookmarks.canBookmark.tip}
-                        label={(l) =>
-                            userHasBookmarked
-                                ? l.ui.howto.bookmarks.alreadyBookmarked.label
-                                : l.ui.howto.bookmarks.canBookmark.label}
-                        active={true}
-                        background={userHasBookmarked}
-                        action={() => {
-                            addRemoveBookmark();
-                        }}
-                    />
-                    <Button
-                        tip={(l) => l.ui.howto.viewer.link.tip}
-                        label={(l) => l.ui.howto.viewer.link.label}
-                        action={async () => {
-                            await navigator.clipboard.writeText(
-                                `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
-                            );
-                        }}
-                    />
-                </div>
-
                 {#each text as _, i (i)}
                     <HowToPrompt text={(l) => prompts[i]} />
                     <MarkupHTMLView markup={text[i]} />
@@ -721,8 +718,6 @@
         padding-top: var(--wordplay-spacing);
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
-        flex-wrap: wrap;
-        max-width: 100%;
         justify-content: space-between;
     }
 
@@ -732,6 +727,14 @@
         gap: var(--wordplay-spacing);
     }
 
+    .howtosplitview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--wordplay-spacing);
+        height: 100%;
+        overflow: hidden;
+    }
+
     .splitside {
         height: 100%;
         max-height: 100%;
@@ -739,14 +742,6 @@
         padding: var(--wordplay-spacing);
         overflow-y: auto;
         overscroll-behavior-y: contain;
-    }
-
-    .howtosplitview {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--wordplay-spacing);
-        height: 100%;
-        overflow: hidden;
     }
 
     .optionsarea {

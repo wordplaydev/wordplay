@@ -4951,7 +4951,8 @@
                 "link": {
                     "label": "🔗 Copy how-to link",
                     "tip": "copy link to this how-to"
-                }
+                },
+                "collaborators": "written by"
             },
             "configuration": {
                 "configurationDialog": {

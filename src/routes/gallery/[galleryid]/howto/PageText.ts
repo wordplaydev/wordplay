@@ -87,6 +87,8 @@ type PageText = {
         chatPrompt: string;
         /** Button text for copying the how-to's URL */
         link: ButtonText;
+        /** Label for list of creators and collaborators */
+        collaborators: string;
     }
     /** For configuring the how-to space */
     configuration: {
