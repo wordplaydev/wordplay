@@ -245,6 +245,11 @@
         padding-block-end: var(--wordplay-spacing-half);
     }
 
+    [data-direction='inline'].node-list {
+        padding-inline-start: var(--wordplay-spacing-half);
+        padding-inline-end: var(--wordplay-spacing-half);
+    }
+
     [data-direction='inline'].node-list.wrap {
         flex-wrap: wrap;
         row-gap: var(--wordplay-spacing-half);
