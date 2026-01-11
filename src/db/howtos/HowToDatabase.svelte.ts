@@ -391,12 +391,29 @@ export class HowToDatabase {
         }
 
         // if not, see if it's in the database
+
+        const userId = this.db.getUser()?.uid;
+        let publishedCondition = userId ?
+            or(
+                where("published", "==", true),
+                and(
+                    where('published', "==", false),
+                    or(
+                        where('creator', '==', userId),
+                        where('collaborators', 'array-contains', userId),
+                    )
+                )
+            ) : where("published", "==", true); // if the user is not logged in, then they can only access published how-tos
+
         if (firestore === undefined) return undefined;
         try {
             const howToDocs = await getDocs(
                 query(
                     collection(firestore, HowTosCollection),
-                    where('galleryId', '==', galleryID),
+                    and(
+                        where('galleryId', '==', galleryID),
+                        publishedCondition
+                    )
                 )
             );
 
@@ -481,7 +498,10 @@ export class HowToDatabase {
                 or(
                     and(
                         where("published", "==", false),
-                        or(where("creator", "==", userId), where("collaborators", "array-contains", userId),)
+                        or(
+                            where("creator", "==", userId),
+                            where("collaborators", "array-contains", userId),
+                        )
                     ),
                     and(
                         where("published", "==", true),

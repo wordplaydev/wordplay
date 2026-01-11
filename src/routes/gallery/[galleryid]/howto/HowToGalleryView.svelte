@@ -29,7 +29,9 @@
         });
     });
 
-    let totalHowTos: number = $derived(howTos.length);
+    let totalHowTos: number = $derived(
+        howTos.filter((ht) => ht.isPublished()).length,
+    );
     let newHowTos: number = $derived(
         howTos.filter((ht) => {
             const seenBy = ht.getSeenByUsers();

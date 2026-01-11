@@ -719,6 +719,7 @@
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         justify-content: space-between;
+        flex-wrap: wrap;
     }
 
     .toolbar-left,
