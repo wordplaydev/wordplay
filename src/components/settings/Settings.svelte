@@ -255,14 +255,15 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: var(--wordplay-spacing);
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing-half);
         margin-inline-start: auto;
     }
 
     .controls {
         display: flex;
         flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: calc(2 * var(--wordplay-spacing-half));
         align-items: baseline;
     }
 
@@ -272,6 +273,6 @@
         display: flex;
         flex-direction: row;
         align-items: baseline;
-        gap: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing-half);
     }
 </style>
