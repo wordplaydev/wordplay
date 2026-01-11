@@ -11,11 +11,11 @@
     import Project from '@db/projects/Project';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
     import type Example from '@nodes/Example';
-    import Markup from '@nodes/Markup';
     import Source from '@nodes/Source';
     import { getFaceCSS } from '@output/outputToCSS';
     import { toStage } from '@output/Stage';
     import { EXCEPTION_SYMBOL } from '@parser/Symbols';
+    import { toMarkup } from '@parser/toMarkup';
     import Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import MarkupValue from '@values/MarkupValue';
@@ -26,7 +26,6 @@
     import UnicodeString from '../../../../unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
     import { movePermitted } from './utils';
-    import type Spaces from '@parser/Spaces';
 
     interface Props {
         howTo: HowTo;
@@ -65,7 +64,7 @@
 
     let { foreground, background, face, previewText, character }: Preview =
         $derived.by(() => {
-            let markup: Markup = Markup.words(text.join('\n\n'));
+            let [markup, spaces] = toMarkup(text.join('\n\n'));
 
             // step 1: determine if there are any examples in the how-to text
             let example: Example | undefined = markup.getExamples()[0];
@@ -93,7 +92,7 @@
             let project: Project = Project.make(
                 null,
                 'example',
-                new Source('example', [example.program, markup.spaces as Spaces]),
+                new Source('example', [example.program, spaces]),
                 [],
                 $locales.getLocales(),
             );

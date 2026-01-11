@@ -36,10 +36,9 @@
         curators.concat(gallery.getCreators()),
     );
 
-    async function changeVisibility(num: number) {
-        expandedScope = num === 1;
-
+    async function submitChanges() {
         let expandedViewers: string[] = [];
+
         if (expandedScope) {
             await Galleries.getExpandedScopeViewers(curators).then((v) => {
                 if (v) {
@@ -48,27 +47,6 @@
             });
         }
 
-        gallery = new Gallery({
-            ...gallery.getData(),
-            howToExpandedVisibility: expandedScope,
-            howToViewers: expandedScope ? expandedViewers : limitedViewers,
-        });
-
-        Galleries.edit(gallery);
-    }
-
-    function changeGuidingQuestions() {
-        gallery = new Gallery({
-            ...gallery.getData(),
-            howToGuidingQuestions: guidingQuestionsText
-                .split('\n')
-                .map((q) => q.trim())
-                .filter((q) => q.length > 0),
-        });
-        Galleries.edit(gallery);
-    }
-
-    function changeReactions() {
         let reactionsObject: Record<string, string> = Object.fromEntries(
             new Map<string, string>(
                 reactions.map(([emoji, description, _]) => [
@@ -77,12 +55,19 @@
                 ]),
             ),
         );
-        Galleries.edit(
-            new Gallery({
-                ...gallery.getData(),
-                howToReactions: reactionsObject,
-            }),
-        );
+
+        gallery = new Gallery({
+            ...gallery.getData(),
+            howToExpandedVisibility: expandedScope,
+            howToViewers: expandedScope ? expandedViewers : limitedViewers,
+            howToGuidingQuestions: guidingQuestionsText
+                .split('\n')
+                .map((line) => line.trim())
+                .filter((line) => line.length > 0),
+            howToReactions: reactionsObject,
+        });
+
+        Galleries.edit(gallery);
     }
 </script>
 
@@ -106,7 +91,7 @@
         modes={(l) => l.ui.howto.configuration.visibility.mode}
         choice={expandedScope ? 1 : 0}
         icons={['', '']}
-        select={(num) => changeVisibility(num)}
+        select={(num) => (expandedScope = num === 1)}
     />
 
     <Subheader
@@ -122,17 +107,6 @@
             l.ui.howto.configuration.guidingQuestions.descriptor}
         placeholder={(l) => ''}
         bind:text={guidingQuestionsText}
-    />
-    <Button
-        label={(l) => l.ui.howto.configuration.guidingQuestions.submit.label}
-        tip={(l) =>
-            guidingQuestionsText.trim().length > 0
-                ? l.ui.howto.configuration.guidingQuestions.submit.tip
-                : l.ui.howto.configuration.guidingQuestions.submitError}
-        action={changeGuidingQuestions}
-        submit={true}
-        background={true}
-        active={guidingQuestionsText.trim().length > 0}
     />
 
     <Subheader
@@ -185,16 +159,16 @@
             reactions.push(['😀', '', false]);
         }}
     />
+
     <Button
-        label={(l) => l.ui.howto.configuration.reactions.submit.label}
+        label={(l) => l.ui.howto.configuration.submit.label}
         tip={(l) =>
-            reactions.length > 0
-                ? l.ui.howto.configuration.reactions.submit.tip
-                : l.ui.howto.configuration.reactions.submitError}
-        action={changeReactions}
+            guidingQuestionsText.trim().length > 0 && reactions.length > 0
+                ? l.ui.howto.configuration.submit.tip
+                : l.ui.howto.configuration.submit.error}
+        action={submitChanges}
         submit={true}
-        background={true}
-        active={reactions.length > 0}
+        active={guidingQuestionsText.trim().length > 0 && reactions.length > 0}
     />
 </Dialog>
 

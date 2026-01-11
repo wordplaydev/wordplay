@@ -10449,19 +10449,11 @@
                         },
                         "subheader": {
                           "$ref": "#/definitions/HeaderAndExplanationText"
-                        },
-                        "submit": {
-                          "$ref": "#/definitions/ButtonText"
-                        },
-                        "submitError": {
-                          "type": "string"
                         }
                       },
                       "required": [
                         "subheader",
                         "descriptor",
-                        "submit",
-                        "submitError",
                         "default"
                       ],
                       "type": "object"
@@ -10490,12 +10482,6 @@
                         },
                         "subheader": {
                           "$ref": "#/definitions/HeaderAndExplanationText"
-                        },
-                        "submit": {
-                          "$ref": "#/definitions/ButtonText"
-                        },
-                        "submitError": {
-                          "type": "string"
                         }
                       },
                       "required": [
@@ -10504,9 +10490,29 @@
                         "reactionDescriptionTip",
                         "addReactionTip",
                         "removeReactionTip",
-                        "submit",
-                        "submitError",
                         "default"
+                      ],
+                      "type": "object"
+                    },
+                    "submit": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        },
+                        "label": {
+                          "description": "The buttons label",
+                          "type": "string"
+                        },
+                        "tip": {
+                          "description": "THe buttons tooltip and ARIA-label, spoken by screen readers",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "error",
+                        "label",
+                        "tip"
                       ],
                       "type": "object"
                     },
@@ -10543,7 +10549,8 @@
                     "configurationButton",
                     "visibility",
                     "guidingQuestions",
-                    "reactions"
+                    "reactions",
+                    "submit"
                   ],
                   "type": "object"
                 },

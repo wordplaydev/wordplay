@@ -4855,7 +4855,7 @@
                 "header": "📝 How-to drafts",
                 "prompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
                 "tooltip": "View your draft",
-                "note": "This is a draft how-to. Only you can see it."
+                "note": "This is a draft how-to. Only you and your collaborators can see it."
             },
             "bookmarks": {
                 "header": "🔖 Bookmarks",
@@ -4986,11 +4986,6 @@
                         "explanation": "Configure the guiding questions shown when creating a new how-to. Separate guiding questions with a line break."
                     },
                     "descriptor": "a text box to write your guiding questions, separated by a line break.",
-                    "submit": {
-                        "label": "Save guiding questions",
-                        "tip": "save guiding questions"
-                    },
-                    "submitError": "guiding questions cannot be empty.",
                     "default": [
                         "Tell us the story of how you discovered this"
                     ]
@@ -5004,11 +4999,6 @@
                     "reactionDescriptionTip": "describe what this reaction means",
                     "addReactionTip": "add a new reaction",
                     "removeReactionTip": "remove this reaction",
-                    "submit": {
-                        "label": "Save reactions",
-                        "tip": "save reactions"
-                    },
-                    "submitError": "at least one reaction is required.",
                     "default": {
                         "👍": "I like this!",
                         "💭": "This inspires me!",
@@ -5017,6 +5007,11 @@
                         "🤩": "I want to try this!",
                         "😁": "This makes me happy!"
                     }
+                },
+                "submit": {
+                    "error": "guiding questions and reactions cannot be empty",
+                    "label": "save",
+                    "tip": "save how-to space settings"
                 }
             },
             "announcePosition": "$1 moved to $2 $3",

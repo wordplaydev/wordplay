@@ -105,8 +105,6 @@ type PageText = {
         guidingQuestions: {
             subheader: HeaderAndExplanationText;
             descriptor: string;
-            submit: ButtonText;
-            submitError: string;
             default: string[];
         }
         /** Subheaders and descriptions for configuring reaction options */
@@ -116,10 +114,11 @@ type PageText = {
             reactionDescriptionTip: string;
             addReactionTip: string;
             removeReactionTip: string;
-            submit: ButtonText;
-            submitError: string;
             default: Record<string, string>;
         }
+        submit: ButtonText & {
+            error: string;
+        };
     },
     /** For announcing changes to the canvas or to how-to positions */
     announcePosition: string;

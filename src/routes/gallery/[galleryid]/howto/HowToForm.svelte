@@ -554,6 +554,9 @@
                 editable={false}
                 uids={allCollaborators}
             />
+            {#if !isPublished}
+                <MarkupHTMLView markup={(l) => l.ui.howto.drafts.note} />
+            {/if}
         </div>
         <div class="howtosplitview">
             <div class="splitside" id="howtoview">
@@ -671,8 +674,6 @@
                         {howTo}
                     />
                 </div>
-            {:else}
-                <HowToPrompt text={(l) => l.ui.howto.drafts.note} />
             {/if}
         </div>
     {/if}

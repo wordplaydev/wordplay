@@ -258,35 +258,37 @@
                     />
                 </Header>
 
-                {#if canUserEdit}
-                    <HowToForm
-                        editingMode={true}
-                        howTo={undefined}
-                        bind:cameraX
-                        bind:cameraY
-                        {notPermittedAreas}
-                    />
-                {/if}
+                <div class="howtospacetoolbar">
+                    {#if canUserEdit}
+                        <HowToForm
+                            editingMode={true}
+                            howTo={undefined}
+                            bind:cameraX
+                            bind:cameraY
+                            {notPermittedAreas}
+                        />
+                    {/if}
 
-                <Options
-                    bind:value={navigationSelection}
-                    label={(l) => l.ui.howto.navigationtooltip}
-                    options={navigationOptions}
-                    change={() => {
-                        let navigateTo: HowTo | undefined = howTos.find(
-                            (ht) => ht.getHowToId() == navigationSelection,
-                        );
+                    <Options
+                        bind:value={navigationSelection}
+                        label={(l) => l.ui.howto.navigationtooltip}
+                        options={navigationOptions}
+                        change={() => {
+                            let navigateTo: HowTo | undefined = howTos.find(
+                                (ht) => ht.getHowToId() == navigationSelection,
+                            );
 
-                        if (!navigateTo) return;
+                            if (!navigateTo) return;
 
-                        let coords = navigateTo.getCoordinates();
-                        panTo(coords[0], coords[1]);
-                    }}
-                ></Options>
+                            let coords = navigateTo.getCoordinates();
+                            panTo(coords[0], coords[1]);
+                        }}
+                    ></Options>
 
-                {#if isUserCurator}
-                    <HowToConfiguration {gallery} />
-                {/if}
+                    {#if isUserCurator}
+                        <HowToConfiguration {gallery} />
+                    {/if}
+                </div>
             </div>
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div class="howtospacebody">
@@ -372,9 +374,18 @@
         grid-template-rows: auto 1fr;
         height: 100%;
         width: 100%;
+        padding: var(--wordplay-spacing);
     }
 
     .howtospaceheader {
+        padding: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
+    }
+
+    .howtospacetoolbar {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
     }
@@ -385,11 +396,6 @@
         display: grid;
         grid-template-columns: 1fr 3fr;
     }
-
-    /* .stickyarea {
-        display: grid;
-        grid-template-rows: 1fr 1fr;
-    } */
 
     .drafts {
         border: var(--wordplay-border-color) dashed;
