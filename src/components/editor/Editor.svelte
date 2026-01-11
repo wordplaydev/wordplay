@@ -1669,6 +1669,7 @@
         touch-action: none;
         resize: none;
         overflow: hidden;
+        font-size: 16px; /* Prevents Safari from zooming on input focus */
 
         /* Helpful for debugging */
         /* outline: 1px solid red;
