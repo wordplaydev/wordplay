@@ -500,21 +500,21 @@
                 // If the total height of the block is more than the height of one token,
                 // then we place above the block, otherwise below it.
 
+                const tokenHeight = rects[0].height;
                 const topPlacement = Math.max(
                     0,
-                    top - rects[0].height - editorPadding,
+                    top - tokenHeight - editorPadding,
                 );
                 const bottomPlacement = bottom + editorPadding;
                 const vertical =
-                    (height > rects[0].height * 2 &&
-                    topPlacement > rects[0].height * 2
+                    (height > tokenHeight * 2 && topPlacement > tokenHeight * 2
                         ? topPlacement
                         : bottomPlacement) + viewportYOffset;
 
                 return {
                     left: left + viewportXOffset,
                     top: vertical,
-                    height: height,
+                    height: tokenHeight,
                     bottom: vertical,
                 };
             }
