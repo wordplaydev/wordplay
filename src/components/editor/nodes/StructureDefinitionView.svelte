@@ -38,6 +38,7 @@
                 field="inputs"
                 {format}
                 empty="label"
+                breaks
             /><NodeView node={[node, 'close']} {format} />
             {#if node.expression === undefined}<NodeView
                     node={[node, 'expression']}

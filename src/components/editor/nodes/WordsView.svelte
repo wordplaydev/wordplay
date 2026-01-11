@@ -20,6 +20,7 @@
         empty="menu"
         {format}
         wrap
+        breaks
     /></span
 ><NodeView node={[node, 'close']} {format} empty="hide" />
 
