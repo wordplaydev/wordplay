@@ -8,7 +8,7 @@
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
-        getAnnounce,
+        getAnnouncer,
         getUser,
         isAuthenticated,
     } from '@components/project/Contexts';
@@ -182,7 +182,7 @@
     }
 
     // when cameraX and cameraY change, announce it
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     $effect(() => {
         cameraX;

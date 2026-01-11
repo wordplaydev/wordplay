@@ -1,7 +1,7 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
     import {
-        getAnnounce,
+        getAnnouncer,
         getUser,
         isAuthenticated,
     } from '@components/project/Contexts';
@@ -396,7 +396,7 @@
     });
 
     // when position of the preview changes, announce it
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     $effect(() => {
         xcoord;

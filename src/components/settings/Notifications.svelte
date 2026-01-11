@@ -10,7 +10,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getAnnounce } from '@components/project/Contexts';
+    import { getAnnouncer } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -24,7 +24,7 @@
     let showDialog: boolean = $state(false);
     let showPopup: boolean = $state(false);
 
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     $effect(() => {
         notifications;
