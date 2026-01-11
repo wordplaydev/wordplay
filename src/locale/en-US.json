@@ -4854,18 +4854,18 @@
             "drafts": {
                 "header": "📝 How-to drafts",
                 "prompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
-                "tooltip": "View your draft",
+                "tooltip": "view your draft",
                 "note": "This is a draft how-to. Only you and your collaborators can see it."
             },
             "bookmarks": {
                 "header": "🔖 Bookmarks",
                 "tooltip": "go to this how-to",
                 "canBookmark": {
-                    "label": "🔖 Bookmark how-to",
+                    "label": "🔖 bookmark how-to",
                     "tip": "bookmark this how-to to find it later"
                 },
                 "alreadyBookmarked": {
-                    "label": "🔖 Remove bookmark",
+                    "label": "🔖 remove bookmark",
                     "tip": "remove this how-to from your bookmarks"
                 },
                 "notLoggedIn": "You must be logged in to use bookmarks"
@@ -4885,11 +4885,11 @@
                     "explanation": ""
                 },
                 "post": {
-                    "label": "📣 Post",
+                    "label": "📣 post",
                     "tip": "post your how-to to the space"
                 },
                 "save": {
-                    "label": "💾 Save draft",
+                    "label": "💾 save draft",
                     "tip": "save your how-to as a draft"
                 },
                 "notification": {
@@ -4903,7 +4903,7 @@
                         "do not notify subscribers when you post this how-to"
                     ]
                 },
-                "editorPlaceholder": "Write your how-to here",
+                "editorPlaceholder": "write your how-to here",
                 "editorDescription": "a text box to write your how-to",
                 "title": {
                     "description": "the title of your how-to",
@@ -4918,24 +4918,24 @@
             },
             "viewer": {
                 "view": {
-                    "label": "View how-to",
+                    "label": "view how-to",
                     "tip": "view how-to"
                 },
                 "edit": {
-                    "label": "✏️ Edit",
+                    "label": "✏️ edit",
                     "tip": "edit this how-to"
                 },
                 "delete": {
                     "description": "delete this how-to",
-                    "prompt": "🗑️ Delete"
+                    "prompt": "🗑️ delete"
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "📨 Submit to Wordplay Guide",
+                        "label": "📨 submit to Wordplay Guide",
                         "tip": "submit this how-to to be considered for inclusion in the Wordplay Guide!"
                     },
                     "alreadySubmitted": {
-                        "label": "✅ Submitted to Guide",
+                        "label": "✅ submitted to Guide",
                         "tip": "this how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
                     }
                 },
@@ -4950,7 +4950,7 @@
                 "reactionsPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
                 "chatPrompt": "Leave a comment or question for the creator!",
                 "link": {
-                    "label": "🔗 Copy how-to link",
+                    "label": "🔗 copy how-to link",
                     "tip": "copy link to this how-to"
                 },
                 "collaborators": "written by"
@@ -4962,7 +4962,7 @@
                 },
                 "configurationButton": {
                     "tip": "configure this how-to space",
-                    "label": "⚙️ Settings"
+                    "label": "⚙️ settings"
                 },
                 "visibility": {
                     "subheader": {
@@ -5602,7 +5602,7 @@
                     "link": "details"
                 },
                 "delete": "delete this notification",
-                "popup": "New notification"
+                "popup": "new notification"
             },
             "locale": {
                 "header": "Language",
