@@ -688,14 +688,16 @@
             {title}
         </HowToPrompt>
         <div class="creatorlist">
-            <CreatorList
-                anonymize={false}
-                editable={false}
-                uids={allCollaborators}
-            />
-            {#if !isPublished}
-                <MarkupHTMLView markup={(l) => l.ui.howto.drafts.note} />
-            {/if}
+            <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
+                <CreatorList
+                    anonymize={false}
+                    editable={false}
+                    uids={allCollaborators}
+                />
+                {#if !isPublished}
+                    <MarkupHTMLView markup={(l) => l.ui.howto.drafts.note} />
+                {/if}
+            </Labeled>
         </div>
         <div class="toolbar">
             <Button

@@ -17,6 +17,8 @@
 
     let { gallery }: Props = $props();
 
+    let show: boolean = $state(false);
+
     let expandedScope: boolean = $derived(gallery.getHowToExpandedVisibility());
     let guidingQuestionsText: string = $derived(
         gallery.getHowToGuidingQuestions().join('\n'),
@@ -37,6 +39,8 @@
     );
 
     async function submitChanges() {
+        show = false;
+
         let expandedViewers: string[] = [];
 
         if (expandedScope) {
@@ -72,6 +76,7 @@
 </script>
 
 <Dialog
+    bind:show
     header={(l) => l.ui.howto.configuration.configurationDialog.header}
     explanation={(l) =>
         l.ui.howto.configuration.configurationDialog.explanation}
