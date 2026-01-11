@@ -550,7 +550,7 @@
                 />
             </div>
         </div>
-    {:else if howTo && howTo.isPublished()}
+    {:else if howTo && howTo.isPublished() && $user}
         <Header>
             {title}
         </Header>
@@ -564,7 +564,7 @@
             </Labeled>
         </div>
         <div class="toolbar">
-            {#if $user && howTo.isCreatorCollaborator($user.uid)}
+            {#if howTo.isCreatorCollaborator($user.uid)}
                 <Button
                     tip={(l) => l.ui.howto.viewer.edit.tip}
                     label={(l) => l.ui.howto.viewer.edit.label}
@@ -664,6 +664,25 @@
                 />
             </div>
         </div>
+    {:else if !$user}
+        <Header>
+            {title}
+        </Header>
+        <div class="creatorlist">
+            <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
+                <CreatorList
+                    anonymize={false}
+                    editable={false}
+                    uids={allCollaborators}
+                />
+            </Labeled>
+        </div>
+        <hr />
+
+        {#each text as _, i (i)}
+            <HowToPrompt text={(l) => prompts[i]} />
+            <MarkupHTMLView markup={text[i]} />
+        {/each}
     {:else}
         <HowToPrompt>
             {title}

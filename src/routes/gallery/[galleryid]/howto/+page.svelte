@@ -323,16 +323,26 @@
                     {/if}
                     <div class="bookmarks">
                         <Subheader text={(l) => l.ui.howto.bookmarks.header} />
-                        {#each usersBookmarks as bookmark, i (i)}
-                            <Button
-                                tip={(l) => l.ui.howto.bookmarks.tooltip}
-                                label={(l) => bookmark.getTitle()}
-                                action={() => {
-                                    let coords = bookmark.getCoordinates();
-                                    panTo(coords[0], coords[1]);
-                                }}
+                        {#if $user}
+                            {#each usersBookmarks as bookmark, i (i)}
+                                <Button
+                                    tip={(l) => l.ui.howto.bookmarks.tooltip}
+                                    label={(l) => bookmark.getTitle()}
+                                    action={() => {
+                                        let coords = bookmark.getCoordinates();
+                                        panTo(coords[0], coords[1]);
+                                    }}
+                                />
+                            {/each}
+                        {:else}
+                            <MarkupHTMLView
+                                markup={docToMarkup(
+                                    $locales.get(
+                                        (l) => l.ui.howto.bookmarks.notLoggedIn,
+                                    ),
+                                )}
                             />
-                        {/each}
+                        {/if}
                     </div>
                 </div>
                 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->

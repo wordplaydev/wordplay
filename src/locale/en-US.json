@@ -4867,7 +4867,8 @@
                 "alreadyBookmarked": {
                     "label": "🔖 Remove bookmark",
                     "tip": "remove this how-to from your bookmarks"
-                }
+                },
+                "notLoggedIn": "You must be logged in to use bookmarks"
             },
             "navigationtooltip": "navigate to a how-to",
             "add": {

@@ -10426,6 +10426,10 @@
                       "description": "Header for the bookmarks area",
                       "type": "string"
                     },
+                    "notLoggedIn": {
+                      "description": "Error message if the user is not logged in",
+                      "type": "string"
+                    },
                     "tooltip": {
                       "description": "Bookmarks  tooltip",
                       "type": "string"
@@ -10435,7 +10439,8 @@
                     "header",
                     "tooltip",
                     "canBookmark",
-                    "alreadyBookmarked"
+                    "alreadyBookmarked",
+                    "notLoggedIn"
                   ],
                   "type": "object"
                 },

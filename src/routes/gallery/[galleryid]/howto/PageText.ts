@@ -32,6 +32,8 @@ type PageText = {
         /** Button text for bookmarking the how-to */
         canBookmark: ButtonText;
         alreadyBookmarked: ButtonText;
+        /** Error message if the user is not logged in */
+        notLoggedIn: string;
     }
     /** Navigation tooltip */
     navigationtooltip: string;
