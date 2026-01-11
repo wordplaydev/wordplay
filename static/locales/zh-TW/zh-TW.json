@@ -4354,6 +4354,9 @@
             "subheader": {
                 "source": "$~來源",
                 "destination": "$~目的地"
+            },
+            "defaults": {
+                "starterCode": "¶歡迎來到您的空白項目！這是一條註釋。\n\n您可以用它來描述您的專案、做筆記，以及\n\n解釋您希望人們了解的關於您工作的資訊。\n\n它支援粗體、斜體、<links@https://wordplay.dev> 等格式。¶\nPhrase('hi')"
             }
         },
         "gallery": {

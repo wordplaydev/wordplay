@@ -4396,6 +4396,9 @@
             "subheader": {
                 "source": "$~ソース",
                 "destination": "$~行き先"
+            },
+            "defaults": {
+                "starterCode": "¶空のプロジェクトへようこそ！これはコメントです。\nプロジェクトの説明、メモ、そして\nあなたの作品について人々に知ってほしいことなどを記入できます。\n太字、斜体、<links@https://wordplay.dev> などに対応しています。¶\nPhrase('hi')"
             }
         },
         "checkpoints": {

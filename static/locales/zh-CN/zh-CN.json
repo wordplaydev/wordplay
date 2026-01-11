@@ -4358,6 +4358,9 @@
             "subheader": {
                 "source": "来源",
                 "destination": "目的地"
+            },
+            "defaults": {
+                "starterCode": "¶欢迎来到您的空白项目！这是一条注释。\n\n您可以用它来描述您的项目、做笔记，以及\n\n解释您希望人们了解的关于您工作的信息。\n\n它支持粗体、斜体、<links@https://wordplay.dev> 等格式。¶\nPhrase('hi')"
             }
         },
         "gallery": {

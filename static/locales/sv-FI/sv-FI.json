@@ -4396,6 +4396,9 @@
             "subheader": {
                 "source": "$~Källa",
                 "destination": "$~Destination"
+            },
+            "defaults": {
+                "starterCode": "¶Välkommen till ditt tomma projekt! Detta är en kommentar.\nDu kan använda den för att beskriva ditt projekt, anteckna och\nförklara vad du vill att folk ska veta om ditt arbete.\nDen stöder *fet*, /kursiv/, <links@https://wordplay.dev> och mer.¶\nFrase('hej')"
             }
         },
         "checkpoints": {

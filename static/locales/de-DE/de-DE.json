@@ -4395,6 +4395,9 @@
             "subheader": {
                 "source": "$~Quelle",
                 "destination": "$~Ziel"
+            },
+            "defaults": {
+                "starterCode": "¶Willkommen zu deinem leeren Projekt! Dies ist ein Kommentar.\n\nDu kannst ihn verwenden, um dein Projekt zu beschreiben, Notizen zu machen und\nzu erklären, was andere über deine Arbeit wissen sollen.\nEr unterstützt *fett*, /kursiv/, <links@https://wordplay.dev> und mehr.¶\nSatzglied('hi')"
             }
         },
         "gallery": {

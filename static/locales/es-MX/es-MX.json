@@ -4378,6 +4378,9 @@
             "subheader": {
                 "source": "$~Fuente",
                 "destination": "$~Destino"
+            },
+            "defaults": {
+                "starterCode": "¶¡Bienvenido a tu proyecto en blanco! Este es un comentario.\nPuedes usarlo para describir tu proyecto, tomar notas y explicar qué quieres que la gente sepa sobre tu trabajo.\nAdmite *negrita*, /cursiva/, <links@https://wordplay.dev> y más.¶\nPhrase('hola')"
             }
         },
         "gallery": {
