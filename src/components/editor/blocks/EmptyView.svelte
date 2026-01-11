@@ -20,9 +20,18 @@
         format: Format;
         /** The index in case the field is a list */
         index?: number;
+        /** Whether the empty view is currently being inserted into */
+        inserting?: boolean;
     }
 
-    let { node, field, style, format, index }: Props = $props();
+    let {
+        node,
+        field,
+        style,
+        format,
+        index,
+        inserting = false,
+    }: Props = $props();
 
     let project = getProject();
 
@@ -37,6 +46,7 @@
             kinds.some((kind) =>
                 Caret.isTokenTextBlockEditable(new Token('', kind), node),
             )}
+        class:inserting
         data-nodeid={node.id}
         data-field={field}
     >
@@ -68,6 +78,11 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+    }
+
+    .inserting {
+        outline: var(--wordplay-focus-width) solid
+            var(--wordplay-highlight-color);
     }
 
     .blockText {

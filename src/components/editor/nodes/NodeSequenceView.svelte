@@ -170,7 +170,14 @@
                 {/if}
                 <NodeView {node} {format} {index} />
             {:else}
-                <EmptyView {node} {field} style={empty} {format} index={0} />
+                <EmptyView
+                    {node}
+                    {field}
+                    style={empty}
+                    {format}
+                    index={0}
+                    inserting={insertion?.index === 0}
+                />
             {/each}
             {@render after()}
             {#if nodes.length > 0}
