@@ -520,19 +520,21 @@
             }
         }
         // At the start in blocks mode? Render at the first statement's top left.
-        else if (caret.position === 0 && blocks) {
+        else if (
+            blocks &&
+            (caret.position === 0 ||
+                caret.position === caret.source.code.getLength()) &&
+            blocks
+        ) {
+            const start = caret.position === 0;
             const block = caret.source.expression.expression;
             const blockView = getNodeView(block);
             if (blockView !== null) {
-                const emptyView =
-                    block.statements.length > 0
-                        ? blockView.querySelector('.node-view')
-                        : Array.from(blockView.querySelectorAll('.empty')).at(
-                              -1,
-                          );
-                const bounds = (emptyView ?? blockView).getBoundingClientRect();
+                const bounds = blockView.getBoundingClientRect();
+                console.log(bounds.right);
                 return {
-                    left: bounds.left + viewportXOffset,
+                    left:
+                        (start ? bounds.left : bounds.right) + viewportXOffset,
                     top: bounds.top + viewportYOffset,
                     height: bounds.height,
                     bottom: bounds.bottom + viewportYOffset,
