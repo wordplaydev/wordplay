@@ -381,7 +381,7 @@
     .block.data {
         box-shadow: inset var(--color-shadow) 0px 0px
             var(--wordplay-focus-width);
-        padding: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing-half);
         border: dashed var(--wordplay-border-width) var(--wordplay-border-color);
         background: var(--color-shadow-transparent);
     }
