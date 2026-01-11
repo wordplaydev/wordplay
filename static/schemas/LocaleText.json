@@ -10391,9 +10391,26 @@
                   "$ref": "#/definitions/ButtonText",
                   "description": "Button text for the how-to addition button"
                 },
-                "announcePosition": {
+                "announce": {
+                  "additionalProperties": false,
                   "description": "For announcing changes to the canvas or to how-to positions",
-                  "type": "string"
+                  "properties": {
+                    "gainFocus": {
+                      "type": "string"
+                    },
+                    "loseFocus": {
+                      "type": "string"
+                    },
+                    "position": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "position",
+                    "gainFocus",
+                    "loseFocus"
+                  ],
+                  "type": "object"
                 },
                 "bookmarks": {
                   "additionalProperties": false,
@@ -10795,7 +10812,7 @@
                 "editor",
                 "viewer",
                 "configuration",
-                "announcePosition",
+                "announce",
                 "error"
               ],
               "type": "object"

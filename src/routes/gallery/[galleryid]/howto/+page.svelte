@@ -96,9 +96,26 @@
     let canvasMoving = $state(false);
     let childMoving = $state(false);
 
-    function onPointerDown() {
+    function onGainFocus() {
         if (!childMoving) {
             canvasMoving = true;
+
+            untrack(() => {
+                if ($announce) {
+                    $announce(
+                        'canvas gained focus',
+                        $locales.getLanguages()[0],
+                        $locales
+                            .concretize(
+                                $locales.get(
+                                    (l) => l.ui.howto.announce.gainFocus,
+                                ),
+                                'canvas',
+                            )
+                            .toText(),
+                    );
+                }
+            });
         }
     }
 
@@ -109,9 +126,26 @@
         }
     }
 
-    function onPointerUp() {
+    function onLoseFocus() {
         if (!childMoving) {
             canvasMoving = false;
+
+            untrack(() => {
+                if ($announce) {
+                    $announce(
+                        'canvas lost focus',
+                        $locales.getLanguages()[0],
+                        $locales
+                            .concretize(
+                                $locales.get(
+                                    (l) => l.ui.howto.announce.loseFocus,
+                                ),
+                                'canvas',
+                            )
+                            .toText(),
+                    );
+                }
+            });
         }
     }
 
@@ -155,7 +189,7 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.get((l) => l.ui.howto.announcePosition),
+                            $locales.get((l) => l.ui.howto.announce.position),
                             'canvas',
                             cameraX.toString(),
                             cameraY.toString(),
@@ -300,14 +334,24 @@
                 <div
                     class="canvas"
                     id="canvas"
-                    onpointerup={onPointerUp}
-                    onpointerdown={onPointerDown}
                     onpointermove={(e) => onPointerMove(e)}
                     onkeydown={(event) => onKeyDown(event)}
+                    onfocus={onGainFocus}
+                    onblur={onLoseFocus}
+                    onpointerdown={() => {
+                        if (canvasMoving && !childMoving) onLoseFocus();
+                        else if (!childMoving) onGainFocus();
+                    }}
                     ondblclick={() => panTo(0, 0)}
                     tabindex="0"
                     bind:clientWidth={canvasWidth}
                     bind:clientHeight={canvasHeight}
+                    style:border-color={canvasMoving && !childMoving
+                        ? 'var(--wordplay-highlight-color)'
+                        : 'var(--wordplay-border-color)'}
+                    style:border-width={canvasMoving && !childMoving
+                        ? 'var(--wordplay-focus-width)'
+                        : ''}
                 >
                     {#each howTos as howTo, i (i)}
                         {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
@@ -377,16 +421,11 @@
     }
 
     .canvas {
-        border: var(--wordplay-border-color) solid;
+        border: solid;
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
         overflow: hidden;
         position: relative;
         touch-action: none;
-    }
-
-    .canvas:active {
-        border-color: var(--wordplay-highlight-color);
-        border-width: var(--wordplay-focus-width);
     }
 </style>

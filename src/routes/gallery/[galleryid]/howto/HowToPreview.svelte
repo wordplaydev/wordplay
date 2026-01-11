@@ -190,8 +190,8 @@
 
     // code that enables drag and drop functionality
     childMoving = false;
-    let thisChildMoving = false;
-    let thisChildMoved = false;
+    let thisChildMoving = $state(false);
+    let thisChildMoved = $state(false);
 
     // don't allow the user to move the how-to if they don't have write permission to the db
     // currently, only the creator, collaborators of the how-to + the curators, collaborators of the gallery can write
@@ -209,13 +209,6 @@
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
     // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
-    function onPointerDown() {
-        if (!canEdit) return;
-
-        childMoving = true;
-        thisChildMoving = true;
-    }
-
     function onPointerMove(e: PointerEvent) {
         if (!canEdit) return;
         if (thisChildMoving) {
@@ -234,13 +227,10 @@
             ) {
                 xcoord = intendX;
                 ycoord = intendY;
+
+                thisChildMoved = true;
             }
         }
-    }
-
-    function onPointerUp() {
-        if (!canEdit) return;
-        onDropHowTo();
     }
 
     function onKeyPress(event: KeyboardEvent) {
@@ -348,6 +338,28 @@
         }
     }
 
+    function onGainFocus() {
+        if (!canEdit) return;
+
+        childMoving = true;
+        thisChildMoving = true;
+
+        untrack(() => {
+            if ($announce) {
+                $announce(
+                    'how-to gained focus',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize(
+                            $locales.get((l) => l.ui.howto.announce.gainFocus),
+                            'how-to',
+                        )
+                        .toText(),
+                );
+            }
+        });
+    }
+
     function onLoseFocus() {
         if (!canEdit) return;
         if (thisChildMoved) {
@@ -358,6 +370,21 @@
             thisChildMoving = false;
             childMoving = false;
         }
+
+        untrack(() => {
+            if ($announce) {
+                $announce(
+                    'how-to lost focus',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize(
+                            $locales.get((l) => l.ui.howto.announce.loseFocus),
+                            'how-to',
+                        )
+                        .toText(),
+                );
+            }
+        });
     }
 
     // collision detection
@@ -382,7 +409,7 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.get((l) => l.ui.howto.announcePosition),
+                            $locales.get((l) => l.ui.howto.announce.position),
                             title,
                             xcoord.toString(),
                             ycoord.toString(),
@@ -418,13 +445,20 @@
     style:top={`${renderY}px`}
     id="howto-{howToId}"
     tabindex="0"
-    aria-label="How-to preview for {title}"
-    onfocus={onPointerDown}
+    onfocus={onGainFocus}
     onblur={onLoseFocus}
-    onpointerdown={onPointerDown}
+    onpointerdown={(e) => {
+        e.stopPropagation();
+        if (childMoving) onLoseFocus();
+        else onGainFocus();
+    }}
     onkeydown={onKeyPress}
     bind:clientWidth={width}
     bind:clientHeight={height}
+    style:border-color={thisChildMoving
+        ? 'var(--wordplay-highlight-color)'
+        : 'var(--wordplay-border-color)'}
+    style:border-width={thisChildMoving ? 'var(--wordplay-focus-width)' : ''}
 >
     <div class="howtotitle"> {title}</div>
 
@@ -437,10 +471,7 @@
         {preview}
     />
 </div>
-<svelte:window
-    on:pointerup={onPointerUp}
-    on:pointermove={(e) => onPointerMove(e)}
-/>
+<svelte:window onpointermove={(e) => onPointerMove(e)} />
 
 <style>
     /* setting preview size as a var here that can be changed here, will adjust everything else */
@@ -458,11 +489,6 @@
         padding: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
         touch-action: none;
-    }
-
-    .howto:hover {
-        border-color: var(--wordplay-highlight-color);
-        border-width: var(--wordplay-focus-width);
     }
 
     .howtotitle {
