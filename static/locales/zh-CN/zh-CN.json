@@ -4608,11 +4608,26 @@
                 "search": "使用关键词搜索概念"
             },
             "header": {
-                "inputs": "投入",
-                "interfaces": "接口",
-                "properties": "属性",
-                "functions": "函数",
-                "conversions": "转换",
+                "inputs": {
+                    "header": "$~输入",
+                    "explanation": "$~/必填项和可选值。/"
+                },
+                "interfaces": {
+                    "header": "$~接口",
+                    "explanation": "$~此结构所依据的结构。"
+                },
+                "properties": {
+                    "header": "$~特性",
+                    "explanation": "$~此概念所蕴含的价值观。"
+                },
+                "functions": {
+                    "header": "$~函数",
+                    "explanation": "$~此概念可以计算的值。"
+                },
+                "conversions": {
+                    "header": "$~转换",
+                    "explanation": "$~将此值转换为其他类型值的方法。"
+                },
                 "arrangements": {
                     "header": "$~安排",
                     "explanation": "$~/一组短语的排列方式。/"
