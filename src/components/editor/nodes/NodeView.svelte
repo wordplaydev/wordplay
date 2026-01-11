@@ -1,8 +1,11 @@
 <script module>
+    import type Spaces from '@parser/Spaces';
+
     export type Format = {
         block: boolean;
         root: Root | undefined;
         editable: boolean;
+        spaces: Spaces | undefined;
         definition?: Definition | undefined;
     };
 </script>
@@ -125,8 +128,8 @@
     {#if !hide && firstToken !== undefined && spaceRoot === node}
         <Space
             token={firstToken}
-            first={$spaces.isFirst(firstToken)}
-            line={$spaces.getLineNumber(firstToken)}
+            first={$spaces?.isFirst(firstToken) ?? false}
+            line={$spaces?.getLineNumber(firstToken) ?? 1}
             {space}
             block={false}
             invisible={!(root?.root instanceof Source)}

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import goHome from './goHome';
+import goHome from '../helpers/goHome';
 
 test('has Wordplay window title', async ({ page }) => {
     await goHome(page);

@@ -34,8 +34,10 @@
         elide?: boolean;
         /** Whether to indent the list.*/
         indent?: boolean;
-        /** Whether to wrap the list*/
+        /** Whether to wrap the list if it exceeds the width of its container */
         wrap?: boolean;
+        /** Whether to inject line breaks. Only use once in a nesting tree! */
+        breaks?: boolean;
     }
 
     let {
@@ -49,6 +51,7 @@
         direction = 'inline',
         indent = false,
         wrap = false,
+        breaks = false,
     }: Props = $props();
 
     let caret = getCaret();
@@ -158,6 +161,13 @@
                 {#if insertion?.index === index}
                     {@render insertFeedback()}
                 {/if}
+                <!-- If in blocks mode and we're wrapping, render line breaks -->
+                {#if format.block && breaks && format.spaces}
+                    {@const space = format.spaces.getSpace(node)}
+                    {#each space.split('\n').slice(0, -1), index}
+                        <div class="break" class:first={index === 0}></div>
+                    {/each}
+                {/if}
                 <NodeView {node} {format} {index} />
             {:else}
                 <EmptyView {node} {field} style={empty} {format} index={0} />
@@ -235,6 +245,11 @@
         padding-block-end: var(--wordplay-spacing-half);
     }
 
+    [data-direction='inline'].node-list {
+        padding-inline-start: var(--wordplay-spacing-half);
+        padding-inline-end: var(--wordplay-spacing-half);
+    }
+
     [data-direction='inline'].node-list.wrap {
         flex-wrap: wrap;
         row-gap: var(--wordplay-spacing-half);
@@ -268,5 +283,15 @@
         display: flex;
         flex-direction: row;
         align-items: end;
+    }
+
+    .break {
+        display: block;
+        flex-basis: 100%;
+        height: 1em;
+    }
+
+    .break.first {
+        height: 0;
     }
 </style>

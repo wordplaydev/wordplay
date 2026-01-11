@@ -35,6 +35,7 @@
             field="inputs"
             {format}
             empty="menu"
+            breaks
         /><NodeView node={[node, 'close']} {format} /><NodeView
             node={[node, 'dot']}
             {format}

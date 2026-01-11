@@ -15,7 +15,7 @@
     const root = getRoot();
     const project = getProject();
     let context = $derived(
-        root.root === undefined || $project === undefined
+        root === undefined || root.root === undefined || $project === undefined
             ? undefined
             : $project.getNodeContext(root.root.root),
     );

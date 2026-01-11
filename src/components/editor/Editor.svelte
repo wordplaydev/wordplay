@@ -53,7 +53,7 @@
         type EditorState,
         IdleKind,
         getAnimatingNodes,
-        getAnnounce,
+        getAnnouncer,
         getConceptIndex,
         getConflicts,
         getDragged,
@@ -65,7 +65,6 @@
         setDragTarget,
         setEditor,
         setHighlights,
-        setHovered,
         setSetMenuAnchor,
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
@@ -224,7 +223,6 @@
 
     // A store of what node is hovered over, excluding tokens, used in drag and drop.
     const hovered = writable<Node | undefined>(undefined);
-    setHovered(hovered);
 
     // A store of what node is hovered over, including tokens.
     const hoveredAny = writable<Node | undefined>(undefined);
@@ -268,7 +266,7 @@
     let dragCandidate: Node | undefined = $state(undefined);
 
     // Whenever the caret changes, update it's announcements.
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     // True when the last key was ignored and we're not debugging.
     let shakeCaret = $derived(
@@ -1536,15 +1534,24 @@
         and a visual label for sighted folks.
      -->
     {#key $caret.position}
+        {@const descriptionLeft =
+            caretLocation === undefined
+                ? undefined
+                : Math.min(caretLocation.left)}
+        {@const descriptionTop =
+            caretLocation === undefined
+                ? undefined
+                : Math.min(caretLocation.bottom)}
         <div
             class="caret-description"
             class:ignored={shakeCaret}
             class:visible={$caret.isNode() || keyIgnoredReason !== undefined}
             onpointerdown={(event) => event.stopPropagation()}
-            style:left={caretLocation
-                ? `calc(${caretLocation.left}px - ${OutlinePadding}px)`
+            style:left={descriptionLeft
+                ? `calc(${descriptionLeft}px - ${OutlinePadding}px)`
                 : undefined}
-            style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
+            style:top={descriptionTop ? `${descriptionTop}px` : undefined}
+            data-left={descriptionLeft}
             >{#if $caret.position instanceof Node}
                 {@const relevantConcept = concepts?.getRelevantConcept(
                     $caret.position,
@@ -1655,7 +1662,7 @@
         position: absolute;
         border: none;
         outline: none;
-        opacity: 0;
+        caret-color: transparent;
         width: 1px;
         height: 1em;
         pointer-events: none;

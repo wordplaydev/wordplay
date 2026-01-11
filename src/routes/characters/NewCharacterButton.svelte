@@ -28,6 +28,7 @@
         background={inline}
         tip={(l) => l.ui.page.characters.button.new}
         action={addCharacter}
+        testid="newcharacter"
         active={!creating}
         large={!inline}
         icon="+"

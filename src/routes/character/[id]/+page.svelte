@@ -9,7 +9,7 @@
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
-        getAnnounce,
+        getAnnouncer,
         getUser,
         isAuthenticated,
     } from '@components/project/Contexts';
@@ -88,7 +88,7 @@
     const user = getUser();
 
     /** For announcing changes.*/
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     /** The current name of the shape */
     let name = $state('');

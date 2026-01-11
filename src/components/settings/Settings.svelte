@@ -100,6 +100,7 @@
                     value={FaceSetting.get() ?? 'Noto Sans'}
                     label={(l) => l.ui.dialog.settings.options.face}
                     id="ui-face"
+                    width="10em"
                     options={[
                         { value: undefined, label: '—' },
                         // Only show faces supported in the current locale
@@ -124,6 +125,7 @@
             </label>
             <Mode
                 modes={(l) => l.ui.dialog.settings.mode.layout}
+                wrap
                 choice={$arrangement === Arrangement.Responsive
                     ? 0
                     : $arrangement === Arrangement.Horizontal

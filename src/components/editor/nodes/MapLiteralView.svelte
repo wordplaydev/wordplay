@@ -13,7 +13,15 @@
 
 {#if format.block}
     <NodeView node={[node, 'open']} {format} />
-    <NodeSequenceView {node} field="values" {format} elide empty="label" wrap />
+    <NodeSequenceView
+        {node}
+        field="values"
+        {format}
+        elide
+        empty="label"
+        wrap
+        breaks
+    />
     <NodeView node={[node, 'close']} {format} />
     <NodeView node={[node, 'literal']} {format} />
 {:else}

@@ -17,4 +17,7 @@
     {format}
     empty="label"
     add={false}
+    wrap
+    breaks
+    direction="block"
 />

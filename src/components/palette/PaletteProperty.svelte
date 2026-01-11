@@ -102,6 +102,7 @@
                             block: $blocks,
                             root: undefined,
                             editable: false,
+                            spaces: undefined,
                         }}
                     />
                     <LocalizedText
