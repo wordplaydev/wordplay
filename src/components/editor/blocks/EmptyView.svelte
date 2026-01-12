@@ -78,6 +78,7 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
     }
 
     .inserting {
