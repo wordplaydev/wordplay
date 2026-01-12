@@ -1668,6 +1668,7 @@
         border: none;
         outline: none;
         caret-color: transparent;
+        opacity: 0;
         width: 1px;
         height: 1em;
         pointer-events: none;
