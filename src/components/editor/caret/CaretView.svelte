@@ -531,7 +531,6 @@
             const blockView = getNodeView(block);
             if (blockView !== null) {
                 const bounds = blockView.getBoundingClientRect();
-                console.log(bounds.right);
                 return {
                     left:
                         (start ? bounds.left : bounds.right) + viewportXOffset,
