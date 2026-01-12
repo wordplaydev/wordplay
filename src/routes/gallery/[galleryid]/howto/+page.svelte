@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
@@ -301,12 +302,11 @@
         <div class="howtospace">
             <div class="howtospaceheader">
                 <Header>
-                    <MarkupHTMLView
-                        inline
-                        markup={docToMarkup(
-                            $locales.get((l) => l.ui.howto.header),
-                        ).concretize($locales, [galleryName]) ?? ''}
-                    />
+                    <Link
+                        to="/gallery/{galleryID}"
+                        tip={(l) => l.ui.howto.headerTooltip}
+                        >{galleryName}</Link
+                    >
                 </Header>
 
                 <div class="howtospacetoolbar">

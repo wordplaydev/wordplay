@@ -10,8 +10,8 @@ type PageText = {
         /** Subtitle for the how-to space in the gallery if no how-tos */
         subheaderEmpty: string;
     },
-    /** Header for the how-to space page */
-    header: string;
+    /** Tooltip for header/breadcrumb to gallery for the how-to space page */
+    headerTooltip: string;
     /** Explanation for the how-to space page */
     howtoprompt: string;
     drafts: {

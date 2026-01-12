@@ -10701,8 +10701,8 @@
                   ],
                   "type": "object"
                 },
-                "header": {
-                  "description": "Header for the how-to space page",
+                "headerTooltip": {
+                  "description": "Tooltip for header/breadcrumb to gallery for the how-to space page",
                   "type": "string"
                 },
                 "howtoprompt": {
@@ -10813,7 +10813,7 @@
               },
               "required": [
                 "galleryView",
-                "header",
+                "headerTooltip",
                 "howtoprompt",
                 "drafts",
                 "bookmarks",

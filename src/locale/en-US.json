@@ -4849,7 +4849,7 @@
                 "subheader": "$1 how-tos, $2 new",
                 "subheaderEmpty": "0 how-tos (try creating a new one!)"
             },
-            "header": "$1's how-tos",
+            "headerTooltip": "go back to gallery",
             "howtoprompt": "Tell us the story of how you learned something to make your project.",
             "drafts": {
                 "header": "📝 How-to drafts",

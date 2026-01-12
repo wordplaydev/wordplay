@@ -24,9 +24,9 @@
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import type { Snippet } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
+    import { movePermitted } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
-    import { movePermitted } from './HowToMovement';
 
     // defining props
     interface Props {
