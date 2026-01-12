@@ -52,12 +52,6 @@
     // if not, we we will make a one-time query to get the how-tos
     // we don't want to render any how-tos that aren't in the canvas area
     let howTos: HowTo[] = $state([]);
-    let publishedHowTos: HowTo[] = $derived(
-        howTos.filter((ht) => ht.isPublished()),
-    );
-    let draftHowTos: HowTo[] = $derived(
-        howTos.filter((ht) => !ht.isPublished()),
-    );
     let canvasWidth: number = $state(0);
     let canvasHeight: number = $state(0);
 
@@ -87,7 +81,9 @@
     );
 
     let usersBookmarks: HowTo[] = $derived(
-        publishedHowTos.filter((hs) => $user && hs.hasBookmarker($user.uid)),
+        howTos.filter(
+            (hs) => $user && hs.hasBookmarker($user.uid) && hs.isPublished(),
+        ),
     );
 
     // infinite canvas functionality
@@ -104,7 +100,6 @@
     // if how-to id, then that how-to is moving
     let whichMoving: string | undefined = $state(undefined);
     let canvasHasFocus: boolean = $state(false);
-    $effect(() => console.log(whichMoving));
 
     function onfocus() {
         canvasHasFocus = true;
@@ -264,8 +259,8 @@
     let urlID: string | null = $derived(page.url.searchParams.get('id'));
     $effect(() => {
         if (urlID) {
-            let queried: HowTo = publishedHowTos.filter(
-                (ht) => ht.getHowToId() === urlID,
+            let queried: HowTo = howTos.filter(
+                (ht) => ht.getHowToId() === urlID && ht.isPublished(),
             )[0];
             if (queried) {
                 let coords = queried.getCoordinates();
@@ -278,7 +273,8 @@
     let navigationSelection: string | undefined = $state(undefined);
     let navigationOptions: Option[] = $derived([
         { value: undefined, label: '—' },
-        ...publishedHowTos
+        ...howTos
+            .filter((ht) => ht.isPublished())
             .map((h) => {
                 return {
                     value: h.getHowToId(),
@@ -358,16 +354,18 @@
                             />
                             <div class="draftslist">
                                 <ul>
-                                    {#each draftHowTos as _, i (i)}
-                                        <li>
-                                            <HowToForm
-                                                editingMode={false}
-                                                bind:howTo={draftHowTos[i]}
-                                                {notPermittedAreas}
-                                                {cameraX}
-                                                {cameraY}
-                                            />
-                                        </li>
+                                    {#each howTos as _, i (i)}
+                                        {#if !howTos[i].isPublished()}
+                                            <li>
+                                                <HowToForm
+                                                    editingMode={false}
+                                                    bind:howTo={howTos[i]}
+                                                    {notPermittedAreas}
+                                                    {cameraX}
+                                                    {cameraY}
+                                                />
+                                            </li>
+                                        {/if}
                                     {/each}
                                 </ul>
                             </div>
@@ -416,10 +414,10 @@
                         ? 'var(--wordplay-focus-width)'
                         : ''}
                 >
-                    {#each publishedHowTos as howTo, i (i)}
-                        {#if howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
+                    {#each howTos as howTo, i (i)}
+                        {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
                             <HowToPreview
-                                bind:howTo={publishedHowTos[i]}
+                                bind:howTo={howTos[i]}
                                 {cameraX}
                                 {cameraY}
                                 bind:whichMoving
