@@ -121,6 +121,47 @@
         cameraY += e.movementY;
     }
 
+    // let touch & hold also move the canvas
+    function ontouchstart() {
+        if (canvasHasFocus) {
+            whichMoving = 'canvas';
+
+            if ($announce) {
+                $announce(
+                    'canvas move activated',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize(
+                            $locales.get(
+                                (l) => l.ui.howto.announce.moveActivated,
+                            ),
+                            'canvas',
+                        )
+                        .toText(),
+                );
+            }
+        }
+    }
+
+    function ontouchend() {
+        whichMoving = undefined;
+
+        if ($announce) {
+            $announce(
+                'canvas move deactivated',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize(
+                        $locales.get(
+                            (l) => l.ui.howto.announce.moveDeactivated,
+                        ),
+                        'canvas',
+                    )
+                    .toText(),
+            );
+        }
+    }
+
     function onkeydown(event: KeyboardEvent) {
         if (event.key === ' ') {
             if (whichMoving === 'canvas') {
@@ -366,6 +407,8 @@
                     bind:clientHeight={canvasHeight}
                     {onfocus}
                     {onblur}
+                    {ontouchstart}
+                    {ontouchend}
                     style:border-color={whichMoving === 'canvas'
                         ? 'var(--wordplay-highlight-color)'
                         : 'var(--wordplay-border-color)'}

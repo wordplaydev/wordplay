@@ -219,6 +219,47 @@
         itemHasFocus = false;
     }
 
+    // let touch & hold also move howtos
+    function ontouchstart() {
+        if (itemHasFocus) {
+            whichMoving = howToId;
+
+            if ($announce) {
+                $announce(
+                    'how-to move activated',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize(
+                            $locales.get(
+                                (l) => l.ui.howto.announce.moveActivated,
+                            ),
+                            title,
+                        )
+                        .toText(),
+                );
+            }
+        }
+    }
+
+    function ontouchend() {
+        whichMoving = undefined;
+
+        if ($announce) {
+            $announce(
+                'how-to move deactivated',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize(
+                        $locales.get(
+                            (l) => l.ui.howto.announce.moveDeactivated,
+                        ),
+                        title,
+                    )
+                    .toText(),
+            );
+        }
+    }
+
     function onkeydown(event: KeyboardEvent) {
         // we only allow this item to move if the user has editing permissions
         if (!canEdit) return;
@@ -453,6 +494,8 @@
     bind:clientHeight={height}
     {onfocus}
     {onblur}
+    {ontouchstart}
+    {ontouchend}
     style:border-color={whichMoving === howToId
         ? 'var(--wordplay-highlight-color)'
         : 'var(--wordplay-border-color)'}
