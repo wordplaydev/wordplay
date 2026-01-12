@@ -69,6 +69,12 @@ const HowToSchemaV1 = z.object({
     creator: z.string(),
     /** The list of users who can collaborate with the creator on a how-to */
     collaborators: z.array(z.string()),
+    /** The list of users who can comment on a how-to */
+    commenters: z.array(z.string()),
+    /** The list of users who can view a how-to but cannot edit or comment */
+    viewers: z.array(z.string()),
+    /** If the user wants to overwrite the scope set by the gallery curator */
+    scopeOverwrite: z.boolean(),
     /** Locales that the how-to depends on All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: z.array(z.string()),
 
@@ -349,6 +355,9 @@ export class HowToDatabase {
             text: text,
             creator: user as string,
             collaborators: collaborators,
+            commenters: [] as string[],
+            viewers: [] as string[],
+            scopeOverwrite: false,
             locales: locales,
             social: newHowToSocial,
         };

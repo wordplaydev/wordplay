@@ -325,16 +325,16 @@
                         label={(l) => l.ui.howto.navigationtooltip}
                         options={navigationOptions}
                         change={() => {
-                            let navigateTo: HowTo | undefined =
-                                publishedHowTos.find(
-                                    (ht) =>
-                                        ht.getHowToId() == navigationSelection,
-                                );
+                            let navigateTo: HowTo | undefined = howTos.find(
+                                (ht) => ht.getHowToId() == navigationSelection,
+                            );
 
                             if (!navigateTo) return;
 
                             let coords = navigateTo.getCoordinates();
                             panTo(coords[0], coords[1]);
+
+                            navigationSelection = undefined;
                         }}
                     ></Options>
 
