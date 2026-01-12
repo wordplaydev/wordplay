@@ -130,7 +130,7 @@ type UITexts = {
         };
     };
     /** Project settings and controls */
-    project: { 
+    project: {
         defaults: {
             /** The default template shown when opening a new project */
             starterCode: string;
@@ -476,6 +476,10 @@ type UITexts = {
             collaborators: string;
             /** What to call curators */
             curators: string;
+            /** What to call commenters */
+            commenters: string;
+            /** What to call viewers */
+            viewers: string;
         };
         /** Buttons in the chat tile */
         button: {
@@ -503,6 +507,7 @@ type UITexts = {
             owner: string;
             collaborator: string;
             curator: string;
+            commenter: string;
         };
     };
     /** The palette editor */

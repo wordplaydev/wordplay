@@ -197,6 +197,8 @@ export default class ProjectsDatabase {
         const constraints = [
             where('owner', '==', user.uid),
             where('collaborators', 'array-contains', user.uid),
+            where('commenters', 'array-contains', user.uid),
+            where('viewers', 'array-contains', user.uid),
         ];
 
         // If the user has any gallery IDs it has access to, include those in the project query.
@@ -447,10 +449,10 @@ export default class ProjectsDatabase {
                             project,
                             // The project is editable if the user is the owner, or the user is a collaborator, or the user
                             user !== null &&
-                                (project.isOwner(user.uid) ||
-                                    project.hasCollaborator(user.uid) ||
-                                    (gallery !== undefined &&
-                                        gallery.hasCurator(user.uid))),
+                            (project.isOwner(user.uid) ||
+                                project.hasCollaborator(user.uid) ||
+                                (gallery !== undefined &&
+                                    gallery.hasCurator(user.uid))),
                             PersistenceType.Online,
                             false,
                         );

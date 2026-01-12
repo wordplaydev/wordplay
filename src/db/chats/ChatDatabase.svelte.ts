@@ -252,6 +252,14 @@ export class ChatDatabase {
         if (user) this.listen(firestore, user);
     }
 
+    private getAllParticipants(project: Project, gallery: Gallery | undefined): Set<string> {
+        return new Set([
+            ...(gallery ? gallery.getCurators() : []),
+            ...project.getContributors(),
+            ...project.getCommenters(),
+        ]);
+    }
+
     /** Create a chat, if the project is owned and doesn't already have one. */
     async addChat(
         project: Project,
@@ -268,10 +276,7 @@ export class ChatDatabase {
             messages: [],
             // Everyone contributing is eligible to see and participate in the chat.
             participants: Array.from(
-                new Set([
-                    ...(gallery ? gallery.getCurators() : []),
-                    ...project.getContributors(),
-                ]),
+                this.getAllParticipants(project, gallery)
             ),
             unread: [],
         };
@@ -345,10 +350,7 @@ export class ChatDatabase {
 
         // Get the chat's intended participants based on the project and gallery.
         const intendedChatParticipants = [
-            ...new Set([
-                ...project.getContributors(),
-                ...(gallery ? gallery.getCurators() : []),
-            ]),
+            ...this.getAllParticipants(project, gallery),
         ].sort();
 
         // If they're not updated, update them.

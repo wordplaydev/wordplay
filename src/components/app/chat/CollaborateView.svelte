@@ -104,6 +104,9 @@
     let collaborator = $derived(
         isAuthenticated($user) && project.hasCollaborator($user.uid),
     );
+    let commenter = $derived(
+        isAuthenticated($user) && project.hasCommenter($user.uid),
+    );
 
     function startChat() {
         Chats.addChat(project, gallery);
@@ -177,7 +180,9 @@
                     : (l) => l.ui.collaborate.prompt.owner
                 : collaborator
                   ? (l) => l.ui.collaborate.prompt.collaborator
-                  : (l) => l.ui.collaborate.prompt.curator}
+                  : commenter
+                    ? (l) => l.ui.collaborate.prompt.commenter
+                    : (l) => l.ui.collaborate.prompt.curator}
         ></MarkupHTMLView>
 
         <div class="everyone">
@@ -206,6 +211,44 @@
                         remove={(userID) =>
                             Projects.reviseProject(
                                 project.withoutCollaborator(userID),
+                            )}
+                        removable={() => true}
+                    />
+                </Labeled>
+            {/if}
+
+            <!-- Show all of the commenters -->
+            {#if owner == $user?.uid || project.getCommenters().length > 0}
+                <Labeled label={(l) => l.ui.collaborate.role.commenters}>
+                    <CreatorList
+                        anonymize={false}
+                        uids={project.getCommenters()}
+                        {editable}
+                        add={(userID) =>
+                            Projects.reviseProject(
+                                project.withCommenter(userID),
+                            )}
+                        remove={(userID) =>
+                            Projects.reviseProject(
+                                project.withoutCommenter(userID),
+                            )}
+                        removable={() => true}
+                    />
+                </Labeled>
+            {/if}
+
+            <!-- Show all of the viewers -->
+            {#if owner == $user?.uid || project.getViewers().length > 0}
+                <Labeled label={(l) => l.ui.collaborate.role.viewers}>
+                    <CreatorList
+                        anonymize={false}
+                        uids={project.getViewers()}
+                        {editable}
+                        add={(userID) =>
+                            Projects.reviseProject(project.withViewer(userID))}
+                        remove={(userID) =>
+                            Projects.reviseProject(
+                                project.withoutViewer(userID),
                             )}
                         removable={() => true}
                     />

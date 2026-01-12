@@ -185,6 +185,8 @@ export default class Project {
             nonPII: [],
             chat: null,
             history: [],
+            viewers: [],
+            commenters: [],
         });
     }
 
@@ -215,9 +217,8 @@ export default class Project {
     }
 
     getLink(fullscreen: boolean) {
-        return `/project/${encodeURI(this.getID())}${
-            fullscreen ? `?${PROJECT_PARAM_PLAY}` : `?${PROJECT_PARAM_EDIT}`
-        }`;
+        return `/project/${encodeURI(this.getID())}${fullscreen ? `?${PROJECT_PARAM_PLAY}` : `?${PROJECT_PARAM_EDIT}`
+            }`;
     }
 
     getNodeByID(id: number): Node | undefined {
@@ -749,12 +750,12 @@ export default class Project {
             carets: this.data.carets.map((sourceCaret) =>
                 sourceCaret.source === source
                     ? {
-                          source,
-                          caret:
-                              caret instanceof Node
-                                  ? source.root.getPath(caret)
-                                  : caret,
-                      }
+                        source,
+                        caret:
+                            caret instanceof Node
+                                ? source.root.getPath(caret)
+                                : caret,
+                    }
                     : sourceCaret,
             ),
         });
@@ -905,20 +906,20 @@ export default class Project {
         return this.data.collaborators.some((user) => user === uid)
             ? this
             : new Project({
-                  ...this.data,
-                  collaborators: [...this.data.collaborators, uid],
-              });
+                ...this.data,
+                collaborators: [...this.data.collaborators, uid],
+            });
     }
 
     withoutCollaborator(uid: string) {
         return !this.data.collaborators.some((user) => user === uid)
             ? this
             : new Project({
-                  ...this.data,
-                  collaborators: this.data.collaborators.filter(
-                      (id) => id !== uid,
-                  ),
-              });
+                ...this.data,
+                collaborators: this.data.collaborators.filter(
+                    (id) => id !== uid,
+                ),
+            });
     }
 
     isPublic() {
@@ -941,13 +942,13 @@ export default class Project {
             const bind = fun?.inputs.find((bind) => bind.hasName(name));
             return bind
                 ? [
-                      evaluate,
-                      evaluate.withBindAs(
-                          bind,
-                          value?.clone(),
-                          this.getNodeContext(evaluate),
-                      ),
-                  ]
+                    evaluate,
+                    evaluate.withBindAs(
+                        bind,
+                        value?.clone(),
+                        this.getNodeContext(evaluate),
+                    ),
+                ]
                 : [evaluate, evaluate];
         });
     }
@@ -998,8 +999,8 @@ export default class Project {
             ? typeof position === 'number'
                 ? position
                 : position.every((n) => typeof n === 'number')
-                  ? [position[0], position[1]]
-                  : source.root.resolvePath(position)
+                    ? [position[0], position[1]]
+                    : source.root.resolvePath(position)
             : undefined;
     }
 
@@ -1065,6 +1066,8 @@ export default class Project {
             nonPII: project.nonPII,
             chat: project.chat,
             history: project.history,
+            viewers: project.viewers,
+            commenters: project.commenters,
         });
     }
 
@@ -1271,6 +1274,8 @@ export default class Project {
             nonPII: this.data.nonPII,
             chat: this.data.chat,
             history: this.data.history,
+            viewers: this.data.viewers,
+            commenters: this.data.commenters,
         };
     }
 
@@ -1358,5 +1363,51 @@ export default class Project {
                 )
                 .join('\n')
         );
+    }
+
+    getViewers() {
+        return this.data.viewers;
+    }
+
+    withViewer(viewer: string) {
+        return this.data.viewers.some((user) => user === viewer)
+            ? this
+            : new Project({ ...this.data, viewers: [...this.data.viewers, viewer] });
+    }
+
+    withoutViewer(viewer: string) {
+        return !this.data.viewers.some((user) => user === viewer)
+            ? this
+            : new Project({
+                ...this.data,
+                viewers: this.data.viewers.filter((id) => id !== viewer),
+            });
+    }
+
+    hasViewer(id: string) {
+        return this.data.viewers.includes(id);
+    }
+
+    getCommenters() {
+        return this.data.commenters;
+    }
+
+    withCommenter(commenter: string) {
+        return this.data.commenters.some((user) => user === commenter)
+            ? this
+            : new Project({ ...this.data, commenters: [...this.data.commenters, commenter] });
+    }
+
+    withoutCommenter(commenter: string) {
+        return !this.data.commenters.some((user) => user === commenter)
+            ? this
+            : new Project({
+                ...this.data,
+                commenters: this.data.commenters.filter((id) => id !== commenter),
+            });
+    }
+
+    hasCommenter(id: string) {
+        return this.data.commenters.includes(id);
     }
 }

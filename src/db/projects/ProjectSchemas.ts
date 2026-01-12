@@ -92,9 +92,14 @@ const ProjectSchemaV4 = ProjectSchemaV3.omit({ v: true }).extend(
     z.object({ v: z.literal(4), history: z.array(SourceCheckpointSchema) })
         .shape,
 );
+/** v5 adds viewers, who can view the project but not edit or comment, and commenters, who can participate in chats */
+const ProjectSchemaV5 = ProjectSchemaV4.omit({ v: true }).extend(
+    /** A list of user IDs who can view or comment */
+    z.object({ v: z.literal(5), viewers: z.array(z.string()), commenters: z.array(z.string()) }).shape,
+);
 
 /** The latest version of a project.  */
-export const ProjectSchemaLatestVersion = 4;
+export const ProjectSchemaLatestVersion = 5;
 
 /** How we store sources as JSON in databases */
 export type SerializedCaret = z.infer<typeof CaretSchema>;
@@ -105,15 +110,16 @@ export type SerializedSourceCheckpoint = z.infer<typeof SourceCheckpointSchema>;
 export type ProjectID = string;
 
 /** Alias for the latest version of the schema. */
-export const ProjectSchema = ProjectSchemaV4;
+export const ProjectSchema = ProjectSchemaV5;
 
 /** The type of the latest version of the project */
-export type SerializedProject = z.infer<typeof ProjectSchemaV4>;
+export type SerializedProject = z.infer<typeof ProjectSchemaV5>;
 
 export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV1>
     | z.infer<typeof ProjectSchemaV2>
     | z.infer<typeof ProjectSchemaV3>
+    | z.infer<typeof ProjectSchemaV4>
     | SerializedProject;
 
 /** Project updgrader */
@@ -127,6 +133,8 @@ export function upgradeProject(
             return upgradeProject({ ...project, v: 3, chat: null });
         case 3:
             return upgradeProject({ ...project, v: 4, history: [] });
+        case 4:
+            return upgradeProject({ ...project, v: 5, viewers: [], commenters: [] });
         case ProjectSchemaLatestVersion:
             return project;
         default:
