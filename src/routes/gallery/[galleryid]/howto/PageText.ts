@@ -129,8 +129,8 @@ type PageText = {
     /** For announcing changes to the canvas or to how-to positions */
     announce: {
         position: string;
-        gainFocus: string;
-        loseFocus: string;
+        moveActivated: string;
+        moveDeactivated: string;
     },
     error: {
         /** When the how-to is not known or is not public */

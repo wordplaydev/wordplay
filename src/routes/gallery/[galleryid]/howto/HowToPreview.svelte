@@ -25,13 +25,13 @@
     import type { SvelteMap } from 'svelte/reactivity';
     import UnicodeString from '../../../../unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
-    import { movePermitted } from './utils';
+    import { movePermitted } from './HowToMovement';
 
     interface Props {
         howTo: HowTo;
         cameraX: number;
         cameraY: number;
-        childMoving: boolean;
+        whichMoving: string | undefined;
         notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
         galleryCuratorCollaborators: string[];
     }
@@ -40,7 +40,7 @@
         howTo = $bindable(),
         cameraX,
         cameraY,
-        childMoving = $bindable(),
+        whichMoving = $bindable(),
         notPermittedAreas = $bindable(),
         galleryCuratorCollaborators,
     }: Props = $props();
@@ -189,9 +189,6 @@
     }
 
     // code that enables drag and drop functionality
-    childMoving = false;
-    let thisChildMoving = $state(false);
-    let thisChildMoved = $state(false);
 
     // don't allow the user to move the how-to if they don't have write permission to the db
     // currently, only the creator, collaborators of the how-to + the curators, collaborators of the gallery can write
@@ -208,183 +205,190 @@
     let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
-    // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
-    function onPointerMove(e: PointerEvent) {
+    let itemHasFocus: boolean = $state(false);
+
+    function onfocus() {
         if (!canEdit) return;
-        if (thisChildMoving) {
-            let intendX = xcoord + e.movementX;
-            let intendY = ycoord + e.movementY;
 
-            if (
-                movePermitted(
-                    intendX,
-                    intendY,
-                    width,
-                    height,
-                    howToId,
-                    notPermittedAreas,
-                )
-            ) {
-                xcoord = intendX;
-                ycoord = intendY;
+        itemHasFocus = true;
+    }
 
-                thisChildMoved = true;
+    function onblur() {
+        if (!canEdit) return;
+
+        itemHasFocus = false;
+    }
+
+    function onkeydown(event: KeyboardEvent) {
+        // we only allow this item to move if the user has editing permissions
+        if (!canEdit) return;
+
+        // if the space key is pressed once, it changes the selected item to moving mode
+        // if the space key is pressed a second time, it turns off moving mode for whichever item is currently moving
+
+        if (event.key === ' ') {
+            // if the item is currently moving, drop it
+            if (whichMoving === howToId) {
+                whichMoving = undefined;
+
+                onDropHowTo();
+
+                event.preventDefault();
+
+                if ($announce) {
+                    $announce(
+                        'how-to move deactivated',
+                        $locales.getLanguages()[0],
+                        $locales
+                            .concretize(
+                                $locales.get(
+                                    (l) => l.ui.howto.announce.moveDeactivated,
+                                ),
+                                title,
+                            )
+                            .toText(),
+                    );
+                }
+                return;
+            } else if (whichMoving === undefined && itemHasFocus) {
+                // otherwise, if no item is currently moving and this item has focus,
+                // set this item to moving mode
+                whichMoving = howToId;
+
+                event.preventDefault();
+
+                if ($announce) {
+                    $announce(
+                        'how-to move activated',
+                        $locales.getLanguages()[0],
+                        $locales
+                            .concretize(
+                                $locales.get(
+                                    (l) => l.ui.howto.announce.moveActivated,
+                                ),
+                                title,
+                            )
+                            .toText(),
+                    );
+                }
+                return;
             }
+        }
+
+        // if it's not a space key, it could be one of the keys used to move this
+        let intendX: number;
+        let intendY: number;
+
+        // if this item isn't moving, then don't do anything
+        if (whichMoving !== howToId) return;
+
+        switch (event.key) {
+            case 'ArrowUp':
+                intendY = ycoord - 10;
+                if (
+                    movePermitted(
+                        xcoord,
+                        intendY,
+                        width,
+                        height,
+                        howToId,
+                        notPermittedAreas,
+                    )
+                ) {
+                    ycoord = intendY;
+                }
+
+                event.preventDefault();
+                break;
+            case 'ArrowDown':
+                intendY = ycoord + 10;
+                if (
+                    movePermitted(
+                        xcoord,
+                        intendY,
+                        width,
+                        height,
+                        howToId,
+                        notPermittedAreas,
+                    )
+                ) {
+                    ycoord = intendY;
+                }
+
+                event.preventDefault();
+                break;
+            case 'ArrowLeft':
+                intendX = xcoord - 10;
+                if (
+                    movePermitted(
+                        intendX,
+                        ycoord,
+                        width,
+                        height,
+                        howToId,
+                        notPermittedAreas,
+                    )
+                ) {
+                    xcoord = intendX;
+                }
+
+                event.preventDefault();
+                break;
+            case 'ArrowRight':
+                intendX = xcoord + 10;
+                if (
+                    movePermitted(
+                        intendX,
+                        ycoord,
+                        width,
+                        height,
+                        howToId,
+                        notPermittedAreas,
+                    )
+                ) {
+                    xcoord = intendX;
+                }
+
+                event.preventDefault();
+                break;
+
+            default:
+                return;
         }
     }
 
-    function onKeyPress(event: KeyboardEvent) {
-        if (!canEdit) return;
-        if (thisChildMoving) {
-            let intendX: number;
-            let intendY: number;
+    // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
+    function onpointermove(e: PointerEvent) {
+        if (!canEdit || whichMoving !== howToId) return;
 
-            switch (event.key) {
-                case 'ArrowUp':
-                    intendY = ycoord - 10;
-                    if (
-                        movePermitted(
-                            xcoord,
-                            intendY,
-                            width,
-                            height,
-                            howToId,
-                            notPermittedAreas,
-                        )
-                    ) {
-                        ycoord = intendY;
-                        thisChildMoved = true;
-                    }
+        let intendX = xcoord + e.movementX;
+        let intendY = ycoord + e.movementY;
 
-                    event.preventDefault();
-                    break;
-                case 'ArrowDown':
-                    intendY = ycoord + 10;
-                    if (
-                        movePermitted(
-                            xcoord,
-                            intendY,
-                            width,
-                            height,
-                            howToId,
-                            notPermittedAreas,
-                        )
-                    ) {
-                        ycoord = intendY;
-                        thisChildMoved = true;
-                    }
-
-                    event.preventDefault();
-                    break;
-                case 'ArrowLeft':
-                    intendX = xcoord - 10;
-                    if (
-                        movePermitted(
-                            intendX,
-                            ycoord,
-                            width,
-                            height,
-                            howToId,
-                            notPermittedAreas,
-                        )
-                    ) {
-                        xcoord = intendX;
-                        thisChildMoved = true;
-                    }
-
-                    event.preventDefault();
-                    break;
-                case 'ArrowRight':
-                    intendX = xcoord + 10;
-                    if (
-                        movePermitted(
-                            intendX,
-                            ycoord,
-                            width,
-                            height,
-                            howToId,
-                            notPermittedAreas,
-                        )
-                    ) {
-                        xcoord = intendX;
-                        thisChildMoved = true;
-                    }
-
-                    event.preventDefault();
-                    break;
-
-                default:
-                    return;
-            }
+        if (
+            movePermitted(
+                intendX,
+                intendY,
+                width,
+                height,
+                howToId,
+                notPermittedAreas,
+            )
+        ) {
+            xcoord = intendX;
+            ycoord = intendY;
         }
     }
 
     function onDropHowTo() {
-        if (!canEdit) return;
-        childMoving = false;
+        if (!howTo) return;
 
-        if (thisChildMoving) {
-            thisChildMoving = false;
-
-            if (!howTo) return;
-
-            howTo = new HowTo({
-                ...howTo.getData(),
-                xcoord: xcoord,
-                ycoord: ycoord,
-            });
-
-            HowTos.updateHowTo(howTo, true);
-        }
-    }
-
-    function onGainFocus() {
-        if (!canEdit) return;
-
-        childMoving = true;
-        thisChildMoving = true;
-
-        untrack(() => {
-            if ($announce) {
-                $announce(
-                    'how-to gained focus',
-                    $locales.getLanguages()[0],
-                    $locales
-                        .concretize(
-                            $locales.get((l) => l.ui.howto.announce.gainFocus),
-                            'how-to',
-                        )
-                        .toText(),
-                );
-            }
+        howTo = new HowTo({
+            ...howTo.getData(),
+            xcoord: xcoord,
+            ycoord: ycoord,
         });
-    }
 
-    function onLoseFocus() {
-        if (!canEdit) return;
-        if (thisChildMoved) {
-            thisChildMoved = false;
-
-            onDropHowTo();
-        } else {
-            thisChildMoving = false;
-            childMoving = false;
-        }
-
-        untrack(() => {
-            if ($announce) {
-                $announce(
-                    'how-to lost focus',
-                    $locales.getLanguages()[0],
-                    $locales
-                        .concretize(
-                            $locales.get((l) => l.ui.howto.announce.loseFocus),
-                            'how-to',
-                        )
-                        .toText(),
-                );
-            }
-        });
+        HowTos.updateHowTo(howTo, true);
     }
 
     // collision detection
@@ -445,20 +449,16 @@
     style:top={`${renderY}px`}
     id="howto-{howToId}"
     tabindex="0"
-    onfocus={onGainFocus}
-    onblur={onLoseFocus}
-    onpointerdown={(e) => {
-        e.stopPropagation();
-        if (childMoving) onLoseFocus();
-        else onGainFocus();
-    }}
-    onkeydown={onKeyPress}
     bind:clientWidth={width}
     bind:clientHeight={height}
-    style:border-color={thisChildMoving
+    {onfocus}
+    {onblur}
+    style:border-color={whichMoving === howToId
         ? 'var(--wordplay-highlight-color)'
         : 'var(--wordplay-border-color)'}
-    style:border-width={thisChildMoving ? 'var(--wordplay-focus-width)' : ''}
+    style:border-width={whichMoving === howToId
+        ? 'var(--wordplay-focus-width)'
+        : ''}
 >
     <div class="howtotitle"> {title}</div>
 
@@ -471,7 +471,8 @@
         {preview}
     />
 </div>
-<svelte:window onpointermove={(e) => onPointerMove(e)} />
+
+<svelte:window on:pointermove={onpointermove} on:keydown={onkeydown} />
 
 <style>
     /* setting preview size as a var here that can be changed here, will adjust everything else */

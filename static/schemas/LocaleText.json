@@ -10395,10 +10395,10 @@
                   "additionalProperties": false,
                   "description": "For announcing changes to the canvas or to how-to positions",
                   "properties": {
-                    "gainFocus": {
+                    "moveActivated": {
                       "type": "string"
                     },
-                    "loseFocus": {
+                    "moveDeactivated": {
                       "type": "string"
                     },
                     "position": {
@@ -10407,8 +10407,8 @@
                   },
                   "required": [
                     "position",
-                    "gainFocus",
-                    "loseFocus"
+                    "moveActivated",
+                    "moveDeactivated"
                   ],
                   "type": "object"
                 },

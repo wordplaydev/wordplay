@@ -26,7 +26,7 @@
     import type { SvelteMap } from 'svelte/reactivity';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
-    import { movePermitted } from './utils';
+    import { movePermitted } from './HowToMovement';
 
     // defining props
     interface Props {

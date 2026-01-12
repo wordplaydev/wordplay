@@ -5019,8 +5019,8 @@
             },
             "announce": {
                 "position": "$1 moved to $2 $3",
-                "gainFocus": "$1 can be moved using the mouse, keyboard, or touchscreen",
-                "loseFocus": "$1 cannot be moved"
+                "moveActivated": "$1 can be moved using the mouse, keyboard, or touchscreen",
+                "moveDeactivated": "$1 cannot be moved"
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."

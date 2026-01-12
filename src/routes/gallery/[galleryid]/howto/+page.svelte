@@ -99,85 +99,96 @@
         cameraY = -y + 10;
     }
 
-    let canvasMoving = $state(false);
-    let childMoving = $state(false);
+    // tracks which item is moving
+    // if undefined, nothing is moving. if "canvas," then canvas is moving.
+    // if how-to id, then that how-to is moving
+    let whichMoving: string | undefined = $state(undefined);
+    let canvasHasFocus: boolean = $state(false);
+    $effect(() => console.log(whichMoving));
 
-    function onGainFocus() {
-        if (!childMoving) {
-            canvasMoving = true;
+    function onfocus() {
+        canvasHasFocus = true;
+    }
 
-            untrack(() => {
+    function onblur() {
+        canvasHasFocus = false;
+    }
+
+    function onpointermove(e: PointerEvent) {
+        if (whichMoving !== 'canvas') return;
+
+        cameraX += e.movementX;
+        cameraY += e.movementY;
+    }
+
+    function onkeydown(event: KeyboardEvent) {
+        if (event.key === ' ') {
+            if (whichMoving === 'canvas') {
+                whichMoving = undefined;
+
+                event.preventDefault();
+
                 if ($announce) {
                     $announce(
-                        'canvas gained focus',
+                        'canvas move deactivated',
                         $locales.getLanguages()[0],
                         $locales
                             .concretize(
                                 $locales.get(
-                                    (l) => l.ui.howto.announce.gainFocus,
+                                    (l) => l.ui.howto.announce.moveDeactivated,
                                 ),
                                 'canvas',
                             )
                             .toText(),
                     );
                 }
-            });
-        }
-    }
 
-    function onPointerMove(e: PointerEvent) {
-        if (canvasMoving && !childMoving) {
-            cameraX += e.movementX;
-            cameraY += e.movementY;
-        }
-    }
+                return;
+            } else if (canvasHasFocus) {
+                whichMoving = 'canvas';
 
-    function onLoseFocus() {
-        if (!childMoving) {
-            canvasMoving = false;
+                event.preventDefault();
 
-            untrack(() => {
                 if ($announce) {
                     $announce(
-                        'canvas lost focus',
+                        'canvas move activated',
                         $locales.getLanguages()[0],
                         $locales
                             .concretize(
                                 $locales.get(
-                                    (l) => l.ui.howto.announce.loseFocus,
+                                    (l) => l.ui.howto.announce.moveActivated,
                                 ),
                                 'canvas',
                             )
                             .toText(),
                     );
                 }
-            });
-        }
-    }
-
-    function onKeyDown(event: KeyboardEvent) {
-        if (!childMoving) {
-            switch (event.key) {
-                case 'ArrowUp':
-                    cameraY += 10;
-                    event.preventDefault();
-                    break;
-                case 'ArrowDown':
-                    cameraY -= 10;
-                    event.preventDefault();
-                    break;
-                case 'ArrowLeft':
-                    cameraX += 10;
-                    event.preventDefault();
-                    break;
-                case 'ArrowRight':
-                    cameraX -= 10;
-                    event.preventDefault();
-                    break;
-                default:
-                    return;
+                return;
             }
-            return;
+        }
+
+        // if canvas isn't moving, then don't do anything
+        if (whichMoving !== 'canvas') return;
+
+        switch (event.key) {
+            case 'ArrowUp':
+                cameraY += 10;
+                event.preventDefault();
+                break;
+            case 'ArrowDown':
+                cameraY -= 10;
+                event.preventDefault();
+                break;
+            case 'ArrowLeft':
+                cameraX += 10;
+                event.preventDefault();
+                break;
+            case 'ArrowRight':
+                cameraX -= 10;
+                event.preventDefault();
+                break;
+            default:
+                return;
         }
     }
 
@@ -349,22 +360,16 @@
                 <div
                     class="canvas"
                     id="canvas"
-                    onpointermove={(e) => onPointerMove(e)}
-                    onkeydown={(event) => onKeyDown(event)}
-                    onfocus={onGainFocus}
-                    onblur={onLoseFocus}
-                    onpointerdown={() => {
-                        if (canvasMoving && !childMoving) onLoseFocus();
-                        else if (!childMoving) onGainFocus();
-                    }}
                     ondblclick={() => panTo(0, 0)}
                     tabindex="0"
                     bind:clientWidth={canvasWidth}
                     bind:clientHeight={canvasHeight}
-                    style:border-color={canvasMoving && !childMoving
+                    {onfocus}
+                    {onblur}
+                    style:border-color={whichMoving === 'canvas'
                         ? 'var(--wordplay-highlight-color)'
                         : 'var(--wordplay-border-color)'}
-                    style:border-width={canvasMoving && !childMoving
+                    style:border-width={whichMoving === 'canvas'
                         ? 'var(--wordplay-focus-width)'
                         : ''}
                 >
@@ -374,7 +379,7 @@
                                 bind:howTo={publishedHowTos[i]}
                                 {cameraX}
                                 {cameraY}
-                                bind:childMoving
+                                bind:whichMoving
                                 bind:notPermittedAreas
                                 galleryCuratorCollaborators={gallery
                                     .getCurators()
@@ -387,6 +392,7 @@
         </div>
     </Page>
 {/if}
+<svelte:window on:pointermove={onpointermove} on:keydown={onkeydown} />
 
 <style>
     .howtospace {
