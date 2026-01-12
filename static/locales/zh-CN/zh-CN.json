@@ -4358,6 +4358,9 @@
             "subheader": {
                 "source": "来源",
                 "destination": "目的地"
+            },
+            "defaults": {
+                "starterCode": "¶欢迎来到您的空白项目！这是一条注释。\n\n您可以用它来描述您的项目、做笔记，以及\n\n解释您希望人们了解的关于您工作的信息。\n\n它支持粗体、斜体、<links@https://wordplay.dev> 等格式。¶\nPhrase('hi')"
             }
         },
         "gallery": {
@@ -4605,11 +4608,26 @@
                 "search": "使用关键词搜索概念"
             },
             "header": {
-                "inputs": "投入",
-                "interfaces": "接口",
-                "properties": "属性",
-                "functions": "函数",
-                "conversions": "转换",
+                "inputs": {
+                    "header": "$~输入",
+                    "explanation": "$~/必填项和可选值。/"
+                },
+                "interfaces": {
+                    "header": "$~接口",
+                    "explanation": "$~此结构所依据的结构。"
+                },
+                "properties": {
+                    "header": "$~特性",
+                    "explanation": "$~此概念所蕴含的价值观。"
+                },
+                "functions": {
+                    "header": "$~函数",
+                    "explanation": "$~此概念可以计算的值。"
+                },
+                "conversions": {
+                    "header": "$~转换",
+                    "explanation": "$~将此值转换为其他类型值的方法。"
+                },
                 "arrangements": {
                     "header": "$~安排",
                     "explanation": "$~/一组短语的排列方式。/"

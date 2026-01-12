@@ -228,7 +228,11 @@
         if (location) {
             // If it's been more than 200ms since the last scroll, then scroll to the caret after the next update.
             // This prevents them from pooling up and causing the editor to hang.
-            if (performance.now() - lastScroll > 200 && element) {
+            if (
+                performance.now() - lastScroll > 200 &&
+                element &&
+                !caret.isNode()
+            ) {
                 tick().then(() => {
                     if (element) element.scrollIntoView({ block: 'nearest' });
                     lastScroll = performance.now();
@@ -480,39 +484,57 @@
                     : Array.from(
                           nodeView.querySelectorAll(':is(.token-view, .value)'),
                       );
-                // No tokens? No loccation :(
+                // No tokens? No location :(
                 if (tokenAndValueViews.length === 0) return;
+
                 // Get the bounding rect of the last token or value in the layout
                 // and place the caret there for scrolling purposes.
                 const rects = tokenAndValueViews.map((t) =>
                     t.getBoundingClientRect(),
                 );
                 const left = Math.min(...rects.map((r) => r.left));
+                const top = Math.min(...rects.map((r) => r.top));
                 const bottom = Math.max(...rects.map((r) => r.bottom));
                 const height = bottom - Math.min(...rects.map((r) => r.top));
 
+                // If the total height of the block is more than the height of one token,
+                // then we place above the block, otherwise below it.
+
+                const tokenHeight = rects[0].height;
+                const topPlacement = Math.max(
+                    0,
+                    top - tokenHeight - editorPadding,
+                );
+                const bottomPlacement = bottom + editorPadding;
+                const vertical =
+                    (height > tokenHeight * 2 && topPlacement > tokenHeight * 2
+                        ? topPlacement
+                        : bottomPlacement) + viewportYOffset;
+
                 return {
                     left: left + viewportXOffset,
-                    top: bottom + viewportYOffset,
-                    height: height,
-                    bottom: bottom + viewportYOffset,
+                    top: vertical,
+                    height: tokenHeight,
+                    bottom: vertical,
                 };
             }
         }
         // At the start in blocks mode? Render at the first statement's top left.
-        else if (caret.position === 0 && blocks) {
+        else if (
+            blocks &&
+            (caret.position === 0 ||
+                caret.position === caret.source.code.getLength()) &&
+            blocks
+        ) {
+            const start = caret.position === 0;
             const block = caret.source.expression.expression;
             const blockView = getNodeView(block);
             if (blockView !== null) {
-                const emptyView =
-                    block.statements.length > 0
-                        ? blockView.querySelector('.node-view')
-                        : Array.from(blockView.querySelectorAll('.empty')).at(
-                              -1,
-                          );
-                const bounds = (emptyView ?? blockView).getBoundingClientRect();
+                const bounds = blockView.getBoundingClientRect();
+                console.log(bounds.right);
                 return {
-                    left: bounds.left + viewportXOffset,
+                    left:
+                        (start ? bounds.left : bounds.right) + viewportXOffset,
                     top: bounds.top + viewportYOffset,
                     height: bounds.height,
                     bottom: bounds.bottom + viewportYOffset,

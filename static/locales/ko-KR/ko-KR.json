@@ -4396,6 +4396,9 @@
             "subheader": {
                 "source": "$~원천",
                 "destination": "$~목적지"
+            },
+            "defaults": {
+                "starterCode": "¶빈 프로젝트에 오신 것을 환영합니다! 이것은 댓글입니다.\n프로젝트를 설명하고, 메모를 작성하고,\n작업에 대해 다른 사람들이 알아야 할 내용을 설명하는 데 사용할 수 있습니다.\n굵게, 기울임꼴, <links@https://wordplay.dev> 등을 지원합니다.¶\nPhrase('hi')"
             }
         },
         "gallery": {

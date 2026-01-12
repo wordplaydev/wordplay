@@ -1563,16 +1563,11 @@
     <h3>{locales.get(accessor).label}</h3>
     <Mode
         modes={accessor}
-        icons={[
-            '🎨',
-            locales.get((l) => l.ui.page.character.field.inherit),
-            ...(none
-                ? [locales.get((l) => l.ui.page.character.field.none)]
-                : []),
-        ]}
-        choice={state === 'none' ? 2 : state === 'inherit' ? 1 : 0}
+        icons={['🚫', '❏', '🎨']}
+        omit={none ? [] : [0]}
+        choice={state === 'none' ? 0 : state === 'inherit' ? 1 : 2}
         select={(choice: number) => {
-            setState(choice === 2 ? 'none' : choice === 1 ? 'inherit' : 'set');
+            setState(choice === 0 ? 'none' : choice === 1 ? 'inherit' : 'set');
         }}
         labeled={false}
     ></Mode>

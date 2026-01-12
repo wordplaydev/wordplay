@@ -105,7 +105,9 @@
                             ? select(index)
                             : undefined}
                 >
-                    {#if icons}{withMonoEmoji(icons[index])}{/if}
+                    {#if icons}{#if index < icons.length}{withMonoEmoji(
+                                icons[index],
+                            )}{:else}?{/if}{/if}
                     {#if modeLabels}<LocalizedText
                             path={(l) => modeText.labels[index]}
                         />{/if}

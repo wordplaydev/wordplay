@@ -578,7 +578,12 @@
         hoveredAny.set(getNodeAt(source, event, true));
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
-        if (dragged && dragCandidate && exceededDragThreshold(event)) {
+        if (
+            dragged &&
+            dragCandidate &&
+            exceededDragThreshold(event) &&
+            event.buttons === 1
+        ) {
             dragged.set(dragCandidate);
             dragCandidate = undefined;
             dragPoint = undefined;
@@ -1663,12 +1668,14 @@
         border: none;
         outline: none;
         caret-color: transparent;
+        opacity: 0;
         width: 1px;
         height: 1em;
         pointer-events: none;
         touch-action: none;
         resize: none;
         overflow: hidden;
+        font-size: 16px; /* Prevents Safari from zooming on input focus */
 
         /* Helpful for debugging */
         /* outline: 1px solid red;

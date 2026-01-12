@@ -4396,6 +4396,9 @@
             "subheader": {
                 "source": "$~Source",
                 "destination": "$~Destination"
+            },
+            "defaults": {
+                "starterCode": "¶Bienvenue sur votre projet vierge ! Ceci est un commentaire.\n\nVous pouvez l'utiliser pour décrire votre projet, prendre des notes et\n\nexpliquer ce que vous souhaitez que les lecteurs sachent de votre travail.\n\nIl prend en *charge le gras*, /l'italique/, les <liens@https://wordplay.dev> et plus encore.¶\nPhrase('hi')"
             }
         },
         "gallery": {

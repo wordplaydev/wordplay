@@ -4396,6 +4396,9 @@
             "subheader": {
                 "source": "$~Kaynak",
                 "destination": "$~Varış noktası"
+            },
+            "defaults": {
+                "starterCode": "¶Boş projenize hoş geldiniz! Bu bir yorumdur.\n\nBunu projenizi açıklamak, not almak ve\nçalışmanız hakkında insanların bilmesini istediğiniz şeyleri açıklamak için kullanabilirsiniz.\n\n*Kalın*, /italik/, <links@https://wordplay.dev> ve daha fazlasını destekler.¶\nİfade('merhaba')"
             }
         },
         "checkpoints": {

@@ -4401,6 +4401,9 @@
             "subheader": {
                 "source": "$~Źródło",
                 "destination": "$~Miejsce docelowe"
+            },
+            "defaults": {
+                "starterCode": "¶Witaj w swoim pustym projekcie! To jest komentarz.\nMożesz go użyć do opisania swojego projektu, zrobienia notatek i\nwyjaśnienia, co chcesz, aby inni wiedzieli o Twojej pracy.\nObsługuje *pogrubienie*, /kursywa/, <links@https://wordplay.dev> i inne.¶\nPhrase('hi')"
             }
         },
         "checkpoints": {
