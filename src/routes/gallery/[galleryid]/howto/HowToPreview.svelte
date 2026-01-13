@@ -211,19 +211,6 @@
         e.stopPropagation();
 
         whichMoving = howToId;
-
-        if ($announce) {
-            $announce(
-                'how-to move activated',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize(
-                        $locales.get((l) => l.ui.howto.announce.moveActivated),
-                        title,
-                    )
-                    .toText(),
-            );
-        }
     }
 
     function onpointerup() {
@@ -232,21 +219,6 @@
         whichMoving = undefined;
 
         onDropHowTo();
-
-        if ($announce) {
-            $announce(
-                'how-to move deactivated',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize(
-                        $locales.get(
-                            (l) => l.ui.howto.announce.moveDeactivated,
-                        ),
-                        title,
-                    )
-                    .toText(),
-            );
-        }
     }
 
     // // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
@@ -274,55 +246,27 @@
     function onfocus() {
         if (!canEdit) return;
 
-        whichMoving = howToId;
         keyboardFocused = true;
-
-        if ($announce) {
-            $announce(
-                'how-to move activated',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize(
-                        $locales.get((l) => l.ui.howto.announce.moveActivated),
-                        title,
-                    )
-                    .toText(),
-            );
-        }
     }
 
     function onblur() {
         if (!canEdit) return;
 
-        whichMoving = undefined;
         keyboardFocused = false;
+        if (whichMoving === howToId) whichMoving = undefined;
 
         onDropHowTo();
-
-        if ($announce) {
-            $announce(
-                'how-to move deactivated',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize(
-                        $locales.get(
-                            (l) => l.ui.howto.announce.moveDeactivated,
-                        ),
-                        title,
-                    )
-                    .toText(),
-            );
-        }
     }
 
+    // if navigating using a keyboard, the how-to is put "move mode" when arrow keys are used
     function onkeydown(event: KeyboardEvent) {
-        if (whichMoving !== howToId || !canEdit || !keyboardFocused) return;
+        if (!canEdit || !keyboardFocused) return;
 
         let intendX: number;
         let intendY: number;
 
-        // if this item isn't moving, then don't do anything
-        if (whichMoving !== howToId) return;
+        // if this item isn't the one that is moving, then don't do anything
+        if (whichMoving && whichMoving !== howToId) return;
 
         switch (event.key) {
             case 'ArrowUp':
@@ -338,6 +282,7 @@
                     )
                 ) {
                     ycoord = intendY;
+                    whichMoving = howToId;
                 }
 
                 event.preventDefault();
@@ -355,6 +300,7 @@
                     )
                 ) {
                     ycoord = intendY;
+                    whichMoving = howToId;
                 }
 
                 event.preventDefault();
@@ -372,6 +318,7 @@
                     )
                 ) {
                     xcoord = intendX;
+                    whichMoving = howToId;
                 }
 
                 event.preventDefault();
@@ -389,6 +336,7 @@
                     )
                 ) {
                     xcoord = intendX;
+                    whichMoving = howToId;
                 }
 
                 event.preventDefault();
@@ -433,7 +381,9 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.get((l) => l.ui.howto.announce.position),
+                            $locales.get(
+                                (l) => l.ui.howto.announce.howToPosition,
+                            ),
                             title,
                             xcoord.toString(),
                             ycoord.toString(),

@@ -415,13 +415,6 @@
             });
         }
     }
-
-    let dialogButton: HTMLButtonElement | undefined = $state(undefined);
-    $effect(() => {
-        if (!show && dialogButton) {
-            dialogButton.focus();
-        }
-    });
 </script>
 
 <!-- button to click to open the how-to dialog. if there is a preview (i.e., it is published), use the preview as the button. 
@@ -429,7 +422,6 @@
  otherwise, this is the "add new how-to" button; use the "+" as the button -->
 {#if preview}
     <Button
-        bind:view={dialogButton}
         tip={(l) =>
             editingMode
                 ? l.ui.howto.editor.editForm.header
@@ -440,7 +432,6 @@
     </Button>
 {:else}
     <Button
-        bind:view={dialogButton}
         tip={(l) =>
             howTo
                 ? l.ui.howto.drafts.tooltip

@@ -128,7 +128,8 @@ type PageText = {
     },
     /** For announcing changes to the canvas or to how-to positions */
     announce: {
-        position: string;
+        howToPosition: string;
+        canvasPosition: string;
         moveActivated: string;
         moveDeactivated: string;
     },

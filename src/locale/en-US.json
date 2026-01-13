@@ -5018,9 +5018,10 @@
                 }
             },
             "announce": {
-                "position": "$1 moved to $2 $3",
-                "moveActivated": "$1 can be moved using the mouse, keyboard, or touchscreen",
-                "moveDeactivated": "$1 cannot be moved"
+                "howToPosition": "how-to titled $1 moved to $2 $3",
+                "canvasPosition": "canvas moved to $1, $2",
+                "moveActivated": "movement activated. $1 can be moved using the mouse, keyboard, or touchscreen",
+                "moveDeactivated": "movement deactivated."
             },
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."

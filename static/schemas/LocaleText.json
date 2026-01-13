@@ -10395,18 +10395,22 @@
                   "additionalProperties": false,
                   "description": "For announcing changes to the canvas or to how-to positions",
                   "properties": {
+                    "canvasPosition": {
+                      "type": "string"
+                    },
+                    "howToPosition": {
+                      "type": "string"
+                    },
                     "moveActivated": {
                       "type": "string"
                     },
                     "moveDeactivated": {
                       "type": "string"
-                    },
-                    "position": {
-                      "type": "string"
                     }
                   },
                   "required": [
-                    "position",
+                    "howToPosition",
+                    "canvasPosition",
                     "moveActivated",
                     "moveDeactivated"
                   ],

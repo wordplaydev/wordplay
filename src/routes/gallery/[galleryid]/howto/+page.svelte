@@ -103,39 +103,11 @@
 
     function onpointerdown() {
         whichMoving = 'canvas';
-
-        if ($announce) {
-            $announce(
-                'canvas move activated',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize(
-                        $locales.get((l) => l.ui.howto.announce.moveActivated),
-                        'canvas',
-                    )
-                    .toText(),
-            );
-        }
     }
 
     function onpointerup() {
         if (whichMoving !== 'canvas') return;
         whichMoving = undefined;
-
-        if ($announce) {
-            $announce(
-                'canvas move deactivated',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize(
-                        $locales.get(
-                            (l) => l.ui.howto.announce.moveDeactivated,
-                        ),
-                        'canvas',
-                    )
-                    .toText(),
-            );
-        }
     }
 
     function onpointermove(e: PointerEvent) {
@@ -147,60 +119,40 @@
 
     let keyboardFocused: boolean = $state(false);
     function onfocus() {
-        whichMoving = 'canvas';
         keyboardFocused = true;
-
-        if ($announce) {
-            $announce(
-                'canvas move activated',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize(
-                        $locales.get((l) => l.ui.howto.announce.moveActivated),
-                        'canvas',
-                    )
-                    .toText(),
-            );
-        }
     }
 
     function onblur() {
-        whichMoving = undefined;
         keyboardFocused = false;
 
-        if ($announce) {
-            $announce(
-                'canvas move deactivated',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize(
-                        $locales.get(
-                            (l) => l.ui.howto.announce.moveDeactivated,
-                        ),
-                        'canvas',
-                    )
-                    .toText(),
-            );
-        }
+        if (whichMoving === 'canvas') whichMoving = undefined;
     }
 
+    // if navigating using a keyboard, the canvas is put in "move mode" when arrow keys are used
     function onkeydown(event: KeyboardEvent) {
-        if (whichMoving === 'canvas' && keyboardFocused) {
+        if (
+            keyboardFocused &&
+            (whichMoving === undefined || whichMoving === 'canvas')
+        ) {
             switch (event.key) {
                 case 'ArrowUp':
                     cameraY += 10;
+                    whichMoving = 'canvas';
                     event.preventDefault();
                     break;
                 case 'ArrowDown':
                     cameraY -= 10;
+                    whichMoving = 'canvas';
                     event.preventDefault();
                     break;
                 case 'ArrowLeft':
                     cameraX += 10;
+                    whichMoving = 'canvas';
                     event.preventDefault();
                     break;
                 case 'ArrowRight':
                     cameraX -= 10;
+                    whichMoving = 'canvas';
                     event.preventDefault();
                     break;
                 default:
@@ -209,9 +161,58 @@
         }
     }
 
-    // when cameraX and cameraY change, announce it
     const announce = getAnnouncer();
 
+    // announce when move mode changes
+    $effect(() => {
+        untrack(() => {
+            if ($announce) {
+                if (whichMoving === 'canvas') {
+                    $announce(
+                        'canvas move mode activated',
+                        $locales.getLanguages()[0],
+                        $locales
+                            .concretize(
+                                $locales.get(
+                                    (l) => l.ui.howto.announce.moveActivated,
+                                ),
+                                'canvas',
+                            )
+                            .toText(),
+                    );
+                } else if (whichMoving !== undefined) {
+                    let movingHowTo = howTos.find(
+                        (ht) => ht.getHowToId() === whichMoving,
+                    );
+
+                    if (movingHowTo)
+                        $announce(
+                            'how-to move mode activated',
+                            $locales.getLanguages()[0],
+                            $locales
+                                .concretize(
+                                    $locales.get(
+                                        (l) =>
+                                            l.ui.howto.announce.moveActivated,
+                                    ),
+                                    movingHowTo.getTitle(),
+                                )
+                                .toText(),
+                        );
+                } else {
+                    $announce(
+                        'move mode deactivated',
+                        $locales.getLanguages()[0],
+                        $locales.get(
+                            (l) => l.ui.howto.announce.moveDeactivated,
+                        ),
+                    );
+                }
+            }
+        });
+    });
+
+    // when cameraX and cameraY change, announce it
     $effect(() => {
         cameraX;
         cameraY;
@@ -223,8 +224,9 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.get((l) => l.ui.howto.announce.position),
-                            'canvas',
+                            $locales.get(
+                                (l) => l.ui.howto.announce.canvasPosition,
+                            ),
                             cameraX.toString(),
                             cameraY.toString(),
                         )
