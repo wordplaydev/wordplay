@@ -96,7 +96,7 @@ export enum IdleKind {
 
 /** The current keyboard edit idle state in a ProjectView. */
 export const [getKeyboardEditIdle, setKeyboardEditIdle] =
-    createContext<Writable<IdleKind>>();
+    createOptionalContext<Writable<IdleKind>>();
 
 export type KeyModifierState = {
     control: boolean;
@@ -124,7 +124,7 @@ export const [getEvaluation, setEvaluation] = createOptionalContext<
 
 /** The set of nodes that are animating at runtime */
 export const [getAnimatingNodes, setAnimatingNodes] =
-    createContext<Writable<Set<Node>>>();
+    createOptionalContext<Writable<Set<Node>>>();
 
 /** Various components outside the editor use this to apply edits */
 
@@ -153,7 +153,7 @@ export const [getConflicts, setConflicts] = createContext<
 >();
 
 /** The currently selected output code in the project's editors. */
-export const [getSelectedOutput, setSelectedOutput] = createContext<
+export const [getSelectedOutput, setSelectedOutput] = createOptionalContext<
     SelectedOutput | undefined
 >();
 
@@ -216,7 +216,7 @@ export const [getConceptPath, setConceptPath] =
 
 /** The current index of concepts */
 export type ConceptIndexContext = { index: ConceptIndex | undefined };
-export const [getConceptIndex, setConceptIndex] = createContext<
+export const [getConceptIndex, setConceptIndex] = createOptionalContext<
     ConceptIndexContext | undefined
 >();
 
