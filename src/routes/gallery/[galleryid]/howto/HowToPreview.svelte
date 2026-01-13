@@ -205,44 +205,99 @@
     let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
-    let itemHasFocus: boolean = $state(false);
+    function onpointerdown(e: PointerEvent) {
+        if (!canEdit) return;
 
+        e.stopPropagation();
+
+        whichMoving = howToId;
+
+        if ($announce) {
+            $announce(
+                'how-to move activated',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize(
+                        $locales.get((l) => l.ui.howto.announce.moveActivated),
+                        title,
+                    )
+                    .toText(),
+            );
+        }
+    }
+
+    function onpointerup() {
+        if (whichMoving !== howToId || !canEdit) return;
+
+        whichMoving = undefined;
+
+        onDropHowTo();
+
+        if ($announce) {
+            $announce(
+                'how-to move deactivated',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize(
+                        $locales.get(
+                            (l) => l.ui.howto.announce.moveDeactivated,
+                        ),
+                        title,
+                    )
+                    .toText(),
+            );
+        }
+    }
+
+    // // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
+    function onpointermove(e: PointerEvent) {
+        if (!canEdit || whichMoving !== howToId) return;
+        let intendX = xcoord + e.movementX;
+        let intendY = ycoord + e.movementY;
+
+        if (
+            movePermitted(
+                intendX,
+                intendY,
+                width,
+                height,
+                howToId,
+                notPermittedAreas,
+            )
+        ) {
+            xcoord = intendX;
+            ycoord = intendY;
+        }
+    }
+
+    let keyboardFocused: boolean = $state(false);
     function onfocus() {
         if (!canEdit) return;
 
-        itemHasFocus = true;
+        whichMoving = howToId;
+        keyboardFocused = true;
+
+        if ($announce) {
+            $announce(
+                'how-to move activated',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize(
+                        $locales.get((l) => l.ui.howto.announce.moveActivated),
+                        title,
+                    )
+                    .toText(),
+            );
+        }
     }
 
     function onblur() {
         if (!canEdit) return;
 
-        itemHasFocus = false;
-    }
-
-    // let touch & hold also move howtos
-    function ontouchstart() {
-        if (itemHasFocus) {
-            whichMoving = howToId;
-
-            if ($announce) {
-                $announce(
-                    'how-to move activated',
-                    $locales.getLanguages()[0],
-                    $locales
-                        .concretize(
-                            $locales.get(
-                                (l) => l.ui.howto.announce.moveActivated,
-                            ),
-                            title,
-                        )
-                        .toText(),
-                );
-            }
-        }
-    }
-
-    function ontouchend() {
         whichMoving = undefined;
+        keyboardFocused = false;
+
+        onDropHowTo();
 
         if ($announce) {
             $announce(
@@ -261,62 +316,8 @@
     }
 
     function onkeydown(event: KeyboardEvent) {
-        // we only allow this item to move if the user has editing permissions
-        if (!canEdit) return;
+        if (whichMoving !== howToId || !canEdit || !keyboardFocused) return;
 
-        // if the space key is pressed once, it changes the selected item to moving mode
-        // if the space key is pressed a second time, it turns off moving mode for whichever item is currently moving
-
-        if (event.key === ' ') {
-            // if the item is currently moving, drop it
-            if (whichMoving === howToId) {
-                whichMoving = undefined;
-
-                onDropHowTo();
-
-                event.preventDefault();
-
-                if ($announce) {
-                    $announce(
-                        'how-to move deactivated',
-                        $locales.getLanguages()[0],
-                        $locales
-                            .concretize(
-                                $locales.get(
-                                    (l) => l.ui.howto.announce.moveDeactivated,
-                                ),
-                                title,
-                            )
-                            .toText(),
-                    );
-                }
-                return;
-            } else if (whichMoving === undefined && itemHasFocus) {
-                // otherwise, if no item is currently moving and this item has focus,
-                // set this item to moving mode
-                whichMoving = howToId;
-
-                event.preventDefault();
-
-                if ($announce) {
-                    $announce(
-                        'how-to move activated',
-                        $locales.getLanguages()[0],
-                        $locales
-                            .concretize(
-                                $locales.get(
-                                    (l) => l.ui.howto.announce.moveActivated,
-                                ),
-                                title,
-                            )
-                            .toText(),
-                    );
-                }
-                return;
-            }
-        }
-
-        // if it's not a space key, it could be one of the keys used to move this
         let intendX: number;
         let intendY: number;
 
@@ -398,28 +399,6 @@
         }
     }
 
-    // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
-    function onpointermove(e: PointerEvent) {
-        if (!canEdit || whichMoving !== howToId) return;
-
-        let intendX = xcoord + e.movementX;
-        let intendY = ycoord + e.movementY;
-
-        if (
-            movePermitted(
-                intendX,
-                intendY,
-                width,
-                height,
-                howToId,
-                notPermittedAreas,
-            )
-        ) {
-            xcoord = intendX;
-            ycoord = intendY;
-        }
-    }
-
     function onDropHowTo() {
         if (!howTo) return;
 
@@ -492,16 +471,18 @@
     tabindex="0"
     bind:clientWidth={width}
     bind:clientHeight={height}
-    {onfocus}
-    {onblur}
-    {ontouchstart}
-    {ontouchend}
     style:border-color={whichMoving === howToId
         ? 'var(--wordplay-highlight-color)'
         : 'var(--wordplay-border-color)'}
     style:border-width={whichMoving === howToId
         ? 'var(--wordplay-focus-width)'
         : ''}
+    {onpointerdown}
+    {onpointerup}
+    {onpointermove}
+    {onfocus}
+    {onblur}
+    {onkeydown}
 >
     <div class="howtotitle"> {title}</div>
 
@@ -514,8 +495,7 @@
         {preview}
     />
 </div>
-
-<svelte:window on:pointermove={onpointermove} on:keydown={onkeydown} />
+<svelte:window onblur={onpointerup} {onpointerup} {onpointermove} />
 
 <style>
     /* setting preview size as a var here that can be changed here, will adjust everything else */

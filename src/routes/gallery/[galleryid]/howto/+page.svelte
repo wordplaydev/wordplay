@@ -100,46 +100,26 @@
     // if undefined, nothing is moving. if "canvas," then canvas is moving.
     // if how-to id, then that how-to is moving
     let whichMoving: string | undefined = $state(undefined);
-    let canvasHasFocus: boolean = $state(false);
 
-    function onfocus() {
-        canvasHasFocus = true;
-    }
+    function onpointerdown() {
+        whichMoving = 'canvas';
 
-    function onblur() {
-        canvasHasFocus = false;
-    }
-
-    function onpointermove(e: PointerEvent) {
-        if (whichMoving !== 'canvas') return;
-
-        cameraX += e.movementX;
-        cameraY += e.movementY;
-    }
-
-    // let touch & hold also move the canvas
-    function ontouchstart() {
-        if (canvasHasFocus) {
-            whichMoving = 'canvas';
-
-            if ($announce) {
-                $announce(
-                    'canvas move activated',
-                    $locales.getLanguages()[0],
-                    $locales
-                        .concretize(
-                            $locales.get(
-                                (l) => l.ui.howto.announce.moveActivated,
-                            ),
-                            'canvas',
-                        )
-                        .toText(),
-                );
-            }
+        if ($announce) {
+            $announce(
+                'canvas move activated',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize(
+                        $locales.get((l) => l.ui.howto.announce.moveActivated),
+                        'canvas',
+                    )
+                    .toText(),
+            );
         }
     }
 
-    function ontouchend() {
+    function onpointerup() {
+        if (whichMoving !== 'canvas') return;
         whichMoving = undefined;
 
         if ($announce) {
@@ -158,74 +138,74 @@
         }
     }
 
-    function onkeydown(event: KeyboardEvent) {
-        if (event.key === ' ') {
-            if (whichMoving === 'canvas') {
-                whichMoving = undefined;
-
-                event.preventDefault();
-
-                if ($announce) {
-                    $announce(
-                        'canvas move deactivated',
-                        $locales.getLanguages()[0],
-                        $locales
-                            .concretize(
-                                $locales.get(
-                                    (l) => l.ui.howto.announce.moveDeactivated,
-                                ),
-                                'canvas',
-                            )
-                            .toText(),
-                    );
-                }
-
-                return;
-            } else if (canvasHasFocus) {
-                whichMoving = 'canvas';
-
-                event.preventDefault();
-
-                if ($announce) {
-                    $announce(
-                        'canvas move activated',
-                        $locales.getLanguages()[0],
-                        $locales
-                            .concretize(
-                                $locales.get(
-                                    (l) => l.ui.howto.announce.moveActivated,
-                                ),
-                                'canvas',
-                            )
-                            .toText(),
-                    );
-                }
-                return;
-            }
-        }
-
-        // if canvas isn't moving, then don't do anything
+    function onpointermove(e: PointerEvent) {
         if (whichMoving !== 'canvas') return;
 
-        switch (event.key) {
-            case 'ArrowUp':
-                cameraY += 10;
-                event.preventDefault();
-                break;
-            case 'ArrowDown':
-                cameraY -= 10;
-                event.preventDefault();
-                break;
-            case 'ArrowLeft':
-                cameraX += 10;
-                event.preventDefault();
-                break;
-            case 'ArrowRight':
-                cameraX -= 10;
-                event.preventDefault();
-                break;
-            default:
-                return;
+        cameraX += e.movementX;
+        cameraY += e.movementY;
+    }
+
+    let keyboardFocused: boolean = $state(false);
+    function onfocus() {
+        whichMoving = 'canvas';
+        keyboardFocused = true;
+
+        if ($announce) {
+            $announce(
+                'canvas move activated',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize(
+                        $locales.get((l) => l.ui.howto.announce.moveActivated),
+                        'canvas',
+                    )
+                    .toText(),
+            );
+        }
+    }
+
+    function onblur() {
+        whichMoving = undefined;
+        keyboardFocused = false;
+
+        if ($announce) {
+            $announce(
+                'canvas move deactivated',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize(
+                        $locales.get(
+                            (l) => l.ui.howto.announce.moveDeactivated,
+                        ),
+                        'canvas',
+                    )
+                    .toText(),
+            );
+        }
+    }
+
+    function onkeydown(event: KeyboardEvent) {
+        if (whichMoving === 'canvas' && keyboardFocused) {
+            switch (event.key) {
+                case 'ArrowUp':
+                    cameraY += 10;
+                    event.preventDefault();
+                    break;
+                case 'ArrowDown':
+                    cameraY -= 10;
+                    event.preventDefault();
+                    break;
+                case 'ArrowLeft':
+                    cameraX += 10;
+                    event.preventDefault();
+                    break;
+                case 'ArrowRight':
+                    cameraX -= 10;
+                    event.preventDefault();
+                    break;
+                default:
+                    return;
+            }
         }
     }
 
@@ -403,16 +383,18 @@
                     tabindex="0"
                     bind:clientWidth={canvasWidth}
                     bind:clientHeight={canvasHeight}
-                    {onfocus}
-                    {onblur}
-                    {ontouchstart}
-                    {ontouchend}
                     style:border-color={whichMoving === 'canvas'
                         ? 'var(--wordplay-highlight-color)'
                         : 'var(--wordplay-border-color)'}
                     style:border-width={whichMoving === 'canvas'
                         ? 'var(--wordplay-focus-width)'
                         : ''}
+                    {onpointerdown}
+                    {onpointerup}
+                    {onpointermove}
+                    {onfocus}
+                    {onblur}
+                    {onkeydown}
                 >
                     {#each howTos as howTo, i (i)}
                         {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
@@ -433,7 +415,7 @@
         </div>
     </Page>
 {/if}
-<svelte:window on:pointermove={onpointermove} on:keydown={onkeydown} />
+<svelte:window onblur={onpointerup} />
 
 <style>
     .howtospace {
