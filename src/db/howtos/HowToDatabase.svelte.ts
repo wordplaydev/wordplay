@@ -222,7 +222,7 @@ export class HowToDatabase {
     private readonly db: Database;
 
     /** This is a global reactive map that stores howtos obtained from Firestore */
-    private readonly howtos = $state(new SvelteMap<string, HowTo>());
+    readonly howtos = $state(new SvelteMap<string, HowTo>());
 
     /** Maps gallery IDs to lists of how-to IDs */
     readonly galleryHowTos = $state(new SvelteMap<string, SvelteSet<string>>());
@@ -235,6 +235,9 @@ export class HowToDatabase {
             return howto.isCreatorCollaborator(user.uid);
         })
     ]);
+
+    /** All of the how-tos that the user has view or write access to (basically the values of howtos) */
+    readonly allAccessiblePublishedHowTos: HowTo[] = $derived([...this.howtos.values().filter((ht) => ht.isPublished())]);
 
     private listeners = new Map<string, Set<(howTo: HowTo) => void>>();
 
@@ -563,7 +566,6 @@ export class HowToDatabase {
                                 }
                             }
                         });
-
                     },
             (error) => {
                 if (error instanceof FirebaseError) {

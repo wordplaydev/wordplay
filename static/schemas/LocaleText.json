@@ -9995,6 +9995,9 @@
                         "characters": {
                           "type": "string"
                         },
+                        "gallery": {
+                          "type": "string"
+                        },
                         "layout": {
                           "type": "string"
                         },
@@ -10026,7 +10029,8 @@
                         "animation",
                         "stories",
                         "motion",
-                        "video"
+                        "video",
+                        "gallery"
                       ],
                       "type": "object"
                     },

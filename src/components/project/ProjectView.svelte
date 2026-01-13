@@ -47,6 +47,7 @@
         Chats,
         Creators,
         DB,
+        HowTos,
         Locales,
         locales,
         mic,
@@ -78,6 +79,7 @@
 
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
+    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import type MenuInfo from '@edit/menu/Menu';
     import type { HighlightSpec } from '../editor/highlights/Highlights';
     import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
@@ -696,6 +698,20 @@
 
     let latestProject: Project | undefined;
 
+    // get the user generated how-tos that are in a gallery, if the gallery exists
+    let galleryHowTos = $state<GalleryHowTo[]>([]);
+    $effect(() => {
+        const galleryID: string | null = project.getGallery();
+
+        if (galleryID) {
+            HowTos.getHowTos(galleryID).then(
+                (hts: GalleryHowTo[] | undefined | false) => {
+                    if (hts) galleryHowTos = hts;
+                },
+            );
+        }
+    });
+
     // When dependencies change, create a new concept index.
     $effect(() => {
         if (
@@ -710,6 +726,7 @@
                       project,
                       $locales,
                       howTos instanceof Promise ? [] : howTos,
+                      galleryHowTos,
                   ).withExamples(
                       index === undefined ? new Map() : index.examples,
                   )
