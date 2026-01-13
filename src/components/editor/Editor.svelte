@@ -770,7 +770,7 @@
         const newSource = navigation ? undefined : edit[0];
 
         // Update the idle state.
-        keyboardEditIdle.set(idle);
+        if (keyboardEditIdle) keyboardEditIdle.set(idle);
 
         // See if the caret is inside a node that's currently being displayed as a value, and if
         // so, select the expression who's value is being displayed instead.
