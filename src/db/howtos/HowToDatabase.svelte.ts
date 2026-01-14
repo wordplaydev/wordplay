@@ -484,13 +484,18 @@ export class HowToDatabase {
         this.ignore();
 
         // get the current list of galleries to watch
-        const galleryIDsToWatch = Array.from(Galleries.accessibleGalleries.keys());
+        // galleries where the user is a creator or curator
+        const editorGalleryIds = Array.from(Galleries.accessibleGalleries.keys());
+        // galleries where the user has expanded scope access
+        const expandedScopeGalleryIds = Array.from(Galleries.expandedScopeGalleries.keys());
+        const galleryIDsToWatch = editorGalleryIds.concat(expandedScopeGalleryIds);
 
         // construct constraints based on
 
         // for published how-tos
         // (1) any how-tos that the user has access to as a creator or collaborator on the how-to itself
         // (2) any how-tos that the user has access to as a curator or collaborator on the gallery
+        // (3) any how-tos that the user has access to via expanded scope access on the gallery
         let constraints = [
             where("creator", "==", userId),
             where("collaborators", "array-contains", userId),

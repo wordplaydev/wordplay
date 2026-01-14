@@ -42,6 +42,14 @@ export default class GalleryDatabase {
      **/
     readonly accessibleGalleries: SvelteMap<string, Gallery> = new SvelteMap();
 
+    /**
+     * A reactive map of the galleries where the user has access to its how-tos via "expanded scope" 
+     * (i.e., they are a creator or curator of a gallery A, which gives them access to gallery B 
+     * iff the curator of gallery A is the curator of gallery B and set the visibility of how-tos 
+     * to "expanded" for gallery B.)
+     */
+    readonly expandedScopeGalleries: SvelteMap<string, Gallery> = new SvelteMap();
+
     /** A reactive loading status, for the UI. */
     private status = $state<'loading' | 'noaccess' | 'loggedout' | 'loaded'>(
         'loading',
@@ -107,11 +115,13 @@ export default class GalleryDatabase {
 
         this.galleriesQueryUnsubscribe = onSnapshot(
             // Listen for any changes to galleries for which this user is a curator or creator.
+            // also listen to any changes to galleries where the user is a viewer of its how-tos
             query(
                 collection(firestore, GalleriesCollection),
                 or(
                     where('curators', 'array-contains', user.uid),
                     where('creators', 'array-contains', user.uid),
+                    where('howToViewers', 'array-contains', user.uid),
                 ),
             ),
             async (snapshot) => {
@@ -120,19 +130,26 @@ export default class GalleryDatabase {
                     // Wrap it in a gallery.
                     const gallery = deserializeGallery(galleryDoc.data());
 
-                    // Get the store for the gallery, or make one if we don't have one yet, and update the map.
-                    // Also check the public galleries, in case we loaded it there first, so we reuse the same store.
-                    this.accessibleGalleries.set(gallery.getID(), gallery);
+                    if (gallery.getCreators().includes(user.uid) || gallery.getCurators().includes(user.uid)) {
+                        // Get the store for the gallery, or make one if we don't have one yet, and update the map.
+                        // Also check the public galleries, in case we loaded it there first, so we reuse the same store.
+                        this.accessibleGalleries.set(gallery.getID(), gallery);
 
-                    // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
-                    this.database.Projects.refreshGallery(gallery);
+                        // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
+                        this.database.Projects.refreshGallery(gallery);
+                    } else { // user is only a how-to viewer, which means they have expanded scope access only
+                        this.expandedScopeGalleries.set(gallery.getID(), gallery);
+                    }
                 });
 
                 // Remove the galleries that were removed from this query.
                 snapshot.docChanges().forEach((change) => {
                     // Removed? Delete the local cache of the project.
-                    if (change.type === 'removed')
+                    // gallery is either in accessibleGalleries or expandedScopeGalleries
+                    if (change.type === 'removed') {
                         this.accessibleGalleries.delete(change.doc.id);
+                        this.expandedScopeGalleries.delete(change.doc.id);
+                    }
                 });
 
                 // Make a new realtime query based on the access.
