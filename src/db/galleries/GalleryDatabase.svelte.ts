@@ -129,17 +129,22 @@ export default class GalleryDatabase {
                 snapshot.forEach((galleryDoc) => {
                     // Wrap it in a gallery.
                     const gallery = deserializeGallery(galleryDoc.data());
+                    console.log(gallery, gallery.getCreators().includes(user.uid) || gallery.getCurators().includes(user.uid));
 
                     if (gallery.getCreators().includes(user.uid) || gallery.getCurators().includes(user.uid)) {
                         // Get the store for the gallery, or make one if we don't have one yet, and update the map.
                         // Also check the public galleries, in case we loaded it there first, so we reuse the same store.
                         this.accessibleGalleries.set(gallery.getID(), gallery);
+                        console.log('accessible');
 
                         // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
                         this.database.Projects.refreshGallery(gallery);
                     } else { // user is only a how-to viewer, which means they have expanded scope access only
                         this.expandedScopeGalleries.set(gallery.getID(), gallery);
+                        console.log('expanded');
                     }
+
+                    console.log(this.accessibleGalleries, this.expandedScopeGalleries)
                 });
 
                 // Remove the galleries that were removed from this query.

@@ -284,11 +284,15 @@
         <div class="howtospace">
             <div class="howtospaceheader">
                 <Header>
-                    <Link
-                        to="/gallery/{galleryID}"
-                        tip={(l) => l.ui.howto.headerTooltip}
-                        >{galleryName}</Link
-                    >
+                    {#if ($user && (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid))) || gallery.isPublic()}
+                        <Link
+                            to="/gallery/{galleryID}"
+                            tip={(l) => l.ui.howto.headerTooltip}
+                            >{galleryName}</Link
+                        >
+                    {:else}
+                        {galleryName}
+                    {/if}
                 </Header>
 
                 <div class="howtospacetoolbar">

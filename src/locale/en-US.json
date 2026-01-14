@@ -5996,7 +5996,11 @@
                 },
                 "subheader": {
                     "shared": "Shared",
-                    "archived": "Archived"
+                    "archived": "Archived",
+                    "howtoviewonly": {
+                        "header": "How-tos",
+                        "explanation": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public."
+                    }
                 },
                 "button": {
                     "newproject": "new project",

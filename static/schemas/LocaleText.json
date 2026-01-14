@@ -10107,6 +10107,9 @@
                     "Documentation": {
                       "$ref": "#/definitions/HeaderAndExplanationText"
                     },
+                    "GalleryHow": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
                     "Hidden": {
                       "$ref": "#/definitions/HeaderAndExplanationText"
                     },
@@ -10160,7 +10163,8 @@
                     "Types",
                     "Advanced",
                     "Hidden",
-                    "How"
+                    "How",
+                    "GalleryHow"
                   ],
                   "type": "object"
                 }
@@ -12545,6 +12549,10 @@
                           "description": "Header for the unarchived project list",
                           "type": "string"
                         },
+                        "howtoviewonly": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Header for the galleries where the user can see how-tos but not projects"
+                        },
                         "shared": {
                           "description": "Header for the shared project list",
                           "type": "string"
@@ -12552,7 +12560,8 @@
                       },
                       "required": [
                         "shared",
-                        "archived"
+                        "archived",
+                        "howtoviewonly"
                       ],
                       "type": "object"
                     }

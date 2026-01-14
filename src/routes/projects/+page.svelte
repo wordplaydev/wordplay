@@ -3,6 +3,7 @@
     import AddProject from '@components/app/AddProject.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
     import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -189,10 +190,38 @@
     {:else}
         <Notice text={(l) => l.ui.page.projects.error.nogalleryedits} />
     {/if}
+
+    {#if Galleries.expandedScopeGalleries.size > 0}
+        <Subheader
+            text={(l) => l.ui.page.projects.subheader.howtoviewonly.header}
+        />
+        <MarkupHTMLView
+            markup={(l) =>
+                l.ui.page.projects.subheader.howtoviewonly.explanation}
+        />
+        {#each Galleries.expandedScopeGalleries.values() as gallery}
+            <div class="howtoonlypreview">
+                <Subheader>
+                    <Link to={`/gallery/${gallery.getID()}/howto`}
+                        >{gallery.getName($locales)}</Link
+                    >
+                </Subheader>
+                <MarkupHTMLView
+                    markup={gallery.getDescription($locales).length > 0
+                        ? gallery.getDescription($locales)
+                        : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}
+                /></div
+            >
+        {/each}
+    {/if}
 </Writing>
 
 <style>
     .add {
         margin-left: calc(2 * var(--wordplay-spacing));
+    }
+
+    .howtoonlypreview {
+        gap: var(--wordplay-spacing);
     }
 </style>
