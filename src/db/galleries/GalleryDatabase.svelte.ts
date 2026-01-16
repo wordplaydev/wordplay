@@ -1,6 +1,7 @@
 import type { ProjectID } from '@db/projects/ProjectSchemas';
 import { FirebaseError } from 'firebase/app';
 import {
+    and,
     collection,
     deleteDoc,
     doc,
@@ -121,7 +122,10 @@ export default class GalleryDatabase {
                 or(
                     where('curators', 'array-contains', user.uid),
                     where('creators', 'array-contains', user.uid),
-                    where('howToViewers', 'array-contains', user.uid),
+                    and(
+                        where('howToExpandedVisibility', '==', true),
+                        where('howToViewersFlat', 'array-contains', user.uid),
+                    )
                 ),
             ),
             async (snapshot) => {

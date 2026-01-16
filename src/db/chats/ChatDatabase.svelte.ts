@@ -350,11 +350,11 @@ export class ChatDatabase {
             // As can any creators or collaborators on a how-to
             participants: Array.from(
                 new Set([
+                    ...howTo.getCollaborators(),
+                    ...howTo.getViewers(),
+                    howTo.getCreator(),
                     ...(gallery ? gallery.getCurators() : []),
                     ...(gallery ? gallery.getCreators() : []),
-                    ...(gallery ? gallery.getHowToViewers() : []),
-                    ...howTo.getCollaborators(),
-                    howTo.getCreator(),
                 ]),
             ),
             unread: [],
@@ -489,8 +489,10 @@ export class ChatDatabase {
         const intendedChatParticipants = [
             ...new Set([
                 ...howTo.getCollaborators(),
+                ...howTo.getViewers(),
                 howTo.getCreator(),
                 ...(gallery ? gallery.getCurators() : []),
+                ...(gallery ? gallery.getCreators() : []),
             ]),
         ].sort();
 

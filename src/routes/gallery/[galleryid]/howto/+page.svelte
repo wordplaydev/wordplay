@@ -49,12 +49,7 @@
     const user = getUser();
 
     // get the how-tos in the gallery
-    // if the user is logged in, HowTos.listen() got called by syncUser, which populates HowTos.galleryHowTos in the callback
-    // if not, we we will make a one-time query to get the how-tos
-    // we don't want to render any how-tos that aren't in the canvas area
     let howTos: HowTo[] = $state([]);
-    let canvasWidth: number = $state(0);
-    let canvasHeight: number = $state(0);
 
     $effect(() => {
         if (gallery)
@@ -62,6 +57,10 @@
                 if (data) howTos = data;
             });
     });
+
+    // used for calculating if we should render the how-to
+    let canvasWidth: number = $state(0);
+    let canvasHeight: number = $state(0);
 
     // determine if the user can add a new how-to
     let canUserEdit = $derived(
