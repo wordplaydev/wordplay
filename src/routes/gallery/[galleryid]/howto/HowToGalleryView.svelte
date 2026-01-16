@@ -4,27 +4,23 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import { HowTos, locales } from '@db/Database';
+    import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import Iconified from '../../../Iconified.svelte';
 
     interface Props {
-        galleryID: string | undefined;
+        gallery: Gallery;
         projectsEditable: boolean;
     }
 
-    let { galleryID, projectsEditable }: Props = $props();
+    let { gallery, projectsEditable }: Props = $props();
     const user = getUser();
 
     let howTos: HowTo[] = $state([]);
     $effect(() => {
-        if (!galleryID) {
-            howTos = [];
-            return;
-        }
-
-        HowTos.getHowTos(galleryID).then((data) => {
+        HowTos.getHowTos(gallery.getHowTos()).then((data) => {
             if (data) howTos = data;
         });
     });
@@ -41,7 +37,7 @@
 </script>
 
 <Action>
-    <BigLink to={`/gallery/${galleryID}/howto`}
+    <BigLink to={`/gallery/${gallery.getID()}/howto`}
         ><Iconified
             icon={DOCUMENTATION_SYMBOL}
             text={(l) => l.ui.howto.galleryView.header}

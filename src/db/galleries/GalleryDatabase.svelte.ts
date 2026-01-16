@@ -129,22 +129,17 @@ export default class GalleryDatabase {
                 snapshot.forEach((galleryDoc) => {
                     // Wrap it in a gallery.
                     const gallery = deserializeGallery(galleryDoc.data());
-                    console.log(gallery, gallery.getCreators().includes(user.uid) || gallery.getCurators().includes(user.uid));
 
                     if (gallery.getCreators().includes(user.uid) || gallery.getCurators().includes(user.uid)) {
                         // Get the store for the gallery, or make one if we don't have one yet, and update the map.
                         // Also check the public galleries, in case we loaded it there first, so we reuse the same store.
                         this.accessibleGalleries.set(gallery.getID(), gallery);
-                        console.log('accessible');
 
                         // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
                         this.database.Projects.refreshGallery(gallery);
                     } else { // user is only a how-to viewer, which means they have expanded scope access only
                         this.expandedScopeGalleries.set(gallery.getID(), gallery);
-                        console.log('expanded');
                     }
-
-                    console.log(this.accessibleGalleries, this.expandedScopeGalleries)
                 });
 
                 // Remove the galleries that were removed from this query.
@@ -209,6 +204,7 @@ export default class GalleryDatabase {
         );
         const description: Record<string, string> = {};
         description[localeToString(locales.getLocales()[0])] = '';
+
         const gallery: SerializedGallery = {
             v: GallerySchemaLatestVersion,
             id,
@@ -221,8 +217,11 @@ export default class GalleryDatabase {
             creators: creators ?? [],
             public: false,
             featured: false,
+            howTos: [],
             howToExpandedVisibility: false,
-            howToViewers: (curators ?? [user.uid]).concat(creators ?? []),
+            howToExpandedGalleries: [],
+            howToViewers: {},
+            howToViewersFlat: [],
             howToGuidingQuestions: locales.get((l) => l.ui.howto.configuration.guidingQuestions.default),
             howToReactions: locales.get((l) => l.ui.howto.configuration.reactions.default),
         };
@@ -284,7 +283,11 @@ export default class GalleryDatabase {
         );
 
         // Update the gallery store for this gallery.
-        this.accessibleGalleries.set(gallery.getID(), gallery);
+        if (this.accessibleGalleries.has(gallery.getID())) {
+            this.accessibleGalleries.set(gallery.getID(), gallery);
+        } else if (this.expandedScopeGalleries.has(gallery.getID())) {
+            this.expandedScopeGalleries.set(gallery.getID(), gallery);
+        }
 
         // Notify all project listeners about the gallery updated.
         for (const project of gallery.getProjects()) {
@@ -305,7 +308,9 @@ export default class GalleryDatabase {
         }
 
         // Delete all how-tos in the gallery
-        this.database.HowTos.deleteHowTos(gallery.getID());
+        gallery.getHowTos().forEach(async (howToID) => {
+            await this.database.HowTos.deleteHowTo(howToID, gallery);
+        });
 
         // Remove the gallery from any classes it is in.
         const classes = await getDocs(
@@ -431,37 +436,6 @@ export default class GalleryDatabase {
             }
         }
         return projectsToKeep;
-    }
-
-    async getExpandedScopeViewers(uids: string[]): Promise<Set<string> | undefined | false> {
-        // find all galleries that a given user is a curator for
-        // get all curators and creators for those galleries
-        if (firestore === undefined) return false;
-
-        const q = uids.map((uid) => where('curators', 'array-contains', uid));
-
-        try {
-            const galleryDocs = await getDocs(query(
-                collection(firestore, GalleriesCollection),
-                or(...q),
-            ));
-
-            if (!galleryDocs.empty) {
-                const galleries = galleryDocs.docs.map((doc) => deserializeGallery(doc.data()));
-                let allViewers: Set<string> = new Set();
-
-                galleries.forEach((g) => {
-                    g.getCurators().forEach((c) => { allViewers.add(c); });
-                    g.getCreators().forEach((c) => { allViewers.add(c); });
-                });
-
-                return allViewers;
-            } else {
-                return undefined;
-            }
-        } catch (error) {
-            return false;
-        }
     }
 
     clean() {

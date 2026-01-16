@@ -1,10 +1,11 @@
 /** This file encapsulates all Firebase how-to functionality and relies on Svelte state to cache how-to documents. */
 import type { NotificationData } from '@components/settings/Notifications.svelte';
-import { Galleries, type Database } from '@db/Database';
+import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
+import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
-import { and, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, or, query, setDoc, updateDoc, where, type Firestore, type Unsubscribe } from 'firebase/firestore';
-import { SvelteMap, SvelteSet } from 'svelte/reactivity';
+import { and, collection, deleteDoc, doc, Firestore, getDoc, onSnapshot, or, query, setDoc, updateDoc, where, type Unsubscribe } from 'firebase/firestore';
+import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { notifications } from '../../routes/+layout.svelte';
@@ -69,10 +70,12 @@ const HowToSchemaV1 = z.object({
     creator: z.string(),
     /** The list of users who can collaborate with the creator on a how-to */
     collaborators: z.array(z.string()),
-    /** The list of users who can comment on a how-to */
-    commenters: z.array(z.string()),
-    /** The list of users who can view a how-to but cannot edit or comment */
-    viewers: z.array(z.string()),
+    /** The list of users who can view a how-to and interact with its social features
+     * Organized as a map from gallery ID to list of user IDs, where the gallery ID is the gallery that grants the viewer access since it is a gallery by the same curator
+     */
+    viewers: z.record(z.string(), z.array(z.string())),
+    /** Flat version of viewers, calculated in a firestore function, for firestore rule queries */
+    viewersFlat: z.array(z.string()),
     /** If the user wants to overwrite the scope set by the gallery curator */
     scopeOverwrite: z.boolean(),
     /** Locales that the how-to depends on All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
@@ -151,6 +154,10 @@ export default class HowTo {
         return this.data.creator === userId || this.data.collaborators.includes(userId);
     }
 
+    getViewers() {
+        return this.data.viewersFlat;
+    }
+
     getLocales() {
         return this.data.locales;
     }
@@ -222,12 +229,9 @@ export class HowToDatabase {
     private readonly db: Database;
 
     /** This is a global reactive map that stores howtos obtained from Firestore */
-    readonly howtos = $state(new SvelteMap<string, HowTo>());
+    private readonly howtos = $state(new SvelteMap<string, HowTo>());
 
-    /** Maps gallery IDs to lists of how-to IDs */
-    readonly galleryHowTos = $state(new SvelteMap<string, SvelteSet<string>>());
-
-    /** All of the how-tos that the user has write access to */
+    /** All of the how-tos that the user can edit (as a creator or collaborator) */
     readonly allEditableHowTos: HowTo[] = $derived([...
         this.howtos.values().filter((howto) => {
             const user = this.db.getUser();
@@ -239,6 +243,7 @@ export class HowToDatabase {
     /** All of the how-tos that the user has view or write access to (basically the values of howtos) */
     readonly allAccessiblePublishedHowTos: HowTo[] = $derived([...this.howtos.values().filter((ht) => ht.isPublished())]);
 
+    /** Maps how-to IDs to listeners that need to be notified when a change is made to the how-to */
     private listeners = new Map<string, Set<(howTo: HowTo) => void>>();
 
     private unsubscribe: Unsubscribe | undefined = undefined;
@@ -261,8 +266,10 @@ export class HowToDatabase {
         // set the revised how-to in the local state, propogating updates
         this.howtos.set(howToID, howTo);
 
-        const galleryID = howTo.getHowToGalleryId();
-        this.galleryHowTos.set(galleryID, (this.galleryHowTos.get(galleryID) ?? new SvelteSet<string>()).add(howToID));
+        // notify the listeners for this how-to
+        this.listeners.get(howToID)?.forEach((listener) => {
+            listener(howTo);
+        });
 
         // if asked to persist, update remotely
         if (persist && firestore) {
@@ -273,27 +280,16 @@ export class HowToDatabase {
         }
     }
 
-    async deleteHowTos(galleryId: string) {
-        if (firestore === undefined) return;
-
-        const querySnapshot = await getDocs(
-            query(collection(firestore, HowTosCollection), where('galleryId', '==', galleryId))
-        );
-
-        if (!querySnapshot.empty) {
-            querySnapshot.docs.forEach(async (d) => {
-                if (firestore) await deleteDoc(doc(firestore, HowTosCollection, (d.data() as HowToDocument).id));
-            })
-        }
-    }
-
-    async deleteHowTo(howToId: string, galleryId: string) {
+    async deleteHowTo(howToId: string, gallery: Gallery) {
         this.howtos.delete(howToId);
-        this.galleryHowTos.get(galleryId)?.delete(howToId);
 
         if (firestore) {
             try {
                 await deleteDoc(doc(firestore, HowTosCollection, howToId));
+
+                // remove the how-to's ID from the gallery's list of how-to IDs
+                this.db.Galleries.edit(gallery.withoutHowTo(howToId));
+
             } catch (err) {
                 console.error(err);
             }
@@ -312,7 +308,7 @@ export class HowToDatabase {
     }
 
     async addHowTo(
-        galleryId: string,
+        gallery: Gallery,
         published: boolean,
         xcoord: number,
         ycoord: number,
@@ -348,7 +344,7 @@ export class HowToDatabase {
         const newHowTo: HowToDocument = {
             v: HowToSchemaLatestVersion,
             id: uuidv4(),
-            galleryId: galleryId,
+            galleryId: gallery.getID(),
             published: published, // defaults to false
             publishedAt: published ? Date.now() : null,
             xcoord: xcoord,
@@ -358,8 +354,8 @@ export class HowToDatabase {
             text: text,
             creator: user as string,
             collaborators: collaborators,
-            commenters: [] as string[],
-            viewers: [] as string[],
+            viewers: {} as Record<string, string[]>,
+            viewersFlat: [] as string[],
             scopeOverwrite: false,
             locales: locales,
             social: newHowToSocial,
@@ -374,79 +370,17 @@ export class HowToDatabase {
             );
 
             // add the how-to to the how-to cache, but not remotely; we just created it
-            this.updateHowTo(new HowTo(newHowTo), false);
+            let howTo = new HowTo(newHowTo);
+            this.updateHowTo(howTo, false);
+
+            // add the how-to's ID to the gallery's list of how-to IDs
+            this.db.Galleries.edit(gallery.withHowTo(newHowTo.id));
         } catch (error) {
             console.error(error);
             return undefined;
         }
 
         return this.getHowTo(newHowTo.id);
-    }
-
-    /** Get a list of how-tos for a gallery. Empty if none exist. Undefined if gallery doesn't exist, false if there was an error.*/
-    async getHowTos(galleryID: string): Promise<HowTo[] | undefined | false> {
-        if (galleryID === null) return undefined;
-
-        // do we have the list of how-tos cached? return it.
-        const howToIds = this.galleryHowTos.get(galleryID);
-        if (howToIds) {
-            let howTos: HowTo[] = [];
-
-            howToIds.forEach((id) => {
-                let howTo: HowTo | undefined = this.howtos.get(id);
-                if (howTo) {
-                    howTos.push(howTo);
-                }
-            })
-
-            return howTos;
-        }
-
-        // if not, see if it's in the database
-
-        const userId = this.db.getUser()?.uid;
-        let publishedCondition = userId ?
-            or(
-                where("published", "==", true),
-                and(
-                    where('published', "==", false),
-                    or(
-                        where('creator', '==', userId),
-                        where('collaborators', 'array-contains', userId),
-                    )
-                )
-            ) : where("published", "==", true); // if the user is not logged in, then they can only access published how-tos
-
-        if (firestore === undefined) return undefined;
-        try {
-            const howToDocs = await getDocs(
-                query(
-                    collection(firestore, HowTosCollection),
-                    and(
-                        where('galleryId', '==', galleryID),
-                        publishedCondition
-                    )
-                )
-            );
-
-            if (!howToDocs.empty) {
-                const newHowTos = howToDocs.docs.map((doc) => {
-                    const remoteHowTo = doc.data();
-
-                    const newHowTo = new HowTo(remoteHowTo as HowToDocument);
-                    // update the how to locally, but do not persist, we already know it is in the database
-                    this.updateHowTo(newHowTo, false);
-
-                    return newHowTo;
-                });
-
-                return newHowTos;
-            } else {
-                return undefined;
-            }
-        } catch (error) {
-            return false;
-        }
     }
 
     async getHowTo(howToId: string): Promise<HowTo | undefined | false> {
@@ -476,6 +410,18 @@ export class HowToDatabase {
         }
     }
 
+    async getHowTos(howToIds: string[]): Promise<HowTo[]> {
+        const howTos: HowTo[] = [];
+
+        for (const howToId of howToIds) {
+            const howTo = await this.getHowTo(howToId);
+
+            if (howTo) howTos.push(howTo);
+        }
+
+        return howTos;
+    }
+
     ignore() {
         if (this.unsubscribe) this.unsubscribe();
     }
@@ -485,9 +431,9 @@ export class HowToDatabase {
 
         // get the current list of galleries to watch
         // galleries where the user is a creator or curator
-        const editorGalleryIds = Array.from(Galleries.accessibleGalleries.keys());
+        const editorGalleryIds = Array.from(this.db.Galleries.accessibleGalleries.keys());
         // galleries where the user has expanded scope access
-        const expandedScopeGalleryIds = Array.from(Galleries.expandedScopeGalleries.keys());
+        const expandedScopeGalleryIds = Array.from(this.db.Galleries.expandedScopeGalleries.keys());
         const galleryIDsToWatch = editorGalleryIds.concat(expandedScopeGalleryIds);
 
         // construct constraints based on
@@ -495,10 +441,11 @@ export class HowToDatabase {
         // for published how-tos
         // (1) any how-tos that the user has access to as a creator or collaborator on the how-to itself
         // (2) any how-tos that the user has access to as a curator or collaborator on the gallery
-        // (3) any how-tos that the user has access to via expanded scope access on the gallery
+        // (3) any how-tos that the user has access to via expanded scope access
         let constraints = [
             where("creator", "==", userId),
             where("collaborators", "array-contains", userId),
+            where("viewersFlat", "array-contains", userId),
         ]
 
         if (galleryIDsToWatch.length > 0) {
@@ -547,17 +494,11 @@ export class HowToDatabase {
                         // And see if any were explicitly added, and if so, create a notification
                         snapshot.docChanges().forEach((change) => {
                             // Removed? Delete the local cache of the gallery.
-                            // Stop litening to the gallery's changes if there are no how-tos remaining for that gallery
                             if (change.type === 'removed') {
                                 const howToId = change.doc.id;
-                                const galleryId = change.doc.data().galleryId;
 
                                 this.howtos.delete(howToId);
-                                this.galleryHowTos.get(galleryId)?.delete(howToId);
 
-                                if (this.galleryHowTos.get(galleryId)?.size === 0) {
-                                    this.galleryHowTos.delete(galleryId);
-                                }
                             } else if (change.type === 'added') {
                                 const data = change.doc.data();
 
@@ -581,14 +522,14 @@ export class HowToDatabase {
         )
     }
 
-    listenChat(howToId: string, listener: (howTo: HowTo) => void) {
+    addListener(howToId: string, listener: (howTo: HowTo) => void) {
         const current = this.listeners.get(howToId);
 
         if (current) current.add(listener);
         else this.listeners.set(howToId, new Set([(listener)]));
     }
 
-    ignoreChat(howToId: string, listener: (howTo: HowTo) => void) {
+    ignoreListener(howToId: string, listener: (howTo: HowTo) => void) {
         const current = this.listeners.get(howToId);
 
         if (current) current.delete(listener);

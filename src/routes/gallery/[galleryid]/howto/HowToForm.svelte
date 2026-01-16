@@ -200,7 +200,7 @@
 
     // writer functions
     async function writeNewHowTo(publish: boolean) {
-        if (!galleryID) return;
+        if (!gallery) return;
 
         if (title.length === 0)
             title = $locales.get((l) => l.ui.howto.editor.titlePlaceholder);
@@ -214,7 +214,7 @@
 
         if (!howTo) {
             await HowTos.addHowTo(
-                galleryID,
+                gallery,
                 publish,
                 writeX,
                 writeY,
@@ -577,8 +577,8 @@
                     tip={(l) => l.ui.howto.viewer.delete.description}
                     prompt={(l) => l.ui.howto.viewer.delete.prompt}
                     action={async () => {
-                        if (galleryID && howTo) {
-                            await HowTos.deleteHowTo(howToId, galleryID);
+                        if (gallery && howTo) {
+                            await HowTos.deleteHowTo(howToId, gallery);
                             show = false;
                         }
                     }}
@@ -712,8 +712,8 @@
                 tip={(l) => l.ui.howto.viewer.delete.description}
                 prompt={(l) => l.ui.howto.viewer.delete.prompt}
                 action={async () => {
-                    if (galleryID && howTo) {
-                        await HowTos.deleteHowTo(howToId, galleryID);
+                    if (gallery && howTo) {
+                        await HowTos.deleteHowTo(howToId, gallery);
                         show = false;
                     }
                 }}

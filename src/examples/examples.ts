@@ -100,8 +100,11 @@ function createGallery(
         creators: [],
         public: true,
         featured: true,
+        howTos: [],
         howToExpandedVisibility: false,
-        howToViewers: [],
+        howToExpandedGalleries: [],
+        howToViewers: {} as Record<string, string[]>,
+        howToViewersFlat: [] as string[],
         howToGuidingQuestions: locales.get((l) => l.ui.howto.configuration.guidingQuestions.default),
         howToReactions: locales.get((l) => l.ui.howto.configuration.reactions.default),
     });

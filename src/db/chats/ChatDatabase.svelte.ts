@@ -255,7 +255,7 @@ export class ChatDatabase {
         if (chat.getType() === "project") {
             this.db.Projects.listen(projectID, this.projectsListener);
         } else {
-            this.db.HowTos.listenChat(projectID, this.howToListener);
+            this.db.HowTos.addListener(projectID, this.howToListener);
         }
 
         // Make sure we're listening to the gallery of the project.
@@ -616,7 +616,7 @@ export class ChatDatabase {
                                 this.projectsListener,
                             );
                         else if (change.doc.data().type === "howto" && this.howToListener)
-                            this.db.HowTos.ignoreChat(
+                            this.db.HowTos.ignoreListener(
                                 projectID,
                                 this.howToListener,
                             );

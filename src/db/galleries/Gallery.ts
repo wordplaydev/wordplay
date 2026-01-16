@@ -37,9 +37,16 @@ const SerializedGalleryV1 = z.object({
 /** v2 adds configurations for the how-to space */
 const SerializedGalleryV2 = SerializedGalleryV1.omit({ v: true }).extend({
     v: z.literal(2),
+    /** List of IDs of how-tos that are associated with this gallery */
+    howTos: z.array(z.string()),
     /** visibility of the how-to space: false if limited to gallery's own permissions, true if expanded to allow gallery creators' other galleries' creators and curators to also view */
     howToExpandedVisibility: z.boolean(),
-    howToViewers: z.array(z.string()),
+    /** The list of galleryIDs whose creators and curators have access to how-tos in this gallery if expanded visibility */
+    howToExpandedGalleries: z.array(z.string()),
+    /** A mapping of galleryIDs to user IDs of the users who have access if expanded visibility */
+    howToViewers: z.record(z.string(), z.array(z.string())),
+    /** A flat list of the user IDs who have access as a viewer to these how-tos (flattened in a firestore cloud function) */
+    howToViewersFlat: z.array(z.string()),
     /** guiding questions for creating a how-to */
     howToGuidingQuestions: z.array(z.string()),
     /** reaction options for the how-tos */
@@ -60,7 +67,10 @@ export function upgradeGallery(
             // default to empty guiding questions and reactions
             return upgradeGallery({
                 ...gallery, v: 2, howToExpandedVisibility: false,
-                howToViewers: gallery.curators.concat(gallery.creators),
+                howTos: [],
+                howToExpandedGalleries: [],
+                howToViewers: {},
+                howToViewersFlat: [],
                 howToGuidingQuestions: [],
                 howToReactions: {}
             })
@@ -205,12 +215,34 @@ export default class Gallery {
         return new Gallery(newData);
     }
 
+    getHowTos(): string[] {
+        return this.data.howTos;
+    }
+
+    withHowTo(howToID: string) {
+        const newData = { ...this.data };
+        newData.howTos = [...new Set([...newData.howTos, howToID])];
+        return new Gallery(newData);
+    }
+
+    withoutHowTo(howToID: string) {
+        const newData = { ...this.data };
+        newData.howTos = [
+            ...newData.howTos.filter((id) => id !== howToID),
+        ];
+        return new Gallery(newData);
+    }
+
+    getHowToExpandedGalleries(): string[] {
+        return this.data.howToExpandedGalleries;
+    }
+
     getHowToViewers(): string[] {
-        return this.data.howToViewers;
+        return this.data.howToViewersFlat;
     }
 
     isHowToViewer(uid: string): boolean {
-        return this.data.howToViewers.includes(uid);
+        return this.data.howToViewersFlat.includes(uid);
     }
 
     getHowToExpandedVisibility(): boolean {

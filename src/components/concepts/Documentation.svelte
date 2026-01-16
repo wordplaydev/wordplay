@@ -22,6 +22,7 @@
     import Purpose from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
+    import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import {
         getLanguageQuoteClose,
@@ -52,6 +53,7 @@
     } from '@parser/Symbols';
     import { onDestroy, tick, untrack } from 'svelte';
     import {
+        Galleries,
         HowTos,
         Locales,
         Projects,
@@ -141,11 +143,23 @@
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
     let galleryHowTos = $state<GalleryHowTo[]>([]);
+    let gallery: Gallery | undefined = $state(undefined);
     $effect(() => {
-        let galleryID: string | null = project.getGallery();
+        const galleryID: string | null = project.getGallery();
 
         if (galleryID) {
-            HowTos.getHowTos(galleryID).then(
+            Galleries.get(galleryID).then((gal) => {
+                // Found a store? Subscribe to it, updating the gallery when it changes.
+                if (gal) gallery = gal;
+                // Not found? No gallery.
+                else gallery = undefined;
+            });
+        }
+    });
+
+    $effect(() => {
+        if (gallery) {
+            HowTos.getHowTos(gallery.getHowTos()).then(
                 (hts: GalleryHowTo[] | undefined | false) => {
                     if (hts) galleryHowTos = hts;
                 },

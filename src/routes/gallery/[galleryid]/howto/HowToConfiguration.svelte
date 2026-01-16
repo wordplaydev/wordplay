@@ -31,25 +31,8 @@
         );
     });
 
-    // get the viewers for this gallery, based on the gallery setting
-    let curators: string[] = $derived(gallery ? gallery.getCurators() : []);
-
-    let limitedViewers: string[] = $derived(
-        curators.concat(gallery.getCreators()),
-    );
-
     async function submitChanges() {
         show = false;
-
-        let expandedViewers: string[] = [];
-
-        if (expandedScope) {
-            await Galleries.getExpandedScopeViewers(curators).then((v) => {
-                if (v) {
-                    expandedViewers = Array.from(v);
-                }
-            });
-        }
 
         let reactionsObject: Record<string, string> = Object.fromEntries(
             new Map<string, string>(
@@ -63,7 +46,6 @@
         gallery = new Gallery({
             ...gallery.getData(),
             howToExpandedVisibility: expandedScope,
-            howToViewers: expandedScope ? expandedViewers : limitedViewers,
             howToGuidingQuestions: guidingQuestionsText
                 .split('\n')
                 .map((line) => line.trim())
