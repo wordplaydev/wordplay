@@ -86,7 +86,6 @@
         "None": "$~Nic",
         "Type": "$~typ",
         "Literal": "$~dosłowny",
-        "TypeOperator": "$~Jest",
         "TypeOpen": "$~wpisz wejście otwarte",
         "TypeClose": "$~wpisz wejście zamknij",
         "Separator": "$~separator nazw",
@@ -4723,7 +4722,8 @@
                     "remembering": "$~śledź zmiany i wybory",
                     "stories": "$~opowiadać bajkę",
                     "motion": "$~użyj fizyki",
-                    "video": "$~użyj aparatu"
+                    "video": "$~użyj aparatu",
+                    "gallery": "$~stworzone przez waszych kolegów reżyserów Wordplay"
                 },
                 "related": "$~Nie znalazłeś tego, czego szukasz?"
             },
@@ -4836,6 +4836,10 @@
                 "Definitions": {
                     "header": "$~Definicje",
                     "explanation": "$~/Sposoby nadawania nazw wartościom, funkcjom i strukturom danych do późniejszego wykorzystania./"
+                },
+                "GalleryHow": {
+                    "header": "$~Galeria - jak to zrobić",
+                    "explanation": "$~/Typowe wzorce tworzenia różnych rodzajów projektów z Twoich galerii./"
                 }
             },
             "note": {
@@ -5094,6 +5098,31 @@
                     "empty": "$~Brak opinii do wyświetlenia.",
                     "url": "$~To nie jest prawidłowy adres URL GitHub."
                 }
+            },
+            "notifications": {
+                "header": "$~Powiadomienia",
+                "explanation": "$~Powiadomienia o nowych czatach i opublikowanych poradnikach",
+                "open": "$~otwórz okno dialogowe powiadomień",
+                "howToNotifications": {
+                    "label": "$~powiadomienia o nowych poradnikach",
+                    "labels": ["$~wyłączony", "$~NA"],
+                    "tips": [
+                        "$~nie powiadamiaj mnie o nowych poradnikach",
+                        "$~powiadom mnie o nowych poradnikach"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~wyczyść wszystkie powiadomienia",
+                    "tip": "$~wyczyść wszystkie powiadomienia"
+                },
+                "notification": {
+                    "howToHeader": "$~Opublikowano nowy poradnik zatytułowany „$1”",
+                    "projectChatHeader": "$~Nowa wiadomość w projekcie „$1”",
+                    "howToChatHeader": "$~Nowa wiadomość w poradniku „$1”",
+                    "link": "$~bliższe dane"
+                },
+                "delete": "$~usuń to powiadomienie",
+                "popup": "$~nowe powiadomienie"
             }
         },
         "collaborate": {
@@ -5410,7 +5439,11 @@
                 },
                 "subheader": {
                     "shared": "$~Wspólny",
-                    "archived": "$~Zarchiwizowano"
+                    "archived": "$~Zarchiwizowano",
+                    "howtoviewonly": {
+                        "header": "$~Instrukcje",
+                        "explanation": "$~Możesz przeglądać instrukcje w tych galeriach i korzystać z nich, ale nie będziesz mógł zobaczyć ich projektów, chyba że galeria lub projekty są publiczne."
+                    }
                 }
             },
             "galleries": {
@@ -5819,6 +5852,189 @@
         "template": {
             "unwritten": "$~Do ustalenia",
             "unparsable": "$~Niemożliwy do przeanalizowania szablon: $1"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Instrukcje",
+                "subheader": "$~1 dolar – instrukcje, 2 dolary – nowości",
+                "subheaderEmpty": "$~stwórz pierwszy!",
+                "prompt": "$~Instrukcje to krótkie wyjaśnienia i przykładowy kod pokazujący, jak coś zrobić za pomocą Wordplay. Kiedy już wiesz, jak coś zrobić, napisz instrukcję dla innych twórców w tej galerii, aby i oni mogli się jej nauczyć!"
+            },
+            "headerTooltip": "$~wróć do galerii",
+            "drafts": {
+                "header": "$~📝 Wersje robocze",
+                "prompt": "$~To miejsce na Twoje szkice! Tylko Ty i Twoi współpracownicy możecie je zobaczyć.",
+                "tooltip": "$~zobacz swój projekt",
+                "note": "$~To jest roboczy poradnik. Tylko Ty i Twoi współpracownicy możecie go zobaczyć."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Zakładki",
+                "tooltip": "$~przejdź do tego poradnika",
+                "canBookmark": {
+                    "label": "$~🔖 dodaj zakładkę „jak to zrobić”",
+                    "tip": "$~dodaj ten poradnik do zakładek, aby później go znaleźć"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 usuń zakładkę",
+                    "tip": "$~usuń ten poradnik ze swoich zakładek"
+                },
+                "empty": "$~Możesz dodać zakładki do poradników, z których będziesz chciał skorzystać później.",
+                "notLoggedIn": "$~Aby korzystać z zakładek, musisz się zalogować"
+            },
+            "navigationtooltip": "$~przejdź do instrukcji",
+            "button": {
+                "reset": {
+                    "label": "$~centrum",
+                    "tip": "$~wyśrodkuj płótno"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Utwórz nowy poradnik",
+                    "explanation": "$~Wpisz nazwę i treść nowego poradnika."
+                },
+                "editForm": {
+                    "header": "$~Edytuj instrukcję",
+                    "explanation": "$~Edytuj nazwę i treść poradnika."
+                },
+                "post": {
+                    "label": "$~📣 post",
+                    "tip": "$~opublikuj swoją instrukcję w przestrzeni"
+                },
+                "save": {
+                    "label": "$~💾 zapisz jako wersję roboczą",
+                    "tip": "$~zapisz instrukcję jako wersję roboczą"
+                },
+                "notification": {
+                    "label": "$~powiadomić subskrybentów",
+                    "labels": ["$~notyfikować", "$~nie powiadamiaj"],
+                    "tips": [
+                        "$~powiadom subskrybentów, gdy opublikujesz ten poradnik",
+                        "$~nie powiadamiaj subskrybentów, gdy opublikujesz ten poradnik"
+                    ]
+                },
+                "title": {
+                    "description": "$~tytuł poradnika",
+                    "placeholder": "$~Tytuł"
+                },
+                "titlePlaceholder": "$~Poradnik bez tytułu",
+                "collaboratorsPrompt": "$~Dodaj współpracownika, który może edytować ten poradnik",
+                "collaboratorsToggle": {
+                    "on": "$~zwiń panel współpracowników",
+                    "off": "$~rozwiń panel współpracowników"
+                },
+                "editor": {
+                    "placeholder": "$~Napisz tutaj swój poradnik, wykorzystując formatowanie i kod do celów edukacyjnych.",
+                    "description": "$~pole tekstowe do wpisania instrukcji"
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "$~zobacz instrukcję",
+                    "tip": "$~zobacz instrukcję"
+                },
+                "edit": {
+                    "label": "$~✏️ edytuj",
+                    "tip": "$~edytuj ten poradnik"
+                },
+                "delete": {
+                    "description": "$~usuń ten poradnik",
+                    "prompt": "$~🗑️ usuń"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 prześlij do Wordplay Guide",
+                        "tip": "$~Prześlij nam ten poradnik, abyśmy mogli rozważyć jego uwzględnienie w Przewodniku po grach słownych!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ przesłane do Przewodnika",
+                        "tip": "$~Ten poradnik został już przesłany do rozważenia pod kątem uwzględnienia w Przewodniku po grach słownych."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "$~Czy korzystałeś z tego poradnika w swoim projekcie, czy z innego? Daj znać innym, dodając swój projekt do listy!",
+                    "empty": "$~Nie masz jeszcze żadnych projektów ani opublikowanych poradników. Spróbuj je stworzyć!",
+                    "countDisplay": "$~Inni reżyserzy Wordplay wykorzystali to w innych projektach lub poradnikach za 1 dolara",
+                    "selector": "$~selektor projektu i instrukcji",
+                    "removeButton": "$~usuń projekt lub instrukcję z listy",
+                    "addButton": "$~dodaj projekt lub instrukcję"
+                },
+                "reactionsPrompt": "$~Podobał Ci się ten poradnik? Zostaw reakcję, aby wesprzeć twórcę!",
+                "chatPrompt": "$~Zostaw komentarz lub pytanie dla twórcy!",
+                "link": {
+                    "label": "$~🔗 skopiuj link z instrukcją",
+                    "tip": "$~skopiuj link do tego poradnika"
+                },
+                "collaborators": "$~napisane przez"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Ustawienia przestrzeni roboczej",
+                    "explanation": "$~Skonfiguruj ustawienia dla tej przestrzeni z instrukcjami. Kliknij przycisk „Zapisz” u dołu, aby zapisać ustawienia."
+                },
+                "configurationButton": {
+                    "tip": "$~skonfiguruj tę przestrzeń instrukcji",
+                    "label": "$~⚙️ ustawienia"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Widoczność",
+                        "explanation": "$~Skonfiguruj, kto domyślnie może przeglądać instrukcje w tej przestrzeni"
+                    },
+                    "mode": {
+                        "label": "$~domyślna widoczność",
+                        "labels": ["$~ograniczony", "$~rozszerzony"],
+                        "tips": [
+                            "$~tylko współpracownicy tej galerii mogą oglądać",
+                            "$~współpracownicy dowolnej galerii, którą tworzy kurator, mogą oglądać"
+                        ]
+                    },
+                    "expanded": "$~rozszerzony",
+                    "limited": "$~ograniczony"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Pytania pomocnicze",
+                        "explanation": "$~Skonfiguruj pytania pomocnicze wyświetlane podczas tworzenia nowego poradnika. Oddziel pytania pomocnicze podziałem wiersza."
+                    },
+                    "descriptor": "$~pole tekstowe, w którym można wpisać pytania pomocnicze, rozdzielone podziałem wiersza.",
+                    "default": [
+                        "$~Czego się nauczyłeś? Podaj przykłady, jak to zrobić."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reakcje",
+                        "explanation": "$~Skonfiguruj reakcje, które widzowie mogą pozostawiać w przypadku nowych poradników"
+                    },
+                    "reactionPickerTip": "$~wybierz postać, która będzie reakcją",
+                    "reactionDescriptionTip": "$~opisz co oznacza ta reakcja",
+                    "addReactionTip": "$~dodaj nową reakcję",
+                    "removeReactionTip": "$~usuń tę reakcję",
+                    "default": {
+                        "👍": "$~Podoba mi się to!",
+                        "💭": "$~To mnie inspiruje!",
+                        "🙏": "$~Dziękuję!",
+                        "🎉": "$~Uroczystość!",
+                        "🤩": "$~Chcę tego spróbować!",
+                        "😁": "$~To mnie uszczęśliwia!"
+                    }
+                },
+                "submit": {
+                    "error": "$~pytania pomocnicze i reakcje nie mogą być puste",
+                    "label": "$~ratować",
+                    "tip": "$~zapisz ustawienia przestrzeni „jak to zrobić”"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~poradnik zatytułowany $1 przeniesiony do $2 $3",
+                "canvasPosition": "$~płótno przesunięte do $1, $2",
+                "moveActivated": "$~ruch aktywowany. $1 można przesunąć za pomocą myszy, klawiatury lub ekranu dotykowego",
+                "moveDeactivated": "$~ruch wyłączony."
+            },
+            "error": {
+                "unknown": "$~Ta przestrzeń z poradami nie istnieje lub nie jest publiczna."
+            }
         }
     },
     "moderation": {

@@ -33,6 +33,7 @@ const PurposeRelevance: Record<Purpose, number> = {
     Advanced: 15,
     Hidden: 16,
     How: 16,
+    GalleryHow: 16,
 };
 
 /** An immutable container for menu state. */
@@ -216,8 +217,8 @@ export default class Menu {
             (submenu instanceof RevisionSet && subindex === undefined)
             ? submenu
             : subindex !== undefined
-              ? submenu.revisions[subindex]
-              : undefined;
+                ? submenu.revisions[subindex]
+                : undefined;
     }
 
     getSelectionIndex() {
@@ -265,29 +266,29 @@ export default class Menu {
             const newIndex = index + direction;
             return newIndex >= 0 && newIndex < this.organization.length
                 ? new Menu(
-                      this.project,
-                      this.source,
-                      this.anchor,
-                      this.revisions,
-                      this.organization,
-                      this.concepts,
-                      [newIndex, undefined],
-                      this.action,
-                  )
+                    this.project,
+                    this.source,
+                    this.anchor,
+                    this.revisions,
+                    this.organization,
+                    this.concepts,
+                    [newIndex, undefined],
+                    this.action,
+                )
                 : this;
         } else if (submenu instanceof RevisionSet) {
             const newSubindex = subindex + direction;
             return newSubindex >= -1 && newSubindex < submenu.size()
                 ? new Menu(
-                      this.project,
-                      this.source,
-                      this.anchor,
-                      this.revisions,
-                      this.organization,
-                      this.concepts,
-                      [index, newSubindex],
-                      this.action,
-                  )
+                    this.project,
+                    this.source,
+                    this.anchor,
+                    this.revisions,
+                    this.organization,
+                    this.concepts,
+                    [index, newSubindex],
+                    this.action,
+                )
                 : this;
         } else return this;
     }
@@ -296,15 +297,15 @@ export default class Menu {
     out() {
         return this.selection[1] !== undefined
             ? new Menu(
-                  this.project,
-                  this.source,
-                  this.anchor,
-                  this.revisions,
-                  this.organization,
-                  this.concepts,
-                  [this.selection[0], undefined],
-                  this.action,
-              )
+                this.project,
+                this.source,
+                this.anchor,
+                this.revisions,
+                this.organization,
+                this.concepts,
+                [this.selection[0], undefined],
+                this.action,
+            )
             : this;
     }
 
@@ -313,30 +314,30 @@ export default class Menu {
         return this.getSelection() instanceof RevisionSet &&
             this.selection[1] === undefined
             ? new Menu(
-                  this.project,
-                  this.source,
-                  this.anchor,
-                  this.revisions,
-                  this.organization,
-                  this.concepts,
-                  [this.selection[0], 0],
-                  this.action,
-              )
+                this.project,
+                this.source,
+                this.anchor,
+                this.revisions,
+                this.organization,
+                this.concepts,
+                [this.selection[0], 0],
+                this.action,
+            )
             : this;
     }
 
     back() {
         return this.selection[1] !== undefined
             ? new Menu(
-                  this.project,
-                  this.source,
-                  this.anchor,
-                  this.revisions,
-                  this.organization,
-                  this.concepts,
-                  [this.selection[0], undefined],
-                  this.action,
-              )
+                this.project,
+                this.source,
+                this.anchor,
+                this.revisions,
+                this.organization,
+                this.concepts,
+                [this.selection[0], undefined],
+                this.action,
+            )
             : this;
     }
 
@@ -344,10 +345,10 @@ export default class Menu {
         if (revision === undefined) return this.action(undefined);
         return revision
             ? this.action(
-                  revision instanceof Revision
-                      ? revision.getEdit(locales)
-                      : revision,
-              )
+                revision instanceof Revision
+                    ? revision.getEdit(locales)
+                    : revision,
+            )
             : false;
     }
 }

@@ -9542,6 +9542,81 @@
                   ],
                   "type": "object"
                 },
+                "notifications": {
+                  "additionalProperties": false,
+                  "description": "The notifications dialog",
+                  "properties": {
+                    "clearAll": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
+                    "delete": {
+                      "type": "string"
+                    },
+                    "explanation": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "The explanation text just below the header."
+                    },
+                    "header": {
+                      "description": "The header to be shown at the top of the dialog",
+                      "type": "string"
+                    },
+                    "howToNotifications": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                    },
+                    "notification": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "howToChatHeader": {
+                          "type": "string"
+                        },
+                        "howToHeader": {
+                          "type": "string"
+                        },
+                        "link": {
+                          "type": "string"
+                        },
+                        "projectChatHeader": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "howToHeader",
+                        "projectChatHeader",
+                        "howToChatHeader",
+                        "link"
+                      ],
+                      "type": "object"
+                    },
+                    "open": {
+                      "description": "The how-to notifications on/off mode",
+                      "type": "string"
+                    },
+                    "popup": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "clearAll",
+                    "delete",
+                    "explanation",
+                    "header",
+                    "howToNotifications",
+                    "notification",
+                    "open",
+                    "popup"
+                  ],
+                  "type": "object"
+                },
                 "settings": {
                   "additionalProperties": false,
                   "description": "The settings dialog",
@@ -9810,6 +9885,7 @@
               "required": [
                 "share",
                 "settings",
+                "notifications",
                 "locale",
                 "help",
                 "feedback"
@@ -9933,6 +10009,9 @@
                         "characters": {
                           "type": "string"
                         },
+                        "gallery": {
+                          "type": "string"
+                        },
                         "layout": {
                           "type": "string"
                         },
@@ -9964,7 +10043,8 @@
                         "animation",
                         "stories",
                         "motion",
-                        "video"
+                        "video",
+                        "gallery"
                       ],
                       "type": "object"
                     },
@@ -10041,6 +10121,9 @@
                     "Documentation": {
                       "$ref": "#/definitions/HeaderAndExplanationText"
                     },
+                    "GalleryHow": {
+                      "$ref": "#/definitions/HeaderAndExplanationText"
+                    },
                     "Hidden": {
                       "$ref": "#/definitions/HeaderAndExplanationText"
                     },
@@ -10094,7 +10177,8 @@
                     "Types",
                     "Advanced",
                     "Hidden",
-                    "How"
+                    "How",
+                    "GalleryHow"
                   ],
                   "type": "object"
                 }
@@ -10318,6 +10402,478 @@
                 "confirm",
                 "error",
                 "field"
+              ],
+              "type": "object"
+            },
+            "howto": {
+              "additionalProperties": false,
+              "description": "How-to space page labels",
+              "properties": {
+                "announce": {
+                  "additionalProperties": false,
+                  "description": "For announcing changes to the canvas or to how-to positions",
+                  "properties": {
+                    "canvasPosition": {
+                      "type": "string"
+                    },
+                    "howToPosition": {
+                      "type": "string"
+                    },
+                    "moveActivated": {
+                      "type": "string"
+                    },
+                    "moveDeactivated": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "howToPosition",
+                    "canvasPosition",
+                    "moveActivated",
+                    "moveDeactivated"
+                  ],
+                  "type": "object"
+                },
+                "bookmarks": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "alreadyBookmarked": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "For when a how-to is already bookmarked"
+                    },
+                    "canBookmark": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for bookmarking the how-to"
+                    },
+                    "empty": {
+                      "description": "When there are no bookmarks",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "Header for the bookmarks area",
+                      "type": "string"
+                    },
+                    "notLoggedIn": {
+                      "description": "Error message if the user is not logged in",
+                      "type": "string"
+                    },
+                    "tooltip": {
+                      "description": "Bookmarks  tooltip",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "tooltip",
+                    "canBookmark",
+                    "alreadyBookmarked",
+                    "empty",
+                    "notLoggedIn"
+                  ],
+                  "type": "object"
+                },
+                "button": {
+                  "additionalProperties": false,
+                  "description": "Buttons for the how-to space",
+                  "properties": {
+                    "reset": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for the canvas reset button"
+                    }
+                  },
+                  "required": [
+                    "reset"
+                  ],
+                  "type": "object"
+                },
+                "configuration": {
+                  "additionalProperties": false,
+                  "description": "For configuring the how-to space",
+                  "properties": {
+                    "configurationButton": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for opening configuration dialog"
+                    },
+                    "configurationDialog": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Dialog header and explanation for configuring settings"
+                    },
+                    "guidingQuestions": {
+                      "additionalProperties": false,
+                      "description": "Subheaders and descriptions for configuring guiding questions",
+                      "properties": {
+                        "default": {
+                          "description": "Guiding questions default text",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "descriptor": {
+                          "description": "Guiding questions description",
+                          "type": "string"
+                        },
+                        "subheader": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Guiding questions header"
+                        }
+                      },
+                      "required": [
+                        "subheader",
+                        "descriptor",
+                        "default"
+                      ],
+                      "type": "object"
+                    },
+                    "reactions": {
+                      "additionalProperties": false,
+                      "description": "Subheaders and descriptions for configuring reaction options",
+                      "properties": {
+                        "addReactionTip": {
+                          "description": "Add reaction tip",
+                          "type": "string"
+                        },
+                        "default": {
+                          "additionalProperties": {
+                            "type": "string"
+                          },
+                          "description": "Default reactions",
+                          "type": "object"
+                        },
+                        "reactionDescriptionTip": {
+                          "description": "Reaction picker description tip",
+                          "type": "string"
+                        },
+                        "reactionPickerTip": {
+                          "description": "Reaction picker tip",
+                          "type": "string"
+                        },
+                        "removeReactionTip": {
+                          "description": "Remove reaction tip",
+                          "type": "string"
+                        },
+                        "subheader": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Reactions header"
+                        }
+                      },
+                      "required": [
+                        "subheader",
+                        "reactionPickerTip",
+                        "reactionDescriptionTip",
+                        "addReactionTip",
+                        "removeReactionTip",
+                        "default"
+                      ],
+                      "type": "object"
+                    },
+                    "submit": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        },
+                        "label": {
+                          "description": "The buttons label",
+                          "type": "string"
+                        },
+                        "tip": {
+                          "description": "THe buttons tooltip and ARIA-label, spoken by screen readers",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "error",
+                        "label",
+                        "tip"
+                      ],
+                      "type": "object"
+                    },
+                    "visibility": {
+                      "additionalProperties": false,
+                      "description": "Subheaders and descriptions for configuring visibility",
+                      "properties": {
+                        "expanded": {
+                          "description": "Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries",
+                          "type": "string"
+                        },
+                        "limited": {
+                          "description": "Name of visibility option for limiting visibility to gallery curators and creators",
+                          "type": "string"
+                        },
+                        "mode": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                        },
+                        "subheader": {
+                          "$ref": "#/definitions/HeaderAndExplanationText"
+                        }
+                      },
+                      "required": [
+                        "subheader",
+                        "mode",
+                        "limited",
+                        "expanded"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "configurationDialog",
+                    "configurationButton",
+                    "visibility",
+                    "guidingQuestions",
+                    "reactions",
+                    "submit"
+                  ],
+                  "type": "object"
+                },
+                "drafts": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "header": {
+                      "description": "Header for the drafts area",
+                      "type": "string"
+                    },
+                    "note": {
+                      "description": "Text indicating that the how-to is currently a draft",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "description": "Explanation for the drafts area",
+                      "type": "string"
+                    },
+                    "tooltip": {
+                      "description": "Tooltip for viewing a draft",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "tooltip",
+                    "note"
+                  ],
+                  "type": "object"
+                },
+                "editor": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "collaboratorsPrompt": {
+                      "description": "Collaboration",
+                      "type": "string"
+                    },
+                    "collaboratorsToggle": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Collaborator toggle text"
+                    },
+                    "editForm": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Dialog text for how-to form when editing an existing how-to"
+                    },
+                    "editor": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "How-to content editor"
+                    },
+                    "newForm": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Dialog text for how-to form (new how-to or edit existing)"
+                    },
+                    "notification": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "Checkbox text for opting out of notifying subscribers"
+                    },
+                    "post": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for submitting the how-to"
+                    },
+                    "save": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for saving a how-to draft"
+                    },
+                    "title": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "Field text for how-to title"
+                    },
+                    "titlePlaceholder": {
+                      "description": "Placeholder for an untitled how-to",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "newForm",
+                    "editForm",
+                    "post",
+                    "save",
+                    "notification",
+                    "editor",
+                    "title",
+                    "titlePlaceholder",
+                    "collaboratorsPrompt",
+                    "collaboratorsToggle"
+                  ],
+                  "type": "object"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "unknown": {
+                      "description": "When the how-to is not known or is not public",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unknown"
+                  ],
+                  "type": "object"
+                },
+                "galleryView": {
+                  "additionalProperties": false,
+                  "description": "Headers on the gallery page",
+                  "properties": {
+                    "header": {
+                      "description": "Title of how-to space in the gallery view",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "description": "Prompt for the how-to space in the gallery view",
+                      "type": "string"
+                    },
+                    "subheader": {
+                      "description": "Subtitle for the how-to space in the gallery view",
+                      "type": "string"
+                    },
+                    "subheaderEmpty": {
+                      "description": "Subtitle for the how-to space in the gallery if no how-tos",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "subheader",
+                    "subheaderEmpty",
+                    "prompt"
+                  ],
+                  "type": "object"
+                },
+                "headerTooltip": {
+                  "description": "Tooltip for header/breadcrumb to gallery for the how-to space page",
+                  "type": "string"
+                },
+                "navigationtooltip": {
+                  "description": "Navigation tooltip",
+                  "type": "string"
+                },
+                "viewer": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "chatPrompt": {
+                      "description": "Text for prompting users to chat",
+                      "type": "string"
+                    },
+                    "collaborators": {
+                      "description": "Label for list of creators and collaborators",
+                      "type": "string"
+                    },
+                    "delete": {
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "Button text for deleting the how-to"
+                    },
+                    "edit": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for editing the how-to"
+                    },
+                    "link": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for copying the how-to's URL"
+                    },
+                    "reactionsPrompt": {
+                      "description": "Prompt for reaction summary",
+                      "type": "string"
+                    },
+                    "submitToGuide": {
+                      "additionalProperties": false,
+                      "description": "Button text for submitting the how-to to be included in the public guide",
+                      "properties": {
+                        "alreadySubmitted": {
+                          "$ref": "#/definitions/ButtonText"
+                        },
+                        "submit": {
+                          "$ref": "#/definitions/ButtonText"
+                        }
+                      },
+                      "required": [
+                        "submit",
+                        "alreadySubmitted"
+                      ],
+                      "type": "object"
+                    },
+                    "usedBy": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "addButton": {
+                          "type": "string"
+                        },
+                        "countDisplay": {
+                          "description": "Text for how many others projects or how-tos, other than the user's own, have used this how-to",
+                          "type": "string"
+                        },
+                        "empty": {
+                          "description": "Text for if the user does not have any other how-tos or projects",
+                          "type": "string"
+                        },
+                        "prompt": {
+                          "description": "Text for asking if the user used this how-to in their project or another how-to",
+                          "type": "string"
+                        },
+                        "removeButton": {
+                          "type": "string"
+                        },
+                        "selector": {
+                          "description": "Options text for selecting which projects and how-tos used this how-to",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "prompt",
+                        "empty",
+                        "countDisplay",
+                        "selector",
+                        "removeButton",
+                        "addButton"
+                      ],
+                      "type": "object"
+                    },
+                    "view": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for viewing the how-to"
+                    }
+                  },
+                  "required": [
+                    "view",
+                    "edit",
+                    "delete",
+                    "submitToGuide",
+                    "usedBy",
+                    "reactionsPrompt",
+                    "chatPrompt",
+                    "link",
+                    "collaborators"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "galleryView",
+                "headerTooltip",
+                "drafts",
+                "bookmarks",
+                "navigationtooltip",
+                "button",
+                "editor",
+                "viewer",
+                "configuration",
+                "announce",
+                "error"
               ],
               "type": "object"
             },
@@ -12031,6 +12587,10 @@
                           "description": "Header for the unarchived project list",
                           "type": "string"
                         },
+                        "howtoviewonly": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Header for the galleries where the user can see how-tos but not projects"
+                        },
                         "shared": {
                           "description": "Header for the shared project list",
                           "type": "string"
@@ -12038,7 +12598,8 @@
                       },
                       "required": [
                         "shared",
-                        "archived"
+                        "archived",
+                        "howtoviewonly"
                       ],
                       "type": "object"
                     }
@@ -13630,6 +14191,7 @@
             "project",
             "checkpoints",
             "gallery",
+            "howto",
             "source",
             "annotations",
             "output",

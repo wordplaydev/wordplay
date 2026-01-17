@@ -86,7 +86,6 @@
         "None": "$~Hiçbir şey",
         "Type": "$~tip",
         "Literal": "$~tam anlamıyla",
-        "TypeOperator": "$~dır",
         "TypeOpen": "$~giriş tipi açık",
         "TypeClose": "$~tür girişi kapat",
         "Separator": "$~isim ayırıcı",
@@ -4718,7 +4717,8 @@
                     "remembering": "$~değişiklikleri ve seçimleri takip et",
                     "stories": "$~bir hikaye anlatmak",
                     "motion": "$~fizik kullan",
-                    "video": "$~bir kamera kullan"
+                    "video": "$~bir kamera kullan",
+                    "gallery": "$~Diğer Wordplay yöneticileriniz tarafından oluşturuldu"
                 },
                 "related": "$~Aradığınız bu değil mi?"
             },
@@ -4831,6 +4831,10 @@
                 "Definitions": {
                     "header": "$~Tanımlar",
                     "explanation": "$~/Değerleri, fonksiyonları ve veri yapılarını daha sonra kullanılmak üzere adlandırmanın yolları./"
+                },
+                "GalleryHow": {
+                    "header": "$~Galeri nasıl yapılır",
+                    "explanation": "$~/Galerinizden farklı türde projeler oluşturmak için kullanılan yaygın şablonlar./"
                 }
             },
             "note": {
@@ -5085,6 +5089,31 @@
                     "empty": "$~Gösterilecek geri bildirim yok.",
                     "url": "$~Bu geçerli bir GitHub URL'si değil."
                 }
+            },
+            "notifications": {
+                "header": "$~Bildirimler",
+                "explanation": "$~Yeni sohbetlerden ve yayınlanan kılavuzlardan gelen bildirimler.",
+                "open": "$~bildirim iletişim kutusunu aç",
+                "howToNotifications": {
+                    "label": "$~Yeni nasıl yapılır videoları için bildirimler",
+                    "labels": ["$~kapalı", "$~Açık"],
+                    "tips": [
+                        "$~Yeni nasıl yapılır kılavuzları hakkında beni bilgilendirme.",
+                        "$~Yeni nasıl yapılır kılavuzlarından haberdar ol"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~tüm bildirimleri temizle",
+                    "tip": "$~tüm bildirimleri temizle"
+                },
+                "notification": {
+                    "howToHeader": "$~\"1 Dolar\" başlıklı yeni bir nasıl yapılır videosu yayınlandı.",
+                    "projectChatHeader": "$~\"$1\" projesinde yeni mesaj",
+                    "howToChatHeader": "$~\"1 Dolar\" kılavuzunda yeni mesaj",
+                    "link": "$~detaylar"
+                },
+                "delete": "$~Bu bildirimi sil",
+                "popup": "$~yeni bildirim"
             }
         },
         "collaborate": {
@@ -5401,7 +5430,11 @@
                 },
                 "subheader": {
                     "shared": "$~Paylaşılan",
-                    "archived": "$~Arşivlendi"
+                    "archived": "$~Arşivlendi",
+                    "howtoviewonly": {
+                        "header": "$~Nasıl yapılır",
+                        "explanation": "$~Bu galerilerdeki \"nasıl yapılır\" kılavuzlarını görüntüleyebilir ve bunlarla etkileşim kurabilirsiniz, ancak galeri veya projeler herkese açık olmadığı sürece projeleri göremezsiniz."
+                    }
                 }
             },
             "galleries": {
@@ -5810,6 +5843,189 @@
         "template": {
             "unwritten": "$~Belirsiz",
             "unparsable": "$~Ayrıştırılamayan şablon: $1"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Nasıl yapılır",
+                "subheader": "$~1 dolar, nasıl yapılır kılavuzları, 2 dolar yeni ürünler",
+                "subheaderEmpty": "$~İlkini oluşturun!",
+                "prompt": "$~Nasıl yapılır kılavuzları, Wordplay ile bir şeyin nasıl yapılacağına dair kısa açıklamalar ve örnek kodlardır. Paylaşmak istediğiniz bir şeyi nasıl yapacağınızı bulduğunuzda, bu galerideki diğer içerik oluşturucuların da öğrenmesi için bir tane yazın!"
+            },
+            "headerTooltip": "$~Galeriye geri dön",
+            "drafts": {
+                "header": "$~📝 Nasıl yapılır taslakları",
+                "prompt": "$~Burası taslaklarınız için bir alan! Bu taslakları yalnızca siz ve işbirlikçileriniz görebilir.",
+                "tooltip": "$~Taslağınızı görüntüleyin",
+                "note": "$~Bu, taslak bir kullanım kılavuzudur. Sadece siz ve işbirlikçileriniz görebilir."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Yer işaretleri",
+                "tooltip": "$~Bu kılavuza gidin.",
+                "canBookmark": {
+                    "label": "$~🔖 Nasıl yapılır sayfasını yer imlerine ekleyin",
+                    "tip": "$~Bu kılavuzu daha sonra bulmak için yer imlerinize ekleyin."
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 yer işaretini kaldır",
+                    "tip": "$~Bu kılavuzu yer işaretlerinizden kaldırın."
+                },
+                "empty": "$~Daha sonra başvurmak istediğiniz kılavuzları yer imlerine ekleyebilirsiniz.",
+                "notLoggedIn": "$~Yer işaretlerini kullanmak için giriş yapmanız gerekmektedir."
+            },
+            "navigationtooltip": "$~Nasıl yapılır sayfasına git",
+            "button": {
+                "reset": {
+                    "label": "$~merkez",
+                    "tip": "$~tuvali ortala"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Yeni bir \"nasıl yapılır\" kılavuzu oluşturun.",
+                    "explanation": "$~Yeni \"nasıl yapılır\" kılavuzunuzun adını ve içeriğini yazın."
+                },
+                "editForm": {
+                    "header": "$~Nasıl yapılır kılavuzunu düzenle",
+                    "explanation": "$~Kılavuzunuzun adını ve içeriğini düzenleyin."
+                },
+                "post": {
+                    "label": "$~📣 gönderi",
+                    "tip": "$~Nasıl yapılır kılavuzunuzu bu alana gönderin."
+                },
+                "save": {
+                    "label": "$~💾 taslak olarak kaydet",
+                    "tip": "$~Kullanım kılavuzunuzu taslak olarak kaydedin."
+                },
+                "notification": {
+                    "label": "$~aboneleri bilgilendir",
+                    "labels": ["$~bildirmek", "$~bildirimde bulunma"],
+                    "tips": [
+                        "$~Bu kılavuzu yayınladığınızda abonelerinizi bilgilendirin.",
+                        "$~Bu kılavuzu yayınladığınızda abonelerinize bildirim göndermeyin."
+                    ]
+                },
+                "title": {
+                    "description": "$~\"Nasıl yapılır\" kılavuzunuzun başlığı",
+                    "placeholder": "$~Başlık"
+                },
+                "titlePlaceholder": "$~Başlıksız nasıl yapılır kılavuzu",
+                "collaboratorsPrompt": "$~Bu kılavuzu düzenleyebilecek bir işbirlikçi ekleyin.",
+                "collaboratorsToggle": {
+                    "on": "$~işbirlikçiler panelini daralt",
+                    "off": "$~işbirlikçiler panelini genişletin"
+                },
+                "editor": {
+                    "placeholder": "$~Biçimlendirme ve kod kullanarak nasıl yapılacağını anlatan metninizi buraya yazın.",
+                    "description": "$~Nasıl yapılır kılavuzunuzu yazabileceğiniz bir metin kutusu."
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "$~nasıl yapılır'ı görüntüle",
+                    "tip": "$~nasıl yapılır'ı görüntüle"
+                },
+                "edit": {
+                    "label": "$~✏️ düzenle",
+                    "tip": "$~Bu kılavuzu düzenle"
+                },
+                "delete": {
+                    "description": "$~Bu kılavuzu silin",
+                    "prompt": "$~🗑️ sil"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 Kelime Oyunu Rehberine gönderin",
+                        "tip": "$~Bu kılavuzu Kelime Oyunları Rehberi'ne dahil edilmek üzere gönderin!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ Rehbere gönderildi",
+                        "tip": "$~Bu kılavuz, Kelime Oyunları Rehberi'ne dahil edilmek üzere değerlendirilmek üzere zaten gönderilmiştir."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "$~Bu kılavuzu projenizde veya başka bir kılavuzda kullandınız mı? Projenizi listeye ekleyerek başkalarının da haberdar olmasını sağlayın!",
+                    "empty": "$~Henüz hiçbir projeniz veya yayınlanmış başka bir \"nasıl yapılır\" kılavuzunuz yok. Bir tane oluşturmayı deneyin!",
+                    "countDisplay": "$~Diğer Wordplay yönetmenleri bunu 1 dolarlık diğer projelerinde veya nasıl yapılır videolarında kullandılar.",
+                    "selector": "$~proje ve nasıl yapılır seçici",
+                    "removeButton": "$~listeden projeyi veya nasıl yapılır dosyasını kaldır",
+                    "addButton": "$~proje veya nasıl yapılır ekle"
+                },
+                "reactionsPrompt": "$~Bu nasıl yapılır videosunu beğendiniz mi? Yaratıcıyı desteklemek için bir yorum bırakın!",
+                "chatPrompt": "$~Yaratıcıya yorum veya soru bırakın!",
+                "link": {
+                    "label": "$~🔗 Nasıl yapılır bağlantısını kopyala",
+                    "tip": "$~Bu kılavuzun bağlantısını kopyala"
+                },
+                "collaborators": "$~tarafından yazılmıştır"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Alan ayarları nasıl yapılır?",
+                    "explanation": "$~Bu \"nasıl yapılır\" alanının ayarlarını yapılandırın. Ayarlarınızı kaydetmek için alttaki kaydet düğmesine tıklayın."
+                },
+                "configurationButton": {
+                    "tip": "$~Bu nasıl yapılır alanını yapılandırın",
+                    "label": "$~⚙️ ayarlar"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Görünürlük",
+                        "explanation": "$~Bu alanda varsayılan olarak kimlerin nasıl yapılır kılavuzlarını görüntüleyebileceğini yapılandırın."
+                    },
+                    "mode": {
+                        "label": "$~varsayılan görünürlük",
+                        "labels": ["$~sınırlı", "$~genişletilmiş"],
+                        "tips": [
+                            "$~Bu galeriye kayıtlı kişiler dışında hiç kimse bu içeriği görüntüleyemez.",
+                            "$~Herhangi bir küratörün oluşturduğu herhangi bir galerinin işbirlikçileri görüntüleyebilir."
+                        ]
+                    },
+                    "expanded": "$~genişletilmiş",
+                    "limited": "$~sınırlı"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Yönlendirici Sorular",
+                        "explanation": "$~Yeni bir \"nasıl yapılır\" kılavuzu oluştururken gösterilen yönlendirme sorularını yapılandırın. Yönlendirme sorularını bir satır sonuyla ayırın."
+                    },
+                    "descriptor": "$~Yönlendirici sorularınızı yazabileceğiniz, satır aralarıyla ayrılmış bir metin kutusu.",
+                    "default": [
+                        "$~Ne öğrendiniz? Nasıl yapılacağına dair örnekler verin."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Tepkiler",
+                        "explanation": "$~Yeni \"nasıl yapılır\" videolarına izleyicilerin bırakabileceği tepkileri yapılandırın."
+                    },
+                    "reactionPickerTip": "$~Tepki verecek bir karakter seçin.",
+                    "reactionDescriptionTip": "$~Bu tepkinin ne anlama geldiğini açıklayın.",
+                    "addReactionTip": "$~yeni bir tepki ekle",
+                    "removeReactionTip": "$~Bu tepkiyi kaldır",
+                    "default": {
+                        "👍": "$~Bunu severim!",
+                        "💭": "$~Bu bana ilham veriyor!",
+                        "🙏": "$~Teşekkür ederim!",
+                        "🎉": "$~Kutlama!",
+                        "🤩": "$~Bunu denemek istiyorum!",
+                        "😁": "$~Bu beni çok mutlu ediyor!"
+                    }
+                },
+                "submit": {
+                    "error": "$~Yönlendirici sorular ve tepkiler boş olamaz.",
+                    "label": "$~kaydetmek",
+                    "tip": "$~Kaydetme kılavuzu alan ayarları"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~\"Nasıl yapılır\" başlıklı yazı 1 dolardan 2 dolara, 3 dolara taşındı.",
+                "canvasPosition": "$~tuval 1 dolara, 2 dolara taşındı",
+                "moveActivated": "$~Hareket etkinleştirildi. 1 dolar, fare, klavye veya dokunmatik ekran kullanılarak hareket ettirilebilir.",
+                "moveDeactivated": "$~Hareket devre dışı bırakıldı."
+            },
+            "error": {
+                "unknown": "$~Bu \"nasıl yapılır\" alanı mevcut değil veya herkese açık değil."
+            }
         }
     },
     "moderation": {

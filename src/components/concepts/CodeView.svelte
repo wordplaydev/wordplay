@@ -1,5 +1,7 @@
 <script lang="ts">
+    import Link from '@components/app/Link.svelte';
     import type Concept from '@concepts/Concept';
+    import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { blocks, locales } from '@db/Database';
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
@@ -102,7 +104,11 @@
 {#snippet link()}
     {#if describe && concept}
         <div class="link">
-            <ConceptLinkUI link={concept} symbolic={false} />
+            {#if concept instanceof GalleryHowConcept}
+                <Link to={concept.getPath()} external>{concept.getName()}</Link>
+            {:else}
+                <ConceptLinkUI link={concept} symbolic={false} />
+            {/if}
         </div>
     {/if}
 {/snippet}

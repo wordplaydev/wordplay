@@ -84,6 +84,7 @@ function createGallery(
     id: string,
     text: Record<string, GalleryText>,
     projects: string[],
+    locales: Locales,
 ) {
     return new Gallery({
         v: GallerySchemaLatestVersion,
@@ -101,6 +102,13 @@ function createGallery(
         creators: [],
         public: true,
         featured: true,
+        howTos: [],
+        howToExpandedVisibility: false,
+        howToExpandedGalleries: [],
+        howToViewers: {} as Record<string, string[]>,
+        howToViewersFlat: [] as string[],
+        howToGuidingQuestions: locales.get((l) => l.ui.howto.configuration.guidingQuestions.default),
+        howToReactions: locales.get((l) => l.ui.howto.configuration.reactions.default),
     });
 }
 
@@ -122,7 +130,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'WheresWaldough',
                 'KatakanaGuess',
                 'FrenchNumbers',
-            ],
+            ], locales,
         ),
         createGallery(
             'Visualizations',
@@ -145,6 +153,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Size',
                 'FloatingFoods',
             ],
+            locales,
         ),
         createGallery(
             'Motion',
@@ -160,6 +169,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Easing',
                 'Lyrics',
             ],
+            locales,
         ),
         createGallery(
             'AV',
@@ -167,6 +177,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 locale.map((l) => [localeToString(l), l.gallery.av]),
             ),
             ['Listen', 'Talk', 'RainingLetters', 'Video', 'ASCII'],
+            locales,
         ),
         createGallery(
             'Stories',
@@ -174,6 +185,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 locale.map((l) => [localeToString(l), l.gallery.stories]),
             ),
             ['Pears', 'JapaneseClass'],
+            locales,
         ),
         createGallery(
             'Tools',
@@ -181,6 +193,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 locale.map((l) => [localeToString(l), l.gallery.tools]),
             ),
             ['Calculator', 'Literacy', 'Timer', 'Headlines', 'SentenceLength'],
+            locales,
         ),
     ];
 }

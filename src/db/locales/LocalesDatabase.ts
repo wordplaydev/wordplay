@@ -118,6 +118,9 @@ export default class LocalesDatabase {
             const howTos: HowTo[] = [];
 
             for (const howID of HowToIDs) {
+                // gallery how-tos are not stored in /static
+                if (howID === "gallery-how-to") continue;
+
                 const path = `/locales/${locale}/how/${howID}.txt`;
                 const fallback = `/locales/en-US/how/${howID}.txt`;
                 let text =

@@ -848,7 +848,8 @@
         "track-game-state",
         "offer-choices",
         "choose-adventure",
-        "repeating-a-movement"
+        "repeating-a-movement",
+        "gallery-how-to"
       ],
       "type": "string"
     },

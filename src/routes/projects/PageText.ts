@@ -19,6 +19,8 @@ type PageText = {
         shared: string;
         /** Header for the unarchived project list */
         archived: string;
+        /** Header for the galleries where the user can see how-tos but not projects */
+        howtoviewonly: HeaderAndExplanationText;
     };
     button: {
         /** Create a new project */
