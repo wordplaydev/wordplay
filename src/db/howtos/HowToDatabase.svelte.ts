@@ -9,7 +9,6 @@ import {
     collection,
     deleteDoc,
     doc,
-    Firestore,
     getDoc,
     onSnapshot,
     or,
@@ -17,6 +16,7 @@ import {
     setDoc,
     updateDoc,
     where,
+    type Firestore,
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
