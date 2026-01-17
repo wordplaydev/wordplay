@@ -31,6 +31,9 @@
         ? decodeURI(page.params.galleryid)
         : undefined;
 
+    // The component views
+    let howToComponents = $state<HowToPreview[]>([]);
+
     // When the page changes, get the gallery store corresponding to the requested ID.
     $effect(() => {
         if (galleryID === undefined) {
@@ -289,6 +292,8 @@
                     {/if}
                 </Header>
 
+                <MarkupHTMLView markup={(l) => l.ui.howto.galleryView.prompt} />
+
                 <div class="howtospacetoolbar">
                     {#if canUserEdit}
                         <HowToForm
@@ -317,6 +322,15 @@
                             navigationSelection = undefined;
                         }}
                     ></Options>
+
+                    <Button
+                        tip={(l) => l.ui.howto.button.reset.tip}
+                        label={(l) => l.ui.howto.button.reset.label}
+                        icon="🎯"
+                        action={() => {
+                            panTo(0, 0);
+                        }}
+                    ></Button>
 
                     {#if isUserCurator}
                         <HowToConfiguration {gallery} />
@@ -359,9 +373,25 @@
                                     tip={(l) => l.ui.howto.bookmarks.tooltip}
                                     label={(l) => bookmark.getTitle()}
                                     action={() => {
+                                        // Center the bookmarked how to
                                         let coords = bookmark.getCoordinates();
                                         panTo(coords[0], coords[1]);
+
+                                        // Find the corresponding view and show it's preview.
+                                        let index = howTos.findIndex(
+                                            (ht) =>
+                                                ht.getHowToId() ===
+                                                bookmark.getHowToId(),
+                                        );
+                                        if (index !== -1)
+                                            howToComponents[
+                                                index
+                                            ].showPreview();
                                     }}
+                                />
+                            {:else}
+                                <MarkupHTMLView
+                                    markup={(l) => l.ui.howto.bookmarks.empty}
                                 />
                             {/each}
                         {:else}
@@ -400,6 +430,7 @@
                         {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
                             <HowToPreview
                                 bind:howTo={howTos[i]}
+                                bind:this={howToComponents[i]}
                                 {cameraX}
                                 {cameraY}
                                 bind:whichMoving
@@ -434,7 +465,7 @@
     .howtospacetoolbar {
         display: flex;
         flex-direction: row;
-        align-items: baseline;
+        align-items: center;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
     }

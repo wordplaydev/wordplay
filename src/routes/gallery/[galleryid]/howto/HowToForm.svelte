@@ -70,7 +70,7 @@
 
     const user = getUser();
 
-    // component's own states
+    // whether to show the preview form or not.
     let show: boolean = $state(false);
 
     // data from the how-to
@@ -397,7 +397,7 @@
 
     let collabToggle: boolean = $state(false);
 
-    function previewButtonPressed() {
+    export function showPreview() {
         show = true;
 
         if (show && howTo) {
@@ -426,7 +426,7 @@
             editingMode
                 ? l.ui.howto.editor.editForm.header
                 : l.ui.howto.viewer.view.tip}
-        action={previewButtonPressed}
+        action={showPreview}
     >
         {@render preview()}
     </Button>
@@ -436,7 +436,7 @@
             howTo
                 ? l.ui.howto.drafts.tooltip
                 : l.ui.howto.editor.newForm.header}
-        action={previewButtonPressed}
+        action={showPreview}
         icon={howTo ? howTo.getTitle() : '+'}
         large={!howTo}
     ></Button>
@@ -445,18 +445,18 @@
 <!-- how-to form -->
 <Dialog
     bind:show
-    header={(l) =>
-        editingMode
-            ? !howTo
-                ? l.ui.howto.editor.newForm.header
-                : l.ui.howto.editor.editForm.header
-            : ''}
-    explanation={(l) =>
-        editingMode
-            ? !howTo
-                ? l.ui.howto.editor.newForm.explanation
-                : l.ui.howto.editor.editForm.explanation
-            : l.ui.howto.editor.editForm.explanation}
+    header={editingMode
+        ? (l) =>
+              !howTo
+                  ? l.ui.howto.editor.newForm.header
+                  : l.ui.howto.editor.editForm.header
+        : undefined}
+    explanation={editingMode
+        ? (l) =>
+              !howTo
+                  ? l.ui.howto.editor.newForm.explanation
+                  : l.ui.howto.editor.editForm.explanation
+        : undefined}
 >
     {#if editingMode}
         <Subheader>
@@ -471,8 +471,8 @@
         {#each text as _, i (i)}
             <HowToPrompt text={(l) => prompts[i]} />
             <FormattedEditor
-                placeholder={(l) => l.ui.howto.editor.editorPlaceholder}
-                description={(l) => l.ui.howto.editor.editorDescription}
+                placeholder={(l) => l.ui.howto.editor.editor.placeholder}
+                description={(l) => l.ui.howto.editor.editor.description}
                 bind:text={text[i]}
                 id="howto-prompt-{i}"
             />
@@ -529,16 +529,14 @@
                     />
                 {/if}
 
-                {#if !howTo?.isPublished()}
-                    <Button
-                        tip={(l) => l.ui.howto.editor.save.tip}
-                        label={(l) => l.ui.howto.editor.save.label}
-                        action={() => {
-                            writeNewHowTo(false);
-                        }}
-                        active={true}
-                    />
-                {/if}
+                <Button
+                    tip={(l) => l.ui.howto.editor.save.tip}
+                    label={(l) => l.ui.howto.editor.save.label}
+                    action={() => {
+                        writeNewHowTo(false);
+                    }}
+                    active={true}
+                />
                 <Button
                     tip={(l) => l.ui.howto.editor.post.tip}
                     label={(l) => l.ui.howto.editor.post.label}

@@ -87,7 +87,6 @@
         "None": "$~rien",
         "Type": "type",
         "Literal": "$~littéral",
-        "TypeOperator": "$~est",
         "TypeOpen": "type ouvert",
         "TypeClose": "fermer le type",
         "Separator": "$~séparateur de nom",
@@ -4701,7 +4700,8 @@
                     "remembering": "$~suivre les changements et les choix",
                     "stories": "$~raconter une histoire",
                     "motion": "$~utiliser la physique",
-                    "video": "$~utiliser un appareil photo"
+                    "video": "$~utiliser un appareil photo",
+                    "gallery": "$~créé par vos collègues directeurs de Wordplay"
                 },
                 "related": "$~Ce n'est pas ce que vous cherchez ?"
             },
@@ -4814,6 +4814,10 @@
                 "Definitions": {
                     "header": "$~Définitions",
                     "explanation": "$~/Méthodes pour nommer les valeurs, les fonctions et les structures de données en vue d'une utilisation ultérieure./"
+                },
+                "GalleryHow": {
+                    "header": "$~Guide pratique de la galerie",
+                    "explanation": "$~/Modèles courants pour la création de différents types de projets, à partir de vos galeries./"
                 }
             },
             "note": {
@@ -5072,6 +5076,31 @@
                     "empty": "$~Il n'y a aucun commentaire à afficher.",
                     "url": "$~Ce n'est pas une URL GitHub valide."
                 }
+            },
+            "notifications": {
+                "header": "$~Notifications",
+                "explanation": "$~Notifications des nouvelles discussions et des tutoriels publiés",
+                "open": "$~Ouvrir la boîte de dialogue des notifications",
+                "howToNotifications": {
+                    "label": "$~notifications pour les nouveaux tutoriels",
+                    "labels": ["$~désactivé", "$~sur"],
+                    "tips": [
+                        "$~Ne m'informez pas des nouveaux tutoriels.",
+                        "$~Prévenez-moi des nouveaux tutoriels"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~Effacer toutes les notifications",
+                    "tip": "$~Effacer toutes les notifications"
+                },
+                "notification": {
+                    "howToHeader": "$~Un nouveau tutoriel intitulé « 1 $ » a été publié.",
+                    "projectChatHeader": "$~Nouveau message dans le projet « $1 »",
+                    "howToChatHeader": "$~Nouveau message dans le tutoriel « $1 »",
+                    "link": "$~détails"
+                },
+                "delete": "$~supprimer cette notification",
+                "popup": "$~nouvelle notification"
             }
         },
         "palette": {
@@ -5236,7 +5265,11 @@
                 },
                 "subheader": {
                     "shared": "$~Commun",
-                    "archived": "$~Archivé"
+                    "archived": "$~Archivé",
+                    "howtoviewonly": {
+                        "header": "$~Tutoriels",
+                        "explanation": "$~Vous pouvez consulter les tutoriels et interagir avec eux dans ces galeries, mais vous ne pouvez pas voir leurs projets à moins que la galerie ou les projets ne soient publics."
+                    }
                 }
             },
             "galleries": {
@@ -5813,6 +5846,187 @@
                 "forward": "$~revenir à la version suivante",
                 "restore": "$~restaurer cette version",
                 "now": "$~revenir à la version actuelle"
+            }
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Tutoriels",
+                "subheader": "$~Tutoriels à 1 $, nouveautés à 2 $",
+                "subheaderEmpty": "$~Créez le premier !",
+                "prompt": "$~Les tutoriels sont de courtes explications et des exemples de code pour utiliser Wordplay. Lorsque vous avez trouvé une solution que vous souhaitez partager, rédigez un tutoriel pour les autres créateurs de cette galerie ; ils pourront ainsi l'apprendre eux aussi !"
+            },
+            "headerTooltip": "$~Retour à la galerie",
+            "drafts": {
+                "header": "$~📝 Brouillons pratiques",
+                "prompt": "$~Cet espace est réservé à vos brouillons ! Seuls vous et vos collaborateurs pouvez les consulter.",
+                "tooltip": "$~consulter votre brouillon",
+                "note": "$~Ceci est une ébauche de guide pratique. Seuls vous et vos collaborateurs peuvent la consulter."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Signets",
+                "tooltip": "$~consultez ce tutoriel",
+                "canBookmark": {
+                    "label": "$~🔖 Ajouter aux favoris le tutoriel",
+                    "tip": "$~Ajoutez cette page à vos favoris pour la retrouver plus tard."
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 Supprimer le signet",
+                    "tip": "$~Supprimez ce tutoriel de vos favoris."
+                },
+                "empty": "$~Vous pouvez ajouter à vos favoris les tutoriels que vous souhaitez consulter ultérieurement.",
+                "notLoggedIn": "$~Vous devez être connecté pour utiliser les favoris."
+            },
+            "navigationtooltip": "$~accéder à un tutoriel",
+            "button": {
+                "reset": {
+                    "label": "$~centre",
+                    "tip": "$~centrer la toile"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Créer un nouveau tutoriel",
+                    "explanation": "$~Indiquez le nom et le contenu de votre nouveau tutoriel."
+                },
+                "editForm": {
+                    "header": "$~Modifier le mode d'emploi",
+                    "explanation": "$~Modifiez le nom et le contenu de votre tutoriel."
+                },
+                "post": {
+                    "label": "$~📣 publication",
+                    "tip": "$~Publiez votre tutoriel dans l'espace prévu à cet effet."
+                },
+                "save": {
+                    "label": "$~💾 Enregistrer comme brouillon",
+                    "tip": "$~Enregistrez votre tutoriel comme brouillon"
+                },
+                "notification": {
+                    "label": "$~notifier les abonnés",
+                    "labels": ["$~notifier", "$~ne pas notifier"],
+                    "tips": [
+                        "$~Avertissez vos abonnés lorsque vous publiez ce tutoriel.",
+                        "$~N'informez pas les abonnés lorsque vous publiez ce tutoriel."
+                    ]
+                },
+                "editorPlaceholder": "$~Rédigez votre tutoriel ici",
+                "editorDescription": "$~une zone de texte pour écrire votre tutoriel",
+                "title": {
+                    "description": "$~le titre de votre tutoriel",
+                    "placeholder": "$~Titre"
+                },
+                "titlePlaceholder": "$~Guide pratique sans titre",
+                "collaboratorsPrompt": "$~Ajoutez un collaborateur, qui pourra modifier ce guide pratique.",
+                "collaboratorsToggle": {
+                    "on": "$~Réduire le panneau des collaborateurs",
+                    "off": "$~élargir le panel des collaborateurs"
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "$~consulter le mode d'emploi",
+                    "tip": "$~consulter le mode d'emploi"
+                },
+                "edit": {
+                    "label": "$~✏️ modifier",
+                    "tip": "$~modifier ce tutoriel"
+                },
+                "delete": {
+                    "description": "$~supprimer ce tutoriel",
+                    "prompt": "$~🗑️ supprimer"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 Soumettre au Guide des jeux de mots",
+                        "tip": "$~Soumettez ce tutoriel pour qu'il soit pris en compte pour inclusion dans le Guide des jeux de mots !"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ soumis au Guide",
+                        "tip": "$~Ce guide pratique a déjà été soumis pour être pris en considération en vue de son inclusion dans le Guide des jeux de mots."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "$~Avez-vous utilisé ce tutoriel dans votre projet ou un autre tutoriel ? Faites-le savoir aux autres en ajoutant votre projet à la liste !",
+                    "empty": "$~Vous n'avez encore publié aucun projet ni tutoriel. Essayez d'en créer un !",
+                    "countDisplay": "$~D'autres réalisateurs de Wordplay ont utilisé cela dans d'autres projets à 1 $ ou dans des tutoriels.",
+                    "selector": "$~sélecteur de projet et de procédure",
+                    "removeButton": "$~supprimer le projet ou le tutoriel de la liste",
+                    "addButton": "$~ajouter un projet ou un tutoriel"
+                },
+                "reactionsPrompt": "$~Ce tutoriel vous a plu ? Laissez un commentaire pour soutenir son auteur !",
+                "chatPrompt": "$~Laissez un commentaire ou une question pour le créateur !",
+                "link": {
+                    "label": "$~🔗 Copier le lien du tutoriel",
+                    "tip": "$~copier le lien vers ce tutoriel"
+                },
+                "collaborators": "$~écrit par"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Paramètres spatiaux : comment les configurer",
+                    "explanation": "$~Configurez les paramètres de cet espace tutoriel. Cliquez sur le bouton Enregistrer en bas pour sauvegarder vos paramètres."
+                },
+                "configurationButton": {
+                    "tip": "$~configurer cet espace de tutoriel",
+                    "label": "$~⚙️ Paramètres"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Visibilité",
+                        "explanation": "$~Configurez par défaut qui peut consulter les tutoriels dans cet espace."
+                    },
+                    "mode": {
+                        "label": "$~visibilité par défaut",
+                        "labels": ["$~limité", "$~étendu"],
+                        "tips": [
+                            "$~Seuls les collaborateurs de cette galerie peuvent la consulter",
+                            "$~Les collaborateurs de toute galerie créée par un conservateur peuvent voir"
+                        ]
+                    },
+                    "expanded": "$~étendu",
+                    "limited": "$~limité"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Questions directrices",
+                        "explanation": "$~Configurez les questions directrices affichées lors de la création d'un nouveau tutoriel. Séparez les questions directrices par un saut de ligne."
+                    },
+                    "descriptor": "$~une zone de texte pour écrire vos questions directrices, séparées par un saut de ligne.",
+                    "default": [
+                        "$~Qu'avez-vous appris ? Donnez des exemples de mise en pratique."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Réactions",
+                        "explanation": "$~Configurez les réactions que les spectateurs peuvent laisser sur les nouveaux tutoriels."
+                    },
+                    "reactionPickerTip": "$~Choisissez un personnage qui sera une réaction.",
+                    "reactionDescriptionTip": "$~Décrivez ce que signifie cette réaction.",
+                    "addReactionTip": "$~ajouter une nouvelle réaction",
+                    "removeReactionTip": "$~supprimer cette réaction",
+                    "default": {
+                        "👍": "$~J'aime ça!",
+                        "💭": "$~Cela m'inspire !",
+                        "🙏": "$~Merci!",
+                        "🎉": "$~Célébration!",
+                        "🤩": "$~J'ai envie d'essayer ça !",
+                        "😁": "$~Cela me rend heureux !"
+                    }
+                },
+                "submit": {
+                    "error": "$~Les questions directrices et les réactions ne peuvent pas être vides.",
+                    "label": "$~sauvegarder",
+                    "tip": "$~enregistrer les paramètres d'espace"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~tutoriel intitulé « 1 $ déplacé à 2 $ 3 $ »",
+                "canvasPosition": "$~La toile est passée à 1 $, 2 $",
+                "moveActivated": "$~Déplacement activé. 1 $ peut être déplacé à l'aide de la souris, du clavier ou de l'écran tactile.",
+                "moveDeactivated": "$~Mouvement désactivé."
+            },
+            "error": {
+                "unknown": "$~Cet espace de tutoriels n'existe pas ou n'est pas public."
             }
         }
     },

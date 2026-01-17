@@ -86,7 +86,6 @@
         "None": "$~ingenting",
         "Type": "$~typ",
         "Literal": "$~bokstavlig",
-        "TypeOperator": "$~är",
         "TypeOpen": "$~typ ingång öppen",
         "TypeClose": "$~typ input stäng",
         "Separator": "$~namnavskiljare",
@@ -4718,7 +4717,8 @@
                     "remembering": "$~spåra förändringar och val",
                     "stories": "$~berätta en historia",
                     "motion": "$~använda fysik",
-                    "video": "$~använda en kamera"
+                    "video": "$~använda en kamera",
+                    "gallery": "$~skapad av dina Wordplay-regissörskollegor"
                 },
                 "related": "$~Inte vad du letar efter?"
             },
@@ -4831,6 +4831,10 @@
                 "Definitions": {
                     "header": "$~Definitioner",
                     "explanation": "$~/Sätt att namnge värden, funktioner och datastrukturer för senare användning./"
+                },
+                "GalleryHow": {
+                    "header": "$~Galleri-instruktioner",
+                    "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt, från dina gallerier./"
                 }
             },
             "note": {
@@ -5089,6 +5093,31 @@
                     "empty": "$~Det finns ingen feedback att visa.",
                     "url": "$~Detta är inte en giltig GitHub-URL."
                 }
+            },
+            "notifications": {
+                "header": "$~Aviseringar",
+                "explanation": "$~Aviseringar från nya chattar och publicerade instruktioner",
+                "open": "$~öppna aviseringsdialogrutan",
+                "howToNotifications": {
+                    "label": "$~aviseringar om nya instruktioner",
+                    "labels": ["$~av", "$~på"],
+                    "tips": [
+                        "$~meddela mig inte om nya instruktioner",
+                        "$~meddela mig om nya instruktioner"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~rensa alla aviseringar",
+                    "tip": "$~rensa alla aviseringar"
+                },
+                "notification": {
+                    "howToHeader": "$~Ny instruktionsguide med titeln \"$1\" har publicerats",
+                    "projectChatHeader": "$~Nytt meddelande i projektet \"$1\"",
+                    "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$1\"",
+                    "link": "$~detaljer"
+                },
+                "delete": "$~radera den här aviseringen",
+                "popup": "$~ny avisering"
             }
         },
         "collaborate": {
@@ -5405,7 +5434,11 @@
                 },
                 "subheader": {
                     "shared": "$~Delad",
-                    "archived": "$~Arkiverad"
+                    "archived": "$~Arkiverad",
+                    "howtoviewonly": {
+                        "header": "$~Instruktioner",
+                        "explanation": "$~Du kan visa och interagera med instruktionerna i dessa gallerier, men du kan inte se deras projekt om inte galleriet eller projekten är offentliga."
+                    }
                 }
             },
             "galleries": {
@@ -5814,6 +5847,187 @@
         "template": {
             "unwritten": "$~TBD",
             "unparsable": "$~Oparserbar mall: $1"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Instruktioner",
+                "subheader": "$~1 dollar i instruktioner, 2 dollar i nya",
+                "subheaderEmpty": "$~skapa den första!",
+                "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med Wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
+            },
+            "headerTooltip": "$~gå tillbaka till galleriet",
+            "drafts": {
+                "header": "$~📝 Instruktioner för utkast",
+                "prompt": "$~Det här är ett utrymme för dina utkast! Endast du och dina medarbetare kan se dessa utkast.",
+                "tooltip": "$~visa ditt utkast",
+                "note": "$~Detta är ett utkast till en instruktionsguide. Endast du och dina medarbetare kan se den."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Bokmärken",
+                "tooltip": "$~gå till den här instruktionen",
+                "canBookmark": {
+                    "label": "$~🔖 bokmärk instruktionsguide",
+                    "tip": "$~Bokmärk den här instruktionen för att hitta den senare"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 ta bort bokmärke",
+                    "tip": "$~ta bort den här instruktionen från dina bokmärken"
+                },
+                "empty": "$~Du kan bokmärka instruktioner som du vill använda senare.",
+                "notLoggedIn": "$~Du måste vara inloggad för att använda bokmärken"
+            },
+            "navigationtooltip": "$~navigera till en instruktionsguide",
+            "button": {
+                "reset": {
+                    "label": "$~centrum",
+                    "tip": "$~centrera arbetsytan"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Skapa en ny instruktionsguide",
+                    "explanation": "$~Skriv namnet och innehållet på din nya instruktionsguide."
+                },
+                "editForm": {
+                    "header": "$~Redigera instruktionsguide",
+                    "explanation": "$~Redigera namnet och innehållet i din instruktionsguide."
+                },
+                "post": {
+                    "label": "$~📣 inlägg",
+                    "tip": "$~publicera din instruktion i utrymmet"
+                },
+                "save": {
+                    "label": "$~💾 spara som utkast",
+                    "tip": "$~spara din instruktion som ett utkast"
+                },
+                "notification": {
+                    "label": "$~meddela prenumeranter",
+                    "labels": ["$~meddela", "$~meddela inte"],
+                    "tips": [
+                        "$~meddela prenumeranter när du publicerar den här instruktionen",
+                        "$~meddela inte prenumeranter när du publicerar den här instruktionen"
+                    ]
+                },
+                "editorPlaceholder": "$~skriv din instruktion här",
+                "editorDescription": "$~en textruta för att skriva din instruktion",
+                "title": {
+                    "description": "$~titeln på din instruktion",
+                    "placeholder": "$~Titel"
+                },
+                "titlePlaceholder": "$~Namnlös instruktion",
+                "collaboratorsPrompt": "$~Lägg till en samarbetspartner som kan redigera den här instruktionen",
+                "collaboratorsToggle": {
+                    "on": "$~dölj panelen för samarbetspartners",
+                    "off": "$~expandera panelen för samarbetspartners"
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "$~se instruktionsguide",
+                    "tip": "$~se instruktionsguide"
+                },
+                "edit": {
+                    "label": "$~✏️ redigera",
+                    "tip": "$~redigera den här instruktionen"
+                },
+                "delete": {
+                    "description": "$~ta bort den här instruktionen",
+                    "prompt": "$~🗑️ radera"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 skicka in till Wordplay Guide",
+                        "tip": "$~Skicka in den här instruktionen för att bli övervägd för inkludering i Ordspelsguiden!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ skickad till Guide",
+                        "tip": "$~Denna instruktionsguide har redan skickats in för att beaktas för inkludering i Ordspelsguiden."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "$~Använde du den här handledningen i ditt projekt eller i en annan handledning? Låt andra veta det genom att lägga till ditt projekt i listan!",
+                    "empty": "$~Du har inga projekt eller andra publicerade instruktioner än. Försök att skapa ett!",
+                    "countDisplay": "$~Andra Wordplay-regissörer har använt detta i andra projekt eller instruktionsböcker på $1",
+                    "selector": "$~projekt- och instruktionsväljare",
+                    "removeButton": "$~ta bort projekt eller instruktionsguide från listan",
+                    "addButton": "$~lägg till projekt eller instruktionsguide"
+                },
+                "reactionsPrompt": "$~Gillade du den här instruktionen? Lämna en kommentar för att stödja skaparen!",
+                "chatPrompt": "$~Lämna en kommentar eller fråga till skaparen!",
+                "link": {
+                    "label": "$~🔗 kopiera instruktionslänken",
+                    "tip": "$~kopiera länken till den här instruktionen"
+                },
+                "collaborators": "$~skriven av"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Instruktioner för utrymmesinställningar",
+                    "explanation": "$~Konfigurera inställningarna för den här instruktionsplatsen. Klicka på spara-knappen längst ner för att spara dina inställningar."
+                },
+                "configurationButton": {
+                    "tip": "$~konfigurera detta instruktionsutrymme",
+                    "label": "$~⚙️ inställningar"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Synlighet",
+                        "explanation": "$~Konfigurera vem som kan visa instruktioner i det här utrymmet som standard"
+                    },
+                    "mode": {
+                        "label": "$~standardsynlighet",
+                        "labels": ["$~begränsad", "$~utökad"],
+                        "tips": [
+                            "$~endast samarbetspartners i det här galleriet kan visa",
+                            "$~samarbetspartners i vilket galleri som helst som en kurator skapar kan se"
+                        ]
+                    },
+                    "expanded": "$~utökad",
+                    "limited": "$~begränsad"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Vägledande frågor",
+                        "explanation": "$~Konfigurera de vägledande frågor som visas när du skapar en ny instruktionsguide. Separera vägledande frågor med en radbrytning."
+                    },
+                    "descriptor": "$~en textruta för att skriva dina vägledande frågor, separerade med en radbrytning.",
+                    "default": [
+                        "$~Vad lärde du dig? Ge exempel på hur man gör det."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reaktioner",
+                        "explanation": "$~Konfigurera de reaktioner som tittare kan lämna på nya instruktioner"
+                    },
+                    "reactionPickerTip": "$~välj en karaktär som ska vara en reaktion",
+                    "reactionDescriptionTip": "$~beskriv vad denna reaktion betyder",
+                    "addReactionTip": "$~lägg till en ny reaktion",
+                    "removeReactionTip": "$~ta bort denna reaktion",
+                    "default": {
+                        "👍": "$~Jag gillar det här!",
+                        "💭": "$~Detta inspirerar mig!",
+                        "🙏": "$~Tack så mycket!",
+                        "🎉": "$~Firande!",
+                        "🤩": "$~Jag vill prova det här!",
+                        "😁": "$~Detta gör mig glad!"
+                    }
+                },
+                "submit": {
+                    "error": "$~vägledande frågor och reaktioner kan inte vara tomma",
+                    "label": "$~spara",
+                    "tip": "$~spara inställningar för instruktionsutrymme"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~instruktionstexten med titeln $1 flyttad till $2 $3",
+                "canvasPosition": "$~Canvas flyttad till 1 dollar, 2 dollar",
+                "moveActivated": "$~rörelse aktiverad. $1 kan flyttas med musen, tangentbordet eller pekskärmen",
+                "moveDeactivated": "$~rörelsen avaktiverad."
+            },
+            "error": {
+                "unknown": "$~Det här instruktionsutrymmet finns inte eller är inte offentligt."
+            }
         }
     },
     "moderation": {

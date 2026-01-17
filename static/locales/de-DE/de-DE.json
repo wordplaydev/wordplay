@@ -87,7 +87,6 @@
         "None": "Nichts",
         "Type": "Typ",
         "Literal": "Buchstabensymbol",
-        "TypeOperator": "Typoperator",
         "TypeOpen": "Typoperator öffnen",
         "TypeClose": "Typoperator schließen",
         "Separator": "Namenstrennzeichen",
@@ -4700,7 +4699,8 @@
                     "remembering": "$~Änderungen und Auswahlmöglichkeiten verfolgen",
                     "stories": "$~eine Geschichte erzählen",
                     "motion": "$~Physik anwenden",
-                    "video": "$~eine Kamera benutzen"
+                    "video": "$~eine Kamera benutzen",
+                    "gallery": "$~erstellt von euren Wordplay-Regisseurkollegen"
                 },
                 "related": "$~Nicht das, wonach Sie suchen?"
             },
@@ -4813,6 +4813,10 @@
                 "Definitions": {
                     "header": "$~Definitionen",
                     "explanation": "$~/Möglichkeiten zur Benennung von Werten, Funktionen und Datenstrukturen für die spätere Verwendung./"
+                },
+                "GalleryHow": {
+                    "header": "$~Anleitung zur Galerie",
+                    "explanation": "$~Gängige Muster für die Erstellung verschiedener Projekttypen aus Ihren Galerien."
                 }
             },
             "note": {
@@ -5071,6 +5075,31 @@
                     "empty": "$~Es ist kein Feedback vorhanden.",
                     "url": "$~Dies ist keine gültige GitHub-URL."
                 }
+            },
+            "notifications": {
+                "header": "$~Benachrichtigungen",
+                "explanation": "$~Benachrichtigungen über neue Chats und veröffentlichte Anleitungen",
+                "open": "$~Benachrichtigungsdialog öffnen",
+                "howToNotifications": {
+                    "label": "$~Benachrichtigungen für neue Anleitungen",
+                    "labels": ["$~aus", "$~An"],
+                    "tips": [
+                        "$~Benachrichtige mich nicht über neue Anleitungen",
+                        "$~Benachrichtige mich über neue Anleitungen"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~Alle Benachrichtigungen löschen",
+                    "tip": "$~Alle Benachrichtigungen löschen"
+                },
+                "notification": {
+                    "howToHeader": "$~Eine neue Anleitung mit dem Titel „$1“ wurde veröffentlicht.",
+                    "projectChatHeader": "$~Neue Nachricht im Projekt \"$1\"",
+                    "howToChatHeader": "$~Neue Nachricht in der Anleitung „$1“",
+                    "link": "$~Details"
+                },
+                "delete": "$~Diese Benachrichtigung löschen",
+                "popup": "$~neue Benachrichtigung"
             }
         },
         "palette": {
@@ -5231,7 +5260,11 @@
                 },
                 "subheader": {
                     "shared": "$~Geteilt",
-                    "archived": "$~Archiviert"
+                    "archived": "$~Archiviert",
+                    "howtoviewonly": {
+                        "header": "$~Anleitungen",
+                        "explanation": "$~Sie können die Anleitungen in diesen Galerien ansehen und mit ihnen interagieren, aber Sie können die Projekte selbst nicht sehen, es sei denn, die Galerie oder die Projekte sind öffentlich."
+                    }
                 }
             },
             "galleries": {
@@ -5812,6 +5845,187 @@
                 "forward": "$~Zurück zur nächsten Version",
                 "restore": "$~diese Version wiederherstellen",
                 "now": "$~Zurück zur aktuellen Version"
+            }
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Anleitungen",
+                "subheader": "$~Anleitungen für 1 $, neue Artikel für 2 $",
+                "subheaderEmpty": "$~Erschaffe den ersten!",
+                "prompt": "$~Anleitungen sind kurze Erklärungen und Beispielcodes, die zeigen, wie man etwas mit Wordplay macht. Wenn du herausgefunden hast, wie etwas funktioniert, das du teilen möchtest, schreibe eine Anleitung für die anderen Entwickler in dieser Galerie, damit auch sie es lernen können!"
+            },
+            "headerTooltip": "$~Zurück zur Galerie",
+            "drafts": {
+                "header": "$~📝 Anleitungen zum Entwerfen",
+                "prompt": "$~Dies ist der Bereich für Ihre Entwürfe! Nur Sie und Ihre Mitarbeiter können diese Entwürfe sehen.",
+                "tooltip": "$~Entwurf ansehen",
+                "note": "$~Dies ist ein Entwurf einer Anleitung. Nur Sie und Ihre Mitarbeiter können ihn einsehen."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Lesezeichen",
+                "tooltip": "$~Folgen Sie dieser Anleitung.",
+                "canBookmark": {
+                    "label": "$~🔖 Anleitung als Lesezeichen speichern",
+                    "tip": "$~Speichern Sie diese Anleitung, um sie später wiederzufinden."
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 Lesezeichen entfernen",
+                    "tip": "$~Diese Anleitung aus Ihren Lesezeichen entfernen."
+                },
+                "empty": "$~Sie können Anleitungen, auf die Sie später zurückgreifen möchten, als Lesezeichen speichern.",
+                "notLoggedIn": "$~Sie müssen angemeldet sein, um Lesezeichen verwenden zu können."
+            },
+            "navigationtooltip": "$~Navigieren Sie zu einer Anleitung.",
+            "button": {
+                "reset": {
+                    "label": "$~Center",
+                    "tip": "$~Zentriere die Leinwand"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Erstelle eine neue Anleitung",
+                    "explanation": "$~Geben Sie den Namen und den Inhalt Ihrer neuen Anleitung an."
+                },
+                "editForm": {
+                    "header": "$~Bearbeitungsanleitung",
+                    "explanation": "$~Bearbeiten Sie den Namen und den Inhalt Ihrer Anleitung."
+                },
+                "post": {
+                    "label": "$~📣 Beitrag",
+                    "tip": "$~Veröffentliche deine Anleitung im entsprechenden Bereich."
+                },
+                "save": {
+                    "label": "$~💾 Als Entwurf speichern",
+                    "tip": "$~Speichere deine Anleitung als Entwurf"
+                },
+                "notification": {
+                    "label": "$~Abonnenten benachrichtigen",
+                    "labels": ["$~benachrichtigen", "$~nicht benachrichtigen"],
+                    "tips": [
+                        "$~Benachrichtige deine Abonnenten, wenn du diese Anleitung veröffentlichst.",
+                        "$~Benachrichtigen Sie Ihre Abonnenten nicht, wenn Sie diese Anleitung veröffentlichen."
+                    ]
+                },
+                "editorPlaceholder": "$~Schreiben Sie hier Ihre Anleitung.",
+                "editorDescription": "$~ein Textfeld, in dem Sie Ihre Anleitung schreiben können",
+                "title": {
+                    "description": "$~der Titel Ihrer Anleitung",
+                    "placeholder": "$~Titel"
+                },
+                "titlePlaceholder": "$~Unbetitelte Anleitung",
+                "collaboratorsPrompt": "$~Füge einen Mitarbeiter hinzu, der diese Anleitung bearbeiten kann.",
+                "collaboratorsToggle": {
+                    "on": "$~das Mitarbeitergremium zusammenbrechen lassen",
+                    "off": "$~Erweiterung des Mitarbeiterpanels"
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "$~Anleitung ansehen",
+                    "tip": "$~Anleitung ansehen"
+                },
+                "edit": {
+                    "label": "$~✏️ Bearbeiten",
+                    "tip": "$~Bearbeiten Sie diese Anleitung."
+                },
+                "delete": {
+                    "description": "$~Diese Anleitung löschen",
+                    "prompt": "$~🗑️ löschen"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 Bei Wordplay Guide einreichen",
+                        "tip": "$~Reichen Sie diese Anleitung ein, um für die Aufnahme in den Wortspiel-Leitfaden berücksichtigt zu werden!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ An Guide übermittelt",
+                        "tip": "$~Diese Anleitung wurde bereits zur Prüfung für die Aufnahme in den Wortspiel-Leitfaden eingereicht."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "$~Hast du diese oder eine andere Anleitung in deinem Projekt verwendet? Teile es anderen mit, indem du dein Projekt zur Liste hinzufügst!",
+                    "empty": "$~Du hast noch keine Projekte oder andere veröffentlichte Anleitungen. Erstelle doch einfach eins!",
+                    "countDisplay": "$~Andere Wordplay-Regisseure haben dies in anderen 1-Dollar-Projekten oder Anleitungen verwendet.",
+                    "selector": "$~Projekt- und Anleitungsauswahl",
+                    "removeButton": "$~Projekt oder Anleitung aus der Liste entfernen",
+                    "addButton": "$~Projekt oder Anleitung hinzufügen"
+                },
+                "reactionsPrompt": "$~Hat dir diese Anleitung gefallen? Hinterlasse einen Kommentar, um den Ersteller zu unterstützen!",
+                "chatPrompt": "$~Hinterlasse einen Kommentar oder eine Frage an den Ersteller!",
+                "link": {
+                    "label": "$~🔗 Link zur Anleitung kopieren",
+                    "tip": "$~Link zu dieser Anleitung kopieren"
+                },
+                "collaborators": "$~geschrieben von"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Anleitung zum Einstellen von Räumen",
+                    "explanation": "$~Konfigurieren Sie die Einstellungen für diesen Anleitungsbereich. Klicken Sie unten auf die Schaltfläche „Speichern“, um Ihre Einstellungen zu speichern."
+                },
+                "configurationButton": {
+                    "tip": "$~Konfigurieren Sie diesen Anleitungsbereich",
+                    "label": "$~⚙️ Einstellungen"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Sichtweite",
+                        "explanation": "$~Konfigurieren Sie, wer standardmäßig Anleitungen in diesem Bereich sehen kann."
+                    },
+                    "mode": {
+                        "label": "$~Standardmäßige Sichtbarkeit",
+                        "labels": ["$~beschränkt", "$~erweitert"],
+                        "tips": [
+                            "$~Nur Mitarbeiter dieser Galerie können diese Bilder ansehen.",
+                            "$~Mitarbeiter jeder Galerie, die von einem beliebigen Kurator geschaffen wird, können Folgendes ansehen:"
+                        ]
+                    },
+                    "expanded": "$~erweitert",
+                    "limited": "$~beschränkt"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Leitfragen",
+                        "explanation": "$~Konfigurieren Sie die Leitfragen, die beim Erstellen einer neuen Anleitung angezeigt werden. Trennen Sie die Leitfragen durch einen Zeilenumbruch."
+                    },
+                    "descriptor": "$~Ein Textfeld zum Eintragen Ihrer Leitfragen, getrennt durch einen Zeilenumbruch.",
+                    "default": [
+                        "$~Was hast du gelernt? Gib Beispiele, wie man es macht."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reaktionen",
+                        "explanation": "$~Konfigurieren Sie die Reaktionen, die Zuschauer bei neuen Anleitungen hinterlassen können."
+                    },
+                    "reactionPickerTip": "$~Wähle eine Figur als Reaktion aus.",
+                    "reactionDescriptionTip": "$~Beschreiben Sie, was diese Reaktion bedeutet.",
+                    "addReactionTip": "$~Füge eine neue Reaktion hinzu",
+                    "removeReactionTip": "$~Diese Reaktion entfernen",
+                    "default": {
+                        "👍": "$~Ich mag das!",
+                        "💭": "$~Das inspiriert mich!",
+                        "🙏": "$~Danke schön!",
+                        "🎉": "$~Feier!",
+                        "🤩": "$~Ich möchte das ausprobieren!",
+                        "😁": "$~Das freut mich!"
+                    }
+                },
+                "submit": {
+                    "error": "$~Leitfragen und Reaktionen dürfen nicht leer sein",
+                    "label": "$~speichern",
+                    "tip": "$~Speichereinstellungen speichern"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~Anleitung mit dem Titel „1 Dollar wurde auf 2 Dollar und 3 Dollar erhöht“",
+                "canvasPosition": "$~Canvas wurde auf 1 $, 2 $ verschoben",
+                "moveActivated": "$~Bewegung aktiviert. 1 $ kann mit Maus, Tastatur oder Touchscreen bewegt werden.",
+                "moveDeactivated": "$~Bewegungssteuerung deaktiviert."
+            },
+            "error": {
+                "unknown": "$~Dieser Anleitungsbereich existiert nicht oder ist nicht öffentlich."
             }
         }
     },

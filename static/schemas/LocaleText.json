@@ -10395,10 +10395,6 @@
               "additionalProperties": false,
               "description": "How-to space page labels",
               "properties": {
-                "add": {
-                  "$ref": "#/definitions/ButtonText",
-                  "description": "Button text for the how-to addition button"
-                },
                 "announce": {
                   "additionalProperties": false,
                   "description": "For announcing changes to the canvas or to how-to positions",
@@ -10428,11 +10424,16 @@
                   "additionalProperties": false,
                   "properties": {
                     "alreadyBookmarked": {
-                      "$ref": "#/definitions/ButtonText"
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "For when a how-to is already bookmarked"
                     },
                     "canBookmark": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for bookmarking the how-to"
+                    },
+                    "empty": {
+                      "description": "When there are no bookmarks",
+                      "type": "string"
                     },
                     "header": {
                       "description": "Header for the bookmarks area",
@@ -10452,7 +10453,22 @@
                     "tooltip",
                     "canBookmark",
                     "alreadyBookmarked",
+                    "empty",
                     "notLoggedIn"
+                  ],
+                  "type": "object"
+                },
+                "button": {
+                  "additionalProperties": false,
+                  "description": "Buttons for the how-to space",
+                  "properties": {
+                    "reset": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text for the canvas reset button"
+                    }
+                  },
+                  "required": [
+                    "reset"
                   ],
                   "type": "object"
                 },
@@ -10697,6 +10713,10 @@
                       "description": "Title of how-to space in the gallery view",
                       "type": "string"
                     },
+                    "prompt": {
+                      "description": "Prompt for the how-to space in the gallery view",
+                      "type": "string"
+                    },
                     "subheader": {
                       "description": "Subtitle for the how-to space in the gallery view",
                       "type": "string"
@@ -10709,16 +10729,13 @@
                   "required": [
                     "header",
                     "subheader",
-                    "subheaderEmpty"
+                    "subheaderEmpty",
+                    "prompt"
                   ],
                   "type": "object"
                 },
                 "headerTooltip": {
                   "description": "Tooltip for header/breadcrumb to gallery for the how-to space page",
-                  "type": "string"
-                },
-                "howtoprompt": {
-                  "description": "Explanation for the how-to space page",
                   "type": "string"
                 },
                 "navigationtooltip": {
@@ -10826,11 +10843,10 @@
               "required": [
                 "galleryView",
                 "headerTooltip",
-                "howtoprompt",
                 "drafts",
                 "bookmarks",
                 "navigationtooltip",
-                "add",
+                "button",
                 "editor",
                 "viewer",
                 "configuration",

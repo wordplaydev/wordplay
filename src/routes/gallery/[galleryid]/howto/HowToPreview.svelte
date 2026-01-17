@@ -62,6 +62,12 @@
         character: string | null;
     };
 
+    let formComponent = $state<HowToForm | undefined>();
+
+    export function showPreview() {
+        return formComponent?.showPreview();
+    }
+
     let { foreground, background, face, previewText, character }: Preview =
         $derived.by(() => {
             let [markup, spaces] = toMarkup(text.join('\n\n'));
@@ -439,6 +445,7 @@
     <HowToForm
         editingMode={false}
         bind:howTo
+        bind:this={formComponent}
         {notPermittedAreas}
         {cameraX}
         {cameraY}
@@ -455,6 +462,9 @@
 
     .howto {
         position: absolute;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
         cursor: pointer;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
@@ -485,5 +495,6 @@
         aspect-ratio: 1 / 1;
         width: auto;
         height: auto;
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

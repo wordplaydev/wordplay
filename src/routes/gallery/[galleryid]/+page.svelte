@@ -170,8 +170,6 @@
                     />
                 {/if}
 
-                <HowToGalleryView {gallery} {projectsEditable} />
-
                 {#if editable || addable}
                     <AddProject
                         add={(template) => {
@@ -308,6 +306,10 @@
                     {/each}
                 </ul>
             {/if}
+
+            <Subheader text={(l) => l.ui.howto.galleryView.header}></Subheader>
+            <MarkupHTMLView markup={(l) => l.ui.howto.galleryView.prompt} />
+            <HowToGalleryView {gallery} {projectsEditable} />
 
             {#if $user && gallery.getCurators().includes($user.uid)}
                 <Public
