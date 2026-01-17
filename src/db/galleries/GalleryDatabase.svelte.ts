@@ -252,6 +252,8 @@ export default class GalleryDatabase {
         // See if we have it cached.
         const cache = this.accessibleGalleries.get(id);
         if (cache) return cache;
+        const expandedCache = this.expandedScopeGalleries.get(id);
+        if (expandedCache) return expandedCache;
 
         // See if it's a public gallery.
         const publicGallery = this.publicGalleries.get(id);
