@@ -5904,8 +5904,6 @@
                         "$~Bu kılavuzu yayınladığınızda abonelerinize bildirim göndermeyin."
                     ]
                 },
-                "editorPlaceholder": "$~Nasıl yapılır kılavuzunuzu buraya yazın.",
-                "editorDescription": "$~Nasıl yapılır kılavuzunuzu yazabileceğiniz bir metin kutusu.",
                 "title": {
                     "description": "$~\"Nasıl yapılır\" kılavuzunuzun başlığı",
                     "placeholder": "$~Başlık"
@@ -5915,6 +5913,10 @@
                 "collaboratorsToggle": {
                     "on": "$~işbirlikçiler panelini daralt",
                     "off": "$~işbirlikçiler panelini genişletin"
+                },
+                "editor": {
+                    "placeholder": "$~Biçimlendirme ve kod kullanarak nasıl yapılacağını anlatan metninizi buraya yazın.",
+                    "description": "$~Nasıl yapılır kılavuzunuzu yazabileceğiniz bir metin kutusu."
                 }
             },
             "viewer": {

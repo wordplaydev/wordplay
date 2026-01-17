@@ -5834,8 +5834,6 @@
                         "$~發布此教學時，請勿通知訂閱者。"
                     ]
                 },
-                "editorPlaceholder": "$~在這裡寫下你的操作指南",
-                "editorDescription": "$~一個用於編寫操作指南的文字框",
                 "title": {
                     "description": "$~你的操作指南的標題",
                     "placeholder": "$~標題"
@@ -5845,6 +5843,10 @@
                 "collaboratorsToggle": {
                     "on": "$~折疊合作者面板",
                     "off": "$~擴展合作者面板"
+                },
+                "editor": {
+                    "placeholder": "$~請在此處編寫操作指南，使用格式和程式碼進行講解。",
+                    "description": "$~一個用於編寫操作指南的文字框"
                 }
             },
             "viewer": {

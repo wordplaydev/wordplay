@@ -5904,8 +5904,6 @@
                         "$~이 사용법 게시물을 올릴 때 구독자에게 알림을 보내지 마세요."
                     ]
                 },
-                "editorPlaceholder": "$~여기에 사용 방법을 적어주세요",
-                "editorDescription": "$~사용 방법을 작성할 텍스트 상자",
                 "title": {
                     "description": "$~사용 방법 설명서의 제목",
                     "placeholder": "$~제목"
@@ -5915,6 +5913,10 @@
                 "collaboratorsToggle": {
                     "on": "$~협력자 패널을 해체하세요",
                     "off": "$~협력자 패널을 확장합니다"
+                },
+                "editor": {
+                    "placeholder": "$~서식과 코드를 활용하여 사용법을 여기에 작성하세요.",
+                    "description": "$~사용 방법을 작성할 텍스트 상자"
                 }
             },
             "viewer": {

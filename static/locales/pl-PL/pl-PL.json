@@ -5913,8 +5913,6 @@
                         "$~nie powiadamiaj subskrybentów, gdy opublikujesz ten poradnik"
                     ]
                 },
-                "editorPlaceholder": "$~napisz tutaj swoją instrukcję",
-                "editorDescription": "$~pole tekstowe do wpisania instrukcji",
                 "title": {
                     "description": "$~tytuł poradnika",
                     "placeholder": "$~Tytuł"
@@ -5924,6 +5922,10 @@
                 "collaboratorsToggle": {
                     "on": "$~zwiń panel współpracowników",
                     "off": "$~rozwiń panel współpracowników"
+                },
+                "editor": {
+                    "placeholder": "$~Napisz tutaj swój poradnik, wykorzystując formatowanie i kod do celów edukacyjnych.",
+                    "description": "$~pole tekstowe do wpisania instrukcji"
                 }
             },
             "viewer": {

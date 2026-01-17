@@ -5890,8 +5890,6 @@
                         "$~No notifique a los suscriptores cuando publique este instructivo."
                     ]
                 },
-                "editorPlaceholder": "$~Escribe tu cómo hacerlo aquí",
-                "editorDescription": "$~Un cuadro de texto para escribir tu instructivo",
                 "title": {
                     "description": "$~El título de tu tutorial",
                     "placeholder": "$~Título"
@@ -5901,6 +5899,10 @@
                 "collaboratorsToggle": {
                     "on": "$~contraer el panel de colaboradores",
                     "off": "$~ampliar el panel de colaboradores"
+                },
+                "editor": {
+                    "placeholder": "$~Escribe aquí tu procedimiento, usando formato y código para enseñar.",
+                    "description": "$~Un cuadro de texto para escribir tu instructivo"
                 }
             },
             "viewer": {

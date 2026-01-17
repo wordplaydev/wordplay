@@ -5907,8 +5907,6 @@
                         "$~Benachrichtigen Sie Ihre Abonnenten nicht, wenn Sie diese Anleitung veröffentlichen."
                     ]
                 },
-                "editorPlaceholder": "$~Schreiben Sie hier Ihre Anleitung.",
-                "editorDescription": "$~ein Textfeld, in dem Sie Ihre Anleitung schreiben können",
                 "title": {
                     "description": "$~der Titel Ihrer Anleitung",
                     "placeholder": "$~Titel"
@@ -5918,6 +5916,10 @@
                 "collaboratorsToggle": {
                     "on": "$~das Mitarbeitergremium zusammenbrechen lassen",
                     "off": "$~Erweiterung des Mitarbeiterpanels"
+                },
+                "editor": {
+                    "placeholder": "$~Schreiben Sie hier Ihre Anleitung und verwenden Sie Formatierung und Code, um das Thema zu vermitteln.",
+                    "description": "$~ein Textfeld, in dem Sie Ihre Anleitung schreiben können"
                 }
             },
             "viewer": {

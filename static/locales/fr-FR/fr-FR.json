@@ -5908,8 +5908,6 @@
                         "$~N'informez pas les abonnés lorsque vous publiez ce tutoriel."
                     ]
                 },
-                "editorPlaceholder": "$~Rédigez votre tutoriel ici",
-                "editorDescription": "$~une zone de texte pour écrire votre tutoriel",
                 "title": {
                     "description": "$~le titre de votre tutoriel",
                     "placeholder": "$~Titre"
@@ -5919,6 +5917,10 @@
                 "collaboratorsToggle": {
                     "on": "$~Réduire le panneau des collaborateurs",
                     "off": "$~élargir le panel des collaborateurs"
+                },
+                "editor": {
+                    "placeholder": "$~Rédigez ici votre tutoriel, en utilisant la mise en forme et le code nécessaires à l'enseignement.",
+                    "description": "$~une zone de texte pour écrire votre tutoriel"
                 }
             },
             "viewer": {

@@ -5908,8 +5908,6 @@
                         "$~meddela inte prenumeranter när du publicerar den här instruktionen"
                     ]
                 },
-                "editorPlaceholder": "$~skriv din instruktion här",
-                "editorDescription": "$~en textruta för att skriva din instruktion",
                 "title": {
                     "description": "$~titeln på din instruktion",
                     "placeholder": "$~Titel"
@@ -5919,6 +5917,10 @@
                 "collaboratorsToggle": {
                     "on": "$~dölj panelen för samarbetspartners",
                     "off": "$~expandera panelen för samarbetspartners"
+                },
+                "editor": {
+                    "placeholder": "$~Skriv din instruktion här, använd formatering och kod för att undervisa.",
+                    "description": "$~en textruta för att skriva din instruktion"
                 }
             },
             "viewer": {
