@@ -4958,7 +4958,7 @@
             "configuration": {
                 "configurationDialog": {
                     "header": "How-to space settings",
-                    "explanation": "Configure the settings for this how-to space."
+                    "explanation": "Configure the settings for this how-to space. Click the save button at the bottom to save your settings."
                 },
                 "configurationButton": {
                     "tip": "configure this how-to space",
