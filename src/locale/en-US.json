@@ -4524,8 +4524,10 @@
                         "do not notify subscribers when you post this how-to"
                     ]
                 },
-                "editorPlaceholder": "write your how-to here",
-                "editorDescription": "a text box to write your how-to",
+                "editor": {
+                    "placeholder": "Write your how-to here, using formatting and code to teach.",
+                    "description": "a text box to write your how-to"
+                },
                 "title": {
                     "description": "the title of your how-to",
                     "placeholder": "Title"

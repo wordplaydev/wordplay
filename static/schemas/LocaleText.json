@@ -10489,16 +10489,19 @@
                       "description": "Subheaders and descriptions for configuring guiding questions",
                       "properties": {
                         "default": {
+                          "description": "Guiding questions default text",
                           "items": {
                             "type": "string"
                           },
                           "type": "array"
                         },
                         "descriptor": {
+                          "description": "Guiding questions description",
                           "type": "string"
                         },
                         "subheader": {
-                          "$ref": "#/definitions/HeaderAndExplanationText"
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Guiding questions header"
                         }
                       },
                       "required": [
@@ -10513,25 +10516,31 @@
                       "description": "Subheaders and descriptions for configuring reaction options",
                       "properties": {
                         "addReactionTip": {
+                          "description": "Add reaction tip",
                           "type": "string"
                         },
                         "default": {
                           "additionalProperties": {
                             "type": "string"
                           },
+                          "description": "Default reactions",
                           "type": "object"
                         },
                         "reactionDescriptionTip": {
+                          "description": "Reaction picker description tip",
                           "type": "string"
                         },
                         "reactionPickerTip": {
+                          "description": "Reaction picker tip",
                           "type": "string"
                         },
                         "removeReactionTip": {
+                          "description": "Remove reaction tip",
                           "type": "string"
                         },
                         "subheader": {
-                          "$ref": "#/definitions/HeaderAndExplanationText"
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Reactions header"
                         }
                       },
                       "required": [
@@ -10640,17 +10649,16 @@
                       "type": "string"
                     },
                     "collaboratorsToggle": {
-                      "$ref": "#/definitions/ToggleText"
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Collaborator toggle text"
                     },
                     "editForm": {
-                      "$ref": "#/definitions/HeaderAndExplanationText"
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Dialog text for how-to form when editing an existing how-to"
                     },
-                    "editorDescription": {
-                      "type": "string"
-                    },
-                    "editorPlaceholder": {
-                      "description": "How-to prompt / editor placeholder and description text",
-                      "type": "string"
+                    "editor": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "How-to content editor"
                     },
                     "newForm": {
                       "$ref": "#/definitions/HeaderAndExplanationText",
@@ -10683,8 +10691,7 @@
                     "post",
                     "save",
                     "notification",
-                    "editorPlaceholder",
-                    "editorDescription",
+                    "editor",
                     "title",
                     "titlePlaceholder",
                     "collaboratorsPrompt",
@@ -10766,6 +10773,7 @@
                       "description": "Button text for copying the how-to's URL"
                     },
                     "reactionsPrompt": {
+                      "description": "Prompt for reaction summary",
                       "type": "string"
                     },
                     "submitToGuide": {
