@@ -73,7 +73,9 @@ const ChatSchema = ChatSchemaV2;
 const ChatSchemaLatestVersion = 2;
 
 export type SerializedChat = z.infer<typeof ChatSchemaV2>;
-export type SerializedChatUnknownVersion = | z.infer<typeof ChatSchemaV1> | SerializedChat;
+export type SerializedChatUnknownVersion =
+    | z.infer<typeof ChatSchemaV1>
+    | SerializedChat;
 
 /** Chat upgrader */
 export function upgradeChat(
@@ -252,7 +254,7 @@ export class ChatDatabase {
         this.chats.set(projectID, chat);
 
         // Make sure we're listening to updates on the chat's project.
-        if (chat.getType() === "project") {
+        if (chat.getType() === 'project') {
             this.db.Projects.listen(projectID, this.projectsListener);
         } else {
             this.db.HowTos.addListener(projectID, this.howToListener);
@@ -333,10 +335,7 @@ export class ChatDatabase {
         return newChat.project;
     }
 
-    async addChatToHowTo(
-        howTo: HowTo,
-        gallery: Gallery | undefined
-    ) {
+    async addChatToHowTo(howTo: HowTo, gallery: Gallery | undefined) {
         if (firestore === undefined) return undefined;
         const creator = howTo.getCreator();
         if (creator === null) return undefined;
@@ -374,11 +373,13 @@ export class ChatDatabase {
 
             // Add the chat to the project once we've added it to the database.
             // Projects.reviseProject(project.withChat(newChat.project));
-            HowTos.updateHowTo(new HowTo({
-                ...howTo.getData(),
-                social: { ...howTo.getSocial(), chat: newChat.project },
-            }), true);
-
+            HowTos.updateHowTo(
+                new HowTo({
+                    ...howTo.getData(),
+                    social: { ...howTo.getSocial(), chat: newChat.project },
+                }),
+                true,
+            );
         } catch (err) {
             console.error(err);
             return undefined;
@@ -525,7 +526,9 @@ export class ChatDatabase {
         return this.getChatHelper(chatID);
     }
 
-    private async getChatHelper(chatID: string): Promise<Chat | undefined | false> {
+    private async getChatHelper(
+        chatID: string,
+    ): Promise<Chat | undefined | false> {
         // Do we have the chat cached? Return it.
         const chat = this.chats.get(chatID);
         if (chat) return chat;
@@ -541,7 +544,11 @@ export class ChatDatabase {
                 if (remoteChat === undefined) return undefined;
 
                 // assume that the chat is of an unknown version and upgrade it
-                const newChat = new Chat(upgradeChat(remoteChat as SerializedChatUnknownVersion) as SerializedChat);
+                const newChat = new Chat(
+                    upgradeChat(
+                        remoteChat as SerializedChatUnknownVersion,
+                    ) as SerializedChat,
+                );
                 // Update the chat locally, but do not persist, we already know it's in the database..
                 this.updateChat(newChat, false);
                 return newChat;
@@ -592,13 +599,13 @@ export class ChatDatabase {
 
                     // Try to parse the chat and save on success.
                     try {
-                        ChatSchema.parse(chat);
+                        const upgraded = upgradeChat(
+                            chat as SerializedChatUnknownVersion,
+                        );
+                        ChatSchema.parse(upgraded);
                         // Update the chat in the local cache, but do not persist; we just got it from the DB.
                         // assume it's a chat of unknown version and upgrade it
-                        this.updateChat(
-                            new Chat(upgradeChat(chat as SerializedChatUnknownVersion) as SerializedChat),
-                            false,
-                        );
+                        this.updateChat(new Chat(upgraded), false);
                     } catch (error) {
                         // If the chat doesn't succeed, then we don't save it.
                         console.error(error);
@@ -612,12 +619,18 @@ export class ChatDatabase {
                     if (change.type === 'removed') {
                         const projectID = change.doc.id;
                         this.chats.delete(projectID);
-                        if (change.doc.data().type === "project" && this.projectsListener)
+                        if (
+                            change.doc.data().type === 'project' &&
+                            this.projectsListener
+                        )
                             this.db.Projects.ignore(
                                 projectID,
                                 this.projectsListener,
                             );
-                        else if (change.doc.data().type === "howto" && this.howToListener)
+                        else if (
+                            change.doc.data().type === 'howto' &&
+                            this.howToListener
+                        )
                             this.db.HowTos.ignoreListener(
                                 projectID,
                                 this.howToListener,
@@ -625,19 +638,31 @@ export class ChatDatabase {
                     } else {
                         // added or modified? notify if there is a new message after the start time
 
-                        const chatData: Chat | undefined = this.chats.get(change.doc.id);
+                        const chatData: Chat | undefined = this.chats.get(
+                            change.doc.id,
+                        );
 
                         // only alert if the message was sent since the page was first opened
-                        if (!chatData || !chatData.getMessages().some((m) => m.time > startTime)) return;
+                        if (
+                            !chatData ||
+                            !chatData
+                                .getMessages()
+                                .some((m) => m.time > startTime)
+                        )
+                            return;
 
-                        let title: string = "";
-                        let galleryID: string = "";
+                        let title: string = '';
+                        let galleryID: string = '';
 
                         if (chatData.getType() === 'project') {
-                            const project = await this.db.Projects.get(chatData.getProjectID());
+                            const project = await this.db.Projects.get(
+                                chatData.getProjectID(),
+                            );
                             if (project) title = project.getName();
                         } else {
-                            const howto = await this.db.HowTos.getHowTo(chatData.getProjectID());
+                            const howto = await this.db.HowTos.getHowTo(
+                                chatData.getProjectID(),
+                            );
                             if (howto) {
                                 title = howto.getTitle();
                                 galleryID = howto.getHowToGalleryId();
@@ -647,9 +672,15 @@ export class ChatDatabase {
                         if (chatData.hasUnread(user.uid)) {
                             notifications.add({
                                 title: title,
-                                galleryID: chatData.getType() === 'howto' ? galleryID : undefined,
+                                galleryID:
+                                    chatData.getType() === 'howto'
+                                        ? galleryID
+                                        : undefined,
                                 itemID: chatData.getProjectID(),
-                                type: chatData.getType() === 'howto' ? 'howtochat' : 'projectchat',
+                                type:
+                                    chatData.getType() === 'howto'
+                                        ? 'howtochat'
+                                        : 'projectchat',
                             } as NotificationData);
                         }
                     }
