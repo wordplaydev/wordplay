@@ -110,9 +110,9 @@
         howTo ? howTo.getReactions() : {},
     );
 
-    let isSubmitted: boolean = $derived(
-        howTo ? howTo.getSubmittedToGuide() : false,
-    );
+    // let isSubmitted: boolean = $derived(
+    //     howTo ? howTo.getSubmittedToGuide() : false,
+    // );
 
     let reactionButtons: ButtonText[] = $derived(
         Object.entries(
@@ -267,19 +267,19 @@
         }
     }
 
-    function submitToGuide() {
-        if (!howTo) return;
+    // function submitToGuide() {
+    //     if (!howTo) return;
 
-        howTo = new HowTo({
-            ...howTo.getData(),
-            social: {
-                ...howTo.getSocial(),
-                submittedToGuide: true,
-            },
-        });
+    //     howTo = new HowTo({
+    //         ...howTo.getData(),
+    //         social: {
+    //             ...howTo.getSocial(),
+    //             submittedToGuide: true,
+    //         },
+    //     });
 
-        HowTos.updateHowTo(howTo, true);
-    }
+    //     HowTos.updateHowTo(howTo, true);
+    // }
 
     async function addRemoveBookmark() {
         if (!$user || !howTo) return;
@@ -584,7 +584,9 @@
                     }}
                     label={(l) => l.ui.howto.viewer.delete.prompt}
                 />
-                <Button
+                <!-- Removing this button since we do not have a corresponding design yet. 
+                 Filed as GitHub issue #906: https://github.com/wordplaydev/wordplay/issues/906 -->
+                <!-- <Button
                     tip={(l) =>
                         isSubmitted
                             ? l.ui.howto.viewer.submitToGuide.alreadySubmitted
@@ -599,7 +601,7 @@
                     action={() => {
                         submitToGuide();
                     }}
-                />
+                /> -->
             {/if}
             <Button
                 tip={(l) =>
