@@ -4,7 +4,21 @@ import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { FirebaseError } from 'firebase/app';
-import { and, collection, deleteDoc, doc, Firestore, getDoc, onSnapshot, or, query, setDoc, updateDoc, where, type Unsubscribe } from 'firebase/firestore';
+import {
+    and,
+    collection,
+    deleteDoc,
+    doc,
+    Firestore,
+    getDoc,
+    onSnapshot,
+    or,
+    query,
+    setDoc,
+    updateDoc,
+    where,
+    type Unsubscribe,
+} from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
@@ -36,7 +50,7 @@ const HowToSocialSchemaV1 = z.object({
     seenByUsers: z.array(z.string()),
     /** The number of times that the how-to has been viewed (one user can view it multiple times, or a viewer may not be logged in) */
     viewCount: z.number(),
-})
+});
 
 const HowToSocialSchemaLatestVersion = 1;
 const HowToSocialSchema = HowToSocialSchemaV1;
@@ -126,8 +140,12 @@ export default class HowTo {
     inCanvasArea(xmin: number, xmax: number, ymin: number, ymax: number) {
         const buffer = 100; // extra buffer to load how-tos just outside the canvas
 
-        return this.data.xcoord >= xmin - buffer && this.data.xcoord <= xmax + buffer &&
-            this.data.ycoord >= ymin - buffer && this.data.ycoord <= ymax + buffer;
+        return (
+            this.data.xcoord >= xmin - buffer &&
+            this.data.xcoord <= xmax + buffer &&
+            this.data.ycoord >= ymin - buffer &&
+            this.data.ycoord <= ymax + buffer
+        );
     }
 
     getTitle() {
@@ -151,7 +169,10 @@ export default class HowTo {
     }
 
     isCreatorCollaborator(userId: string) {
-        return this.data.creator === userId || this.data.collaborators.includes(userId);
+        return (
+            this.data.creator === userId ||
+            this.data.collaborators.includes(userId)
+        );
     }
 
     getViewers() {
@@ -232,16 +253,18 @@ export class HowToDatabase {
     private readonly howtos = $state(new SvelteMap<string, HowTo>());
 
     /** All of the how-tos that the user can edit (as a creator or collaborator) */
-    readonly allEditableHowTos: HowTo[] = $derived([...
-        this.howtos.values().filter((howto) => {
+    readonly allEditableHowTos: HowTo[] = $derived([
+        ...Array.from(this.howtos.values()).filter((howto) => {
             const user = this.db.getUser();
             if (user === null) return false;
             return howto.isCreatorCollaborator(user.uid);
-        })
+        }),
     ]);
 
     /** All of the how-tos that the user has view or write access to (basically the values of howtos) */
-    readonly allAccessiblePublishedHowTos: HowTo[] = $derived([...this.howtos.values().filter((ht) => ht.isPublished())]);
+    readonly allAccessiblePublishedHowTos: HowTo[] = $derived([
+        ...Array.from(this.howtos.values()).filter((ht) => ht.isPublished()),
+    ]);
 
     /** Maps how-to IDs to listeners that need to be notified when a change is made to the how-to */
     private listeners = new Map<string, Set<(howTo: HowTo) => void>>();
@@ -260,7 +283,7 @@ export class HowToDatabase {
             howTo = new HowTo({
                 ...howTo.getData(),
                 publishedAt: Date.now(),
-            })
+            });
         }
 
         // set the revised how-to in the local state, propogating updates
@@ -289,7 +312,6 @@ export class HowToDatabase {
 
                 // remove the how-to's ID from the gallery's list of how-to IDs
                 this.db.Galleries.edit(gallery.withoutHowTo(howToId));
-
             } catch (err) {
                 console.error(err);
             }
@@ -329,9 +351,11 @@ export class HowToDatabase {
             v: HowToSocialSchemaLatestVersion,
             notifySubscribers: notify,
             reactionOptions: reactionTypes,
-            reactions: Object.fromEntries(new Map<string, string[]>(
-                Object.keys(reactionTypes).map((emoji) => [emoji, []])
-            )),
+            reactions: Object.fromEntries(
+                new Map<string, string[]>(
+                    Object.keys(reactionTypes).map((emoji) => [emoji, []]),
+                ),
+            ),
             usedByProjects: [],
             chat: null,
             bookmarkers: [],
@@ -366,7 +390,7 @@ export class HowToDatabase {
             // create the document
             await setDoc(
                 doc(firestore, HowTosCollection, newHowTo.id),
-                newHowTo
+                newHowTo,
             );
 
             // add the how-to to the how-to cache, but not remotely; we just created it
@@ -432,7 +456,9 @@ export class HowToDatabase {
 
         // get the current list of galleries to watch
         // galleries where the user is a creator or curator
-        const editorGalleryIds = Array.from(this.db.Galleries.accessibleGalleries.keys());
+        const editorGalleryIds = Array.from(
+            this.db.Galleries.accessibleGalleries.keys(),
+        );
 
         // construct constraints based on
 
@@ -441,23 +467,25 @@ export class HowToDatabase {
         // (2) any how-tos that the user has access to as a curator or collaborator on the gallery
         // (3) any how-tos that the user has access to via expanded scope access
         let creatorOrCollaborator = [
-            where("creator", "==", userId),
-            where("collaborators", "array-contains", userId),
+            where('creator', '==', userId),
+            where('collaborators', 'array-contains', userId),
         ];
-        let editorGalleryConstraints = editorGalleryIds.map((galleryId) => where("galleryId", "==", galleryId));
+        let editorGalleryConstraints = editorGalleryIds.map((galleryId) =>
+            where('galleryId', '==', galleryId),
+        );
 
         let draftQuery = and(
-            where("published", "==", false),
+            where('published', '==', false),
             or(...creatorOrCollaborator),
-            or(...editorGalleryConstraints)
+            or(...editorGalleryConstraints),
         );
         let publishedQuery = and(
-            where("published", "==", true),
+            where('published', '==', true),
             or(
                 or(...creatorOrCollaborator),
                 or(...editorGalleryConstraints),
-                where("viewersFlat", "array-contains", userId)
-            )
+                where('viewersFlat', 'array-contains', userId),
+            ),
         );
 
         // start time for notifications
@@ -466,64 +494,71 @@ export class HowToDatabase {
         // set up the realtime how-tos query for the user, tracking any how-tos from the cloud
         // and deleting any tracked locally that didn't appear in the snapshot
         this.unsubscribe = onSnapshot(
-            query(collection(firestore, HowTosCollection),
-                or(draftQuery, publishedQuery)), async (snapshot) => {
-                    // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
-                    // so we can delete ones that are gone from the server.
-                    snapshot.forEach((doc) => {
-                        const howto = doc.data();
+            query(
+                collection(firestore, HowTosCollection),
+                or(draftQuery, publishedQuery),
+            ),
+            async (snapshot) => {
+                // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
+                // so we can delete ones that are gone from the server.
+                snapshot.forEach((doc) => {
+                    const howto = doc.data();
 
-                        // try to parse the how-to and save on success.
-                        try {
-                            HowToSchema.parse(howto);
-                            // Update the how-to in the local cache, but do not persist; we just got it from the DB.
-                            this.updateHowTo(
-                                new HowTo(howto as HowToDocument),
-                                false,
-                            )
-                        } catch (error) {
-                            // If the how-to doesn't succeed, then we don't save it.
-                            console.error(error);
+                    // try to parse the how-to and save on success.
+                    try {
+                        HowToSchema.parse(howto);
+                        // Update the how-to in the local cache, but do not persist; we just got it from the DB.
+                        this.updateHowTo(
+                            new HowTo(howto as HowToDocument),
+                            false,
+                        );
+                    } catch (error) {
+                        // If the how-to doesn't succeed, then we don't save it.
+                        console.error(error);
+                    }
+                });
+
+                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
+                // And see if any were explicitly added, and if so, create a notification
+                snapshot.docChanges().forEach((change) => {
+                    // Removed? Delete the local cache of the gallery.
+                    if (change.type === 'removed') {
+                        const howToId = change.doc.id;
+
+                        this.howtos.delete(howToId);
+                    } else if (change.type === 'added') {
+                        const data = change.doc.data();
+
+                        if (
+                            data.published &&
+                            data.publishedAt !== null &&
+                            data.publishedAt >= startTime &&
+                            data.social.notifySubscribers == true
+                        ) {
+                            notifications.add({
+                                title: data.title,
+                                galleryID: data.galleryId,
+                                itemID: data.id,
+                                type: 'howto',
+                            } as NotificationData);
                         }
-                    });
-
-                    // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                    // And see if any were explicitly added, and if so, create a notification
-                    snapshot.docChanges().forEach((change) => {
-                        // Removed? Delete the local cache of the gallery.
-                        if (change.type === 'removed') {
-                            const howToId = change.doc.id;
-
-                            this.howtos.delete(howToId);
-
-                        } else if (change.type === 'added') {
-                            const data = change.doc.data();
-
-                            if (data.published && data.publishedAt !== null && data.publishedAt >= startTime && data.social.notifySubscribers == true) {
-                                notifications.add({
-                                    title: data.title,
-                                    galleryID: data.galleryId,
-                                    itemID: data.id,
-                                    type: 'howto',
-                                } as NotificationData);
-                            }
-                        }
-                    });
-                },
+                    }
+                });
+            },
             (error) => {
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
                     console.error(error.message);
                 }
-            }
-        )
+            },
+        );
     }
 
     addListener(howToId: string, listener: (howTo: HowTo) => void) {
         const current = this.listeners.get(howToId);
 
         if (current) current.add(listener);
-        else this.listeners.set(howToId, new Set([(listener)]));
+        else this.listeners.set(howToId, new Set([listener]));
     }
 
     ignoreListener(howToId: string, listener: (howTo: HowTo) => void) {
