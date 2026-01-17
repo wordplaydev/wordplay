@@ -37,6 +37,7 @@
     import Mode from '../widgets/Mode.svelte';
     import Options from '../widgets/Options.svelte';
     import LocaleChooser from './LocaleChooser.svelte';
+    import Notifications from './Notifications.svelte';
 
     let user = getUser();
 
@@ -70,6 +71,7 @@
 </script>
 
 <div class="settings">
+    <Notifications />
     <Status />
     <Link nowrap to="/login">
         <CreatorView

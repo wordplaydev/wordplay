@@ -87,7 +87,6 @@
         "None": "空的",
         "Type": "類型",
         "Literal": "字面量",
-        "TypeOperator": "類型運算子",
         "TypeOpen": "類型開啟",
         "TypeClose": "類型關閉",
         "Separator": "分隔器",
@@ -4644,7 +4643,8 @@
                     "remembering": "追蹤變化和選擇",
                     "stories": "講故事",
                     "motion": "動作",
-                    "video": "錄影"
+                    "video": "錄影",
+                    "gallery": "$~由您的 Wordplay 同儕導演創作"
                 },
                 "related": "這些不是您要找的嗎？"
             },
@@ -4754,6 +4754,10 @@
                 "Definitions": {
                     "header": "$~定義",
                     "explanation": "$~/為後續使用而命名值、函數和資料結構的方法。 /"
+                },
+                "GalleryHow": {
+                    "header": "$~畫廊使用指南",
+                    "explanation": "$~/從您的作品集中尋找創建不同類型項目的常用模式。 /"
                 }
             },
             "note": {
@@ -5001,6 +5005,28 @@
                     "empty": "目前沒有可顯示的反饋",
                     "url": "$~这不是有效的 GitHub URL。"
                 }
+            },
+            "notifications": {
+                "header": "$~通知",
+                "explanation": "$~來自新聊天和已發布教程的通知",
+                "open": "$~開啟通知對話框",
+                "howToNotifications": {
+                    "label": "$~新教學通知",
+                    "labels": ["$~離開", "$~在"],
+                    "tips": ["$~不要通知我新的操作指南", "$~有新教學時通知我"]
+                },
+                "clearAll": {
+                    "label": "$~清除所有通知",
+                    "tip": "$~清除所有通知"
+                },
+                "notification": {
+                    "howToHeader": "$~一篇題為「1美元教程」的新文章已發布。",
+                    "projectChatHeader": "$~項目「$1」出現新訊息",
+                    "howToChatHeader": "$~操作指南「$1」中的新訊息",
+                    "link": "$~細節"
+                },
+                "delete": "$~刪除此通知",
+                "popup": "$~新通知"
             }
         },
         "palette": {
@@ -5165,7 +5191,11 @@
                 },
                 "subheader": {
                     "shared": "共享",
-                    "archived": "已儲存"
+                    "archived": "已儲存",
+                    "howtoviewonly": {
+                        "header": "$~操作指南",
+                        "explanation": "$~您可以查看這些圖庫中的操作指南並與之互動，但除非圖庫或項目是公開的，否則您無法查看他們的項目。"
+                    }
                 }
             },
             "galleries": {
@@ -5742,6 +5772,187 @@
                 "forward": "$~返回下一個版本",
                 "restore": "$~恢復此版本",
                 "now": "$~返回目前版本"
+            }
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~操作指南",
+                "subheader": "$~1美元的教程，2美元的新內容",
+                "subheaderEmpty": "$~創造第一個！",
+                "prompt": "$~「使用指南」是如何使用 Wordplay 實現特定功能的簡短解釋和範例程式碼。當你掌握了想要分享的技巧後，請為本圖庫的其他創作者撰寫一份指南，讓他們也能學習！"
+            },
+            "headerTooltip": "$~返回圖庫",
+            "drafts": {
+                "header": "$~📝 操作指南草稿",
+                "prompt": "$~這裡是存放草稿的地方！只有你和你的合作者才能看到這些草稿。",
+                "tooltip": "$~查看您的草稿",
+                "note": "$~這是操作指南草稿，只有您和您的合作者才能看到。"
+            },
+            "bookmarks": {
+                "header": "$~🔖 書籤",
+                "tooltip": "$~請參閱此操作指南",
+                "canBookmark": {
+                    "label": "$~🔖 收藏操作指南",
+                    "tip": "$~請收藏此教學以便日後查找。"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 刪除書籤",
+                    "tip": "$~從書籤中移除此教程"
+                },
+                "empty": "$~您可以將想要稍後參考的操作指南加入書籤。",
+                "notLoggedIn": "$~您必須登入才能使用書籤功能。"
+            },
+            "navigationtooltip": "$~跳轉至操作指南",
+            "button": {
+                "reset": {
+                    "label": "$~中心",
+                    "tip": "$~將畫布居中"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~建立一個新的操作指南",
+                    "explanation": "$~寫下你的新教學的名稱和內容。"
+                },
+                "editForm": {
+                    "header": "$~編輯操作指南",
+                    "explanation": "$~編輯您的操作指南的名稱和內容。"
+                },
+                "post": {
+                    "label": "$~📣貼文",
+                    "tip": "$~把你的操作指南發佈到這個空間。"
+                },
+                "save": {
+                    "label": "$~💾 儲存為草稿",
+                    "tip": "$~將你的操作指南儲存為草稿"
+                },
+                "notification": {
+                    "label": "$~通知訂閱者",
+                    "labels": ["$~通知", "$~請勿通知"],
+                    "tips": [
+                        "$~發布此教學時通知訂閱者",
+                        "$~發布此教學時，請勿通知訂閱者。"
+                    ]
+                },
+                "title": {
+                    "description": "$~你的操作指南的標題",
+                    "placeholder": "$~標題"
+                },
+                "titlePlaceholder": "$~無標題教程",
+                "collaboratorsPrompt": "$~新增一位協作者，他/她可以編輯此操作指南。",
+                "collaboratorsToggle": {
+                    "on": "$~折疊合作者面板",
+                    "off": "$~擴展合作者面板"
+                },
+                "editor": {
+                    "placeholder": "$~請在此處編寫操作指南，使用格式和程式碼進行講解。",
+                    "description": "$~一個用於編寫操作指南的文字框"
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "$~查看操作方法",
+                    "tip": "$~查看操作方法"
+                },
+                "edit": {
+                    "label": "$~✏️ 編輯",
+                    "tip": "$~編輯此操作指南"
+                },
+                "delete": {
+                    "description": "$~刪除此操作指南",
+                    "prompt": "$~🗑️刪除"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 提交至文字遊戲指南",
+                        "tip": "$~請提交這篇教程，以便我們考慮將其收錄到《文字遊戲指南》中！"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ 已提交至指南",
+                        "tip": "$~這篇教學已經提交給《文字遊戲指南》考慮收錄。"
+                    }
+                },
+                "usedBy": {
+                    "prompt": "$~你在專案中使用過這篇教學或其他教學嗎？把你的項目加到清單中，讓其他人知道吧！",
+                    "empty": "$~你目前還沒有任何項目或其他已發布的教學。試著創建一個吧！",
+                    "countDisplay": "$~其他文字遊戲導演也曾在其他1美元項目或教學中使用過這種方法。",
+                    "selector": "$~項目和操作指南選擇器",
+                    "removeButton": "$~從清單中刪除項目或操作指南",
+                    "addButton": "$~新增項目或操作指南"
+                },
+                "reactionsPrompt": "$~你喜歡這篇教學嗎？請留下評論支持作者！",
+                "chatPrompt": "$~請給創作者留言或提問！",
+                "link": {
+                    "label": "$~🔗 複製操作指南鏈接",
+                    "tip": "$~複製此教程的鏈接"
+                },
+                "collaborators": "$~作者："
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~如何設定空間",
+                    "explanation": "$~配置此操作指南空間的設定。點擊底部的儲存按鈕儲存您的設定。"
+                },
+                "configurationButton": {
+                    "tip": "$~配置此操作指南空間",
+                    "label": "$~⚙️ 設定"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~能見度",
+                        "explanation": "$~配置預設情況下誰可以查看此空間中的操作指南。"
+                    },
+                    "mode": {
+                        "label": "$~預設可見性",
+                        "labels": ["$~有限的", "$~擴充"],
+                        "tips": [
+                            "$~只有本畫廊的合作者才能查看",
+                            "$~任何策展人創建的任何畫廊的合作者都可以查看"
+                        ]
+                    },
+                    "expanded": "$~擴充",
+                    "limited": "$~有限的"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~引導性問題",
+                        "explanation": "$~配置建立新操作指南時顯示的引導性問題。引導性問題之間以換行符號分隔。"
+                    },
+                    "descriptor": "$~一個用於輸入引導性問題的文字框，問題之間以換行符號分隔。",
+                    "default": ["$~你學到了什麼？舉例說明如何運用。"]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~反應",
+                        "explanation": "$~配置觀眾對新教學影片可以留下的反應"
+                    },
+                    "reactionPickerTip": "$~選擇一個角色作為反應",
+                    "reactionDescriptionTip": "$~描述一下這個反應的意思",
+                    "addReactionTip": "$~增加新反應",
+                    "removeReactionTip": "$~移除此反應",
+                    "default": {
+                        "👍": "$~我喜歡這個！",
+                        "💭": "$~這激勵了我！",
+                        "🙏": "$~謝謝你！",
+                        "🎉": "$~慶典！",
+                        "🤩": "$~我想試試！",
+                        "😁": "$~這讓我很高興！"
+                    }
+                },
+                "submit": {
+                    "error": "$~指導性問題和反應不能空洞。",
+                    "label": "$~節省",
+                    "tip": "$~儲存操作指南空間設置"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~如何將 1 美元的價格提高到 2 美元，3 美元的價格提高到 3 美元",
+                "canvasPosition": "$~畫布價格調整為 1 美元、2 美元",
+                "moveActivated": "$~移動功能已啟動。可以使用滑鼠、鍵盤或觸控螢幕移動 1 美元。",
+                "moveDeactivated": "$~移動已停用。"
+            },
+            "error": {
+                "unknown": "$~這個教程空間不存在，或不是公開的。"
             }
         }
     },

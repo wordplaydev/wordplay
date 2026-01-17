@@ -19,6 +19,7 @@
         COPY_SYMBOL,
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
+    import Link from '@components/app/Link.svelte';
 
     const user = getUser();
 
@@ -189,10 +190,38 @@
     {:else}
         <Notice text={(l) => l.ui.page.projects.error.nogalleryedits} />
     {/if}
+
+    {#if Galleries.expandedScopeGalleries.size > 0}
+        <Subheader
+            text={(l) => l.ui.page.projects.subheader.howtoviewonly.header}
+        />
+        <MarkupHTMLView
+            markup={(l) =>
+                l.ui.page.projects.subheader.howtoviewonly.explanation}
+        />
+        {#each Galleries.expandedScopeGalleries.values() as gallery}
+            <div class="howtoonlypreview">
+                <Subheader>
+                    <Link to={`/gallery/${gallery.getID()}/howto`}
+                        >{gallery.getName($locales)}</Link
+                    >
+                </Subheader>
+                <MarkupHTMLView
+                    markup={gallery.getDescription($locales).length > 0
+                        ? gallery.getDescription($locales)
+                        : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}
+                /></div
+            >
+        {/each}
+    {/if}
 </Writing>
 
 <style>
     .add {
         margin-left: calc(2 * var(--wordplay-spacing));
+    }
+
+    .howtoonlypreview {
+        gap: var(--wordplay-spacing);
     }
 </style>

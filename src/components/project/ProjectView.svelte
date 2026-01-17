@@ -47,6 +47,8 @@
         Chats,
         Creators,
         DB,
+        Galleries,
+        HowTos,
         Locales,
         locales,
         mic,
@@ -78,6 +80,8 @@
 
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
+    import type Gallery from '@db/galleries/Gallery';
+    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import type MenuInfo from '@edit/menu/Menu';
     import type { HighlightSpec } from '../editor/highlights/Highlights';
     import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
@@ -696,6 +700,32 @@
 
     let latestProject: Project | undefined;
 
+    // get the user generated how-tos that are in a gallery, if the gallery exists
+    let galleryHowTos = $state<GalleryHowTo[]>([]);
+    let gallery: Gallery | undefined = $state(undefined);
+    $effect(() => {
+        const galleryID: string | null = project.getGallery();
+
+        if (galleryID) {
+            Galleries.get(galleryID).then((gal) => {
+                // Found a store? Subscribe to it, updating the gallery when it changes.
+                if (gal) gallery = gal;
+                // Not found? No gallery.
+                else gallery = undefined;
+            });
+        }
+    });
+
+    $effect(() => {
+        if (gallery) {
+            HowTos.getHowTos(gallery.getHowTos()).then(
+                (hts: GalleryHowTo[] | undefined | false) => {
+                    if (hts) galleryHowTos = hts;
+                },
+            );
+        }
+    });
+
     // When dependencies change, create a new concept index.
     $effect(() => {
         if (
@@ -710,6 +740,7 @@
                       project,
                       $locales,
                       howTos instanceof Promise ? [] : howTos,
+                      galleryHowTos,
                   ).withExamples(
                       index === undefined ? new Map() : index.examples,
                   )

@@ -14,7 +14,7 @@
         "input": "input",
         "output": "output",
         "convert": "convert",
-        "how": "how to",
+        "how": "how-to",
         "act": "act",
         "scene": "scene",
         "phrase": "phrase",
@@ -86,7 +86,6 @@
         "None": "nothing",
         "Type": "type",
         "Literal": "literal",
-        "TypeOperator": "is",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
         "Separator": "name separator",
@@ -228,7 +227,9 @@
         "Names": {
             "name": "name list",
             "emotion": "kind",
-            "label": { "names": "names" },
+            "label": {
+                "names": "names"
+            },
             "doc": [
                 "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
                 "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
@@ -282,7 +283,9 @@
         "TypeVariable": {
             "name": "type variable",
             "emotion": "curious",
-            "label": { "type": "type" },
+            "label": {
+                "type": "type"
+            },
             "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
@@ -301,7 +304,9 @@
             "name": "markup",
             "description": "$1 paragraphs",
             "emotion": "serious",
-            "label": { "paragraphs": "paragraphs" },
+            "label": {
+                "paragraphs": "paragraphs"
+            },
             "doc": [
                 "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
@@ -762,7 +767,9 @@
             "name": "placeholder",
             "description": "$1[$1|placeholder]",
             "emotion": "scared",
-            "label": { "placeholder": "expression" },
+            "label": {
+                "placeholder": "expression"
+            },
             "doc": [
                 "I'm an *expression*, but not a real one… I just take the place of one.",
                 "I'm good if you don't know what to write yet. Like this:",
@@ -921,7 +928,9 @@
             "name": "map literal",
             "description": "$1 pairing map",
             "emotion": "kind",
-            "label": { "values": "pair" },
+            "label": {
+                "values": "pair"
+            },
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "Let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
@@ -1268,7 +1277,9 @@
             "name": "text literal",
             "description": "text $1",
             "emotion": "serious",
-            "label": { "texts": "text" },
+            "label": {
+                "texts": "text"
+            },
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "Let's make text in the current locale"
         },
@@ -1276,7 +1287,9 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
-            "label": { "segments": "text" },
+            "label": {
+                "segments": "text"
+            },
             "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": {
@@ -1355,7 +1368,9 @@
             "name": "unary evaluate",
             "description": "$1",
             "emotion": "kind",
-            "label": { "input": "input" },
+            "label": {
+                "input": "input"
+            },
             "doc": [
                 "Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?",
                 "Like this:",
@@ -4422,7 +4437,7 @@
                 },
                 "delete": {
                     "header": "Delete",
-                    "explanation": "Deleting this gallery will not delete its projects. The gallery will be deleted forever."
+                    "explanation": "Deleting this gallery will not delete its projects. It will delete its how-tos. The gallery will be deleted forever."
                 }
             },
             "confirm": {
@@ -4447,6 +4462,189 @@
                     "description": "Gallery description",
                     "placeholder": "Describe your gallery. What is its theme, goals, or community?"
                 }
+            }
+        },
+        "howto": {
+            "galleryView": {
+                "header": "How-tos",
+                "subheader": "$1 how-tos, $2 new",
+                "subheaderEmpty": "create the first!",
+                "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it to!"
+            },
+            "headerTooltip": "go back to gallery",
+            "drafts": {
+                "header": "📝 How-to drafts",
+                "prompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
+                "tooltip": "view your draft",
+                "note": "This is a draft how-to. Only you and your collaborators can see it."
+            },
+            "bookmarks": {
+                "header": "🔖 Bookmarks",
+                "tooltip": "go to this how-to",
+                "canBookmark": {
+                    "label": "🔖 bookmark how-to",
+                    "tip": "bookmark this how-to to find it later"
+                },
+                "alreadyBookmarked": {
+                    "label": "🔖 remove bookmark",
+                    "tip": "remove this how-to from your bookmarks"
+                },
+                "empty": "You can bookmark how-tos you want to reference later.",
+                "notLoggedIn": "You must be logged in to use bookmarks"
+            },
+            "navigationtooltip": "navigate to a how-to",
+            "button": {
+                "reset": {
+                    "label": "center",
+                    "tip": "center the canvas"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "Create a new how-to",
+                    "explanation": "Write the name and content of your new how-to."
+                },
+                "editForm": {
+                    "header": "Edit how-to",
+                    "explanation": "Edit the name and content of your how-to."
+                },
+                "post": {
+                    "label": "📣 post",
+                    "tip": "post your how-to to the space"
+                },
+                "save": {
+                    "label": "💾 save as draft",
+                    "tip": "save your how-to as a draft"
+                },
+                "notification": {
+                    "label": "notify subscribers",
+                    "labels": ["notify", "do not notify"],
+                    "tips": [
+                        "notify subscribers when you post this how-to",
+                        "do not notify subscribers when you post this how-to"
+                    ]
+                },
+                "editor": {
+                    "placeholder": "Write your how-to here, using formatting and code to teach.",
+                    "description": "a text box to write your how-to"
+                },
+                "title": {
+                    "description": "the title of your how-to",
+                    "placeholder": "Title"
+                },
+                "titlePlaceholder": "Untitled how-to",
+                "collaboratorsPrompt": "Add a collaborator, who can edit this how-to",
+                "collaboratorsToggle": {
+                    "on": "collapse the collaborators panel",
+                    "off": "expand the collaborators panel"
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "view how-to",
+                    "tip": "view how-to"
+                },
+                "edit": {
+                    "label": "✏️ edit",
+                    "tip": "edit this how-to"
+                },
+                "delete": {
+                    "description": "delete this how-to",
+                    "prompt": "🗑️ delete"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "📨 submit to Wordplay Guide",
+                        "tip": "submit this how-to to be considered for inclusion in the Wordplay Guide!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "✅ submitted to Guide",
+                        "tip": "this how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
+                    "empty": "You don't have any projects or other published how-tos yet. Try creating one!",
+                    "countDisplay": "Other Wordplay directors have used this in $1 other projects or how-to",
+                    "selector": "project and how-to selector",
+                    "removeButton": "remove project or how-to from list",
+                    "addButton": "add project or how-to"
+                },
+                "reactionsPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
+                "chatPrompt": "Leave a comment or question for the creator!",
+                "link": {
+                    "label": "🔗 copy how-to link",
+                    "tip": "copy link to this how-to"
+                },
+                "collaborators": "written by"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "How-to space settings",
+                    "explanation": "Configure the settings for this how-to space. Click the save button at the bottom to save your settings."
+                },
+                "configurationButton": {
+                    "tip": "configure this how-to space",
+                    "label": "⚙️ settings"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "Visibility",
+                        "explanation": "Configure who can view how-tos in this space by default"
+                    },
+                    "mode": {
+                        "label": "default visibility",
+                        "labels": ["limited", "expanded"],
+                        "tips": [
+                            "only collaborators of this gallery can view",
+                            "collaborators of any gallery any curator creates can view"
+                        ]
+                    },
+                    "expanded": "expanded",
+                    "limited": "limited"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "Guiding Questions",
+                        "explanation": "Configure the guiding questions shown when creating a new how-to. Separate guiding questions with a line break."
+                    },
+                    "descriptor": "a text box to write your guiding questions, separated by a line break.",
+                    "default": [
+                        "What did you learn? Give examples of how to do it."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "Reactions",
+                        "explanation": "Configure the reactions that viewers can leave on new how-tos"
+                    },
+                    "reactionPickerTip": "choose a character to be a reaction",
+                    "reactionDescriptionTip": "describe what this reaction means",
+                    "addReactionTip": "add a new reaction",
+                    "removeReactionTip": "remove this reaction",
+                    "default": {
+                        "👍": "I like this!",
+                        "💭": "This inspires me!",
+                        "🙏": "Thank you!",
+                        "🎉": "Celebration!",
+                        "🤩": "I want to try this!",
+                        "😁": "This makes me happy!"
+                    }
+                },
+                "submit": {
+                    "error": "guiding questions and reactions cannot be empty",
+                    "label": "save",
+                    "tip": "save how-to space settings"
+                }
+            },
+            "announce": {
+                "howToPosition": "how-to titled $1 moved to $2 $3",
+                "canvasPosition": "canvas moved to $1, $2",
+                "moveActivated": "movement activated. $1 can be moved using the mouse, keyboard, or touchscreen",
+                "moveDeactivated": "movement deactivated."
+            },
+            "error": {
+                "unknown": "This how-to space doesn't exist or isn't public."
             }
         },
         "source": {
@@ -4697,7 +4895,7 @@
             "mode": {
                 "browse": {
                     "label": "section",
-                    "labels": ["code", "how to"],
+                    "labels": ["code", "how-to"],
                     "tips": [
                         "programming language concepts",
                         "reusable patterns for making projects"
@@ -4804,8 +5002,12 @@
                     "explanation": "/Concepts that are hidden from the main documentation./"
                 },
                 "How": {
-                    "header": "How to",
+                    "header": "How-to",
                     "explanation": "/Common patterns for creating different kinds of projects./"
+                },
+                "GalleryHow": {
+                    "header": "Gallery how-to",
+                    "explanation": "/Common patterns for creating different kinds of projects, from your galleries./"
                 }
             },
             "how": {
@@ -4818,7 +5020,8 @@
                     "remembering": "track changes and choices",
                     "stories": "tell a story",
                     "motion": "use physics",
-                    "video": "use a camera"
+                    "video": "use a camera",
+                    "gallery": "created by your fellow Wordplay directors"
                 },
                 "related": "Not what you're looking for?"
             }
@@ -4976,6 +5179,31 @@
                     "camera": "selected camera",
                     "default": "default"
                 }
+            },
+            "notifications": {
+                "header": "Notifications",
+                "explanation": "Notifications from new chats and published how-tos",
+                "open": "open notifications dialog",
+                "howToNotifications": {
+                    "label": "notifications for new how-tos",
+                    "labels": ["off", "on"],
+                    "tips": [
+                        "do not notify me of new how-tos",
+                        "notify me of new how-tos"
+                    ]
+                },
+                "clearAll": {
+                    "label": "clear all notifications",
+                    "tip": "clear all notifications"
+                },
+                "notification": {
+                    "howToHeader": "New how-to titled \"$1\" was posted",
+                    "projectChatHeader": "New message in project \"$1\"",
+                    "howToChatHeader": "New message in how-to \"$1\"",
+                    "link": "details"
+                },
+                "delete": "delete this notification",
+                "popup": "new notification"
             },
             "locale": {
                 "header": "Language",
@@ -5322,7 +5550,6 @@
                 },
                 "prompt": {
                     "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators.",
-
                     "delete": "Deleting this class will permanently delete information about the class, but its projects, galleries, or student accounts."
                 },
                 "field": {
@@ -5365,7 +5592,11 @@
                 },
                 "subheader": {
                     "shared": "Shared",
-                    "archived": "Archived"
+                    "archived": "Archived",
+                    "howtoviewonly": {
+                        "header": "How-tos",
+                        "explanation": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public."
+                    }
                 },
                 "button": {
                     "newproject": "new project",

@@ -43,7 +43,13 @@ service cloud.firestore {
     }
     match /galleries/{gallery} {
       allow create: if request.auth != null;
-      allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators));
+      allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (
+        request.auth != null && (
+          "curators" in resource.data && request.auth.uid in resource.data.curators || 
+          "creators" in resource.data && request.auth.uid in resource.data.creators || 
+          "howToExpandedVisibility" in resource.data && "howToViewersFlat" in resource.data && resource.data.howToExpandedVisibility && request.auth.uid in resource.data.howToViewersFlat
+        )
+      );
       
       allow update: 
         if request.auth != null && 
@@ -106,6 +112,72 @@ service cloud.firestore {
       allow create: if request.auth != null;
       // Only the creator can read, update, or delete their feedback; anyone can vote on the feedback though
       allow update, delete: if request.auth != null && (request.auth.uid == resource.data.creator || ("mod" in request.auth.token && request.auth.token.mod) || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["votes"]));
+    }
+    match /howtos/{id} {
+      function isGalleryPublic(galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null && gallery.public;
+      }
+
+      function isRequestorOwnerCollaborator(uid) {
+        return resource.data != null && (("creator" in resource.data && uid == resource.data.creator) || ("collaborators" in resource.data && uid in resource.data.collaborators));
+      }
+
+      function isRequestorCuratorCollaborator(uid, galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null && (uid in gallery.curators || uid in gallery.creators);
+      }
+
+      function isRequestorCurator(uid, galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null && (uid in gallery.curators);
+      }
+
+      function isRequestorViewer(uid) {
+        return 
+          "viewersFlat" in resource.data && 
+          uid in resource.data.viewersFlat;
+      }
+
+      allow create: if request.auth != null && "galleryId" in request.resource.data && isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId);
+      // Published how-tos are readable if:
+      // 1) the gallery the how-to is in is public
+      // 2) the requestor is the owner or a collaborator
+      // 3) the requestor is a curator or collaborator of the gallery the how-to is in
+      // 4) the requestor is a viewer of the gallery the how-to is in
+      // Unpublished how-tos (drafts) are only readable by the creator and collaborators
+      allow read: 
+        if resource.data != null && (
+          "mod" in request.auth.token && request.auth.token.mod ||
+          isRequestorOwnerCollaborator(request.auth.uid) ||
+          "published" in resource.data && resource.data.published && (
+            'galleryId' in resource.data && isGalleryPublic(resource.data.galleryId) ||
+            'galleryId' in resource.data && isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId) ||
+            isRequestorViewer(request.auth.uid)
+          )
+        );
+
+      allow update: 
+      // How-tos can be updated if:
+      // 1) owner or collaborator
+      // 2) curator of the gallery the how-to is in
+      // we also allow updating the social interactions of a how-to as long as the user can view it
+      // and updating xcoord, ycoord by how-to owner/collaborator and gallery curator/collaborator
+        if request.auth != null && 
+          (
+            "mod" in request.auth.token && request.auth.token.mod ||
+            isRequestorOwnerCollaborator(request.auth.uid) ||
+            'galleryId' in request.resource.data && isRequestorCurator(request.auth.uid, request.resource.data.galleryId) ||
+            'galleryId' in request.resource.data && (
+              isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId) || 
+              isRequestorOwnerCollaborator(request.auth.uid)
+            ) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["xcoord", "ycoord"]) ||
+            'galleryId' in request.resource.data && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["social"]) && (
+              isGalleryPublic(resource.data.galleryId) || 
+              isRequestorViewer(request.auth.uid)
+            )
+          );
+      allow delete: if request.auth != null && (resource.data.creator == request.auth.uid || isRequestorCurator(request.auth.uid, resource.data.galleryId));
     }
   }
 }

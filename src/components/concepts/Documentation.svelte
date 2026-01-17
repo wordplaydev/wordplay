@@ -14,6 +14,7 @@
     import ConceptIndex from '@concepts/ConceptIndex';
     import ConversionConcept from '@concepts/ConversionConcept';
     import FunctionConcept from '@concepts/FunctionConcept';
+    import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import HowConcept from '@concepts/HowConcept';
     import type HowTo from '@concepts/HowTo';
     import { HowToCategories, type HowToCategory } from '@concepts/HowTo';
@@ -21,6 +22,8 @@
     import Purpose from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
+    import type Gallery from '@db/galleries/Gallery';
+    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import {
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
@@ -49,7 +52,14 @@
         TYPE_SYMBOL,
     } from '@parser/Symbols';
     import { onDestroy, tick, untrack } from 'svelte';
-    import { Locales, Projects, blocks, locales } from '../../db/Database';
+    import {
+        Galleries,
+        HowTos,
+        Locales,
+        Projects,
+        blocks,
+        locales,
+    } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import ConceptLink from '../../nodes/ConceptLink';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
@@ -131,10 +141,38 @@
             });
     });
 
+    // get the user generated how-tos that are in a gallery, if the gallery exists
+    let galleryHowTos = $state<GalleryHowTo[]>([]);
+    let gallery: Gallery | undefined = $state(undefined);
     $effect(() => {
-        if (howTos && indexContext) {
+        const galleryID: string | null = project.getGallery();
+
+        if (galleryID) {
+            Galleries.get(galleryID).then((gal) => {
+                // Found a store? Subscribe to it, updating the gallery when it changes.
+                if (gal) gallery = gal;
+                // Not found? No gallery.
+                else gallery = undefined;
+            });
+        }
+    });
+
+    $effect(() => {
+        if (gallery) {
+            HowTos.getHowTos(gallery.getHowTos()).then(
+                (hts: GalleryHowTo[] | undefined | false) => {
+                    if (hts) galleryHowTos = hts;
+                },
+            );
+        } else if (standalone) {
+            galleryHowTos = HowTos.allAccessiblePublishedHowTos;
+        }
+    });
+
+    $effect(() => {
+        if (howTos && indexContext && galleryHowTos) {
             indexContext.index = untrack(() =>
-                ConceptIndex.make(project, $locales, howTos),
+                ConceptIndex.make(project, $locales, howTos, galleryHowTos),
             );
         }
     });
@@ -424,6 +462,23 @@
                                 </div>
                             {/if}
                         {/each}
+                        {#if galleryHowTos.length > 0}
+                            {@const galleryHow = index.concepts.filter(
+                                (c) => c instanceof GalleryHowConcept,
+                            )}
+                            <Subheader
+                                text={(l) => l.ui.docs.how.category.gallery}
+                            />
+                            <div class="howtos">
+                                {#each galleryHow as how}
+                                    <CodeView
+                                        node={how.getRepresentation()}
+                                        concept={how}
+                                        elide
+                                    />
+                                {/each}
+                            </div>
+                        {/if}
                     {/if}
                 {:else if purpose === Purpose.Project}
                     {@const projectConcepts =
