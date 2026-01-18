@@ -1,11 +1,13 @@
 # We can't use COLRv1 in Webkit (yet), which prevents us from using Noto Color Emoji universally.
-# But we can convert it to SBIX, which WebKit does support:
+# But we can convert it to an SVG font, which WebKit does support:
 # https://stackoverflow.com/questions/78467798/how-to-successfully-use-noto-color-emoji-font-on-safari-webkit-in-2024
 # https://stackoverflow.com/questions/78467479/nanoemoji-errors-out-when-converting-svg-folder-to-colrv0-format
 #
 # Run this with a simple ./notocolor.sh.
+#
 # Expects python3, pip3. Install missing dependencies via package manager (e.g., brew install ...)
 # The resulting SVG font will be about 3 mb, a tad larger than the COLRv1 font.
+# Re-run this every type the Noto Color Emoji font has a new release.
 
 # Download nanoemoji, a Google Fonts tool for converting fonts.
 git clone https://github.com/googlefonts/nanoemoji.git
@@ -37,7 +39,7 @@ deactivate
 cd ..
 
 # Move the built font file to the static fonts folder where Wordplay expects it.
-mv build/Font.ttf ../static/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf
+mv nanoemoji/build/Font.ttf ../static/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf
 
 # Clean up the repository and its files
 rm -rf nanoemoji
