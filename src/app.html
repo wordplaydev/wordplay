@@ -66,9 +66,9 @@
             }
 
             /* 
-                If in webkit, use Apple Color Emoji, as COLRv1 isn't supported, and SVG rendering causes major hangs: 
-                https://github.com/googlefonts/noto-emoji/issues/438 
-                We instead use an SBIX color font that is supported by WebKit.
+                If in webkit, use Apple Color Emoji, as COLRv1 isn't supported. So we generate an SVG version
+                of Noto Color Emoji with scripts/notocolor.sh. See here for more details:
+                https://github.com/googlefonts/noto-emoji/issues/438
             */
             @supports (-webkit-hyphens: none) {
                 @font-face {
