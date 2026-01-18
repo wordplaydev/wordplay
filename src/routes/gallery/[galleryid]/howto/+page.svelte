@@ -280,7 +280,8 @@
     <Page footer={true}>
         <div class="howtospace">
             <div class="howtospaceheader">
-                <Header>
+                <Header text={(l) => l.ui.howto.galleryView.header}></Header>
+                <Subheader>
                     {#if ($user && (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid))) || gallery.isPublic()}
                         <Link
                             to="/gallery/{galleryID}"
@@ -290,7 +291,7 @@
                     {:else}
                         {galleryName}
                     {/if}
-                </Header>
+                </Subheader>
 
                 <MarkupHTMLView markup={(l) => l.ui.howto.galleryView.prompt} />
 
