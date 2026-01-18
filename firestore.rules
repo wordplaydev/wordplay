@@ -168,7 +168,7 @@ service cloud.firestore {
       // 0) a moderator
       // 1) owner or collaborator
       // 2) curator of the gallery the how-to is in
-      // we also allow updating the social interactions of a how-to as long as the user can view it
+      // we also allow updating the social interactions of a how-to as long as the user can view it (viewer, owner, collaborator, gallery curator or collaborator)
       // and updating xcoord, ycoord by how-to owner/collaborator and gallery curator/collaborator
         if request.auth != null && 
           (
@@ -177,16 +177,19 @@ service cloud.firestore {
             ("galleryId" in request.resource.data && isRequestorCurator(request.auth.uid, request.resource.data.galleryId)) ||
             ('galleryId' in request.resource.data && 
               (
-                isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId) || 
-                isRequestorOwnerCollaborator(request.auth.uid)
-              ) && 
-              (
-                request.resource.data.diff(resource.data).affectedKeys().hasOnly(["xcoord", "ycoord"]) ||
                 (
-                  'galleryId' in request.resource.data && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["social"]) && 
-                  (isGalleryPublic(resource.data.galleryId) || isRequestorViewer(request.auth.uid))
+                  isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId) || 
+                  isRequestorOwnerCollaborator(request.auth.uid)
+                ) && 
+                request.resource.data.diff(resource.data).affectedKeys().hasOnly(["xcoord", "ycoord"])
+              ) ||
+              (
+                request.resource.data.diff(resource.data).affectedKeys().hasOnly(["social"]) && 
+                (
+                  isGalleryPublic(resource.data.galleryId) || isRequestorViewer(request.auth.uid) || 
+                  isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId) || isRequestorOwnerCollaborator(request.auth.uid)
                 )
-              )
+              )  
             )
           );
       allow delete: if request.auth != null && (resource.data.creator == request.auth.uid || isRequestorCurator(request.auth.uid, resource.data.galleryId));

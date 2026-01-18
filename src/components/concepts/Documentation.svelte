@@ -161,7 +161,12 @@
         if (gallery) {
             HowTos.getHowTos(gallery.getHowTos()).then(
                 (hts: GalleryHowTo[] | undefined | false) => {
-                    if (hts) galleryHowTos = hts;
+                    if (hts) {
+                        galleryHowTos = hts;
+                        galleryHowTos = galleryHowTos.filter((ht) =>
+                            ht.isPublished(),
+                        );
+                    }
                 },
             );
         } else if (standalone) {
