@@ -43,11 +43,17 @@ service cloud.firestore {
     }
     match /galleries/{gallery} {
       allow create: if request.auth != null;
+      // Public galleries can be read, as can private ones if the creator is a curator, creator, or a how to viewer.
       allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (
         request.auth != null && (
-          "curators" in resource.data && request.auth.uid in resource.data.curators || 
-          "creators" in resource.data && request.auth.uid in resource.data.creators || 
-          "howToExpandedVisibility" in resource.data && "howToViewersFlat" in resource.data && resource.data.howToExpandedVisibility && request.auth.uid in resource.data.howToViewersFlat
+          ("curators" in resource.data && request.auth.uid in resource.data.curators) || 
+          ("creators" in resource.data && request.auth.uid in resource.data.creators) || 
+          (
+            "howToExpandedVisibility" in resource.data && 
+            "howToViewersFlat" in resource.data && 
+            resource.data.howToExpandedVisibility && 
+            request.auth.uid in resource.data.howToViewersFlat
+          )
         )
       );
       
