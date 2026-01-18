@@ -126,6 +126,7 @@ export default class GalleryDatabase {
                 or(
                     where('curators', 'array-contains', user.uid),
                     where('creators', 'array-contains', user.uid),
+                    // TODO: Disabled these conditions since fields do not exist in all documents, so query fails.
                     // and(
                     //     where('howToExpandedVisibility', '==', true),
                     //     where('howToViewersFlat', 'array-contains', user.uid),
