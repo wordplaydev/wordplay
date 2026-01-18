@@ -103,10 +103,14 @@ function createGallery(
         howTos: [],
         howToExpandedVisibility: false,
         howToExpandedGalleries: [],
-        howToViewers: {} as Record<string, string[]>,
-        howToViewersFlat: [] as string[],
-        howToGuidingQuestions: locales.get((l) => l.ui.howto.configuration.guidingQuestions.default),
-        howToReactions: locales.get((l) => l.ui.howto.configuration.reactions.default),
+        howToViewers: {},
+        howToViewersFlat: [],
+        howToGuidingQuestions: locales.get(
+            (l) => l.ui.howto.configuration.guidingQuestions.default,
+        ),
+        howToReactions: locales.get(
+            (l) => l.ui.howto.configuration.reactions.default,
+        ),
     });
 }
 
@@ -128,7 +132,8 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'WheresWaldough',
                 'KatakanaGuess',
                 'FrenchNumbers',
-            ], locales,
+            ],
+            locales,
         ),
         createGallery(
             'Visualizations',

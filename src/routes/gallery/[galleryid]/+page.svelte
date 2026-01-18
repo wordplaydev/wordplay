@@ -307,9 +307,12 @@
                 </ul>
             {/if}
 
-            <Subheader text={(l) => l.ui.howto.galleryView.header}></Subheader>
-            <MarkupHTMLView markup={(l) => l.ui.howto.galleryView.prompt} />
-            <HowToGalleryView {gallery} {projectsEditable} />
+            {#if !gallery.isBuiltIn()}
+                <Subheader text={(l) => l.ui.howto.galleryView.header}
+                ></Subheader>
+                <MarkupHTMLView markup={(l) => l.ui.howto.galleryView.prompt} />
+                <HowToGalleryView {gallery} {projectsEditable} />
+            {/if}
 
             {#if $user && gallery.getCurators().includes($user.uid)}
                 <Public
