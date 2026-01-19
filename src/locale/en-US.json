@@ -5754,7 +5754,7 @@
                 "commenter": "You're a commenter. You can chat about this project but cannot edit it."
             },
             "restrictGalleryCreatorAccess": {
-                "explanation": "Your project is in a gallery. Any creator or curator of the gallery can view your project. If the gallery is public, anyone can view your project. You can restrict who can see your project to only you and the gallery curators.",
+                "explanation": "Your project is in a gallery. By default, anyone who can see this gallery can see this project. You can restrict who can see your project to only you and the gallery curators.",
                 "mode": {
                     "label": "restrict project access",
                     "labels": [
