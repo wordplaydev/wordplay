@@ -186,8 +186,9 @@ service cloud.firestore {
               (
                 request.resource.data.diff(resource.data).affectedKeys().hasOnly(["social"]) && 
                 (
-                  isGalleryPublic(resource.data.galleryId) || isRequestorViewer(request.auth.uid) || 
-                  isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId) || isRequestorOwnerCollaborator(request.auth.uid)
+                  isRequestorViewer(request.auth.uid) || 
+                  isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId) || 
+                  isRequestorOwnerCollaborator(request.auth.uid)
                 )
               )  
             )
