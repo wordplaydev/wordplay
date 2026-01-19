@@ -512,6 +512,10 @@ type UITexts = {
             curator: string;
             commenter: string;
         };
+        restrictGalleryCreatorAccess: {
+            explanation: string;
+            mode: ModeText<[string, string]>;
+        }
     };
     /** The palette editor */
     palette: {

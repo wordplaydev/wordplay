@@ -185,6 +185,7 @@ export default class Project {
             nonPII: [],
             chat: null,
             history: [],
+            restrictedGallery: false,
             viewers: [],
             commenters: [],
         });
@@ -1066,6 +1067,7 @@ export default class Project {
             nonPII: project.nonPII,
             chat: project.chat,
             history: project.history,
+            restrictedGallery: project.restrictedGallery,
             viewers: project.viewers,
             commenters: project.commenters,
         });
@@ -1274,6 +1276,7 @@ export default class Project {
             nonPII: this.data.nonPII,
             chat: this.data.chat,
             history: this.data.history,
+            restrictedGallery: this.data.restrictedGallery,
             viewers: this.data.viewers,
             commenters: this.data.commenters,
         };
@@ -1409,5 +1412,13 @@ export default class Project {
 
     hasCommenter(id: string) {
         return this.data.commenters.includes(id);
+    }
+
+    getRestrictedGallery() {
+        return this.data.restrictedGallery;
+    }
+
+    withRestrictedGallery(restricted: boolean) {
+        return new Project({ ...this.data, restrictedGallery: restricted });
     }
 }

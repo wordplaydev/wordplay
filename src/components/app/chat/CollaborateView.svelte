@@ -8,6 +8,7 @@
     import TileMessage from '@components/project/TileMessage.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { Creators, Galleries, locales, Projects } from '@db/Database';
@@ -154,8 +155,16 @@
                 </Labeled>
             {/if}
 
-            <!-- Show the curators, if in a gallery -->
             {#if gallery}
+                {#if owner == $user?.uid}
+                    <MarkupHTMLView
+                        markup={(l) =>
+                            l.ui.collaborate.restrictGalleryCreatorAccess
+                                .explanation}
+                    />
+                {/if}
+
+                <!-- Show the curators, if in a gallery -->
                 <Labeled label={(l) => l.ui.collaborate.role.curators}>
                     <CreatorList
                         anonymize={false}
@@ -163,6 +172,19 @@
                         uids={gallery.getCurators()}
                     />
                 </Labeled>
+
+                <!-- Allow user to restrict access to non-curators -->
+                {#if owner == $user?.uid}
+                    <Mode
+                        modes={(l) =>
+                            l.ui.collaborate.restrictGalleryCreatorAccess.mode}
+                        choice={project.getRestrictedGallery() ? 1 : 0}
+                        select={(index) =>
+                            Projects.reviseProject(
+                                project.withRestrictedGallery(index === 1),
+                            )}
+                    />
+                {/if}
             {/if}
         </div>
 

@@ -9170,6 +9170,22 @@
                   ],
                   "type": "object"
                 },
+                "restrictGalleryCreatorAccess": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "explanation": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "explanation",
+                    "mode"
+                  ],
+                  "type": "object"
+                },
                 "role": {
                   "additionalProperties": false,
                   "properties": {
@@ -9210,7 +9226,8 @@
                 "role",
                 "button",
                 "error",
-                "prompt"
+                "prompt",
+                "restrictGalleryCreatorAccess"
               ],
               "type": "object"
             },

@@ -92,10 +92,19 @@ const ProjectSchemaV4 = ProjectSchemaV3.omit({ v: true }).extend(
     z.object({ v: z.literal(4), history: z.array(SourceCheckpointSchema) })
         .shape,
 );
-/** v5 adds viewers, who can view the project but not edit or comment, and commenters, who can participate in chats */
+/** v5 adds viewers, who can view the project but not edit or comment, and commenters, who can participate in chats 
+ * and allows users who have a project in the gallery to restrict who can see their project to them and their teacher
+*/
 const ProjectSchemaV5 = ProjectSchemaV4.omit({ v: true }).extend(
-    /** A list of user IDs who can view or comment */
-    z.object({ v: z.literal(5), viewers: z.array(z.string()), commenters: z.array(z.string()) }).shape,
+    z.object({
+        v: z.literal(5),
+        /** A list of user IDs who can view */
+        viewers: z.array(z.string()),
+        /** A list of user IDs who can view and participate in chat */
+        commenters: z.array(z.string()),
+        /** Whether the owner restricted access to the project to only the gallery curator and their collaborators (i.e., gallery creators cannot see unless specifically added) */
+        restrictedGallery: z.boolean(),
+    }).shape,
 );
 
 /** The latest version of a project.  */
@@ -134,7 +143,7 @@ export function upgradeProject(
         case 3:
             return upgradeProject({ ...project, v: 4, history: [] });
         case 4:
-            return upgradeProject({ ...project, v: 5, viewers: [], commenters: [] });
+            return upgradeProject({ ...project, v: 5, viewers: [], commenters: [], restrictedGallery: false });
         case ProjectSchemaLatestVersion:
             return project;
         default:
