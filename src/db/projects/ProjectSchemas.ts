@@ -98,12 +98,12 @@ const ProjectSchemaV4 = ProjectSchemaV3.omit({ v: true }).extend(
 const ProjectSchemaV5 = ProjectSchemaV4.omit({ v: true }).extend(
     z.object({
         v: z.literal(5),
+        /** Whether the owner restricted access to the project to only the gallery curator and their collaborators (i.e., gallery creators cannot see unless specifically added) */
+        restrictedGallery: z.boolean(),
         /** A list of user IDs who can view */
         viewers: z.array(z.string()),
         /** A list of user IDs who can view and participate in chat */
         commenters: z.array(z.string()),
-        /** Whether the owner restricted access to the project to only the gallery curator and their collaborators (i.e., gallery creators cannot see unless specifically added) */
-        restrictedGallery: z.boolean(),
     }).shape,
 );
 
@@ -143,7 +143,7 @@ export function upgradeProject(
         case 3:
             return upgradeProject({ ...project, v: 4, history: [] });
         case 4:
-            return upgradeProject({ ...project, v: 5, viewers: [], commenters: [], restrictedGallery: false });
+            return upgradeProject({ ...project, v: 5, restrictedGallery: false, viewers: [], commenters: [] });
         case ProjectSchemaLatestVersion:
             return project;
         default:

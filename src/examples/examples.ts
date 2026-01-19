@@ -60,6 +60,7 @@ export function parseSerializedProject(
         nonPII: [],
         chat: null,
         history: [],
+        restrictedGallery: false,
         viewers: [],
         commenters: [],
     };

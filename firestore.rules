@@ -4,7 +4,8 @@ service cloud.firestore {
     match /projects/{project} {
       function isInGalleryNotRestricted(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && (gallery.public || ((uid in gallery.creators || uid in gallery.curators) && (!("restrictedGallery" in resource.data) || ("restrictedGallery" in resource.data && !resource.data.restrictedGallery))))
+        return gallery != null && (gallery.public || uid in gallery.creators || uid in gallery.curators) && 
+          (!("restrictedGallery" in resource.data) || !resource.data.restrictedGallery);
       }
 
       function isInGalleryRestricted(uid, galleryID) {
@@ -21,7 +22,7 @@ service cloud.firestore {
       // Projects are readable if:
       // 1) They are public
       // 2) The requestor is the owner or a collaborator
-      // 3) The requestor is a curator or creator of the gallery that the project is in and access to the project has not been restricted by its owner
+      // 3) The requestor is a curator or creator of the gallery that the project is in, or that gallery is public, and access to the project has not been restricted by its owner
       // 4) The requestor is a curator of the gallery that the project is in and access to the project is restricted
       allow read: if 
         (resource.data != null && 'public' in resource.data && resource.data.public) || 
