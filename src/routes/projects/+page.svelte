@@ -3,6 +3,7 @@
     import AddProject from '@components/app/AddProject.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
     import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -19,7 +20,6 @@
         COPY_SYMBOL,
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
-    import Link from '@components/app/Link.svelte';
 
     const user = getUser();
 

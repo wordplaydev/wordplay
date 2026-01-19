@@ -4847,7 +4847,7 @@
                 "header": "How-tos",
                 "subheader": "$1 how-tos, $2 new",
                 "subheaderEmpty": "create the first!",
-                "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it to!"
+                "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
             },
             "headerTooltip": "go back to gallery",
             "drafts": {
@@ -4896,7 +4896,10 @@
                 },
                 "notification": {
                     "label": "notify subscribers",
-                    "labels": ["notify", "do not notify"],
+                    "labels": [
+                        "notify",
+                        "do not notify"
+                    ],
                     "tips": [
                         "notify subscribers when you post this how-to",
                         "do not notify subscribers when you post this how-to"
@@ -4972,7 +4975,10 @@
                     },
                     "mode": {
                         "label": "default visibility",
-                        "labels": ["limited", "expanded"],
+                        "labels": [
+                            "limited",
+                            "expanded"
+                        ],
                         "tips": [
                             "only collaborators of this gallery can view",
                             "collaborators of any gallery any curator creates can view"
@@ -5273,7 +5279,10 @@
             "mode": {
                 "browse": {
                     "label": "section",
-                    "labels": ["code", "how-to"],
+                    "labels": [
+                        "code",
+                        "how-to"
+                    ],
                     "tips": [
                         "programming language concepts",
                         "reusable patterns for making projects"
@@ -5583,7 +5592,10 @@
                 "open": "open notifications dialog",
                 "howToNotifications": {
                     "label": "notifications for new how-tos",
-                    "labels": ["off", "on"],
+                    "labels": [
+                        "off",
+                        "on"
+                    ],
                     "tips": [
                         "do not notify me of new how-tos",
                         "notify me of new how-tos"

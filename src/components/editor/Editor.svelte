@@ -1015,6 +1015,11 @@
 
         if (typeof result === 'function') {
             setIgnored(result);
+
+            // Consume the event so that nothing else handles it.
+            event.preventDefault();
+            event.stopPropagation();
+
             return;
         } else if (result !== false) {
             if (result instanceof Promise) {
@@ -1026,7 +1031,7 @@
                 handleEdit(result, idle, true);
             }
 
-            // Prevent default keyboard commands from being otherwise handled, since they were handled here.
+            // Consume the event so that nothing else handles it.
             event.preventDefault();
             event.stopPropagation();
             return;

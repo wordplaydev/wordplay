@@ -730,12 +730,12 @@ const Commands: Command[] = [
         keySymbol: '↑',
         execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
-                ? blocks
+                ? // Return true to swallow the event even if we can't move further.
+                  blocks
                     ? view && getTokenViews
-                        ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
-                          false)
+                        ? moveVisualVertical(-1, view, caret, getTokenViews)
                         : false
-                    : (caret.moveVertical(-1) ?? false)
+                    : (caret.moveVertical(-1) ?? true)
                 : false,
     },
     {
@@ -763,12 +763,12 @@ const Commands: Command[] = [
         keySymbol: '↓',
         execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
-                ? blocks
+                ? // Return true to swallow the event even if we can't move further.
+                  blocks
                     ? view && getTokenViews
-                        ? (moveVisualVertical(1, view, caret, getTokenViews) ??
-                          false)
+                        ? moveVisualVertical(1, view, caret, getTokenViews)
                         : false
-                    : (caret.moveVertical(1) ?? false)
+                    : (caret.moveVertical(1) ?? true)
                 : false,
     },
     {
@@ -797,14 +797,14 @@ const Commands: Command[] = [
         execute: ({ caret, database, blocks }) =>
             caret
                 ? blocks
-                    ? (caret.moveInlineBlock(-1) ?? false)
+                    ? caret.moveInlineBlock(-1)
                     : caret.moveInlineText(
                           false,
                           database.Locales.getWritingDirection() === 'ltr'
                               ? -1
                               : 1,
                       )
-                : false,
+                : true,
     },
     {
         symbol: '←☐',
@@ -832,7 +832,7 @@ const Commands: Command[] = [
         execute: ({ caret, database, blocks }) =>
             caret
                 ? blocks
-                    ? (caret.moveInlineBlock(1) ?? false)
+                    ? caret.moveInlineBlock(1)
                     : caret.moveInlineText(
                           false,
                           database.Locales.getWritingDirection() === 'ltr'

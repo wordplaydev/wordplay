@@ -179,6 +179,10 @@ export default class HowTo {
         return this.data.viewersFlat;
     }
 
+    hasViewer(userId: string) {
+        return this.data.viewersFlat.includes(userId);
+    }
+
     getLocales() {
         return this.data.locales;
     }

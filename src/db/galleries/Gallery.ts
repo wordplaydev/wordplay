@@ -51,13 +51,15 @@ const SerializedGalleryV2 = SerializedGalleryV1.omit({ v: true }).extend({
     howToGuidingQuestions: z.array(z.string()),
     /** reaction options for the how-tos */
     howToReactions: z.record(z.string(), z.string()),
-})
+});
 
 /** The latest version of a gallery */
 export const GallerySchema = SerializedGalleryV2;
 export type SerializedGallery = z.infer<typeof SerializedGalleryV2>;
 
-type SerializedGalleryUnknownVersion = | z.infer<typeof SerializedGalleryV1> | SerializedGallery;
+type SerializedGalleryUnknownVersion =
+    | z.infer<typeof SerializedGalleryV1>
+    | SerializedGallery;
 
 export function upgradeGallery(
     gallery: SerializedGalleryUnknownVersion,
@@ -66,14 +68,16 @@ export function upgradeGallery(
         case 1:
             // default to empty guiding questions and reactions
             return upgradeGallery({
-                ...gallery, v: 2, howToExpandedVisibility: false,
+                ...gallery,
+                v: 2,
+                howToExpandedVisibility: false,
                 howTos: [],
                 howToExpandedGalleries: [],
                 howToViewers: {},
                 howToViewersFlat: [],
                 howToGuidingQuestions: [],
-                howToReactions: {}
-            })
+                howToReactions: {},
+            });
         case GallerySchemaLatestVersion:
             return gallery;
         default:
@@ -130,6 +134,10 @@ export default class Gallery {
 
     getID() {
         return this.data.id;
+    }
+
+    isBuiltIn() {
+        return !this.data.id.includes('-');
     }
 
     getLink() {
@@ -227,9 +235,7 @@ export default class Gallery {
 
     withoutHowTo(howToID: string) {
         const newData = { ...this.data };
-        newData.howTos = [
-            ...newData.howTos.filter((id) => id !== howToID),
-        ];
+        newData.howTos = [...newData.howTos.filter((id) => id !== howToID)];
         return new Gallery(newData);
     }
 
@@ -258,6 +264,6 @@ export default class Gallery {
     }
 
     getData() {
-        return { ... this.data };
+        return { ...this.data };
     }
 }
