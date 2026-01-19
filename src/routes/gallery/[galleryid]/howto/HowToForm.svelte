@@ -341,16 +341,17 @@
         HowTos.updateHowTo(howTo, true);
     }
 
+    function isCreatorCollaboratorViewer(uid: string) {
+        return (
+            howTo?.hasViewer(uid) ||
+            gallery?.hasCurator(uid) ||
+            gallery?.hasCreator(uid)
+        );
+    }
+
     function updateCollaborators(toChangeID: string, add: boolean) {
         // must be a gallery creator, curator, or how-to viewer to be added
-        if (
-            !(
-                howTo?.hasViewer(toChangeID) ||
-                gallery?.hasCurator(toChangeID) ||
-                gallery?.hasCreator(toChangeID)
-            )
-        )
-            return;
+        if (!isCreatorCollaboratorViewer(toChangeID)) return;
 
         if (add) {
             if (!allCollaborators.includes(toChangeID))
@@ -558,7 +559,7 @@
                 />
             </div>
         </div>
-    {:else if howTo && howTo.isPublished() && $user}
+    {:else if howTo && howTo.isPublished() && $user && isCreatorCollaboratorViewer($user.uid)}
         <Header>
             {title}
         </Header>
@@ -674,7 +675,7 @@
                 />
             </div>
         </div>
-    {:else if !$user}
+    {:else if !$user || !isCreatorCollaboratorViewer($user.uid)}
         <Header>
             {title}
         </Header>
