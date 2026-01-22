@@ -197,8 +197,9 @@ export default class ProjectsDatabase {
         const constraints = [
             where('owner', '==', user.uid),
             where('collaborators', 'array-contains', user.uid),
-            where('commenters', 'array-contains', user.uid),
-            where('viewers', 'array-contains', user.uid),
+            // TODO: can uncomment these when the database is migrated for all projects to include these fields
+            // where('commenters', 'array-contains', user.uid),
+            // where('viewers', 'array-contains', user.uid),
         ];
 
         // If the user has any gallery IDs it has access to, include those in the project query.
