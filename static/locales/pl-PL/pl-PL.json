@@ -4886,7 +4886,7 @@
                 },
                 "error": {
                     "unknown": "$~Nie znamy twórcy, który posiada ten adres e-mail.",
-                    "anonymous": "$~Aby udostępnić, musisz się zalogować.",
+                    "anonymous": "$~$!Musisz być <zalogowany@://login>, aby udostępnić.",
                     "self": "$~Nie możesz dodać siebie."
                 },
                 "button": {
@@ -5092,7 +5092,7 @@
                     "idea": "$~Nie widziałeś pomysłu, o którym myślisz? Zaproponuj go."
                 },
                 "error": {
-                    "login": "$~Musisz być zalogowany, aby przesłać opinię",
+                    "login": "$~$!Musisz być <zalogowany@://login>, aby przesłać opinię",
                     "submit": "$~Nie można przesłać opinii.",
                     "load": "$~Nie można załadować opinii",
                     "empty": "$~Brak opinii do wyświetlenia.",
@@ -5292,7 +5292,7 @@
                 },
                 "error": {
                     "offline": "$~Nie mogliśmy sprawdzić Twojego statusu nauczyciela. Czy jesteś zalogowany?",
-                    "login": "$~Musisz się zalogować, aby zarządzać klasami.",
+                    "login": "$~$!Musisz być <zalogowany@://login>, aby zarządzać klasami.",
                     "teacher": "$~Potrzebujesz uprawnień nauczyciela, aby tworzyć i zarządzać klasami. Wypełnij ten formularz i poznajmy się!"
                 },
                 "link": {
@@ -5432,9 +5432,9 @@
                 },
                 "error": {
                     "noaccess": "$~Nie mogliśmy połączyć się z internetem.",
-                    "nogalleryedits": "$~Aby tworzyć i zmieniać galerie, musisz się zalogować.",
+                    "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie.",
                     "newgallery": "$~Nie udało się utworzyć nowej galerii.",
-                    "nodeletes": "$~Aby usunąć zarchiwizowane projekty, musisz się zalogować.",
+                    "nodeletes": "$~$!Aby usunąć zarchiwizowane projekty, musisz być <zalogowany@://login>.",
                     "delete": "$~Ups, nie udało się usunąć projektu!"
                 },
                 "subheader": {
@@ -5623,7 +5623,7 @@
                 },
                 "error": {
                     "offline": "$~Nie udało nam się uzyskać dostępu do Twoich postaci przechowywanych online.",
-                    "noauth": "$~Musisz się zalogować, aby zobaczyć swoje postacie i stworzyć nowe.",
+                    "noauth": "$~$!Musisz być <zalogowany@://login>, aby zobaczyć swoje postacie i stworzyć nowe.",
                     "create": "$~Nie można utworzyć nowej postaci."
                 },
                 "subheader": {
@@ -5797,7 +5797,7 @@
                     "end": "$~lub naciśnij Escape.",
                     "loadfail": "$~Wystąpił problem podczas ładowania tej postaci.",
                     "notfound": "$~Ta postać nie istnieje.",
-                    "unauthenticated": "$~Musisz być zalogowany, aby edytować postać.",
+                    "unauthenticated": "$~$!Musisz być <zalogowany@://login>, aby edytować postać.",
                     "taken": "$~Masz już postać o tej nazwie, nie zapisujesz.",
                     "projecteditfail": "$~Wystąpił problem z aktualizacją projektów korzystających z tej postaci. Następujące projekty wymagają naprawy:",
                     "untitledproject": "$~Projekt bez tytułu"
@@ -5879,7 +5879,7 @@
                     "tip": "$~usuń ten poradnik ze swoich zakładek"
                 },
                 "empty": "$~Możesz dodać zakładki do poradników, z których będziesz chciał skorzystać później.",
-                "notLoggedIn": "$~Aby korzystać z zakładek, musisz się zalogować"
+                "notLoggedIn": "$~$!Musisz być <zalogowany@://login>, aby korzystać z zakładek"
             },
             "navigationtooltip": "$~przejdź do instrukcji",
             "button": {

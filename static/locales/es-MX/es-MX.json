@@ -5052,7 +5052,7 @@
                     "idea": "$~¿No viste la idea que tienes en mente? Sugiérela."
                 },
                 "error": {
-                    "login": "$~Debe iniciar sesión para enviar comentarios.",
+                    "login": "$~$!Debes estar <logged in@://login> para enviar comentarios",
                     "submit": "$~No es posible enviar comentarios.",
                     "load": "$~No se pueden cargar los comentarios",
                     "empty": "$~No hay comentarios para mostrar.",
@@ -5426,7 +5426,7 @@
                 },
                 "error": {
                     "offline": "$~No podemos verificar tu estado de profesor.",
-                    "login": "$~Debes iniciar sesión para administrar clases.",
+                    "login": "$~$!Debes estar <logged in@://login> para administrar clases.",
                     "teacher": "$~Necesitas privilegios de profesor para crear y administrar clases. ¡Completa este formulario y conozcámonos!"
                 },
                 "link": {
@@ -5546,7 +5546,7 @@
                 },
                 "error": {
                     "offline": "$~No pudimos acceder a tus personajes almacenados en línea.",
-                    "noauth": "$~Debes iniciar sesión para ver tus personajes y crear otros nuevos.",
+                    "noauth": "$~¡Debes estar <logged in@://login> para ver tus personajes y crear nuevos!",
                     "create": "$~No se puede crear un nuevo personaje."
                 },
                 "subheader": {
@@ -5720,7 +5720,7 @@
                     "end": "$~o presione escape.",
                     "loadfail": "$~Hubo un problema al cargar este personaje.",
                     "notfound": "$~Este personaje no existe.",
-                    "unauthenticated": "$~Debes iniciar sesión para editar un personaje.",
+                    "unauthenticated": "$~$!Debes estar <logged in@://login> para editar un personaje.",
                     "taken": "$~Ya tienes un personaje con este nombre; no se guarda.",
                     "projecteditfail": "$~Hubo un problema al actualizar los proyectos que usan este personaje. Los siguientes proyectos necesitan solución:",
                     "untitledproject": "$~Proyecto sin título"
@@ -5856,7 +5856,7 @@
                     "tip": "$~Elimina este tutorial de tus marcadores"
                 },
                 "empty": "$~Puedes marcar como favoritos los tutoriales que quieras consultar más adelante.",
-                "notLoggedIn": "$~Debe iniciar sesión para usar marcadores"
+                "notLoggedIn": "$~$!Debes estar <logged in@://login> para usar marcadores"
             },
             "navigationtooltip": "$~Navegar a un tutorial",
             "button": {

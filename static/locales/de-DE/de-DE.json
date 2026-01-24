@@ -4863,7 +4863,7 @@
                 },
                 "error": {
                     "unknown": "$~Wir kennen keinen Ersteller mit dieser E-Mail.",
-                    "anonymous": "$~Zum Teilen müssen Sie angemeldet sein.",
+                    "anonymous": "$~$!Sie müssen <angemeldet@://login> sein, um teilen zu können.",
                     "self": "$~Sie können sich nicht selbst hinzufügen."
                 },
                 "button": {
@@ -5069,7 +5069,7 @@
                     "idea": "$~Sie haben die Idee, die Sie sich vorstellen, nicht gefunden? Schlagen Sie sie vor."
                 },
                 "error": {
-                    "login": "$~Sie müssen angemeldet sein, um Feedback abzugeben",
+                    "login": "$~$!Sie müssen <angemeldet@://login> sein, um Feedback abzugeben",
                     "submit": "$~Feedback kann nicht übermittelt werden.",
                     "load": "$~Feedback konnte nicht geladen werden",
                     "empty": "$~Es ist kein Feedback vorhanden.",
@@ -5253,9 +5253,9 @@
                 },
                 "error": {
                     "noaccess": "$~Wir konnten nicht auf das Internet zugreifen.",
-                    "nogalleryedits": "$~Sie müssen angemeldet sein, um Galerien erstellen und ändern zu können.",
+                    "nogalleryedits": "$~$!Sie müssen <logged in@://login> sein, um Galerien zu erstellen und zu ändern.",
                     "newgallery": "$~Wir konnten keine neue Galerie erstellen.",
-                    "nodeletes": "$~Sie müssen angemeldet sein, um archivierte Projekte zu löschen.",
+                    "nodeletes": "$~$!Sie müssen <angemeldet@://login> sein, um archivierte Projekte zu löschen.",
                     "delete": "$~Hoppla, wir konnten das Projekt nicht löschen!"
                 },
                 "subheader": {
@@ -5443,7 +5443,7 @@
                 },
                 "error": {
                     "offline": "$~Wir können Ihren Lehrerstatus nicht überprüfen.",
-                    "login": "$~Sie müssen angemeldet sein, um Kurse verwalten zu können.",
+                    "login": "$~$!Sie müssen <logged in@://login> sein, um Kurse zu verwalten.",
                     "teacher": "$~Zum Erstellen und Verwalten von Klassen benötigen Sie Lehrerrechte. Füllen Sie dieses Formular aus und lernen Sie uns kennen!"
                 },
                 "link": {
@@ -5563,7 +5563,7 @@
                 },
                 "error": {
                     "offline": "$~Wir konnten nicht auf Ihre online gespeicherten Charaktere zugreifen.",
-                    "noauth": "$~Sie müssen angemeldet sein, um Ihre Charaktere zu sehen und neue zu erstellen.",
+                    "noauth": "$~$!Du musst <angemeldet@://login> sein, um deine Charaktere zu sehen und neue zu erstellen.",
                     "create": "$~Es kann kein neuer Charakter erstellt werden."
                 },
                 "subheader": {
@@ -5737,7 +5737,7 @@
                     "end": "$~oder drücken Sie die Escape-Taste.",
                     "loadfail": "$~Beim Laden dieses Zeichens ist ein Problem aufgetreten.",
                     "notfound": "$~Dieses Zeichen existiert nicht.",
-                    "unauthenticated": "$~Sie müssen angemeldet sein, um einen Charakter bearbeiten zu können.",
+                    "unauthenticated": "$~$!Du musst <angemeldet@://login> sein, um einen Charakter zu bearbeiten.",
                     "taken": "$~Sie haben bereits einen Charakter mit diesem Namen; wird nicht gespeichert.",
                     "projecteditfail": "$~Beim Aktualisieren von Projekten, die dieses Zeichen verwenden, ist ein Problem aufgetreten. Die folgenden Projekte müssen behoben werden:",
                     "untitledproject": "$~Unbenanntes Projekt"
@@ -5873,7 +5873,7 @@
                     "tip": "$~Diese Anleitung aus Ihren Lesezeichen entfernen."
                 },
                 "empty": "$~Sie können Anleitungen, auf die Sie später zurückgreifen möchten, als Lesezeichen speichern.",
-                "notLoggedIn": "$~Sie müssen angemeldet sein, um Lesezeichen verwenden zu können."
+                "notLoggedIn": "$~$!Sie müssen <angemeldet@://login> sein, um Lesezeichen verwenden zu können"
             },
             "navigationtooltip": "$~Navigieren Sie zu einer Anleitung.",
             "button": {

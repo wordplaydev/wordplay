@@ -4881,7 +4881,7 @@
                 },
                 "error": {
                     "unknown": "$~Bu e-postaya sahip bir yaratıcıyı tanımıyoruz.",
-                    "anonymous": "$~Paylaşmak için giriş yapmalısınız.",
+                    "anonymous": "$~Paylaşmak için <giriş yapmalısınız@://login>.",
                     "self": "$~Kendinizi ekleyemezsiniz."
                 },
                 "button": {
@@ -5083,7 +5083,7 @@
                     "idea": "$~Aklınıza gelen fikri göremiyor musunuz? Önerin."
                 },
                 "error": {
-                    "login": "$~Geri bildirim göndermek için giriş yapmış olmanız gerekir",
+                    "login": "$~$!Geri bildirim göndermek için <giriş yapmalısınız@://login>",
                     "submit": "$~Geri bildirim gönderilemedi.",
                     "load": "$~Geri bildirim yüklenemiyor",
                     "empty": "$~Gösterilecek geri bildirim yok.",
@@ -5283,7 +5283,7 @@
                 },
                 "error": {
                     "offline": "$~Öğretmen durumunuzu kontrol edemedik. Giriş yaptınız mı?",
-                    "login": "$~Dersleri yönetmek için giriş yapmanız gerekmektedir.",
+                    "login": "$~Dersleri yönetmek için <giriş yapmanız gerekiyor.",
                     "teacher": "$~Sınıfları oluşturmak ve yönetmek için öğretmen ayrıcalıklarına ihtiyacınız var. Bu formu doldurun ve birbirimizi tanıyalım!"
                 },
                 "link": {
@@ -5423,9 +5423,9 @@
                 },
                 "error": {
                     "noaccess": "$~İnternete ulaşamadık.",
-                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için giriş yapmanız gerekmektedir.",
+                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>.",
                     "newgallery": "$~Yeni bir galeri oluşturamadık.",
-                    "nodeletes": "$~Arşivlenmiş projeleri silmek için giriş yapmanız gerekmektedir.",
+                    "nodeletes": "$~Arşivlenmiş projeleri silmek için <giriş yapmalısınız@://login>.",
                     "delete": "$~Oops, projeyi silemedik!"
                 },
                 "subheader": {
@@ -5614,7 +5614,7 @@
                 },
                 "error": {
                     "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",
-                    "noauth": "$~Karakterlerinizi görmek ve yeni karakterler oluşturmak için giriş yapmanız gerekmektedir.",
+                    "noauth": "$~Karakterlerinizi görmek ve yenilerini oluşturmak için <giriş yapmalısınız@://login>.",
                     "create": "$~Yeni bir karakter oluşturulamıyor."
                 },
                 "subheader": {
@@ -5788,7 +5788,7 @@
                     "end": "$~veya escape tuşuna basın.",
                     "loadfail": "$~Bu karakter yüklenirken bir sorun oluştu.",
                     "notfound": "$~Bu karakter mevcut değil.",
-                    "unauthenticated": "$~Bir karakteri düzenlemek için giriş yapmış olmanız gerekir.",
+                    "unauthenticated": "$~Bir karakteri düzenlemek için <giriş yapmalısınız@://login>.",
                     "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
                     "projecteditfail": "$~Bu karakteri kullanan projeler güncellenirken bir sorun oluştu. Aşağıdaki projelerin düzeltilmesi gerekiyor:",
                     "untitledproject": "$~Başlıksız Proje"
@@ -5870,7 +5870,7 @@
                     "tip": "$~Bu kılavuzu yer işaretlerinizden kaldırın."
                 },
                 "empty": "$~Daha sonra başvurmak istediğiniz kılavuzları yer imlerine ekleyebilirsiniz.",
-                "notLoggedIn": "$~Yer işaretlerini kullanmak için giriş yapmanız gerekmektedir."
+                "notLoggedIn": "$~Yer işaretlerini kullanmak için <giriş yapmalısınız@://login>."
             },
             "navigationtooltip": "$~Nasıl yapılır sayfasına git",
             "button": {

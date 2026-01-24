@@ -2206,7 +2206,7 @@
             },
             "conversion": {
                 "text": "我的數字的阿拉伯文@Text 表示。",
-                "list": "一個從1到給定數字的數字列表,例如\\10→[]\\。",
+                "list": ["一個從1到給定數字的數字列表,例如", "\\10→[]\\。"],
                 "s2m": "秒到分鐘",
                 "s2h": "秒到小時",
                 "s2day": "秒到天",
@@ -4603,11 +4603,26 @@
                 "search": "使用關鍵字搜尋概念"
             },
             "header": {
-                "inputs": "投入",
-                "interfaces": "介面",
-                "properties": "屬性",
-                "functions": "函數",
-                "conversions": "轉換",
+                "inputs": {
+                    "header": "投入",
+                    "explanation": "$~/必填項和可選值。 /"
+                },
+                "interfaces": {
+                    "header": "介面",
+                    "explanation": "$~此結構所依據的結構。"
+                },
+                "properties": {
+                    "header": "屬性",
+                    "explanation": "$~此概念所蘊含的價值觀。"
+                },
+                "functions": {
+                    "header": "函數",
+                    "explanation": "$~此概念可以計算的值。"
+                },
+                "conversions": {
+                    "header": "轉換",
+                    "explanation": "$~將此值轉換為其他類型值的方法。"
+                },
                 "arrangements": {
                     "header": "$~安排",
                     "explanation": "$~/一組短語的排列方式。 /"
@@ -5664,7 +5679,7 @@
                     "end": "$~或按 Esc。",
                     "loadfail": "$~載入此角色時出現問題。",
                     "notfound": "$~該角色不存在或您看不到該角色。",
-                    "unauthenticated": "$~您必須登入才能編輯角色。",
+                    "unauthenticated": "$~您必須<登入@://login>才能編輯字元。",
                     "taken": "$~您已經有一個同名的角色；沒有保存。",
                     "projecteditfail": "$~更新使用此字元的項目時出現問題。以下項目需要修復：",
                     "untitledproject": "$~未命名項目"

@@ -4864,7 +4864,7 @@
                 },
                 "error": {
                     "unknown": "$~Nous ne connaissons pas de créateur avec cet email.",
-                    "anonymous": "$~Vous devez être connecté pour partager.",
+                    "anonymous": "$~Vous devez être <connecté@://login> pour partager.",
                     "self": "$~Vous ne pouvez pas vous ajouter."
                 },
                 "button": {
@@ -5070,7 +5070,7 @@
                     "idea": "$~Vous n'avez pas trouvé l'idée qui vous vient à l'esprit ? Proposez-la."
                 },
                 "error": {
-                    "login": "$~Vous devez être connecté pour soumettre vos commentaires",
+                    "login": "$~Vous devez être connecté pour soumettre des commentaires.",
                     "submit": "$~Impossible de soumettre des commentaires.",
                     "load": "$~Impossible de charger les commentaires",
                     "empty": "$~Il n'y a aucun commentaire à afficher.",
@@ -5258,9 +5258,9 @@
                 },
                 "error": {
                     "noaccess": "$~Nous n'avons pas pu accéder à Internet.",
-                    "nogalleryedits": "$~Vous devez être connecté pour créer et modifier des galeries.",
+                    "nogalleryedits": "$~Vous devez être <connecté@://login> pour créer et modifier des galeries.",
                     "newgallery": "$~Nous n'avons pas pu créer une nouvelle galerie.",
-                    "nodeletes": "$~Vous devez être connecté pour supprimer les projets archivés.",
+                    "nodeletes": "$~Vous devez être <connecté@://login> pour supprimer les projets archivés.",
                     "delete": "$~Oups, nous n'avons pas pu supprimer le projet!"
                 },
                 "subheader": {
@@ -5444,7 +5444,7 @@
                 },
                 "error": {
                     "offline": "$~Nous ne sommes pas en mesure de vérifier votre statut d'enseignant.",
-                    "login": "$~Vous devez être connecté pour gérer les cours.",
+                    "login": "$~$!Vous devez être <connecté@://login> pour gérer les classes.",
                     "teacher": "$~Vous devez disposer des privilèges d'enseignant pour créer et gérer des classes. Remplissez ce formulaire et faisons connaissance !"
                 },
                 "link": {
@@ -5564,7 +5564,7 @@
                 },
                 "error": {
                     "offline": "$~Nous n'avons pas pu accéder à vos personnages stockés en ligne.",
-                    "noauth": "$~Vous devez être connecté pour voir vos personnages et en créer de nouveaux.",
+                    "noauth": "$~$!Vous devez être <connecté@://login> pour voir vos personnages et en créer de nouveaux.",
                     "create": "$~Impossible de créer un nouveau personnage."
                 },
                 "subheader": {
@@ -5738,7 +5738,7 @@
                     "end": "$~ou appuyez sur Echap.",
                     "loadfail": "$~Il y a eu un problème lors du chargement de ce personnage.",
                     "notfound": "$~Ce personnage n'existe pas.",
-                    "unauthenticated": "$~Vous devez être connecté pour modifier un personnage.",
+                    "unauthenticated": "$~$!Vous devez être <connecté@://login> pour modifier un personnage.",
                     "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas.",
                     "projecteditfail": "$~Un problème est survenu lors de la mise à jour des projets utilisant ce personnage. Les projets suivants doivent être corrigés :",
                     "untitledproject": "$~Projet sans titre"
@@ -5874,7 +5874,7 @@
                     "tip": "$~Supprimez ce tutoriel de vos favoris."
                 },
                 "empty": "$~Vous pouvez ajouter à vos favoris les tutoriels que vous souhaitez consulter ultérieurement.",
-                "notLoggedIn": "$~Vous devez être connecté pour utiliser les favoris."
+                "notLoggedIn": "$~Vous devez être <connecté@://login> pour utiliser les favoris."
             },
             "navigationtooltip": "$~accéder à un tutoriel",
             "button": {

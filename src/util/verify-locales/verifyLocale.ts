@@ -107,6 +107,16 @@ export async function verifyLocale(
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
 }
 
+// If the value is unwritten, or marked revised and machine translated, or we're overriding and is machine translated,
+function shouldStringBeMachineTranslated(
+    text: string,
+    override: boolean,
+): boolean {
+    if (isUnwritten(text)) return true;
+    if (isAutomated(text) && override) return true;
+    return false;
+}
+
 /** Given a locale, check it's validity, and repair what we can. */
 async function checkLocale(
     log: Log,
@@ -127,13 +137,24 @@ async function checkLocale(
 
     // Find all of the unwritten strings.
     const pairsToTranslate = pairs
-        .filter(({ value }) =>
-            typeof value === 'string'
-                ? isUnwritten(value) || (override && isAutomated(value))
-                : value.some(
-                      (s) => isUnwritten(s) || (override && isAutomated(s)),
-                  ),
-        )
+        .filter((path) => {
+            const value = path.value;
+            // Is this path is marked revised in the original, and this is automated, retranslate it.
+            if (
+                revisedStrings.some((rev) => rev.path.equals(path)) &&
+                (typeof value === 'string'
+                    ? isAutomated(value)
+                    : value.some((s) => isAutomated(s)))
+            )
+                return true;
+
+            return typeof value === 'string'
+                ? // If the value is unwritten, or marked revised and machine translated, or we're overriding and is machine translated,
+                  shouldStringBeMachineTranslated(value, override)
+                : value.some((s) =>
+                      shouldStringBeMachineTranslated(s, override),
+                  );
+        })
         // Don't translate emotions; those have meaning.
         .filter(({ key }) => key !== 'emotion');
 
@@ -292,13 +313,17 @@ async function checkLocale(
         }
     }
 
+    // Give warnings on revised strings that are not machine translated.
     for (const revisedString of revisedStrings) {
         const match = pairs.find((path) => path.equals(revisedString.path));
-        if (match)
-            log.warning(
-                2,
-                `Potentially out of date string at ${revisedString.path.toString()}: "${revisedString.path.resolve(original)}". Revision in ${revisedString.locale}: "${revisedString.text}"`,
-            );
+        if (match) {
+            const outOfDate = revisedString.path.resolve(original);
+            if (typeof outOfDate === 'string' && !isAutomated(outOfDate))
+                log.warning(
+                    2,
+                    `Potentially out of date string at ${revisedString.path.toString()}: "${outOfDate}". Revision in ${revisedString.locale}: "${revisedString.text}"`,
+                );
+        }
     }
 
     const automated = pairs.filter(({ value }) =>

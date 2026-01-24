@@ -4881,7 +4881,7 @@
                 },
                 "error": {
                     "unknown": "$~Vi känner ingen skapare med den här e-postadressen.",
-                    "anonymous": "$~Du måste vara inloggad för att dela.",
+                    "anonymous": "$~Du måste vara <inloggad@://login> för att dela.",
                     "self": "$~Du kan inte lägga till dig själv."
                 },
                 "button": {
@@ -5087,7 +5087,7 @@
                     "idea": "$~Såg du inte idén du tänkte på? Föreslå det."
                 },
                 "error": {
-                    "login": "$~Du måste vara inloggad för att skicka feedback",
+                    "login": "$~Du måste vara <inloggad@://login> för att skicka feedback",
                     "submit": "$~Det gick inte att skicka feedback.",
                     "load": "$~Det gick inte att ladda feedback",
                     "empty": "$~Det finns ingen feedback att visa.",
@@ -5287,7 +5287,7 @@
                 },
                 "error": {
                     "offline": "$~Vi kunde inte kontrollera din lärarstatus. Är du inloggad?",
-                    "login": "$~Du måste vara inloggad för att hantera klasser.",
+                    "login": "$~Du måste vara <inloggad@://login> för att hantera klasser.",
                     "teacher": "$~Du behöver lärarbehörighet för att skapa och hantera klasser. Fyll i detta formulär och låt oss lära känna varandra!"
                 },
                 "link": {
@@ -5427,9 +5427,9 @@
                 },
                 "error": {
                     "noaccess": "$~Vi kunde inte nå internet.",
-                    "nogalleryedits": "$~Du måste vara inloggad för att skapa och ändra gallerier.",
+                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier.",
                     "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
-                    "nodeletes": "$~Du måste vara inloggad för att ta bort arkiverade projekt.",
+                    "nodeletes": "$~Du måste vara <inloggad@://login> för att radera arkiverade projekt.",
                     "delete": "$~Hoppsan, vi kunde inte ta bort projektet!"
                 },
                 "subheader": {
@@ -5618,7 +5618,7 @@
                 },
                 "error": {
                     "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",
-                    "noauth": "$~Du måste vara inloggad för att se dina karaktärer och skapa nya.",
+                    "noauth": "$~Du måste vara <inloggad@://login> för att se dina karaktärer och skapa nya.",
                     "create": "$~Det går inte att skapa en ny karaktär."
                 },
                 "subheader": {
@@ -5792,7 +5792,7 @@
                     "end": "$~eller tryck på Escape.",
                     "loadfail": "$~Det gick inte att läsa in den här karaktären.",
                     "notfound": "$~Den här karaktären finns inte.",
-                    "unauthenticated": "$~Du måste vara inloggad för att redigera en karaktär.",
+                    "unauthenticated": "$~Du måste vara <inloggad@://login> för att redigera ett tecken.",
                     "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
                     "projecteditfail": "$~Det uppstod ett problem när projekt som använder det här tecknet uppdaterades. Följande projekt behöver åtgärdas:",
                     "untitledproject": "$~Namnlöst projekt"
@@ -5874,7 +5874,7 @@
                     "tip": "$~ta bort den här instruktionen från dina bokmärken"
                 },
                 "empty": "$~Du kan bokmärka instruktioner som du vill använda senare.",
-                "notLoggedIn": "$~Du måste vara inloggad för att använda bokmärken"
+                "notLoggedIn": "$~Du måste vara <inloggad@://login> för att använda bokmärken"
             },
             "navigationtooltip": "$~navigera till en instruktionsguide",
             "button": {
