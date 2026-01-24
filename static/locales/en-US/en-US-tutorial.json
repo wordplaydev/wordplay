@@ -2611,7 +2611,7 @@
                             "There's one other source of input I want to show you. Remember \\[].random()\\ from earlier, from @List?",
                             "Inside, it uses a @FunctionDefinition called @Random, which provides an infinite sequence of random numbers. It's kind of a stream since it generates input from your world, not ours. But it's a bit different from the other streams in that it doesn't cause a @Program to reevaluate.",
                             "Instead, each time it's evaluated, it gives a different random number.",
-                            "See that little ↻ @UI/resetEvaluator button by the timeline? Press that to reevaluate the program manually, and you'll see a new number between \\0\\ and \\1\\ each time."
+                            "See that little ↻ @UI/resetEvaluator button in the stage toolbar (and also on the timeline)? Press that to reevaluate the program manually, and you'll see a new number between \\0\\ and \\1\\ each time."
                         ],
                         ["Random", "neutral", "0.223423… 0.823423… 0.123459"],
                         ["edit", "Random()"],

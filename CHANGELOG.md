@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.39
 
+## Fixed
+
+- Fixed #919, correcting tutorial script.
+
 ## Maintenance
 
 - Updated minor versions of `firebase`, `zod`, `svelte`, `@sveltejs/kit`, `vite`, `vitest`, `colorjs.io`.
