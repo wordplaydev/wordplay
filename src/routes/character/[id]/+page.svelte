@@ -1314,11 +1314,13 @@
                         ColorJS.spaces.srgb,
                         [r / 255, g / 255, b / 255],
                         a / 255,
-                    ).to('lch');
+                    ).to(ColorJS.spaces.LCH);
                     setPixel(false, x, y, {
-                        l: color.coords[0] / 100,
-                        c: color.coords[1],
-                        h: isNaN(color.coords[2]) ? 0 : color.coords[2],
+                        l: (color.coords[0] ?? 0) / 100,
+                        c: color.coords[1] ?? 0,
+                        h: isNaN(color.coords[2] ?? 0)
+                            ? 0
+                            : (color.coords[2] ?? 0),
                     });
                 }
             }
