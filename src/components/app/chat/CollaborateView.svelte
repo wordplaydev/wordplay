@@ -118,7 +118,7 @@
             {/if}
 
             <!-- Show all of the commenters -->
-            {#if owner == $user?.uid || project.getCommenters().length > 0}
+            {#if owner === $user?.uid || project.getCommenters().length > 0}
                 <Labeled label={(l) => l.ui.collaborate.role.commenters}>
                     <CreatorList
                         anonymize={false}
@@ -138,7 +138,7 @@
             {/if}
 
             <!-- Show all of the viewers -->
-            {#if owner == $user?.uid || project.getViewers().length > 0}
+            {#if owner === $user?.uid || project.getViewers().length > 0}
                 <Labeled label={(l) => l.ui.collaborate.role.viewers}>
                     <CreatorList
                         anonymize={false}
@@ -156,7 +156,7 @@
             {/if}
 
             {#if gallery}
-                {#if owner == $user?.uid}
+                {#if owner === $user?.uid}
                     <MarkupHTMLView
                         markup={(l) =>
                             l.ui.collaborate.restrictGalleryCreatorAccess
@@ -174,7 +174,7 @@
                 </Labeled>
 
                 <!-- Allow user to restrict access to non-curators -->
-                {#if owner == $user?.uid}
+                {#if owner === $user?.uid}
                     <Mode
                         modes={(l) =>
                             l.ui.collaborate.restrictGalleryCreatorAccess.mode}
