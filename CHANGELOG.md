@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #893, correcting example in tutorial script.
 - Fixed #915, improving visibility of tutorial highlight.
 - Fixed #916, aligning tutorial text and output.
+- Fixed defect in changed stream evaluation.
 
 ## Maintenance
 

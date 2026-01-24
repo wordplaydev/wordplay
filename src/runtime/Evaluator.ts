@@ -1634,8 +1634,7 @@ export default class Evaluator {
                     }
                 }
 
-                // STEP 3: If this stream node has an ancestor that is a condition of a Conditional, value of a Match,
-                // or input of an Evaluate, then all of the subexpression of the branch are dependent on this
+                // STEP 3: If this stream node has an ancestor that has a branch, then all of the subexpression of the branch are dependent on this
                 // stream.
                 const root = this.project.getRoot(streamNode);
                 if (root) {

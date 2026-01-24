@@ -6,6 +6,7 @@ import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';
 import type { SharedDefinition } from '@nodes/Borrow';
+import Changed from '@nodes/Changed';
 import Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Doc from '@nodes/Doc';
@@ -122,6 +123,9 @@ export default class Project {
         evaluations: new Map(),
         dependencies: new Map(),
     };
+
+    /** A cache of expressions that dependent on Changed expressions, so we can quickly know to reevaluate them. */
+    #changeDependentExpressions: Set<Expression> | undefined = undefined;
 
     constructor(data: ProjectData) {
         // Copy to prevent external modification
@@ -629,6 +633,35 @@ export default class Project {
 
     getExpressionsAffectedBy(expression: Expression): Set<Expression> {
         return this.getAnalysis().dependencies.get(expression) ?? new Set();
+    }
+
+    /**
+     * Returns true if the given expression is transitively dependent on a Changed expression.
+     * Used to determine whether to reevaluate an expression at evaluation time.
+     */
+    isChangedDependentExpression(expr: Expression): boolean {
+        if (this.#changeDependentExpressions === undefined) {
+            const analysis = this.analyze();
+            this.#changeDependentExpressions = new Set();
+
+            const changes = Array.from(analysis.dependencies.entries()).filter(
+                (s) => s[0] instanceof Changed,
+            );
+            while (changes.length > 0) {
+                const [, dependents] = changes.pop()!;
+                for (const dependent of dependents) {
+                    if (!this.#changeDependentExpressions.has(dependent)) {
+                        this.#changeDependentExpressions.add(dependent);
+                        const furtherDependents =
+                            analysis.dependencies.get(dependent);
+                        if (furtherDependents) {
+                            changes.push([dependent, furtherDependents]);
+                        }
+                    }
+                }
+            }
+        }
+        return this.#changeDependentExpressions.has(expr);
     }
 
     /** Return true if the given expression is in this project and depends only on contants. */
