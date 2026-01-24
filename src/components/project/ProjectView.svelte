@@ -361,15 +361,18 @@
     let latestValue = $state<Value | undefined>();
 
     // When the project changes, create a new evaluator, observe it.
-    let evaluatorTimeout = $state<NodeJS.Timeout | undefined>();
+    let staleEvaluator = $state(false);
     projectStore.subscribe((newProject) => {
-        if ($keyboardEditIdle === IdleKind.Typing) {
-            if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
-            evaluatorTimeout = setTimeout(() => {
-                updateEvaluator(newProject);
-            }, KeyboardIdleWaitTime);
-        } else {
-            updateEvaluator(newProject);
+        // If the project change, but the creator is typing, debounce update after the keyboard idle wait time.
+        if ($keyboardEditIdle === IdleKind.Typing) staleEvaluator = true;
+        // Otherwise, update immediately.
+        else updateEvaluator(newProject);
+    });
+
+    // When the keyboard becomes idle, and the evaluator is stale, update it.
+    $effect(() => {
+        if ($keyboardEditIdle === IdleKind.Idle && staleEvaluator) {
+            updateEvaluator($projectStore);
         }
     });
 
@@ -409,6 +412,9 @@
 
         // Set the evaluator store
         evaluator.set(newEvaluator);
+
+        // Mark the evaluator not stale.
+        staleEvaluator = false;
     }
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
