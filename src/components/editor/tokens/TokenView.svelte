@@ -270,6 +270,12 @@
             var(--wordplay-border-color);
     }
 
+    .token-view.editable.blocks.blockText:hover {
+        outline: var(--wordplay-focus-width) solid var(--wordplay-hover);
+        box-shadow: var(--color-shadow) 4px 4px 4px;
+        cursor: text;
+    }
+
     .StructureDefinition,
     .StreamDefinition {
         font-style: italic;
