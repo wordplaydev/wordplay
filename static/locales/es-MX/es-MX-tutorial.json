@@ -2543,7 +2543,7 @@
                             "excited",
                             "Usar una secuencia @Button es una forma de avanzar a través de las etapas de una actuación o de desencadenar algún cambio en una actuación. Este pequeño programa enumera las pulsaciones de botones y comienza mostrándose triste, pero cuando la secuencia @Button cambia a verdadero, @Conditional se evalúa como \\'happy'\\ en su lugar."
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
                 },
                 {
@@ -2600,7 +2600,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "¡El azar puede ser muy divertido! Podemos usarlo con transmisiones para crear un caos divertido. Por ejemplo, aquí elegimos una palabra aleatoria de una lista de palabras. Esto es lo mismo que \\['kitty' 'cat' 'meowy'].random()\\. ¡Sigue presionando ↻ para obtener un sinónimo de gato diferente! Intente agregar su propia palabra a la lista y vea si puede hacer que aparezca la palabra."
+                            "¡El azar puede ser muy divertido! Podemos usarlo con transmisiones para crear un caos divertido. Por ejemplo, aquí elegimos una palabra aleatoria de una lista de palabras. Esto es lo mismo que \\['kitty' 'cat' 'feline'].random()\\. ¡Sigue presionando ↻ para obtener un sinónimo de gato diferente! Intente agregar su propia palabra a la lista y vea si puede hacer que aparezca la palabra."
                         ],
                         ["Random", "neutral", "1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]

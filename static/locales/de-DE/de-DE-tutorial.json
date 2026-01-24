@@ -2578,7 +2578,7 @@
                             "excited",
                             "$~Die Verwendung eines @Button-Streams ist eine Möglichkeit, durch die Phasen einer Performance zu gelangen oder eine Änderung in einer Performance auszulösen. Dieses kleine Programm listet Tastendrücke auf und zeigt zunächst „traurig“ an, aber wenn der @Button-Stream auf „true“ wechselt, wird @Conditional stattdessen als „glücklich“ ausgewertet."
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
                 },
                 {
@@ -2635,7 +2635,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Zufall kann so viel Spaß machen! Wir können ihn mit Streams verwenden, um lustiges Chaos zu erzeugen. Hier wählen wir beispielsweise ein zufälliges Wort aus einer Liste von Wörtern aus. Dies ist dasselbe wie \\['kitty' 'cat' 'meowy'].random()\\. Drücken Sie weiter ↻, um ein anderes Katzensynonym zu erhalten! Versuchen Sie, der Liste Ihr eigenes Wort hinzuzufügen, und sehen Sie, ob Sie das Wort erscheinen lassen können."
+                            "$~Zufall kann so viel Spaß machen! Wir können ihn mit Streams verwenden, um lustiges Chaos zu erzeugen. Hier wählen wir beispielsweise ein zufälliges Wort aus einer Liste von Wörtern aus. Dies ist dasselbe wie \\['kitty' 'cat' 'feline'].random()\\. Drücken Sie weiter ↻, um ein anderes Katzensynonym zu erhalten! Versuchen Sie, der Liste Ihr eigenes Wort hinzuzufügen, und sehen Sie, ob Sie das Wort erscheinen lassen können."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]

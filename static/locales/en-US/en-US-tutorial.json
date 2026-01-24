@@ -2568,9 +2568,9 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Using a @Button stream is one way to advance through stages of a performance or to trigger some change in a performance. This little program lists to button presses and starts off showing sad, but when the @Button stream changes to true, @Conditional evaluates to \\'happy'\\ instead."
+                            "Using a @Button stream is one way to advance through stages of a performance or to trigger some change in a performance. This little program lists to button presses and starts off showing \\'sad'\\, but when the @Button stream changes to true, @Conditional evaluates to \\'happy'\\ instead."
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
                 },
                 {
@@ -2627,7 +2627,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Random can be so fun! We can use it with streams to create fun chaos. For example, here we choose a random word from a list of words. This is the same as \\['kitty' 'cat' 'meowy'].random()\\. Keep pressing ↻ to get a different cat synonym! Try adding your own word to the list and see if you can get the word to appear."
+                            "Random can be so fun! We can use it with streams to create fun chaos. For example, here we choose a random word from a list of words. This is the same as \\['kitty' 'cat' 'feline'].random()\\. Keep pressing ↻ to get a different cat synonym! Try adding your own word to the list and see if you can get the word to appear."
                         ],
                         ["Random", "neutral", "1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]

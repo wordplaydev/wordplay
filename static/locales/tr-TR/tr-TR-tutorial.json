@@ -2606,7 +2606,7 @@
                             "excited",
                             "$~@Button akışı kullanmak, bir performansın aşamalarında ilerlemenin veya bir performansta bazı değişiklikleri tetiklemenin bir yoludur. Bu küçük program, iki düğme basışını listeler ve üzgün göstererek başlar, ancak @Button akışı doğruya değiştiğinde, @Conditional bunun yerine \\'mutlu'\\ olarak değerlendirilir."
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
                 },
                 {
