@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.39
 
+## Added
+
+- Fixed #892, adding login links to error messages prompting login.
+
 ## Fixed
 
 - Fixed #919, correcting UI reference in tutorial script.
