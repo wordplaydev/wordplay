@@ -2175,7 +2175,7 @@
                             "But that's probably not what you wanted...",
                             "And, if I don't know how to give you what you asked for, I'm basically going to shut things down."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [

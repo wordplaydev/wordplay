@@ -2148,7 +2148,7 @@
                             "Pero probablemente eso no sea lo que querías..",
                             "Y si no sé cómo darte lo que me pediste, básicamente cerraré todo."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [

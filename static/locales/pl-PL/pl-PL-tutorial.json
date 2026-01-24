@@ -2175,7 +2175,7 @@
                             "$~Ale prawdopodobnie nie o to Ci chodziło...",
                             "$~A jeśli nie będę wiedział, jak dać ci to, o co prosiłeś, to po prostu zamknę sprawę."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [

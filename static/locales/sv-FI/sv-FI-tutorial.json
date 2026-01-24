@@ -2179,7 +2179,7 @@
                             "$~Men det var nog inte det du ville...",
                             "$~Och om jag inte vet hur jag ska ge dig det du bad om, kommer jag i princip att stänga av saker och ting."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [

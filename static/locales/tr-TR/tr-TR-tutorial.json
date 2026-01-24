@@ -2195,7 +2195,7 @@
                             "$~Ama muhtemelen istediğiniz bu değildi...",
                             "$~Ve eğer sana istediğini nasıl vereceğimi bilmiyorsam, temelde her şeyi kapatacağım."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [

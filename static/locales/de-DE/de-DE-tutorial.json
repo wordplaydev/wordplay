@@ -2187,7 +2187,7 @@
                             "$~Aber das ist wahrscheinlich nicht, was Sie wollten ...",
                             "$~Und wenn ich nicht weiß, wie ich Ihnen das geben kann, was Sie verlangt haben, werde ich die Sache grundsätzlich beenden."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [

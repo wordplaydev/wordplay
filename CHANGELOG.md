@@ -7,7 +7,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## Fixed
 
-- Fixed #919, correcting tutorial script.
+- Fixed #919, correcting UI reference in tutorial script.
+- Fixed #893, correcting example in tutorial script.
 
 ## Maintenance
 
