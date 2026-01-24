@@ -15,4 +15,5 @@
     onTip={(l) => l.ui.output.toggle.paint.on}
     offLabel="✥"
     onLabel="🖌️"
+    shortcut={undefined}
 />

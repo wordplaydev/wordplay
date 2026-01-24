@@ -138,6 +138,7 @@ export enum Category {
     Modify = 'modify',
     Evaluate = 'evaluate',
     Help = 'help',
+    Fallback = 'fallback',
 }
 
 export function toShortcut(
@@ -506,7 +507,7 @@ export const ShowMenu: Command = {
 
 export const EnterFullscreen: Command = {
     uiid: '16',
-    symbol: '▶️',
+    symbol: '▶',
     description: (l) => l.ui.tile.toggle.fullscreen.off,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -659,7 +660,7 @@ export const InsertSymbol: Command = {
     symbol: 'a',
     description: (l) => l.ui.source.cursor.type,
     visible: Visibility.Invisible,
-    category: Category.Modify,
+    category: Category.Fallback,
     control: false,
     shift: undefined,
     alt: false,
@@ -1200,7 +1201,7 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         key: 'J',
-        keySymbol: '∆',
+        keySymbol: 'j',
         execute: (context) => handleInsert(context, CHANGE_SYMBOL),
     },
     {

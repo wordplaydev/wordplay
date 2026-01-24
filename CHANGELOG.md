@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Fixed #892, adding login links to error messages prompting login.
 - Translate revised strings that are machine translated in other locales.
+- Fixed #913, improved shortcut labels and shortcuts on switches.
 
 ## Fixed
 
