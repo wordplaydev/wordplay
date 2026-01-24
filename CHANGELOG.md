@@ -19,6 +19,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed defect in changed stream evaluation.
 - Fixed #891, synchronizing re-evaluation, blur, and keyboard idle
 - Fixed #910, excluding custom emojis from character's emoji picker.
+- Fixed #895, resolving tooltip flicker.
 
 ## Maintenance
 
