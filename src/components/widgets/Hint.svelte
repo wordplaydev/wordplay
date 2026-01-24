@@ -114,8 +114,6 @@
 
             bounds.top = newTop;
             bounds.left = newLeft;
-
-            console.log(bounds.left, width, window.innerWidth);
         }
     });
 </script>
