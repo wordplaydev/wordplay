@@ -37,6 +37,7 @@
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
     import Sym from '@nodes/Sym';
+    import { RGBtoLCH } from '@output/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {
         ALL_SYMBOL,
@@ -51,7 +52,6 @@
         UNDO_SYMBOL,
     } from '@parser/Symbols';
     import { toTokens } from '@parser/toTokens';
-    import ColorJS from 'colorjs.io';
     import { untrack } from 'svelte';
     import {
         CharacterSize,
@@ -1309,11 +1309,7 @@
                 const a = pixels[index + 3];
 
                 if (a > 0) {
-                    const color = new ColorJS(
-                        ColorJS.spaces.srgb,
-                        [r / 255, g / 255, b / 255],
-                        a / 255,
-                    ).to(ColorJS.spaces.LCH);
+                    const color = RGBtoLCH(r / 255, g / 255, b / 255);
                     setPixel(false, x, y, {
                         l: (color.coords[0] ?? 0) / 100,
                         c: color.coords[1] ?? 0,

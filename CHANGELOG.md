@@ -23,6 +23,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Maintenance
 
 - Updated minor versions of `firebase`, `zod`, `svelte`, `@sveltejs/kit`, `vite`, `vitest`, `colorjs.io`.
+- Converted to tree-shakeable ColorJS.
 
 ## 0.6.38
 
