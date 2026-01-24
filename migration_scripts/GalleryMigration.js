@@ -1,6 +1,6 @@
-
-import { initializeApp } from 'firebase-admin/app';
+import admin from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
+import { readFileSync } from 'fs';
 
 /**
  * Script to migrate gallery from V1 to V2
@@ -11,11 +11,33 @@ import { getFirestore } from 'firebase-admin/firestore';
  * still in V1, and write them back to the database.
  */
 
+// Get the project, either "dev" or "prod"
+const project = process.argv[2];
+if (project !== 'dev' && project !== 'prod') {
+    console.log(
+        `Expected 'dev' or 'prod' after email, but received ${project}`,
+    );
+    process.exit();
+}
 
-initializeApp();
+const serviceKeyPath = `../firebase-${project}-service-key.json`;
+
+// Log in with the secret service key generated in the Firebase service accounts console.
+const serviceAccount = JSON.parse(
+    readFileSync(`../wordplay-${project}-service-key.json`, 'utf8'),
+);
+
+if (serviceAccount === undefined) {
+    console.log(`Couldn't find service key at ${serviceKeyPath}`);
+    process.exit();
+}
+
+// Initialize the SDK with the service account.
+admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+
 const db = getFirestore();
 
-let query = db.collection('galleries').where("v", "==", 1);
+let query = db.collection('galleries').where('v', '==', 1);
 let batch = db.batch();
 
 query.get().then(async (snapshot) => {
@@ -31,7 +53,7 @@ query.get().then(async (snapshot) => {
             howToViewersFlat: [],
             howToGuidingQuestions: [],
             howToReactions: {},
-        })
+        });
     });
 
     batch.commit();
