@@ -1278,7 +1278,6 @@
 
     /** Given an emoji, render it to a canvas, get its pixels, and place the pixels in the character's shapes. */
     function importEmoji(emoji: string) {
-        // Get the
         emoji = new UnicodeString(emoji).at(0)?.toString() ?? '';
         if (emoji.length === 0) return;
 
@@ -1682,6 +1681,7 @@
                     setKeyboardFocus(canvasView, 'Focus the canvas.');
             }}
             labeled={false}
+            wrap
         ></Mode>
 
         <!-- Say what's being drawn or selected selected -->
@@ -2042,6 +2042,7 @@
         {/if}
         {#if mode === DrawingMode.Emoji}
             <EmojiChooser
+                showCustom={false}
                 pick={(emoji) => {
                     importEmoji(emoji);
                     rememberShapes();
