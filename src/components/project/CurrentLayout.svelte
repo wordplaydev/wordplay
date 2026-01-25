@@ -36,3 +36,9 @@
     onpointerleave={(event) => tip.show(label, event.currentTarget)}
     >{withMonoEmoji(LayoutIcons[computedLayout])}
 </span>
+
+<style>
+    span {
+        cursor: default;
+    }
+</style>

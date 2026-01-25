@@ -5091,8 +5091,8 @@
                         "label": "layout",
                         "labels": [
                             "auto",
-                            "row",
                             "stack",
+                            "row",
                             "two",
                             "one",
                             "free"

@@ -56,7 +56,7 @@
         Settings,
     } from '../../db/Database';
     import { isFlagged } from '../../db/projects/Moderation';
-    import Arrangement from '../../db/settings/Arrangement';
+    import Arrangement, { isResizeable } from '../../db/settings/Arrangement';
     import Characters from '../../lore/BasisCharacters';
     import type Color from '../../output/Color';
     import {
@@ -1078,13 +1078,15 @@
             });
     });
 
+    let currentArrangement = $state<Arrangement>($arrangement);
+
     /** When dragged is set, update the layout if necessary to support dragging to the last editor. */
     $effect(() => {
         // Get the current layout (without making a dependnecy, since we assign below).
         const currentLayout = untrack(() => layout);
 
         // Figure out what arrangement we're in.
-        const currentArrangement = Layout.getComputedLayout(
+        currentArrangement = Layout.getComputedLayout(
             $arrangement,
             canvasWidth,
             canvasHeight,
@@ -1877,24 +1879,31 @@
                         </TileView>
                     {/if}
                 {/each}
-                <!-- Create an adjuster for each axis split in the current layout that isn't the first in the axis -->
-                {#each layout.getSplits($arrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
-                    {#each axis.positions as _, groupIndex}
-                        {#if groupIndex > 0}
-                            <PositionAdjuster
-                                {axis}
-                                index={groupIndex}
-                                {layout}
-                                adjuster={(split) =>
-                                    adjustSplit(axisIndex, groupIndex, split)}
-                                setAdjusting={(state) => (adjusting = state)}
-                                {adjusting}
-                                width={canvasWidth}
-                                height={canvasHeight}
-                            ></PositionAdjuster>
-                        {/if}
+                <!-- If in a layout that supports resizing, create an adjuster for each axis split in the current layout that isn't the first in the axis -->
+                {#if isResizeable(currentArrangement)}
+                    {#each layout.getSplits(currentArrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
+                        {#each axis.positions as _, groupIndex}
+                            {#if groupIndex > 0}
+                                <PositionAdjuster
+                                    {axis}
+                                    index={groupIndex}
+                                    {layout}
+                                    adjuster={(split) =>
+                                        adjustSplit(
+                                            axisIndex,
+                                            groupIndex,
+                                            split,
+                                        )}
+                                    setAdjusting={(state) =>
+                                        (adjusting = state)}
+                                    {adjusting}
+                                    width={canvasWidth}
+                                    height={canvasHeight}
+                                ></PositionAdjuster>
+                            {/if}
+                        {/each}
                     {/each}
-                {/each}
+                {/if}
             {/if}
         {/key}
     </div>
