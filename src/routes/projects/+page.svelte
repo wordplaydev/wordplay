@@ -51,6 +51,22 @@
                   (p) => p.hasOwner() && p.getOwner() !== $user.uid,
               ),
     );
+
+    let commenterViewerProjects: Project[] = $state([]);
+
+    $effect(() => {
+        if (!isAuthenticated($user)) return;
+
+        commenterViewerProjects = [...Projects.readonlyProjects.values()]
+            .filter((project) => project !== undefined)
+            .filter((project) => {
+                return (
+                    !project.isArchived() &&
+                    (project.hasCommenter($user.uid) ||
+                        project.hasViewer($user.uid))
+                );
+            });
+    });
 </script>
 
 <svelte:head>
@@ -98,10 +114,10 @@
     />
 
     <!-- If there are any shared projects, make a shared section. -->
-    {#if shared.length > 0}
+    {#if shared.length + commenterViewerProjects.length > 0}
         <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
         <ProjectPreviewSet
-            set={shared}
+            set={shared.concat(commenterViewerProjects)}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
                 action: (project) => goto(project.getLink(false)),

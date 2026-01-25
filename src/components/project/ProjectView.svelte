@@ -162,6 +162,8 @@
         index?: ConceptIndex | undefined;
         /** Whether to persist the layout for layter */
         persistLayout?: boolean;
+        /** If false and not collaborator, then collaborate panel is not shown */
+        isCommenter?: boolean;
     }
 
     let {
@@ -178,6 +180,7 @@
         dragged = $bindable(undefined),
         index = $bindable(undefined),
         persistLayout = true,
+        isCommenter = false,
     }: Props = $props();
 
     // The HTMLElement that represents this element
@@ -1960,7 +1963,8 @@
                 {/each}
                 {#each layout.getNonSources() as tile (tile.id)}
                     <!-- No need to show the tile if not visible when not editable. -->
-                    {#if tile.isVisibleCollapsed(editable)}
+                    <!-- Show collaborate tile if the user is a commenter -->
+                    {#if tile.isVisibleCollapsed(editable || (tile.kind === TileKind.Collaborate && isCommenter))}
                         <NonSourceTileToggle
                             {project}
                             {tile}

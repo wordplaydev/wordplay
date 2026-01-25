@@ -5307,7 +5307,9 @@
             "role": {
                 "owner": "owner",
                 "collaborators": "collaborators",
-                "curators": "curators"
+                "curators": "curators",
+                "commenters": "commenters",
+                "viewers": "viewers"
             },
             "field": {
                 "message": {
@@ -5318,7 +5320,7 @@
             "button": {
                 "submit": {
                     "label": "send",
-                    "tip": "send a message to your collaborators"
+                    "tip": "send a message to your collaborators and "
                 },
                 "start": {
                     "label": "start a chat",
@@ -5333,10 +5335,25 @@
                 "deleted": "This message was deleted."
             },
             "prompt": {
-                "solo": "Chat with yourself or add a collaborator, who can edit and chat.",
-                "owner": "Collaborators can edit this project and chat about it.",
+                "solo": "Chat with yourself or add...\n\n• a collaborator, who can edit and chat\n\n• a commenter, who can chat but cannot edit\n\n• a viewer, who can see your project but cannot edit or chat",
+                "owner": "Collaborators can edit this project and chat about it. Commenters can chat but cannot edit this project. Viewers can view this project but cannot chat.",
                 "collaborator": "You're a collaborator. You can edit this project and chat about it.",
-                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner and collaborators can see the chat."
+                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner, collaborators, and commenters can see the chat.",
+                "commenter": "You're a commenter. You can chat about this project but cannot edit it."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "Your project is in a gallery. By default, anyone who can see this gallery can see this project. You can restrict who can see your project to only you and the gallery curators.",
+                "mode": {
+                    "label": "restrict project access",
+                    "labels": [
+                        "do not restrict",
+                        "restrict"
+                    ],
+                    "tips": [
+                        "anyone who can see this gallery can see your project",
+                        "only the gallery curators can see your project"
+                    ]
+                }
             }
         },
         "palette": {
