@@ -5091,14 +5091,14 @@
                         "label": "layout",
                         "labels": [
                             "auto",
-                            "stack",
                             "row",
+                            "stack",
                             "two",
                             "one",
                             "free"
                         ],
                         "tips": [
-                            "lay out tiles automatically",
+                            "lay out tiles automatically based on window size and shape",
                             "a horizontal screen layout",
                             "a vertical screen layout",
                             "two most recent tiles, side by side",
