@@ -8,6 +8,7 @@
     import TileMessage from '@components/project/TileMessage.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { Creators, Galleries, locales, Projects } from '@db/Database';
@@ -58,6 +59,9 @@
     let collaborator = $derived(
         isAuthenticated($user) && project.hasCollaborator($user.uid),
     );
+    let commenter = $derived(
+        isAuthenticated($user) && project.hasCommenter($user.uid),
+    );
 </script>
 
 {#if owner === null}
@@ -76,7 +80,9 @@
                     : (l) => l.ui.collaborate.prompt.owner
                 : collaborator
                   ? (l) => l.ui.collaborate.prompt.collaborator
-                  : (l) => l.ui.collaborate.prompt.curator}
+                  : commenter
+                    ? (l) => l.ui.collaborate.prompt.commenter
+                    : (l) => l.ui.collaborate.prompt.curator}
         ></MarkupHTMLView>
 
         <div class="everyone">
@@ -111,8 +117,54 @@
                 </Labeled>
             {/if}
 
-            <!-- Show the curators, if in a gallery -->
+            <!-- Show all of the commenters -->
+            {#if owner === $user?.uid || project.getCommenters().length > 0}
+                <Labeled label={(l) => l.ui.collaborate.role.commenters}>
+                    <CreatorList
+                        anonymize={false}
+                        uids={project.getCommenters()}
+                        {editable}
+                        add={(userID) =>
+                            Projects.reviseProject(
+                                project.withCommenter(userID),
+                            )}
+                        remove={(userID) =>
+                            Projects.reviseProject(
+                                project.withoutCommenter(userID),
+                            )}
+                        removable={() => true}
+                    />
+                </Labeled>
+            {/if}
+
+            <!-- Show all of the viewers -->
+            {#if owner === $user?.uid || project.getViewers().length > 0}
+                <Labeled label={(l) => l.ui.collaborate.role.viewers}>
+                    <CreatorList
+                        anonymize={false}
+                        uids={project.getViewers()}
+                        {editable}
+                        add={(userID) =>
+                            Projects.reviseProject(project.withViewer(userID))}
+                        remove={(userID) =>
+                            Projects.reviseProject(
+                                project.withoutViewer(userID),
+                            )}
+                        removable={() => true}
+                    />
+                </Labeled>
+            {/if}
+
             {#if gallery}
+                {#if owner === $user?.uid}
+                    <MarkupHTMLView
+                        markup={(l) =>
+                            l.ui.collaborate.restrictGalleryCreatorAccess
+                                .explanation}
+                    />
+                {/if}
+
+                <!-- Show the curators, if in a gallery -->
                 <Labeled label={(l) => l.ui.collaborate.role.curators}>
                     <CreatorList
                         anonymize={false}
@@ -120,6 +172,19 @@
                         uids={gallery.getCurators()}
                     />
                 </Labeled>
+
+                <!-- Allow user to restrict access to non-curators -->
+                {#if owner === $user?.uid}
+                    <Mode
+                        modes={(l) =>
+                            l.ui.collaborate.restrictGalleryCreatorAccess.mode}
+                        choice={project.getRestrictedGallery() ? 1 : 0}
+                        select={(index) =>
+                            Projects.reviseProject(
+                                project.withRestrictedGallery(index === 1),
+                            )}
+                    />
+                {/if}
             {/if}
         </div>
 

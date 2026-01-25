@@ -9148,6 +9148,9 @@
                     "collaborator": {
                       "type": "string"
                     },
+                    "commenter": {
+                      "type": "string"
+                    },
                     "curator": {
                       "type": "string"
                     },
@@ -9162,7 +9165,24 @@
                     "solo",
                     "owner",
                     "collaborator",
-                    "curator"
+                    "curator",
+                    "commenter"
+                  ],
+                  "type": "object"
+                },
+                "restrictGalleryCreatorAccess": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "explanation": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "explanation",
+                    "mode"
                   ],
                   "type": "object"
                 },
@@ -9173,6 +9193,10 @@
                       "description": "What to call collaborators",
                       "type": "string"
                     },
+                    "commenters": {
+                      "description": "What to call commenters",
+                      "type": "string"
+                    },
                     "curators": {
                       "description": "What to call curators",
                       "type": "string"
@@ -9180,12 +9204,18 @@
                     "owner": {
                       "description": "What to call the owner of a project",
                       "type": "string"
+                    },
+                    "viewers": {
+                      "description": "What to call viewers",
+                      "type": "string"
                     }
                   },
                   "required": [
                     "owner",
                     "collaborators",
-                    "curators"
+                    "curators",
+                    "commenters",
+                    "viewers"
                   ],
                   "type": "object"
                 }
@@ -9196,7 +9226,8 @@
                 "role",
                 "button",
                 "error",
-                "prompt"
+                "prompt",
+                "restrictGalleryCreatorAccess"
               ],
               "type": "object"
             },

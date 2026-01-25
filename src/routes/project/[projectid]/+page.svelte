@@ -108,6 +108,12 @@
 
     // Create a concept path for children
     setConceptPath(writable([]));
+
+    // determine if the user is a commenter
+    let isCommenter = $derived.by(() => {
+        if (project === undefined) return false;
+        else return isAuthenticated($user) && project.hasCommenter($user.uid);
+    });
 </script>
 
 <svelte:head>
@@ -118,7 +124,13 @@
     <Page>
         <!-- When the project ID changes, create a fresh project view. -->
         {#key project.getID()}
-            <ProjectView {project} {editable} {overwritten} warn={!editable} />
+            <ProjectView
+                {project}
+                {editable}
+                {overwritten}
+                warn={!editable}
+                {isCommenter}
+            />
         {/key}
     </Page>
 {:else if loading}
