@@ -1236,7 +1236,7 @@
 
     function setBrowserFullscreen(on: boolean) {
         browserFullscreen = on;
-        if (browserFullscreen) view?.requestFullscreen();
+        if (browserFullscreen) document.documentElement.requestFullscreen();
         else if (document.fullscreenElement) document.exitFullscreen();
         else setFullscreen(undefined);
     }
@@ -1556,6 +1556,12 @@
         resetKeyModifiers();
         handlePointerUp();
         event.preventDefault();
+    }}
+/>
+
+<svelte:document
+    onfullscreenchange={() => {
+        if (!document.fullscreenElement) browserFullscreen = false;
     }}
 />
 
