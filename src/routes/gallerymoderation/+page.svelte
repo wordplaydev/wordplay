@@ -13,6 +13,9 @@
 
     let user = getUser();
 
+    /** Deletes the message as a result of moderator action. 
+     * Keeps the text for bookkeeping, but marks the message as "removed"
+    */
     function removeMessage(message: SerializedMessage, chat: Chat) {
         if (!chat || !$user) return;
         Chats.updateChat(
@@ -22,6 +25,10 @@
         modNeeded.delete(message.id);
     }
 
+    /** Does not take moderation action on the message, and returns 
+     * the message to its original text. Allows someone else to report 
+     * it again in the future.
+    */
     function approveMessage(message: SerializedMessage, chat: Chat) {
         if (!chat || !$user) return;
         Chats.updateChat(

@@ -90,8 +90,10 @@
         Chats.updateChat(chat.withoutMessage(message), true);
     }
 
-    // moderation
+    // moderation dialog
     let showModerationDialog: boolean = $state(false);
+
+    // user is a moderator of a chat if the chat is in a gallery and the user is a curator of that gallery
     let isModerator: boolean = $derived(
         gallery !== undefined &&
             $user !== null &&

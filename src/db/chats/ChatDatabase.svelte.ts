@@ -239,7 +239,7 @@ export default class Chat {
         return this.data.unread.includes(creator);
     }
 
-    /** True if the chat includes a message that is pending moderation action and the user is a curator */
+    /** List of messages in this chat that require moderation action from the curator */
     getMessagesPendingModeration(curatorID: string, gallery: Gallery | undefined): SerializedMessage[] {
         if (gallery === undefined || !gallery.hasCurator(curatorID)) return [];
 

@@ -3,14 +3,20 @@
         title: string;
         galleryID: string | undefined;
         itemID: string;
-        type:
+        type: // new how-to created
             | 'howto'
+            // new chat in a project
             | 'projectchat'
+            // new chat in a how-to
             | 'howtochat'
+            // message in a project chat needs moderation
             | 'projectmoderation'
+            // message in a how-to chat needs moderation
             | 'howtomoderation';
     };
 
+    // list of chats that need moderation action from the current user
+    // maps message ID to its corresponding serialized message, chat, and gallery ID
     export let modNeeded = $state(
         new SvelteMap<string, [SerializedMessage, Chat, string]>(),
     );
@@ -67,7 +73,8 @@
         }
     });
 
-    // get messages that need moderation
+    // get messages that need moderation from this user
+    // user is responsible for moderating chats that are in their galleries
     const user = getUser();
 
     $effect(() => {
