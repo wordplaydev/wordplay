@@ -13,6 +13,7 @@ import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
 import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
 import type HowToPageText from '../routes/gallery/[galleryid]/howto/PageText';
+import type GalleryModerationPageText from '../routes/gallerymoderation/PageText';
 import type { default as GuidePageText } from '../routes/guide/PageText';
 import type JoinPageText from '../routes/join/PageText';
 import type LearnPageText from '../routes/learn/PageText';
@@ -222,6 +223,8 @@ type UITexts = {
     checkpoints: CheckpointsText;
     /** Gallery page labels */
     gallery: GalleryPageText;
+    /** Gallery moderation page labels */
+    gallerymoderation: GalleryModerationPageText;
     /** How-to space page labels */
     howto: HowToPageText;
     /** Source file controls */
@@ -492,6 +495,13 @@ type UITexts = {
             start: ButtonText;
             /** The message delete button */
             delete: string;
+        };
+        /** Dialog for chat moderation */
+        moderation: HeaderAndExplanationText & {
+            report: ButtonText;
+            moderate: ButtonText;
+            pending: string;
+            removed: string;
         };
         /** Errors that can happen in the chat tile */
         error: {
@@ -766,6 +776,7 @@ type UITexts = {
                 howToHeader: string;
                 projectChatHeader: string;
                 howToChatHeader: string;
+                moderationHeader: string;
                 link: string;
             },
             delete: string;

@@ -9141,6 +9141,51 @@
                   "description": "The ARIA label for the chat section",
                   "type": "string"
                 },
+                "moderation": {
+                  "additionalProperties": false,
+                  "description": "Dialog for chat moderation",
+                  "properties": {
+                    "explanation": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "The explanation text just below the header."
+                    },
+                    "header": {
+                      "description": "The header to be shown at the top of the dialog",
+                      "type": "string"
+                    },
+                    "moderate": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
+                    "pending": {
+                      "type": "string"
+                    },
+                    "removed": {
+                      "type": "string"
+                    },
+                    "report": {
+                      "$ref": "#/definitions/ButtonText"
+                    }
+                  },
+                  "required": [
+                    "explanation",
+                    "header",
+                    "moderate",
+                    "pending",
+                    "removed",
+                    "report"
+                  ],
+                  "type": "object"
+                },
                 "prompt": {
                   "additionalProperties": false,
                   "description": "Messages to explain the purpose",
@@ -9225,6 +9270,7 @@
                 "field",
                 "role",
                 "button",
+                "moderation",
                 "error",
                 "prompt",
                 "restrictGalleryCreatorAccess"
@@ -9602,6 +9648,9 @@
                         "link": {
                           "type": "string"
                         },
+                        "moderationHeader": {
+                          "type": "string"
+                        },
                         "projectChatHeader": {
                           "type": "string"
                         }
@@ -9610,6 +9659,7 @@
                         "howToHeader",
                         "projectChatHeader",
                         "howToChatHeader",
+                        "moderationHeader",
                         "link"
                       ],
                       "type": "object"
@@ -10419,6 +10469,64 @@
                 "confirm",
                 "error",
                 "field"
+              ],
+              "type": "object"
+            },
+            "gallerymoderation": {
+              "additionalProperties": false,
+              "description": "Gallery moderation page labels",
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "empty": {
+                  "type": "string"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "header": {
+                  "type": "string"
+                },
+                "keep": {
+                  "$ref": "#/definitions/ButtonText"
+                },
+                "labels": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "action": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "reporter": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "reporter",
+                    "action"
+                  ],
+                  "type": "object"
+                },
+                "remove": {
+                  "$ref": "#/definitions/ButtonText"
+                },
+                "view": {
+                  "$ref": "#/definitions/ButtonText"
+                }
+              },
+              "required": [
+                "header",
+                "description",
+                "labels",
+                "view",
+                "remove",
+                "keep",
+                "empty",
+                "error"
               ],
               "type": "object"
             },
@@ -14208,6 +14316,7 @@
             "project",
             "checkpoints",
             "gallery",
+            "gallerymoderation",
             "howto",
             "source",
             "annotations",

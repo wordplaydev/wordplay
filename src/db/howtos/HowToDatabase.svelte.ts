@@ -539,7 +539,7 @@ export class HowToDatabase {
                             data.publishedAt >= startTime &&
                             data.social.notifySubscribers == true
                         ) {
-                            notifications.add({
+                            notifications.set(data.id + 'howto', {
                                 title: data.title,
                                 galleryID: data.galleryId,
                                 itemID: data.id,
