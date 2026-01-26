@@ -39,9 +39,28 @@ const MessageSchemaV1 = z.object({
     text: z.string().nullable(),
 });
 
-const MessageSchema = MessageSchemaV1;
+const MessageSchemaV2 = MessageSchemaV1.extend(
+    z.object({
+        /** The moderation status of this message: 
+         * undefined (not reported), 
+         * pending moderation action, 
+         * removed due to moderation action,
+         * approved after review */
+        moderation: z.enum(['pending', 'removed', 'approved']).optional(),
+        /** The user who reported the message */
+        reporter: z.string().optional(),
+        /** The user who took moderation action */
+        moderator: z.string().optional(),
+    }).shape,
+);
 
-export type SerializedMessage = z.infer<typeof MessageSchema>;
+const MessageSchema = MessageSchemaV2;
+export const MessageSchemaLatestVersion = 2;
+
+export type SerializedMessage = z.infer<typeof MessageSchemaV2>;
+export type SerializedMessageUnknownVersion =
+    | z.infer<typeof MessageSchemaV1>
+    | SerializedMessage;
 
 const ChatSchemaV1 = z.object({
     // The version of the schema
@@ -160,6 +179,26 @@ export default class Chat {
         });
     }
 
+    /** Change the message's moderation status to "pending" */
+    withReportedMessage(message: SerializedMessage, reporterID: string) {
+        return new Chat({
+            ...this.data,
+            messages: this.data.messages.map((m) =>
+                m.id === message.id ? { ...m, moderation: "pending", reporter: reporterID } : m,
+            )
+        })
+    }
+
+    /** Take moderation action on the message */
+    withModeratedMessage(message: SerializedMessage, action: 'removed' | 'approved', moderatorID: string) {
+        return new Chat({
+            ...this.data,
+            messages: this.data.messages.map((m) =>
+                m.id === message.id ? { ...m, moderation: action, moderator: moderatorID } : m,
+            )
+        })
+    }
+
     /** Merges messages using time and text as unique identifier */
     withMergedMessages(messages: SerializedMessage[]) {
         // Create a map of messages by time and text.
@@ -200,6 +239,13 @@ export default class Chat {
         return this.data.unread.includes(creator);
     }
 
+    /** True if the chat includes a message that is pending moderation action and the user is a curator */
+    getMessagesPendingModeration(curatorID: string, gallery: Gallery | undefined): SerializedMessage[] {
+        if (gallery === undefined || !gallery.hasCurator(curatorID)) return [];
+
+        return this.data.messages.filter((m) => m.moderation === 'pending');
+    }
+
     /** With the unread user unread */
     asRead(creator: string) {
         return new Chat({
@@ -227,7 +273,7 @@ export class ChatDatabase {
     private readonly db: Database;
 
     /** This is a global reactive map that stores chats obtained from Firestore */
-    private readonly chats = $state(new SvelteMap<string, Chat>());
+    readonly chats = $state(new SvelteMap<string, Chat>());
 
     private unsubscribe: Unsubscribe | undefined = undefined;
 
@@ -567,7 +613,7 @@ export class ChatDatabase {
         const user = this.db.getUser()?.uid;
         if (user === undefined) return;
         if (firestore === undefined) return;
-        const newMessage = {
+        const newMessage: SerializedMessage = {
             id: uuidv4(),
             text: message,
             time: Date.now(),
@@ -672,17 +718,17 @@ export class ChatDatabase {
                         }
 
                         if (chatData.hasUnread(user.uid)) {
-                            notifications.add({
-                                title: title,
-                                galleryID:
-                                    chatData.getType() === 'howto'
-                                        ? galleryID
-                                        : undefined,
-                                itemID: chatData.getProjectID(),
-                                type:
-                                    chatData.getType() === 'howto'
-                                        ? 'howtochat'
-                                        : 'projectchat',
+                            let itemID = chatData.getProjectID();
+                            let type = chatData.getType() === 'howto'
+                                ? 'howtochat'
+                                : 'projectchat';
+                            notifications.set(itemID + type, {
+                                title,
+                                galleryID: chatData.getType() === 'howto'
+                                    ? galleryID
+                                    : undefined,
+                                itemID: itemID,
+                                type: type,
                             } as NotificationData);
                         }
                     }

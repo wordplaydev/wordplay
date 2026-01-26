@@ -4429,7 +4429,7 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Creators can edit the projects and gallery settings, and chat on all projects."
+                    "explanation": "Curators can edit the projects and gallery settings, and chat on all projects. Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by users can be found on the <gallery moderation dashboard@://gallerymoderation>."
                 },
                 "creators": {
                     "header": "Creators",
@@ -4463,6 +4463,29 @@
                     "placeholder": "Describe your gallery. What is its theme, goals, or community?"
                 }
             }
+        },
+        "gallerymoderation": {
+            "header": "Gallery Moderation Dashboard",
+            "description": "The following messages in galleries that you curate have been reported by users for moderation.",
+            "labels": {
+                "message": "message",
+                "reporter": "reporter",
+                "action": "moderator actions"
+            },
+            "view": {
+                "label": "view chat",
+                "tip": "view message in chat"
+            },
+            "remove": {
+                "label": "remove",
+                "tip": "this message violates guidelines"
+            },
+            "keep": {
+                "label": "keep",
+                "tip": "this message does not violate guidelines"
+            },
+            "empty": "No messages require moderation",
+            "error": "You must be logged in to moderate galleries"
         },
         "howto": {
             "galleryView": {
@@ -5200,6 +5223,7 @@
                     "howToHeader": "New how-to titled \"$1\" was posted",
                     "projectChatHeader": "New message in project \"$1\"",
                     "howToChatHeader": "New message in how-to \"$1\"",
+                    "moderationHeader": "Message in \"$1\" requires moderation action",
                     "link": "details"
                 },
                 "delete": "delete this notification",
@@ -5327,6 +5351,20 @@
                     "tip": "begin a discussion with yourself or others."
                 },
                 "delete": "delete this message"
+            },
+            "moderation": {
+                "header": "Report this message",
+                "explanation": "If this message does not meet our <community standards@://rights> or the type of feedback your requested, you can report it. When you report this message, it will be sent to the gallery curators and taken down until it can be reviewed.",
+                "report": {
+                    "tip": "report this message",
+                    "label": "report"
+                },
+                "moderate": {
+                    "tip": "go to moderation dashboard",
+                    "label": "moderate"
+                },
+                "pending": "This message is temporarily removed while waiting for moderation action.",
+                "removed": "This message has been removed for violating community or feedback guidelines."
             },
             "error": {
                 "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
@@ -5602,7 +5640,7 @@
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "Galleries",
-                "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
+                "galleryprompt": "Create and curate galleries to share a collection of projects with others. By creating a gallery, you are responsible for moderating the content of chats associated with projects and how-tos in the gallery using the <gallery moderation dashboard@://gallerymoderation>.",
                 "add": {
                     "header": "New Project",
                     "explanation": "Choose a template to create a new project."
@@ -6006,6 +6044,7 @@
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
                 ],
                 "consequences": [
+                    "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ]
             },
