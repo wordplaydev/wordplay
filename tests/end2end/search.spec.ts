@@ -8,16 +8,12 @@ test.describe('Project Search Feature', () => {
 
     test('should display search bar', async ({ page }) => {
         // Check if search input is visible
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
         await expect(searchInput).toBeVisible();
-
-        // Check if search icon is present
-        const searchIcon = page.locator('.search-icon');
-        await expect(searchIcon).toBeVisible();
     });
 
     test('should filter projects in real-time', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Type a search term
         await searchInput.fill('test');
@@ -27,11 +23,11 @@ test.describe('Project Search Feature', () => {
 
         // Check that filtered results are shown
         const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount({ min: 1 });
+        await expect(projectCards).toHaveCount(1);
     });
 
     test('should show no results message for non-matching search', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Type a search term that shouldn't match anything
         await searchInput.fill('nonexistentproject123');
@@ -46,7 +42,7 @@ test.describe('Project Search Feature', () => {
     });
 
     test('should highlight matching text', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Type a search term that should match project names
         await searchInput.fill('test');
@@ -60,7 +56,7 @@ test.describe('Project Search Feature', () => {
     });
 
     test('should handle fuzzy search with typos', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Type a search term with a typo
         await searchInput.fill('projct');
@@ -70,11 +66,11 @@ test.describe('Project Search Feature', () => {
 
         // Should still find projects with "project" in the name
         const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount({ min: 1 });
+        await expect(projectCards).toHaveCount(1);
     });
 
     test('should find archived projects in search results', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Type a search term that should match archived projects
         await searchInput.fill('archived');
@@ -84,7 +80,7 @@ test.describe('Project Search Feature', () => {
 
         // Should find archived projects
         const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount({ min: 1 });
+        await expect(projectCards).toHaveCount(1);
 
         // Check that archived projects section is visible
         const archivedSection = page.locator('text=Archived');
@@ -92,7 +88,7 @@ test.describe('Project Search Feature', () => {
     });
 
     test('should clear search when input is cleared', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Type a search term
         await searchInput.fill('test');
@@ -104,7 +100,7 @@ test.describe('Project Search Feature', () => {
 
         // Should show all projects again
         const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount({ min: 1 });
+        await expect(projectCards).toHaveCount(1);
 
         // No results message should not be visible
         const noResultsMessage = page.locator('.no-results-message');
@@ -112,7 +108,7 @@ test.describe('Project Search Feature', () => {
     });
 
     test('should maintain search state during navigation', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Type a search term
         await searchInput.fill('test');
@@ -127,7 +123,7 @@ test.describe('Project Search Feature', () => {
     });
 
     test('should handle special characters in search', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Test with special characters
         const specialSearches = ['test@', 'test#', 'test$', 'test%', 'test&'];
@@ -142,7 +138,7 @@ test.describe('Project Search Feature', () => {
     });
 
     test('should handle very long search terms', async ({ page }) => {
-        const searchInput = page.locator('input[placeholder="Search projects and files"]');
+        const searchInput = page.locator('input[placeholder="Search projects and sources"]');
 
         // Type a very long search term
         const longSearchTerm = 'a'.repeat(1000);

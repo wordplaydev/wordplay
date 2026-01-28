@@ -122,7 +122,7 @@
         <TextField
             id="project-search"
             bind:text={searchTerm}
-            placeholder="🔍 Search projects and files"
+            placeholder="🔍 Search projects and sources"
             description={(l) => l.ui.page.projects.search.description}
             fill={true}
         />
@@ -310,3 +310,4 @@
         color: var(--wordplay-background);
     }
 </style>
++
