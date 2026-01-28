@@ -140,11 +140,9 @@ export function toShortcut(
     const mac =
         typeof navigator !== 'undefined' &&
         navigator.userAgent.indexOf('Mac') !== -1;
-    return `${command.control && !hideControl ? (mac ? '⌘ ' : 'Ctrl + ') : ''}${
-        command.alt && !hideAlt ? (mac ? '⎇ ' : 'Alt + ') : ''
-    }${command.shift && !hideShift ? (mac ? '⇧ ' : 'Shift + ') : ''}${
-        command.keySymbol ?? command.key ?? '-'
-    }`;
+    return `${command.control && !hideControl ? (mac ? '⌘ ' : 'Ctrl + ') : ''}${command.alt && !hideAlt ? (mac ? '⎇ ' : 'Alt + ') : ''
+        }${command.shift && !hideShift ? (mac ? '⇧ ' : 'Shift + ') : ''}${command.keySymbol ?? command.key ?? '-'
+        }`;
 }
 
 export function handleKeyCommand(
@@ -277,8 +275,8 @@ export const StepForward: Command = {
     keySymbol: '→',
     active: (context) =>
         context.evaluator.isInPast() &&
-        context.evaluator.getStepIndex() !== undefined &&
-        context.evaluator.getStepIndex() < context.evaluator.getStepCount()
+            context.evaluator.getStepIndex() !== undefined &&
+            context.evaluator.getStepIndex() < context.evaluator.getStepCount()
             ? true
             : undefined,
     execute: (context) => context.evaluator.stepWithinProgram(),
@@ -670,7 +668,7 @@ const Commands: Command[] = [
                 ? blocks
                     ? view && getTokenViews
                         ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
-                          false)
+                            false)
                         : false
                     : (caret.moveVertical(-1) ?? false)
                 : false,
@@ -703,7 +701,7 @@ const Commands: Command[] = [
                 ? blocks
                     ? view && getTokenViews
                         ? (moveVisualVertical(1, view, caret, getTokenViews) ??
-                          false)
+                            false)
                         : false
                     : (caret.moveVertical(1) ?? false)
                 : false,
@@ -736,11 +734,11 @@ const Commands: Command[] = [
                 ? blocks
                     ? (caret.moveInlineSemantic(-1) ?? false)
                     : caret.moveInline(
-                          false,
-                          database.Locales.getWritingDirection() === 'ltr'
-                              ? -1
-                              : 1,
-                      )
+                        false,
+                        database.Locales.getWritingDirection() === 'ltr'
+                            ? -1
+                            : 1,
+                    )
                 : false,
     },
     {
@@ -771,11 +769,11 @@ const Commands: Command[] = [
                 ? blocks
                     ? (caret.moveInlineSemantic(1) ?? false)
                     : caret.moveInline(
-                          false,
-                          database.Locales.getWritingDirection() === 'ltr'
-                              ? 1
-                              : -1,
-                      )
+                        false,
+                        database.Locales.getWritingDirection() === 'ltr'
+                            ? 1
+                            : -1,
+                    )
                 : false,
     },
     {
@@ -1263,8 +1261,8 @@ const Commands: Command[] = [
             !editor || caret === undefined
                 ? false
                 : caret.isNode()
-                  ? caret.enter()
-                  : (caret.insert('\n', blocks, project) ?? false),
+                    ? caret.enter()
+                    : (caret.insert('\n', blocks, project) ?? false),
     },
     {
         symbol: '⌫',

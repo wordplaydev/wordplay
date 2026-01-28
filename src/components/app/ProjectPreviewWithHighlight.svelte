@@ -71,14 +71,16 @@
                     icon={copy.label}
                 ></Button>
             {/if}
-            {@const removeMeta = remove(project)}
-            {#if removeMeta}
-                <ConfirmButton
-                    prompt={removeMeta.prompt}
-                    tip={removeMeta.description}
-                    action={() => removeMeta.action()}
-                    icon={removeMeta.label}
-                ></ConfirmButton>
+            {#if remove(project)}
+                {@const removeMeta = remove(project)}
+                {#if removeMeta}
+                    <ConfirmButton
+                        prompt={removeMeta.prompt}
+                        tip={removeMeta.description}
+                        action={() => removeMeta.action()}
+                        icon={removeMeta.label}
+                    ></ConfirmButton>
+                {/if}
             {/if}
         </div>
         {@render children?.()}
