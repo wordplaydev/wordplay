@@ -1,14 +1,21 @@
 使角色可移动
 
-有时， @Phrase 可用键盘、鼠标或手指移动。
+有时候，让一个 @Phrase 可以通过键盘、鼠标或手指来移动会很有帮助。
 
-这样做，我们可以结合 @Phrase  和  @Placement ：
+我们可以结合 @Phrase 和 @Placement 来达成 ：
 
-\Stage([Phrase('让我动起来' place: Placement())] place: Place(0m 0m -10m))\
+\
+Stage(
+	[Phrase('move me' place: Placement())]
+	place: Place(0m 0m -10m)
+)
+\
 
-使用键盘箭头或点击 @Stage 将更新 @Placement ，导致 @Phrase 朝那个方向前进。
+使用键盘箭头或点击 @Stage 将更新 @Placement ，让 @Phrase 朝那个方向前进。
 
-但你知道吗， @Placement 可以与/任何事物/这需要 @Place ？例如 @Stage 有一个 @Place 这决定了相机指向的位置。让我们尝试设置一个 @Placement 对于 @Stage 的地方，看看会发生什么。
+你知道吗，其实 @Placement 可以用在任何需要 @Place 的地方。
+比如说，@Stage 也有一个 @Place，用来决定它的相机朝向哪里。
+我们来试试看：给一个 @Stage 的 @Place 设置一个 @Placement，然后看看会发生什么。
 
 \Stage([
 		Phrase('🐈' place: Place(-2m 2m))
@@ -16,6 +23,5 @@
 		Phrase('🐈' place: Place(-1m 3m))
 	] place: Placement(Place(0m 0m -10m)))\
 
-这会让相机移动！（注意：我们开始 @Placement 与\z\的价值\10m\这样相机就远离了一切。）
-
+这会让相机移动！（注意：我们把 @Placement 的 \z\ 值从 \10m\ 开始，这样相机会往后退一些，离所有东西更远。）
 animated-scene
