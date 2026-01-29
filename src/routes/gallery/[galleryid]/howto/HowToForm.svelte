@@ -36,6 +36,7 @@
         cameraX: number;
         cameraY: number;
         preview?: Snippet;
+        whichDialogOpen: string | undefined;
     }
 
     let {
@@ -45,6 +46,7 @@
         cameraX = $bindable(),
         cameraY = $bindable(),
         preview = undefined,
+        whichDialogOpen = $bindable(),
     }: Props = $props();
 
     // utility variables
@@ -72,6 +74,11 @@
 
     // whether to show the preview form or not.
     let show: boolean = $state(false);
+    $effect(() => {
+        if (show) whichDialogOpen = howToId;
+        else if (!show && whichDialogOpen === howToId)
+            whichDialogOpen = undefined;
+    });
 
     // data from the how-to
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);

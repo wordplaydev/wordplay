@@ -98,17 +98,22 @@
     // if how-to id, then that how-to is moving
     let whichMoving: string | undefined = $state(undefined);
 
+    // doesn't allow how-tos to move while a dialog is open
+    let whichDialogOpen: string | undefined = $state(undefined);
+
     function onpointerdown() {
+        if (whichDialogOpen) return;
+
         whichMoving = 'canvas';
     }
 
     function onpointerup() {
-        if (whichMoving !== 'canvas') return;
+        if (whichMoving !== 'canvas' || whichDialogOpen) return;
         whichMoving = undefined;
     }
 
     function onpointermove(e: PointerEvent) {
-        if (whichMoving !== 'canvas') return;
+        if (whichMoving !== 'canvas' || whichDialogOpen) return;
 
         cameraX += e.movementX;
         cameraY += e.movementY;
@@ -116,10 +121,14 @@
 
     let keyboardFocused: boolean = $state(false);
     function onfocus() {
+        if (whichDialogOpen) return;
+
         keyboardFocused = true;
     }
 
     function onblur() {
+        if (whichDialogOpen) return;
+
         keyboardFocused = false;
 
         if (whichMoving === 'canvas') whichMoving = undefined;
@@ -129,7 +138,8 @@
     function onkeydown(event: KeyboardEvent) {
         if (
             keyboardFocused &&
-            (whichMoving === undefined || whichMoving === 'canvas')
+            (whichMoving === undefined || whichMoving === 'canvas') &&
+            !whichDialogOpen
         ) {
             switch (event.key) {
                 case 'ArrowUp':
@@ -303,6 +313,7 @@
                             bind:cameraX
                             bind:cameraY
                             {notPermittedAreas}
+                            bind:whichDialogOpen
                         />
                     {/if}
 
@@ -358,6 +369,7 @@
                                                     {notPermittedAreas}
                                                     {cameraX}
                                                     {cameraY}
+                                                    bind:whichDialogOpen
                                                 />
                                             </li>
                                         {/if}
@@ -439,6 +451,7 @@
                                 galleryCuratorCollaborators={gallery
                                     .getCurators()
                                     .concat(gallery.getCreators())}
+                                bind:whichDialogOpen
                             />
                         {/if}
                     {/each}
