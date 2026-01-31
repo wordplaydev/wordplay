@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Fixed #899, preventing resurrection of deleted custom characters.
 - Fixed #929, accounting for blocks editing in unparsable tutorial.
+- Resolved several accessibility defects.
 
 ### Maintenance
 

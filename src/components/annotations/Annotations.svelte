@@ -407,6 +407,7 @@
         {#each annotations as annotation}
             <div
                 role="button"
+                tabindex="0"
                 title={$locales.get((l) => l.ui.annotations.button.highlight)}
                 aria-label={$locales.get(
                     (l) => l.ui.annotations.button.highlight,

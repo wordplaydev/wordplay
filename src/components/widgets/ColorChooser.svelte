@@ -100,6 +100,7 @@
 
 <div class="component" {id}>
     <div class="preview" style:background-color={color}></div>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="bands"
         onpointerdown={editable ? handleMouseMove : null}

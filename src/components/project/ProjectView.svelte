@@ -1570,6 +1570,7 @@
 {/if}
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="canvas"
         class:free={$arrangement === Arrangement.Free}
