@@ -21,6 +21,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Resolved several accessibility defects.
 - Fixed #932, improving output selection behavior and highlights.
 - Fixed #934, prevented renaming of completed evaluates.
+- Fixed #933, hide layout tooltip.
 
 ### Maintenance
 
