@@ -60,6 +60,8 @@ export const HighlightTypes = {
     animating: false,
     // Output that is active on stage
     output: true,
+    // Output that is active on stage in blocks mode
+    blockoutput: true,
     // Highlight of a block-level node when blocks are enabled
     blockselected: true,
     // Highlight of a matching delimiter
@@ -273,7 +275,7 @@ export function getHighlights(
     // Is any output selected?
     if (selectedOutput) {
         for (const node of selectedOutput)
-            highlights.add(source, node, 'output');
+            highlights.add(source, node, blocks ? 'blockoutput' : 'output');
     }
 
     // Get the caret's parent (if it's inside a token) and give it a hover highlight

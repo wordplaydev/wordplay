@@ -1311,8 +1311,9 @@
                 project.shares.output.Group,
                 project.shares.output.Stage,
             )
-        )
+        ) {
             selection.setPaths(project, [$caret.position], 'editor');
+        }
     });
 
     // Update the highlights when any of these stores values change

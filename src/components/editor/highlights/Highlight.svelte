@@ -194,9 +194,8 @@
         animation: shake calc(var(--animation-factor) * 250ms) linear;
     }
 
-    .outline.output path {
-        stroke: var(--wordplay-highlight-color);
-        stroke-dasharray: 4px;
+    .underline.output path {
+        stroke: var(--wordplay-evaluation-color);
         stroke-width: var(--wordplay-focus-width);
     }
 </style>

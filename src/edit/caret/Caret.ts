@@ -160,6 +160,7 @@ export default class Caret {
                 ? this.position
                 : this.tokenExcludingSpace;
         if (start === undefined) return undefined;
+        if (start instanceof Expression) return start;
         return this.source.root
             .getAncestors(start)
             .find((n): n is Expression => n instanceof Expression);
