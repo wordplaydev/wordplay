@@ -502,6 +502,7 @@ type UITexts = {
             moderate: ButtonText;
             pending: string;
             removed: string;
+            inGallery: string;
         };
         /** Errors that can happen in the chat tile */
         error: {

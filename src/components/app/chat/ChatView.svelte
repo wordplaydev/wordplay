@@ -12,7 +12,7 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats } from '@db/Database';
+    import { Chats, Galleries } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -24,7 +24,7 @@
     interface Props {
         chat: Chat | undefined | null | false;
         creators: Record<string, Creator | null>;
-        gallery: Gallery | undefined;
+        galleryID: string | undefined;
         project?: Project;
         howTo?: HowTo;
     }
@@ -32,7 +32,7 @@
     let {
         chat,
         creators,
-        gallery,
+        galleryID,
         project = undefined,
         howTo = undefined,
     }: Props = $props();
@@ -42,6 +42,16 @@
     let newMessageView = $state<HTMLTextAreaElement | undefined>();
 
     let scrollerView = $state<HTMLDivElement | undefined>();
+
+    // get the gallery from the gallery ID
+    let gallery: Gallery | undefined = $state(undefined);
+    $effect(() => {
+        if (galleryID) {
+            Galleries.get(galleryID).then((g) => {
+                if (g) gallery = g;
+            });
+        }
+    });
 
     // When the project changes, mark read if it was unread and scroll.
     $effect(() => {
@@ -94,12 +104,14 @@
     let showModerationDialog: boolean = $state(false);
 
     // user is a moderator of a chat if the chat is in a gallery and the user is a curator of that gallery
-    let isModerator: boolean = $derived(
-        gallery !== undefined &&
+    let isModerator: boolean = $state(false);
+    $effect(() => {
+        isModerator =
+            gallery !== undefined &&
             $user !== null &&
             $user !== undefined &&
-            gallery.hasCurator($user.uid),
-    );
+            gallery.hasCurator($user.uid);
+    });
 
     function reportMessage(chat: Chat, message: SerializedMessage) {
         if (!chat || !$user) return;
@@ -169,7 +181,7 @@
                 <MarkupHTMLView markup={msg.text.replaceAll('\n', '\n\n')} />
             {/if}
         </div>
-        {#if !($user?.uid === msg.creator) && gallery && (msg.moderation === undefined || msg.moderation === 'approved')}
+        {#if !($user?.uid === msg.creator) && galleryID && (msg.moderation === undefined || msg.moderation === 'approved')}
             <Dialog
                 bind:show={showModerationDialog}
                 header={(l) => l.ui.collaborate.moderation.header}
@@ -218,6 +230,9 @@
         >
     </TileMessage>
 {:else}
+    {#if galleryID}
+        <MarkupHTMLView markup={(l) => l.ui.collaborate.moderation.inGallery} />
+    {/if}
     <div class="scroller" bind:this={scrollerView}>
         <div class="messages">
             {#each chat.getMessages() as msg}
