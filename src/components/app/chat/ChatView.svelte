@@ -24,7 +24,7 @@
     interface Props {
         chat: Chat | undefined | null | false;
         creators: Record<string, Creator | null>;
-        galleryID: string | undefined;
+        galleryID: string | undefined | null;
         project?: Project;
         howTo?: HowTo;
     }

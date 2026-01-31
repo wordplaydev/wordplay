@@ -27,7 +27,7 @@
     let owner = $derived(project.getOwner());
 
     // Load the gallery if it exists.
-    const galleryID = project.getGallery();
+    const galleryID = $derived(project.getGallery());
     let gallery = $state<Gallery | undefined>(undefined);
     $effect(() => {
         if (galleryID) {
