@@ -9,6 +9,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Draft Arabic locale.
 
+### Fixed
+
+- Fixed #899, preventing resurrection of deleted custom characters.
+
 ### Maintenance
 
 - Updated `dexie`, `@playwright/test`, `svelte`, and `svelte-check` minor versions.
