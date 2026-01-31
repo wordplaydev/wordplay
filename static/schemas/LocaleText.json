@@ -9988,6 +9988,10 @@
                       "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Location header"
                     },
+                    "names": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Names header"
+                    },
                     "properties": {
                       "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Structure properties header"
@@ -9998,6 +10002,7 @@
                     }
                   },
                   "required": [
+                    "names",
                     "inputs",
                     "interfaces",
                     "properties",

@@ -212,7 +212,9 @@ function completeEvaluate({
                       : undefined;
         const evaluate = definition
             ? definition.getEvaluateTemplate(
-                  context.getBasis().locales,
+                  precedingExpression instanceof Reference
+                      ? precedingExpression.getName()
+                      : context.getBasis().locales,
                   context,
                   false,
                   precedingExpression,

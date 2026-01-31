@@ -4847,6 +4847,10 @@
                 "search": "keywords"
             },
             "header": {
+                "names": {
+                    "header": "Names",
+                    "explanation": "/Names for this concept./"
+                },
                 "inputs": {
                     "header": "Inputs",
                     "explanation": "/Required and optional values./"

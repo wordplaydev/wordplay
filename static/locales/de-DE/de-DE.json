@@ -4687,6 +4687,10 @@
                 "reactions": {
                     "header": "$~Reaktionen",
                     "explanation": "$~Möglichkeiten, auf einen Eingabestrom zu reagieren oder ihn zu analysieren./"
+                },
+                "names": {
+                    "header": "$~Namen",
+                    "explanation": "$~/Namen für dieses Konzept./"
                 }
             },
             "how": {
@@ -5798,7 +5802,9 @@
             "role": {
                 "owner": "$~Eigentümer",
                 "collaborators": "$~Mitarbeiter",
-                "curators": "$~Kuratoren"
+                "curators": "$~Kuratoren",
+                "commenters": "$~Kommentatoren",
+                "viewers": "$~Zuschauer"
             },
             "field": {
                 "message": {
@@ -5827,7 +5833,19 @@
                 "solo": "$~Chatten Sie mit sich selbst oder fügen Sie einen Mitarbeiter hinzu, der bearbeiten und chatten kann.",
                 "owner": "$~Mitarbeiter können dieses Projekt bearbeiten und darüber chatten.",
                 "collaborator": "$~Sie sind ein Mitarbeiter. Sie können dieses Projekt bearbeiten und darüber chatten.",
-                "curator": "$~Sie sind Kurator der Galerie dieses Projekts. Sie können dieses Projekt bearbeiten und darüber chatten."
+                "curator": "$~Sie sind Kurator der Galerie dieses Projekts. Sie können dieses Projekt bearbeiten und darüber chatten.",
+                "commenter": "$~Du bist ein Kommentator. Du kannst über dieses Projekt diskutieren, aber es nicht bearbeiten."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "$~Ihr Projekt befindet sich in einer Galerie. Standardmäßig kann jeder, der diese Galerie sehen kann, auch Ihr Projekt sehen. Sie können den Zugriff auf Ihr Projekt auf Sie und die Kuratoren der Galerie beschränken.",
+                "mode": {
+                    "label": "$~Projektzugriff einschränken",
+                    "labels": ["$~nicht einschränken", "$~beschränken"],
+                    "tips": [
+                        "$~Jeder, der diese Galerie sehen kann, kann auch Ihr Projekt sehen.",
+                        "$~Nur die Kuratoren der Galerie können Ihr Projekt sehen."
+                    ]
+                }
             }
         },
         "checkpoints": {

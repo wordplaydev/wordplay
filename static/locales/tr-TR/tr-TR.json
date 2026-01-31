@@ -4705,6 +4705,10 @@
                 "reactions": {
                     "header": "$~Tepkiler",
                     "explanation": "$~/Giriş akışına tepki verme veya onu analiz etme yöntemleri./"
+                },
+                "names": {
+                    "header": "$~İsimler",
+                    "explanation": "$~/Bu kavram için isimler./"
                 }
             },
             "how": {
@@ -5121,7 +5125,9 @@
             "role": {
                 "owner": "$~mal sahibi",
                 "collaborators": "$~işbirlikçiler",
-                "curators": "$~küratörler"
+                "curators": "$~küratörler",
+                "commenters": "$~yorumcular",
+                "viewers": "$~izleyiciler"
             },
             "field": {
                 "message": {
@@ -5150,7 +5156,19 @@
                 "solo": "$~Kendinizle sohbet edin veya düzenleme ve sohbet etme yeteneğine sahip bir işbirlikçi ekleyin.",
                 "owner": "$~İşbirlikçiler bu projeyi düzenleyebilir ve hakkında sohbet edebilirler.",
                 "collaborator": "$~Siz bir işbirlikçisiniz. Bu projeyi düzenleyebilir ve bunun hakkında sohbet edebilirsiniz.",
-                "curator": "$~Bu projenin galerisinin küratörüsünüz. Bu projeyi düzenleyebilir ve hakkında sohbet edebilirsiniz."
+                "curator": "$~Bu projenin galerisinin küratörüsünüz. Bu projeyi düzenleyebilir ve hakkında sohbet edebilirsiniz.",
+                "commenter": "$~Siz bir yorumcusunuz. Bu proje hakkında sohbet edebilirsiniz ancak düzenleme yapamazsınız."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "$~Projeniz bir galeride yer alıyor. Varsayılan olarak, bu galeriyi görebilen herkes bu projeyi de görebilir. Projenizi yalnızca sizin ve galeri yöneticilerinin görebilmesini kısıtlayabilirsiniz.",
+                "mode": {
+                    "label": "$~projeye erişimi kısıtla",
+                    "labels": ["$~kısıtlamayın", "$~kısıtlamak"],
+                    "tips": [
+                        "$~Bu galeriyi görebilen herkes projenizi görebilir.",
+                        "$~Projenizi yalnızca galeri küratörleri görebilir."
+                    ]
+                }
             }
         },
         "palette": {
