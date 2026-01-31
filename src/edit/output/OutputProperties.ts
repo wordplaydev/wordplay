@@ -1,4 +1,4 @@
-import { Faces, getFaceDescription } from '@basis/Fonts';
+import { Faces, getFaceDescription, type Face } from '@basis/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -89,10 +89,11 @@ export function getTypeOutputProperties(
         ),
         new OutputProperty(
             (l) => l.output.Phrase.face.names,
-            new OutputPropertyOptions(
+            new OutputPropertyOptions<{ face: { name: string; face: Face } }>(
                 Object.entries(Faces).map(([name, face]) => ({
                     value: name,
                     label: getFaceDescription(name, face),
+                    face: { name, face },
                 })),
                 true,
                 (text: string) => TextLiteral.make(text),
