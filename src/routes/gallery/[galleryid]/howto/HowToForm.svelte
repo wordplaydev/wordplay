@@ -6,6 +6,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
+    import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
     import { TileKind } from '@components/project/Tile';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
@@ -20,6 +21,7 @@
     import { Chats, Creators, Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import type Locale from '@locale/Locale';
     import type { ButtonText } from '@locale/UITexts';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import type { Snippet } from 'svelte';
@@ -426,6 +428,11 @@
             });
         }
     }
+
+    // locales
+    let locale: Locale | undefined = $state(
+        howTo ? howTo.getLocales()[0] : $locales.getLocale(),
+    );
 </script>
 
 <!-- button to click to open the how-to dialog. if there is a preview (i.e., it is published), use the preview as the button. 
@@ -478,6 +485,13 @@
                 id="howto-title"
             />
         </Subheader>
+        <OutputLocaleChooser
+            localesUsed={$locales.getLocales()}
+            {locale}
+            change={(value) => {
+                locale = value;
+            }}
+        />
 
         {#each text as _, i (i)}
             <HowToPrompt text={(l) => prompts[i]} />
@@ -643,6 +657,7 @@
                     <HowToPrompt text={(l) => prompts[i]} />
                     <MarkupHTMLView markup={text[i]} />
                 {/each}
+                <MarkupHTMLView markup={'\\¶hello¶/en¶hola¶/es\\'} />
             </div>
             <div class="splitside" id="howtointeractions">
                 <HowToPrompt text={(l) => l.ui.howto.viewer.reactionsPrompt} />

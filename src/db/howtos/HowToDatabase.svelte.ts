@@ -3,6 +3,7 @@ import type { NotificationData } from '@components/settings/Notifications.svelte
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { stringToLocale, type Locale } from '@locale/Locale';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
@@ -183,8 +184,8 @@ export default class HowTo {
         return this.data.viewersFlat.includes(userId);
     }
 
-    getLocales() {
-        return this.data.locales;
+    getLocales(): Locale[] {
+        return this.data.locales.map((l) => stringToLocale(l)).filter((l) => l !== undefined);
     }
 
     getSocial() {
