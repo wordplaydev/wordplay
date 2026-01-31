@@ -24,6 +24,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #934, prevented renaming of completed evaluates.
 - Fixed #933, hide layout tooltip.
 - Don't show values when paused in palette properties.
+- Ensure font is loaded before updating font loaded set.
 
 ### Maintenance
 
