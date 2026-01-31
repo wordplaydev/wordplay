@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Draft Arabic locale (ar-SA).
 - Draft Greek locale (el-GR).
 - Draft Kannada locale (kn-IN).
+- Draft Telegu locale (te-IN).
 
 ### Fixed
 

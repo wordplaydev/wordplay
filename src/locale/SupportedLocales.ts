@@ -16,6 +16,7 @@ export const DraftLocales = [
     'ar-SA',
     'el-GR',
     'kn-IN',
+    'te-IN',
 ];
 
 /** Supported locale names. Put a locale in this list when it's no longer a draft. */
