@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Draft Telegu locale (te-IN).
 - Draft Assamese locale (as-IN).
 - Fixed #934, added all names of a functions, structures, and streams to docs.
+- Fixed #729, styled drop downs.
 
 ### Fixed
 

@@ -36,6 +36,7 @@
     import Dialog from '../widgets/Dialog.svelte';
     import Mode from '../widgets/Mode.svelte';
     import Options from '../widgets/Options.svelte';
+    import FaceName from './FaceName.svelte';
     import LocaleChooser from './LocaleChooser.svelte';
     import Notifications from './Notifications.svelte';
 
@@ -102,7 +103,7 @@
                     id="ui-face"
                     width="10em"
                     options={[
-                        { value: undefined, label: '—' },
+                        { value: undefined, label: '—', face: null },
                         // Only show faces supported in the current locale
                         ...Object.entries(Faces)
                             .filter(
@@ -116,12 +117,26 @@
                                 return {
                                     value: name,
                                     label: getFaceDescription(name, face),
+                                    face: {
+                                        name: name,
+                                        face: face,
+                                    },
                                 };
                             }),
                     ]}
                     change={(choice) =>
                         Settings.setFace(choice === undefined ? null : choice)}
-                ></Options>
+                >
+                    {#snippet item(option)}
+                        {#if option.face === null}<span>{option.label}</span>
+                        {:else}
+                            <FaceName
+                                name={option.face.name}
+                                face={option.face.face}
+                            />
+                        {/if}
+                    {/snippet}
+                </Options>
             </label>
             <Mode
                 modes={(l) => l.ui.dialog.settings.mode.layout}
@@ -271,10 +286,13 @@
 
     label {
         white-space: nowrap;
-        font-style: italic;
         display: flex;
         flex-direction: row;
         align-items: baseline;
         gap: var(--wordplay-spacing-half);
+    }
+
+    label > :global(span) {
+        font-style: italic;
     }
 </style>
