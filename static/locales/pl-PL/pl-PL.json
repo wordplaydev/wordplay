@@ -4710,6 +4710,10 @@
                 "reactions": {
                     "header": "$~Reakcje",
                     "explanation": "$~/Sposoby reagowania na strumień wejściowy lub jego analizowania./"
+                },
+                "names": {
+                    "header": "$~Nazwy",
+                    "explanation": "$~/Nazwy tego konceptu./"
                 }
             },
             "how": {
@@ -5463,7 +5467,7 @@
                     "noaccess": "$~Nie mogliśmy połączyć się z internetem.",
                     "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie.",
                     "newgallery": "$~Nie udało się utworzyć nowej galerii.",
-                    "nodeletes": "$~$!Aby usunąć zarchiwizowane projekty, musisz być <zalogowany@://login>.",
+                    "nodeletes": "$~$!Musisz być <zalogowany@://login>, aby usunąć zarchiwizowane projekty.",
                     "delete": "$~Ups, nie udało się usunąć projektu!"
                 },
                 "subheader": {

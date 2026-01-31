@@ -391,6 +391,11 @@
         box-shadow: none;
     }
 
+    .block.blockoutput {
+        outline: var(--wordplay-focus-width) solid
+            var(--wordplay-evaluation-color);
+    }
+
     .small {
         font-size: var(--wordplay-small-font-size);
     }

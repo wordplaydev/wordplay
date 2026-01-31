@@ -1,7 +1,7 @@
 enum Arrangement {
     Responsive = 'responsive',
-    Vertical = 'vertical',
     Horizontal = 'horizontal',
+    Vertical = 'vertical',
     Split = 'split',
     Single = 'single',
     Free = 'free',

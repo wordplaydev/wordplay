@@ -8375,6 +8375,48 @@
                     "properties": {
                         "Access": {
                             "type": "string"
+                    "names": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Names header"
+                    },
+                    "properties": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Structure properties header"
+                    },
+                    "reactions": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Reactions header"
+                    }
+                  },
+                  "required": [
+                    "names",
+                    "inputs",
+                    "interfaces",
+                    "properties",
+                    "functions",
+                    "conversions",
+                    "arrangements",
+                    "forms",
+                    "appearance",
+                    "animation",
+                    "location",
+                    "reactions"
+                  ],
+                  "type": "object"
+                },
+                "how": {
+                  "additionalProperties": false,
+                  "description": "Everything related to how to content",
+                  "properties": {
+                    "category": {
+                      "additionalProperties": false,
+                      "description": "The category names",
+                      "properties": {
+                        "animation": {
+                          "type": "string"
+                        },
+                        "characters": {
+                          "type": "string"
                         },
                         "Base": {
                             "type": "string"

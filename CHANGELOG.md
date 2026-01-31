@@ -3,15 +3,38 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.6.40
+
+### Added
+
+- Draft Arabic locale (ar-SA).
+- Draft Greek locale (el-GR).
+- Draft Kannada locale (kn-IN).
+- Draft Telegu locale (te-IN).
+- Draft Assamese locale (as-IN).
+- Fixed #934, added all names of a functions, structures, and streams to docs.
+
+### Fixed
+
+- Fixed #899, preventing resurrection of deleted custom characters.
+- Fixed #929, accounting for blocks editing in unparsable tutorial.
+- Resolved several accessibility defects.
+- Fixed #932, improving output selection behavior and highlights.
+- Fixed #934, prevented renaming of completed evaluates.
+
+### Maintenance
+
+- Updated `dexie`, `@playwright/test`, `svelte`, and `svelte-check` minor versions.
+
 ## 0.6.39
 
-## Added
+### Added
 
 - Fixed #892, adding login links to error messages prompting login.
 - Translate revised strings that are machine translated in other locales.
 - Fixed #913, improved shortcut labels and shortcuts on switches.
 
-## Fixed
+### Fixed
 
 - Fixed #919, correcting UI reference in tutorial script.
 - Fixed #893, correcting example in tutorial script.
@@ -24,7 +47,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #901, improved hover feedback on editable token text.
 - Fixed #912, correcting tile resizing behavior, especially in tutorial.
 
-## Maintenance
+### Maintenance
 
 - Updated minor versions of `firebase`, `zod`, `svelte`, `@sveltejs/kit`, `vite`, `vitest`, `colorjs.io`.
 - Converted to tree-shakeable ColorJS.

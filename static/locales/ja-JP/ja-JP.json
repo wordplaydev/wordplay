@@ -4705,6 +4705,10 @@
                 "reactions": {
                     "header": "$~反応",
                     "explanation": "$~/入力ストリームに反応したり分析したりする方法。/"
+                },
+                "names": {
+                    "header": "$~名前",
+                    "explanation": "$~/この概念の名前。/"
                 }
             },
             "how": {

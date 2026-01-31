@@ -4688,6 +4688,10 @@
                 "reactions": {
                     "header": "$~반응",
                     "explanation": "$~입력 스트림에 반응하거나 분석하는 방법."
+                },
+                "names": {
+                    "header": "$~이름",
+                    "explanation": "$~이 개념에 대한 명칭들."
                 }
             },
             "how": {

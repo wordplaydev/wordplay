@@ -4705,6 +4705,10 @@
                 "reactions": {
                     "header": "$~Reaktioner",
                     "explanation": "$~/Sätt att reagera på eller analysera en indataström./"
+                },
+                "names": {
+                    "header": "$~Namn",
+                    "explanation": "$~/Namn för detta koncept./"
                 }
             },
             "how": {

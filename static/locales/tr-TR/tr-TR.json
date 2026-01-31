@@ -4705,6 +4705,10 @@
                 "reactions": {
                     "header": "$~Tepkiler",
                     "explanation": "$~/Giriş akışına tepki verme veya onu analiz etme yöntemleri./"
+                },
+                "names": {
+                    "header": "$~İsimler",
+                    "explanation": "$~/Bu kavram için isimler./"
                 }
             },
             "how": {

@@ -4688,6 +4688,10 @@
                 "reactions": {
                     "header": "$~Réactions",
                     "explanation": "$~/Moyens de réagir à un flux d'entrée ou de l'analyser./"
+                },
+                "names": {
+                    "header": "$~Noms",
+                    "explanation": "$~/Noms pour ce concept./"
                 }
             },
             "how": {

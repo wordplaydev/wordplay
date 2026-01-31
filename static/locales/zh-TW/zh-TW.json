@@ -4646,6 +4646,10 @@
                 "reactions": {
                     "header": "$~反應",
                     "explanation": "$~對輸入流做出反應或進行分析的方法。"
+                },
+                "names": {
+                    "header": "$~姓名",
+                    "explanation": "$~此概念的名稱。"
                 }
             },
             "how": {

@@ -427,10 +427,10 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(For example, try typing \\][\\. See how we're completely confused? That doesn't mean anything, and I'm here to say it.)"
+                            "(For example, try typing \\]\\. See how you can't type it without a conflict? If you're editing with blocks 🖱️, we won't let you type \\]\\, and if you're editing with text ⌨️, it creates a conflict.)"
                         ],
                         null,
-                        ["conflict", "]["],
+                        ["conflict", "]"],
                         [
                             "UnparsableExpression",
                             "eager",
@@ -442,7 +442,7 @@
                             "(When I show up, that means we don't know what you mean.)"
                         ],
                         null,
-                        ["conflict", "]["],
+                        ["conflict", "]"],
                         [
                             "FunctionDefinition",
                             "curious",

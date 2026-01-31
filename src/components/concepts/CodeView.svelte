@@ -24,6 +24,7 @@
         outline?: boolean;
         elide?: boolean;
         flip?: boolean;
+        localize?: boolean;
     }
 
     let {
@@ -36,6 +37,7 @@
         outline = true,
         elide = false,
         flip = false,
+        localize = true,
     }: Props = $props();
 
     let dragged = getDragged();
@@ -90,7 +92,7 @@
                 {spaces}
                 blocks={$blocks}
                 {elide}
-                locale={$locales.getLocale()}
+                locale={localize ? $locales.getLocale() : null}
                 inert={!draggable}
             /></div
         >{#if type && concept}&nbsp;<TypeView

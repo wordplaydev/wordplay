@@ -4650,6 +4650,10 @@
                 "reactions": {
                     "header": "$~反应",
                     "explanation": "$~对输入流做出反应或进行分析的方法。"
+                },
+                "names": {
+                    "header": "$~姓名",
+                    "explanation": "$~此概念的名称。"
                 }
             },
             "how": {

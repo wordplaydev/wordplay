@@ -1236,7 +1236,7 @@
 
     function setBrowserFullscreen(on: boolean) {
         browserFullscreen = on;
-        if (browserFullscreen) view?.requestFullscreen();
+        if (browserFullscreen) document.documentElement.requestFullscreen();
         else if (document.fullscreenElement) document.exitFullscreen();
         else setFullscreen(undefined);
     }
@@ -1559,11 +1559,18 @@
     }}
 />
 
+<svelte:document
+    onfullscreenchange={() => {
+        if (!document.fullscreenElement) browserFullscreen = false;
+    }}
+/>
+
 {#if warn}
     <Moderation {project} />
 {/if}
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="canvas"
         class:free={$arrangement === Arrangement.Free}

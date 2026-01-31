@@ -4687,6 +4687,10 @@
                 "reactions": {
                     "header": "$~Reaktionen",
                     "explanation": "$~Möglichkeiten, auf einen Eingabestrom zu reagieren oder ihn zu analysieren./"
+                },
+                "names": {
+                    "header": "$~Namen",
+                    "explanation": "$~/Namen für dieses Konzept./"
                 }
             },
             "how": {

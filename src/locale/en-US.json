@@ -4870,6 +4870,10 @@
                 "search": "keywords"
             },
             "header": {
+                "names": {
+                    "header": "Names",
+                    "explanation": "/Names for this concept./"
+                },
                 "inputs": {
                     "header": "Inputs",
                     "explanation": "/Required and optional values./"
@@ -5114,14 +5118,14 @@
                         "label": "layout",
                         "labels": [
                             "auto",
-                            "stack",
                             "row",
+                            "stack",
                             "two",
                             "one",
                             "free"
                         ],
                         "tips": [
-                            "lay out tiles automatically",
+                            "lay out tiles automatically based on window size and shape",
                             "a horizontal screen layout",
                             "a vertical screen layout",
                             "two most recent tiles, side by side",
@@ -6034,7 +6038,7 @@
                     "• You can fully delete any project or your own account at any time.",
                     "• You can get an export of any project or your whole account at any time.",
                     "Here's how we will and won't use your data:",
-                    "• We won't share your data with anyone, unless explicitly required by law. It's always possible that your data is taken without out permission (a 'data breach'). If we discover that this has happened, we will notify you that this has happened using the email you've shared with us.",
+                    "• We won't share your data with anyone, unless explicitly required by law. It's always possible that your data is taken without permission (a 'data breach'). If we discover that this has happened, we will notify you that this has happened using the email you've shared with us.",
                     "• We won't contact you via your email address unless you 1) make an account change that requires us to, 2) you explicitly give us consent to reach out, or 3) in the case of data breach above.",
                     "• We may analyze projects on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
                     "Finally, a note about speech. You can say anything you want on this platform in *private*. Projects are private by default, and if you share them with specific email addresses, they are still considered private. We won't moderate anything in private projects.",

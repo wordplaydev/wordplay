@@ -63,8 +63,11 @@ export default class StreamConcept extends Concept {
         return this.definition.docs.getMarkup(locales);
     }
 
-    getNames() {
-        return this.definition.names.getNames();
+    getNames(_: Locales, symbolic: boolean) {
+        if (symbolic) {
+            const sym = this.definition.names.getSymbolicName();
+            return sym ? [sym] : [];
+        } else return this.definition.names.getNames();
     }
 
     getName(locales: Locales, symbolic: boolean) {
