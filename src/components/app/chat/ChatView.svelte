@@ -180,6 +180,7 @@
                 }}
             >
                 <Button
+                    background
                     tip={(l) => l.ui.collaborate.moderation.report.tip}
                     label={(l) => l.ui.collaborate.moderation.report.label}
                     action={() => reportMessage(chat, msg)}

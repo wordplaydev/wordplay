@@ -4429,7 +4429,7 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Curators can edit the projects and gallery settings, and chat on all projects. Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by users can be found on the <gallery moderation dashboard@://gallerymoderation>."
+                    "explanation": "Curators can edit the projects and gallery settings, and chat on all projects. Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by creators can be found on the <gallery moderation dashboard@://gallerymoderation>."
                 },
                 "creators": {
                     "header": "Creators",
@@ -5383,10 +5383,7 @@
                 "explanation": "Your project is in a gallery. By default, anyone who can see this gallery can see this project. You can restrict who can see your project to only you and the gallery curators.",
                 "mode": {
                     "label": "restrict project access",
-                    "labels": [
-                        "do not restrict",
-                        "restrict"
-                    ],
+                    "labels": ["do not restrict", "restrict"],
                     "tips": [
                         "anyone who can see this gallery can see your project",
                         "only the gallery curators can see your project"
@@ -6044,7 +6041,7 @@
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
                 ],
                 "consequences": [
-                    "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message.",
+                    "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ]
             },

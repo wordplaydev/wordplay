@@ -45,6 +45,7 @@
     >
     <Labeled label={(l) => l.ui.gallerymoderation.labels.action}>
         <Button
+            background
             tip={(l) => l.ui.gallerymoderation.view.tip}
             label={(l) => l.ui.gallerymoderation.view.label}
             action={() => {
@@ -56,11 +57,13 @@
             }}
         />
         <Button
+            background
             tip={(l) => l.ui.gallerymoderation.remove.tip}
             label={(l) => l.ui.gallerymoderation.remove.label}
             action={() => removeMessage(message, chat)}
         />
         <Button
+            background
             tip={(l) => l.ui.gallerymoderation.keep.tip}
             label={(l) => l.ui.gallerymoderation.keep.label}
             action={() => approveMessage(message, chat)}

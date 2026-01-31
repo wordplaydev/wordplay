@@ -1,4 +1,4 @@
-import type { ButtonText } from "@locale/UITexts";
+import type { ButtonText } from '@locale/UITexts';
 
 type PageText = {
     /** Page title */
@@ -12,7 +12,7 @@ type PageText = {
         reporter: string;
         /** Labels for the buttons that allow taking moderation action */
         action: string;
-    }
+    };
     /** Button for vieweing the chat the message originated from */
     view: ButtonText;
     /** Button for deleting the message as a result of moderation action */
@@ -23,6 +23,6 @@ type PageText = {
     empty: string;
     /** No access to the moderation page (not logged in) */
     error: string;
-}
+};
 
 export type { PageText as default };

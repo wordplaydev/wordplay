@@ -525,7 +525,7 @@ type UITexts = {
         restrictGalleryCreatorAccess: {
             explanation: string;
             mode: ModeText<[string, string]>;
-        }
+        };
     };
     /** The palette editor */
     palette: {
@@ -778,7 +778,7 @@ type UITexts = {
                 howToChatHeader: string;
                 moderationHeader: string;
                 link: string;
-            },
+            };
             delete: string;
             popup: string;
         };
