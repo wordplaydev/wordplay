@@ -7,8 +7,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Added
 
-- Draft Arabic locale.
-- Draft Greek locale.
+- Draft Arabic locale (ar-SA).
+- Draft Greek locale (el-GR).
 
 ### Fixed
 
