@@ -5119,7 +5119,8 @@
                     "howToHeader": "$~Opublikowano nowy poradnik zatytułowany „$1”",
                     "projectChatHeader": "$~Nowa wiadomość w projekcie „$1”",
                     "howToChatHeader": "$~Nowa wiadomość w poradniku „$1”",
-                    "link": "$~bliższe dane"
+                    "link": "$~bliższe dane",
+                    "moderationHeader": "$~Wiadomość w „$1” wymaga moderacji"
                 },
                 "delete": "$~usuń to powiadomienie",
                 "popup": "$~nowe powiadomienie"
@@ -5130,7 +5131,9 @@
             "role": {
                 "owner": "$~właściciel",
                 "collaborators": "$~współpracownicy",
-                "curators": "$~kuratorzy"
+                "curators": "$~kuratorzy",
+                "commenters": "$~komentatorzy",
+                "viewers": "$~widzów"
             },
             "field": {
                 "message": {
@@ -5159,7 +5162,33 @@
                 "solo": "$~Porozmawiaj sam ze sobą lub dodaj współpracownika, który może edytować i rozmawiać.",
                 "owner": "$~Współpracownicy mogą edytować ten projekt i rozmawiać na jego temat.",
                 "collaborator": "$~Jesteś współpracownikiem. Możesz edytować ten projekt i o nim rozmawiać.",
-                "curator": "$~Jesteś kuratorem galerii tego projektu. Możesz edytować ten projekt i o nim rozmawiać."
+                "curator": "$~Jesteś kuratorem galerii tego projektu. Możesz edytować ten projekt i o nim rozmawiać.",
+                "commenter": "$~Jesteś komentatorem. Możesz rozmawiać o tym projekcie, ale nie możesz go edytować."
+            },
+            "moderation": {
+                "header": "$~Zgłoś tę wiadomość",
+                "explanation": "$~Jeśli ta wiadomość nie spełnia naszych standardów <community standards@://rights> lub nie odpowiada rodzajowi żądanej przez Ciebie opinii, możesz ją zgłosić. Po zgłoszeniu wiadomość zostanie wysłana do kuratorów galerii i usunięta do czasu jej weryfikacji.",
+                "report": {
+                    "tip": "$~zgłoś tę wiadomość",
+                    "label": "$~raport"
+                },
+                "moderate": {
+                    "tip": "$~przejdź do panelu moderacji",
+                    "label": "$~umiarkowany"
+                },
+                "pending": "$~Ta wiadomość została tymczasowo usunięta na czas oczekiwania na decyzję moderacji.",
+                "removed": "$~Wiadomość została usunięta, ponieważ naruszała zasady społeczności lub zasady dotyczące opinii."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "$~Twój projekt znajduje się w galerii. Domyślnie każdy, kto może zobaczyć tę galerię, może zobaczyć ten projekt. Możesz ograniczyć dostęp do swojego projektu tylko do siebie i kuratorów galerii.",
+                "mode": {
+                    "label": "$~ograniczyć dostęp do projektu",
+                    "labels": ["$~nie ograniczaj", "$~ograniczać"],
+                    "tips": [
+                        "$~każdy kto może zobaczyć tę galerię może zobaczyć Twój projekt",
+                        "$~tylko kuratorzy galerii mogą zobaczyć Twój projekt"
+                    ]
+                }
             }
         },
         "palette": {
@@ -5592,7 +5621,8 @@
                     "$~Ale uczynienie projektu *publicznym* lub umieszczenie go w publicznej galerii jest przywilejem. To platforma stworzona dla miłości, afirmacji, szacunku i godności. Dlatego oczekujemy, że żadna z Twoich *publicznych* treści nie będzie:"
                 ],
                 "consequences": [
-                    "$~Jeśli znajdziemy projekt lub galerię, która narusza te zasady, ostrzeżemy twórców przed ich wyświetleniem lub zablokujemy ich wyświetlanie. Jeśli wielokrotnie naruszysz te zasady, stracisz przywilej publicznego publikowania."
+                    "$~Czaty dotyczące projektów i poradników w galeriach publicznych lub prywatnych podlegają moderacji przez kuratorów galerii. Wiadomości naruszające niniejsze zasady społeczności można zgłaszać kuratorom za pomocą przycisku „Zgłoś” obok każdej wiadomości, a kuratorzy mogą zatwierdzać lub usuwać wiadomości.",
+                    "$~Jeśli znajdziemy projekt lub galerię naruszającą te zasady, ostrzeżemy twórców przed ich wyświetleniem lub zablokujemy ich wyświetlanie. W przypadku wielokrotnego naruszenia tych zasad utracisz możliwość publikowania postów."
                 ]
             },
             "donate": {
@@ -6035,6 +6065,29 @@
             "error": {
                 "unknown": "$~Ta przestrzeń z poradami nie istnieje lub nie jest publiczna."
             }
+        },
+        "gallerymoderation": {
+            "header": "$~Panel moderacji galerii",
+            "description": "$~Następujące wiadomości w galeriach, które zarządzasz, zostały zgłoszone przez użytkowników do moderacji.",
+            "labels": {
+                "message": "$~wiadomość",
+                "reporter": "$~reporter",
+                "action": "$~działania moderatora"
+            },
+            "view": {
+                "label": "$~zobacz czat",
+                "tip": "$~zobacz wiadomość na czacie"
+            },
+            "remove": {
+                "label": "$~usunąć",
+                "tip": "$~ta wiadomość narusza wytyczne"
+            },
+            "keep": {
+                "label": "$~trzymać",
+                "tip": "$~ta wiadomość nie narusza wytycznych"
+            },
+            "empty": "$~Żadna wiadomość nie wymaga moderacji",
+            "error": "$~Aby moderować galerie, musisz się zalogować"
         }
     },
     "moderation": {
