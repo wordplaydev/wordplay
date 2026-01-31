@@ -5,23 +5,23 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.6.40
 
-## Added
+### Added
 
 - Draft Arabic locale.
 
-## Maintenance
+### Maintenance
 
 - Updated `dexie`, `@playwright/test`, `svelte`, and `svelte-check` minor versions.
 
 ## 0.6.39
 
-## Added
+### Added
 
 - Fixed #892, adding login links to error messages prompting login.
 - Translate revised strings that are machine translated in other locales.
 - Fixed #913, improved shortcut labels and shortcuts on switches.
 
-## Fixed
+### Fixed
 
 - Fixed #919, correcting UI reference in tutorial script.
 - Fixed #893, correcting example in tutorial script.
@@ -34,7 +34,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #901, improved hover feedback on editable token text.
 - Fixed #912, correcting tile resizing behavior, especially in tutorial.
 
-## Maintenance
+### Maintenance
 
 - Updated minor versions of `firebase`, `zod`, `svelte`, `@sveltejs/kit`, `vite`, `vitest`, `colorjs.io`.
 - Converted to tree-shakeable ColorJS.
