@@ -23,6 +23,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #932, improving output selection behavior and highlights.
 - Fixed #934, prevented renaming of completed evaluates.
 - Fixed #933, hide layout tooltip.
+- Don't show values when paused in palette properties.
 
 ### Maintenance
 
