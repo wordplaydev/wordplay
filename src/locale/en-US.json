@@ -4807,7 +4807,7 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Curators can edit the projects and gallery settings, and chat on all projects. Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by creators can be found on the <gallery moderation dashboard@://gallerymoderation>."
+                    "explanation": "Curators can edit the projects and gallery settings, and chat on all projects. Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by creators can be found on the <gallery moderation dashboard@://galleries/moderation>."
                 },
                 "creators": {
                     "header": "Creators",
@@ -6057,7 +6057,7 @@
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "Galleries",
-                "galleryprompt": "Create and curate galleries to share a collection of projects with others. By creating a gallery, you are responsible for moderating the content of chats associated with projects and how-tos in the gallery using the <gallery moderation dashboard@://gallerymoderation>.",
+                "galleryprompt": "Create and curate galleries to share a collection of projects with others. By creating a gallery, you are responsible for moderating the content of chats associated with projects and how-tos in the gallery using the <gallery moderation dashboard@://galleries/moderation>.",
                 "add": {
                     "header": "New Project",
                     "explanation": "Choose a template to create a new project."

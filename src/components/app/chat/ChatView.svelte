@@ -203,7 +203,7 @@
                 tip={(l) => l.ui.collaborate.moderation.moderate.tip}
                 label={(l) => l.ui.collaborate.moderation.moderate.label}
                 action={() => {
-                    goto('/gallerymoderation');
+                    goto('/galleries/moderation');
                 }}
             />
         {/if}

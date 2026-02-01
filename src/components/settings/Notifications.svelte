@@ -227,7 +227,7 @@
                     icon={'🔗'}
                     action={() => {
                         showDialog = false;
-                        goto('/gallerymoderation');
+                        goto('/galleries/moderation');
                     }}
                 />
             {:else}

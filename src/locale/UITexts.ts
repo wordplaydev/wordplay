@@ -13,7 +13,7 @@ import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
 import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
 import type HowToPageText from '../routes/gallery/[galleryid]/howto/PageText';
-import type GalleryModerationPageText from '../routes/gallerymoderation/PageText';
+import type GalleryModerationPageText from '../routes/galleries/moderation/PageText';
 import type { default as GuidePageText } from '../routes/guide/PageText';
 import type JoinPageText from '../routes/join/PageText';
 import type LearnPageText from '../routes/learn/PageText';
