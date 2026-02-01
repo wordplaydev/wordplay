@@ -5458,13 +5458,14 @@
                     "characters": "Create custom emojis and symbols",
                     "rights": "Responsibilities, ours and yours",
                     "about": "Why does this place exist?",
+                    "updates": "See what's new in Wordplay",
                     "community": {
                         "label": "Community",
-                        "subtitle": "Chat with us on Discord."
+                        "subtitle": "Chat with us on Discord"
                     },
                     "contribute": {
                         "label": "Contribute",
-                        "subtitle": "Help us make Wordplay."
+                        "subtitle": "Help us make Wordplay"
                     }
                 }
             },
@@ -5885,6 +5886,22 @@
                     "We'd love your help. Learn <how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donate@://donate>, or track our <progress@https://github.com/amyjko/wordplay/milestones>. Write our community organizer <Amy@https://amyjko.phd> if you have questions."
                 ]
             },
+            "updates": {
+                "header": "Updates",
+                "content": [
+                    "These are the latest new features, improvements, and bug fixes in Wordplay. We release updates weekly on most Saturdays, unless we find an urgent bug."
+                ],
+                "tips": {
+                    "expand": "Expand this date's updates",
+                    "collapse": "Collapse this date's updates"
+                },
+                "categories": {
+                    "added": "Added",
+                    "changed": "Changed",
+                    "removed": "Removed",
+                    "fixed": "Fixed"
+                }
+            },
             "login": {
                 "header": "Login",
                 "subtitle": "Save, collaborate, and share",
@@ -6012,7 +6029,7 @@
             },
             "donate": {
                 "header": "Donate",
-                "prompt": "Help us pay for bandwidth and compensate student and teacher contributors.",
+                "prompt": "Help us fund Wordplay development",
                 "content": [
                     "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
                     "Here are our current costs:",
