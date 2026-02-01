@@ -16,7 +16,7 @@
         "env": "run-script-os",
         "env:default": "cp .env.${GCLOUD_PROJECT:-template} .env",
         "env:windows": "copy .env.template .env",
-        "build": "npm upgrade shared-types && npm run env && vite build && (cd functions && npm run build)",
+        "build": "npm upgrade shared-types && npm run env && node scripts/updates.js && vite build && (cd functions && npm run build)",
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy",
         "release": "firebase use prod && firebase deploy && firebase use dev",

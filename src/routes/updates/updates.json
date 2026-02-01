@@ -7,7 +7,7 @@
         "**New locales**. We added machine translated drafts of _Arabic, Greek, Kannada, Telegu, and Assamese_ locales! We're sure there are many improvements to make, since AI is far from perfect, so reach out if you'd like to help improve them.",
         "**Names in the guide**. We added all of the names of functions, structures, and streams to the guide, to make it easier to know the many multilingual names by which they can be referred (#934).",
         "**Better drop downs**. We added fancy new drop down menus, to make it easier to select. _This only works in Chrome, but it should release in Safari soon._ (#729).",
-        "**A new updates page**! We created this updates page so you know what's changed recently. We don't translate it to all of our supported languages yet, but maybe your browser will help with that?"
+        "**A new updates page**! We created this updates page so you know what's changed recently. We don't translate it to all of our supported languages yet, but maybe your browser will help with that? (#351)"
       ],
       "fixed": [
         "Deleted characters no longer come back from the dead (#899).",
