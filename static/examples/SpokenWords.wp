@@ -1,6 +1,7 @@
 SpokenWords
 === start
-speech: Speech()
+click: Button(ø)
+speech: Speech(reset: click language: 'en-US' limit: 10)
 x: Random(-10m 10m) … ∆ speech … Random(-10m 10m)
 y: Random(-10m 10m) … ∆ speech … Random(-10m 10m)
 hue: Random() · 360° … ∆ speech … Random() · 360°

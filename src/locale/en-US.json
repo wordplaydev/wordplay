@@ -3179,10 +3179,24 @@
                 "This stream recognizes speech and converts it to @Text. It uses your browser's speech recognition to listen to what you say and turn it into words.",
                 "\\Speech()\\",
                 "This is perfect for those who can speak a language but are still learning to read or write it!",
-                "The speech recognition respects your selected locale, so it will recognize speech in your preferred language.",
+                "You can specify a language code to recognize speech in a particular language:",
+                "\\Speech(language: 'es-MX')\\",
+                "If no language is specified, it defaults to English (en-US).",
                 "Note: Speech recognition requires microphone access and an internet connection in most browsers. Also, there might be usage limits, so don't leave it on for too long!"
             ],
-            "names": ["🗣️", "Speech", "Voice"]
+            "names": ["🗣️", "Speech", "Voice"],
+            "reset": {
+                "names": ["reset", "clear"],
+                "doc": "When this value changes, clear the accumulated speech and start fresh."
+            },
+            "language": {
+                "names": ["language", "lang"],
+                "doc": "A BCP 47 language code for speech recognition (e.g., 'en-US', 'es-MX', 'zh-CN', 'ja-JP', 'ko-KR'). If the language is not supported by your browser's speech recognition, you'll get an error. Defaults to 'en-US' if not specified."
+            },
+            "limit": {
+                "names": ["limit", "words"],
+                "doc": "The maximum number of words to keep in the accumulated speech (sliding window). When set, only the most recent words are kept, and older words are discarded. If not specified, all words are kept indefinitely."
+            }
         },
         "Camera": {
             "doc": [

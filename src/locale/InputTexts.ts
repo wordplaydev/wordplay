@@ -37,7 +37,14 @@ type InputTexts = {
         frequency: NameAndDoc;
     };
     /** A stream of recognized speech as text */
-    Speech: NameAndDoc;
+    Speech: NameAndDoc & {
+        /** Whether to reset/clear the accumulated speech */
+        reset: NameAndDoc;
+        /** The BCP 47 language code for speech recognition (e.g., 'en-US', 'es-MX', 'zh-CN') */
+        language: NameAndDoc;
+        /** Maximum number of words to keep (sliding window) */
+        limit: NameAndDoc;
+    };
     /** A stream of color matrices from a camera sensor */
     Camera: NameAndDoc & {
         /** An optional width of the color matrices */
