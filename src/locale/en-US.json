@@ -4537,7 +4537,8 @@
                 "collaboratorsToggle": {
                     "on": "collapse the collaborators panel",
                     "off": "expand the collaborators panel"
-                }
+                },
+                "localeOptionsLabel": "editor input language"
             },
             "viewer": {
                 "view": {

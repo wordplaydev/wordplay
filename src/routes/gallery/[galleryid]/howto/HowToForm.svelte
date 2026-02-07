@@ -6,7 +6,6 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
-    import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
     import { TileKind } from '@components/project/Tile';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
@@ -14,6 +13,7 @@
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import Mode from '@components/widgets/Mode.svelte';
+    import Options, { type Option } from '@components/widgets/Options.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
@@ -22,10 +22,12 @@
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Locale from '@locale/Locale';
+    import { localeToString, stringToLocale } from '@locale/Locale';
+    import { getLanguageLocalDescription } from '@locale/LocaleText';
     import type { ButtonText } from '@locale/UITexts';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import type { Snippet } from 'svelte';
-    import type { SvelteMap } from 'svelte/reactivity';
+    import { SvelteMap, SvelteSet } from 'svelte/reactivity';
     import { movePermitted } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
@@ -98,10 +100,83 @@
     let prompts: string[] = $derived(
         howTo ? howTo.getGuidingQuestions() : galleryQuestions,
     );
-    let text: string[] = $state([]);
+
+    // locales
+    let locale: Locale = $state(
+        howTo ? howTo.getLocales()[0] : $locales.getLocale(),
+    );
+    let localeName: string = $derived(localeToString(locale));
+    let localeList: SvelteSet<Locale> = $derived(
+        new SvelteSet<Locale>([
+            ...$locales.getLocales(),
+            ...(howTo ? howTo.getLocales() : []),
+        ]),
+    );
+    let localeOptions: Option[] = $derived(
+        [...localeList].map((loc) => ({
+            label: getLanguageLocalDescription(loc),
+            value: localeToString(loc),
+        })),
+    );
+
+    // input format: ¶hello¶/en-US¶hola¶/es-MX
+    // output format: {'en-US': ['hello'], 'es-MX': ['hola']}
+    function markupToMap(markup: string[]): SvelteMap<string, string[]> {
+        let map: SvelteMap<string, string[]> = new SvelteMap<
+            string,
+            string[]
+        >();
+
+        markup.forEach((m) => {
+            let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2})-(.{2})/g);
+
+            stringAndLocale.forEach((match) => {
+                let locale: string = `${match[1]}-${match[2]}`;
+                let text: string = match[0];
+
+                if (map.has(locale)) {
+                    map.get(locale)?.push(text);
+                } else {
+                    map.set(locale, [text]);
+                }
+            });
+        });
+
+        return map;
+    }
+
+    function mapToMarkup(userInput: SvelteMap<string, string[]>): string[] {
+        let returnValue: string[] = Array(prompts.length).fill('');
+
+        // input format: {'en-US': ['hello', 'bye'], 'es-MX': ['hola', 'adios']}
+        // output format: ['¶hello¶/en-US¶hola¶/es-MX', '¶bye¶/en-US¶adios¶/es-MX']
+        userInput.entries().forEach(([locale, text]) => {
+            if (text.every((t) => t.length === 0)) return; // if all the text for this locale is empty, skip it
+
+            text.forEach((str, i) => {
+                returnValue[i] += `¶${str}¶/${locale}`;
+            });
+        });
+
+        return returnValue;
+    }
+
+    // a map of locale name to an array of strings that correspond to each locale
+    // the list of text corresponds to each prompt
+    let multilingualText: SvelteMap<string, string[]> = $state(
+        new SvelteMap<string, string[]>(),
+    );
     $effect(() => {
-        if (prompts.length > 0)
-            text = howTo ? howTo.getText() : Array(prompts.length).fill('');
+        if (prompts.length > 0) {
+            multilingualText = howTo
+                ? markupToMap(howTo.getText())
+                : new SvelteMap<string, string[]>(
+                      [...localeList].map((loc) => [
+                          localeToString(loc),
+                          Array(prompts.length).fill(''),
+                      ]),
+                  );
+        }
     });
 
     // social interactions
@@ -223,8 +298,8 @@
                 allCollaborators,
                 title,
                 prompts,
-                text,
-                ['en-US'],
+                mapToMarkup(multilingualText),
+                [...multilingualText.keys()],
                 gallery ? gallery.getHowToReactions() : {},
                 notify,
             );
@@ -237,7 +312,12 @@
             // reset form
             howTo = undefined;
             title = '';
-            text = Array(prompts.length).fill('');
+            multilingualText = new SvelteMap([
+                [
+                    localeToString(locale),
+                    Array<string>(prompts.length).fill(''),
+                ],
+            ]);
             allCollaborators = [];
         } else {
             // if was not published, and now is published, need to find coordinates for the how-to
@@ -252,10 +332,11 @@
                 ...howTo.getData(),
                 published: publish,
                 title: title,
-                text: text,
+                text: mapToMarkup(multilingualText),
                 xcoord: writeX,
                 ycoord: writeY,
                 collaborators: allCollaborators,
+                locales: [...multilingualText.keys()],
                 social: {
                     ...howTo.getSocial(),
                     notifySubscribers: notify,
@@ -428,11 +509,6 @@
             });
         }
     }
-
-    // locales
-    let locale: Locale | undefined = $state(
-        howTo ? howTo.getLocales()[0] : $locales.getLocale(),
-    );
 </script>
 
 <!-- button to click to open the how-to dialog. if there is a preview (i.e., it is published), use the preview as the button. 
@@ -477,6 +553,16 @@
         : undefined}
 >
     {#if editingMode}
+        <Options
+            value={localeToString(locale)}
+            options={localeOptions}
+            label={(l) => l.ui.howto.editor.localeOptionsLabel}
+            change={(value) => {
+                if (!value) return;
+                let localeString: Locale | undefined = stringToLocale(value);
+                if (localeString) locale = localeString;
+            }}
+        />
         <Subheader>
             <TextField
                 bind:text={title}
@@ -485,24 +571,28 @@
                 id="howto-title"
             />
         </Subheader>
-        <OutputLocaleChooser
-            localesUsed={$locales.getLocales()}
-            {locale}
-            change={(value) => {
-                locale = value;
-            }}
-        />
-
-        {#each text as _, i (i)}
-            <HowToPrompt text={(l) => prompts[i]} />
+        {#each prompts as prompt, i (i)}
+            <HowToPrompt text={(l) => prompt} />
             <FormattedEditor
                 placeholder={(l) => l.ui.howto.editor.editor.placeholder}
                 description={(l) => l.ui.howto.editor.editor.description}
-                bind:text={text[i]}
+                bind:text={
+                    () => {
+                        let current = multilingualText.get(localeName);
+                        return current ? current[i] : '';
+                    },
+                    (v) => {
+                        let current = multilingualText.get(localeName);
+
+                        if (!current) return;
+
+                        current[i] = v;
+                        multilingualText.set(localeName, current);
+                    }
+                }
                 id="howto-prompt-{i}"
             />
         {/each}
-
         <div class="optionsarea">
             {#if collabToggle}
                 <div class="optionspanel">
@@ -653,11 +743,10 @@
         </div>
         <div class="howtosplitview">
             <div class="splitside" id="howtoview">
-                {#each text as _, i (i)}
+                {#each howTo.getText() as markup, i (i)}
                     <HowToPrompt text={(l) => prompts[i]} />
-                    <MarkupHTMLView markup={text[i]} />
+                    <MarkupHTMLView {markup} />
                 {/each}
-                <MarkupHTMLView markup={'\\¶hello¶/en¶hola¶/es\\'} />
             </div>
             <div class="splitside" id="howtointeractions">
                 <HowToPrompt text={(l) => l.ui.howto.viewer.reactionsPrompt} />
@@ -690,7 +779,7 @@
                 />
             </div>
         </div>
-    {:else if !$user || !isCreatorCollaboratorViewer($user.uid)}
+    {:else if howTo && (!$user || !isCreatorCollaboratorViewer($user.uid))}
         <Header>
             {title}
         </Header>
@@ -705,11 +794,11 @@
         </div>
         <hr />
 
-        {#each text as _, i (i)}
+        {#each howTo.getText() as markup, i (i)}
             <HowToPrompt text={(l) => prompts[i]} />
-            <MarkupHTMLView markup={text[i]} />
+            <MarkupHTMLView {markup} />
         {/each}
-    {:else}
+    {:else if howTo}
         <HowToPrompt>
             {title}
         </HowToPrompt>
@@ -747,9 +836,9 @@
             />
         </div>
 
-        {#each text as _, i (i)}
+        {#each howTo.getText() as markup, i (i)}
             <HowToPrompt text={(l) => prompts[i]} />
-            <MarkupHTMLView markup={text[i]} />
+            <MarkupHTMLView {markup} />
         {/each}
     {/if}
 </Dialog>
