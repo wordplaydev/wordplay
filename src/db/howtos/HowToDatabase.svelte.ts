@@ -156,9 +156,15 @@ export default class HowTo {
         return this.markupToMapHelper([this.data.title]);
     }
 
+    /** Get the title of the how-to in the specified locale. If there is no title written in that language, fall back to the first title */
     getTitleInLocale(locale: string): string {
         const titleMap = this.getTitleAsMap();
-        return titleMap.get(locale)?.[0] || '';
+        let nameInLocale: string[] | undefined = titleMap.get(locale);
+        if (nameInLocale) return nameInLocale[0];
+
+        let firstLanguage: [string, string[]] | undefined = titleMap.entries().next().value;
+        if (firstLanguage) return firstLanguage[1][0];
+        else return ''; // fall back to an empty title
     }
 
     getGuidingQuestions() {
