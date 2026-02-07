@@ -18,6 +18,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Fix a problem with the rotating locale chooser on the landing page (#942).
+- Prevented machine translation of symbolic names, which sometimes are converted in strange ways.
 
 ## 0.16.40 - 2026-01-31
 
