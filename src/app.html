@@ -326,7 +326,7 @@
                 );
                 --color-orange: #fe6100;
                 --color-yellow: #ffb000;
-                --color-yellow-transparent: #ffae004b;
+                --color-yellow-transparent: #ffb0004b;
                 --color-white: #ffffff;
                 --color-black: #000000;
                 --color-light-grey: #9f9f9f;
@@ -621,6 +621,10 @@
             p,
             li {
                 line-height: 1.5;
+            }
+
+            li:not(:last-of-type) {
+                margin-block-end: var(--wordplay-spacing-half);
             }
 
             a:hover {

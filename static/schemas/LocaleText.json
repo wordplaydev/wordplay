@@ -11983,6 +11983,10 @@
                         "teach": {
                           "description": "What content is on the teach page",
                           "type": "string"
+                        },
+                        "updates": {
+                          "description": "What content is on the updates page",
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -11994,6 +11998,7 @@
                         "galleries",
                         "characters",
                         "rights",
+                        "updates",
                         "community",
                         "contribute"
                       ],
@@ -12886,6 +12891,78 @@
                     "message"
                   ],
                   "type": "object"
+                },
+                "updates": {
+                  "additionalProperties": false,
+                  "description": "Update page text",
+                  "properties": {
+                    "categories": {
+                      "additionalProperties": false,
+                      "description": "Categories for updates",
+                      "properties": {
+                        "added": {
+                          "description": "New features",
+                          "type": "string"
+                        },
+                        "changed": {
+                          "description": "Changes to existing features",
+                          "type": "string"
+                        },
+                        "fixed": {
+                          "description": "Bug fixes",
+                          "type": "string"
+                        },
+                        "removed": {
+                          "description": "Removed features",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "added",
+                        "changed",
+                        "removed",
+                        "fixed"
+                      ],
+                      "type": "object"
+                    },
+                    "content": {
+                      "description": "Text for the about page",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "header": {
+                      "description": "Header for the about page",
+                      "type": "string"
+                    },
+                    "tips": {
+                      "additionalProperties": false,
+                      "description": "Expand, collapse tooltips for the updates page",
+                      "properties": {
+                        "collapse": {
+                          "description": "Collapse the section",
+                          "type": "string"
+                        },
+                        "expand": {
+                          "description": "Expand the section",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "expand",
+                        "collapse"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "content",
+                    "tips",
+                    "categories"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -12901,6 +12978,7 @@
                 "character",
                 "galleries",
                 "about",
+                "updates",
                 "login",
                 "join",
                 "rights",

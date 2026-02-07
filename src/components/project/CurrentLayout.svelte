@@ -34,7 +34,7 @@
 <span
     aria-label={label}
     onpointerenter={(event) => tip.show(label, event.currentTarget)}
-    onpointerleave={(event) => tip.show(label, event.currentTarget)}
+    onpointerleave={() => tip.hide()}
     >{withMonoEmoji(LayoutIcons[computedLayout])}
 </span>
 

@@ -16,6 +16,7 @@ import ConceptLink from '@nodes/ConceptLink';
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { tokenize } from '@parser/Tokenizer';
+import { toTokens } from '@parser/toTokens';
 import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import { LocaleValidator } from './LocaleSchema';
 import type Log from './Log';
@@ -156,7 +157,28 @@ async function checkLocale(
                   );
         })
         // Don't translate emotions; those have meaning.
-        .filter(({ key }) => key !== 'emotion');
+        .filter(({ key }) => key !== 'emotion')
+        // Don't translate names that are names that are symbolic
+        .map((path) => {
+            if (path.key !== 'names') return path;
+            const names = (
+                Array.isArray(path.value) ? path.value : [path.value]
+            ).map((name) => {
+                // Not unwritten? Nothing to do.
+                if (!isUnwritten(name)) return name;
+                const nameWithoutPlaceholder = withoutAnnotations(name);
+                // A symbolic name? Don't translate it, just remove the unwritten marker.
+                if (
+                    toTokens(nameWithoutPlaceholder)
+                        .peek()
+                        ?.isSymbol(Sym.Operator)
+                )
+                    return nameWithoutPlaceholder;
+                // Return the unwritten name.
+                return name;
+            });
+            return new LocalePath(path.path, path.key, names);
+        });
 
     // If there are any unwritten strings and we were asked to translate them, do so.
     if (pairsToTranslate.length > 0 && warnUnwritten && translate) {

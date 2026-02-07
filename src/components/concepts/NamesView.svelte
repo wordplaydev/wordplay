@@ -10,7 +10,6 @@
     let { names }: Props = $props();
 
     const unique = $derived(Array.from(new Set(names)));
-    $inspect(unique);
 </script>
 
 {#if unique.length > 0}

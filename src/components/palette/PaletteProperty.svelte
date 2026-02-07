@@ -1,4 +1,5 @@
 <script lang="ts">
+    import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
@@ -9,14 +10,13 @@
     import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
     import { tick } from 'svelte';
-    import { blocks, DB, locales } from '../../db/Database';
+    import { DB, locales } from '../../db/Database';
     import {
         CANCEL_SYMBOL,
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import NodeView from '../editor/nodes/NodeView.svelte';
     import { getConceptIndex } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
@@ -96,14 +96,12 @@
             <Note id={propertyID}
                 >{#if property.inherited}<LocalizedText
                         path={(l) => l.ui.palette.labels.inherited}
-                    />{:else if values.areDefault() && expression !== undefined}<NodeView
+                    />{:else if values.areDefault() && expression !== undefined}
+                    <RootView
                         node={expression}
-                        format={{
-                            block: $blocks,
-                            root: undefined,
-                            editable: false,
-                            spaces: undefined,
-                        }}
+                        inline={true}
+                        blocks={false}
+                        inert={true}
                     />
                     <LocalizedText
                         path={(l) => l.ui.palette.labels.default}

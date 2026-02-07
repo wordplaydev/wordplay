@@ -23,6 +23,7 @@ import type RightsPageText from '../routes/rights/PageText';
 import type TeachPageText from '../routes/teach/PageText';
 import type ClassPageText from '../routes/teach/class/[classid]/PageText';
 import type NewClassPageText from '../routes/teach/class/new/PageText';
+import type UpdatesPageText from '../routes/updates/PageText';
 import type EditTexts from './EditTexts';
 
 export type ButtonText = {
@@ -908,6 +909,8 @@ type UITexts = {
         galleries: GalleriesPageText;
         /** About page text */
         about: AboutPageText;
+        /** Update page text */
+        updates: UpdatesPageText;
         /** The login and account page */
         login: LoginPageText;
         /** Account creation page text */

@@ -5299,7 +5299,8 @@
                         "label": "$~Medverka",
                         "subtitle": "$~Hjälp oss att göra ordspel."
                     },
-                    "characters": "$~Skapa anpassade emojis och symboler"
+                    "characters": "$~Skapa anpassade emojis och symboler",
+                    "updates": "$~Se vad som är nytt i Wordplay"
                 }
             },
             "learn": {
@@ -5858,6 +5859,22 @@
                         ]
                     },
                     "collaborators": "$~kollaboratörer"
+                }
+            },
+            "updates": {
+                "header": "$~Uppdateringar",
+                "content": [
+                    "$~Det här är de senaste nya funktionerna, förbättringarna och buggfixarna i Wordplay. Vi släpper uppdateringar varje vecka de flesta lördagar, såvida vi inte hittar ett akut fel."
+                ],
+                "tips": {
+                    "expand": "$~Utöka uppdateringarna för detta datum",
+                    "collapse": "$~Komprimera uppdateringar från detta datum"
+                },
+                "categories": {
+                    "added": "$~Tillagd",
+                    "changed": "$~Ändrad",
+                    "removed": "$~Borttagen",
+                    "fixed": "$~Fast"
                 }
             }
         },

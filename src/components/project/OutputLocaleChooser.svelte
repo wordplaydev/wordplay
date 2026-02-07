@@ -1,4 +1,5 @@
 <script lang="ts">
+    import LocaleName from '@components/settings/LocaleName.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { locales } from '@db/Database';
     import type Locale from '@locale/Locale';
@@ -27,17 +28,25 @@
             {
                 value: undefined,
                 label: $locales.get((l) => l.ui.output.options.default),
+                locale: null,
             },
             ...localesUsed.map((l) => {
                 return {
                     value: localeToString(l),
                     label: getLanguageLocalDescription(l),
+                    locale: l,
                 };
             }),
         ]}
         change={(value) =>
             change(value === undefined ? undefined : stringToLocale(value))}
-    ></Options></label
+    >
+        {#snippet item(
+            option,
+        )}{#if option.locale === null}{option.label}{:else}<LocaleName
+                    locale={option.locale}
+                ></LocaleName>{/if}{/snippet}
+    </Options></label
 >
 
 <style>

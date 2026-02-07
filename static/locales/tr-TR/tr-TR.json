@@ -5295,7 +5295,8 @@
                         "label": "$~Katkı yapmak",
                         "subtitle": "$~Wordplay yapmamıza yardım edin."
                     },
-                    "characters": "$~Özel emojiler ve semboller yaratın"
+                    "characters": "$~Özel emojiler ve semboller yaratın",
+                    "updates": "$~Wordplay'deki yeniliklere göz atın."
                 }
             },
             "learn": {
@@ -5854,6 +5855,22 @@
                         ]
                     },
                     "collaborators": "$~işbirlikçiler"
+                }
+            },
+            "updates": {
+                "header": "$~Güncellemeler",
+                "content": [
+                    "$~Bunlar Wordplay'deki en son yeni özellikler, iyileştirmeler ve hata düzeltmeleridir. Acil bir hata bulmadığımız sürece, güncellemeleri genellikle Cumartesi günleri olmak üzere haftalık olarak yayınlıyoruz."
+                ],
+                "tips": {
+                    "expand": "$~Bu tarihe ait güncellemeleri genişletin",
+                    "collapse": "$~Bu tarihe ait güncellemeleri gizle"
+                },
+                "categories": {
+                    "added": "$~Eklendi",
+                    "changed": "$~Değiştirildi",
+                    "removed": "$~Kaldırıldı",
+                    "fixed": "$~Sabit"
                 }
             }
         },
