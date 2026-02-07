@@ -180,12 +180,12 @@ export default class HowTo {
         markup.forEach((m) => {
             // dealing with cases of no markup, just text (i.e., how-to was created before translation was implemented)
             // 'en-US' was the hard-coded default locale, so we just use that
-            if (/¶(.*?)¶\/(.{2,3})-(.{2})/.test(m) === false) {
+            if (/¶(.*?)¶\/(.{2,3})-(.{2})/s.test(m) === false) {
                 map.set('en-US', [m]);
                 return;
             }
 
-            let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2,3})-(.{2})/g);
+            let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2,3})-(.{2})/gs);
 
             stringAndLocale.forEach((match) => {
                 let locale: string = `${match[2]}-${match[3]}`;
@@ -216,6 +216,7 @@ export default class HowTo {
 
         // input format: {'en-US': ['hello', 'bye'], 'es-MX': ['hola', 'adios']}
         // output format: ['¶hello¶/en-US¶hola¶/es-MX', '¶bye¶/en-US¶adios¶/es-MX']
+        // also need to account for code, e.g., "some text, \Phrase('some code')\" --> "¶some text, ¶\Phrase('some code')\/en-US"
         userInput.entries().forEach(([locale, text]) => {
             if (text.every((t) => t.length === 0)) return; // if all the text for this locale is empty, skip it
 
