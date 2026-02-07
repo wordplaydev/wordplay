@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.41 - 2026-02-07
 
+### Added
+
+- Highlighted updates link on landing page when there are new updates.
+
 ### Changed
 
 - Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.

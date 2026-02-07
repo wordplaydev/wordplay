@@ -3,8 +3,12 @@
     "version": "0.16.41",
     "date": "2026-02-07",
     "changes": {
-      "added": [],
-      "fixed": [],
+      "added": [
+        "Highlighted updates link on landing page when there are new updates."
+      ],
+      "fixed": [
+        "Fix a problem with the rotating locale chooser on the landing page (#942)."
+      ],
       "changed": [
         "Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.",
         "We upgraded minor versions of internal tooling for stability."

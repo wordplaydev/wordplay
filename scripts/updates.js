@@ -11,6 +11,13 @@ const outputPath = path.join(
     'updates',
     'updates.json',
 );
+const datePath = path.join(
+    process.cwd(),
+    'src',
+    'routes',
+    'updates',
+    'date.json',
+);
 
 function parseChangelog(changelog) {
     const lines = changelog.split('\n');
@@ -60,5 +67,11 @@ console.log('Parsing changelog...');
 const changelogContent = fs.readFileSync(changelogPath, 'utf-8');
 const updates = parseChangelog(changelogContent);
 fs.writeFileSync(outputPath, JSON.stringify(updates, null, 2), 'utf-8');
+
+fs.writeFileSync(
+    datePath,
+    JSON.stringify({ date: updates[0].date }, null, 2),
+    'utf-8',
+);
 
 console.log(`Saved JSON to ${outputPath}`);

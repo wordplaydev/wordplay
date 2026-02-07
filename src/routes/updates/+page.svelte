@@ -2,6 +2,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { Settings } from '@db/Database';
     import Header from '../../components/app/Header.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
@@ -15,22 +16,26 @@
         });
 
     let collapsed = $state<boolean[]>(
-        datedUpdates.map((_, index) => index > 0),
+        datedUpdates.map((_, index) => index > 1),
     );
+
+    Settings.setUpdatesLastChecked(datedUpdates[0].date);
 </script>
 
 {#snippet note(text: string)}
     <!-- Convert markdown into Wordplay markup -->
-    <MarkupHTMLView
-        markup={text
-            .replaceAll('**', '*')
-            .replaceAll('_', '/')
-            .replaceAll(/`(.+?)`/g, '\\"$1"\\')
-            .replaceAll(
-                /#([0-9]+)/g,
-                '<$1@https://github.com/wordplaydev/wordplay/issues/$1>',
-            )}
-    />
+    <li
+        ><MarkupHTMLView
+            markup={text
+                .replaceAll('**', '*')
+                .replaceAll('_', '/')
+                .replaceAll(/`(.+?)`/g, '\\"$1"\\')
+                .replaceAll(
+                    /#([0-9]+)/g,
+                    '<$1@https://github.com/wordplaydev/wordplay/issues/$1>',
+                )}
+        />
+    </li>
 {/snippet}
 
 <Writing>
