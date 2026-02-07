@@ -5176,7 +5176,8 @@
                     "label": "$~måttlig"
                 },
                 "pending": "$~Det här meddelandet tas tillfälligt bort i väntan på modereringsåtgärd.",
-                "removed": "$~Det här meddelandet har tagits bort eftersom det bryter mot riktlinjer för communityn eller feedback."
+                "removed": "$~Det här meddelandet har tagits bort eftersom det bryter mot riktlinjer för communityn eller feedback.",
+                "inGallery": "$~Den här chatten finns i ett galleri. Den modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot våra <community standards@://rights> för moderering."
             },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Ditt projekt finns i ett galleri. Som standard kan alla som kan se det här galleriet se det här projektet. Du kan begränsa vem som kan se ditt projekt till bara du och galleriets kuratorer.",

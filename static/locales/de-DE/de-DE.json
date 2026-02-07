@@ -5850,7 +5850,8 @@
                     "label": "$~mäßig"
                 },
                 "pending": "$~Diese Nachricht wurde vorübergehend entfernt, bis eine Moderation erfolgt.",
-                "removed": "$~Diese Nachricht wurde wegen Verstoßes gegen die Community- oder Feedback-Richtlinien entfernt."
+                "removed": "$~Diese Nachricht wurde wegen Verstoßes gegen die Community- oder Feedback-Richtlinien entfernt.",
+                "inGallery": "$~Dieser Chat befindet sich in einer Galerie und wird von den Kuratoren moderiert. Sie können Beiträge, die gegen unsere <Community-Standards@://rights> verstoßen, zur Moderation melden."
             },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Ihr Projekt befindet sich in einer Galerie. Standardmäßig kann jeder, der diese Galerie sehen kann, auch Ihr Projekt sehen. Sie können den Zugriff auf Ihr Projekt auf Sie und die Kuratoren der Galerie beschränken.",

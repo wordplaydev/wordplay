@@ -5172,7 +5172,8 @@
                     "label": "$~ılıman"
                 },
                 "pending": "$~Bu mesaj, moderasyon işlemi beklenirken geçici olarak kaldırılmıştır.",
-                "removed": "$~Bu mesaj, topluluk veya geri bildirim kurallarını ihlal ettiği için kaldırılmıştır."
+                "removed": "$~Bu mesaj, topluluk veya geri bildirim kurallarını ihlal ettiği için kaldırılmıştır.",
+                "inGallery": "$~Bu sohbet bir galeride yer almaktadır. Galeri küratörleri tarafından denetlenmektedir. <Topluluk standartlarımızı@://haklarımızı> ihlal eden mesajları denetim için bildirebilirsiniz."
             },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Projeniz bir galeride yer alıyor. Varsayılan olarak, bu galeriyi görebilen herkes bu projeyi de görebilir. Projenizi yalnızca sizin ve galeri yöneticilerinin görebilmesini kısıtlayabilirsiniz.",

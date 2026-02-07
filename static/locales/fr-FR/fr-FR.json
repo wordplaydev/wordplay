@@ -5851,7 +5851,8 @@
                     "label": "$~modéré"
                 },
                 "pending": "$~Ce message a été temporairement supprimé en attendant une action de modération.",
-                "removed": "$~Ce message a été supprimé car il enfreignait les règles relatives à la communauté ou aux commentaires."
+                "removed": "$~Ce message a été supprimé car il enfreignait les règles relatives à la communauté ou aux commentaires.",
+                "inGallery": "$~Cette discussion se déroule dans une galerie. Elle est soumise à la modération des responsables de la galerie. Vous pouvez signaler les messages qui enfreignent nos <normes communautaires@://droits> pour modération."
             },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Votre projet est exposé dans une galerie. Par défaut, toute personne ayant accès à cette galerie peut voir votre projet. Vous pouvez limiter l'accès à votre projet à vous-même et aux conservateurs de la galerie.",

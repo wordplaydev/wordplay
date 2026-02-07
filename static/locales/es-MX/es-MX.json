@@ -5833,7 +5833,8 @@
                     "label": "$~moderado"
                 },
                 "pending": "$~Este mensaje se elimina temporalmente mientras se espera una acción de moderación.",
-                "removed": "$~Este mensaje ha sido eliminado por violar las pautas de la comunidad o de comentarios."
+                "removed": "$~Este mensaje ha sido eliminado por violar las pautas de la comunidad o de comentarios.",
+                "inGallery": "$~Este chat está en una galería. Está sujeto a moderación por parte de los curadores de la galería. Puedes reportar mensajes que infrinjan nuestros <community standards@://rights> para su moderación."
             },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Tu proyecto está en una galería. De forma predeterminada, cualquier persona que pueda ver esta galería puede ver este proyecto. Puedes restringir quién puede ver tu proyecto a solo tú y los curadores de la galería.",
