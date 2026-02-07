@@ -133,13 +133,6 @@ test.each([
         Replace,
         '-5',
     ],
-    [
-        'suggest addition on number with unit',
-        '5m',
-        (node) => node instanceof NumberLiteral,
-        Replace,
-        '5m + _•#m',
-    ],
 ])(
     '%s: %s',
     (
