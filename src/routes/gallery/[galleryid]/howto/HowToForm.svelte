@@ -26,7 +26,7 @@
     import { getLanguageLocalDescription } from '@locale/LocaleText';
     import type { ButtonText } from '@locale/UITexts';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
-    import type { Snippet } from 'svelte';
+    import { onMount, type Snippet } from 'svelte';
     import { SvelteMap, SvelteSet } from 'svelte/reactivity';
     import { movePermitted } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
@@ -104,7 +104,7 @@
     // locales
     // TODO(@mc): locale should actually be defined as the first of the user's locales that is in the how-to's locales, if it exists
     // then the first of the how-to's locales if it doesn't
-    let localeName: string = $derived(
+    let localeName: string = $state(
         howTo ? howTo.getLocales()[0] : $locales.getLocaleString(),
     );
     let localeList: SvelteSet<string> = $derived(
@@ -177,7 +177,8 @@
     let multilingualText: SvelteMap<string, string[]> = $state(
         new SvelteMap<string, string[]>(),
     );
-    $effect(() => {
+    onMount(() => {
+        console.log('hello');
         if (prompts.length > 0) {
             multilingualText = howTo
                 ? markupToMap(howTo.getText())
@@ -189,7 +190,6 @@
                   );
         }
     });
-    $inspect(howTo?.getText()).with(console.log);
     $inspect(multilingualText).with(console.log);
 
     // social interactions
@@ -573,7 +573,16 @@
             options={localeOptions}
             label={(l) => l.ui.howto.editor.localeOptionsLabel}
             change={(value) => {
-                if (value) localeName = value;
+                if (value) {
+                    localeName = value;
+
+                    if (!multilingualText.has(localeName)) {
+                        multilingualText.set(
+                            localeName,
+                            Array(prompts.length).fill(''),
+                        );
+                    }
+                }
             }}
         />
         <Subheader>
