@@ -5118,7 +5118,8 @@
                     "howToHeader": "$~Ny instruktionsguide med titeln \"$1\" har publicerats",
                     "projectChatHeader": "$~Nytt meddelande i projektet \"$1\"",
                     "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$1\"",
-                    "link": "$~detaljer"
+                    "link": "$~detaljer",
+                    "moderationHeader": "$~Meddelandet i \"$1\" kräver modereringsåtgärd"
                 },
                 "delete": "$~radera den här aviseringen",
                 "popup": "$~ny avisering"
@@ -5162,6 +5163,21 @@
                 "collaborator": "$~Du är en kollaboratör. Du kan redigera det här projektet och chatta om det.",
                 "curator": "$~Du är curator för detta projekts galleri. Du kan redigera det här projektet och chatta om det.",
                 "commenter": "$~Du är en kommentator. Du kan chatta om det här projektet men inte redigera det."
+            },
+            "moderation": {
+                "header": "$~Rapportera det här meddelandet",
+                "explanation": "$~Om det här meddelandet inte uppfyller våra <community standards@://rights> eller den typ av feedback du begärt kan du rapportera det. När du rapporterar det här meddelandet skickas det till galleriets kuratorer och tas bort tills det kan granskas.",
+                "report": {
+                    "tip": "$~rapportera detta meddelande",
+                    "label": "$~rapportera"
+                },
+                "moderate": {
+                    "tip": "$~gå till modereringspanelen",
+                    "label": "$~måttlig"
+                },
+                "pending": "$~Det här meddelandet tas tillfälligt bort i väntan på modereringsåtgärd.",
+                "removed": "$~Det här meddelandet har tagits bort eftersom det bryter mot riktlinjer för communityn eller feedback.",
+                "inGallery": "$~Den här chatten finns i ett galleri. Den modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot våra <community standards@://rights> för moderering."
             },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Ditt projekt finns i ett galleri. Som standard kan alla som kan se det här galleriet se det här projektet. Du kan begränsa vem som kan se ditt projekt till bara du och galleriets kuratorer.",
@@ -5606,7 +5622,8 @@
                     "$~Men att göra ett projekt *offentligt*, eller inkludera det i ett offentligt galleri, är ett privilegium. Detta är en plattform gjord för kärlek, bekräftelse, respekt och värdighet. Därför förväntar vi oss att inget av ditt *offentliga* innehåll kommer att:"
                 ],
                 "consequences": [
-                    "$~Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skapare innan de tittar på det, eller blockera det från att ses. Om du upprepade gånger bryter mot dessa regler kommer du att förlora privilegiet att publicera offentligt."
+                    "$~Chattar för projekt och instruktioner som finns i offentliga eller privata gallerier modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot dessa communityriktlinjer till kuratorerna med hjälp av rapportknappen bredvid varje meddelande, och kuratorerna kan godkänna eller ta bort meddelanden.",
+                    "$~Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skaparna innan de ser det, eller blockera det från att visas. Om du upprepade gånger bryter mot dessa regler förlorar du rätten att publicera inlägg offentligt."
                 ]
             },
             "donate": {
@@ -6065,6 +6082,29 @@
             "error": {
                 "unknown": "$~Det här instruktionsutrymmet finns inte eller är inte offentligt."
             }
+        },
+        "gallerymoderation": {
+            "header": "$~Översikt för gallerimoderering",
+            "description": "$~Följande meddelanden i gallerier som du hanterar har rapporterats av användare för moderering.",
+            "labels": {
+                "message": "$~meddelande",
+                "reporter": "$~reporter",
+                "action": "$~moderatoråtgärder"
+            },
+            "view": {
+                "label": "$~visa chatten",
+                "tip": "$~visa meddelande i chatten"
+            },
+            "remove": {
+                "label": "$~ta bort",
+                "tip": "$~detta meddelande bryter mot riktlinjerna"
+            },
+            "keep": {
+                "label": "$~hålla",
+                "tip": "$~detta meddelande bryter inte mot riktlinjerna"
+            },
+            "empty": "$~Inga meddelanden kräver moderering",
+            "error": "$~Du måste vara inloggad för att moderera gallerier"
         }
     },
     "moderation": {

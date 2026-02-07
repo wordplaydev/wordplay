@@ -5083,7 +5083,8 @@
                     "howToHeader": "$~Se publicó un nuevo tutorial titulado \"$1\"",
                     "projectChatHeader": "$~Nuevo mensaje en el proyecto \"$1\"",
                     "howToChatHeader": "$~Nuevo mensaje en el tutorial \"$1\"",
-                    "link": "$~detalles"
+                    "link": "$~detalles",
+                    "moderationHeader": "$~El mensaje en \"$1\" requiere una acción de moderación."
                 },
                 "delete": "$~eliminar esta notificación",
                 "popup": "$~nueva notificación"
@@ -5405,7 +5406,8 @@
                     "Pero hacer un proyecto *público*, o incluirlo en una galería pública, es un privilegio. Esta es una plataforma hecha por amor, afirmación, respeto y dignidad. Por lo tanto, esperamos que ninguno de su *público*::"
                 ],
                 "consequences": [
-                    "Si encontramos un proyecto o galería que viola estas reglas, advertiremos a los creadores antes de que lo vean o bloquearemos su visualización. Si violas repetidamente estas reglas, perderás el privilegio de publicar públicamente."
+                    "$~Los chats de proyectos y tutoriales en galerías públicas o privadas están sujetos a moderación por parte de los curadores de la galería. Puedes reportar mensajes que infrinjan estas normas de la comunidad a los curadores mediante el botón de reportar junto a cada mensaje, y los curadores pueden aprobar o eliminar mensajes.",
+                    "$~Si encontramos un proyecto o galería que infrinja estas normas, avisaremos a los creadores antes de que lo vean o bloquearemos su visualización. Si incumples estas normas repetidamente, perderás el derecho a publicar."
                 ]
             },
             "donate": {
@@ -5836,6 +5838,21 @@
                 "curator": "$~Eres el curador de la galería de este proyecto. Puedes editarlo y conversar sobre él.",
                 "commenter": "$~Eres comentarista. Puedes chatear sobre este proyecto, pero no puedes editarlo."
             },
+            "moderation": {
+                "header": "$~Reportar este mensaje",
+                "explanation": "$~Si este mensaje no cumple con nuestros <community standards@://rights> o el tipo de retroalimentación que solicitaste, puedes reportarlo. Al reportarlo, se enviará a los curadores de la galería y se eliminará hasta que pueda ser revisado.",
+                "report": {
+                    "tip": "$~reportar este mensaje",
+                    "label": "$~informe"
+                },
+                "moderate": {
+                    "tip": "$~ir al panel de moderación",
+                    "label": "$~moderado"
+                },
+                "pending": "$~Este mensaje se elimina temporalmente mientras se espera una acción de moderación.",
+                "removed": "$~Este mensaje ha sido eliminado por violar las pautas de la comunidad o de comentarios.",
+                "inGallery": "$~Este chat está en una galería. Está sujeto a moderación por parte de los curadores de la galería. Puedes reportar mensajes que infrinjan nuestros <community standards@://rights> para su moderación."
+            },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Tu proyecto está en una galería. De forma predeterminada, cualquier persona que pueda ver esta galería puede ver este proyecto. Puedes restringir quién puede ver tu proyecto a solo tú y los curadores de la galería.",
                 "mode": {
@@ -6047,6 +6064,29 @@
             "error": {
                 "unknown": "$~Este espacio de instrucciones no existe o no es público."
             }
+        },
+        "gallerymoderation": {
+            "header": "$~Panel de moderación de la galería",
+            "description": "$~Los siguientes mensajes en las galerías que seleccionaste han sido reportados por los usuarios para moderación.",
+            "labels": {
+                "message": "$~mensaje",
+                "reporter": "$~reportero",
+                "action": "$~acciones del moderador"
+            },
+            "view": {
+                "label": "$~ver chat",
+                "tip": "$~ver mensaje en el chat"
+            },
+            "remove": {
+                "label": "$~eliminar",
+                "tip": "$~Este mensaje viola las pautas"
+            },
+            "keep": {
+                "label": "$~mantener",
+                "tip": "$~Este mensaje no viola las pautas"
+            },
+            "empty": "$~Ningún mensaje requiere moderación",
+            "error": "$~Debes iniciar sesión para moderar galerías."
         }
     },
     "moderation": {

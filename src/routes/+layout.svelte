@@ -1,10 +1,13 @@
 <script module lang="ts">
     import type { NotificationData } from '@components/settings/Notifications.svelte';
-    import { SvelteSet } from 'svelte/reactivity';
+    import { SvelteMap } from 'svelte/reactivity';
 
-    /** User's notifications state */
-    export let notifications = $state<SvelteSet<NotificationData>>(
-        new SvelteSet(),
+    /** User's notifications state
+     * Maps a string (notification's item ID + type) to data
+     * (Workaround to make sure that we don't send more than one notification of the same type)
+     */
+    export let notifications = $state<SvelteMap<string, NotificationData>>(
+        new SvelteMap(),
     );
 </script>
 
