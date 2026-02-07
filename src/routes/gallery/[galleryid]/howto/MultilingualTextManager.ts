@@ -10,16 +10,17 @@ export function markupToMap(markup: string[]): SvelteMap<string, string[]> {
     >();
 
     markup.forEach((m) => {
-        let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2,3})-(.{2})/g);
-
         // dealing with cases of no markup, just text (i.e., how-to was created before translation was implemented)
         // 'en-US' was the hard-coded default locale, so we just use that
-        if ([...stringAndLocale].length === 0) {
+        if (/¶(.*?)¶\/(.{2,3})-(.{2})/.test(m) === false) {
             map.set('en-US', [m]);
             return;
         }
 
+        let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2,3})-(.{2})/g);
+
         stringAndLocale.forEach((match) => {
+            console.log(match);
             let locale: string = `${match[2]}-${match[3]}`;
             let text: string = match[1];
 
