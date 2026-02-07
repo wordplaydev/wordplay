@@ -7,7 +7,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Added
 
-- We now highlight the updates link on the landing page when there are new updates.
+- **Updates highlight**. We now highlight the updates link on the landing page when there are new updates.
+- **Gallery chat moderation**. Creators in a gallery can report problematic chats to curators of a gallery, and curators can moderate those messages.
 
 ### Changed
 
