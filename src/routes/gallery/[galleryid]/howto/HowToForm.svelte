@@ -31,6 +31,7 @@
     import { movePermitted } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
+    import { mapToMarkup, markupToMap } from './MultilingualTextManager';
 
     // defining props
     interface Props {
@@ -138,53 +139,6 @@
 
         return localeOptions;
     });
-
-    // input format: ['¶hello¶/en-US¶hola¶/es-MX', '¶bye¶/en-US¶adios¶/es-MX']
-    // output format: {'en-US': ['hello', 'bye'], 'es-MX': ['hola', 'adios']}
-    function markupToMap(markup: string[]): SvelteMap<string, string[]> {
-        let map: SvelteMap<string, string[]> = new SvelteMap<
-            string,
-            string[]
-        >();
-
-        markup.forEach((m) => {
-            let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2})-(.{2})/g);
-
-            stringAndLocale.forEach((match) => {
-                let locale: string = `${match[2]}-${match[3]}`;
-                let text: string = match[1];
-
-                if (map.has(locale)) {
-                    map.get(locale)?.push(text);
-                } else {
-                    map.set(locale, [text]);
-                }
-            });
-        });
-
-        return map;
-    }
-
-    /** takes a dictionary mapping locales to strings, returns the locales used and the text attached to them */
-    function mapToMarkup(
-        userInput: SvelteMap<string, string[]>,
-    ): [string[], string[]] {
-        let usedLocales: Set<string> = new Set<string>();
-        let markupTexts: string[] = Array(prompts.length).fill('');
-
-        // input format: {'en-US': ['hello', 'bye'], 'es-MX': ['hola', 'adios']}
-        // output format: ['¶hello¶/en-US¶hola¶/es-MX', '¶bye¶/en-US¶adios¶/es-MX']
-        userInput.entries().forEach(([locale, text]) => {
-            if (text.every((t) => t.length === 0)) return; // if all the text for this locale is empty, skip it
-
-            usedLocales.add(locale);
-            text.forEach((str, i) => {
-                markupTexts[i] += `¶${str}¶/${locale}`;
-            });
-        });
-
-        return [[...usedLocales], markupTexts];
-    }
 
     // map of locale name to title in that locale
     // value is a string[] just to be able to use functions for how-to text without modification
@@ -326,9 +280,11 @@
     async function writeNewHowTo(publish: boolean) {
         if (!gallery) return;
 
-        let [usedLocales, texts]: [string[], string[]] =
-            mapToMarkup(multilingualText);
-        let [_, titleStrings]: [string[], string[]] = mapToMarkup(titles);
+        let [usedLocales, texts]: [string[], string[]] = mapToMarkup(
+            multilingualText,
+            prompts.length,
+        );
+        let [_, titleStrings]: [string[], string[]] = mapToMarkup(titles, 1);
         let title: string = titleStrings[0];
 
         let writeX: number = 0;

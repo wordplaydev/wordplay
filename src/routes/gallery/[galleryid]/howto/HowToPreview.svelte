@@ -27,6 +27,7 @@
     import UnicodeString from '../../../../unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
     import { movePermitted } from './HowToMovement';
+    import { markupToMap } from './MultilingualTextManager';
 
     interface Props {
         howTo: HowTo;
@@ -391,8 +392,9 @@
                             $locales.get(
                                 (l) => l.ui.howto.announce.howToPosition,
                             ),
-                            // TODO(@mc): pick out the one in the current locale
-                            title,
+                            (markupToMap([title]).get(
+                                $locales.getLocaleString(),
+                            ) ?? [''])[0],
                             xcoord.toString(),
                             ycoord.toString(),
                         )
