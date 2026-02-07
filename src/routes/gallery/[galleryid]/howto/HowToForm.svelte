@@ -60,16 +60,16 @@
     // Load the gallery if it exists.
     let gallery = $state<Gallery | undefined>(undefined);
     let galleryQuestions: string[] = $state([]);
-    $effect(() => {
+    onMount(async () => {
         if (galleryID) {
-            Galleries.get(galleryID).then((g) => {
-                gallery = g;
+            gallery = await Galleries.get(galleryID);
 
-                if (gallery) {
-                    galleryQuestions = gallery.getHowToGuidingQuestions();
-                }
-            });
-        } else gallery = undefined;
+            if (gallery) {
+                galleryQuestions = gallery.getHowToGuidingQuestions();
+            }
+        } else {
+            gallery = undefined;
+        }
     });
 
     const user = getUser();
@@ -82,8 +82,6 @@
     let notify: boolean = $derived(howTo ? howTo.getNotifySubscribers() : true);
 
     // prompts and editing
-    let title: string = $derived(howTo ? howTo.getTitle() : '');
-
     let allCollaborators: string[] = $state([]);
 
     $effect(() => {
@@ -141,8 +139,8 @@
         return localeOptions;
     });
 
-    // input format: ¶hello¶/en-US¶hola¶/es-MX
-    // output format: {'en-US': ['hello'], 'es-MX': ['hola']}
+    // input format: ['¶hello¶/en-US¶hola¶/es-MX', '¶bye¶/en-US¶adios¶/es-MX']
+    // output format: {'en-US': ['hello', 'bye'], 'es-MX': ['hola', 'adios']}
     function markupToMap(markup: string[]): SvelteMap<string, string[]> {
         let map: SvelteMap<string, string[]> = new SvelteMap<
             string,
@@ -188,13 +186,24 @@
         return [[...usedLocales], markupTexts];
     }
 
+    // map of locale name to title in that locale
+    // value is a string[] just to be able to use functions for how-to text without modification
+    let titles: SvelteMap<string, string[]> = $state(
+        new SvelteMap<string, string[]>(),
+    );
+
     // a map of locale name to an array of strings that correspond to each locale
     // the list of text corresponds to each prompt
     let multilingualText: SvelteMap<string, string[]> = $state(
         new SvelteMap<string, string[]>(),
     );
     onMount(() => {
-        console.log('hello');
+        titles = howTo
+            ? markupToMap([howTo.getTitle()])
+            : new SvelteMap<string, string[]>(
+                  [...localeList].map((loc) => [loc, ['']]),
+              );
+
         if (prompts.length > 0) {
             multilingualText = howTo
                 ? markupToMap(howTo.getText())
@@ -206,7 +215,16 @@
                   );
         }
     });
-    $inspect(multilingualText).with(console.log);
+    $effect(() => {
+        if (!howTo && prompts.length > 0) {
+            multilingualText = new SvelteMap<string, string[]>(
+                [...localeList].map((loc) => [
+                    loc,
+                    Array(prompts.length).fill(''),
+                ]),
+            );
+        }
+    });
 
     // social interactions
     let userHasBookmarked: boolean = $derived(
@@ -308,8 +326,10 @@
     async function writeNewHowTo(publish: boolean) {
         if (!gallery) return;
 
-        if (title.length === 0)
-            title = $locales.get((l) => l.ui.howto.editor.titlePlaceholder);
+        let [usedLocales, texts]: [string[], string[]] =
+            mapToMarkup(multilingualText);
+        let [_, titleStrings]: [string[], string[]] = mapToMarkup(titles);
+        let title: string = titleStrings[0];
 
         let writeX: number = 0;
         let writeY: number = 0;
@@ -319,8 +339,6 @@
         }
 
         if (!howTo) {
-            let [usedLocales, texts] = mapToMarkup(multilingualText);
-
             await HowTos.addHowTo(
                 gallery,
                 publish,
@@ -360,8 +378,6 @@
             if (!isPublished) {
                 [writeX, writeY] = findPlaceToWrite();
             }
-
-            let [usedLocales, texts] = mapToMarkup(multilingualText);
 
             howTo = new HowTo({
                 ...howTo.getData(),
@@ -602,12 +618,25 @@
                             Array(prompts.length).fill(''),
                         );
                     }
+
+                    if (!titles.has(localeName)) {
+                        titles.set(localeName, ['']);
+                    }
                 }
             }}
         />
         <Subheader>
             <TextField
-                bind:text={title}
+                bind:text={
+                    () => {
+                        let current: string[] | undefined =
+                            titles.get(localeName);
+                        return current ? current[0] : '';
+                    },
+                    (v) => {
+                        if (v !== undefined) titles.set(localeName, [v]);
+                    }
+                }
                 description={(l) => l.ui.howto.editor.title.description}
                 placeholder={(l) => l.ui.howto.editor.title.placeholder}
                 id="howto-title"
@@ -620,15 +649,21 @@
                 description={(l) => l.ui.howto.editor.editor.description}
                 bind:text={
                     () => {
-                        let current = multilingualText.get(localeName);
-                        return current ? current[i] : '';
+                        let current: string[] | undefined =
+                            multilingualText.get(localeName);
+                        return current !== undefined ? current[i] : '';
                     },
                     (v) => {
                         let current = multilingualText.get(localeName);
 
-                        if (!current) return;
+                        if (current === undefined) return;
 
-                        current[i] = v;
+                        if (current.length === 0) {
+                            current.push(v);
+                        } else {
+                            current[i] = v;
+                        }
+
                         multilingualText.set(localeName, current);
                     }
                 }
@@ -706,9 +741,7 @@
             </div>
         </div>
     {:else if howTo && howTo.isPublished() && $user && isCreatorCollaboratorViewer($user.uid)}
-        <Header>
-            {title}
-        </Header>
+        <Header><MarkupHTMLView markup={howTo.getTitle()} /></Header>
         <div class="creatorlist">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
                 <CreatorList
@@ -822,9 +855,7 @@
             </div>
         </div>
     {:else if howTo && (!$user || !isCreatorCollaboratorViewer($user.uid))}
-        <Header>
-            {title}
-        </Header>
+        <Header><MarkupHTMLView markup={howTo.getTitle()} /></Header>
         <div class="creatorlist">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
                 <CreatorList
@@ -842,7 +873,7 @@
         {/each}
     {:else if howTo}
         <HowToPrompt>
-            {title}
+            {howTo.getTitle()}
         </HowToPrompt>
         <div class="creatorlist">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>

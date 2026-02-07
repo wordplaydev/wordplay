@@ -1,5 +1,6 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getAnnouncer,
         getUser,
@@ -390,6 +391,7 @@
                             $locales.get(
                                 (l) => l.ui.howto.announce.howToPosition,
                             ),
+                            // TODO(@mc): pick out the one in the current locale
                             title,
                             xcoord.toString(),
                             ycoord.toString(),
@@ -440,7 +442,7 @@
     {onblur}
     {onkeydown}
 >
-    <div class="howtotitle"> {title}</div>
+    <div class="howtotitle"> <MarkupHTMLView markup={title} /></div>
 
     <HowToForm
         editingMode={false}
