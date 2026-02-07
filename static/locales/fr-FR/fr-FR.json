@@ -5101,7 +5101,8 @@
                     "howToHeader": "$~Un nouveau tutoriel intitulé « 1 $ » a été publié.",
                     "projectChatHeader": "$~Nouveau message dans le projet « $1 »",
                     "howToChatHeader": "$~Nouveau message dans le tutoriel « $1 »",
-                    "link": "$~détails"
+                    "link": "$~détails",
+                    "moderationHeader": "$~Le message dans « $1 » nécessite une intervention de modération"
                 },
                 "delete": "$~supprimer cette notification",
                 "popup": "$~nouvelle notification"
@@ -5423,7 +5424,8 @@
                     "$~Mais rendre un projet *public*, ou l'inclure dans une galerie publique, est un privilège. Il s'agit d'une plateforme faite pour l'amour, l'affirmation, le respect et la dignité. Par conséquent, nous nous attendons à ce qu'aucun de vos contenus *publics* :"
                 ],
                 "consequences": [
-                    "$~Si nous trouvons un projet ou une galerie qui enfreint ces règles, nous avertirons les créateurs avant qu'ils ne le consultent ou nous bloquerons sa consultation. Si vous enfreignez ces règles de manière répétée, vous perdrez le privilège de publier publiquement."
+                    "$~Les discussions relatives aux projets et tutoriels, qu'elles soient publiques ou privées, sont soumises à la modération des conservateurs de la galerie. Vous pouvez signaler les messages qui enfreignent ces règles communautaires en utilisant le bouton « Signaler » situé à côté de chaque message. Les conservateurs peuvent ensuite approuver ou supprimer les messages.",
+                    "$~Si nous constatons qu'un projet ou une galerie enfreint ces règles, nous avertirons les créateurs avant qu'ils ne puissent le consulter, ou nous en bloquerons l'accès. En cas d'infractions répétées à ces règles, vous perdrez le droit de publier publiquement."
                 ]
             },
             "donate": {
@@ -5854,6 +5856,21 @@
                 "curator": "$~Vous êtes curateur de la galerie de ce projet. Vous pouvez éditer ce projet et en discuter.",
                 "commenter": "$~Vous êtes un commentateur. Vous pouvez discuter de ce projet, mais vous ne pouvez pas le modifier."
             },
+            "moderation": {
+                "header": "$~Signaler ce message",
+                "explanation": "$~Si ce message ne respecte pas nos <normes communautaires@://droits> ou le type de commentaire que vous avez demandé, vous pouvez le signaler. Dans ce cas, il sera transmis aux responsables de la galerie et retiré le temps de son examen.",
+                "report": {
+                    "tip": "$~Signaler ce message",
+                    "label": "$~rapport"
+                },
+                "moderate": {
+                    "tip": "$~Accéder au tableau de bord de modération",
+                    "label": "$~modéré"
+                },
+                "pending": "$~Ce message a été temporairement supprimé en attendant une action de modération.",
+                "removed": "$~Ce message a été supprimé car il enfreignait les règles relatives à la communauté ou aux commentaires.",
+                "inGallery": "$~Cette discussion se déroule dans une galerie. Elle est soumise à la modération des responsables de la galerie. Vous pouvez signaler les messages qui enfreignent nos <normes communautaires@://droits> pour modération."
+            },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Votre projet est exposé dans une galerie. Par défaut, toute personne ayant accès à cette galerie peut voir votre projet. Vous pouvez limiter l'accès à votre projet à vous-même et aux conservateurs de la galerie.",
                 "mode": {
@@ -6065,6 +6082,29 @@
             "error": {
                 "unknown": "$~Cet espace de tutoriels n'existe pas ou n'est pas public."
             }
+        },
+        "gallerymoderation": {
+            "header": "$~Tableau de bord de modération de la galerie",
+            "description": "$~Les messages suivants, publiés dans les galeries que vous gérez, ont été signalés par les utilisateurs pour modération.",
+            "labels": {
+                "message": "$~message",
+                "reporter": "$~journaliste",
+                "action": "$~actions du modérateur"
+            },
+            "view": {
+                "label": "$~voir la conversation",
+                "tip": "$~voir le message dans le chat"
+            },
+            "remove": {
+                "label": "$~retirer",
+                "tip": "$~Ce message enfreint les règles"
+            },
+            "keep": {
+                "label": "$~garder",
+                "tip": "$~Ce message ne contrevient pas aux règles"
+            },
+            "empty": "$~Aucun message ne nécessite de modération.",
+            "error": "$~Vous devez être connecté pour modérer les galeries"
         }
     },
     "moderation": {

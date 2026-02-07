@@ -27,9 +27,9 @@
     let owner = $derived(project.getOwner());
 
     // Load the gallery if it exists.
+    const galleryID = $derived(project.getGallery());
     let gallery = $state<Gallery | undefined>(undefined);
     $effect(() => {
-        const galleryID = project.getGallery();
         if (galleryID) {
             Galleries.get(galleryID).then((g) => {
                 gallery = g;
@@ -188,7 +188,7 @@
             {/if}
         </div>
 
-        <ChatView {chat} {creators} {gallery} {project} />
+        <ChatView {chat} {creators} {galleryID} {project} />
     </section>
 {/if}
 

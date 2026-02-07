@@ -677,7 +677,7 @@
                 <ChatView
                     {chat}
                     creators={chatParticipants}
-                    {gallery}
+                    {galleryID}
                     {howTo}
                 />
             </div>
