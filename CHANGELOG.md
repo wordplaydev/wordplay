@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - We upgraded minor versions of internal tooling for stability.
 - Markup can now handle multiple translations. The current primary language will be rendered.
 - Don't show drop downs for text type words.
+- Added insertion points in blocks mode for optionally empty fields of a block.
 
 ### Fixed
 

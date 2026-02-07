@@ -705,7 +705,47 @@ export default class Caret {
                 const grammar = node.getGrammar();
                 for (let index = 0; index < grammar.length; index++) {
                     const field = grammar[index];
-                    if (field.kind instanceof ListOf) {
+                    // If it's optionally empty field and it's empty, add a point to insert to it.
+                    if (
+                        field.kind.isOptional() &&
+                        node.getField(field.name) === undefined
+                    ) {
+                        console.log('Adding insertion point for ' + field.name);
+                        // Find the position of the empty field. This is either the position of the first token after it, or the last token before it if there is no token after it, or the position of the node if there are no tokens.
+                        const tokensAfterField = getFieldTokens(
+                            node,
+                            grammar.slice(index + 1),
+                        );
+                        const firstTokenAfter = tokensAfterField.at(0);
+                        if (firstTokenAfter) {
+                            const firstPosition =
+                                this.source.getTokenTextPosition(
+                                    firstTokenAfter,
+                                );
+                            if (firstPosition !== undefined)
+                                points.push(firstPosition);
+                        } else {
+                            const tokensBeforeField = getFieldTokens(
+                                node,
+                                grammar.slice(0, index),
+                            );
+                            const lastTokenBefore = tokensBeforeField.at(-1);
+                            if (lastTokenBefore) {
+                                const lastPosition =
+                                    this.source.getTokenLastPosition(
+                                        lastTokenBefore,
+                                    );
+                                if (lastPosition !== undefined)
+                                    points.push(lastPosition);
+                            } else {
+                                const emptyPosition =
+                                    this.source.getNodeFirstPosition(node);
+                                if (emptyPosition) points.push(emptyPosition);
+                            }
+                        }
+                    }
+                    // If it's a list field, see if someting can be inserted in the list.
+                    else if (field.kind instanceof ListOf) {
                         // Get the list values.
                         const values = node.getField(field.name);
                         if (Array.isArray(values)) {
@@ -741,7 +781,6 @@ export default class Caret {
                                 }
                             }
                             // No tokens before the list? See if there are tokens after.
-
                             const tokensAfterField = getFieldTokens(
                                 node,
                                 grammar.slice(index + 1),
