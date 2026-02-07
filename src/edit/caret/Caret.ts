@@ -710,7 +710,6 @@ export default class Caret {
                         field.kind.isOptional() &&
                         node.getField(field.name) === undefined
                     ) {
-                        console.log('Adding insertion point for ' + field.name);
                         // Find the position of the empty field. This is either the position of the first token after it, or the last token before it if there is no token after it, or the position of the node if there are no tokens.
                         const tokensAfterField = getFieldTokens(
                             node,

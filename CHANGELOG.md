@@ -7,20 +7,22 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Added
 
-- Highlighted updates link on landing page when there are new updates.
+- We now highlight the updates link on the landing page when there are new updates.
 
 ### Changed
 
 - Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
 - We upgraded minor versions of internal tooling for stability.
 - Markup can now handle multiple translations. The current primary language will be rendered.
-- Don't show drop downs for text type words.
-- Added insertion points in blocks mode for optionally empty fields of a block.
+- We hid a drop down menu for text type words, since those have to be typed, and so the menu would be empty.
+- We added insertion points in blocks mode for optionally empty fields of a block.
+- We added a cleaner visual design for type blocks.
 
 ### Fixed
 
 - Fix a problem with the rotating locale chooser on the landing page (#942).
 - Prevented machine translation of symbolic names, which sometimes are converted in strange ways.
+- We fixed the time zone on updates page, so the date is always in Pacific time.
 
 ## 0.16.40 - 2026-01-31
 

@@ -7,11 +7,16 @@
         "Highlighted updates link on landing page when there are new updates."
       ],
       "fixed": [
-        "Fix a problem with the rotating locale chooser on the landing page (#942)."
+        "Fix a problem with the rotating locale chooser on the landing page (#942).",
+        "Prevented machine translation of symbolic names, which sometimes are converted in strange ways."
       ],
       "changed": [
         "Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.",
-        "We upgraded minor versions of internal tooling for stability."
+        "We upgraded minor versions of internal tooling for stability.",
+        "Markup can now handle multiple translations. The current primary language will be rendered.",
+        "We hid a drop down menu for text type words, since those have to be typed, and so the menu would be empty.",
+        "We added insertion points in blocks mode for optionally empty fields of a block.",
+        "We added a cleaner visual design for type blocks."
       ],
       "removed": []
     }
