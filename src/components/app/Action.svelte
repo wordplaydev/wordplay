@@ -2,13 +2,13 @@
     import { type Snippet } from 'svelte';
     interface Props {
         children: Snippet;
-        meta?: boolean;
+        kind?: 'meta' | 'section' | 'salient';
     }
 
-    let { children, meta = false }: Props = $props();
+    let { children, kind = 'section' }: Props = $props();
 </script>
 
-<div class="action" class:meta>
+<div class="action {kind}">
     {@render children()}
 </div>
 
@@ -28,5 +28,26 @@
 
     .meta {
         background: var(--wordplay-alternating-color);
+    }
+
+    .salient {
+        animation: salient calc(var(--animation-factor) * 2s) ease-in-out
+            infinite;
+        outline: solid var(--wordplay-focus-width)
+            var(--wordplay-highlight-color);
+        border: none;
+        background: var(--wordplay-alternating-color);
+    }
+
+    @keyframes salient {
+        0% {
+            outline-width: var(--wordplay-border-width);
+        }
+        50% {
+            outline-width: var(--wordplay-focus-width);
+        }
+        100% {
+            outline-width: var(--wordplay-border-width);
+        }
     }
 </style>

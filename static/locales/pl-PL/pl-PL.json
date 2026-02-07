@@ -5288,7 +5288,8 @@
                         "label": "$~Brać w czymś udział",
                         "subtitle": "$~Pomóż nam tworzyć Wordplay."
                     },
-                    "characters": "$~Twórz własne emotikony i symbole"
+                    "characters": "$~Twórz własne emotikony i symbole",
+                    "updates": "$~Zobacz, co nowego w Wordplay"
                 }
             },
             "learn": {
@@ -5452,7 +5453,7 @@
                     "noaccess": "$~Nie mogliśmy połączyć się z internetem.",
                     "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie.",
                     "newgallery": "$~Nie udało się utworzyć nowej galerii.",
-                    "nodeletes": "$~$!Musisz być <zalogowany@://login>, aby usunąć zarchiwizowane projekty.",
+                    "nodeletes": "$~$!Aby usunąć zarchiwizowane projekty, musisz być <zalogowany@://login>.",
                     "delete": "$~Ups, nie udało się usunąć projektu!"
                 },
                 "subheader": {
@@ -5846,6 +5847,22 @@
                         ]
                     },
                     "collaborators": "$~współpracownicy"
+                }
+            },
+            "updates": {
+                "header": "$~Aktualizacje",
+                "content": [
+                    "$~Oto najnowsze funkcje, ulepszenia i poprawki błędów w Wordplay. Aktualizacje publikujemy co tydzień, w większość sobót, chyba że znajdziemy pilny błąd."
+                ],
+                "tips": {
+                    "expand": "$~Rozszerz aktualizacje tej daty",
+                    "collapse": "$~Zwiń aktualizacje tej daty"
+                },
+                "categories": {
+                    "added": "$~W dodatku",
+                    "changed": "$~Zmieniono",
+                    "removed": "$~REMOVED",
+                    "fixed": "$~Naprawił"
                 }
             }
         },

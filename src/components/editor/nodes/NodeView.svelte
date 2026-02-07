@@ -1,4 +1,4 @@
-<script module>
+<script lang="ts" module>
     import type Spaces from '@parser/Spaces';
 
     export type Format = {

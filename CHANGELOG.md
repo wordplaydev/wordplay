@@ -3,6 +3,22 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.41 - 2026-02-07
+
+### Added
+
+- Highlighted updates link on landing page when there are new updates.
+
+### Changed
+
+- Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
+- We upgraded minor versions of internal tooling for stability.
+- Markup can now handle multiple translations. The current primary language will be rendered.
+
+### Fixed
+
+- Fix a problem with the rotating locale chooser on the landing page (#942).
+
 ## 0.16.40 - 2026-01-31
 
 ### Added
