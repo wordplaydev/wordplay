@@ -102,11 +102,22 @@
     );
 
     // locales
-    // TODO(@mc): locale should actually be defined as the first of the user's locales that is in the how-to's locales, if it exists
+    // defined as the first of the user's locales that is in the how-to's locales, if it exists
     // then the first of the how-to's locales if it doesn't
     let localeName: string = $state(
         howTo ? howTo.getLocales()[0] : $locales.getLocaleString(),
     );
+    onMount(() => {
+        if (howTo) {
+            for (let locale of $locales.getPreferredLocales()) {
+                if (howTo.getLocales().includes(localeToString(locale))) {
+                    localeName = localeToString(locale);
+                    break;
+                }
+            }
+        }
+    });
+
     let localeList: SvelteSet<string> = $derived(
         new SvelteSet<string>([
             ...$locales.getLocales().map((l) => localeToString(l)),
@@ -156,20 +167,25 @@
         return map;
     }
 
-    function mapToMarkup(userInput: SvelteMap<string, string[]>): string[] {
-        let returnValue: string[] = Array(prompts.length).fill('');
+    /** takes a dictionary mapping locales to strings, returns the locales used and the text attached to them */
+    function mapToMarkup(
+        userInput: SvelteMap<string, string[]>,
+    ): [string[], string[]] {
+        let usedLocales: Set<string> = new Set<string>();
+        let markupTexts: string[] = Array(prompts.length).fill('');
 
         // input format: {'en-US': ['hello', 'bye'], 'es-MX': ['hola', 'adios']}
         // output format: ['¶hello¶/en-US¶hola¶/es-MX', '¶bye¶/en-US¶adios¶/es-MX']
         userInput.entries().forEach(([locale, text]) => {
             if (text.every((t) => t.length === 0)) return; // if all the text for this locale is empty, skip it
 
+            usedLocales.add(locale);
             text.forEach((str, i) => {
-                returnValue[i] += `¶${str}¶/${locale}`;
+                markupTexts[i] += `¶${str}¶/${locale}`;
             });
         });
 
-        return returnValue;
+        return [[...usedLocales], markupTexts];
     }
 
     // a map of locale name to an array of strings that correspond to each locale
@@ -303,6 +319,8 @@
         }
 
         if (!howTo) {
+            let [usedLocales, texts] = mapToMarkup(multilingualText);
+
             await HowTos.addHowTo(
                 gallery,
                 publish,
@@ -311,8 +329,8 @@
                 allCollaborators,
                 title,
                 prompts,
-                mapToMarkup(multilingualText),
-                [...multilingualText.keys()],
+                texts,
+                usedLocales,
                 gallery ? gallery.getHowToReactions() : {},
                 notify,
             );
@@ -343,15 +361,17 @@
                 [writeX, writeY] = findPlaceToWrite();
             }
 
+            let [usedLocales, texts] = mapToMarkup(multilingualText);
+
             howTo = new HowTo({
                 ...howTo.getData(),
                 published: publish,
                 title: title,
-                text: mapToMarkup(multilingualText),
+                text: texts,
                 xcoord: writeX,
                 ycoord: writeY,
                 collaborators: allCollaborators,
-                locales: [...multilingualText.keys()],
+                locales: usedLocales,
                 social: {
                     ...howTo.getSocial(),
                     notifySubscribers: notify,
