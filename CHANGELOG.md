@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Changed
 
 - Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
+- We upgraded minor versions of internal tooling for stability.
 
 ## 0.16.40 - 2026-01-31
 
