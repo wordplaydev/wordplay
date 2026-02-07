@@ -102,22 +102,33 @@
     );
 
     // locales
-    let locale: Locale = $state(
-        howTo ? howTo.getLocales()[0] : $locales.getLocale(),
+    // TODO(@mc): locale should actually be defined as the first of the user's locales that is in the how-to's locales, if it exists
+    // then the first of the how-to's locales if it doesn't
+    let localeName: string = $derived(
+        howTo ? howTo.getLocales()[0] : $locales.getLocaleString(),
     );
-    let localeName: string = $derived(localeToString(locale));
-    let localeList: SvelteSet<Locale> = $derived(
-        new SvelteSet<Locale>([
-            ...$locales.getLocales(),
+    let localeList: SvelteSet<string> = $derived(
+        new SvelteSet<string>([
+            ...$locales.getLocales().map((l) => localeToString(l)),
             ...(howTo ? howTo.getLocales() : []),
         ]),
     );
-    let localeOptions: Option[] = $derived(
-        [...localeList].map((loc) => ({
-            label: getLanguageLocalDescription(loc),
-            value: localeToString(loc),
-        })),
-    );
+    let localeOptions: Option[] = $derived.by(() => {
+        let localeOptions: Option[] = [];
+
+        [...localeList].forEach((loc) => {
+            let localeObj: Locale | undefined = stringToLocale(loc);
+
+            if (localeObj) {
+                localeOptions.push({
+                    label: getLanguageLocalDescription(localeObj),
+                    value: loc,
+                });
+            }
+        });
+
+        return localeOptions;
+    });
 
     // input format: ¶hello¶/en-US¶hola¶/es-MX
     // output format: {'en-US': ['hello'], 'es-MX': ['hola']}
@@ -131,8 +142,8 @@
             let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2})-(.{2})/g);
 
             stringAndLocale.forEach((match) => {
-                let locale: string = `${match[1]}-${match[2]}`;
-                let text: string = match[0];
+                let locale: string = `${match[2]}-${match[3]}`;
+                let text: string = match[1];
 
                 if (map.has(locale)) {
                     map.get(locale)?.push(text);
@@ -172,12 +183,14 @@
                 ? markupToMap(howTo.getText())
                 : new SvelteMap<string, string[]>(
                       [...localeList].map((loc) => [
-                          localeToString(loc),
+                          loc,
                           Array(prompts.length).fill(''),
                       ]),
                   );
         }
     });
+    $inspect(howTo?.getText()).with(console.log);
+    $inspect(multilingualText).with(console.log);
 
     // social interactions
     let userHasBookmarked: boolean = $derived(
@@ -312,12 +325,14 @@
             // reset form
             howTo = undefined;
             title = '';
-            multilingualText = new SvelteMap([
-                [
-                    localeToString(locale),
-                    Array<string>(prompts.length).fill(''),
-                ],
-            ]);
+            multilingualText = new SvelteMap<string, string[]>(
+                $locales
+                    .getLocales()
+                    .map((loc) => [
+                        localeToString(loc),
+                        Array(prompts.length).fill(''),
+                    ]),
+            );
             allCollaborators = [];
         } else {
             // if was not published, and now is published, need to find coordinates for the how-to
@@ -554,13 +569,11 @@
 >
     {#if editingMode}
         <Options
-            value={localeToString(locale)}
+            value={localeName}
             options={localeOptions}
             label={(l) => l.ui.howto.editor.localeOptionsLabel}
             change={(value) => {
-                if (!value) return;
-                let localeString: Locale | undefined = stringToLocale(value);
-                if (localeString) locale = localeString;
+                if (value) localeName = value;
             }}
         />
         <Subheader>
