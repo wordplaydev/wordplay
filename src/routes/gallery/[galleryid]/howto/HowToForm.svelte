@@ -31,7 +31,6 @@
     import { movePermitted } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
-    import { mapToMarkup, markupToMap } from './MultilingualTextManager';
 
     // defining props
     interface Props {
@@ -160,14 +159,14 @@
     );
     onMount(() => {
         titles = howTo
-            ? markupToMap([howTo.getTitle()])
+            ? howTo.getTitleAsMap()
             : new SvelteMap<string, string[]>(
                   [...localeList].map((loc) => [loc, ['']]),
               );
 
         if (prompts.length > 0) {
             multilingualText = howTo
-                ? markupToMap(howTo.getText())
+                ? howTo.getTextAsMap()
                 : new SvelteMap<string, string[]>(
                       [...localeList].map((loc) => [
                           loc,
@@ -287,11 +286,12 @@
     async function writeNewHowTo(publish: boolean) {
         if (!gallery) return;
 
-        let [usedLocales, texts]: [string[], string[]] = mapToMarkup(
-            multilingualText,
-            prompts.length,
+        let [usedLocales, texts]: [string[], string[]] =
+            HowTo.mapToMarkupHelper(multilingualText, prompts.length);
+        let [_, titleStrings]: [string[], string[]] = HowTo.mapToMarkupHelper(
+            titles,
+            1,
         );
-        let [_, titleStrings]: [string[], string[]] = mapToMarkup(titles, 1);
         let title: string = titleStrings[0];
 
         let writeX: number = 0;
