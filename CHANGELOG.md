@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.41 - 2026-02-07
+
+### Changed
+
+- Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
+
 ## 0.16.40 - 2026-01-31
 
 ### Added
