@@ -5160,7 +5160,8 @@
                         "subtitle": "帮助我们制作 Wordplay。"
                     },
                     "teach": "$~管理学生班级及其项目",
-                    "characters": "$~创建自定义表情符号和符号"
+                    "characters": "$~创建自定义表情符号和符号",
+                    "updates": "$~看看 Wordplay 有什么新内容"
                 }
             },
             "learn": {
@@ -5718,6 +5719,22 @@
                         ]
                     },
                     "collaborators": "$~合作者"
+                }
+            },
+            "updates": {
+                "header": "$~更新",
+                "content": [
+                    "$~以下是 Wordplay 的最新功能、改进和错误修复。我们通常会在每周六发布更新，除非发现紧急错误。"
+                ],
+                "tips": {
+                    "expand": "$~展开此日期的更新",
+                    "collapse": "$~收起此日期的更新"
+                },
+                "categories": {
+                    "added": "$~额外",
+                    "changed": "$~已更改",
+                    "removed": "$~已移除",
+                    "fixed": "$~固定的"
                 }
             }
         },

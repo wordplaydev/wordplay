@@ -10,6 +10,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
 - We upgraded minor versions of internal tooling for stability.
 
+### Fixed
+
+- Fix a problem with the rotating locale chooser on the landing page (#942).
+
 ## 0.16.40 - 2026-01-31
 
 ### Added

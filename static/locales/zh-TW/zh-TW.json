@@ -5156,7 +5156,8 @@
                         "subtitle": "幫助我們製作文字遊戲。"
                     },
                     "teach": "管理學生班級及其項目",
-                    "characters": "創建自己的角色和項目"
+                    "characters": "創建自己的角色和項目",
+                    "updates": "$~看看 Wordplay 有什麼新內容"
                 }
             },
             "learn": {
@@ -5714,6 +5715,22 @@
                         ]
                     },
                     "collaborators": "$~合作者"
+                }
+            },
+            "updates": {
+                "header": "$~更新",
+                "content": [
+                    "$~以下是 Wordplay 的最新功能、改進和錯誤修復。我們通常會在每週六發布更新，除非發現緊急錯誤。"
+                ],
+                "tips": {
+                    "expand": "$~展開此日期的更新",
+                    "collapse": "$~收起此日期的更新"
+                },
+                "categories": {
+                    "added": "$~額外",
+                    "changed": "$~已更改",
+                    "removed": "$~已移除",
+                    "fixed": "$~固定的"
                 }
             }
         },

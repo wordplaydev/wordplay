@@ -5214,7 +5214,8 @@
                         "subtitle": "Helfen Sie uns, Wordplay zu erstellen."
                     },
                     "teach": "$~Verwalten Sie Schülerklassen und ihre Projekte",
-                    "characters": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole"
+                    "characters": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole",
+                    "updates": "$~Entdecken Sie die Neuigkeiten in Wordplay."
                 }
             },
             "learn": {
@@ -5772,6 +5773,22 @@
                         ]
                     },
                     "collaborators": "$~Mitarbeiter"
+                }
+            },
+            "updates": {
+                "header": "$~Aktualisierungen",
+                "content": [
+                    "$~Dies sind die neuesten Funktionen, Verbesserungen und Fehlerbehebungen in Wordplay. Wir veröffentlichen Updates wöchentlich, in der Regel samstags, es sei denn, wir entdecken einen dringenden Fehler."
+                ],
+                "tips": {
+                    "expand": "$~Erweitern Sie die Aktualisierungen dieses Datums.",
+                    "collapse": "$~Aktualisierungen dieses Tages ausblenden"
+                },
+                "categories": {
+                    "added": "$~Hinzugefügt",
+                    "changed": "$~Geändert",
+                    "removed": "$~ENTFERNT",
+                    "fixed": "$~Behoben"
                 }
             }
         },
