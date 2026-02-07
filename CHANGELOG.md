@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
 - We upgraded minor versions of internal tooling for stability.
+- Markup can now handle multiple translations. The current primary language will be rendered.
 
 ### Fixed
 

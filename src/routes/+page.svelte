@@ -140,7 +140,9 @@
             ><LocalizedText path={(l) => l.ui.page.login.header} /></BigLink
         >
     {/if}
+
     <br />
+
     <div class="actions">
         <Action>
             <BigLink
