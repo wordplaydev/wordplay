@@ -23,7 +23,8 @@ export default function getGroupProperties(
                             project.getContext(project.getMain()),
                         ),
                     )
-                    .map((type) => `${type.names.getNames()[0]}`),
+                    .map((type) => `${type.names.getNames()[0]}`)
+                    .map((name) => ({ value: name, label: name })),
                 false,
                 (text: string) => Evaluate.make(Reference.make(text), []),
                 (expression: Expression | undefined) =>

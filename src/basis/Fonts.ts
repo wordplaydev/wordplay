@@ -679,9 +679,12 @@ export class FontManager {
             },
         );
         document.fonts.add(fontFace);
-
-        this.facesLoaded.set(font.name, 'loaded');
-        loadedFonts.set(new Set(this.facesLoaded.keys()));
+        // Load the font face and update the loaded set when done.
+        // This ensures we update any font dependent measurements that depend on this store.
+        fontFace.load().then(() => {
+            this.facesLoaded.set(font.name, 'loaded');
+            loadedFonts.set(new Set(this.facesLoaded.keys()));
+        });
 
         return true;
     }

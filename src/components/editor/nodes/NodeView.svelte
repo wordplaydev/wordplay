@@ -83,7 +83,8 @@
     // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
     // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
     let value = $derived(
-        $evaluation &&
+        format.editable &&
+            $evaluation &&
             !$evaluation.playing &&
             node instanceof Expression &&
             !node.isEvaluationInvolved()
@@ -389,6 +390,11 @@
     .block.none {
         padding: 0;
         box-shadow: none;
+    }
+
+    .block.blockoutput {
+        outline: var(--wordplay-focus-width) solid
+            var(--wordplay-evaluation-color);
     }
 
     .small {

@@ -36,6 +36,7 @@
         whichMoving: string | undefined;
         notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
         galleryCuratorCollaborators: string[];
+        whichDialogOpen: string | undefined;
     }
 
     let {
@@ -45,6 +46,7 @@
         whichMoving = $bindable(),
         notPermittedAreas = $bindable(),
         galleryCuratorCollaborators,
+        whichDialogOpen = $bindable(),
     }: Props = $props();
 
     let title: string = $derived(howTo?.getTitle() ?? '');
@@ -214,7 +216,7 @@
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
     function onpointerdown(e: PointerEvent) {
-        if (!canEdit) return;
+        if (!canEdit || whichDialogOpen) return;
 
         e.stopPropagation();
 
@@ -222,7 +224,7 @@
     }
 
     function onpointerup() {
-        if (whichMoving !== howToId || !canEdit) return;
+        if (whichMoving !== howToId || !canEdit || whichDialogOpen) return;
 
         whichMoving = undefined;
 
@@ -231,7 +233,7 @@
 
     // // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
     function onpointermove(e: PointerEvent) {
-        if (!canEdit || whichMoving !== howToId) return;
+        if (!canEdit || whichMoving !== howToId || whichDialogOpen) return;
         let intendX = xcoord + e.movementX;
         let intendY = ycoord + e.movementY;
 
@@ -252,13 +254,13 @@
 
     let keyboardFocused: boolean = $state(false);
     function onfocus() {
-        if (!canEdit) return;
+        if (!canEdit || whichDialogOpen) return;
 
         keyboardFocused = true;
     }
 
     function onblur() {
-        if (!canEdit) return;
+        if (!canEdit || whichDialogOpen) return;
 
         keyboardFocused = false;
         if (whichMoving === howToId) whichMoving = undefined;
@@ -268,7 +270,7 @@
 
     // if navigating using a keyboard, the how-to is put "move mode" when arrow keys are used
     function onkeydown(event: KeyboardEvent) {
-        if (!canEdit || !keyboardFocused) return;
+        if (!canEdit || !keyboardFocused || whichDialogOpen) return;
 
         let intendX: number;
         let intendY: number;
@@ -454,6 +456,7 @@
         {cameraX}
         {cameraY}
         {preview}
+        bind:whichDialogOpen
     />
 </div>
 <svelte:window onblur={onpointerup} {onpointerup} {onpointermove} />

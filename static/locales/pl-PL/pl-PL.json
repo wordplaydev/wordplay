@@ -4710,6 +4710,10 @@
                 "reactions": {
                     "header": "$~Reakcje",
                     "explanation": "$~/Sposoby reagowania na strumień wejściowy lub jego analizowania./"
+                },
+                "names": {
+                    "header": "$~Nazwy",
+                    "explanation": "$~/Nazwy tego konceptu./"
                 }
             },
             "how": {
@@ -5130,7 +5134,9 @@
             "role": {
                 "owner": "$~właściciel",
                 "collaborators": "$~współpracownicy",
-                "curators": "$~kuratorzy"
+                "curators": "$~kuratorzy",
+                "commenters": "$~komentatorzy",
+                "viewers": "$~widzów"
             },
             "field": {
                 "message": {
@@ -5159,7 +5165,19 @@
                 "solo": "$~Porozmawiaj sam ze sobą lub dodaj współpracownika, który może edytować i rozmawiać.",
                 "owner": "$~Współpracownicy mogą edytować ten projekt i rozmawiać na jego temat.",
                 "collaborator": "$~Jesteś współpracownikiem. Możesz edytować ten projekt i o nim rozmawiać.",
-                "curator": "$~Jesteś kuratorem galerii tego projektu. Możesz edytować ten projekt i o nim rozmawiać."
+                "curator": "$~Jesteś kuratorem galerii tego projektu. Możesz edytować ten projekt i o nim rozmawiać.",
+                "commenter": "$~Jesteś komentatorem. Możesz rozmawiać o tym projekcie, ale nie możesz go edytować."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "$~Twój projekt znajduje się w galerii. Domyślnie każdy, kto może zobaczyć tę galerię, może zobaczyć ten projekt. Możesz ograniczyć dostęp do swojego projektu tylko do siebie i kuratorów galerii.",
+                "mode": {
+                    "label": "$~ograniczyć dostęp do projektu",
+                    "labels": ["$~nie ograniczaj", "$~ograniczać"],
+                    "tips": [
+                        "$~każdy kto może zobaczyć tę galerię może zobaczyć Twój projekt",
+                        "$~tylko kuratorzy galerii mogą zobaczyć Twój projekt"
+                    ]
+                }
             }
         },
         "palette": {
@@ -5434,7 +5452,7 @@
                     "noaccess": "$~Nie mogliśmy połączyć się z internetem.",
                     "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie.",
                     "newgallery": "$~Nie udało się utworzyć nowej galerii.",
-                    "nodeletes": "$~$!Aby usunąć zarchiwizowane projekty, musisz być <zalogowany@://login>.",
+                    "nodeletes": "$~$!Musisz być <zalogowany@://login>, aby usunąć zarchiwizowane projekty.",
                     "delete": "$~Ups, nie udało się usunąć projektu!"
                 },
                 "subheader": {

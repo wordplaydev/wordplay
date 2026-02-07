@@ -4705,6 +4705,10 @@
                 "reactions": {
                     "header": "$~Reaktioner",
                     "explanation": "$~/Sätt att reagera på eller analysera en indataström./"
+                },
+                "names": {
+                    "header": "$~Namn",
+                    "explanation": "$~/Namn för detta koncept./"
                 }
             },
             "how": {
@@ -5125,7 +5129,9 @@
             "role": {
                 "owner": "$~ägare",
                 "collaborators": "$~kollaboratörer",
-                "curators": "$~kuratorer"
+                "curators": "$~kuratorer",
+                "commenters": "$~kommentatorer",
+                "viewers": "$~tittare"
             },
             "field": {
                 "message": {
@@ -5154,7 +5160,19 @@
                 "solo": "$~Chatta med dig själv eller lägg till en medarbetare som kan redigera och chatta.",
                 "owner": "$~Samarbetspartners kan redigera det här projektet och chatta om det.",
                 "collaborator": "$~Du är en kollaboratör. Du kan redigera det här projektet och chatta om det.",
-                "curator": "$~Du är curator för detta projekts galleri. Du kan redigera det här projektet och chatta om det."
+                "curator": "$~Du är curator för detta projekts galleri. Du kan redigera det här projektet och chatta om det.",
+                "commenter": "$~Du är en kommentator. Du kan chatta om det här projektet men inte redigera det."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "$~Ditt projekt finns i ett galleri. Som standard kan alla som kan se det här galleriet se det här projektet. Du kan begränsa vem som kan se ditt projekt till bara du och galleriets kuratorer.",
+                "mode": {
+                    "label": "$~begränsa åtkomst till projektet",
+                    "labels": ["$~begränsa inte", "$~begränsa"],
+                    "tips": [
+                        "$~alla som kan se det här galleriet kan se ditt projekt",
+                        "$~Endast galleriets intendenter kan se ditt projekt"
+                    ]
+                }
             }
         },
         "palette": {

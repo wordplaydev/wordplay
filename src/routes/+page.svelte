@@ -254,6 +254,15 @@
         <Action meta>
             <BigLink
                 smaller
+                to="/updates"
+                subtitle={(l) => l.ui.page.landing.link.updates}
+            >
+                <Iconified icon="🎉" text={(l) => l.ui.page.updates.header} />
+            </BigLink>
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
                 to="/donate"
                 subtitle={(l) => l.ui.page.donate.prompt}
             >

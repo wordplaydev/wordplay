@@ -45,7 +45,7 @@ export default function getPhraseProperties(
         new OutputProperty(
             (l) => l.output.Phrase.alignment.names,
             new OutputPropertyOptions(
-                ['<', '|', '>'],
+                ['<', '|', '>'].map((v) => ({ value: v, label: v })),
                 true,
                 (text) => TextLiteral.make(text),
                 (expr) =>
@@ -64,7 +64,7 @@ export default function getPhraseProperties(
                     HorizontalLayout,
                     VerticalRightLeftLayout,
                     VerticalLeftRightLayout,
-                ],
+                ].map((v) => ({ value: v, label: v })),
                 false,
                 (text) => TextLiteral.make(text),
                 (expr) =>

@@ -27,6 +27,8 @@ type PageText = {
         characters: string;
         /** What content is on the rights page */
         rights: string;
+        /** What content is on the updates page */
+        updates: string;
         /** The community link */
         community: { label: string; subtitle: string };
         /** The contributor link */
@@ -35,4 +37,3 @@ type PageText = {
 };
 
 export type { PageText as default };
-

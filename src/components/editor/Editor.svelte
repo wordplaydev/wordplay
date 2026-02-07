@@ -1311,8 +1311,9 @@
                 project.shares.output.Group,
                 project.shares.output.Stage,
             )
-        )
+        ) {
             selection.setPaths(project, [$caret.position], 'editor');
+        }
     });
 
     // Update the highlights when any of these stores values change
@@ -1552,6 +1553,7 @@
             caretLocation === undefined
                 ? undefined
                 : Math.min(caretLocation.bottom)}
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
             class="caret-description"
             class:ignored={shakeCaret}

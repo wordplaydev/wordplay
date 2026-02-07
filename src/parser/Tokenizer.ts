@@ -303,7 +303,11 @@ const CodeTokenPatterns: TokenPattern[] = [
     // Tokenize Arabic numbers
     { pattern: /^-?[0-9]+([.,][0-9]+)?%?/, types: [Sym.Number, Sym.Decimal] },
     { pattern: /^-?[.,][0-9]+%?/, types: [Sym.Number, Sym.Decimal] },
-    { pattern: /^π/, types: [Sym.Number, Sym.Pi] },
+    // Tokenize π, but don't capture any Greek words that start with π.
+    {
+        pattern: /^π(?![\u0370-\u03FF\u1F00-\u1FFF])/,
+        types: [Sym.Number, Sym.Pi],
+    },
     { pattern: /^∞/, types: [Sym.Number, Sym.Infinity] },
     // Must be after numbers, which can have a leading period.
     {
