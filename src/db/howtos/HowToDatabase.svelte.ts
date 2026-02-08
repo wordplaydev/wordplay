@@ -3,6 +3,7 @@ import type { NotificationData } from '@components/settings/Notifications.svelte
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { SupportedLocales } from '@locale/SupportedLocales';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
@@ -183,18 +184,23 @@ export default class HowTo {
             string[]
         >();
 
+        // should match strings in the format of "¶some text¶/locale", where the locale is one of the supported locales
+        // necessary, since not all locales match the {2,3}-{2,3} format (e.g., ta-IN-LK-SG)
+        let regexString: string = "¶(.*?)¶\/(" + SupportedLocales.join("|") + ")";
+        let regex: RegExp = new RegExp(regexString, "gs");
+
         markup.forEach((m) => {
+            let stringAndLocale: RegExpExecArray[] = [...m.matchAll(regex)];
+
             // dealing with cases of no markup, just text (i.e., how-to was created before translation was implemented)
             // 'en-US' was the hard-coded default locale, so we just use that
-            if (/¶(.*?)¶\/(.{2,3})-(.{2,3})/s.test(m) === false) {
+            if (stringAndLocale.length === 0) {
                 map.set('en-US', [m]);
                 return;
             }
 
-            let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2,3})-(.{2,3})/gs);
-
             stringAndLocale.forEach((match) => {
-                let locale: string = `${match[2]}-${match[3]}`;
+                let locale: string = match[2];
                 let text: string = match[1];
 
                 if (map.has(locale)) {
