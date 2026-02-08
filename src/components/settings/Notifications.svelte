@@ -94,7 +94,12 @@
                 if (howTo) galleryID = howTo.getHowToGalleryId();
             }
 
-            if (!galleryID) return;
+            // No gallery, or creator doesn't have access to gallery? No need for notifications.
+            if (
+                galleryID === null ||
+                !Galleries.accessibleGalleries.has(galleryID)
+            )
+                return;
 
             const gallery = await Galleries.get(galleryID);
             chat.getMessagesPendingModeration($user.uid, gallery).forEach(
@@ -114,7 +119,7 @@
                                 : howTo
                                   ? howTo.getTitle()
                                   : '',
-                        galleryID: galleryID ? galleryID : undefined,
+                        galleryID,
                         itemID: itemID,
                         type: type,
                     } as NotificationData);
