@@ -9,10 +9,11 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - **Updates highlight**. We now highlight the updates link on the landing page when there are new updates.
 - **Gallery chat moderation**. Creators in a gallery can report problematic chats to curators of a gallery, and curators can moderate those messages.
+- **Organized the galleries page**. All galleries — yours, examples, and public galleries — now appear on the galleries page (#594, #799).
 
 ### Changed
 
-- Made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
+- We made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
 - We upgraded minor versions of internal tooling for stability.
 - Markup can now handle multiple translations. The current primary language will be rendered.
 - We hid a drop down menu for text type words, since those have to be typed, and so the menu would be empty.
@@ -21,8 +22,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Fixed
 
-- Fix a problem with the rotating locale chooser on the landing page (#942).
-- Prevented machine translation of symbolic names, which sometimes are converted in strange ways.
+- We fixed a problem with the rotating locale chooser on the landing page (#942).
+- We avoid machine translating of symbolic names, which sometimes are converted in strange ways by Google Translate.
 - We fixed the time zone on updates page, so the date is always in Pacific time.
 
 ## 0.16.40 - 2026-01-31

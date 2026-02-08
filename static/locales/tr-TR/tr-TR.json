@@ -5433,8 +5433,6 @@
                 "header": "$~Projeler",
                 "projectprompt": "$~Bir şey söylemeye hazır mısınız? Bir proje oluşturun veya üzerinde çalışın. Takılırsanız, <learning@://learn>'e devam edin.",
                 "archiveprompt": "$~Bunlar arşivlediğiniz projelerdir. Yalnızca sahipleri bunları kalıcı olarak silebilir veya arşivden çıkarabilir. Arşivlenen projeler, son düzenlendikten 30 gün sonra kalıcı olarak silinecektir.",
-                "galleriesheader": "$~Galeriler",
-                "galleryprompt": "$~Projelerinizin koleksiyonunu başkalarıyla paylaşmak için galeriler oluşturun ve düzenleyin.",
                 "add": {
                     "header": "$~Yeni Proje",
                     "explanation": "$~Yeni bir proje oluşturmak için bir şablon seçin."
@@ -5443,7 +5441,6 @@
                     "newproject": "$~yeni proje",
                     "editproject": "$~bu projeyi düzenle",
                     "viewcode": "$~bu projenin kodunu görüntüle",
-                    "newgallery": "$~yeni galeri",
                     "unarchive": "$~bu projeyi arşivden çıkar"
                 },
                 "confirm": {
@@ -5458,7 +5455,6 @@
                 },
                 "error": {
                     "noaccess": "$~İnternete ulaşamadık.",
-                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>.",
                     "newgallery": "$~Yeni bir galeri oluşturamadık.",
                     "nodeletes": "$~Arşivlenmiş projeleri silmek için <giriş yapmalısınız@://login>.",
                     "delete": "$~Oops, projeyi silemedik!"
@@ -5474,13 +5470,33 @@
             },
             "galleries": {
                 "header": "$~Galeriler",
-                "prompt": "$~Bunlar başkalarının yaptığı performanslardır. Bunları deneyimleyin, inceleyin veya kendi ifadenize uyarlayın.",
-                "examples": "$~Örnekler",
+                "prompt": "$~Galeriler, genellikle bir tema etrafında toplanan ve sizin veya diğer yaratıcılar tarafından derlenen proje koleksiyonlarıdır.",
                 "button": {
                     "more": {
                         "label": "$~Daha...",
                         "tip": "$~Daha fazla galeri yükle"
+                    },
+                    "newgallery": "$~yeni galeri"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Sizinkiler",
+                        "explanation": [
+                            "$~Davet edildiğiniz bir galeriye katkıda bulunun veya belirli bir tema ile kendi galerinizi oluşturun ve başkalarını davet edin.",
+                            "$~/Küratörler, <galeri moderasyon paneli@://galleries/moderation> aracılığıyla galerilerdeki içeriği denetlemekten sorumludur./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Örnekler",
+                        "explanation": "$~Bunlar Wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar."
+                    },
+                    "public": {
+                        "header": "$~Halk",
+                        "explanation": "$~Bunlar, Wordplay yaratıcılarının herkese açık hale getirdiği galerilerdir. İlham almak için başkalarının neler yaptığını görün!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>."
                 }
             },
             "about": {

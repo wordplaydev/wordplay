@@ -5180,13 +5180,10 @@
                 "header": "項目",
                 "projectprompt": "準備好說些什麼了嗎？您可以開始創建一個新項目，或者繼續在現有項目上工作。如果您遇到困難，繼續學習<learning@://learn>",
                 "archiveprompt": "這些是您已歸檔的項目。只有所有者才能永久刪除或取消歸檔它們。歸檔的項目將在最後編輯後的30天內永久刪除。",
-                "galleriesheader": "圖庫",
-                "galleryprompt": "創建和規劃畫廊，與他人分享項目集合",
                 "button": {
                     "newproject": "新專案",
                     "editproject": "編輯這個專案",
                     "viewcode": "查看程式碼",
-                    "newgallery": "新圖庫",
                     "unarchive": "取消歸檔此項目"
                 },
                 "confirm": {
@@ -5201,7 +5198,6 @@
                 },
                 "error": {
                     "noaccess": "無法連接網路。",
-                    "nogalleryedits": "您必須登入才能建立和修改圖庫。",
                     "newgallery": "我們無法建立新的圖庫。",
                     "nodeletes": "您必須登入才能刪除已歸檔的項目。",
                     "delete": "哎呀，我們無法刪除該項目！"
@@ -5222,12 +5218,32 @@
             "galleries": {
                 "header": "畫廊",
                 "prompt": "這些是其他人創作的表演作品。體驗它們，學習它們，或將它們改編成您自己的作品陳述。",
-                "examples": "範例",
                 "button": {
                     "more": {
                         "label": "更多的...",
                         "tip": "下載更多畫廊！"
+                    },
+                    "newgallery": "$~新畫廊"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~此致",
+                        "explanation": [
+                            "$~向受邀參加的畫廊投稿，或策劃自己的特定主題畫廊，並邀請其他人參加。",
+                            "$~策展人負責使用<gallery moderation dashboard@://galleries/moderation>來審核畫廊中的內容。"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~範例",
+                        "explanation": "$~這些都是由 Wordplay 開發人員精心挑選的圖庫。它們是學習和獲得靈感的良好起點。"
+                    },
+                    "public": {
+                        "header": "$~民眾",
+                        "explanation": "$~這些都是文字遊戲創作者們公開的作品集。看看其他人創作了什麼，從中汲取靈感吧！"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~您必須<登入@://login>才能建立和變更圖庫。"
                 }
             },
             "about": {

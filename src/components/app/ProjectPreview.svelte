@@ -66,7 +66,7 @@
         project,
         action = undefined,
         name = true,
-        size = 6,
+        size = 4,
         link = undefined,
         children,
         anonymize = true,

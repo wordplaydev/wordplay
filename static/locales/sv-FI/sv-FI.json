@@ -5437,8 +5437,6 @@
                 "header": "$~Projekt",
                 "projectprompt": "$~Redo att säga något? Skapa ett projekt eller arbeta med ett. Om du fastnar, fortsätt med <learning@://learn>.",
                 "archiveprompt": "$~Det här är projekt som du har arkiverat. Endast ägare kan permanent ta bort eller avarkivera dem. Arkiverade projekt kommer att raderas permanent 30 dagar efter att de senast redigerades.",
-                "galleriesheader": "$~Gallerier",
-                "galleryprompt": "$~Skapa och kurera gallerier för att dela en samling projekt med andra.",
                 "add": {
                     "header": "$~Nytt projekt",
                     "explanation": "$~Välj en mall för att skapa ett nytt projekt."
@@ -5447,7 +5445,6 @@
                     "newproject": "$~nytt projekt",
                     "editproject": "$~redigera detta projekt",
                     "viewcode": "$~visa detta projekts kod",
-                    "newgallery": "$~nytt galleri",
                     "unarchive": "$~avarkivera detta projekt"
                 },
                 "confirm": {
@@ -5462,7 +5459,6 @@
                 },
                 "error": {
                     "noaccess": "$~Vi kunde inte nå internet.",
-                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier.",
                     "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
                     "nodeletes": "$~Du måste vara <inloggad@://login> för att radera arkiverade projekt.",
                     "delete": "$~Hoppsan, vi kunde inte ta bort projektet!"
@@ -5478,13 +5474,33 @@
             },
             "galleries": {
                 "header": "$~Gallerier",
-                "prompt": "$~Det är föreställningar som andra har gjort. Upplev dem, studera dem eller anpassa dem till ditt eget uttalande.",
-                "examples": "$~Exempel",
+                "prompt": "$~$!Galleries är samlingar av projekt, ofta centrerade kring ett tema, och sammanställda av dig eller andra kreatörer.",
                 "button": {
                     "more": {
                         "label": "$~mer...",
                         "tip": "$~Ladda fler gallerier"
+                    },
+                    "newgallery": "$~nytt galleri"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Din",
+                        "explanation": [
+                            "$~Bidra till ett galleri du är inbjuden till, eller skapa ditt eget galleri med ett visst tema och bjud in andra.",
+                            "$~/Kuratorer ansvarar för att moderera innehållet i gallerier med hjälp av <gallery moderation dashboard@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Exempel",
+                        "explanation": "$~$!Dessa är utvalda gallerier från Wordplay-utvecklarna. De är bra utgångspunkter för lärande och inspiration."
+                    },
+                    "public": {
+                        "header": "$~Offentlig",
+                        "explanation": "$~Det här är gallerier som skapare av Wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier."
                 }
             },
             "about": {

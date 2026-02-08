@@ -11799,16 +11799,31 @@
                         "more": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "Button for showing more galleries"
+                        },
+                        "newgallery": {
+                          "description": "Create a new gallery tip",
+                          "type": "string"
                         }
                       },
                       "required": [
+                        "newgallery",
                         "more"
                       ],
                       "type": "object"
                     },
-                    "examples": {
-                      "description": "The subheader for the examples",
-                      "type": "string"
+                    "error": {
+                      "additionalProperties": false,
+                      "description": "Error messages on the galleries page",
+                      "properties": {
+                        "nogalleryedits": {
+                          "description": "When the creator is not logged in.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nogalleryedits"
+                      ],
+                      "type": "object"
                     },
                     "header": {
                       "description": "How to describe galleries of projects",
@@ -11817,13 +11832,38 @@
                     "prompt": {
                       "description": "Explanation for the galleries page",
                       "type": "string"
+                    },
+                    "section": {
+                      "additionalProperties": false,
+                      "description": "Subheaders and prompts for the gallery types",
+                      "properties": {
+                        "examples": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for built-in galleries"
+                        },
+                        "own": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for personally owned galleries"
+                        },
+                        "public": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for public galleries"
+                        }
+                      },
+                      "required": [
+                        "own",
+                        "examples",
+                        "public"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "prompt",
-                    "examples",
-                    "button"
+                    "section",
+                    "button",
+                    "error"
                   ],
                   "type": "object"
                 },
@@ -12635,10 +12675,6 @@
                           "description": "Edit a project",
                           "type": "string"
                         },
-                        "newgallery": {
-                          "description": "Create a new gallery",
-                          "type": "string"
-                        },
                         "newproject": {
                           "description": "Create a new project",
                           "type": "string"
@@ -12656,7 +12692,6 @@
                         "newproject",
                         "editproject",
                         "viewcode",
-                        "newgallery",
                         "unarchive"
                       ],
                       "type": "object"
@@ -12697,28 +12732,15 @@
                         "nodeletes": {
                           "description": "Feedback that we are unable to delete when logged out",
                           "type": "string"
-                        },
-                        "nogalleryedits": {
-                          "description": "When the creator is not logged in.",
-                          "type": "string"
                         }
                       },
                       "required": [
                         "noaccess",
-                        "nogalleryedits",
                         "newgallery",
                         "nodeletes",
                         "delete"
                       ],
                       "type": "object"
-                    },
-                    "galleriesheader": {
-                      "description": "Header for the galleries page",
-                      "type": "string"
-                    },
-                    "galleryprompt": {
-                      "description": "A prompt to create galleries",
-                      "type": "string"
                     },
                     "header": {
                       "description": "Header for the projects page",
@@ -12757,8 +12779,6 @@
                     "header",
                     "projectprompt",
                     "archiveprompt",
-                    "galleriesheader",
-                    "galleryprompt",
                     "add",
                     "subheader",
                     "button",

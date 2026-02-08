@@ -5234,8 +5234,6 @@
                 "header": "Projekte",
                 "projectprompt": "$~Bereit, etwas zu sagen? Erstellen Sie ein Projekt oder arbeiten Sie an einem. Wenn Sie nicht weiterkommen, <learning@://learn> weiter.",
                 "archiveprompt": "$~Dies sind Projekte, die Sie archiviert haben. Nur Eigentümer können sie dauerhaft löschen oder aus dem Archiv entfernen. Archivierte Projekte werden 30 Tage nach ihrer letzten Bearbeitung dauerhaft gelöscht.",
-                "galleriesheader": "Galerien",
-                "galleryprompt": "$~Erstellen und kuratieren Sie Galerien, um eine Projektsammlung mit anderen zu teilen.",
                 "add": {
                     "header": "$~Neues Projekt",
                     "explanation": "$~Wählen Sie eine Vorlage, um ein neues Projekt zu erstellen."
@@ -5243,7 +5241,6 @@
                 "button": {
                     "newproject": "$~neues Projekt",
                     "editproject": "$~Dieses Projekt bearbeiten",
-                    "newgallery": "$~neue Galerie",
                     "unarchive": "$~Dieses Projekt aus dem Archiv nehmen",
                     "viewcode": "$~Code dieses Projekts anzeigen"
                 },
@@ -5259,7 +5256,6 @@
                 },
                 "error": {
                     "noaccess": "$~Wir konnten nicht auf das Internet zugreifen.",
-                    "nogalleryedits": "$~$!Sie müssen <logged in@://login> sein, um Galerien zu erstellen und zu ändern.",
                     "newgallery": "$~Wir konnten keine neue Galerie erstellen.",
                     "nodeletes": "$~$!Sie müssen <angemeldet@://login> sein, um archivierte Projekte zu löschen.",
                     "delete": "$~Hoppla, wir konnten das Projekt nicht löschen!"
@@ -5275,13 +5271,33 @@
             },
             "galleries": {
                 "header": "Galerien",
-                "prompt": "$~Dies sind Leistungen, die andere erbracht haben. Erleben Sie sie, studieren Sie sie oder adaptieren Sie sie für Ihre eigene Aussage.",
-                "examples": "Beispiele",
+                "prompt": "$~Galerien sind Sammlungen von Projekten, die oft um ein bestimmtes Thema herum aufgebaut sind und von Ihnen oder anderen Kreativen kuratiert werden.",
                 "button": {
                     "more": {
                         "label": "$~mehr...",
                         "tip": "$~Weitere Galerien laden"
+                    },
+                    "newgallery": "$~neue Galerie"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Dein",
+                        "explanation": [
+                            "$~Beteilige dich an einer Galerie, zu der du eingeladen wurdest, oder kuratiere deine eigene Galerie zu einem bestimmten Thema und lade andere dazu ein.",
+                            "$~Die Kuratoren sind für die Moderation der Inhalte in den Galerien mithilfe des <gallery moderation dashboard@://galleries/moderation> verantwortlich./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Beispiele",
+                        "explanation": "$~Hierbei handelt es sich um kuratierte Galerien der Wordplay-Entwickler. Sie eignen sich gut als Ausgangspunkt zum Lernen und zur Inspiration."
+                    },
+                    "public": {
+                        "header": "$~Öffentlich",
+                        "explanation": "$~Dies sind Galerien, die von Wordplay-Kreativen öffentlich zugänglich gemacht wurden. Lass dich von den Werken anderer inspirieren!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~$!Sie müssen <logged in@://login> sein, um Galerien zu erstellen und zu ändern."
                 }
             },
             "about": {

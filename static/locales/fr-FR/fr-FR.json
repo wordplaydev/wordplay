@@ -5239,8 +5239,6 @@
                 "header": "$~Projets",
                 "projectprompt": "$~Vous êtes prêt à dire quelque chose ? Créez un projet ou travaillez sur un projet. Si vous êtes bloqué, continuez à <learning@://learn>.",
                 "archiveprompt": "$~Il s'agit des projets que vous avez archivés. Seuls les propriétaires peuvent les supprimer ou les désarchiver définitivement. Les projets archivés seront définitivement supprimés 30 jours après leur dernière modification.",
-                "galleriesheader": "$~Galeries",
-                "galleryprompt": "$~Créez et organisez des galeries pour partager une collection de projets avec d’autres.",
                 "add": {
                     "header": "$~Nouveau projet",
                     "explanation": "$~Choisissez un modèle pour créer un nouveau projet."
@@ -5249,7 +5247,6 @@
                     "newproject": "$~nouveau projet",
                     "editproject": "$~modifier ce projet",
                     "viewcode": "$~voir le code de ce projet",
-                    "newgallery": "$~nouvelle galerie",
                     "unarchive": "$~désarchiver ce projet"
                 },
                 "confirm": {
@@ -5264,7 +5261,6 @@
                 },
                 "error": {
                     "noaccess": "$~Nous n'avons pas pu accéder à Internet.",
-                    "nogalleryedits": "$~Vous devez être <connecté@://login> pour créer et modifier des galeries.",
                     "newgallery": "$~Nous n'avons pas pu créer une nouvelle galerie.",
                     "nodeletes": "$~Vous devez être <connecté@://login> pour supprimer les projets archivés.",
                     "delete": "$~Oups, nous n'avons pas pu supprimer le projet!"
@@ -5280,13 +5276,33 @@
             },
             "galleries": {
                 "header": "$~Galeries",
-                "prompt": "$~Ce sont des performances que d'autres ont réalisées. Expérimentez-les, étudiez-les ou adaptez-les à votre propre déclaration.",
-                "examples": "ejemplos",
+                "prompt": "$~Les galeries sont des collections de projets, souvent centrés sur un thème, et sélectionnés par vous ou d'autres créateurs.",
                 "button": {
                     "more": {
                         "label": "$~plus...",
                         "tip": "$~Charger plus de galeries"
+                    },
+                    "newgallery": "$~nouvelle galerie"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Le vôtre",
+                        "explanation": [
+                            "$~Participez à une galerie à laquelle vous êtes invité, ou créez votre propre galerie autour d'un thème particulier et invitez d'autres personnes.",
+                            "$~Les conservateurs sont responsables de la modération du contenu des galeries à l'aide du <tableau de bord de modération des galeries@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Exemples",
+                        "explanation": "$~Ce sont des galeries sélectionnées par les développeurs de Wordplay. Elles constituent d'excellents points de départ pour apprendre et trouver l'inspiration."
+                    },
+                    "public": {
+                        "header": "$~Publique",
+                        "explanation": "$~Voici des galeries que les créateurs de jeux de mots ont rendues publiques. Découvrez les créations des autres pour trouver l'inspiration !"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~Vous devez être <connecté@://login> pour créer et modifier des galeries."
                 }
             },
             "about": {

@@ -5184,8 +5184,6 @@
                 "header": "项目",
                 "projectprompt": "准备好说些什么了吗？你可以开始创建一个新项目，或者继续在现有项目上工作。如果你遇到困难，继续学习 <learning@://learn>",
                 "archiveprompt": "这些是你已归档的项目。只有所有者才能永久删除或取消归档它们。归档的项目将在最后编辑后的30天内永久删除。",
-                "galleriesheader": "画廊",
-                "galleryprompt": "创建和策划画廊，与他人分享项目集合",
                 "add": {
                     "header": "新项目",
                     "explanation": "选择一个模板来创建一个新项目。"
@@ -5194,7 +5192,6 @@
                     "newproject": "新项目",
                     "editproject": "编辑这个项目",
                     "viewcode": "查看该项目的代码",
-                    "newgallery": "新画廊",
                     "unarchive": "取消归档此项目"
                 },
                 "confirm": {
@@ -5209,7 +5206,6 @@
                 },
                 "error": {
                     "noaccess": "无法连接网络。",
-                    "nogalleryedits": "你必须登录才能创建和修改画廊。",
                     "newgallery": "我们无法创建新的画廊。",
                     "nodeletes": "你必须登录才能删除已归档的项目。",
                     "delete": "哎呀，我们无法删除该项目！"
@@ -5226,12 +5222,32 @@
             "galleries": {
                 "header": "画廊",
                 "prompt": "这些是其他人创作的表演作品。体验它们，学习它们，或者将它们改编成你自己的作品陈述。",
-                "examples": "例子",
                 "button": {
                     "more": {
                         "label": "$~更多的...",
                         "tip": "$~加载更多画廊"
+                    },
+                    "newgallery": "$~新画廊"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~此致",
+                        "explanation": [
+                            "$~向受邀参加的画廊投稿，或者策划自己的特定主题画廊，并邀请其他人参加。",
+                            "$~策展人负责使用<gallery moderation dashboard@://galleries/moderation>来审核画廊中的内容。"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~示例",
+                        "explanation": "$~这些是由 Wordplay 开发人员精心挑选的图库。它们是学习和获得灵感的良好起点。"
+                    },
+                    "public": {
+                        "header": "$~民众",
+                        "explanation": "$~这些是文字游戏创作者们公开的作品集。看看其他人创作了什么，从中汲取灵感吧！"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~您必须<登录@://login>才能创建和更改图库。"
                 }
             },
             "about": {

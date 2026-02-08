@@ -59,7 +59,7 @@
                     name={false}
                     action={() =>
                         project ? goto(gallery.getLink()) : undefined}
-                    size={8}
+                    size={6}
                     link={gallery.getLink()}
                 />
             {/if}
@@ -89,9 +89,8 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        margin-block-start: 2em;
+        margin-block-start: 1em;
         gap: var(--wordplay-spacing);
-        align-items: top;
     }
 
     .dots {
@@ -104,7 +103,5 @@
         flex-direction: column;
         align-items: center;
         gap: var(--wordplay-spacing);
-        width: 8em;
-        height: 8em;
     }
 </style>

@@ -1,8 +1,13 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
     import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
+    import { getUser } from '@components/project/Contexts';
     import Title from '@components/widgets/Title.svelte';
-    import { Galleries } from '@db/Database';
+    import { Galleries, locales } from '@db/Database';
     import {
         collection,
         getDocs,
@@ -28,8 +33,22 @@
         undefined,
     );
 
+    let newGalleryError = $state(false);
+    async function newGallery() {
+        newGalleryError = false;
+        try {
+            const newGalleryID = await Galleries.create($locales);
+            goto(`/gallery/${newGalleryID}`);
+        } catch (error) {
+            console.error(error);
+            newGalleryError = true;
+        }
+    }
+
     /** Start the list of galleries with the example galleries. */
     let loadedGalleries: Gallery[] = $state([]);
+
+    const user = getUser();
 
     onMount(async () => {
         nextBatch();
@@ -70,10 +89,7 @@
         ];
     }
 
-    let galleries = $derived([
-        ...Galleries.getExampleGalleries(),
-        ...loadedGalleries,
-    ]);
+    let galleries = $derived([...loadedGalleries]);
 </script>
 
 <svelte:head>
@@ -83,6 +99,79 @@
 <Writing>
     <Header text={(l) => l.ui.page.galleries.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.galleries.prompt} />
+
+    {#if $user}
+        <Subheader text={(l) => l.ui.page.galleries.section.own.header} />
+        <MarkupHTMLView
+            markup={(l) => l.ui.page.galleries.section.own.explanation}
+        />
+        <p class="add">
+            <Button
+                tip={(l) => l.ui.page.galleries.button.newgallery}
+                action={newGallery}
+                icon="+"
+                large
+            ></Button></p
+        >
+        {#if newGalleryError}
+            <Notice text={(l) => l.ui.page.projects.error.newgallery} />
+        {/if}
+        {#if Galleries.getStatus() === 'loading'}
+            <Spinning label={(l) => l.ui.widget.loading.message} large />
+        {:else if Galleries.getStatus() === 'noaccess'}
+            <Notice text={(l) => l.ui.page.projects.error.noaccess} />
+        {:else if Galleries.getStatus() === 'loggedout'}
+            <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
+        {:else}
+            {#each Galleries.accessibleGalleries.values() as gallery, index}
+                <GalleryPreview {gallery} delay={index * 1000} />
+            {/each}
+        {/if}
+
+        {#if Galleries.expandedScopeGalleries.size > 0}
+            <Subheader
+                text={(l) => l.ui.page.projects.subheader.howtoviewonly.header}
+            />
+            <MarkupHTMLView
+                markup={(l) =>
+                    l.ui.page.projects.subheader.howtoviewonly.explanation}
+            />
+            {#each Galleries.expandedScopeGalleries.values() as gallery}
+                <div class="howtoonlypreview">
+                    <Subheader>
+                        <Link to={`/gallery/${gallery.getID()}/howto`}
+                            >{gallery.getName($locales)}</Link
+                        >
+                    </Subheader>
+                    <MarkupHTMLView
+                        markup={gallery.getDescription($locales).length > 0
+                            ? gallery.getDescription($locales)
+                            : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}
+                    /></div
+                >
+            {/each}
+        {/if}
+    {:else}
+        <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
+    {/if}
+
+    <Subheader text={(l) => l.ui.page.galleries.section.examples.header} />
+    <MarkupHTMLView
+        markup={(l) => l.ui.page.galleries.section.examples.explanation}
+    />
+
+    <div class="previews">
+        {#each Galleries.getExampleGalleries() as gallery, index}
+            <div class="preview">
+                <GalleryPreview {gallery} delay={index * 1000} />
+            </div>
+        {/each}
+    </div>
+
+    <Subheader text={(l) => l.ui.page.galleries.section.public.header} />
+    <MarkupHTMLView
+        markup={(l) => l.ui.page.galleries.section.public.explanation}
+    />
 
     {#if galleries === undefined}
         <Spinning large />
@@ -116,5 +205,13 @@
 
     .preview {
         min-width: 40%;
+    }
+
+    .add {
+        margin-left: calc(2 * var(--wordplay-spacing));
+    }
+
+    .howtoonlypreview {
+        gap: var(--wordplay-spacing);
     }
 </style>

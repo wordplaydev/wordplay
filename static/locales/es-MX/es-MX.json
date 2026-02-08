@@ -5221,8 +5221,6 @@
                 "header": "Proyectos",
                 "projectprompt": "¿Listo para decir algo? Crea un proyecto o trabaja en uno. Si te quedas atascado, sigue <learning@://learn>.",
                 "archiveprompt": "Estos son proyectos que has archivado. Solo los propietarios pueden eliminarlos permanentemente o desarchivarlos. Los proyectos archivados se eliminarán permanentemente 30 días después de su última edición.",
-                "galleriesheader": "Galerías",
-                "galleryprompt": "Crea y cura galerías para compartir una colección de proyectos con otros.",
                 "add": {
                     "header": "$~Nuevo proyecto",
                     "explanation": "$~Elija una plantilla para crear un nuevo proyecto."
@@ -5231,7 +5229,6 @@
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",
                     "viewcode": "$~ver el código de este proyecto",
-                    "newgallery": "nueva galería",
                     "unarchive": "desarchivar este proyecto"
                 },
                 "confirm": {
@@ -5246,7 +5243,6 @@
                 },
                 "error": {
                     "noaccess": "No pudimos conectarnos a internet.",
-                    "nogalleryedits": "Debes iniciar sesión para crear y cambiar galerías.",
                     "newgallery": "No pudimos crear una nueva galería.",
                     "nodeletes": "Debes iniciar sesión para eliminar proyectos archivados.",
                     "delete": "Oops, no pudimos eliminar el proyecto."
@@ -5263,12 +5259,32 @@
             "galleries": {
                 "header": "Galerías",
                 "prompt": "Estas son actuaciones que otros han creado. Exprímentalas, estúdialas o adáptalas para hacer tu propia declaración.",
-                "examples": "Ejemplos",
                 "button": {
                     "more": {
                         "label": "$~más...",
                         "tip": "$~Cargar más galerías"
+                    },
+                    "newgallery": "$~nueva galería"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Tuyo",
+                        "explanation": [
+                            "$~¡Contribuye a una galería a la que te hayan invitado o crea tu propia galería con un tema en particular e invita a otros!",
+                            "$~Los curadores son responsables de moderar el contenido de las galerías utilizando el <panel de moderación de galerías@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Ejemplos",
+                        "explanation": "$~Estas son galerías seleccionadas por los desarrolladores de Wordplay. Son un buen punto de partida para aprender e inspirarse."
+                    },
+                    "public": {
+                        "header": "$~Público",
+                        "explanation": "$~Estas son galerías que los creadores de Wordplay han hecho públicas. ¡Mira lo que otros han creado para inspirarte!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~$!Debes estar <logged in@://login> para crear y cambiar galerías."
                 }
             },
             "about": {
