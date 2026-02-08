@@ -94,7 +94,8 @@
                 if (howTo) galleryID = howTo.getHowToGalleryId();
             }
 
-            if (!galleryID) return;
+            if (!galleryID || !Galleries.accessibleGalleries.has(galleryID))
+                return;
 
             const gallery = await Galleries.get(galleryID);
             chat.getMessagesPendingModeration($user.uid, gallery).forEach(
