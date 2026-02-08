@@ -24,7 +24,7 @@
         datedUpdates.map((_, index) => index > 1),
     );
 
-    Settings.setUpdatesLastChecked(datedUpdates[0].date);
+    Settings.setUpdatesLastChecked(datedUpdates[0].date.split('T')[0]);
 </script>
 
 {#snippet note(text: string)}
