@@ -90,7 +90,9 @@ const HowToSchemaV1 = z.object({
     viewers: z.record(z.string(), z.array(z.string())),
     /** Flat version of viewers, calculated in a firestore function, for firestore rule queries */
     viewersFlat: z.array(z.string()),
-    /** If the user wants to overwrite the scope set by the gallery curator */
+    /** True if the user restricts access to the how-to to only those who have direct access to the gallery
+     * I.e., overwrites the gallery curator "expanding" how-to viewing permissions
+     */
     scopeOverwrite: z.boolean(),
     /** Locales that the how-to depends on All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: z.array(z.string()),
@@ -239,6 +241,10 @@ export default class HowTo {
         return this.data.social.viewCount;
     }
 
+    getScopeOverwrite() {
+        return this.data.scopeOverwrite;
+    }
+
     getData() {
         return { ...this.data };
     }
@@ -345,6 +351,7 @@ export class HowToDatabase {
         locales: string[],
         reactionTypes: Record<string, string>,
         notify: boolean,
+        overwriteAccessScope: boolean,
     ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
@@ -384,7 +391,7 @@ export class HowToDatabase {
             collaborators: collaborators,
             viewers: {} as Record<string, string[]>,
             viewersFlat: [] as string[],
-            scopeOverwrite: false,
+            scopeOverwrite: overwriteAccessScope,
             locales: locales,
             social: newHowToSocial,
         };

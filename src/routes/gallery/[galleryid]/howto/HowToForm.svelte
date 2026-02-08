@@ -6,7 +6,6 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
-    import { TileKind } from '@components/project/Tile';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
@@ -21,7 +20,6 @@
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import type { ButtonText } from '@locale/UITexts';
-    import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import type { Snippet } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
     import { movePermitted } from './HowToMovement';
@@ -232,6 +230,7 @@
                 ['en-US'],
                 gallery ? gallery.getHowToReactions() : {},
                 notify,
+                overwriteAccess,
             );
 
             // pan the camera to the new how-to
@@ -261,6 +260,7 @@
                 xcoord: writeX,
                 ycoord: writeY,
                 collaborators: allCollaborators,
+                scopeOverwrite: overwriteAccess,
                 social: {
                     ...howTo.getSocial(),
                     notifySubscribers: notify,
@@ -433,6 +433,12 @@
             });
         }
     }
+
+    // allowing the user to overwrite the gallery's expanded viewing permissions
+    let accessToggle: boolean = $state(false);
+    let overwriteAccess: boolean = $derived(
+        howTo ? howTo.getScopeOverwrite() : false,
+    );
 </script>
 
 <!-- button to click to open the how-to dialog. if there is a preview (i.e., it is published), use the preview as the button. 
@@ -499,11 +505,12 @@
         <div class="optionsarea">
             {#if collabToggle}
                 <div class="optionspanel">
-                    <Subheader>
-                        {COLLABORATE_SYMBOL}{TileKind.Collaborate}
-                    </Subheader>
+                    <Subheader
+                        text={(l) => l.ui.howto.editor.collaborators.header}
+                    />
                     <MarkupHTMLView
-                        markup={(l) => l.ui.howto.editor.collaboratorsPrompt}
+                        markup={(l) =>
+                            l.ui.howto.editor.collaborators.explanation}
                     ></MarkupHTMLView>
 
                     <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
@@ -522,6 +529,19 @@
                     </Labeled>
                 </div>
             {/if}
+            {#if accessToggle}
+                <div class="optionspanel">
+                    <Subheader text={(l) => l.ui.howto.editor.access.header} />
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.howto.editor.access.explanation}
+                    />
+                    <Mode
+                        modes={(l) => l.ui.howto.editor.accessMode}
+                        choice={overwriteAccess ? 0 : 1}
+                        select={(num) => (overwriteAccess = num === 0)}
+                    />
+                </div>
+            {/if}
         </div>
 
         <div class="toolbar">
@@ -533,8 +553,20 @@
                         collabToggle = !collabToggle;
                     }}
                 >
-                    {COLLABORATE_SYMBOL}
-                    {TileKind.Collaborate}
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.howto.editor.collaborators.header}
+                    />
+                </Toggle>
+                <Toggle
+                    tips={(l) => l.ui.howto.editor.accessToggle}
+                    on={accessToggle}
+                    toggle={() => {
+                        accessToggle = !accessToggle;
+                    }}
+                >
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.howto.editor.access.header}
+                    />
                 </Toggle>
             </div>
             <div class="toolbar-right">
