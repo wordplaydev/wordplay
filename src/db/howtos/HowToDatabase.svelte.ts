@@ -495,7 +495,10 @@ export class HowToDatabase {
             or(
                 or(...creatorOrCollaborator),
                 or(...editorGalleryConstraints),
-                where('viewersFlat', 'array-contains', userId),
+                and(
+                    where('scopeOverwrite', '==', false),
+                    where('viewersFlat', 'array-contains', userId)
+                ),
             ),
         );
 
