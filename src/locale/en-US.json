@@ -1,9 +1,7 @@
 {
     "$schema": "../../static/schemas/LocaleText.json",
     "language": "en",
-    "regions": [
-        "US"
-    ],
+    "regions": ["US"],
     "wordplay": "Wordplay",
     "term": {
         "bind": "bind",
@@ -1684,10 +1682,7 @@
                 "Some use the keyboard (/ctrl+9/ for \\⊤\\ and /ctrl+0/ for \\⊥\\). Some use the character search at the bottom of the editor. Or you can drag us from here.",
                 "Check out our @FunctionDefinition below. They're very logical."
             ],
-            "name": [
-                "⊤⊥",
-                "Boolean"
-            ],
+            "name": ["⊤⊥", "Boolean"],
             "function": {
                 "and": {
                     "doc": [
@@ -1697,10 +1692,7 @@
                         "\\⊥ & ⊤\\",
                         "\\⊥ & ⊥\\"
                     ],
-                    "names": [
-                        "&",
-                        "and"
-                    ],
+                    "names": ["&", "and"],
                     "inputs": [
                         {
                             "doc": "The other @Boolean to check. If the first is \\⊥\\, it doesn't matter what this is, the function will evaluate to \\⊥\\.",
@@ -1716,10 +1708,7 @@
                         "\\⊥ | ⊤\\",
                         "\\⊥ | ⊥\\"
                     ],
-                    "names": [
-                        "|",
-                        "or"
-                    ],
+                    "names": ["|", "or"],
                     "inputs": [
                         {
                             "doc": "The other @Boolean to check. If the first is \\⊥\\, the function will only evaluate to \\⊤\\ if this is \\⊤\\.",
@@ -1729,18 +1718,12 @@
                 },
                 "not": {
                     "doc": "I get the opposite of myself: if \\⊤\\, it gives \\⊥\\, if \\⊥\\, it gives \\⊤\\.",
-                    "names": [
-                        "~",
-                        "not"
-                    ],
+                    "names": ["~", "not"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "\\⊤\\ if both are \\⊤\\ or both are \\⊥\\.",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "The other value to check.",
@@ -1750,10 +1733,7 @@
                 },
                 "notequal": {
                     "doc": "\\⊤\\ if both are opposites.",
-                    "names": [
-                        "≠",
-                        "notequal"
-                    ],
+                    "names": ["≠", "notequal"],
                     "inputs": [
                         {
                             "doc": "The other value to check.",
@@ -1771,17 +1751,11 @@
                 "/Hi, @FunctionDefinition here. @None doesn't like to say much, so I'll interpret./",
                 "I am @None. Invoke me with \\ø\\. I am helpful when you want to represent the absense of something."
             ],
-            "name": [
-                "ø",
-                "None"
-            ],
+            "name": ["ø", "None"],
             "function": {
                 "equals": {
                     "doc": "Is another value also nothing? It better be, otherwise, \\⊥\\.",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "The other value.",
@@ -1791,10 +1765,7 @@
                 },
                 "notequals": {
                     "doc": "Is another value /not/ nothing?",
-                    "names": [
-                        "≠",
-                        "notequal"
-                    ],
+                    "names": ["≠", "notequal"],
                     "inputs": [
                         {
                             "doc": "The other value.",
@@ -1824,10 +1795,7 @@
                 "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
-            "name": [
-                "''",
-                "Text"
-            ],
+            "name": ["''", "Text"],
             "function": {
                 "length": {
                     "doc": [
@@ -1835,18 +1803,12 @@
                         "\\'hello'.length()\\",
                         "\\'🐈📚'.length()\\"
                     ],
-                    "names": [
-                        "📏",
-                        "length"
-                    ],
+                    "names": ["📏", "length"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "\\⊤\\ if I am the same character sequence as the given @Text.",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "The @Text to compare.",
@@ -1869,10 +1831,7 @@
                         "\\⊤\\ if the given @Text appears in me.",
                         "\\'did you find what you were looking for?'.has('you')\\"
                     ],
-                    "names": [
-                        "⊆",
-                        "has"
-                    ],
+                    "names": ["⊆", "has"],
                     "inputs": [
                         {
                             "doc": "The @Text to search for in me.",
@@ -1886,9 +1845,7 @@
                         "\\'hello verse!'.starts('hello')\\",
                         "\\'hello verse!'.starts('verse')\\"
                     ],
-                    "names": [
-                        "starts"
-                    ],
+                    "names": ["starts"],
                     "inputs": [
                         {
                             "doc": "The @Text to check for at the start of me.",
@@ -1902,9 +1859,7 @@
                         "\\'am I a question?'.ends('?')\\",
                         "\\'I am not a question.'.ends('?')\\"
                     ],
-                    "names": [
-                        "ends"
-                    ],
+                    "names": ["ends"],
                     "inputs": [
                         {
                             "doc": "The @Text to check for at the end of me.",
@@ -1922,12 +1877,7 @@
                         "\\'hi ' · -5\\",
                         "The longest text I can make is 65,535 characters. If you try to make a longer text, I'll repeat the text as many times as I can."
                     ],
-                    "names": [
-                        "·",
-                        "🔁",
-                        "repeated",
-                        "repeat"
-                    ],
+                    "names": ["·", "🔁", "repeated", "repeat"],
                     "inputs": [
                         {
                             "doc": "The number of times to repeat myself in the new text.",
@@ -1942,11 +1892,7 @@
                         "If the separator is an empty @Text, I divide myself into characters:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": [
-                        "÷",
-                        "segmented",
-                        "segment"
-                    ],
+                    "names": ["÷", "segmented", "segment"],
                     "inputs": [
                         {
                             "doc": "The @Text to use as a separator.",
@@ -1959,11 +1905,7 @@
                         "Sometimes it's helpful to combine to @Text into one. Give me another @Text and I'll make a new text that joins us together:",
                         "\\'hello ' + 'verse'\\"
                     ],
-                    "names": [
-                        "+",
-                        "combined",
-                        "combine"
-                    ],
+                    "names": ["+", "combined", "combine"],
                     "inputs": [
                         {
                             "doc": "The @Text to append.",
@@ -2001,10 +1943,7 @@
                 "There is no digit '2' in base 2, so it's not a valid number. NaN will also show up if you try to convert non-number text to number",
                 "\\'hi'→#\\"
             ],
-            "name": [
-                "#",
-                "Number"
-            ],
+            "name": ["#", "Number"],
             "function": {
                 "add": {
                     "doc": [
@@ -2015,10 +1954,7 @@
                         "If the units don't match, I halt the show.",
                         "\\3cat + 5dog\\"
                     ],
-                    "names": [
-                        "+",
-                        "add"
-                    ],
+                    "names": ["+", "add"],
                     "inputs": [
                         {
                             "doc": "The @Number to add.",
@@ -2035,10 +1971,7 @@
                         "If the units don't match, I halt the show.",
                         "\\3cat - 5dog\\"
                     ],
-                    "names": [
-                        "-",
-                        "subtract"
-                    ],
+                    "names": ["-", "subtract"],
                     "inputs": [
                         {
                             "doc": "The @Number to subtract from me.",
@@ -2053,10 +1986,7 @@
                         "\\5m · 5m\\",
                         "\\5m · 1/s\\"
                     ],
-                    "names": [
-                        "·",
-                        "multiply"
-                    ],
+                    "names": ["·", "multiply"],
                     "inputs": [
                         {
                             "doc": "The number to multiply.",
@@ -2071,10 +2001,7 @@
                         "\\5m ÷ 5m\\",
                         "\\5m ÷ 5s\\"
                     ],
-                    "names": [
-                        "÷",
-                        "divide"
-                    ],
+                    "names": ["÷", "divide"],
                     "inputs": [
                         {
                             "doc": "The @Number to divide me by.",
@@ -2089,10 +2016,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": [
-                        "%",
-                        "remainder"
-                    ],
+                    "names": ["%", "remainder"],
                     "inputs": [
                         {
                             "doc": "The @Number to divide me by.",
@@ -2105,9 +2029,7 @@
                         "I create a new @Number that makes me positive, if negative.",
                         "\\-200.positive()\\"
                     ],
-                    "names": [
-                        "positive"
-                    ],
+                    "names": ["positive"],
                     "inputs": []
                 },
                 "round": {
@@ -2117,9 +2039,7 @@
                         "\\9.5.round()\\",
                         "\\9.6.round()\\"
                     ],
-                    "names": [
-                        "round"
-                    ],
+                    "names": ["round"],
                     "inputs": []
                 },
                 "roundDown": {
@@ -2129,9 +2049,7 @@
                         "\\10.1.roundDown()\\",
                         "\\10.01.roundDown()\\"
                     ],
-                    "names": [
-                        "roundDown"
-                    ],
+                    "names": ["roundDown"],
                     "inputs": []
                 },
                 "roundUp": {
@@ -2141,9 +2059,7 @@
                         "\\10.9.roundUp()\\",
                         "\\10.99.roundUp()\\"
                     ],
-                    "names": [
-                        "roundUp"
-                    ],
+                    "names": ["roundUp"],
                     "inputs": []
                 },
                 "power": {
@@ -2153,10 +2069,7 @@
                         "\\10 ^ -2\\",
                         "\\5 ^ -.5\\"
                     ],
-                    "names": [
-                        "^",
-                        "power"
-                    ],
+                    "names": ["^", "power"],
                     "inputs": [
                         {
                             "doc": "The exponent to raise me to.",
@@ -2170,10 +2083,7 @@
                         "\\4 √ 2\\",
                         "\\1000 √ 3\\"
                     ],
-                    "names": [
-                        "√",
-                        "root"
-                    ],
+                    "names": ["√", "root"],
                     "inputs": [
                         {
                             "doc": "The root to compute.",
@@ -2187,10 +2097,7 @@
                         "\\1 < 2\\",
                         "\\2 < 1\\"
                     ],
-                    "names": [
-                        "<",
-                        "lessthan"
-                    ],
+                    "names": ["<", "lessthan"],
                     "inputs": [
                         {
                             "doc": "The @Number to compare me to.",
@@ -2205,10 +2112,7 @@
                         "\\2 ≤ 1\\",
                         "\\2 ≤ 2\\"
                     ],
-                    "names": [
-                        "≤",
-                        "lessorequal"
-                    ],
+                    "names": ["≤", "lessorequal"],
                     "inputs": [
                         {
                             "doc": "The @Number to compare me to.",
@@ -2222,10 +2126,7 @@
                         "\\1 > 2\\",
                         "\\2 > 1\\"
                     ],
-                    "names": [
-                        ">",
-                        "greaterthan"
-                    ],
+                    "names": [">", "greaterthan"],
                     "inputs": [
                         {
                             "doc": "The @Number to compare me to.",
@@ -2240,10 +2141,7 @@
                         "\\2 ≥ 1\\",
                         "\\2 ≥ 2\\"
                     ],
-                    "names": [
-                        "≥",
-                        "greaterorequal"
-                    ],
+                    "names": ["≥", "greaterorequal"],
                     "inputs": [
                         {
                             "doc": "The @Number to compare me to.",
@@ -2257,10 +2155,7 @@
                         "\\1 = 2\\",
                         "\\2 = 2\\"
                     ],
-                    "names": [
-                        "=",
-                        "equal"
-                    ],
+                    "names": ["=", "equal"],
                     "inputs": [
                         {
                             "doc": "The @Number to compare me to.",
@@ -2274,10 +2169,7 @@
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
-                    "names": [
-                        "≠",
-                        "notequal"
-                    ],
+                    "names": ["≠", "notequal"],
                     "inputs": [
                         {
                             "doc": "The @Number to compare me to.",
@@ -2286,25 +2178,13 @@
                     ]
                 },
                 "cos": {
-                    "doc": [
-                        "Compute the cosine of me.",
-                        "\\π.cos()\\"
-                    ],
-                    "names": [
-                        "cos",
-                        "cosine"
-                    ],
+                    "doc": ["Compute the cosine of me.", "\\π.cos()\\"],
+                    "names": ["cos", "cosine"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": [
-                        "Compute the sine of me.",
-                        "\\π.cos()\\"
-                    ],
-                    "names": [
-                        "sin",
-                        "sine"
-                    ],
+                    "doc": ["Compute the sine of me.", "\\π.cos()\\"],
+                    "names": ["sin", "sine"],
                     "inputs": []
                 },
                 "min": {
@@ -2403,10 +2283,7 @@
                 "\\['apple' 'banana' 'mango']!\\",
                 "That's kind of it. But I can do call kinds of exciting things with my @FunctionDefinition!"
             ],
-            "name": [
-                "[]",
-                "List"
-            ],
+            "name": ["[]", "List"],
             "kind": "Kind",
             "out": "Result",
             "outofbounds": "outofbounds",
@@ -2416,10 +2293,7 @@
                         "I create a new @List with the given item at the end.",
                         "\\['apple' 'banana' 'mango'].with('watermelon')\\"
                     ],
-                    "names": [
-                        "with",
-                        "add"
-                    ],
+                    "names": ["with", "add"],
                     "inputs": [
                         {
                             "doc": "I am the value you want to add.",
@@ -2434,10 +2308,7 @@
                         "It's a little bit easier to use @Spread though, like this:",
                         "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
                     ],
-                    "names": [
-                        "withList",
-                        "append"
-                    ],
+                    "names": ["withList", "append"],
                     "inputs": [
                         {
                             "doc": "The list of values to add.",
@@ -2450,9 +2321,7 @@
                         "I create a new list that replaces the value at the given index with the given value.",
                         "\\['apple' 'banana' 'mango'].replace(1 'kiwi')\\"
                     ],
-                    "names": [
-                        "replace"
-                    ],
+                    "names": ["replace"],
                     "inputs": [
                         {
                             "doc": "The index of the value to replace",
@@ -2466,10 +2335,7 @@
                 },
                 "length": {
                     "doc": "The @Number of items in me.",
-                    "names": [
-                        "📏",
-                        "length"
-                    ],
+                    "names": ["📏", "length"],
                     "inputs": []
                 },
                 "random": {
@@ -2559,10 +2425,7 @@
                         "I create a list without my first item.",
                         "\\['apple' 'banana' 'mango'].sansFirst()\\"
                     ],
-                    "names": [
-                        "withoutFirst",
-                        "sansFirst"
-                    ],
+                    "names": ["withoutFirst", "sansFirst"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -2570,10 +2433,7 @@
                         "I create a list without my last item.",
                         "\\['apple' 'banana' 'mango'].sansLast()\\"
                     ],
-                    "names": [
-                        "withoutLast",
-                        "sansLast"
-                    ],
+                    "names": ["withoutLast", "sansLast"],
                     "inputs": []
                 },
                 "sans": {
@@ -2581,10 +2441,7 @@
                         "Me, but without the first occurences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": [
-                        "without",
-                        "sans"
-                    ],
+                    "names": ["without", "sans"],
                     "inputs": [
                         {
                             "doc": "The value to remove the first occurence of.",
@@ -2597,10 +2454,7 @@
                         "Me, but without all occurences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": [
-                        "withoutAll",
-                        "sansAll"
-                    ],
+                    "names": ["withoutAll", "sansAll"],
                     "inputs": [
                         {
                             "doc": "The value to remove all occurences of from the list.",
@@ -2613,10 +2467,7 @@
                         "Me, but in reverse!",
                         "\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": [
-                        "reversed",
-                        "reverse"
-                    ],
+                    "names": ["reversed", "reverse"],
                     "inputs": []
                 },
                 "equals": {
@@ -2624,10 +2475,7 @@
                         "\\⊤\\ if my items and order are the exact same as the given @List.",
                         "\\['apple' 'banana' 'mango'] = ['apple' 'mango' 'banana']\\"
                     ],
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "The @List to compare me to.",
@@ -2640,10 +2488,7 @@
                         "\\⊤\\ if my items and order are /not/ the exact same as the given @List.",
                         "\\['apple' 'banana' 'mango'] ≠ ['apple' 'mango' 'banana']\\"
                     ],
-                    "names": [
-                        "≠",
-                        "notequal"
-                    ],
+                    "names": ["≠", "notequal"],
                     "inputs": [
                         {
                             "doc": "The @List to compare me to.",
@@ -2797,10 +2642,7 @@
                         "This is really helpful for combining all of the items in me into a single value. For example, imagine you wanted to add a list of numbers:",
                         "\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
-                    "names": [
-                        "combined",
-                        "combine"
-                    ],
+                    "names": ["combined", "combine"],
                     "inputs": [
                         {
                             "doc": "The starting combination.",
@@ -2876,10 +2718,7 @@
                 "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
                 "Is there something else you want to do with me? Check out all the neat @FunctionDefinition I have!"
             ],
-            "name": [
-                "{}",
-                "Set"
-            ],
+            "name": ["{}", "Set"],
             "kind": "Kind",
             "out": "Result",
             "function": {
@@ -2893,10 +2732,7 @@
                         "I'm \\⊤\\ if the given @Set and I have the exact same values:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "The @Set to compare.",
@@ -2909,10 +2745,7 @@
                         "I'm \\⊤\\ if the given @Set and I don't have the exact same values:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": [
-                        "≠",
-                        "notequal"
-                    ],
+                    "names": ["≠", "notequal"],
                     "inputs": [
                         {
                             "doc": "The @Set to compare.",
@@ -2925,11 +2758,7 @@
                         "Give me an item to add and I'll make a new @Set with my items and the given item.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": [
-                        "with",
-                        "add",
-                        "+"
-                    ],
+                    "names": ["with", "add", "+"],
                     "inputs": [
                         {
                             "doc": "The item to add",
@@ -2943,10 +2772,7 @@
                         "\\{1 2 3} - 2\\",
                         "If I don't have the item, I'll just evaluate to myself."
                     ],
-                    "names": [
-                        "remove",
-                        "-"
-                    ],
+                    "names": ["remove", "-"],
                     "inputs": [
                         {
                             "doc": "The item to remove.",
@@ -2959,10 +2785,7 @@
                         "Give me @Set and I'll create a new @Set that has my items and the set's items.",
                         "\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": [
-                        "union",
-                        "∪"
-                    ],
+                    "names": ["union", "∪"],
                     "inputs": [
                         {
                             "doc": "The @Set to combine with me.",
@@ -2975,10 +2798,7 @@
                         "Give me @Set and I'll create a new @Set that has only the items we have in common.",
                         "\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": [
-                        "intersection",
-                        "∩"
-                    ],
+                    "names": ["intersection", "∩"],
                     "inputs": [
                         {
                             "doc": "The set to compare with me.",
@@ -3071,10 +2891,7 @@
                 "\\{1:1 2:2 3:3}!{4}\\",
                 "I know how to many wonderful things with my pairings."
             ],
-            "name": [
-                "{:}",
-                "Map"
-            ],
+            "name": ["{:}", "Map"],
             "key": "Key",
             "value": "Value",
             "result": "Result",
@@ -3089,10 +2906,7 @@
                         "\\{⊤}\\ if my pairings are the exact same as the given @Map's.",
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "The @Map to compare me to.",
@@ -3105,10 +2919,7 @@
                         "\\{⊤}\\ if my pairings are /not/ the exact same as the given @Map's.",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": [
-                        "≠",
-                        "notequal"
-                    ],
+                    "names": ["≠", "notequal"],
                     "inputs": [
                         {
                             "doc": "The @Map to compare me to.",
@@ -3238,18 +3049,12 @@
                 "And if you ever want to get specific values from me, you can convert any table to a list and access individual rows with @PropertyReference",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],
-            "name": [
-                "⎡⎦",
-                "Table"
-            ],
+            "name": ["⎡⎦", "Table"],
             "row": "Row",
             "function": {
                 "equals": {
                     "doc": "I check if I have the exact same cells in the exact same order as another @Table.",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "The other table to check.",
@@ -3259,10 +3064,7 @@
                 },
                 "notequal": {
                     "doc": "I check if any of my cells are different or in a different order from another @Table.",
-                    "names": [
-                        "≠",
-                        "notEquals"
-                    ],
+                    "names": ["≠", "notEquals"],
                     "inputs": [
                         {
                             "doc": "The other table to check.",
@@ -3278,16 +3080,11 @@
         },
         "Structure": {
             "doc": "See @StructureDefinition.",
-            "name": [
-                "Structure"
-            ],
+            "name": ["Structure"],
             "function": {
                 "equals": {
                     "doc": "I check if my properties are the same name and values as another structure's properties.",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "The other structure to check.",
@@ -3297,10 +3094,7 @@
                 },
                 "notequal": {
                     "doc": "I check if my properties are different in any way from the name and values as another structure's.",
-                    "names": [
-                        "≠",
-                        "notEquals"
-                    ],
+                    "names": ["≠", "notEquals"],
                     "inputs": [
                         {
                             "doc": "The other structure to check.",
@@ -3332,10 +3126,7 @@
                 "And if you give numbers with particular numbers of significant digits after the decimal point, that precision will be preserved.",
                 "\\Random(1.00 10.00)\\"
             ],
-            "names": [
-                "🎲",
-                "Random"
-            ],
+            "names": ["🎲", "Random"],
             "inputs": [
                 {
                     "names": "min",
@@ -3357,10 +3148,7 @@
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "Copy this into the editor and then select one of the two @Phrase. You'll see the third @Phrase shows the name that was selected."
             ],
-            "names": [
-                "🔘",
-                "Choice"
-            ]
+            "names": ["🔘", "Choice"]
         },
         "Button": {
             "doc": [
@@ -3372,10 +3160,7 @@
                 "\\Phrase(Button() → '')\\",
                 "This just makes a @Phrase that is the value of the stream as text. If you copy it into the editor and click, you'll see it toggle back and forth between \\⊥\\ and \\⊤\\."
             ],
-            "names": [
-                "🖱️",
-                "Button"
-            ],
+            "names": ["🖱️", "Button"],
             "down": {
                 "names": "down",
                 "doc": "If @None, the stream will provide both up and down values. If a \\⊤\\, it will only change with the button is pressed. If given a \\⊥\\, it will only change when the button is released."
@@ -3391,10 +3176,7 @@
                 "\\Pointer()\\",
                 "The @Place it provides will correspond to where on @Stage the pointer is pointing."
             ],
-            "names": [
-                "👆🏻",
-                "Pointer"
-            ]
+            "names": ["👆🏻", "Pointer"]
         },
         "Key": {
             "doc": [
@@ -3411,10 +3193,7 @@
                 "And if you only want to know when when a @Key is released instead of pressed, you can provide a @Boolean:",
                 "\\Key('a' ⊥)\\"
             ],
-            "names": [
-                "⌨️",
-                "Key"
-            ],
+            "names": ["⌨️", "Key"],
             "key": {
                 "names": "key",
                 "doc": "If @None, than all keys are provided. If a specific @Text, then only that key is provided."
@@ -3437,20 +3216,13 @@
                 "However, there are limits to how small it can be, since @Program needs time to evaluate before they can respond to the next tick.",
                 "The smallest is probably around \\20ms\\."
             ],
-            "names": [
-                "🕕",
-                "Time"
-            ],
+            "names": ["🕕", "Time"],
             "frequency": {
-                "names": [
-                    "frequency"
-                ],
+                "names": ["frequency"],
                 "doc": "This is the frequency with which time should tick. It defaults to \\33ms\\, which is about 30 times per second."
             },
             "relative": {
-                "names": [
-                    "relative"
-                ],
+                "names": ["relative"],
                 "doc": "If \\⊤\\, time starts at 0, when the program is first evaluated. Otherwise, it starts at the number of milliseconds since the start of today, UTC (Coordinated Universal Time), allowing you to keep track of the time of day."
             }
         },
@@ -3462,14 +3234,9 @@
                 "\\Volume()\\",
                 "This is great for listening to how loud the audience is!"
             ],
-            "names": [
-                "🎤",
-                "Volume"
-            ],
+            "names": ["🎤", "Volume"],
             "frequency": {
-                "names": [
-                    "frequency"
-                ],
+                "names": ["frequency"],
                 "doc": "The time between samplings."
             }
         },
@@ -3481,14 +3248,9 @@
                 "\\Pitch()\\",
                 "This is great for listening the tone that someone is speaking or singing."
             ],
-            "names": [
-                "🎵",
-                "Pitch"
-            ],
+            "names": ["🎵", "Pitch"],
             "frequency": {
-                "names": [
-                    "frequency"
-                ],
+                "names": ["frequency"],
                 "doc": "The time between samplings."
             }
         },
@@ -3501,26 +3263,17 @@
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "But you could also analyze the colors to decide if a light was on or off, or if a particular color was common, letting the audience influence a performance with the colors they show."
             ],
-            "names": [
-                "🎥",
-                "Camera"
-            ],
+            "names": ["🎥", "Camera"],
             "width": {
-                "names": [
-                    "width"
-                ],
+                "names": ["width"],
                 "doc": "The number of @Color to sample in a row."
             },
             "height": {
-                "names": [
-                    "height"
-                ],
+                "names": ["height"],
                 "doc": "The number of @Color to sample in a column."
             },
             "frequency": {
-                "names": [
-                    "frequency"
-                ],
+                "names": ["frequency"],
                 "doc": "The time between @Color samples."
             }
         },
@@ -3540,10 +3293,7 @@
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "See how it pauses after each @Phrase, and waits for @Button to change before advancing?"
             ],
-            "names": [
-                "🎬",
-                "Scene"
-            ],
+            "names": ["🎬", "Scene"],
             "outputs": {
                 "names": "outputs",
                 "doc": "The list of outputs to show in sequence."
@@ -3559,10 +3309,7 @@
                 "See how the o bounces? On the first evaluation, we give it a place up high on @Stage, but then after, it gets @None, which allows @Motion to change it to whatever position gravity would place it.",
                 "Check out the many other ways to configure it below."
             ],
-            "names": [
-                "⚽️",
-                "Motion"
-            ],
+            "names": ["⚽️", "Motion"],
             "place": {
                 "doc": "The starting place.",
                 "names": "place"
@@ -3588,10 +3335,7 @@
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "That's it! You can make all kinds of performances with this, like chat bots, text adventures, or text-based control schemes for other kinds of performances."
             ],
-            "names": [
-                "🗣️",
-                "Chat"
-            ]
+            "names": ["🗣️", "Chat"]
         },
         "Placement": {
             "doc": [
@@ -3604,10 +3348,7 @@
                 "Try copying this to your program and moving us arrowed with the pointer or keyboard.",
                 "You can customize the @Placement, enabling and disabling movement on certain dimensions, changing how far a @Place moves, and the initial @Place the stream starts with."
             ],
-            "names": [
-                "✥",
-                "Placement"
-            ],
+            "names": ["✥", "Placement"],
             "inputs": [
                 {
                     "doc": "The initial place to start with.",
@@ -3641,10 +3382,7 @@
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
                 "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to exception. If if you find a page that works, you'll get some @Number indicating a percent commplete and then a @List of the words on the page."
             ],
-            "names": [
-                "🔗",
-                "Webpage"
-            ],
+            "names": ["🔗", "Webpage"],
             "url": {
                 "doc": "The HTML webpage URL to get.",
                 "names": "url"
@@ -3730,10 +3468,7 @@
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "How exactly I arrange things depend on the @Arrangement you give me."
             ],
-            "names": [
-                "🔳",
-                "Group"
-            ],
+            "names": ["🔳", "Group"],
             "layout": {
                 "doc": "The arrangement to use to put @Output in their places.",
                 "names": "layout"
@@ -3752,19 +3487,14 @@
             },
             "face": {
                 "doc": "The name of the font face content inside me should have, unless they have their own face to use.",
-                "names": [
-                    "face",
-                    "font"
-                ]
+                "names": ["face", "font"]
             },
             "place": {
                 "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
                 "names": "place"
             },
             "name": {
-                "doc": [
-                    "The same as @Phrase/name!"
-                ],
+                "doc": ["The same as @Phrase/name!"],
                 "names": "name"
             },
             "description": {
@@ -3795,10 +3525,7 @@
             },
             "rotation": {
                 "doc": "How tilted should I be around my center, my @Pose has a different one.",
-                "names": [
-                    "📐",
-                    "rotation"
-                ]
+                "names": ["📐", "rotation"]
             },
             "scale": {
                 "doc": "How big I should be relative to my original size.",
@@ -3830,10 +3557,7 @@
             },
             "duration": {
                 "doc": "Same as @Phrase/duration!",
-                "names": [
-                    "⏳",
-                    "duration"
-                ]
+                "names": ["⏳", "duration"]
             },
             "style": {
                 "doc": "Same as @Phrase/style!",
@@ -3850,10 +3574,7 @@
                 "You can also optionally give me everything an @Output can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
                 "You can also select me on @Stage and edit me on the palette next door."
             ],
-            "names": [
-                "💬",
-                "Phrase"
-            ],
+            "names": ["💬", "Phrase"],
             "text": {
                 "doc": "The characters to show on @Stage, a @TextLiteral or @FormattedLiteral.",
                 "names": "text"
@@ -3872,10 +3593,7 @@
             },
             "wrap": {
                 "doc": "The edge at which I should wrap symbols or \\ø\\ if I shouldn't wrap them.",
-                "names": [
-                    "↵",
-                    "wrap"
-                ]
+                "names": ["↵", "wrap"]
             },
             "alignment": {
                 "doc": "If there's a @Phrase/wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
@@ -3963,10 +3681,7 @@
             },
             "duration": {
                 "doc": "The duration to apply when moving to a different place on stage.",
-                "names": [
-                    "⏳",
-                    "duration"
-                ]
+                "names": ["⏳", "duration"]
             },
             "style": {
                 "doc": "The animation style to use when moving to a different place on stage.",
@@ -3976,17 +3691,11 @@
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangment in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
-            "names": [
-                "⠿",
-                "Arrangement"
-            ]
+            "names": ["⠿", "Arrangement"]
         },
         "Row": {
             "doc": "I am @Row, a horizontal @Arrangement of @Output, with optional padding in between. Have you met my twin, @Stack?",
-            "names": [
-                "➡",
-                "Row"
-            ],
+            "names": ["➡", "Row"],
             "description": "row of $1 phrases and groups",
             "alignment": {
                 "doc": "Whether to align text at the start, center, or end on each column.",
@@ -3999,10 +3708,7 @@
         },
         "Stack": {
             "doc": "I am @Stack, a vertical @Arrangement of @Output, with optional padding in between. Have you met my twin, @Row? ",
-            "names": [
-                "⬇",
-                "Stack"
-            ],
+            "names": ["⬇", "Stack"],
             "description": "stack of $1 phrases and groups",
             "alignment": {
                 "doc": "Whether to align text at the start, center, or end on each row.",
@@ -4015,10 +3721,7 @@
         },
         "Grid": {
             "doc": "I am grid of @Output. Give me a row and column count and I'll make a tidy arrangement with optional padding and cell sizes.",
-            "names": [
-                "▦",
-                "Grid"
-            ],
+            "names": ["▦", "Grid"],
             "description": "$1 row $2 column grid",
             "rows": {
                 "doc": "How many rows in make in the grid.",
@@ -4046,17 +3749,12 @@
                 "I'm like, whatever. Sit wherever you want. Just sit somewhere! Make sure all the @Output you give me have a @Place, otherwise they won't know where to go.",
                 "Oh, and remember that the @Place you give each @Output is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
             ],
-            "names": [
-                "Free"
-            ],
+            "names": ["Free"],
             "description": "free-form $1 outputs"
         },
         "Shape": {
             "doc": "I'm an inspiration to all shapes. I'm useful for telling @Stage what shape to be.",
-            "names": [
-                "⬟",
-                "Shape"
-            ],
+            "names": ["⬟", "Shape"],
             "form": {
                 "doc": "I'm the kind of shape to show. Each shape requires different information to define its arrangement.",
                 "names": "form"
@@ -4134,15 +3832,11 @@
         },
         "Form": {
             "doc": "I am an abstract form, like a @Rectangle or @Circle.",
-            "names": [
-                "Form"
-            ]
+            "names": ["Form"]
         },
         "Rectangle": {
             "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",
-            "names": [
-                "Rectangle"
-            ],
+            "names": ["Rectangle"],
             "left": {
                 "doc": "The left edge of the stage on the x-axis",
                 "names": "left"
@@ -4166,9 +3860,7 @@
         },
         "Circle": {
             "doc": "I am a circle, useful for making shapes on @Stage.",
-            "names": [
-                "Circle"
-            ],
+            "names": ["Circle"],
             "radius": {
                 "doc": "The radius of the circle",
                 "names": "radius"
@@ -4188,9 +3880,7 @@
         },
         "Polygon": {
             "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
-            "names": [
-                "Polygon"
-            ],
+            "names": ["Polygon"],
             "radius": {
                 "doc": "The radius of the polygon",
                 "names": "radius"
@@ -4217,10 +3907,7 @@
                 "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Output to be in, and am the building block of their movements.",
                 "So much goes into a pose. Check out my many inputs to see what kinds of poses you might make!"
             ],
-            "names": [
-                "🤪",
-                "Pose"
-            ],
+            "names": ["🤪", "Pose"],
             "style": {
                 "doc": "The style of animation to use when moving to this pose.",
                 "names": "style"
@@ -4272,30 +3959,18 @@
                 "\\Color(50% 100 300°)\\",
                 "\\Color(50% 100 330°)\\"
             ],
-            "names": [
-                "🌈",
-                "Color"
-            ],
+            "names": ["🌈", "Color"],
             "lightness": {
                 "doc": "How light I should be from \\0\\ to \\1\\, from black at \\0\\, to grey at \\0.5\\, to white at \\1\\.",
-                "names": [
-                    "lightness",
-                    "l"
-                ]
+                "names": ["lightness", "l"]
             },
             "chroma": {
                 "doc": "How much color I should have, from \\0\\ to \\∞\\. No color means grey, higher numbers mean the more color.",
-                "names": [
-                    "chroma",
-                    "c"
-                ]
+                "names": ["chroma", "c"]
             },
             "hue": {
                 "doc": "What color I should be, on a color wheel, from magenta \\0\\, red \\30\\, green \\120\\, to blue \\270\\.",
-                "names": [
-                    "hue",
-                    "h"
-                ]
+                "names": ["hue", "h"]
             }
         },
         "Sequence": {
@@ -4307,20 +3982,14 @@
                 "This says, /at the beginning (0%), start at tilt 360, and end at tilt 0/. That'll spin us around in circles forever, since I'm set as the @Phrase's rest pose!",
                 "Try your own creative dances by playing with other inputs."
             ],
-            "names": [
-                "💃",
-                "Sequence"
-            ],
+            "names": ["💃", "Sequence"],
             "poses": {
                 "doc": "A @Map of percentages between 0% and 100%, each paired with a @Pose. You don't have to provide all the percents; I will smoothly move a @Output between the ones you give me.",
                 "names": "poses"
             },
             "duration": {
                 "doc": "How long should I do this dance? If I'm to repeat it, I won't add any time to the duration, I'll just dance faster.",
-                "names": [
-                    "⏳",
-                    "duration"
-                ]
+                "names": ["⏳", "duration"]
             },
             "style": {
                 "doc": "The style should I use to for the dance.",
@@ -4337,10 +4006,7 @@
         },
         "Place": {
             "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
-            "names": [
-                "📍",
-                "Place"
-            ],
+            "names": ["📍", "Place"],
             "x": {
                 "doc": "A position on the x-axis.",
                 "names": "x"
@@ -4355,18 +4021,12 @@
             },
             "rotation": {
                 "doc": "Rotation at this position",
-                "names": [
-                    "📐",
-                    "rotation"
-                ]
+                "names": ["📐", "rotation"]
             }
         },
         "Velocity": {
             "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
-            "names": [
-                "💨",
-                "Velocity"
-            ],
+            "names": ["💨", "Velocity"],
             "x": {
                 "doc": "How many meters to move each second on the x-axis.",
                 "names": "x"
@@ -4377,18 +4037,12 @@
             },
             "angle": {
                 "doc": "How many degrees to rotate each second",
-                "names": [
-                    "angle",
-                    "°"
-                ]
+                "names": ["angle", "°"]
             }
         },
         "Matter": {
             "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
-            "names": [
-                "⚛️",
-                "Matter"
-            ],
+            "names": ["⚛️", "Matter"],
             "mass": {
                 "doc": "A weight, in kilograms",
                 "names": "mass"
@@ -4419,10 +4073,7 @@
                 "I am an AURA. I make @Phrase GLOW! Like this:",
                 "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
-            "names": [
-                "🔮",
-                "Aura"
-            ],
+            "names": ["🔮", "Aura"],
             "color": {
                 "doc": "The @Color the @Aura should be.",
                 "names": "color"
@@ -4449,10 +4100,7 @@
                 "YOU MAY ALSO GIVE ME A FRAME BORDER AND I WILL CROP.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": [
-                "🎭",
-                "Stage"
-            ],
+            "names": ["🎭", "Stage"],
             "content": {
                 "doc": "The list of @Output to show on stage.",
                 "names": "content"
@@ -4474,9 +4122,7 @@
                 "names": "place"
             },
             "name": {
-                "doc": [
-                    "SAME AS @Phrase/name!"
-                ],
+                "doc": ["SAME AS @Phrase/name!"],
                 "names": "name"
             },
             "description": {
@@ -4507,10 +4153,7 @@
             },
             "rotation": {
                 "doc": "SAME AS @Group/rotation",
-                "names": [
-                    "📐",
-                    "rotation"
-                ]
+                "names": ["📐", "rotation"]
             },
             "scale": {
                 "doc": "SAME AS @Group/scale",
@@ -4542,10 +4185,7 @@
             },
             "duration": {
                 "doc": "SAME AS @Phrase/duration!",
-                "names": [
-                    "⏳",
-                    "duration"
-                ]
+                "names": ["⏳", "duration"]
             },
             "style": {
                 "doc": "SAME AS @Phrase/style!",
@@ -4566,57 +4206,39 @@
         "sequence": {
             "sway": {
                 "doc": "I create a @Sequence that sways back and forth around a @Output's center.",
-                "names": [
-                    "sway"
-                ],
+                "names": ["sway"],
                 "angle": {
                     "doc": "How much to tilt in the sway.",
-                    "names": [
-                        "angle"
-                    ]
+                    "names": ["angle"]
                 }
             },
             "bounce": {
                 "doc": "I create a @Sequence that bounces @Output a given height.",
-                "names": [
-                    "bounce"
-                ],
+                "names": ["bounce"],
                 "height": {
                     "doc": "How high to bounce.",
-                    "names": [
-                        "height"
-                    ]
+                    "names": ["height"]
                 }
             },
             "spin": {
                 "doc": "I create a @Sequence that rotates @Output around its center.",
-                "names": [
-                    "spin"
-                ]
+                "names": ["spin"]
             },
             "fadein": {
                 "doc": "I create a @Sequence that fades @Output in from invisible to visible.",
-                "names": [
-                    "fadein"
-                ]
+                "names": ["fadein"]
             },
             "fadeout": {
                 "doc": "I create a @Sequence that fades @Output from visible to invisible. Try me in an exiting @Sequence!",
-                "names": [
-                    "fadeout"
-                ]
+                "names": ["fadeout"]
             },
             "popup": {
                 "doc": "I create a @Sequence that makes @Output scale in quickly than shrink to its normal size.",
-                "names": [
-                    "popup"
-                ]
+                "names": ["popup"]
             },
             "shake": {
                 "doc": "I create a @Sequence that makes it look like a @Output is scared.",
-                "names": [
-                    "shake"
-                ]
+                "names": ["shake"]
             }
         },
         "Source": {
@@ -4922,10 +4544,7 @@
                 },
                 "notification": {
                     "label": "notify subscribers",
-                    "labels": [
-                        "notify",
-                        "do not notify"
-                    ],
+                    "labels": ["notify", "do not notify"],
                     "tips": [
                         "notify subscribers when you post this how-to",
                         "do not notify subscribers when you post this how-to"
@@ -4958,10 +4577,7 @@
                 },
                 "accessMode": {
                     "label": "restrict who can view this how-to",
-                    "labels": [
-                        "restricted",
-                        "expanded"
-                    ],
+                    "labels": ["restricted", "expanded"],
                     "tips": [
                         "only creators in this gallery can view",
                         "creators and curators in any gallery the curator curates can view"
@@ -5023,10 +4639,7 @@
                     },
                     "mode": {
                         "label": "default visibility",
-                        "labels": [
-                            "limited",
-                            "expanded"
-                        ],
+                        "labels": ["limited", "expanded"],
                         "tips": [
                             "only collaborators of this gallery can view",
                             "collaborators of any gallery any curator creates can view"
@@ -5331,10 +4944,7 @@
             "mode": {
                 "browse": {
                     "label": "section",
-                    "labels": [
-                        "code",
-                        "how-to"
-                    ],
+                    "labels": ["code", "how-to"],
                     "tips": [
                         "programming language concepts",
                         "reusable patterns for making projects"
@@ -5496,10 +5106,7 @@
                 "mode": {
                     "public": {
                         "label": "visibility",
-                        "labels": [
-                            "private",
-                            "public"
-                        ],
+                        "labels": ["private", "public"],
                         "tips": [
                             "only you and collaborators can see this project",
                             "anyone can see this project"
@@ -5573,11 +5180,7 @@
                     },
                     "dark": {
                         "label": "theme",
-                        "labels": [
-                            "light",
-                            "dark",
-                            "auto"
-                        ],
+                        "labels": ["light", "dark", "auto"],
                         "tips": [
                             "lighter colors",
                             "darker colors",
@@ -5586,21 +5189,12 @@
                     },
                     "blocks": {
                         "label": "editor",
-                        "labels": [
-                            "text",
-                            "blocks"
-                        ],
-                        "tips": [
-                            "edit code as text",
-                            "edit code as blocks"
-                        ]
+                        "labels": ["text", "blocks"],
+                        "tips": ["edit code as text", "edit code as blocks"]
                     },
                     "space": {
                         "label": "space indicator",
-                        "labels": [
-                            "hide",
-                            "show"
-                        ],
+                        "labels": ["hide", "show"],
                         "tips": [
                             "do not show space and tab indicators",
                             "show space and tab indicators explicitly"
@@ -5608,10 +5202,7 @@
                     },
                     "lines": {
                         "label": "line numbers",
-                        "labels": [
-                            "hide",
-                            "show"
-                        ],
+                        "labels": ["hide", "show"],
                         "tips": [
                             "do not show line numbers in text mode",
                             "show line numbers in text mode"
@@ -5644,10 +5235,7 @@
                 "open": "open notifications dialog",
                 "howToNotifications": {
                     "label": "notifications for new how-tos",
-                    "labels": [
-                        "off",
-                        "on"
-                    ],
+                    "labels": ["off", "on"],
                     "tips": [
                         "do not notify me of new how-tos",
                         "notify me of new how-tos"
@@ -5718,10 +5306,7 @@
                 },
                 "mode": {
                     "label": "feedback",
-                    "labels": [
-                        "defects",
-                        "ideas"
-                    ],
+                    "labels": ["defects", "ideas"],
                     "tips": [
                         "report something that seems broken",
                         "suggest new features or improvements"
@@ -5825,10 +5410,7 @@
                 "explanation": "Your project is in a gallery. By default, anyone who can see this gallery can see this project. You can restrict who can see your project to only you and the gallery curators.",
                 "mode": {
                     "label": "restrict project access",
-                    "labels": [
-                        "do not restrict",
-                        "restrict"
-                    ],
+                    "labels": ["do not restrict", "restrict"],
                     "tips": [
                         "anyone who can see this gallery can see your project",
                         "only the gallery curators can see your project"
@@ -6206,10 +5788,7 @@
                     },
                     "public": {
                         "label": "visibility",
-                        "labels": [
-                            "public",
-                            "private"
-                        ],
+                        "labels": ["public", "private"],
                         "tips": [
                             "anyone can see this character",
                             "only you and collaborators can see this character"
@@ -6249,11 +5828,7 @@
                     },
                     "fill": {
                         "label": "fill",
-                        "labels": [
-                            "none",
-                            "inerit",
-                            "choose"
-                        ],
+                        "labels": ["none", "inerit", "choose"],
                         "tips": [
                             "no fill",
                             "inherit fill color from surrounding text",
@@ -6262,11 +5837,7 @@
                     },
                     "stroke": {
                         "label": "stroke",
-                        "labels": [
-                            "none",
-                            "inerit",
-                            "choose"
-                        ],
+                        "labels": ["none", "inerit", "choose"],
                         "tips": [
                             "no stroke",
                             "inherit stroke color from surrounding text",
