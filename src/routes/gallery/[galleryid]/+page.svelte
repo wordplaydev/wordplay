@@ -232,7 +232,7 @@
                         }}
                     />
                 {:else}
-                    <Spinning large />
+                    <Spinning />
                 {/if}
             </div>
 
@@ -336,7 +336,7 @@
                         action={async () => {
                             if (gallery) {
                                 await Galleries.delete(gallery);
-                                goto('/projects');
+                                goto('/galleries');
                             }
                         }}
                         label={(l) => l.ui.gallery.confirm.delete.prompt}

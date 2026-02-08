@@ -5123,7 +5123,8 @@
                     "howToHeader": "$~Opublikowano nowy poradnik zatytułowany „$1”",
                     "projectChatHeader": "$~Nowa wiadomość w projekcie „$1”",
                     "howToChatHeader": "$~Nowa wiadomość w poradniku „$1”",
-                    "link": "$~bliższe dane"
+                    "link": "$~bliższe dane",
+                    "moderationHeader": "$~Wiadomość w „$1” wymaga moderacji"
                 },
                 "delete": "$~usuń to powiadomienie",
                 "popup": "$~nowe powiadomienie"
@@ -5167,6 +5168,21 @@
                 "collaborator": "$~Jesteś współpracownikiem. Możesz edytować ten projekt i o nim rozmawiać.",
                 "curator": "$~Jesteś kuratorem galerii tego projektu. Możesz edytować ten projekt i o nim rozmawiać.",
                 "commenter": "$~Jesteś komentatorem. Możesz rozmawiać o tym projekcie, ale nie możesz go edytować."
+            },
+            "moderation": {
+                "header": "$~Zgłoś tę wiadomość",
+                "explanation": "$~Jeśli ta wiadomość nie spełnia naszych standardów <community standards@://rights> lub nie odpowiada rodzajowi żądanej przez Ciebie opinii, możesz ją zgłosić. Po zgłoszeniu wiadomość zostanie wysłana do kuratorów galerii i usunięta do czasu jej weryfikacji.",
+                "report": {
+                    "tip": "$~zgłoś tę wiadomość",
+                    "label": "$~raport"
+                },
+                "moderate": {
+                    "tip": "$~przejdź do panelu moderacji",
+                    "label": "$~umiarkowany"
+                },
+                "pending": "$~Ta wiadomość została tymczasowo usunięta na czas oczekiwania na decyzję moderacji.",
+                "removed": "$~Wiadomość została usunięta, ponieważ naruszała zasady społeczności lub zasady dotyczące opinii.",
+                "inGallery": "$~Ten czat znajduje się w galerii. Podlega moderacji przez kuratorów galerii. Możesz zgłaszać wiadomości naruszające nasze <standardy społeczności@://prawa> do moderacji."
             },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Twój projekt znajduje się w galerii. Domyślnie każdy, kto może zobaczyć tę galerię, może zobaczyć ten projekt. Możesz ograniczyć dostęp do swojego projektu tylko do siebie i kuratorów galerii.",
@@ -5426,8 +5442,6 @@
                 "header": "$~Projektowanie",
                 "projectprompt": "$~Chcesz coś powiedzieć? Stwórz projekt lub pracuj nad nim. Jeśli utkniesz, kontynuuj <learning@://learn>.",
                 "archiveprompt": "$~Są to projekty, które zarchiwizowałeś. Tylko właściciele mogą je trwale usunąć lub przywrócić z archiwum. Zarchiwizowane projekty zostaną trwale usunięte 30 dni po ostatniej edycji.",
-                "galleriesheader": "$~Galerie",
-                "galleryprompt": "$~Twórz i zarządzaj galeriami, aby udostępniać innym kolekcję projektów.",
                 "add": {
                     "header": "$~Nowy projekt",
                     "explanation": "$~Wybierz szablon, aby utworzyć nowy projekt."
@@ -5436,7 +5450,6 @@
                     "newproject": "$~nowy projekt",
                     "editproject": "$~edytuj ten projekt",
                     "viewcode": "$~zobacz kod tego projektu",
-                    "newgallery": "$~nowa galeria",
                     "unarchive": "$~usuń archiwizację tego projektu"
                 },
                 "confirm": {
@@ -5451,7 +5464,6 @@
                 },
                 "error": {
                     "noaccess": "$~Nie mogliśmy połączyć się z internetem.",
-                    "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie.",
                     "newgallery": "$~Nie udało się utworzyć nowej galerii.",
                     "nodeletes": "$~$!Aby usunąć zarchiwizowane projekty, musisz być <zalogowany@://login>.",
                     "delete": "$~Ups, nie udało się usunąć projektu!"
@@ -5467,13 +5479,33 @@
             },
             "galleries": {
                 "header": "$~Galerie",
-                "prompt": "$~To są występy, które wykonali inni. Przeżyj je, przestudiuj lub dostosuj do własnego oświadczenia.",
-                "examples": "$~Przykłady",
+                "prompt": "$~$!Galerie to zbiory projektów, często skupione wokół jednego tematu i wybrane przez Ciebie lub innych twórców.",
                 "button": {
                     "more": {
                         "label": "$~więcej...",
                         "tip": "$~Załaduj więcej galerii"
+                    },
+                    "newgallery": "$~nowa galeria"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Twój",
+                        "explanation": [
+                            "$~$!Współpracuj z galerią, do której zostałeś zaproszony, lub stwórz własną galerię o określonej tematyce i zaproś innych.",
+                            "$~/Kuratorzy odpowiadają za moderowanie treści w galeriach za pomocą <gallery moderation dashboard@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Przykłady",
+                        "explanation": "$~$!To starannie wybrane galerie od twórców Wordplay. To dobry punkt wyjścia do nauki i inspiracji."
+                    },
+                    "public": {
+                        "header": "$~Publiczny",
+                        "explanation": "$~To galerie udostępnione publicznie przez twórców Wordplay. Zobacz, co inni stworzyli dla inspiracji!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie."
                 }
             },
             "about": {
@@ -5611,7 +5643,8 @@
                     "$~Ale uczynienie projektu *publicznym* lub umieszczenie go w publicznej galerii jest przywilejem. To platforma stworzona dla miłości, afirmacji, szacunku i godności. Dlatego oczekujemy, że żadna z Twoich *publicznych* treści nie będzie:"
                 ],
                 "consequences": [
-                    "$~Jeśli znajdziemy projekt lub galerię, która narusza te zasady, ostrzeżemy twórców przed ich wyświetleniem lub zablokujemy ich wyświetlanie. Jeśli wielokrotnie naruszysz te zasady, stracisz przywilej publicznego publikowania."
+                    "$~Czaty dotyczące projektów i poradników w galeriach publicznych lub prywatnych podlegają moderacji przez kuratorów galerii. Wiadomości naruszające niniejsze zasady społeczności można zgłaszać kuratorom za pomocą przycisku „Zgłoś” obok każdej wiadomości, a kuratorzy mogą zatwierdzać lub usuwać wiadomości.",
+                    "$~Jeśli znajdziemy projekt lub galerię naruszającą te zasady, ostrzeżemy twórców przed ich wyświetleniem lub zablokujemy ich wyświetlanie. W przypadku wielokrotnego naruszenia tych zasad utracisz możliwość publikowania postów."
                 ]
             },
             "donate": {
@@ -6070,6 +6103,29 @@
             "error": {
                 "unknown": "$~Ta przestrzeń z poradami nie istnieje lub nie jest publiczna."
             }
+        },
+        "gallerymoderation": {
+            "header": "$~Panel moderacji galerii",
+            "description": "$~Następujące wiadomości w galeriach, które zarządzasz, zostały zgłoszone przez użytkowników do moderacji.",
+            "labels": {
+                "message": "$~wiadomość",
+                "reporter": "$~reporter",
+                "action": "$~działania moderatora"
+            },
+            "view": {
+                "label": "$~zobacz czat",
+                "tip": "$~zobacz wiadomość na czacie"
+            },
+            "remove": {
+                "label": "$~usunąć",
+                "tip": "$~ta wiadomość narusza wytyczne"
+            },
+            "keep": {
+                "label": "$~trzymać",
+                "tip": "$~ta wiadomość nie narusza wytycznych"
+            },
+            "empty": "$~Żadna wiadomość nie wymaga moderacji",
+            "error": "$~Aby moderować galerie, musisz się zalogować"
         }
     },
     "moderation": {

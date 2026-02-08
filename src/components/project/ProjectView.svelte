@@ -588,8 +588,8 @@
             new Layout(
                 project.getID(),
                 defaultTiles,
-                // If showing output was requested, we fullscreen on output
-                showOutput ? TileKind.Output : undefined,
+                // If showing output or requested play was requested, we fullscreen on output
+                showOutput || requestedPlay ? TileKind.Output : undefined,
                 null,
             )
         );

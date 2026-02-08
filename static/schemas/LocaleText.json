@@ -9141,6 +9141,55 @@
                   "description": "The ARIA label for the chat section",
                   "type": "string"
                 },
+                "moderation": {
+                  "additionalProperties": false,
+                  "description": "Dialog for chat moderation",
+                  "properties": {
+                    "explanation": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "The explanation text just below the header."
+                    },
+                    "header": {
+                      "description": "The header to be shown at the top of the dialog",
+                      "type": "string"
+                    },
+                    "inGallery": {
+                      "type": "string"
+                    },
+                    "moderate": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
+                    "pending": {
+                      "type": "string"
+                    },
+                    "removed": {
+                      "type": "string"
+                    },
+                    "report": {
+                      "$ref": "#/definitions/ButtonText"
+                    }
+                  },
+                  "required": [
+                    "explanation",
+                    "header",
+                    "inGallery",
+                    "moderate",
+                    "pending",
+                    "removed",
+                    "report"
+                  ],
+                  "type": "object"
+                },
                 "prompt": {
                   "additionalProperties": false,
                   "description": "Messages to explain the purpose",
@@ -9225,6 +9274,7 @@
                 "field",
                 "role",
                 "button",
+                "moderation",
                 "error",
                 "prompt",
                 "restrictGalleryCreatorAccess"
@@ -9602,6 +9652,9 @@
                         "link": {
                           "type": "string"
                         },
+                        "moderationHeader": {
+                          "type": "string"
+                        },
                         "projectChatHeader": {
                           "type": "string"
                         }
@@ -9610,6 +9663,7 @@
                         "howToHeader",
                         "projectChatHeader",
                         "howToChatHeader",
+                        "moderationHeader",
                         "link"
                       ],
                       "type": "object"
@@ -10424,6 +10478,74 @@
                 "confirm",
                 "error",
                 "field"
+              ],
+              "type": "object"
+            },
+            "gallerymoderation": {
+              "additionalProperties": false,
+              "description": "Gallery moderation page labels",
+              "properties": {
+                "description": {
+                  "description": "Description for the moderation page",
+                  "type": "string"
+                },
+                "empty": {
+                  "description": "No messages need moderation",
+                  "type": "string"
+                },
+                "error": {
+                  "description": "No access to the moderation page (not logged in)",
+                  "type": "string"
+                },
+                "header": {
+                  "description": "Page title",
+                  "type": "string"
+                },
+                "keep": {
+                  "$ref": "#/definitions/ButtonText",
+                  "description": "Button for keeping the message as a result of moderation action (i.e., no action)"
+                },
+                "labels": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "action": {
+                      "description": "Labels for the buttons that allow taking moderation action",
+                      "type": "string"
+                    },
+                    "message": {
+                      "description": "Labels the message for display",
+                      "type": "string"
+                    },
+                    "reporter": {
+                      "description": "Labels the username of the user who reported the message",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "reporter",
+                    "action"
+                  ],
+                  "type": "object"
+                },
+                "remove": {
+                  "$ref": "#/definitions/ButtonText",
+                  "description": "Button for deleting the message as a result of moderation action"
+                },
+                "view": {
+                  "$ref": "#/definitions/ButtonText",
+                  "description": "Button for vieweing the chat the message originated from"
+                }
+              },
+              "required": [
+                "header",
+                "description",
+                "labels",
+                "view",
+                "remove",
+                "keep",
+                "empty",
+                "error"
               ],
               "type": "object"
             },
@@ -11682,16 +11804,31 @@
                         "more": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "Button for showing more galleries"
+                        },
+                        "newgallery": {
+                          "description": "Create a new gallery tip",
+                          "type": "string"
                         }
                       },
                       "required": [
+                        "newgallery",
                         "more"
                       ],
                       "type": "object"
                     },
-                    "examples": {
-                      "description": "The subheader for the examples",
-                      "type": "string"
+                    "error": {
+                      "additionalProperties": false,
+                      "description": "Error messages on the galleries page",
+                      "properties": {
+                        "nogalleryedits": {
+                          "description": "When the creator is not logged in.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nogalleryedits"
+                      ],
+                      "type": "object"
                     },
                     "header": {
                       "description": "How to describe galleries of projects",
@@ -11700,13 +11837,38 @@
                     "prompt": {
                       "description": "Explanation for the galleries page",
                       "type": "string"
+                    },
+                    "section": {
+                      "additionalProperties": false,
+                      "description": "Subheaders and prompts for the gallery types",
+                      "properties": {
+                        "examples": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for built-in galleries"
+                        },
+                        "own": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for personally owned galleries"
+                        },
+                        "public": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for public galleries"
+                        }
+                      },
+                      "required": [
+                        "own",
+                        "examples",
+                        "public"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "prompt",
-                    "examples",
-                    "button"
+                    "section",
+                    "button",
+                    "error"
                   ],
                   "type": "object"
                 },
@@ -12518,10 +12680,6 @@
                           "description": "Edit a project",
                           "type": "string"
                         },
-                        "newgallery": {
-                          "description": "Create a new gallery",
-                          "type": "string"
-                        },
                         "newproject": {
                           "description": "Create a new project",
                           "type": "string"
@@ -12539,7 +12697,6 @@
                         "newproject",
                         "editproject",
                         "viewcode",
-                        "newgallery",
                         "unarchive"
                       ],
                       "type": "object"
@@ -12580,28 +12737,15 @@
                         "nodeletes": {
                           "description": "Feedback that we are unable to delete when logged out",
                           "type": "string"
-                        },
-                        "nogalleryedits": {
-                          "description": "When the creator is not logged in.",
-                          "type": "string"
                         }
                       },
                       "required": [
                         "noaccess",
-                        "nogalleryedits",
                         "newgallery",
                         "nodeletes",
                         "delete"
                       ],
                       "type": "object"
-                    },
-                    "galleriesheader": {
-                      "description": "Header for the galleries page",
-                      "type": "string"
-                    },
-                    "galleryprompt": {
-                      "description": "A prompt to create galleries",
-                      "type": "string"
                     },
                     "header": {
                       "description": "Header for the projects page",
@@ -12640,8 +12784,6 @@
                     "header",
                     "projectprompt",
                     "archiveprompt",
-                    "galleriesheader",
-                    "galleryprompt",
                     "add",
                     "subheader",
                     "button",
@@ -14296,6 +14438,7 @@
             "project",
             "checkpoints",
             "gallery",
+            "gallerymoderation",
             "howto",
             "source",
             "annotations",

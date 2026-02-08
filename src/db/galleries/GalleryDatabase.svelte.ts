@@ -130,7 +130,7 @@ export default class GalleryDatabase {
                     and(
                         where('howToExpandedVisibility', '==', true),
                         where('howToViewersFlat', 'array-contains', user.uid),
-                    )
+                    ),
                 ),
             ),
             async (snapshot) => {
@@ -287,7 +287,7 @@ export default class GalleryDatabase {
                     return gallery;
                 }
             } catch (err) {
-                console.error(err);
+                console.error(`Couldn't get gallery with ID ${id}:`, err);
                 return undefined;
             }
         }

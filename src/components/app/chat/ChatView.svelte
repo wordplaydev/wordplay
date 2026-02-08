@@ -1,16 +1,18 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats } from '@db/Database';
+    import { Chats, Galleries } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -22,7 +24,7 @@
     interface Props {
         chat: Chat | undefined | null | false;
         creators: Record<string, Creator | null>;
-        gallery: Gallery | undefined;
+        galleryID: string | undefined | null;
         project?: Project;
         howTo?: HowTo;
     }
@@ -30,7 +32,7 @@
     let {
         chat,
         creators,
-        gallery,
+        galleryID,
         project = undefined,
         howTo = undefined,
     }: Props = $props();
@@ -40,6 +42,16 @@
     let newMessageView = $state<HTMLTextAreaElement | undefined>();
 
     let scrollerView = $state<HTMLDivElement | undefined>();
+
+    // get the gallery from the gallery ID
+    let gallery: Gallery | undefined = $state(undefined);
+    $effect(() => {
+        if (galleryID) {
+            Galleries.get(galleryID).then((g) => {
+                if (g) gallery = g;
+            });
+        }
+    });
 
     // When the project changes, mark read if it was unread and scroll.
     $effect(() => {
@@ -87,6 +99,26 @@
         if (!chat) return;
         Chats.updateChat(chat.withoutMessage(message), true);
     }
+
+    // moderation dialog
+    let showModerationDialog: boolean = $state(false);
+
+    // user is a moderator of a chat if the chat is in a gallery and the user is a curator of that gallery
+    let isModerator: boolean = $state(false);
+    $effect(() => {
+        isModerator =
+            gallery !== undefined &&
+            $user !== null &&
+            $user !== undefined &&
+            gallery.hasCurator($user.uid);
+    });
+
+    function reportMessage(chat: Chat, message: SerializedMessage) {
+        if (!chat || !$user) return;
+        Chats.updateChat(chat.withReportedMessage(message, $user.uid), true);
+
+        showModerationDialog = false;
+    }
 </script>
 
 {#snippet message(chat: Chat, msg: SerializedMessage)}
@@ -107,7 +139,7 @@
                           timeStyle: 'short',
                       })}</div
             >
-            {#if $user?.uid === msg.creator && msg.text !== null}
+            {#if $user?.uid === msg.creator && msg.text !== null && (msg.moderation === undefined || msg.moderation === 'approved')}
                 <Button
                     tip={(l) => l.ui.collaborate.button.delete}
                     action={() => deleteMessage(chat, msg)}
@@ -115,15 +147,66 @@
                 ></Button>
             {/if}
         </div>
-        <div class="what"
-            >{#if msg.text === null}<em
-                    ><LocalizedText
-                        path={(l) => l.ui.collaborate.error.deleted}
-                    /></em
-                >{:else}<MarkupHTMLView
-                    markup={msg.text.replaceAll('\n', '\n\n')}
-                />{/if}</div
+        <div
+            class="what"
+            style:border={isModerator && msg.moderation === 'pending'
+                ? 'solid var(--wordplay-border-width) var(--wordplay-warning)'
+                : ''}
         >
+            {#if msg.text === null}
+                <em>
+                    <LocalizedText
+                        path={(l) => l.ui.collaborate.error.deleted}
+                    />
+                </em>
+            {:else if msg.moderation === 'pending'}
+                {#if isModerator}
+                    <MarkupHTMLView
+                        markup={msg.text.replaceAll('\n', '\n\n')}
+                    />
+                {:else}
+                    <em>
+                        <LocalizedText
+                            path={(l) => l.ui.collaborate.moderation.pending}
+                        />
+                    </em>
+                {/if}
+            {:else if msg.moderation === 'removed'}
+                <em>
+                    <LocalizedText
+                        path={(l) => l.ui.collaborate.moderation.removed}
+                    />
+                </em>
+            {:else}
+                <MarkupHTMLView markup={msg.text.replaceAll('\n', '\n\n')} />
+            {/if}
+        </div>
+        {#if !($user?.uid === msg.creator) && galleryID && (msg.moderation === undefined || msg.moderation === 'approved')}
+            <Dialog
+                bind:show={showModerationDialog}
+                header={(l) => l.ui.collaborate.moderation.header}
+                explanation={(l) => l.ui.collaborate.moderation.explanation}
+                button={{
+                    tip: (l) => l.ui.collaborate.moderation.report.tip,
+                    icon: '🚩',
+                }}
+            >
+                <Button
+                    background
+                    tip={(l) => l.ui.collaborate.moderation.report.tip}
+                    label={(l) => l.ui.collaborate.moderation.report.label}
+                    action={() => reportMessage(chat, msg)}
+                />
+            </Dialog>
+        {:else if isModerator && msg.moderation === 'pending'}
+            <Button
+                tip={(l) => l.ui.collaborate.moderation.moderate.tip}
+                label={(l) => l.ui.collaborate.moderation.moderate.label}
+                action={() => {
+                    goto('/galleries/moderation');
+                }}
+            />
+        {/if}
     </div>
 {/snippet}
 
@@ -147,6 +230,9 @@
         >
     </TileMessage>
 {:else}
+    {#if galleryID}
+        <MarkupHTMLView markup={(l) => l.ui.collaborate.moderation.inGallery} />
+    {/if}
     <div class="scroller" bind:this={scrollerView}>
         <div class="messages">
             {#each chat.getMessages() as msg}

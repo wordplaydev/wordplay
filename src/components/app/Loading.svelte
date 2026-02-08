@@ -4,7 +4,7 @@
 </script>
 
 <div class="container">
-    <Spinning label={(l) => l.ui.widget.loading.message} large />
+    <Spinning label={(l) => l.ui.widget.loading.message} size={2} />
     <p><Text path={(l) => l.ui.widget.loading.message} /></p>
 </div>
 

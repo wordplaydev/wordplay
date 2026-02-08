@@ -5114,7 +5114,8 @@
                     "howToHeader": "$~\"1 Dolar\" başlıklı yeni bir nasıl yapılır videosu yayınlandı.",
                     "projectChatHeader": "$~\"$1\" projesinde yeni mesaj",
                     "howToChatHeader": "$~\"1 Dolar\" kılavuzunda yeni mesaj",
-                    "link": "$~detaylar"
+                    "link": "$~detaylar",
+                    "moderationHeader": "$~\"$1\" başlıklı mesaj moderasyon gerektiriyor."
                 },
                 "delete": "$~Bu bildirimi sil",
                 "popup": "$~yeni bildirim"
@@ -5158,6 +5159,21 @@
                 "collaborator": "$~Siz bir işbirlikçisiniz. Bu projeyi düzenleyebilir ve bunun hakkında sohbet edebilirsiniz.",
                 "curator": "$~Bu projenin galerisinin küratörüsünüz. Bu projeyi düzenleyebilir ve hakkında sohbet edebilirsiniz.",
                 "commenter": "$~Siz bir yorumcusunuz. Bu proje hakkında sohbet edebilirsiniz ancak düzenleme yapamazsınız."
+            },
+            "moderation": {
+                "header": "$~Bu mesajı bildir",
+                "explanation": "$~Bu mesaj <topluluk standartlarımıza@://haklarımıza> uymuyorsa veya talep ettiğiniz geri bildirim türünü karşılamıyorsa, bildirebilirsiniz. Bu mesajı bildirdiğinizde, galeri küratörlerine gönderilecek ve incelenene kadar yayından kaldırılacaktır.",
+                "report": {
+                    "tip": "$~Bu mesajı bildir",
+                    "label": "$~rapor"
+                },
+                "moderate": {
+                    "tip": "$~Moderasyon kontrol paneline git",
+                    "label": "$~ılıman"
+                },
+                "pending": "$~Bu mesaj, moderasyon işlemi beklenirken geçici olarak kaldırılmıştır.",
+                "removed": "$~Bu mesaj, topluluk veya geri bildirim kurallarını ihlal ettiği için kaldırılmıştır.",
+                "inGallery": "$~Bu sohbet bir galeride yer almaktadır. Galeri küratörleri tarafından denetlenmektedir. <Topluluk standartlarımızı@://haklarımızı> ihlal eden mesajları denetim için bildirebilirsiniz."
             },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Projeniz bir galeride yer alıyor. Varsayılan olarak, bu galeriyi görebilen herkes bu projeyi de görebilir. Projenizi yalnızca sizin ve galeri yöneticilerinin görebilmesini kısıtlayabilirsiniz.",
@@ -5417,8 +5433,6 @@
                 "header": "$~Projeler",
                 "projectprompt": "$~Bir şey söylemeye hazır mısınız? Bir proje oluşturun veya üzerinde çalışın. Takılırsanız, <learning@://learn>'e devam edin.",
                 "archiveprompt": "$~Bunlar arşivlediğiniz projelerdir. Yalnızca sahipleri bunları kalıcı olarak silebilir veya arşivden çıkarabilir. Arşivlenen projeler, son düzenlendikten 30 gün sonra kalıcı olarak silinecektir.",
-                "galleriesheader": "$~Galeriler",
-                "galleryprompt": "$~Projelerinizin koleksiyonunu başkalarıyla paylaşmak için galeriler oluşturun ve düzenleyin.",
                 "add": {
                     "header": "$~Yeni Proje",
                     "explanation": "$~Yeni bir proje oluşturmak için bir şablon seçin."
@@ -5427,7 +5441,6 @@
                     "newproject": "$~yeni proje",
                     "editproject": "$~bu projeyi düzenle",
                     "viewcode": "$~bu projenin kodunu görüntüle",
-                    "newgallery": "$~yeni galeri",
                     "unarchive": "$~bu projeyi arşivden çıkar"
                 },
                 "confirm": {
@@ -5442,7 +5455,6 @@
                 },
                 "error": {
                     "noaccess": "$~İnternete ulaşamadık.",
-                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>.",
                     "newgallery": "$~Yeni bir galeri oluşturamadık.",
                     "nodeletes": "$~Arşivlenmiş projeleri silmek için <giriş yapmalısınız@://login>.",
                     "delete": "$~Oops, projeyi silemedik!"
@@ -5458,13 +5470,33 @@
             },
             "galleries": {
                 "header": "$~Galeriler",
-                "prompt": "$~Bunlar başkalarının yaptığı performanslardır. Bunları deneyimleyin, inceleyin veya kendi ifadenize uyarlayın.",
-                "examples": "$~Örnekler",
+                "prompt": "$~Galeriler, genellikle bir tema etrafında toplanan ve sizin veya diğer yaratıcılar tarafından derlenen proje koleksiyonlarıdır.",
                 "button": {
                     "more": {
                         "label": "$~Daha...",
                         "tip": "$~Daha fazla galeri yükle"
+                    },
+                    "newgallery": "$~yeni galeri"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Sizinkiler",
+                        "explanation": [
+                            "$~Davet edildiğiniz bir galeriye katkıda bulunun veya belirli bir tema ile kendi galerinizi oluşturun ve başkalarını davet edin.",
+                            "$~/Küratörler, <galeri moderasyon paneli@://galleries/moderation> aracılığıyla galerilerdeki içeriği denetlemekten sorumludur./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Örnekler",
+                        "explanation": "$~Bunlar Wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar."
+                    },
+                    "public": {
+                        "header": "$~Halk",
+                        "explanation": "$~Bunlar, Wordplay yaratıcılarının herkese açık hale getirdiği galerilerdir. İlham almak için başkalarının neler yaptığını görün!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>."
                 }
             },
             "about": {
@@ -5602,7 +5634,8 @@
                     "$~Ancak bir projeyi *kamuya açık* hale getirmek veya onu kamuya açık bir galeriye dahil etmek bir ayrıcalıktır. Bu, sevgi, onay, saygı ve onur için yapılmış bir platformdur. Bu nedenle, *kamuya açık* içeriklerinizden hiçbirinin şunları yapmamasını bekliyoruz:"
                 ],
                 "consequences": [
-                    "$~Bu kuralları ihlal eden bir proje veya galeri bulursak, içerik oluşturucuları görüntülemeden önce uyarırız veya görüntülenmesini engelleriz. Bu kuralları tekrar tekrar ihlal ederseniz, herkese açık olarak yayınlama ayrıcalığınızı kaybedersiniz."
+                    "$~Herkese açık veya özel galerilerde yer alan projeler ve nasıl yapılır kılavuzları için yapılan sohbetler, galeri küratörleri tarafından denetlenir. Bu topluluk kurallarını ihlal eden mesajları, her mesajın yanındaki raporlama düğmesini kullanarak küratörlere bildirebilirsiniz ve küratörler mesajları onaylayabilir veya kaldırabilir.",
+                    "$~Bu kuralları ihlal eden bir proje veya galeri bulursak, içerik oluşturucuları görüntülemeden önce uyaracağız veya görüntülenmesini engelleyeceğiz. Bu kuralları tekrar tekrar ihlal ederseniz, herkese açık olarak paylaşım yapma ayrıcalığınızı kaybedersiniz."
                 ]
             },
             "donate": {
@@ -6061,6 +6094,29 @@
             "error": {
                 "unknown": "$~Bu \"nasıl yapılır\" alanı mevcut değil veya herkese açık değil."
             }
+        },
+        "gallerymoderation": {
+            "header": "$~Galeri Moderasyon Kontrol Paneli",
+            "description": "$~Yönettiğiniz galerilerde yer alan aşağıdaki mesajlar, kullanıcılar tarafından moderasyon için bildirilmiştir.",
+            "labels": {
+                "message": "$~mesaj",
+                "reporter": "$~muhabir",
+                "action": "$~moderatör eylemleri"
+            },
+            "view": {
+                "label": "$~sohbeti görüntüle",
+                "tip": "$~sohbetteki mesajı görüntüle"
+            },
+            "remove": {
+                "label": "$~kaldırmak",
+                "tip": "$~Bu mesaj yönergeleri ihlal ediyor."
+            },
+            "keep": {
+                "label": "$~kale",
+                "tip": "$~Bu mesaj yönergeleri ihlal etmiyor."
+            },
+            "empty": "$~Hiçbir mesaj moderasyon gerektirmez.",
+            "error": "$~Galerileri denetlemek için giriş yapmanız gerekmektedir."
         }
     },
     "moderation": {

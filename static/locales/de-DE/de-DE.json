@@ -5100,7 +5100,8 @@
                     "howToHeader": "$~Eine neue Anleitung mit dem Titel „$1“ wurde veröffentlicht.",
                     "projectChatHeader": "$~Neue Nachricht im Projekt \"$1\"",
                     "howToChatHeader": "$~Neue Nachricht in der Anleitung „$1“",
-                    "link": "$~Details"
+                    "link": "$~Details",
+                    "moderationHeader": "$~Nachricht im Format \"$1\" erfordert Moderationsmaßnahmen"
                 },
                 "delete": "$~Diese Benachrichtigung löschen",
                 "popup": "$~neue Benachrichtigung"
@@ -5233,8 +5234,6 @@
                 "header": "Projekte",
                 "projectprompt": "$~Bereit, etwas zu sagen? Erstellen Sie ein Projekt oder arbeiten Sie an einem. Wenn Sie nicht weiterkommen, <learning@://learn> weiter.",
                 "archiveprompt": "$~Dies sind Projekte, die Sie archiviert haben. Nur Eigentümer können sie dauerhaft löschen oder aus dem Archiv entfernen. Archivierte Projekte werden 30 Tage nach ihrer letzten Bearbeitung dauerhaft gelöscht.",
-                "galleriesheader": "Galerien",
-                "galleryprompt": "$~Erstellen und kuratieren Sie Galerien, um eine Projektsammlung mit anderen zu teilen.",
                 "add": {
                     "header": "$~Neues Projekt",
                     "explanation": "$~Wählen Sie eine Vorlage, um ein neues Projekt zu erstellen."
@@ -5242,7 +5241,6 @@
                 "button": {
                     "newproject": "$~neues Projekt",
                     "editproject": "$~Dieses Projekt bearbeiten",
-                    "newgallery": "$~neue Galerie",
                     "unarchive": "$~Dieses Projekt aus dem Archiv nehmen",
                     "viewcode": "$~Code dieses Projekts anzeigen"
                 },
@@ -5258,7 +5256,6 @@
                 },
                 "error": {
                     "noaccess": "$~Wir konnten nicht auf das Internet zugreifen.",
-                    "nogalleryedits": "$~$!Sie müssen <logged in@://login> sein, um Galerien zu erstellen und zu ändern.",
                     "newgallery": "$~Wir konnten keine neue Galerie erstellen.",
                     "nodeletes": "$~$!Sie müssen <angemeldet@://login> sein, um archivierte Projekte zu löschen.",
                     "delete": "$~Hoppla, wir konnten das Projekt nicht löschen!"
@@ -5274,13 +5271,33 @@
             },
             "galleries": {
                 "header": "Galerien",
-                "prompt": "$~Dies sind Leistungen, die andere erbracht haben. Erleben Sie sie, studieren Sie sie oder adaptieren Sie sie für Ihre eigene Aussage.",
-                "examples": "Beispiele",
+                "prompt": "$~Galerien sind Sammlungen von Projekten, die oft um ein bestimmtes Thema herum aufgebaut sind und von Ihnen oder anderen Kreativen kuratiert werden.",
                 "button": {
                     "more": {
                         "label": "$~mehr...",
                         "tip": "$~Weitere Galerien laden"
+                    },
+                    "newgallery": "$~neue Galerie"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Dein",
+                        "explanation": [
+                            "$~Beteilige dich an einer Galerie, zu der du eingeladen wurdest, oder kuratiere deine eigene Galerie zu einem bestimmten Thema und lade andere dazu ein.",
+                            "$~Die Kuratoren sind für die Moderation der Inhalte in den Galerien mithilfe des <gallery moderation dashboard@://galleries/moderation> verantwortlich./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Beispiele",
+                        "explanation": "$~Hierbei handelt es sich um kuratierte Galerien der Wordplay-Entwickler. Sie eignen sich gut als Ausgangspunkt zum Lernen und zur Inspiration."
+                    },
+                    "public": {
+                        "header": "$~Öffentlich",
+                        "explanation": "$~Dies sind Galerien, die von Wordplay-Kreativen öffentlich zugänglich gemacht wurden. Lass dich von den Werken anderer inspirieren!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~$!Sie müssen <logged in@://login> sein, um Galerien zu erstellen und zu ändern."
                 }
             },
             "about": {
@@ -5418,7 +5435,8 @@
                     "$~Aber ein Projekt *öffentlich* zu machen oder es in eine öffentliche Galerie aufzunehmen, ist ein Privileg. Dies ist eine Plattform für Liebe, Bestätigung, Respekt und Würde. Daher erwarten wir, dass keiner Ihrer *öffentlichen* Inhalte:"
                 ],
                 "consequences": [
-                    "$~Wenn wir ein Projekt oder eine Galerie finden, die gegen diese Regeln verstößt, warnen wir die Ersteller, bevor sie es ansehen können, oder blockieren es. Wenn Sie diese Regeln wiederholt verletzen, verlieren Sie das Recht, öffentlich zu posten."
+                    "$~Chats zu Projekten und Anleitungen in öffentlichen oder privaten Galerien werden von den Galerie-Kuratoren moderiert. Sie können Beiträge, die gegen diese Community-Richtlinien verstoßen, über die Meldefunktion neben dem jeweiligen Beitrag melden. Die Kuratoren können die Beiträge dann freigeben oder entfernen.",
+                    "$~Wenn wir ein Projekt oder eine Galerie finden, die gegen diese Regeln verstößt, warnen wir die Urheber, bevor sie diese ansehen können, oder sperren die Ansicht. Bei wiederholten Verstößen gegen diese Regeln verlieren Sie das Recht, öffentlich zu posten."
                 ]
             },
             "donate": {
@@ -5853,6 +5871,21 @@
                 "curator": "$~Sie sind Kurator der Galerie dieses Projekts. Sie können dieses Projekt bearbeiten und darüber chatten.",
                 "commenter": "$~Du bist ein Kommentator. Du kannst über dieses Projekt diskutieren, aber es nicht bearbeiten."
             },
+            "moderation": {
+                "header": "$~Diese Nachricht melden",
+                "explanation": "$~Sollte diese Nachricht nicht unseren <Community-Standards@://rights> oder dem von Ihnen gewünschten Feedback entsprechen, können Sie sie melden. Nach Ihrer Meldung wird die Nachricht an die Kuratoren der Galerie weitergeleitet und bis zur Überprüfung entfernt.",
+                "report": {
+                    "tip": "$~Diese Nachricht melden",
+                    "label": "$~Bericht"
+                },
+                "moderate": {
+                    "tip": "$~Zum Moderations-Dashboard wechseln",
+                    "label": "$~mäßig"
+                },
+                "pending": "$~Diese Nachricht wurde vorübergehend entfernt, bis eine Moderation erfolgt.",
+                "removed": "$~Diese Nachricht wurde wegen Verstoßes gegen die Community- oder Feedback-Richtlinien entfernt.",
+                "inGallery": "$~Dieser Chat befindet sich in einer Galerie und wird von den Kuratoren moderiert. Sie können Beiträge, die gegen unsere <Community-Standards@://rights> verstoßen, zur Moderation melden."
+            },
             "restrictGalleryCreatorAccess": {
                 "explanation": "$~Ihr Projekt befindet sich in einer Galerie. Standardmäßig kann jeder, der diese Galerie sehen kann, auch Ihr Projekt sehen. Sie können den Zugriff auf Ihr Projekt auf Sie und die Kuratoren der Galerie beschränken.",
                 "mode": {
@@ -6064,6 +6097,29 @@
             "error": {
                 "unknown": "$~Dieser Anleitungsbereich existiert nicht oder ist nicht öffentlich."
             }
+        },
+        "gallerymoderation": {
+            "header": "$~Galerie-Moderations-Dashboard",
+            "description": "$~Die folgenden Beiträge in Ihren Galerien wurden von Nutzern zur Moderation gemeldet.",
+            "labels": {
+                "message": "$~Nachricht",
+                "reporter": "$~Reporter",
+                "action": "$~Moderatormaßnahmen"
+            },
+            "view": {
+                "label": "$~Chat anzeigen",
+                "tip": "$~Nachricht im Chat ansehen"
+            },
+            "remove": {
+                "label": "$~entfernen",
+                "tip": "$~Diese Nachricht verstößt gegen die Richtlinien."
+            },
+            "keep": {
+                "label": "$~halten",
+                "tip": "$~Diese Nachricht verstößt nicht gegen die Richtlinien."
+            },
+            "empty": "$~Keine der Nachrichten muss moderiert werden.",
+            "error": "$~Sie müssen angemeldet sein, um Galerien zu moderieren"
         }
     },
     "moderation": {

@@ -367,10 +367,10 @@
 
     .block.type {
         font-size: var(--wordplay-small-font-size);
-        box-shadow: inset var(--wordplay-border-color) 1px 1px
+        box-shadow: inset var(--wordplay-border-color) 0px 0px
             var(--wordplay-border-width);
-        background: var(--color-light-grey-transparent);
-        padding: var(--wordplay-spacing-half);
+        background: var(--wordplay-alternating-color);
+        padding: var(--wordplay-spacing) var(--wordplay-spacing-half);
     }
 
     .block.predicate {

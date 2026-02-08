@@ -4429,7 +4429,10 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Creators can edit the projects and gallery settings, and chat on all projects."
+                    "explanation": [
+                        "Curators can edit the projects and gallery settings, and chat on all projects.",
+                        "/Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by creators can be found on the <gallery moderation dashboard@://galleries/moderation>./"
+                    ]
                 },
                 "creators": {
                     "header": "Creators",
@@ -4464,6 +4467,29 @@
                 }
             }
         },
+        "gallerymoderation": {
+            "header": "Gallery Moderation Dashboard",
+            "description": "The following messages in galleries that you curate have been reported by users for moderation.",
+            "labels": {
+                "message": "message",
+                "reporter": "reporter",
+                "action": "moderator actions"
+            },
+            "view": {
+                "label": "view chat",
+                "tip": "view message in chat"
+            },
+            "remove": {
+                "label": "remove",
+                "tip": "this message violates guidelines"
+            },
+            "keep": {
+                "label": "keep",
+                "tip": "this message does not violate guidelines"
+            },
+            "empty": "No messages require moderation",
+            "error": "You must be logged in to moderate galleries"
+        },
         "howto": {
             "galleryView": {
                 "header": "How-tos",
@@ -4490,7 +4516,7 @@
                     "tip": "remove this how-to from your bookmarks"
                 },
                 "empty": "You can bookmark how-tos you want to reference later.",
-                "notLoggedIn": "$!You must be <logged in@://login> to use bookmarks"
+                "notLoggedIn": "You must be <logged in@://login> to use bookmarks"
             },
             "navigationtooltip": "navigate to a how-to",
             "button": {
@@ -5071,7 +5097,7 @@
                 },
                 "error": {
                     "unknown": "We don't know a creator with this email.",
-                    "anonymous": "$!You must be <logged in@://login> to share.",
+                    "anonymous": "You must be <logged in@://login> to share.",
                     "self": "You can't add yourself."
                 },
                 "button": {
@@ -5205,6 +5231,7 @@
                     "howToHeader": "New how-to titled \"$1\" was posted",
                     "projectChatHeader": "New message in project \"$1\"",
                     "howToChatHeader": "New message in how-to \"$1\"",
+                    "moderationHeader": "Message in \"$1\" requires moderation action",
                     "link": "details"
                 },
                 "delete": "delete this notification",
@@ -5299,7 +5326,7 @@
                     "idea": "Didn't see the idea you're thinking of? Suggest it."
                 },
                 "error": {
-                    "login": "$!You must be <logged in@://login> to submit feedback",
+                    "login": "You must be <logged in@://login> to submit feedback",
                     "submit": "Unable to submit feedback.",
                     "load": "Unable to load feedback",
                     "empty": "There is no feedback to show.",
@@ -5332,6 +5359,21 @@
                     "tip": "begin a discussion with yourself or others."
                 },
                 "delete": "delete this message"
+            },
+            "moderation": {
+                "header": "Report this message",
+                "explanation": "If this message does not meet our <community standards@://rights> or the type of feedback your requested, you can report it. When you report this message, it will be sent to the gallery curators and taken down until it can be reviewed.",
+                "report": {
+                    "tip": "report this message",
+                    "label": "report"
+                },
+                "moderate": {
+                    "tip": "go to moderation dashboard",
+                    "label": "moderate"
+                },
+                "pending": "This message is temporarily removed while waiting for moderation action.",
+                "removed": "This message has been removed for violating community or feedback guidelines.",
+                "inGallery": "This chat is in a gallery. It is subject to moderation by the gallery curators. You can report messages that violate our <community standards@://rights> for moderation."
             },
             "error": {
                 "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
@@ -5489,7 +5531,7 @@
                 },
                 "error": {
                     "offline": "We weren't able to check your teacher status. Are you logged in?",
-                    "login": "$!You need to be <logged in@://login> to manage classes.",
+                    "login": "You need to be <logged in@://login> to manage classes.",
                     "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
                 },
                 "link": {
@@ -5604,8 +5646,6 @@
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
-                "galleriesheader": "Galleries",
-                "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
                 "add": {
                     "header": "New Project",
                     "explanation": "Choose a template to create a new project."
@@ -5622,7 +5662,6 @@
                     "newproject": "new project",
                     "editproject": "edit this project",
                     "viewcode": "view this project's code",
-                    "newgallery": "new gallery",
                     "unarchive": "unarchive this project"
                 },
                 "confirm": {
@@ -5637,21 +5676,40 @@
                 },
                 "error": {
                     "noaccess": "We couldn't reach the internet.",
-                    "nogalleryedits": "$!You must be <logged in@://login> to create and change galleries.",
                     "newgallery": "We couldn't create a new gallery.",
-                    "nodeletes": "$!You must be <logged in@://login> to delete archived projects.",
+                    "nodeletes": "You must be <logged in@://login> to delete archived projects.",
                     "delete": "Oops, we couldn't delete the project!"
                 }
             },
             "galleries": {
                 "header": "Galleries",
-                "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
-                "examples": "Examples",
+                "prompt": "Galleries are collections of projects, often centered around a theme, and curated by you or other creators.",
+                "section": {
+                    "own": {
+                        "header": "Yours",
+                        "explanation": [
+                            "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
+                            "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "Examples",
+                        "explanation": "These are curated galleries from the Wordplay developers. They are good starting points for learning and inspiration."
+                    },
+                    "public": {
+                        "header": "Public",
+                        "explanation": "These are galleries that Wordplay creators have made public. See what others have made for inspiration!"
+                    }
+                },
                 "button": {
+                    "newgallery": "new gallery",
                     "more": {
                         "label": "more...",
                         "tip": "load more galleries"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
                 }
             },
             "characters": {
@@ -5670,7 +5728,7 @@
                 },
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
-                    "noauth": "$!You must be <logged in@://login> to see your characters and create new ones.",
+                    "noauth": "You must be <logged in@://login> to see your characters and create new ones.",
                     "create": "Unable to create a new character."
                 }
             },
@@ -5864,7 +5922,7 @@
                     "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
                     "notfound": "This character doesn't exist or isn't visible to you.",
-                    "unauthenticated": "$!You must be <logged in@://login> to edit a character.",
+                    "unauthenticated": "You must be <logged in@://login> to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
                     "projecteditfail": "There was a problem updating projects that use this character. The following projects need fixing: ",
                     "untitledproject": "Untitled Project"
@@ -6025,6 +6083,7 @@
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
                 ],
                 "consequences": [
+                    "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ]
             },

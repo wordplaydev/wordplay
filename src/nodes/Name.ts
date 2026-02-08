@@ -8,7 +8,6 @@ import { COMMA_SYMBOL } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
-import ReservedSymbols from '../parser/ReservedSymbols';
 import type Context from './Context';
 import type Definition from './Definition';
 import Evaluate from './Evaluate';
@@ -129,13 +128,7 @@ export default class Name extends LanguageTagged {
 
     /** Symbolic if it matches the binary op regex  */
     isSymbolic() {
-        return (
-            this.name.text.getLength() === 1 ||
-            this.name.text
-                .getText()
-                .split('')
-                .every((c) => ReservedSymbols.includes(c))
-        );
+        return this.name.isSymbol(Sym.Operator);
     }
 
     getName(): string {

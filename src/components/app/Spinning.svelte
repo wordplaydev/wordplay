@@ -4,15 +4,15 @@
 
     interface Props {
         label?: LocaleTextAccessor | undefined;
-        large?: boolean;
+        size?: number;
     }
 
-    let { label = undefined, large = false }: Props = $props();
+    let { label = undefined, size = 2 }: Props = $props();
 </script>
 
 <div
     class="cursor"
-    class:large
+    style="width: {size}rem; height: {size}rem;"
     aria-live="assertive"
     aria-atomic="true"
     aria-relevant="all"
@@ -30,10 +30,6 @@
         background: var(--wordplay-alternating-color);
         width: 1em;
         height: 1em;
-    }
-
-    .large {
-        font-size: 200%;
     }
 
     @keyframes spin {
