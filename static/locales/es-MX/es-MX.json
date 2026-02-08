@@ -5321,7 +5321,7 @@
                     "reallyDelete": "¿Estás segura? Tu cuenta y configuraciones se eliminarán inmediatamente, y tus proyectos se programarán para su eliminación. Las colaboradoras en tus proyectos perderán de inmediato el acceso a ellos. Escribe tu correo electrónico o nombre de usuario para confirmar que esto es lo que deseas.",
                     "name": "Elige un emoji para representarte a ti mismo ante los demás.",
                     "login": "$~Inicie sesión para guardar sus proyectos, colaborar y compartir:",
-                    "join": "$~O bien, <crear una cuenta@://unirse> para comenzar."
+                    "join": "$~O bien, <crear una cuenta@://join> para comenzar."
                 },
                 "error": {
                     "expired": "Este enlace ha expirado.",
