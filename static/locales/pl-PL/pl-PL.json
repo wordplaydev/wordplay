@@ -1,9 +1,7 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "pl",
-    "regions": [
-        "PL"
-    ],
+    "regions": ["PL"],
     "wordplay": "$~Gra słów",
     "term": {
         "bind": "$~wiązać",
@@ -1684,10 +1682,7 @@
                 "$~Niektórzy używają klawiatury (/ctrl+9/ dla \\⊤\\ i /ctrl+0/ dla \\⊥\\). Niektórzy używają wyszukiwania znaków na dole edytora. Albo możesz nas przeciągnąć stąd.",
                 "$~Sprawdź nasze @FunctionDefinition poniżej. Są bardzo logiczne."
             ],
-            "name": [
-                "$~⊤⊥",
-                "$~Wartośćlogiczna"
-            ],
+            "name": ["$~⊤⊥", "$~Wartośćlogiczna"],
             "function": {
                 "and": {
                     "doc": [
@@ -1697,10 +1692,7 @@
                         "$~\\⊥ i ⊤\\",
                         "$~\\⊥ & ⊥\\"
                     ],
-                    "names": [
-                        "$~&",
-                        "$~I"
-                    ],
+                    "names": ["$~&", "$~I"],
                     "inputs": [
                         {
                             "doc": "$~Drugi @Boolean do sprawdzenia. Jeśli pierwszy to \\⊥\\, nie ma znaczenia, co to jest, funkcja oceni się jako \\⊥\\.",
@@ -1716,10 +1708,7 @@
                         "$~\\⊥ | ⊤\\",
                         "$~\\⊥ | ⊥\\"
                     ],
-                    "names": [
-                        "$~|",
-                        "$~Lub"
-                    ],
+                    "names": ["$~|", "$~Lub"],
                     "inputs": [
                         {
                             "doc": "$~Drugi @Boolean do sprawdzenia. Jeśli pierwszy to \\⊥\\, funkcja będzie oceniać tylko na \\⊤\\, jeśli to jest \\⊤\\.",
@@ -1729,18 +1718,12 @@
                 },
                 "not": {
                     "doc": "$~Otrzymuję odwrotność siebie: jeśli \\⊤\\, to daje \\⊥\\, jeśli \\⊥\\, to daje \\⊤\\.",
-                    "names": [
-                        "$~~",
-                        "$~nie"
-                    ],
+                    "names": ["$~~", "$~nie"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ jeśli oba są \\⊤\\ lub oba są \\⊥\\.",
-                    "names": [
-                        "$~=",
-                        "$~równasię"
-                    ],
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
                             "doc": "$~Druga wartość do sprawdzenia.",
@@ -1750,10 +1733,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ jeśli oba są przeciwieństwami.",
-                    "names": [
-                        "$~≠",
-                        "$~nierówny"
-                    ],
+                    "names": ["$~≠", "$~nierówny"],
                     "inputs": [
                         {
                             "doc": "$~Druga wartość do sprawdzenia.",
@@ -1771,17 +1751,11 @@
                 "$~/Cześć, tutaj @FunctionDefinition. @None nie lubi za dużo mówić, więc ja to zinterpretuję./",
                 "$~Jestem @None. Przywołaj mnie za pomocą \\ø\\. Jestem pomocny, gdy chcesz przedstawić brak czegoś."
             ],
-            "name": [
-                "$~ø",
-                "$~Nic"
-            ],
+            "name": ["$~ø", "$~Nic"],
             "function": {
                 "equals": {
                     "doc": "$~Czy inna wartość jest również niczym? Lepiej, żeby była, w przeciwnym razie, \\⊥\\.",
-                    "names": [
-                        "$~=",
-                        "$~równasię"
-                    ],
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
                             "doc": "$~Inna wartość.",
@@ -1791,10 +1765,7 @@
                 },
                 "notequals": {
                     "doc": "$~Czy inną wartością /nie/ jest nic?",
-                    "names": [
-                        "$~≠",
-                        "$~nierówny"
-                    ],
+                    "names": ["$~≠", "$~nierówny"],
                     "inputs": [
                         {
                             "doc": "$~Inna wartość.",
@@ -1824,10 +1795,7 @@
                 "$~Widzisz jak 192 zamieniło się w @FunctionDefinition? Słyszałem, że nazywasz te liczby „Unicode”.",
                 "$~Poza tym @FunctionDefinition stworzyło mnóstwo wspaniałych funkcji, dzięki którym mogę robić najróżniejsze rzeczy za pomocą słów!"
             ],
-            "name": [
-                "$~''",
-                "$~Tekst"
-            ],
+            "name": ["$~''", "$~Tekst"],
             "function": {
                 "length": {
                     "doc": [
@@ -1835,18 +1803,12 @@
                         "$~\\'cześć'.length()\\",
                         "$~\\'🐈📚'.długość()\\"
                     ],
-                    "names": [
-                        "$~📏",
-                        "$~długość"
-                    ],
+                    "names": ["$~📏", "$~długość"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ jeśli jestem tą samą sekwencją znaków, co podany @Text.",
-                    "names": [
-                        "$~=",
-                        "$~równasię"
-                    ],
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
                             "doc": "$~@Text do porównania.",
@@ -1869,10 +1831,7 @@
                         "$~\\⊤\\ jeśli podany @Text pojawi się u mnie.",
                         "$~\\'czy znalazłeś to czego szukałeś?'.has('you')\\"
                     ],
-                    "names": [
-                        "$~⊆",
-                        "$~ma"
-                    ],
+                    "names": ["$~⊆", "$~ma"],
                     "inputs": [
                         {
                             "doc": "$~@Text, którego należy we mnie szukać.",
@@ -1886,9 +1845,7 @@
                         "$~\\'witaj wierszu!'.starts('witaj')\\",
                         "$~\\'witaj wierszu!'.starts('wers')\\"
                     ],
-                    "names": [
-                        "$~zaczynasię"
-                    ],
+                    "names": ["$~zaczynasię"],
                     "inputs": [
                         {
                             "doc": "$~@Text, który należy sprawdzić na początku.",
@@ -1902,9 +1859,7 @@
                         "$~\\'czy jestem pytaniem?'.ends('?')\\",
                         "$~\\'Nie jestem pytaniem.'.ends('?')\\"
                     ],
-                    "names": [
-                        "$~Kończysię"
-                    ],
+                    "names": ["$~Kończysię"],
                     "inputs": [
                         {
                             "doc": "$~@Text do sprawdzenia na końcu.",
@@ -1942,11 +1897,7 @@
                         "$~Jeżeli separatorem jest pusty @Text, dzielę się na znaki:",
                         "$~\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": [
-                        "$~÷",
-                        "$~segmentowany",
-                        "$~segment"
-                    ],
+                    "names": ["$~÷", "$~segmentowany", "$~segment"],
                     "inputs": [
                         {
                             "doc": "$~@Text, który ma służyć jako separator.",
@@ -1959,11 +1910,7 @@
                         "$~Czasami pomocne jest połączenie @Text w jeden. Daj mi inny @Text, a stworzę nowy tekst, który nas połączy:",
                         "$~\\'cześć' + 'werset'\\"
                     ],
-                    "names": [
-                        "$~+",
-                        "$~łączny",
-                        "$~łączyć"
-                    ],
+                    "names": ["$~+", "$~łączny", "$~łączyć"],
                     "inputs": [
                         {
                             "doc": "$~@Text do dołączenia.",
@@ -2001,10 +1948,7 @@
                 "$~W bazie 2 nie ma cyfry „2”, więc nie jest to prawidłowa liczba. NaN pojawi się również, jeśli spróbujesz przekonwertować tekst niebędący liczbą na liczbę",
                 "$~\\'cześć'→#\\"
             ],
-            "name": [
-                "$~#",
-                "$~Numer"
-            ],
+            "name": ["$~#", "$~Numer"],
             "function": {
                 "add": {
                     "doc": [
@@ -2015,10 +1959,7 @@
                         "$~Jeżeli jednostki nie pasują, przerywam pokaz.",
                         "$~\\3kot + 5pies\\"
                     ],
-                    "names": [
-                        "$~+",
-                        "$~dodać"
-                    ],
+                    "names": ["$~+", "$~dodać"],
                     "inputs": [
                         {
                             "doc": "$~@Number do dodania.",
@@ -2035,10 +1976,7 @@
                         "$~Jeżeli jednostki nie pasują, przerywam pokaz.",
                         "$~\\3kot - 5pies\\"
                     ],
-                    "names": [
-                        "$~-",
-                        "$~odejmować"
-                    ],
+                    "names": ["$~-", "$~odejmować"],
                     "inputs": [
                         {
                             "doc": "$~@Number, którą ode mnie odejmę.",
@@ -2053,10 +1991,7 @@
                         "$~\\5m · 5m\\",
                         "$~\\5m · 1/s\\"
                     ],
-                    "names": [
-                        "$~·",
-                        "$~zwielokrotniać"
-                    ],
+                    "names": ["$~·", "$~zwielokrotniać"],
                     "inputs": [
                         {
                             "doc": "$~Liczba, którą należy pomnożyć.",
@@ -2071,10 +2006,7 @@
                         "$~\\5m ÷ 5m\\",
                         "$~\\5 minut ÷ 5 sekund\\"
                     ],
-                    "names": [
-                        "$~÷",
-                        "$~dzielić"
-                    ],
+                    "names": ["$~÷", "$~dzielić"],
                     "inputs": [
                         {
                             "doc": "$~@Number, przez którą mnie podzielę.",
@@ -2089,10 +2021,7 @@
                         "$~\\10m % 2\\",
                         "$~\\10m/s % 3\\"
                     ],
-                    "names": [
-                        "$~%",
-                        "$~reszta"
-                    ],
+                    "names": ["$~%", "$~reszta"],
                     "inputs": [
                         {
                             "doc": "$~@Number, przez którą mnie podzielę.",
@@ -2105,9 +2034,7 @@
                         "$~Tworzę nową @Number, który sprawia, że jestem dodatni, mimo że jestem ujemny.",
                         "$~\\-200.pozytywne()\\"
                     ],
-                    "names": [
-                        "$~pozytywny"
-                    ],
+                    "names": ["$~pozytywny"],
                     "inputs": []
                 },
                 "round": {
@@ -2117,9 +2044,7 @@
                         "$~\\9.5.runda()\\",
                         "$~\\9.6.runda()\\"
                     ],
-                    "names": [
-                        "$~okrągły"
-                    ],
+                    "names": ["$~okrągły"],
                     "inputs": []
                 },
                 "roundDown": {
@@ -2129,9 +2054,7 @@
                         "$~\\10.1.zaokrąglanie w dół()\\",
                         "$~\\10.01.zaokrąglanie w dół()\\"
                     ],
-                    "names": [
-                        "$~zaokrąglićwdół"
-                    ],
+                    "names": ["$~zaokrąglićwdół"],
                     "inputs": []
                 },
                 "roundUp": {
@@ -2141,9 +2064,7 @@
                         "$~\\10.9.zaokrąglanie()\\",
                         "$~\\10,99.zaokrąglenie w górę()\\"
                     ],
-                    "names": [
-                        "$~łapanka"
-                    ],
+                    "names": ["$~łapanka"],
                     "inputs": []
                 },
                 "power": {
@@ -2153,10 +2074,7 @@
                         "$~\\10^-2\\",
                         "$~\\5 ^ -.5\\"
                     ],
-                    "names": [
-                        "$~^",
-                        "$~moc"
-                    ],
+                    "names": ["$~^", "$~moc"],
                     "inputs": [
                         {
                             "doc": "$~Wykładnik, który mnie podniesie.",
@@ -2170,10 +2088,7 @@
                         "$~\\4 √ 2\\",
                         "$~\\1000 √ 3\\"
                     ],
-                    "names": [
-                        "$~√",
-                        "$~źródło"
-                    ],
+                    "names": ["$~√", "$~źródło"],
                     "inputs": [
                         {
                             "doc": "$~Pierwiastek do obliczenia.",
@@ -2187,10 +2102,7 @@
                         "$~\\1 < 2\\",
                         "$~\\2 < 1\\"
                     ],
-                    "names": [
-                        "$~<",
-                        "$~mniejszyniż"
-                    ],
+                    "names": ["$~<", "$~mniejszyniż"],
                     "inputs": [
                         {
                             "doc": "$~@Number, z którym można mnie porównać.",
@@ -2205,10 +2117,7 @@
                         "$~\\2 ≤ 1\\",
                         "$~\\2 ≤ 2\\"
                     ],
-                    "names": [
-                        "$~≤",
-                        "$~mniejlubrówny"
-                    ],
+                    "names": ["$~≤", "$~mniejlubrówny"],
                     "inputs": [
                         {
                             "doc": "$~@Number, z którym można mnie porównać.",
@@ -2222,10 +2131,7 @@
                         "$~\\1 > 2\\",
                         "$~\\2 > 1\\"
                     ],
-                    "names": [
-                        "$~>",
-                        "$~większyniż"
-                    ],
+                    "names": ["$~>", "$~większyniż"],
                     "inputs": [
                         {
                             "doc": "$~@Number, z którym można mnie porównać.",
@@ -2240,10 +2146,7 @@
                         "$~\\2 ≥ 1\\",
                         "$~\\2 ≥ 2\\"
                     ],
-                    "names": [
-                        "$~≥",
-                        "$~większylubrówny"
-                    ],
+                    "names": ["$~≥", "$~większylubrówny"],
                     "inputs": [
                         {
                             "doc": "$~@Number, z którym można mnie porównać.",
@@ -2257,10 +2160,7 @@
                         "$~\\1 = 2\\",
                         "$~\\2 = 2\\"
                     ],
-                    "names": [
-                        "$~=",
-                        "$~równy"
-                    ],
+                    "names": ["$~=", "$~równy"],
                     "inputs": [
                         {
                             "doc": "$~@Number, z którym można mnie porównać.",
@@ -2274,10 +2174,7 @@
                         "$~\\1 ≠ 2\\",
                         "$~\\2 ≠ 2\\"
                     ],
-                    "names": [
-                        "$~≠",
-                        "$~nierówny"
-                    ],
+                    "names": ["$~≠", "$~nierówny"],
                     "inputs": [
                         {
                             "doc": "$~@Number, z którym można mnie porównać.",
@@ -2286,25 +2183,13 @@
                     ]
                 },
                 "cos": {
-                    "doc": [
-                        "$~Oblicz mój cosinus.",
-                        "$~\\π.cos()\\"
-                    ],
-                    "names": [
-                        "$~sałata",
-                        "$~cosinus"
-                    ],
+                    "doc": ["$~Oblicz mój cosinus.", "$~\\π.cos()\\"],
+                    "names": ["$~sałata", "$~cosinus"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": [
-                        "$~Oblicz mój sinus.",
-                        "$~\\π.cos()\\"
-                    ],
-                    "names": [
-                        "$~grzech",
-                        "$~sinus"
-                    ],
+                    "doc": ["$~Oblicz mój sinus.", "$~\\π.cos()\\"],
+                    "names": ["$~grzech", "$~sinus"],
                     "inputs": []
                 },
                 "min": {
@@ -2403,10 +2288,7 @@
                 "$~\\['jabłko' 'banan' 'mango']!\\",
                 "$~To tyle. Ale mogę wywoływać ekscytujące rzeczy za pomocą mojego @FunctionDefinition!"
             ],
-            "name": [
-                "$~[]",
-                "$~Lista"
-            ],
+            "name": ["$~[]", "$~Lista"],
             "kind": "$~Uprzejmy",
             "out": "$~Wynik",
             "outofbounds": "$~poza granicami",
@@ -2416,10 +2298,7 @@
                         "$~Tworzę nową @List z podanym elementem na końcu.",
                         "$~\\['jabłko' 'banan' 'mango'].with('arbuz')\\"
                     ],
-                    "names": [
-                        "$~z",
-                        "$~dodać"
-                    ],
+                    "names": ["$~z", "$~dodać"],
                     "inputs": [
                         {
                             "doc": "$~Jestem wartością, którą chcesz dodać.",
@@ -2434,10 +2313,7 @@
                         "$~Trochę łatwiej jest używać @Spread, w ten sposób:",
                         "$~\\['jabłko' 'banan' 'mango' :['arbuz' 'karmel']]\\"
                     ],
-                    "names": [
-                        "$~zListą",
-                        "$~dodać"
-                    ],
+                    "names": ["$~zListą", "$~dodać"],
                     "inputs": [
                         {
                             "doc": "$~Lista wartości do dodania.",
@@ -2450,9 +2326,7 @@
                         "$~Tworzę nową listę, która zastępuje wartość o podanym indeksie podaną wartością.",
                         "$~\\['jabłko' 'banan' 'mango'].replace(1 'kiwi')\\"
                     ],
-                    "names": [
-                        "$~zastępować"
-                    ],
+                    "names": ["$~zastępować"],
                     "inputs": [
                         {
                             "doc": "$~Indeks wartości do zastąpienia",
@@ -2466,10 +2340,7 @@
                 },
                 "length": {
                     "doc": "$~@Number elementów we mnie.",
-                    "names": [
-                        "$~📏",
-                        "$~długość"
-                    ],
+                    "names": ["$~📏", "$~długość"],
                     "inputs": []
                 },
                 "random": {
@@ -2559,10 +2430,7 @@
                         "$~Tworzę listę bez pierwszego elementu.",
                         "$~\\['jabłko' 'banan' 'mango'].sansFirst()\\"
                     ],
-                    "names": [
-                        "$~bezPierwszego",
-                        "$~sansPierwszy"
-                    ],
+                    "names": ["$~bezPierwszego", "$~sansPierwszy"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -2570,10 +2438,7 @@
                         "$~Tworzę listę bez ostatniego elementu.",
                         "$~\\['jabłko' 'banan' 'mango'].sansLast()\\"
                     ],
-                    "names": [
-                        "$~bezOstatniego",
-                        "$~sansOstatni"
-                    ],
+                    "names": ["$~bezOstatniego", "$~sansOstatni"],
                     "inputs": []
                 },
                 "sans": {
@@ -2581,10 +2446,7 @@
                         "$~Ja, ale bez pierwszych wystąpień podanej wartości.",
                         "$~\\['jabłko' 'banan' 'mango' 'jabłko'].sans('jabłko')\\"
                     ],
-                    "names": [
-                        "$~bez",
-                        "$~bez"
-                    ],
+                    "names": ["$~bez", "$~bez"],
                     "inputs": [
                         {
                             "doc": "$~Wartość, która ma zostać usunięta przy pierwszym wystąpieniu.",
@@ -2597,10 +2459,7 @@
                         "$~Ja, ale bez wszystkich wystąpień podanej wartości.",
                         "$~\\['jabłko' 'banan' 'mango' 'jabłko'].sans('jabłko')\\"
                     ],
-                    "names": [
-                        "$~bezWszystko",
-                        "$~sansAll"
-                    ],
+                    "names": ["$~bezWszystko", "$~sansAll"],
                     "inputs": [
                         {
                             "doc": "$~Wartość, której wszystkie wystąpienia mają zostać usunięte z listy.",
@@ -2613,10 +2472,7 @@
                         "$~Ja, ale na odwrót!",
                         "$~\\['jabłko' 'banan' 'mango'].reverse()\\"
                     ],
-                    "names": [
-                        "$~wywrócony",
-                        "$~odwracać"
-                    ],
+                    "names": ["$~wywrócony", "$~odwracać"],
                     "inputs": []
                 },
                 "equals": {
@@ -2624,10 +2480,7 @@
                         "$~\\⊤\\ jeśli moje przedmioty i zamówienie są dokładnie takie same jak podana @List.",
                         "$~\\['jabłko' 'banan' 'mango'] = ['jabłko' 'mango' 'banan']\\"
                     ],
-                    "names": [
-                        "$~=",
-                        "$~równasię"
-                    ],
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
                             "doc": "$~@List, z którą możesz mnie porównać.",
@@ -2640,10 +2493,7 @@
                         "$~\\⊤\\ jeśli moje przedmioty i zamówienie /nie/ są dokładnie takie same jak podana @List.",
                         "$~\\['jabłko' 'banan' 'mango'] ≠ ['jabłko' 'mango' 'banan']\\"
                     ],
-                    "names": [
-                        "$~≠",
-                        "$~nierówny"
-                    ],
+                    "names": ["$~≠", "$~nierówny"],
                     "inputs": [
                         {
                             "doc": "$~@List, z którą możesz mnie porównać.",
@@ -2797,10 +2647,7 @@
                         "$~To naprawdę pomaga połączyć wszystkie elementy w me w jedną wartość. Na przykład wyobraź sobie, że chcesz dodać listę liczb:",
                         "$~\\[3 9 2 8 1 4].combine(0 ƒ(suma•# liczba•#) suma + liczba)\\"
                     ],
-                    "names": [
-                        "$~łączny",
-                        "$~łączyć"
-                    ],
+                    "names": ["$~łączny", "$~łączyć"],
                     "inputs": [
                         {
                             "doc": "$~Kombinacja początkowa.",
@@ -2876,10 +2723,7 @@
                 "$~\\{'hej' 'cześć' 'cześć'}!{'yo'}\\",
                 "$~Czy jest coś jeszcze, co chciałbyś ze mną zrobić? Sprawdź wszystkie fajne @FunctionDefinition, które mam!"
             ],
-            "name": [
-                "$~{}",
-                "$~Ustawić"
-            ],
+            "name": ["$~{}", "$~Ustawić"],
             "kind": "$~Uprzejmy",
             "out": "$~Wynik",
             "function": {
@@ -2893,10 +2737,7 @@
                         "$~Jestem \\⊤\\ jeśli dany @Set i I mają dokładnie takie same wartości:",
                         "$~= 1 2 3 = 2 3 4"
                     ],
-                    "names": [
-                        "$~=",
-                        "$~równasię"
-                    ],
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
                             "doc": "$~@Set do porównania.",
@@ -2909,10 +2750,7 @@
                         "$~Jestem \\⊤\\, jeśli podany @Set i I nie mają dokładnie takich samych wartości:",
                         "$~\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": [
-                        "$~≠",
-                        "$~nierówny"
-                    ],
+                    "names": ["$~≠", "$~nierówny"],
                     "inputs": [
                         {
                             "doc": "$~@Set do porównania.",
@@ -2925,11 +2763,7 @@
                         "$~Podaj mi element, który mam dodać, a ja stworzę nowy @Set z moimi elementami i danym elementem.",
                         "$~\\{1 2 3} + 4\\"
                     ],
-                    "names": [
-                        "$~z",
-                        "$~dodać",
-                        "$~+"
-                    ],
+                    "names": ["$~z", "$~dodać", "$~+"],
                     "inputs": [
                         {
                             "doc": "$~Element do dodania",
@@ -2943,10 +2777,7 @@
                         "$~\\{1 2 3} - 2\\",
                         "$~Jeśli nie mam potrzebnego przedmiotu, po prostu ocenię go sam."
                     ],
-                    "names": [
-                        "$~usunąć",
-                        "$~-"
-                    ],
+                    "names": ["$~usunąć", "$~-"],
                     "inputs": [
                         {
                             "doc": "$~Element do usunięcia.",
@@ -2959,10 +2790,7 @@
                         "$~Podaj mi @Set, a ja stworzę nowy @Set, który będzie zawierał moje elementy i elementy zestawu.",
                         "$~1 2 3 ∪ {3 4 5}"
                     ],
-                    "names": [
-                        "$~unia",
-                        "$~∪"
-                    ],
+                    "names": ["$~unia", "$~∪"],
                     "inputs": [
                         {
                             "doc": "$~@Set do połączenia ze mną.",
@@ -2975,10 +2803,7 @@
                         "$~Daj mi @Set, a ja stworzę nowy @Set, który będzie zawierał tylko elementy, które mamy wspólne.",
                         "$~1 2 3 ∩ {3 4 5}"
                     ],
-                    "names": [
-                        "$~przecięcie",
-                        "$~∩"
-                    ],
+                    "names": ["$~przecięcie", "$~∩"],
                     "inputs": [
                         {
                             "doc": "$~Zestaw do porównania ze mną.",
@@ -3071,10 +2896,7 @@
                 "$~\\{1:1 2:2 3:3}!{4}\\",
                 "$~Wiem, jak wiele wspaniałych rzeczy można zrobić dzięki moim parom."
             ],
-            "name": [
-                "$~{:}",
-                "$~Mapa"
-            ],
+            "name": ["$~{:}", "$~Mapa"],
             "key": "$~Klawisz",
             "value": "$~Wartość",
             "result": "$~Wynik",
@@ -3089,10 +2911,7 @@
                         "$~\\{⊤}\\ jeśli moje pary są dokładnie takie same jak podane @Map.",
                         "$~1:1 2:2 = 1:1 2:3"
                     ],
-                    "names": [
-                        "$~=",
-                        "$~równasię"
-                    ],
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
                             "doc": "$~@Map, z którą mogę porównać.",
@@ -3105,10 +2924,7 @@
                         "$~\\{⊤}\\ jeśli moje pary /nie/ są dokładnie takie same jak podane @Map.",
                         "$~\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": [
-                        "$~≠",
-                        "$~nierówny"
-                    ],
+                    "names": ["$~≠", "$~nierówny"],
                     "inputs": [
                         {
                             "doc": "$~@Map, z którą mogę porównać.",
@@ -3238,18 +3054,12 @@
                 "$~A jeśli kiedykolwiek będziesz chciał uzyskać ode mnie konkretne wartości, możesz przekonwertować dowolną tabelę na listę i uzyskać dostęp do poszczególnych wierszy za pomocą @PropertyReference",
                 "$~\\rocks: ⎡name•'' kolor•''⎦\n⎡'obsydian' 'czarny'⎦\n⎡'pumeks' 'szary'⎦\n⎡'cytryn' 'żółty'⎦\n(rocks → [])[1].name\\"
             ],
-            "name": [
-                "$~⎡⎦",
-                "$~Tabela"
-            ],
+            "name": ["$~⎡⎦", "$~Tabela"],
             "row": "$~Wiersz",
             "function": {
                 "equals": {
                     "doc": "$~Sprawdzam, czy mam dokładnie te same komórki w dokładnie tej samej kolejności, co w innej tabeli @Table.",
-                    "names": [
-                        "$~=",
-                        "$~równasię"
-                    ],
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
                             "doc": "$~Druga tabela do sprawdzenia.",
@@ -3259,10 +3069,7 @@
                 },
                 "notequal": {
                     "doc": "$~Sprawdzam, czy któraś z moich komórek różni się od innej tabeli @Table lub czy jest w innej kolejności.",
-                    "names": [
-                        "$~≠",
-                        "$~nieRównasię"
-                    ],
+                    "names": ["$~≠", "$~nieRównasię"],
                     "inputs": [
                         {
                             "doc": "$~Druga tabela do sprawdzenia.",
@@ -3278,16 +3085,11 @@
         },
         "Structure": {
             "doc": "$~Zobacz @StructureDefinition.",
-            "name": [
-                "$~Struktura"
-            ],
+            "name": ["$~Struktura"],
             "function": {
                 "equals": {
                     "doc": "$~Sprawdzam, czy moje właściwości mają taką samą nazwę i wartości jak właściwości innej struktury.",
-                    "names": [
-                        "$~=",
-                        "$~równasię"
-                    ],
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
                             "doc": "$~Druga struktura do sprawdzenia.",
@@ -3297,10 +3099,7 @@
                 },
                 "notequal": {
                     "doc": "$~Sprawdzam, czy moje właściwości różnią się w jakiś sposób od nazwy i wartości innej struktury.",
-                    "names": [
-                        "$~≠",
-                        "$~nieRówne"
-                    ],
+                    "names": ["$~≠", "$~nieRówne"],
                     "inputs": [
                         {
                             "doc": "$~Druga struktura do sprawdzenia.",
@@ -3332,10 +3131,7 @@
                 "$~A jeśli podasz liczby z konkretną liczbą cyfr znaczących po przecinku, precyzja ta zostanie zachowana.",
                 "$~\\Losowo(1,00 10,00)\\"
             ],
-            "names": [
-                "$~🎲",
-                "$~Losowy"
-            ],
+            "names": ["$~🎲", "$~Losowy"],
             "inputs": [
                 {
                     "names": "$~min",
@@ -3357,10 +3153,7 @@
                 "$~\\Group(\nStack() \n[\nFraza('jeden' do wyboru:⊤ nazwa:'1') \nFraza('dwa' do wyboru:⊤ nazwa:'2') \nFraza(Wybór())\n]\n)\\",
                 "$~Skopiuj to do edytora, a następnie wybierz jedną z dwóch @Phrase. Zobaczysz, że trzecia @Phrase pokazuje nazwę, która została wybrana."
             ],
-            "names": [
-                "$~🔘",
-                "$~Wybór"
-            ]
+            "names": ["$~🔘", "$~Wybór"]
         },
         "Button": {
             "doc": [
@@ -3372,10 +3165,7 @@
                 "$~\\Fraza(Przycisk() → '')\\",
                 "$~To po prostu tworzy @Phrase, która jest wartością strumienia jako tekst. Jeśli skopiujesz ją do edytora i klikniesz, zobaczysz, że przełącza się ona tam i z powrotem między \\⊥\\ i \\⊤\\."
             ],
-            "names": [
-                "$~🖱️",
-                "$~Przycisk"
-            ],
+            "names": ["$~🖱️", "$~Przycisk"],
             "down": {
                 "names": "$~wdół",
                 "doc": "$~Jeśli @None, strumień dostarczy zarówno wartości w górę, jak i w dół. Jeśli @Boolean, dostarczy tylko wartość podaną @Boolean."
@@ -3391,10 +3181,7 @@
                 "$~\\Wskaźnik()\\",
                 "$~@Place, które podaje, będzie odpowiadać miejscu, w którym na @Stage wskazuje wskaźnik."
             ],
-            "names": [
-                "$~👆🏻",
-                "$~Wskaźnik"
-            ]
+            "names": ["$~👆🏻", "$~Wskaźnik"]
         },
         "Key": {
             "doc": [
@@ -3411,10 +3198,7 @@
                 "$~A jeśli chcesz wiedzieć tylko, kiedy @Key został zwolniony, a nie naciśnięty, możesz podać @Boolean:",
                 "$~\\Klucz('a' ⊥)\\"
             ],
-            "names": [
-                "$~⌨️",
-                "$~Klawisz"
-            ],
+            "names": ["$~⌨️", "$~Klawisz"],
             "key": {
                 "names": "$~klawisz",
                 "doc": "$~Jeśli @None, to wszystkie klucze są dostarczane. Jeśli @Text to konkretny, to tylko ten klucz jest dostarczany."
@@ -3437,20 +3221,13 @@
                 "$~Istnieją jednak pewne ograniczenia co do jego wielkości, ponieważ @Program potrzebuje czasu na ocenę, zanim będzie mógł odpowiedzieć na kolejny sygnał.",
                 "$~Najmniejszy jest prawdopodobnie w okolicach \\20ms\\."
             ],
-            "names": [
-                "$~🕕",
-                "$~Czas"
-            ],
+            "names": ["$~🕕", "$~Czas"],
             "frequency": {
-                "names": [
-                    "$~częstotliwość"
-                ],
+                "names": ["$~częstotliwość"],
                 "doc": "$~To jest częstotliwość, z jaką czas powinien tykać. Domyślnie jest to \\33ms\\, co odpowiada około 30 razy na sekundę."
             },
             "relative": {
-                "names": [
-                    "$~względny"
-                ],
+                "names": ["$~względny"],
                 "doc": "$~Jeśli \\⊤\\, czas zaczyna się od 0, kiedy program jest po raz pierwszy oceniany. W przeciwnym wypadku zaczyna się od liczby milisekund od początku dnia, UTC (Coordinated Universal Time), co pozwala śledzić czas dnia."
             }
         },
@@ -3462,14 +3239,9 @@
                 "$~\\Tom()\\",
                 "$~To świetne narzędzie, żeby posłuchać, jak głośna jest publiczność!"
             ],
-            "names": [
-                "$~🎤",
-                "$~Tom"
-            ],
+            "names": ["$~🎤", "$~Tom"],
             "frequency": {
-                "names": [
-                    "$~częstotliwość"
-                ],
+                "names": ["$~częstotliwość"],
                 "doc": "$~Czas pomiędzy pobraniami próbek."
             }
         },
@@ -3481,14 +3253,9 @@
                 "$~\\Poziom()\\",
                 "$~To świetne narzędzie, jeśli chcesz posłuchać tonu głosu osoby mówiącej lub śpiewającej."
             ],
-            "names": [
-                "$~🎵",
-                "$~Poziom"
-            ],
+            "names": ["$~🎵", "$~Poziom"],
             "frequency": {
-                "names": [
-                    "$~częstotliwość"
-                ],
+                "names": ["$~częstotliwość"],
                 "doc": "$~Czas pomiędzy pobraniami próbek."
             }
         },
@@ -3501,26 +3268,17 @@
                 "$~\\colors: Kamera(32px 24px 33ms)\n\nScena(\ncolors.combine(\n[] \nƒ(frazy•[Fraza] wiersz•[Kolor] y•#) \nfrazy.append(\nrow.translate(\nƒ(kolor•Kolor x•#)\nFraza('o' miejsce: Miejsce((x - 1) · 0,5m y · -0,5m) kolor: czas trwania koloru: 0s\n)\n)\n)\n)\n)\n)\\",
                 "$~Można też analizować kolory, aby zdecydować, czy światło było włączone czy wyłączone, albo czy dany kolor był powszechny. W ten sposób widzowie mogą wpływać na występ za pomocą pokazywanych kolorów."
             ],
-            "names": [
-                "$~🎥",
-                "$~Kamera"
-            ],
+            "names": ["$~🎥", "$~Kamera"],
             "width": {
-                "names": [
-                    "$~szerokość"
-                ],
+                "names": ["$~szerokość"],
                 "doc": "$~Liczba kolorów @Color do pobrania w jednym rzędzie."
             },
             "height": {
-                "names": [
-                    "$~wysokość"
-                ],
+                "names": ["$~wysokość"],
                 "doc": "$~Liczba kolorów @Color do pobrania w kolumnie."
             },
             "frequency": {
-                "names": [
-                    "$~częstotliwość"
-                ],
+                "names": ["$~częstotliwość"],
                 "doc": "$~Czas pomiędzy próbkami @Color."
             }
         },
@@ -3540,10 +3298,7 @@
                 "$~\\click: ∆ Button()\nScena([\nFraza('Witaj')\nkliknij\nFraza('Jak się masz?' czas trwania: 0,25 s obrót: 5° wejście: Poza(obrót: 0°))\nkliknij\nFraza('Czuję się dobrze')\n])\\",
                 "$~Widzisz, jak zatrzymuje się po każdym @Phrase i czeka na zmianę @Button, zanim przejdzie dalej?"
             ],
-            "names": [
-                "$~🎬",
-                "$~Scena"
-            ],
+            "names": ["$~🎬", "$~Scena"],
             "outputs": {
                 "names": "$~wyjścia",
                 "doc": "$~Lista wyników do wyświetlenia w kolejności."
@@ -3559,10 +3314,7 @@
                 "$~Widzisz jak o odbija się? Podczas pierwszej oceny dajemy mu miejsce wysoko na @Stage, ale potem otrzymuje @None, co pozwala @Motion zmienić je na dowolną pozycję, jaką umieściłaby grawitacja.",
                 "$~Sprawdź poniżej wiele innych sposobów konfiguracji."
             ],
-            "names": [
-                "$~⚽️",
-                "$~Ruch"
-            ],
+            "names": ["$~⚽️", "$~Ruch"],
             "place": {
                 "doc": "$~Miejsce startu.",
                 "names": "$~miejsce"
@@ -3588,10 +3340,7 @@
                 "$~\\Chat().has('hello') ? 'cześć!' 'co?'\\",
                 "$~To wszystko! Możesz tworzyć wszelkiego rodzaju występy, takie jak boty czatowe, przygody tekstowe lub schematy sterowania oparte na tekście dla innych rodzajów występów."
             ],
-            "names": [
-                "$~🗣️",
-                "$~Pogawędzić"
-            ]
+            "names": ["$~🗣️", "$~Pogawędzić"]
         },
         "Placement": {
             "doc": [
@@ -3604,10 +3353,7 @@
                 "$~Spróbuj skopiować to do swojego programu i przesuwać nas zgodnie ze strzałką za pomocą wskaźnika lub klawiatury.",
                 "$~Możesz dostosować @Placement, włączając i wyłączając ruch w określonych wymiarach, zmieniając odległość, na jaką przesuwa się @Place, a także początkowe @Place, od którego rozpoczyna się strumień."
             ],
-            "names": [
-                "$~✥",
-                "$~Umieszczenie"
-            ],
+            "names": ["$~✥", "$~Umieszczenie"],
             "inputs": [
                 {
                     "doc": "$~Miejsce, od którego należy zacząć.",
@@ -3641,10 +3387,7 @@
                 "$~\\Strona internetowa('https://wordplay.dev' 'h1')\\",
                 "$~Wiele rzeczy może pójść nie tak. Jeśli stracisz połączenie internetowe, lub adres URL nie będzie się rozwiązywał do niczego, lub adres URL nie będzie publiczny, lub adres URL nie będzie stroną HTML... Wszystkie te rzeczy mogą prowadzić do wyjątku. Jeśli znajdziesz stronę, która działa, otrzymasz @Number wskazujący procent ukończenia, a następnie @Number słów na stronie."
             ],
-            "names": [
-                "$~🔗",
-                "$~Stronainternetowa"
-            ],
+            "names": ["$~🔗", "$~Stronainternetowa"],
             "url": {
                 "doc": "$~Adres URL strony internetowej HTML, którą należy pobrać.",
                 "names": "$~adresURL"
@@ -3729,10 +3472,7 @@
                 "$~\\Group(Stack() [Fraza('pierwsza') Fraza('druga')])\\",
                 "$~To, jak dokładnie wszystko uporządkuję, zależy od @Arrangement, który mi podasz."
             ],
-            "names": [
-                "$~🔳",
-                "$~Grupa"
-            ],
+            "names": ["$~🔳", "$~Grupa"],
             "layout": {
                 "doc": "$~Sposób użycia w celu umieszczenia @Output w odpowiednich miejscach.",
                 "names": "$~układ"
@@ -3758,9 +3498,7 @@
                 "names": "$~miejsce"
             },
             "name": {
-                "doc": [
-                    "$~To samo co @Phrase/name!"
-                ],
+                "doc": ["$~To samo co @Phrase/name!"],
                 "names": "$~nazwa"
             },
             "description": {
@@ -3791,10 +3529,7 @@
             },
             "rotation": {
                 "doc": "$~Jak bardzo powinienem pochylić się wokół środka, mój @Pose ma inne.",
-                "names": [
-                    "$~📐",
-                    "$~obrót"
-                ]
+                "names": ["$~📐", "$~obrót"]
             },
             "scale": {
                 "doc": "$~Jak duży powinienem być w stosunku do mojego oryginalnego rozmiaru.",
@@ -3826,10 +3561,7 @@
             },
             "duration": {
                 "doc": "$~Tak samo jak @Phrase/duration!",
-                "names": [
-                    "$~⏳",
-                    "$~czastrwania"
-                ]
+                "names": ["$~⏳", "$~czastrwania"]
             },
             "style": {
                 "doc": "$~Tak samo jak @Phrase/style!",
@@ -3845,10 +3577,7 @@
                 "$~Oczywiście potrzebuję @Text, ale poza tym mogę robić wszystko, co @Output potrafi, łącznie ze zmianą rozmiaru, czcionki, obrotu i wykonywaniem wszystkich moich niesamowitych tańców za pomocą @Pose i @Sequence.",
                 "$~Możesz również wybrać mnie na @Stage i edytować na palecie obok."
             ],
-            "names": [
-                "$~💬",
-                "$~Wyrażenie"
-            ],
+            "names": ["$~💬", "$~Wyrażenie"],
             "text": {
                 "doc": "$~Postacie do pokazania na @Stage.",
                 "names": "$~tekst"
@@ -3867,10 +3596,7 @@
             },
             "wrap": {
                 "doc": "$~Krawędź, przy której powinienem zawijać symbole lub \\ø\\, jeśli nie powinienem ich zawijać.",
-                "names": [
-                    "$~↵",
-                    "$~zawinąć"
-                ]
+                "names": ["$~↵", "$~zawinąć"]
             },
             "alignment": {
                 "doc": "$~Jeśli ustawiono granicę @Phrase/wrap, określa ona, czy symbole należy wyrównać do początku, środka czy końca krawędzi.",
@@ -3958,10 +3684,7 @@
             },
             "duration": {
                 "doc": "$~Czas trwania obowiązujący przy przechodzeniu w inne miejsce na scenie.",
-                "names": [
-                    "$~⏳",
-                    "$~czastrwania"
-                ]
+                "names": ["$~⏳", "$~czastrwania"]
             },
             "style": {
                 "doc": "$~Styl animacji stosowany przy przechodzeniu w inne miejsce sceny.",
@@ -3971,17 +3694,11 @@
         },
         "Arrangement": {
             "doc": "$~Jestem inspiracją dla wielu innych rodzajów aranżacji w Verse, w tym @Row, @Stack, @Grid i @Free. Współpracuję ściśle z @Group, aby",
-            "names": [
-                "$~⠿",
-                "$~Układ"
-            ]
+            "names": ["$~⠿", "$~Układ"]
         },
         "Row": {
             "doc": "$~Jestem @Row, poziomym @Arrangement @Output, z opcjonalnym wypełnieniem pomiędzy. Czy poznałeś mojego bliźniaka, @Stack?",
-            "names": [
-                "$~➡",
-                "$~Wiersz"
-            ],
+            "names": ["$~➡", "$~Wiersz"],
             "description": "$~wiersz $1 fraz i grup",
             "alignment": {
                 "doc": "$~Czy tekst ma być wyrównany na początku, na środku czy na końcu każdej kolumny.",
@@ -3994,10 +3711,7 @@
         },
         "Stack": {
             "doc": "$~Jestem @Stack, pionowym @Arrangement @Output, z opcjonalnym wypełnieniem pomiędzy. Czy poznałeś mojego bliźniaka, @Row?",
-            "names": [
-                "$~⬇",
-                "$~Stos"
-            ],
+            "names": ["$~⬇", "$~Stos"],
             "description": "$~stos fraz i grup za $1",
             "alignment": {
                 "doc": "$~Czy tekst ma być wyrównany na początku, na środku czy na końcu każdego wiersza.",
@@ -4010,10 +3724,7 @@
         },
         "Grid": {
             "doc": "$~Jestem siatką @Output. Podaj mi liczbę wierszy i kolumn, a ja zrobię uporządkowany układ z opcjonalnym wypełnieniem i rozmiarami komórek.",
-            "names": [
-                "$~▦",
-                "$~Siatka"
-            ],
+            "names": ["$~▦", "$~Siatka"],
             "description": "$~$1 wiersz $2 kolumny siatka",
             "rows": {
                 "doc": "$~Ile wierszy ma być w siatce.",
@@ -4041,17 +3752,12 @@
                 "$~Ja jestem jak, cokolwiek. Siadaj gdziekolwiek chcesz. Po prostu usiądź gdzieś! Upewnij się, że wszystkie @Output, które mi dajesz, mają @Place, inaczej nie będą wiedzieć, dokąd iść.",
                 "$~O, i pamiętaj, że @Place, które nadajesz każdemu @Output, jest względne w stosunku do @Place @Group! Więc jeśli zastanawiasz się, dlaczego rzeczy nie pojawiają się tam, gdzie się spodziewasz, spróbuj również nadać @Group miejsce."
             ],
-            "names": [
-                "$~Bezpłatny"
-            ],
+            "names": ["$~Bezpłatny"],
             "description": "$~wyjścia $1 w dowolnej formie"
         },
         "Shape": {
             "doc": "$~Jestem inspiracją dla wszystkich kształtów. Jestem użyteczna, by powiedzieć @Stage, jaki kształt ma mieć.",
-            "names": [
-                "$~⬟",
-                "$~Kształt"
-            ],
+            "names": ["$~⬟", "$~Kształt"],
             "form": {
                 "doc": "$~Jestem typem kształtu, który należy pokazać. Każdy kształt wymaga innych informacji, aby zdefiniować jego układ.",
                 "names": "$~formularz"
@@ -4129,15 +3835,11 @@
         },
         "Form": {
             "doc": "$~Jestem formą abstrakcyjną, taką jak @Rectangle lub @Circle.",
-            "names": [
-                "$~Formularz"
-            ]
+            "names": ["$~Formularz"]
         },
         "Rectangle": {
             "doc": "$~Jestem prostokątem, przydatnym do nadania @Stage granicy o wybranym rozmiarze.",
-            "names": [
-                "$~Prostokąt"
-            ],
+            "names": ["$~Prostokąt"],
             "left": {
                 "doc": "$~Lewa krawędź sceny na osi x",
                 "names": "$~lewy"
@@ -4161,9 +3863,7 @@
         },
         "Circle": {
             "doc": "$~Jestem okręgiem, przydatnym do tworzenia kształtów na @Stage.",
-            "names": [
-                "$~Koło"
-            ],
+            "names": ["$~Koło"],
             "radius": {
                 "doc": "$~Promień okręgu",
                 "names": "$~promień"
@@ -4183,9 +3883,7 @@
         },
         "Polygon": {
             "doc": "$~Jestem „regularnym” wielokątem o równych bokach i kątach, przydatnym do tworzenia kształtów na @Stage.",
-            "names": [
-                "$~Wielokąt"
-            ],
+            "names": ["$~Wielokąt"],
             "radius": {
                 "doc": "$~Promień wielokąta",
                 "names": "$~promień"
@@ -4212,10 +3910,7 @@
                 "$~Znasz to uczucie, gdy ktoś uderza w najbardziej niesamowity sposób stania, pauzuje i wszyscy patrzą? To ja. Uchwycę pozę, w której @Output ma się znaleźć, i jestem budulcem ich ruchów.",
                 "$~Tak wiele jest w pozie. Sprawdź moje liczne sugestie, aby zobaczyć, jakie pozy możesz przyjąć!"
             ],
-            "names": [
-                "$~🤪",
-                "$~Poza"
-            ],
+            "names": ["$~🤪", "$~Poza"],
             "style": {
                 "doc": "$~Styl animacji, który należy zastosować przy przyjmowaniu tej pozy.",
                 "names": "$~styl"
@@ -4267,30 +3962,18 @@
                 "$~\\Kolor(50% 100 300°)\\",
                 "$~\\Kolor(50% 100 330°)\\"
             ],
-            "names": [
-                "$~🌈",
-                "$~Kolor"
-            ],
+            "names": ["$~🌈", "$~Kolor"],
             "lightness": {
                 "doc": "$~Jak jasny powinienem być od \\0\\ do \\1\\, od czerni przy \\0\\, do szarości przy \\0,5\\, do bieli przy \\1\\.",
-                "names": [
-                    "$~lekkość",
-                    "$~ja"
-                ]
+                "names": ["$~lekkość", "$~ja"]
             },
             "chroma": {
                 "doc": "$~Ile koloru powinienem mieć, od \\0\\ do \\∞\\. Brak koloru oznacza szarość, wyższe liczby oznaczają więcej koloru.",
-                "names": [
-                    "$~barwa",
-                    "$~C"
-                ]
+                "names": ["$~barwa", "$~C"]
             },
             "hue": {
                 "doc": "$~Jaki powinienem mieć kolor na kole barw, od megenty \\0\\, przez czerwień \\30\\, zieleń \\120\\, do niebieskiego \\270\\.",
-                "names": [
-                    "$~odcień",
-                    "$~H"
-                ]
+                "names": ["$~odcień", "$~H"]
             }
         },
         "Sequence": {
@@ -4302,20 +3985,14 @@
                 "$~To oznacza, /na początku (0%), zacznij od pochylenia 360 i zakończ na pochyleniu 0/. To będzie nas kręcić w kółko na zawsze, ponieważ jestem ustawiony jako pozycja spoczynkowa @Phrase!",
                 "$~Wypróbuj swoje własne kreatywne tańce, bawiąc się innymi elementami."
             ],
-            "names": [
-                "$~💃",
-                "$~Sekwencja"
-            ],
+            "names": ["$~💃", "$~Sekwencja"],
             "poses": {
                 "doc": "$~@Map procentów od 0% do 100%, każdy sparowany z @Pose. Nie musisz podawać wszystkich procentów; płynnie przeniosę @Output między tymi, które mi podasz.",
                 "names": "$~pozy"
             },
             "duration": {
                 "doc": "$~Jak długo powinienem tańczyć ten taniec? Jeśli mam go powtórzyć, nie będę dodawał czasu do jego trwania, po prostu będę tańczył szybciej.",
-                "names": [
-                    "$~⏳",
-                    "$~czastrwania"
-                ]
+                "names": ["$~⏳", "$~czastrwania"]
             },
             "style": {
                 "doc": "$~Jaki styl powinienem zastosować do tańca?",
@@ -4332,10 +4009,7 @@
         },
         "Place": {
             "doc": "$~Jestem lokalizacją na @Stage. Wszystkie moje dane wejściowe są opcjonalne, ponieważ domyślnie jestem w centrum.",
-            "names": [
-                "$~📍",
-                "$~Miejsce"
-            ],
+            "names": ["$~📍", "$~Miejsce"],
             "x": {
                 "doc": "$~Pozycja na osi x.",
                 "names": "$~X"
@@ -4350,18 +4024,12 @@
             },
             "rotation": {
                 "doc": "$~Obrót w tej pozycji",
-                "names": [
-                    "$~📐",
-                    "$~obrót"
-                ]
+                "names": ["$~📐", "$~obrót"]
             }
         },
         "Velocity": {
             "doc": "$~Jestem lokalizacją na @Stage. Wszystkie moje dane wejściowe są opcjonalne, ponieważ domyślnie jestem w centrum.",
-            "names": [
-                "$~💨",
-                "$~Prędkość"
-            ],
+            "names": ["$~💨", "$~Prędkość"],
             "x": {
                 "doc": "$~O ile metrów należy przesunąć się na osi x w ciągu sekundy.",
                 "names": "$~X"
@@ -4372,18 +4040,12 @@
             },
             "angle": {
                 "doc": "$~O ile stopni należy obrócić się na sekundę",
-                "names": [
-                    "$~kąt",
-                    "$~°"
-                ]
+                "names": ["$~kąt", "$~°"]
             }
         },
         "Matter": {
             "doc": "$~Jestem fizycznymi właściwościami wyników, które wpływają na sposób, w jaki wchodzę w interakcję z innymi wynikami na scenie.",
-            "names": [
-                "$~⚛️",
-                "$~Materiał"
-            ],
+            "names": ["$~⚛️", "$~Materiał"],
             "mass": {
                 "doc": "$~Waga w kilogramach",
                 "names": "$~masa"
@@ -4414,10 +4076,7 @@
                 "$~Jestem AURA. Sprawiam, że @Phrase ŚWIECI! Podoba mi się to:",
                 "$~\\Phrase(\n'ŚWIECĘ!' \naura: Aura(Kolor(50% 100 118°) 0,1 m 0 m 0,1 m\n)\\"
             ],
-            "names": [
-                "$~🔮",
-                "$~Aura"
-            ],
+            "names": ["$~🔮", "$~Aura"],
             "color": {
                 "doc": "$~@Color powinno być @Aura.",
                 "names": "$~kolor"
@@ -4444,10 +4103,7 @@
                 "$~MOŻESZ TEŻ DAĆ MI RAMKĘ, A JA JĄ PRZYCINĘ.",
                 "$~\\Stage([Fraza('stufffffff')] tło: Kolor(75% 50 100°) ramka: Prostokąt(-1m -1m 1m 1m))\\"
             ],
-            "names": [
-                "$~🎭",
-                "$~Scena"
-            ],
+            "names": ["$~🎭", "$~Scena"],
             "content": {
                 "doc": "$~Lista @Output do wyświetlenia na scenie.",
                 "names": "$~treść"
@@ -4469,9 +4125,7 @@
                 "names": "$~miejsce"
             },
             "name": {
-                "doc": [
-                    "$~TAK SAMO JAK @Phrase/name!"
-                ],
+                "doc": ["$~TAK SAMO JAK @Phrase/name!"],
                 "names": "$~nazwa"
             },
             "description": {
@@ -4502,10 +4156,7 @@
             },
             "rotation": {
                 "doc": "$~TAK SAMO JAK @Group/rotation",
-                "names": [
-                    "$~📐",
-                    "$~obrót"
-                ]
+                "names": ["$~📐", "$~obrót"]
             },
             "scale": {
                 "doc": "$~TAK SAMO JAK @Group/scale",
@@ -4537,10 +4188,7 @@
             },
             "duration": {
                 "doc": "$~TAK SAMO JAK @Phrase/duration!",
-                "names": [
-                    "$~⏳",
-                    "$~czastrwania"
-                ]
+                "names": ["$~⏳", "$~czastrwania"]
             },
             "style": {
                 "doc": "$~TAK SAMO JAK @Phrase/style!",
@@ -4561,57 +4209,39 @@
         "sequence": {
             "sway": {
                 "doc": "$~Tworzę @Sequence, która kołysze się tam i z powrotem wokół środka @Output.",
-                "names": [
-                    "$~kołysać"
-                ],
+                "names": ["$~kołysać"],
                 "angle": {
                     "doc": "$~O ile należy przechylić się w kołysaniu.",
-                    "names": [
-                        "$~kąt"
-                    ]
+                    "names": ["$~kąt"]
                 }
             },
             "bounce": {
                 "doc": "$~Tworzę @Sequence, który odbija @Output na zadaną wysokość.",
-                "names": [
-                    "$~odbićsię"
-                ],
+                "names": ["$~odbićsię"],
                 "height": {
                     "doc": "$~Jak wysoko odbijać się.",
-                    "names": [
-                        "$~wysokość"
-                    ]
+                    "names": ["$~wysokość"]
                 }
             },
             "spin": {
                 "doc": "$~Tworzę @Sequence, która obraca @Output wokół swojego środka.",
-                "names": [
-                    "$~kręcićsię"
-                ]
+                "names": ["$~kręcićsię"]
             },
             "fadein": {
                 "doc": "$~Tworzę @Sequence, która powoduje, że @Output staje się niewidoczny i widoczny.",
-                "names": [
-                    "$~zanikanie"
-                ]
+                "names": ["$~zanikanie"]
             },
             "fadeout": {
                 "doc": "$~Tworzę @Sequence, która zanika @Output od widocznego do niewidocznego. Wypróbuj mnie w ekscytującym @Sequence!",
-                "names": [
-                    "$~wyciszenie"
-                ]
+                "names": ["$~wyciszenie"]
             },
             "popup": {
                 "doc": "$~Tworzę @Sequence, która powoduje, że @Output skaluje się szybciej, a następnie zmniejsza do normalnego rozmiaru.",
-                "names": [
-                    "$~wyskakująceokienko"
-                ]
+                "names": ["$~wyskakująceokienko"]
             },
             "shake": {
                 "doc": "$~Tworzę @Sequence, który sprawia wrażenie, że @Output jest przestraszony.",
-                "names": [
-                    "$~potrząsnąć"
-                ]
+                "names": ["$~potrząsnąć"]
             }
         },
         "Source": {
@@ -5104,10 +4734,7 @@
             "mode": {
                 "browse": {
                     "label": "$~przeglądać",
-                    "labels": [
-                        "$~kod",
-                        "$~jak"
-                    ],
+                    "labels": ["$~kod", "$~jak"],
                     "tips": [
                         "$~koncepcje języka programowania",
                         "$~wielokrotnego użytku wzory do tworzenia projektów"
@@ -5254,10 +4881,7 @@
                 "mode": {
                     "public": {
                         "label": "$~widoczność",
-                        "labels": [
-                            "$~prywatny",
-                            "$~publiczny"
-                        ],
+                        "labels": ["$~prywatny", "$~publiczny"],
                         "tips": [
                             "$~tylko Ty i współpracownicy możecie zobaczyć ten projekt",
                             "$~każdy może zobaczyć ten projekt"
@@ -5331,11 +4955,7 @@
                     },
                     "dark": {
                         "label": "$~temat",
-                        "labels": [
-                            "$~światło",
-                            "$~ciemny",
-                            "$~automatyczny"
-                        ],
+                        "labels": ["$~światło", "$~ciemny", "$~automatyczny"],
                         "tips": [
                             "$~jaśniejsze kolory",
                             "$~ciemniejsze kolory",
@@ -5344,10 +4964,7 @@
                     },
                     "space": {
                         "label": "$~wskaźnik przestrzeni",
-                        "labels": [
-                            "$~ukrywać",
-                            "$~pokazywać"
-                        ],
+                        "labels": ["$~ukrywać", "$~pokazywać"],
                         "tips": [
                             "$~nie pokazuj wskaźników spacji i tabulatorów",
                             "$~pokaż wyraźnie wskaźniki spacji i tabulatorów"
@@ -5355,10 +4972,7 @@
                     },
                     "lines": {
                         "label": "$~numery linii",
-                        "labels": [
-                            "$~ukrywać",
-                            "$~pokazywać"
-                        ],
+                        "labels": ["$~ukrywać", "$~pokazywać"],
                         "tips": [
                             "$~nie pokazuj numerów wierszy w trybie tekstowym",
                             "$~pokaż numery wierszy w trybie tekstowym"
@@ -5379,10 +4993,7 @@
                     },
                     "blocks": {
                         "label": "$~tryb edycji",
-                        "labels": [
-                            "$~tekst",
-                            "$~bloki"
-                        ],
+                        "labels": ["$~tekst", "$~bloki"],
                         "tips": [
                             "$~edytuj kod jako tekst",
                             "$~edytuj kod jako bloki"
@@ -5447,10 +5058,7 @@
                 },
                 "mode": {
                     "label": "$~informacja zwrotna",
-                    "labels": [
-                        "$~wady",
-                        "$~pomysły"
-                    ],
+                    "labels": ["$~wady", "$~pomysły"],
                     "tips": [
                         "$~zgłoś coś, co wydaje się zepsute",
                         "$~zasugerować nowe funkcje lub ulepszenia"
@@ -5501,10 +5109,7 @@
                 "open": "$~otwórz okno dialogowe powiadomień",
                 "howToNotifications": {
                     "label": "$~powiadomienia o nowych poradnikach",
-                    "labels": [
-                        "$~wyłączony",
-                        "$~NA"
-                    ],
+                    "labels": ["$~wyłączony", "$~NA"],
                     "tips": [
                         "$~nie powiadamiaj mnie o nowych poradnikach",
                         "$~powiadom mnie o nowych poradnikach"
@@ -5583,10 +5188,7 @@
                 "explanation": "$~Twój projekt znajduje się w galerii. Domyślnie każdy, kto może zobaczyć tę galerię, może zobaczyć ten projekt. Możesz ograniczyć dostęp do swojego projektu tylko do siebie i kuratorów galerii.",
                 "mode": {
                     "label": "$~ograniczyć dostęp do projektu",
-                    "labels": [
-                        "$~nie ograniczaj",
-                        "$~ograniczać"
-                    ],
+                    "labels": ["$~nie ograniczaj", "$~ograniczać"],
                     "tips": [
                         "$~każdy kto może zobaczyć tę galerię może zobaczyć Twój projekt",
                         "$~tylko kuratorzy galerii mogą zobaczyć Twój projekt"
@@ -6135,11 +5737,7 @@
                     },
                     "fill": {
                         "label": "$~wypełnić",
-                        "labels": [
-                            "$~nic",
-                            "$~bezwładny",
-                            "$~wybierać"
-                        ],
+                        "labels": ["$~nic", "$~bezwładny", "$~wybierać"],
                         "tips": [
                             "$~brak wypełnienia",
                             "$~odziedzicz kolor wypełnienia z otaczającego tekstu",
@@ -6148,11 +5746,7 @@
                     },
                     "stroke": {
                         "label": "$~udar",
-                        "labels": [
-                            "$~nic",
-                            "$~bezwładny",
-                            "$~wybierać"
-                        ],
+                        "labels": ["$~nic", "$~bezwładny", "$~wybierać"],
                         "tips": [
                             "$~bez udaru",
                             "$~odziedzicz kolor obrysu z otaczającego tekstu",
@@ -6279,10 +5873,7 @@
                     },
                     "public": {
                         "label": "$~widoczność",
-                        "labels": [
-                            "$~publiczny",
-                            "$~prywatny"
-                        ],
+                        "labels": ["$~publiczny", "$~prywatny"],
                         "tips": [
                             "$~każdy może zobaczyć tę postać",
                             "$~tylko ty i współpracownicy możecie zobaczyć tę postać"
@@ -6384,10 +5975,7 @@
                 },
                 "notification": {
                     "label": "$~powiadomić subskrybentów",
-                    "labels": [
-                        "$~notyfikować",
-                        "$~nie powiadamiaj"
-                    ],
+                    "labels": ["$~notyfikować", "$~nie powiadamiaj"],
                     "tips": [
                         "$~powiadom subskrybentów, gdy opublikujesz ten poradnik",
                         "$~nie powiadamiaj subskrybentów, gdy opublikujesz ten poradnik"
@@ -6463,10 +6051,7 @@
                     },
                     "mode": {
                         "label": "$~domyślna widoczność",
-                        "labels": [
-                            "$~ograniczony",
-                            "$~rozszerzony"
-                        ],
+                        "labels": ["$~ograniczony", "$~rozszerzony"],
                         "tips": [
                             "$~tylko współpracownicy tej galerii mogą oglądać",
                             "$~współpracownicy dowolnej galerii, którą tworzy kurator, mogą oglądać"
