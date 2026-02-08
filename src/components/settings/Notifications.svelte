@@ -94,7 +94,11 @@
                 if (howTo) galleryID = howTo.getHowToGalleryId();
             }
 
-            if (!galleryID || !Galleries.accessibleGalleries.has(galleryID))
+            // No gallery, or creator doesn't have access to gallery? No need for notifications.
+            if (
+                galleryID === null ||
+                !Galleries.accessibleGalleries.has(galleryID)
+            )
                 return;
 
             const gallery = await Galleries.get(galleryID);
@@ -115,7 +119,7 @@
                                 : howTo
                                   ? howTo.getTitle()
                                   : '',
-                        galleryID: galleryID ? galleryID : undefined,
+                        galleryID,
                         itemID: itemID,
                         type: type,
                     } as NotificationData);
