@@ -348,7 +348,9 @@ export default class Layout {
         return new Layout(
             this.projectID,
             this.tiles.map((tile) =>
-                tile.id === tileID ? tile.withMode(TileMode.Expanded) : tile,
+                tile.id === tileID
+                    ? tile.withMode(TileMode.Expanded)
+                    : tile.withMode(TileMode.Collapsed),
             ),
             tileID,
             this.splits,
