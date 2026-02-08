@@ -117,7 +117,7 @@
             <Notice text={(l) => l.ui.page.projects.error.newgallery} />
         {/if}
         {#if Galleries.getStatus() === 'loading'}
-            <Spinning label={(l) => l.ui.widget.loading.message} large />
+            <Spinning label={(l) => l.ui.widget.loading.message} />
         {:else if Galleries.getStatus() === 'noaccess'}
             <Notice text={(l) => l.ui.page.projects.error.noaccess} />
         {:else if Galleries.getStatus() === 'loggedout'}
@@ -163,7 +163,7 @@
     <div class="previews">
         {#each Galleries.getExampleGalleries() as gallery, index}
             <div class="preview">
-                <GalleryPreview {gallery} delay={index * 1000} />
+                <GalleryPreview {gallery} delay={index * 250} />
             </div>
         {/each}
     </div>
@@ -174,12 +174,12 @@
     />
 
     {#if galleries === undefined}
-        <Spinning large />
+        <Spinning size={2} />
     {:else}
         <div class="previews">
             {#each galleries as gallery, index}
                 <div class="preview">
-                    <GalleryPreview {gallery} delay={index * 1000} />
+                    <GalleryPreview {gallery} delay={index * 250} />
                 </div>
             {/each}
             {#if lastBatch}

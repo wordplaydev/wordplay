@@ -232,7 +232,7 @@
                         }}
                     />
                 {:else}
-                    <Spinning large />
+                    <Spinning />
                 {/if}
             </div>
 
