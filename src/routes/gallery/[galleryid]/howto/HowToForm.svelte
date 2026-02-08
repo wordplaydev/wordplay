@@ -164,8 +164,8 @@
     let titles: SvelteMap<string, string[]> = $state(
         new SvelteMap<string, string[]>(),
     );
-    let titleInLocale: string | undefined = $derived(
-        howTo ? howTo.getTitleInLocale($locales.getLocaleString()) : undefined,
+    let titleInLocale: string = $derived(
+        howTo ? howTo.getTitleInLocale($locales.getLocaleString()) : '',
     );
 
     // a map of locale name to an array of strings that correspond to each locale
