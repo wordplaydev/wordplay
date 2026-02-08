@@ -48,7 +48,9 @@
         whichDialogOpen = $bindable(),
     }: Props = $props();
 
-    let title: string = $derived(howTo?.getTitle() ?? '');
+    let title: string = $derived(
+        howTo?.getTitleInLocale($locales.getLocaleString()) ?? '',
+    );
     let text: string[] = $derived(howTo?.getText() ?? []);
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
     let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
@@ -393,7 +395,7 @@
                             $locales.get(
                                 (l) => l.ui.howto.announce.howToPosition,
                             ),
-                            howTo.getTitleInLocale($locales.getLocaleString()),
+                            title,
                             xcoord.toString(),
                             ycoord.toString(),
                         )

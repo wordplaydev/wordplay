@@ -119,17 +119,20 @@
     // locales
     // defined as the first of the user's locales that is in the how-to's locales, if it exists
     // then the first of the how-to's locales if it doesn't
-    let localeName: string = $state(
-        howTo ? howTo.getLocales()[0] : $locales.getLocaleString(),
-    );
-    onMount(() => {
+    let localeName: string = $state('');
+    $effect(() => {
         if (howTo) {
+            // loop through the user's preferred locales. let the localeName by the first of the preferred locales that the how-to has
             for (let locale of $locales.getPreferredLocales()) {
                 if (howTo.getLocales().includes(localeToString(locale))) {
                     localeName = localeToString(locale);
-                    break;
+                    return;
                 }
             }
+            localeName = howTo.getLocales()[0];
+        } else {
+            // if the how-to doesn't exist, just set the current locale name to be the most preferred locale
+            localeName = $locales.getLocaleString();
         }
     });
 
@@ -160,6 +163,9 @@
     // value is a string[] just to be able to use functions for how-to text without modification
     let titles: SvelteMap<string, string[]> = $state(
         new SvelteMap<string, string[]>(),
+    );
+    let titleInLocale: string | undefined = $derived(
+        howTo ? howTo.getTitleInLocale($locales.getLocaleString()) : undefined,
     );
 
     // a map of locale name to an array of strings that correspond to each locale
@@ -310,7 +316,9 @@
                 );
                 if (!locale) return;
 
-                titleMap.set(loc, [locale.ui.howto.editor.untitledHowToPlaceholder]);
+                titleMap.set(loc, [
+                    locale.ui.howto.editor.untitledHowToPlaceholder,
+                ]);
             }
         });
 
@@ -582,7 +590,7 @@
                 ? l.ui.howto.drafts.tooltip
                 : l.ui.howto.editor.newForm.header}
         action={showPreview}
-        icon={howTo ? howTo.getTitle() : '+'}
+        icon={howTo ? titleInLocale : '+'}
         large={!howTo}
     ></Button>
 {/if}
@@ -741,7 +749,7 @@
             </div>
         </div>
     {:else if howTo && howTo.isPublished() && $user && isCreatorCollaboratorViewer($user.uid)}
-        <Header><MarkupHTMLView markup={howTo.getTitle()} /></Header>
+        <Header><MarkupHTMLView markup={titleInLocale} /></Header>
         <div class="creatorlist">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
                 <CreatorList
@@ -855,7 +863,7 @@
             </div>
         </div>
     {:else if howTo && (!$user || !isCreatorCollaboratorViewer($user.uid))}
-        <Header><MarkupHTMLView markup={howTo.getTitle()} /></Header>
+        <Header><MarkupHTMLView markup={titleInLocale} /></Header>
         <div class="creatorlist">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
                 <CreatorList
@@ -873,7 +881,7 @@
         {/each}
     {:else if howTo}
         <HowToPrompt>
-            {howTo.getTitle()}
+            <MarkupHTMLView markup={titleInLocale} />
         </HowToPrompt>
         <div class="creatorlist">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
