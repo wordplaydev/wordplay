@@ -182,16 +182,15 @@
                     <GalleryPreview {gallery} delay={index * 1000} />
                 </div>
             {/each}
+            {#if lastBatch}
+                <Button
+                    background
+                    tip={(l) => l.ui.page.galleries.button.more.tip}
+                    action={nextBatch}
+                    label={(l) => l.ui.page.galleries.button.more.label}
+                />
+            {/if}
         </div>
-    {/if}
-
-    {#if lastBatch}
-        <Button
-            background
-            tip={(l) => l.ui.page.galleries.button.more.tip}
-            action={nextBatch}
-            label={(l) => l.ui.page.galleries.button.more.label}
-        />
     {/if}
 </Writing>
 
@@ -200,7 +199,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 2em;
+        gap: 1rem;
     }
 
     .preview {
