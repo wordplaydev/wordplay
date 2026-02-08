@@ -10842,7 +10842,7 @@
                       "$ref": "#/definitions/FieldText",
                       "description": "Field text for how-to title"
                     },
-                    "titlePlaceholder": {
+                    "untitledHowToPlaceholder": {
                       "description": "Placeholder for an untitled how-to",
                       "type": "string"
                     }
@@ -10855,7 +10855,7 @@
                     "notification",
                     "editor",
                     "title",
-                    "titlePlaceholder",
+                    "untitledHowToPlaceholder",
                     "collaboratorsPrompt",
                     "collaboratorsToggle",
                     "localeOptionsLabel"

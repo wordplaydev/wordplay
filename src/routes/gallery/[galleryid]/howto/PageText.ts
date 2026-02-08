@@ -68,7 +68,7 @@ type PageText = {
         /** Field text for how-to title */
         title: FieldText;
         /** Placeholder for an untitled how-to */
-        titlePlaceholder: string;
+        untitledHowToPlaceholder: string;
         /** Collaboration */
         collaboratorsPrompt: string;
         /** Collaborator toggle text */

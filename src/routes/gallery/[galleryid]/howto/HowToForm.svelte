@@ -310,7 +310,7 @@
                 );
                 if (!locale) return;
 
-                titleMap.set(loc, [locale.ui.howto.editor.title.placeholder]);
+                titleMap.set(loc, [locale.ui.howto.editor.untitledHowToPlaceholder]);
             }
         });
 
@@ -326,7 +326,6 @@
         let [_, titleStrings]: [string[], string[]] =
             await generateTitleStringWithPlaceholders(usedLocales, titles);
 
-        console.log(titleStrings);
         let title: string = titleStrings[0];
 
         let writeX: number = 0;
