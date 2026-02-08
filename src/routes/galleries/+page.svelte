@@ -176,12 +176,14 @@
     {#if galleries === undefined}
         <Spinning size={2} />
     {:else}
-        <div class="previews">
-            {#each galleries as gallery, index}
-                <div class="preview">
-                    <GalleryPreview {gallery} delay={index * 250} />
-                </div>
-            {/each}
+        <div class="public">
+            <div class="previews">
+                {#each galleries as gallery, index}
+                    <div class="preview">
+                        <GalleryPreview {gallery} delay={index * 250} />
+                    </div>
+                {/each}
+            </div>
             {#if lastBatch}
                 <Button
                     background
@@ -199,6 +201,12 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .public {
+        display: flex;
+        flex-direction: column;
         gap: 1rem;
     }
 
