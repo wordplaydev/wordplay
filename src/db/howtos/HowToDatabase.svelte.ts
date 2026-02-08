@@ -186,12 +186,12 @@ export default class HowTo {
         markup.forEach((m) => {
             // dealing with cases of no markup, just text (i.e., how-to was created before translation was implemented)
             // 'en-US' was the hard-coded default locale, so we just use that
-            if (/¶(.*?)¶\/(.{2,3})-(.{2})/s.test(m) === false) {
+            if (/¶(.*?)¶\/(.{2,3})-(.{2,3})/s.test(m) === false) {
                 map.set('en-US', [m]);
                 return;
             }
 
-            let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2,3})-(.{2})/gs);
+            let stringAndLocale = m.matchAll(/¶(.*?)¶\/(.{2,3})-(.{2,3})/gs);
 
             stringAndLocale.forEach((match) => {
                 let locale: string = `${match[2]}-${match[3]}`;

@@ -18,12 +18,22 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Creators, Galleries, HowTos, locales } from '@db/Database';
+    import {
+        Chats,
+        Creators,
+        Galleries,
+        HowTos,
+        Locales,
+        locales,
+    } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
-    import { getLanguageLocalDescription } from '@locale/LocaleText';
+    import {
+        getLanguageLocalDescription,
+        type LocaleText,
+    } from '@locale/LocaleText';
     import type { ButtonText } from '@locale/UITexts';
     import { COLLABORATE_SYMBOL } from '@parser/Symbols';
     import { onMount, type Snippet } from 'svelte';
@@ -282,16 +292,41 @@
         return [proposedX, proposedY];
     }
 
+    /** Add placeholder titles for any locales that have text but no title */
+    async function generateTitleStringWithPlaceholders(
+        textLocales: string[],
+        titleMap: SvelteMap<string, string[]>,
+    ) {
+        await textLocales.forEach(async (loc) => {
+            let titleForLocale: string[] | undefined = titleMap.get(loc);
+
+            if (
+                titleForLocale === undefined ||
+                titleForLocale[0].length === 0
+            ) {
+                let locale: LocaleText | undefined = await Locales.loadLocale(
+                    loc,
+                    false,
+                );
+                if (!locale) return;
+
+                titleMap.set(loc, [locale.ui.howto.editor.title.placeholder]);
+            }
+        });
+
+        return HowTo.mapToMarkupHelper(titleMap, 1);
+    }
+
     // writer functions
     async function writeNewHowTo(publish: boolean) {
         if (!gallery) return;
 
         let [usedLocales, texts]: [string[], string[]] =
             HowTo.mapToMarkupHelper(multilingualText, prompts.length);
-        let [_, titleStrings]: [string[], string[]] = HowTo.mapToMarkupHelper(
-            titles,
-            1,
-        );
+        let [_, titleStrings]: [string[], string[]] =
+            await generateTitleStringWithPlaceholders(usedLocales, titles);
+
+        console.log(titleStrings);
         let title: string = titleStrings[0];
 
         let writeX: number = 0;
@@ -331,6 +366,9 @@
                         localeToString(loc),
                         Array(prompts.length).fill(''),
                     ]),
+            );
+            titles = new SvelteMap<string, string[]>(
+                $locales.getLocales().map((loc) => [localeToString(loc), ['']]),
             );
             allCollaborators = [];
         } else {
