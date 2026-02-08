@@ -73,6 +73,8 @@ type PageText = {
         collaboratorsPrompt: string;
         /** Collaborator toggle text */
         collaboratorsToggle: ToggleText;
+        /** Label for options for translation */
+        localeOptionsLabel: string;
     };
     viewer: {
         /** Button text for viewing the how-to */
