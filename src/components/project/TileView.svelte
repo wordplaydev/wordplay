@@ -263,28 +263,28 @@
     style:left={fullscreen
         ? null
         : `${
-              arrangement === 'free'
+              arrangement === Arrangement.Free
                   ? tile.position.left
                   : (tile.bounds?.left ?? 0)
           }px`}
     style:top={fullscreen
         ? null
         : `${
-              arrangement === 'free'
+              arrangement === Arrangement.Free
                   ? tile.position.top
                   : (tile.bounds?.top ?? 0)
           }px`}
     style:width={fullscreen
         ? null
         : `${
-              arrangement === 'free'
+              arrangement === Arrangement.Free
                   ? tile.position.width
                   : (tile.bounds?.width ?? 0)
           }px`}
     style:height={fullscreen
         ? null
         : `${
-              arrangement === 'free'
+              arrangement === Arrangement.Free
                   ? tile.position.height
                   : (tile.bounds?.height ?? 0)
           }px`}
@@ -313,7 +313,7 @@
             </TileMessage>
         {/snippet} -->
 
-    {#if !tile.isInvisible()}
+    {#if !tile.isInvisible() || fullscreen}
         <!-- Render the toolbar -->
         <div class="header" style:color={foreground} style:fill={foreground}>
             <!-- This goes above the toolbar because we need the feedback to be visible. -->
