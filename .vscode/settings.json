@@ -1,8 +1,7 @@
 {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        
         "source.organizeImports": "explicit"
     },
-    "workbench.colorTheme": "Default Dark+"
+    "workbench.colorTheme": "Quiet Light"
 }

@@ -1,15 +1,15 @@
-让角色摇晃
+让字符产生抖动效果
 
-有时让角色看起来在颤抖是有帮助的。我们可以通过几种方法来实现这一点。
+有时候，让一个字符看起来在“抖动”会很有用。我们可以用几种不同的方法来实现这个效果。
 
-我们可以使用 @Phrase/offset  和  @Random  和  @Time 来实现这一点。
+我们可以使用 @Phrase/offset 结合 @Random 和 @Time 来实现这一点。
 
 \offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
 Phrase('你好' offset: Place(offset 0m))\
 
-这将创建一个名为\offset\每当时钟滴答作响时，它就会变成一个新的随机值。然后，它使用该偏移量来显示 @Phrase 抵消该金额。
+这段代码会创建一个名为 offset 的值，它会在每次时间变化时被更新为一个新的随机值。然后，这个 offset 会被用来控制 @Phrase 的偏移位置，从而让文字产生抖动效果。
 
-如果我们想更精确地控制震动，我们可以使用 @Sequence 制作重复的随机摇动动画。
+如果我们想更精确地控制震动的节奏和幅度，可以使用 @Sequence 制作重复播放的随机抖动动画。
 
 \Phrase('你好' resting: Sequence({
 			0%: Pose(offset: Place(Random(-.2m .2m)))
@@ -18,6 +18,6 @@ Phrase('你好' offset: Place(offset 0m))\
 			75%: Pose(offset: Place(Random(-.2m .2m)))
 		} 0.1s))\
 
-此示例仅选择一次随机值，但将它们变成重复序列。
+在这个例子中，系统只在开始时生成一次随机值，但会将这些值组织成一个可重复播放的序列，从而形成持续的抖动动画效果。
 
 move-phrase
