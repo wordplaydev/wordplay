@@ -5191,11 +5191,11 @@
                     "rights": "Responsabilidades, las nuestras y las tuyas",
                     "community": {
                         "label": "Comunidad",
-                        "subtitle": "Chatea con nosotras en Discord."
+                        "subtitle": "Chatea con nosotros en Discord."
                     },
                     "contribute": {
                         "label": "Contribuir",
-                        "subtitle": "Ayúdanos a hacer Wordplay."
+                        "subtitle": "Ayúdanos a crear Wordplay."
                     },
                     "teach": "$~Gestionar clases de estudiantes y sus proyectos",
                     "characters": "$~Crea emojis y símbolos personalizados",

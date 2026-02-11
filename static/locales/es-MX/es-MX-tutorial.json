@@ -319,7 +319,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Program no sabía qué hacer con @ExpressionPlaceholder, por lo que mostró una *excepción* @UI/excepción en *etapa* y un *conflicto* en @Program @UI/conflict.",
+                            "@Program no sabía qué hacer con @ExpressionPlaceholder, por lo que mostró una *excepción* @UI/excepción en el *escenario* y un *conflicto* en @Program @UI/conflict.",
                             "Pero si haces clic en @ExpressionPlaceholder o mueves el cursor de texto sobre él, verás un mundo de posibilidades para otros caracteres. También puedes escribir sobre @ExpressionPlaceholder y escribir el tuyo propio. Por ejemplo, intente escribir su nombre entre comillas."
                         ],
                         null,
