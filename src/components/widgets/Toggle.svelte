@@ -4,7 +4,7 @@
     import type LocaleText from '@locale/LocaleText';
     import { type Snippet } from 'svelte';
     import type { ToggleText } from '../../locale/UITexts';
-    import { toShortcut, type Command } from '../editor/util/Commands';
+    import { toShortcut, type Command } from '../editor/commands/Commands';
 
     interface Props {
         tips: (locale: LocaleText) => ToggleText;
@@ -100,11 +100,11 @@
         user-select: none;
         border: none;
         border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-alternating-color);
+        background: none;
         color: currentColor;
         stroke: currentColor;
         fill: var(--wordplay-background);
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing-half);
         cursor: pointer;
         width: fit-content;
         max-width: 10em;
@@ -140,11 +140,23 @@
         color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
-        box-shadow: inset 1px 2px var(--wordplay-chrome);
+        box-shadow: inset 2px 2px var(--wordplay-chrome);
+        background: var(--wordplay-alternating-color);
+    }
+
+    .icon {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        gap: var(--wordplay-spacing-half);
     }
 
     button.on .icon {
         transform: scale(0.9);
+    }
+
+    button:hover {
+        background: var(--wordplay-hover);
     }
 
     button:not(:global(.on)):hover .icon {

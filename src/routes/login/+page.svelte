@@ -1,7 +1,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import { auth } from '@db/firebase';
     import Feedback from '../../components/app/Notice.svelte';
     import Writing from '../../components/app/Writing.svelte';
@@ -11,7 +11,7 @@
 
     /** Go to profile if logged in. */
     $effect(() => {
-        if (browser && $user !== null) goto('/profile');
+        if (browser && isAuthenticated($user)) goto('/profile');
     });
 </script>
 

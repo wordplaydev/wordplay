@@ -2195,7 +2195,7 @@
                             "$~Ama muhtemelen istediğiniz bu değildi...",
                             "$~Ve eğer sana istediğini nasıl vereceğimi bilmiyorsam, temelde her şeyi kapatacağım."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [
@@ -2606,7 +2606,7 @@
                             "excited",
                             "$~@Button akışı kullanmak, bir performansın aşamalarında ilerlemenin veya bir performansta bazı değişiklikleri tetiklemenin bir yoludur. Bu küçük program, iki düğme basışını listeler ve üzgün göstererek başlar, ancak @Button akışı doğruya değiştiğinde, @Conditional bunun yerine \\'mutlu'\\ olarak değerlendirilir."
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
                 },
                 {
@@ -4033,11 +4033,12 @@
                         ],
                         [
                             "edit",
+                            "click: ∆ Button()",
                             "Scene([",
                             "    Phrase('one')",
-                            "    ∆ Button()",
+                            "    click",
                             "    Phrase('two')",
-                            "    ∆ Button()",
+                            "    click",
                             "    Phrase('three')",
                             "])"
                         ],

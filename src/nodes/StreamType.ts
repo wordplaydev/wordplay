@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { STREAM_SYMBOL } from '@parser/Symbols';
@@ -37,10 +38,14 @@ export default class StreamType extends Type {
         return 'StreamType';
     }
 
+    getPurpose(): Purpose {
+        return Purpose.Hidden;
+    }
+
     getGrammar(): Grammar {
         return [
-            { name: 'stream', kind: node(Sym.Stream) },
-            { name: 'type', kind: node(Type) },
+            { name: 'stream', kind: node(Sym.Stream), label: undefined },
+            { name: 'type', kind: node(Type), label: () => (l) => l.term.type },
         ];
     }
 

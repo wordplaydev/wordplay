@@ -75,9 +75,11 @@
 
     let loading = $state(false);
     let width = $state(0);
-    let tooltip = isComputedTooltip(tip)
-        ? tip()
-        : $locales.concretize($locales.get(tip)).toText();
+    let tooltip = $derived(
+        isComputedTooltip(tip)
+            ? tip()
+            : $locales.concretize($locales.get(tip)).toText(),
+    );
     let pressed = $state(false);
 
     let hint = getTip();
@@ -99,6 +101,7 @@
                 result.finally(() => (loading = false));
             }
             event.stopPropagation();
+            event.preventDefault();
         }
     }
 </script>
@@ -192,8 +195,8 @@
     }
 
     .padding {
-        padding-left: calc(var(--wordplay-spacing) / 2);
-        padding-right: calc(var(--wordplay-spacing) / 2);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
     }
 
     button.stretch {
@@ -221,7 +224,7 @@
     }
 
     button:hover:not(:global(:focus))[aria-disabled='false'] {
-        background: var(--wordplay-alternating-color);
+        background: var(--wordplay-hover);
     }
 
     .button.active {
@@ -237,7 +240,8 @@
     }
 
     .background.padding {
-        padding: var(--wordplay-spacing);
+        padding-top: var(--wordplay-spacing-half);
+        padding-bottom: var(--wordplay-spacing-half);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 

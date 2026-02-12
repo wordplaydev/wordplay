@@ -5,7 +5,7 @@
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import getClaim from '@db/creators/getClaim';
 
     let { children } = $props();
@@ -13,7 +13,7 @@
     let user = getUser();
 </script>
 
-{#if $user === null}
+{#if !isAuthenticated($user)}
     <Header text={(l) => l.ui.page.teach.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.teach.error.login} />
 {:else}

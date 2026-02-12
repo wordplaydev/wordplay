@@ -1,6 +1,6 @@
 <script lang="ts">
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
@@ -9,7 +9,7 @@
     import Note from '@components/widgets/Note.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { locales, Logs } from '@db/Database';
+    import { Logs } from '@db/Database';
     import {
         createFeedback,
         deleteFeedback,
@@ -73,7 +73,7 @@
     }
 
     async function submit() {
-        if ($user === null) return;
+        if (!isAuthenticated($user)) return;
         submitting = true;
 
         const newFeedback = await createFeedback(
@@ -298,7 +298,7 @@
                                     l.ui.dialog.feedback.field.idea.placeholder}
                                 id="new-comment-{feed.id}-{commentIndex}"
                                 done={(t) => {
-                                    if ($user === null) return;
+                                    if (!isAuthenticated($user)) return;
                                     updateFeedback({
                                         ...feed,
                                         comments: [
@@ -442,12 +442,9 @@
     }}
 >
     <Mode
+        modes={(l) => l.ui.dialog.feedback.mode}
         choice={mode === 'defect' ? 0 : 1}
-        modes={[
-            `${DEFECT_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.defect)}`,
-            `${IDEA_SYMBOL} ${$locales.get((l) => l.ui.dialog.feedback.subheader.idea)}`,
-        ]}
-        descriptions={(l) => l.ui.dialog.feedback.mode}
+        icons={[DEFECT_SYMBOL, IDEA_SYMBOL]}
         select={(num) => (mode = num === 0 ? 'defect' : 'idea')}
     />
 

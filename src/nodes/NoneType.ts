@@ -31,7 +31,7 @@ export default class NoneType extends BasisType {
         return [NoneType.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [NoneType.make()];
     }
 
@@ -40,7 +40,7 @@ export default class NoneType extends BasisType {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'none', kind: node(Sym.None) }];
+        return [{ name: 'none', kind: node(Sym.None), label: undefined }];
     }
 
     computeConflicts() {

@@ -1,11 +1,13 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import type BindConcept from '@concepts/BindConcept';
     import type StructureConcept from '@concepts/StructureConcept';
+    import { locales } from '@db/Database';
     import { onMount } from 'svelte';
     import BindConceptView from './BindConceptView.svelte';
     import CodeView from './CodeView.svelte';
     import ConceptView from './ConceptView.svelte';
+    import Names from './NamesView.svelte';
 
     interface Props {
         concept: StructureConcept;
@@ -50,15 +52,17 @@
         {#each concept.definition.types.variables as type}{/each}
     {/if} -->
 
+    <Names names={concept.getNames($locales, false)} />
+
     {#if concept.inter.length > 0}
-        <h2><LocalizedText path={(l) => l.ui.docs.header.interfaces} /></h2>
+        <HeaderAndExplanation text={(l) => l.ui.docs.header.interfaces} sub />
         {#each concept.inter as inter}
             <CodeView concept={inter} node={inter.getRepresentation()} />
         {/each}
     {/if}
 
     {#if concept.inputs.length > 0}
-        <h2><LocalizedText path={(l) => l.ui.docs.header.inputs} /></h2>
+        <HeaderAndExplanation text={(l) => l.ui.docs.header.inputs} sub />
         {#each concept.inputs as bind, index}
             <div id="input-{index}" class:selected={bind === subconcept}>
                 <BindConceptView concept={bind} />
@@ -67,7 +71,7 @@
     {/if}
 
     {#if concept.properties.length > 0}
-        <h2><LocalizedText path={(l) => l.ui.docs.header.properties} /></h2>
+        <HeaderAndExplanation text={(l) => l.ui.docs.header.properties} sub />
         {#each concept.properties as bind, index}
             <div
                 id="property-{index + concept.inputs.length}"
@@ -79,14 +83,14 @@
     {/if}
 
     {#if concept.functions.length > 0}
-        <h2><LocalizedText path={(l) => l.ui.docs.header.functions} /></h2>
+        <HeaderAndExplanation text={(l) => l.ui.docs.header.functions} sub />
         {#each concept.functions as fun}
             <CodeView node={fun.getRepresentation()} concept={fun} />
         {/each}
     {/if}
 
     {#if concept.conversions.length > 0}
-        <h2><LocalizedText path={(l) => l.ui.docs.header.conversions} /></h2>
+        <HeaderAndExplanation text={(l) => l.ui.docs.header.conversions} sub />
         {#each concept.conversions as conversion}
             <CodeView
                 node={conversion.getRepresentation()}

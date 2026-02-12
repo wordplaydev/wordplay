@@ -42,8 +42,8 @@
         left: 0,
     });
 
-    let width = $state(0);
-    let height = $state(0);
+    let width = $state<number | undefined>(undefined);
+    let height = $state<number | undefined>(undefined);
 
     let view = $state<HTMLDivElement | undefined>(undefined);
 
@@ -70,6 +70,7 @@
                 childList: true,
             });
 
+            // See if it's in a dialog, so we can adjust positioning.
             const dialog =
                 view?.parentElement instanceof HTMLDialogElement
                     ? view.parentElement
@@ -88,24 +89,27 @@
             let newLeft = 0;
             let newTop = 0;
 
+            if (width === undefined || height === undefined) {
+                bounds.top = 0;
+                bounds.left = 0;
+                return;
+            }
+
             newTop = rect.top - height;
             newLeft = rect.left + (rect.width - width) / 2;
 
             // If it's a dialog, account for the relative positioning.
             if (dialog) {
                 const parentRect = dialog.getBoundingClientRect();
-                newLeft = newLeft - parentRect.left;
-                newTop = newTop - parentRect.top;
+                newLeft = newLeft - parentRect.left + dialog.scrollLeft;
+                newTop = newTop - parentRect.top + dialog.scrollTop;
             }
 
             if (newLeft < 0) newLeft = 0;
-            if (newLeft + width + 5 > containerWidth)
+            if (newLeft + width + 5 >= containerWidth)
                 newLeft = containerWidth - width - 5;
-            if (newTop < 0) {
-                newTop = rect.top;
-                newLeft = rect.right;
-            }
-            if (newTop + height + 5 > containerHeight)
+            if (newTop < 0) newTop = rect.top;
+            if (newTop + height + 5 >= containerHeight)
                 newTop = containerHeight - height - 5;
 
             bounds.top = newTop;
@@ -123,9 +127,9 @@
         bind:this={view}
         bind:clientWidth={width}
         bind:clientHeight={height}
-        style:left={bounds.left !== undefined ? `${bounds.left}px` : undefined}
-        style:top={bounds.top !== undefined ? `${bounds.top}px` : undefined}
-        >{tip.getText()}</div
+        class:visible={width !== undefined && width > 0}
+        style:left={`${bounds.left ?? 0}px`}
+        style:top={`${bounds.top ?? 0}px`}>{tip.getText()}</div
     >
 {/if}
 
@@ -144,6 +148,11 @@
         z-index: 3;
         animation: appear 0.25s ease-in-out;
         box-shadow: 2px 2px 5px var(--wordplay-chrome);
+        opacity: 0;
+    }
+
+    .hint.visible {
+        opacity: 1;
     }
 
     @keyframes appear {

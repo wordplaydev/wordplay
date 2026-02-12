@@ -1,12 +1,10 @@
 <script lang="ts">
+    import LocaleName from '@components/settings/LocaleName.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { locales } from '@db/Database';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
-    import {
-        getLocaleLanguageName,
-        getLocaleRegionNames,
-    } from '@locale/LocaleText';
+    import { getLanguageLocalDescription } from '@locale/LocaleText';
     import { LOCALE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
@@ -30,20 +28,25 @@
             {
                 value: undefined,
                 label: $locales.get((l) => l.ui.output.options.default),
+                locale: null,
             },
             ...localesUsed.map((l) => {
-                const locale = localeToString(l);
-                const language = getLocaleLanguageName(locale);
-                const regions = getLocaleRegionNames(locale);
                 return {
-                    value: locale,
-                    label: `${language ?? '–'}${regions.length > 0 ? ` [${regions.join('|')}]` : ''}`,
+                    value: localeToString(l),
+                    label: getLanguageLocalDescription(l),
+                    locale: l,
                 };
             }),
         ]}
         change={(value) =>
             change(value === undefined ? undefined : stringToLocale(value))}
-    ></Options></label
+    >
+        {#snippet item(
+            option,
+        )}{#if option.locale === null}{option.label}{:else}<LocaleName
+                    locale={option.locale}
+                ></LocaleName>{/if}{/snippet}
+    </Options></label
 >
 
 <style>
@@ -51,6 +54,6 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
     }
 </style>

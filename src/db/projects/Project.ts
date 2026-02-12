@@ -1,10 +1,12 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
+import type { CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';
 import type { SharedDefinition } from '@nodes/Borrow';
+import Changed from '@nodes/Changed';
 import Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Doc from '@nodes/Doc';
@@ -23,7 +25,6 @@ import { DOCS_SYMBOL } from '@parser/Symbols';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import { v4 as uuidv4 } from 'uuid';
 import { Basis } from '../../basis/Basis';
-import type { CaretPosition } from '../../edit/Caret';
 import DefaultLocale from '../../locale/DefaultLocale';
 import Locales from '../../locale/Locales';
 import type LocaleText from '../../locale/LocaleText';
@@ -123,6 +124,9 @@ export default class Project {
         dependencies: new Map(),
     };
 
+    /** A cache of expressions that dependent on Changed expressions, so we can quickly know to reevaluate them. */
+    #changeDependentExpressions: Set<Expression> | undefined = undefined;
+
     constructor(data: ProjectData) {
         // Copy to prevent external modification
         this.data = { ...data };
@@ -185,6 +189,9 @@ export default class Project {
             nonPII: [],
             chat: null,
             history: [],
+            restrictedGallery: false,
+            viewers: [],
+            commenters: [],
         });
     }
 
@@ -215,9 +222,8 @@ export default class Project {
     }
 
     getLink(fullscreen: boolean) {
-        return `/project/${encodeURI(this.getID())}${
-            fullscreen ? `?${PROJECT_PARAM_PLAY}` : `?${PROJECT_PARAM_EDIT}`
-        }`;
+        return `/project/${encodeURI(this.getID())}${fullscreen ? `?${PROJECT_PARAM_PLAY}` : `?${PROJECT_PARAM_EDIT}`
+            }`;
     }
 
     getNodeByID(id: number): Node | undefined {
@@ -524,10 +530,57 @@ export default class Project {
         return this.getAnalysis().conflicts;
     }
 
+    getNewConflictsBatch(
+        oldSource: Source,
+        newSources: Source[],
+        // Any conflict types to ignore
+        negligibleConflicts: (new () => Conflict)[],
+    ): Map<Source, Conflict[]> {
+        // Get the current conflicts.
+        const currentConflicts = this.getMajorConflictsNow();
+        const newConflictsBySource = new Map<Source, Conflict[]>();
+        // For all of the new sources, get the new conflicts caused by the revision.
+        for (const newSource of newSources) {
+            let newConflicts = this.withSource(oldSource, newSource)
+                .getMajorConflictsNow()
+                .filter(
+                    (conflict) =>
+                        !negligibleConflicts.some(
+                            (neglibile) => conflict instanceof neglibile,
+                        ),
+                );
+
+            // Remove all current conflicts that are in the new conflicts.
+            newConflictsBySource.set(
+                newSource,
+                newConflicts.filter(
+                    (newConflict) =>
+                        !currentConflicts.some((oldConflict) =>
+                            oldConflict.isEqualTo(newConflict),
+                        ),
+                ),
+            );
+        }
+        return newConflictsBySource;
+    }
+
+    getNewConflicts(
+        oldSource: Source,
+        newSource: Source,
+        negligibleConflicts: (new () => Conflict)[],
+    ): Conflict[] {
+        const newConflicts = this.getNewConflictsBatch(
+            oldSource,
+            [newSource],
+            negligibleConflicts,
+        );
+        return Array.from(newConflicts.values())[0];
+    }
+
     getMajorConflictsNow() {
         let conflicts: Conflict[] = [];
         for (const source of this.getSources()) {
-            const context = new Context(this, source);
+            const context = this.getContext(source);
             for (const node of source.nodes()) {
                 conflicts = [...conflicts, ...node.computeConflicts(context)];
             }
@@ -537,7 +590,7 @@ export default class Project {
 
     hasMajorConflictsNow() {
         for (const source of this.getSources()) {
-            const context = new Context(this, source);
+            const context = this.getContext(source);
             for (const node of source.nodes()) {
                 if (
                     node
@@ -582,6 +635,35 @@ export default class Project {
 
     getExpressionsAffectedBy(expression: Expression): Set<Expression> {
         return this.getAnalysis().dependencies.get(expression) ?? new Set();
+    }
+
+    /**
+     * Returns true if the given expression is transitively dependent on a Changed expression.
+     * Used to determine whether to reevaluate an expression at evaluation time.
+     */
+    isChangedDependentExpression(expr: Expression): boolean {
+        if (this.#changeDependentExpressions === undefined) {
+            const analysis = this.analyze();
+            this.#changeDependentExpressions = new Set();
+
+            const changes = Array.from(analysis.dependencies.entries()).filter(
+                (s) => s[0] instanceof Changed,
+            );
+            while (changes.length > 0) {
+                const [, dependents] = changes.pop()!;
+                for (const dependent of dependents) {
+                    if (!this.#changeDependentExpressions.has(dependent)) {
+                        this.#changeDependentExpressions.add(dependent);
+                        const furtherDependents =
+                            analysis.dependencies.get(dependent);
+                        if (furtherDependents) {
+                            changes.push([dependent, furtherDependents]);
+                        }
+                    }
+                }
+            }
+        }
+        return this.#changeDependentExpressions.has(expr);
     }
 
     /** Return true if the given expression is in this project and depends only on contants. */
@@ -676,11 +758,23 @@ export default class Project {
         return this.withSources([[oldSource, newSource]]);
     }
 
-    /** Copies this project, but with the new locale added if it's not already included. */
+    /** Copies this project, but with the new locale added if it's not already included, placing new locales in the front, and the remainder at the end. */
     withLocales(locales: LocaleText[]) {
         return new Project({
             ...this.data,
-            locales: Array.from(new Set([...this.data.locales, ...locales])),
+            locales: [
+                // New locales
+                ...locales,
+                // Locales that aren't the locales in the list above, in their current order.
+                ...this.data.locales.filter(
+                    (l1) =>
+                        !locales.some(
+                            (l2) =>
+                                l2.language === l1.language &&
+                                l2.regions.join() === l1.regions.join(),
+                        ),
+                ),
+            ],
         });
     }
 
@@ -690,12 +784,12 @@ export default class Project {
             carets: this.data.carets.map((sourceCaret) =>
                 sourceCaret.source === source
                     ? {
-                          source,
-                          caret:
-                              caret instanceof Node
-                                  ? source.root.getPath(caret)
-                                  : caret,
-                      }
+                        source,
+                        caret:
+                            caret instanceof Node
+                                ? source.root.getPath(caret)
+                                : caret,
+                    }
                     : sourceCaret,
             ),
         });
@@ -846,20 +940,20 @@ export default class Project {
         return this.data.collaborators.some((user) => user === uid)
             ? this
             : new Project({
-                  ...this.data,
-                  collaborators: [...this.data.collaborators, uid],
-              });
+                ...this.data,
+                collaborators: [...this.data.collaborators, uid],
+            });
     }
 
     withoutCollaborator(uid: string) {
         return !this.data.collaborators.some((user) => user === uid)
             ? this
             : new Project({
-                  ...this.data,
-                  collaborators: this.data.collaborators.filter(
-                      (id) => id !== uid,
-                  ),
-              });
+                ...this.data,
+                collaborators: this.data.collaborators.filter(
+                    (id) => id !== uid,
+                ),
+            });
     }
 
     isPublic() {
@@ -882,13 +976,13 @@ export default class Project {
             const bind = fun?.inputs.find((bind) => bind.hasName(name));
             return bind
                 ? [
-                      evaluate,
-                      evaluate.withBindAs(
-                          bind,
-                          value?.clone(),
-                          this.getNodeContext(evaluate),
-                      ),
-                  ]
+                    evaluate,
+                    evaluate.withBindAs(
+                        bind,
+                        value?.clone(),
+                        this.getNodeContext(evaluate),
+                    ),
+                ]
                 : [evaluate, evaluate];
         });
     }
@@ -939,8 +1033,8 @@ export default class Project {
             ? typeof position === 'number'
                 ? position
                 : position.every((n) => typeof n === 'number')
-                  ? [position[0], position[1]]
-                  : source.root.resolvePath(position)
+                    ? [position[0], position[1]]
+                    : source.root.resolvePath(position)
             : undefined;
     }
 
@@ -950,7 +1044,7 @@ export default class Project {
             // We changed the documentation symbol. Automatically convert it when deserializing. by seeing if there are 2 or more `` in the code,
             // and no ¶ and if so, replace them with the new symbol.
             (source.code.match(/``/g) || []).length >= 2 &&
-            (source.code.match(/¶/g) || []).length === 0
+                (source.code.match(/¶/g) || []).length === 0
                 ? source.code.replaceAll('``', DOCS_SYMBOL)
                 : source.code,
         );
@@ -1006,6 +1100,9 @@ export default class Project {
             nonPII: project.nonPII,
             chat: project.chat,
             history: project.history,
+            restrictedGallery: project.restrictedGallery,
+            viewers: project.viewers,
+            commenters: project.commenters,
         });
     }
 
@@ -1212,6 +1309,9 @@ export default class Project {
             nonPII: this.data.nonPII,
             chat: this.data.chat,
             history: this.data.history,
+            restrictedGallery: this.data.restrictedGallery,
+            viewers: this.data.viewers,
+            commenters: this.data.commenters,
         };
     }
 
@@ -1299,5 +1399,59 @@ export default class Project {
                 )
                 .join('\n')
         );
+    }
+
+    getViewers() {
+        return this.data.viewers;
+    }
+
+    withViewer(viewer: string) {
+        return this.data.viewers.some((user) => user === viewer)
+            ? this
+            : new Project({ ...this.data, viewers: [...this.data.viewers, viewer] });
+    }
+
+    withoutViewer(viewer: string) {
+        return !this.data.viewers.some((user) => user === viewer)
+            ? this
+            : new Project({
+                ...this.data,
+                viewers: this.data.viewers.filter((id) => id !== viewer),
+            });
+    }
+
+    hasViewer(id: string) {
+        return this.data.viewers.includes(id);
+    }
+
+    getCommenters() {
+        return this.data.commenters;
+    }
+
+    withCommenter(commenter: string) {
+        return this.data.commenters.some((user) => user === commenter)
+            ? this
+            : new Project({ ...this.data, commenters: [...this.data.commenters, commenter] });
+    }
+
+    withoutCommenter(commenter: string) {
+        return !this.data.commenters.some((user) => user === commenter)
+            ? this
+            : new Project({
+                ...this.data,
+                commenters: this.data.commenters.filter((id) => id !== commenter),
+            });
+    }
+
+    hasCommenter(id: string) {
+        return this.data.commenters.includes(id);
+    }
+
+    getRestrictedGallery() {
+        return this.data.restrictedGallery;
+    }
+
+    withRestrictedGallery(restricted: boolean) {
+        return new Project({ ...this.data, restrictedGallery: restricted });
     }
 }

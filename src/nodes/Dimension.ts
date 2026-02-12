@@ -1,4 +1,5 @@
-import type EditContext from '@edit/EditContext';
+import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from '@parser/Symbols';
@@ -45,17 +46,30 @@ export default class Dimension extends Node {
         );
     }
 
-    static getPossibleReplacements({ node, type }: EditContext) {
-        return node instanceof Dimension && type === undefined
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        // Offer to wrap the dimension in a power.
+        return node instanceof Dimension
             ? [
                   // A power of two
                   ...(node.exponent === undefined ? [node.withPower(2)] : []),
               ]
-            : [];
+            : [
+                  getPossibleDimensions(context).map((dim) =>
+                      Dimension.make(false, dim, -1),
+                  ),
+              ].flat();
     }
 
-    static getPossibleAppends() {
-        return [];
+    static getPossibleInsertions({ context, index }: InsertContext) {
+        const dimensions = getPossibleDimensions(context);
+        return [
+            ...dimensions.map((dim) =>
+                Dimension.make(index !== undefined && index > 0, dim, 1),
+            ),
+            ...dimensions.map((dim) =>
+                Dimension.make(index !== undefined && index > 0, dim, -1),
+            ),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -64,14 +78,24 @@ export default class Dimension extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'product', kind: any(node(Sym.Operator), none()) },
-            { name: 'name', kind: node(Sym.Name), uncompletable: true },
+            {
+                name: 'product',
+                kind: any(node(Sym.Operator), none()),
+                label: undefined,
+            },
+            {
+                name: 'name',
+                kind: node(Sym.Name),
+                uncompletable: true,
+                label: undefined,
+            },
             {
                 name: 'caret',
                 kind: any(
                     node(Sym.Operator),
                     none(['exponent', () => new Token('1', Sym.Number)]),
                 ),
+                label: undefined,
             },
             {
                 name: 'exponent',
@@ -82,6 +106,7 @@ export default class Dimension extends Node {
                         () => new Token(EXPONENT_SYMBOL, Sym.Operator),
                     ]),
                 ),
+                label: undefined,
             },
         ];
     }
@@ -133,7 +158,7 @@ export default class Dimension extends Node {
     }
 
     getPurpose() {
-        return Purpose.Type;
+        return Purpose.Numbers;
     }
 
     getName() {

@@ -1,4 +1,6 @@
-import type EditContext from '@edit/EditContext';
+import Purpose from '@concepts/Purpose';
+import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import {
@@ -8,29 +10,37 @@ import {
 } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import { getPossibleDimensions } from '../edit/getPossibleUnits';
 import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import Dimension from './Dimension';
 import LanguageToken from './LanguageToken';
-import { list, node, optional, type Grammar, type Replacement } from './Node';
+import Node, {
+    list,
+    node,
+    optional,
+    type Grammar,
+    type Replacement,
+} from './Node';
 import Sym from './Sym';
 import Token from './Token';
-import Type from './Type';
 import type TypeSet from './TypeSet';
 
-export default class Unit extends Type {
+export default class Unit extends Node {
     /** In case this was parsed, we keep the original tokens around. */
     readonly numerator: Dimension[];
     readonly slash: Token | undefined;
     readonly denominator: Dimension[];
 
-    /** We store units internally as a map from unit names to a positive or negative non-zero exponent. */
-    readonly exponents: Map<string, number>;
+    /**
+     * We store units internally as a map from unit names to a positive or negative non-zero exponent.
+     * We only instantiate this map once, in the constructor, and it is immutable after that.
+     * It remains undefined if unitless, to save on memory.
+     */
+    readonly exponents: Map<string, number> | undefined;
 
     constructor(
         exponents: undefined | Map<string, number> = undefined,
-        numerator?: Dimension[] | undefined,
+        numerator?: Dimension[],
         slash?: Token,
         denominator?: Dimension[],
     ) {
@@ -47,36 +57,42 @@ export default class Unit extends Type {
                     : slash;
             this.denominator = denominator ?? [];
 
-            this.exponents = new Map();
+            if (this.numerator.length === 0 && this.denominator.length === 0)
+                this.exponents = undefined;
+            else {
+                this.exponents = new Map();
 
-            for (const dim of this.numerator) {
-                const name = dim.getName();
-                if (name !== undefined) {
-                    const exp =
-                        dim.exponent === undefined
-                            ? 1
-                            : NumberValue.fromToken(dim.exponent)[0].toNumber();
-                    const current = this.exponents.get(name);
-                    this.exponents.set(name, (current ?? 0) + exp);
+                for (const dim of this.numerator) {
+                    const name = dim.getName();
+                    if (name !== undefined) {
+                        const exp =
+                            dim.exponent === undefined
+                                ? 1
+                                : NumberValue.fromToken(
+                                      dim.exponent,
+                                  )[0].toNumber();
+                        const current = this.exponents.get(name);
+                        this.exponents.set(name, (current ?? 0) + exp);
+                    }
                 }
-            }
-            for (const dim of this.denominator) {
-                const name = dim.getName();
-                if (name !== undefined) {
-                    const exp =
-                        dim.exponent === undefined
-                            ? -1
-                            : -NumberValue.fromToken(
-                                  dim.exponent,
-                              )[0].toNumber();
-                    const current = this.exponents.get(name);
-                    this.exponents.set(name, (current ?? 0) + exp);
+                for (const dim of this.denominator) {
+                    const name = dim.getName();
+                    if (name !== undefined) {
+                        const exp =
+                            dim.exponent === undefined
+                                ? -1
+                                : -NumberValue.fromToken(
+                                      dim.exponent,
+                                  )[0].toNumber();
+                        const current = this.exponents.get(name);
+                        this.exponents.set(name, (current ?? 0) + exp);
+                    }
                 }
-            }
 
-            // Eliminate any 0 exponent units.
-            for (const [unit, exp] of this.exponents)
-                if (exp === 0) this.exponents.delete(unit);
+                // Eliminate any 0 exponent units.
+                for (const [unit, exp] of this.exponents)
+                    if (exp === 0) this.exponents.delete(unit);
+            }
         } else {
             // Start as empty.
             this.numerator = [];
@@ -123,7 +139,7 @@ export default class Unit extends Type {
         this.computeChildren();
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
         // What dimensions are possible?
         const dimensions = getPossibleDimensions(context);
 
@@ -143,7 +159,7 @@ export default class Unit extends Type {
             : [];
     }
 
-    static getPossibleAppends({ context }: EditContext) {
+    static getPossibleInsertions({ context }: InsertContext) {
         return getPossibleDimensions(context).map((dim) => Unit.create([dim]));
     }
 
@@ -153,11 +169,27 @@ export default class Unit extends Type {
         return 'Unit';
     }
 
+    getPurpose(): Purpose {
+        return Purpose.Numbers;
+    }
+
     getGrammar(): Grammar {
         return [
-            { name: 'numerator', kind: list(true, node(Dimension)) },
-            { name: 'slash', kind: optional(node(Sym.Language)) },
-            { name: 'denominator', kind: list(true, node(Dimension)) },
+            {
+                name: 'numerator',
+                kind: list(true, node(Dimension)),
+                label: () => (l) => l.term.unit,
+            },
+            {
+                name: 'slash',
+                kind: optional(node(Sym.Language)),
+                label: undefined,
+            },
+            {
+                name: 'denominator',
+                kind: list(true, node(Dimension)),
+                label: () => (l) => l.term.unit,
+            },
         ];
     }
 
@@ -185,18 +217,20 @@ export default class Unit extends Type {
         return exponents;
     }
 
-    static reuse(numerator: string[], denominator: string[] = []) {
+    static reuse(numerator: string[] = [], denominator: string[] = []) {
         return Unit.get(Unit.map(numerator, denominator));
     }
 
-    static create(numerator: string[], denominator: string[] = []) {
+    static create(numerator: string[] = [], denominator: string[] = []) {
         return new Unit(Unit.map(numerator, denominator));
     }
 
     /** A unit pool, since they recur so frequently. We map the exponents to a unique string */
     static Pool = new Map<string, Unit>();
 
-    static get(exponents: Map<string, number>) {
+    static get(exponents: Map<string, number> | undefined) {
+        if (exponents === undefined || exponents.size === 0) return Unit.Empty;
+
         // Convert the exponents to a canonical string
         let hash = '';
         for (const key of Array.from(exponents.keys()).sort())
@@ -212,18 +246,27 @@ export default class Unit extends Type {
         return newUnit;
     }
 
+    isEmpty() {
+        return this.numerator.length === 0 && this.denominator.length === 0;
+    }
+
     isUnitless() {
-        return this.exponents.size === 0;
+        return this.size() === 0;
+    }
+
+    size() {
+        return this.exponents?.size ?? 0;
     }
 
     isEqualTo(unit: Unit) {
-        return (
-            unit instanceof Unit &&
-            this.exponents.size === unit.exponents.size &&
-            Array.from(this.exponents.keys()).every(
-                (key) => this.exponents.get(key) === unit.exponents.get(key),
-            )
-        );
+        if (!(unit instanceof Unit)) return false;
+        if (this.size() !== unit.size()) return false;
+        if (this.exponents !== undefined && unit.exponents !== undefined)
+            for (const key of this.exponents.keys()) {
+                if (this.exponents.get(key) !== unit.exponents.get(key))
+                    return false;
+            }
+        return true;
     }
 
     computeConflicts() {
@@ -261,7 +304,7 @@ export default class Unit extends Type {
         ]);
     }
 
-    accepts(unit: Type): boolean {
+    accepts(unit: Unit): boolean {
         // Every key in this exists in the given unit and they have the same exponents.
         return (
             // Is this a unit?
@@ -285,13 +328,10 @@ export default class Unit extends Type {
     }
 
     toString(depth?: number) {
-        const units = Array.from(this.exponents.keys()).sort();
-        const numerator = units.filter(
-            (unit) => (this.exponents.get(unit) ?? 0) > 0,
-        );
-        const denominator = units.filter(
-            (unit) => (this.exponents.get(unit) ?? 0) < 0,
-        );
+        const exp = this.exponents === undefined ? new Map() : this.exponents;
+        const units = Array.from(exp.keys()).sort();
+        const numerator = units.filter((unit) => (exp.get(unit) ?? 0) > 0);
+        const denominator = units.filter((unit) => (exp.get(unit) ?? 0) < 0);
 
         return (
             (depth === undefined ? '' : '\t'.repeat(depth)) +
@@ -299,10 +339,8 @@ export default class Unit extends Type {
                 .map(
                     (unit) =>
                         `${unit}${
-                            (this.exponents.get(unit) ?? 0) > 1
-                                ? `${EXPONENT_SYMBOL}${this.exponents.get(
-                                      unit,
-                                  )}`
+                            (exp.get(unit) ?? 0) > 1
+                                ? `${EXPONENT_SYMBOL}${exp.get(unit)}`
                                 : ''
                         }`,
                 )
@@ -312,9 +350,9 @@ export default class Unit extends Type {
                 .map(
                     (unit) =>
                         `${unit}${
-                            (this.exponents.get(unit) ?? 0) < -1
+                            (exp.get(unit) ?? 0) < -1
                                 ? `${EXPONENT_SYMBOL}${Math.abs(
-                                      this.exponents.get(unit) ?? 0,
+                                      exp.get(unit) ?? 0,
                                   )}`
                                 : ''
                         }`,
@@ -324,6 +362,8 @@ export default class Unit extends Type {
     }
 
     root(root: number) {
+        if (this.exponents === undefined) return this;
+
         const newExponents = new Map();
 
         // Subtract one from every unit's exponent, and if it would be zero, set it to -1.
@@ -340,7 +380,7 @@ export default class Unit extends Type {
         const newExponents = new Map(this.exponents);
 
         // Add the given units' exponents to the existing exponents
-        for (const [unit, exponent] of operand.exponents) {
+        for (const [unit, exponent] of operand.exponents ?? new Map()) {
             const currentExponent = newExponents.get(unit);
             newExponents.set(unit, (currentExponent ?? 0) + exponent);
         }
@@ -352,7 +392,7 @@ export default class Unit extends Type {
         const newExponents = new Map(this.exponents);
 
         // Subtract the given units' exponents from the existing exponents
-        for (const [unit, exponent] of operand.exponents) {
+        for (const [unit, exponent] of operand.exponents ?? new Map()) {
             const currentExponent = newExponents.get(unit);
             newExponents.set(unit, (currentExponent ?? 0) - exponent);
         }
@@ -365,7 +405,7 @@ export default class Unit extends Type {
         const newExponents = new Map(this.exponents);
 
         // Multiply the units by the power.
-        for (const [unit, exp] of this.exponents) {
+        for (const [unit, exp] of this.exponents ?? new Map()) {
             newExponents.set(unit, exp * exponent);
         }
 
@@ -383,7 +423,7 @@ export default class Unit extends Type {
 
     getDescriptionInputs(locales: Locales) {
         return [
-            this.exponents.size === 0
+            this.isUnitless()
                 ? locales.get((l) => l.basis.Number.name[0])
                 : this.toWordplay(),
         ];

@@ -1,4 +1,4 @@
-import type EditContext from '@edit/EditContext';
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
@@ -29,12 +29,17 @@ export default class NoneLiteral extends Literal {
         return 'NoneLiteral';
     }
 
+    getPurpose(): Purpose {
+        return Purpose.Truth;
+    }
+
     getGrammar(): Grammar {
         return [
             {
                 name: 'none',
                 kind: node(Sym.None),
                 getType: () => NoneType.make(),
+                label: undefined,
             },
         ];
     }
@@ -43,14 +48,12 @@ export default class NoneLiteral extends Literal {
         return new NoneLiteral(new Token(NONE_SYMBOL, Sym.None));
     }
 
-    static getPossibleReplacements({ type, context }: EditContext) {
-        return type === undefined || type.accepts(NoneType.make(), context)
-            ? [NoneLiteral.make()]
-            : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends(context: EditContext) {
-        return this.getPossibleReplacements(context);
+    static getPossibleInsertions() {
+        return [NoneLiteral.make()];
     }
 
     clone(replace?: Replacement) {

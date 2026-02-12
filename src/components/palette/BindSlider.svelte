@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type OutputProperty from '@edit/OutputProperty';
-    import type OutputPropertyRange from '@edit/OutputPropertyRange';
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import type OutputPropertyRange from '@edit/output/OutputPropertyRange';
+    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
     import { parseNumber } from '@parser/parseExpression';
     import type Decimal from 'decimal.js';
     import { locales, Projects } from '../../db/Database';

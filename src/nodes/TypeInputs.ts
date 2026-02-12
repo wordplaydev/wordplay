@@ -36,7 +36,7 @@ export default class TypeInputs extends Node {
         return [TypeInputs.make()];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [TypeInputs.make()];
     }
 
@@ -45,14 +45,22 @@ export default class TypeInputs extends Node {
     }
 
     getPurpose() {
-        return Purpose.Type;
+        return Purpose.Advanced;
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.TypeOpen) },
-            { name: 'types', kind: list(true, node(Type)) },
-            { name: 'close', kind: optional(node(Sym.TypeClose)) },
+            { name: 'open', kind: node(Sym.TypeOpen), label: undefined },
+            {
+                name: 'types',
+                kind: list(true, node(Type)),
+                label: () => (l) => l.term.type,
+            },
+            {
+                name: 'close',
+                kind: optional(node(Sym.TypeClose)),
+                label: undefined,
+            },
         ];
     }
 

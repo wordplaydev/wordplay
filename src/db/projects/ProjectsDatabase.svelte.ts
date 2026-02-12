@@ -197,6 +197,8 @@ export default class ProjectsDatabase {
         const constraints = [
             where('owner', '==', user.uid),
             where('collaborators', 'array-contains', user.uid),
+            where('commenters', 'array-contains', user.uid),
+            where('viewers', 'array-contains', user.uid),
         ];
 
         // If the user has any gallery IDs it has access to, include those in the project query.
@@ -447,10 +449,10 @@ export default class ProjectsDatabase {
                             project,
                             // The project is editable if the user is the owner, or the user is a collaborator, or the user
                             user !== null &&
-                                (project.isOwner(user.uid) ||
-                                    project.hasCollaborator(user.uid) ||
-                                    (gallery !== undefined &&
-                                        gallery.hasCurator(user.uid))),
+                            (project.isOwner(user.uid) ||
+                                project.hasCollaborator(user.uid) ||
+                                (gallery !== undefined &&
+                                    gallery.hasCurator(user.uid))),
                             PersistenceType.Online,
                             false,
                         );
@@ -585,6 +587,9 @@ export default class ProjectsDatabase {
 
     /** Persist in storage */
     async persist() {
+        // Note that we're saving.
+        this.database.setStatus(SaveStatus.Saving, undefined);
+
         const userID = this.database.getUserID();
 
         // Before doing anything, ensure all editable projects that don't have an owner have one.
@@ -633,8 +638,6 @@ export default class ProjectsDatabase {
 
         // Then, try to save them in Firebase if we have a user ID.
         if (firestore && userID) {
-            this.database.setStatus(SaveStatus.Saving, undefined);
-
             const unsaved = online.filter((history) => history.isUnsaved());
             /** Whether a project was not saved because it has PII. */
             let skipped = false;
@@ -686,7 +689,7 @@ export default class ProjectsDatabase {
                     (l) => l.ui.project.save.projectNotSavedOnline,
                 );
             }
-        }
+        } else this.database.setStatus(SaveStatus.Saved, undefined);
     }
 
     /** Revise all editable projects to use the specified locales */
@@ -739,9 +742,6 @@ export default class ProjectsDatabase {
      * Should be called any time this.projects is modified.
      */
     saveSoon() {
-        // Note that we're saving.
-        this.database.setStatus(SaveStatus.Saving, undefined);
-
         // Clear pending saves.
         clearTimeout(this.timer);
 

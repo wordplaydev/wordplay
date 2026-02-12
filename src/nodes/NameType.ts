@@ -1,7 +1,10 @@
+import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { UnknownName } from '@conflicts/UnknownName';
 import { UnknownTypeName } from '@conflicts/UnknownTypeName';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import Refer from '@edit/revision/Refer';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -45,14 +48,44 @@ export default class NameType extends Type {
         return new NameType(new NameToken(name), undefined, definition);
     }
 
+    static getStructuresInScope(node: Node, context: Context) {
+        // Suggest all defined structures in scope
+        return node
+            .getDefinitionsInScope(context)
+            .filter((def) => def instanceof StructureDefinition)
+            .map((def) => new Refer((name) => NameType.make(name, def), def));
+    }
+
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        // Suggest all defined structures in scope
+        return this.getStructuresInScope(node, context);
+    }
+
+    static getPossibleInsertions({ parent, context }: InsertContext) {
+        return this.getStructuresInScope(parent, context);
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'NameType';
     }
 
+    getPurpose(): Purpose {
+        return Purpose.Types;
+    }
+
     getGrammar(): Grammar {
         return [
-            { name: 'name', kind: node(Sym.Name), uncompletable: true },
-            { name: 'types', kind: optional(node(TypeInputs)) },
+            {
+                name: 'name',
+                kind: node(Sym.Name),
+                uncompletable: true,
+                label: undefined,
+            },
+            {
+                name: 'types',
+                kind: optional(node(TypeInputs)),
+                label: undefined,
+            },
         ];
     }
 

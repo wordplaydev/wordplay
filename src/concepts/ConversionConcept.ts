@@ -27,7 +27,7 @@ export default class ConversionConcept extends Concept {
         context: Context,
         structure?: StructureConcept,
     ) {
-        super(Purpose.Convert, structure?.definition, context);
+        super(Purpose.Types, structure?.definition, context);
 
         this.definition = definition;
         this.structure = structure;
@@ -51,9 +51,7 @@ export default class ConversionConcept extends Concept {
     }
 
     getDocs(locales: Locales): Markup[] {
-        return (this.definition.docs?.docs ?? [])
-            .map((doc) => doc.markup.concretize(locales, []))
-            .filter((m) => m !== undefined);
+        return this.definition.docs.getMarkup(locales);
     }
 
     getNames(locales: Locales) {

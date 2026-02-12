@@ -2149,7 +2149,7 @@
                             "但那可能不是你想要的……",
                             "并且, 如果我不知道如何满足你的要求, 我基本上就要将这个事情关掉了。"
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [
@@ -2540,7 +2540,7 @@
                             "excited",
                             "使用@Button 流是推进表演阶段或触发表演中某些变化的一种方法。这个小程序监听按钮按下，一开始显示悲伤，但当@Button 流变为true时，@Conditional 会评估为 \\'happy'\\。"
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
                 },
                 {
@@ -2597,7 +2597,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "随机可以很有趣！我们可以将它与流一起使用，创造有趣的混乱。例如，在这里我们从一个单词列表中随机选择一个单词。这与 \\['kitty' 'cat' 'meowy'].random()\\ 相同。不断按 ↻ 以获得不同猫的同义词！尝试将你自己的单词添加到列表中，看看能否让该单词出现。"
+                            "随机可以很有趣！我们可以将它与流一起使用，创造有趣的混乱。例如，在这里我们从一个单词列表中随机选择一个单词。这与 \\['kitty' 'cat' 'feline'].random()\\ 相同。不断按 ↻ 以获得不同猫的同义词！尝试将你自己的单词添加到列表中，看看能否让该单词出现。"
                         ],
                         ["Random", "neutral", "1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]
@@ -3931,11 +3931,12 @@
                         ],
                         [
                             "edit",
+                            "click: ∆ Button()",
                             "Scene([",
                             "    Phrase('one')",
-                            "    ∆ Button()",
+                            "    click",
                             "    Phrase('two')",
-                            "    ∆ Button()",
+                            "    click",
                             "    Phrase('three')",
                             "])"
                         ],

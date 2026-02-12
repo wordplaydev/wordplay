@@ -1,3 +1,4 @@
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -20,12 +21,20 @@ export default class Docs extends Node {
         this.computeChildren();
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getTemplate(locales: Locales) {
+        return Docs.make([Doc.getTemplate(locales)]);
     }
 
-    static getPossibleAppends() {
-        return [new Docs([Doc.make()])];
+    static getPossibleReplacements({ locales }: ReplaceContext) {
+        return Docs.getTemplate(locales);
+    }
+
+    static getPossibleInsertions({ locales }: InsertContext) {
+        return Docs.getTemplate(locales);
+    }
+
+    static make(docs?: Doc[]) {
+        return new Docs(docs ?? []);
     }
 
     getDescriptor(): NodeDescriptor {
@@ -33,7 +42,14 @@ export default class Docs extends Node {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'docs', kind: list(false, node(Doc)), newline: true }];
+        return [
+            {
+                name: 'docs',
+                kind: list(true, node(Doc)),
+                newline: true,
+                label: () => (l) => l.term.documentation,
+            },
+        ];
     }
 
     clone(replace?: Replacement) {
@@ -42,12 +58,16 @@ export default class Docs extends Node {
         ) as this;
     }
 
+    isEmpty() {
+        return this.docs.length === 0;
+    }
+
     withOption(doc: Doc) {
         return new Docs([...this.docs, doc]);
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     computeConflicts() {
@@ -75,6 +95,12 @@ export default class Docs extends Node {
         const locales = preferred.getLocales();
 
         return getPreferred(locales, this.docs);
+    }
+
+    getMarkup(locales: Locales) {
+        return this.docs
+            .map((doc) => doc.markup.concretize(locales, []))
+            .filter((m) => m !== undefined);
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Docs;

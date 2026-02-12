@@ -82,29 +82,29 @@ export default class Borrow extends SimpleExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'borrow', kind: node(Sym.Borrow) },
+            { name: 'borrow', kind: node(Sym.Borrow), label: undefined },
             {
                 name: 'source',
                 kind: any(node(Reference), none()),
                 space: true,
-                label: () => (l) => l.node.Borrow.source,
+                label: () => (l) => l.node.Borrow.label.source,
             },
-            { name: 'dot', kind: optional(node(Sym.Access)) },
+            { name: 'dot', kind: optional(node(Sym.Access)), label: undefined },
             {
                 name: 'name',
                 kind: optional(node(Reference)),
-                label: () => (l) => l.node.Borrow.name,
+                label: () => (l) => l.node.Borrow.label.bind,
             },
             {
                 name: 'version',
                 kind: optional(node(Sym.Number)),
-                label: () => (l) => l.node.Borrow.version,
+                label: () => (l) => l.node.Borrow.label.version,
             },
         ];
     }
 
     getPurpose() {
-        return Purpose.Source;
+        return Purpose.Advanced;
     }
 
     clone(replace?: Replacement) {

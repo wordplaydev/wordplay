@@ -62,11 +62,8 @@
 {/if}
 
 <Mode
-    descriptions={(l) => l.ui.dialog.share.mode.public}
+    modes={(l) => l.ui.dialog.share.mode.public}
     choice={isPublic ? 1 : 0}
     select={set}
-    modes={[
-        '🤫 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[0]),
-        `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.dialog.share.mode.public.modes[1])}`,
-    ]}
+    icons={['🤫', GLOBE1_SYMBOL]}
 />

@@ -6,18 +6,20 @@
     import { slide } from 'svelte/transition';
 
     interface Props {
+        markup?: boolean;
         inline?: boolean;
         text?: LocaleTextAccessor;
         children?: Snippet;
     }
 
-    let { inline = false, text, children }: Props = $props();
+    let { markup = true, inline = false, text, children }: Props = $props();
 </script>
 
 {#if inline}<span class="feedback">{@render children?.()}</span>{:else}
     <p class="feedback" transition:slide={{ duration: $animationDuration }}
         >{#if children}{@render children()}{:else if text}<LocalizedText
                 path={text}
+                {markup}
             />{/if}</p
     >{/if}
 
@@ -28,12 +30,19 @@
         color: var(--wordplay-background);
         background: var(--wordplay-error);
         margin-block-start: var(--wordplay-spacing);
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
         flex-grow: 0;
     }
 
-    .feedback > :global(a) {
+    .feedback :global(a) {
+        color: var(--wordplay-background);
+        font-weight: bold;
+        text-decoration: var(--wordplay-border-width) underline
+            var(--wordplay-background);
+    }
+
+    .feedback :global(a):hover {
         color: var(--wordplay-background);
         text-decoration: var(--wordplay-focus-width) underline
             var(--wordplay-background);

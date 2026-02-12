@@ -154,10 +154,10 @@ export default class Locales {
                 typeof match === 'string'
                     ? this.clean(match, fallback)
                     : // Is it an array? Clean each one.
-                      Array.isArray(match) &&
+                    Array.isArray(match) &&
                         match.every((s) => typeof s === 'string')
-                      ? match.map((s) => this.clean(s, fallback))
-                      : match
+                        ? match.map((s) => this.clean(s, fallback))
+                        : match
             ) as Kind
         );
     }

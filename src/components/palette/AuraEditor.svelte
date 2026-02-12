@@ -2,8 +2,8 @@
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
     import Slider from '@components/widgets/Slider.svelte';
     import type Project from '@db/projects/Project';
-    import type OutputProperty from '@edit/OutputProperty';
-    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import { getFirstText } from '@locale/LocaleText';
     import type Bind from '@nodes/Bind';
     import Evaluate from '@nodes/Evaluate';
@@ -29,13 +29,13 @@
         id = undefined,
     }: Props = $props();
 
-    let blur = $state(
+    let blur = $derived(
         getNumberBind(project.shares.output.Aura.inputs[1], values) ?? 0.05,
     );
-    let offsetX = $state(
+    let offsetX = $derived(
         getNumberBind(project.shares.output.Aura.inputs[2], values) ?? 0,
     );
-    let offsetY = $state(
+    let offsetY = $derived(
         getNumberBind(project.shares.output.Aura.inputs[3], values) ?? 0,
     );
 

@@ -3,37 +3,244 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 0.6.26
+## 0.16.41 - 2026-02-07
 
-### Maintenance
+### Added
+
+- **Updates highlight**. We now highlight the updates link on the landing page when there are new updates.
+- **Gallery chat moderation**. Creators in a gallery can report problematic chats to curators of a gallery, and curators can moderate those messages.
+- **Organized the galleries page**. All galleries — yours, examples, and public galleries — now appear on the galleries page (#594, #799).
+
+### Changed
+
+- We made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
+- We upgraded minor versions of internal tooling for stability.
+- Markup can now handle multiple translations. The current primary language will be rendered.
+- We hid a drop down menu for text type words, since those have to be typed, and so the menu would be empty.
+- We added insertion points in blocks mode for optionally empty fields of a block.
+- We added a cleaner visual design for type blocks.
+
+### Fixed
+
+- We fixed a problem with the rotating locale chooser on the landing page (#942).
+- We avoid machine translating of symbolic names, which sometimes are converted in strange ways by Google Translate.
+- We fixed the time zone on updates page, so the date is always in Pacific time.
+
+## 0.16.40 - 2026-01-31
+
+### Added
+
+- **New locales**. We added machine translated drafts of _Arabic, Greek, Kannada, Telegu, and Assamese_ locales! We're sure there are many improvements to make, since AI is far from perfect, so reach out if you'd like to help improve them.
+- **Names in the guide**. We added all of the names of functions, structures, and streams to the guide, to make it easier to know the many multilingual names by which they can be referred (#934).
+- **Better drop downs**. We added fancy new drop down menus, to make it easier to select. _This only works in Chrome, but it should release in Safari soon._ (#729).
+- **A new updates page**! We created this updates page so you know what's changed recently. We don't translate it to all of our supported languages yet, but maybe your browser will help with that? (#351)
+
+### Changed
+
+- We improved the behavior and visual design of output selections when the palette is open (#932).
+- We upgraded minor versions of internal tooling for stability.
+
+### Fixed
+
+- Deleted characters no longer come back from the dead (#899).
+- We improved the unparsable tutorial in blocks mode (#929).
+- We improved screen reader accessibility.
+- Evaluate expressions are no longer renamed when autocompleted (#934).
+- The current layout tooltip now disappears when no longer hovered (#933).
+- The palette no longer shows current values when the program is paused.
+- Changing the font of a phrase correctly resizes the phrase on stage.
+
+## 0.16.39 - 2026-01-24
+
+### Added
+
+- We added login links to messages asking you to log in (#892).
+- When some text is edited in one locale, we re-translate other locales if they haven't been written by a human yet.
+- We added keyboard shortcuts to switches (#913).
+
+### Fixed
+
+- We fixed a UI highlight in the tutorial (#919).
+- We corected an example in the tutorial (#893).
+- We improved the visibility of tutorial highlights (#915).
+- We fixed an inconsistency between tutorial text and output (#916).
+- We fixed a problem with changed stream evaluation that was making \Scene\ not work.
+- We better synchronized the blur and keyboard idle effects on stage (#891).
+- We removed custom characters from the emoji picker in the character editor (#910).
+- We made the tooltips at the edge of window stop flickering (#895).
+- We improved the hover feedback on editable text in the code editor (#901).
+- We corrected the tile resizing behavior in the tutorial (#912).
+
+### Changed
+
+- We upgraded minor versions of internal tooling for stability, such as the _ColorJS_ library, which we use for colors.
+
+## 0.16.38
+
+### Changed
+
+- Updated minor versions of firebase, firebase-functions, zod, prettier-plugin-svelte, vite, vitest.
+
+## 0.16.37
+
+### Fixed
+
+- Less flaky authenticated end2end tests.
+- No redirect to login page prior to auth registration.
+- Fixed #873: Consistent color emoji usage in markup.
+- Fixed #872: Inconsistent links across landing pages.
+- Fixed #874: Fixed tooltip positioning in scrolled dialogs.
+
+### Added
+
+- Merged #875: Cycling language chooser on landing page.
+- Added Open Graph metadata for previews.
+
+### Changed
+
+- Updated minor versions of Svelte, SvelteKit, vite.
+
+## 0.16.36
+
+### Fixed
+
+- Fixed stale reference warnings.
+- Worked around Firebase functions regression.
+
+### Changed
+
+- Updated minor versions of `svelte`, `@sveltejs/kit`, `prettier`, `tsx`, `vite`, `vitest`, `firebase-functions`.
+- Removed `ts-jest` dependency.
+
+## 0.16.35
+
+### Added
+
+- Fixed #865: Added formatted text editor with basic toolbar and keyboard shortcuts.
+
+### Fixed
+
+- Fixed #866: Inconsistent exit behavior when leaving output full screen mode.
+
+### Changed
+
+- Updated minor versions of `@playwright/test`, `prettier`, `svelte`, `vitest`, `zod`, `nodemailer`
+
+## 0.16.34
+
+### Fixed
+
+- Removed extra space before bullets.
+
+### Changed
+
+- Updated minor versions of SvelteKit, Svelte, vite, vitest.
+- Removed unused `firebase-functions` and `firebase-functions-test` dependencies.
+- Updated functions dependencies: `@google-cloud/translate`, `@types/nodemailer`, `firebase-admin`, `firebase-functions`
+- Override `cookie` package to resolve vulnerability.
+
+## 0.16.33
+
+### Fixed
+
+- Fixed #855: Show editor and output locale chooser when there is at least one explicit tag.
+- Fixed #856: Added standard tooltip and drop down arrow to options.
+- Fixed #852: Prefer full names over symbolic names in translation.
+
+### Changed
+
+- Removed unused `@types/npm`, and `@types/uuid` dependencies.
+- Updated minor versions of Svelte, SvelteKit, svelte-check, vitest, Firebase.
+
+## 0.16.32
+
+### Changed
+
+- Updated minor version of Svelte.
+
+## 0.16.31
+
+### Fixed
+
+- Fixed #854, accounting for lack of COLRv1 support in Safari.
+
+### Changed
+
+- Updated minor versions of firebase-admin, svelte, vite
+- Updated to vitest 4.
+
+## 0.16.30
+
+### Changed
+
+- Ensure types exist before Playwright tests.
+- Fixed font-size in footer. For some reason we made it small.
+- Updated minor versions of Svelte, SvelteKit, Firebase, vitest, nodemailer, firebase-functions.
+- Improved styling of drop down size
+- Fixed settings label layout.
+- Consistent language descriptions in locale choosers.
+
+## 0.16.29
+
+### Changed
+
+- Updated minor versions of Axe, Svelte, SvelteKit, firebase-functions, vite, vitest.
+- Fixed #840: improved source tile toggle contrast and labels.
+- Fixed #841: improved concept group expand/collapse visual design.
+- Don't permit whitespace wrap in subheaders.
+- Fixed #843: Don't give tutorial projects a name, in case locale changes.
+- Fixed #845: Resolved sticky tutorial navigation when concept link clicked.
+
+## 0.16.28
+
+### Fixed
+
+- Fixed login regression introduced by Svelte regression.
+
+## 0.16.27
+
+### Fixed
+
+- Made undo, redo buttons important, other navigation commands unimportant.
+- Fixed #838: Consume enter/space after glyph insertion in editor.
+- Prevent jiggle of creator view in project footer after edits.
+- Fixed #839: Ensure correct locales in Project basis to match documentation to selected locale.
+
+### Changed
+
+- Updated minor versions of Axe, Google Translate, Svelte, chalk, decimal.js, dexie, firebase, prettier, typescript, vite, vitest, zod.
+
+## 0.16.26
+
+### Changed
 
 - Updated minor versions of Svelte, SvelteKit, vite-plugin-svelte, svelte-check, tsx, vite, playwright
 
-## 0.6.25
+## 0.16.25
 
-### Maintenance
+### Changed
 
 - Updated Svelte, SvelteKit, Firebase, vite, zod, and some type definitions.
 
-## 0.6.24
+## 0.16.24
 
-### Maintenance
+### Changed
 
 - Updated svelte, @sveltejs/vite-plugin-svelte, @sveltejs/kit, chalk
 
-## 0.6.23
+## 0.16.23
 
 ### Fixed
 
 - Eliminated hidden dependency crashing editor.
 
-### Maintenance
+### Changed
 
 - Updated minor versions of Svelte, SvelteKit, Vite.
 - Updated uuid to 12.
 - Error reporting on TileView failure.
 
-## 0.6.22
+## 0.16.22
 
 ### Fixed
 
@@ -41,11 +248,11 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed type error on Volume.
 - Hide tooltip if target is removed from DOM.
 
-### Maintenance
+### Changed
 
 - Updated minor versions of zod, vite, Typescript, Svelte, Firebase, Firebase Admin, Dexie, Playwright.
 
-## 0.6.21
+## 0.16.21
 
 ### Added
 
@@ -57,14 +264,14 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Typos in documentation and tutorial.
 - Fixed infinite recursion in Scenes.
 
-### Maintenance
+### Changed
 
 - Updated minor versions of Google Translate, Playwright, Svelte, SvelteKit, Firebase.
 - Update major versions of vite and vite-plugin-svelte.
 - Updated to Firebase 12.
 - Updated to Zod 4.
 
-## 0.6.20
+## 0.16.20
 
 ## Added
 
@@ -78,12 +285,12 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Unset locale after translating project.
 - Don't translate texts that are supposed to be one of a literal text type.
 
-## Maintenance
+## Changed
 
 - Updated Svelte, SvelteKit, vite, prettier
 - Removed eslint (it was unused)
 
-## 0.6.19
+## 0.16.19
 
 ## Added
 
@@ -106,13 +313,13 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #328: Finished localizing moderation page.
 - Fixed #744: Clarifying output locale drop down.
 
-## Maintenance
+## Changed
 
 - Updated Playwright, Svelte, SvleteKit, eslint, firebase, tsx, vitest, zod, nodemailer, firebase admin, Google Translate.
 - Added timeline toolbar tests.
 - Better chunking of build for faster load times.
 
-## 0.6.18
+## 0.16.18
 
 ## Added
 
@@ -123,11 +330,11 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Preserve regions when repairing locales.
 
-## Maintenance
+## Changed
 
 - Updated Axe, SvelteKit, eslint, Firebase, zod, vitest minor versions.
 
-## 0.6.17
+## 0.16.17
 
 ## Fixed
 
@@ -139,7 +346,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - #689: Header contrast over error colors in dark mode.
 - #681: Don't allow end token to be selected.
 
-## 0.6.16
+## 0.16.16
 
 ## Added
 
@@ -164,11 +371,11 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed type exception value type.
 - Fixed bug where type over was reversed.
 
-## Maintenance
+## Changed
 
 - Updated all minor versions.
 
-## 0.6.15
+## 0.16.15
 
 ## Added
 
@@ -179,7 +386,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #767 Correcting animation speed labels.
 - Preserve multi-region IDs in locales.
 
-## 0.6.14
+## 0.16.14
 
 ## Added
 
@@ -194,12 +401,12 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Show local projects without owner.
 - Allow markup templates to evaluate to markup.
 
-## Maintenance
+## Changed
 
 - Updated minor versions of SvelteKit, Svelte, svelte-check, eslint, tsx, vite, vitest, zod, firebase-admin
 - Updated to nodemailer 7.0.
 
-## 0.6.13
+## 0.16.13
 
 ## Added
 
@@ -257,7 +464,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed example conflict.
 - Fixed case where flipped selection range wouldn't copy.
 
-### Maintenance
+### Changed
 
 - Updated Svelte, SvelteKit, Typescript, eslint, Vite, and Vitest.
 
@@ -328,7 +535,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #715, improving language and region names on stage chooser.
 - Preview aura when editing.
 
-### Maintenance
+### Changed
 
 - Updated Google Cloud Translate, Playwright, Svelte, SvelteKit, Vitest, Eslint.
 
@@ -388,7 +595,7 @@ Character editing improvements:
 - Eliminated proactive root walk to reduce edit overhead.
 - Account for undefined evaluation context in tutorial.
 
-### Maintenance
+### Changed
 
 - Updated minor versions of Svelte, SvelteKit, Vite.
 
@@ -427,7 +634,7 @@ Character editing improvements:
 - Only run tests and checks on PR, not merge.
 - Allow selection of names with escape key, rather than selecting parent.
 
-### Maintenance
+### Changed
 
 - Updated Google Translate, Svelte, SvelteKit, Firebase, Prettier, TypeScript, Vite, Vitest.
 
@@ -449,7 +656,7 @@ Character editing improvements:
 - Don't show how to guide by default in tutorial.
 - Vertical layout of project sets.
 
-### Maintenance
+### Changed
 
 - Updated types, eslint, prettier, svelte, tsx, uuid, vite, vitest, and firebase functions.
 - Fixed #528: Deploy to prod on push or merge to main.
@@ -470,7 +677,7 @@ Character editing improvements:
 
 - Allow ∂ in addition to ∆ for change, for consistency, and because of error in code examples in CHI 2025 paper.
 
-### Maintenance
+### Changed
 
 - Updated minor versions of Svelte, SvelteKit, ESLint, Firebase, Prettier, Zod.
 - Enforce organized imports on save; removed import cycles.
@@ -501,7 +708,7 @@ Character editing improvements:
 - Account for full width punctuation in reserved symbols.
 - Disable background animation for speed.
 
-### Maintenance
+### Changed
 
 - Updated firebase and firebase-functions.
 
@@ -527,7 +734,7 @@ Character editing improvements:
 - #657: Fixed focus on tutorial buttons.
 - Always localize delimiters
 
-### Maintenance
+### Changed
 
 - Updated minor versions of all dependencies.
 
@@ -595,7 +802,7 @@ Character editing improvements:
 - Performance improvements to editor.
 - Fixed teach and learn emojis on landing page.
 
-### Maintenance
+### Changed
 
 - Updated minor versions of Svelte, Sveltekit, Vite.
 - Upgraded to Firebase 11, Firebase Functions 6, Firebase Admin 13
@@ -613,7 +820,7 @@ Character editing improvements:
 
 - Simplified login and join pages.
 
-### Maintenance
+### Changed
 
 - Updated minor versions.
 
@@ -623,7 +830,7 @@ Character editing improvements:
 
 - Error boundary to prevent `TileView` errors from causing crash.
 
-### Maintenance
+### Changed
 
 - Updated all minor releases of dependencies except for Firebase.
 - Build functions before starting emulator
@@ -641,7 +848,7 @@ Character editing improvements:
 - Fixed rendering of text values for stepping highlights.
 - Fixed spacing on subheaders.
 
-### Maintenance
+### Changed
 
 - Add svelte-check to CI.
 
@@ -656,7 +863,7 @@ Character editing improvements:
 - Fixed free form project layout.
 - Corrected several invalid HTML issues for hydration.
 
-### Maintenance
+### Changed
 
 - Migrated to Svelte 5, converting to $state, $derived, $effect, and snippets.
 - Updated point releases of all dependencies, except Firebase.
@@ -711,7 +918,7 @@ Character editing improvements:
 
 - Show conflicts even when paused.
 
-### Maintenance
+### Changed
 
 - Several dependendabot pull request updates.
 
@@ -818,7 +1025,7 @@ Character editing improvements:
 - Don't tokenize negative numbers; treat them as a unary evaluation.
 - More consistent button styling.
 
-### Maintenance
+### Changed
 
 - Added additional reactivity tests to cover granular re-evaulation of random.
 - A basic project test to ensure all windows are visible.
@@ -862,7 +1069,7 @@ Character editing improvements:
 - [#500](https://github.com/wordplaydev/wordplay/issues/500). Improved explanation when there's a space between an evaluation's name and inputs.
 - [#455](https://github.com/wordplaydev/wordplay/issues/455). Replaced `Bind`s with `Input`'s in `Evaluate` and table operations to prevent invalid bind metadata in evaluations.
 
-### Maintenance
+### Changed
 
 - Upgraded to TypeScript 5.5.
 
@@ -883,7 +1090,7 @@ Character editing improvements:
 - [#484](https://github.com/wordplaydev/wordplay/issues/484). Cleaned up project locales and translations.
 - [#485](https://github.com/wordplaydev/wordplay/issues/485). Have runtime respect project locales.
 
-### Maintenance
+### Changed
 
 - Upgraded to latest versions of Firebase Functions and Firebase Admin.
 - Added pull request template
@@ -960,13 +1167,13 @@ Character editing improvements:
 
 - Added description of the parent of the node the cursor is at.
 
-### Maintenance
+### Changed
 
 - Upgraded to Dexie 4.0.4.
 
 ## 0.9.391 2024-04-20
 
-### Maintenance
+### Changed
 
 - Updated Firebase
 
@@ -981,7 +1188,7 @@ Character editing improvements:
 - [#410](https://github.com/wordplaydev/wordplay/issues/410): Fixed alignment of project preview characters.
 - [#420](https://github.com/wordplaydev/wordplay/issues/420): Avoid setting tutorial project name.
 
-### Maintenance
+### Changed
 
 - Updated Svelte, SvelteKit, and Firebase versions.
 - Updated TypeScript to 5.4.
@@ -1117,7 +1324,7 @@ Character editing improvements:
 - [#341](https://github.com/wordplaydev/wordplay/issues/341): Fixed key overrides in MapLiteral.
 - [#342](https://github.com/wordplaydev/wordplay/issues/342): Fixed broken collaborator sharing button.
 
-### Maintenance
+### Changed
 
 - Upgraded to SvelteKit 2.32.
 - Upgraded to Vite 5.0.11
@@ -1140,7 +1347,7 @@ Character editing improvements:
 
 - Subconcepts are now scrolled to properly when selected via a concept link.
 
-### Maintenance
+### Changed
 
 - Improved error messages and converage of basis unit tests for conflicts.
 
@@ -1174,7 +1381,7 @@ Character editing improvements:
 - [#330](https://github.com/wordplaydev/wordplay/issues/330): Labeled drop downs.
 - [#314](https://github.com/wordplaydev/wordplay/issues/314): Removed low opacity footer on fullscreen for accessibility.
 
-### Maintenance
+### Changed
 
 - [#313](https://github.com/wordplaydev/wordplay/issues/313): Upgraded to SvelteKit 2, Vite 5, tsx 4.7.0, and related dependencies.
 
@@ -1186,7 +1393,7 @@ Character editing improvements:
 - Generalized mechanisms for time-based reactions in evaluations.
 - Guaranteee re-render on font load.
 
-### Maintenance
+### Changed
 
 - Updated minor versions of Playwrite, ESLint, Jester, tsx, and Firebase
 - Upgraded to Prettier 3

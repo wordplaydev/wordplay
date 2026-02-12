@@ -1,12 +1,13 @@
 <script lang="ts">
+    import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
-    import type OutputProperty from '@edit/OutputProperty';
-    import OutputPropertyOptions from '@edit/OutputPropertyOptions';
-    import OutputPropertyRange from '@edit/OutputPropertyRange';
-    import OutputPropertyText from '@edit/OutputPropertyText';
-    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
+    import OutputPropertyRange from '@edit/output/OutputPropertyRange';
+    import OutputPropertyText from '@edit/output/OutputPropertyText';
+    import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
     import { tick } from 'svelte';
     import { DB, locales } from '../../db/Database';
@@ -16,7 +17,6 @@
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import NodeView from '../editor/NodeView.svelte';
     import { getConceptIndex } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
@@ -96,8 +96,12 @@
             <Note id={propertyID}
                 >{#if property.inherited}<LocalizedText
                         path={(l) => l.ui.palette.labels.inherited}
-                    />{:else if values.areDefault() && expression !== undefined}<NodeView
+                    />{:else if values.areDefault() && expression !== undefined}
+                    <RootView
                         node={expression}
+                        inline={true}
+                        blocks={false}
+                        inert={true}
                     />
                     <LocalizedText
                         path={(l) => l.ui.palette.labels.default}

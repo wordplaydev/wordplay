@@ -1,3 +1,4 @@
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { FontWeight } from '../basis/Fonts';
@@ -42,12 +43,16 @@ export default class Markup extends Content {
         return markup;
     }
 
-    static getPossibleReplacements() {
-        return [new Markup([new Paragraph([])])];
+    static getPossibleReplacements({ locales }: ReplaceContext) {
+        return [
+            new Paragraph([Words.make(locales.get((l) => l.node.Markup.name))]),
+        ];
     }
 
-    static getPossibleAppends() {
-        return [new Markup([new Paragraph([])])];
+    static getPossibleInsertions({ locales }: InsertContext) {
+        return [
+            new Paragraph([Words.make(locales.get((l) => l.node.Markup.name))]),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -59,6 +64,7 @@ export default class Markup extends Content {
             {
                 name: 'paragraphs',
                 kind: list(true, node(Paragraph)),
+                label: () => (l) => l.node.Markup.label.paragraphs,
                 newline: true,
                 double: true,
             },
@@ -73,7 +79,7 @@ export default class Markup extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     computeConflicts() {

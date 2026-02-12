@@ -348,7 +348,9 @@ export default class Layout {
         return new Layout(
             this.projectID,
             this.tiles.map((tile) =>
-                tile.id === tileID ? tile.withMode(TileMode.Expanded) : tile,
+                tile.id === tileID
+                    ? tile.withMode(TileMode.Expanded)
+                    : tile.withMode(TileMode.Collapsed),
             ),
             tileID,
             this.splits,
@@ -533,7 +535,7 @@ export default class Layout {
         );
     }
 
-    /** Only two visible at a time, whichever two are first in the list of tiles */
+    /** Only two visible at a time, whichever two are last in the list of tiles */
     split(width: number, height: number) {
         // Find the last two visible tiles
         const visibleTiles = this.tiles

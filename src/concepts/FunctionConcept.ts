@@ -41,6 +41,7 @@ export default class FunctionConcept extends Concept {
         this.example = this.definition.getEvaluateTemplate(
             locales,
             context,
+            false,
             this.structure?.type,
         );
 
@@ -68,13 +69,14 @@ export default class FunctionConcept extends Concept {
     }
 
     getDocs(locales: Locales): Markup[] {
-        return (this.definition.docs?.docs ?? [])
-            .map((doc) => doc.markup.concretize(locales, []))
-            .filter((m) => m !== undefined);
+        return this.definition.docs.getMarkup(locales);
     }
 
-    getNames() {
-        return this.definition.names.getNames();
+    getNames(_: Locales, symbolic: boolean) {
+        if (symbolic) {
+            const sym = this.definition.names.getSymbolicName();
+            return sym ? [sym] : [];
+        } else return this.definition.names.getNames();
     }
 
     getName(locales: Locales) {

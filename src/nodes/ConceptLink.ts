@@ -154,7 +154,9 @@ export default class ConceptLink extends Content {
     }
 
     getGrammar(): Field[] {
-        return [{ name: 'concept', kind: node(Symbol.Concept) }];
+        return [
+            { name: 'concept', kind: node(Symbol.Concept), label: undefined },
+        ];
     }
 
     clone(replace?: Replacement | undefined): this {
@@ -164,7 +166,7 @@ export default class ConceptLink extends Content {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Documentation;
     }
 
     computeConflicts(): Conflict[] {

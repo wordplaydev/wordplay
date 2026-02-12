@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type OutputProperty from '@edit/OutputProperty';
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
     import BooleanLiteral from '@nodes/BooleanLiteral';
     import { locales, Projects } from '../../db/Database';
     import { getProject } from '../project/Contexts';

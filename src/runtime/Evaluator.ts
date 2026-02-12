@@ -1,4 +1,3 @@
-import Context from '@nodes/Context';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -479,7 +478,7 @@ export default class Evaluator {
     getCurrentContext() {
         return (
             this.getCurrentEvaluation()?.getContext() ??
-            new Context(this.project, this.project.getMain())
+            this.project.getContext(this.project.getMain())
         );
     }
 
@@ -535,7 +534,7 @@ export default class Evaluator {
             // Get the expression of the given node and compile it.
             const context =
                 this.project.getNodeContext(definition) ??
-                new Context(this.project, this.project.getMain());
+                this.project.getContext(this.project.getMain());
             steps = definition.getEvaluationSteps(this, context);
             this.steps.set(definition, steps);
         }
@@ -1635,8 +1634,7 @@ export default class Evaluator {
                     }
                 }
 
-                // STEP 3: If this stream node has an ancestor that is a condition of a Conditional, value of a Match,
-                // or input of an Evaluate, then all of the subexpression of the branch are dependent on this
+                // STEP 3: If this stream node has an ancestor that has a branch, then all of the subexpression of the branch are dependent on this
                 // stream.
                 const root = this.project.getRoot(streamNode);
                 if (root) {

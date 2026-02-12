@@ -1,0 +1,21 @@
+কেমেৰাৰ পৰা এটা ভিডিঅ’ তৈয়াৰ কৰক
+
+দ্য...  @Camera  stream হৈছে পৃথিৱীৰ পৰা ৰঙৰ গ্ৰীড পোৱাৰ এটা উত্তম উপায়। যদি আমি সেই ৰংবোৰ চাব বিচাৰো তেন্তে কি হ’ব, ছবিখন পুনৰ সৃষ্টি কৰি...  @Camera  দেখিছেনে?
+
+আমি ব্যৱহাৰ কৰিব পাৰো  @Grid  লেআউটৰ বাবে a  @Group , আৰু  @List/combine  ৰংসমূহক এটা তালিকালৈ ৰূপান্তৰ কৰিবলৈ ফাংচন  @Phrase  যে আমি দিওঁ  @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+এই উদাহৰণে বাক্যাংশৰ তালিকা নিৰ্মাণ কৰে, প্ৰতিটো ৰংক নিৰ্দিষ্ট ৰঙৰ সৈতে এটা বৃত্তত আবৰি ৰাখে।
+
+সাৱধান হওক  @Camera  ষ্ট্ৰিম: ইহঁতে বহুত ইনপুট উৎপন্ন কৰে! আপুনি ছবিখনৰ প্ৰস্থ আৰু উচ্চতা সৰু কৰি ৰাখিব বিচাৰিব।
+
+interactive-scene

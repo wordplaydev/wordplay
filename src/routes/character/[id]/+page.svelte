@@ -8,7 +8,11 @@
     import Page from '@components/app/Page.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getAnnounce, getUser } from '@components/project/Contexts';
+    import {
+        getAnnouncer,
+        getUser,
+        isAuthenticated,
+    } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -33,6 +37,7 @@
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
     import Sym from '@nodes/Sym';
+    import { RGBtoLCH } from '@output/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {
         ALL_SYMBOL,
@@ -47,7 +52,6 @@
         UNDO_SYMBOL,
     } from '@parser/Symbols';
     import { toTokens } from '@parser/toTokens';
-    import ColorJS from 'colorjs.io';
     import { untrack } from 'svelte';
     import {
         CharacterSize,
@@ -84,7 +88,7 @@
     const user = getUser();
 
     /** For announcing changes.*/
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     /** The current name of the shape */
     let name = $state('');
@@ -188,7 +192,9 @@
 
     /** Always have an up to date character to render and save */
     let editedCharacter: Character | null = $derived(
-        $user === null || $user.email === null || typeof persisted === 'string'
+        !isAuthenticated($user) ||
+            $user.email === null ||
+            typeof persisted === 'string'
             ? null
             : {
                   ...persisted,
@@ -243,8 +249,8 @@
     let failedProjects = $state<Project[]>([]);
     let showError = $state(false);
 
-    /** Don't save if the name is not avaialble*/
-    let savable = $derived($user !== null && $user.email !== null);
+    /** Don't save if the name is not available */
+    let savable = $derived(isAuthenticated($user) && $user.email !== null);
 
     let saving: number | undefined = undefined;
     async function save() {
@@ -1272,7 +1278,6 @@
 
     /** Given an emoji, render it to a canvas, get its pixels, and place the pixels in the character's shapes. */
     function importEmoji(emoji: string) {
-        // Get the
         emoji = new UnicodeString(emoji).at(0)?.toString() ?? '';
         if (emoji.length === 0) return;
 
@@ -1304,15 +1309,13 @@
                 const a = pixels[index + 3];
 
                 if (a > 0) {
-                    const color = new ColorJS(
-                        ColorJS.spaces.srgb,
-                        [r / 255, g / 255, b / 255],
-                        a / 255,
-                    ).to('lch');
+                    const color = RGBtoLCH(r / 255, g / 255, b / 255);
                     setPixel(false, x, y, {
-                        l: color.coords[0] / 100,
-                        c: color.coords[1],
-                        h: isNaN(color.coords[2]) ? 0 : color.coords[2],
+                        l: (color.coords[0] ?? 0) / 100,
+                        c: color.coords[1] ?? 0,
+                        h: isNaN(color.coords[2] ?? 0)
+                            ? 0
+                            : (color.coords[2] ?? 0),
                     });
                 }
             }
@@ -1556,17 +1559,12 @@
 )}
     <h3>{locales.get(accessor).label}</h3>
     <Mode
-        descriptions={accessor}
-        modes={[
-            '🎨',
-            locales.get((l) => l.ui.page.character.field.inherit),
-            ...(none
-                ? [locales.get((l) => l.ui.page.character.field.none)]
-                : []),
-        ]}
-        choice={state === 'none' ? 2 : state === 'inherit' ? 1 : 0}
+        modes={accessor}
+        icons={['🚫', '❏', '🎨']}
+        omit={none ? [] : [0]}
+        choice={state === 'none' ? 0 : state === 'inherit' ? 1 : 2}
         select={(choice: number) => {
-            setState(choice === 2 ? 'none' : choice === 1 ? 'inherit' : 'set');
+            setState(choice === 0 ? 'none' : choice === 1 ? 'inherit' : 'set');
         }}
         labeled={false}
     ></Mode>
@@ -1670,8 +1668,8 @@
             /></h2
         >
         <Mode
-            descriptions={(l) => l.ui.page.character.field.mode}
-            modes={['👆', '⌫', '■', '🔲', '⚪️', '╱', '🙂']}
+            modes={(l) => l.ui.page.character.field.mode}
+            icons={['👆', '⌫', '■', '🔲', '⚪️', '╱', '🙂']}
             choice={mode}
             select={(choice: number) => {
                 mode = choice as DrawingMode;
@@ -1679,6 +1677,7 @@
                     setKeyboardFocus(canvasView, 'Focus the canvas.');
             }}
             labeled={false}
+            wrap
         ></Mode>
 
         <!-- Say what's being drawn or selected selected -->
@@ -1705,7 +1704,7 @@
                 <LocalizedText path={(l) => l.ui.page.character.shape.emoji} />
             {:else}
                 <LocalizedText
-                    path={(l) => l.ui.page.character.field.mode.modes[0]}
+                    path={(l) => l.ui.page.character.field.mode.labels[0]}
                 />…
             {/if}
         </h2>
@@ -2039,6 +2038,7 @@
         {/if}
         {#if mode === DrawingMode.Emoji}
             <EmojiChooser
+                showCustom={false}
                 pick={(emoji) => {
                     importEmoji(emoji);
                     rememberShapes();
@@ -2215,7 +2215,7 @@
             </Notice>
         {/if}
 
-        {#if $user === null}
+        {#if !isAuthenticated($user)}
             <Notice
                 text={(l) => l.ui.page.character.feedback.unauthenticated}
             />
@@ -2257,21 +2257,15 @@
                         tip: (l) => l.ui.page.character.share.button.tip,
                         icon: isPublic ? GLOBE1_SYMBOL : '🤫',
                         label: isPublic
-                            ? (l) => l.ui.page.character.share.public.modes[0]
-                            : (l) => l.ui.page.character.share.public.modes[1],
+                            ? (l) => l.ui.page.character.share.public.labels[0]
+                            : (l) => l.ui.page.character.share.public.labels[1],
                     }}
                 >
                     <Mode
-                        descriptions={(l) => l.ui.page.character.share.public}
+                        modes={(l) => l.ui.page.character.share.public}
                         choice={isPublic ? 0 : 1}
                         select={(mode) => (isPublic = mode === 0)}
-                        modes={[
-                            `${GLOBE1_SYMBOL} ${$locales.get(
-                                (l) =>
-                                    l.ui.page.character.share.public.modes[0],
-                            )}`,
-                            `🤫 ${$locales.get((l) => l.ui.page.character.share.public.modes[1])}`,
-                        ]}
+                        icons={[GLOBE1_SYMBOL, '🤫']}
                     />
                     <Labeled
                         label={(l) => l.ui.page.character.share.collaborators}
@@ -2290,7 +2284,7 @@
                         />
                     </Labeled>
                 </Dialog>
-                {#if $user !== null && editedCharacter !== null && $user.uid === editedCharacter.owner}
+                {#if isAuthenticated($user) && editedCharacter !== null && $user.uid === editedCharacter.owner}
                     <ConfirmButton
                         tip={(l) => l.ui.page.character.share.delete.tip}
                         action={() => {

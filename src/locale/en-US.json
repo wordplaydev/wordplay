@@ -10,10 +10,11 @@
         "project": "project",
         "document": "explain",
         "source": "source",
+        "code": "code",
         "input": "input",
         "output": "output",
         "convert": "convert",
-        "how": "how to",
+        "how": "how-to",
         "act": "act",
         "scene": "scene",
         "phrase": "phrase",
@@ -30,20 +31,27 @@
         "boolean": "boolean",
         "map": "map",
         "number": "number",
+        "unit": "unit",
+        "markup": "markup",
         "function": "function",
         "exception": "exception",
         "table": "table",
+        "column": "column",
+        "row": "row",
+        "cell": "cell",
         "none": "none",
         "list": "list",
         "stream": "stream",
         "structure": "structure",
         "index": "index",
         "query": "query",
-        "row": "row",
         "set": "set",
         "key": "key",
         "help": "Help",
-        "feedback": "feedback"
+        "feedback": "feedback",
+        "documentation": "documentation",
+        "language": "language",
+        "region": "region"
     },
     "token": {
         "EvalOpen": "evaluation open",
@@ -78,7 +86,6 @@
         "None": "nothing",
         "Type": "type",
         "Literal": "literal",
-        "TypeOperator": "is",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
         "Separator": "name separator",
@@ -220,6 +227,9 @@
         "Names": {
             "name": "name list",
             "emotion": "kind",
+            "label": {
+                "names": "names"
+            },
             "doc": [
                 "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
                 "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
@@ -273,6 +283,9 @@
         "TypeVariable": {
             "name": "type variable",
             "emotion": "curious",
+            "label": {
+                "type": "type"
+            },
             "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
@@ -291,6 +304,9 @@
             "name": "markup",
             "description": "$1 paragraphs",
             "emotion": "serious",
+            "label": {
+                "paragraphs": "paragraphs"
+            },
             "doc": [
                 "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
@@ -386,6 +402,9 @@
                 "\\1 + 2 · 3 + 4\\",
                 "In math, multiplication would come first, and then addition, and so the result would be \\11\\. But since I evaluate in reading order, the result is \\13\\."
             ],
+            "label": {
+                "operator": "operator"
+            },
             "right": "input",
             "start": "Let's evaluate $1 first",
             "finish": "Look, I made $1!",
@@ -426,6 +445,11 @@
                 "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
+            "label": {
+                "value": "value",
+                "names": "names",
+                "type": "type"
+            },
             "start": "Let's see what value we get from $1!",
             "finish": "Oh nice, I got $1! Let's name it $2",
             "conflict": {
@@ -488,7 +512,9 @@
                 "So usually I'm just a bunch of @Bind and then an expression at the end.",
                 "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
             ],
-            "statement": "statement",
+            "label": {
+                "statements": "expressions"
+            },
             "start": "First expression",
             "finish": "Done, I got $1",
             "conflict": {
@@ -518,11 +544,13 @@
             "name": "borrow",
             "description": "borrow $1[$1|missing name]",
             "emotion": "excited",
+            "label": {
+                "source": "source",
+                "bind": "name",
+                "version": "version"
+            },
             "doc": "If you create a performance with multiple @Source, you can use me to borrow @Bind that are shared in those other @Source. Just use their name and I'll bring in their name and value.",
             "start": "Borrowing $2 from $1",
-            "source": "$source",
-            "bind": "name",
-            "version": "version",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "unknown borrow",
@@ -543,6 +571,9 @@
         "Changed": {
             "name": "changed",
             "emotion": "serious",
+            "label": {
+                "stream": "stream"
+            },
             "doc": [
                 "I check if a stream caused @Program to reevaluate, and make a @Boolean. Like this",
                 "\\∆ Time()\\",
@@ -554,6 +585,11 @@
         "Conditional": {
             "name": "conditional",
             "emotion": "curious",
+            "label": {
+                "condition": "condition",
+                "yes": "yes",
+                "no": "no"
+            },
             "doc": [
                 "I think I'm supposed to make decisions? Like this?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
@@ -565,9 +601,6 @@
             "else": "$1[jumping over code | not jumping over code]",
             "afterthen": "done with yes, let's skip no?",
             "finish": "I guess it's $1?",
-            "condition": "condition",
-            "yes": "yes",
-            "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "expected boolean condition",
@@ -580,6 +613,11 @@
             "name": "conversion definition",
             "description": "$1 → $2",
             "emotion": "excited",
+            "label": {
+                "input": "input type",
+                "output": "output type",
+                "expression": "expression"
+            },
             "doc": [
                 "Dude, I define conversions from one type to another! I go in @Block, someting like this:",
                 "\\→ #kitty #cat . ÷ 2\n6kitty→#cat\\",
@@ -648,6 +686,11 @@
             "name": "evaluate",
             "description": "evaluate $1[$1|anonymous]",
             "emotion": "shy",
+            "label": {
+                "function": "function",
+                "types": "types",
+                "inputs": "input"
+            },
             "doc": [
                 "Hi. I evaluate my dearest @FunctionDefinition. Like this:",
                 "\\ƒ greeting(message•'')\ngreeting('kitty')\\",
@@ -662,8 +705,6 @@
             "start": "Let's evaluate the inputs first",
             "evaluate": "let's evaluate the function now",
             "finish": "I evaluated to $1",
-            "function": "function",
-            "input": "input",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "incompatible input",
@@ -691,8 +732,8 @@
                 },
                 "UnknownInput": {
                     "name": "unknown input",
-                    "primary": "I don't know of an input by this name in $1",
-                    "secondary": "I don't have an input with the name $1"
+                    "primary": "I don't think *$1* accepts an input with my name",
+                    "secondary": "I don't have an input with the name *$1*"
                 },
                 "InputListMustBeLast": {
                     "name": "extra inputs aren't last",
@@ -726,6 +767,9 @@
             "name": "placeholder",
             "description": "$1[$1|placeholder]",
             "emotion": "scared",
+            "label": {
+                "placeholder": "expression"
+            },
             "doc": [
                 "I'm an *expression*, but not a real one… I just take the place of one.",
                 "I'm good if you don't know what to write yet. Like this:",
@@ -736,7 +780,6 @@
                 "I don't like being on @Stage!"
             ],
             "start": "I don't know what to do here. Can you fill me in?",
-            "placeholder": "expression",
             "conflict": {
                 "Placeholder": {
                     "name": "placeholder",
@@ -754,6 +797,11 @@
             "name": "function",
             "description": "function $1",
             "emotion": "kind",
+            "label": {
+                "inputs": "inputs",
+                "output": "output",
+                "expression": "expression"
+            },
             "doc": [
                 "Hi again! I take some inputs, then evaluate an expression using them, producing an output.",
                 "Here's a simple example:",
@@ -789,7 +837,7 @@
             "finish": "I evaluated to $1"
         },
         "Initial": {
-            "name": "Start",
+            "name": "start",
             "emotion": "curious",
             "doc": [
                 "I tell you whether the current evaluation of @Program is the first one, evaluating to a @Boolean. For example:",
@@ -866,8 +914,7 @@
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
             "start": "Let's evaluate the items first",
-            "finish": "I made a me! $1",
-            "item": "item"
+            "finish": "I made a me! $1"
         },
         "Spread": {
             "name": "spread",
@@ -881,6 +928,9 @@
             "name": "map literal",
             "description": "$1 pairing map",
             "emotion": "kind",
+            "label": {
+                "values": "pair"
+            },
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "Let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
@@ -895,6 +945,10 @@
         "Match": {
             "name": "match",
             "emotion": "curious",
+            "label": {
+                "case": "case",
+                "other": "default"
+            },
             "doc": [
                 "I am the most glorious of all conditional checks! I take a value and compares it against any number of cases, and evaluates the corresponding expression that matches.",
                 "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
@@ -905,9 +959,7 @@
             ],
             "start": "Let's see what $1 is...",
             "case": "Let's check this condition",
-            "finish": "Okay, we have a final value!",
-            "value": "value",
-            "other": "default"
+            "finish": "Okay, we have a final value!"
         },
         "NumberLiteral": {
             "name": "number literal",
@@ -951,7 +1003,7 @@
             "doc": [
                 "Have you ever wanted to remember the past?",
                 "I am the Verse's official record keeper. Give me a stream and a number to look backwards and I'll tell you what that stream's value was in history.",
-                "For example, here's what @Time it was five ticks ago:",
+                "For example, here's what @Time was five ticks ago:",
                 "\\← 5 Time(1000ms)\\",
                 "See how it's @None for 5 seconds, then suddenly a previous time?",
                 "If you want the last several values, give me to arrows, and I'll interpret the number as a count:",
@@ -960,7 +1012,10 @@
                 "I'm helpful when you want to create performances that depend on the past."
             ],
             "start": "First get $1",
-            "finish": "Evaluated to stream value $1"
+            "finish": "Evaluated to stream value $1",
+            "label": {
+                "range": "range"
+            }
         },
         "Program": {
             "name": "program",
@@ -974,6 +1029,10 @@
                 "If there's a problem during a performance, I'll show that problem.",
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
+            "label": {
+                "borrows": "borrows",
+                "expression": "block"
+            },
             "unevaluated": "the node you chose didn't evaluate",
             "start": "$1[$1 stream changed to $2!|It's my first evaluation]",
             "halt": "encountered exception, stopping",
@@ -1002,6 +1061,10 @@
             "name": "refine",
             "description": "refine $1[$1|missing name]",
             "emotion": "kind",
+            "label": {
+                "property": "property",
+                "value": "value"
+            },
             "doc": [
                 "Sometimes when you make a @StructureDefinition, you want to change the tiniest thing about it, without having to make a new one with all the same values.",
                 "For example, what if you were keeping a record of cats, but then wanted to create a copy of a cat with a different hobby? I can help you change it:",
@@ -1022,18 +1085,25 @@
             "name": "property",
             "description": "property $1[$1|missing name]",
             "emotion": "kind",
+            "label": {
+                "property": "property"
+            },
             "doc": [
                 "When you make a @StructureDefinition, how do you get one of its inputs? I'm how",
                 "Like if you had a structure about cities, you could get its values with me like this:",
                 "\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "First let's get the value",
-            "finish": "Found property $1, it is $2",
-            "property": "property"
+            "finish": "Found property $1, it is $2"
         },
         "Reaction": {
             "name": "reaction",
             "emotion": "excited",
+            "label": {
+                "initial": "initial",
+                "condition": "condition",
+                "next": "next"
+            },
             "doc": [
                 "Streams are so awesome! I can make new ones based on when they change, which is super cool!",
                 "Like, if you wanted @Time to tick, but like, to show words instead of numbers, you could do something like this:",
@@ -1043,9 +1113,6 @@
             ],
             "start": "Let's see if we should update the stream",
             "finish": "The new stream value is $1",
-            "initial": "initial",
-            "condition": "condition",
-            "next": "next",
             "conflict": {
                 "ExpectedStream": {
                     "name": "expected stream",
@@ -1153,6 +1220,12 @@
             "name": "structure",
             "description": "structure $1",
             "emotion": "kind",
+            "label": {
+                "docs": "documentation",
+                "inputs": "inputs",
+                "expression": "values and functions",
+                "interfaces": "interfaces"
+            },
             "doc": [
                 "Why hello, how are you? Me? I'm great. I love to define structures that store values and function, so as long as I get to do that all day, I'm happy.",
                 "I work like this:",
@@ -1204,6 +1277,9 @@
             "name": "text literal",
             "description": "text $1",
             "emotion": "serious",
+            "label": {
+                "texts": "text"
+            },
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "Let's make text in the current locale"
         },
@@ -1211,6 +1287,9 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
+            "label": {
+                "segments": "text"
+            },
             "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": {
@@ -1289,6 +1368,9 @@
             "name": "unary evaluate",
             "description": "$1",
             "emotion": "kind",
+            "label": {
+                "input": "input"
+            },
             "doc": [
                 "Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?",
                 "Like this:",
@@ -1415,7 +1497,7 @@
         },
         "MapType": {
             "name": "map ",
-            "description": "map from $1[$1|any] to $2[$2|any]",
+            "description": "$1[$1|any] to $2[$2|any] map",
             "emotion": "kind",
             "doc": [
                 "Do you know how awesome @Map is? Like really awesome. I tell @Bind what kind of map they are all the time, like this map of numbers to lists:",
@@ -1433,7 +1515,7 @@
         },
         "NameType": {
             "name": "structure",
-            "description": "$1 type",
+            "description": "$1",
             "emotion": "curious",
             "doc": [
                 "I represent a @StructureDefinition by it's name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
@@ -3081,7 +3163,7 @@
             "names": ["🖱️", "Button"],
             "down": {
                 "names": "down",
-                "doc": "If @None, the stream will provide both up and down values. If @Boolean, it will only provide value the given @Boolean value."
+                "doc": "If @None, the stream will provide both up and down values. If a \\⊤\\, it will only change with the button is pressed. If given a \\⊥\\, it will only change when the button is released."
             }
         },
         "Pointer": {
@@ -4245,6 +4327,10 @@
                 },
                 "addcolumn": "add a column before this column",
                 "removecolumn": "remove this column"
+            },
+            "formatted": {
+                "edit": "edit formatted text",
+                "preview": "preview formatted text"
             }
         },
         "tile": {
@@ -4270,6 +4356,9 @@
             }
         },
         "project": {
+            "defaults": {
+                "starterCode": "¶Welcome to your blank project! This is a comment.\nYou can use it to describe your project, take notes, and\nexplain what you want people to know about your work.\nIt supports *bold*, /italic/, <links@https://wordplay.dev> and more.¶\nPhrase('hi')"
+            },
             "error": {
                 "unknown": "This project doesn't exist or you don't have access to it.",
                 "translate": "There was a problem translating your project.",
@@ -4366,7 +4455,10 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Creators can edit the projects and gallery settings, and chat on all projects."
+                    "explanation": [
+                        "Curators can edit the projects and gallery settings, and chat on all projects.",
+                        "/Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by creators can be found on the <gallery moderation dashboard@://galleries/moderation>./"
+                    ]
                 },
                 "creators": {
                     "header": "Creators",
@@ -4374,7 +4466,7 @@
                 },
                 "delete": {
                     "header": "Delete",
-                    "explanation": "Deleting this gallery will not delete its projects. The gallery will be deleted forever."
+                    "explanation": "Deleting this gallery will not delete its projects. It will delete its how-tos. The gallery will be deleted forever."
                 }
             },
             "confirm": {
@@ -4399,6 +4491,212 @@
                     "description": "Gallery description",
                     "placeholder": "Describe your gallery. What is its theme, goals, or community?"
                 }
+            }
+        },
+        "gallerymoderation": {
+            "header": "Gallery Moderation Dashboard",
+            "description": "The following messages in galleries that you curate have been reported by users for moderation.",
+            "labels": {
+                "message": "message",
+                "reporter": "reporter",
+                "action": "moderator actions"
+            },
+            "view": {
+                "label": "view chat",
+                "tip": "view message in chat"
+            },
+            "remove": {
+                "label": "remove",
+                "tip": "this message violates guidelines"
+            },
+            "keep": {
+                "label": "keep",
+                "tip": "this message does not violate guidelines"
+            },
+            "empty": "No messages require moderation",
+            "error": "You must be logged in to moderate galleries"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "How-tos",
+                "subheader": "$1 how-tos, $2 new",
+                "subheaderEmpty": "create the first!",
+                "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
+            },
+            "headerTooltip": "go back to gallery",
+            "drafts": {
+                "header": "📝 How-to drafts",
+                "prompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
+                "tooltip": "view your draft",
+                "note": "This is a draft how-to. Only you and your collaborators can see it."
+            },
+            "bookmarks": {
+                "header": "🔖 Bookmarks",
+                "tooltip": "go to this how-to",
+                "canBookmark": {
+                    "label": "🔖 bookmark how-to",
+                    "tip": "bookmark this how-to to find it later"
+                },
+                "alreadyBookmarked": {
+                    "label": "🔖 remove bookmark",
+                    "tip": "remove this how-to from your bookmarks"
+                },
+                "empty": "You can bookmark how-tos you want to reference later.",
+                "notLoggedIn": "You must be <logged in@://login> to use bookmarks"
+            },
+            "navigationtooltip": "navigate to a how-to",
+            "button": {
+                "reset": {
+                    "label": "center",
+                    "tip": "center the canvas"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "Create a new how-to",
+                    "explanation": "Write the name and content of your new how-to."
+                },
+                "editForm": {
+                    "header": "Edit how-to",
+                    "explanation": "Edit the name and content of your how-to."
+                },
+                "post": {
+                    "label": "📣 post",
+                    "tip": "post your how-to to the space"
+                },
+                "save": {
+                    "label": "💾 save as draft",
+                    "tip": "save your how-to as a draft"
+                },
+                "notification": {
+                    "label": "notify subscribers",
+                    "labels": ["notify", "do not notify"],
+                    "tips": [
+                        "notify subscribers when you post this how-to",
+                        "do not notify subscribers when you post this how-to"
+                    ]
+                },
+                "editor": {
+                    "placeholder": "Write your how-to here, using formatting and code to teach.",
+                    "description": "a text box to write your how-to"
+                },
+                "title": {
+                    "description": "the title of your how-to",
+                    "placeholder": "Title"
+                },
+                "titlePlaceholder": "Untitled how-to",
+                "collaboratorsPrompt": "Add a collaborator, who can edit this how-to",
+                "collaboratorsToggle": {
+                    "on": "collapse the collaborators panel",
+                    "off": "expand the collaborators panel"
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "view how-to",
+                    "tip": "view how-to"
+                },
+                "edit": {
+                    "label": "✏️ edit",
+                    "tip": "edit this how-to"
+                },
+                "delete": {
+                    "description": "delete this how-to",
+                    "prompt": "🗑️ delete"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "📨 submit to Wordplay Guide",
+                        "tip": "submit this how-to to be considered for inclusion in the Wordplay Guide!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "✅ submitted to Guide",
+                        "tip": "this how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
+                    "empty": "You don't have any projects or other published how-tos yet. Try creating one!",
+                    "countDisplay": "Other Wordplay directors have used this in $1 other projects or how-to",
+                    "selector": "project and how-to selector",
+                    "removeButton": "remove project or how-to from list",
+                    "addButton": "add project or how-to"
+                },
+                "reactionsPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
+                "chatPrompt": "Leave a comment or question for the creator!",
+                "link": {
+                    "label": "🔗 copy how-to link",
+                    "tip": "copy link to this how-to"
+                },
+                "collaborators": "written by"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "How-to space settings",
+                    "explanation": "Configure the settings for this how-to space. Click the save button at the bottom to save your settings."
+                },
+                "configurationButton": {
+                    "tip": "configure this how-to space",
+                    "label": "⚙️ settings"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "Visibility",
+                        "explanation": "Configure who can view how-tos in this space by default"
+                    },
+                    "mode": {
+                        "label": "default visibility",
+                        "labels": ["limited", "expanded"],
+                        "tips": [
+                            "only collaborators of this gallery can view",
+                            "collaborators of any gallery any curator creates can view"
+                        ]
+                    },
+                    "expanded": "expanded",
+                    "limited": "limited"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "Guiding Questions",
+                        "explanation": "Configure the guiding questions shown when creating a new how-to. Separate guiding questions with a line break."
+                    },
+                    "descriptor": "a text box to write your guiding questions, separated by a line break.",
+                    "default": [
+                        "What did you learn? Give examples of how to do it."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "Reactions",
+                        "explanation": "Configure the reactions that viewers can leave on new how-tos"
+                    },
+                    "reactionPickerTip": "choose a character to be a reaction",
+                    "reactionDescriptionTip": "describe what this reaction means",
+                    "addReactionTip": "add a new reaction",
+                    "removeReactionTip": "remove this reaction",
+                    "default": {
+                        "👍": "I like this!",
+                        "💭": "This inspires me!",
+                        "🙏": "Thank you!",
+                        "🎉": "Celebration!",
+                        "🤩": "I want to try this!",
+                        "😁": "This makes me happy!"
+                    }
+                },
+                "submit": {
+                    "error": "guiding questions and reactions cannot be empty",
+                    "label": "save",
+                    "tip": "save how-to space settings"
+                }
+            },
+            "announce": {
+                "howToPosition": "how-to titled $1 moved to $2 $3",
+                "canvasPosition": "canvas moved to $1, $2",
+                "moveActivated": "movement activated. $1 can be moved using the mouse, keyboard, or touchscreen",
+                "moveDeactivated": "movement deactivated."
+            },
+            "error": {
+                "unknown": "This how-to space doesn't exist or isn't public."
             }
         },
         "source": {
@@ -4449,7 +4747,8 @@
             "menu": {
                 "label": "autocomplete menu",
                 "show": "show autocomplete menu",
-                "back": "leave submenu"
+                "back": "leave submenu",
+                "empty": "No suggestions."
             },
             "cursor": {
                 "priorLine": "move cursor to line before",
@@ -4506,7 +4805,19 @@
                 "search": "search for special characters to insert",
                 "tidy": "tidy spacing",
                 "elide": "toggle elision",
-                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind."
+                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
+                "ignored": {
+                    "readOnly": "Source is read only",
+                    "blockSpace": "No tabs allowed here",
+                    "noDelete": "Can't delete this",
+                    "noInsert": "Unable to insert here",
+                    "noError": "This edit would create a conflict",
+                    "noEditor": "No editor active",
+                    "noClipboard": "No clipboard not available",
+                    "noClipboardItem": "Nothing on the clipboard",
+                    "noSelection": "Nothing selected",
+                    "noMove": "Can't move any further"
+                }
             },
             "error": {
                 "invalidName": "This must be a valid Wordplay name.",
@@ -4575,28 +4886,185 @@
             }
         },
         "docs": {
-            "label": "docuemntation browser",
+            "label": "documentation browser",
             "link": "show \"$1\" in documentation",
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",
             "button": {
                 "home": "return home",
                 "back": "return to previous",
-                "toggle": "show and hide this concept group"
+                "toggle": "expand and collapse this concept group"
             },
             "field": {
                 "search": "keywords"
             },
             "header": {
-                "inputs": "Inputs",
-                "interfaces": "Interfaces",
-                "properties": "Properties",
-                "functions": "Functions",
-                "conversions": "Conversions"
+                "names": {
+                    "header": "Names",
+                    "explanation": "/Names for this concept./"
+                },
+                "inputs": {
+                    "header": "Inputs",
+                    "explanation": "/Required and optional values./"
+                },
+                "interfaces": {
+                    "header": "Interfaces",
+                    "explanation": "/Structures this structure is based on./"
+                },
+                "properties": {
+                    "header": "Properties",
+                    "explanation": "/Values this concept stores./"
+                },
+                "functions": {
+                    "header": "Functions",
+                    "explanation": "/Values this concept can compute./"
+                },
+                "conversions": {
+                    "header": "Conversions",
+                    "explanation": "/Ways to convert this value into values of other types./"
+                },
+                "arrangements": {
+                    "header": "Arrangements",
+                    "explanation": "/Ways of arranging phrases in a group./"
+                },
+                "forms": {
+                    "header": "Forms",
+                    "explanation": "/Shapes that can be placed on stage./"
+                },
+                "appearance": {
+                    "header": "Appearance",
+                    "explanation": "/Ways to change how output looks./"
+                },
+                "animation": {
+                    "header": "Animation",
+                    "explanation": "/Ways to animate output on stage./"
+                },
+                "location": {
+                    "header": "Location",
+                    "explanation": "/Ways of determing where output is on stage./"
+                },
+                "reactions": {
+                    "header": "Reactions",
+                    "explanation": "/Ways of reacting to or analyzing an input stream./"
+                }
             },
-            "modes": {
-                "label": "browse",
-                "modes": ["how to", "concepts"]
+            "mode": {
+                "browse": {
+                    "label": "section",
+                    "labels": ["code", "how-to"],
+                    "tips": [
+                        "programming language concepts",
+                        "reusable patterns for making projects"
+                    ]
+                },
+                "purpose": {
+                    "label": "code",
+                    "labels": [
+                        "project",
+                        "output",
+                        "input",
+                        "decide",
+                        "name",
+                        "text",
+                        "numbers",
+                        "truth",
+                        "lists",
+                        "sets",
+                        "tables",
+                        "docs",
+                        "types",
+                        "etc."
+                    ],
+                    "tips": [
+                        "project-level concepts",
+                        "phrases, groups, stages, layouts and more",
+                        "time, buttons, keys, scenes, and more",
+                        "choose values based on other values",
+                        "name values, functions, and data structures for later use",
+                        "true, false, and none values",
+                        "numbers and math operations",
+                        "plain and formatted text",
+                        "lists and list operations",
+                        "sets, maps, and operations",
+                        "tables and table operations",
+                        "data types, conversions, and type checks",
+                        "documentation and comments",
+                        "advanced language concepts"
+                    ]
+                }
+            },
+            "note": {
+                "empty": "Names you define in your project will show up here."
+            },
+            "purposes": {
+                "Project": {
+                    "header": "Project",
+                    "explanation": "/Concepts defined in your project./"
+                },
+                "Outputs": {
+                    "header": "Outputs",
+                    "explanation": "/Different types of output that can be placed on stage./"
+                },
+                "Inputs": {
+                    "header": "Inputs",
+                    "explanation": "/Input streams from the world that change over time, causing a program to reevaluate./"
+                },
+                "Decisions": {
+                    "header": "Decisions",
+                    "explanation": "/Ways to choose between different values based on conditions./"
+                },
+                "Definitions": {
+                    "header": "Definitions",
+                    "explanation": "/Ways to name values, functions, and data structures for later use./"
+                },
+                "Numbers": {
+                    "header": "Numbers",
+                    "explanation": "/Numbers, units, and math operations./"
+                },
+                "Text": {
+                    "header": "Text",
+                    "explanation": "/Plain and formatted text, and ways of manipulating them./"
+                },
+                "Truth": {
+                    "header": "Truth",
+                    "explanation": "/True, false, and none values and ways of using them for logic./"
+                },
+                "Lists": {
+                    "header": "Lists",
+                    "explanation": "/Lists and list operations, good for storing values in a particular order./"
+                },
+                "Maps": {
+                    "header": "Maps",
+                    "explanation": "/Sets, maps, and their operations, good for storing collections of values, or mappings from one value to others./"
+                },
+                "Tables": {
+                    "header": "Tables",
+                    "explanation": "/Tables and table operations, good for storing structured data in rows and columns./"
+                },
+                "Types": {
+                    "header": "Types",
+                    "explanation": "/Ways of declaring that named values should have a particular data type and checking that they do./"
+                },
+                "Documentation": {
+                    "header": "Documentation",
+                    "explanation": "/Ways of adding comments and explanations to your code./"
+                },
+                "Advanced": {
+                    "header": "Advanced",
+                    "explanation": "/Advanced language concepts and features that you probably won't need./"
+                },
+                "Hidden": {
+                    "header": "Hidden",
+                    "explanation": "/Concepts that are hidden from the main documentation./"
+                },
+                "How": {
+                    "header": "How-to",
+                    "explanation": "/Common patterns for creating different kinds of projects./"
+                },
+                "GalleryHow": {
+                    "header": "Gallery how-to",
+                    "explanation": "/Common patterns for creating different kinds of projects, from your galleries./"
+                }
             },
             "how": {
                 "category": {
@@ -4608,7 +5076,8 @@
                     "remembering": "track changes and choices",
                     "stories": "tell a story",
                     "motion": "use physics",
-                    "video": "use a camera"
+                    "video": "use a camera",
+                    "gallery": "created by your fellow Wordplay directors"
                 },
                 "related": "Not what you're looking for?"
             }
@@ -4644,12 +5113,16 @@
                 "mode": {
                     "public": {
                         "label": "visibility",
-                        "modes": ["private", "public"]
+                        "labels": ["private", "public"],
+                        "tips": [
+                            "only you and collaborators can see this project",
+                            "anyone can see this project"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "We don't know a creator with this email.",
-                    "anonymous": "You must be logged in to share.",
+                    "anonymous": "You must be <logged in@://login> to share.",
                     "self": "You can't add yourself."
                 },
                 "button": {
@@ -4672,8 +5145,16 @@
                 "mode": {
                     "layout": {
                         "label": "layout",
-                        "modes": [
-                            "lay out tiles automatically",
+                        "labels": [
+                            "auto",
+                            "row",
+                            "stack",
+                            "two",
+                            "one",
+                            "free"
+                        ],
+                        "tips": [
+                            "lay out tiles automatically based on window size and shape",
                             "a horizontal screen layout",
                             "a vertical screen layout",
                             "two most recent tiles, side by side",
@@ -4683,7 +5164,17 @@
                     },
                     "animate": {
                         "label": "animations",
-                        "modes": [
+                        "labels": [
+                            "off",
+                            "1/4",
+                            "1/3x",
+                            "1/2x",
+                            "1x",
+                            "2x",
+                            "5x",
+                            "10x"
+                        ],
+                        "tips": [
                             "animations off",
                             "quarter speed",
                             "third speed",
@@ -4696,32 +5187,45 @@
                     },
                     "dark": {
                         "label": "theme",
-                        "modes": [
-                            "light colors",
-                            "dark colors",
-                            "use device setting"
+                        "labels": ["light", "dark", "auto"],
+                        "tips": [
+                            "lighter colors",
+                            "darker colors",
+                            "use the current device setting"
                         ]
+                    },
+                    "blocks": {
+                        "label": "editor",
+                        "labels": ["text", "blocks"],
+                        "tips": ["edit code as text", "edit code as blocks"]
                     },
                     "space": {
                         "label": "space indicator",
-                        "modes": [
-                            "show space and tab indicators explicitly",
-                            "do not show space and tab indicators"
+                        "labels": ["hide", "show"],
+                        "tips": [
+                            "do not show space and tab indicators",
+                            "show space and tab indicators explicitly"
                         ]
                     },
                     "lines": {
                         "label": "line numbers",
-                        "modes": [
-                            "show line numbers in text mode",
-                            "do not show line numbers in text mode"
+                        "labels": ["hide", "show"],
+                        "tips": [
+                            "do not show line numbers in text mode",
+                            "show line numbers in text mode"
                         ]
                     },
                     "writing": {
                         "label": "writing layout",
-                        "modes": [
-                            "horizontal, left to right",
-                            "vertical, right to left",
-                            "vertical, left to right"
+                        "labels": [
+                            "horizontal",
+                            "vertical rtl",
+                            "vertical ltr"
+                        ],
+                        "tips": [
+                            "horizontal text, read left to right",
+                            "vertical text, read right to left",
+                            "vertical text, read left to right"
                         ]
                     }
                 },
@@ -4731,6 +5235,32 @@
                     "camera": "selected camera",
                     "default": "default"
                 }
+            },
+            "notifications": {
+                "header": "Notifications",
+                "explanation": "Notifications from new chats and published how-tos",
+                "open": "open notifications dialog",
+                "howToNotifications": {
+                    "label": "notifications for new how-tos",
+                    "labels": ["off", "on"],
+                    "tips": [
+                        "do not notify me of new how-tos",
+                        "notify me of new how-tos"
+                    ]
+                },
+                "clearAll": {
+                    "label": "clear all notifications",
+                    "tip": "clear all notifications"
+                },
+                "notification": {
+                    "howToHeader": "New how-to titled \"$1\" was posted",
+                    "projectChatHeader": "New message in project \"$1\"",
+                    "howToChatHeader": "New message in how-to \"$1\"",
+                    "moderationHeader": "Message in \"$1\" requires moderation action",
+                    "link": "details"
+                },
+                "delete": "delete this notification",
+                "popup": "new notification"
             },
             "locale": {
                 "header": "Language",
@@ -4744,7 +5274,8 @@
                     "show": "change locale",
                     "replace": "use this locale",
                     "add": "use this locale and the current ones",
-                    "remove": "remove this locale"
+                    "remove": "remove this locale",
+                    "menu": "other languages"
                 }
             },
             "help": {
@@ -4781,8 +5312,12 @@
                     }
                 },
                 "mode": {
-                    "label": "feedback ",
-                    "modes": ["defects", "idesa"]
+                    "label": "feedback",
+                    "labels": ["defects", "ideas"],
+                    "tips": [
+                        "report something that seems broken",
+                        "suggest new features or improvements"
+                    ]
                 },
                 "field": {
                     "title": {
@@ -4816,7 +5351,7 @@
                     "idea": "Didn't see the idea you're thinking of? Suggest it."
                 },
                 "error": {
-                    "login": "You must be logged in to submit feedback",
+                    "login": "You must be <logged in@://login> to submit feedback",
                     "submit": "Unable to submit feedback.",
                     "load": "Unable to load feedback",
                     "empty": "There is no feedback to show.",
@@ -4829,7 +5364,9 @@
             "role": {
                 "owner": "owner",
                 "collaborators": "collaborators",
-                "curators": "curators"
+                "curators": "curators",
+                "commenters": "commenters",
+                "viewers": "viewers"
             },
             "field": {
                 "message": {
@@ -4840,13 +5377,28 @@
             "button": {
                 "submit": {
                     "label": "send",
-                    "tip": "send a message to your collaborators"
+                    "tip": "send a message to your collaborators and "
                 },
                 "start": {
                     "label": "start a chat",
                     "tip": "begin a discussion with yourself or others."
                 },
                 "delete": "delete this message"
+            },
+            "moderation": {
+                "header": "Report this message",
+                "explanation": "If this message does not meet our <community standards@://rights> or the type of feedback your requested, you can report it. When you report this message, it will be sent to the gallery curators and taken down until it can be reviewed.",
+                "report": {
+                    "tip": "report this message",
+                    "label": "report"
+                },
+                "moderate": {
+                    "tip": "go to moderation dashboard",
+                    "label": "moderate"
+                },
+                "pending": "This message is temporarily removed while waiting for moderation action.",
+                "removed": "This message has been removed for violating community or feedback guidelines.",
+                "inGallery": "This chat is in a gallery. It is subject to moderation by the gallery curators. You can report messages that violate our <community standards@://rights> for moderation."
             },
             "error": {
                 "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
@@ -4855,10 +5407,22 @@
                 "deleted": "This message was deleted."
             },
             "prompt": {
-                "solo": "Chat with yourself or add a collaborator, who can edit and chat.",
-                "owner": "Collaborators can edit this project and chat about it.",
+                "solo": "Chat with yourself or add...\n\n• a collaborator, who can edit and chat\n\n• a commenter, who can chat but cannot edit\n\n• a viewer, who can see your project but cannot edit or chat",
+                "owner": "Collaborators can edit this project and chat about it. Commenters can chat but cannot edit this project. Viewers can view this project but cannot chat.",
                 "collaborator": "You're a collaborator. You can edit this project and chat about it.",
-                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner and collaborators can see the chat."
+                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner, collaborators, and commenters can see the chat.",
+                "commenter": "You're a commenter. You can chat about this project but cannot edit it."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "Your project is in a gallery. By default, anyone who can see this gallery can see this project. You can restrict who can see your project to only you and the gallery curators.",
+                "mode": {
+                    "label": "restrict project access",
+                    "labels": ["do not restrict", "restrict"],
+                    "tips": [
+                        "anyone who can see this gallery can see your project",
+                        "only the gallery curators can see your project"
+                    ]
+                }
             }
         },
         "palette": {
@@ -4937,9 +5501,10 @@
                 "message": "Where is this place? Can we go home?"
             },
             "landing": {
-                "value": "Create interactive stories with words, symbols, emojis, and code with us!",
+                "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
+                "chooseLocales": " or choose ",
                 "description": [
-                    "Wordplay is programming language that enables you to:",
+                    "Wordplay is a programming language that enables you to:",
                     "• Playfully animate words and emojis 🤪",
                     "• Use time 🕦, sound 🎤, websites 🔗, and physics 🌎",
                     "• Share 🤝 with friends, groups, or anyone",
@@ -4961,13 +5526,14 @@
                     "characters": "Create custom emojis and symbols",
                     "rights": "Responsibilities, ours and yours",
                     "about": "Why does this place exist?",
+                    "updates": "See what's new in Wordplay",
                     "community": {
                         "label": "Community",
-                        "subtitle": "Chat with us on Discord."
+                        "subtitle": "Chat with us on Discord"
                     },
                     "contribute": {
                         "label": "Contribute",
-                        "subtitle": "Help us make Wordplay."
+                        "subtitle": "Help us make Wordplay"
                     }
                 }
             },
@@ -4990,7 +5556,7 @@
                 },
                 "error": {
                     "offline": "We weren't able to check your teacher status. Are you logged in?",
-                    "login": "You need to be logged in to manage classes.",
+                    "login": "You need to be <logged in@://login> to manage classes.",
                     "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
                 },
                 "link": {
@@ -5071,7 +5637,6 @@
                 },
                 "prompt": {
                     "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators.",
-
                     "delete": "Deleting this class will permanently delete information about the class, but its projects, galleries, or student accounts."
                 },
                 "field": {
@@ -5106,21 +5671,22 @@
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
-                "galleriesheader": "Galleries",
-                "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
                 "add": {
                     "header": "New Project",
                     "explanation": "Choose a template to create a new project."
                 },
                 "subheader": {
                     "shared": "Shared",
-                    "archived": "Archived"
+                    "archived": "Archived",
+                    "howtoviewonly": {
+                        "header": "How-tos",
+                        "explanation": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public."
+                    }
                 },
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",
                     "viewcode": "view this project's code",
-                    "newgallery": "new gallery",
                     "unarchive": "unarchive this project"
                 },
                 "confirm": {
@@ -5135,21 +5701,40 @@
                 },
                 "error": {
                     "noaccess": "We couldn't reach the internet.",
-                    "nogalleryedits": "You must be logged in to create and change galleries.",
                     "newgallery": "We couldn't create a new gallery.",
-                    "nodeletes": "You must be logged in to delete archived projects.",
+                    "nodeletes": "You must be <logged in@://login> to delete archived projects.",
                     "delete": "Oops, we couldn't delete the project!"
                 }
             },
             "galleries": {
                 "header": "Galleries",
-                "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
-                "examples": "Examples",
+                "prompt": "Galleries are collections of projects, often centered around a theme, and curated by you or other creators.",
+                "section": {
+                    "own": {
+                        "header": "Yours",
+                        "explanation": [
+                            "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
+                            "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "Examples",
+                        "explanation": "These are curated galleries from the Wordplay developers. They are good starting points for learning and inspiration."
+                    },
+                    "public": {
+                        "header": "Public",
+                        "explanation": "These are galleries that Wordplay creators have made public. See what others have made for inspiration!"
+                    }
+                },
                 "button": {
+                    "newgallery": "new gallery",
                     "more": {
                         "label": "more...",
                         "tip": "load more galleries"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
                 }
             },
             "characters": {
@@ -5168,7 +5753,7 @@
                 },
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
-                    "noauth": "You must be logged in to see your characters and create new ones.",
+                    "noauth": "You must be <logged in@://login> to see your characters and create new ones.",
                     "create": "Unable to create a new character."
                 }
             },
@@ -5210,7 +5795,11 @@
                     },
                     "public": {
                         "label": "visibility",
-                        "modes": ["public", "private"]
+                        "labels": ["public", "private"],
+                        "tips": [
+                            "anyone can see this character",
+                            "only you and collaborators can see this character"
+                        ]
                     },
                     "collaborators": "collaborators"
                 },
@@ -5225,7 +5814,7 @@
                     },
                     "mode": {
                         "label": "mode",
-                        "modes": [
+                        "labels": [
                             "select",
                             "eraser",
                             "pixel",
@@ -5233,15 +5822,34 @@
                             "ellipse",
                             "path",
                             "emoji"
+                        ],
+                        "tips": [
+                            "select shapes and pixels",
+                            "erase shapes and pixels",
+                            "draw pixels",
+                            "draw rectangles",
+                            "draw ellipses",
+                            "draw paths",
+                            "import an emoji as pixels"
                         ]
                     },
                     "fill": {
                         "label": "fill",
-                        "modes": ["none", "inerit", "choose"]
+                        "labels": ["none", "inerit", "choose"],
+                        "tips": [
+                            "no fill",
+                            "inherit fill color from surrounding text",
+                            "choose a fill color"
+                        ]
                     },
                     "stroke": {
                         "label": "stroke",
-                        "modes": ["none", "inerit", "choose"]
+                        "labels": ["none", "inerit", "choose"],
+                        "tips": [
+                            "no stroke",
+                            "inherit stroke color from surrounding text",
+                            "choose a stroke color"
+                        ]
                     },
                     "none": "none",
                     "inherit": "text color",
@@ -5339,7 +5947,7 @@
                     "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
                     "notfound": "This character doesn't exist or isn't visible to you.",
-                    "unauthenticated": "You must be logged in to edit a character.",
+                    "unauthenticated": "You must be <logged in@://login> to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
                     "projecteditfail": "There was a problem updating projects that use this character. The following projects need fixing: ",
                     "untitledproject": "Untitled Project"
@@ -5361,6 +5969,22 @@
                     "We're a community of designers, educators, and developers trying to bring this vision to life. We are people of color, we are trans, we are queer, we are disabled, we are immigrants, we are refugees. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a place that aspires to welcome everyone and undo the ableist and racist ravages of colonialism that continue today. Making this programming language and platform is a small part of that mission, offering a glimpse of a future of computing where /everyone/ belongs.",
                     "We'd love your help. Learn <how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donate@://donate>, or track our <progress@https://github.com/amyjko/wordplay/milestones>. Write our community organizer <Amy@https://amyjko.phd> if you have questions."
                 ]
+            },
+            "updates": {
+                "header": "Updates",
+                "content": [
+                    "These are the latest new features, improvements, and bug fixes in Wordplay. We release updates weekly on most Saturdays, unless we find an urgent bug."
+                ],
+                "tips": {
+                    "expand": "Expand this date's updates",
+                    "collapse": "Collapse this date's updates"
+                },
+                "categories": {
+                    "added": "Added",
+                    "changed": "Changed",
+                    "removed": "Removed",
+                    "fixed": "Fixed"
+                }
             },
             "login": {
                 "header": "Login",
@@ -5477,19 +6101,20 @@
                     "• You can fully delete any project or your own account at any time.",
                     "• You can get an export of any project or your whole account at any time.",
                     "Here's how we will and won't use your data:",
-                    "• We won't share your data with anyone, unless explicitly required by law. It's always possible that your data is taken without out permission (a 'data breach'). If we discover that this has happened, we will notify you that this has happened using the email you've shared with us.",
+                    "• We won't share your data with anyone, unless explicitly required by law. It's always possible that your data is taken without permission (a 'data breach'). If we discover that this has happened, we will notify you that this has happened using the email you've shared with us.",
                     "• We won't contact you via your email address unless you 1) make an account change that requires us to, 2) you explicitly give us consent to reach out, or 3) in the case of data breach above.",
                     "• We may analyze projects on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
                     "Finally, a note about speech. You can say anything you want on this platform in *private*. Projects are private by default, and if you share them with specific email addresses, they are still considered private. We won't moderate anything in private projects.",
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
                 ],
                 "consequences": [
+                    "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ]
             },
             "donate": {
                 "header": "Donate",
-                "prompt": "Help us pay for bandwidth and compensate student and teacher contributors.",
+                "prompt": "Help us fund Wordplay development",
                 "content": [
                     "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
                     "Here are our current costs:",

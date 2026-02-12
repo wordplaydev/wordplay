@@ -106,8 +106,13 @@
     function handleDrag(event: PointerEvent) {
         if (event.buttons === 0) return;
 
+        // Find the bounds of the project view, so we can offset.e
+        const projectBounds = document
+            .getElementsByClassName('project')[0]
+            ?.getBoundingClientRect();
+
         if (axis.direction === 'x') {
-            const newPosition = event.clientX / width;
+            const newPosition = (event.clientX - projectBounds.left) / width;
             if (getSplit() !== newPosition)
                 adjuster(
                     Math.max(
@@ -116,7 +121,7 @@
                     ),
                 );
         } else {
-            const newPosition = event.clientY / height;
+            const newPosition = (event.clientY - projectBounds.top) / height;
             if (getSplit() !== newPosition)
                 adjuster(
                     Math.max(

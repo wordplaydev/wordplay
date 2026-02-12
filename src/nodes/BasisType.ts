@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type Context from './Context';
 import type Definition from './Definition';
 import type Node from './Node';
@@ -6,6 +7,10 @@ import Type from './Type';
 export default abstract class BasisType extends Type {
     constructor() {
         super();
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Types;
     }
 
     /** Override the base class: instead of asking parent for scope (since there is no parent), basis type scopes are their basis structure definitions. */

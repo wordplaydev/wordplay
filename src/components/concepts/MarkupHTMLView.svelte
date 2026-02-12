@@ -6,6 +6,9 @@
     import type { LocaleTextsAccessor } from '@locale/Locales';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
+    import { DOCS_SYMBOL, FORMATTED_SYMBOL } from '@parser/Symbols';
+    import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
+    import { toTokens } from '@parser/toTokens';
     import {
         animationDuration,
         animationFactor,
@@ -21,15 +24,43 @@
 
     let { markup, inline = false, note = false }: Props = $props();
 
+    /* Convert the markup into a Markup node. */
     let parsed = $derived.by(() => {
+        // If markup was given, just pass it back and render it.
         if (markup instanceof Markup) return markup;
+        // If an accessor function was given, get the corresponding locale text and render it as markup,
+        // automatically adding newlines to create multiple paragraphs.
         if (markup instanceof Function) {
             const text = $locales.get(markup);
             return Markup.words(Array.isArray(text) ? text.join('\n\n') : text);
         }
-        return Markup.words(
-            Array.isArray(markup) ? markup.join('\n\n') : markup,
-        );
+        // If it's a list of strings, join them with newlines to create multiple paragraphs, and render that as markup.
+        if (Array.isArray(markup)) return Markup.words(markup.join('\n\n'));
+        // Does it start with a docs symbol? Pull out the relevant markup matching
+        // the preferred locale.
+        if (markup.startsWith(DOCS_SYMBOL)) {
+            const docs = parseDocs(toTokens(markup));
+            if (docs)
+                return (
+                    docs.getLanguage($locales.getLocale().language)?.markup ??
+                    docs.docs[0].markup ??
+                    undefined
+                );
+        }
+        // Does it start with a formatted symbol? Pull out the relevant markup matching
+        // the preferred locale.
+        if (markup.startsWith(FORMATTED_SYMBOL)) {
+            const formatted = parseFormattedLiteral(toTokens(markup));
+            if (formatted)
+                return (
+                    formatted.getLanguage($locales.getLocale().language)
+                        ?.markup ??
+                    formatted.texts[0].markup ??
+                    undefined
+                );
+        }
+        // Otherwise, just render the string as a single paragraph of markup.
+        return Markup.words(markup);
     });
 
     let spaces = $derived(parsed.spaces);
@@ -75,10 +106,11 @@
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
                         >{#each paragraphOrList.items as paragraph}<li
-                                >{#each paragraph.segments as segment}<SegmentHTMLView
+                                >{#each paragraph.segments as segment, index}<SegmentHTMLView
                                         {segment}
                                         {spaces}
                                         alone={paragraph.segments.length === 1}
+                                        first={index === 0}
                                     />{/each}</li
                             >{/each}</ul
                     >{/if}{/each}
@@ -129,7 +161,7 @@
 
     p {
         margin-block-start: 0em;
-        margin-block-end: 0em;
+        margin-block-end: 1em;
     }
 
     ul {

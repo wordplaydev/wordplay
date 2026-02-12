@@ -18,6 +18,7 @@
         inline = true,
     }: Props = $props();
 
+    // svelte-ignore state_referenced_locally
     let isInteractive = $state({ interactive });
     // Keep the interactive state up to date.
     $effect(() => {

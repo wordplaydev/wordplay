@@ -1,3 +1,4 @@
+import Purpose from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
@@ -77,12 +78,16 @@ export default class FunctionType extends Type {
         return [FunctionType.make(undefined, [], TypePlaceholder.make())];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return this.getPossibleReplacements();
     }
 
     getDescriptor(): NodeDescriptor {
         return 'FunctionType';
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.Types;
     }
 
     getTemplate(context: Context): FunctionDefinition {
@@ -99,17 +104,28 @@ export default class FunctionType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'fun', kind: node(Sym.Function) },
-            { name: 'types', kind: optional(node(TypeVariables)), space: true },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            { name: 'fun', kind: node(Sym.Function), label: undefined },
+            {
+                name: 'types',
+                kind: optional(node(TypeVariables)),
+                space: true,
+                label: undefined,
+            },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
+                label: () => (l) => l.term.input,
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
-            { name: 'output', kind: node(Type), space: true },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
+            {
+                name: 'output',
+                kind: node(Type),
+                space: true,
+                label: () => (l) => l.term.type,
+            },
         ];
     }
 
@@ -149,16 +165,19 @@ export default class FunctionType extends Type {
             ) {
                 const thisBind = this.inputs[i];
                 const thatBind = inputsToCheck[i];
+                // Ensure the this input accepts the other input
                 if (
                     thisBind.type instanceof Type &&
                     thatBind.type instanceof Type &&
                     !thisBind.type.accepts(thatBind.type, context)
                 )
                     return false;
+                // Ensure variable-length status matches
                 if (thisBind.isVariableLength() !== thatBind.isVariableLength())
                     return false;
-                if (thisBind.hasDefault() !== thatBind.hasDefault())
-                    return false;
+                // It doesn't matter if the binds have defaults or not. The types are the same.
+                // if (thisBind.hasDefault() !== thatBind.hasDefault())
+                //     return false;
             }
             return true;
         });

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import goHome from './goHome';
+import goHome from '../helpers/goHome';
 
 async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
     await goHome(page);

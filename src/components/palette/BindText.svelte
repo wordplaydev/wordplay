@@ -1,8 +1,8 @@
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales, Projects } from '@db/Database';
-    import type OutputProperty from '@edit/OutputProperty';
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
     import {
         getLanguageQuoteClose,
         getLanguageQuoteOpen,

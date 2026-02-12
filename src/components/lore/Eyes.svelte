@@ -95,13 +95,15 @@
         if (left && right && $animationFactor > 0) animateEyes();
     });
 
-    let eyes = Squint.includes(emotion)
-        ? 'squint'
-        : Half.includes(emotion)
-          ? 'half'
-          : Wide.includes(emotion)
-            ? 'wide'
-            : 'half';
+    let eyes = $derived(
+        Squint.includes(emotion)
+            ? 'squint'
+            : Half.includes(emotion)
+              ? 'half'
+              : Wide.includes(emotion)
+                ? 'wide'
+                : 'half',
+    );
 </script>
 
 <div

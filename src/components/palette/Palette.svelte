@@ -1,8 +1,8 @@
 <script lang="ts">
     import type Project from '@db/projects/Project';
-    import OutputExpression from '@edit/OutputExpression';
-    import type OutputProperty from '@edit/OutputProperty';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import OutputExpression from '@edit/output/OutputExpression';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
     import { untrack } from 'svelte';
     import { DB, locales } from '../../db/Database';

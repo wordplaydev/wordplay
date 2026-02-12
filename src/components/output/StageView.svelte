@@ -2,6 +2,7 @@
     const HalfGridlineThickness = 0.1;
 </script>
 
+<!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import { loadedFonts } from '@basis/Fonts';
     import type Project from '@db/projects/Project';
@@ -27,7 +28,7 @@
     import range from '../../util/range';
     import {
         getAnimatingNodes,
-        getAnnounce,
+        getAnnouncer,
         getEvaluation,
     } from '../project/Contexts';
     import GroupView from './GroupView.svelte';
@@ -126,7 +127,7 @@
     let moved: Moved = $state(new Map());
     let previouslyPresent: Map<string, Output> | undefined = $state(undefined);
 
-    const announcer = getAnnounce();
+    const announcer = getAnnouncer();
 
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = $state(undefined);

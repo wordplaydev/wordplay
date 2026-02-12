@@ -150,8 +150,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        padding: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing-half);
         gap: var(--wordplay-spacing);
-        font-size: var(--wordplay-small-font-size);
     }
 </style>

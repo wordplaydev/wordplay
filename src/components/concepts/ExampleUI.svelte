@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { toClipboard } from '@components/editor/util/Clipboard';
+    import { toClipboard } from '@components/editor/commands/Clipboard';
     import Button from '@components/widgets/Button.svelte';
     import Project from '@db/projects/Project';
     import Example from '@nodes/Example';
@@ -58,6 +58,7 @@
     let index = $derived(indexContext?.index);
 
     // Keep track of the last example so we can remove it when the example changes.
+    // svelte-ignore state_referenced_locally
     let lastExample = $state(example);
 
     // Derive a project from the example.

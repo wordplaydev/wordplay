@@ -3,7 +3,12 @@
         node: Node;
         element: Element | null;
         messages: Markup[];
-        kind: 'step' | 'primary' | 'secondary' | 'minor';
+        kind:
+            | 'step'
+            | 'primaryMajor'
+            | 'primaryMinor'
+            | 'secondaryMajor'
+            | 'secondaryMinor';
         context: Context;
         resolutions: Resolution[];
         conflict?: ConflictLocaleAccessor;
@@ -18,7 +23,7 @@
         IncrementLiteral,
         ShowMenu,
         toShortcut,
-    } from '@components/editor/util/Commands';
+    } from '@components/editor/commands/Commands';
     import Speech from '@components/lore/Speech.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Expander from '@components/widgets/Expander.svelte';
@@ -28,7 +33,7 @@
         ConflictLocaleAccessor,
         Resolution,
     } from '@conflicts/Conflict';
-    import type Caret from '@edit/Caret';
+    import type Caret from '@edit/caret/Caret';
     import { docToMarkup } from '@locale/LocaleText';
     import NodeRef from '@locale/NodeRef';
     import Context from '@nodes/Context';
@@ -115,9 +120,7 @@
                                     project.getContext(project.getMain()),
                             ),
                         ],
-                        kind: conflict.isMinor()
-                            ? ('minor' as const)
-                            : ('primary' as const),
+                        kind: `primary${conflict.isMinor() ? 'Minor' : 'Major'}` as const,
                         context,
                         // Place the resolutions in the primary node.
                         resolutions: nodes.resolutions ?? [],
@@ -137,7 +140,7 @@
                                       ),
                                   ],
                                   context,
-                                  kind: 'secondary' as const,
+                                  kind: `secondary${conflict.isMinor() ? 'Minor' : 'Major'}` as const,
                                   resolutions: [],
                               },
                           ]
@@ -404,6 +407,7 @@
         {#each annotations as annotation}
             <div
                 role="button"
+                tabindex="0"
                 title={$locales.get((l) => l.ui.annotations.button.highlight)}
                 aria-label={$locales.get(
                     (l) => l.ui.annotations.button.highlight,
@@ -488,12 +492,13 @@
         background: var(--wordplay-evaluation-color);
     }
 
-    .annotation.primary {
+    .annotation.primaryMajor,
+    .annotation.secondaryMajor {
         background: var(--wordplay-error);
     }
 
-    .annotation.secondary,
-    .annotation.minor {
+    .annotation.primaryMinor,
+    .annotation.secondaryMinor {
         background: var(--wordplay-warning);
     }
 </style>

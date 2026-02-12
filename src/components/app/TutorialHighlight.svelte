@@ -50,8 +50,8 @@
     class:source
     data-uiidtohighlight={id}
     class:hovering={bounds !== undefined && id !== undefined}
-    style:left={bounds ? `${bounds.left}px` : undefined}
-    style:top={bounds ? `${bounds.top}px` : undefined}
+    style:left={bounds ? `${bounds.left + bounds.width / 2}px` : undefined}
+    style:top={bounds ? `${bounds.top + bounds.height / 2}px` : undefined}
 >
     {#if bounds}
         <!-- Only render when bounds exists -->
@@ -71,7 +71,7 @@
         height: 0.75em;
         margin-left: 0.1em;
         margin-right: 0.1em;
-        animation-name: glow;
+        animation-name: inline-glow;
         animation-duration: 1s;
         animation-iteration-count: infinite;
         align-items: center;
@@ -84,8 +84,12 @@
         position: fixed;
         left: 0;
         top: 0;
-        transform: translate(-50%, -50%);
+        width: 3em;
+        height: 3em;
+        opacity: 0.75;
         z-index: 2;
+        animation-name: glow;
+        transform-origin: top left;
         pointer-events: none;
     }
 
@@ -96,12 +100,21 @@
         width: 100%;
         height: 100%;
         margin: 0;
-        font-size: 0.6em;
-        line-height: 1.2em;
+        font-size: var(--wordplay-font-size);
+        line-height: 3em;
         font-weight: bold;
     }
 
     @keyframes glow {
+        from {
+            transform: scale(0.3) translate(-50%, -50%);
+        }
+        to {
+            transform: scale(1) translate(-50%, -50%);
+        }
+    }
+
+    @keyframes inline-glow {
         from {
             transform: scale(0.3);
         }

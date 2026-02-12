@@ -5,7 +5,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Title from '@components/widgets/Title.svelte';
@@ -22,14 +22,14 @@
 
     let characters = $derived(CharactersDB.getEditableCharacters());
     let owned: Character[] = $derived(
-        $user === null
+        !isAuthenticated($user)
             ? []
             : Array.from(characters.values()).filter(
                   (c) => c.owner === $user.uid,
               ),
     );
     let shared: Character[] = $derived(
-        $user === null
+        !isAuthenticated($user)
             ? []
             : Array.from(characters.values()).filter((c) =>
                   c.collaborators.includes($user.uid),
@@ -105,7 +105,7 @@
     {#if firestore === undefined}
         <Notice text={(l) => l.ui.page.characters.error.offline} />
     {:else if $user === null}
-        <Notice text={(l) => l.ui.page.characters.error.noauth} />
+        <Notice markup text={(l) => l.ui.page.characters.error.noauth} />
     {:else}
         <NewCharacterButton></NewCharacterButton>
 

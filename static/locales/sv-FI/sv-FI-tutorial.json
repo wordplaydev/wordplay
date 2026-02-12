@@ -2179,7 +2179,7 @@
                             "$~Men det var nog inte det du ville...",
                             "$~Och om jag inte vet hur jag ska ge dig det du bad om, kommer jag i princip att stänga av saker och ting."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [
@@ -2594,7 +2594,7 @@
                             "excited",
                             "$~Att använda en @Button-ström är ett sätt att gå vidare genom stadier av ett framträdande eller att utlösa någon förändring i ett framträdande. Det här lilla programmet listar knapptryckningar och börjar visa sorgligt, men när @Button-strömmen ändras till sant, utvärderas @Conditional till \\'glad'\\ istället."
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
                 },
                 {
@@ -2651,7 +2651,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Random kan vara så kul! Vi kan använda det med strömmar för att skapa roligt kaos. Till exempel väljer vi här ett slumpmässigt ord från en lista med ord. Detta är samma sak som \\['kitty' 'cat' 'meowy'].random()\\. Fortsätt att trycka på ↻ för att få en annan kattsynonym! Testa att lägga till ditt eget ord i listan och se om du kan få ordet att visas."
+                            "$~Random kan vara så kul! Vi kan använda det med strömmar för att skapa roligt kaos. Till exempel väljer vi här ett slumpmässigt ord från en lista med ord. Detta är samma sak som \\['kitty' 'cat' 'feline'].random()\\. Fortsätt att trycka på ↻ för att få en annan kattsynonym! Testa att lägga till ditt eget ord i listan och se om du kan få ordet att visas."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]
@@ -4021,11 +4021,12 @@
                         ],
                         [
                             "edit",
+                            "click: ∆ Button()",
                             "Scene([",
                             "    Phrase('one')",
-                            "    ∆ Button()",
+                            "    click",
                             "    Phrase('two')",
-                            "    ∆ Button()",
+                            "    click",
                             "    Phrase('three')",
                             "])"
                         ],

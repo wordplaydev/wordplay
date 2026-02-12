@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type EditContext from '@edit/EditContext';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -19,7 +19,6 @@ import Characters from '../lore/BasisCharacters';
 import AnyType from './AnyType';
 import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import ListType from './ListType';
 import { node, optional, type Grammar, type Replacement } from './Node';
 import NoneType from './NoneType';
@@ -63,25 +62,14 @@ export default class Previous extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, context }: EditContext) {
-        return node instanceof Expression &&
-            node.getType(context).accepts(StreamType.make(), context)
-            ? [
-                  Previous.make(
-                      node,
-                      ExpressionPlaceholder.make(NumberType.make()),
-                  ),
-              ]
-            : [];
+    static getPossibleReplacements() {
+        return [];
     }
 
-    static getPossibleAppends() {
-        return [
-            Previous.make(
-                ExpressionPlaceholder.make(StreamType.make()),
-                ExpressionPlaceholder.make(NumberType.make()),
-            ),
-        ];
+    static getPossibleInsertions({ parent, field }: InsertContext) {
+        return parent instanceof Previous && field === 'range'
+            ? [new Token(PREVIOUS_SYMBOL, Sym.Previous)]
+            : [];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -90,8 +78,12 @@ export default class Previous extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'previous', kind: node(Sym.Previous) },
-            { name: 'range', kind: optional(node(Sym.Previous)) },
+            { name: 'previous', kind: node(Sym.Previous), label: undefined },
+            {
+                name: 'range',
+                kind: optional(node(Sym.Previous)),
+                label: (l) => (l) => l.node.Previous.label.range,
+            },
             {
                 name: 'number',
                 kind: node(Expression),
@@ -112,7 +104,7 @@ export default class Previous extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Input;
+        return Purpose.Inputs;
     }
 
     clone(replace?: Replacement) {

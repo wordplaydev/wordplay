@@ -10,11 +10,13 @@
 
     let { link, spaces }: Props = $props();
 
-    let url = link.url
-        ? link.url.getText().startsWith('://')
-            ? link.url.getText().replace('://', '/')
-            : link.url.getText()
-        : '';
+    let url = $derived(
+        link.url
+            ? link.url.getText().startsWith('://')
+                ? link.url.getText().replace('://', '/')
+                : link.url.getText()
+            : '',
+    );
 </script>
 
 {#if link.url && link.description}

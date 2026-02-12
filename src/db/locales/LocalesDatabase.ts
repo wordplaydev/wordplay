@@ -118,6 +118,9 @@ export default class LocalesDatabase {
             const howTos: HowTo[] = [];
 
             for (const howID of HowToIDs) {
+                // gallery how-tos are not stored in /static
+                if (howID === 'gallery-how-to') continue;
+
                 const path = `/locales/${locale}/how/${howID}.txt`;
                 const fallback = `/locales/en-US/how/${howID}.txt`;
                 let text =
@@ -263,6 +266,9 @@ export default class LocalesDatabase {
 
         // Revise all projects to have the new locale
         this.database.Projects.localize(locales);
+
+        // Sync the locales store to update all uses of the current locales.
+        this.syncLocales();
 
         return locales;
     }

@@ -7,7 +7,7 @@ latest•['']:
     latest.replace(Random(1 6) food.random())
 
 Group(
-    Grid(3 3m 1m 1m) 
+    Grid(3 3 1m 1m) 
 	latest.translate(
 		ƒ (dish•"" index•#)
 			Phrase(

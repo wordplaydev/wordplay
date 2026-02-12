@@ -13,7 +13,8 @@
         StepOut,
         StepToPresent,
         StepToStart,
-    } from '../editor/util/Commands';
+        toShortcut,
+    } from '../editor/commands/Commands';
     import { getEvaluation } from '../project/Contexts';
     import CommandButton from '../widgets/CommandButton.svelte';
     import Switch from '../widgets/Switch.svelte';
@@ -36,6 +37,7 @@
     offLabel={Pause.symbol}
     onLabel={Play.symbol}
     uiid="playToggle"
+    shortcut={toShortcut(Play)}
 />
 <CommandButton command={StepToStart} />
 <CommandButton command={StepBackInput} />

@@ -26,7 +26,7 @@
     import Speech from '../lore/Speech.svelte';
     import moveOutput, { addStageContent } from '../palette/editOutput';
     import {
-        getAnnounce,
+        getAnnouncer,
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
@@ -74,7 +74,7 @@
     const evaluation = getEvaluation();
     const keyboardEditIdle = getKeyboardEditIdle();
     const selection = getSelectedOutput();
-    const announce = getAnnounce();
+    const announce = getAnnouncer();
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
@@ -92,6 +92,7 @@
     let stage = $state<ReturnType<typeof StageView> | undefined>();
 
     // The place the output is focusing on. Bound to the stage's focus, unless set here.
+    // svelte-ignore state_referenced_locally
     let renderedFocus = $state<Place>(createPlace(evaluator, 0, 0, -12));
 
     /** A map from key string IDs to whether they are up or down */
@@ -1078,7 +1079,7 @@
             filter,
             ease-in,
             height ease-in;
-        transition-duration: calc(var(--animation-factor) * 500ms);
+        transition-duration: calc(var(--animation-factor) * 250ms);
 
         /** Query the container size */
         container-type: inline-size;

@@ -1,4 +1,4 @@
-import type Refer from '@edit/Refer';
+import type Refer from '@edit/revision/Refer';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';

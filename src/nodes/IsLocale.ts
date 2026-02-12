@@ -40,7 +40,7 @@ export default class IsLocale extends SimpleExpression {
         return [IsLocale.make(Language.make('en'))];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [IsLocale.make(Language.make('en'))];
     }
 
@@ -50,8 +50,12 @@ export default class IsLocale extends SimpleExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'globe', kind: node(Sym.Locale) },
-            { name: 'locale', kind: optional(node(Language)) },
+            { name: 'globe', kind: node(Sym.Locale), label: undefined },
+            {
+                name: 'locale',
+                kind: optional(node(Language)),
+                label: () => (l) => l.term.language,
+            },
         ];
     }
 
@@ -63,7 +67,7 @@ export default class IsLocale extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Text;
     }
 
     computeConflicts() {

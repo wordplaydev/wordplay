@@ -1,8 +1,8 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Templates from '@concepts/Templates';
     import type Project from '@db/projects/Project';
-    import Context from '@nodes/Context';
     import type Source from '@nodes/Source';
     import { locales } from '../../db/Database';
     import Characters from '../../lore/BasisCharacters';
@@ -31,7 +31,7 @@
         if ($conflicts) {
             for (const conflict of $conflicts) {
                 const nodes = conflict.getConflictingNodes(
-                    new Context(project, source),
+                    project.getContext(source),
                     Templates,
                 );
                 if (source.has(nodes.primary.node)) {
@@ -57,7 +57,13 @@
     {#if primaryCount === 0 && secondaryCount === 0}<Emoji
             >{Characters.Program.symbols}</Emoji
         >{/if}
-    {$locales.getName(source.names)}
+    <!-- Only one source? Use a label to indicate that this is where the code is. Otherwise, use the source names. -->
+    {#if project.getSources().length > 1}{$locales.getName(
+            source.names,
+        )}{:else}<em
+            ><LocalizedText path={(locale) => locale.term.code}
+            ></LocalizedText></em
+        >{/if}
 </Toggle>
 
 <style>
@@ -65,8 +71,8 @@
         font-size: small;
         border-radius: 50%;
         color: var(--wordplay-background);
-        min-width: 2em;
-        min-height: 2em;
+        min-width: 1.5em;
+        min-height: 1.5em;
         display: inline-flex;
         flex-direction: column;
         justify-content: center;

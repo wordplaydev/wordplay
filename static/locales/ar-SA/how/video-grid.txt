@@ -1,0 +1,21 @@
+إنشاء فيديو من الكاميرا
+
+ال  @Camera يُعدّ البث طريقة رائعة للحصول على شبكة من الألوان من العالم.ماذا لو أردنا رؤية تلك الألوان، وإعادة إنشاء الصورة؟ @Camera هل ترى؟
+
+يمكننا استخدام @Grid تصميم لـ @Group ، و  @List/combine دالة لتحويل الألوان إلى قائمة من @Phrase التي نعطيها لـ @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width · 1px height · 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+يقوم هذا المثال بإنشاء قائمة من العبارات، وتحويل كل لون إلى دائرة باللون المحدد.
+
+كن حذرا مع @Camera التدفقات: إنها تنتج الكثير من المدخلات! لذا، ستحتاج إلى الحفاظ على عرض الصورة وارتفاعها صغيرين.
+
+interactive-scene

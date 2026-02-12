@@ -2,16 +2,26 @@
     import Expander from '@components/widgets/Expander.svelte';
     import type Concept from '@concepts/Concept';
     import { slide } from 'svelte/transition';
-    import { animationDuration } from '../../db/Database';
+    import { animationDuration, locales } from '../../db/Database';
     import Note from '../widgets/Note.svelte';
     import CodeView from './CodeView.svelte';
 
     interface Props {
         concepts: Concept[];
+        /** Allow the list to be collapsible */
         collapse?: boolean;
+        /** Lay out in an inline row */
+        row?: boolean;
+        /** Include a concept link for each code view */
+        describe?: boolean;
     }
 
-    let { concepts, collapse = true }: Props = $props();
+    let {
+        concepts,
+        collapse = true,
+        row = true,
+        describe = true,
+    }: Props = $props();
 
     let expanded = $state(false);
 
@@ -20,7 +30,7 @@
     }
 </script>
 
-<div class="concept-group">
+<div class="concepts" class:row>
     {#each concepts as concept, index}
         {#if !collapse || expanded || index < 3}
             <span
@@ -28,33 +38,46 @@
                     duration: $animationDuration,
                 }}
             >
-                <CodeView {concept} node={concept.getRepresentation()} />
+                <CodeView
+                    {concept}
+                    {describe}
+                    node={concept.getRepresentation($locales)}
+                />
             </span>
         {/if}
     {:else}
         <Note>&mdash;</Note>
     {/each}
-</div>
-{#if collapse}
-    {#if expanded || concepts.length > 3}
-        <Expander {expanded} {toggle} label={(l) => l.ui.docs.button.toggle}
+    {#if collapse && (expanded || concepts.length > 3)}
+        <Expander
+            {expanded}
+            {toggle}
+            label={(l) => l.ui.docs.button.toggle}
+            icons={['–', '+' + (concepts.length - 3)]}
         ></Expander>
     {/if}
-{/if}
+</div>
 
 <style>
-    .concept-group {
-        margin: var(--wordplay-spacing);
-        margin-left: 0;
+    .concepts {
+        margin: 0;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: start;
+        width: 100%;
         gap: calc(2 * var(--wordplay-spacing));
-        align-items: end;
         border-top: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         border-bottom: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         padding-top: var(--wordplay-spacing);
         padding-bottom: var(--wordplay-spacing);
+    }
+
+    .concepts.row {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-items: center;
     }
 </style>

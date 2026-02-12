@@ -5,7 +5,7 @@ import { initializeApp } from 'firebase-admin/app';
 import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { defineString } from 'firebase-functions/params';
-import { onDocumentCreated } from 'firebase-functions/v2/firestore';
+import { onDocumentCreated, onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import * as http from 'http';
@@ -23,7 +23,19 @@ const db = getFirestore();
 
 type UserMatch = { uid: string; email: string | null; name: string | null };
 
+// Permit local testing and calls from our two domains.
+const cors = {
+    cors: [
+        '/firebase\.com$/',
+        '/127.0.0.1*/',
+        'http://localhost:5173',
+        'https://test.wordplay.dev',
+        'https://wordplay.dev',
+    ],
+};
+
 export const getCreators = onCall<UserIdentifier[]>(
+    cors,
     async (request): Promise<UserMatch[]> => {
         const users = await admin.auth().getUsers(request.data);
         const matches: UserMatch[] = [];
@@ -42,7 +54,7 @@ export const getCreators = onCall<UserIdentifier[]>(
 export const emailExists = onCall<
     EmailExistsInputs,
     Promise<EmailExistsOutput>
->(async (request) => {
+>(cors, async (request) => {
     const emails = request.data;
     return admin
         .auth()
@@ -70,127 +82,115 @@ export const getTranslations = onCall<{
     from: string;
     to: string;
     text: string[];
-}>(
-    // Permit local testing and calls from our two domains.
-    {
-        cors: [
-            '/firebase\.com$/',
-            '/127.0.0.1*/',
-            '/localhost*/',
-            'https://test.wordplay.dev',
-            'https://wordplay.dev',
-        ],
-    },
-    async (request): Promise<string[] | null> => {
-        const from = request.data.from;
-        const to = request.data.to;
-        const text = request.data.text;
+}>(cors, async (request): Promise<string[] | null> => {
+    const from = request.data.from;
+    const to = request.data.to;
+    const text = request.data.text;
 
-        try {
-            // Creates a Google Translate client
-            const translator = new Translate.v2.Translate();
+    try {
+        // Creates a Google Translate client
+        const translator = new Translate.v2.Translate();
 
-            const [translations] = await translator.translate(text, {
-                from,
-                to,
-            });
+        const [translations] = await translator.translate(text, {
+            from,
+            to,
+        });
 
-            return translations;
-        } catch (e) {
-            console.error(e);
-            return null;
-        }
-    },
-);
+        return translations;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+});
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */
-export const getWebpage = onRequest(
-    { cors: true },
-    async (request, response) => {
-        const url: string | undefined =
-            'url' in request.query && typeof request.query.url === 'string'
-                ? decodeURI(request.query['url'])
-                : undefined;
+export const getWebpage = onRequest(cors, async (request, response) => {
+    const url: string | undefined =
+        'url' in request.query && typeof request.query.url === 'string'
+            ? decodeURI(request.query['url'])
+            : undefined;
 
-        const lib =
-            url === undefined
-                ? undefined
-                : url.startsWith('https://')
-                  ? https
-                  : http;
+    const lib =
+        url === undefined
+            ? undefined
+            : url.startsWith('https://')
+                ? https
+                : http;
 
-        // Cache the response for 10 minutes to minimize requests.
-        response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
+    // Cache the response for 10 minutes to minimize requests.
+    response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
 
-        if (lib === undefined || url === undefined) {
-            console.log('Invalid URL ' + url);
-            response.json('invalid-url');
-        } else {
-            const result: string = await new Promise((resolve) => {
-                lib.get(url, (resp) => {
-                    const contentType = resp.headers['content-type'];
-                    if (resp.statusCode !== 200) {
-                        console.error(`GET status: Code: ${resp.statusCode}`);
-                        resolve('not-available');
-                    } else if (!contentType?.startsWith('text/html')) {
-                        console.error(`GET received ${contentType}`);
-                        resolve('not-html');
-                    }
-
-                    // Get the data
-                    let data = '';
-
-                    // A chunk of data has been recieved.
-                    resp.on('data', (chunk) => {
-                        data += chunk;
-                    });
-
-                    // The whole response has been received. Print out the result.
-                    resp.on('end', () => {
-                        console.log('GET success');
-                        resolve(data);
-                    });
-                }).on('error', (err) => {
-                    console.error('GET error: ' + err.message);
+    if (lib === undefined || url === undefined) {
+        console.log('Invalid URL ' + url);
+        response.json('invalid-url');
+    } else {
+        const result: string = await new Promise((resolve) => {
+            lib.get(url, (resp) => {
+                const contentType = resp.headers['content-type'];
+                if (resp.statusCode !== 200) {
+                    console.error(`GET status: Code: ${resp.statusCode}`);
                     resolve('not-available');
+                } else if (!contentType?.startsWith('text/html')) {
+                    console.error(`GET received ${contentType}`);
+                    resolve('not-html');
+                }
+
+                // Get the data
+                let data = '';
+
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
                 });
+
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    console.log('GET success');
+                    resolve(data);
+                });
+            }).on('error', (err) => {
+                console.error('GET error: ' + err.message);
+                resolve('not-available');
             });
+        });
 
-            // Set the content length header.
-            response.set('Content-Length', `${new Blob([result]).size}`);
+        // Set the content length header.
+        response.set('Content-Length', `${new Blob([result]).size}`);
 
-            // Send the HTML back as JSON-encoded text.
-            response.json(result);
-        }
-    },
-);
+        // Send the HTML back as JSON-encoded text.
+        response.json(result);
+    }
+});
 
 const PurgeDayDelay = 30;
 const MillisecondsPerDay = 24 * 60 * 60 * 1000;
 
 /** Every day, delete projects that were archived more than 30 days ago. */
-export const purgeArchivedProjects = onSchedule('every day 00:00', async () => {
-    // Fetch all archived projects that were last modified more than 30 days ago
-    const projectsRef = db.collection('projects');
-    const purgeable = await projectsRef
-        .where('archived', '==', true)
-        .where(
-            'timestamp',
-            '<',
-            Date.now() - PurgeDayDelay * MillisecondsPerDay,
-        )
-        .get();
+export const purgeArchivedProjects = onSchedule(
+    { schedule: 'every day 00:00', timeZone: 'UTC' },
+    async () => {
+        // Fetch all archived projects that were last modified more than 30 days ago
+        const projectsRef = db.collection('projects');
+        const purgeable = await projectsRef
+            .where('archived', '==', true)
+            .where(
+                'timestamp',
+                '<',
+                Date.now() - PurgeDayDelay * MillisecondsPerDay,
+            )
+            .get();
 
-    const projectIDs: string[] = [];
-    purgeable.forEach((doc) => projectIDs.push(doc.id));
+        const projectIDs: string[] = [];
+        purgeable.forEach((doc) => projectIDs.push(doc.id));
 
-    // Don't delete all at once; we'll hit a request limit on large purges.
-    await PromisePool.for(projectIDs)
-        .withConcurrency(3)
-        .process(async (id) => {
-            projectsRef.doc(id).delete();
-        });
-});
+        // Don't delete all at once; we'll hit a request limit on large purges.
+        await PromisePool.for(projectIDs)
+            .withConcurrency(3)
+            .process(async (id) => {
+                projectsRef.doc(id).delete();
+            });
+    },
+);
 
 /**
  * Given a teacher user ID, credential information for several students, and
@@ -199,7 +199,7 @@ export const purgeArchivedProjects = onSchedule('every day 00:00', async () => {
 export const createClass = onCall<
     CreateClassInputs,
     Promise<CreateClassOutput>
->(async (request) => {
+>(cors, async (request) => {
     const auth = admin.auth();
     const { teacher, name, description, students, existing } = request.data;
 
@@ -376,3 +376,151 @@ export const postFeedback = onDocumentCreated(
         });
     },
 );
+
+export const galleryEdited = onDocumentWritten('galleries/{id}', async (event) => {
+    const before = event.data?.before.data();
+    const after = event.data?.after.data();
+    const howToStore = db.collection('howtos');
+    const galleryStore = db.collection('galleries');
+    const batch = db.batch();
+
+    const listEq = (a: string[], b: string[]): boolean => {
+        if (a.length !== b.length) return false;
+        const aSorted = [...a].sort();
+        const bSorted = [...b].sort();
+
+        for (let i = 0; i < aSorted.length; i++) {
+            if (aSorted[i] !== bSorted[i]) return false;
+        }
+        return true;
+    }
+
+    // if deletion or if none of the relevant fields changed, then return to prevent infinite loops
+    if (!after || (before && listEq(before.curators, after.curators) && listEq(before.creators, after.creators) && listEq(before.howToViewersFlat, after.howToViewersFlat) && before.howToExpandedVisibility === after.howToExpandedVisibility && listEq(before.howTos, after.howTos))) {
+        return;
+    }
+
+    // if the gallery was just created or the list of curators have changed,
+    // then we need to update the curators' other galleries' lists of expanded galleries and viewers
+    if (!before || !listEq(before.curators, after.curators)) {
+        const removedCurators = before ? before.curators.filter((c: string) => !after.curators.includes(c)) : [];
+        const addedCurators = before ? after.curators.filter((c: string) => !before.curators.includes(c)) : after.curators;
+
+        if (removedCurators.length > 0) {
+            const galleriesToUpdate = await galleryStore.where('curators', 'array-contains-any', removedCurators).get();
+
+            galleriesToUpdate.forEach((g) => {
+                const otherGallery = g.data();
+
+                if (otherGallery.id !== after.id && !otherGallery.curators.some((c: string) => after.curators.includes(c))) {
+                    // if none of the curators remain, then remove this gallery from the expanded galleries and viewer lists
+                    let howToExpandedGalleries: string[] = otherGallery.howToExpandedGalleries.filter((id: string) => id !== after.id);
+                    let howToViewers: Record<string, string[]> = otherGallery.howToViewers;
+                    delete howToViewers[after.id];
+                    let howToViewersFlat: string[] = Object.values(howToViewers).flat();
+
+                    batch.update(galleryStore.doc(g.id), {
+                        howToExpandedGalleries: howToExpandedGalleries,
+                        howToViewers: howToViewers,
+                        howToViewersFlat: howToViewersFlat,
+                    });
+                }
+            });
+        }
+
+        if (addedCurators.length > 0) {
+            const galleriesToUpdate = await galleryStore.where('curators', 'array-contains-any', addedCurators).get();
+
+            galleriesToUpdate.forEach((g) => {
+                const otherGallery = g.data();
+
+                if (otherGallery.id !== after.id) {
+                    let howToExpandedGalleries: string[] = otherGallery.howToExpandedGalleries.includes(after.id) ? otherGallery.howToExpandedGalleries : [...otherGallery.howToExpandedGalleries, after.id];
+                    let howToViewers: Record<string, string[]> = otherGallery.howToViewers;
+                    howToViewers[after.id] = [...after.curators, ...after.creators];
+                    let howToViewersFlat: string[] = Object.values(howToViewers).flat();
+
+                    batch.update(galleryStore.doc(g.id), {
+                        howToExpandedGalleries: howToExpandedGalleries,
+                        howToViewers: howToViewers,
+                        howToViewersFlat: howToViewersFlat,
+                    });
+                }
+            });
+        }
+    } else if (!listEq(before.creators, after.creators)) {
+        // else if the gallery's list of creators have changed
+        // then we need to update the viewer lists of all of the other galleries, too
+
+        const galleriesToUpdate = await galleryStore.where('curators', 'array-contains-any', after.curators).get();
+
+        galleriesToUpdate.forEach(async (g) => {
+            const otherGallery = g.data();
+            if (otherGallery.id !== after.id) {
+                let howToViewers: Record<string, string[]> = otherGallery.howToViewers;
+                howToViewers[after.id] = [...after.curators, ...after.creators];
+                let howToViewersFlat: string[] = Object.values(howToViewers).flat();
+
+                if (otherGallery.v === 2) {
+                    batch.update(galleryStore.doc(g.id), {
+                        howToViewers: howToViewers,
+                        howToViewersFlat: howToViewersFlat,
+                    });
+                } else {
+                    await galleryStore.doc(g.id).update({
+                        v: 2,
+                        howTos: [],
+                        howToExpandedVisibility: false,
+                        howToExpandedGalleries: [after.id],
+                        howToViewers: howToViewers,
+                        howToViewersFlat: howToViewersFlat,
+                    });
+                }
+            }
+        });
+    }
+
+    // if expanded scope is on orlist of how-tos was updated, then we need to update their viewer permissions
+    if (before && (before.howToExpandedVisibility !== after.howToExpandedVisibility || (after.howToExpandedVisibility && !listEq(before.howTos, after.howTos)))) {
+        if (after.howToExpandedVisibility) {
+            after.howTos.forEach(async (howToID: string) => {
+                batch.update(howToStore.doc(howToID), {
+                    viewers: after.howToViewers,
+                    viewersFlat: after.howToViewersFlat,
+                });
+            });
+        } else {
+            after.howTos.forEach(async (howToID: string) => {
+                batch.update(howToStore.doc(howToID), {
+                    viewers: {},
+                    viewersFlat: [],
+                });
+            });
+        }
+    }
+
+    // if document was just created, then update its own list of expanded galleries and viewers
+    if (!before) {
+        let howToExpandedGalleries: string[] = [];
+        let howToViewers: Record<string, string[]> = {};
+        let howToViewersFlat: string[] = [];
+
+        const otherGalleries = await galleryStore.where('curators', 'array-contains-any', after.curators).get();
+        otherGalleries.forEach((g) => {
+            const otherGallery = g.data();
+            if (otherGallery.id !== after.id) {
+                howToExpandedGalleries.push(otherGallery.id);
+                howToViewers[otherGallery.id] = [...otherGallery.curators, ...otherGallery.creators];
+            }
+        });
+        howToViewersFlat = Object.values(howToViewers).flat();
+
+        batch.update(galleryStore.doc(after.id), {
+            howToExpandedGalleries: howToExpandedGalleries,
+            howToViewers: howToViewers,
+            howToViewersFlat: howToViewersFlat,
+        });
+    }
+
+    return batch.commit();
+});

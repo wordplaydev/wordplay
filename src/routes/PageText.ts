@@ -7,6 +7,8 @@ type PageText = {
     description: Template | Template[];
     /** The landing page beta warning */
     beta: Template[];
+    /** Text between locale buttons - "or choose" */
+    chooseLocales: string;
     /** The subtitles below links */
     link: {
         /** What content is on the about page */
@@ -25,6 +27,8 @@ type PageText = {
         characters: string;
         /** What content is on the rights page */
         rights: string;
+        /** What content is on the updates page */
+        updates: string;
         /** The community link */
         community: { label: string; subtitle: string };
         /** The contributor link */

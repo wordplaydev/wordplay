@@ -22,6 +22,7 @@
         font-size: min(6vw, 16pt);
         margin-block-start: 1.5em;
         margin-block-end: var(--wordplay-spacing);
+        white-space: nowrap;
     }
 
     h2:first-child {

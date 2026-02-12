@@ -43,7 +43,15 @@
         "key": "$~nyckel",
         "help": "$~Hjälp",
         "feedback": "$~feed-back",
-        "how": "$~hur man"
+        "how": "$~hur man",
+        "code": "$~koda",
+        "unit": "$~enhet",
+        "markup": "$~pålägg",
+        "column": "$~kolumn",
+        "cell": "$~cell",
+        "documentation": "$~dokumentation",
+        "language": "$~språk",
+        "region": "$~område"
     },
     "token": {
         "EvalOpen": "$~utvärdering öppen",
@@ -78,7 +86,6 @@
         "None": "$~ingenting",
         "Type": "$~typ",
         "Literal": "$~bokstavlig",
-        "TypeOperator": "$~är",
         "TypeOpen": "$~typ ingång öppen",
         "TypeClose": "$~typ input stäng",
         "Separator": "$~namnavskiljare",
@@ -224,7 +231,10 @@
                 "$~Jag är en lista med @Name, användbar när du vill ge ett värde flera namn, ofta med olika @Language.",
                 "$~Namn separeras med \\,\\-symboler. Här är till exempel @Bind som ger ett värde som är flera @Bind",
                 "$~\\hi/en,hello/en,hola/es: 'välkommen'\\"
-            ]
+            ],
+            "label": {
+                "names": "$~namn"
+            }
         },
         "Row": {
             "name": "$~rad",
@@ -280,6 +290,9 @@
                     "secondary": "$~Jag har samma namn som $1",
                     "name": "$~dupliceradtypvariabel"
                 }
+            },
+            "label": {
+                "type": "$~typ"
             }
         },
         "TypeVariables": {
@@ -293,7 +306,10 @@
             "emotion": "serious",
             "doc": [
                 "$~Jag är en lista med stycken som använder de många typer av uppmärkning som finns i förklaringar, som @Words, @WebLink, @ConceptLink och @Example."
-            ]
+            ],
+            "label": {
+                "paragraphs": "$~stycken"
+            }
         },
         "Paragraph": {
             "name": "$~stycke",
@@ -394,6 +410,9 @@
                     "name": "$~tvetydigordning",
                     "primary": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?"
                 }
+            },
+            "label": {
+                "operator": "$~operatör"
             }
         },
         "Bind": {
@@ -467,6 +486,11 @@
                     "name": "$~oanvändbindning",
                     "primary": "$~Jag heter $1, men ingen utnyttjar mig. Kanske behövs jag inte?"
                 }
+            },
+            "label": {
+                "value": "$~värde",
+                "names": "$~namn",
+                "type": "$~typ"
             }
         },
         "Block": {
@@ -488,7 +512,6 @@
                 "$~Så vanligtvis är jag bara ett gäng @Bind och sedan ett uttryck på slutet.",
                 "$~\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
             ],
-            "statement": "$~påstående",
             "start": "$~Första uttrycket",
             "finish": "$~Klart, jag fick $1",
             "conflict": {
@@ -505,6 +528,9 @@
                     },
                     "name": "$~ignoreratuttryck"
                 }
+            },
+            "label": {
+                "statements": "$~uttryck"
             }
         },
         "BooleanLiteral": {
@@ -520,9 +546,6 @@
             "emotion": "excited",
             "doc": "$~Om du skapar en föreställning med flera @Source, kan du använda mig för att låna @Bind som delas i de andra @Source. Använd bara deras namn så tar jag in deras namn och värde.",
             "start": "$~Lånar $2 från $1",
-            "source": "$~$source",
-            "bind": "$~namn",
-            "version": "$~version",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~okändlån",
@@ -538,6 +561,11 @@
                     "description": "$~lånecykel",
                     "explanation": "$~$1 beror på sig själv"
                 }
+            },
+            "label": {
+                "source": "$~$sourceälla",
+                "bind": "$~namn",
+                "version": "$~version"
             }
         },
         "Changed": {
@@ -549,7 +577,10 @@
                 "$~Jag är verkligen hjälpsam när du bara vill att något ska ändras om en ström ändras.",
                 "$~Det är allt."
             ],
-            "start": "$~Låt oss se om $1 ändrades..."
+            "start": "$~Låt oss se om $1 ändrades...",
+            "label": {
+                "stream": "$~strömma"
+            }
         },
         "Conditional": {
             "name": "$~villkorlig",
@@ -565,15 +596,17 @@
             "else": "$~$1[hoppa över kod | hoppar inte över koden]",
             "afterthen": "$~klar med ja, låt oss hoppa över nej?",
             "finish": "$~Jag antar att det är $1?",
-            "condition": "$~skick",
-            "yes": "$~ja",
-            "no": "$~inga",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "primary": "$~Hur kan jag välja ja och nej med en $1? Nej egentligen, hur?",
                     "secondary": "$~Jag tror att @Conditional ville att jag skulle vara en @Boolean, men jag är en $1.",
                     "name": "$~förväntatboolesktvillkor"
                 }
+            },
+            "label": {
+                "condition": "$~skick",
+                "yes": "$~ja",
+                "no": "$~inga"
             }
         },
         "ConversionDefinition": {
@@ -592,6 +625,11 @@
                     "name": "$~felplaceradkonvertering",
                     "primary": "$~Oj, jag kan inte vara här, bara i @Block."
                 }
+            },
+            "label": {
+                "input": "$~inmatningstyp",
+                "output": "$~utgångstyp",
+                "expression": "$~uttryck"
             }
         },
         "Convert": {
@@ -662,8 +700,6 @@
             "start": "$~Låt oss först utvärdera ingångarna",
             "evaluate": "$~låt oss utvärdera funktionen nu",
             "finish": "$~Jag värderade till $1",
-            "function": "$~fungera",
-            "input": "$~input",
             "conflict": {
                 "IncompatibleInput": {
                     "primary": "$~Jag ska vara en $1, men jag är en $2",
@@ -708,6 +744,11 @@
                     "description": "$~okänd funktion",
                     "explanation": "$~åh nej, $1 är inte en funktion i $2[$2|det här @Block]!"
                 }
+            },
+            "label": {
+                "function": "$~fungera",
+                "types": "$~typer",
+                "inputs": "$~input"
             }
         },
         "Input": {
@@ -736,7 +777,6 @@
                 "$~Jag gillar inte att vara på @Stage!"
             ],
             "start": "$~Jag vet inte vad jag ska göra här. Kan du fylla i mig?",
-            "placeholder": "$~uttryck",
             "conflict": {
                 "Placeholder": {
                     "name": "$~platshållare",
@@ -748,6 +788,9 @@
                     "description": "$~oimplementerad",
                     "explanation": "$~Jag vet inte vad jag ska göra här. Kan du fylla i mig?"
                 }
+            },
+            "label": {
+                "placeholder": "$~uttryck"
             }
         },
         "FunctionDefinition": {
@@ -776,6 +819,11 @@
                     "name": "$~saknatuttryck",
                     "primary": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?"
                 }
+            },
+            "label": {
+                "inputs": "$~ingångar",
+                "expression": "$~uttryck",
+                "output": "$~produktion"
             }
         },
         "Iteration": {
@@ -866,8 +914,7 @@
             "emotion": "eager",
             "doc": "$~Jag är en specifik @List! Se @List för att lära dig mer om vad du kan göra med mig.",
             "start": "$~Låt oss utvärdera föremålen först",
-            "finish": "$~Jag gjorde ett jag! $1",
-            "item": "$~punkt"
+            "finish": "$~Jag gjorde ett jag! $1"
         },
         "Spread": {
             "name": "$~sprida",
@@ -890,6 +937,9 @@
                     "secondary": "$~oj, var är mitt värde?",
                     "name": "$~saknatvärde"
                 }
+            },
+            "label": {
+                "values": "$~par"
             }
         },
         "Match": {
@@ -906,8 +956,10 @@
             "start": "$~Låt oss se vad $1 är...",
             "case": "$~Låt oss kontrollera detta tillstånd",
             "finish": "$~Okej, vi har ett slutvärde!",
-            "value": "$~värde",
-            "other": "$~standard"
+            "label": {
+                "case": "$~fall",
+                "other": "$~standard"
+            }
         },
         "NumberLiteral": {
             "name": "$~bokstavligttal",
@@ -960,7 +1012,10 @@
                 "$~Jag är behjälplig när du vill skapa föreställningar som är beroende av det förflutna."
             ],
             "start": "$~Få först $1",
-            "finish": "$~Utvärderad till strömvärde $1"
+            "finish": "$~Utvärderad till strömvärde $1",
+            "label": {
+                "range": "$~räckvidd"
+            }
         },
         "Program": {
             "name": "$~programmera",
@@ -996,6 +1051,10 @@
                     "description": "$~saknat värde",
                     "explanation": "$~Jag förväntade mig ett värde men fick inget!"
                 }
+            },
+            "label": {
+                "borrows": "$~lånar",
+                "expression": "$~blockera"
             }
         },
         "PropertyBind": {
@@ -1016,6 +1075,10 @@
                     "secondary": "$~Jag har ingen ingång som heter $1",
                     "name": "$~okändegendom"
                 }
+            },
+            "label": {
+                "property": "$~egendom",
+                "value": "$~värde"
             }
         },
         "PropertyReference": {
@@ -1029,7 +1092,9 @@
             ],
             "start": "$~Låt oss först ta reda på värdet",
             "finish": "$~Hittade egenskapen $1, den är $2",
-            "property": "$~egendom"
+            "label": {
+                "property": "$~egendom"
+            }
         },
         "Reaction": {
             "name": "$~reaktion",
@@ -1043,14 +1108,16 @@
             ],
             "start": "$~Låt oss se om vi ska uppdatera strömmen",
             "finish": "$~Det nya streamvärdet är $1",
-            "initial": "$~första",
-            "condition": "$~skick",
-            "next": "$~nästa",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~förväntadström",
                     "primary": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
                 }
+            },
+            "label": {
+                "initial": "$~första",
+                "condition": "$~skick",
+                "next": "$~nästa"
             }
         },
         "Reference": {
@@ -1182,6 +1249,12 @@
                     "name": "$~oimplementerad",
                     "primary": "$~Jag implementerar $1 men har inte implementerat $2"
                 }
+            },
+            "label": {
+                "docs": "$~dokumentation",
+                "inputs": "$~ingångar",
+                "expression": "$~värden och funktioner",
+                "interfaces": "$~gränssnitt"
             }
         },
         "StructureDefinitionType": {
@@ -1205,7 +1278,10 @@
             "description": "$~sms:a $1",
             "emotion": "serious",
             "doc": "$~Jag representerar en eller flera specifika @Translation av text. Se @Text för att lära dig mer om vad jag kan göra!",
-            "start": "$~Låt oss göra text i den aktuella lokalen"
+            "start": "$~Låt oss göra text i den aktuella lokalen",
+            "label": {
+                "texts": "$~text"
+            }
         },
         "Translation": {
             "name": "$~översättning",
@@ -1239,6 +1315,9 @@
                     "name": "$~möjliganpassadkaraktär",
                     "primary": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
                 }
+            },
+            "label": {
+                "segments": "$~text"
             }
         },
         "FormattedLiteral": {
@@ -1300,7 +1379,10 @@
                 "$~Det finns bara en regel: du kan inte sätta något mellanslag mellan namnet och värdet. Annars kanske du gör en @Reference eller @BinaryEvaluate."
             ],
             "start": "$~Vad är värdet?",
-            "finish": "$~Jag gjorde det $1"
+            "finish": "$~Jag gjorde det $1",
+            "label": {
+                "input": "$~input"
+            }
         },
         "UnparsableExpression": {
             "name": "$~omöjligatttolka",
@@ -4233,6 +4315,10 @@
                 },
                 "addcolumn": "$~lägg till en kolumn före denna kolumn",
                 "removecolumn": "$~ta bort den här kolumnen"
+            },
+            "formatted": {
+                "edit": "$~redigera formaterad text",
+                "preview": "$~förhandsgranska formaterad text"
             }
         },
         "tile": {
@@ -4325,6 +4411,9 @@
             "subheader": {
                 "source": "$~Källa",
                 "destination": "$~Destination"
+            },
+            "defaults": {
+                "starterCode": "¶Välkommen till ditt tomma projekt! Detta är en kommentar.\nDu kan använda den för att beskriva ditt projekt, anteckna och\nförklara vad du vill att folk ska veta om ditt arbete.\nDen stöder *fet*, /kursiv/, <links@https://wordplay.dev> och mer.¶\nFrase('hej')"
             }
         },
         "checkpoints": {
@@ -4431,7 +4520,8 @@
             "menu": {
                 "label": "$~autoslutförande-menyn",
                 "show": "$~visa autoslutförandemenyn",
-                "back": "$~lämna undermenyn"
+                "back": "$~lämna undermenyn",
+                "empty": "$~Inga förslag."
             },
             "cursor": {
                 "priorLine": "$~flytta markören till raden innan",
@@ -4488,7 +4578,19 @@
                 "expandAfterInline": "$~utöka urvalet efter",
                 "expandPriorLine": "$~utöka urvalet till föregående rad",
                 "expandNextLine": "$~utöka urvalet till nästa rad",
-                "largeDelete": "$~Är du säker på att du vill ta bort det här valet? Du kan använda ångra-knappen (↺) om du ångrar dig."
+                "largeDelete": "$~Är du säker på att du vill ta bort det här valet? Du kan använda ångra-knappen (↺) om du ångrar dig.",
+                "ignored": {
+                    "readOnly": "$~Källan är skrivskyddad",
+                    "blockSpace": "$~Inget utrymme tillåtet här",
+                    "noDelete": "$~Kan inte radera detta",
+                    "noInsert": "$~Det går inte att infoga här",
+                    "noError": "$~Denna redigering skulle skapa en konflikt",
+                    "noEditor": "$~Ingen aktiv redigerare",
+                    "noClipboard": "$~Inget urklipp tillgängligt",
+                    "noClipboardItem": "$~Ingenting på urklippet",
+                    "noSelection": "$~Inget valt",
+                    "noMove": "$~Kan inte röra mig längre"
+                }
             },
             "options": {
                 "locale": {
@@ -4576,15 +4678,54 @@
                 "search": "$~söka efter begrepp med ord"
             },
             "header": {
-                "inputs": "$~Ingångar",
-                "interfaces": "$~Gränssnitt",
-                "properties": "$~Egenskaper",
-                "functions": "$~Funktioner",
-                "conversions": "$~Konverteringar"
-            },
-            "modes": {
-                "label": "$~bläddra",
-                "modes": ["$~hur man", "$~begrepp"]
+                "inputs": {
+                    "header": "$~Ingångar",
+                    "explanation": "$~/Obligatoriska och valfria värden./"
+                },
+                "interfaces": {
+                    "header": "$~Gränssnitt",
+                    "explanation": "$~/Strukturer som denna struktur är baserad på./"
+                },
+                "properties": {
+                    "header": "$~Fastigheter",
+                    "explanation": "$~/Värden som detta koncept lagrar./"
+                },
+                "functions": {
+                    "header": "$~Funktioner",
+                    "explanation": "$~/Värden som detta koncept kan beräkna./"
+                },
+                "conversions": {
+                    "header": "$~Konverteringar",
+                    "explanation": "$~/Sätt att konvertera detta värde till värden av andra typer./"
+                },
+                "arrangements": {
+                    "header": "$~Arrangemang",
+                    "explanation": "$~/Sätt att ordna fraser i en grupp./"
+                },
+                "forms": {
+                    "header": "$~Formulär",
+                    "explanation": "$~/Former som kan placeras på scenen./"
+                },
+                "appearance": {
+                    "header": "$~Utseende",
+                    "explanation": "$~/Sätt att ändra hur utdata ser ut./"
+                },
+                "animation": {
+                    "header": "$~Animation",
+                    "explanation": "$~/Sätt att animera utdata på scenen./"
+                },
+                "location": {
+                    "header": "$~Plats",
+                    "explanation": "$~/Sätt att avgöra var output finns på scenen./"
+                },
+                "reactions": {
+                    "header": "$~Reaktioner",
+                    "explanation": "$~/Sätt att reagera på eller analysera en indataström./"
+                },
+                "names": {
+                    "header": "$~Namn",
+                    "explanation": "$~/Namn för detta koncept./"
+                }
             },
             "how": {
                 "category": {
@@ -4596,9 +4737,128 @@
                     "remembering": "$~spåra förändringar och val",
                     "stories": "$~berätta en historia",
                     "motion": "$~använda fysik",
-                    "video": "$~använda en kamera"
+                    "video": "$~använda en kamera",
+                    "gallery": "$~skapad av dina Wordplay-regissörskollegor"
                 },
                 "related": "$~Inte vad du letar efter?"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~bläddra",
+                    "labels": ["$~koda", "$~hur man"],
+                    "tips": [
+                        "$~programmeringsspråkskoncept",
+                        "$~återanvändbara mönster för att skapa projekt"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~ändamål",
+                    "labels": [
+                        "$~projekt",
+                        "$~produktion",
+                        "$~input",
+                        "$~besluta",
+                        "$~namn",
+                        "$~text",
+                        "$~tal",
+                        "$~sanning",
+                        "$~listor",
+                        "$~uppsättningar",
+                        "$~bord",
+                        "$~dokumentation",
+                        "$~typer",
+                        "$~etc."
+                    ],
+                    "tips": [
+                        "$~koncept på projektnivå",
+                        "$~fraser, grupper, etapper, layouter och mer",
+                        "$~tid, knappar, tangenter, scener och mer",
+                        "$~välj värden baserat på andra värden",
+                        "$~namnge värden, funktioner och datastrukturer för senare användning",
+                        "$~sant, falskt och inget värde",
+                        "$~siffror och matematiska operationer",
+                        "$~vanlig och formaterad text",
+                        "$~listor och listoperationer",
+                        "$~uppsättningar, kartor och operationer",
+                        "$~tabeller och tabelloperationer",
+                        "$~datatyper, konverteringar och typkontroller",
+                        "$~dokumentation och kommentarer",
+                        "$~avancerade språkbegrepp"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Projekt",
+                    "explanation": "$~/Begrepp definierade i ditt projekt./"
+                },
+                "Outputs": {
+                    "header": "$~Utgångar",
+                    "explanation": "$~/Olika typer av utdata som kan placeras på scenen./"
+                },
+                "Inputs": {
+                    "header": "$~Ingångar",
+                    "explanation": "$~/Indataströmmar från världen som förändras över tid, vilket får ett program att omvärderas./"
+                },
+                "Decisions": {
+                    "header": "$~Beslut",
+                    "explanation": "$~/Sätt att välja mellan olika värden baserat på villkor./"
+                },
+                "Numbers": {
+                    "header": "$~Tal",
+                    "explanation": "$~/Tal, enheter och matematiska operationer./"
+                },
+                "Text": {
+                    "header": "$~Text",
+                    "explanation": "$~/Vanlig och formaterad text, och sätt att manipulera den./"
+                },
+                "Truth": {
+                    "header": "$~Sanning",
+                    "explanation": "$~/Sant, falskt och nollvärden och sätt att använda dem för logik./"
+                },
+                "Lists": {
+                    "header": "$~Listor",
+                    "explanation": "$~/Listor och listoperationer, bra för att lagra värden i en viss ordning./"
+                },
+                "Maps": {
+                    "header": "$~Kartor",
+                    "explanation": "$~/Mängder, kartor och deras operationer, bra för att lagra samlingar av värden, eller mappningar från ett värde till andra./"
+                },
+                "Tables": {
+                    "header": "$~Tabeller",
+                    "explanation": "$~/Tabeller och tabelloperationer, bra för att lagra strukturerad data i rader och kolumner./"
+                },
+                "Types": {
+                    "header": "$~Typer",
+                    "explanation": "$~/Sätt att deklarera att namngivna värden ska ha en viss datatyp och kontrollera att de har det./"
+                },
+                "Documentation": {
+                    "header": "$~Dokumentation",
+                    "explanation": "$~/Sätt att lägga till kommentarer och förklaringar i din kod./"
+                },
+                "Advanced": {
+                    "header": "$~Avancerad",
+                    "explanation": "$~/Avancerade språkbegrepp och funktioner som du förmodligen inte behöver./"
+                },
+                "Hidden": {
+                    "header": "$~Dold",
+                    "explanation": "$~/Begrepp som är dolda från huvuddokumentationen./"
+                },
+                "How": {
+                    "header": "$~Hur man",
+                    "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt./"
+                },
+                "Definitions": {
+                    "header": "$~Definitioner",
+                    "explanation": "$~/Sätt att namnge värden, funktioner och datastrukturer för senare användning./"
+                },
+                "GalleryHow": {
+                    "header": "$~Galleri-instruktioner",
+                    "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt, från dina gallerier./"
+                }
+            },
+            "note": {
+                "empty": "$~Namn som du definierar i ditt projekt kommer att visas här."
             }
         },
         "dialog": {
@@ -4632,12 +4892,16 @@
                 "mode": {
                     "public": {
                         "label": "$~synlighet",
-                        "modes": ["$~privat", "$~offentlig"]
+                        "labels": ["$~privat", "$~offentlig"],
+                        "tips": [
+                            "$~bara du och dina medarbetare kan se det här projektet",
+                            "$~vem som helst kan se det här projektet"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Vi känner ingen skapare med den här e-postadressen.",
-                    "anonymous": "$~Du måste vara inloggad för att dela.",
+                    "anonymous": "$~Du måste vara <inloggad@://login> för att dela.",
                     "self": "$~Du kan inte lägga till dig själv."
                 },
                 "button": {
@@ -4660,7 +4924,15 @@
                 "mode": {
                     "layout": {
                         "label": "$~layout",
-                        "modes": [
+                        "labels": [
+                            "$~bil",
+                            "$~rad",
+                            "$~stack",
+                            "$~två",
+                            "$~en",
+                            "$~gratis"
+                        ],
+                        "tips": [
                             "$~lägga ut kakel automatiskt",
                             "$~en horisontell skärmlayout",
                             "$~en vertikal skärmlayout",
@@ -4671,7 +4943,17 @@
                     },
                     "animate": {
                         "label": "$~animationer",
-                        "modes": [
+                        "labels": [
+                            "$~av",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10 gånger"
+                        ],
+                        "tips": [
                             "$~animationer av",
                             "$~kvarts hastighet",
                             "$~tredje hastigheten",
@@ -4684,32 +4966,48 @@
                     },
                     "dark": {
                         "label": "$~tema",
-                        "modes": [
-                            "$~ljusa färger",
-                            "$~mörka färger",
-                            "$~använd enhetsinställning"
+                        "labels": ["$~ljus", "$~mörk", "$~bil"],
+                        "tips": [
+                            "$~ljusare färger",
+                            "$~mörkare färger",
+                            "$~använd den aktuella enhetsinställningen"
                         ]
                     },
                     "space": {
                         "label": "$~utrymmesindikator",
-                        "modes": [
-                            "$~visa mellanslags- och flikindikatorer explicit",
-                            "$~visa inte mellanslags- och flikindikatorer"
+                        "labels": ["$~dölja", "$~visa"],
+                        "tips": [
+                            "$~visa inte mellanslags- och tabbindikatorer",
+                            "$~visa mellanslags- och tabbindikatorer explicit"
                         ]
                     },
                     "lines": {
                         "label": "$~radnummer",
-                        "modes": [
-                            "$~visa radnummer i textläge",
-                            "$~visa inte radnummer i textläge"
+                        "labels": ["$~dölja", "$~visa"],
+                        "tips": [
+                            "$~visa inte radnummer i textläge",
+                            "$~visa radnummer i textläge"
                         ]
                     },
                     "writing": {
                         "label": "$~skrivlayout",
-                        "modes": [
-                            "$~horisontellt, från vänster till höger",
-                            "$~vertikalt, höger till vänster",
-                            "$~vertikalt, från vänster till höger"
+                        "labels": [
+                            "$~horisontell",
+                            "$~vertikal rtl",
+                            "$~vertikal ltr"
+                        ],
+                        "tips": [
+                            "$~horisontell text, läs från vänster till höger",
+                            "$~vertikal text, läs från höger till vänster",
+                            "$~vertikal text, läs från vänster till höger"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~redigeringsläge",
+                        "labels": ["$~text", "$~block"],
+                        "tips": [
+                            "$~redigera kod som text",
+                            "$~redigera kod som block"
                         ]
                     }
                 },
@@ -4732,7 +5030,8 @@
                     "show": "$~ändra språk",
                     "replace": "$~använd den här lokalen",
                     "add": "$~använd den här lokalen och de nuvarande",
-                    "remove": "$~ta bort den här lokalen"
+                    "remove": "$~ta bort den här lokalen",
+                    "menu": "$~andra språk"
                 }
             },
             "help": {
@@ -4770,7 +5069,11 @@
                 },
                 "mode": {
                     "label": "$~feed-back",
-                    "modes": ["$~defekter", "$~idéer"]
+                    "labels": ["$~defekter", "$~idéer"],
+                    "tips": [
+                        "$~rapportera något som verkar trasigt",
+                        "$~föreslå nya funktioner eller förbättringar"
+                    ]
                 },
                 "field": {
                     "title": {
@@ -4804,12 +5107,38 @@
                     "idea": "$~Såg du inte idén du tänkte på? Föreslå det."
                 },
                 "error": {
-                    "login": "$~Du måste vara inloggad för att skicka feedback",
+                    "login": "$~Du måste vara <inloggad@://login> för att skicka feedback",
                     "submit": "$~Det gick inte att skicka feedback.",
                     "load": "$~Det gick inte att ladda feedback",
                     "empty": "$~Det finns ingen feedback att visa.",
                     "url": "$~Detta är inte en giltig GitHub-URL."
                 }
+            },
+            "notifications": {
+                "header": "$~Aviseringar",
+                "explanation": "$~Aviseringar från nya chattar och publicerade instruktioner",
+                "open": "$~öppna aviseringsdialogrutan",
+                "howToNotifications": {
+                    "label": "$~aviseringar om nya instruktioner",
+                    "labels": ["$~av", "$~på"],
+                    "tips": [
+                        "$~meddela mig inte om nya instruktioner",
+                        "$~meddela mig om nya instruktioner"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~rensa alla aviseringar",
+                    "tip": "$~rensa alla aviseringar"
+                },
+                "notification": {
+                    "howToHeader": "$~Ny instruktionsguide med titeln \"$1\" har publicerats",
+                    "projectChatHeader": "$~Nytt meddelande i projektet \"$1\"",
+                    "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$1\"",
+                    "link": "$~detaljer",
+                    "moderationHeader": "$~Meddelandet i \"$1\" kräver modereringsåtgärd"
+                },
+                "delete": "$~radera den här aviseringen",
+                "popup": "$~ny avisering"
             }
         },
         "collaborate": {
@@ -4817,7 +5146,9 @@
             "role": {
                 "owner": "$~ägare",
                 "collaborators": "$~kollaboratörer",
-                "curators": "$~kuratorer"
+                "curators": "$~kuratorer",
+                "commenters": "$~kommentatorer",
+                "viewers": "$~tittare"
             },
             "field": {
                 "message": {
@@ -4846,7 +5177,34 @@
                 "solo": "$~Chatta med dig själv eller lägg till en medarbetare som kan redigera och chatta.",
                 "owner": "$~Samarbetspartners kan redigera det här projektet och chatta om det.",
                 "collaborator": "$~Du är en kollaboratör. Du kan redigera det här projektet och chatta om det.",
-                "curator": "$~Du är curator för detta projekts galleri. Du kan redigera det här projektet och chatta om det."
+                "curator": "$~Du är curator för detta projekts galleri. Du kan redigera det här projektet och chatta om det.",
+                "commenter": "$~Du är en kommentator. Du kan chatta om det här projektet men inte redigera det."
+            },
+            "moderation": {
+                "header": "$~Rapportera det här meddelandet",
+                "explanation": "$~Om det här meddelandet inte uppfyller våra <community standards@://rights> eller den typ av feedback du begärt kan du rapportera det. När du rapporterar det här meddelandet skickas det till galleriets kuratorer och tas bort tills det kan granskas.",
+                "report": {
+                    "tip": "$~rapportera detta meddelande",
+                    "label": "$~rapportera"
+                },
+                "moderate": {
+                    "tip": "$~gå till modereringspanelen",
+                    "label": "$~måttlig"
+                },
+                "pending": "$~Det här meddelandet tas tillfälligt bort i väntan på modereringsåtgärd.",
+                "removed": "$~Det här meddelandet har tagits bort eftersom det bryter mot riktlinjer för communityn eller feedback.",
+                "inGallery": "$~Den här chatten finns i ett galleri. Den modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot våra <community standards@://rights> för moderering."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "$~Ditt projekt finns i ett galleri. Som standard kan alla som kan se det här galleriet se det här projektet. Du kan begränsa vem som kan se ditt projekt till bara du och galleriets kuratorer.",
+                "mode": {
+                    "label": "$~begränsa åtkomst till projektet",
+                    "labels": ["$~begränsa inte", "$~begränsa"],
+                    "tips": [
+                        "$~alla som kan se det här galleriet kan se ditt projekt",
+                        "$~Endast galleriets intendenter kan se ditt projekt"
+                    ]
+                }
             }
         },
         "palette": {
@@ -4925,7 +5283,8 @@
                 "message": "$~Var är det här stället? Kan vi gå hem?"
             },
             "landing": {
-                "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
+                "value": "$!Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
+                "chooseLocales": "$~eller välj",
                 "description": [
                     "$~Wordplay är ett programmeringsspråk som gör att du kan:",
                     "$~• Lekfullt animera ord och emojis 🤪",
@@ -4956,7 +5315,8 @@
                         "label": "$~Medverka",
                         "subtitle": "$~Hjälp oss att göra ordspel."
                     },
-                    "characters": "$~Skapa anpassade emojis och symboler"
+                    "characters": "$~Skapa anpassade emojis och symboler",
+                    "updates": "$~Se vad som är nytt i Wordplay"
                 }
             },
             "learn": {
@@ -4978,7 +5338,7 @@
                 },
                 "error": {
                     "offline": "$~Vi kunde inte kontrollera din lärarstatus. Är du inloggad?",
-                    "login": "$~Du måste vara inloggad för att hantera klasser.",
+                    "login": "$~Du måste vara <inloggad@://login> för att hantera klasser.",
                     "teacher": "$~Du behöver lärarbehörighet för att skapa och hantera klasser. Fyll i detta formulär och låt oss lära känna varandra!"
                 },
                 "link": {
@@ -5093,8 +5453,6 @@
                 "header": "$~Projekt",
                 "projectprompt": "$~Redo att säga något? Skapa ett projekt eller arbeta med ett. Om du fastnar, fortsätt med <learning@://learn>.",
                 "archiveprompt": "$~Det här är projekt som du har arkiverat. Endast ägare kan permanent ta bort eller avarkivera dem. Arkiverade projekt kommer att raderas permanent 30 dagar efter att de senast redigerades.",
-                "galleriesheader": "$~Gallerier",
-                "galleryprompt": "$~Skapa och kurera gallerier för att dela en samling projekt med andra.",
                 "add": {
                     "header": "$~Nytt projekt",
                     "explanation": "$~Välj en mall för att skapa ett nytt projekt."
@@ -5103,7 +5461,6 @@
                     "newproject": "$~nytt projekt",
                     "editproject": "$~redigera detta projekt",
                     "viewcode": "$~visa detta projekts kod",
-                    "newgallery": "$~nytt galleri",
                     "unarchive": "$~avarkivera detta projekt"
                 },
                 "confirm": {
@@ -5118,25 +5475,48 @@
                 },
                 "error": {
                     "noaccess": "$~Vi kunde inte nå internet.",
-                    "nogalleryedits": "$~Du måste vara inloggad för att skapa och ändra gallerier.",
                     "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
-                    "nodeletes": "$~Du måste vara inloggad för att ta bort arkiverade projekt.",
+                    "nodeletes": "$~Du måste vara <inloggad@://login> för att radera arkiverade projekt.",
                     "delete": "$~Hoppsan, vi kunde inte ta bort projektet!"
                 },
                 "subheader": {
                     "shared": "$~Delad",
-                    "archived": "$~Arkiverad"
+                    "archived": "$~Arkiverad",
+                    "howtoviewonly": {
+                        "header": "$~Instruktioner",
+                        "explanation": "$~Du kan visa och interagera med instruktionerna i dessa gallerier, men du kan inte se deras projekt om inte galleriet eller projekten är offentliga."
+                    }
                 }
             },
             "galleries": {
                 "header": "$~Gallerier",
-                "prompt": "$~Det är föreställningar som andra har gjort. Upplev dem, studera dem eller anpassa dem till ditt eget uttalande.",
-                "examples": "$~Exempel",
+                "prompt": "$~$!Galleries är samlingar av projekt, ofta centrerade kring ett tema, och sammanställda av dig eller andra kreatörer.",
                 "button": {
                     "more": {
                         "label": "$~mer...",
                         "tip": "$~Ladda fler gallerier"
+                    },
+                    "newgallery": "$~nytt galleri"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Din",
+                        "explanation": [
+                            "$~Bidra till ett galleri du är inbjuden till, eller skapa ditt eget galleri med ett visst tema och bjud in andra.",
+                            "$~/Kuratorer ansvarar för att moderera innehållet i gallerier med hjälp av <gallery moderation dashboard@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Exempel",
+                        "explanation": "$~$!Dessa är utvalda gallerier från Wordplay-utvecklarna. De är bra utgångspunkter för lärande och inspiration."
+                    },
+                    "public": {
+                        "header": "$~Offentlig",
+                        "explanation": "$~Det här är gallerier som skapare av Wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier."
                 }
             },
             "about": {
@@ -5274,7 +5654,8 @@
                     "$~Men att göra ett projekt *offentligt*, eller inkludera det i ett offentligt galleri, är ett privilegium. Detta är en plattform gjord för kärlek, bekräftelse, respekt och värdighet. Därför förväntar vi oss att inget av ditt *offentliga* innehåll kommer att:"
                 ],
                 "consequences": [
-                    "$~Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skapare innan de tittar på det, eller blockera det från att ses. Om du upprepade gånger bryter mot dessa regler kommer du att förlora privilegiet att publicera offentligt."
+                    "$~Chattar för projekt och instruktioner som finns i offentliga eller privata gallerier modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot dessa communityriktlinjer till kuratorerna med hjälp av rapportknappen bredvid varje meddelande, och kuratorerna kan godkänna eller ta bort meddelanden.",
+                    "$~Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skaparna innan de ser det, eller blockera det från att visas. Om du upprepade gånger bryter mot dessa regler förlorar du rätten att publicera inlägg offentligt."
                 ]
             },
             "donate": {
@@ -5305,7 +5686,7 @@
                 },
                 "error": {
                     "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",
-                    "noauth": "$~Du måste vara inloggad för att se dina karaktärer och skapa nya.",
+                    "noauth": "$~Du måste vara <inloggad@://login> för att se dina karaktärer och skapa nya.",
                     "create": "$~Det går inte att skapa en ny karaktär."
                 },
                 "subheader": {
@@ -5346,7 +5727,7 @@
                     },
                     "mode": {
                         "label": "$~läge",
-                        "modes": [
+                        "labels": [
                             "$~välja",
                             "$~suddgummi",
                             "$~pixel",
@@ -5354,15 +5735,34 @@
                             "$~ellips",
                             "$~väg",
                             "$~emoji"
+                        ],
+                        "tips": [
+                            "$~välj former och pixlar",
+                            "$~radera former och pixlar",
+                            "$~rita pixlar",
+                            "$~rita rektanglar",
+                            "$~rita ellipser",
+                            "$~rita banor",
+                            "$~importera en emoji som pixlar"
                         ]
                     },
                     "fill": {
                         "label": "$~fylla",
-                        "modes": ["$~ingen", "$~inerit", "$~välja"]
+                        "labels": ["$~ingen", "$~tröghet", "$~välja"],
+                        "tips": [
+                            "$~ingen fyllning",
+                            "$~ärva fyllningsfärg från omgivande text",
+                            "$~välj en fyllningsfärg"
+                        ]
                     },
                     "stroke": {
                         "label": "$~stroke",
-                        "modes": ["$~ingen", "$~inerit", "$~välja"]
+                        "labels": ["$~ingen", "$~tröghet", "$~välja"],
+                        "tips": [
+                            "$~ingen stroke",
+                            "$~ärva linjefärg från omgivande text",
+                            "$~välj en linjefärg"
+                        ]
                     },
                     "none": "$~ingen",
                     "inherit": "$~textfärg",
@@ -5460,7 +5860,7 @@
                     "end": "$~eller tryck på Escape.",
                     "loadfail": "$~Det gick inte att läsa in den här karaktären.",
                     "notfound": "$~Den här karaktären finns inte.",
-                    "unauthenticated": "$~Du måste vara inloggad för att redigera en karaktär.",
+                    "unauthenticated": "$~Du måste vara <inloggad@://login> för att redigera ett tecken.",
                     "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
                     "projecteditfail": "$~Det uppstod ett problem när projekt som använder det här tecknet uppdaterades. Följande projekt behöver åtgärdas:",
                     "untitledproject": "$~Namnlöst projekt"
@@ -5484,9 +5884,29 @@
                     },
                     "public": {
                         "label": "$~synlighet",
-                        "modes": ["$~offentlig", "$~privat"]
+                        "labels": ["$~offentlig", "$~privat"],
+                        "tips": [
+                            "$~vem som helst kan se den här karaktären",
+                            "$~bara du och dina medarbetare kan se den här karaktären"
+                        ]
                     },
                     "collaborators": "$~kollaboratörer"
+                }
+            },
+            "updates": {
+                "header": "$~Uppdateringar",
+                "content": [
+                    "$~Det här är de senaste nya funktionerna, förbättringarna och buggfixarna i Wordplay. Vi släpper uppdateringar varje vecka de flesta lördagar, såvida vi inte hittar ett akut fel."
+                ],
+                "tips": {
+                    "expand": "$~Utöka uppdateringarna för detta datum",
+                    "collapse": "$~Komprimera uppdateringar från detta datum"
+                },
+                "categories": {
+                    "added": "$~Tillagd",
+                    "changed": "$~Ändrad",
+                    "removed": "$~Borttagen",
+                    "fixed": "$~Fast"
                 }
             }
         },
@@ -5511,6 +5931,212 @@
         "template": {
             "unwritten": "$~TBD",
             "unparsable": "$~Oparserbar mall: $1"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Instruktioner",
+                "subheader": "$~1 dollar i instruktioner, 2 dollar i nya",
+                "subheaderEmpty": "$~skapa den första!",
+                "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med Wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
+            },
+            "headerTooltip": "$~gå tillbaka till galleriet",
+            "drafts": {
+                "header": "$~📝 Instruktioner för utkast",
+                "prompt": "$~Det här är ett utrymme för dina utkast! Endast du och dina medarbetare kan se dessa utkast.",
+                "tooltip": "$~visa ditt utkast",
+                "note": "$~Detta är ett utkast till en instruktionsguide. Endast du och dina medarbetare kan se den."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Bokmärken",
+                "tooltip": "$~gå till den här instruktionen",
+                "canBookmark": {
+                    "label": "$~🔖 bokmärk instruktionsguide",
+                    "tip": "$~Bokmärk den här instruktionen för att hitta den senare"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 ta bort bokmärke",
+                    "tip": "$~ta bort den här instruktionen från dina bokmärken"
+                },
+                "empty": "$~Du kan bokmärka instruktioner som du vill använda senare.",
+                "notLoggedIn": "$~Du måste vara <inloggad@://login> för att använda bokmärken"
+            },
+            "navigationtooltip": "$~navigera till en instruktionsguide",
+            "button": {
+                "reset": {
+                    "label": "$~centrum",
+                    "tip": "$~centrera arbetsytan"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Skapa en ny instruktionsguide",
+                    "explanation": "$~Skriv namnet och innehållet på din nya instruktionsguide."
+                },
+                "editForm": {
+                    "header": "$~Redigera instruktionsguide",
+                    "explanation": "$~Redigera namnet och innehållet i din instruktionsguide."
+                },
+                "post": {
+                    "label": "$~📣 inlägg",
+                    "tip": "$~publicera din instruktion i utrymmet"
+                },
+                "save": {
+                    "label": "$~💾 spara som utkast",
+                    "tip": "$~spara din instruktion som ett utkast"
+                },
+                "notification": {
+                    "label": "$~meddela prenumeranter",
+                    "labels": ["$~meddela", "$~meddela inte"],
+                    "tips": [
+                        "$~meddela prenumeranter när du publicerar den här instruktionen",
+                        "$~meddela inte prenumeranter när du publicerar den här instruktionen"
+                    ]
+                },
+                "title": {
+                    "description": "$~titeln på din instruktion",
+                    "placeholder": "$~Titel"
+                },
+                "titlePlaceholder": "$~Namnlös instruktion",
+                "collaboratorsPrompt": "$~Lägg till en samarbetspartner som kan redigera den här instruktionen",
+                "collaboratorsToggle": {
+                    "on": "$~dölj panelen för samarbetspartners",
+                    "off": "$~expandera panelen för samarbetspartners"
+                },
+                "editor": {
+                    "placeholder": "$~Skriv din instruktion här, använd formatering och kod för att undervisa.",
+                    "description": "$~en textruta för att skriva din instruktion"
+                }
+            },
+            "viewer": {
+                "view": {
+                    "label": "$~se instruktionsguide",
+                    "tip": "$~se instruktionsguide"
+                },
+                "edit": {
+                    "label": "$~✏️ redigera",
+                    "tip": "$~redigera den här instruktionen"
+                },
+                "delete": {
+                    "description": "$~ta bort den här instruktionen",
+                    "prompt": "$~🗑️ radera"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 skicka in till Wordplay Guide",
+                        "tip": "$~Skicka in den här instruktionen för att bli övervägd för inkludering i Ordspelsguiden!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ skickad till Guide",
+                        "tip": "$~Denna instruktionsguide har redan skickats in för att beaktas för inkludering i Ordspelsguiden."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "$~Använde du den här handledningen i ditt projekt eller i en annan handledning? Låt andra veta det genom att lägga till ditt projekt i listan!",
+                    "empty": "$~Du har inga projekt eller andra publicerade instruktioner än. Försök att skapa ett!",
+                    "countDisplay": "$~Andra Wordplay-regissörer har använt detta i andra projekt eller instruktionsböcker på $1",
+                    "selector": "$~projekt- och instruktionsväljare",
+                    "removeButton": "$~ta bort projekt eller instruktionsguide från listan",
+                    "addButton": "$~lägg till projekt eller instruktionsguide"
+                },
+                "reactionsPrompt": "$~Gillade du den här instruktionen? Lämna en kommentar för att stödja skaparen!",
+                "chatPrompt": "$~Lämna en kommentar eller fråga till skaparen!",
+                "link": {
+                    "label": "$~🔗 kopiera instruktionslänken",
+                    "tip": "$~kopiera länken till den här instruktionen"
+                },
+                "collaborators": "$~skriven av"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Instruktioner för utrymmesinställningar",
+                    "explanation": "$~Konfigurera inställningarna för den här instruktionsplatsen. Klicka på spara-knappen längst ner för att spara dina inställningar."
+                },
+                "configurationButton": {
+                    "tip": "$~konfigurera detta instruktionsutrymme",
+                    "label": "$~⚙️ inställningar"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Synlighet",
+                        "explanation": "$~Konfigurera vem som kan visa instruktioner i det här utrymmet som standard"
+                    },
+                    "mode": {
+                        "label": "$~standardsynlighet",
+                        "labels": ["$~begränsad", "$~utökad"],
+                        "tips": [
+                            "$~endast samarbetspartners i det här galleriet kan visa",
+                            "$~samarbetspartners i vilket galleri som helst som en kurator skapar kan se"
+                        ]
+                    },
+                    "expanded": "$~utökad",
+                    "limited": "$~begränsad"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Vägledande frågor",
+                        "explanation": "$~Konfigurera de vägledande frågor som visas när du skapar en ny instruktionsguide. Separera vägledande frågor med en radbrytning."
+                    },
+                    "descriptor": "$~en textruta för att skriva dina vägledande frågor, separerade med en radbrytning.",
+                    "default": [
+                        "$~Vad lärde du dig? Ge exempel på hur man gör det."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reaktioner",
+                        "explanation": "$~Konfigurera de reaktioner som tittare kan lämna på nya instruktioner"
+                    },
+                    "reactionPickerTip": "$~välj en karaktär som ska vara en reaktion",
+                    "reactionDescriptionTip": "$~beskriv vad denna reaktion betyder",
+                    "addReactionTip": "$~lägg till en ny reaktion",
+                    "removeReactionTip": "$~ta bort denna reaktion",
+                    "default": {
+                        "👍": "$~Jag gillar det här!",
+                        "💭": "$~Detta inspirerar mig!",
+                        "🙏": "$~Tack så mycket!",
+                        "🎉": "$~Firande!",
+                        "🤩": "$~Jag vill prova det här!",
+                        "😁": "$~Detta gör mig glad!"
+                    }
+                },
+                "submit": {
+                    "error": "$~vägledande frågor och reaktioner kan inte vara tomma",
+                    "label": "$~spara",
+                    "tip": "$~spara inställningar för instruktionsutrymme"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~instruktionstexten med titeln $1 flyttad till $2 $3",
+                "canvasPosition": "$~Canvas flyttad till 1 dollar, 2 dollar",
+                "moveActivated": "$~rörelse aktiverad. $1 kan flyttas med musen, tangentbordet eller pekskärmen",
+                "moveDeactivated": "$~rörelsen avaktiverad."
+            },
+            "error": {
+                "unknown": "$~Det här instruktionsutrymmet finns inte eller är inte offentligt."
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~Översikt för gallerimoderering",
+            "description": "$~Följande meddelanden i gallerier som du hanterar har rapporterats av användare för moderering.",
+            "labels": {
+                "message": "$~meddelande",
+                "reporter": "$~reporter",
+                "action": "$~moderatoråtgärder"
+            },
+            "view": {
+                "label": "$~visa chatten",
+                "tip": "$~visa meddelande i chatten"
+            },
+            "remove": {
+                "label": "$~ta bort",
+                "tip": "$~detta meddelande bryter mot riktlinjerna"
+            },
+            "keep": {
+                "label": "$~hålla",
+                "tip": "$~detta meddelande bryter inte mot riktlinjerna"
+            },
+            "empty": "$~Inga meddelanden kräver moderering",
+            "error": "$~Du måste vara inloggad för att moderera gallerier"
         }
     },
     "moderation": {

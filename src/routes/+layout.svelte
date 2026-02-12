@@ -1,4 +1,14 @@
 <script module lang="ts">
+    import type { NotificationData } from '@components/settings/Notifications.svelte';
+    import { SvelteMap } from 'svelte/reactivity';
+
+    /** User's notifications state
+     * Maps a string (notification's item ID + type) to data
+     * (Workaround to make sure that we don't send more than one notification of the same type)
+     */
+    export let notifications = $state<SvelteMap<string, NotificationData>>(
+        new SvelteMap(),
+    );
 </script>
 
 <script lang="ts">
@@ -6,6 +16,7 @@
     import Loading from '@components/app/Loading.svelte';
     import Announcer from '@components/project/Announcer.svelte';
     import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
+    import { firestore } from '@db/firebase';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
@@ -21,11 +32,12 @@
         animationFactor,
         dark,
         DB,
+        howToNotifications,
+        HowTos,
         locales,
         Settings,
     } from '../db/Database';
     import { getLanguageDirection } from '../locale/LanguageCode';
-
     interface Props {
         children: Snippet;
     }
@@ -35,8 +47,8 @@
     let loaded = $state(false);
     let lag = $state(false);
 
-    /** Create a user store to share globally. */
-    const user = writable<User | null>(null);
+    /** Create a user store to share globally. Undefined means we don't know if the user is logged in yet. Null means not logged in. */
+    const user = writable<User | null | undefined>(undefined);
     setUser(user);
 
     // Create a store context for the announcer function.
@@ -135,6 +147,17 @@
 
     /** Create a global state for a tip to show at the top level */
     setTip(new ActiveHint());
+
+    // if the user turns off how-to notifications, clear existing notifications
+    // if notifications are on, listen for changing from the how-to database
+    $effect(() => {
+        if (!$howToNotifications) {
+            notifications.clear();
+            HowTos.ignore();
+        } else if ($user && firestore) {
+            HowTos.listen(firestore, $user.uid);
+        }
+    });
 </script>
 
 <div

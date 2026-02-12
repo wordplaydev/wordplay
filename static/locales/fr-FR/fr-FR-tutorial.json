@@ -2191,7 +2191,7 @@
                             "$~Mais ce n’est probablement pas ce que vous vouliez…",
                             "$~Et si je ne sais pas comment vous donner ce que vous avez demandé, je vais tout arrêter."
                         ],
-                        ["edit", "10s → {}"],
+                        ["edit", "10s → '' → {}"],
                         null,
                         ["use", "fit", "Symbol", "📕"],
                         [
@@ -2594,7 +2594,7 @@
                             "excited",
                             "$~L'utilisation d'un flux @Button est une façon de progresser dans les étapes d'une performance ou de déclencher un changement dans une performance. Ce petit programme répertorie les pressions sur les boutons et commence à afficher la tristesse, mais lorsque le flux @Button passe à true, @Conditional évalue à la place \\'happy'\\."
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
                 },
                 {
@@ -2651,7 +2651,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Le hasard peut être très amusant! Nous pouvons l'utiliser avec des flux pour créer un chaos amusant. Par exemple, ici, nous choisissons un mot au hasard dans une liste de mots. C'est la même chose que \\['kitty' 'cat' 'meowy'].random()\\. Continuez à appuyer sur ↻ pour obtenir un synonyme de chat différent! Essayez d'ajouter votre propre mot à la liste et voyez si vous pouvez faire apparaître le mot."
+                            "$~Le hasard peut être très amusant! Nous pouvons l'utiliser avec des flux pour créer un chaos amusant. Par exemple, ici, nous choisissons un mot au hasard dans une liste de mots. C'est la même chose que \\['kitty' 'cat' 'feline'].random()\\. Continuez à appuyer sur ↻ pour obtenir un synonyme de chat différent! Essayez d'ajouter votre propre mot à la liste et voyez si vous pouvez faire apparaître le mot."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]
@@ -4021,11 +4021,12 @@
                         ],
                         [
                             "edit",
+                            "click: ∆ Button()",
                             "Scene([",
                             "    Phrase('one')",
-                            "    ∆ Button()",
+                            "    click",
                             "    Phrase('two')",
-                            "    ∆ Button()",
+                            "    click",
                             "    Phrase('three')",
                             "])"
                         ],

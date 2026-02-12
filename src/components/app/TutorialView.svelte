@@ -64,9 +64,11 @@
     const conceptPath = getConceptPath();
 
     // When navigating
-    function nav(progress: Progress) {
+    async function nav(progress: Progress) {
         // Reset the concept path after each navigation.
-        navigate(progress);
+        conceptPath.set([]);
+        // Navigate to the new progress.
+        await navigate(progress);
     }
 
     const user = getUser();
@@ -185,11 +187,8 @@
     let initialProject = $derived(
         Project.make(
             progress.getProjectID(),
-            scene
-                ? scene.title
-                : act
-                  ? act.title
-                  : $locales.getLocale().wordplay,
+            // Don't give the project a name, in case the locale changes.
+            '',
             // Don't give the souce a name, otherwise it won't be localized on language change.
             new Source('', source),
             [],
@@ -573,7 +572,8 @@
     .dialog {
         height: 100%;
         width: 30%;
-        min-width: 30%;
+        min-width: 10em;
+        max-width: 30em;
         display: flex;
         flex-direction: column;
         min-height: 0;

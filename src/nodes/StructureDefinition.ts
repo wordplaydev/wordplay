@@ -44,15 +44,15 @@ import TypeVariables from './TypeVariables';
 import { getEvaluationInputConflicts } from './util';
 
 export default class StructureDefinition extends DefinitionExpression {
-    readonly docs: Docs | undefined;
+    readonly docs: Docs;
     readonly share: Token | undefined;
     readonly type: Token;
     readonly names: Names;
     readonly interfaces: Reference[];
     readonly types: TypeVariables | undefined;
-    readonly open: Token | undefined;
+    readonly open: Token;
     readonly inputs: Bind[];
-    readonly close: Token | undefined;
+    readonly close: Token;
     readonly expression: Block | undefined;
 
     // PERF: Cache definitions to avoid having to recreate the list.
@@ -65,14 +65,14 @@ export default class StructureDefinition extends DefinitionExpression {
         names: Names,
         interfaces: Reference[],
         types: TypeVariables | undefined,
-        open: Token | undefined,
+        open: Token,
         inputs: Bind[],
-        close: Token | undefined,
+        close: Token,
         block?: Block,
     ) {
         super();
 
-        this.docs = docs;
+        this.docs = docs ?? Docs.make();
         this.share = share;
         this.type = type;
         this.names = names;
@@ -113,7 +113,7 @@ export default class StructureDefinition extends DefinitionExpression {
         return [];
     }
 
-    static getPossibleAppends() {
+    static getPossibleInsertions() {
         return [
             StructureDefinition.make(
                 undefined,
@@ -140,33 +140,46 @@ export default class StructureDefinition extends DefinitionExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', kind: optional(node(Docs)) },
+            {
+                name: 'docs',
+                kind: optional(node(Docs)),
+                label: () => (l) => l.node.StructureDefinition.label.docs,
+            },
             {
                 name: 'share',
                 kind: optional(node(Sym.Share)),
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
+                label: undefined,
             },
-            { name: 'type', kind: node(Sym.Type) },
-            { name: 'names', kind: node(Names) },
+            { name: 'type', kind: node(Sym.Type), label: undefined },
+            { name: 'names', kind: node(Names), label: undefined },
             {
                 name: 'interfaces',
                 kind: list(true, node(Reference)),
                 space: true,
+                label: () => (l) => l.node.StructureDefinition.label.interfaces,
             },
-            { name: 'types', kind: optional(node(TypeVariables)), space: true },
-            { name: 'open', kind: node(Sym.EvalOpen) },
+            {
+                name: 'types',
+                kind: optional(node(TypeVariables)),
+                space: true,
+                label: undefined,
+            },
+            { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             {
                 name: 'inputs',
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
+                label: () => (l) => l.node.StructureDefinition.label.inputs,
             },
-            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
             {
                 name: 'expression',
                 kind: optional(node(Block)),
                 space: true,
                 indent: !(this.expression instanceof Block),
+                label: () => (l) => l.node.StructureDefinition.label.expression,
             },
         ];
     }
@@ -187,7 +200,7 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Definitions;
     }
 
     getNames() {
@@ -210,7 +223,11 @@ export default class StructureDefinition extends DefinitionExpression {
         return true;
     }
 
-    getEvaluateTemplate(nameOrLocales: Locales | string, context: Context) {
+    getEvaluateTemplate(
+        nameOrLocales: Locales | string,
+        context: Context,
+        defaults: boolean,
+    ): Evaluate | ExpressionPlaceholder {
         // In case for some reason an input of this refers to this.
         if (context.visited(this)) return ExpressionPlaceholder.make();
         context.visit(this);
@@ -225,8 +242,10 @@ export default class StructureDefinition extends DefinitionExpression {
                 .filter((input) => !input.hasDefault())
                 .map((input) =>
                     input.type
-                        ? (input.type.getDefaultExpression(context) ??
-                          ExpressionPlaceholder.make(input.type))
+                        ? defaults
+                            ? (input.type.getDefaultExpression(context) ??
+                              ExpressionPlaceholder.make(input.type.clone()))
+                            : ExpressionPlaceholder.make(input.type.clone())
                         : ExpressionPlaceholder.make(),
                 ),
         );

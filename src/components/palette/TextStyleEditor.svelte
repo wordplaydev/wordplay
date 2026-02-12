@@ -6,7 +6,7 @@
     import Options from '@components/widgets/Options.svelte';
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import { getLanguageQuoteClose } from '@locale/LanguageCode';
     import Example from '@nodes/Example';
     import type Expression from '@nodes/Expression';
@@ -298,7 +298,23 @@
                     },
                 ]}
                 change={(value) => applyWeight(value)}
-            ></Options>
+            >
+                {#snippet item(option)}
+                    <span
+                        >{#if option.value === 'normal'}
+                            {option.label}
+                        {:else if option.value === 'light'}
+                            <strong style="font-weight: 300"
+                                >{option.label}</strong
+                            >{:else if option.value === 'bold'}
+                            <strong>{option.label}</strong
+                            >{:else if option.value === 'extra'}
+                            <strong style="font-weight: 900"
+                                >{option.label}</strong
+                            >{/if}</span
+                    >
+                {/snippet}
+            </Options>
         </div>
         <div class="aspect">
             <label for="font-italic"
@@ -334,16 +350,17 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        align-items: center;
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
     }
 
     .aspect {
         display: flex;
-        flex-direction: wrap;
+        flex-direction: row;
         flex-wrap: nowrap;
+        align-items: center;
         gap: var(--wordplay-spacing);
-        font-style: italic;
         font-size: var(--wordplay-small-font-size);
     }
 </style>

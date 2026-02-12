@@ -8,12 +8,18 @@
         AnimationFactors,
     } from '@db/settings/AnimationFactorSetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
-    import { CANCEL_SYMBOL, CONFIRM_SYMBOL } from '@parser/Symbols';
+    import {
+        BLOCK_EDITING_SYMBOL,
+        CANCEL_SYMBOL,
+        CONFIRM_SYMBOL,
+        TEXT_EDITING_SYMBOL,
+    } from '@parser/Symbols';
     import { onMount } from 'svelte';
     import { Creator } from '../../db/creators/CreatorDatabase';
     import {
         animationFactor,
         arrangement,
+        blocks,
         camera,
         dark,
         locales,
@@ -30,7 +36,9 @@
     import Dialog from '../widgets/Dialog.svelte';
     import Mode from '../widgets/Mode.svelte';
     import Options from '../widgets/Options.svelte';
+    import FaceName from './FaceName.svelte';
     import LocaleChooser from './LocaleChooser.svelte';
+    import Notifications from './Notifications.svelte';
 
     let user = getUser();
 
@@ -64,6 +72,7 @@
 </script>
 
 <div class="settings">
+    <Notifications />
     <Status />
     <Link nowrap to="/login">
         <CreatorView
@@ -92,8 +101,9 @@
                     value={FaceSetting.get() ?? 'Noto Sans'}
                     label={(l) => l.ui.dialog.settings.options.face}
                     id="ui-face"
+                    width="10em"
                     options={[
-                        { value: undefined, label: '—' },
+                        { value: undefined, label: '—', face: null },
                         // Only show faces supported in the current locale
                         ...Object.entries(Faces)
                             .filter(
@@ -107,15 +117,30 @@
                                 return {
                                     value: name,
                                     label: getFaceDescription(name, face),
+                                    face: {
+                                        name: name,
+                                        face: face,
+                                    },
                                 };
                             }),
                     ]}
                     change={(choice) =>
                         Settings.setFace(choice === undefined ? null : choice)}
-                ></Options>
+                >
+                    {#snippet item(option)}
+                        {#if option.face === null}<span>{option.label}</span>
+                        {:else}
+                            <FaceName
+                                name={option.face.name}
+                                face={option.face.face}
+                            />
+                        {/if}
+                    {/snippet}
+                </Options>
             </label>
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.layout}
+                modes={(l) => l.ui.dialog.settings.mode.layout}
+                wrap
                 choice={$arrangement === Arrangement.Responsive
                     ? 0
                     : $arrangement === Arrangement.Horizontal
@@ -141,14 +166,15 @@
                                     ? Arrangement.Single
                                     : Arrangement.Free,
                     )}
-                modes={Object.values(LayoutIcons)}
+                icons={Object.values(LayoutIcons)}
             />
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.animate}
+                modes={(l) => l.ui.dialog.settings.mode.animate}
                 choice={AnimationFactors.indexOf($animationFactor)}
                 select={(choice) =>
                     Settings.setAnimationFactor(AnimationFactors[choice])}
-                modes={AnimationFactorIcons}
+                icons={AnimationFactorIcons}
+                modeLabels={false}
             />
             {#if devicesRetrieved}
                 <label for="camera-setting">
@@ -208,28 +234,34 @@
                 </label>
             {/if}
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.dark}
+                modes={(l) => l.ui.dialog.settings.mode.dark}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
                     Settings.setDark(
                         choice === 0 ? false : choice === 1 ? true : null,
                     )}
-                modes={['☼', '☽', '☼/☽']}
+                icons={['☼', '☽', '☼/☽']}
             />
-
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.space}
+                modes={(l) => l.ui.dialog.settings.mode.blocks}
+                choice={$blocks ? 1 : 0}
+                select={(choice) =>
+                    Settings.setBlocks(choice === 1 ? true : false)}
+                icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+            />
+            <Mode
+                modes={(l) => l.ui.dialog.settings.mode.space}
                 choice={$spaceIndicator ? 1 : 0}
                 select={(choice) =>
                     Settings.setSpace(choice === 1 ? true : false)}
-                modes={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
             />
             <Mode
-                descriptions={(l) => l.ui.dialog.settings.mode.lines}
+                modes={(l) => l.ui.dialog.settings.mode.lines}
                 choice={$showLines ? 1 : 0}
                 select={(choice) =>
                     Settings.setLines(choice === 1 ? true : false)}
-                modes={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
             />
         </div>
     </Dialog>
@@ -240,22 +272,27 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: var(--wordplay-spacing);
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing-half);
         margin-inline-start: auto;
     }
 
     .controls {
         display: flex;
         flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: calc(2 * var(--wordplay-spacing-half));
         align-items: baseline;
     }
 
     label {
         white-space: nowrap;
-        font-style: italic;
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
+        align-items: baseline;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    label > :global(span) {
+        font-style: italic;
     }
 </style>

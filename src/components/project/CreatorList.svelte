@@ -104,7 +104,7 @@
                 padding={false}
                 tip={(l) => l.ui.dialog.share.button.submit}
                 active={validCollaborator(emailOrUsername) === true}
-                action={() => undefined}>&gt;</Button
+                action={addCreator}>&gt;</Button
             >
             {#if adding}<Spinning />{/if}
         </form>
@@ -231,7 +231,7 @@
     .person {
         display: flex;
         flex-direction: row;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         align-items: center;
     }
 

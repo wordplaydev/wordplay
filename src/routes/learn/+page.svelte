@@ -28,7 +28,19 @@
             Locales.getTutorial(
                 $locales.get((l) => l.language),
                 $locales.get((l) => l.regions),
-            ).then((t) => (tutorial = t));
+            ).then((t) => {
+                tutorial = t;
+                if (initial && tutorial) {
+                    navigate(
+                        new Progress(
+                            tutorial,
+                            initial.act,
+                            initial.scene,
+                            initial.pause,
+                        ),
+                    );
+                }
+            });
         }
     });
 
@@ -45,21 +57,24 @@
     // Set progress if URL indicates one.
     let initial: Progress | undefined = $state(undefined);
 
-    // Save tutorial projects with projects changes.
+    // Save tutorial projects with projects or tutorial changes.
     $effect(() => {
         if (tutorial) {
-            initial = Progress.fromURL(tutorial, page.url.searchParams);
-            // Untrack, since the below reads and sets
+            // Untrack, as we only want to be dependent on tutorial changes, not page or initial changes.
             untrack(() => {
-                if (initial) Settings.setTutorialProgress(initial);
+                if (tutorial) {
+                    initial = Progress.fromURL(tutorial, page.url.searchParams);
+                    if (initial) Settings.setTutorialProgress(initial);
+                }
             });
         }
     });
 
     async function navigate(newProgress: Progress) {
+        // Reset the initial tutorial progress.
         initial = undefined;
-        // Set the URL to mirror the progress, if not at it.
-        await goto(newProgress.getURL());
+        // Navigate to the new tutorial URL.
+        await goto(newProgress.getURL(), { keepFocus: true });
         // After navigation, update the tutorial progress.
         Settings.setTutorialProgress(newProgress);
     }

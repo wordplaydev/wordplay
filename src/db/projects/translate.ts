@@ -76,9 +76,9 @@ export default async function translateProject(
 
                 if (nameToTranslate === undefined) return undefined;
 
-                // Get the name already in the target language, if there is one.
+                // Get the name already in the target language, if there is one. Prefer full names, not symbolic names.
                 const targetName = names
-                    .getNameInLanguage(targetLanguage, undefined)
+                    .getNameInLanguage(targetLanguage, false)
                     ?.getName();
 
                 return {

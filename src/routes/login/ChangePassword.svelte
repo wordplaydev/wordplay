@@ -61,7 +61,7 @@
 
 <p><LocalizedText path={(l) => l.ui.page.login.prompt.changePassword} /></p>
 
-<form onsubmit={update}>
+<form>
     <TextField
         id="currentpassword"
         kind={reveal ? undefined : 'password'}
@@ -110,7 +110,7 @@
         background
         tip={(l) => l.ui.page.login.button.updatePassword}
         active={!submitted && isValidPassword(password2)}
-        action={() => undefined}>&gt;</Button
+        action={update}>&gt;</Button
     >
     {#if password2.length > 0 && !isValidPassword(password2)}
         <Notice text={(l) => l.ui.page.login.prompt.passwordrule} />

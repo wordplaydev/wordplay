@@ -1,52 +1,89 @@
 import { localeToString } from '@locale/Locale';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
+import z from 'zod';
 
-export const GallerySchemaLatestVersion = 1;
+export const GallerySchemaLatestVersion = 2;
 
 /** The schema for a gallery */
-type SerializedGalleryV1 = {
+const SerializedGalleryV1 = z.object({
     /** Version of the gallery schema, so we can upgrade them. */
-    v: 1;
+    v: z.literal(1),
     /** Unique Firestore id */
-    id: string;
+    id: z.string(),
     /** A vanity URL name, globally unique, must be valid URL path */
-    path: string | null;
+    path: z.string().nullable(),
     /** One or more localized names of the gallery, indexed by locale name. Cannot be empty. */
-    name: Record<string, string>;
+    name: z.record(z.string(), z.string()),
     /** Localized descriptions of the theme of the gallery, indexed by locale name. Cannot be empty. */
-    description: Record<string, string>;
+    description: z.record(z.string(), z.string()),
     /**
      * A set of unique lower case non-preposition words that appear in the names and descriptions, suitable for basic text search.
      * These are derived from the name and description.
      */
-    words: string[];
+    words: z.array(z.string()),
     /** Project IDs in the project. */
-    projects: string[];
+    projects: z.array(z.string()),
     /** Firebase uids who can modify gallery public and creators, e.g. teachers. May not be empty. */
-    curators: string[];
+    curators: z.array(z.string()),
     /** Firebase uids who can add projects to the gallery and view its projects, e.g. students */
-    creators: string[];
+    creators: z.array(z.string()),
     /** If true, gallery can be viewed by anyone and appears in search results. */
-    public: boolean;
+    public: z.boolean(),
     /** If true, gallery is prioritized in search results */
-    featured: boolean;
-};
+    featured: z.boolean(),
+});
 
-type SerializedGalleryUnknownVersion = SerializedGalleryV1;
+/** v2 adds configurations for the how-to space */
+const SerializedGalleryV2 = SerializedGalleryV1.omit({ v: true }).extend({
+    v: z.literal(2),
+    /** List of IDs of how-tos that are associated with this gallery */
+    howTos: z.array(z.string()),
+    /** visibility of the how-to space: false if limited to gallery's own permissions, true if expanded to allow gallery creators' other galleries' creators and curators to also view */
+    howToExpandedVisibility: z.boolean(),
+    /** The list of galleryIDs whose creators and curators have access to how-tos in this gallery if expanded visibility */
+    howToExpandedGalleries: z.array(z.string()),
+    /** A mapping of galleryIDs to user IDs of the users who have access if expanded visibility */
+    howToViewers: z.record(z.string(), z.array(z.string())),
+    /** A flat list of the user IDs who have access as a viewer to these how-tos (flattened in a firestore cloud function) */
+    howToViewersFlat: z.array(z.string()),
+    /** guiding questions for creating a how-to */
+    howToGuidingQuestions: z.array(z.string()),
+    /** reaction options for the how-tos */
+    howToReactions: z.record(z.string(), z.string()),
+});
+
+/** The latest version of a gallery */
+export const GallerySchema = SerializedGalleryV2;
+export type SerializedGallery = z.infer<typeof SerializedGalleryV2>;
+
+type SerializedGalleryUnknownVersion =
+    | z.infer<typeof SerializedGalleryV1>
+    | SerializedGallery;
 
 export function upgradeGallery(
     gallery: SerializedGalleryUnknownVersion,
 ): SerializedGallery {
     switch (gallery.v) {
+        case 1:
+            // default to empty guiding questions and reactions
+            return upgradeGallery({
+                ...gallery,
+                v: 2,
+                howToExpandedVisibility: false,
+                howTos: [],
+                howToExpandedGalleries: [],
+                howToViewers: {},
+                howToViewersFlat: [],
+                howToGuidingQuestions: [],
+                howToReactions: {},
+            });
         case GallerySchemaLatestVersion:
             return gallery;
         default:
-            throw new Error('unknown gallery version: ' + gallery.v) as never;
+            throw new Error('unknown gallery version: ' + gallery);
     }
 }
-
-export type SerializedGallery = SerializedGalleryV1;
 
 export function deserializeGallery(gallery: unknown): Gallery {
     return new Gallery(
@@ -97,6 +134,10 @@ export default class Gallery {
 
     getID() {
         return this.data.id;
+    }
+
+    isBuiltIn() {
+        return !this.data.id.includes('-');
     }
 
     getLink() {
@@ -180,5 +221,49 @@ export default class Gallery {
         const newData = { ...this.data };
         newData.projects = projectIDs.slice();
         return new Gallery(newData);
+    }
+
+    getHowTos(): string[] {
+        return this.data.howTos;
+    }
+
+    withHowTo(howToID: string) {
+        const newData = { ...this.data };
+        newData.howTos = [...new Set([...newData.howTos, howToID])];
+        return new Gallery(newData);
+    }
+
+    withoutHowTo(howToID: string) {
+        const newData = { ...this.data };
+        newData.howTos = [...newData.howTos.filter((id) => id !== howToID)];
+        return new Gallery(newData);
+    }
+
+    getHowToExpandedGalleries(): string[] {
+        return this.data.howToExpandedGalleries;
+    }
+
+    getHowToViewers(): string[] {
+        return this.data.howToViewersFlat;
+    }
+
+    isHowToViewer(uid: string): boolean {
+        return this.data.howToViewersFlat.includes(uid);
+    }
+
+    getHowToExpandedVisibility(): boolean {
+        return this.data.howToExpandedVisibility;
+    }
+
+    getHowToGuidingQuestions(): string[] {
+        return this.data.howToGuidingQuestions;
+    }
+
+    getHowToReactions(): Record<string, string> {
+        return this.data.howToReactions;
+    }
+
+    getData() {
+        return { ...this.data };
     }
 }

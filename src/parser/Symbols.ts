@@ -116,7 +116,7 @@ export const COPY_SYMBOL = '📚';
 export const PASTE_SYMBOL = '📋';
 export const CANCEL_SYMBOL = '⨉';
 export const CONFIRM_SYMBOL = '✓';
-export const ALL_SYMBOL = '⊞';
+export const ALL_SYMBOL = '⬚';
 export const ERASE_SYMBOL = '⌫';
 
 // The "teacher" emoji is a combination of the "person" and "school" emojis.
@@ -135,3 +135,8 @@ export const IDEA_SYMBOL = '💡';
 export const DEFECT_SYMBOL = '🪲';
 
 export const SEARCH_SYMBOL = '🔍';
+
+export const BLOCK_EDITING_SYMBOL = withMonoEmoji('🖱️');
+export const TEXT_EDITING_SYMBOL = withMonoEmoji('⌨️');
+
+export const DROP_DOWN_SYMBOL = '▾';

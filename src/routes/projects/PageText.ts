@@ -1,4 +1,4 @@
-import type { ConfirmText, DialogText } from '@locale/UITexts';
+import type { ConfirmText, HeaderAndExplanationText } from '@locale/UITexts';
 
 type PageText = {
     /** Header for the projects page */
@@ -7,18 +7,16 @@ type PageText = {
     projectprompt: string;
     /** Explanation for the archive subsection */
     archiveprompt: string;
-    /** Header for the galleries page */
-    galleriesheader: string;
-    /** A prompt to create galleries */
-    galleryprompt: string;
     /** Dialog text for the project addition dialog */
-    add: DialogText;
+    add: HeaderAndExplanationText;
     /** Buttons on the project page */
     subheader: {
         /** Header for the shared project list */
         shared: string;
         /** Header for the unarchived project list */
         archived: string;
+        /** Header for the galleries where the user can see how-tos but not projects */
+        howtoviewonly: HeaderAndExplanationText;
     };
     button: {
         /** Create a new project */
@@ -27,8 +25,6 @@ type PageText = {
         editproject: string;
         /** View a project's code */
         viewcode: string;
-        /** Create a new gallery */
-        newgallery: string;
         /** The project unarchive button description */
         unarchive: string;
     };
@@ -41,8 +37,6 @@ type PageText = {
     error: {
         /** When there's no access to the database. */
         noaccess: string;
-        /** When the creator is not logged in. */
-        nogalleryedits: string;
         /** Unable to create a gallery */
         newgallery: string;
         /** Feedback that we are unable to delete when logged out */
