@@ -6,6 +6,7 @@ import StreamValue from '@values/StreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locales from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
 import Bind from '../nodes/Bind';
 import BooleanType from '../nodes/BooleanType';
 import NoneLiteral from '../nodes/NoneLiteral';
@@ -64,6 +65,21 @@ declare global {
         webkitSpeechRecognition: SpeechRecognitionStatic;
     }
 }
+
+// Localized error messages for speech recognition errors
+// Each key maps to a locale accessor function
+// Modeled after Webpage
+const SpeechErrors = {
+    browserNotSupported: (locale: LocaleText) => locale.input.Speech.error.browserNotSupported,
+    noConnection: (locale: LocaleText) => locale.input.Speech.error.noConnection,
+    serviceNotAllowed: (locale: LocaleText) => locale.input.Speech.error.serviceNotAllowed,
+    micNotAllowed: (locale: LocaleText) => locale.input.Speech.error.micNotAllowed,
+    noMicrophone: (locale: LocaleText) => locale.input.Speech.error.noMicrophone,
+    languageNotSupported: (locale: LocaleText) => locale.input.Speech.error.languageNotSupported,
+    limit: (locale: LocaleText) => locale.input.Speech.error.limit,
+};
+
+export type SpeechError = keyof typeof SpeechErrors;
 
 export default class Speech extends StreamValue<TextValue, string> {
     // Reference to Wordplay evaluator for values and project context
@@ -175,6 +191,15 @@ export default class Speech extends StreamValue<TextValue, string> {
         }
     }
 
+    // Resolves a localized error message, and pushes it as the stream's text value
+    // This makes errors visible on stage in the user's language
+    // Modeled after Webpage
+    private reactError(errorKey: SpeechError) {
+        const localeText = this.evaluator.getLocales()[0];
+        const message = SpeechErrors[errorKey](localeText);
+        this.react(message);
+    }
+
     // Initializes and starts the Web Speech API
     // Lifecycle:
     // 1. Check for browser support
@@ -192,7 +217,7 @@ export default class Speech extends StreamValue<TextValue, string> {
             window.SpeechRecognition || window.webkitSpeechRecognition;
 
         if (!SpeechRecognitionAPI) {
-            console.warn('Speech recognition not supported in this browser.');
+            this.reactError('browserNotSupported');
             return;
         }
 
@@ -203,10 +228,6 @@ export default class Speech extends StreamValue<TextValue, string> {
             this.recognition.interimResults = false; // Only final results
             this.recognition.maxAlternatives = 1;    // Only best match
             this.recognition.lang = this.languageCode;
-            console.log(
-                'Speech recognition initialized with language:',
-                this.languageCode,
-            );
 
             // Handle results
             this.recognition.onresult = (event: SpeechRecognitionEvent) => {
@@ -217,7 +238,6 @@ export default class Speech extends StreamValue<TextValue, string> {
                 if (results[resultIndex] && results[resultIndex].isFinal) {
                     const transcript =
                         results[resultIndex][0].transcript.trim();
-                    console.log('Speech recognized:', transcript);
                     if (transcript) {
                         this.react(transcript);
                     }
@@ -226,11 +246,6 @@ export default class Speech extends StreamValue<TextValue, string> {
 
             // Handle errors
             this.recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-                console.error(
-                    'Speech recognition error:',
-                    event.error,
-                    event.message,
-                );
                 this.handleError(event.error, event.message);
             };
 
@@ -263,7 +278,6 @@ export default class Speech extends StreamValue<TextValue, string> {
                 this.recognition.start();
             } catch (e) {
                 // Already started, ignore
-                console.warn('Recognition already started');
             }
         }
     }
@@ -298,50 +312,39 @@ export default class Speech extends StreamValue<TextValue, string> {
         }
     }
 
-    // Handles Web Speech API errors
+    // Handles Web Speech API errors with localized messages
     // This should cover *ALL* possible errors in the API docs:
     // https://webaudio.github.io/web-speech-api/#speechreco-error
-    private handleError(error: string, message: string) {
-        // Handle specific error types with appropriate messages and retry logic
+    private handleError(error: string, _message: string) {
         switch (error) {
             case 'network':
                 // Network error - could be no internet or service unavailable
-                this.react(
-                    'Network error: Check your internet connection and try again.',
-                );
+                this.reactError('noConnection');
                 this.attemptRetry('network');
                 break;
 
             case 'service-not-allowed':
                 // Service denied - API quota/rate limit or service unavailable
-                this.react(
-                    'Service temporarily unavailable: Rate limit or quota exceeded. Retrying...',
-                );
+                this.reactError('serviceNotAllowed');
                 this.attemptRetry('service-not-allowed');
                 break;
 
             case 'not-allowed':
                 // Permission denied - user needs to grant microphone access
-                this.react(
-                    'Permission denied: Please allow microphone access in your browser settings.',
-                );
+                this.reactError('micNotAllowed');
                 // Don't retry permission errors - user action required
                 this.stop();
                 break;
 
             case 'audio-capture':
                 // Microphone hardware error
-                this.react(
-                    'Microphone error: Check that your microphone is connected and working.',
-                );
+                this.reactError('noMicrophone');
                 this.attemptRetry('audio-capture');
                 break;
 
             case 'language-not-supported':
                 // Language not supported by the browser (unlikely but possible)
-                this.react(
-                    `Language not supported: ${this.languageCode} is not available for speech recognition.`,
-                );
+                this.reactError('languageNotSupported');
                 // Don't retry language errors
                 this.stop();
                 break;
@@ -356,10 +359,8 @@ export default class Speech extends StreamValue<TextValue, string> {
                 break;
 
             default:
-                // Unknown error - show generic message
-                this.react(
-                    `Other error: ${error}${message ? ' - ' + message : ''}`,
-                );
+                // Unknown error - surface as a connection error since most unexpected speech errors are network/service related
+                this.reactError('noConnection');
                 this.attemptRetry('unknown');
                 break;
         }
@@ -368,30 +369,26 @@ export default class Speech extends StreamValue<TextValue, string> {
     // Retry logic
     // Backoff strategy: delay = baseDelay * attemptnumber
     // Attempt 1: 1000ms; Attempt 2: 2000ms; Attempt 3: 3000ms
-    // After [maxRetries] failures, it injects a final error message and stops the stream to avoid infinite loops
+    // After [maxRetries] failures, it injects a localized error message and stops the stream
     private attemptRetry(errorType: string) {
         // Only retry for transient errors, and only up to max retries
         if (this.retryCount < this.maxRetries && this.on) {
             this.retryCount++;
-            const delay = this.retryDelay * this.retryCount; // Exponential backoff
-            console.log(
-                `Attempting to restart speech recognition in ${delay}ms (attempt ${this.retryCount}/${this.maxRetries}) after ${errorType} error`,
-            );
+            const delay = this.retryDelay * this.retryCount;
 
             this.retryTimeout = setTimeout(() => {
                 if (this.on && !this.isListening) {
                     try {
                         this.recognition?.start();
                     } catch (e) {
-                        console.error('Failed to restart recognition:', e);
+                        // Restart failed — surface to user and give up
+                        this.reactError('limit');
+                        this.stop();
                     }
                 }
             }, delay);
         } else if (this.retryCount >= this.maxRetries) {
-            // Max retries reached
-            this.react(
-                'Speech recognition failed after multiple attempts. Please try again later.',
-            );
+            this.reactError('limit');
             this.stop();
         }
     }

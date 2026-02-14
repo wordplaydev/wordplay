@@ -44,6 +44,23 @@ type InputTexts = {
         language: NameAndDoc;
         /** Maximum number of words to keep (sliding window) */
         limit: NameAndDoc;
+        /** Errors that can happen during speech recognition, modeled after WebPage */
+        error: {
+            /** Browser does not support speech recognition */
+            browserNotSupported: string;
+            /** There was no connection to the internet */
+            noConnection: string;
+            /** Speech service denied or rate limited */
+            serviceNotAllowed: string;
+            /** Microphone permission denied */
+            micNotAllowed: string;
+            /** Microphone hardware not available */
+            noMicrophone: string;
+            /** Requested language not supported */
+            languageNotSupported: string;
+            /** Too many failed attempts to reconnect */
+            limit: string;
+        };
     };
     /** A stream of color matrices from a camera sensor */
     Camera: NameAndDoc & {
