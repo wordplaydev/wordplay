@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Fixed
 
+- Project tiles were collapsing on page reload. We stopped that from happening!
 - Added a missing background to the clear all notifications button.
 
 ## 0.16.41 - 2026-02-07
