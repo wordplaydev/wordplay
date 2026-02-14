@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Fixed
 
+- The emojis weren't appearing in the timeline. We fixed it so that they would appear again.
 - Project tiles were collapsing on page reload. We stopped that from happening!
 - Added a missing background to the clear all notifications button.
 
