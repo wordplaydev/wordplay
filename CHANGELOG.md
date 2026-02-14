@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Added
 
 - **How to permissions**. How to authors can make their how to's visible to broader audiences.
+- **Chinese translations of how to examples**. Thank you to our localizers for their translations!
 
 ### Changed
 
