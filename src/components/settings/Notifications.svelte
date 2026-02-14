@@ -198,6 +198,7 @@
         action={() => {
             notifications.clear();
         }}
+        background
         tip={(l) => l.ui.dialog.notifications.clearAll.tip}
         label={(l) => l.ui.dialog.notifications.clearAll.label}
     />

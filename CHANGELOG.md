@@ -14,6 +14,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - We upgraded minor versions of internal tooling for stability.
 
+### Fixed
+
+- Added a missing background to the clear all notifications button.
+
 ## 0.16.41 - 2026-02-07
 
 ### Added
