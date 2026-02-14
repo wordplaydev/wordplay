@@ -4559,10 +4559,29 @@
                     "placeholder": "Title"
                 },
                 "titlePlaceholder": "Untitled how-to",
-                "collaboratorsPrompt": "Add a collaborator, who can edit this how-to",
+                "collaborators": {
+                    "header": "👥 collaborators",
+                    "explanation": "Collaborators can edit this how-to and view it in drafts."
+                },
                 "collaboratorsToggle": {
                     "on": "collapse the collaborators panel",
                     "off": "expand the collaborators panel"
+                },
+                "access": {
+                    "header": "↗ share",
+                    "explanation": "The curator of this gallery can let creators and curators of other galleries they curate view this how-to. If you don't want them to be able to view it, you can restrict who can view this how-to to only the curators and creators in this gallery."
+                },
+                "accessToggle": {
+                    "on": "collapse the access settings panel",
+                    "off": "expand the access settings panel"
+                },
+                "accessMode": {
+                    "label": "restrict who can view this how-to",
+                    "labels": ["restricted", "expanded"],
+                    "tips": [
+                        "only creators in this gallery can view",
+                        "creators and curators in any gallery the curator curates can view"
+                    ]
                 }
             },
             "viewer": {

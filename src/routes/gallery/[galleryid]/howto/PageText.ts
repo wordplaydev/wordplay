@@ -69,10 +69,16 @@ type PageText = {
         title: FieldText;
         /** Placeholder for an untitled how-to */
         titlePlaceholder: string;
-        /** Collaboration */
-        collaboratorsPrompt: string;
+        /** Header for collaborator settings */
+        collaborators: HeaderAndExplanationText;
         /** Collaborator toggle text */
         collaboratorsToggle: ToggleText;
+        /** Header for access settings */
+        access: HeaderAndExplanationText;
+        /** Access settings toggle text */
+        accessToggle: ToggleText;
+        /** Mode text for opting in/out of expanded access to how-tos */
+        accessMode: ModeText<[string, string]>;
     };
     viewer: {
         /** Button text for viewing the how-to */
