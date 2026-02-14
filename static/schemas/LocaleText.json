@@ -2229,8 +2229,83 @@
               "type": "object"
             },
             "Speech": {
-              "$ref": "#/definitions/NameAndDoc",
-              "description": "A stream of recognized speech as text"
+              "additionalProperties": false,
+              "description": "A stream of recognized speech as text",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "Errors that can happen during speech recognition, modeled after WebPage",
+                  "properties": {
+                    "browserNotSupported": {
+                      "description": "Browser does not support speech recognition",
+                      "type": "string"
+                    },
+                    "languageNotSupported": {
+                      "description": "Requested language not supported",
+                      "type": "string"
+                    },
+                    "limit": {
+                      "description": "Too many failed attempts to reconnect",
+                      "type": "string"
+                    },
+                    "micNotAllowed": {
+                      "description": "Microphone permission denied",
+                      "type": "string"
+                    },
+                    "noConnection": {
+                      "description": "There was no connection to the internet",
+                      "type": "string"
+                    },
+                    "noMicrophone": {
+                      "description": "Microphone hardware not available",
+                      "type": "string"
+                    },
+                    "serviceNotAllowed": {
+                      "description": "Speech service denied or rate limited",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "browserNotSupported",
+                    "noConnection",
+                    "serviceNotAllowed",
+                    "micNotAllowed",
+                    "noMicrophone",
+                    "languageNotSupported",
+                    "limit"
+                  ],
+                  "type": "object"
+                },
+                "language": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The BCP 47 language code for speech recognition (e.g., 'en-US', 'es-MX', 'zh-CN')"
+                },
+                "limit": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Maximum number of words to keep (sliding window)"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "reset": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether to reset/clear the accumulated speech"
+                }
+              },
+              "required": [
+                "doc",
+                "error",
+                "language",
+                "limit",
+                "names",
+                "reset"
+              ],
+              "type": "object"
             },
             "Time": {
               "additionalProperties": false,

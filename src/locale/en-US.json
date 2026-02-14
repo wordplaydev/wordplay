@@ -3263,7 +3263,7 @@
                 "This is perfect for those who can speak a language but are still learning to read or write it (and more)...",
                 "You can specify a language code to recognize speech in a particular language:",
                 "\\Speech(language: 'es-MX')\\",
-                "If no language is specified, it defaults to English (en-US).",
+                "If no language is specified, it defaults to your preferred locale.",
                 "Speech recognition requires microphone access and Internet connection (please give access!). Also, there might be usage limits, so don't leave it on for too long (nooooo)!"
             ],
             "names": ["🗣️", "Speech", "Voice"],
@@ -3273,7 +3273,7 @@
             },
             "language": {
                 "names": ["language", "lang"],
-                "doc": "A BCP 47 language code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to 'en-US'."
+                "doc": "A BCP 47 language code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to your preferred locale."
             },
             "limit": {
                 "names": ["limit", "words"],

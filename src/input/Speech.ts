@@ -124,7 +124,7 @@ export default class Speech extends StreamValue<TextValue, string> {
     // Creates a Speech Stream instance
     constructor(
         evaluation: Evaluation, // The current Wordplay context
-        languageCode?: string, // The BCP-47 language code, which defaults to 'en-US'
+        languageCode?: string, // The BCP-47 language code, defaults to the creator's preferred locale
         wordLimit?: number, // Max number of words to retain (sliding window), which defaults to infinite
     ) {
         super(
@@ -136,7 +136,7 @@ export default class Speech extends StreamValue<TextValue, string> {
 
         // Defines default behavior
         this.evaluator = evaluation.getEvaluator();
-        this.languageCode = languageCode || 'en-US';
+        this.languageCode = languageCode || 'en-US'; // Fallback unlikely to be reached; createSpeechDefinition provides the creator's preferred locale
         this.wordLimit = wordLimit;
     }
 
@@ -416,8 +416,8 @@ export function createSpeechDefinition(locales: Locales) {
         getDocLocales(locales, (locale) => locale.input.Speech.language.doc),
         getNameLocales(locales, (locale) => locale.input.Speech.language.names),
         UnionType.make(TextType.make(), NoneType.make()),
-        // Default to 'en-US' if no language specified
-        TextLiteral.make('en-US'),
+        // Default to the creator's preferred locale
+        TextLiteral.make(locales.getLocaleString()),
     );
 
     const limitBind = Bind.make(
@@ -436,10 +436,10 @@ export function createSpeechDefinition(locales: Locales) {
             TextType.make(),
             Speech,
             (evaluation) => {
-                // Get the language from the parameter, default to 'en-US'
+                // Get the language from the parameter, default to the creator's preferred locale
                 const languageCode =
                     evaluation.get(languageBind.names, TextValue)?.text ??
-                    'en-US';
+                    locales.getLocaleString();
                 // Get the word limit (undefined = unlimited)
                 const wordLimit = evaluation
                     .get(limitBind.names, NumberValue)
