@@ -1,0 +1,41 @@
+冒险
+=== 开始/zh-CN
+•State(action•"" description•[""] options•[State] won•?)
+
+stand: State('站立' ["你站不起来，你被束缚住了。"] [] ⊥)
+cut: State('自我解脱' [ "你已经解脱了。"] [] ⊤)
+throw: State('扔掉' [ "你扔了刀。"] [stand] ⊥)
+pickup: State('拾起' ['你有一把刀。'] [ cut throw ] ⊥)
+roll: State('翻滚' ['你身边有一把刀。'] [ pickup stand ] ⊥)
+start: State("开始" ["你醒来在一间黑暗冷冽的房间里。"] [ roll stand ] ⊥)
+
+key: Key()
+
+¶start at the state state, and if the key changes, either go to start if there are no options, stay if the key isn't valid, or choose the option.¶ 
+state•State: 
+  start … ∆ key …
+    state.won ? start
+  		state.options.length() = 0 ? start 
+  ~((key = '1') | (key = '2')) ? state 
+state.options[key → #]
+
+options: 
+  state.won ? [ Phrase(`*你自由了!*`) ] 
+  (state.options.length() = 0) ? [ Phrase(`*重新开始!*`) ] 
+    state.options.translate(ƒ(option•State index•#) Phrase(`\index\. *\option.action\*` size: 2m name: option.action duration: 1s entering: Pose(opacity: 0%)))
+
+
+Stage(
+  [
+		Group(
+			Stack()
+			[
+        Phrase(state.description duration: 0.5s name: state.action entering: Pose(offset: Place(0m 2m)))
+        :options
+      ]
+    )
+  ] 
+  background: Color(0 0 0°) 
+  color: Color(100% 0 0°)
+  face: "Permanent Marker"
+)
