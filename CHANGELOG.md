@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.16.42 - 2026-02-14
 
+### Added
+
+- **How to permissions**. How to authors can make their how to's visible to broader audiences.
+
 ### Changed
 
 - We upgraded minor versions of internal tooling for stability.
