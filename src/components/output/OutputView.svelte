@@ -193,9 +193,9 @@
         // Is the program evaluating?
         if (evaluator.isPlaying()) {
             // Record the key event on all keyboard streams if it wasn't handled above.
-            evaluator
-                .getBasisStreamsOfType(Key)
-                .map((stream) => stream.react({ key: event.key, down: false }));
+            evaluator.singletonReact(Key, (stream) =>
+                stream.react({ key: event.key, down: false }),
+            );
         }
         // else ignore();
     }
@@ -332,9 +332,9 @@
 
         // Finally, if the event was ignored by all of the above, pass it to streams.
         if (evaluator.isPlaying()) {
-            evaluator
-                .getBasisStreamsOfType(Key)
-                .map((stream) => stream.react({ key: event.key, down: true }));
+            evaluator.singletonReact(Key, (stream) =>
+                stream.react({ key: event.key, down: true }),
+            );
 
             // Announce the key pressed
             if ($announce)
@@ -346,7 +346,7 @@
                 event.key === '-' ||
                 event.key === '='
             ) {
-                evaluator.getBasisStreamsOfType(Placement).map((stream) =>
+                evaluator.singletonReact(Placement, (stream) =>
                     stream.react({
                         x: keysDown.get('ArrowLeft')
                             ? -1
@@ -374,9 +374,7 @@
         keyboardInputText = '';
 
         // Pass the message to the chats
-        evaluator
-            .getBasisStreamsOfType(Chat)
-            .forEach((stream) => stream.react(message));
+        evaluator.singletonReact(Chat, (stream) => stream.react(message));
     }
 
     function handleWheel(event: WheelEvent) {
@@ -402,9 +400,7 @@
 
         // If the evaluator is playing, record button events.
         if (evaluator.isPlaying()) {
-            evaluator
-                .getBasisStreamsOfType(Button)
-                .forEach((stream) => stream.react(true));
+            evaluator.singletonReact(Button, (stream) => stream.react(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
             if (event.target instanceof HTMLElement) {
@@ -421,9 +417,8 @@
         }
 
         // If there's a Placement, send it some navigation events based on position.
-        const placements = evaluator.getBasisStreamsOfType(Placement);
-        if (placements.length > 0 && valueView && stageValue) {
-            for (const placement of placements) {
+        if (valueView && stageValue) {
+            evaluator.singletonReact(Placement, (placement) => {
                 // First, find the output on stage that this placement is placing,
                 // so we can find the position of the pointer relative to the output.
                 const latest = placement.latest();
@@ -435,7 +430,7 @@
                         ? stageValue
                         : undefined);
                 // Couldn't find the output? Move to the next one.
-                if (output === undefined) continue;
+                if (output === undefined) return;
 
                 // Now find the view of the output.
                 const outputView =
@@ -445,7 +440,7 @@
                               `[data-id="${output.getHTMLID()}"]`,
                           );
                 // Couldn't find the view? Move on to the next one.
-                if (outputView === null) continue;
+                if (!outputView) return;
 
                 const outputRect = outputView.getBoundingClientRect();
                 const outputX = outputRect.left + outputRect.width / 2;
@@ -481,7 +476,7 @@
                     y: yDirection,
                     z: 0,
                 });
-            }
+            });
         }
 
         // If there's a focus, start dragging.
@@ -731,9 +726,7 @@
         strokeNodeID = undefined;
 
         if (evaluator.isPlaying())
-            evaluator
-                .getBasisStreamsOfType(Button)
-                .map((stream) => stream.react(false));
+            evaluator.singletonReact(Button, (stream) => stream.react(false));
     }
 
     function cancelGesture() {
@@ -824,9 +817,9 @@
                   ? stageValue.getName()
                   : undefined;
         if (selection) {
-            evaluator
-                .getBasisStreamsOfType(Choice)
-                .forEach((stream) => stream.react(selection));
+            evaluator.singletonReact(Choice, (stream) =>
+                stream.react(selection),
+            );
             event.stopPropagation();
         }
     }

@@ -248,6 +248,14 @@ export function createSceneDefinition(
                 ),
             // On update, update the list of outputs provided
             (stream, evaluation) => {
+                console.log(
+                    evaluation
+                        .get(OutputsBind.names, ListValue)
+                        ?.values.map((v) =>
+                            v instanceof BoolValue ? v.toWordplay() : 'phrase',
+                        ),
+                );
+
                 stream.updateOutputs(
                     evaluation.get(OutputsBind.names, ListValue) ??
                         new ListValue(evaluation.getCreator(), []),

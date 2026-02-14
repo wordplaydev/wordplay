@@ -6,6 +6,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
+import { EmojiRegex } from '@unicode/emoji';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import type Context from './Context';
@@ -133,6 +134,10 @@ export default class Name extends LanguageTagged {
 
     getName(): string {
         return this.name.getText();
+    }
+
+    isEmoji(): boolean {
+        return EmojiRegex.test(this.name.getText());
     }
 
     withName(name: string) {

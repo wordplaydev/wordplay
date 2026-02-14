@@ -348,9 +348,11 @@ export default class Layout {
         return new Layout(
             this.projectID,
             this.tiles.map((tile) =>
-                tile.id === tileID
+                // If there's a fullscreen id set, make sure this one is visible.
+                tileID !== undefined && tile.id === tileID
                     ? tile.withMode(TileMode.Expanded)
-                    : tile.withMode(TileMode.Collapsed),
+                    : // Otherwise, just reuse the title as is.
+                      tile,
             ),
             tileID,
             this.splits,

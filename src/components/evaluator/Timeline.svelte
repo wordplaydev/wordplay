@@ -264,7 +264,7 @@
                             {#if change.stream === undefined}
                                 ◆
                             {:else}
-                                {change.stream.definition.names.getSymbolicName()}
+                                {change.stream.definition.names.getEmojiName()}
                             {/if}
                         </span>
                     {:else}

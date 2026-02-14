@@ -2,7 +2,7 @@ import { createInputs } from '@locale/createInputs';
 import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import BoolValue from '@values/BoolValue';
-import StreamValue from '@values/StreamValue';
+import SingletonStreamValue from '@values/SingletonStreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locales from '../locale/Locales';
@@ -30,7 +30,7 @@ import createStreamEvaluator from './createStreamEvaluator';
 type Direction = -1 | 0 | 1;
 export type PlacementEvent = { x: Direction; y: Direction; z: Direction };
 
-export default class Placement extends StreamValue<
+export default class Placement extends SingletonStreamValue<
     StructureValue,
     PlacementEvent
 > {

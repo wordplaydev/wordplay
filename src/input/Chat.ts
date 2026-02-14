@@ -1,5 +1,5 @@
 import type Evaluation from '@runtime/Evaluation';
-import StreamValue from '@values/StreamValue';
+import SingletonStreamValue from '@values/SingletonStreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locales from '../locale/Locales';
@@ -9,7 +9,7 @@ import TextType from '../nodes/TextType';
 import TextValue from '../values/TextValue';
 import createStreamEvaluator from './createStreamEvaluator';
 
-export default class Chat extends StreamValue<TextValue, string> {
+export default class Chat extends SingletonStreamValue<TextValue, string> {
     constructor(evaluation: Evaluation) {
         super(
             evaluation,

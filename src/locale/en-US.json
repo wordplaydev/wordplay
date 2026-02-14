@@ -4594,10 +4594,29 @@
                     "placeholder": "Title"
                 },
                 "titlePlaceholder": "Untitled how-to",
-                "collaboratorsPrompt": "Add a collaborator, who can edit this how-to",
+                "collaborators": {
+                    "header": "👥 collaborators",
+                    "explanation": "Collaborators can edit this how-to and view it in drafts."
+                },
                 "collaboratorsToggle": {
                     "on": "collapse the collaborators panel",
                     "off": "expand the collaborators panel"
+                },
+                "access": {
+                    "header": "↗ share",
+                    "explanation": "The curator of this gallery can let creators and curators of other galleries they curate view this how-to. If you don't want them to be able to view it, you can restrict who can view this how-to to only the curators and creators in this gallery."
+                },
+                "accessToggle": {
+                    "on": "collapse the access settings panel",
+                    "off": "expand the access settings panel"
+                },
+                "accessMode": {
+                    "label": "restrict who can view this how-to",
+                    "labels": ["restricted", "expanded"],
+                    "tips": [
+                        "only creators in this gallery can view",
+                        "creators and curators in any gallery the curator curates can view"
+                    ]
                 }
             },
             "viewer": {
@@ -6112,7 +6131,7 @@
                     "Here's how we will and won't use your data:",
                     "• We won't share your data with anyone, unless explicitly required by law. It's always possible that your data is taken without permission (a 'data breach'). If we discover that this has happened, we will notify you that this has happened using the email you've shared with us.",
                     "• We won't contact you via your email address unless you 1) make an account change that requires us to, 2) you explicitly give us consent to reach out, or 3) in the case of data breach above.",
-                    "• We may analyze projects on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
+                    "• We may analyze projects, galleries, and how to content on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
                     "Finally, a note about speech. You can say anything you want on this platform in *private*. Projects are private by default, and if you share them with specific email addresses, they are still considered private. We won't moderate anything in private projects.",
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
                 ],

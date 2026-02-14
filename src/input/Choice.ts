@@ -1,6 +1,6 @@
 import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import StreamValue from '@values/StreamValue';
+import SingletonStreamValue from '@values/SingletonStreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locales from '../locale/Locales';
@@ -11,7 +11,7 @@ import TextValue from '../values/TextValue';
 import createStreamEvaluator from './createStreamEvaluator';
 
 /** A series of selected output, chosen by mouse or keyboard, allowing for programs that work for both mouse and keyboard. */
-export default class Choice extends StreamValue<TextValue, string> {
+export default class Choice extends SingletonStreamValue<TextValue, string> {
     readonly evaluator: Evaluator;
 
     on = true;

@@ -10807,9 +10807,21 @@
                 "editor": {
                   "additionalProperties": false,
                   "properties": {
-                    "collaboratorsPrompt": {
-                      "description": "Collaboration",
-                      "type": "string"
+                    "access": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Header for access settings"
+                    },
+                    "accessMode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "Mode text for opting in/out of expanded access to how-tos"
+                    },
+                    "accessToggle": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Access settings toggle text"
+                    },
+                    "collaborators": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Header for collaborator settings"
                     },
                     "collaboratorsToggle": {
                       "$ref": "#/definitions/ToggleText",
@@ -10857,8 +10869,11 @@
                     "editor",
                     "title",
                     "titlePlaceholder",
-                    "collaboratorsPrompt",
-                    "collaboratorsToggle"
+                    "collaborators",
+                    "collaboratorsToggle",
+                    "access",
+                    "accessToggle",
+                    "accessMode"
                   ],
                   "type": "object"
                 },

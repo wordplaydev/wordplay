@@ -3,6 +3,24 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.42 - 2026-02-14
+
+### Added
+
+- **How to permissions**. How to authors can make their how to's visible to broader audiences.
+- **Chinese translations of how to examples**. Thank you to our localizers for their translations!
+
+### Changed
+
+- We upgraded minor versions of internal tooling for stability.
+- Input streams that correspond to a single input device now re-evaluate the program only once, even if there are multiple streams for that device created.
+
+### Fixed
+
+- The emojis weren't appearing in the timeline. We fixed it so that they would appear again.
+- Project tiles were collapsing on page reload. We stopped that from happening!
+- Added a missing background to the clear all notifications button.
+
 ## 0.16.41 - 2026-02-07
 
 ### Added

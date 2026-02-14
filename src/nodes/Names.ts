@@ -124,6 +124,10 @@ export default class Names extends Node {
         return this.names.find((name) => name.isSymbolic())?.getName();
     }
 
+    getEmojiName() {
+        return this.names.find((name) => name.isEmoji())?.getName();
+    }
+
     getNonSymbolicName() {
         return this.names.find((name) => !name.isSymbolic())?.getName();
     }
