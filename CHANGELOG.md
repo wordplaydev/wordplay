@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Changed
 
 - We upgraded minor versions of internal tooling for stability.
+- Input streams that correspond to a single input device now re-evaluate the program only once, even if there are multiple streams for that device created.
 
 ### Fixed
 
