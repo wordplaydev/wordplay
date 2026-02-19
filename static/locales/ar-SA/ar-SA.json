@@ -4531,7 +4531,7 @@
                     "description": "$~عنوان دليلك الإرشادي",
                     "placeholder": "$~عنوان"
                 },
-                "titlePlaceholder": "$~دليل إرشادي بدون عنوان",
+                "untitledHowToPlaceholder": "$~دليل إرشادي بدون عنوان",
                 "collaboratorsPrompt": "$~أضف متعاونًا، يمكنه تعديل هذا الدليل الإرشادي",
                 "collaboratorsToggle": {
                     "on": "$~حلّ لجنة المتعاونين",

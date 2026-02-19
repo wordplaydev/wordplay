@@ -4536,7 +4536,7 @@
                     "description": "$~আপোনাৰ হাউ-টুৰ শিৰোনাম",
                     "placeholder": "$~অলপ"
                 },
-                "titlePlaceholder": "$~শিৰোনামহীন হাউ-টু",
+                "untitledHowToPlaceholder": "$~শিৰোনামহীন হাউ-টু",
                 "collaboratorsPrompt": "$~এজন সহযোগী যোগ কৰক, যিয়ে এই কেনেকৈ সম্পাদনা কৰিব পাৰে",
                 "collaboratorsToggle": {
                     "on": "$~সহযোগী পেনেলটো ভাঙি পেলাওক",

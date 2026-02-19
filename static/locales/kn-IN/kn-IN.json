@@ -4531,7 +4531,7 @@
                     "description": "$~ನಿಮ್ಮ ಕಾರ್ಯವಿಧಾನದ ಶೀರ್ಷಿಕೆ",
                     "placeholder": "$~ಶೀರ್ಷಿಕೆ"
                 },
-                "titlePlaceholder": "$~ಶೀರ್ಷಿಕೆರಹಿತ ಹೇಗೆ ಮಾಡುವುದು",
+                "untitledHowToPlaceholder": "$~ಶೀರ್ಷಿಕೆರಹಿತ ಹೇಗೆ ಮಾಡುವುದು",
                 "collaboratorsPrompt": "$~ಈ ವಿಧಾನವನ್ನು ಸಂಪಾದಿಸಬಹುದಾದ ಸಹಯೋಗಿಯನ್ನು ಸೇರಿಸಿ",
                 "collaboratorsToggle": {
                     "on": "$~ಸಹಯೋಗಿಗಳ ಫಲಕವನ್ನು ಕುಗ್ಗಿಸಿ",

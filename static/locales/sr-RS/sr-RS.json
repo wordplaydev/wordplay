@@ -5980,7 +5980,7 @@
                     "description": "$~наслов вашег упутства",
                     "placeholder": "$~Наслов"
                 },
-                "titlePlaceholder": "$~Неименовано упутство",
+                "untitledHowToPlaceholder": "$~Неименовано упутство",
                 "collaboratorsPrompt": "$~Додајте сарадника који може да уређује ово упутство",
                 "collaboratorsToggle": {
                     "on": "$~скупи панел сарадника",

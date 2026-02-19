@@ -3,6 +3,7 @@ import type { NotificationData } from '@components/settings/Notifications.svelte
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { SupportedLocales } from '@locale/SupportedLocales';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
@@ -154,6 +155,21 @@ export default class HowTo {
         return this.data.title;
     }
 
+    getTitleAsMap(): SvelteMap<string, string[]> {
+        return this.markupToMapHelper([this.data.title]);
+    }
+
+    /** Get the title of the how-to in the specified locale. If there is no title written in that language, fall back to the first title */
+    getTitleInLocale(locale: string): string {
+        const titleMap = this.getTitleAsMap();
+        let nameInLocale: string[] | undefined = titleMap.get(locale);
+        if (nameInLocale) return nameInLocale[0];
+
+        let firstLanguage: [string, string[]] | undefined = titleMap.entries().next().value;
+        if (firstLanguage) return firstLanguage[1][0];
+        else return ''; // fall back to an empty title
+    }
+
     getGuidingQuestions() {
         return this.data.guidingQuestions;
     }
@@ -161,6 +177,71 @@ export default class HowTo {
     getText() {
         return this.data.text;
     }
+
+    private markupToMapHelper(markup: string[]): SvelteMap<string, string[]> {
+        // input format: ['¶hello¶/en-US¶hola¶/es-MX', '¶bye¶/en-US¶adios¶/es-MX']
+        // output format: {'en-US': ['hello', 'bye'], 'es-MX': ['hola', 'adios']}
+        let map: SvelteMap<string, string[]> = new SvelteMap<
+            string,
+            string[]
+        >();
+
+        // should match strings in the format of "¶some text¶/locale", where the locale is one of the supported locales
+        // necessary, since not all locales match the {2,3}-{2,3} format (e.g., ta-IN-LK-SG)
+        let regexString: string = "¶(.*?)¶\/(" + SupportedLocales.join("|") + ")";
+        let regex: RegExp = new RegExp(regexString, "gs");
+
+        markup.forEach((m) => {
+            let stringAndLocale: RegExpExecArray[] = [...m.matchAll(regex)];
+
+            // dealing with cases of no markup, just text (i.e., how-to was created before translation was implemented)
+            // 'en-US' was the hard-coded default locale, so we just use that
+            if (stringAndLocale.length === 0) {
+                map.set('en-US', [m]);
+                return;
+            }
+
+            stringAndLocale.forEach((match) => {
+                let locale: string = match[2];
+                let text: string = match[1];
+
+                if (map.has(locale)) {
+                    map.get(locale)?.push(text);
+                } else {
+                    map.set(locale, [text]);
+                }
+            });
+        });
+
+        return map;
+    }
+
+    /** Converts the text of the how-to in to a map of locales to string lists (for each) */
+    getTextAsMap(): SvelteMap<string, string[]> {
+        return this.markupToMapHelper(this.data.text);
+    }
+
+    /** Converts the map of locales to string lists back to the text format of the how-to (first return value is a list of locales) */
+    static mapToMarkupHelper(userInput: SvelteMap<string, string[]>,
+        length: number
+    ): [string[], string[]] {
+        let usedLocales: Set<string> = new Set<string>();
+        let markupTexts: string[] = Array(length).fill('');
+
+        // input format: {'en-US': ['hello', 'bye'], 'es-MX': ['hola', 'adios']}
+        // output format: ['¶hello¶/en-US¶hola¶/es-MX', '¶bye¶/en-US¶adios¶/es-MX']
+        // also need to account for code, e.g., "some text, \Phrase('some code')\" --> "¶some text, ¶\Phrase('some code')\/en-US"
+        userInput.entries().forEach(([locale, text]) => {
+            if (text.every((t) => t.length === 0)) return; // if all the text for this locale is empty, skip it
+
+            usedLocales.add(locale);
+            text.forEach((str, i) => {
+                markupTexts[i] += `¶${str}¶/${locale}`;
+            });
+        });
+
+        return [[...usedLocales], markupTexts];
+    };
 
     getCreator() {
         return this.data.creator;
@@ -185,7 +266,7 @@ export default class HowTo {
         return this.data.viewersFlat.includes(userId);
     }
 
-    getLocales() {
+    getLocales(): string[] {
         return this.data.locales;
     }
 

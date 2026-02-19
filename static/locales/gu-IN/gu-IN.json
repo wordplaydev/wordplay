@@ -5980,7 +5980,7 @@
                     "description": "$~તમારા 'કેવી રીતે કરવું' નું શીર્ષક",
                     "placeholder": "$~શીર્ષક"
                 },
-                "titlePlaceholder": "$~શીર્ષક વિનાનું કેવી રીતે કરવું",
+                "untitledHowToPlaceholder": "$~શીર્ષક વિનાનું કેવી રીતે કરવું",
                 "collaboratorsPrompt": "$~આ કેવી રીતે કરવું તે સંપાદિત કરી શકે તેવા સહયોગીને ઉમેરો",
                 "collaboratorsToggle": {
                     "on": "$~સહયોગીઓની પેનલને સંકુચિત કરો",

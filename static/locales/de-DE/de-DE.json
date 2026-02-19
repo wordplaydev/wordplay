@@ -5979,7 +5979,7 @@
                     "description": "$~der Titel Ihrer Anleitung",
                     "placeholder": "$~Titel"
                 },
-                "titlePlaceholder": "$~Unbetitelte Anleitung",
+                "untitledHowToPlaceholder": "$~Unbetitelte Anleitung",
                 "collaboratorsPrompt": "$~Füge einen Mitarbeiter hinzu, der diese Anleitung bearbeiten kann.",
                 "collaboratorsToggle": {
                     "on": "$~das Mitarbeitergremium zusammenbrechen lassen",

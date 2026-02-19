@@ -5976,7 +5976,7 @@
                     "description": "$~사용 방법 설명서의 제목",
                     "placeholder": "$~제목"
                 },
-                "titlePlaceholder": "$~제목 없는 사용법",
+                "untitledHowToPlaceholder": "$~제목 없는 사용법",
                 "collaboratorsPrompt": "$~이 사용 설명서를 편집할 수 있는 공동 작업자를 추가하세요.",
                 "collaboratorsToggle": {
                     "on": "$~협력자 패널을 해체하세요",

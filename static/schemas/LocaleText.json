@@ -10830,6 +10830,10 @@
                       "$ref": "#/definitions/FieldText",
                       "description": "How-to content editor"
                     },
+                    "localeOptionsLabel": {
+                      "description": "Label for options for translation",
+                      "type": "string"
+                    },
                     "newForm": {
                       "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Dialog text for how-to form (new how-to or edit existing)"
@@ -10850,7 +10854,7 @@
                       "$ref": "#/definitions/FieldText",
                       "description": "Field text for how-to title"
                     },
-                    "titlePlaceholder": {
+                    "untitledHowToPlaceholder": {
                       "description": "Placeholder for an untitled how-to",
                       "type": "string"
                     }
@@ -10863,12 +10867,13 @@
                     "notification",
                     "editor",
                     "title",
-                    "titlePlaceholder",
+                    "untitledHowToPlaceholder",
                     "collaborators",
                     "collaboratorsToggle",
                     "access",
                     "accessToggle",
-                    "accessMode"
+                    "accessMode",
+                    "localeOptionsLabel"
                   ],
                   "type": "object"
                 },

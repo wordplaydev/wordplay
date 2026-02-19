@@ -4539,7 +4539,7 @@
                     "description": "$~ο τίτλος του οδηγού σας",
                     "placeholder": "$~Τίτλος"
                 },
-                "titlePlaceholder": "$~Οδηγίες χωρίς τίτλο",
+                "untitledHowToPlaceholder": "$~Οδηγίες χωρίς τίτλο",
                 "collaboratorsPrompt": "$~Προσθέστε έναν συνεργάτη, ο οποίος μπορεί να επεξεργαστεί αυτόν τον οδηγό",
                 "collaboratorsToggle": {
                     "on": "$~σύμπτυξη του πίνακα συνεργατών",

@@ -4531,7 +4531,7 @@
                     "description": "$~మీ 'హౌ-టు' శీర్షిక",
                     "placeholder": "$~శీర్షిక"
                 },
-                "titlePlaceholder": "$~పేరులేని ఎలా చేయాలో",
+                "untitledHowToPlaceholder": "$~పేరులేని ఎలా చేయాలో",
                 "collaboratorsPrompt": "$~ఈ విధానాన్ని సవరించగల సహకారిని జోడించండి",
                 "collaboratorsToggle": {
                     "on": "$~సహకారుల ప్యానెల్‌ను కుదించండి",

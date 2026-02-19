@@ -5925,7 +5925,7 @@
                     "description": "$~你的操作指南的标题",
                     "placeholder": "$~标题"
                 },
-                "titlePlaceholder": "$~无标题教程",
+                "untitledHowToPlaceholder": "$~无标题教程",
                 "collaboratorsPrompt": "$~添加一位协作者，他/她可以编辑此操作指南。",
                 "collaboratorsToggle": {
                     "on": "$~折叠合作者面板",

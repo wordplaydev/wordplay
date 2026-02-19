@@ -5976,7 +5976,7 @@
                     "description": "$~ਤੁਹਾਡੇ ਤਰੀਕੇ ਦਾ ਸਿਰਲੇਖ",
                     "placeholder": "$~ਟਾਈਟਲ"
                 },
-                "titlePlaceholder": "$~ਬਿਨਾਂ ਸਿਰਲੇਖ ਵਾਲਾ ਕਿਵੇਂ ਕਰਨਾ ਹੈ",
+                "untitledHowToPlaceholder": "$~ਬਿਨਾਂ ਸਿਰਲੇਖ ਵਾਲਾ ਕਿਵੇਂ ਕਰਨਾ ਹੈ",
                 "collaboratorsPrompt": "$~ਇੱਕ ਸਹਿਯੋਗੀ ਸ਼ਾਮਲ ਕਰੋ, ਜੋ ਇਸ \"ਕਿਵੇਂ ਕਰਨਾ ਹੈ\" ਨੂੰ ਸੰਪਾਦਿਤ ਕਰ ਸਕਦਾ ਹੈ",
                 "collaboratorsToggle": {
                     "on": "$~ਸਹਿਯੋਗੀ ਪੈਨਲ ਨੂੰ ਸਮੇਟ ਦਿਓ",

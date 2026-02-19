@@ -5976,7 +5976,7 @@
                     "description": "$~ハウツーのタイトル",
                     "placeholder": "$~タイトル"
                 },
-                "titlePlaceholder": "$~無題のハウツー",
+                "untitledHowToPlaceholder": "$~無題のハウツー",
                 "collaboratorsPrompt": "$~このハウツーを編集できる共同編集者を追加します",
                 "collaboratorsToggle": {
                     "on": "$~共同編集者パネルを折りたたむ",

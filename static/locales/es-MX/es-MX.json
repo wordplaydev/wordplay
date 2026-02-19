@@ -5962,7 +5962,7 @@
                     "description": "$~El título de tu tutorial",
                     "placeholder": "$~Título"
                 },
-                "titlePlaceholder": "$~Instrucciones sin título",
+                "untitledHowToPlaceholder": "$~Instrucciones sin título",
                 "collaboratorsPrompt": "$~Agregue un colaborador que pueda editar este instructivo",
                 "collaboratorsToggle": {
                     "on": "$~contraer el panel de colaboradores",

@@ -5985,7 +5985,7 @@
                     "description": "$~tytuł poradnika",
                     "placeholder": "$~Tytuł"
                 },
-                "titlePlaceholder": "$~Poradnik bez tytułu",
+                "untitledHowToPlaceholder": "$~Poradnik bez tytułu",
                 "collaboratorsPrompt": "$~Dodaj współpracownika, który może edytować ten poradnik",
                 "collaboratorsToggle": {
                     "on": "$~zwiń panel współpracowników",

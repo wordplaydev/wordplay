@@ -5976,7 +5976,7 @@
                     "description": "$~\"Nasıl yapılır\" kılavuzunuzun başlığı",
                     "placeholder": "$~Başlık"
                 },
-                "titlePlaceholder": "$~Başlıksız nasıl yapılır kılavuzu",
+                "untitledHowToPlaceholder": "$~Başlıksız nasıl yapılır kılavuzu",
                 "collaboratorsPrompt": "$~Bu kılavuzu düzenleyebilecek bir işbirlikçi ekleyin.",
                 "collaboratorsToggle": {
                     "on": "$~işbirlikçiler panelini daralt",

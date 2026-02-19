@@ -4558,7 +4558,7 @@
                     "description": "the title of your how-to",
                     "placeholder": "Title"
                 },
-                "titlePlaceholder": "Untitled how-to",
+                "untitledHowToPlaceholder": "Untitled how-to",
                 "collaborators": {
                     "header": "👥 collaborators",
                     "explanation": "Collaborators can edit this how-to and view it in drafts."
@@ -4582,7 +4582,8 @@
                         "only creators in this gallery can view",
                         "creators and curators in any gallery the curator curates can view"
                     ]
-                }
+                },
+                "localeOptionsLabel": "editor input language"
             },
             "viewer": {
                 "view": {

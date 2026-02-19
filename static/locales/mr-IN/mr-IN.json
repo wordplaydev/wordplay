@@ -5980,7 +5980,7 @@
                     "description": "$~तुमच्या 'कसे करावे' चे शीर्षक",
                     "placeholder": "$~शीर्षक"
                 },
-                "titlePlaceholder": "$~शीर्षक नसलेले कसे करावे",
+                "untitledHowToPlaceholder": "$~शीर्षक नसलेले कसे करावे",
                 "collaboratorsPrompt": "$~हे कसे करायचे ते संपादित करू शकेल असा एक सहयोगी जोडा.",
                 "collaboratorsToggle": {
                     "on": "$~सहयोगी पॅनल कोलॅप्स करा",

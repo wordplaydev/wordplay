@@ -5980,7 +5980,7 @@
                     "description": "$~titeln på din instruktion",
                     "placeholder": "$~Titel"
                 },
-                "titlePlaceholder": "$~Namnlös instruktion",
+                "untitledHowToPlaceholder": "$~Namnlös instruktion",
                 "collaboratorsPrompt": "$~Lägg till en samarbetspartner som kan redigera den här instruktionen",
                 "collaboratorsToggle": {
                     "on": "$~dölj panelen för samarbetspartners",

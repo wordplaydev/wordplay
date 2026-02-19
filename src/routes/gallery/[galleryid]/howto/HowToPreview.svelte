@@ -1,5 +1,6 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getAnnouncer,
         getUser,
@@ -47,7 +48,9 @@
         whichDialogOpen = $bindable(),
     }: Props = $props();
 
-    let title: string = $derived(howTo?.getTitle() ?? '');
+    let title: string = $derived(
+        howTo?.getTitleInLocale($locales.getLocaleString()) ?? '',
+    );
     let text: string[] = $derived(howTo?.getText() ?? []);
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
     let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
@@ -442,7 +445,7 @@
     {onblur}
     {onkeydown}
 >
-    <div class="howtotitle"> {title}</div>
+    <div class="howtotitle"> <MarkupHTMLView markup={title} /></div>
 
     <HowToForm
         editingMode={false}

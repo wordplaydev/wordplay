@@ -5980,7 +5980,7 @@
                     "description": "$~le titre de votre tutoriel",
                     "placeholder": "$~Titre"
                 },
-                "titlePlaceholder": "$~Guide pratique sans titre",
+                "untitledHowToPlaceholder": "$~Guide pratique sans titre",
                 "collaboratorsPrompt": "$~Ajoutez un collaborateur, qui pourra modifier ce guide pratique.",
                 "collaboratorsToggle": {
                     "on": "$~Réduire le panneau des collaborateurs",
