@@ -5056,7 +5056,7 @@
                     "idea": "$~¿No viste la idea que tienes en mente? Sugiérela."
                 },
                 "error": {
-                    "login": "$!Debes <iniciar sesión@://login> para enviar comentarios",
+                    "login": "Debes <iniciar sesión@://login> para enviar comentarios!",
                     "submit": "$~No es posible enviar comentarios.",
                     "load": "$~No se pueden cargar los comentarios",
                     "empty": "$~No hay comentarios para mostrar.",
