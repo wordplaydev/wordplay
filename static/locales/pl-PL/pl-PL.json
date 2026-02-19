@@ -5986,7 +5986,6 @@
                     "placeholder": "$~Tytuł"
                 },
                 "untitledHowToPlaceholder": "$~Poradnik bez tytułu",
-                "collaboratorsPrompt": "$~Dodaj współpracownika, który może edytować ten poradnik",
                 "collaboratorsToggle": {
                     "on": "$~zwiń panel współpracowników",
                     "off": "$~rozwiń panel współpracowników"
@@ -5994,7 +5993,28 @@
                 "editor": {
                     "placeholder": "$~Napisz tutaj swój poradnik, wykorzystując formatowanie i kod do celów edukacyjnych.",
                     "description": "$~pole tekstowe do wpisania instrukcji"
-                }
+                },
+                "collaborators": {
+                    "header": "$~👥 współpracownicy",
+                    "explanation": "$~Współpracownicy mogą edytować ten poradnik i przeglądać jego wersje robocze."
+                },
+                "access": {
+                    "header": "$~↗ udostępnij",
+                    "explanation": "$~Kurator tej galerii może udostępnić ten poradnik twórcom i kuratorom innych galerii, którymi zarządza. Jeśli nie chcesz, aby mogli go przeglądać, możesz ograniczyć dostęp do niego tylko do kuratorów i twórców z tej galerii."
+                },
+                "accessToggle": {
+                    "on": "$~zwiń panel ustawień dostępu",
+                    "off": "$~rozwiń panel ustawień dostępu"
+                },
+                "accessMode": {
+                    "label": "$~ogranicz, kto może przeglądać ten poradnik",
+                    "labels": ["$~ograniczony", "$~rozszerzony"],
+                    "tips": [
+                        "$~tylko twórcy w tej galerii mogą oglądać",
+                        "$~twórcy i kuratorzy w każdej galerii, którą kurator kuratoruje, mogą oglądać"
+                    ]
+                },
+                "localeOptionsLabel": "$~język wprowadzania danych edytora"
             },
             "viewer": {
                 "view": {

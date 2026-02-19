@@ -5981,7 +5981,6 @@
                     "placeholder": "$~Titel"
                 },
                 "untitledHowToPlaceholder": "$~Namnlös instruktion",
-                "collaboratorsPrompt": "$~Lägg till en samarbetspartner som kan redigera den här instruktionen",
                 "collaboratorsToggle": {
                     "on": "$~dölj panelen för samarbetspartners",
                     "off": "$~expandera panelen för samarbetspartners"
@@ -5989,7 +5988,28 @@
                 "editor": {
                     "placeholder": "$~Skriv din instruktion här, använd formatering och kod för att undervisa.",
                     "description": "$~en textruta för att skriva din instruktion"
-                }
+                },
+                "collaborators": {
+                    "header": "$~👥 samarbetspartners",
+                    "explanation": "$~Samarbetare kan redigera den här instruktionen och visa den i utkast."
+                },
+                "access": {
+                    "header": "$~↗ dela",
+                    "explanation": "$~Galleriets kurator kan låta skapare och kuratorer i andra gallerier de kuraterar se den här instruktionen. Om du inte vill att de ska kunna se den kan du begränsa vem som kan se den till endast kuratorerna och skaparna i galleriet."
+                },
+                "accessToggle": {
+                    "on": "$~dölj panelen för åtkomstinställningar",
+                    "off": "$~expandera panelen för åtkomstinställningar"
+                },
+                "accessMode": {
+                    "label": "$~begränsa vem som kan se den här instruktionen",
+                    "labels": ["$~begränsad", "$~utökad"],
+                    "tips": [
+                        "$~endast skapare i det här galleriet kan se",
+                        "$~skapare och kuratorer i vilket galleri som helst som kuratorn kurerar kan se"
+                    ]
+                },
+                "localeOptionsLabel": "$~redigerarens inmatningsspråk"
             },
             "viewer": {
                 "view": {

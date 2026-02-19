@@ -5926,7 +5926,6 @@
                     "placeholder": "$~标题"
                 },
                 "untitledHowToPlaceholder": "$~无标题教程",
-                "collaboratorsPrompt": "$~添加一位协作者，他/她可以编辑此操作指南。",
                 "collaboratorsToggle": {
                     "on": "$~折叠合作者面板",
                     "off": "$~扩展合作者面板"
@@ -5934,7 +5933,28 @@
                 "editor": {
                     "placeholder": "$~请在此处编写操作指南，使用格式和代码进行讲解。",
                     "description": "$~一个用于编写操作指南的文本框"
-                }
+                },
+                "collaborators": {
+                    "header": "$~👥 合作者",
+                    "explanation": "$~合作者可以编辑本操作指南并查看草稿。"
+                },
+                "access": {
+                    "header": "$~↗ 分享",
+                    "explanation": "$~此画廊的策展人可以允许其管理的其他画廊的创作者和策展人查看此教程。如果您不希望他们查看，您可以将此教程的查看权限限制为仅限此画廊的策展人和创作者。"
+                },
+                "accessToggle": {
+                    "on": "$~折叠访问设置面板",
+                    "off": "$~展开访问设置面板"
+                },
+                "accessMode": {
+                    "label": "$~限制谁可以查看此操作指南",
+                    "labels": ["$~受限制的", "$~扩展"],
+                    "tips": [
+                        "$~只有此画廊中的创作者才能查看",
+                        "$~任何画廊的创作者和策展人都可以浏览策展人策划的展览。"
+                    ]
+                },
+                "localeOptionsLabel": "$~编辑器输入语言"
             },
             "viewer": {
                 "view": {

@@ -5981,7 +5981,6 @@
                     "placeholder": "$~Titre"
                 },
                 "untitledHowToPlaceholder": "$~Guide pratique sans titre",
-                "collaboratorsPrompt": "$~Ajoutez un collaborateur, qui pourra modifier ce guide pratique.",
                 "collaboratorsToggle": {
                     "on": "$~Réduire le panneau des collaborateurs",
                     "off": "$~élargir le panel des collaborateurs"
@@ -5989,7 +5988,28 @@
                 "editor": {
                     "placeholder": "$~Rédigez ici votre tutoriel, en utilisant la mise en forme et le code nécessaires à l'enseignement.",
                     "description": "$~une zone de texte pour écrire votre tutoriel"
-                }
+                },
+                "collaborators": {
+                    "header": "$~👥 collaborateurs",
+                    "explanation": "$~Les collaborateurs peuvent modifier ce guide et le consulter en brouillon."
+                },
+                "access": {
+                    "header": "$~↗ partager",
+                    "explanation": "$~Le responsable de cette galerie peut autoriser les créateurs et les responsables d'autres galeries à consulter ce tutoriel. Si vous préférez qu'ils n'y aient pas accès, vous pouvez limiter la consultation de ce tutoriel aux seuls responsables et créateurs de cette galerie."
+                },
+                "accessToggle": {
+                    "on": "$~réduire le panneau des paramètres d'accès",
+                    "off": "$~développer le panneau des paramètres d'accès"
+                },
+                "accessMode": {
+                    "label": "$~restreindre l'accès à ce tutoriel",
+                    "labels": ["$~limité", "$~étendu"],
+                    "tips": [
+                        "$~Seuls les créateurs de cette galerie peuvent la consulter.",
+                        "$~Les créateurs et les conservateurs de toute galerie dont le conservateur assure la conservation peuvent voir"
+                    ]
+                },
+                "localeOptionsLabel": "$~langue de saisie de l'éditeur"
             },
             "viewer": {
                 "view": {

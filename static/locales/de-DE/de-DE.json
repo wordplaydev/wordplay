@@ -5980,7 +5980,6 @@
                     "placeholder": "$~Titel"
                 },
                 "untitledHowToPlaceholder": "$~Unbetitelte Anleitung",
-                "collaboratorsPrompt": "$~Füge einen Mitarbeiter hinzu, der diese Anleitung bearbeiten kann.",
                 "collaboratorsToggle": {
                     "on": "$~das Mitarbeitergremium zusammenbrechen lassen",
                     "off": "$~Erweiterung des Mitarbeiterpanels"
@@ -5988,7 +5987,28 @@
                 "editor": {
                     "placeholder": "$~Schreiben Sie hier Ihre Anleitung und verwenden Sie Formatierung und Code, um das Thema zu vermitteln.",
                     "description": "$~ein Textfeld, in dem Sie Ihre Anleitung schreiben können"
-                }
+                },
+                "collaborators": {
+                    "header": "$~👥 Mitarbeiter",
+                    "explanation": "$~Mitarbeiter können diese Anleitung bearbeiten und als Entwürfe ansehen."
+                },
+                "access": {
+                    "header": "$~↗ teilen",
+                    "explanation": "$~Der Kurator dieser Galerie kann anderen von ihm betreuten Galerien und Kreativen diese Anleitung zugänglich machen. Falls Sie dies nicht wünschen, können Sie den Zugriff auf diese Anleitung auf die Kuratoren und Kreativen dieser Galerie beschränken."
+                },
+                "accessToggle": {
+                    "on": "$~Zugriffseinstellungen-Panel ausblenden",
+                    "off": "$~Erweitern Sie das Bedienfeld für die Zugriffseinstellungen."
+                },
+                "accessMode": {
+                    "label": "$~Beschränken Sie, wer diese Anleitung sehen kann.",
+                    "labels": ["$~eingeschränkt", "$~erweitert"],
+                    "tips": [
+                        "$~Nur die Urheber dieser Galerie können sie ansehen",
+                        "$~Kreative und Kuratoren in jeder Galerie, die der Kurator betreut, können Folgendes einsehen:"
+                    ]
+                },
+                "localeOptionsLabel": "$~Eingabesprache des Editors"
             },
             "viewer": {
                 "view": {

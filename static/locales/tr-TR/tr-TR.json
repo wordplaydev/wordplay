@@ -5977,7 +5977,6 @@
                     "placeholder": "$~Başlık"
                 },
                 "untitledHowToPlaceholder": "$~Başlıksız nasıl yapılır kılavuzu",
-                "collaboratorsPrompt": "$~Bu kılavuzu düzenleyebilecek bir işbirlikçi ekleyin.",
                 "collaboratorsToggle": {
                     "on": "$~işbirlikçiler panelini daralt",
                     "off": "$~işbirlikçiler panelini genişletin"
@@ -5985,7 +5984,28 @@
                 "editor": {
                     "placeholder": "$~Biçimlendirme ve kod kullanarak nasıl yapılacağını anlatan metninizi buraya yazın.",
                     "description": "$~Nasıl yapılır kılavuzunuzu yazabileceğiniz bir metin kutusu."
-                }
+                },
+                "collaborators": {
+                    "header": "$~👥 işbirlikçiler",
+                    "explanation": "$~İş birliği yapanlar bu kılavuzu düzenleyebilir ve taslak halinde görüntüleyebilirler."
+                },
+                "access": {
+                    "header": "$~↗ paylaş",
+                    "explanation": "$~Bu galerinin küratörü, küratörlüğünü yaptığı diğer galerilerin içerik oluşturucularının ve küratörlerinin bu kılavuzu görüntülemesine izin verebilir. Eğer görüntülemelerini istemiyorsanız, bu kılavuzu yalnızca bu galerinin küratörleri ve içerik oluşturucularıyla sınırlandırabilirsiniz."
+                },
+                "accessToggle": {
+                    "on": "$~erişim ayarları panelini daralt",
+                    "off": "$~Erişim ayarları panelini genişletin"
+                },
+                "accessMode": {
+                    "label": "$~Bu kılavuzu kimlerin görüntüleyebileceğini kısıtlayın.",
+                    "labels": ["$~sınırlı", "$~genişletilmiş"],
+                    "tips": [
+                        "$~Bu galerideki içerik oluşturucular yalnızca bunları görüntüleyebilir.",
+                        "$~Bir galerideki yaratıcılar ve küratörler, küratörün küratörlüğünü yaptığı her galeride görüntüleyebilirler."
+                    ]
+                },
+                "localeOptionsLabel": "$~editör giriş dili"
             },
             "viewer": {
                 "view": {

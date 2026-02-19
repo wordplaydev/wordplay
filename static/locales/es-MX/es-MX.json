@@ -5963,7 +5963,6 @@
                     "placeholder": "$~Título"
                 },
                 "untitledHowToPlaceholder": "$~Instrucciones sin título",
-                "collaboratorsPrompt": "$~Agregue un colaborador que pueda editar este instructivo",
                 "collaboratorsToggle": {
                     "on": "$~contraer el panel de colaboradores",
                     "off": "$~ampliar el panel de colaboradores"
@@ -5971,7 +5970,28 @@
                 "editor": {
                     "placeholder": "$~Escribe aquí tu procedimiento, usando formato y código para enseñar.",
                     "description": "$~Un cuadro de texto para escribir tu instructivo"
-                }
+                },
+                "collaborators": {
+                    "header": "$~👥 colaboradores",
+                    "explanation": "$~Los colaboradores pueden editar este instructivo y verlo en borradores."
+                },
+                "access": {
+                    "header": "$~↗ compartir",
+                    "explanation": "$~El curador de esta galería puede permitir que los creadores y curadores de otras galerías que gestiona vean este tutorial. Si no desea que lo vean, puede restringir el acceso a este tutorial a solo los curadores y creadores de esta galería."
+                },
+                "accessToggle": {
+                    "on": "$~contraer el panel de configuración de acceso",
+                    "off": "$~ampliar el panel de configuración de acceso"
+                },
+                "accessMode": {
+                    "label": "$~Restringir quién puede ver este instructivo",
+                    "labels": ["$~restringido", "$~expandido"],
+                    "tips": [
+                        "$~Sólo los creadores de esta galería pueden ver",
+                        "$~Los creadores y curadores de cualquier galería que el curador seleccione pueden ver"
+                    ]
+                },
+                "localeOptionsLabel": "$~idioma de entrada del editor"
             },
             "viewer": {
                 "view": {
