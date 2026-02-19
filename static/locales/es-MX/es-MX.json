@@ -4879,7 +4879,7 @@
                             "$~pila",
                             "$~dos",
                             "$~uno",
-                            "$~libre"
+                            "libre"
                         ],
                         "tips": [
                             "$~disponer mosaicos automáticamente",
@@ -4924,7 +4924,7 @@
                     },
                     "space": {
                         "label": "indicador de espacio",
-                        "labels": ["$~esconder", "$~enseñar"],
+                        "labels": ["$~esconder", "enseñar"],
                         "tips": [
                             "$~No mostrar indicadores de espacio y tabulación",
                             "$~Mostrar indicadores de espacio y tabulación explícitamente"
@@ -4945,7 +4945,7 @@
                     },
                     "lines": {
                         "label": "$~Línea de números",
-                        "labels": ["$~esconder", "$~enseñar"],
+                        "labels": ["$~esconder", "enseñar"],
                         "tips": [
                             "$~no mostrar números de línea en modo texto",
                             "$~mostrar números de línea en modo texto"
@@ -4963,7 +4963,7 @@
                 "options": {
                     "mic": "micrófono seleccionado",
                     "camera": "cámara seleccionada ",
-                    "face": "$~fuente de texto",
+                    "face": "fuente de texto",
                     "default": "$~por defecto"
                 }
             },
@@ -4994,8 +4994,8 @@
                 }
             },
             "feedback": {
-                "header": "$~Comentar",
-                "explanation": "$~¡Ayúdanos a mejorar Wordplay informándonos sobre 🪲 *problemas* y compartiendo 💡 *ideas*!",
+                "header": "Comentar",
+                "explanation": "¡Ayúdanos a mejorar Wordplay informándonos sobre 🪲 *problemas* y compartiendo 💡 *ideas*!",
                 "button": {
                     "show": "$~Mostrar el formulario de comentarios.",
                     "submit": {
@@ -5056,7 +5056,7 @@
                     "idea": "$~¿No viste la idea que tienes en mente? Sugiérela."
                 },
                 "error": {
-                    "login": "$~$!Debes <iniciar sesión@://login> para enviar comentarios",
+                    "login": "$!Debes <iniciar sesión@://login> para enviar comentarios",
                     "submit": "$~No es posible enviar comentarios.",
                     "load": "$~No se pueden cargar los comentarios",
                     "empty": "$~No hay comentarios para mostrar.",
@@ -5066,7 +5066,7 @@
             "notifications": {
                 "header": "$~Notificaciones",
                 "explanation": "$~Notificaciones de nuevos chats y tutoriales publicados",
-                "open": "$~mostrar notificaciones",
+                "open": "mostrar notificaciones",
                 "howToNotifications": {
                     "label": "$~notificaciones de nuevos procedimientos",
                     "labels": ["$~apagado", "$~en"],
@@ -5185,7 +5185,7 @@
                 "link": {
                     "about": "¿Por qué existe este lugar?",
                     "learn": "Un tutorial dramático, con personajes aun mas dramáticos.",
-                    "guide": "$~Busca y explora por la referencia del idioma",
+                    "guide": "Busca y explora por la referencia del idioma",
                     "projects": "Crea y comparte actuaciones",
                     "galleries": "Experimenta las actuaciones de otros",
                     "rights": "Responsabilidades, las nuestras y las tuyas",
@@ -5197,9 +5197,9 @@
                         "label": "Contribuir",
                         "subtitle": "Ayúdanos a crear Wordplay"
                     },
-                    "teach": "$~Administra clases de estudiantes y sus proyectos",
+                    "teach": "Administra clases de estudiantes y sus proyectos",
                     "characters": "$~Crea emojis y símbolos personalizados",
-                    "updates": "$~Ve las novedades de Wordplay"
+                    "updates": "Ve las novedades de Wordplay"
                 }
             },
             "learn": {
