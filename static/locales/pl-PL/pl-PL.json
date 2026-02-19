@@ -5557,7 +5557,8 @@
                     "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie.",
                     "invalidUsername": "$~Nazwa użytkownika musi być adresem e-mail lub większą liczbą liter, bez spacji.",
                     "invalidPassword": "$~Hasło musi mieć co najmniej 6 znaków.",
-                    "mismatched": "$~Hasła nie są takie same."
+                    "mismatched": "$~Hasła nie są takie same.",
+                    "usernameTaken": "$~Ta nazwa użytkownika jest już zajęta."
                 },
                 "feedback": {
                     "changing": "$~Wysyłanie nowego e-maila...",

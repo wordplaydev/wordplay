@@ -5348,7 +5348,8 @@
                     "tooMany": "$~Sie haben zu oft erfolglos versucht, sich anzumelden. Sie müssen warten, bevor Sie es erneut versuchen können.",
                     "invalidUsername": "$~Benutzernamen müssen E-Mail-Adressen oder >5 Buchstaben ohne Leerzeichen sein.",
                     "invalidPassword": "$~Passwörter müssen mindestens 6 Zeichen lang sein.",
-                    "mismatched": "$~Die Passwörter stimmen nicht überein."
+                    "mismatched": "$~Die Passwörter stimmen nicht überein.",
+                    "usernameTaken": "$~Dieser Benutzername ist bereits vergeben."
                 },
                 "feedback": {
                     "changing": "$~Neue E-Mail wird gesendet …",

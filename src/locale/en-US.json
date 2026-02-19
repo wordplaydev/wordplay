@@ -6009,6 +6009,7 @@
                     "invalid": "This link isn't valid.",
                     "email": "Not a valid email.",
                     "invalidUsername": "Usernames must at least 5 letters with no spaces.",
+                    "usernameTaken": "This username is already taken.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",

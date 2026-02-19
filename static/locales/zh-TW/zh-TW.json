@@ -5294,7 +5294,8 @@
                     "tooMany": "您嘗試密碼的次數過多，需要等一段時間後再嘗試。",
                     "invalidUsername": "$~使用者名稱必須至少包含 5 個字母且不包含空格。",
                     "invalidPassword": "密碼長度至少為六個字元。",
-                    "mismatched": "密碼不匹配。"
+                    "mismatched": "密碼不匹配。",
+                    "usernameTaken": "$~這個使用者名稱已被佔用。"
                 },
                 "feedback": {
                     "changing": "正在提交新的電子郵件地址…",

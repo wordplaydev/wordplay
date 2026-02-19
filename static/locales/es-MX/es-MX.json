@@ -5335,7 +5335,8 @@
                     "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo.",
                     "invalidUsername": "$~Los nombres de usuario deben ser correos electrónicos o más de 5 letras sin espacios.",
                     "invalidPassword": "$~Las contraseñas deben tener al menos 6 caracteres.",
-                    "mismatched": "$~Las contraseñas no coinciden."
+                    "mismatched": "$~Las contraseñas no coinciden.",
+                    "usernameTaken": "$~Este nombre de usuario ya está tomado."
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",

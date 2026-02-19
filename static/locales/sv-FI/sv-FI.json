@@ -5552,7 +5552,8 @@
                     "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",
                     "invalidUsername": "$~Användarnamn måste vara e-postmeddelanden eller >5 bokstäver utan mellanslag.",
                     "invalidPassword": "$~Lösenord måste vara minst 6 tecken långa.",
-                    "mismatched": "$~Lösenorden stämmer inte överens."
+                    "mismatched": "$~Lösenorden stämmer inte överens.",
+                    "usernameTaken": "$~Detta användarnamn är redan upptaget."
                 },
                 "feedback": {
                     "changing": "$~Skickar nytt e-postmeddelande...",

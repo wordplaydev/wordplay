@@ -12224,6 +12224,10 @@
                           "description": "When the email address couldn't be changed for unknown reasons.",
                           "type": "string"
                         },
+                        "usernameTaken": {
+                          "description": "Username taken",
+                          "type": "string"
+                        },
                         "wrongPassword": {
                           "description": "When a password is wrong",
                           "type": "string"
@@ -12234,6 +12238,7 @@
                         "invalid",
                         "email",
                         "invalidUsername",
+                        "usernameTaken",
                         "failure",
                         "offline",
                         "unchanged",

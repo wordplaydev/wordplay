@@ -3,6 +3,17 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.16.53 - 2026-02-21
+
+### Added
+
+- **How to translation**. We added the ability to create machine translations of how to's in a gallery.
+
+### Fixed
+
+- We localized a "username taken" feature.
+- We improved some Spanish translations.
+
 ## 0.16.42 - 2026-02-14
 
 ### Added

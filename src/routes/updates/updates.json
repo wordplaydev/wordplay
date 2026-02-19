@@ -1,5 +1,40 @@
 [
   {
+    "version": "0.16.53",
+    "date": "2026-02-21",
+    "changes": {
+      "added": [
+        "**How to translation**. We added the ability to create machine translations of how to's in a gallery."
+      ],
+      "fixed": [
+        "We localized a \"username taken\" feature.",
+        "We improved some Spanish translations."
+      ],
+      "changed": [],
+      "removed": []
+    }
+  },
+  {
+    "version": "0.16.42",
+    "date": "2026-02-14",
+    "changes": {
+      "added": [
+        "**How to permissions**. How to authors can make their how to's visible to broader audiences.",
+        "**Chinese translations of how to examples**. Thank you to our localizers for their translations!"
+      ],
+      "fixed": [
+        "The emojis weren't appearing in the timeline. We fixed it so that they would appear again.",
+        "Project tiles were collapsing on page reload. We stopped that from happening!",
+        "Added a missing background to the clear all notifications button."
+      ],
+      "changed": [
+        "We upgraded minor versions of internal tooling for stability.",
+        "Input streams that correspond to a single input device now re-evaluate the program only once, even if there are multiple streams for that device created."
+      ],
+      "removed": []
+    }
+  },
+  {
     "version": "0.16.41",
     "date": "2026-02-07",
     "changes": {

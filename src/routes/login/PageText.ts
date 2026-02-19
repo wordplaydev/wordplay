@@ -76,6 +76,8 @@ type PageText = {
         email: string;
         /** Invalid username */
         invalidUsername: string;
+        /** Username taken */
+        usernameTaken: string;
         /** Unknown failure to login */
         failure: string;
         /** When there's no connection to Firebase */
