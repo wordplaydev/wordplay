@@ -3450,28 +3450,38 @@
             }
         },
         "Speech": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~/Selamlar!/",
+                "$~@FunctionDefinition burada - dinlemeye hazır!",
+                "$~Bu akış konuşmayı tanır ve @Text'e dönüştürür. Söylediklerinizi dinlemek ve kelimelere çevirmek için tarayıcınızın konuşma tanıma özelliğini kullanır (bu çok havalı değil mi?!).",
+                "$~\\Konuşma()\\",
+                "$~Bu, bir dili konuşabilen ancak okuma ve yazmayı (ve daha fazlasını) henüz öğrenenler için mükemmeldir...",
+                "$~Belirli bir dildeki konuşmayı tanımak için bir dil kodu belirtebilirsiniz:",
+                "$~Konuşma (dil: 'es-MX')",
+                "$~Dil belirtilmezse, tercih ettiğiniz yerel ayar kullanılır.",
+                "$~Ses tanıma özelliği mikrofon erişimi ve internet bağlantısı gerektirir (lütfen erişim izni verin!). Ayrıca, kullanım sınırları olabilir, bu yüzden çok uzun süre açık bırakmayın (aman aman)!"
+            ],
+            "names": ["$~🗣️", "$~Konuşma", "$~Ses"],
             "reset": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~sıfırlamak", "$~temizlemek"],
+                "doc": "$~Bu değer değiştiğinde, birikmiş konuşmaları silin ve yeniden başlayın."
             },
             "language": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~dil", "$~dil"],
+                "doc": "$~Bir BCP 47 dil kodu (örneğin, 'en-US'). Tarayıcınızın konuşma tanıma özelliği tarafından desteklenmiyorsa hata alırsınız. Varsayılan olarak tercih ettiğiniz yerel ayar kullanılır."
             },
             "limit": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~limit", "$~kelimeler"],
+                "doc": "$~Birikmiş konuşmada tutulacak maksimum kelime sayısı (kayan pencere). Ayarlandığında, yalnızca en son kelimeler tutulur ve daha eski kelimeler atılır. Belirtilmezse, tüm kelimeler süresiz olarak saklanır."
             },
             "error": {
-                "browserNotSupported": "$?",
-                "noConnection": "$?",
-                "serviceNotAllowed": "$?",
-                "micNotAllowed": "$?",
-                "noMicrophone": "$?",
-                "languageNotSupported": "$?",
-                "limit": "$?"
+                "browserNotSupported": "$~Bu tarayıcıda hizmet desteklenmiyor.",
+                "noConnection": "$~internet bağlantısı yok",
+                "serviceNotAllowed": "$~Hizmet mevcut değil.",
+                "micNotAllowed": "$~Mikrofona erişime izin verilmiyor.",
+                "noMicrophone": "$~Mikrofon bulunamadı.",
+                "languageNotSupported": "$~Dil desteklenmiyor.",
+                "limit": "$~birden fazla denemeden sonra başarısız oldu."
             }
         }
     },
@@ -6002,7 +6012,6 @@
                     "placeholder": "$~Başlık"
                 },
                 "titlePlaceholder": "$~Başlıksız nasıl yapılır kılavuzu",
-                "collaboratorsPrompt": "$~Bu kılavuzu düzenleyebilecek bir işbirlikçi ekleyin.",
                 "collaboratorsToggle": {
                     "on": "$~işbirlikçiler panelini daralt",
                     "off": "$~işbirlikçiler panelini genişletin"
@@ -6010,6 +6019,26 @@
                 "editor": {
                     "placeholder": "$~Biçimlendirme ve kod kullanarak nasıl yapılacağını anlatan metninizi buraya yazın.",
                     "description": "$~Nasıl yapılır kılavuzunuzu yazabileceğiniz bir metin kutusu."
+                },
+                "collaborators": {
+                    "header": "$~👥 işbirlikçiler",
+                    "explanation": "$~İş birliği yapanlar bu kılavuzu düzenleyebilir ve taslak halinde görüntüleyebilirler."
+                },
+                "access": {
+                    "header": "$~↗ paylaş",
+                    "explanation": "$~Bu galerinin küratörü, küratörlüğünü yaptığı diğer galerilerin içerik oluşturucularının ve küratörlerinin bu kılavuzu görüntülemesine izin verebilir. Eğer görüntülemelerini istemiyorsanız, bu kılavuzu yalnızca bu galerinin küratörleri ve içerik oluşturucularıyla sınırlandırabilirsiniz."
+                },
+                "accessToggle": {
+                    "on": "$~erişim ayarları panelini daralt",
+                    "off": "$~Erişim ayarları panelini genişletin"
+                },
+                "accessMode": {
+                    "label": "$~Bu kılavuzu kimlerin görüntüleyebileceğini kısıtlayın.",
+                    "labels": ["$~sınırlı", "$~genişletilmiş"],
+                    "tips": [
+                        "$~Bu galerideki içerik oluşturucular yalnızca bunları görüntüleyebilir.",
+                        "$~Bir galerideki yaratıcılar ve küratörler, küratörün küratörlüğünü yaptığı her galeride görüntüleyebilirler."
+                    ]
                 }
             },
             "viewer": {

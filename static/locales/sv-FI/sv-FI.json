@@ -3450,28 +3450,38 @@
             }
         },
         "Speech": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~/hej där!/",
+                "$~@FunctionDefinition här - redo att lyssna!",
+                "$~Den här strömmen känner igen tal och konverterar det till @Text. Den använder din webbläsares taligenkänning för att lyssna på vad du säger och omvandla det till ord (visst är det coolt?!).",
+                "$~\\Tal()\\",
+                "$~Detta är perfekt för de som kan tala ett språk men fortfarande lär sig läsa eller skriva det (och mer)...",
+                "$~Du kan ange en språkkod för att känna igen tal på ett visst språk:",
+                "$~\\Tal(språk: 'es-MX')\\",
+                "$~Om inget språk anges används som standard din föredragna plats.",
+                "$~Taligenkänning kräver mikrofonåtkomst och internetanslutning (vänligen ge åtkomst!). Det kan också finnas användningsbegränsningar, så låt det inte vara på för länge (neeeeeeeee)!"
+            ],
+            "names": ["$~🗣️", "$~Tal", "$~Röst"],
             "reset": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~återställa", "$~rensa"],
+                "doc": "$~När detta värde ändras, rensa det ackumulerade talet och börja om från början."
             },
             "language": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~språk", "$~lång"],
+                "doc": "$~En BCP 47-språkkod (t.ex. 'en-US'). Om den inte stöds av din webbläsares röstigenkänning får du ett felmeddelande. Standardinställningen är din föredragna språkinställning."
             },
             "limit": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~begränsa", "$~ord"],
+                "doc": "$~Det maximala antalet ord som ska behållas i det ackumulerade talet (glidande fönster). När detta är inställt behålls endast de senaste orden, och äldre ord kasseras. Om inget anges behålls alla ord på obestämd tid."
             },
             "error": {
-                "browserNotSupported": "$?",
-                "noConnection": "$?",
-                "serviceNotAllowed": "$?",
-                "micNotAllowed": "$?",
-                "noMicrophone": "$?",
-                "languageNotSupported": "$?",
-                "limit": "$?"
+                "browserNotSupported": "$~tjänsten stöds inte i den här webbläsaren",
+                "noConnection": "$~ingen internetanslutning",
+                "serviceNotAllowed": "$~tjänsten är inte tillgänglig",
+                "micNotAllowed": "$~mikrofonåtkomst är inte tillåten",
+                "noMicrophone": "$~ingen mikrofon hittades",
+                "languageNotSupported": "$~språk stöds inte",
+                "limit": "$~misslyckades efter flera försök"
             }
         }
     },
@@ -6006,7 +6016,6 @@
                     "placeholder": "$~Titel"
                 },
                 "titlePlaceholder": "$~Namnlös instruktion",
-                "collaboratorsPrompt": "$~Lägg till en samarbetspartner som kan redigera den här instruktionen",
                 "collaboratorsToggle": {
                     "on": "$~dölj panelen för samarbetspartners",
                     "off": "$~expandera panelen för samarbetspartners"
@@ -6014,6 +6023,26 @@
                 "editor": {
                     "placeholder": "$~Skriv din instruktion här, använd formatering och kod för att undervisa.",
                     "description": "$~en textruta för att skriva din instruktion"
+                },
+                "collaborators": {
+                    "header": "$~👥 samarbetspartners",
+                    "explanation": "$~Samarbetare kan redigera den här instruktionen och visa den i utkast."
+                },
+                "access": {
+                    "header": "$~↗ dela",
+                    "explanation": "$~Galleriets kurator kan låta skapare och kuratorer i andra gallerier de kuraterar se den här instruktionen. Om du inte vill att de ska kunna se den kan du begränsa vem som kan se den till endast kuratorerna och skaparna i galleriet."
+                },
+                "accessToggle": {
+                    "on": "$~dölj panelen för åtkomstinställningar",
+                    "off": "$~expandera panelen för åtkomstinställningar"
+                },
+                "accessMode": {
+                    "label": "$~begränsa vem som kan se den här instruktionen",
+                    "labels": ["$~begränsad", "$~utökad"],
+                    "tips": [
+                        "$~endast skapare i det här galleriet kan se",
+                        "$~skapare och kuratorer i vilket galleri som helst som kuratorn kurerar kan se"
+                    ]
                 }
             },
             "viewer": {

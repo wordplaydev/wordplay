@@ -3449,25 +3449,25 @@
             ],
             "names": ["语音", "声音"],
             "reset": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~重置", "$~清除"],
+                "doc": "$~当此值发生变化时，清除累积的语音并重新开始。"
             },
             "language": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~语言", "$~语言"],
+                "doc": "$~BCP 47 语言代码（例如，“en-US”）。如果您的浏览器语音识别功能不支持此代码，则会显示错误信息。默认情况下，系统会使用您首选的语言环境。"
             },
             "limit": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~限制", "$~字"],
+                "doc": "$~累积语音（滑动窗口）中保留的最大词数。设置此参数后，仅保留最近的词，丢弃较早的词。如果未指定，则无限期保留所有词。"
             },
             "error": {
-                "browserNotSupported": "$?",
-                "noConnection": "$?",
-                "serviceNotAllowed": "$?",
-                "micNotAllowed": "$?",
-                "noMicrophone": "$?",
-                "languageNotSupported": "$?",
-                "limit": "$?"
+                "browserNotSupported": "$~此浏览器不支持此服务",
+                "noConnection": "$~没有网络连接",
+                "serviceNotAllowed": "$~服务不可用",
+                "micNotAllowed": "$~麦克风访问权限未获批准",
+                "noMicrophone": "$~未找到麦克风",
+                "languageNotSupported": "$~不支持此语言",
+                "limit": "$~多次尝试均失败"
             }
         }
     },
@@ -5961,7 +5961,6 @@
                     "placeholder": "$~标题"
                 },
                 "titlePlaceholder": "$~无标题教程",
-                "collaboratorsPrompt": "$~添加一位协作者，他/她可以编辑此操作指南。",
                 "collaboratorsToggle": {
                     "on": "$~折叠合作者面板",
                     "off": "$~扩展合作者面板"
@@ -5969,6 +5968,26 @@
                 "editor": {
                     "placeholder": "$~请在此处编写操作指南，使用格式和代码进行讲解。",
                     "description": "$~一个用于编写操作指南的文本框"
+                },
+                "collaborators": {
+                    "header": "$~👥 合作者",
+                    "explanation": "$~合作者可以编辑本操作指南并查看草稿。"
+                },
+                "access": {
+                    "header": "$~↗ 分享",
+                    "explanation": "$~此画廊的策展人可以允许其管理的其他画廊的创作者和策展人查看此教程。如果您不希望他们查看，您可以将此教程的查看权限限制为仅限此画廊的策展人和创作者。"
+                },
+                "accessToggle": {
+                    "on": "$~折叠访问设置面板",
+                    "off": "$~展开访问设置面板"
+                },
+                "accessMode": {
+                    "label": "$~限制谁可以查看此操作指南",
+                    "labels": ["$~受限制的", "$~扩展"],
+                    "tips": [
+                        "$~只有此画廊中的创作者才能查看",
+                        "$~任何画廊的创作者和策展人都可以浏览策展人策划的展览。"
+                    ]
                 }
             },
             "viewer": {

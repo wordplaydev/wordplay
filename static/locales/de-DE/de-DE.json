@@ -3453,28 +3453,38 @@
             }
         },
         "Speech": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~/Hallo!/",
+                "$~@FunctionDefinition hier – ich bin bereit zuzuhören!",
+                "$~Dieser Stream erkennt Sprache und wandelt sie in @Text um. Er nutzt die Spracherkennung Ihres Browsers, um zuzuhören, was Sie sagen, und es in Wörter umzuwandeln (ist das nicht genial?!).",
+                "$~\\Rede()\\",
+                "$~Dies ist perfekt für alle, die eine Sprache sprechen, aber noch das Lesen und Schreiben lernen (und vieles mehr)...",
+                "$~Sie können einen Sprachcode angeben, um Sprache in einer bestimmten Sprache zu erkennen:",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Wenn keine Sprache angegeben ist, wird standardmäßig Ihre bevorzugte Sprache verwendet.",
+                "$~Die Spracherkennung benötigt Zugriff auf das Mikrofon und eine Internetverbindung (bitte gewähren Sie den Zugriff!). Es kann außerdem Nutzungsbeschränkungen geben, lassen Sie es also nicht zu lange eingeschaltet (nein!)."
+            ],
+            "names": ["$~🗣️", "$~Rede", "$~Stimme"],
             "reset": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~zurücksetzen", "$~klar"],
+                "doc": "$~Wenn sich dieser Wert ändert, löschen Sie die gespeicherte Sprache und beginnen Sie von vorn."
             },
             "language": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~Sprache", "$~lang"],
+                "doc": "$~Ein BCP-47-Sprachcode (z. B. „en-US“). Falls dieser von der Spracherkennung Ihres Browsers nicht unterstützt wird, erhalten Sie eine Fehlermeldung. Standardmäßig wird Ihr bevorzugtes Gebietsschema verwendet."
             },
             "limit": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~Limit", "$~Wörter"],
+                "doc": "$~Die maximale Anzahl der Wörter, die im gespeicherten Sprachprotokoll (gleitendes Fenster) beibehalten werden. Ist dieser Wert festgelegt, werden nur die zuletzt verwendeten Wörter gespeichert, ältere Wörter werden verworfen. Wird kein Wert angegeben, werden alle Wörter unbegrenzt gespeichert."
             },
             "error": {
-                "browserNotSupported": "$?",
-                "noConnection": "$?",
-                "serviceNotAllowed": "$?",
-                "micNotAllowed": "$?",
-                "noMicrophone": "$?",
-                "languageNotSupported": "$?",
-                "limit": "$?"
+                "browserNotSupported": "$~Dieser Dienst wird von diesem Browser nicht unterstützt.",
+                "noConnection": "$~keine Internetverbindung",
+                "serviceNotAllowed": "$~Service nicht verfügbar",
+                "micNotAllowed": "$~Mikrofonzugriff nicht gestattet",
+                "noMicrophone": "$~Kein Mikrofon gefunden",
+                "languageNotSupported": "$~Sprache wird nicht unterstützt",
+                "limit": "$~Nach mehreren Versuchen fehlgeschlagen."
             }
         }
     },
@@ -6005,7 +6015,6 @@
                     "placeholder": "$~Titel"
                 },
                 "titlePlaceholder": "$~Unbetitelte Anleitung",
-                "collaboratorsPrompt": "$~Füge einen Mitarbeiter hinzu, der diese Anleitung bearbeiten kann.",
                 "collaboratorsToggle": {
                     "on": "$~das Mitarbeitergremium zusammenbrechen lassen",
                     "off": "$~Erweiterung des Mitarbeiterpanels"
@@ -6013,6 +6022,26 @@
                 "editor": {
                     "placeholder": "$~Schreiben Sie hier Ihre Anleitung und verwenden Sie Formatierung und Code, um das Thema zu vermitteln.",
                     "description": "$~ein Textfeld, in dem Sie Ihre Anleitung schreiben können"
+                },
+                "collaborators": {
+                    "header": "$~👥 Mitarbeiter",
+                    "explanation": "$~Mitarbeiter können diese Anleitung bearbeiten und als Entwürfe ansehen."
+                },
+                "access": {
+                    "header": "$~↗ teilen",
+                    "explanation": "$~Der Kurator dieser Galerie kann anderen von ihm betreuten Galerien und Kreativen diese Anleitung zugänglich machen. Falls Sie dies nicht wünschen, können Sie den Zugriff auf diese Anleitung auf die Kuratoren und Kreativen dieser Galerie beschränken."
+                },
+                "accessToggle": {
+                    "on": "$~Zugriffseinstellungen-Panel ausblenden",
+                    "off": "$~Erweitern Sie das Bedienfeld für die Zugriffseinstellungen."
+                },
+                "accessMode": {
+                    "label": "$~Beschränken Sie, wer diese Anleitung sehen kann.",
+                    "labels": ["$~eingeschränkt", "$~erweitert"],
+                    "tips": [
+                        "$~Nur die Urheber dieser Galerie können sie ansehen",
+                        "$~Kreative und Kuratoren in jeder Galerie, die der Kurator betreut, können Folgendes einsehen:"
+                    ]
                 }
             },
             "viewer": {

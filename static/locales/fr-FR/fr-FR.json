@@ -3450,28 +3450,38 @@
             }
         },
         "Speech": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~/bonjour!/",
+                "$~@FunctionDefinition ici - prêt à écouter !",
+                "$~Ce flux reconnaît la parole et la convertit en texte. Il utilise la reconnaissance vocale de votre navigateur pour écouter ce que vous dites et le transformer en mots (c'est génial, non ?!).",
+                "$~\\Discours()\\",
+                "$~C'est parfait pour ceux qui parlent une langue mais qui apprennent encore à la lire ou à l'écrire (et plus encore)...",
+                "$~Vous pouvez spécifier un code de langue pour reconnaître la parole dans une langue particulière :",
+                "$~\\Speech(langue: 'es-MX')\\",
+                "$~Si aucune langue n'est spécifiée, la langue par défaut sera celle de votre région préférée.",
+                "$~La reconnaissance vocale nécessite l'accès au microphone et à Internet (veuillez autoriser ces accès !). De plus, des limites d'utilisation peuvent s'appliquer, alors ne la laissez pas activée trop longtemps (non !)."
+            ],
+            "names": ["$~🗣️", "$~Discours", "$~Voix"],
             "reset": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~réinitialiser", "$~clair"],
+                "doc": "$~Lorsque cette valeur change, effacez le discours accumulé et recommencez à zéro."
             },
             "language": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~langue", "$~langue"],
+                "doc": "$~Un code de langue BCP 47 (par exemple, « en-US »). Si ce code n'est pas pris en charge par la reconnaissance vocale de votre navigateur, une erreur s'affichera. Par défaut, la langue utilisée sera votre langue préférée."
             },
             "limit": {
-                "names": ["$?"],
-                "doc": "$?"
+                "names": ["$~limite", "$~mots"],
+                "doc": "$~Nombre maximal de mots à conserver dans la parole cumulée (fenêtre glissante). Si cette option est définie, seuls les mots les plus récents sont conservés et les plus anciens sont supprimés. Si elle n'est pas spécifiée, tous les mots sont conservés indéfiniment."
             },
             "error": {
-                "browserNotSupported": "$?",
-                "noConnection": "$?",
-                "serviceNotAllowed": "$?",
-                "micNotAllowed": "$?",
-                "noMicrophone": "$?",
-                "languageNotSupported": "$?",
-                "limit": "$?"
+                "browserNotSupported": "$~Service non pris en charge par ce navigateur",
+                "noConnection": "$~aucune connexion internet",
+                "serviceNotAllowed": "$~Service indisponible",
+                "micNotAllowed": "$~L'accès au microphone n'est pas autorisé.",
+                "noMicrophone": "$~Aucun microphone détecté",
+                "languageNotSupported": "$~Langue non prise en charge",
+                "limit": "$~échec après plusieurs tentatives"
             }
         }
     },
@@ -6006,7 +6016,6 @@
                     "placeholder": "$~Titre"
                 },
                 "titlePlaceholder": "$~Guide pratique sans titre",
-                "collaboratorsPrompt": "$~Ajoutez un collaborateur, qui pourra modifier ce guide pratique.",
                 "collaboratorsToggle": {
                     "on": "$~Réduire le panneau des collaborateurs",
                     "off": "$~élargir le panel des collaborateurs"
@@ -6014,6 +6023,26 @@
                 "editor": {
                     "placeholder": "$~Rédigez ici votre tutoriel, en utilisant la mise en forme et le code nécessaires à l'enseignement.",
                     "description": "$~une zone de texte pour écrire votre tutoriel"
+                },
+                "collaborators": {
+                    "header": "$~👥 collaborateurs",
+                    "explanation": "$~Les collaborateurs peuvent modifier ce guide et le consulter en brouillon."
+                },
+                "access": {
+                    "header": "$~↗ partager",
+                    "explanation": "$~Le responsable de cette galerie peut autoriser les créateurs et les responsables d'autres galeries à consulter ce tutoriel. Si vous préférez qu'ils n'y aient pas accès, vous pouvez limiter la consultation de ce tutoriel aux seuls responsables et créateurs de cette galerie."
+                },
+                "accessToggle": {
+                    "on": "$~réduire le panneau des paramètres d'accès",
+                    "off": "$~développer le panneau des paramètres d'accès"
+                },
+                "accessMode": {
+                    "label": "$~restreindre l'accès à ce tutoriel",
+                    "labels": ["$~limité", "$~étendu"],
+                    "tips": [
+                        "$~Seuls les créateurs de cette galerie peuvent la consulter.",
+                        "$~Les créateurs et les conservateurs de toute galerie dont le conservateur assure la conservation peuvent voir"
+                    ]
                 }
             },
             "viewer": {
