@@ -1,0 +1,22 @@
+SpokenWords
+=== start
+click: Button(ø)
+speech: Speech(reset: click language: 'en-US' limit: 10)
+x: Random(-10m 10m) … ∆ speech … Random(-10m 10m)
+y: Random(-10m 10m) … ∆ speech … Random(-10m 10m)
+hue: Random() · 360° … ∆ speech … Random() · 360°
+saturation: Random(60% 100%) … ∆ speech … Random(60% 100%)
+lightness: Random(40% 70%) … ∆ speech … Random(40% 70%)
+textsize: Random(1m 3m) … ∆ speech … Random(1m 3m)
+Stage(
+    [
+        Phrase(
+            speech
+            place: Place(x y)
+            color: 🌈(0% 0% 0°)
+            size: textsize
+        )
+    ]
+    background: 🌈(100% 0% 0°)
+)
+

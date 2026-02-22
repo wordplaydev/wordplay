@@ -3448,6 +3448,31 @@
                 "names": "$~y",
                 "doc": "$~y-अक्षासह दिशेची दिशा आणि विशालता."
             }
+        },
+        "Speech": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "reset": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "language": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "limit": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "error": {
+                "browserNotSupported": "$?",
+                "noConnection": "$?",
+                "serviceNotAllowed": "$?",
+                "micNotAllowed": "$?",
+                "noMicrophone": "$?",
+                "languageNotSupported": "$?",
+                "limit": "$?"
+            }
         }
     },
     "output": {

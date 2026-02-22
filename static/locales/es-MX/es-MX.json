@@ -3430,6 +3430,31 @@
                 "names": "y",
                 "doc": "La dirección y magnitud de la dirección a lo largo del eje y."
             }
+        },
+        "Speech": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "reset": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "language": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "limit": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "error": {
+                "browserNotSupported": "$?",
+                "noConnection": "$?",
+                "serviceNotAllowed": "$?",
+                "micNotAllowed": "$?",
+                "noMicrophone": "$?",
+                "languageNotSupported": "$?",
+                "limit": "$?"
+            }
         }
     },
     "output": {

@@ -3448,6 +3448,31 @@
                 "names": "$~य",
                 "doc": "$~Y-अक्ष के अनुदिश दिशा और परिमाण।"
             }
+        },
+        "Speech": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "reset": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "language": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "limit": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "error": {
+                "browserNotSupported": "$?",
+                "noConnection": "$?",
+                "serviceNotAllowed": "$?",
+                "micNotAllowed": "$?",
+                "noMicrophone": "$?",
+                "languageNotSupported": "$?",
+                "limit": "$?"
+            }
         }
     },
     "output": {

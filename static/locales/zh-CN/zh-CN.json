@@ -3434,6 +3434,41 @@
                 "names": "y",
                 "doc": "沿y轴方向的方向和大小。"
             }
+        },
+        "Speech": {
+            "doc": [
+                "/你好！/",
+                "@FunctionDefinition 在这里，准备倾听！",
+                "此流识别语音并将其转换为@Text。它使用浏览器的语音识别来听取您所说的内容并将其转换为文字。",
+                "\\Speech()\\",
+                "这对于那些能说一种语言但仍在学习阅读或书写的人来说非常完美！",
+                "您可以指定语言代码来识别特定语言的语音：",
+                "\\Speech(language: 'zh-CN')\\",
+                "如果未指定语言，则默认为英语（en-US）。",
+                "注意：在大多数浏览器中，语音识别需要麦克风访问权限和互联网连接。此外，可能存在使用限制，因此不要让它开启太久！"
+            ],
+            "names": ["语音", "声音"],
+            "reset": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "language": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "limit": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "error": {
+                "browserNotSupported": "$?",
+                "noConnection": "$?",
+                "serviceNotAllowed": "$?",
+                "micNotAllowed": "$?",
+                "noMicrophone": "$?",
+                "languageNotSupported": "$?",
+                "limit": "$?"
+            }
         }
     },
     "output": {

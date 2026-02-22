@@ -3254,6 +3254,41 @@
                 "doc": "The time between samplings."
             }
         },
+        "Speech": {
+            "doc": [
+                "/hello there!/",
+                "@FunctionDefinition here - ready to listen!",
+                "This stream recognizes speech and converts it to @Text. It uses your browser's speech recognition to listen to what you say and turn it into words (isn't this so cool?!).",
+                "\\Speech()\\",
+                "This is perfect for those who can speak a language but are still learning to read or write it (and more)...",
+                "You can specify a language code to recognize speech in a particular language:",
+                "\\Speech(language: 'es-MX')\\",
+                "If no language is specified, it defaults to your preferred locale.",
+                "Speech recognition requires microphone access and Internet connection (please give access!). Also, there might be usage limits, so don't leave it on for too long (nooooo)!"
+            ],
+            "names": ["🗣️", "Speech", "Voice"],
+            "reset": {
+                "names": ["reset", "clear"],
+                "doc": "When this value changes, clear the accumulated speech and start fresh."
+            },
+            "language": {
+                "names": ["language", "lang"],
+                "doc": "A BCP 47 language code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to your preferred locale."
+            },
+            "limit": {
+                "names": ["limit", "words"],
+                "doc": "The maximum number of words to keep in the accumulated speech (sliding window). When set, only the most recent words are kept, and older words are discarded. If not specified, all words are kept indefinitely."
+            },
+            "error": {
+                "browserNotSupported": "service not supported in this browser",
+                "noConnection": "no internet connection",
+                "serviceNotAllowed": "service not available",
+                "micNotAllowed": "microphone access not allowed",
+                "noMicrophone": "no microphone found",
+                "languageNotSupported": "language not supported",
+                "limit": "failed after multiple attempts"
+            }
+        },
         "Camera": {
             "doc": [
                 "/bzzzzzzz/",

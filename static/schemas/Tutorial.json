@@ -624,6 +624,10 @@
           "type": "string"
         },
         {
+          "const": "Speech",
+          "type": "string"
+        },
+        {
           "const": "Camera",
           "type": "string"
         },

@@ -3448,6 +3448,31 @@
                 "names": "$~и",
                 "doc": "$~Правац и величина правца дуж и-осе."
             }
+        },
+        "Speech": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "reset": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "language": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "limit": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "error": {
+                "browserNotSupported": "$?",
+                "noConnection": "$?",
+                "serviceNotAllowed": "$?",
+                "micNotAllowed": "$?",
+                "noMicrophone": "$?",
+                "languageNotSupported": "$?",
+                "limit": "$?"
+            }
         }
     },
     "output": {

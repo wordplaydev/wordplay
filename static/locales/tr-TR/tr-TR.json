@@ -3448,6 +3448,31 @@
                 "names": "$~ve",
                 "doc": "$~Y ekseni boyunca yönün yönü ve büyüklüğü."
             }
+        },
+        "Speech": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "reset": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "language": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "limit": {
+                "names": ["$?"],
+                "doc": "$?"
+            },
+            "error": {
+                "browserNotSupported": "$?",
+                "noConnection": "$?",
+                "serviceNotAllowed": "$?",
+                "micNotAllowed": "$?",
+                "noMicrophone": "$?",
+                "languageNotSupported": "$?",
+                "limit": "$?"
+            }
         }
     },
     "output": {
