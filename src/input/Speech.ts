@@ -70,12 +70,18 @@ declare global {
 // Each key maps to a locale accessor function
 // Modeled after Webpage
 const SpeechErrors = {
-    browserNotSupported: (locale: LocaleText) => locale.input.Speech.error.browserNotSupported,
-    noConnection: (locale: LocaleText) => locale.input.Speech.error.noConnection,
-    serviceNotAllowed: (locale: LocaleText) => locale.input.Speech.error.serviceNotAllowed,
-    micNotAllowed: (locale: LocaleText) => locale.input.Speech.error.micNotAllowed,
-    noMicrophone: (locale: LocaleText) => locale.input.Speech.error.noMicrophone,
-    languageNotSupported: (locale: LocaleText) => locale.input.Speech.error.languageNotSupported,
+    browserNotSupported: (locale: LocaleText) =>
+        locale.input.Speech.error.browserNotSupported,
+    noConnection: (locale: LocaleText) =>
+        locale.input.Speech.error.noConnection,
+    serviceNotAllowed: (locale: LocaleText) =>
+        locale.input.Speech.error.serviceNotAllowed,
+    micNotAllowed: (locale: LocaleText) =>
+        locale.input.Speech.error.micNotAllowed,
+    noMicrophone: (locale: LocaleText) =>
+        locale.input.Speech.error.noMicrophone,
+    languageNotSupported: (locale: LocaleText) =>
+        locale.input.Speech.error.languageNotSupported,
     limit: (locale: LocaleText) => locale.input.Speech.error.limit,
 };
 
@@ -224,9 +230,9 @@ export default class Speech extends StreamValue<TextValue, string> {
         // Create recognition instance if not exists
         if (!this.recognition) {
             this.recognition = new SpeechRecognitionAPI();
-            this.recognition.continuous = true;      // Keep listening until stopped
+            this.recognition.continuous = true; // Keep listening until stopped
             this.recognition.interimResults = false; // Only final results
-            this.recognition.maxAlternatives = 1;    // Only best match
+            this.recognition.maxAlternatives = 1; // Only best match
             this.recognition.lang = this.languageCode;
 
             // Handle results
@@ -293,7 +299,7 @@ export default class Speech extends StreamValue<TextValue, string> {
         this.isListening = false;
         // Clear any pending retry
         if (this.retryTimeout) {
-            clearTimeout(this.retryTimeout as number);
+            clearTimeout(this.retryTimeout);
             this.retryTimeout = undefined;
         }
         if (this.recognition) {
