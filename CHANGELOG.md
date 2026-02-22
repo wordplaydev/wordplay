@@ -2,8 +2,9 @@
 
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
+These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.16.53 - 2026-02-21
+## 0.16.43 - 2026-02-22
 
 ### Added
 
@@ -13,6 +14,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - We localized a "username taken" feature.
 - We improved some Spanish translations.
+
+### Changed
+
+- We upgraded minor versions of internal tooling for stability.
 
 ## 0.16.42 - 2026-02-14
 
