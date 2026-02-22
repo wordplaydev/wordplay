@@ -13,7 +13,7 @@
         "outdated": "npx check-outdated --ignore-pre-releases --columns name,type,current,latest,changes"
     },
     "engines": {
-        "node": "20"
+        "node": "^22.0.0"
     },
     "main": "lib/index.js",
     "dependencies": {
@@ -21,7 +21,7 @@
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^13",
         "firebase-functions": "^7",
-        "nodemailer": "^7",
+        "nodemailer": "^8",
         "shared-types": "file:./src/shared"
     },
     "devDependencies": {

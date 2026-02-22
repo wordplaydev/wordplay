@@ -1,16 +1,20 @@
 [
   {
-    "version": "0.16.53",
-    "date": "2026-02-21",
+    "version": "0.16.43",
+    "date": "2026-02-22",
     "changes": {
       "added": [
         "**How to translation**. We added the ability to create machine translations of how to's in a gallery."
       ],
       "fixed": [
         "We localized a \"username taken\" feature.",
-        "We improved some Spanish translations."
+        "We improved some Spanish translations.",
+        "We no longer release a new version when there is a problem with Wordplay's code or locales."
       ],
-      "changed": [],
+      "changed": [
+        "We upgraded minor versions of internal tooling for stability.",
+        "We cleaned up some of the locale translation feedback for developers."
+      ],
       "removed": []
     }
   },

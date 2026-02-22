@@ -33,6 +33,9 @@
         "updates": "node scripts/updates.js",
         "claims": "node scripts/claims.js "
     },
+    "engines": {
+        "node": "^22.0.0"
+    },
     "watch": {
         "verify-locales": {
             "patterns": [

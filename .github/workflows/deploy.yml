@@ -10,7 +10,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v3
               with:
-                  node-version: '20'
+                  node-version: '22'
 
             # Set up authentication for Firebase deployment using a service account
             - uses: 'google-github-actions/auth@v2'
