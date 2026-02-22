@@ -5267,7 +5267,7 @@
                 "message": "$~Var är det här stället? Kan vi gå hem?"
             },
             "landing": {
-                "value": "$!Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
+                "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
                 "chooseLocales": "$~eller välj",
                 "description": [
                     "$~Wordplay är ett programmeringsspråk som gör att du kan:",

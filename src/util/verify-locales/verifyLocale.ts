@@ -182,6 +182,7 @@ async function checkLocale(
 
     // If there are any unwritten strings and we were asked to translate them, do so.
     if (pairsToTranslate.length > 0 && warnUnwritten && translate) {
+        console.log(pairsToTranslate.map((p) => p.toString()).join(', '));
         log.bad(
             2,
             `Locale has ${pairsToTranslate.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,
@@ -336,16 +337,22 @@ async function checkLocale(
     }
 
     // Give warnings on revised strings that are not machine translated.
+    let potentiallyOutOfDate = new Set<string>();
     for (const revisedString of revisedStrings) {
         const match = pairs.find((path) => path.equals(revisedString.path));
         if (match) {
             const outOfDate = revisedString.path.resolve(original);
             if (typeof outOfDate === 'string' && !isAutomated(outOfDate))
-                log.warning(
-                    2,
-                    `Potentially out of date string at ${revisedString.path.toString()}: "${outOfDate}". Revision in ${revisedString.locale}: "${revisedString.text}"`,
-                );
+                potentiallyOutOfDate.add(revisedString.path.toString());
         }
+    }
+    if (potentiallyOutOfDate.size > 0) {
+        log.warning(
+            2,
+            `${potentiallyOutOfDate.size} strings potentially out of date ${Array.from(
+                potentiallyOutOfDate,
+            ).join(', ')}`,
+        );
     }
 
     const automated = pairs.filter(({ value }) =>

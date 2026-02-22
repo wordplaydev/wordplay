@@ -5263,7 +5263,7 @@
                 "message": "$~Burası neresi? Eve gidebilir miyiz?"
             },
             "landing": {
-                "value": "$!Bizimle birlikte kelimeler, semboller, emojiler ve kodlarla etkileşimli hikayeler yaratın!",
+                "value": "$~Bizimle birlikte kelimeler, semboller, emojiler ve kodlarla etkileşimli hikayeler yaratın!",
                 "chooseLocales": "$~veya seçin",
                 "description": [
                     "$~Wordplay, şunları yapmanıza olanak sağlayan bir programlama dilidir:",

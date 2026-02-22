@@ -5183,7 +5183,7 @@
                 "message": "$~Wo ist dieser Ort? Können wir nach Hause gehen?"
             },
             "landing": {
-                "value": "$!Erstellen Sie mit uns interaktive Geschichten mit Wörtern, Symbolen, Emojis und Code!",
+                "value": "$~Erstellen Sie mit uns interaktive Geschichten mit Wörtern, Symbolen, Emojis und Code!",
                 "chooseLocales": "$~oder wählen Sie",
                 "description": [
                     "$~Wordplay ist eine Programmiersprache, die Ihnen Folgendes ermöglicht:",

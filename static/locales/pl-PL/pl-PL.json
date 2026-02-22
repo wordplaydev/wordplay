@@ -5272,7 +5272,7 @@
                 "message": "$~Gdzie jest to miejsce? Czy możemy wrócić do domu?"
             },
             "landing": {
-                "value": "$!Twórz z nami interaktywne historie przy użyciu słów, symboli, emotikonów i kodu!",
+                "value": "$~Twórz z nami interaktywne historie przy użyciu słów, symboli, emotikonów i kodu!",
                 "chooseLocales": "$~lub wybierz",
                 "description": [
                     "$~Wordplay to język programowania umożliwiający:",

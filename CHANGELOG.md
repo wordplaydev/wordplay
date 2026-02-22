@@ -18,6 +18,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - We upgraded minor versions of internal tooling for stability.
+- We cleaned up some of the locale translation feedback for developers.
 
 ## 0.16.42 - 2026-02-14
 

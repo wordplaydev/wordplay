@@ -5166,7 +5166,7 @@
                 "message": "¿Dónde estamos? ¿Podemos ir a casa?"
             },
             "landing": {
-                "value": "$!¡Crea historias interactivas con palabras, símbolos, emojis y codifica con nosotros!",
+                "value": "$~¡Crea historias interactivas con palabras, símbolos, emojis y codifica con nosotros!",
                 "chooseLocales": "$~o elige",
                 "description": [
                     "Wordplay es un lenguaje de programación que te permite:",
