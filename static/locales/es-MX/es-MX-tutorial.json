@@ -35,25 +35,25 @@
                             "bored",
                             "¿Qué es este lugar?",
                             "Si, qué es este lugar…",
-                            "Era un lugar de baile, historias, y juegos…",
-                            "Poníamos los espectáculos más hermosos. A veces para visitantes como tú, a veces sólo por diversión. Era un lugar lleno de vida y sorpresa…"
+                            "Antes, era un lugar de baile, historias, y juegos…",
+                            "Creábamos los espectáculos más hermosos. A veces para visitantes como tú, a veces sólo por diversión. Era un lugar lleno de vida y sorpresas…"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "¿Parar?",
+                            "Porque paramos?",
                             "No queríamos parar. Simplemente perdimos nuestra inspiración.",
-                            "Puedo significar tantas cosas, por ejemplo. A veces soy el símbolo del florín holandés, una antigua moneda de los Países Bajos. Solía ​​​​ser conocido y utilizado en todo el mundo por personas para ayudarlos a comerciar. Hace mucho tiempo, yo también era la /f/ minúscula del alfabeto latino.",
-                            "Hoy en dia, soy bastante oscuro."
+                            "Yo puedo significar tantas cosas, por ejemplo. A veces soy el símbolo del florín holandés, una antigua moneda de los Países Bajos. Solía ​​​​ser conocido y utilizado por todo el mundo por personas para ayudarlos a comerciar. Hace mucho tiempo, yo también era la /f/ minúscula del alfabeto latino.",
+                            "Hoy en dia, soy poco conocido."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "bored",
                             "¿Pero todo ese significado?",
-                            "Nos lo han dado. No significamos nada sin que la gente recuerde esa historia y cultura. Y no podemos significar nada nuevo si no hay personas que nos brinden nueva historia y cultura.",
-                            "Las personas siempre han sido las que nos organizaron, las que nos dieron un propósito, las que nos dieron algo que representar. El Verso no es nada sin *gente*.",
+                            "Nos lo dieron a nosotros. No significamos nada sin que la gente recuerde esa historia y cultura. Y no podemos significar nada nuevo si no hay personas que nos den nueva historia y cultura.",
+                            "Las personas siempre han sido las que nos organizaron, las que nos dieron un propósito, las que nos dieron algo que representar. El Verso no es nada sin *personas*.",
                             "Y no he visto a una persona en mucho tiempo."
                         ],
                         null,
@@ -74,7 +74,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "¿Como una persona real, con pensamientos, ideas y valores para compartir? ¿Ninguno de esos robots que simplemente repiten como un loro lo que dice la gente? Si eres una persona, ¿tal vez podrías darnos significado?"
+                            "¿Como una persona real, con pensamientos, ideas y valores para compartir? No uno de esos robots que simplemente repiten como un loro lo que dicen las personas? Si eres una persona, ¿tal vez podrías darnos significado?"
                         ],
                         null,
                         [
@@ -183,7 +183,7 @@
                             "Program",
                             "neutral",
                             "Seguro. Básicamente soy el organizador del programa de un espectáculo.",
-                            "Puedes verme allí, con un *editor* @UI/editor mostrándome el *escenario* @UI/escenario que muestra lo que evalúo (ahorita nada). El *director*, ese eres tú, ayuda a todos a descubrir lo que están haciendo, escribiendo un programa para lo que sucederá en el programa. Y luego evalúo el programa y pongo el resultado en el escenario para que el público lo vea."
+                            "Puedes verme allí, con un *editor* @UI/editor mostrándome el *escenario* @UI/stage que muestra lo que evalúo (ahorita nada). El *director*, ese eres tú, ayuda a todos a descubrir lo que están haciendo, escribiendo un programa para lo que sucederá en el programa. Y luego evalúo el programa y pongo el resultado en el escenario para que el público lo vea."
                         ],
                         null,
                         [
@@ -319,7 +319,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Program no sabía qué hacer con @ExpressionPlaceholder, por lo que mostró una *excepción* @UI/excepción en *etapa* y un *conflicto* en @Program @UI/conflict.",
+                            "@Program no sabía qué hacer con @ExpressionPlaceholder, por lo que mostró una *excepción* @UI/excepción en el *escenario* y un *conflicto* en @Program @UI/conflict.",
                             "Pero si haces clic en @ExpressionPlaceholder o mueves el cursor de texto sobre él, verás un mundo de posibilidades para otros caracteres. También puedes escribir sobre @ExpressionPlaceholder y escribir el tuyo propio. Por ejemplo, intente escribir su nombre entre comillas."
                         ],
                         null,
