@@ -39,10 +39,7 @@ export async function verifyTutorial(
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
     if (!valid && validate.errors) {
-        log.bad(
-            2,
-            "Tutorial doesn't match the schema. Will attempt to repair it.",
-        );
+        log.bad(2, "Tutorial doesn't match the schema.");
         for (const error of validate.errors) {
             if (error.message)
                 log.bad(3, `${error.instancePath}: ${error.message}`);

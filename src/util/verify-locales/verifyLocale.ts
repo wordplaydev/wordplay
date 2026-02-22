@@ -81,10 +81,7 @@ export async function verifyLocale(
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
     if (!valid && LocaleValidator.errors) {
-        log.bad(
-            2,
-            "Locale doesn't match the schema. Will attempt to repair it.",
-        );
+        log.bad(2, "Locale doesn't match the schema.");
         for (const error of LocaleValidator.errors) {
             if (error.message)
                 log.bad(3, `${error.instancePath}: ${error.message}`);
@@ -182,7 +179,6 @@ async function checkLocale(
 
     // If there are any unwritten strings and we were asked to translate them, do so.
     if (pairsToTranslate.length > 0 && warnUnwritten && translate) {
-        console.log(pairsToTranslate.map((p) => p.toString()).join(', '));
         log.bad(
             2,
             `Locale has ${pairsToTranslate.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,

@@ -14,6 +14,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We localized a "username taken" feature.
 - We improved some Spanish translations.
+- We no longer release a new version when there is a problem with Wordplay's code or locales.
 
 ### Changed
 

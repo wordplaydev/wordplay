@@ -23,6 +23,7 @@
         "tutorial-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
         "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/LocaleText.ts' --type 'LocaleText' --out static/schemas/LocaleText.json",
         "create-schemas": "npm run tutorial-schema && npm run locale-schema",
+        "locales-ci": "npx tsx src/util/verify-locales/start.ts ci",
         "locales": "npx tsx src/util/verify-locales/start.ts verify",
         "translate": "npx tsx src/util/verify-locales/start.ts translate",
         "override": "npx tsx src/util/verify-locales/start.ts override",

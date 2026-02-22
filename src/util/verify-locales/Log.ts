@@ -6,7 +6,10 @@ chalk.level = 1;
 // A helper class to gather messages for later printing, to overcome parallel validation of locales.
 export default class Log {
     private readonly messages: string[] = [];
-    constructor() {}
+    private readonly failOnBad: boolean;
+    constructor(failOnBad: boolean) {
+        this.failOnBad = failOnBad;
+    }
 
     add(message: string) {
         this.messages.push(message);
@@ -27,11 +30,14 @@ export default class Log {
 
     bad(level: number, message: string) {
         this.say(level, 'x ' + chalk.yellow(message));
+        if (this.failOnBad) {
+            process.exit(1);
+        }
     }
 
-    exit(level: number, message: string) {
+    exit(level: number, message: string, success: boolean) {
         this.bad(level, 'x ' + chalk.red(message));
-        process.exit(0);
+        process.exit(success ? 0 : 1);
     }
 
     flush() {
