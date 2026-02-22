@@ -15,9 +15,6 @@ test.each([
         TableLiteral,
         IncompatibleCellType,
     ],
-])(
-    'Expect %s no conflicts, %s to have %s with %s',
-    (good, bad, node, conflict) => {
-        testConflict(good, bad, node, conflict);
-    },
-);
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict) => {
+    testConflict(good, bad, node, conflict);
+});

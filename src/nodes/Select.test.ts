@@ -33,7 +33,7 @@ test.each([
         ExpectedSelectName,
     ],
 ])(
-    'Expect %s no conflicts, %s to have %s with %s',
+    'Expect %s no conflicts, %s to have some conflicts',
     (good, bad, node, conflict) => {
         testConflict(good, bad, node, conflict);
     },

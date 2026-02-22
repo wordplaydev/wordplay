@@ -6,7 +6,7 @@ import ConversionDefinition from './ConversionDefinition';
 test.each([
     ['( → # #m 5)', '1 + → # #m 5', ConversionDefinition, MisplacedConversion],
 ])(
-    'Expect %s no conflicts, %s to have %s with %s',
+    'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict) => {
         testConflict(good, bad, node, conflict);
     },
