@@ -1,7 +1,11 @@
 name: Playwright - run all end-to-end tests
 on:
+    push:
+        branches:
+            - main
     pull_request:
-        branches: ['main']
+        branches:
+            - main
 jobs:
     test:
         timeout-minutes: 60
