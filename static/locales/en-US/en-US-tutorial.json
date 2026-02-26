@@ -12,12 +12,9 @@
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
-                        ["FunctionDefinition", 
-                        "bored", 
-                        "… Oh, hi."],
+                        ["FunctionDefinition", "bored", "… Oh, hi."],
                         null,
-                        ["FunctionDefinition", 
-                        "neutral", "Do I know you?"],
+                        ["FunctionDefinition", "neutral", "Do I know you?"],
                         null,
                         [
                             "FunctionDefinition",
@@ -93,7 +90,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Oh yes, there are many others. Some of them are like me: we help choreograph the shows,keeping everyone in their place and making sure we express the vision of our director,exactly as they intended. And some of them are the ones on stage, in front of the audience,dancing and speaking. We all have a role to play!"
+                            "Oh yes, there are many others. Some of them are like me: we help choreograph the shows, keeping everyone in their place and making sure we express the vision of our director, exactly as they intended. And some of them are the ones on stage, in front of the audience, dancing and speaking. We all have a role to play!"
                         ],
                         null,
                         [
@@ -162,7 +159,7 @@
                         [
                             "Program",
                             "excited",
-                            "I see. Did @FunctionDefinition tell you anything about us? Lots of people try to direct us, but some people get confused,bored, or even irritated with us. We are pretty dense at times. But I'm proud of what we do, so I don't want to work with just anyone."
+                            "I see. Did @FunctionDefinition tell you anything about us? Lots of people try to direct us, but some people get confused, bored, or even irritated with us. We are pretty dense at times. But I'm proud of what we do, so I don't want to work with just anyone."
                         ],
                         null,
                         [
