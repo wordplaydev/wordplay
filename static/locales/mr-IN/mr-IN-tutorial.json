@@ -323,7 +323,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program ला @ExpressionPlaceholder चे काय करावे हे माहित नव्हते, म्हणून त्याने *स्टेज* वर *अपवाद* @Programाद आणि @Program @UI/conflict मध्ये *संघर्ष* दाखवला.",
+                            "$~@Program ला @ExpressionPlaceholder चे काय करावे हे माहित नव्हते, म्हणून त्याने *स्टेज* वर *अपवाद* @Programाद आणि @Program @UI/conflict मध्ये *संघर्ष* @UI/exception दाखवला.",
                             "$~परंतु तुम्ही @ExpressionPlaceholder वर क्लिक केल्यास किंवा त्यावर मजकूर कॅरेट हलवल्यास, तुम्हाला इतर पात्रांच्या शक्यतांचे जग दिसेल. तुम्ही फक्त @ExpressionPlaceholder वर टाइप करू शकता आणि तुमचे स्वतःचे लिहू शकता. उदाहरणार्थ, तुमचे नाव कोट्समध्ये टाइप करण्याचा प्रयत्न करा."
                         ],
                         null,

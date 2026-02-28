@@ -327,7 +327,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program્રોગ્રામને @ExpressionPlaceholder સાથે શું કરવું તે ખબર ન હતી, તેથી તેણે *સ્ટેજ* પર *અપવાદ* @ExpressionPlaceholderાદ અને @Program @UI/conflict માં *સંઘર્ષ* બતાવ્યો.",
+                            "$~@Program્રોગ્રામને @ExpressionPlaceholder સાથે શું કરવું તે ખબર ન હતી, તેથી તેણે *સ્ટેજ* પર *અપવાદ* @UI/exception @ExpressionPlaceholderાદ અને @Program @UI/conflict માં *સંઘર્ષ* બતાવ્યો.",
                             "$~પરંતુ જો તમે @ExpressionPlaceholder પર ક્લિક કરો છો, અથવા તેના પર ટેક્સ્ટ કેરેટ ખસેડો છો, તો તમે અન્ય પાત્રોની શક્યતાઓની દુનિયા જોશો. તમે ફક્ત @ExpressionPlaceholder પર ટાઈપ કરી શકો છો અને તમારું પોતાનું લખી શકો છો. ઉદાહરણ તરીકે, અવતરણમાં તમારું નામ લખવાનો પ્રયાસ કરો."
                         ],
                         null,

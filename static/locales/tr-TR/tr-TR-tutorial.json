@@ -327,7 +327,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program, @ExpressionPlaceholder ile ne yapacağını bilemedi, bu yüzden *sahne* üzerinde bir *istisna* @Program ve @Program @UI/conflict üzerinde bir *çatışma* gösterdi.",
+                            "$~@Program, @ExpressionPlaceholder ile ne yapacağını bilemedi, bu yüzden *sahne* üzerinde bir *istisna* @Program ve @Program @UI/conflict üzerinde bir *çatışma* @UI/exception gösterdi.",
                             "$~Ancak @ExpressionPlaceholder'a tıklarsanız veya metin imlecini üzerine getirirseniz, başka karakterlerin bir dünya olasılığını görürsünüz. Ayrıca @ExpressionPlaceholder'ın üzerine yazıp kendi karakterlerinizi de yazabilirsiniz. Örneğin, adınızı tırnak işaretleri içine yazmayı deneyin."
                         ],
                         null,

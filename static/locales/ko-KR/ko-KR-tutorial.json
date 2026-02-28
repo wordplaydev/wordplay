@@ -323,7 +323,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program은 @ExpressionPlaceholder 어떻게 처리해야 할지 몰라서 *stage*에서 *예외* @UI/exception 표시했고 @Program @Program *충돌*을 표시했습니다.",
+                            "$~@Program은 @ExpressionPlaceholder 어떻게 처리해야 할지 몰라서 *stage*에서 *예외* @UI/exception 표시했고 @Program @Program *충돌* @UI/conflict 을 표시했습니다.",
                             "$~하지만 @ExpressionPlaceholder 클릭하거나 텍스트 캐럿을 그 위로 옮기면 다른 문자의 가능성의 세계를 볼 수 있습니다. @ExpressionPlaceholder 위에 그냥 타이핑하고 직접 쓸 수도 있습니다. 예를 들어, 이름을 따옴표로 묶어 입력해 보세요."
                         ],
                         null,
@@ -632,7 +632,7 @@
                             "Evaluate",
                             "serious",
                             "$~제가 가장 좋아하는 기능 중 하나는 @Phrase. 재밌는 버튼, 노브, 슬라이더로 가득합니다. 무대에 텍스트를 보여주는 방식이지만 스타일이 있고, 다양한 글꼴, 크기, 색상, 애니메이션이 포함됩니다.",
-                            "$~@Phrase @Phrase 대한 간단한 평가는 다음과 같습니다."
+                            "$~@Phrase @UI/Evaluate 대한 간단한 평가는 다음과 같습니다."
                         ],
                         null,
                         [
