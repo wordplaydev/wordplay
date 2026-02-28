@@ -1,5 +1,17 @@
 [
   {
+    "version": "0.16.45",
+    "date": "2026-02-28",
+    "changes": {
+      "added": [],
+      "fixed": [],
+      "changed": [
+        "We upgraded internal tooling for stability."
+      ],
+      "removed": []
+    }
+  },
+  {
     "version": "0.16.43",
     "date": "2026-02-22",
     "changes": {
