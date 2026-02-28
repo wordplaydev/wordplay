@@ -166,13 +166,13 @@
     }
 
     /* Conflicts layer on top of everything else */
-    .underline.primaryMajor path,
-    .underline.secondaryMajor {
+    .underline.major path,
+    .underline.major {
         stroke: var(--wordplay-error);
     }
 
-    .underline.primaryMinor path,
-    .underline.secondaryMinor path {
+    .underline.minor path,
+    .underline.minor {
         stroke: var(--wordplay-warning);
     }
 

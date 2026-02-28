@@ -3,12 +3,7 @@
         node: Node;
         element: Element | null;
         messages: Markup[];
-        kind:
-            | 'step'
-            | 'primaryMajor'
-            | 'primaryMinor'
-            | 'secondaryMajor'
-            | 'secondaryMinor';
+        kind: 'step' | 'major' | 'minor';
         context: Context;
         resolutions: Resolution[];
         conflict?: ConflictLocaleAccessor;
@@ -102,10 +97,7 @@
         annotations = conflicts
             .map((conflict: Conflict) => {
                 const nodes = conflict.getMessage(context, Templates);
-                // Based on the primary and secondary nodes given, decide what to show.
-                // We expect
-                // 1) a single primary node
-                // 2) zero or more secondary nodes
+                // Based on the node given, decide what to show.
                 // From these, we generate one or two speech bubbles to illustrate the conflict.
                 return [
                     {
@@ -118,9 +110,11 @@
                                     project.getContext(project.getMain()),
                             ),
                         ],
-                        kind: `primary${conflict.isMinor() ? 'Minor' : 'Major'}` as const,
+                        kind: conflict.isMinor()
+                            ? ('minor' as const)
+                            : ('major' as const),
                         context,
-                        // Place the resolutions in the primary node.
+                        // Place the resolutions in the node.
                         resolutions: nodes.resolutions ?? [],
                         conflict: conflict.getLocalePath(),
                     },
@@ -472,13 +466,11 @@
         background: var(--wordplay-evaluation-color);
     }
 
-    .annotation.primaryMajor,
-    .annotation.secondaryMajor {
+    .annotation.major {
         background: var(--wordplay-error);
     }
 
-    .annotation.primaryMinor,
-    .annotation.secondaryMinor {
+    .annotation.minor {
         background: var(--wordplay-warning);
     }
 </style>

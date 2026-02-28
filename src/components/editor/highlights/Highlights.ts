@@ -48,14 +48,10 @@ export const HighlightTypes = {
     target: true,
     // Drag and drop target hovered over
     match: true,
-    // Major conflict, primary
-    primaryMajor: true,
-    // Major conflict, secondary
-    secondaryMajor: true,
-    // Minor conflict, primary
-    primaryMinor: true,
-    // Minor conflict, secondary
-    secondaryMinor: true,
+    // Major conflict
+    major: true,
+    // Minor conflict
+    minor: true,
     // A node that is animated
     animating: false,
     // Output that is active on stage
@@ -245,14 +241,12 @@ export function getHighlights(
         highlights.add(source, hovered, 'hovered');
     }
 
-    // Tag all nodes with primary conflicts as primary
-    for (const [primary, conflicts] of project.getPrimaryConflicts())
+    // Tag all nodes with conflicts
+    for (const [node, conflicts] of project.getConflictedNodes())
         highlights.add(
             source,
-            primary,
-            conflicts.every((c) => !c.isMinor())
-                ? 'primaryMajor'
-                : 'primaryMinor',
+            node,
+            conflicts.every((c) => !c.isMinor()) ? 'major' : 'minor',
         );
 
     // Are there any poses in this file being animated?
@@ -425,19 +419,15 @@ export function updateOutlines(
         const outline = outlines[index];
         let offset = 0;
         if (
-            outline.types.includes('primaryMajor') ||
-            outline.types.includes('secondaryMajor') ||
-            outline.types.includes('primaryMinor') ||
-            outline.types.includes('secondaryMinor')
+            outline.types.includes('major') ||
+            outline.types.includes('minor')
         ) {
             for (let check = 0; check < index; check++) {
                 const other = outlines[check];
                 // Do they intersect vertically and horizontally?
                 if (
-                    (other.types.includes('primaryMajor') ||
-                        other.types.includes('secondaryMajor') ||
-                        other.types.includes('primaryMinor') ||
-                        other.types.includes('secondaryMinor')) &&
+                    (other.types.includes('major') ||
+                        other.types.includes('minor')) &&
                     Math.round(outline.underline.miny + offset) ===
                         Math.round(other.underline.miny) &&
                     Math.max(

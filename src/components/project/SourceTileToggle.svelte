@@ -25,8 +25,7 @@
 
     // Derive counts from sources.
     $effect(() => {
-        let newPrimaryCount = 0;
-        let newSecondaryCount = 0;
+        let newCount = 0;
         if ($conflicts) {
             for (const conflict of $conflicts) {
                 const nodes = conflict.getMessage(
@@ -34,18 +33,17 @@
                     Templates,
                 );
                 if (source.has(nodes.node)) {
-                    if (!conflict.isMinor()) newPrimaryCount++;
-                    else newSecondaryCount++;
+                    if (!conflict.isMinor()) newCount++;
                 }
             }
         }
 
-        conflictCount = newPrimaryCount;
+        conflictCount = newCount;
     });
 </script>
 
 <Toggle tips={(l) => l.ui.tile.toggle.show} on={expanded} {toggle}>
-    {#if conflictCount > 0}<span class="count primary">{conflictCount}</span
+    {#if conflictCount > 0}<span class="count conflict">{conflictCount}</span
         >{/if}
     {#if conflictCount === 0}<Emoji>{Characters.Program.symbols}</Emoji>{/if}
     <!-- Only one source? Use a label to indicate that this is where the code is. Otherwise, use the source names. -->
@@ -71,7 +69,7 @@
         vertical-align: middle;
     }
 
-    .primary {
+    .conflict {
         background-color: var(--wordplay-error);
     }
 </style>

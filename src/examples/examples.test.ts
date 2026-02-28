@@ -40,7 +40,7 @@ test.each([...projects])(
         project.getAnalysis();
         const context = project.getContext(project.getMain());
         const conflicts = Array.from(
-            project.getPrimaryConflicts().values(),
+            project.getConflictedNodes().values(),
         ).flat();
         const messages: string[] = [];
         for (const conflict of conflicts) {

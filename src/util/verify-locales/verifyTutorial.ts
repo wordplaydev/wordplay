@@ -153,12 +153,12 @@ async function checkTutorial(
 
                 if (
                     !conflictsIntentional &&
-                    project.getPrimaryConflicts().size > 0
+                    project.getConflictedNodes().size > 0
                 ) {
                     log.bad(
                         2,
                         `Found conflicts ${Array.from(
-                            project.getPrimaryConflicts().values(),
+                            project.getConflictedNodes().values(),
                         )
                             .flat()
                             .map((c) => c.toString())
