@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.16.45 - 2026-02-28
 
+### Added
+
+- **Times symbol**. Up to this point, Wordplay only used \·\ as a multiplication symbol. Now you can use \×\ too! That's now the new default, but both are still supported.
+
 ### Changed
 
 - We upgraded internal tooling for stability.

@@ -11,9 +11,9 @@ import type CharacterPageText from '../routes/character/[id]/PageText';
 import type CharactersPageText from '../routes/characters/PageText';
 import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
+import type GalleryModerationPageText from '../routes/galleries/moderation/PageText';
 import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
 import type HowToPageText from '../routes/gallery/[galleryid]/howto/PageText';
-import type GalleryModerationPageText from '../routes/galleries/moderation/PageText';
 import type { default as GuidePageText } from '../routes/guide/PageText';
 import type JoinPageText from '../routes/join/PageText';
 import type LearnPageText from '../routes/learn/PageText';
@@ -323,8 +323,10 @@ type UITexts = {
             insertNone: string;
             /** Insert ≠ symbol */
             insertNotEqual: string;
-            /** Insert · symbol */
+            /** Insert × symbol */
             insertProduct: string;
+            /** Insert · symbol */
+            insertDot: string;
             /** Insert ÷ symbol */
             insertQuotient: string;
             /** Insert ° symbol */

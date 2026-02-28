@@ -13823,6 +13823,10 @@
                       "description": "Insert ¶ symbol",
                       "type": "string"
                     },
+                    "insertDot": {
+                      "description": "Insert · symbol",
+                      "type": "string"
+                    },
                     "insertFalse": {
                       "description": "Insert false symbol",
                       "type": "string"
@@ -13856,7 +13860,7 @@
                       "type": "string"
                     },
                     "insertProduct": {
-                      "description": "Insert · symbol",
+                      "description": "Insert × symbol",
                       "type": "string"
                     },
                     "insertQuotient": {
@@ -14002,6 +14006,7 @@
                     "insertNone",
                     "insertNotEqual",
                     "insertProduct",
+                    "insertDot",
                     "insertQuotient",
                     "insertDegree",
                     "insertFunction",

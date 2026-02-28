@@ -3,10 +3,13 @@
     "version": "0.16.45",
     "date": "2026-02-28",
     "changes": {
-      "added": [],
+      "added": [
+        "**Times symbol**. Up to this point, Wordplay only used \\·\\ as a multiplication symbol. Now you can use \\×\\ too! That's now the new default, but both are still supported."
+      ],
       "fixed": [],
       "changed": [
-        "We upgraded internal tooling for stability."
+        "We upgraded internal tooling for stability.",
+        "We no longer show space indicators by default, as it can be confused with the multiplication operator (#961)."
       ],
       "removed": []
     }

@@ -994,9 +994,9 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~તેના બદલે, તમે @Evaluate તેને મધ્યમાં વધુ સરળ પ્રતીક વડે મૂલ્યાંકન કરી શકો છો, જેમ કે. આનો અર્થ છે 'હાય' પાંચ વખત પુનરાવર્તન કરો. પરંતુ તેનો અર્થ એવો પણ થાય છે કે 'ઇનપુટ \\5\\ સાથે ટેક્સ્ટ મૂલ્ય \\'hi'\\ પર \\·\\ ફંક્શનનું મૂલ્યાંકન કરો.' ફંક્શન \\repeat\\ માં ફક્ત બહુવિધ નામો છે, જેમાંથી એક પ્રતીક નામ \\·\\ છે."
+                            "$~તેના બદલે, તમે @Evaluate તેને મધ્યમાં વધુ સરળ પ્રતીક વડે મૂલ્યાંકન કરી શકો છો, જેમ કે. આનો અર્થ છે 'હાય' પાંચ વખત પુનરાવર્તન કરો. પરંતુ તેનો અર્થ એવો પણ થાય છે કે 'ઇનપુટ \\5\\ સાથે ટેક્સ્ટ મૂલ્ય \\'hi'\\ પર \\×\\ ફંક્શનનું મૂલ્યાંકન કરો.' ફંક્શન \\repeat\\ માં ફક્ત બહુવિધ નામો છે, જેમાંથી એક પ્રતીક નામ \\×\\ છે."
                         ],
-                        ["edit", "'hi' · 5"],
+                        ["edit", "'hi' × 5"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1214,7 +1214,7 @@
                             "                        Phrase(glyph resting:Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            rotation: 90° ",
-                            "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
+                            "                            offset:Place(0m (Time() ^ 2) × -0.000025m/ms^2))",
                             "                        )))])"
                         ],
                         ["⊤", "precise", "$~… ના."],
@@ -1266,7 +1266,7 @@
                             "                        Group(Grid(5 5) numbers.translate(",
                             "                            ƒ (n•#) ",
                             "                                (",
-                            "                                    off:Random(-3 3) · 1m",
+                            "                                    off:Random(-3 3) × 1m",
                             "                                    Phrase(",
                             "                                        n → '' ",
                             "                                        resting:Sequence({",
@@ -1551,7 +1551,7 @@
             "title": "$~એન્સેમ્બલ્સ",
             "performance": [
                 "fit",
-                "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -1559,7 +1559,7 @@
                     "subtitle": null,
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('[') Phrase(' .' · (Time() ÷ 100ms)) Phrase(']')])"
+                        "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
                     ],
                     "lines": [
                         [
@@ -2061,7 +2061,7 @@
                 "           '→?' → [].random()",
                 "           place: Motion(",
                 "               Place(y: 10m)",
-                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
+                "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
                 "           )",
                 "           matter: Matter(bounciness: Random())",
                 "       )",
@@ -2393,7 +2393,7 @@
                     "lines": [
                         [
                             "fix",
-                            "amp: (Volume() · 10)",
+                            "amp: (Volume() × 10)",
                             "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
                         ],
                         [
@@ -2621,7 +2621,7 @@
                             "$~@Volumeોલ્યુમનો ઉપયોગ પ્રેક્ષકોના અવાજને પ્રતિસાદ આપવા માટે કરી શકાય છે. ઉદાહરણ તરીકે, અહીં આપણે સ્ટ્રીમમાંથી કંપનવિસ્તાર સંખ્યાને \\'o'\\ અક્ષરોની ચોક્કસ સંખ્યામાં રૂપાંતરિત કરીને થોડું કંપનવિસ્તાર વિઝ્યુલાઇઝેશન બનાવી શકીએ છીએ. જુઓ કે જ્યારે તમે અવાજ કરો છો, ત્યારે ત્યાં વધુ \\'o'\\s છે? @Volumeોલ્યુમ કંપનવિસ્તારને \\10\\ વડે ભાગવામાં આવે છે, તેને \\0\\ થી \\10\\ શ્રેણીમાં મૂકે છે. પછી, તે મૂલ્ય @Text/repeat ફંક્શનને આપવામાં આવે છે, જે આપેલ સંખ્યાને \\'o'\\ પુનરાવર્તન કરે છે."
                         ],
                         ["Volume", "neutral", "$~બઝઝઝઝઝઝઝઝઝઝઝઝઝઝ..."],
-                        ["edit", "'o'.repeat(Volume() · 10)"]
+                        ["edit", "'o'.repeat(Volume() × 10)"]
                     ]
                 },
                 {
@@ -3179,7 +3179,7 @@
                             "kind",
                             "$~તે કદ કોઈપણ અભિવ્યક્તિ હોઈ શકે છે. ઉદાહરણ તરીકે, કહો કે અમે ઇચ્છીએ છીએ કે તે @Time ટિક તરીકે વધે. અમે સમય લઈ શકીએ છીએ, તેને મીટરના અપૂર્ણાંકથી ગુણાકાર કરી શકીએ છીએ, અને ભવ્ય, ટિક ટિક ટિક, હાય હાય. આવર્તન અથવા ગુણક બદલવાનો પ્રયાસ કરો. જુઓ કે તમે શું સુંદર વૃદ્ધિ બનાવી શકો છો!"
                         ],
-                        ["fix", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        ["fix", "Phrase('hi' Time(100ms) × 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
@@ -3190,7 +3190,7 @@
                             "use",
                             "fix",
                             "Symbol",
-                            "hi' Time(100ms) · 0.001m/ms 'Poor Story"
+                            "hi' Time(100ms) × 0.001m/ms 'Poor Story"
                         ],
                         null,
                         [
@@ -3200,7 +3200,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m))"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3210,7 +3210,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
                         ],
                         null,
                         [
@@ -3220,7 +3220,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) · 1°/ms)"
+                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
                         ],
                         null,
                         [
@@ -3235,7 +3235,7 @@
                         ],
                         [
                             "conflict",
-                            "Phrase('hi' 'Poor Story' 3m Time(10ms) · 1°/ms Place(2m 2m))"
+                            "Phrase('hi' 'Poor Story' 3m Time(10ms) × 1°/ms Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3245,7 +3245,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)"
+                            "Phrase('hi' size: 3m rotation: Time(10ms) × 0.1°/ms)"
                         ],
                         null,
                         [
@@ -3272,7 +3272,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3282,7 +3282,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
@@ -3293,7 +3293,7 @@
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
@@ -3304,7 +3304,7 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3318,7 +3318,7 @@
                             "    Phrase(",
                             "        'hi'",
                             "        size: 5m",
-                            "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
+                            "        place: Place(Time(1000ms) × 0.001m/ms 0m)",
                             "        moving:Pose(rotation: 5°)",
                             "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
@@ -3359,7 +3359,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) · 1°/ms))"
+                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) × 1°/ms))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3677,7 +3677,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack('|' Time(100ms) · 0.001m/ms) ",
+                            "    Stack('|' Time(100ms) × 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3694,7 +3694,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row('|' Time(100ms) · 0.001m/ms) [",
+                            "    Row('|' Time(100ms) × 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",
@@ -4397,7 +4397,7 @@
                             "kind",
                             "$~હા, અલબત્ત! તેથી, તે તારણ આપે છે કે @Program્રોગ્રામ મોટે ભાગે માત્ર એક @Block્લોક છે. તે કૌંસ વિના માત્ર @Block છે. પરંતુ તમે પ્રોગ્રામમાં ગમે ત્યાં કૌંસ સાથે @Block મૂકી શકો છો. ઉદાહરણ તરીકે, તમે ગણિતના મૂલ્યાંકનના ક્રમને સ્પષ્ટ કરવા @Block નો ઉપયોગ કરી શકો છો. અહીં, @BinaryEvaluate \\1\\ નું મૂલ્યાંકન કરે છે, પછી @Block નું મૂલ્યાંકન કરે છે, પછી તેઓ એકસાથે ઉમેરવામાં આવે છે. @Block્લોક, શું મને તે બરાબર સમજાયું?"
                         ],
-                        ["edit", "1 + (2 · 3)"],
+                        ["edit", "1 + (2 × 3)"],
                         ["Block", "shy", "$~… હા!"],
                         null,
                         [
@@ -4969,7 +4969,7 @@
                             "¶Gets the tax for a given price, ",
                             "which is 1% if less than 100, and 5% otherwise¶",
                             "ƒ tax(price•#dollar) ",
-                            "    price · (price < 100dollar ? 0.01 0.05)"
+                            "    price × (price < 100dollar ? 0.01 0.05)"
                         ],
                         null,
                         [
@@ -4993,7 +4993,7 @@
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶The quadratic equation¶",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [
@@ -5006,7 +5006,7 @@
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶The quadratic equation¶/en",
                             "¶La ecuación cuadrática¶/es",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [

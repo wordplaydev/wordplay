@@ -399,7 +399,7 @@
                 "$~Dzięki temu wszystko wydaje się odrobinę bardziej uporządkowane, chociaż w zasadzie chodzi o to samo.",
                 "$~Jest tylko jedna rzecz, na którą trzeba uważać: kiedy jestem w tej formie, oceniam od lewej do prawej. To może być mylące, jeśli jesteś przyzwyczajony do rzeczy takich jak kolejność działań w matematyce.",
                 "$~Oznacza to, że ocena ta jest dokonywana w sposób, którego możesz się nie spodziewać:",
-                "$~\\1 + 2 · 3 + 4\\",
+                "$~\\1 + 2 × 3 + 4\\",
                 "$~W matematyce najpierw mnożenie, a potem dodawanie, więc wynik to \\11\\. Ale ponieważ oceniam w kolejności czytania, wynik to \\13\\."
             ],
             "right": "$~wejście",
@@ -677,7 +677,7 @@
             "doc": [
                 "$~Jestem dowolnym wyrazem twarzy, ale z @Doc!",
                 "$~Aby mnie zmusić, wystarczy umieścić @Doc przed wyrażeniem, a otrzymasz:",
-                "$~\\doubleplus: 1\n(2 · doubleplus) + \n¶Zróbmy to odrobinę większe¶\n1\\",
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Zróbmy to odrobinę większe¶\n1\\",
                 "$~Mogę być przydatny, gdy chcę skomentować jakąś część programu."
             ],
             "start": "$~Oceńmy wyrażenie"
@@ -800,11 +800,11 @@
             "doc": [
                 "$~Witam ponownie! Biorę pewne dane wejściowe, a następnie oceniam wyrażenie, używając ich, produkując dane wyjściowe.",
                 "$~Oto prosty przykład:",
-                "$~\\ƒ powtórz(wiadomość•'') wiadomość · 5\npowtórz('cześć')\\",
+                "$~\\ƒ powtórz(wiadomość•'') wiadomość × 5\npowtórz('cześć')\\",
                 "$~Funkcja ta przyjmuje jeden parametr wejściowy, \\message\\, i za pomocą funkcji @Text/repeat powtarza wiadomość pięć razy.",
                 "$~Mogę być naprawdę pomocny, jeśli chcesz coś oceniać wielokrotnie, ale z różnymi danymi wejściowymi!",
                 "$~Mam wiele innych małych sztuczek. Na przykład nie muszę mieć nazwy. Tutaj po prostu przechodzę bezpośrednio do @Evaluate jako wartości.",
-                "$~\\(ƒ(wiadomość•'') wiadomość · 5)('cześć')\\",
+                "$~\\(ƒ(wiadomość•'') wiadomość × 5)('cześć')\\",
                 "$~Lub oto funkcja, która przyjmuje dowolną liczbę danych wejściowych, używając znaku \\…\\ po nazwie danych wejściowych.",
                 "$~\\ƒ tak(wiadomości…•'') wiadomości.sans('nie')\ntak('tak' 'tak' 'nie' 'tak' 'nie')\\",
                 "$~Widzisz, jak wziął wszystkie „nie” i pozbył się ich? To dlatego, że messages to @List, więc moglibyśmy użyć @List/sansAll.",
@@ -1223,13 +1223,13 @@
             "doc": [
                 "$~Cześć, jak się masz? Ja? Świetnie. Uwielbiam definiować struktury, które przechowują wartości i funkcje, więc dopóki mogę to robić cały dzień, jestem szczęśliwy.",
                 "$~Pracuję w ten sposób:",
-                "$~\\•Pizza(\nskładniki•['']\nrozmiar•#in\n) (\nƒ koszt() rozmiar · 10dolarów/in\n)\n\nPizza(['pepperoni' 'papryczki'] 12in).koszt()\\",
+                "$~\\•Pizza(\nskładniki•['']\nrozmiar•#in\n) (\nƒ koszt() rozmiar × 10dolarów/in\n)\n\nPizza(['pepperoni' 'papryczki'] 12in).koszt()\\",
                 "$~Widzisz jak to działa? Zdefiniowałem \\Pizza\\, która ma dwa wejścia, \\ingredients\\ (lista @Text) i \\size\\ (liczba w calach).",
                 "$~W środku @FunctionDefinition stworzył funkcję, która szacuje koszt pizzy, przyjmując cenę 10 USD za cal.",
                 "$~Nie muszę mieć @FunctionDefinition w sobie. Mogę być po prostu danymi wejściowymi.",
                 "$~\\•Pizza(\nskładniki•['']\nrozmiar•#in\n)\\",
                 "$~Mogę też umieścić @Bind w środku, dzięki czemu będziemy mogli wcześniej oszacować koszty.",
-                "$~\\•Pizza(\nskładniki•['']\nrozmiar•#in\n) (\nkoszt: rozmiar · 10dolarów/in\n)\n\nPizza(['pepperoni' 'papryczki'] 12in).koszt\\"
+                "$~\\•Pizza(\nskładniki•['']\nrozmiar•#in\n) (\nkoszt: rozmiar × 10dolarów/in\n)\n\nPizza(['pepperoni' 'papryczki'] 12in).koszt\\"
             ],
             "start": "$~Zdefiniujmy tę piękną strukturę",
             "conflict": {
@@ -1349,10 +1349,10 @@
             "doc": [
                 "$~Czasami pomocne jest odwołanie się do ukrytej wartości, zamiast konieczności jej podawania po imieniu.",
                 "$~Na przykład, załóżmy, że chcesz utworzyć nową @ConversionDefinition, która nie nazywa wartości, która jest konwertowana. Możesz po prostu odwołać się do niej ze mną:",
-                "$~\\→ #tęcze #radości . · 1000000radości\n2tęcze → #radości\\",
+                "$~\\→ #tęcze #radości . × 1000000radości\n2tęcze → #radości\\",
                 "$~Widzisz mnie tam, reprezentującego liczbę tęcz?",
                 "$~Albo załóżmy, że chcesz utworzyć @Reaction, ale nie chcesz podawać nazwy najnowszej wartości:",
-                "$~\\2 … ∆ Czas (1000 ms) … . · 2\\",
+                "$~\\2 … ∆ Czas (1000 ms) … . × 2\\",
                 "$~Sprawdź mnie, reprezentującą poprzednią wartość reakcji.",
                 "$~Nie pojawiam się tu często, ale kiedy już to zrobię, naprawdę mogę pomóc w wydobyciu wartości z @Bind!"
             ],
@@ -1870,15 +1870,15 @@
                 "repeat": {
                     "doc": [
                         "$~Tworzę nowy @Text, który jest moim imieniem i powtarzam go tyle razy, ile wynosi \\count\\:",
-                        "$~\\'cześć' · 5\\",
+                        "$~\\'cześć' × 5\\",
                         "$~Jeśli podasz mi ułamek @Number, zignoruję go:",
-                        "$~\\'cześć' · 5.5\\",
+                        "$~\\'cześć' × 5.5\\",
                         "$~Jeśli podasz mi ujemną @Number lub zero, podam pusty @Text.",
-                        "$~\\'cześć' · -5\\",
+                        "$~\\'cześć' × -5\\",
                         "$~Najdłuższy tekst, jaki mogę utworzyć, to 65 535 znaków. Jeśli spróbujesz utworzyć dłuższy tekst, powtórzę go tyle razy, ile będę mógł."
                     ],
                     "names": [
-                        "$~·",
+                        "$~×",
                         "$~🔁",
                         "$~powtarzającysię",
                         "$~powtarzać"
@@ -1987,11 +1987,11 @@
                 "multiply": {
                     "doc": [
                         "$~Mnożę siebie przez podaną @Number, tworząc iloczyn mojej @Unit i @Unit podanej liczby:",
-                        "$~\\5 · 5\\",
-                        "$~\\5m · 5m\\",
-                        "$~\\5m · 1/s\\"
+                        "$~\\5 × 5\\",
+                        "$~\\5m × 5m\\",
+                        "$~\\5m × 1/s\\"
                     ],
-                    "names": ["$~·", "$~zwielokrotniać"],
+                    "names": ["$~×", "$~zwielokrotniać"],
                     "inputs": [
                         {
                             "doc": "$~Liczba, którą należy pomnożyć.",
@@ -2505,7 +2505,7 @@
                     "doc": [
                         "$~Podaj mi @FunctionDefinition, która przyjmuje wartość i opcjonalny indeks jako dane wejściowe i generuje wartość, a ja ocenię ją dla każdego z moich elementów, tłumacząc moje wartości na nowe wartości.",
                         "$~Na przykład wyobraź sobie, że jestem listą @Number i chcesz je wszystkie podwoić:",
-                        "$~\\[2 4 6 8].translate(ƒ(num·#) num · 2)\\"
+                        "$~\\[2 4 6 8].translate(ƒ(num×#) num × 2)\\"
                     ],
                     "names": "$~tłumaczyć",
                     "inputs": [
@@ -3265,7 +3265,7 @@
                 "$~@FunctionDefinition tutaj, mogę wyjaśnić @Camera!",
                 "$~Więc @Camera dostarcza @List of @Color z twojego świata. Ta lista zasadniczo reprezentuje obraz, ale to od ciebie zależy, co z nim zrobisz.",
                 "$~Możesz spróbować przedstawić obraz za pomocą @Phrase, co mogłoby wyglądać całkiem fajnie! Spróbuj skopiować to...",
-                "$~\\colors: Kamera(32px 24px 33ms)\n\nScena(\ncolors.combine(\n[] \nƒ(frazy•[Fraza] wiersz•[Kolor] y•#) \nfrazy.append(\nrow.translate(\nƒ(kolor•Kolor x•#)\nFraza('o' miejsce: Miejsce((x - 1) · 0,5m y · -0,5m) kolor: czas trwania koloru: 0s\n)\n)\n)\n)\n)\n)\\",
+                "$~\\colors: Kamera(32px 24px 33ms)\n\nScena(\ncolors.combine(\n[] \nƒ(frazy•[Fraza] wiersz•[Kolor] y•#) \nfrazy.append(\nrow.translate(\nƒ(kolor•Kolor x•#)\nFraza('o' miejsce: Miejsce((x - 1) × 0,5m y × -0,5m) kolor: czas trwania koloru: 0s\n)\n)\n)\n)\n)\n)\\",
                 "$~Można też analizować kolory, aby zdecydować, czy światło było włączone czy wyłączone, albo czy dany kolor był powszechny. W ten sposób widzowie mogą wpływać na występ za pomocą pokazywanych kolorów."
             ],
             "names": ["$~🎥", "$~Kamera"],
@@ -4534,6 +4534,7 @@
                 "insertNone": "$~nie wstawiaj symbolu",
                 "insertNotEqual": "$~wstaw nierówny",
                 "insertProduct": "$~wstaw symbol produktu",
+                "insertDot": "$~wstaw symbol iloczynu skalarnego",
                 "insertQuotient": "$~wstaw symbol ilorazu",
                 "insertDegree": "$~wstaw symbol stopnia",
                 "insertFunction": "$~wstaw funkcję",

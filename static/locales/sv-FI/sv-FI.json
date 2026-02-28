@@ -399,7 +399,7 @@
                 "$~Detta gör allting lite snyggare, även om det i princip är samma sak.",
                 "$~Det finns bara en sak att se upp med: när jag är i den här formen utvärderar jag från vänster till höger. Det kan vara förvirrande om du är van vid saker som operationsordning i matematik.",
                 "$~Det betyder att detta utvärderas på ett sätt som du kanske inte förväntar dig:",
-                "$~\\1 + 2 · 3 + 4\\",
+                "$~\\1 + 2 × 3 + 4\\",
                 "$~I matematik skulle multiplikation komma först, och sedan addition, och så skulle resultatet bli \\11\\. Men eftersom jag utvärderar i läsordning blir resultatet \\13\\."
             ],
             "right": "$~input",
@@ -677,7 +677,7 @@
             "doc": [
                 "$~Jag är vilket uttryck som helst, men med en @Doc!",
                 "$~För att göra mig, sätt bara en @Doc före ett uttryck, så får du mig:",
-                "$~\\doubleplus: 1\n(2 · dubbelplus) + \n¶Låt oss göra det lite större¶\n1\\",
+                "$~\\doubleplus: 1\n(2 × dubbelplus) + \n¶Låt oss göra det lite större¶\n1\\",
                 "$~Jag är användbar för att kommentera någon del av ett program."
             ],
             "start": "$~Låt oss utvärdera uttrycket"
@@ -800,11 +800,11 @@
             "doc": [
                 "$~Hej igen! Jag tar några ingångar, utvärderar sedan ett uttryck med hjälp av dem och producerar en utdata.",
                 "$~Här är ett enkelt exempel:",
-                "$~\\ƒ upprepa(meddelande•'') meddelande · 5\nrepeat('hej')\\",
+                "$~\\ƒ upprepa(meddelande•'') meddelande × 5\nrepeat('hej')\\",
                 "$~Den funktionen tar en ingång, \\meddelande\\, och använder @Text/repeat-funktionen för att upprepa meddelandet fem gånger.",
                 "$~Jag är verkligen behjälplig om du vill utvärdera något om och om igen, men med olika input!",
                 "$~Jag har många andra små knep. Jag behöver till exempel inte ha ett namn. Här går jag bara direkt till @Evaluate som ett värde.",
-                "$~\\(ƒ(meddelande•'') meddelande · 5)('hej')\\",
+                "$~\\(ƒ(meddelande•'') meddelande × 5)('hej')\\",
                 "$~Eller här är en funktion som tar valfritt antal ingångar, med tecknet \\...\\ efter ett ingångsnamn.",
                 "$~\\ƒ yes(meddelanden...•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "$~Se hur det tog alla nej och blev av med dem? Det beror på att meddelanden är en @List, och därför skulle vi kunna använda @List/sansAll.",
@@ -1223,13 +1223,13 @@
             "doc": [
                 "$~Varför hej, hur mår du? Mig? Jag är jättebra. Jag älskar att definiera strukturer som lagrar värderingar och funktion, så så länge jag får göra det hela dagen är jag nöjd.",
                 "$~Jag jobbar så här:",
-                "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n) (\n\tƒ cost() storlek · 10 dollar/tum\n)\n\nPizza(['pepperoni' 'peppar'] 12in).cost()\\",
+                "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n) (\n\tƒ cost() storlek × 10 dollar/tum\n)\n\nPizza(['pepperoni' 'peppar'] 12in).cost()\\",
                 "$~Ser du hur det fungerar? Jag definierade \\Pizza\\, som har två ingångar, \\ingredients\\ (en lista med @Text) och \\size\\ (ett tal i tum).",
                 "$~Inuti skapade @FunctionDefinition en funktion som utvärderar kostnaden för en pizza, med utgångspunkt från $10 per tum.",
                 "$~Jag behöver inte ha @FunctionDefinition i mig. Jag kan bara vara input.",
                 "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n)\\",
                 "$~Jag kan också ha @Bind inne, så att vi kan utvärdera kostnaden i förväg.",
-                "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n) (\n\tkostnad: storlek · 10 dollar/tum\n)\n\nPizza(['pepperoni' 'peppar'] 12in).cost\\"
+                "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n) (\n\tkostnad: storlek × 10 dollar/tum\n)\n\nPizza(['pepperoni' 'peppar'] 12in).cost\\"
             ],
             "start": "$~Låt oss definiera denna vackra struktur",
             "conflict": {
@@ -1349,10 +1349,10 @@
             "doc": [
                 "$~Ibland är det bra att hänvisa till ett värde implicit, snarare än att behöva namnge det.",
                 "$~Anta till exempel att du ville skapa en ny @ConversionDefinition, som inte namnger värdet som konverteras. Du kan bara hänvisa till det med mig:",
-                "$~\\→ #regnbågar #glädje . · 1000000 glädjeämnen\n2regnbågar → #glädje\\",
+                "$~\\→ #regnbågar #glädje . × 1000000 glädjeämnen\n2regnbågar → #glädje\\",
                 "$~Se mig där, representerar antalet regnbågar?",
                 "$~Eller anta att du ville göra en @Reaction, men inte behöver nämna det senaste värdet:",
-                "$~\\2 … ∆ Tid(1000ms) … . · 2\\",
+                "$~\\2 … ∆ Tid(1000ms) … . × 2\\",
                 "$~Kolla in mig, som representerar det tidigare reaktionsvärdet.",
                 "$~Jag dyker inte upp ofta, men när jag gör det kan jag verkligen hjälpa ett värde att ta sig ur en @Bind!"
             ],
@@ -1870,14 +1870,14 @@
                 "repeat": {
                     "doc": [
                         "$~Jag gör en ny @Text som är jag, upprepade antalet gånger \\count\\:",
-                        "$~\\'hej' · 5\\",
+                        "$~\\'hej' × 5\\",
                         "$~Om du ger mig ett bråktal @Number, ignorerar jag bråket:",
-                        "$~\\'hej' · 5.5\\",
+                        "$~\\'hej' × 5.5\\",
                         "$~Om du ger mig ett negativt @Number eller noll, ger jag en tom @Text.",
-                        "$~\\'hej ' · -5\\",
+                        "$~\\'hej ' × -5\\",
                         "$~Den längsta text jag kan göra är 65 535 tecken. Om du försöker göra en längre text så upprepar jag texten så många gånger jag kan."
                     ],
-                    "names": ["$~·", "$~🔁", "$~upprepas", "$~upprepa"],
+                    "names": ["$~×", "$~🔁", "$~upprepas", "$~upprepa"],
                     "inputs": [
                         {
                             "doc": "$~Antalet gånger jag ska upprepa mig själv i den nya texten.",
@@ -1982,11 +1982,11 @@
                 "multiply": {
                     "doc": [
                         "$~Jag multiplicerar mig själv till det givna @Number, skapar en produkt av min @Unit och det givna numrets @Unit:",
-                        "$~\\5 · 5\\",
-                        "$~\\5m · 5m\\",
-                        "$~\\5m · 1/s\\"
+                        "$~\\5 × 5\\",
+                        "$~\\5m × 5m\\",
+                        "$~\\5m × 1/s\\"
                     ],
-                    "names": ["$~·", "$~multiplicera"],
+                    "names": ["$~×", "$~multiplicera"],
                     "inputs": [
                         {
                             "doc": "$~Antalet som ska multipliceras.",
@@ -2500,7 +2500,7 @@
                     "doc": [
                         "$~Ge mig en @FunctionDefinition som tar ett värde och valfritt index som indata och producerar ett värde, så kommer jag att utvärdera det på vart och ett av mina objekt och översätta mina värden till nya värden.",
                         "$~Tänk dig till exempel att jag var en lista med @Number och att du ville dubbla dem alla:",
-                        "$~\\[2 4 6 8].translate(ƒ(num•#) num · 2)\\"
+                        "$~\\[2 4 6 8].translate(ƒ(num•#) num × 2)\\"
                     ],
                     "names": "$~översätta",
                     "inputs": [
@@ -3260,7 +3260,7 @@
                 "$~@FunctionDefinition här, jag kan förklara @Camera!",
                 "$~Så @Camera tillhandahåller en @Camera med @Color från din värld. Den listan representerar i huvudsak en bild, men det är upp till dig att bestämma vad du ska göra med den.",
                 "$~Du kan försöka representera bilden med ett gäng @Phrase, som kan se ganska coolt ut! Testa att kopiera detta...",
-                "$~\\colors: Kamera (32px 24px 33ms)\n\nEtapp(\ncolors.combine(\n[] \nƒ(fraser•[Fras] rad•[Färg] y•#) \nphrases.append(\nrow.translate(\nƒ(färg•Färg x•#)\nFras('o' plats: Plats((x - 1) · 0,5m y · -0,5m) färg: färgvaraktighet: 0s\n)\n)\n)\n)\n)\\",
+                "$~\\colors: Kamera (32px 24px 33ms)\n\nEtapp(\ncolors.combine(\n[] \nƒ(fraser•[Fras] rad•[Färg] y•#) \nphrases.append(\nrow.translate(\nƒ(färg•Färg x•#)\nFras('o' plats: Plats((x - 1) × 0,5m y × -0,5m) färg: färgvaraktighet: 0s\n)\n)\n)\n)\n)\\",
                 "$~Men du kan också analysera färgerna för att avgöra om ett ljus var på eller av, eller om en viss färg var vanlig, så att publiken kan påverka en föreställning med de färger de visar."
             ],
             "names": ["$~🎥", "$~Kamera"],
@@ -4529,6 +4529,7 @@
                 "insertNone": "$~infoga ingen symbol",
                 "insertNotEqual": "$~infoga inte lika",
                 "insertProduct": "$~infoga produktsymbol",
+                "insertDot": "$~infoga punktproduktsymbol",
                 "insertQuotient": "$~infoga kvotsymbol",
                 "insertDegree": "$~infoga gradsymbol",
                 "insertFunction": "$~infogningsfunktion",

@@ -399,7 +399,7 @@
                 "$~Bu, temelde aynı şey olmasına rağmen, her şeyi biraz daha düzenli hale getiriyor.",
                 "$~Dikkat etmeniz gereken tek bir şey var: Bu formdayken, soldan sağa doğru değerlendiriyorum. Matematikte işlem sırası gibi şeylere alışkınsanız bu kafa karıştırıcı olabilir.",
                 "$~Bu, beklemediğiniz bir şekilde değerlendirildiği anlamına geliyor:",
-                "$~\\1 + 2 · 3 + 4\\",
+                "$~\\1 + 2 × 3 + 4\\",
                 "$~Matematikte önce çarpma, sonra toplama gelir ve sonuç \\11\\ olur. Ama okuma sırasına göre değerlendirme yaptığım için sonuç \\13\\ olur."
             ],
             "right": "$~giriş",
@@ -677,7 +677,7 @@
             "doc": [
                 "$~Herhangi bir ifadeyi ifade ediyorum ama @Doc ile!",
                 "$~Bunu yapmak için, bir ifadenin önüne @Doc eklemeniz yeterli, ve bana şunu vereceksiniz:",
-                "$~\\doubleplus: 1\n(2 · doubleplus) + \n¶Biraz daha büyütelim¶\n1\\",
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Biraz daha büyütelim¶\n1\\",
                 "$~Bir programın herhangi bir kısmı hakkında yorum yapmaya yarar."
             ],
             "start": "$~İfadeyi değerlendirelim"
@@ -800,11 +800,11 @@
             "doc": [
                 "$~Tekrar merhaba! Bazı girdiler alıyorum, sonra bunları kullanarak bir ifadeyi değerlendiriyorum ve bir çıktı üretiyorum.",
                 "$~İşte basit bir örnek:",
-                "$~\\ƒ tekrar(mesaj•'') mesaj · 5\ntekrar('merhaba')\\",
+                "$~\\ƒ tekrar(mesaj•'') mesaj × 5\ntekrar('merhaba')\\",
                 "$~Bu fonksiyon tek bir girdi, \\message\\, alır ve mesajı beş kez tekrarlamak için @Text/repeat fonksiyonunu kullanır.",
                 "$~Bir şeyi tekrar tekrar, ama farklı girdilerle değerlendirmek istiyorsanız gerçekten yardımcı oluyorum!",
                 "$~Başka bir sürü küçük numaram var. Örneğin, bir isme sahip olmam gerekmiyor. Burada, doğrudan bir değer olarak @Evaluate'e gidiyorum.",
-                "$~\\(ƒ(mesaj•'') mesaj · 5)('merhaba')\\",
+                "$~\\(ƒ(mesaj•'') mesaj × 5)('merhaba')\\",
                 "$~Veya, giriş adından sonra \\…\\ karakterini kullanarak herhangi sayıda girdi alan bir fonksiyon.",
                 "$~\\ƒ yes(mesajlar…•'') mesajlar.sans('hayır')\nyes('evet' 'evet' 'hayır' 'evet' 'hayır')\\",
                 "$~Tüm 'hayır'ları nasıl alıp onlardan kurtulduğunu görüyor musun? Bunun sebebi messages'ın bir @List olması ve bu yüzden @List/sansAll'ı kullanabilmemiz.",
@@ -1223,13 +1223,13 @@
             "doc": [
                 "$~Merhaba, nasılsın? Ben mi? Harikayım. Değerleri ve işlevleri depolayan yapıları tanımlamayı seviyorum, bu yüzden bunu bütün gün yapabildiğim sürece mutluyum.",
                 "$~Ben şöyle çalışıyorum:",
-                "$~\\•Pizza(\nmalzemeler•['']\nboyut•#in\n) (\nƒ maliyet() boyut · 10dolar/in\n)\n\nPizza(['pepperoni' 'biberler'] 12in).cost()\\",
+                "$~\\•Pizza(\nmalzemeler•['']\nboyut•#in\n) (\nƒ maliyet() boyut × 10dolar/in\n)\n\nPizza(['pepperoni' 'biberler'] 12in).cost()\\",
                 "$~Bunun nasıl çalıştığını görüyor musunuz? İki girdisi olan \\Pizza\\'yı tanımladım, \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı).",
                 "$~İçeride, @FunctionDefinition inç başına 10$ olduğunu varsayarak bir pizzanın maliyetini değerlendiren bir fonksiyon yaptı.",
                 "$~@FunctionDefinition'ın bende olmasına gerek yok. Sadece girdi olabilirim.",
                 "$~\\•Pizza(\nmalzemeler•['']\nboyut•#in\n)\\",
                 "$~@Bind'i de içeri alabilirim, böylece maliyeti önceden değerlendirebiliriz.",
-                "$~\\•Pizza(\nmalzemeler•['']\nboyut•#in\n) (\nmaliyet: boyut · 10dolar/in\n)\n\nPizza(['pepperoni' 'biberler'] 12in).maliyet\\"
+                "$~\\•Pizza(\nmalzemeler•['']\nboyut•#in\n) (\nmaliyet: boyut × 10dolar/in\n)\n\nPizza(['pepperoni' 'biberler'] 12in).maliyet\\"
             ],
             "start": "$~Bu güzel yapıyı tanımlayalım",
             "conflict": {
@@ -1349,10 +1349,10 @@
             "doc": [
                 "$~Bazen bir değerin örtüklüğüne isim vermek yerine, ona atıfta bulunmak faydalı olabilir.",
                 "$~Örneğin, dönüştürülen değeri adlandırmayan yeni bir @ConversionDefinition yapmak istediğinizi varsayalım. Bana başvurabilirsiniz:",
-                "$~\\→ #gökkuşakları #sevinçler . · 1000000sevinçler\n2gökkuşakları → #sevinçler\\",
+                "$~\\→ #gökkuşakları #sevinçler . × 1000000sevinçler\n2gökkuşakları → #sevinçler\\",
                 "$~Beni orada gökkuşağı sayısını temsil ederken görüyor musun?",
                 "$~Veya bir @Reaction yapmak istediğinizi, ancak en son değeri adlandırmak zorunda olmadığınızı varsayalım:",
-                "$~\\2 … ∆ Zaman(1000ms) … . · 2\\",
+                "$~\\2 … ∆ Zaman(1000ms) … . × 2\\",
                 "$~Beni kontrol edin, önceki tepki değerini temsil ediyor.",
                 "$~Çok sık gelmiyorum ama geldiğimde @Bind'den gerçekten bir değer elde etmeye yardımcı olabiliyorum!"
             ],
@@ -1870,14 +1870,14 @@
                 "repeat": {
                     "doc": [
                         "$~Benim olan yeni bir @Text oluşturuyorum, \\count\\ sayısı kadar tekrar ediyorum:",
-                        "$~\\'merhaba' · 5\\",
+                        "$~\\'merhaba' × 5\\",
                         "$~Eğer bana kesirli bir @Number verirseniz, kesri göz ardı ederim:",
-                        "$~\\'merhaba' · 5.5\\",
+                        "$~\\'merhaba' × 5.5\\",
                         "$~Bana negatif bir @Number veya sıfır verirseniz, boş bir @Text veririm.",
-                        "$~\\'merhaba ' · -5\\",
+                        "$~\\'merhaba ' × -5\\",
                         "$~Yapabileceğim en uzun metin 65.535 karakterdir. Daha uzun bir metin yapmaya çalışırsanız, metni olabildiğince çok kez tekrarlarım."
                     ],
-                    "names": ["$~·", "$~🔁", "$~tekrarlandı", "$~tekrarlamak"],
+                    "names": ["$~×", "$~🔁", "$~tekrarlandı", "$~tekrarlamak"],
                     "inputs": [
                         {
                             "doc": "$~Yeni metinde kendimi tekrar edeceğim sayı.",
@@ -1982,11 +1982,11 @@
                 "multiply": {
                     "doc": [
                         "$~Kendimi verilen @Number ile çarpıyorum, @Unit'imin ve verilen sayının @Unit'inin bir çarpımını oluşturuyorum:",
-                        "$~\\5 · 5\\",
-                        "$~\\5m · 5m\\",
-                        "$~\\5m · 1/sn\\"
+                        "$~\\5 × 5\\",
+                        "$~\\5m × 5m\\",
+                        "$~\\5m × 1/sn\\"
                     ],
-                    "names": ["$~·", "$~çarpmak"],
+                    "names": ["$~×", "$~çarpmak"],
                     "inputs": [
                         {
                             "doc": "$~Çarpılacak sayı.",
@@ -2500,7 +2500,7 @@
                     "doc": [
                         "$~Bana girdi olarak bir değer ve isteğe bağlı bir indeks alan ve bir değer üreten bir @FunctionDefinition verin, ben de bunu her bir öğem üzerinde değerlendirip değerlerimi yeni değerlere çevireyim.",
                         "$~Örneğin, @Number'dan oluşan bir liste olduğunuzu ve bunların hepsini iki katına çıkarmak istediğinizi düşünün:",
-                        "$~\\[2 4 6 8].translate(ƒ(num•#) sayı · 2)\\"
+                        "$~\\[2 4 6 8].translate(ƒ(num•#) sayı × 2)\\"
                     ],
                     "names": "$~tercümeetmek",
                     "inputs": [
@@ -3260,7 +3260,7 @@
                 "$~@FunctionDefinition burada, @Camera'yı açıklayabilirim!",
                 "$~Yani @Camera dünyanızdan @Color'ın bir @List'ini sağlar. Bu liste esasen bir görüntüyü temsil eder, ancak bununla ne yapacağınıza karar vermek size kalmıştır.",
                 "$~Resmi bir sürü @Phrase ile temsil etmeyi deneyebilirsiniz, bu oldukça hoş görünebilir! Bunu kopyalamayı deneyin...",
-                "$~\\colors: Kamera(32px 24px 33ms)\n\nSahne(\ncolors.combine(\n[] \nƒ(ifadeler•[İfade] satır•[Renk] y•#) \nphrases.append(\nrow.translate(\nƒ(renk•Renk x•#)\nPhrase('o' yer: Yer((x - 1) · 0,5m y · -0,5m) renk: renk süresi: 0s\n)\n)\n)\n)\n)\\",
+                "$~\\colors: Kamera(32px 24px 33ms)\n\nSahne(\ncolors.combine(\n[] \nƒ(ifadeler•[İfade] satır•[Renk] y•#) \nphrases.append(\nrow.translate(\nƒ(renk•Renk x•#)\nPhrase('o' yer: Yer((x - 1) × 0,5m y × -0,5m) renk: renk süresi: 0s\n)\n)\n)\n)\n)\\",
                 "$~Ancak bir ışığın açık mı kapalı mı olduğunu veya belirli bir rengin yaygın olup olmadığını belirlemek için renkleri de analiz edebilir ve izleyicilerin gösterdikleri renklerle performansı etkilemelerine olanak tanıyabilirsiniz."
             ],
             "names": ["$~🎥", "$~Kamera"],
@@ -4529,6 +4529,7 @@
                 "insertNone": "$~hiçbiri simgesi ekleme",
                 "insertNotEqual": "$~eşit olmayanı ekle",
                 "insertProduct": "$~ürün sembolünü ekle",
+                "insertDot": "$~nokta çarpım sembolünü ekle",
                 "insertQuotient": "$~bölüm sembolü ekle",
                 "insertDegree": "$~derece sembolü ekle",
                 "insertFunction": "$~ekleme fonksiyonu",

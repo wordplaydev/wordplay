@@ -968,9 +968,9 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "相反，你可以让 @Evaluate 用一个中间的符号来评估它，就像这样。这意味着 '重复 '你好' 五次'。但它还意味着 '评估在文本值 \\'你好'\\ 上具有输入 \\5\\ 的函数 \\·\\'。函数 \\重复\\ 有多个名称之一就是一个符号名称 \\·\\。"
+                            "相反，你可以让 @Evaluate 用一个中间的符号来评估它，就像这样。这意味着 '重复 '你好' 五次'。但它还意味着 '评估在文本值 \\'你好'\\ 上具有输入 \\5\\ 的函数 \\×\\'。函数 \\重复\\ 有多个名称之一就是一个符号名称 \\×\\。"
                         ],
-                        ["edit", "'你好' · 5"],
+                        ["edit", "'你好' × 5"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1188,7 +1188,7 @@
                             "                        Phrase(glyph resting:Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            rotation: 90° ",
-                            "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
+                            "                            offset:Place(0m (Time() ^ 2) × -0.000025m/ms^2))",
                             "                        )))])"
                         ],
                         ["⊤", "precise", "… 错。"],
@@ -1240,7 +1240,7 @@
                             "                        Group(Grid(5 5) numbers.translate(",
                             "                            ƒ (n•#) ",
                             "                                (",
-                            "                                    off:Random(-3 3) · 1m",
+                            "                                    off:Random(-3 3) × 1m",
                             "                                    Phrase(",
                             "                                        n → '' ",
                             "                                        resting:Sequence({",
@@ -1521,7 +1521,7 @@
             "title": "总体",
             "performance": [
                 "fit",
-                "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -1529,7 +1529,7 @@
                     "subtitle": null,
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('[') Phrase(' .' · (Time() ÷ 100ms)) Phrase(']')])"
+                        "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
                     ],
                     "lines": [
                         [
@@ -2011,7 +2011,7 @@
                 "           '→?' → [].random()",
                 "           place: Motion(",
                 "               Place(y: 10m)",
-                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
+                "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
                 "           )",
                 "           matter: Matter(bounciness: Random())",
                 "       )",
@@ -2339,7 +2339,7 @@
                     "lines": [
                         [
                             "fix",
-                            "amp: (Volume() · 10)",
+                            "amp: (Volume() × 10)",
                             "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
                         ],
                         [
@@ -2563,7 +2563,7 @@
                             "@Volume 可以用来让表演对观众的声音作出反应。例如，在这里，我们可以通过将流中的振幅值转换为一定数量的 \\'o'\\ 字符来制作一个简单的振幅可视化效果。看看当你发出噪音时，有更多的 \\'o'\\ 吗？@Volume 振幅被除以 \\10\\，将其放在 \\0\\ 到 \\10\\ 的范围内。然后，该值被传递给@Text/repeat 函数，该函数重复 \\'o'\\ 给定的次数。"
                         ],
                         ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
-                        ["edit", "'o'.repeat(Volume() · 10)"]
+                        ["edit", "'o'.repeat(Volume() × 10)"]
                     ]
                 },
                 {
@@ -3105,7 +3105,7 @@
                             "kind",
                             "那个尺寸可以是任何表达式。比方说，我们想要@Time 走的时候尺寸也增加。我们取时间，乘于零点几米，就会得到滴答滴答滴答，哈喽哈喽哈喽。尝试一下改频率或乘数。你创造出多美好的演化！"
                         ],
-                        ["fit", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        ["fit", "Phrase('hi' Time(100ms) × 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
@@ -3116,7 +3116,7 @@
                             "use",
                             "fix",
                             "Symbol",
-                            "hi' Time(100ms) · 0.001m/ms 'Poor Story"
+                            "hi' Time(100ms) × 0.001m/ms 'Poor Story"
                         ],
                         null,
                         [
@@ -3126,7 +3126,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m))"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3136,7 +3136,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
                         ],
                         null,
                         [
@@ -3146,7 +3146,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) · 1°/ms)"
+                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
                         ],
                         null,
                         [
@@ -3161,7 +3161,7 @@
                         ],
                         [
                             "conflict",
-                            "Phrase('hi' 'Poor Story' 3m Time(10ms) · 1°/ms Place(2m 2m))"
+                            "Phrase('hi' 'Poor Story' 3m Time(10ms) × 1°/ms Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3171,7 +3171,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)"
+                            "Phrase('hi' size: 3m rotation: Time(10ms) × 0.1°/ms)"
                         ],
                         null,
                         [
@@ -3198,7 +3198,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3208,7 +3208,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
@@ -3219,7 +3219,7 @@
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
@@ -3230,7 +3230,7 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3244,7 +3244,7 @@
                             "    Phrase(",
                             "        'hi'",
                             "        size: 5m",
-                            "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
+                            "        place: Place(Time(1000ms) × 0.001m/ms 0m)",
                             "        moving:Pose(rotation: 5°)",
                             "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
@@ -3285,7 +3285,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) · 1°/ms))"
+                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) × 1°/ms))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3595,7 +3595,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack('|' Time(100ms) · 0.001m/ms) ",
+                            "    Stack('|' Time(100ms) × 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3612,7 +3612,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row('|' Time(100ms) · 0.001m/ms) [",
+                            "    Row('|' Time(100ms) × 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",
@@ -4298,7 +4298,7 @@
                             "kind",
                             "好呀，当然可以！原来 @Program 主要就是一个 @Block。 它就是没有括号的 @Block。 但是你可以在程序的任何地方使用带有括号的 @Block。 例如，你可以使用 @Block 来澄清数学计算的顺序。 这里，@BinaryEvaluate 评估 \\1\\，然后评估 @Block，然后它们相加。 @Block，我说得对吗？"
                         ],
-                        ["edit", "1 + (2 · 3)"],
+                        ["edit", "1 + (2 × 3)"],
                         ["Block", "shy", "… 对的！"],
                         null,
                         [
@@ -4865,7 +4865,7 @@
                             "¶给定价格的税收，",
                             "如果低于100，则为1%，否则为5%¶",
                             "ƒ tax(price•#dollar) ",
-                            "    price · (price < 100dollar ? 0.01 0.05)"
+                            "    price × (price < 100dollar ? 0.01 0.05)"
                         ],
                         null,
                         [
@@ -4889,7 +4889,7 @@
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶二次方程¶",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [
@@ -4902,7 +4902,7 @@
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶二次方程¶/en",
                             "¶La ecuación cuadrática¶/es",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [

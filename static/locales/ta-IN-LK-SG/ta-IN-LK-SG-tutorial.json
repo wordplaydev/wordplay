@@ -990,9 +990,9 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~அதற்குப் பதிலாக, நீங்கள் @Evaluate அதை நடுவில் மிகவும் எளிமையான குறியீட்டைக் கொண்டு மதிப்பீடு செய்யலாம். இதன் பொருள் 'ஹாய்' ஐ ஐந்து முறை செய்யவும். ஆனால் இது 'உரை மதிப்பில் \\·\\ செயல்பாட்டை மதிப்பிடு \\'hi'\\ உள்ளீட்டுடன் \\5\\.' \\·\\ என்ற செயல்பாட்டிற்கு பல பெயர்கள் உள்ளன, அவற்றில் ஒன்று \\·\\ என்பது."
+                            "$~அதற்குப் பதிலாக, நீங்கள் @Evaluate அதை நடுவில் மிகவும் எளிமையான குறியீட்டைக் கொண்டு மதிப்பீடு செய்யலாம். இதன் பொருள் 'ஹாய்' ஐ ஐந்து முறை செய்யவும். ஆனால் இது 'உரை மதிப்பில் \\×\\ செயல்பாட்டை மதிப்பிடு \\'hi'\\ உள்ளீட்டுடன் \\5\\.' \\×\\ என்ற செயல்பாட்டிற்கு பல பெயர்கள் உள்ளன, அவற்றில் ஒன்று \\×\\ என்பது."
                         ],
-                        ["edit", "'hi' · 5"],
+                        ["edit", "'hi' × 5"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1214,7 +1214,7 @@
                             "                        Phrase(glyph resting:Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            rotation: 90° ",
-                            "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
+                            "                            offset:Place(0m (Time() ^ 2) × -0.000025m/ms^2))",
                             "                        )))])"
                         ],
                         ["⊤", "precise", "$~… இல்லை."],
@@ -1266,7 +1266,7 @@
                             "                        Group(Grid(5 5) numbers.translate(",
                             "                            ƒ (n•#) ",
                             "                                (",
-                            "                                    off:Random(-3 3) · 1m",
+                            "                                    off:Random(-3 3) × 1m",
                             "                                    Phrase(",
                             "                                        n → '' ",
                             "                                        resting:Sequence({",
@@ -1555,7 +1555,7 @@
             "title": "$~குழுமங்கள்",
             "performance": [
                 "fit",
-                "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -1563,7 +1563,7 @@
                     "subtitle": null,
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('[') Phrase(' .' · (Time() ÷ 100ms)) Phrase(']')])"
+                        "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
                     ],
                     "lines": [
                         [
@@ -2069,7 +2069,7 @@
                 "           '→?' → [].random()",
                 "           place: Motion(",
                 "               Place(y: 10m)",
-                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
+                "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
                 "           )",
                 "           matter: Matter(bounciness: Random())",
                 "       )",
@@ -2405,7 +2405,7 @@
                     "lines": [
                         [
                             "fix",
-                            "amp: (Volume() · 10)",
+                            "amp: (Volume() × 10)",
                             "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
                         ],
                         [
@@ -2649,7 +2649,7 @@
                             "$~@Volume ஆனது பார்வையாளர்களின் ஒலிக்கு ஏற்ப நிகழ்ச்சிகளை செய்ய பயன்படுத்தப்படலாம். எடுத்துக்காட்டாக, ஸ்ட்ரீமில் இருந்து ஒரு குறிப்பிட்ட எண்ணிக்கையிலான \\'o'\\ எழுத்துகளுக்கு அலைவீச்சு எண்ணை மாற்றுவதன் மூலம் இங்கு ஒரு சிறிய அலைவீச்சு காட்சிப்படுத்தல் செய்யலாம். நீங்கள் சத்தம் போடும்போது, மேலும் \\'o'\\கள் எப்படி இருக்கும் என்று பாருங்கள்? @Volume வீச்சு \\10\\ ஆல் வகுக்கப்படுகிறது, அதை \\0\\ to \\10\\ வரம்பில் வைக்கிறது. பின்னர், அந்த மதிப்பு @Text/repeat செயல்பாட்டிற்கு வழங்கப்படுகிறது, இது கொடுக்கப்பட்ட எண்ணிக்கையை \\'o'\\ மீண்டும் மீண்டும் செய்கிறது."
                         ],
                         ["Volume", "neutral", "$~bzzzZZZZzzzzzZZZZ…"],
-                        ["edit", "'o'.repeat(Volume() · 10)"]
+                        ["edit", "'o'.repeat(Volume() × 10)"]
                     ]
                 },
                 {
@@ -3211,7 +3211,7 @@
                             "kind",
                             "$~அந்த அளவு எந்த வெளிப்பாடாகவும் இருக்கலாம். எடுத்துக்காட்டாக, @Time டிக்களாக வளர வேண்டும் என்று நாங்கள் விரும்புகிறோம். நாம் நேரத்தை எடுத்துக் கொள்ளலாம், அதை ஒரு மீட்டரின் ஒரு பகுதியால் பெருக்கலாம், மேலும் புகழ்பெற்ற, டிக் டிக் டிக், ஹி ஹி ஹி. அதிர்வெண் அல்லது பெருக்கியை மாற்ற முயற்சிக்கவும். நீங்கள் என்ன அழகான வளர்ச்சியை உருவாக்க முடியும் என்று பாருங்கள்!"
                         ],
-                        ["fix", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        ["fix", "Phrase('hi' Time(100ms) × 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
@@ -3222,7 +3222,7 @@
                             "use",
                             "fix",
                             "Symbol",
-                            "hi' Time(100ms) · 0.001m/ms 'Poor Story"
+                            "hi' Time(100ms) × 0.001m/ms 'Poor Story"
                         ],
                         null,
                         [
@@ -3232,7 +3232,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m))"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3242,7 +3242,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
                         ],
                         null,
                         [
@@ -3252,7 +3252,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) · 1°/ms)"
+                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
                         ],
                         null,
                         [
@@ -3267,7 +3267,7 @@
                         ],
                         [
                             "conflict",
-                            "Phrase('hi' 'Poor Story' 3m Time(10ms) · 1°/ms Place(2m 2m))"
+                            "Phrase('hi' 'Poor Story' 3m Time(10ms) × 1°/ms Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3277,7 +3277,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)"
+                            "Phrase('hi' size: 3m rotation: Time(10ms) × 0.1°/ms)"
                         ],
                         null,
                         [
@@ -3304,7 +3304,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3314,7 +3314,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
@@ -3325,7 +3325,7 @@
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
@@ -3336,7 +3336,7 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3350,7 +3350,7 @@
                             "    Phrase(",
                             "        'hi'",
                             "        size: 5m",
-                            "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
+                            "        place: Place(Time(1000ms) × 0.001m/ms 0m)",
                             "        moving:Pose(rotation: 5°)",
                             "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
@@ -3391,7 +3391,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) · 1°/ms))"
+                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) × 1°/ms))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3709,7 +3709,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack('|' Time(100ms) · 0.001m/ms) ",
+                            "    Stack('|' Time(100ms) × 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3726,7 +3726,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row('|' Time(100ms) · 0.001m/ms) [",
+                            "    Row('|' Time(100ms) × 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",
@@ -4429,7 +4429,7 @@
                             "kind",
                             "$~ஆம், நிச்சயமாக! எனவே, @Program என்பது பெரும்பாலும் @Block மட்டுமே. அடைப்புக்குறி இல்லாமல் @Block தான். ஆனால் நீங்கள் ஒரு நிரலில் எங்கு வேண்டுமானாலும் அடைப்புக்குறிக்குள் @Block ஐ வைக்கலாம். எடுத்துக்காட்டாக, கணிதத்தை மதிப்பிடும் வரிசையை தெளிவுபடுத்த நீங்கள் @Block ஐப் பயன்படுத்தலாம். இங்கே, @BinaryEvaluate \\1\\ மதிப்பிடுகிறது, பின்னர் @Block ஐ மதிப்பிடுகிறது, பின்னர் அவை ஒன்றாக சேர்க்கப்படும். @Programிளாக், நான் சரியாகப் புரிந்து கொண்டேன்?"
                         ],
-                        ["edit", "1 + (2 · 3)"],
+                        ["edit", "1 + (2 × 3)"],
                         ["Block", "shy", "$~… ஆமாம்!"],
                         null,
                         [
@@ -5005,7 +5005,7 @@
                             "¶Gets the tax for a given price, ",
                             "which is 1% if less than 100, and 5% otherwise¶",
                             "ƒ tax(price•#dollar) ",
-                            "    price · (price < 100dollar ? 0.01 0.05)"
+                            "    price × (price < 100dollar ? 0.01 0.05)"
                         ],
                         null,
                         [
@@ -5029,7 +5029,7 @@
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶The quadratic equation¶",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [
@@ -5042,7 +5042,7 @@
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶The quadratic equation¶/en",
                             "¶La ecuación cuadrática¶/es",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [

@@ -374,7 +374,7 @@
                 "Esto hace que todo sea un poco más ordenado, aunque es básicamente lo mismo.",
                 "Solo hay una cosa a tener en cuenta: cuando estoy en esta forma, evalúo de izquierda a derecha. Eso podría ser confuso si estás acostumbrado a cosas como el orden de las operaciones en matemáticas.",
                 "Significa que esto se evalúa de una manera que quizás no esperes:",
-                "\\1 + 2 · 3 + 4\\",
+                "\\1 + 2 × 3 + 4\\",
                 "En matemáticas, la multiplicación vendría primero y luego la adición, y así el resultado sería \\11\\. Pero como evalúo en el orden de lectura, el resultado es \\13\\."
             ],
             "right": "entrada",
@@ -652,7 +652,7 @@
             "doc": [
                 "Soy cualquier expresión, ¡pero con un @Doc!",
                 "Para hacerme, simplemente coloca un @Doc antes de una expresión, y obtendrás esto:",
-                "\\dobleplus: 1\n(2 · dobleplus) + \n¶Hagámoslo un poco más grande¶\n1\\",
+                "\\dobleplus: 1\n(2 × dobleplus) + \n¶Hagámoslo un poco más grande¶\n1\\",
                 "Soy útil para hacer un comentario sobre alguna parte de un programa."
             ],
             "start": "evaluemos la expresión"
@@ -775,11 +775,11 @@
             "doc": [
                 "¡Hola de nuevo! Tomo algunos inputs, luego evalúo una expresión usando esos inputs, y produzco un output.",
                 "Aquí tienes un ejemplo simple:",
-                "\\ƒ repetir(mensaje•'') mensaje · 5\nrepetir('hola')\\",
+                "\\ƒ repetir(mensaje•'') mensaje × 5\nrepetir('hola')\\",
                 "Esa función toma un input, \\message\\, y usa la función @Text/repeat para repetir el mensaje cinco veces.",
                 "¡Soy realmente útil si quieres evaluar algo una y otra vez, pero con diferentes inputs!",
                 "Tengo muchos otros trucos. Por ejemplo, no necesito tener un nombre. Aquí, voy directamente a @Evaluate como un valor.",
-                "\\(ƒ(mensaje•'') mensaje · 5)('hola')\\",
+                "\\(ƒ(mensaje•'') mensaje × 5)('hola')\\",
                 "O, aquí hay una función que toma cualquier cantidad de inputs, usando el carácter \\…\\ después del nombre del input.",
                 "\\ƒ si(mensajes…•'') mensajes.sans('no')\nsi('sí' 'sí' 'no' 'sí' 'no')\\",
                 "¿Ves cómo tomó todos los 'no' y se deshizo de ellos? Eso es porque messages es un @List, y así pudimos usar @List/sansAll.",
@@ -1198,13 +1198,13 @@
             "doc": [
                 "Hola, ¿cómo estás? ¿Yo? Estoy genial. Me encanta definir estructuras que almacenan valores y funciones, así que mientras pueda hacer eso todo el día, soy feliz.",
                 "Trabajo así:",
-                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n) (\n\tƒ costo() tamaño · 10dólares/pulgada\n)\n\nPizza(['pepperoni' 'pimientos'] 12pulg).costo()\\",
+                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n) (\n\tƒ costo() tamaño × 10dólares/pulgada\n)\n\nPizza(['pepperoni' 'pimientos'] 12pulg).costo()\\",
                 "¿Ves cómo funciona? Definí \\Pizza\\, que tiene dos entradas, \\ingredientes\\ (una lista de @Text) y \\tamaño\\ (un número en pulgadas).",
                 "Dentro, @FunctionDefinition creó una función que evalúa el costo de una pizza, asumiendo $$10 por pulgada.",
                 "No necesito tener @FunctionDefinition en mí. Puedo ser solo entradas.",
                 "\\•Pizza(\ningredientes•['']\ntamaño•#in\n)\\",
                 "También puedo tener @Bind dentro, así que podríamos evaluar el costo de antemano.",
-                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n) (\n\tcosto: tamaño · 10dólares/pulgada\n)\n\nPizza(['pepperoni' 'pimientos'] 12pulg).costo\\"
+                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n) (\n\tcosto: tamaño × 10dólares/pulgada\n)\n\nPizza(['pepperoni' 'pimientos'] 12pulg).costo\\"
             ],
             "start": "definamos esta encantadora estructura",
             "conflict": {
@@ -1324,10 +1324,10 @@
             "doc": [
                 "A veces, es útil referirse a un valor implícitamente, en lugar de tener que nombrarlo.",
                 "Por ejemplo, supongamos que quieres crear una nueva @ConversionDefinition, que no nombra el valor que se está convirtiendo. Puedes referirte a él conmigo:",
-                "\\→ #arcoiris #alegrías . · 1000000alegrías\n2arcoiris → #alegrías\\",
+                "\\→ #arcoiris #alegrías . × 1000000alegrías\n2arcoiris → #alegrías\\",
                 "¿Me ves ahí, representando la cantidad de arcoíris?",
                 "O supongamos que quieres hacer una @Reaction, pero no quieres nombrar el valor más reciente:",
-                "\\2 … ∆ Tiempo(1000ms) … . · 2\\",
+                "\\2 … ∆ Tiempo(1000ms) … . × 2\\",
                 "Échame un vistazo, representando el valor de reacción anterior.",
                 "No aparezco a menudo, pero cuando lo hago, ¡puedo ayudar realmente a un valor a salir de un @Bind!"
             ],
@@ -1829,14 +1829,14 @@
                 "repeat": {
                     "doc": [
                         "$~Creo un nuevo @Text que soy yo, repetido la cantidad de veces de \\count\\:",
-                        "$~Hola · 5",
+                        "$~Hola × 5",
                         "$~Si me das un @Number fraccionario, ignoro la fracción:",
-                        "$~Hola · 5.5",
+                        "$~Hola × 5.5",
                         "$~Si me das un @Number negativo o cero, doy un @Number vacío.",
-                        "$~\\'hola' · -5\\",
+                        "$~\\'hola' × -5\\",
                         "$~El texto más largo que puedo crear tiene 65.535 caracteres. Si intentas crear uno más largo, lo repetiré tantas veces como pueda."
                     ],
-                    "names": ["·", "🔁", "repetir"],
+                    "names": ["×", "🔁", "repetir"],
                     "inputs": [
                         {
                             "doc": "El número de veces que debo repetirme en el nuevo texto.",
@@ -1974,11 +1974,11 @@
                 "multiply": {
                     "doc": [
                         "Yo me multiplico por el @Number dado, creando un producto de mi @Unit y la @Unit del numero dado:",
-                        "\\5 · 5\\",
-                        "5m · 5m\\",
-                        "\\5m · 1/s\\"
+                        "\\5 × 5\\",
+                        "5m × 5m\\",
+                        "\\5m × 1/s\\"
                     ],
-                    "names": ["·", "multiplicar"],
+                    "names": ["×", "multiplicar"],
                     "inputs": [
                         {
                             "doc": "El @Number a multiplicar",
@@ -2481,7 +2481,7 @@
                     "doc": [
                         "Dame una @FunctionDefinition que reciva un valor y opcionalmente un indice como entradas, y produce un valor, y yo evaluare esa funcion en cada de mis elementos.",
                         "Por ejemplo, imagina que so soy una lista de @Number y quieres duplicar el valor de cada uno de los elementos:",
-                        "\\[2 4 6 8].traducir(ƒ(num•#) num · 2)\\"
+                        "\\[2 4 6 8].traducir(ƒ(num•#) num × 2)\\"
                     ],
                     "names": "traducir",
                     "inputs": [
@@ -3241,7 +3241,7 @@
                 "@FunctionDefinition aquí, puedo explicar @Camera.",
                 "@Camera proporciona una @List de @Color de tu mundo. Esa lista esencialmente representa una imagen, pero tú decides qué hacer con ella.",
                 "Puedes intentar representar la imagen con un montón de @Phrase, ¡se vería muy bonito! Intenta copiar esto...",
-                "\\colores: Cámara(32px 24px 33ms)\n\nStage(\ncolores.combine(\n[] \nƒ(frases•[Phrase] fila•[Color] y•#) \nfrases.append(\nfila.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colores: Cámara(32px 24px 33ms)\n\nStage(\ncolores.combine(\n[] \nƒ(frases•[Phrase] fila•[Color] y•#) \nfrases.append(\nfila.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "Pero también puedes analizar los colores para decidir si una luz estaba encendida o apagada, o si un color en particular era común, dejando que la audiencia influya en la actuación con los colores que muestran."
             ],
             "names": ["🎥", "Cámara"],
@@ -4494,6 +4494,7 @@
                 "insertNone": "insertar ningún símbolo",
                 "insertNotEqual": "insertar no igual",
                 "insertProduct": "insertar símbolo de multiplicación",
+                "insertDot": "$~Insertar símbolo de producto escalar",
                 "insertQuotient": "insertar símbolo de cociente",
                 "insertDegree": "insertar símbolo de grado",
                 "insertFunction": "insertar una función",
