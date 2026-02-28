@@ -14,15 +14,13 @@ export class IncompleteImplementation extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.StructureDefinition.conflict.IncompleteImplementation;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.structure,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => IncompleteImplementation.LocalePath(l).primary,
-                    ),
-            },
+            node: this.structure,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => IncompleteImplementation.LocalePath(l).explanation,
+                ),
         };
     }
 

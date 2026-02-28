@@ -44,14 +44,9 @@ test.each([...projects])(
         ).flat();
         const messages: string[] = [];
         for (const conflict of conflicts) {
-            const conflictingNodes = conflict.getConflictingNodes(
-                context,
-                Templates,
-            );
+            const conflictingNodes = conflict.getMessage(context, Templates);
             messages.push(
-                conflictingNodes.primary
-                    .explanation(DefaultLocales, context)
-                    .toText(),
+                conflictingNodes.explanation(DefaultLocales, context).toText(),
             );
         }
         expect(

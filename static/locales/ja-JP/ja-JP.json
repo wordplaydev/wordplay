@@ -198,11 +198,11 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~不明な言語",
-                    "primary": "$~この言語は分かりません"
+                    "explanation": "$~この言語は分かりません"
                 },
                 "MissingLanguage": {
                     "name": "$~言語が欠落している",
-                    "primary": "$~言語が一つ足りません。追加してもらえますか？"
+                    "explanation": "$~言語が1つ足りません。追加してもらえますか？"
                 }
             }
         },
@@ -243,26 +243,23 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~無効な行",
-                    "primary": "$~行はすべて値であるか、すべて @Bind である必要があります。"
+                    "explanation": "$~行はすべて値であるか、すべて @Bind である必要があります。"
                 },
                 "MissingCell": {
-                    "primary": "$~列$1がありません",
-                    "secondary": "$~必須ですが、1ドルでは提供されませんでした",
-                    "name": "$~列が欠落しています"
+                    "name": "$~列が欠落しています",
+                    "explanation": "$~列$1がありません"
                 },
                 "ExtraCell": {
-                    "primary": "$~私はここにいるべきでしょうか？",
-                    "secondary": "$~おい、$1、君はこの@Table！",
-                    "name": "$~追加の列"
+                    "name": "$~追加の列",
+                    "explanation": "$~テーブルの種類に基づくと、ここには存在すべきではない追加の列があります。"
                 },
                 "UnknownColumn": {
                     "name": "$~不明な列名",
-                    "primary": "$~この名前のコラムは知りません"
+                    "explanation": "$~この名前のコラムは知りません"
                 },
                 "UnexpectedColumnBind": {
-                    "primary": "$~私は@Bind?",
-                    "secondary": "$~こんにちは、私は @Table なので、@Bind ではなく値が必要です。",
-                    "name": "$~バインド行なし"
+                    "name": "$~バインド行なし",
+                    "explanation": "$~@Bind ではなく、値である必要があります。"
                 }
             }
         },
@@ -286,9 +283,8 @@
             "doc": "$~私は @FunctionDefinition または @StructureDefinition の謎の型であり、どちらかが評価されるときに @TypeInputs によって提供されます。@Set、@List、および @Map は私を使用します。",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "primary": "$~私は$1と同じ名前です",
-                    "secondary": "$~私の名前は$1と同じです",
-                    "name": "$~重複型変数"
+                    "name": "$~重複型変数",
+                    "explanation": "$~私の名前は$1と同じです"
                 }
             },
             "label": {
@@ -408,7 +404,7 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~曖昧な順序",
-                    "primary": "$~演算順序ではなく、読み取り順序で評価します。評価順序を指定するには@Block？"
+                    "explanation": "$~演算順序ではなく、読み取り順序で評価します。評価順序を指定するには@Block？"
                 }
             },
             "label": {
@@ -450,41 +446,38 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "primary": "$~誰かが $1 という名前を持っているので、私はこの名前を持つことができません。",
-                        "secondary": "$~おい、$1 は私の名前だ、お前には渡せないぞ!",
-                        "name": "$~重複した名前"
+                        "name": "$~重複した名前",
+                        "explanation": "$~誰かが $1 という名前を持っているので、私はこの名前を持つことはできません。"
                     },
                     "resolution": "$~重複した名前があります。いずれかを削除しますか?"
                 },
                 "DuplicateShare": {
-                    "primary": "$~私は$1と同じ名前を持っているので、何が共有されているのかが曖昧になります",
-                    "secondary": "$~私は$1と同じ名前を持っています",
-                    "name": "$~重複した共有"
+                    "name": "$~重複した共有",
+                    "explanation": "$~$1と同じ名前です。何を共有しているのかよく分かりません。"
                 },
                 "IncompatibleType": {
-                    "primary": "$~私は2ドルのはずが1ドルです",
-                    "secondary": "$~ああ、すみません。両替したほうがいいですか、それとも 1 ドルのほうがいいですか?",
-                    "name": "$~互換性のないタイプ"
+                    "name": "$~互換性のないタイプ",
+                    "explanation": "$~私はタイプ$2のはずが、タイプ$1です"
                 },
                 "MisplacedShare": {
                     "name": "$~間違ったシェア",
-                    "primary": "$~共有できるのは @Program レベルでのみであり、他のものの中では共有できません。"
+                    "explanation": "$~共有できるのは @Program レベルでのみであり、他のものの中では共有できません。"
                 },
                 "MissingShareLanguages": {
                     "name": "$~言語が欠落している",
-                    "primary": "$~これをシェアしたい場合は、他の人が読めるかどうかわかるように、どの言語であるかを言わなければなりません。"
+                    "explanation": "$~これをシェアしたい場合は、他の人が読めるかどうかわかるように、どの言語であるかを言わなければなりません。"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~オプションの後に必須入力",
-                    "primary": "$~私はここには来られません。私の前にオプションの@Bind"
+                    "explanation": "$~私はここにいることができません。私の前にオプションの@Bind"
                 },
                 "UnexpectedEtc": {
                     "name": "$~入力リスト後の予期しない入力",
-                    "primary": "$~@FunctionDefinition"
+                    "explanation": "$~@FunctionDefinition"
                 },
                 "UnusedBind": {
                     "name": "$~未使用のバインド",
-                    "primary": "$~私の名前は$1ですが、誰も使ってくれません。もしかしたら、私は必要とされていないのかもしれません。"
+                    "explanation": "$~私の名前は$1ですが、誰も使ってくれません。もしかしたら、私は必要とされていないのかもしれません。"
                 }
             },
             "label": {
@@ -517,16 +510,16 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~表現が欠落している",
-                    "primary": "$~表現が必要です。"
+                    "explanation": "$~表現が必要です。"
                 },
                 "IgnoredExpression": {
-                    "primary": "$~$1 は何も定義しておらず、最後の式でもないので無視します。",
-                    "secondary": "$~@Block、無視しないで！",
                     "resolution": {
                         "binary": "$~これを @UnaryEvaluate ではなく @BinaryEvaluate にするつもりでしたか? スペースを追加できるので、それが意図したことだとわかります。",
-                        "evaluate": "$~これを @Evaluate にするつもりでしたか? このスペースを削除して、2 つの別々の式ではなく 1 つの式にすることができます。"
+                        "evaluate": "$~これを @Evaluate にするつもりでしたか? このスペースを削除して、2 つの別々の式ではなく 1 つの式にすることができます。",
+                        "name": "$~この式に@Bindという名前を付けて、この@Blockの値を計算できるようにしたいですか?"
                     },
-                    "name": "$~無視された表現"
+                    "name": "$~無視された表現",
+                    "explanation": "$~@Block の値は最後の式に基づいているため、無視されます。"
                 }
             },
             "label": {
@@ -549,11 +542,11 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~不明な借用",
-                    "primary": "$~この名前の$sourceは知りません"
+                    "explanation": "$~この名前の$sourceは知りません"
                 },
                 "BorrowCycle": {
                     "name": "$~自己参照借用",
-                    "primary": "$~これは$1に依存しており、$1はこの$sourceに依存しているため、プログラムを評価できません。"
+                    "explanation": "$~これは$1に依存しており、$1はこの$sourceに依存しているため、プログラムを評価できません。"
                 }
             },
             "exception": {
@@ -598,9 +591,8 @@
             "finish": "$~1ドルくらいかな？",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$~1 ドルで「はい」と「いいえ」を選択するにはどうすればいいですか? 本当に、どうやって?",
-                    "secondary": "$~@Conditional は私を @Boolean にしたいと思っていたようですが、私は $1 です。",
-                    "name": "$~期待されるブール条件"
+                    "name": "$~期待されるブール条件",
+                    "explanation": "$~決定を下すには @Boolean が必要ですが、代わりに $1 を取得しました。"
                 }
             },
             "label": {
@@ -623,7 +615,7 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~誤った変換",
-                    "primary": "$~うわー、私はここにいられない、ただ@Block。"
+                    "explanation": "$~うわー、私はここにいられない、ただ@Block。"
                 }
             },
             "label": {
@@ -649,7 +641,7 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~不明な変換",
-                    "primary": "$~残念、1ドルを2ドルにする方法はない"
+                    "explanation": "$~1ドルを2ドルに換算する方法が見つかりませんでした"
                 }
             },
             "exception": {
@@ -702,41 +694,36 @@
             "finish": "$~私は1ドルと評価しました",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "$~私は$1ドルのはずが$2ドルです",
-                    "secondary": "$~えっと、$1ドルではなく$2ドルをもらいました",
-                    "name": "$~互換性のない入力"
+                    "name": "$~互換性のない入力",
+                    "explanation": "$~私はタイプ$1のはずが、タイプ$2です"
                 },
                 "UnexpectedTypeInput": {
-                    "primary": "$~このような入力は予想していませんでした",
-                    "secondary": "$~ああ、私はここにいてはいけないのですか？",
-                    "name": "$~予期しない型入力"
+                    "name": "$~予期しない型入力",
+                    "explanation": "$~私は余分な、予想外のタイプ入力です。"
                 },
                 "MissingInput": {
-                    "primary": "$~入力 $2 がないと評価できません :(",
-                    "secondary": "$~価値が必要です。価値を教えていただけますか?",
-                    "name": "$~入力がありません"
+                    "name": "$~入力がありません",
+                    "explanation": "$~入力 $2 がないと評価できません :("
                 },
                 "NotInstantiable": {
                     "name": "$~不完全な構造",
-                    "primary": "$~この@StructureDefinition。実装されていない関数があります。"
+                    "explanation": "$~この@StructureDefinition。実装されていない関数があります。"
                 },
                 "UnexpectedInput": {
-                    "primary": "$~この入力は予想外でした $1",
-                    "secondary": "$~ああ、私はここにいるべきではないのですか?",
-                    "name": "$~予期しない入力"
+                    "name": "$~予期しない入力",
+                    "explanation": "$~予想外の入力です。"
                 },
                 "UnknownInput": {
-                    "primary": "$~$1 にこの名前の入力があるかどうかはわかりません",
-                    "secondary": "$~$1という名前の入力がありません",
-                    "name": "$~不明な入力"
+                    "name": "$~不明な入力",
+                    "explanation": "$~この関数 *$1* は私の名前の入力を想定していません。"
                 },
                 "InputListMustBeLast": {
                     "name": "$~追加入力は最後ではない",
-                    "primary": "$~入力リストは最後になければなりません"
+                    "explanation": "$~入力リストは最後になければなりません"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~曖昧な評価",
-                    "primary": "$~$1 は評価しようとしている $2[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、これが @Evaluate であって、別の @Block ではないことがわかります。"
+                    "explanation": "$~$1 は評価しようとしている $2[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。"
                 }
             },
             "exception": {
@@ -780,7 +767,7 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~プレースホルダー",
-                    "primary": "$~代わりにやってもらえますか？私はただの代役です。"
+                    "explanation": "$~代わりにやってもらえますか？私はただの代役です。"
                 }
             },
             "exception": {
@@ -817,7 +804,7 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~表現が欠落している",
-                    "primary": "$~評価する式が必要です。追加してもらえますか?"
+                    "explanation": "$~評価する式が必要です。追加してもらえますか?"
                 }
             },
             "label": {
@@ -876,7 +863,7 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能なタイプ",
-                    "primary": "$~これは1ドルにはならない"
+                    "explanation": "$~これは1ドルにはならない"
                 }
             },
             "exception": {
@@ -933,9 +920,8 @@
             "finish": "$~全員をつなげたよ、1ドル",
             "conflict": {
                 "NotAKeyValue": {
-                    "primary": "$~キーの1つに値が欠けています",
-                    "secondary": "$~おっと、私の価値はどこにあるのでしょうか?",
-                    "name": "$~欠損値"
+                    "name": "$~欠損値",
+                    "explanation": "$~@Map 内にいるので、値が必要です。"
                 }
             },
             "label": {
@@ -970,7 +956,7 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~数字ではない",
-                    "primary": "$~数字は全部知ってると思っていたけど、この数字は知らない"
+                    "explanation": "$~数字は全部知ってると思っていたけど、この数字は知らない"
                 }
             }
         },
@@ -1071,9 +1057,8 @@
             "finish": "$~構造をコピーしましたが、$1を$2にしました",
             "conflict": {
                 "InvalidProperty": {
-                    "primary": "$~私は1ドルの入力ではないので、精製することはできません。",
-                    "secondary": "$~$1という名前の入力がありません",
-                    "name": "$~不明なプロパティ"
+                    "name": "$~不明なプロパティ",
+                    "explanation": "$~私は構造 $1 内の名前ではないので、洗練できません。"
                 }
             },
             "label": {
@@ -1111,7 +1096,7 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~予想されるストリーム",
-                    "primary": "$~$1 はストリームを参照しないので、反応しません。"
+                    "explanation": "$~$1 はストリームを参照しないので、反応しません。"
                 }
             },
             "label": {
@@ -1135,17 +1120,17 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~名前不明",
-                        "primary": "$~$1[$2[$2|この @Block]|内に $1 という名前の人を知りません。名前を教えていただけますか?]"
+                        "explanation": "$~$1[$2[$2|この @Block] 内に $1 という名前の人を知りません|名前を教えていただけますか?]"
                     },
                     "resolution": "$~*$1* でしょうか?"
                 },
                 "ReferenceCycle": {
                     "name": "$~自己参照値",
-                    "primary": "$~えーと、$1 の価値はそれ自体で決まるので、それにどのような値を与えるべきかをどうやって知ることができるのでしょうか?"
+                    "explanation": "$~えーと、$1 の価値はそれ自体で決まるので、それにどのような値を与えるべきかをどうやって知ればいいのでしょうか?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~予期しない型変数",
-                    "primary": "$~これらの入力タイプをどうすればよいか分かりません"
+                    "explanation": "$~これらの入力タイプをどうすればよいか分かりません"
                 }
             },
             "exception": {
@@ -1169,7 +1154,7 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~列名がありません",
-                    "primary": "$~少なくとも 1 つの列名が必要です。"
+                    "explanation": "$~少なくとも 1 つの列名が必要です。"
                 }
             }
         },
@@ -1195,9 +1180,8 @@
             "finish": "$~価値は1ドルです",
             "conflict": {
                 "IncompatibleKey": {
-                    "primary": "$~1ドルの鍵を期待していた",
-                    "secondary": "$~2ドルではなく1ドルをもらいました",
-                    "name": "$~互換性のないキー"
+                    "name": "$~互換性のないキー",
+                    "explanation": "$~$1 型のキーを期待しました"
                 }
             }
         },
@@ -1235,19 +1219,19 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~入力は許可されていません",
-                    "primary": "$~インターフェース関数の1つ以上が実装されていないため、入力できません"
+                    "explanation": "$~インターフェース関数の1つ以上が実装されていないため、入力できません"
                 },
                 "IncompleteImplementation": {
                     "name": "$~不完全な構造",
-                    "primary": "$~私の関数はすべて実装するか、まったく実装しないかのどちらかです。ごちゃ混ぜにしないでください！"
+                    "explanation": "$~私の関数はすべて実装するか、まったく実装しないかのどちらかです。ごちゃ混ぜにしないでください！"
                 },
                 "NotAnInterface": {
                     "name": "$~インターフェースではない",
-                    "primary": "$~私はインターフェースではありません。構造体はインターフェースのみを実装でき、他の構造体は実装できません。"
+                    "explanation": "$~私はインターフェースではありません。構造体はインターフェースのみを実装でき、他の構造体は実装できません。"
                 },
                 "UnimplementedInterface": {
                     "name": "$~未実装",
-                    "primary": "$~$1 は実装しましたが、$2 はまだ実装していません"
+                    "explanation": "$~$1を実装しましたが、$2を実装していません"
                 }
             },
             "label": {
@@ -1291,29 +1275,29 @@
             "conflict": {
                 "phone": {
                     "name": "$~電話番号",
-                    "primary": "$~*$1* は誰かの電話番号ですか？もしそうなら、オンラインで共有しないでください！\n\n$2"
+                    "explanation": "$~*$1* は誰かの電話番号ですか？もしそうなら、オンラインで共有しないでください！\n\n$2"
                 },
                 "email": {
                     "name": "$~可能性のあるメール",
-                    "primary": "$~*$1* は誰かのメールアドレスですか？もしそうなら、ここで共有しないでください！\n\n$2"
+                    "explanation": "$~*$1* は誰かのメールアドレスですか？もしそうなら、ここで共有しないでください！\n\n$2"
                 },
                 "tin": {
                     "name": "$~可能性のある納税者識別番号",
-                    "primary": "$~*$1* は納税者識別番号ですか？もしそうなら、絶対に教えないでください。非常に機密性の高い情報です！\n\n$2"
+                    "explanation": "$~*$1* は納税者識別番号ですか？もしそうなら、絶対に教えないでください。非常に機密性の高い情報です！\n\n$2"
                 },
                 "address": {
                     "name": "$~可能性のある住所",
-                    "primary": "$~*$1* は誰かの自宅住所ですか？もしそうなら、ここに載せないでください。ストーカー被害に遭ってほしくないんです！\n\n$2"
+                    "explanation": "$~*$1* は誰かの自宅住所ですか？もしそうなら、ここに載せないでください。ストーカー被害に遭ってほしくないんです！\n\n$2"
                 },
                 "handle": {
                     "name": "$~可能なユーザー名",
-                    "primary": "$~*$1* はインターネット上のどこかで使っているユーザー名ですか？もしそうなら、本当にそうしたいのでなければ、ここで私の名前を教えないでください。\n\n$2"
+                    "explanation": "$~*$1* はインターネット上のどこかで使っているユーザー名ですか？もしそうなら、本当にそうしたいのでなければ、ここで私の名前を明かさないでください。\n\n$2"
                 },
                 "resolution": "$~これは機密データではありません",
                 "reminder": "$~注: この操作を元に戻し、共有ダイアログで非機密としてマークした他の項目を確認することができます。",
                 "character": {
                     "name": "$~可能なカスタム文字",
-                    "primary": "$~これはキャラクター名のようです。それを表示するには、@FormattedLiteral@TextLiteral。"
+                    "explanation": "$~これはキャラクター名のようです。それを表示するには、@FormattedLiteral@TextLiteral。"
                 }
             },
             "label": {
@@ -1360,7 +1344,7 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~この参照を紛失した",
-                    "primary": "$~構造、変換、または反応でのみ許可されます。"
+                    "explanation": "$~構造、変換、または反応でのみ許可されます。"
                 }
             }
         },
@@ -1402,13 +1386,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~読めないコード",
-                        "primary": "$~ここでの @FunctionDefinition では、@UnparsableExpression はこれがどのような種類の $1[ 式 | 型 ] であるかを認識しません。"
+                        "explanation": "$~ここでの @FunctionDefinition では、@UnparsableExpression はこれがどのような種類の $1[ 式 | 型 ] であるかを認識しません。"
                     },
                     "resolution": "$~1ドル、2ドルという意味ですか?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~閉じられていない区切り文字",
-                    "primary": "$~私は1ドルの後に2ドルを期待していた"
+                    "explanation": "$~私は1ドルの後に2ドルを期待していた"
                 }
             },
             "exception": {
@@ -1432,12 +1416,11 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~列の値が欠落しています",
-                    "primary": "$~すべての列に値が必要です"
+                    "explanation": "$~すべての列に値が必要です"
                 },
                 "IncompatibleCellType": {
-                    "primary": "$~1ドル必要だったのに2ドル手に入れた",
-                    "secondary": "$~2ドルもらった",
-                    "name": "$~不適合な細胞型"
+                    "name": "$~不適合な細胞型",
+                    "explanation": "$~私はタイプ$1のはずが、$2でした"
                 }
             }
         },
@@ -1524,7 +1507,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~不明な型名",
-                    "primary": "$~型名は構造体または型変数のみを参照できますが、これは型$1を参照します"
+                    "explanation": "$~型名は構造体または型変数のみを参照できますが、これは型$1を参照します"
                 }
             }
         },
@@ -1582,7 +1565,7 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~列タイプがありません",
-                    "primary": "$~列タイプが必要です"
+                    "explanation": "$~列タイプが必要です"
                 }
             }
         },

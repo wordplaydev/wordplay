@@ -40,24 +40,20 @@
     },
     "ConflictText": {
       "additionalProperties": false,
+      "description": "The text that describes this conflict type.",
       "properties": {
-        "name": {
-          "description": "The short header to describe the conflict",
-          "type": "string"
-        },
-        "primary": {
+        "explanation": {
           "$ref": "#/definitions/Template",
           "description": "The text that describes this conflict on the node which generated it."
         },
-        "secondary": {
-          "$ref": "#/definitions/Template",
-          "description": "The text that describes this conflict on a related note, but not the one that generated it."
+        "name": {
+          "description": "The short header to describe the conflict",
+          "type": "string"
         }
       },
       "required": [
         "name",
-        "primary",
-        "secondary"
+        "explanation"
       ],
       "type": "object"
     },
@@ -340,25 +336,6 @@
       "required": [
         "header",
         "explanation"
-      ],
-      "type": "object"
-    },
-    "InternalConflictText": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "name": {
-          "description": "The short header to describe the conflict",
-          "type": "string"
-        },
-        "primary": {
-          "$ref": "#/definitions/Template",
-          "description": "The text that describes this conflict on the node which generated it."
-        }
-      },
-      "required": [
-        "name",
-        "primary"
       ],
       "type": "object"
     },
@@ -2505,7 +2482,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "OrderOfOperations": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "Warning about order of evaluation of binary evaluations always being reading order, not math order of operations"
                     }
                   },
@@ -2624,23 +2601,23 @@
                       "description": "When a bind and it's value type are incompatible. Description inputs: $1: Expected type, $2: Given type"
                     },
                     "MisplacedShare": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is marked as share, but not at the top level."
                     },
                     "MissingShareLanguages": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is shared, but not language tagged."
                     },
                     "RequiredAfterOptional": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is required, but appears after an optional bind in a definition"
                     },
                     "UnexpectedEtc": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is marked as a variable length list, but not at the end."
                     },
                     "UnusedBind": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is declared but never used."
                     }
                   },
@@ -2744,20 +2721,20 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedEndingExpression": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When there's no ending expression"
                     },
                     "IgnoredExpression": {
                       "additionalProperties": false,
                       "description": "When a statement is ignored because it's not last and not a bind",
                       "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template",
+                          "description": "The text that describes this conflict on the node which generated it."
+                        },
                         "name": {
                           "description": "The short header to describe the conflict",
                           "type": "string"
-                        },
-                        "primary": {
-                          "$ref": "#/definitions/Template",
-                          "description": "The text that describes this conflict on the node which generated it."
                         },
                         "resolution": {
                           "additionalProperties": false,
@@ -2767,24 +2744,23 @@
                             },
                             "evaluate": {
                               "$ref": "#/definitions/Template"
+                            },
+                            "name": {
+                              "$ref": "#/definitions/Template"
                             }
                           },
                           "required": [
+                            "name",
                             "binary",
                             "evaluate"
                           ],
                           "type": "object"
-                        },
-                        "secondary": {
-                          "$ref": "#/definitions/Template",
-                          "description": "The text that describes this conflict on a related note, but not the one that generated it."
                         }
                       },
                       "required": [
+                        "explanation",
                         "name",
-                        "primary",
-                        "resolution",
-                        "secondary"
+                        "resolution"
                       ],
                       "type": "object"
                     }
@@ -2936,11 +2912,11 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "BorrowCycle": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a borrowed value depends on the source file doing the borrowing. Description inputs: $1 = borrow that had a cycle"
                     },
                     "UnknownBorrow": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When the borrowed name could not be found"
                     }
                   },
@@ -3228,7 +3204,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "MisplacedConversion": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a conversion is defined somewhere it's not allowed."
                     }
                   },
@@ -3324,7 +3300,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnknownConversion": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When conversion could not be found. Description inputs: $1 = from type, $2: to type"
                     }
                   },
@@ -3584,7 +3560,7 @@
                       "description": "When an input given to this evaluate doesn't match the input of the function being evaluated Description inputs: $1 = expected type, $2 = given type"
                     },
                     "InputListMustBeLast": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a list of inputs is given but isn't last."
                     },
                     "MissingInput": {
@@ -3592,11 +3568,11 @@
                       "description": "When an input is expected, but not given. Description inputs: $1 = missing input, $2: evaluate that is missing input"
                     },
                     "NotInstantiable": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When the structure definition given is an interface, and can't be created"
                     },
                     "SeparatedEvaluate": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When something looks like an Evaluate with space"
                     },
                     "UnexpectedInput": {
@@ -3740,7 +3716,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "Placeholder": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     }
                   },
                   "required": [
@@ -3902,7 +3878,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "NoExpression": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a function has no expression"
                     }
                   },
@@ -4164,7 +4140,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ImpossibleType": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When the type given isn't possible"
                     }
                   },
@@ -4386,10 +4362,10 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "MissingLanguage": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "UnknownLanguage": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     }
                   },
                   "required": [
@@ -4821,7 +4797,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnknownTypeName": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "A type representing an unknown name Description inputs: $1 = Invalid type"
                     }
                   },
@@ -5025,7 +5001,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "NotANumber": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When something is not a valid number format"
                     }
                   },
@@ -5513,7 +5489,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedStream": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When the condition doesn't refer to a strema"
                     }
                   },
@@ -5608,11 +5584,11 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ReferenceCycle": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a name refers to itself outside a reaction"
                     },
                     "UnexpectedTypeVariable": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a reference refers to a type variable"
                     },
                     "UnknownName": {
@@ -5620,7 +5596,7 @@
                       "description": "When the name does not correspond to a bind in scope Description inputs: $1 = Scope",
                       "properties": {
                         "conflict": {
-                          "$ref": "#/definitions/InternalConflictText"
+                          "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
                           "$ref": "#/definitions/Template"
@@ -5721,7 +5697,7 @@
                       "description": "When an extra cell was provided. $1: Cell"
                     },
                     "InvalidRow": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a row does not form to it's table's type definition"
                     },
                     "MissingCell": {
@@ -5733,7 +5709,7 @@
                       "description": "When a bind was not expected in a row but it was provided."
                     },
                     "UnknownColumn": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a unknown column is specified by name."
                     }
                   },
@@ -5798,7 +5774,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedSelectName": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a cell in the row isn't a name Description inputs: $1: The select expression"
                     }
                   },
@@ -6072,19 +6048,19 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "DisallowedInputs": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When inputs are declared on a structure with unimplemented functions"
                     },
                     "IncompleteImplementation": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a structure implements some functions, but not all"
                     },
                     "NotAnInterface": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a structure implements something that isn't an interface"
                     },
                     "UnimplementedInterface": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a structure implements an interface, but not all of its functions Description inputs: $1 = Interface, $2 = Function"
                     }
                   },
@@ -6251,7 +6227,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedColumnType": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a column's type is missing Description inputs: $1 = The missing column"
                     }
                   },
@@ -6385,7 +6361,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "MisplacedThis": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     }
                   },
                   "required": [
@@ -6454,19 +6430,19 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "address": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "character": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "email": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "handle": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "phone": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "reminder": {
                       "$ref": "#/definitions/Template",
@@ -6477,7 +6453,7 @@
                       "description": "How to describe the resolution of the sensitive information conflict."
                     },
                     "tin": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     }
                   },
                   "required": [
@@ -6789,7 +6765,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnclosedDelimiter": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a delimiter is unclosed. Description inputs: $1: unclosed token, $2: opening delimiter"
                     },
                     "UnparsableConflict": {
@@ -6797,7 +6773,7 @@
                       "description": "When an unparsable expression or type is used. Description inputs: $1: true if expression, false if type",
                       "properties": {
                         "conflict": {
-                          "$ref": "#/definitions/InternalConflictText"
+                          "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
                           "$ref": "#/definitions/Template"
@@ -6892,7 +6868,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedColumnBind": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a column name was expected but not given"
                     },
                     "IncompatibleCellType": {

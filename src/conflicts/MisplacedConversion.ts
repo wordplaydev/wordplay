@@ -15,15 +15,13 @@ export class MisplacedConversion extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.ConversionDefinition.conflict.MisplacedConversion;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.conversion,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => MisplacedConversion.LocalePath(l).primary,
-                    ),
-            },
+            node: this.conversion,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => MisplacedConversion.LocalePath(l).explanation,
+                ),
         };
     }
 

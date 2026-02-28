@@ -15,15 +15,13 @@ export default class InputListMustBeLast extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Evaluate.conflict.InputListMustBeLast;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.bind,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => InputListMustBeLast.LocalePath(l).primary,
-                    ),
-            },
+            node: this.bind,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => InputListMustBeLast.LocalePath(l).explanation,
+                ),
         };
     }
 

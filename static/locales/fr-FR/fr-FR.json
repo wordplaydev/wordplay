@@ -198,11 +198,11 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~langueinconnue",
-                    "primary": "$~Je ne connais pas cette langue"
+                    "explanation": "$~Je ne connais pas cette langue"
                 },
                 "MissingLanguage": {
                     "name": "$~languemanquante",
-                    "primary": "$~Il me manque une langue. Pouvez-vous en ajouter une ?"
+                    "explanation": "$~Il me manque une langue. Pouvez-vous en ajouter une ?"
                 }
             }
         },
@@ -243,26 +243,23 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~lignenonvalide",
-                    "primary": "$~Les lignes doivent être toutes des valeurs ou toutes des @Bind."
+                    "explanation": "$~Les lignes doivent soit contenir uniquement des valeurs, soit uniquement des @Bind."
                 },
                 "MissingCell": {
-                    "primary": "$~Il me manque la colonne 1",
-                    "secondary": "$~Je suis requis, mais $1 ne l'a pas fourni",
-                    "name": "$~colonnemanquante"
+                    "name": "$~colonnemanquante",
+                    "explanation": "$~Il me manque la colonne $1"
                 },
                 "UnknownColumn": {
                     "name": "$~nomdecolonneinconnu",
-                    "primary": "$~Je ne connais pas de chronique portant ce nom"
+                    "explanation": "$~Je ne connais pas de colonne portant ce nom."
                 },
                 "ExtraCell": {
-                    "primary": "$~Suis-je censé être ici ?",
-                    "secondary": "$~Hé $1, tu ne fais pas partie de cette @Table !",
-                    "name": "$~colonnesupplémentaire"
+                    "name": "$~colonnesupplémentaire",
+                    "explanation": "$~D'après le type de ma table, je suis une colonne supplémentaire qui n'a rien à faire là."
                 },
                 "UnexpectedColumnBind": {
-                    "primary": "$~Suis-je censé être un @Bind ?",
-                    "secondary": "$~Hé, je suis un @Table, j'ai besoin de valeurs, pas de @Bind.",
-                    "name": "$~aucuneligneliée"
+                    "name": "$~aucuneligneliée",
+                    "explanation": "$~Je devrais être une valeur, et non @Bind."
                 }
             }
         },
@@ -286,9 +283,8 @@
             "doc": "$~Je suis un type mystère sur @FunctionDefinition ou @StructureDefinition, fourni par @TypeInputs lorsque l'un ou l'autre est évalué. @Set, @List et @Map m'utilisent.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "primary": "$~J'ai le même nom que $1",
-                    "secondary": "$~J'ai le même nom que $1",
-                    "name": "$~variabledetypedupliquée"
+                    "name": "$~variabledetypedupliquée",
+                    "explanation": "$~J'ai le même nom que $1"
                 }
             },
             "label": {
@@ -408,7 +404,7 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~ordreambigu",
-                    "primary": "$~J'évalue dans l'ordre de lecture, et non dans l'ordre mathématique des opérations. Voulez-vous utiliser @Block pour spécifier l'ordre d'évaluation ?"
+                    "explanation": "$~J'évalue les expressions dans l'ordre de lecture, et non dans l'ordre mathématique des opérations. Souhaitez-vous utiliser `@Block` pour spécifier l'ordre d'évaluation ?"
                 }
             },
             "label": {
@@ -450,41 +446,38 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "primary": "$~quelqu'un a le nom $1 donc je ne peux pas avoir ce nom.",
-                        "secondary": "$~Hé, $1 c'est mon nom, tu ne peux pas l'avoir !",
-                        "name": "$~nomendouble"
+                        "name": "$~nomendouble",
+                        "explanation": "$~Quelqu'un porte déjà le nom $1, donc je ne peux pas avoir ce nom."
                     },
                     "resolution": "$~Il y a des noms en double, voulez-vous en supprimer un ?"
                 },
                 "DuplicateShare": {
-                    "primary": "$~J'ai le même nom que $1, ce qui rend ce qui est partagé ambigu",
-                    "secondary": "$~J'ai le même nom que $1",
-                    "name": "$~partageendouble"
+                    "name": "$~partageendouble",
+                    "explanation": "$~J'ai le même nom que $1. Du coup, on ne sait pas trop ce qu'on partage."
                 },
                 "IncompatibleType": {
-                    "primary": "$~Je suis censé être un $2, mais je suis un $1",
-                    "secondary": "$~Oh, je suis désolé. Dois-je changer, ou peut-être es-tu censé être un dollar ?",
-                    "name": "$~typeincompatible"
+                    "name": "$~typeincompatible",
+                    "explanation": "$~Je suis censé être de type 2, mais je suis de type 1."
                 },
                 "MisplacedShare": {
                     "name": "$~partmalplacée",
-                    "primary": "$~Je ne peux partager des choses qu'au niveau du @Program, pas à l'intérieur de quoi que ce soit !"
+                    "explanation": "$~Je ne peux partager que des choses au niveau du @Program, pas à l'intérieur des éléments !"
                 },
                 "MissingShareLanguages": {
                     "name": "$~languemanquante",
-                    "primary": "$~si vous voulez partager ceci, vous devez dire dans quelle langue c'est, afin que les autres sachent s'ils peuvent le lire !"
+                    "explanation": "$~Si vous souhaitez partager ceci, vous devez préciser dans quelle langue c'est, afin que les autres sachent s'ils peuvent le lire !"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~entréeobligatoireaprèsoptionnel",
-                    "primary": "$~Je ne peux pas être ici, il y a un @Bind facultatif avant moi"
+                    "explanation": "$~Je ne peux pas être là, il y a une liaison optionnelle (@Bind) avant moi."
                 },
                 "UnexpectedEtc": {
                     "name": "$~entréeinattendueaprèslalisted'entrées",
-                    "primary": "$~Je ne peux avoir qu'une longueur variable dans une @FunctionDefinition"
+                    "explanation": "$~Je ne peux avoir qu'une longueur variable dans une @FunctionDefinition"
                 },
                 "UnusedBind": {
                     "name": "$~liaisoninutilisée",
-                    "primary": "$~Je m'appelle 1, mais personne ne m'utilise. Peut-être n'est-on pas utile ?"
+                    "explanation": "$~Je m'appelle 1 $, mais personne ne m'utilise. Peut-être que je ne suis pas nécessaire ?"
                 }
             },
             "label": {
@@ -517,16 +510,16 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~expressionmanquante",
-                    "primary": "$~J'ai besoin d'une expression."
+                    "explanation": "$~J'ai besoin d'une expression."
                 },
                 "IgnoredExpression": {
-                    "primary": "$~Je vais ignorer $1, car il ne définit rien et n'est pas ma dernière expression.",
-                    "secondary": "$~@Block, ne m'ignore pas !",
                     "resolution": {
                         "binary": "$~Vouliez-vous dire que ce serait un @BinaryEvaluate au lieu d'un @UnaryEvaluate ? Je peux ajouter un espace, donc je sais que c'est ce que vous vouliez dire.",
-                        "evaluate": "$~Vouliez-vous que ce soit une @Evaluate? Je peux supprimer cet espace pour en faire une seule expression, au lieu de deux expressions distinctes."
+                        "evaluate": "$~Vouliez-vous que ce soit une @Evaluate? Je peux supprimer cet espace pour en faire une seule expression, au lieu de deux expressions distinctes.",
+                        "name": "$~Souhaitiez-vousnommercetteexpressionavec@Bind,afindepouvoirl'utiliserpourcalculerlavaleurdece@Bind?"
                     },
-                    "name": "$~expressionignorée"
+                    "name": "$~expressionignorée",
+                    "explanation": "$~Je suis ignoré car la valeur d'un @Block dépend de la dernière expression."
                 }
             },
             "label": {
@@ -549,11 +542,11 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~empruntinconnu",
-                    "primary": "$~Je ne connais pas de source de ce nom"
+                    "explanation": "$~Je ne connais pas de source de données portant ce nom."
                 },
                 "BorrowCycle": {
                     "name": "$~empruntautoréférencé",
-                    "primary": "$~cela dépend de $1, qui dépend de cette $source, donc le programme ne peut pas être évalué"
+                    "explanation": "$~Cela dépend de $1, qui dépend de cette source $source, donc le programme ne peut pas être évalué."
                 }
             },
             "exception": {
@@ -598,9 +591,8 @@
             "finish": "$~Je suppose que c'est $1 ?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$~Comment puis-je choisir oui ou non avec $1 ? Non vraiment, comment ?",
-                    "secondary": "$~Je pense que @Conditional voulait que je sois un @Boolean, mais je suis un $1.",
-                    "name": "$~conditionbooléenneattendue"
+                    "name": "$~conditionbooléenneattendue",
+                    "explanation": "$~J'ai besoin d'un booléen pour prendre une décision, mais j'ai reçu 1 dollar à la place."
                 }
             },
             "label": {
@@ -623,7 +615,7 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~conversionmalplacée",
-                    "primary": "$~whoa, je ne peux pas être là, juste à @Block."
+                    "explanation": "$~Oups, je ne peux pas être ici, juste dans @Block."
                 }
             },
             "label": {
@@ -649,7 +641,7 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~conversioninconnue",
-                    "primary": "$~Dommage, il n'y a aucun moyen de transformer 1 $ en 2 $"
+                    "explanation": "$~Nous n'avons pas trouvé de moyen de convertir 1 $ en 2 $."
                 }
             },
             "exception": {
@@ -702,41 +694,36 @@
             "finish": "$~J'ai évalué à 1$",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "$~Je suis censé être un $1, mais je suis un $2",
-                    "secondary": "$~Euh, j'ai eu $2 au lieu de $1",
-                    "name": "$~entréeincompatible"
+                    "name": "$~entréeincompatible",
+                    "explanation": "$~Je suis censé être de type 1, mais je suis de type 2."
                 },
                 "UnexpectedTypeInput": {
-                    "primary": "$~Je ne m'attendais pas à ce type d'entrée",
-                    "secondary": "$~Oh, je ne suis pas censé être ici ?",
-                    "name": "$~entréedetypeinattendue"
+                    "name": "$~entréedetypeinattendue",
+                    "explanation": "$~Je suis un type d'entrée supplémentaire et inattendu."
                 },
                 "MissingInput": {
-                    "primary": "$~Je ne peux pas évaluer sans l'entrée nommée $2 :(",
-                    "secondary": "$~J'ai besoin d'une valeur, pouvez-vous m'en donner une ?",
-                    "name": "$~entréemanquante"
+                    "name": "$~entréemanquante",
+                    "explanation": "$~Je ne peux pas évaluer sans l'entrée $2 :("
                 },
                 "NotInstantiable": {
                     "name": "$~structureincomplète",
-                    "primary": "$~Je ne peux pas créer cette @StructureDefinition, elle contient des fonctions non implémentées."
+                    "explanation": "$~Je ne peux pas faire de cela une @StructureDefinition, elle contient des fonctions non implémentées."
                 },
                 "UnexpectedInput": {
-                    "primary": "$~Je ne m'attendais pas à cette entrée 1$",
-                    "secondary": "$~Oh, je ne suis pas censé être ici ?",
-                    "name": "$~entréeinattendue"
+                    "name": "$~entréeinattendue",
+                    "explanation": "$~Je suis un élément d'entrée inattendu."
                 },
                 "UnknownInput": {
-                    "primary": "$~Je ne connais pas d'entrée portant ce nom dans $1",
-                    "secondary": "$~Je n'ai pas d'entrée avec le nom $1",
-                    "name": "$~entréeinconnue"
+                    "name": "$~entréeinconnue",
+                    "explanation": "$~Cette fonction *$1* n'attend pas une entrée contenant mon nom."
                 },
                 "InputListMustBeLast": {
                     "name": "$~lesentréessupplémentairesnesontpaslesdernières",
-                    "primary": "$~la liste des entrées doit être la dernière"
+                    "explanation": "$~La liste des entrées doit être la dernière"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~évaluationambiguë",
-                    "primary": "$~$1 est-il le nom d'une $2[$structure|$function] que vous essayez d'évaluer ? Essayez de supprimer l'espace après moi, afin que je sache qu'il s'agit d'un @Evaluate et non d'un @Block distinct."
+                    "explanation": "$~Est-ce que $1 est le nom d'une $2[$structure|$function] que vous essayez d'évaluer ? Veuillez supprimer l'espace après moi afin que je sache qu'il s'agit d'une @Evaluate et non d'un @Block distinct."
                 }
             },
             "exception": {
@@ -780,7 +767,7 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~espaceréservé",
-                    "primary": "$~Peux-tu me renseigner ? Je suis juste un remplaçant."
+                    "explanation": "$~Pouvez-vous me remplir ? Je ne suis qu'un élément temporaire."
                 }
             },
             "exception": {
@@ -817,7 +804,7 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~expressionmanquante",
-                    "primary": "$~J'ai besoin d'une expression à évaluer, pouvez-vous en ajouter une ?"
+                    "explanation": "$~J'ai besoin d'une expression à évaluer, pouvez-vous en ajouter une ?"
                 }
             },
             "label": {
@@ -876,7 +863,7 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~typeimpossible",
-                    "primary": "$~ça ne peut jamais être 1 $"
+                    "explanation": "$~Cela ne pourra jamais être égal à 1 $."
                 }
             },
             "exception": {
@@ -933,9 +920,8 @@
             "finish": "$~J'ai connecté tout le monde, $1",
             "conflict": {
                 "NotAKeyValue": {
-                    "primary": "$~il manque une valeur à l'une de mes clés",
-                    "secondary": "$~Oups, où est ma valeur ?",
-                    "name": "$~valeurmanquante"
+                    "name": "$~valeurmanquante",
+                    "explanation": "$~Je suis dans une @Map, j'ai donc besoin d'une valeur."
                 }
             },
             "label": {
@@ -970,7 +956,7 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~pasunnuméro",
-                    "primary": "$~Je pensais connaître tous les numéros, mais je ne connais pas celui-ci"
+                    "explanation": "$~Je croyais connaître tous les chiffres, mais celui-ci, je ne le connais pas."
                 }
             }
         },
@@ -1071,9 +1057,8 @@
             "finish": "$~J'ai copié la structure, mais avec $1 comme $2",
             "conflict": {
                 "InvalidProperty": {
-                    "primary": "$~Je ne suis pas une entrée de $1, donc je ne peux pas être raffiné.",
-                    "secondary": "$~Je n'ai pas d'entrée nommée $1",
-                    "name": "$~propriétéinconnue"
+                    "name": "$~propriétéinconnue",
+                    "explanation": "$~Je ne figure pas dans la structure $1, je ne peux donc pas être affiné."
                 }
             },
             "label": {
@@ -1111,7 +1096,7 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~fluxattendu",
-                    "primary": "$~$1 ne fait pas référence à un flux, donc je ne réagirai jamais !"
+                    "explanation": "$~Le montant de 1 $ ne fait référence à aucun flux, donc je ne réagirai jamais !"
                 }
             },
             "label": {
@@ -1135,17 +1120,17 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~nominconnu",
-                        "primary": "$~$1[Je ne connais personne nommé $1 dans $2[$2|ce @Block]|Pouvez-vous me donner un nom ?]"
+                        "explanation": "$~$1[Je ne connais personne qui s'appelle $1 dans $2[$2|ce @Block]|Pouvez-vous me donner un nom ?]"
                     },
                     "resolution": "$~Vouliez-vous dire *$1*?"
                 },
                 "ReferenceCycle": {
                     "name": "$~valeurd'autoréférencement",
-                    "primary": "$~euh, la valeur de 1 $ dépend d'elle-même, alors comment puis-je savoir quelle valeur lui donner ?"
+                    "explanation": "$~Euh, la valeur d'un dollar dépend d'elle-même, alors comment savoir quelle valeur lui attribuer ?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~variabledetypeinattendu",
-                    "primary": "$~Je ne sais pas quoi faire avec ces types d'entrées"
+                    "explanation": "$~Je ne sais pas quoi faire avec ce type d'entrées."
                 }
             },
             "exception": {
@@ -1169,7 +1154,7 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~nomdecolonnemanquant",
-                    "primary": "$~J'ai besoin d'au moins un nom de colonne."
+                    "explanation": "$~J'ai besoin d'au moins un nom de colonne."
                 }
             }
         },
@@ -1195,9 +1180,8 @@
             "finish": "$~La valeur est de 1$",
             "conflict": {
                 "IncompatibleKey": {
-                    "primary": "$~Je m'attendais à une clé à $1",
-                    "secondary": "$~J'ai eu $1 au lieu de $2",
-                    "name": "$~cléincompatible"
+                    "name": "$~cléincompatible",
+                    "explanation": "$~Je m'attendais à une clé de type $1"
                 }
             }
         },
@@ -1235,19 +1219,19 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~entréesnonautorisées",
-                    "primary": "$~Je ne peux pas avoir d'entrées car une ou plusieurs de mes fonctions d'interface ne sont pas implémentées"
+                    "explanation": "$~Je ne peux pas recevoir de données d'entrée car une ou plusieurs de mes fonctions d'interface ne sont pas implémentées."
                 },
                 "IncompleteImplementation": {
                     "name": "$~structureincomplète",
-                    "primary": "$~Mes fonctions doivent être implémentées soit toutes, soit aucune. Pas de mélanges compliqués !"
+                    "explanation": "$~Mes fonctions doivent soit toutes être implémentées, soit aucune ne doit l'être. Pas de mélanges hasardeux !"
                 },
                 "NotAnInterface": {
                     "name": "$~pasuneinterface",
-                    "primary": "$~Je ne suis pas une interface ; une structure ne peut implémenter que des interfaces, pas d'autres structures"
+                    "explanation": "$~Je ne suis pas une interface ; une structure ne peut implémenter que des interfaces, et non d’autres structures."
                 },
                 "UnimplementedInterface": {
                     "name": "$~nonmisenœuvre",
-                    "primary": "$~J'ai implémenté $1 mais je n'ai pas implémenté $2"
+                    "explanation": "$~J'ai implémenté $1 mais pas $2."
                 }
             },
             "label": {
@@ -1291,29 +1275,29 @@
             "conflict": {
                 "phone": {
                     "name": "$~numérodetéléphonepossible",
-                    "primary": "$~*$1* est-il le numéro de téléphone de quelqu'un ? Si c'est le cas, ne le partagez pas en ligne !\n\n$2"
+                    "explanation": "$~Le numéro *$1* est-il le numéro de téléphone de quelqu'un ? Si oui, ne le partagez pas en ligne !\n\n$2"
                 },
                 "email": {
                     "name": "$~e-mailpossible",
-                    "primary": "$~*$1* est-il l'adresse e-mail de quelqu'un ? Si c'est le cas, ne le partagez pas ici !\n\n$2"
+                    "explanation": "$~L'adresse *$1* appartient-elle à quelqu'un ? Si oui, merci de ne pas la divulguer ici !\n\n$2"
                 },
                 "tin": {
                     "name": "$~identifiantfiscalpossible",
-                    "primary": "$~*1$* est-il un identifiant fiscal ? Si oui, ne me le communiquez surtout pas, c'est une information très sensible !\n\n2$"
+                    "explanation": "$~Est-ce que *$1* est un numéro d'identification fiscale ? Si oui, ne me partagez surtout pas, je suis une information très confidentielle !\n\n$2"
                 },
                 "address": {
                     "name": "$~adressepossible",
-                    "primary": "$~*$1* est-il l'adresse de quelqu'un ? Si oui, ne m'inscrivez pas ici, on ne veut pas que quelqu'un soit harcelé !\n\n$2"
+                    "explanation": "$~Est-ce que *$1* est l'adresse de quelqu'un ? Si oui, ne m'inscrivez pas ici, on ne veut pas que quelqu'un soit harcelé !\n\n$2"
                 },
                 "handle": {
                     "name": "$~nomd'utilisateurpossible",
-                    "primary": "$~*$1* est-il votre nom d'utilisateur pour un autre site Internet ? Si oui, ne le partagez pas ici, sauf si vous le souhaitez vraiment.\n\n$2"
+                    "explanation": "$~Est-ce que *$1* est votre nom d'utilisateur sur un autre site internet ? Si oui, ne me mentionnez pas ici, sauf si c'est vraiment intentionnel.\n\n$2"
                 },
                 "resolution": "$~Ce ne sont pas des données sensibles",
                 "reminder": "$~Remarque: vous pouvez annuler cette action et voir d’autres éléments que vous avez marqués comme non sensibles dans la boîte de dialogue de partage.",
                 "character": {
                     "name": "$~caractèrepersonnalisépossible",
-                    "primary": "$~Cela ressemble à un nom de personnage. Pour l'afficher, utilisez @FormattedLiteral au lieu de @TextLiteral."
+                    "explanation": "$~Cela ressemble à un nom de personnage. Pour les afficher correctement, utilisez @FormattedLiteral au lieu de @TextLiteral."
                 }
             },
             "label": {
@@ -1360,7 +1344,7 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~j'aiégarécetteréférence",
-                    "primary": "$~Je ne suis autorisé qu'à une structure, une conversion ou une réaction."
+                    "explanation": "$~Je ne suis autorisé que dans une structure, une conversion ou une réaction."
                 }
             }
         },
@@ -1402,13 +1386,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~codeillisible",
-                        "primary": "$~@FunctionDefinition ici, @UnparsableExpression ne sait pas de quel type de $1[ expression | type ] il s'agit."
+                        "explanation": "$~@FunctionDefinition ici, @UnparsableExpression ne sait pas de quel type $1[ expression | type ] il s'agit."
                     },
                     "resolution": "$~Vous vouliez dire $1, $2 ?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~délimiteurnonfermé",
-                    "primary": "$~Je m'attendais à 2 $ quelque temps après 1 $"
+                    "explanation": "$~Je m'attendais à 2 $ après 1 $."
                 }
             },
             "exception": {
@@ -1432,12 +1416,11 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~valeurdecolonnemanquante",
-                    "primary": "$~J'ai besoin d'une valeur pour chaque colonne"
+                    "explanation": "$~J'ai besoin d'une valeur pour chaque colonne."
                 },
                 "IncompatibleCellType": {
-                    "primary": "$~J'avais besoin d'un billet de $1, mais j'ai eu un billet de $2",
-                    "secondary": "$~J'ai eu $2",
-                    "name": "$~typedecelluleincompatible"
+                    "name": "$~typedecelluleincompatible",
+                    "explanation": "$~Je suis censé taper $1, mais j'ai tapé $2."
                 }
             }
         },
@@ -1524,7 +1507,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~nomdetypeinconnu",
-                    "primary": "$~les noms de type ne peuvent faire référence qu'à des structures ou à des variables de type, mais cela fait référence au type $1"
+                    "explanation": "$~Les noms de types ne peuvent faire référence qu'à des structures ou à des variables de type, mais ceci fait référence au type $1"
                 }
             }
         },
@@ -1576,7 +1559,7 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~typedecolonnemanquant",
-                    "primary": "$~J'ai besoin d'un type de colonne"
+                    "explanation": "$~J'ai besoin d'un type de colonne"
                 }
             }
         },

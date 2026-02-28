@@ -19,16 +19,14 @@ export default class ExpectedColumnBind extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Update.conflict.ExpectedColumnBind;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.update,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => ExpectedColumnBind.LocalePath(l).primary,
-                        new NodeRef(this.cell, locales, context),
-                    ),
-            },
+            node: this.update,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => ExpectedColumnBind.LocalePath(l).explanation,
+                    new NodeRef(this.cell, locales, context),
+                ),
         };
     }
 

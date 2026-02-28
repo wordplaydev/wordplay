@@ -19,16 +19,14 @@ export class ImpossibleType extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Is.conflict.ImpossibleType;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.expression,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => ImpossibleType.LocalePath(l).primary,
-                        new NodeRef(this.givenType, locales, context),
-                    ),
-            },
+            node: this.expression,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => ImpossibleType.LocalePath(l).explanation,
+                    new NodeRef(this.givenType, locales, context),
+                ),
         };
     }
 

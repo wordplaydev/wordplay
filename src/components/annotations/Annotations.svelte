@@ -101,9 +101,7 @@
         // Reset the annotation list to active annotations.
         annotations = conflicts
             .map((conflict: Conflict) => {
-                const nodes = conflict.getConflictingNodes(context, Templates);
-                const primary = nodes.primary;
-                const secondary = nodes.secondary;
+                const nodes = conflict.getMessage(context, Templates);
                 // Based on the primary and secondary nodes given, decide what to show.
                 // We expect
                 // 1) a single primary node
@@ -111,12 +109,12 @@
                 // From these, we generate one or two speech bubbles to illustrate the conflict.
                 return [
                     {
-                        node: primary.node,
-                        element: getNodeView(primary.node),
+                        node: nodes.node,
+                        element: getNodeView(nodes.node),
                         messages: [
-                            primary.explanation(
+                            nodes.explanation(
                                 $locales,
-                                project.getNodeContext(primary.node) ??
+                                project.getNodeContext(nodes.node) ??
                                     project.getContext(project.getMain()),
                             ),
                         ],
@@ -126,25 +124,6 @@
                         resolutions: nodes.resolutions ?? [],
                         conflict: conflict.getLocalePath(),
                     },
-                    ...(secondary !== undefined
-                        ? [
-                              {
-                                  node: secondary.node,
-                                  element: getNodeView(secondary.node),
-                                  messages: [
-                                      secondary.explanation(
-                                          $locales,
-                                          project.getNodeContext(
-                                              secondary.node,
-                                          ),
-                                      ),
-                                  ],
-                                  context,
-                                  kind: `secondary${conflict.isMinor() ? 'Minor' : 'Major'}` as const,
-                                  resolutions: [],
-                              },
-                          ]
-                        : []),
                 ];
             })
             .flat();

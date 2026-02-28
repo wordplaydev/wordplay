@@ -255,16 +255,6 @@ export function getHighlights(
                 : 'primaryMinor',
         );
 
-    // Tag all nodes with secondary conflicts as primary
-    for (const [secondary, conflicts] of project.getSecondaryConflicts())
-        highlights.add(
-            source,
-            secondary,
-            conflicts.every((c) => !c.isMinor())
-                ? 'secondaryMajor'
-                : 'secondaryMinor',
-        );
-
     // Are there any poses in this file being animated?
     if (animatingNodes)
         for (const animating of animatingNodes) {

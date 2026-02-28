@@ -1252,9 +1252,6 @@
                         ...(project.getPrimaryConflictsInvolvingNode(
                             conflictSelection,
                         ) ?? []),
-                        ...(project.getSecondaryConflictsInvolvingNode(
-                            conflictSelection,
-                        ) ?? []),
                         ...$nodeConflicts,
                     ]
                         // Eliminate duplicate conflicts

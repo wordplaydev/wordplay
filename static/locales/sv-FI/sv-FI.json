@@ -198,11 +198,11 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~okäntspråk",
-                    "primary": "$~Jag kan inte det här språket"
+                    "explanation": "$~Jag kan inte det här språket"
                 },
                 "MissingLanguage": {
                     "name": "$~saknatspråk",
-                    "primary": "$~Jag saknar ett språk. Kan du lägga till ett?"
+                    "explanation": "$~Jag saknar ett språk. Kan du lägga till ett?"
                 }
             }
         },
@@ -243,26 +243,23 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~ogiltigrad",
-                    "primary": "$~Rader måste antingen vara alla värden eller alla @Bind."
+                    "explanation": "$~Rader måste antingen vara alla värden eller alla @Bind."
                 },
                 "MissingCell": {
-                    "primary": "$~Jag saknar kolumn $1",
-                    "secondary": "$~Jag är obligatorisk, men $1 gav det inte",
-                    "name": "$~saknadkolumn"
+                    "name": "$~saknadkolumn",
+                    "explanation": "$~Jag saknar kolumn $1"
                 },
                 "ExtraCell": {
-                    "primary": "$~Ska jag vara här?",
-                    "secondary": "$~Hej $1, du är inte en del av detta @Table!",
-                    "name": "$~extrakolumn"
+                    "name": "$~extrakolumn",
+                    "explanation": "$~Baserat på min tabelltyp är jag en extra kolumn som inte borde vara här."
                 },
                 "UnknownColumn": {
                     "name": "$~okäntkolumnnamn",
-                    "primary": "$~Jag känner inte till en kolumn med det här namnet"
+                    "explanation": "$~Jag känner inte till en kolumn med det här namnet"
                 },
                 "UnexpectedColumnBind": {
-                    "primary": "$~Ska jag vara en @Bind?",
-                    "secondary": "$~Hej, jag är en @Table, jag behöver värden, inte @Bind.",
-                    "name": "$~ingabindningsrader"
+                    "name": "$~ingabindningsrader",
+                    "explanation": "$~Jag borde vara ett värde, inte @Bind."
                 }
             }
         },
@@ -286,9 +283,8 @@
             "doc": "$~Jag är en mysterietyp på @FunctionDefinition eller @StructureDefinition, tillhandahållen av @TypeInputs när någon av dem utvärderas. @Set, @List och @Map använder mig.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "primary": "$~Jag har samma namn som $1",
-                    "secondary": "$~Jag har samma namn som $1",
-                    "name": "$~dupliceradtypvariabel"
+                    "name": "$~dupliceradtypvariabel",
+                    "explanation": "$~Jag har samma namn som $1"
                 }
             },
             "label": {
@@ -408,7 +404,7 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~tvetydigordning",
-                    "primary": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?"
+                    "explanation": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?"
                 }
             },
             "label": {
@@ -450,41 +446,38 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "primary": "$~någon har namnet $1 så jag kan inte ha det här namnet.",
-                        "secondary": "$~hej, $1 är mitt namn, du kan inte få det!",
-                        "name": "$~dupliceratnamn"
+                        "name": "$~dupliceratnamn",
+                        "explanation": "$~Någon har namnet $1 så jag kan inte ha det namnet."
                     },
                     "resolution": "$~Det finns dubbletter av namn, vill du ta bort ett?"
                 },
                 "DuplicateShare": {
-                    "primary": "$~Jag har samma namn som $1, vilket gör det som delas tvetydigt",
-                    "secondary": "$~Jag har har samma namn som $1",
-                    "name": "$~dupliceraddelning"
+                    "name": "$~dupliceraddelning",
+                    "explanation": "$~Jag har samma namn som $1. Det gör det oklart vad vi delar."
                 },
                 "IncompatibleType": {
-                    "primary": "$~Jag ska vara en $2, men jag är en $1",
-                    "secondary": "$~Åh, jag är ledsen. Ska jag byta, eller kanske du ska vara en $1?",
-                    "name": "$~inkompatibeltyp"
+                    "name": "$~inkompatibeltyp",
+                    "explanation": "$~Jag borde vara typ $2, men jag är typ $1"
                 },
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
-                    "primary": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!"
+                    "explanation": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!"
                 },
                 "MissingShareLanguages": {
                     "name": "$~saknatspråk",
-                    "primary": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!"
+                    "explanation": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~obligatoriskinmatningeftervalfritt",
-                    "primary": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig"
+                    "explanation": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig"
                 },
                 "UnexpectedEtc": {
                     "name": "$~oväntadinmatningefterinmatningslista",
-                    "primary": "$~Jag kan bara ha variabel längd i en @FunctionDefinition"
+                    "explanation": "$~Jag kan bara ha variabel längd i en @FunctionDefinition"
                 },
                 "UnusedBind": {
                     "name": "$~oanvändbindning",
-                    "primary": "$~Jag heter $1, men ingen utnyttjar mig. Kanske behövs jag inte?"
+                    "explanation": "$~Jag heter $1, men ingen utnyttjar mig. Kanske behövs jag inte?"
                 }
             },
             "label": {
@@ -517,16 +510,16 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~saknatuttryck",
-                    "primary": "$~Jag behöver ett uttryck."
+                    "explanation": "$~Jag behöver ett uttryck."
                 },
                 "IgnoredExpression": {
-                    "primary": "$~Jag kommer att ignorera $1, eftersom det inte definierar någonting och inte är mitt sista uttryck.",
-                    "secondary": "$~@Block, ignorera mig inte!",
                     "resolution": {
                         "binary": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade.",
-                        "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck."
+                        "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck.",
+                        "name": "$~Villedunamngedethäruttrycketmed@Bind,såattdukananvändadetförattberäknavärdetpådetta@Block?"
                     },
-                    "name": "$~ignoreratuttryck"
+                    "name": "$~ignoreratuttryck",
+                    "explanation": "$~Jag ignoreras eftersom ett @Block värde är baserat på det sista uttrycket."
                 }
             },
             "label": {
@@ -549,11 +542,11 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~okändlån",
-                    "primary": "$~Jag känner inte till en $source med det här namnet"
+                    "explanation": "$~Jag känner inte till en $source med det här namnet"
                 },
                 "BorrowCycle": {
                     "name": "$~självrefererandelån",
-                    "primary": "$~detta beror på $1, vilket beror på denna $source, så programmet kan inte utvärderas"
+                    "explanation": "$~detta beror på $1, vilket beror på denna $source, så programmet kan inte utvärderas"
                 }
             },
             "exception": {
@@ -598,9 +591,8 @@
             "finish": "$~Jag antar att det är $1?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$~Hur kan jag välja ja och nej med en $1? Nej egentligen, hur?",
-                    "secondary": "$~Jag tror att @Conditional ville att jag skulle vara en @Boolean, men jag är en $1.",
-                    "name": "$~förväntatboolesktvillkor"
+                    "name": "$~förväntatboolesktvillkor",
+                    "explanation": "$~Jag behöver en @Boolean för att fatta ett beslut, men jag fick en $1 istället."
                 }
             },
             "label": {
@@ -623,7 +615,7 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~felplaceradkonvertering",
-                    "primary": "$~Oj, jag kan inte vara här, bara i @Block."
+                    "explanation": "$~Oj, jag kan inte vara här, bara i @Block."
                 }
             },
             "label": {
@@ -649,7 +641,7 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~okändkonvertering",
-                    "primary": "$~Synd, det går inte att göra 1 dollar till 2 dollar"
+                    "explanation": "$~Vi kunde inte hitta ett sätt att konvertera 1 dollar till 2 dollar"
                 }
             },
             "exception": {
@@ -702,41 +694,36 @@
             "finish": "$~Jag värderade till $1",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "$~Jag ska vara en $1, men jag är en $2",
-                    "secondary": "$~Umm, jag fick en $2 istället för en $1",
-                    "name": "$~inkompatibelingång"
+                    "name": "$~inkompatibelingång",
+                    "explanation": "$~Jag borde vara typ $1, men jag är typ $2"
                 },
                 "UnexpectedTypeInput": {
-                    "primary": "$~Jag förväntade mig inte den här typen av input",
-                    "secondary": "$~åh, ska jag inte vara här?",
-                    "name": "$~oväntadtypinmatning"
+                    "name": "$~oväntadtypinmatning",
+                    "explanation": "$~Jag är en extra, oväntad typ av input."
                 },
                 "MissingInput": {
-                    "primary": "$~Jag kan inte utvärdera utan inmatningen $2 :(",
-                    "secondary": "$~Jag behöver ett värde, kan du ge mig ett?",
-                    "name": "$~saknadinmatning"
+                    "name": "$~saknadinmatning",
+                    "explanation": "$~Jag kan inte utvärdera utan inmatningen $2 :("
                 },
                 "NotInstantiable": {
                     "name": "$~ofullständigstruktur",
-                    "primary": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner."
+                    "explanation": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner."
                 },
                 "UnexpectedInput": {
-                    "primary": "$~Jag förväntade mig inte denna ingång $1",
-                    "secondary": "$~Åh, ska jag inte vara här?",
-                    "name": "$~oväntadinmatning"
+                    "name": "$~oväntadinmatning",
+                    "explanation": "$~Jag är en oväntad input."
                 },
                 "UnknownInput": {
-                    "primary": "$~Jag känner inte till en inmatning med detta namn i $1",
-                    "secondary": "$~Jag har ingen ingång med namnet $1",
-                    "name": "$~okändingång"
+                    "name": "$~okändingång",
+                    "explanation": "$~Den här funktionen *$1* förväntar sig inte inmatning med mitt namn."
                 },
                 "InputListMustBeLast": {
                     "name": "$~extrainmatningarärintesista",
-                    "primary": "$~listan över inmatningar måste vara sist"
+                    "explanation": "$~listan över inmatningar måste vara sist"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~tvetydigutvärdering",
-                    "primary": "$~Är $1 namnet på en $2[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block."
+                    "explanation": "$~Är $1 namnet på en $2[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block."
                 }
             },
             "exception": {
@@ -780,7 +767,7 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~platshållare",
-                    "primary": "$~Kan du fylla i mig? Jag är bara en platsmarkör."
+                    "explanation": "$~Kan du fylla i mig? Jag är bara en platsmarkör."
                 }
             },
             "exception": {
@@ -817,7 +804,7 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~saknatuttryck",
-                    "primary": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?"
+                    "explanation": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?"
                 }
             },
             "label": {
@@ -876,7 +863,7 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~omöjligtyp",
-                    "primary": "$~detta kan aldrig vara 1 dollar"
+                    "explanation": "$~detta kan aldrig vara 1 dollar"
                 }
             },
             "exception": {
@@ -933,9 +920,8 @@
             "finish": "$~Jag kopplade ihop alla, $1",
             "conflict": {
                 "NotAKeyValue": {
-                    "primary": "$~en av mina nycklar saknar ett värde",
-                    "secondary": "$~oj, var är mitt värde?",
-                    "name": "$~saknatvärde"
+                    "name": "$~saknatvärde",
+                    "explanation": "$~Jag är i en @Map, så jag behöver ett värde."
                 }
             },
             "label": {
@@ -970,7 +956,7 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~inteettnummer",
-                    "primary": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här."
+                    "explanation": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här."
                 }
             }
         },
@@ -1071,9 +1057,8 @@
             "finish": "$~Jag kopierade strukturen, men med $1 som $2",
             "conflict": {
                 "InvalidProperty": {
-                    "primary": "$~Jag är inte en ingång på $1, så jag kan inte förfinas.",
-                    "secondary": "$~Jag har ingen ingång som heter $1",
-                    "name": "$~okändegendom"
+                    "name": "$~okändegendom",
+                    "explanation": "$~Jag är inte ett namn i strukturen $1, så jag kan inte förfinas."
                 }
             },
             "label": {
@@ -1111,7 +1096,7 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~förväntadström",
-                    "primary": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
+                    "explanation": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
                 }
             },
             "label": {
@@ -1135,17 +1120,17 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~okäntnamn",
-                        "primary": "$~$1[Jag känner ingen som heter $1 i $2[$2|detta @Block]|Kan du ge mig ett namn?]"
+                        "explanation": "$~$1[Jag känner ingen som heter $1 i $2[$2|detta @Block]|Kan du ge mig ett namn?]"
                     },
                     "resolution": "$~Menade du *$1?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~självrefererandevärde",
-                    "primary": "$~Öh, värdet på 1 dollar beror på sig självt, så hur vet jag vilket värde jag ska ge den?"
+                    "explanation": "$~Öh, värdet på 1 dollar beror på sig självt, så hur vet jag vilket värde jag ska ge den?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~oväntadtypvariabel",
-                    "primary": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar."
+                    "explanation": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar."
                 }
             },
             "exception": {
@@ -1169,7 +1154,7 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~saknatkolumnnamn",
-                    "primary": "$~Jag behöver minst ett kolumnnamn."
+                    "explanation": "$~Jag behöver minst ett kolumnnamn."
                 }
             }
         },
@@ -1195,9 +1180,8 @@
             "finish": "$~Värdet är $1",
             "conflict": {
                 "IncompatibleKey": {
-                    "primary": "$~Jag förväntade mig en nyckel för $1",
-                    "secondary": "$~Jag fick en $1 istället för en $2",
-                    "name": "$~inkompatibelnyckel"
+                    "name": "$~inkompatibelnyckel",
+                    "explanation": "$~Jag förväntade mig en nyckel av typen $1"
                 }
             }
         },
@@ -1235,19 +1219,19 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~inmatningarärintetillåtna",
-                    "primary": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade."
+                    "explanation": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade."
                 },
                 "IncompleteImplementation": {
                     "name": "$~ofullständigstruktur",
-                    "primary": "$~Antingen måste alla mina funktioner implementeras, eller så måste ingen implementeras. Inga röriga blandningar!"
+                    "explanation": "$~Antingen måste alla mina funktioner implementeras, eller så måste inga implementeras. Inga röriga blandningar!"
                 },
                 "NotAnInterface": {
                     "name": "$~inteettgränssnitt",
-                    "primary": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer."
+                    "explanation": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer."
                 },
                 "UnimplementedInterface": {
                     "name": "$~oimplementerad",
-                    "primary": "$~Jag implementerar $1 men har inte implementerat $2"
+                    "explanation": "$~Jag implementerar $1 men har inte implementerat $2"
                 }
             },
             "label": {
@@ -1291,29 +1275,29 @@
             "conflict": {
                 "phone": {
                     "name": "$~möjligttelefonnummer",
-                    "primary": "$~Är *$1* någons telefonnummer? Dela mig inte online i så fall!\n\n$2"
+                    "explanation": "$~Är *$1* någons telefonnummer? Dela mig inte online i så fall!\n\n$2"
                 },
                 "email": {
                     "name": "$~möjlige-post",
-                    "primary": "$~Är *$1* någons e-postadress? Dela mig inte här i så fall!\n\n$2"
+                    "explanation": "$~Är *$1* någons e-postadress? Dela mig inte här i så fall!\n\n$2"
                 },
                 "tin": {
                     "name": "$~möjligskatteidentifiering",
-                    "primary": "$~Är *$1* ett skatteidentifieringsnummer? Om ja, dela mig absolut inte, jag är mycket känslig information!\n\n$2"
+                    "explanation": "$~Är *$1* ett skatteidentifieringsnummer? Om ja, dela mig absolut inte, jag är mycket känslig information!\n\n$2"
                 },
                 "address": {
                     "name": "$~möjligadress",
-                    "primary": "$~Är *$1* någons hemadress? Om så är fallet, skriv mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2"
+                    "explanation": "$~Är *$1* någons hemadress? Om så är fallet, skriv mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2"
                 },
                 "handle": {
                     "name": "$~möjligtanvändarnamn",
-                    "primary": "$~Är *$1* ditt användarnamn någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2"
+                    "explanation": "$~Är *$1* ditt användarnamn någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2"
                 },
                 "resolution": "$~Det här är inte känslig information",
                 "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan.",
                 "character": {
                     "name": "$~möjliganpassadkaraktär",
-                    "primary": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
+                    "explanation": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
                 }
             },
             "label": {
@@ -1360,7 +1344,7 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~felplaceradedennareferens",
-                    "primary": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion."
+                    "explanation": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion."
                 }
             }
         },
@@ -1402,13 +1386,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~oläsligkod",
-                        "primary": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $1[uttryck | typ] detta är."
+                        "explanation": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $1[uttryck | typ] detta är."
                     },
                     "resolution": "$~Menade du $1, $2?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~oavslutadavgränsare",
-                    "primary": "$~Jag förväntade mig 2 dollar någon gång efter 1 dollar"
+                    "explanation": "$~Jag förväntade mig 2 dollar någon gång efter 1 dollar"
                 }
             },
             "exception": {
@@ -1432,12 +1416,11 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~saknatkolumnvärde",
-                    "primary": "$~Jag behöver ett värde för varje kolumn"
+                    "explanation": "$~Jag behöver ett värde för varje kolumn"
                 },
                 "IncompatibleCellType": {
-                    "primary": "$~Jag behövde en $1, men fick en $2",
-                    "secondary": "$~Jag fick en $2",
-                    "name": "$~inkompatibelcelltyp"
+                    "name": "$~inkompatibelcelltyp",
+                    "explanation": "$~Jag borde vara typ $1, men jag har för mig att jag är $2"
                 }
             }
         },
@@ -1524,7 +1507,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~okänttypnamn",
-                    "primary": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $1"
+                    "explanation": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $1"
                 }
             }
         },
@@ -1582,7 +1565,7 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~saknadkolumntyp",
-                    "primary": "$~Jag behöver en kolumntyp"
+                    "explanation": "$~Jag behöver en kolumntyp"
                 }
             }
         },

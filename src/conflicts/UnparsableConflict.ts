@@ -28,16 +28,14 @@ export class UnparsableConflict extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.UnparsableExpression.conflict.UnparsableConflict.conflict;
 
-    getConflictingNodes(_: Context, nodes: Node[]) {
+    getMessage(_: Context, nodes: Node[]) {
         return {
-            primary: {
-                node: this.unparsable,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => UnparsableConflict.LocalePath(l).primary,
-                        this.unparsable instanceof UnparsableExpression,
-                    ),
-            },
+            node: this.unparsable,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => UnparsableConflict.LocalePath(l).explanation,
+                    this.unparsable instanceof UnparsableExpression,
+                ),
             resolutions: this.getLikelyIntentions(nodes),
         };
     }

@@ -153,7 +153,7 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        align-items: center;
+        align-items: baseline;
     }
 
     .description {
