@@ -60,6 +60,9 @@ export const HighlightTypes = {
     blockoutput: true,
     // Highlight of a block-level node when blocks are enabled
     blockselected: true,
+    // Block conflicted
+    blockmajor: true,
+    blockminor: true,
     // Highlight of a matching delimiter
     delimiter: false,
     // Highlight of an empty list to be dragged upon
@@ -241,12 +244,18 @@ export function getHighlights(
         highlights.add(source, hovered, 'hovered');
     }
 
-    // Tag all nodes with conflicts
+    // Tag all nodes with conflicts in text mode
     for (const [node, conflicts] of project.getConflictedNodes())
         highlights.add(
             source,
             node,
-            conflicts.every((c) => !c.isMinor()) ? 'major' : 'minor',
+            conflicts.every((c) => !c.isMinor())
+                ? blocks
+                    ? 'blockmajor'
+                    : 'major'
+                : blocks
+                  ? 'blockminor'
+                  : 'minor',
         );
 
     // Are there any poses in this file being animated?
