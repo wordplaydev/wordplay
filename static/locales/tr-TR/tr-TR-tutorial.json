@@ -1795,7 +1795,7 @@
                         [
                             "Set",
                             "eager",
-                            "$~Ah evet, tabii ki. Bir şeyler topluyorum (Hm, tabii ki; ben bir koleksiyonum). Ama en önemlisi, her türden sadece **bir tane** bir şey topluyorum. İstediğiniz her şeyi toplayabilir ve değerleri takip etmenize yardımcı olabilirim, ama asla bir değeri tekrarlamam. Kendimi biraz @List gibi düzenlemeyi seviyorum ama bunun yerine \\{\\ ve \\}\\ kullanıyorum."
+                            "$~Ah evet, tabii ki. Bir şeyler topluyorum (Hm, tabii ki; ben bir koleksiyonum). Ama en önemlisi, her türden sadece *bir tane* bir şey topluyorum. İstediğiniz her şeyi toplayabilir ve değerleri takip etmenize yardımcı olabilirim, ama asla bir değeri tekrarlamam. Kendimi biraz @List gibi düzenlemeyi seviyorum ama bunun yerine \\{\\ ve \\}\\ kullanıyorum."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -2409,7 +2409,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Size dünyalarımız ile bunların mümkün kıldığı şeyler arasındaki bağlantıyı göstermek istiyorum. Bunlara **girdi akışları** diyoruz ve bunlar belki de Verse'deki en büyülü girdi türüdür. Dünyanız değiştikçe değişen özel bir değer türü yaratan işlevler gibidirler. Ayrıca alışkın olduğunuz şekillerde iletişim kuramazlar. Daha çok başka bir dünyadan gelen kalp atışları gibidirler. Bu yüzden kendilerini açıklayamayacakları için nasıl çalıştıklarını açıklamak için elimden geleni yapacağım.",
+                            "$~Size dünyalarımız ile bunların mümkün kıldığı şeyler arasındaki bağlantıyı göstermek istiyorum. Bunlara *girdi akışları* diyoruz ve bunlar belki de Verse'deki en büyülü girdi türüdür. Dünyanız değiştikçe değişen özel bir değer türü yaratan işlevler gibidirler. Ayrıca alışkın olduğunuz şekillerde iletişim kuramazlar. Daha çok başka bir dünyadan gelen kalp atışları gibidirler. Bu yüzden kendilerini açıklayamayacakları için nasıl çalıştıklarını açıklamak için elimden geleni yapacağım.",
                             "$~Biriyle tanışmaya hazır mısınız?"
                         ]
                     ]

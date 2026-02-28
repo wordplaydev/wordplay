@@ -1775,7 +1775,7 @@
                         [
                             "Set",
                             "eager",
-                            "$~O tak, oczywiście. Kolekcjonuję rzeczy (Hm, oczywiście; jestem kolekcją). Ale co najważniejsze, kolekcjonuję tylko **jedną rzecz każdego rodzaju**. Mogę zbierać, co chcesz i pomagać ci śledzić wartości, ale nigdy nie powtórzę wartości. Lubię układać się trochę jak @List, ale zamiast tego z \\{\\ i \\}\\."
+                            "$~O tak, oczywiście. Kolekcjonuję rzeczy (Hm, oczywiście; jestem kolekcją). Ale co najważniejsze, kolekcjonuję tylko *jedną rzecz każdego rodzaju*. Mogę zbierać, co chcesz i pomagać ci śledzić wartości, ale nigdy nie powtórzę wartości. Lubię układać się trochę jak @List, ale zamiast tego z \\{\\ i \\}\\."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -2389,7 +2389,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Chcę pokazać wam związek między naszymi światami i tym, co one umożliwiają. Nazywamy je **strumieniami wejściowymi** i są prawdopodobnie najbardziej magicznym rodzajem danych wejściowych w Verse. Są jak funkcje, które tworzą specjalny rodzaj wartości, która zmienia się wraz ze zmianą twojego świata. Nie mogą się również komunikować w sposób, do którego możesz być przyzwyczajony. Są bardziej jak bicie serca z innego świata. Więc zrobię co w mojej mocy, aby wyjaśnić, jak działają, ponieważ same nie będą w stanie wyjaśnić.",
+                            "$~Chcę pokazać wam związek między naszymi światami i tym, co one umożliwiają. Nazywamy je *strumieniami wejściowymi* i są prawdopodobnie najbardziej magicznym rodzajem danych wejściowych w Verse. Są jak funkcje, które tworzą specjalny rodzaj wartości, która zmienia się wraz ze zmianą twojego świata. Nie mogą się również komunikować w sposób, do którego możesz być przyzwyczajony. Są bardziej jak bicie serca z innego świata. Więc zrobię co w mojej mocy, aby wyjaśnić, jak działają, ponieważ same nie będą w stanie wyjaśnić.",
                             "$~Jesteś gotowy poznać kogoś takiego?"
                         ]
                     ]

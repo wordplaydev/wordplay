@@ -1775,7 +1775,7 @@
                         [
                             "Set",
                             "eager",
-                            "Oh yes, of course. I collect things (Hm, obviously; I am a collection). But most importantly, I only collect **one of each kind** of thing. I can gather whatever you like and help you keep track of values, but I will never repeat a value. I like to arrange myself a little like @List but with \\{\\ and \\}\\ instead."
+                            "Oh yes, of course. I collect things (Hm, obviously; I am a collection). But most importantly, I only collect *one of each kind* of thing. I can gather whatever you like and help you keep track of values, but I will never repeat a value. I like to arrange myself a little like @List but with \\{\\ and \\}\\ instead."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,

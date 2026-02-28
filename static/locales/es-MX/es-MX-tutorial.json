@@ -1773,7 +1773,7 @@
                         [
                             "Set",
                             "eager",
-                            "Oh, sí, por supuesto. Colecciono cosas. (Hm, obviamente, soy una colección). Pero lo más importante es que solo colecciono **una de cada tipo** de cosas. Puedo reunir lo que quieras y ayudarte llevar un registro de los valores, pero nunca repetiré un valor. Me gusta organizarme un poco como @List, pero con \\{\\ y \\}\\ en su lugar."
+                            "Oh, sí, por supuesto. Colecciono cosas. (Hm, obviamente, soy una colección). Pero lo más importante es que solo colecciono *una de cada tipo* de cosas. Puedo reunir lo que quieras y ayudarte llevar un registro de los valores, pero nunca repetiré un valor. Me gusta organizarme un poco como @List, pero con \\{\\ y \\}\\ en su lugar."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -2362,7 +2362,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Quiero mostrarles la conexión entre nuestros mundos y lo que hacen posible. Los llamamos **flujos de entrada** y son quizás el tipo de entrada más mágico del Verso. Son como funciones que crean un tipo especial de valor que cambia a medida que cambia tu mundo. Tampoco pueden comunicarse en la forma a la que usted está acostumbrado. Son más como latidos de otro mundo. Así que haré todo lo posible para explicar cómo funcionan, ya que no podrán explicarse por sí solos.",
+                            "Quiero mostrarles la conexión entre nuestros mundos y lo que hacen posible. Los llamamos *flujos de entrada* y son quizás el tipo de entrada más mágico del Verso. Son como funciones que crean un tipo especial de valor que cambia a medida que cambia tu mundo. Tampoco pueden comunicarse en la forma a la que usted está acostumbrado. Son más como latidos de otro mundo. Así que haré todo lo posible para explicar cómo funcionan, ya que no podrán explicarse por sí solos.",
                             "¿Estás lista para conocer a una?"
                         ]
                     ]

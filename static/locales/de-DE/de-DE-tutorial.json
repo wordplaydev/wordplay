@@ -1787,7 +1787,7 @@
                         [
                             "Set",
                             "eager",
-                            "$~Oh ja, natürlich. Ich sammle Dinge (Hm, offensichtlich; ich bin eine Sammlung). Aber am wichtigsten ist, dass ich nur **eines von jeder Art** sammle. Ich kann sammeln, was immer Sie möchten, und Ihnen helfen, den Überblick über Werte zu behalten, aber ich werde niemals einen Wert wiederholen. Ich mag es, mich ein bisschen wie @List anzuordnen, aber stattdessen mit \\{\\ und \\}\\."
+                            "$~Oh ja, natürlich. Ich sammle Dinge (Hm, offensichtlich; ich bin eine Sammlung). Aber am wichtigsten ist, dass ich nur *eines von jeder Art* sammle. Ich kann sammeln, was immer Sie möchten, und Ihnen helfen, den Überblick über Werte zu behalten, aber ich werde niemals einen Wert wiederholen. Ich mag es, mich ein bisschen wie @List anzuordnen, aber stattdessen mit \\{\\ und \\}\\."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -2397,7 +2397,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Ich möchte Ihnen die Verbindung zwischen unseren Welten und dem, was sie ermöglichen, zeigen. Wir nennen sie **Eingabeströme**, und sie sind vielleicht die magischste Art von Eingabe im Vers. Sie sind wie Funktionen, die eine spezielle Art von Wert erzeugen, der sich ändert, wenn sich Ihre Welt ändert. Sie können auch nicht auf die Weise kommunizieren, die Sie vielleicht gewohnt sind. Sie sind eher wie Herzschläge aus einer anderen Welt. Ich werde also mein Bestes tun, um zu erklären, wie sie funktionieren, da sie sich selbst nicht erklären können.",
+                            "$~Ich möchte Ihnen die Verbindung zwischen unseren Welten und dem, was sie ermöglichen, zeigen. Wir nennen sie *Eingabeströme*, und sie sind vielleicht die magischste Art von Eingabe im Vers. Sie sind wie Funktionen, die eine spezielle Art von Wert erzeugen, der sich ändert, wenn sich Ihre Welt ändert. Sie können auch nicht auf die Weise kommunizieren, die Sie vielleicht gewohnt sind. Sie sind eher wie Herzschläge aus einer anderen Welt. Ich werde also mein Bestes tun, um zu erklären, wie sie funktionieren, da sie sich selbst nicht erklären können.",
                             "$~Bist du bereit, einen zu treffen?"
                         ]
                     ]

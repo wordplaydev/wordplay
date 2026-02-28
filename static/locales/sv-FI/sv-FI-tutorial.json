@@ -1779,7 +1779,7 @@
                         [
                             "Set",
                             "eager",
-                            "$~Åh ja, såklart. Jag samlar på saker (Hm, uppenbarligen; jag är en samling). Men viktigast av allt, jag samlar bara på **en av varje sort** av saker. Jag kan samla vad du vill och hjälpa dig att hålla reda på värderingar, men jag kommer aldrig att upprepa ett värde. Jag gillar att ordna mig lite som @List men med \\{\\ och \\}\\ istället."
+                            "$~Åh ja, såklart. Jag samlar på saker (Hm, uppenbarligen; jag är en samling). Men viktigast av allt, jag samlar bara på *en av varje sort* av saker. Jag kan samla vad du vill och hjälpa dig att hålla reda på värderingar, men jag kommer aldrig att upprepa ett värde. Jag gillar att ordna mig lite som @List men med \\{\\ och \\}\\ istället."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -2393,7 +2393,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Jag vill visa dig kopplingen mellan våra världar och vad de gör möjligt. Vi kallar dem **inmatningsströmmar**, och de är kanske den mest magiska typen av indata i Versen. De är som funktioner som skapar en speciell typ av värde som förändras när din värld förändras. De kan inte heller kommunicera på de sätt som du kanske är van vid. De är mer som hjärtslag från en annan värld. Så jag ska göra mitt bästa för att förklara hur de fungerar eftersom de inte kommer att kunna förklara sig själva.",
+                            "$~Jag vill visa dig kopplingen mellan våra världar och vad de gör möjligt. Vi kallar dem *inmatningsströmmar*, och de är kanske den mest magiska typen av indata i Versen. De är som funktioner som skapar en speciell typ av värde som förändras när din värld förändras. De kan inte heller kommunicera på de sätt som du kanske är van vid. De är mer som hjärtslag från en annan värld. Så jag ska göra mitt bästa för att förklara hur de fungerar eftersom de inte kommer att kunna förklara sig själva.",
                             "$~Är du redo att träffa en?"
                         ]
                     ]
