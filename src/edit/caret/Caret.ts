@@ -1981,6 +1981,15 @@ export default class Caret {
         let position: Expression | undefined;
 
         // Tokenize the insertion
+        const keyTokens = tokens(key);
+        // We expect exactly two tokens, the key token and the end token. Otherwise, we don't wrap.
+        if (
+            keyTokens.length < 2 ||
+            keyTokens.length > 2 ||
+            keyTokens[1].isSymbol(Sym.End)
+        )
+            return;
+
         const token = tokens(key)[0];
         if (token === undefined) return;
 
