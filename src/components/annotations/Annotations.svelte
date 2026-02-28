@@ -308,7 +308,8 @@
                                                 ? new NodeRef(
                                                       caretNode
                                                           .getType(context)
-                                                          .generalize(context),
+                                                          .generalize(context)
+                                                          .simplify(context),
                                                       $locales,
                                                       context,
                                                   )
