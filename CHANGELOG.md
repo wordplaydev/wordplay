@@ -20,6 +20,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We upgraded internal tooling for stability.
 - We no longer show space indicators by default, as it can be confused with the multiplication operator (#961).
 - We made code editor cursor descriptions of functions simpler and easier to read.
+- We stopped binds with types from wrapping in blocks mode, so they're easier to read.
 
 ## 0.16.43 - 2026-02-22
 
