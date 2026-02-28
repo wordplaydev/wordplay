@@ -218,6 +218,7 @@ function completeEvaluate({
                       : context.getBasis().locales,
                   context,
                   false,
+                  false,
                   precedingExpression,
               )
             : Evaluate.make(precedingExpression, []);

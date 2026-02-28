@@ -134,6 +134,7 @@ export default class Block extends Expression {
                               locales,
                               context,
                               false,
+                              true,
                               undefined,
                           )
                         : def instanceof StructureDefinition

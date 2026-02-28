@@ -148,6 +148,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         nameOrLocales: Locales | string,
         context: Context,
         defaults: boolean,
+        symbolic: boolean,
         /** The structure to call the function on, or the type it should be called on */
         structureType: Expression | Type | undefined,
         // If it can be unary, returns a unary evaluate.
@@ -156,7 +157,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         const name =
             typeof nameOrLocales === 'string'
                 ? nameOrLocales
-                : nameOrLocales.getName(this.names);
+                : nameOrLocales.getName(this.names, symbolic);
         const fun =
             structureType instanceof Reference ||
             structureType instanceof PropertyReference
