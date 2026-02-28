@@ -5194,7 +5194,7 @@
                         "tips": ["edit code as text", "edit code as blocks"]
                     },
                     "space": {
-                        "label": "space indicator",
+                        "label": "space, tab, and new line markers",
                         "labels": ["hide", "show"],
                         "tips": [
                             "do not show space and tab indicators",

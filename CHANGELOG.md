@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - We upgraded internal tooling for stability.
+- We no longer show space indicators by default, as it can be confused with the multiplication operator (#961).
 
 ## 0.16.43 - 2026-02-22
 
