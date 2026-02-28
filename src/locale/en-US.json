@@ -6075,7 +6075,7 @@
                 "header": "Join",
                 "prompt": {
                     "create": "Create an account to save your projects, collaborate with others, and share your work.",
-                    "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifing information.",
+                    "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifying information.",
                     "password": "Passwords must be at least /6 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
                 }
             },
