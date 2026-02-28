@@ -1,9 +1,10 @@
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import { testConflict } from '@conflicts/TestUtilities';
+import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
-import BinaryEvaluate from './BinaryEvaluate';
+import Reference from './Reference';
 import SetOrMapAccess from './SetOrMapAccess';
 
 test.each([
@@ -12,16 +13,18 @@ test.each([
         '{1:1 2:2 3:3}{"hi"}',
         SetOrMapAccess,
         IncompatibleKey,
+        0,
     ],
-    ['{1:1 2:2 3:3}{1}', '[1 2 3]{"hi"}', SetOrMapAccess, IncompatibleInput],
+    ['{1:1 2:2 3:3}{1}', '[1 2 3]{"hi"}', SetOrMapAccess, IncompatibleInput, 0],
     [
         "map: { 1: 1 'hi': 0}\nmap{1}•# ? map{1} + 1 0",
         "map: { 1: 1 'hi': 0}\nmap{1}•'' ? map{1} + 1 0",
-        BinaryEvaluate,
-        IncompatibleInput,
+        Reference,
+        UnknownName,
+        2,
     ],
-])('%s => no conflict, %s => conflict', (good, bad, node, conflict) => {
-    testConflict(good, bad, node, conflict);
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });
 
 test.each([

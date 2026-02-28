@@ -1,22 +1,24 @@
 import { testConflict } from '@conflicts/TestUtilities';
+import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
-import BinaryEvaluate from './BinaryEvaluate';
 import ListAccess from './ListAccess';
+import Reference from './Reference';
 
 test.each([
-    ['[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, IncompatibleInput],
-    ['[1][1]', '1[1]', ListAccess, IncompatibleInput],
+    ['[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, IncompatibleInput, 0],
+    ['[1][1]', '1[1]', ListAccess, IncompatibleInput, 0],
     // Verify that type guards are working on list accesses.
     [
         'list: [1 2 ø 3]\nlist[2]•ø ? 1 list[2] + 1',
         'list: [1 2 ø 3]\nlist[2]•# ? 1 list[2] + 1',
-        BinaryEvaluate,
-        IncompatibleInput,
+        Reference,
+        UnknownName,
+        2,
     ],
-])('%s => no conflict, %s => conflict', (good, bad, node, conflict) => {
-    testConflict(good, bad, node, conflict);
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });
 
 test.each([

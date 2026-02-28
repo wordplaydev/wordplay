@@ -19,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We simplified conflicts, limiting them to just one message instead of two and improving their clarity.
 - We made a suggestion to name an unused value in a @Block.
+- We simplified conflicts when a function name can't be found.
 - We no longer show space indicators by default, as it can be confused with the multiplication operator (#961).
 - We made code editor cursor descriptions of functions simpler and easier to read.
 - We stopped binds with types from wrapping in @Block mode, so they're easier to read.

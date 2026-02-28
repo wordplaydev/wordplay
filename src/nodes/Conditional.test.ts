@@ -1,12 +1,14 @@
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
 import { testConflict } from '@conflicts/TestUtilities';
+import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
 import type Conflict from '../conflicts/Conflict';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
 import BinaryEvaluate from './BinaryEvaluate';
 import Conditional from './Conditional';
 import type Node from './Node';
+import Reference from './Reference';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],
@@ -19,9 +21,9 @@ test.each([
         a: 1 > 0 ? 1 "hi"
         ⊤ ? a + 1 a
         `,
-        BinaryEvaluate,
-        IncompatibleInput,
-        1,
+        Reference,
+        UnknownName,
+        2,
     ],
     [
         `
@@ -81,9 +83,10 @@ test.each([
         bad: string,
         node: new (...params: never[]) => Node,
         conflict: new (...params: never[]) => Conflict,
-        number?: number,
+        nodeIndex?: number,
+        badIndex?: number | undefined,
     ) => {
-        testConflict(good, bad, node, conflict, number);
+        testConflict(good, bad, node, conflict, nodeIndex, badIndex);
     },
 );
 
