@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - We now dismiss hints on mobile if the page is tapped.
+- Initial loads on mobile devices are now less janky.
 
 ### Changed
 

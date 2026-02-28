@@ -393,7 +393,7 @@
         }
 
         .feedback.expanded {
-            max-height: 100vh;
+            max-height: 100dvh;
             overflow: auto;
         }
 
