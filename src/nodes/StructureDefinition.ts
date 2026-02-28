@@ -227,6 +227,7 @@ export default class StructureDefinition extends DefinitionExpression {
         nameOrLocales: Locales | string,
         context: Context,
         defaults: boolean,
+        symbolic = false,
     ): Evaluate | ExpressionPlaceholder {
         // In case for some reason an input of this refers to this.
         if (context.visited(this)) return ExpressionPlaceholder.make();
@@ -235,7 +236,7 @@ export default class StructureDefinition extends DefinitionExpression {
             Reference.make(
                 typeof nameOrLocales === 'string'
                     ? nameOrLocales
-                    : nameOrLocales.getName(this.names),
+                    : nameOrLocales.getName(this.names, symbolic),
                 this,
             ),
             this.inputs

@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We now dismiss hints on mobile if the page is tapped.
 - Initial loads on mobile devices are now less janky.
 - Pasting code in text mode didn't always work. Now it does!
+- We restored showing the full name in the guide, rather than the symbolic name. Oops!
 
 ### Changed
 

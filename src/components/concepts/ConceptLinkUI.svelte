@@ -191,7 +191,7 @@
 {:else if typeof link === 'string'}
     {link}
 {:else}
-    {link.getName($locales, true)}
+    {link.getName($locales, symbolic)}
 {/if}
 
 <style>

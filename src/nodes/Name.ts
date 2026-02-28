@@ -129,7 +129,11 @@ export default class Name extends LanguageTagged {
 
     /** Symbolic if it matches the binary op regex  */
     isSymbolic() {
-        return this.name.isSymbol(Sym.Operator);
+        return (
+            this.isOperator() ||
+            this.isEmoji() ||
+            this.name.getTextLength() === 1
+        );
     }
 
     getName(): string {

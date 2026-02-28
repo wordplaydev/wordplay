@@ -210,7 +210,11 @@ export default class Token extends Node {
 
         // Is this a name? Choose the most appropriate name.
         if (
+            // Caret isn't in the name?
             !inside &&
+            // The name is more than 1 symbol? (We preserve symbolic names)
+            this.getTextLength() > 1 &&
+            // The token is a name or operator?
             (this.isSymbol(Sym.Name) || this.isSymbol(Sym.Operator))
         ) {
             const parent = root.getParent(this);
