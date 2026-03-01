@@ -255,8 +255,10 @@ export default class Speech extends StreamValue<TextValue, string> {
             // Handle end (restart if still on)
             this.recognition.onend = () => {
                 this.isListening = false;
-                // Restart if we're supposed to be listening
-                if (this.on) {
+                // Only auto-restart if we're supposed to be listening
+                // and not in a retry state — let attemptRetry handle
+                // backoff and restart when errors are occurring
+                if (this.on && this.retryCount === 0) {
                     try {
                         this.recognition?.start();
                         this.isListening = true;
