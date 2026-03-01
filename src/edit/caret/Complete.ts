@@ -37,6 +37,7 @@ import {
     BIND_SYMBOL,
     CODE_SYMBOL,
     CONVERT_SYMBOL,
+    DOT_SYMBOL,
     ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
@@ -217,6 +218,7 @@ function completeEvaluate({
                       : context.getBasis().locales,
                   context,
                   false,
+                  false,
                   precedingExpression,
               )
             : Evaluate.make(precedingExpression, []);
@@ -389,7 +391,9 @@ function completeBinaryEvaluate({
     if (
         precedingExpression instanceof NumberLiteral &&
         !precedingExpression.unit?.isEmpty() &&
-        (text === PRODUCT_SYMBOL || text === EXPONENT_SYMBOL)
+        (text === PRODUCT_SYMBOL ||
+            text === DOT_SYMBOL ||
+            text === EXPONENT_SYMBOL)
     )
         return undefined;
 

@@ -1249,10 +1249,7 @@
                 if (conflictSelection)
                     // Get all conflicts involving the selection
                     newConflictsOfInterest = [
-                        ...(project.getPrimaryConflictsInvolvingNode(
-                            conflictSelection,
-                        ) ?? []),
-                        ...(project.getSecondaryConflictsInvolvingNode(
+                        ...(project.getConflictsInvolvingNode(
                             conflictSelection,
                         ) ?? []),
                         ...$nodeConflicts,

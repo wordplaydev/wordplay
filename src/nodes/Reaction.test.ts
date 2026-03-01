@@ -24,7 +24,7 @@ test.each([
     // Check reactions in evaluations.
     [
         `
-        ƒ mult(a•# b•#) a · b
+        ƒ mult(a•# b•#) a × b
         b: mult(2 1 … ∆ Time() … 2)
         b
         `,

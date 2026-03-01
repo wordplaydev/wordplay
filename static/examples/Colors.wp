@@ -1,12 +1,12 @@
 Color Show
 ===
-color: Color(0% 0 0°) …  ∆ 🖱️() … Color(50% Random() · 200 Random() · 360°)
+color: Color(0% 0 0°) …  ∆ 🖱️() … Color(50% Random() × 200 Random() × 360°)
 
 Phrase(
     "wowie" 
     name: "kitty"    
     size: 6m
     color: color 
-    rotation: (Random() - 0.5) · 30°
+    rotation: (Random() - 0.5) × 30°
     duration: .1s
 )

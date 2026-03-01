@@ -17,16 +17,14 @@ export default class ExpectedStream extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Reaction.conflict.ExpectedStream;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.reaction.condition,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => ExpectedStream.LocalePath(l).primary,
-                        new NodeRef(this.reaction.condition, locales, context),
-                    ),
-            },
+            node: this.reaction.condition,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => ExpectedStream.LocalePath(l).explanation,
+                    new NodeRef(this.reaction.condition, locales, context),
+                ),
         };
     }
 

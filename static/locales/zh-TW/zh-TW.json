@@ -197,12 +197,12 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "primary": "我不知道這個語言呢",
-                    "name": "$~未知語言"
+                    "name": "$~未知語言",
+                    "explanation": "$~我不懂這種語言。"
                 },
                 "MissingLanguage": {
-                    "primary": "這裡缺少了語言的描述，你能加上一個嗎？",
-                    "name": "$~缺少語言"
+                    "name": "$~缺少語言",
+                    "explanation": "$~我這裡缺少一種語言。你能添加一種嗎？"
                 }
             }
         },
@@ -242,27 +242,24 @@
             "doc": "我代表了一個 @Table 中的一排。你最好和 @Table 聊聊這個，因為它知道我的所有事情。我只是在這裡確保所有值都在一行裡。 :(",
             "conflict": {
                 "InvalidRow": {
-                    "primary": "行要麼是所有值，要麼必須是所有 @Bind 。",
-                    "name": "$~無效行"
+                    "name": "$~無效行",
+                    "explanation": "$~行要么全部是值，要么全部是 @Bind。"
                 },
                 "MissingCell": {
-                    "primary": "我和一列 $1 走散啦。",
-                    "secondary": "這裡是需要我的，但是 $1 好像沒有提供呢。",
-                    "name": "$~缺失列"
+                    "name": "$~缺失列",
+                    "explanation": "$~我缺少第 1 列。"
                 },
                 "UnknownColumn": {
-                    "primary": "我不知道有哪一列是這個名字呀。",
-                    "name": "$~未知的列名"
+                    "name": "$~未知的列名",
+                    "explanation": "$~我不知道有這麼個專欄。"
                 },
                 "ExtraCell": {
-                    "primary": "我真的應該在這裡嗎？",
-                    "secondary": "嘿 $1，你不是 @Table 的一部分呀!",
-                    "name": "$~額外的列"
+                    "name": "$~額外的列",
+                    "explanation": "$~根據我的表格類型，我是一個不應該存在的多餘列。"
                 },
                 "UnexpectedColumnBind": {
-                    "primary": "我真的應該是一個 @Bind 嗎?",
-                    "secondary": "嘿，我是一個 @Table, 我需要一個值，而不是 @Bind。",
-                    "name": "$~無綁定行"
+                    "name": "$~無綁定行",
+                    "explanation": "$~我應該是一個值，而不是 @Bind。"
                 }
             }
         },
@@ -286,9 +283,8 @@
             "doc": "我是 @FunctionDefinition 或 @StructureDefinition 上的神秘類型，由 @TypeInputs 在對其中任一類型進行求值時提供。@Set、@List 和 @Map 都可以使用我。",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "primary": "我跟 $1 有一樣的值。",
-                    "secondary": "我跟 $1 有一樣的名字。",
-                    "name": "$~重複類型變數"
+                    "name": "$~重複類型變數",
+                    "explanation": "$~我的名字和$1一樣。"
                 }
             },
             "label": {
@@ -399,7 +395,7 @@
                 "這讓一切都變得更簡潔了，儘管它們本質上是一樣的。",
                 "不過這裡有一件事需要注意：當我處於這種形式時，我會從左到右進行評估。如果你習慣了數學中的運算順序，這可能會讓你感到困惑。",
                 "我是說我可能會以你意想不到的方式進行評估：",
-                "\\1 + 2 · 3 + 4\\",
+                "\\1 + 2 × 3 + 4\\",
                 "在數學中，乘法是第一位的，然後是加法，所以這樣算的結果會是\\11\\。但因為我是按照讀取順序演算的，結果就會是\\13\\。 "
             ],
             "right": "輸入",
@@ -407,8 +403,8 @@
             "finish": "你看，我創造了 $1!",
             "conflict": {
                 "OrderOfOperations": {
-                    "primary": "我是按照讀取順序而非數學運算順序來評估一個值的。你想用 @Block 來來指定我的運算順序嗎？",
-                    "name": "$~模糊的順序"
+                    "name": "$~模糊的順序",
+                    "explanation": "$~我按照閱讀順序進行求值，而不是按照數學運算順序。您是否要使用 @Block 來指定我的求值順序？"
                 }
             },
             "label": {
@@ -450,41 +446,38 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "primary": "有其他人已經被命名為 $1 了，所以我不能叫這個名字。",
-                        "secondary": "噢, $1 是我的名字",
-                        "name": "$~重複名稱"
+                        "name": "$~重複名稱",
+                        "explanation": "$~有人已經用了「$1」這個名字，所以我不能用這個名字。"
                     },
                     "resolution": "$~有重複的名稱，是否要刪除一個？"
                 },
                 "DuplicateShare": {
-                    "primary": "我有和 $1 一樣的名字，這讓事情有些模稜兩可",
-                    "secondary": "我有跟 $1 一樣的名字",
-                    "name": "$~重複共享"
+                    "name": "$~重複共享",
+                    "explanation": "$~我的名字和1美元一樣。這使得我們分享的是什麼變得不清楚。"
                 },
                 "IncompatibleType": {
-                    "primary": "我應該是 $2 的，但現在我是 $1",
-                    "secondary": "噢…抱歉，你輸入了什麼？ $1, 真的嗎?",
-                    "name": "$~不相容類型"
+                    "name": "$~不相容類型",
+                    "explanation": "$~我應該用2號字體，但我用的是1號字體。"
                 },
                 "MisplacedShare": {
-                    "primary": "我只能分享在 @Program 等級的事物，但沒辦法解釋它裡面的一切！",
-                    "name": "$~放錯位置的份額"
+                    "name": "$~放錯位置的份額",
+                    "explanation": "$~我只能在 @Program 層級分享內容，無法在任何內部分享！"
                 },
                 "MissingShareLanguages": {
-                    "primary": "如果你想分享這個，你需要說明它是什麼語言的，這樣其他人才知道他們能不能閱讀你分享的東西！",
-                    "name": "$~缺少語言"
+                    "name": "$~缺少語言",
+                    "explanation": "$~如果你想分享這個內容，你必須說明它是什麼語言的，這樣其他人才能知道他們是否能讀懂！"
                 },
                 "RequiredAfterOptional": {
-                    "primary": "我不能在這裡，這裡還有一個可選的 @Bind 在我前面",
-                    "name": "$~可選後必填輸入"
+                    "name": "$~可選後必填輸入",
+                    "explanation": "$~我不能在這裡，我前面還有一個可選的 @Bind 操作。"
                 },
                 "UnexpectedEtc": {
-                    "primary": "只有在 @FunctionDefinition 中我才是可變的長度",
-                    "name": "$~輸入列表後的意外輸入"
+                    "name": "$~輸入列表後的意外輸入",
+                    "explanation": "$~我只能在 @FunctionDefinition 中使用可變長度"
                 },
                 "UnusedBind": {
-                    "primary": " 嘿，我給這這個變數命名了，但是它還沒有被使用呢！",
-                    "name": "$~未使用的綁定"
+                    "name": "$~未使用的綁定",
+                    "explanation": "$~我的名字叫1美元，但沒人用我。也許我沒用？"
                 }
             },
             "label": {
@@ -516,17 +509,17 @@
             "finish": "好啦，我現在有 $1 了",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "primary": "我需要一個表述。",
-                    "name": "$~缺失表達"
+                    "name": "$~缺失表達",
+                    "explanation": "$~我需要一個表達式。"
                 },
                 "IgnoredExpression": {
-                    "primary": "$~我將忽略 $1，因為它沒有定義任何東西並且不是我的最後一個表達式。",
-                    "secondary": "$~@Block，不要忽略我！",
                     "resolution": {
                         "binary": "$~您的意思是將其設為@BinaryEvaluate 而不是@UnaryEvaluate 嗎？我可以添加一個空格，所以我知道這就是你的意思。",
-                        "evaluate": "$~您的意思是將其作為@Evaluate 嗎？我可以刪除這個空格，使其成為一個表達式，而不是兩個單獨的表達式。"
+                        "evaluate": "$~您的意思是將其作為@Evaluate 嗎？我可以刪除這個空格，使其成為一個表達式，而不是兩個單獨的表達式。",
+                        "name": "$~您是想用@Bind命名這個表達式，以便可以使用它來計算@Block的值嗎？"
                     },
-                    "name": "$~忽略的表達"
+                    "name": "$~忽略的表達",
+                    "explanation": "$~我被忽略了，因為 @Block 的值取決於最後一個表達式。"
                 }
             },
             "label": {
@@ -548,12 +541,12 @@
             "start": "向 $1 借用 $2",
             "conflict": {
                 "UnknownBorrow": {
-                    "primary": "我不知道哪個 $source 是叫這個名字的",
-                    "name": "$~未知借款"
+                    "name": "$~未知借款",
+                    "explanation": "$~我不知道有名為 $source 的資源"
                 },
                 "BorrowCycle": {
-                    "primary": "這取決於 $1，而它取決於 $source，所以這個程式不能被運算。",
-                    "name": "$~自引用借用"
+                    "name": "$~自引用借用",
+                    "explanation": "$~這取決於 $1，而 $1 又取決於這個 $source，因此無法評估程式。"
                 }
             },
             "exception": {
@@ -598,9 +591,8 @@
             "finish": "我想這就是 $1 了吧?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "我怎麼能用 $1 來選擇是或不是呢? 這樣是沒辦法的",
-                    "secondary": "我感覺 @Conditional 想要我成為一個 @Boolean，但我現在還是 $1。",
-                    "name": "$~預期布林條件"
+                    "name": "$~預期布林條件",
+                    "explanation": "$~我需要一個布林值來做決定，但我得到的卻是 1 美元。"
                 }
             },
             "label": {
@@ -622,8 +614,8 @@
             "start": "太棒了，一個新的轉換！",
             "conflict": {
                 "MisplacedConversion": {
-                    "primary": "哇，我不能在這裡，只能在 @Block 中。",
-                    "name": "$~錯誤的轉換"
+                    "name": "$~錯誤的轉換",
+                    "explanation": "$~哇，我不能在這裡，只能在@Block。"
                 }
             },
             "label": {
@@ -648,8 +640,8 @@
             "finish": "太棒了，我做到了 $1",
             "conflict": {
                 "UnknownConversion": {
-                    "primary": "糟糕，無法將 $1 轉成 $2",
-                    "name": "$~未知轉換"
+                    "name": "$~未知轉換",
+                    "explanation": "$~我們找不到將 1 美元轉換成 2 美元的方法。"
                 }
             },
             "exception": {
@@ -677,7 +669,7 @@
             "doc": [
                 "我是任何表達式，但附帶了 @Doc！",
                 "要創建我，只需在表達式前面加上 @Doc，然後你就會得到我：",
-                "\\雙加: 1\n(2 · 雙加) + \n¶讓它再大一點點¶\n1\\",
+                "\\雙加: 1\n(2 × 雙加) + \n¶讓它再大一點點¶\n1\\",
                 "我在對程式的某部分進行評論時很有用。"
             ],
             "start": "讓我們評估這個表達式"
@@ -702,41 +694,36 @@
             "finish": "我評估為 $1",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "我應該是一個 $1，但我是一個 $2",
-                    "secondary": "嗯，我得到了一個 $2 而不是 $1",
-                    "name": "$~不相容的輸入"
+                    "name": "$~不相容的輸入",
+                    "explanation": "$~我應該用1號字體，但我用的是2號字體。"
                 },
                 "UnexpectedTypeInput": {
-                    "primary": "我沒料到會得到這種類型的輸入",
-                    "secondary": "哦，我這裡不應該出現嗎？",
-                    "name": "$~意外的類型輸入"
+                    "name": "$~意外的類型輸入",
+                    "explanation": "$~我是一個額外的、意想不到的輸入類型。"
                 },
                 "MissingInput": {
-                    "primary": "$~如果沒有輸入 $2，我就無法評估 :(",
-                    "secondary": "$~我需要一個值，你能給我一個嗎？",
-                    "name": "$~缺少輸入"
+                    "name": "$~缺少輸入",
+                    "explanation": "$~沒有輸入 2 美元，我無法進行評估 :("
                 },
                 "NotInstantiable": {
-                    "primary": "我不能建立這個 @StructureDefinition，它有未實現的函數。",
-                    "name": "$~結構不完整"
+                    "name": "$~結構不完整",
+                    "explanation": "$~我無法建立 @StructureDefinition，因為它包含未實現的功能。"
                 },
                 "UnexpectedInput": {
-                    "primary": "我沒預料到會得到這個輸入 $1",
-                    "secondary": "哦，我這裡不應該出現嗎？",
-                    "name": "$~意外輸入"
+                    "name": "$~意外輸入",
+                    "explanation": "$~我是一個意料之外的參與者。"
                 },
                 "UnknownInput": {
-                    "primary": "我不知道這個名字的輸入",
-                    "secondary": "我覺得我不應該在這裡",
-                    "name": "$~未知輸入"
+                    "name": "$~未知輸入",
+                    "explanation": "$~這個函數 *$1* 不需要輸入我的名字。"
                 },
                 "InputListMustBeLast": {
-                    "primary": "輸入清單必須放在最後",
-                    "name": "$~額外的輸入不是最後的"
+                    "name": "$~額外的輸入不是最後的",
+                    "explanation": "$~輸入清單必須放在最後。"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~模稜兩可的評價",
-                    "primary": "$~$1 是您要評估的 $2[$structure|$function] 的名稱嗎？試著刪除我後面的空格，這樣我才知道它是一個@Evaluate，而不是一個單獨的@Block。"
+                    "explanation": "$~$1 是您要評估的 $2[$structure|$function] 的名稱嗎？請嘗試刪除我後面的空格，這樣我就知道它是 @Evaluate 而不是單獨的 @Block。"
                 }
             },
             "exception": {
@@ -779,8 +766,8 @@
             "start": "哎呀，我不知道該怎麼辦！",
             "conflict": {
                 "Placeholder": {
-                    "primary": "有人能頂替我嗎？",
-                    "name": "$~佔位符"
+                    "name": "$~佔位符",
+                    "explanation": "$~你能幫我填上訊息嗎？我只是個佔位符。"
                 }
             },
             "exception": {
@@ -800,11 +787,11 @@
             "doc": [
                 "嗨又見面了！我接受一些輸入，然後使用它們來評估一個表達式，產生一個輸出。",
                 "這裡有一個簡單的例子：",
-                "\\ƒ 重複(訊息•'') 訊息 · 5\n重複('你好')\\",
+                "\\ƒ 重複(訊息•'') 訊息 × 5\n重複('你好')\\",
                 "函數接受一個輸入，\\訊息\\，並使用 @Text/repeat 函數將訊息重複五次。",
                 "如果你想一遍又一遍地評估某些東西，但使用不同的輸入，我非常有用！",
                 "我還有許多其他小技巧。例如，我不一定要有一個名字。在這裡，我直接轉到 @Evaluate 作為一個值。",
-                "\\(ƒ(訊息•'') 訊息 · 5)('你好')\\",
+                "\\(ƒ(訊息•'') 訊息 × 5)('你好')\\",
                 "或者，這是一個接受任意數量輸入的函數，在輸入名稱後加上 \\…\\ 字元。",
                 "\\ƒ 是的(訊息…•'') 訊息.排除('不')\n是的('是' '是' '不' '是' '不')\\",
                 "看看它是如何取出所有的 '不' 並將它們去掉的？這是因為消息是一個 @List，所以我們可以使用 @List/sansAll.",
@@ -816,8 +803,8 @@
             "start": "讓我們建立這個函式！",
             "conflict": {
                 "NoExpression": {
-                    "primary": "我需要一個要評估的表達式，你能加上一個嗎?",
-                    "name": "$~缺失表達"
+                    "name": "$~缺失表達",
+                    "explanation": "$~我需要一個表達式來進行計算，你能加一個嗎？"
                 }
             },
             "label": {
@@ -875,8 +862,8 @@
             "finish": "$1[值是 $2|值不是 $2]",
             "conflict": {
                 "ImpossibleType": {
-                    "primary": "這永遠不可能是這種類型 $1",
-                    "name": "$~不可能類型"
+                    "name": "$~不可能類型",
+                    "explanation": "$~這永遠不可能是1美元。"
                 }
             },
             "exception": {
@@ -933,9 +920,8 @@
             "finish": "我把每個連結在一起了，$1",
             "conflict": {
                 "NotAKeyValue": {
-                    "primary": "我的某個鍵缺少值",
-                    "secondary": "哎呀，我的值在哪裡？",
-                    "name": "$~缺失值"
+                    "name": "$~缺失值",
+                    "explanation": "$~我在一個 @Map 中，所以我需要一個值。"
                 }
             },
             "label": {
@@ -969,8 +955,8 @@
             "start": "$1!",
             "conflict": {
                 "NotANumber": {
-                    "primary": "我以為我認識所有的數字，但我不認識這個",
-                    "name": "$~不是一個數字"
+                    "name": "$~不是一個數字",
+                    "explanation": "$~我以為我知道所有的數字，但這個我不知道。"
                 }
             }
         },
@@ -1071,9 +1057,8 @@
             "finish": "我複製了這個結構，但是把1$改成了2$",
             "conflict": {
                 "InvalidProperty": {
-                    "primary": "$~我不是1美元的投入，所以無法被提煉。",
-                    "secondary": "$~我沒有名為 $1 的輸入",
-                    "name": "$~未知財產"
+                    "name": "$~未知財產",
+                    "explanation": "$~我不是結構 $1 中的名字，所以不能進行精煉。"
                 }
             },
             "label": {
@@ -1110,8 +1095,8 @@
             "finish": "新的流值是1$",
             "conflict": {
                 "ExpectedStream": {
-                    "primary": "$1沒有引用流，所以我永遠不會做出反應!",
-                    "name": "$~預期流量"
+                    "name": "$~預期流量",
+                    "explanation": "$~1 美元不代表任何流，所以我永遠不會做出反應！"
                 }
             },
             "label": {
@@ -1134,18 +1119,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "primary": "我不知道有誰叫$1在$2裡$2這個 @Block 你能給我一個名字嗎?］",
-                        "name": "$~未知名稱"
+                        "name": "$~未知名稱",
+                        "explanation": "$~$1[我不認識任何名叫$1的人，$2[$2|這個@Block]|你能告訴我一個名字嗎？ ]"
                     },
                     "resolution": "$~您的意思是「*$1?」嗎？ *"
                 },
                 "ReferenceCycle": {
-                    "primary": "1$的值取決於它本身，所以我怎麼知道該給它什麼值呢?",
-                    "name": "$~自我參照價值"
+                    "name": "$~自我參照價值",
+                    "explanation": "$~嗯，1 美元的價值取決於它自身，那麼我怎麼知道我應該給它什麼價值呢？"
                 },
                 "UnexpectedTypeVariable": {
-                    "primary": "我不知道該怎麼處理這些輸入",
-                    "name": "$~意外類型變數"
+                    "name": "$~意外類型變數",
+                    "explanation": "$~我不知道該如何處理這些類型的輸入。"
                 }
             },
             "exception": {
@@ -1168,8 +1153,8 @@
             "finish": "我用選定的行和列建立了一個新的表格!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "primary": "我至少需要一個欄位名稱",
-                    "name": "$~缺少列名"
+                    "name": "$~缺少列名",
+                    "explanation": "$~我至少需要一個列名。"
                 }
             }
         },
@@ -1195,9 +1180,8 @@
             "finish": "數值為$1",
             "conflict": {
                 "IncompatibleKey": {
-                    "primary": "我想要一把1$的鑰匙",
-                    "secondary": "我得到了1$，而不是2$",
-                    "name": "$~不相容的密鑰"
+                    "name": "$~不相容的密鑰",
+                    "explanation": "$~我預期會收到一個類型為 $1 的金鑰。"
                 }
             }
         },
@@ -1223,31 +1207,31 @@
             "doc": [
                 "你好，你好嗎?我嗎?我很好。我喜歡定義存儲值和功能的結構，所以只要我能整天這樣做，我就很高興。",
                 "我這樣工作！",
-                "\\•披薩( \\ 原料•['']\n大小•#in\n) (\n\tƒ 成本() 大小· 10美元/in\n)\n\n披薩(['義大利臘腸' '胡椒'] 12in).成本()\\",
+                "\\•披薩( \\ 原料•['']\n大小•#in\n) (\n\tƒ 成本() 大小× 10美元/in\n)\n\n披薩(['義大利臘腸' '胡椒'] 12in).成本()\\",
                 "明白是怎麼回事了吧?我定義了\\Pizza\\，它有兩個輸入，\\ingredients\\ (@Text 列表)和\\size\\(以英寸為單位的數字)。",
                 "在內部，@FunctionDefinition 創建了一個計算披薩價格的函數，假設每英吋$10。",
                 "我不需要@FunctionDefinition。我可以只是輸入。",
                 "\\•披薩(\n原料•['']\n大小•#in\n)\\",
                 "我也可以把@Bind 放在裡面，這樣我們就可以提前評估成本。",
-                "\\•披薩(\n原料•['']\n大小•#in\n) (\n\t成本: 大小· 10美金/in\n)\n\n披薩(['意大利臘腸' '胡椒'] 12in).cost\\"
+                "\\•披薩(\n原料•['']\n大小•#in\n) (\n\t成本: 大小× 10美金/in\n)\n\n披薩(['意大利臘腸' '胡椒'] 12in).cost\\"
             ],
             "start": "讓我們來定義這個可愛的結構",
             "conflict": {
                 "DisallowedInputs": {
-                    "primary": "我不能有輸入，因為我的一個或多個介面函數沒有實現",
-                    "name": "$~不允許輸入"
+                    "name": "$~不允許輸入",
+                    "explanation": "$~我無法接收輸入，因為我的一個或多個介面函數尚未實現。"
                 },
                 "IncompleteImplementation": {
-                    "primary": "我的函數要麼需要全部實現，要麼不需要實現。沒有混亂的混合物!",
-                    "name": "$~結構不完整"
+                    "name": "$~結構不完整",
+                    "explanation": "$~我的函數要嘛全部實現，要嘛一個都不實現。絕不允許有任何混亂的混合！"
                 },
                 "NotAnInterface": {
-                    "primary": "我不是一個介面;一個結構只能實作接口，而不能實作其他結構",
-                    "name": "$~不是一個介面"
+                    "name": "$~不是一個介面",
+                    "explanation": "$~我不是接口；結構體只能實作接口，不能實作其他結構體。"
                 },
                 "UnimplementedInterface": {
-                    "primary": "我實作了1$，但沒有實作2$",
-                    "name": "$~未實現"
+                    "name": "$~未實現",
+                    "explanation": "$~我實現了$1，但還沒有實現$2。"
                 }
             },
             "label": {
@@ -1291,29 +1275,29 @@
             "conflict": {
                 "phone": {
                     "name": "$~可能的電話號碼",
-                    "primary": "$~*$1* 是某人的電話號碼嗎？如果是這樣，請不要在網路上分享我！\n\n2美元"
+                    "explanation": "$~1美元是某人的電話號碼嗎？如果是的話，請不要在網路上分享！\n\n2美元"
                 },
                 "email": {
                     "name": "$~可能的電子郵件",
-                    "primary": "$~*$1* 是某人的電子郵件嗎？如果是這樣，就不要在這裡分享我！\n\n2美元"
+                    "explanation": "$~1美元是某人的郵件地址嗎？如果是的話，請不要在這裡透露！\n\n2美元"
                 },
                 "tin": {
                     "name": "$~可能的稅務識別符",
-                    "primary": "$~*$1* 是稅務識別碼嗎？如果是的話，絕對不要與我分享，我的訊息非常敏感！\n\n2美元"
+                    "explanation": "$~1 美元是稅務識別號碼嗎？如果是，千萬別洩漏我的訊息，這可是非常敏感的訊息！\n\n2 美元"
                 },
                 "address": {
                     "name": "$~可能的地址",
-                    "primary": "$~*$1* 是某人的家庭住址嗎？如果是這樣，就不要把我放在這裡，我們不希望任何人被跟蹤！\n\n2美元"
+                    "explanation": "$~1 美元是某人的家庭住址嗎？如果是，請不要把我放在這裡，我們不想任何人被跟蹤！\n\n2 美元"
                 },
                 "handle": {
                     "name": "$~可能的用戶名",
-                    "primary": "$~*$1* 是您在網路上其他地方的使用者名稱嗎？如果是這樣，除非你真的想這樣做，否則不要在這裡分享我。\n\n2美元"
+                    "explanation": "$~*$1* 是你在其他網站的使用者名稱嗎？如果是的話，除非你真的想這麼做，否則請不要在這裡分享我的用戶名。\n\n$2"
                 },
                 "resolution": "$~這不是敏感數據",
                 "reminder": "$~注意：您可以撤銷此操作並在共用對話方塊中查看您標記為非敏感的其他內容。",
                 "character": {
                     "name": "$~可能的自訂角色",
-                    "primary": "$~這看起來像是角色名。要顯示這些，請使用@FormattedLiteral@TextLiteral。"
+                    "explanation": "$~這看起來像是角色名稱。若要顯示角色名稱，請使用 @FormattedLiteral 而不是 @TextLiteral。"
                 }
             },
             "label": {
@@ -1349,18 +1333,18 @@
             "doc": [
                 "有時候，隱含地引用值比命名它更有幫助。",
                 "例如，假設您想要建立一個新的 @ConversionDefinition，它不命名正在轉換的值。您可以使用我來引用它：",
-                "\\→ #彩虹 #歡樂 . · 1000000歡樂\n2彩虹 → #歡樂\\",
+                "\\→ #彩虹 #歡樂 . × 1000000歡樂\n2彩虹 → #歡樂\\",
                 "看看這裡，代表彩虹數量的部分？",
                 "或者，假設您想要建立一個 @Reaction，但不想為最近的值命名：",
-                "\\2 … ∆ 時間(1000毫秒) … . · 2\\",
+                "\\2 … ∆ 時間(1000毫秒) … . × 2\\",
                 "看看我，代表前一個反應值。",
                 "我不常出現，但當出現時，我可以幫助值擺脫 @Bind！"
             ],
             "start": "評估為 $1",
             "conflict": {
                 "MisplacedThis": {
-                    "primary": "我只允許出現在結構、轉換或反應中。",
-                    "name": "$~放錯了這個參考"
+                    "name": "$~放錯了這個參考",
+                    "explanation": "$~我只能進入結構、轉化或反應。"
                 }
             }
         },
@@ -1401,14 +1385,14 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "primary": "@FunctionDefinition 在此，@UnparsableExpression 不知道這是什麼類型的 $1[表達式 | 類型]。",
-                        "name": "$~無法讀取的程式碼"
+                        "name": "$~無法讀取的程式碼",
+                        "explanation": "$~這裡是 @FunctionDefinition，@UnparsableExpression 不知道這是哪一種 $1[表達式|類型]。"
                     },
                     "resolution": "$~您的意思是輸入 $1、$1 嗎？"
                 },
                 "UnclosedDelimiter": {
-                    "primary": "我預期在 $1 之後的某個時刻會有 $2",
-                    "name": "$~未閉合的分隔符"
+                    "name": "$~未閉合的分隔符",
+                    "explanation": "$~我預計在收到 1 美元後不久會收到 2 美元。"
                 }
             },
             "exception": {
@@ -1431,13 +1415,12 @@
             "finish": "評估為具有修訂行的新表格！",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "primary": "我需要每列的值",
-                    "name": "$~缺少列值"
+                    "name": "$~缺少列值",
+                    "explanation": "$~我需要每一列都有一個值。"
                 },
                 "IncompatibleCellType": {
-                    "primary": "我需要一個 $1，但得到了 $2",
-                    "secondary": "我得到了一個 $2",
-                    "name": "$~不相容的細胞類型"
+                    "name": "$~不相容的細胞類型",
+                    "explanation": "$~我應該輸入 1 美元，但卻輸入了 2 美元。"
                 }
             }
         },
@@ -1523,8 +1506,8 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "primary": "類型名稱只能指結構或類型變量，但這裡指了一個 $1",
-                    "name": "$~未知類型名稱"
+                    "name": "$~未知類型名稱",
+                    "explanation": "$~類型名稱只能引用結構體或型別變量，但這裡指的是型別 $1。"
                 }
             }
         },
@@ -1581,8 +1564,8 @@
             "doc": "我代表一個表。",
             "conflict": {
                 "ExpectedColumnType": {
-                    "primary": "我需要一個垂直列類型",
-                    "name": "$~缺少列類型"
+                    "name": "$~缺少列類型",
+                    "explanation": "$~我需要一種列類型"
                 }
             }
         },
@@ -1829,14 +1812,14 @@
                 "repeat": {
                     "doc": [
                         "$~我創建了一個新的@Text，即我，重複了 \\count\\ 的次數：",
-                        "$~\\'嗨'·5\\",
+                        "$~\\'嗨'×5\\",
                         "$~如果你給我一個分數@Number，我會忽略該分數：",
-                        "$~\\'嗨'·5.5\\",
+                        "$~\\'嗨'×5.5\\",
                         "$~如果您給我一個負的@Number，我會給一個空的@Text。",
-                        "$~\\'嗨'·-5\\",
+                        "$~\\'嗨'×-5\\",
                         "$~我能製作的最長的文字是 65,535 個字元。如果您嘗試製作更長的文本，我會盡可能重複該文本。"
                     ],
-                    "names": ["·", "🔁", "重複"],
+                    "names": ["×", "🔁", "重複"],
                     "inputs": [
                         {
                             "doc": "在新文本中重複自己的次數。",
@@ -1982,11 +1965,11 @@
                 "multiply": {
                     "doc": [
                         "我在我自己的基礎上乘以你給我的 @Number , 得到以我的 @Unit 和指定數字的 @Unit 相結合的結果：",
-                        "\\5·5\\",
-                        "\\5US · 5US\\",
-                        "\\5米 · 1/秒\\"
+                        "\\5×5\\",
+                        "\\5US × 5US\\",
+                        "\\5米 × 1/秒\\"
                     ],
-                    "names": ["·", "乘號"],
+                    "names": ["×", "乘號"],
                     "inputs": [
                         {
                             "doc": "需要相乘的數字",
@@ -2487,7 +2470,7 @@
                     "doc": [
                         "給我一個以值和可選索引為輸入的@FunctionDefinition,產生一個值,我會在我的每個項目上評估它,將我的值轉化為新的值。",
                         "例如,假設我是@Number 的列表,你想將它們都加倍：",
-                        "\\[2 4 6 8].translate(f(num•#) num · 2)\\"
+                        "\\[2 4 6 8].translate(f(num•#) num × 2)\\"
                     ],
                     "names": "翻譯",
                     "inputs": [
@@ -3247,7 +3230,7 @@
                 "@FunctionDefinition 在這裡,我可以解釋@Camera!",
                 "所以@Camera 提供了一個來自你的世界的@Color 的@List。該列表本質上代表一個圖像,但如何處理它取決於您",
                 "您可以嘗試使用一堆@Phrase 來表示圖像,這看起來非常酷!試著複製這個…",
-                "\\顏色：相機(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nf(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.翻譯(\nf(顏色•顏色x•#)\n短語('o' 地點: 地點((x - 1) · 0.5m y · -0.5m) 顏色: 顏色持續時間: 0s\n)\n)\n)\n)\n)\\",
+                "\\顏色：相機(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nf(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.翻譯(\nf(顏色•顏色x•#)\n短語('o' 地點: 地點((x - 1) × 0.5m y × -0.5m) 顏色: 顏色持續時間: 0s\n)\n)\n)\n)\n)\\",
                 "但是你也可以透過分析顏色來決定一盞燈是開著還是關著,或者一種特定的顏色是否常見,讓觀眾用他們展示的顏色來影響表演。"
             ],
             "names": ["🎥", "相機"],
@@ -4495,6 +4478,7 @@
                 "insertNone": "插入無符號",
                 "insertNotEqual": "插入不等號",
                 "insertProduct": "插入乘號",
+                "insertDot": "$~插入點積符號",
                 "insertQuotient": "插入除號",
                 "insertDegree": "插入度符號",
                 "insertFunction": "插入函數",
@@ -5150,7 +5134,7 @@
                 "message": "這是什麼地方？我們能回家嗎？"
             },
             "landing": {
-                "value": "$!與我們一起使用文字、符號、表情符號和代碼來創建互動故事！",
+                "value": "$~與我們一起使用文字、符號、表情符號和代碼來創建互動故事！",
                 "chooseLocales": "$~或選擇",
                 "description": [
                     "Wordplay 是一種程式語言，讓您能夠：",
@@ -5319,7 +5303,8 @@
                     "tooMany": "您嘗試密碼的次數過多，需要等一段時間後再嘗試。",
                     "invalidUsername": "$~使用者名稱必須至少包含 5 個字母且不包含空格。",
                     "invalidPassword": "密碼長度至少為六個字元。",
-                    "mismatched": "密碼不匹配。"
+                    "mismatched": "密碼不匹配。",
+                    "usernameTaken": "$~這個使用者名稱已被佔用。"
                 },
                 "feedback": {
                     "changing": "正在提交新的電子郵件地址…",
@@ -5946,8 +5931,7 @@
                     "description": "$~你的操作指南的標題",
                     "placeholder": "$~標題"
                 },
-                "titlePlaceholder": "$~無標題教程",
-                "collaboratorsPrompt": "$~新增一位協作者，他/她可以編輯此操作指南。",
+                "untitledHowToPlaceholder": "$~無標題教程",
                 "collaboratorsToggle": {
                     "on": "$~折疊合作者面板",
                     "off": "$~擴展合作者面板"
@@ -5955,7 +5939,28 @@
                 "editor": {
                     "placeholder": "$~請在此處編寫操作指南，使用格式和程式碼進行講解。",
                     "description": "$~一個用於編寫操作指南的文字框"
-                }
+                },
+                "collaborators": {
+                    "header": "$~👥 合作者",
+                    "explanation": "$~合作者可以編輯本操作指南並查看草稿。"
+                },
+                "access": {
+                    "header": "$~↗ 分享",
+                    "explanation": "$~此畫廊的策展人可以允許其管理的其他畫廊的創作者和策展人查看此教程。如果您不希望他們查看，您可以將此教程的查看權限限制為僅限此畫廊的策展人和創作者。"
+                },
+                "accessToggle": {
+                    "on": "$~折疊訪問設定面板",
+                    "off": "$~展開訪問設定面板"
+                },
+                "accessMode": {
+                    "label": "$~限制誰可以查看此操作指南",
+                    "labels": ["$~受限制的", "$~擴充"],
+                    "tips": [
+                        "$~只有此畫廊中的創作者才能查看",
+                        "$~任何畫廊的創作者和策展人都可以觀看策展人策劃的展覽。"
+                    ]
+                },
+                "localeOptionsLabel": "$~編輯器輸入語言"
             },
             "viewer": {
                 "view": {

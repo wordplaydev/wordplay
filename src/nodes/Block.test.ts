@@ -13,7 +13,7 @@ test.each([
     ['ƒ b() 1\nb()', "(ƒ b() 1)\nb()'", Evaluate, IncompatibleInput],
     ['•B()\nB()', "a: (•B())\nB()'", Evaluate, IncompatibleInput],
 ])(
-    'Expect %s no conflicts, %s to have %s with %s',
+    'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict, number?) => {
         testConflict(good, bad, node, conflict, number);
     },

@@ -98,7 +98,7 @@
     </p>
     {#if checkingUsername}<Spinning></Spinning>
     {:else if available === false}
-        <Notice>This username is taken.</Notice>
+        <Notice text={(l) => l.ui.page.login.error.usernameTaken}></Notice>
     {/if}
 
     <MarkupHTMLView note markup={(l) => l.ui.page.join.prompt.password} />

@@ -268,7 +268,7 @@
             .map((h) => {
                 return {
                     value: h.getHowToId(),
-                    label: h.getTitle(),
+                    label: h.getTitleInLocale($locales.getLocaleString()),
                 };
             })
             .sort((a, b) => a.label.localeCompare(b.label)),

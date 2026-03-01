@@ -115,6 +115,7 @@ export default class PropertyReference extends Expression {
                                                 name,
                                                 context,
                                                 true,
+                                                true,
                                                 node.structure,
                                             ),
                                         def,

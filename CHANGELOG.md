@@ -2,6 +2,48 @@
 
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
+These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
+
+## 0.16.45 - 2026-02-28
+
+### Added
+
+- **Times symbol**. Up to this point, Wordplay only used \·\ as a multiplication symbol. Now you can use \×\ too! That's now the new default, but both are still supported.
+- **Better block conflict highlights**. Conflicts on a block are drawn much more clearly now!
+
+### Fixed
+
+- We now dismiss hints on mobile if the page is tapped.
+- Initial loads on mobile devices are now less janky.
+- Pasting code in text mode didn't always work. Now it does!
+- We restored showing the full name in the guide, rather than the symbolic name. Oops!
+
+### Changed
+
+- We simplified conflicts, limiting them to just one message instead of two and improving their clarity.
+- We made a suggestion to name an unused value in a @Block.
+- We simplified conflicts when a function name can't be found.
+- We no longer show space indicators by default, as it can be confused with the multiplication operator (#961).
+- We made code editor cursor descriptions of functions simpler and easier to read.
+- We stopped binds with types from wrapping in @Block mode, so they're easier to read.
+- We upgraded internal tooling for stability.
+
+## 0.16.43 - 2026-02-22
+
+### Added
+
+- **How to translation**. We added the ability to create machine translations of how to's in a gallery.
+
+### Fixed
+
+- We localized a "username taken" feature.
+- We improved some Spanish translations.
+- We no longer release a new version when there is a problem with Wordplay's code or locales.
+
+### Changed
+
+- We upgraded minor versions of internal tooling for stability.
+- We cleaned up some of the locale translation feedback for developers.
 
 ## 0.16.42 - 2026-02-14
 

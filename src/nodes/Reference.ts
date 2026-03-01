@@ -187,6 +187,7 @@ export default class Reference extends SimpleExpression {
                                             : name,
                                         context,
                                         true,
+                                        true,
                                         undefined,
                                     ),
                                 definition,

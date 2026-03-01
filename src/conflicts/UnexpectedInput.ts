@@ -1,7 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Context from '@nodes/Context';
 import type Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
@@ -30,24 +28,13 @@ export default class UnexpectedInput extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Evaluate.conflict.UnexpectedInput;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.input,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnexpectedInput.LocalePath(l).primary,
-                        new NodeRef(this.input, locales, context),
-                    ),
-            },
-            secondary: {
-                node: this.func.names,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnexpectedInput.LocalePath(l).secondary,
-                        new NodeRef(this.input, locales, context),
-                    ),
-            },
+            node: this.input,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => UnexpectedInput.LocalePath(l).explanation,
+                ),
         };
     }
 

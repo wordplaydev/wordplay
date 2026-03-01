@@ -11,8 +11,8 @@ Stage(
 				row.translate(
 					ƒ(color•Color x•#)
 						Phrase(
-							"\scale[(color.lightness · 9).round()]\"
-							place: Place((-x - 1) · 0.5m y · -0.5m)
+							"\scale[(color.lightness × 9).round()]\"
+							place: Place((-x - 1) × 0.5m y × -0.5m)
 							duration: 0s
 							size: 0.75m
 							face: "Noto Sans Mono"

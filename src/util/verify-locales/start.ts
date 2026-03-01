@@ -28,12 +28,25 @@ import {
 } from './verifyLocale';
 import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';
 
-// Make a logger so we can pretty print feedback.
-const log = new Log();
+// We're we asked to translate? Let's see if there was a specific locale we're focusing on.
+const TranslationRequested =
+    process.argv[2] === 'translate' || process.argv[2] === 'override';
+const OverrideMachineTranslations = process.argv[2] === 'override';
+const FailOnInvalid = process.argv[2] === 'ci';
+
+// Make a logger so we can pretty print feedback. It bails on bad or exit with a failure exit code if we're in continuous integration mode.
+const log = new Log(FailOnInvalid);
 
 // Now that we've defined all of the functionality, let's process requests.
-if (process.argv.length < 3) {
-    log.exit(0, 'Please provide either "verify" or "translate" command');
+if (
+    process.argv.length < 3 ||
+    !['ci', 'verify', 'translate', 'override'].includes(process.argv[2])
+) {
+    log.exit(
+        0,
+        'Please provide either "ci", "verify", "translate", "override" command',
+        false,
+    );
 }
 
 // If there are problems in the default locale, we can't verify or translate anything.
@@ -47,13 +60,9 @@ if (!LocaleValidator(DefaultLocale)) {
             if (error.message)
                 log.bad(1, 'x ' + `${error.instancePath}: ${error.message}`);
         }
-    process.exit(0);
+    process.exit(1);
 }
 
-// We're we asked to translate? Let's see if there was a specific locale we're focusing on.
-const TranslationRequested =
-    process.argv[2] === 'translate' || process.argv[2] === 'override';
-const OverrideMachineTranslations = process.argv[2] === 'override';
 const FocalLocale = process.argv[3] ?? null;
 
 const FocalLanguage = FocalLocale ? getLocaleLanguage(FocalLocale) : null;
@@ -62,7 +71,11 @@ const FocalRegion = FocalLocale
     : null;
 
 if (FocalLanguage === undefined)
-    log.exit(0, 'Please provide a valid locale language code to translate');
+    log.exit(
+        0,
+        'Please provide a valid locale language code to translate',
+        false,
+    );
 
 log.say(
     0,

@@ -35,25 +35,25 @@
                             "bored",
                             "¿Qué es este lugar?",
                             "Si, qué es este lugar…",
-                            "Era un lugar de baile, historias, y juegos…",
-                            "Poníamos los espectáculos más hermosos. A veces para visitantes como tú, a veces sólo por diversión. Era un lugar lleno de vida y sorpresa…"
+                            "Antes, era un lugar de baile, historias, y juegos…",
+                            "Creábamos los espectáculos más hermosos. A veces para visitantes como tú, a veces sólo por diversión. Era un lugar lleno de vida y sorpresas…"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "¿Parar?",
+                            "Porque paramos?",
                             "No queríamos parar. Simplemente perdimos nuestra inspiración.",
-                            "Puedo significar tantas cosas, por ejemplo. A veces soy el símbolo del florín holandés, una antigua moneda de los Países Bajos. Solía ​​​​ser conocido y utilizado en todo el mundo por personas para ayudarlos a comerciar. Hace mucho tiempo, yo también era la /f/ minúscula del alfabeto latino.",
-                            "Hoy en dia, soy bastante oscuro."
+                            "Yo puedo significar tantas cosas, por ejemplo. A veces soy el símbolo del florín holandés, una antigua moneda de los Países Bajos. Solía ​​​​ser conocido y utilizado por todo el mundo por personas para ayudarlos a comerciar. Hace mucho tiempo, yo también era la /f/ minúscula del alfabeto latino.",
+                            "Hoy en dia, soy poco conocido."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "bored",
                             "¿Pero todo ese significado?",
-                            "Nos lo han dado. No significamos nada sin que la gente recuerde esa historia y cultura. Y no podemos significar nada nuevo si no hay personas que nos brinden nueva historia y cultura.",
-                            "Las personas siempre han sido las que nos organizaron, las que nos dieron un propósito, las que nos dieron algo que representar. El Verso no es nada sin *gente*.",
+                            "Nos lo dieron a nosotros. No significamos nada sin que la gente recuerde esa historia y cultura. Y no podemos significar nada nuevo si no hay personas que nos den nueva historia y cultura.",
+                            "Las personas siempre han sido las que nos organizaron, las que nos dieron un propósito, las que nos dieron algo que representar. El Verso no es nada sin *personas*.",
                             "Y no he visto a una persona en mucho tiempo."
                         ],
                         null,
@@ -74,7 +74,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "¿Como una persona real, con pensamientos, ideas y valores para compartir? ¿Ninguno de esos robots que simplemente repiten como un loro lo que dice la gente? Si eres una persona, ¿tal vez podrías darnos significado?"
+                            "¿Como una persona real, con pensamientos, ideas y valores para compartir? No uno de esos robots que simplemente repiten como un loro lo que dicen las personas? Si eres una persona, ¿tal vez podrías darnos significado?"
                         ],
                         null,
                         [
@@ -183,7 +183,7 @@
                             "Program",
                             "neutral",
                             "Seguro. Básicamente soy el organizador del programa de un espectáculo.",
-                            "Puedes verme allí, con un *editor* @UI/editor mostrándome el *escenario* @UI/escenario que muestra lo que evalúo (ahorita nada). El *director*, ese eres tú, ayuda a todos a descubrir lo que están haciendo, escribiendo un programa para lo que sucederá en el programa. Y luego evalúo el programa y pongo el resultado en el escenario para que el público lo vea."
+                            "Puedes verme allí, con un *editor* @UI/editor mostrándome el *escenario* @UI/stage que muestra lo que evalúo (ahorita nada). El *director*, ese eres tú, ayuda a todos a descubrir lo que están haciendo, escribiendo un programa para lo que sucederá en el programa. Y luego evalúo el programa y pongo el resultado en el escenario para que el público lo vea."
                         ],
                         null,
                         [
@@ -319,7 +319,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Program no sabía qué hacer con @ExpressionPlaceholder, por lo que mostró una *excepción* @UI/excepción en *etapa* y un *conflicto* en @Program @UI/conflict.",
+                            "@Program no sabía qué hacer con @ExpressionPlaceholder, por lo que mostró una *excepción* @UI/excepción en el *escenario* y un *conflicto* en @Program @UI/conflict.",
                             "Pero si haces clic en @ExpressionPlaceholder o mueves el cursor de texto sobre él, verás un mundo de posibilidades para otros caracteres. También puedes escribir sobre @ExpressionPlaceholder y escribir el tuyo propio. Por ejemplo, intente escribir su nombre entre comillas."
                         ],
                         null,
@@ -972,9 +972,9 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "En su lugar, puedes hacer que @Evaluate lo evalúe con un símbolo mucho más simple en el medio, como este. Esto significa 'repetir 'hola' cinco veces'. Pero también significa 'evaluar la función \\·\\ en el valor del texto \\'hola'\\ con la entrada \\5\\.' La función \\repeat\\ simplemente tiene varios nombres, uno de los cuales es el nombre de un símbolo \\·\\."
+                            "En su lugar, puedes hacer que @Evaluate lo evalúe con un símbolo mucho más simple en el medio, como este. Esto significa 'repetir 'hola' cinco veces'. Pero también significa 'evaluar la función \\×\\ en el valor del texto \\'hola'\\ con la entrada \\5\\.' La función \\repeat\\ simplemente tiene varios nombres, uno de los cuales es el nombre de un símbolo \\×\\."
                         ],
-                        ["edit", "'hi' · 5"],
+                        ["edit", "'hi' × 5"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1192,7 +1192,7 @@
                             "                        Phrase(glyph resting:Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            rotation: 90° ",
-                            "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
+                            "                            offset:Place(0m (Time() ^ 2) × -0.000025m/ms^2))",
                             "                        )))])"
                         ],
                         ["⊤", "precise", "… no."],
@@ -1244,7 +1244,7 @@
                             "                        Group(Grid(5 5) numbers.translate(",
                             "                            ƒ (n•#) ",
                             "                                (",
-                            "                                    off:Random(-3 3) · 1m",
+                            "                                    off:Random(-3 3) × 1m",
                             "                                    Phrase(",
                             "                                        n → '' ",
                             "                                        resting:Sequence({",
@@ -1529,7 +1529,7 @@
             "title": "Conjuntos",
             "performance": [
                 "fit",
-                "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -1537,7 +1537,7 @@
                     "subtitle": null,
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('[') Phrase(' .' · (Time() ÷ 100ms)) Phrase(']')])"
+                        "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
                     ],
                     "lines": [
                         [
@@ -1773,7 +1773,7 @@
                         [
                             "Set",
                             "eager",
-                            "Oh, sí, por supuesto. Colecciono cosas. (Hm, obviamente, soy una colección). Pero lo más importante es que solo colecciono **una de cada tipo** de cosas. Puedo reunir lo que quieras y ayudarte llevar un registro de los valores, pero nunca repetiré un valor. Me gusta organizarme un poco como @List, pero con \\{\\ y \\}\\ en su lugar."
+                            "Oh, sí, por supuesto. Colecciono cosas. (Hm, obviamente, soy una colección). Pero lo más importante es que solo colecciono *una de cada tipo* de cosas. Puedo reunir lo que quieras y ayudarte llevar un registro de los valores, pero nunca repetiré un valor. Me gusta organizarme un poco como @List, pero con \\{\\ y \\}\\ en su lugar."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -2010,7 +2010,7 @@
                 "           '→?' → [].random()",
                 "           place: Motion(",
                 "               Place(y: 10m)",
-                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
+                "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
                 "           )",
                 "           matter: Matter(bounciness: Random())",
                 "       )",
@@ -2342,7 +2342,7 @@
                     "lines": [
                         [
                             "fix",
-                            "amp: (Volume() · 10)",
+                            "amp: (Volume() × 10)",
                             "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
                         ],
                         [
@@ -2362,7 +2362,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Quiero mostrarles la conexión entre nuestros mundos y lo que hacen posible. Los llamamos **flujos de entrada** y son quizás el tipo de entrada más mágico del Verso. Son como funciones que crean un tipo especial de valor que cambia a medida que cambia tu mundo. Tampoco pueden comunicarse en la forma a la que usted está acostumbrado. Son más como latidos de otro mundo. Así que haré todo lo posible para explicar cómo funcionan, ya que no podrán explicarse por sí solos.",
+                            "Quiero mostrarles la conexión entre nuestros mundos y lo que hacen posible. Los llamamos *flujos de entrada* y son quizás el tipo de entrada más mágico del Verso. Son como funciones que crean un tipo especial de valor que cambia a medida que cambia tu mundo. Tampoco pueden comunicarse en la forma a la que usted está acostumbrado. Son más como latidos de otro mundo. Así que haré todo lo posible para explicar cómo funcionan, ya que no podrán explicarse por sí solos.",
                             "¿Estás lista para conocer a una?"
                         ]
                     ]
@@ -2566,7 +2566,7 @@
                             "@Volume se puede utilizar para hacer que las actuaciones respondan al sonido del público. Por ejemplo, aquí podríamos hacer una pequeña visualización de la amplitud convirtiendo el número de amplitud del flujo a un cierto número de caracteres \\'o'\\. ¿Ves como cuando haces ruido, hay más \\'o'\\s? La amplitud de @Volume se divide por \\10\\, colocándola en el rango de \\0\\ a \\10\\. Luego, ese valor se asigna a la función @Text/repeat, que repite \\'o'\\ el número de veces indicado."
                         ],
                         ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
-                        ["edit", "'o'.repeat(Volume() · 10)"]
+                        ["edit", "'o'.repeat(Volume() × 10)"]
                     ]
                 },
                 {
@@ -3121,7 +3121,7 @@
                             "kind",
                             "Ese tamaño puede ser cualquier expresión. Por ejemplo, digamos que queremos que crezca a medida que @Time avanza. Podemos tomarnos el tiempo, multiplicarlo por una fracción de metro, y glorioso, tic tic tic, hola hola. Prueba a cambiar la frecuencia o el multiplicador. ¡Mira qué hermoso crecimiento puedes crear!"
                         ],
-                        ["fit", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        ["fit", "Phrase('hi' Time(100ms) × 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
@@ -3132,7 +3132,7 @@
                             "use",
                             "fix",
                             "Symbol",
-                            "hi' Time(100ms) · 0.001m/ms 'Poor Story"
+                            "hi' Time(100ms) × 0.001m/ms 'Poor Story"
                         ],
                         null,
                         [
@@ -3142,7 +3142,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m))"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3152,7 +3152,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
                         ],
                         null,
                         [
@@ -3162,7 +3162,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) · 1°/ms)"
+                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
                         ],
                         null,
                         [
@@ -3177,7 +3177,7 @@
                         ],
                         [
                             "conflict",
-                            "Phrase('hi' 'Poor Story' 3m Time(10ms) · 1°/ms Place(2m 2m))"
+                            "Phrase('hi' 'Poor Story' 3m Time(10ms) × 1°/ms Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3187,7 +3187,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)"
+                            "Phrase('hi' size: 3m rotation: Time(10ms) × 0.1°/ms)"
                         ],
                         null,
                         [
@@ -3214,7 +3214,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3224,7 +3224,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
@@ -3235,7 +3235,7 @@
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
@@ -3246,7 +3246,7 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3260,7 +3260,7 @@
                             "    Phrase(",
                             "        'hi'",
                             "        size: 5m",
-                            "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
+                            "        place: Place(Time(1000ms) × 0.001m/ms 0m)",
                             "        moving:Pose(rotation: 5°)",
                             "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
@@ -3301,7 +3301,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) · 1°/ms))"
+                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) × 1°/ms))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3619,7 +3619,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack('|' Time(100ms) · 0.001m/ms) ",
+                            "    Stack('|' Time(100ms) × 0.001m/ms) ",
                             "    [",
                             "        Phrase('uno')",
                             "        Phrase('dos')",
@@ -3636,7 +3636,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row('|' Time(100ms) · 0.001m/ms) [",
+                            "    Row('|' Time(100ms) × 0.001m/ms) [",
                             "        Phrase('uno')",
                             "        Phrase('dos')",
                             "        Phrase('tres')",
@@ -4336,7 +4336,7 @@
                             "kind",
                             "¡Sí, por supuesto! Resulta que @Program es en su mayoría solo un @Block. Es solo @Block sin paréntesis. Pero puedes poner @Block con paréntesis en cualquier lugar de un programa. Por ejemplo, puedes usar @Block para aclarar el orden de evaluación de las matemáticas. Aquí, @BinaryEvaluate evalúa \\1\\, luego evalúa @Block, luego se suman. @Block, ¿lo entendí bien?"
                         ],
-                        ["edit", "1 + (2 · 3)"],
+                        ["edit", "1 + (2 × 3)"],
                         ["Block", "shy", "… ¡sí!"],
                         null,
                         [
@@ -4900,7 +4900,7 @@
                             "¶Obtiene los impuestos para un precio dado, ",
                             "que es del 1% si es menor de 100, y del 5% en caso contrario.¶",
                             "ƒ tax(price•#dollar) ",
-                            "    price · (price < 100dollar ? 0.01 0.05)"
+                            "    price × (price < 100dollar ? 0.01 0.05)"
                         ],
                         null,
                         [
@@ -4924,7 +4924,7 @@
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶La ecuación cuadrática¶",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [
@@ -4937,7 +4937,7 @@
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶La ecuación cuadrática¶/en",
                             "¶The quadratic equation¶/es",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [

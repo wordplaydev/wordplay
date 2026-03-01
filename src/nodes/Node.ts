@@ -457,6 +457,7 @@ export default abstract class Node {
         // The default of undefined here means that we have not confirmed that the specified field
         // is to be replaced.
         let valid = undefined;
+        let inBrowser = typeof window !== 'undefined';
 
         // Replacement by field name:
         if (typeof original === 'string') {
@@ -464,7 +465,7 @@ export default abstract class Node {
             if (field === original) {
                 // See if the replacement is valid.
                 valid = kind.allows(replacement);
-                if (!valid) {
+                if (!valid && inBrowser) {
                     console.error(
                         Node.invalidReplacementToString(
                             field,
@@ -483,7 +484,7 @@ export default abstract class Node {
             if (child === original) {
                 // Verify that the replacement list is valid.
                 valid = kind.allows(replacement);
-                if (!valid) {
+                if (!valid && inBrowser) {
                     console.error(
                         Node.invalidReplacementToString(
                             field,
@@ -507,7 +508,7 @@ export default abstract class Node {
                 // Verify that the replacement node is valid. It can be undefined (which indicates removal) or one of the allowed types.
                 valid =
                     replacement === undefined || kind.allowsItem(replacement);
-                if (!valid) {
+                if (!valid && inBrowser) {
                     console.error(
                         Node.invalidReplacementToString(
                             field,
@@ -522,7 +523,7 @@ export default abstract class Node {
             else if (child === original) {
                 // Verify that the replacement node is valid.
                 valid = kind.allows(replacement);
-                if (!valid) {
+                if (!valid && inBrowser) {
                     console.error(
                         Node.invalidReplacementToString(
                             field,

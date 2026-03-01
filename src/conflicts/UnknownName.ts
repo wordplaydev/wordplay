@@ -62,7 +62,7 @@ export class UnknownName extends Conflict {
         return matrix[bn][an];
     }
 
-    getConflictingNodes(context: Context) {
+    getMessage(context: Context) {
         let names: Refer[] = [];
         if (this.name instanceof Reference) {
             names = Reference.getPossibleReferences(
@@ -88,19 +88,17 @@ export class UnknownName extends Conflict {
         }
 
         return {
-            primary: {
-                node: this.name,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnknownName.LocalePath(l).primary,
-                        this.name instanceof Token
-                            ? undefined
-                            : new NodeRef(this.name, locales, context),
-                        this.type
-                            ? new NodeRef(this.type, locales, context)
-                            : undefined,
-                    ),
-            },
+            node: this.name,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnknownName.LocalePath(l).explanation,
+                    this.name instanceof Token
+                        ? undefined
+                        : new NodeRef(this.name, locales, context),
+                    this.type
+                        ? new NodeRef(this.type, locales, context)
+                        : undefined,
+                ),
             resolutions: names.map((name) => {
                 return {
                     description: (locales: Locales) =>

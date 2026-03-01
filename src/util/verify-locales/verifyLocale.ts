@@ -81,10 +81,7 @@ export async function verifyLocale(
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
     if (!valid && LocaleValidator.errors) {
-        log.bad(
-            2,
-            "Locale doesn't match the schema. Will attempt to repair it.",
-        );
+        log.bad(2, "Locale doesn't match the schema.");
         for (const error of LocaleValidator.errors) {
             if (error.message)
                 log.bad(3, `${error.instancePath}: ${error.message}`);
@@ -336,16 +333,22 @@ async function checkLocale(
     }
 
     // Give warnings on revised strings that are not machine translated.
+    let potentiallyOutOfDate = new Set<string>();
     for (const revisedString of revisedStrings) {
         const match = pairs.find((path) => path.equals(revisedString.path));
         if (match) {
             const outOfDate = revisedString.path.resolve(original);
             if (typeof outOfDate === 'string' && !isAutomated(outOfDate))
-                log.warning(
-                    2,
-                    `Potentially out of date string at ${revisedString.path.toString()}: "${outOfDate}". Revision in ${revisedString.locale}: "${revisedString.text}"`,
-                );
+                potentiallyOutOfDate.add(revisedString.path.toString());
         }
+    }
+    if (potentiallyOutOfDate.size > 0) {
+        log.warning(
+            2,
+            `${potentiallyOutOfDate.size} strings potentially out of date ${Array.from(
+                potentiallyOutOfDate,
+            ).join(', ')}`,
+        );
     }
 
     const automated = pairs.filter(({ value }) =>

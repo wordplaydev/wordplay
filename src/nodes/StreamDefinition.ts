@@ -164,6 +164,7 @@ export default class StreamDefinition extends DefinitionExpression {
         nameOrLocales: string | Locales,
         context: Context,
         defaults: boolean,
+        symbolic = true,
     ): Evaluate {
         return Evaluate.make(
             Reference.make(
@@ -171,6 +172,7 @@ export default class StreamDefinition extends DefinitionExpression {
                     ? nameOrLocales
                     : this.names.getPreferredNameString(
                           nameOrLocales.getLocales(),
+                          symbolic,
                       ),
                 this,
             ),

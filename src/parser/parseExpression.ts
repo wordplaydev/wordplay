@@ -60,7 +60,7 @@ import parseDoc from './parseDoc';
 import parseLanguage from './parseLanguage';
 import parseMarkup, { parseExample } from './parseMarkup';
 import parseType, { parseTableType } from './parseType';
-import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from './Symbols';
+import { DOT_SYMBOL, EXPONENT_SYMBOL } from './Symbols';
 import type Tokens from './Tokens';
 import { toTokens } from './toTokens';
 
@@ -414,7 +414,7 @@ export function parseUnit(tokens: Tokens): Unit | undefined {
     tokens.whileDo(
         () =>
             (tokens.nextIs(Sym.Name) ||
-                tokens.nextIs(Sym.Operator, PRODUCT_SYMBOL)) &&
+                tokens.nextIs(Sym.Operator, DOT_SYMBOL)) &&
             tokens.nextLacksPrecedingSpace(),
         () => numerator.push(parseDimension(tokens)),
     );
@@ -426,7 +426,7 @@ export function parseUnit(tokens: Tokens): Unit | undefined {
         tokens.whileDo(
             () =>
                 (tokens.nextIs(Sym.Name) ||
-                    tokens.nextIs(Sym.Operator, PRODUCT_SYMBOL)) &&
+                    tokens.nextIs(Sym.Operator, DOT_SYMBOL)) &&
                 tokens.nextLacksPrecedingSpace(),
             () => denominator.push(parseDimension(tokens)),
         );
@@ -441,7 +441,7 @@ export function parseUnit(tokens: Tokens): Unit | undefined {
 
 /** DIMENSION :: NAME (^NUMBER)? */
 function parseDimension(tokens: Tokens): Dimension {
-    const product = tokens.nextIs(Sym.Operator, PRODUCT_SYMBOL)
+    const product = tokens.nextIs(Sym.Operator, DOT_SYMBOL)
         ? tokens.read(Sym.Operator)
         : undefined;
     const name = tokens.nextIs(Sym.Name) ? tokens.read(Sym.Name) : undefined;

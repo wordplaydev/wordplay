@@ -48,14 +48,10 @@ export const HighlightTypes = {
     target: true,
     // Drag and drop target hovered over
     match: true,
-    // Major conflict, primary
-    primaryMajor: true,
-    // Major conflict, secondary
-    secondaryMajor: true,
-    // Minor conflict, primary
-    primaryMinor: true,
-    // Minor conflict, secondary
-    secondaryMinor: true,
+    // Major conflict
+    major: true,
+    // Minor conflict
+    minor: true,
     // A node that is animated
     animating: false,
     // Output that is active on stage
@@ -64,6 +60,9 @@ export const HighlightTypes = {
     blockoutput: true,
     // Highlight of a block-level node when blocks are enabled
     blockselected: true,
+    // Block conflicted
+    blockmajor: true,
+    blockminor: true,
     // Highlight of a matching delimiter
     delimiter: false,
     // Highlight of an empty list to be dragged upon
@@ -245,24 +244,18 @@ export function getHighlights(
         highlights.add(source, hovered, 'hovered');
     }
 
-    // Tag all nodes with primary conflicts as primary
-    for (const [primary, conflicts] of project.getPrimaryConflicts())
+    // Tag all nodes with conflicts in text mode
+    for (const [node, conflicts] of project.getConflictedNodes())
         highlights.add(
             source,
-            primary,
+            node,
             conflicts.every((c) => !c.isMinor())
-                ? 'primaryMajor'
-                : 'primaryMinor',
-        );
-
-    // Tag all nodes with secondary conflicts as primary
-    for (const [secondary, conflicts] of project.getSecondaryConflicts())
-        highlights.add(
-            source,
-            secondary,
-            conflicts.every((c) => !c.isMinor())
-                ? 'secondaryMajor'
-                : 'secondaryMinor',
+                ? blocks
+                    ? 'blockmajor'
+                    : 'major'
+                : blocks
+                  ? 'blockminor'
+                  : 'minor',
         );
 
     // Are there any poses in this file being animated?
@@ -435,19 +428,15 @@ export function updateOutlines(
         const outline = outlines[index];
         let offset = 0;
         if (
-            outline.types.includes('primaryMajor') ||
-            outline.types.includes('secondaryMajor') ||
-            outline.types.includes('primaryMinor') ||
-            outline.types.includes('secondaryMinor')
+            outline.types.includes('major') ||
+            outline.types.includes('minor')
         ) {
             for (let check = 0; check < index; check++) {
                 const other = outlines[check];
                 // Do they intersect vertically and horizontally?
                 if (
-                    (other.types.includes('primaryMajor') ||
-                        other.types.includes('secondaryMajor') ||
-                        other.types.includes('primaryMinor') ||
-                        other.types.includes('secondaryMinor')) &&
+                    (other.types.includes('major') ||
+                        other.types.includes('minor')) &&
                     Math.round(outline.underline.miny + offset) ===
                         Math.round(other.underline.miny) &&
                     Math.max(
