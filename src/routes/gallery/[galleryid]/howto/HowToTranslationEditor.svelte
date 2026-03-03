@@ -1,3 +1,5 @@
+<!-- Is a wrapper around FormattedEditor where the translated text, wrapped in ¶...¶s, is a state managed in this component -->
+
 <script lang="ts">
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import HowTo from '@db/howtos/HowToDatabase.svelte';

@@ -101,8 +101,6 @@
             }
         }
     }
-
-    $inspect(text).with(console.log);
 </script>
 
 <div class="formatted-editor">

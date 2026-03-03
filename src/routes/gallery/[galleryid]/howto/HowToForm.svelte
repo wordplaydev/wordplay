@@ -37,8 +37,8 @@
     import { SvelteMap, SvelteSet } from 'svelte/reactivity';
     import { movePermitted } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
+    import HowToTranslationEditor from './HowToTranslationEditor.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
-    import TranslatedHowToEditor from './TranslatedHowToEditor.svelte';
 
     // defining props
     interface Props {
@@ -140,6 +140,8 @@
             ...(howTo ? howTo.getLocales() : []),
         ]),
     );
+
+    // options for the locale selector drop-down menu
     let localeOptions: Option[] = $derived.by(() => {
         let localeOptions: Option[] = [];
 
@@ -165,9 +167,12 @@
         howTo ? howTo.getTitleInLocale($locales.getLocaleString()) : '',
     );
 
-    // a map of locale name to an array of strings that correspond to each locale
-    // the list of text corresponds to each prompt
+    // a list of text, formatted as ¶...¶/locale¶...¶/locale
+    // each entry of the list corresponds to one of the prompts
     let multilingualText: string[] = $state([]);
+
+    // list of locales used in the how-to thus far
+    // we pull from the how-to's list of locales, if the how-to exists, otherwise empty (since no text yet!)
     let usedLocales: SvelteSet<string> = $state(new SvelteSet<string>());
 
     onMount(() => {
@@ -559,8 +564,6 @@
     let overwriteAccess: boolean = $derived(
         howTo ? howTo.getScopeOverwrite() : false,
     );
-
-    $inspect(multilingualText).with(console.log);
 </script>
 
 <!-- button to click to open the how-to dialog. if there is a preview (i.e., it is published), use the preview as the button. 
@@ -638,7 +641,7 @@
         </Subheader>
         {#each prompts as prompt, i (i)}
             <HowToPrompt text={(l) => prompt} />
-            <TranslatedHowToEditor
+            <HowToTranslationEditor
                 id={i}
                 currentLocale={localeName}
                 bind:usedLocales
