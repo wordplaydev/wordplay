@@ -9,7 +9,6 @@
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
@@ -38,6 +37,7 @@
     import { SvelteMap, SvelteSet } from 'svelte/reactivity';
     import { movePermitted } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
+    import HowToTranslationEditor from './HowToTranslationEditor.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
 
     // defining props
@@ -140,6 +140,8 @@
             ...(howTo ? howTo.getLocales() : []),
         ]),
     );
+
+    // options for the locale selector drop-down menu
     let localeOptions: Option[] = $derived.by(() => {
         let localeOptions: Option[] = [];
 
@@ -158,45 +160,41 @@
     });
 
     // map of locale name to title in that locale
-    // value is a string[] just to be able to use functions for how-to text without modification
-    let titles: SvelteMap<string, string[]> = $state(
-        new SvelteMap<string, string[]>(),
+    let titles: SvelteMap<string, string> = $state(
+        new SvelteMap<string, string>(),
     );
     let titleInLocale: string = $derived(
         howTo ? howTo.getTitleInLocale($locales.getLocaleString()) : '',
     );
 
-    // a map of locale name to an array of strings that correspond to each locale
-    // the list of text corresponds to each prompt
-    let multilingualText: SvelteMap<string, string[]> = $state(
-        new SvelteMap<string, string[]>(),
-    );
+    // a list of text, formatted as ¶...¶/locale¶...¶/locale
+    // each entry of the list corresponds to one of the prompts
+    let multilingualText: string[] = $state([]);
+
+    // list of locales used in the how-to thus far
+    // we pull from the how-to's list of locales, if the how-to exists, otherwise empty (since no text yet!)
+    let usedLocales: SvelteSet<string> = $state(new SvelteSet<string>());
+
     onMount(() => {
         titles = howTo
             ? howTo.getTitleAsMap()
-            : new SvelteMap<string, string[]>(
-                  [...localeList].map((loc) => [loc, ['']]),
+            : new SvelteMap<string, string>(
+                  [...localeList].map((loc) => [loc, '']),
               );
 
         if (prompts.length > 0) {
             multilingualText = howTo
-                ? howTo.getTextAsMap()
-                : new SvelteMap<string, string[]>(
-                      [...localeList].map((loc) => [
-                          loc,
-                          Array(prompts.length).fill(''),
-                      ]),
-                  );
+                ? howTo.getText()
+                : Array(prompts.length).fill('');
+        }
+
+        if (howTo) {
+            usedLocales = new SvelteSet<string>(howTo.getLocales());
         }
     });
     $effect(() => {
         if (!howTo && prompts.length > 0) {
-            multilingualText = new SvelteMap<string, string[]>(
-                [...localeList].map((loc) => [
-                    loc,
-                    Array(prompts.length).fill(''),
-                ]),
-            );
+            multilingualText = Array(prompts.length).fill('');
         }
     });
 
@@ -298,41 +296,40 @@
 
     /** Add placeholder titles for any locales that have text but no title */
     async function generateTitleStringWithPlaceholders(
-        textLocales: string[],
-        titleMap: SvelteMap<string, string[]>,
-    ) {
-        await textLocales.forEach(async (loc) => {
-            let titleForLocale: string[] | undefined = titleMap.get(loc);
+        textLocales: SvelteSet<string>,
+        titleMap: SvelteMap<string, string>,
+    ): Promise<string> {
+        let returnString: string = titleMap
+            .entries()
+            .reduce((acc, [locale, text]) => {
+                return acc + `¶${text}¶/${locale}`;
+            }, '');
 
-            if (
-                titleForLocale === undefined ||
-                titleForLocale[0].length === 0
-            ) {
+        await textLocales.forEach(async (loc) => {
+            let titleForLocale: string | undefined = titleMap.get(loc);
+
+            if (titleForLocale === undefined || titleForLocale.length === 0) {
                 let locale: LocaleText | undefined = await Locales.loadLocale(
                     loc,
                     false,
                 );
                 if (!locale) return;
 
-                titleMap.set(loc, [
-                    locale.ui.howto.editor.untitledHowToPlaceholder,
-                ]);
+                returnString += `¶${locale.ui.howto.editor.untitledHowToPlaceholder}¶${loc}`;
             }
         });
 
-        return HowTo.mapToMarkupHelper(titleMap, 1);
+        return returnString;
     }
 
     // writer functions
     async function writeNewHowTo(publish: boolean) {
         if (!gallery) return;
 
-        let [usedLocales, texts]: [string[], string[]] =
-            HowTo.mapToMarkupHelper(multilingualText, prompts.length);
-        let [_, titleStrings]: [string[], string[]] =
-            await generateTitleStringWithPlaceholders(usedLocales, titles);
-
-        let title: string = titleStrings[0];
+        let title: string = await generateTitleStringWithPlaceholders(
+            usedLocales,
+            titles,
+        );
 
         let writeX: number = 0;
         let writeY: number = 0;
@@ -350,8 +347,8 @@
                 allCollaborators,
                 title,
                 prompts,
-                texts,
-                usedLocales,
+                multilingualText,
+                [...usedLocales],
                 gallery ? gallery.getHowToReactions() : {},
                 notify,
                 overwriteAccess,
@@ -365,16 +362,9 @@
             // reset form
             howTo = undefined;
             title = '';
-            multilingualText = new SvelteMap<string, string[]>(
-                $locales
-                    .getLocales()
-                    .map((loc) => [
-                        localeToString(loc),
-                        Array(prompts.length).fill(''),
-                    ]),
-            );
-            titles = new SvelteMap<string, string[]>(
-                $locales.getLocales().map((loc) => [localeToString(loc), ['']]),
+            multilingualText = [];
+            titles = new SvelteMap<string, string>(
+                $locales.getLocales().map((loc) => [localeToString(loc), '']),
             );
             allCollaborators = [];
         } else {
@@ -390,12 +380,12 @@
                 ...howTo.getData(),
                 published: publish,
                 title: title,
-                text: texts,
+                text: multilingualText,
                 xcoord: writeX,
                 ycoord: writeY,
                 collaborators: allCollaborators,
                 scopeOverwrite: overwriteAccess,
-                locales: usedLocales,
+                locales: [...usedLocales],
                 social: {
                     ...howTo.getSocial(),
                     notifySubscribers: notify,
@@ -626,15 +616,8 @@
                 if (value) {
                     localeName = value;
 
-                    if (!multilingualText.has(localeName)) {
-                        multilingualText.set(
-                            localeName,
-                            Array(prompts.length).fill(''),
-                        );
-                    }
-
                     if (!titles.has(localeName)) {
-                        titles.set(localeName, ['']);
+                        titles.set(localeName, '');
                     }
                 }
             }}
@@ -643,12 +626,12 @@
             <TextField
                 bind:text={
                     () => {
-                        let current: string[] | undefined =
+                        let current: string | undefined =
                             titles.get(localeName);
-                        return current ? current[0] : '';
+                        return current ?? '';
                     },
                     (v) => {
-                        if (v !== undefined) titles.set(localeName, [v]);
+                        if (v !== undefined) titles.set(localeName, v);
                     }
                 }
                 description={(l) => l.ui.howto.editor.title.description}
@@ -658,30 +641,11 @@
         </Subheader>
         {#each prompts as prompt, i (i)}
             <HowToPrompt text={(l) => prompt} />
-            <FormattedEditor
-                placeholder={(l) => l.ui.howto.editor.editor.placeholder}
-                description={(l) => l.ui.howto.editor.editor.description}
-                bind:text={
-                    () => {
-                        let current: string[] | undefined =
-                            multilingualText.get(localeName);
-                        return current !== undefined ? current[i] : '';
-                    },
-                    (v) => {
-                        let current = multilingualText.get(localeName);
-
-                        if (current === undefined) return;
-
-                        if (current.length === 0) {
-                            current.push(v);
-                        } else {
-                            current[i] = v;
-                        }
-
-                        multilingualText.set(localeName, current);
-                    }
-                }
-                id="howto-prompt-{i}"
+            <HowToTranslationEditor
+                id={i}
+                currentLocale={localeName}
+                bind:usedLocales
+                bind:markupText={multilingualText[i]}
             />
         {/each}
         <div class="optionsarea">
