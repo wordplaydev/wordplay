@@ -4,6 +4,13 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.1.6.45 - 2026-03-03
+
+### Fixed
+
+- Sometimes emojis have extra hidden symbols after them. We ignore them now so that emojis in code don't break things. (#970).
+- We weren't properly handling commas after text and formatted literals. Now we do!
+
 ## 0.16.45 - 2026-02-28
 
 ### Added

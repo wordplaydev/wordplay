@@ -467,7 +467,12 @@ function parseText(tokens: Tokens): TextLiteral {
     tokens.doWhile(
         () => texts.push(parseTranslation(tokens)),
         () =>
-            texts.at(-1)?.separator !== undefined ||
+            // Continue if there's a separator and the next is a formatted translation without a preceding space, or
+            // if the next is a formatted translation without a preceding space.
+            (texts.at(-1)?.separator !== undefined &&
+                tokens.nextLacksPrecedingSpace() &&
+                tokens.afterNextIs(Sym.Formatted) &&
+                tokens.afterNextLacksPrecedingSpace()) ||
             (tokens.nextIs(Sym.Text) && tokens.nextLacksPrecedingSpace()),
     );
 
@@ -993,7 +998,12 @@ export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
             translations.push(parseFormattedTranslation(tokens));
         },
         () =>
-            translations.at(-1)?.separator !== undefined ||
+            // Continue if there's a separator and the next is a formatted translation without a preceding space, or
+            // if the next is a formatted translation without a preceding space.
+            (translations.at(-1)?.separator !== undefined &&
+                tokens.nextLacksPrecedingSpace() &&
+                tokens.afterNextIs(Sym.Formatted) &&
+                tokens.afterNextLacksPrecedingSpace()) ||
             (tokens.nextIs(Sym.Formatted) && tokens.nextLacksPrecedingSpace()),
     );
     return new FormattedLiteral(translations);

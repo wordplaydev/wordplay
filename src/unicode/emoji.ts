@@ -6,10 +6,14 @@
 export const EmojiRegex =
     /(\p{Extended_Pictographic}|(\p{Emoji_Modifier_Base}(\p{Emoji_Modifier}|\u200D)*))/gu;
 
+export function withoutVariationSelectors(text: string) {
+    return text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
+}
+
 /** Adds emoji text variation descriptor to any noto emoji missing them. Ensures fonts are rendered consistently across Chrome, Safari, and Firefox. */
-function withVariationSelector(text: string, color = false) {
+export function withVariationSelector(text: string, color = false) {
     // Strip the presentation selectors from the string.
-    const withoutPresentation = text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
+    const withoutPresentation = withoutVariationSelectors(text);
 
     // Choose the appropriate presentation selector (FE0F is color, FE0E is mono).
     const selector = color ? '\uFE0F' : '\uFE0E';
