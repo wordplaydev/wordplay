@@ -384,7 +384,10 @@
                             {#each usersBookmarks as bookmark, i (i)}
                                 <Button
                                     tip={(l) => l.ui.howto.bookmarks.tooltip}
-                                    label={(l) => bookmark.getTitle()}
+                                    label={(l) =>
+                                        bookmark.getTitleInLocale(
+                                            $locales.getLocaleString(),
+                                        )}
                                     action={() => {
                                         // Center the bookmarked how to
                                         let coords = bookmark.getCoordinates();
