@@ -107,7 +107,7 @@
     {#if describe && concept}
         <div class="link">
             {#if concept instanceof GalleryHowConcept}
-                <Link to={concept.getPath()} external>{concept.getName()}</Link>
+                <Link to={concept.getPath()} external>{concept.getName($locales)}</Link>
             {:else}
                 <ConceptLinkUI link={concept} symbolic={false} />
             {/if}
