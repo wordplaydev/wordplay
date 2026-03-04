@@ -1,5 +1,5 @@
 import type HowTo from '@db/howtos/HowToDatabase.svelte';
-import type Locales from '@locale/Locales';
+import Locales from '@locale/Locales';
 import type Context from '@nodes/Context';
 import Markup from '@nodes/Markup';
 import type Node from '@nodes/Node';
@@ -45,12 +45,12 @@ export default class GalleryHowConcept extends Concept {
         return markup.getExamples()[0]?.program.expression ?? markup;
     }
 
-    getNames(): string[] {
-        return [this.howTo.getTitle()];
+    getNames(locales: Locales): string[] {
+        return [this.howTo.getTitleInLocale(locales.getLocaleString())];
     }
 
-    getName(): string {
-        return this.howTo.getTitle();
+    getName(locales: Locales): string {
+        return this.howTo.getTitleInLocale(locales.getLocaleString());
     }
 
     getDocs(_: Locales): Markup[] {
