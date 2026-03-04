@@ -217,10 +217,12 @@
                 : gallery
                   ? gallery.getHowToReactions()
                   : {},
-        ).map(([emoji, description]) => ({
-            label: emoji,
-            tip: description,
-        })),
+        )
+            .map(([emoji, description]) => ({
+                label: emoji,
+                tip: description,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label)),
     );
 
     function findPlaceToWrite() {
