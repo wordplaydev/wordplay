@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - Sometimes emojis have extra hidden symbols after them. We ignore them now so that emojis in code don't break things. (#970).
 - We weren't properly handling commas after text and formatted literals. Now we do!
+- Dropdowns weren't working in Safari. Now they do! (#978).
 
 ## 0.16.45 - 2026-02-28
 
