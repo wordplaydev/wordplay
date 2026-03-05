@@ -1,0 +1,37 @@
+Định dạng văn bản của bạn
+
+Đôi khi chúng ta muốn văn bản của mình nổi bật. Chúng ta có thể làm điều này bằng cách/in nghiêng/,*in đậm*và hơn thế nữa!
+
+Ví dụ, để in nghiêng văn bản, bạn có thể đặt nó trong dấu gạch chéo //, như //Hello//. Ví dụ:
+
+\Group(Stack() [
+		Phrase(`Muốn khoe mẽ chút nào/chữ nghiêng/Trong văn bản của bạn?`)
+		Phrase(`Cách này rất tốt để nhấn mạnh hoặc làm cho lời nói của bạn thêm phần sinh động./nhạc jazz bổ sung/.`)
+		Phrase(`Chỉ cần đặt dấu gạch chéo (//) trước và sau từ hoặc cụm từ đó./như thế này/.`)
+	])\
+
+@Phrase Bạn cũng có thể in đậm văn bản. Bạn có thể làm điều này bằng cách đặt văn bản của mình trong dấu sao **, ví dụ như **Xin chào**. Ví dụ:
+
+\Group(Stack() [
+		Phrase(`Bạn muốn làm cho văn bản của mình nổi bật hơn?*in đậm*?`)
+		Phrase(`Nó hoàn hảo khi bạn cần*hét lên thật to*.`)
+		Phrase(`Chỉ cần thêm dấu hoa thị đơn (**) xung quanh các từ của bạn, ví dụ như...*Chào!*và cảm nhận sự khác biệt.`)
+	])\
+
+@Phrase Bạn cũng có thể làm cho văn bản đậm hơn nữa. Để làm điều này, hãy bao quanh văn bản của bạn bằng dấu mũ ^^, ví dụ như ^^Hello^^. Ví dụ:
+
+\Group(Stack() [
+		Phrase(`Chữ in đậm hơn nữa là^CON DÊ^Khi bạn cần đẩy bầu không khí lên mức tối đa.`)
+		Phrase(`Nó giống như kiểu chữ đậm nhưng đậm hơn.^ngọn lửa^, thường được làm với từng củ cà rốt riêng lẻ xung quanh (^^)`)
+		Phrase(`Hãy dùng nó để khoe khoang.^tiêu đề^ hoặc ^những ý tưởng lớn^.`)
+	])\
+
+Cuối cùng,  @Phrase Bạn có thể gạch chân văn bản. Để làm điều này, hãy đặt văn bản của bạn trong dấu gạch dưới __, ví dụ như __Hello__. Ví dụ:
+
+\Group(Stack() [
+		Phrase(`Gạch chân là_ngọn lửa kín đáo_Khi bạn muốn giữ cho văn bản gọn gàng nhưng vẫn nổi bật.`)
+		Phrase(`Thêm một dấu gạch dưới (__) trước và sau văn bản của bạn._như thế này_và nó nhấn mạnh một cách rõ ràng.`)
+		Phrase(`Của nó _hoàn hảo _để trình bày quan điểm của bạn mà không quá_thêm_.`)
+	])\
+
+custom-characters

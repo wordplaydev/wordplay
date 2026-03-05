@@ -1,0 +1,32 @@
+Hiển thị các lựa chọn có thể chọn
+
+Đôi khi bạn muốn hiển thị nhiều lựa chọn trên màn hình và xử lý kết quả dựa trên lựa chọn của khán giả. Để làm được điều này, chúng ta cần hai thứ:
+
+• Một hoặc nhiều @Phrase những mục được đánh dấu là có thể chọn và có tên duy nhất (ví dụ:\Phrase('lựa chọn 1' selectable: ⊤ name: 'một')\)• MỘT  @Choice , điều này thay đổi thành @Phrase Tên được chọn gần đây nhất.
+
+Ví dụ, ở đây chúng tôi trình bày ba lựa chọn, mỗi lựa chọn có một tên riêng biệt.
+
+\option: Choice()
+Group(Stack() [
+		Phrase('lựa chọn 1' selectable: ⊤ name: 'một')
+		Phrase('lựa chọn 2' selectable: ⊤ name: 'hai')
+		Phrase('lựa chọn 3' selectable: ⊤ name: 'ba')
+		Phrase(option)
+	])\
+
+Mỗi khi một người được chọn, người cuối cùng sẽ được chọn. @Phrase Hiển thị tên đã được chọn.
+
+Bạn có thể sử dụng mẫu này để thực hiện các hành động dựa trên một lựa chọn. Ví dụ, chúng ta có thể thay đổi dự án ở trên để hiển thị một biểu tượng cảm xúc bí mật dựa trên lựa chọn:
+
+\option: Choice()
+option = '' ? Group(Stack() [
+			Phrase('lựa chọn 1' selectable: ⊤ name: 'một')
+			Phrase('lựa chọn 2' selectable: ⊤ name: 'hai')
+			Phrase('lựa chọn 3' selectable: ⊤ name: 'ba')
+		]) Phrase({'một': '😡' 'hai': '🏀' 'ba': '❤'}{option} ?? '?')\
+
+Cái @Choice bắt đầu từ một khoảng trống @Text Vì vậy, khi dự án bắt đầu, chúng tôi sẽ kiểm tra điều đó và đưa ra ba lựa chọn.Một khi đã đưa ra lựa chọn, nó sẽ trở thành một trong ba lựa chọn đó. @Phrase tên.
+
+Để hiển thị biểu tượng cảm xúc dựa trên lựa chọn, chúng ta có thể sử dụng... @Map Để chuyển đổi tên thành biểu tượng cảm xúc bí mật.Khi chúng ta nhận được một giá trị từ một @Map Nếu không tìm thấy kết quả phù hợp, nó sẽ được đánh giá thành\ø\Vì vậy, chúng tôi sử dụng\??\để mặc định thành\'?'\Nếu tùy chọn đó không có trên bản đồ.Trong trường hợp này, điều đó không bao giờ có thể xảy ra, nhưng chúng ta không đủ thông minh để biết điều đó!
+
+move-phrase
