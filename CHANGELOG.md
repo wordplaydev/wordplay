@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - Added a machine translation of a Hebrew locale (#411).
+- Added a machine translation of a Vietnamese locale (#985).
 
 ### Fixed
 
