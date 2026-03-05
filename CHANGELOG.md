@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.1.6.45 - 2026-03-03
 
+### Added
+
+- Added a machine translation of a Hebrew locale (#411).
+
 ### Fixed
 
 - Sometimes emojis have extra hidden symbols after them. We ignore them now so that emojis in code don't break things. (#970).

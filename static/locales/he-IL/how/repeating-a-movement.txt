@@ -1,0 +1,17 @@
+חזרה על תנועה
+
+לפעמים אנחנו רוצים לגרום לדמות לזוז באותו אופן כמה פעמים!להקליד את אותן שורות שוב ושוב הפך למעייף.
+
+במקום זאת, נוכל להשתמש @Sequence עם @Phrase לגרום למשהו לחזור על עצמו מספר פעמים! באופן ספציפי,אנחנו יכולים להשתמש בספירה ב @Sequence ולבחור כמה פעמים מתרחשת סדרת תנוחות. לדוגמה,הנה כדורסל שקופץ למעלה ולמטה פעמיים.
+
+\Stage([
+		Phrase('🏀' entering: Sequence({
+					0%: Pose(offset: Place(y: 0.25m))
+					25%: Pose(offset: Place(y: 0m))
+					50%: Pose(offset: Place(y: -0.25m))
+					75%: Pose(offset: Place(y: 0m))
+					100%: Pose(offset: Place(y: 0.25m))
+				} count: 2x duration: 2s))
+	])\
+
+animate-phrase, shake-phrase
