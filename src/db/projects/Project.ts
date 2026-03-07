@@ -990,11 +990,17 @@ export default class Project {
         )?.caret;
 
         return position !== undefined
-            ? typeof position === 'number'
+            ? // Number? Return it.
+              typeof position === 'number'
                 ? position
-                : position.every((n) => typeof n === 'number')
-                  ? [position[0], position[1]]
-                  : source.root.resolvePath(position)
+                : // Range? If it's of length 2 and they're both numbers, return a range.
+                  Array.isArray(position)
+                  ? position.length === 2 &&
+                    position.every((n) => typeof n === 'number')
+                      ? [position[0], position[1]]
+                      : undefined
+                  : // A node path? Resolve it.
+                    source.root.resolvePath(position)
             : undefined;
     }
 

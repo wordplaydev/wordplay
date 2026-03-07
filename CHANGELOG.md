@@ -18,6 +18,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We weren't properly handling commas after text and formatted literals. Now we do!
 - Dropdowns weren't working in Safari. Now they do! (#978).
 - The `Pointer` stream stopped working, but we fixed it.
+- When undoing an edit, the caret was sometimes restored incorrectly, making it impossible to move it.
 
 ### Changed
 
