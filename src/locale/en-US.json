@@ -88,7 +88,7 @@
         "Literal": "literal",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
-        "Separator": "name separator",
+        "Separator": "separator",
         "Language": "language tag",
         "Region": "region dash",
         "BooleanType": "boolean type",
