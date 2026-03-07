@@ -19,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - Dropdowns weren't working in Safari. Now they do! (#978).
 - The `Pointer` stream stopped working, but we fixed it.
 - When undoing an edit, the caret was sometimes restored incorrectly, making it impossible to move it.
+- Sometimes edits would result in the editor crashing. We tried to prevent that.
 
 ### Changed
 
