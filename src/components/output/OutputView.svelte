@@ -705,7 +705,9 @@
                 position.x -= renderedFocus?.x ?? 0;
                 position.y -= renderedFocus?.y ?? 0;
 
-                pointerStreams.forEach((stream) => stream.react(position));
+                evaluator.singletonReact(Pointer, (stream) =>
+                    stream.react(position),
+                );
             }
         }
     }
